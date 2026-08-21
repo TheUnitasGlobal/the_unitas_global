@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+site-dist/
+pages/
+.agent-tools/
+.agents/
+graphify-out/
+node_modules/
+test-results/

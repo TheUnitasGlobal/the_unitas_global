@@ -1,0 +1,51 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Unitas: build pages",
+      "type": "npm",
+      "script": "build:pages",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Unitas: test",
+      "type": "npm",
+      "script": "test",
+      "group": "test",
+      "problemMatcher": []
+    {
+      "label": "Unitas: setup agents",
+      "type": "npm",
+      "script": "setup:agents",
+      "problemMatcher": []
+    },
+    {
+      "label": "Unitas: mock checkout",
+      "type": "npm",
+      "script": "mock:checkout",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    },
+    {
+      "label": "Unitas: agent review",
+      "type": "npm",
+      "script": "review:agents",
+      "problemMatcher": []
+    },
+    {
+      "label": "Unitas: check AI providers",
+      "type": "npm",
+      "script": "check:ai",
+      "problemMatcher": []
+    },
+    {
+      "label": "Unitas: release",
+      "type": "npm",
+      "script": "release",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

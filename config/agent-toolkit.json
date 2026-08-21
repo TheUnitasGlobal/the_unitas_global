@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "scope": "workspace-local",
+  "sources": {
+    "claude-mem": {
+      "repository": "https://github.com/thedotmack/claude-mem.git",
+      "path": ".agent-tools/claude-mem",
+      "entrypoint": "npx claude-mem install",
+      "mode": "local-source-only"
+    },
+    "graphify": {
+      "repository": "https://github.com/safishamsi/graphify.git",
+      "path": ".agent-tools/graphify",
+      "entrypoint": "graphify install --project",
+      "package": "graphifyy",
+      "mode": "project-skill"
+    },
+    "superpowers": {
+      "repository": "https://github.com/obra/superpowers.git",
+      "path": ".agent-tools/superpowers",
+      "entrypoint": "/plugin install superpowers@claude-plugins-official",
+      "mode": "local-source-only"
+    },
+    "skills-cli": {
+      "repository": "https://github.com/vercel-labs/skills.git",
+      "entrypoint": "npx skills add",
+      "mode": "project-skill"
+    },
+    "strix": {
+      "repository": "https://github.com/usestrix/strix.git",
+      "path": ".agent-tools/strix",
+      "mode": "local-source-only"
+    }
+  },
+  "revenueModules": ["Arche", "Arena", "Score", "Fate", "Codex22"],
+  "checkoutContract": {
+    "productionFunction": "create-checkout-session",
+    "requestField": "module",
+    "mockFixture": "tests/fixtures/stripe-checkout-session.json",
+    "clientMaySendPriceId": false,
+    "clientMaySendAmount": false
+  }
+}

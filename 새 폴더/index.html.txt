@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE UNITAS GLOBAL OÜ | Neural-Symbolic Infrastructure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#030305',
+                        quantum: '#0f1016',
+                        accent: '#d4af37',
+                        neon: '#00f3ff',
+                    },
+                    fontFamily: {
+                        sans: ['JetBrains Mono', 'monospace'],
+                        serif: ['Cinzel', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #030305; color: #e2e8f0; font-family: 'JetBrains Mono', monospace; overflow-x: hidden; }
+        .glow-text { text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        .glow-box { box-shadow: 0 0 30px rgba(0, 243, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); }
+        .quantum-grid { background-image: radial-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px); background-size: 40px 40px; }
+    </style>
+</head>
+<body class="quantum-grid min-h-screen selection:bg-accent selection:text-void">
+
+    <!-- Top Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-void/80 backdrop-blur-md border-b border-accent/20 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 bg-accent rounded-full animate-pulse"></div>
+            <span class="font-serif tracking-widest text-accent text-sm font-bold">THE UNITAS GLOBAL OÜ</span>
+        </div>
+        <div class="hidden md:flex space-x-8 text-xs tracking-widest text-gray-400">
+            <a href="#protocols" class="hover:text-accent transition-colors">PROTOCOLS</a>
+            <a href="#modules" class="hover:text-accent transition-colors">5-MODULES</a>
+            <a href="#manifesto" class="hover:text-accent transition-colors">MANIFESTO</a>
+            <a href="#portal" class="text-accent font-bold hover:underline">ACCESS PORTAL</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 px-6 text-center max-w-6xl mx-auto">
+        <div class="absolute inset-0 -z-10 flex items-center justify-center opacity-10">
+            <div class="w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-accent to-neon blur-3xl"></div>
+        </div>
+        <p class="text-xs uppercase tracking-[0.3em] text-accent mb-4">USPTO Patent Pending #64/023,911 | Jurisdictional-Agnostic Ecosystem</p>
+        <h1 class="font-serif text-4xl md:text-6xl font-bold tracking-wider mb-6 glow-text text-white">
+            THE UNITAS GLOBAL RESEARCH INSTITUTE
+        </h1>
+        <p class="text-sm md:text-base text-gray-400 max-w-3xl mx-auto font-light leading-relaxed mb-10">
+            [A jurisdictional-agnostic technology leader defining the standard of verified-trust ecosystem services, merging high-dimensional neural-symbolic engines with sovereign fiscal routing.]
+        </p>
+        <div class="flex justify-center gap-4">
+            <a href="#portal" class="px-8 py-3 bg-accent text-void font-bold text-xs tracking-widest uppercase hover:bg-white transition-all shadow-lg shadow-accent/20">Initialize Access</a>
+            <a href="#modules" class="px-8 py-3 border border-accent/40 text-accent font-bold text-xs tracking-widest uppercase hover:bg-accent/10 transition-all">Explore Modules</a>
+        </div>
+    </header>
+
+    <!-- Protocols Section -->
+    <section id="protocols" class="py-20 px-6 max-w-6xl mx-auto border-t border-white/10">
+        <h2 class="font-serif text-2xl text-accent mb-12 tracking-widest text-center">CORE PROTOCOLS & R&D</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="glow-box p-6 bg-quantum/40 rounded-sm">
+                <span class="text-xs text-accent">01 // COGS</span>
+                <h3 class="font-bold text-white mt-2 mb-3">ARCANUM (COGS)</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">[High-Dimensional Neural-Symbolic Engine] orchestrating autonomous algorithmic reality.</p>
+            </div>
+            <div class="glow-box p-6 bg-quantum/40 rounded-sm">
+                <span class="text-xs text-accent">02 // AUTH</span>
+                <h3 class="font-bold text-white mt-2 mb-3">U-Signature</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">[Cryptographic Behavioral Auth.] protecting neural-logic human-AI co-evolution.</p>
+            </div>
+            <div class="glow-box p-6 bg-quantum/40 rounded-sm">
+                <span class="text-xs text-accent">03 // SECURITY</span>
+                <h3 class="font-bold text-white mt-2 mb-3">U-Key</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">[Zero-Trust Adaptive Security] defining absolute structural hardware-rooted trust.</p>
+            </div>
+            <div class="glow-box p-6 bg-quantum/40 rounded-sm">
+                <span class="text-xs text-accent">04 // FISCAL</span>
+                <h3 class="font-bold text-white mt-2 mb-3">U-Pay</h3>
+                <p class="text-xs text-gray-400 leading-relaxed">[Borderless Fiscal Routing] transcending traditional liquidity barriers via Stripe & Wise.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5 Business Modules & Stripe Checkout -->
+    <section id="modules" class="py-20 px-6 max-w-6xl mx-auto border-t border-white/10">
+        <h2 class="font-serif text-2xl text-accent mb-4 tracking-widest text-center">5 STRATEGIC BUSINESS MODULES</h2>
+        <p class="text-center text-xs text-gray-400 mb-12">Select your module and initialize global recurring subscription via Stripe Gateway.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Module 1 -->
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase">Module I</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Arche</h3>
+                    <p class="text-xs text-gray-400 mb-6">[Advanced Cognitive Filtering & Neural-Symbolic Refinement] for supreme core data integrity.</p>
+                </div>
+                <button onclick="triggerCheckout('Arche', 29)" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold">SUBSCRIBE ($29/mo)</button>
+            </div>
+            <!-- Module 2 -->
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase">Module II</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Arena</h3>
+                    <p class="text-xs text-gray-400 mb-6">[Predictive Stress-Testing & Integrity Validation] simulating high-stakes market volatility.</p>
+                </div>
+                <button onclick="triggerCheckout('Arena', 49)" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold">SUBSCRIBE ($49/mo)</button>
+            </div>
+            <!-- Module 3 -->
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase">Module III</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Score</h3>
+                    <p class="text-xs text-gray-400 mb-6">['Law of Cog' Global Intelligence Analytics] measuring absolute epistemic accuracy.</p>
+                </div>
+                <button onclick="triggerCheckout('Score', 39)" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold">SUBSCRIBE ($39/mo)</button>
+            </div>
+            <!-- Module 4 -->
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase">Module IV</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Fate</h3>
+                    <p class="text-xs text-gray-400 mb-6">[Stochastic Simulation for Global Asset Routing] navigating sovereign financial currents.</p>
+                </div>
+                <button onclick="triggerCheckout('Fate', 99)" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold">SUBSCRIBE ($99/mo)</button>
+            </div>
+            <!-- Module 5 -->
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between md:col-span-2 lg:col-span-1">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase">Module V</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Codex22</h3>
+                    <p class="text-xs text-gray-400 mb-6">[The Permanent Registry of Algorithmic Law & Philosophical Axioms] for sovereign eternity.</p>
+                </div>
+                <button onclick="triggerCheckout('Codex22', 199)" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold">SUBSCRIBE ($199/mo)</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Portal & Profile Management Section -->
+    <section id="portal" class="py-20 px-6 max-w-4xl mx-auto border-t border-white/10">
+        <h2 class="font-serif text-2xl text-accent mb-4 tracking-widest text-center">SOVEREIGN USER PORTAL</h2>
+        <p class="text-center text-xs text-gray-400 mb-10">Manage your sovereign identity, multi-dimensional profile, rank, and banking routing.</p>
+        
+        <div class="glow-box p-8 bg-quantum">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-white/10">
+                <!-- Profile Details -->
+                <div>
+                    <h3 class="text-xs uppercase tracking-widest text-accent mb-4 font-bold">Identity & Credentials</h3>
+                    <div class="space-y-3 text-xs">
+                        <div><span class="text-gray-500">Full Name:</span> <span id="disp-name" class="text-white font-bold">DOOYEONG HWANG</span></div>
+                        <div><span class="text-gray-500">Jurisdiction:</span> <span class="text-white">Estonia (EU) / USA</span></div>
+                        <div><span class="text-gray-500">Address:</span> <span id="disp-addr" class="text-white">LaGrange, Georgia, USA</span></div>
+                        <div><span class="text-gray-500">Contact:</span> <span id="disp-phone" class="text-white">+1 (Retained Securely)</span></div>
+                        <div><span class="text-gray-500">Fiscal Routing:</span> <span id="disp-bank" class="text-accent font-bold">Wise Business / Stripe Gateway</span></div>
+                    </div>
+                </div>
+                <!-- Unitas Rank & Assets -->
+                <div>
+                    <h3 class="text-xs uppercase tracking-widest text-neon mb-4 font-bold">Multi-Dimensional Status</h3>
+                    <div class="space-y-3 text-xs bg-void/60 p-4 border border-white/5">
+                        <div><span class="text-gray-500">Unitas Rank:</span> <span class="text-accent font-bold">ARCH-FOUNDER [Level 01]</span></div>
+                        <div><span class="text-gray-500">Unitas Token (COIN):</span> <span class="text-neon font-bold">22,000.00 U-UNIT</span></div>
+                        <div><span class="text-gray-500">Epistemic Score:</span> <span class="text-white font-bold">999.98 / 1000</span></div>
+                        <div><span class="text-gray-500">System Status:</span> <span class="text-green-400 font-bold">OPERATIONAL / SECURE</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Update Form -->
+            <form onsubmit="updateProfile(event)" class="space-y-4">
+                <h3 class="text-xs uppercase tracking-widest text-accent font-bold mb-2">Update Sovereign Parameters</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] text-gray-400 uppercase mb-1">Update Name</label>
+                        <input type="text" id="input-name" placeholder="DOOYEONG HWANG" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-gray-400 uppercase mb-1">Update Address</label>
+                        <input type="text" id="input-addr" placeholder="LaGrange, GA" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-gray-400 uppercase mb-1">Update Phone</label>
+                        <input type="text" id="input-phone" placeholder="+1 ..." class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-gray-400 uppercase mb-1">Update Banking / Wise Account</label>
+                        <input type="text" id="input-bank" placeholder="Wise Business (EUR/USD)" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3 bg-accent text-void text-xs tracking-widest font-bold uppercase hover:bg-white transition-all mt-4">COMMIT PARAMETER UPDATE</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Manifesto & Legal -->
+    <footer class="py-12 px-6 max-w-6xl mx-auto border-t border-white/10 text-center text-xs text-gray-500 space-y-4">
+        <p class="font-serif text-accent tracking-widest">Corporate Manifesto | The Protocol of Cognitive & Fiscal Integrity</p>
+        <p class="max-w-2xl mx-auto leading-relaxed">
+            Core Status: Initializing High-Dimensional Neural-Symbolic Synthesis. The architecture transcends traditional fiscal networks through continuous mathematical modeling, securing permanent sovereignty for THE UNITAS GLOBAL OÜ.
+        </p>
+        <p class="text-[10px] text-gray-600">
+            THE UNITAS GLOBAL OÜ | EST. 2026 | ALL RIGHTS RESERVED<br>
+            Global Hubs: Estonia (HQ) [ee] | USA [us] | Portugal [pt] | Singapore [sg]<br>
+            Legal Infrastructure: Priority Claim: US 64/023,911 | Verified Governance: ISO 27001 | GDPR
+        </p>
+    </footer>
+
+    <script>
+        // Stripe integration placeholder function
+        function triggerCheckout(moduleName, price) {
+            alert(`Initializing Stripe Secure Checkout for [ ${moduleName} ] at $${price}/month. Connecting to THE UNITAS GLOBAL OÜ gateway...`);
+            // In live production, redirect to Stripe Checkout Session URL generated by backend
+        }
+
+        // Profile update simulation
+        function updateProfile(e) {
+            e.preventDefault();
+            const name = document.getElementById('input-name').value;
+            const addr = document.getElementById('input-addr').value;
+            const phone = document.getElementById('input-phone').value;
+            const bank = document.getElementById('input-bank').value;
+
+            if(name) document.getElementById('disp-name').innerText = name;
+            if(addr) document.getElementById('disp-addr').innerText = addr;
+            if(phone) document.getElementById('disp-phone').innerText = phone;
+            if(bank) document.getElementById('disp-bank').innerText = bank;
+
+            alert('Sovereign parameters successfully updated and synchronized with Supabase database cluster.');
+        }
+    </script>
+</body>
+</html>

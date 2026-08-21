@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE UNITAS GLOBAL OÜ | Neural-Symbolic Secure Infrastructure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#030305',
+                        quantum: '#0f1016',
+                        accent: '#d4af37',
+                        neon: '#00f3ff',
+                    },
+                    fontFamily: {
+                        sans: ['JetBrains Mono', 'monospace'],
+                        serif: ['Cinzel', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #030305; color: #e2e8f0; font-family: 'JetBrains Mono', monospace; overflow-x: hidden; }
+        .glow-text { text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        .glow-box { box-shadow: 0 0 30px rgba(0, 243, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); }
+        .quantum-grid { background-image: radial-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px); background-size: 40px 40px; }
+    </style>
+</head>
+<body class="quantum-grid min-h-screen selection:bg-accent selection:text-void">
+
+    <!-- Top Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-void/80 backdrop-blur-md border-b border-accent/20 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 bg-accent rounded-full animate-pulse"></div>
+            <span class="font-serif tracking-widest text-accent text-sm font-bold">THE UNITAS GLOBAL OÜ</span>
+        </div>
+        <div class="hidden md:flex space-x-8 text-xs tracking-widest text-gray-400">
+            <a href="#protocols" class="hover:text-accent transition-colors">PROTOCOLS</a>
+            <a href="#modules" class="hover:text-accent transition-colors">5-MODULES</a>
+            <a href="#portal" class="text-accent font-bold hover:underline">SECURE PORTAL</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 px-6 text-center max-w-6xl mx-auto">
+        <div class="absolute inset-0 -z-10 flex items-center justify-center opacity-10">
+            <div class="w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-accent to-neon blur-3xl"></div>
+        </div>
+        <p class="text-xs uppercase tracking-[0.3em] text-accent mb-4">USPTO Patent Pending #64/023,911 | Zero-Trust Sovereign Ecosystem</p>
+        <h1 class="font-serif text-4xl md:text-6xl font-bold tracking-wider mb-6 glow-text text-white">
+            THE UNITAS GLOBAL RESEARCH INSTITUTE
+        </h1>
+        <p class="text-sm md:text-base text-gray-400 max-w-3xl mx-auto font-light leading-relaxed mb-10">
+            [Protected by cryptographic authentication. Personal sovereign data is strictly sequestered behind authenticated Supabase sessions.]
+        </p>
+        <div class="flex justify-center gap-4">
+            <a href="#portal" class="px-8 py-3 bg-accent text-void font-bold text-xs tracking-widest uppercase hover:bg-white transition-all shadow-lg shadow-accent/20">Access Portal</a>
+            <a href="#modules" class="px-8 py-3 border border-accent/40 text-accent font-bold text-xs tracking-widest uppercase hover:bg-accent/10 transition-all">Explore Modules</a>
+        </div>
+    </header>
+
+    <!-- 5 Business Modules & Stripe Checkout -->
+    <section id="modules" class="py-20 px-6 max-w-6xl mx-auto border-t border-white/10">
+        <h2 class="font-serif text-2xl text-accent mb-4 tracking-widest text-center">5 STRATEGIC BUSINESS MODULES</h2>
+        <p class="text-center text-xs text-gray-400 mb-12">Select your module and initialize global recurring subscription via Stripe Gateway.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase">Module I</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Arche</h3>
+                    <p class="text-xs text-gray-400 mb-6">[Advanced Cognitive Filtering & Neural-Symbolic Refinement]</p>
+                </div>
+                <button onclick="triggerCheckout('Arche', 29)" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold">SUBSCRIBE ($29/mo)</button>
+            </div>
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase">Module II</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Arena</h3>
+                    <p class="text-xs text-gray-400 mb-6">[Predictive Stress-Testing & Integrity Validation]</p>
+                </div>
+                <button onclick="triggerCheckout('Arena', 49)" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold">SUBSCRIBE ($49/mo)</button>
+            </div>
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase">Module III</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Score</h3>
+                    <p class="text-xs text-gray-400 mb-6">['Law of Cog' Global Intelligence Analytics]</p>
+                </div>
+                <button onclick="triggerCheckout('Score', 39)" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold">SUBSCRIBE ($39/mo)</button>
+            </div>
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase">Module IV</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Fate</h3>
+                    <p class="text-xs text-gray-400 mb-6">[Stochastic Simulation for Global Asset Routing]</p>
+                </div>
+                <button onclick="triggerCheckout('Fate', 99)" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold">SUBSCRIBE ($99/mo)</button>
+            </div>
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between md:col-span-2 lg:col-span-1">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase">Module V</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Codex22</h3>
+                    <p class="text-xs text-gray-400 mb-6">[The Permanent Registry of Algorithmic Law]</p>
+                </div>
+                <button onclick="triggerCheckout('Codex22', 199)" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold">SUBSCRIBE ($199/mo)</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Secure User Portal (Auth-Gated) -->
+    <section id="portal" class="py-20 px-6 max-w-4xl mx-auto border-t border-white/10">
+        <h2 class="font-serif text-2xl text-accent mb-4 tracking-widest text-center">SOVEREIGN SECURE PORTAL</h2>
+        <p class="text-center text-xs text-gray-400 mb-10">Authentication required to decrypt sovereign identity parameters.</p>
+        
+        <!-- Login Container (Shown when logged out) -->
+        <div id="auth-container" class="glow-box p-8 bg-quantum max-w-md mx-auto">
+            <h3 class="text-xs uppercase tracking-widest text-accent mb-6 font-bold text-center">Founder Authentication</h3>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] text-gray-400 uppercase mb-1">Email Address</label>
+                    <input type="email" id="login-email" required placeholder="founder@unitas.global" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-gray-400 uppercase mb-1">Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                </div>
+                <button type="submit" class="w-full py-3 bg-accent text-void text-xs tracking-widest font-bold uppercase hover:bg-white transition-all">AUTHENTICATE SESSION</button>
+            </form>
+            <p id="auth-msg" class="text-[10px] text-center text-gray-500 mt-4"></p>
+        </div>
+
+        <!-- Portal Dashboard Container (Hidden until logged in) -->
+        <div id="portal-dashboard" class="glow-box p-8 bg-quantum hidden">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+                <span class="text-xs text-green-400 font-bold">[SESSION ACTIVE: SECURE]</span>
+                <button onclick="handleLogout()" class="px-4 py-1 bg-red-500/20 border border-red-500 text-red-400 text-[10px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all">Terminate Session</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-white/10">
+                <div>
+                    <h3 class="text-xs uppercase tracking-widest text-accent mb-4 font-bold">Identity & Credentials</h3>
+                    <div class="space-y-3 text-xs">
+                        <div><span class="text-gray-500">Full Name:</span> <span id="disp-name" class="text-white font-bold">---</span></div>
+                        <div><span class="text-gray-500">Jurisdiction:</span> <span class="text-white">Estonia (EU) / USA</span></div>
+                        <div><span class="text-gray-500">Address:</span> <span id="disp-addr" class="text-white">---</span></div>
+                        <div><span class="text-gray-500">Contact:</span> <span id="disp-phone" class="text-white">---</span></div>
+                        <div><span class="text-gray-500">Fiscal Routing:</span> <span id="disp-bank" class="text-accent font-bold">---</span></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xs uppercase tracking-widest text-neon mb-4 font-bold">Multi-Dimensional Status</h3>
+                    <div class="space-y-3 text-xs bg-void/60 p-4 border border-white/5">
+                        <div><span class="text-gray-500">Unitas Rank:</span> <span class="text-accent font-bold">ARCH-FOUNDER [Level 01]</span></div>
+                        <div><span class="text-gray-500">Unitas Token:</span> <span class="text-neon font-bold">22,000.00 U-UNIT</span></div>
+                        <div><span class="text-gray-500">Epistemic Score:</span> <span class="text-white font-bold">999.98 / 1000</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 max-w-6xl mx-auto border-t border-white/10 text-center text-xs text-gray-500 space-y-4">
+        <p class="font-serif text-accent tracking-widest">THE UNITAS GLOBAL OÜ | EST. 2026</p>
+        <p class="text-[10px] text-gray-600">Legal Infrastructure: Priority Claim: US 64/023,911 | GDPR Compliant Secure Storage</p>
+    </footer>
+
+    <!-- Supabase Integration Script -->
+    <script>
+        // Supabase 초기화 (창립자님의 프로젝트 정보를 이곳에 입력하십시오)
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+        
+        let supabaseClient = null;
+        if(SUPABASE_URL !== 'YOUR_SUPABASE_URL_HERE') {
+            supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            checkSession();
+        }
+
+        async function checkSession() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
+                document.getElementById('auth-container').classList.add('hidden');
+                document.getElementById('portal-dashboard').classList.remove('hidden');
+                fetchUserData(session.user.id);
+            }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            if(!supabaseClient) {
+                alert('Supabase URL and Anon Key must be configured in the script.');
+                return;
+            }
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+            if (error) {
+                document.getElementById('auth-msg').innerText = 'Authentication Failed: ' + error.message;
+                document.getElementById('auth-msg').style.color = '#ef4444';
+            } else {
+                location.reload();
+            }
+        }
+
+        async function handleLogout() {
+            await supabaseClient.auth.signOut();
+            location.reload();
+        }
+
+        async function fetchUserData(userId) {
+            const { data, error } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+            
+            if (data) {
+                document.getElementById('disp-name').innerText = data.full_name || 'N/A';
+                document.getElementById('disp-addr').innerText = data.address || 'N/A';
+                document.getElementById('disp-phone').innerText = data.phone || 'N/A';
+                document.getElementById('disp-bank').innerText = data.bank_info || 'N/A';
+            }
+        }
+
+        function triggerCheckout(moduleName, price) {
+            alert(`Initializing Stripe Secure Checkout for [ ${moduleName} ] at $${price}/month...`);
+        }
+    </script>
+</body>
+</html>

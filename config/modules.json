@@ -1,0 +1,32 @@
+[
+  {
+    "key": "Arche",
+    "slug": "arche",
+    "priceLabel": "$29/mo",
+    "description": "Advanced Cognitive Filtering & Neural-Symbolic Refinement"
+  },
+  {
+    "key": "Arena",
+    "slug": "arena",
+    "priceLabel": "$49/mo",
+    "description": "Predictive Stress-Testing & Integrity Validation"
+  },
+  {
+    "key": "Score",
+    "slug": "score",
+    "priceLabel": "$39/mo",
+    "description": "Law of Cog Global Intelligence Analytics"
+  },
+  {
+    "key": "Fate",
+    "slug": "fate",
+    "priceLabel": "$99/mo",
+    "description": "Stochastic Simulation for Global Asset Routing"
+  },
+  {
+    "key": "Codex22",
+    "slug": "codex22",
+    "priceLabel": "$199/mo",
+    "description": "The Permanent Registry of Algorithmic Law"
+  }
+]

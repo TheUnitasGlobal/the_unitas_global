@@ -1,0 +1,13 @@
+{
+  "terminal.integrated.env.windows": {
+    "GEMINI_API_KEY": "${env:GEMINI_API_KEY}",
+    "ANTHROPIC_API_KEY": "${env:ANTHROPIC_API_KEY}",
+    "OPENAI_API_KEY": "${env:OPENAI_API_KEY}",
+    "DEEPSEEK_API_KEY": "${env:DEEPSEEK_API_KEY}",
+    "SUPABASE_PROJECT_REF": "${env:SUPABASE_PROJECT_REF}"
+  },
+  "files.exclude": {
+    "**/site-dist": true,
+    "**/test-results": true
+  }
+}

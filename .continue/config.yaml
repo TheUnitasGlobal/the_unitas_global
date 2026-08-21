@@ -1,0 +1,32 @@
+name: THE UNITAS GLOBAL
+version: 0.1.0
+schema: v1
+models:
+  - name: Claude Sonnet
+    provider: anthropic
+    model: claude-sonnet-4-20250514
+    apiKey: ${{ secrets.ANTHROPIC_API_KEY }}
+  - name: OpenAI GPT
+    provider: openai
+    model: gpt-4.1
+    apiKey: ${{ secrets.OPENAI_API_KEY }}
+  - name: Google Gemini
+    provider: gemini
+    model: gemini-2.5-pro
+    apiKey: ${{ secrets.GEMINI_API_KEY }}
+  - name: DeepSeek
+    provider: openai
+    model: deepseek-chat
+    apiBase: https://api.deepseek.com/v1
+    apiKey: ${{ secrets.DEEPSEEK_API_KEY }}
+context:
+  - provider: code
+  - provider: docs
+  - provider: diff
+  - path: THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md
+  - path: .continue/context/THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md
+rules:
+  - Always preserve the Supabase/Stripe secret boundary.
+  - Never put Stripe secret keys or Price IDs in browser code.
+  - Treat config/modules.json as the source of truth for revenue pages.
+  - Run the narrowest test before making a broader change.

@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="nomos-sdk" content="multilingual-sovereign-header-v1">
+    <title>THE UNITAS GLOBAL OÜ | Neural-Symbolic Secure Infrastructure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#030305',
+                        quantum: '#0f1016',
+                        accent: '#d4af37',
+                        neon: '#00f3ff',
+                    },
+                    fontFamily: {
+                        sans: ['JetBrains Mono', 'monospace'],
+                        serif: ['Cinzel', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html, body { direction: ltr !important; text-align: left !important; }
+        body, body * { direction: ltr !important; text-align: left !important; }
+        body { background-color: #030305; color: #e2e8f0; font-family: 'JetBrains Mono', monospace; overflow-x: hidden; }
+        .responsive-container { width: calc(100% - 2rem); max-width: 1200px !important; box-sizing: border-box; margin-inline: auto; }
+        .lang-select { width: 11rem; max-width: min(100%, 11rem); }
+        .hero-header, .site-footer { display: flex; flex-direction: column; align-items: center; margin-inline: auto; text-align: center !important; }
+        .hero-header *, .site-footer * { text-align: center !important; }
+        .hero-header h1 { margin-inline: auto; }
+        .section-heading { width: 100%; margin-inline: auto; text-align: center !important; }
+        .section-heading > * { text-align: center !important; margin-inline: auto; }
+        .glow-text { text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        .glow-box { box-shadow: 0 0 30px rgba(0, 243, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); }
+        .quantum-grid { background-image: radial-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px); background-size: 40px 40px; }
+        .scroll-box { max-height: 90px; overflow-y: scroll; border: 1px solid rgba(255,255,255,0.1); padding: 8px; font-size: 10px; background: #030305; color: #94a3b8; margin-bottom: 8px; }
+        #lang-select option { background-color: #0f1016; color: #e2e8f0; }
+    </style>
+</head>
+<body class="quantum-grid min-h-screen selection:bg-accent selection:text-void">
+
+    <!-- Top Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-50 bg-void/80 backdrop-blur-md border-b border-accent/20 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 bg-accent rounded-full animate-pulse"></div>
+            <span class="font-serif tracking-widest text-accent text-sm font-bold">THE UNITAS GLOBAL OÜ</span>
+        </div>
+        <div class="flex items-center space-x-4 md:space-x-8">
+            <div class="hidden md:flex space-x-8 text-xs tracking-widest text-gray-400">
+                <a href="#modules" class="hover:text-accent transition-colors" data-i18n="nav_modules">5-MODULES</a>
+                <a href="#portal" class="text-accent font-bold hover:underline" data-i18n="nav_portal">SECURE PORTAL</a>
+            </div>
+            <select id="lang-select" onchange="setLanguage(this.value)" aria-label="Language selector" class="lang-select bg-void border border-accent/40 text-accent text-[10px] tracking-widest px-2 py-1.5 uppercase font-bold cursor-pointer focus:outline-none focus:border-accent hover:border-accent transition-colors">
+                <option value="en">EN</option>
+                <option value="ko">KO</option>
+                <option value="ja">JA</option>
+                <option value="zh">ZH</option>
+            </select>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="responsive-container hero-header relative pt-32 pb-20 px-6 text-center max-w-6xl mx-auto">
+        <div class="absolute inset-0 -z-10 flex items-center justify-center opacity-10">
+            <div class="w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-accent to-neon blur-3xl"></div>
+        </div>
+        <p class="text-xs uppercase tracking-[0.3em] text-accent mb-4" data-i18n="hero_eyebrow">USPTO Patent Pending #64/023,911 | Zero-Trust Sovereign Ecosystem</p>
+        <h1 class="font-serif text-4xl md:text-6xl font-bold tracking-wider mb-6 glow-text text-white">
+            THE UNITAS GLOBAL RESEARCH INSTITUTE
+        </h1>
+        <p class="text-sm md:text-base text-gray-400 max-w-3xl mx-auto font-light leading-relaxed mb-10" data-i18n="hero_tagline">
+            [Autonomous Neural-Symbolic & Sovereign Fiscal Routing Infrastructure]
+        </p>
+    </header>
+
+    <!-- 5 Business Modules & Stripe Checkout -->
+    <section id="modules" class="responsive-container py-20 px-6 max-w-6xl mx-auto border-t border-white/10">
+        <div class="section-heading">
+            <h2 class="font-serif text-2xl text-accent mb-4 tracking-widest text-center" data-i18n="modules_heading">5 STRATEGIC BUSINESS MODULES</h2>
+            <p class="text-center text-xs text-gray-400 mb-12" data-i18n="modules_sub">Select your module and initialize global recurring subscription via Stripe Gateway.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> I</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Arche</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-i18n="module1_desc">[Advanced Cognitive Filtering & Neural-Symbolic Refinement]</p>
+                </div>
+                <button onclick="triggerCheckout('Arche')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($29/mo)</button>
+            </div>
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> II</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Arena</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-i18n="module2_desc">[Predictive Stress-Testing & Integrity Validation]</p>
+                </div>
+                <button onclick="triggerCheckout('Arena')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($49/mo)</button>
+            </div>
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> III</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Score</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-i18n="module3_desc">['Law of Cog' Global Intelligence Analytics]</p>
+                </div>
+                <button onclick="triggerCheckout('Score')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($39/mo)</button>
+            </div>
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> IV</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Fate</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-i18n="module4_desc">[Stochastic Simulation for Global Asset Routing]</p>
+                </div>
+                <button onclick="triggerCheckout('Fate')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($99/mo)</button>
+            </div>
+            <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between md:col-span-2 lg:col-span-1">
+                <div>
+                    <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> V</span>
+                    <h3 class="font-bold text-white text-lg mt-1 mb-2">Codex22</h3>
+                    <p class="text-xs text-gray-400 mb-6" data-i18n="module5_desc">[The Permanent Registry of Algorithmic Law]</p>
+                </div>
+                <button onclick="triggerCheckout('Codex22')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($199/mo)</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Secure User Portal (Auth-Gated) -->
+    <section id="portal" class="responsive-container py-20 px-6 max-w-4xl mx-auto border-t border-white/10">
+        <div class="section-heading">
+            <h2 class="font-serif text-2xl text-accent mb-4 tracking-widest text-center" data-i18n="portal_heading">SOVEREIGN SECURE PORTAL</h2>
+            <p class="text-center text-xs text-gray-400 mb-10" data-i18n="portal_sub">Authentication required to decrypt sovereign identity parameters.</p>
+        </div>
+
+        <!-- Login / Register Container -->
+        <div id="auth-container" class="glow-box p-8 bg-quantum max-w-lg mx-auto">
+            <h3 id="form-title" class="text-xs uppercase tracking-widest text-accent mb-6 font-bold text-center" data-i18n="auth_title_signin">Sign In or Register</h3>
+
+            <form onsubmit="handleAuthAction(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_email">Email Address *</label>
+                    <input type="email" id="auth-email" required placeholder="user@example.com" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_password">Password *</label>
+                    <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                </div>
+
+                <!-- Expanded Register Fields (Hidden by default) -->
+                <div id="register-extra-fields" class="space-y-3 hidden border-t border-white/10 pt-4">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_firstname">First Name *</label>
+                            <input type="text" id="reg-firstname" placeholder="John" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_lastname">Last Name *</label>
+                            <input type="text" id="reg-lastname" placeholder="Doe" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_phone">Phone Number (Verification) *</label>
+                        <input type="text" id="reg-phone" placeholder="+1 (555) 000-0000" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_nationality">Nationality *</label>
+                            <input type="text" id="reg-nationality" placeholder="United States" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_gender">Gender *</label>
+                            <select id="reg-gender" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                                <option value="" data-i18n="opt_select_gender">Select Gender</option>
+                                <option value="Male" data-i18n="opt_male">Male</option>
+                                <option value="Female" data-i18n="opt_female">Female</option>
+                                <option value="Other" data-i18n="opt_other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_age">Age *</label>
+                            <input type="number" id="reg-age" placeholder="25" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_blood">Blood Type *</label>
+                            <select id="reg-blood" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                                <option value="" data-i18n="opt_select_blood">Select</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="O">O</option>
+                                <option value="AB">AB</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_mbti">MBTI *</label>
+                            <input type="text" id="reg-mbti" placeholder="ENTJ" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Scrollable Terms & Conditions -->
+                    <div class="space-y-3 pt-2">
+                        <div>
+                            <label class="block text-[10px] text-accent font-bold mb-1" data-i18n="terms_title">1. Terms & Conditions (Must scroll to bottom to unlock)</label>
+                            <div id="scroll-box-1" onscroll="checkScroll(1)" class="scroll-box" data-i18n-html="terms_body">
+                                [THE UNITAS GLOBAL OÜ - Terms & Conditions]<br>
+                                Article 1 (Purpose): These terms define the rules for using the sovereign neural-symbolic infrastructure and associated business modules.<br>
+                                Article 2 (Compliance): Users must maintain absolute data integrity and secure behavior protocols.<br>
+                                Article 3 (Liability): The corporation holds zero liability for improper asset routing or autonomous algorithmic decisions.<br>
+                                Article 4 (Jurisdiction): Governed by Estonian and international digital regulatory frameworks. (Scroll down to unlock agreement)
+                            </div>
+                            <label class="flex items-center space-x-2 text-[10px] text-gray-400 cursor-pointer">
+                                <input type="checkbox" id="check-terms" disabled class="accent-accent">
+                                <span data-i18n="check_terms_label">[Required] I agree to the Terms & Conditions.</span>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] text-accent font-bold mb-1" data-i18n="privacy_title">2. Privacy & Data Consent (Must scroll to bottom to unlock)</label>
+                            <div id="scroll-box-2" onscroll="checkScroll(2)" class="scroll-box" data-i18n-html="privacy_body">
+                                [Privacy & Sovereign Data Consent]<br>
+                                Collection Items: First name, last name, phone verification, nationality, gender, age, blood type, MBTI.<br>
+                                Purpose: Secure user portal authentication, multi-dimensional status tracking, and automated Stripe billing.<br>
+                                Retention: Stored securely in encrypted Supabase database clusters under strict GDPR compliance.<br>
+                                (Scroll down to unlock consent checkbox)
+                            </div>
+                            <label class="flex items-center space-x-2 text-[10px] text-gray-400 cursor-pointer">
+                                <input type="checkbox" id="check-privacy" disabled class="accent-accent">
+                                <span data-i18n="check_privacy_label">[Required] I agree to the Privacy & Data Consent.</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="auth-btn" class="w-full py-3 bg-accent text-void text-xs tracking-widest font-bold uppercase hover:bg-white transition-all" data-i18n="btn_signin">Sign In</button>
+            </form>
+
+            <div class="text-center mt-6 space-y-2">
+                <button onclick="toggleAuthMode()" id="toggle-btn" class="text-[10px] text-accent hover:underline uppercase tracking-wider" data-i18n="btn_toggle_to_register">Create New Account</button>
+            </div>
+            <p id="auth-msg" class="text-[10px] text-center font-bold mt-4"></p>
+        </div>
+
+        <!-- Portal Dashboard Container (Hidden until logged in) -->
+        <div id="portal-dashboard" class="glow-box p-8 bg-quantum hidden">
+            <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
+                <span class="text-xs text-green-400 font-bold" data-i18n="session_active">[SESSION ACTIVE: SECURE]</span>
+                <button onclick="handleLogout()" class="px-4 py-1 bg-red-500/20 border border-red-500 text-red-400 text-[10px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all" data-i18n="btn_terminate_session">Terminate Session</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-white/10">
+                <div>
+                    <h3 class="text-xs uppercase tracking-widest text-accent mb-4 font-bold" data-i18n="identity_heading">Identity & Credentials</h3>
+                    <div class="space-y-3 text-xs">
+                        <div><span class="text-gray-500" data-i18n="label_fullname">Full Name:</span> <span id="disp-name" class="text-white font-bold">---</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_phone_disp">Phone:</span> <span id="disp-phone" class="text-white">---</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_nat_gender">Nationality / Gender:</span> <span id="disp-nat-gen" class="text-white">---</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_age_blood_mbti">Age / Blood / MBTI:</span> <span id="disp-bio" class="text-white">---</span></div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xs uppercase tracking-widest text-neon mb-4 font-bold" data-i18n="status_heading">Multi-Dimensional Status</h3>
+                    <div class="space-y-3 text-xs bg-void/60 p-4 border border-white/5">
+                        <div><span class="text-gray-500" data-i18n="label_rank">Unitas Rank:</span> <span class="text-accent font-bold">ARCH-FOUNDER [Level 01]</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_token">Unitas Token:</span> <span class="text-neon font-bold">22,000.00 U-UNIT</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_score">Epistemic Score:</span> <span class="text-white font-bold">999.98 / 1000</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="responsive-container site-footer py-12 px-6 max-w-6xl mx-auto border-t border-white/10 text-center text-xs text-gray-500 space-y-4">
+        <p class="font-serif text-accent tracking-widest">THE UNITAS GLOBAL OÜ | EST. 2026</p>
+        <p class="text-[10px] text-gray-600" data-i18n="footer_legal">Legal Infrastructure: Priority Claim: US 64/023,911 | GDPR Compliant Secure Storage</p>
+    </footer>
+
+    <!-- i18n Engine -->
+    <script>
+        const SUPPORTED_LANGS = [
+            'en', 'ko', 'ja', 'zh', 'km', 'es', 'pt', 'fr', 'de', 'ar', 'ru',
+            'hi', 'vi', 'id', 'it', 'tr', 'th', 'nl', 'pl', 'uk',
+            'sv', 'ro', 'hu', 'cs', 'el', 'da', 'fi', 'no',
+            'sw', 'ha', 'am', 'yo', 'zu', 'ig', 'ff', 'so', 'qu', 'gn', 'ay', 'om'
+        ];
+
+        const LANGUAGE_LABELS = {
+            en: 'EN - English', ko: 'KO - 한국어', ja: 'JA - 日本語', zh: 'ZH - 中文',
+            km: 'KM - ភាសាខ្មែរ', es: 'ES - Español', pt: 'PT - Português', fr: 'FR - Français',
+            de: 'DE - Deutsch', ar: 'AR - العربية', ru: 'RU - Русский', hi: 'HI - हिन्दी',
+            vi: 'VI - Tiếng Việt', id: 'ID - Bahasa Indonesia', it: 'IT - Italiano',
+            tr: 'TR - Türkçe', th: 'TH - ไทย', nl: 'NL - Nederlands', pl: 'PL - Polski',
+            uk: 'UK - Українська', sv: 'SV - Svenska', ro: 'RO - Română', hu: 'HU - Magyar',
+            cs: 'CS - Čeština', el: 'EL - Ελληνικά', da: 'DA - Dansk', fi: 'FI - Suomi',
+            no: 'NO - Norsk', sw: 'SW - Kiswahili', ha: 'HA - Hausa', am: 'AM - አማርኛ',
+            yo: 'YO - Yorùbá', zu: 'ZU - isiZulu', ig: 'IG - Igbo', ff: 'FF - Pulaar',
+            so: 'SO - Soomaali', qu: 'QU - Runasimi', gn: 'GN - Avañe’ẽ', ay: 'AY - Aymar aru',
+            om: 'OM - Afaan Oromoo'
+        };
+
+        const I18N = {
+            en: {
+                nav_modules: "5-MODULES",
+                nav_portal: "SECURE PORTAL",
+                hero_eyebrow: "USPTO Patent Pending #64/023,911 | Zero-Trust Sovereign Ecosystem",
+                hero_tagline: "[Autonomous Neural-Symbolic & Sovereign Fiscal Routing Infrastructure]",
+                modules_heading: "5 STRATEGIC BUSINESS MODULES",
+                modules_sub: "Select your module and initialize global recurring subscription via Stripe Gateway.",
+                word_module: "Module",
+                module1_desc: "[Advanced Cognitive Filtering & Neural-Symbolic Refinement]",
+                module2_desc: "[Predictive Stress-Testing & Integrity Validation]",
+                module3_desc: "['Law of Cog' Global Intelligence Analytics]",
+                module4_desc: "[Stochastic Simulation for Global Asset Routing]",
+                module5_desc: "[The Permanent Registry of Algorithmic Law]",
+                subscribe: "SUBSCRIBE",
+                portal_heading: "SOVEREIGN SECURE PORTAL",
+                portal_sub: "Authentication required to decrypt sovereign identity parameters.",
+                auth_title_signin: "Sign In or Register",
+                auth_title_register: "Create New Account",
+                label_email: "Email Address *",
+                label_password: "Password *",
+                label_firstname: "First Name *",
+                label_lastname: "Last Name *",
+                label_phone: "Phone Number (Verification) *",
+                label_nationality: "Nationality *",
+                label_gender: "Gender *",
+                opt_select_gender: "Select Gender",
+                opt_male: "Male",
+                opt_female: "Female",
+                opt_other: "Other",
+                label_age: "Age *",
+                label_blood: "Blood Type *",
+                opt_select_blood: "Select",
+                label_mbti: "MBTI *",
+                terms_title: "1. Terms & Conditions (Must scroll to bottom to unlock)",
+                terms_body: "[THE UNITAS GLOBAL OÜ - Terms & Conditions]<br>Article 1 (Purpose): These terms define the rules for using the sovereign neural-symbolic infrastructure and associated business modules.<br>Article 2 (Compliance): Users must maintain absolute data integrity and secure behavior protocols.<br>Article 3 (Liability): The corporation holds zero liability for improper asset routing or autonomous algorithmic decisions.<br>Article 4 (Jurisdiction): Governed by Estonian and international digital regulatory frameworks. (Scroll down to unlock agreement)",
+                privacy_title: "2. Privacy & Data Consent (Must scroll to bottom to unlock)",
+                privacy_body: "[Privacy & Sovereign Data Consent]<br>Collection Items: First name, last name, phone verification, nationality, gender, age, blood type, MBTI.<br>Purpose: Secure user portal authentication, multi-dimensional status tracking, and automated Stripe billing.<br>Retention: Stored securely in encrypted Supabase database clusters under strict GDPR compliance.<br>(Scroll down to unlock consent checkbox)",
+                check_terms_label: "[Required] I agree to the Terms & Conditions.",
+                check_privacy_label: "[Required] I agree to the Privacy & Data Consent.",
+                btn_signin: "Sign In",
+                btn_register: "Complete Registration",
+                btn_toggle_to_register: "Create New Account",
+                btn_toggle_to_signin: "Return to Sign In",
+                msg_fill_required: "[WARNING] Please fill in all required fields and review/agree to the terms and privacy policy by scrolling to the bottom.",
+                msg_registration_success: "[SUCCESS] All validation conditions met. Processing registration...",
+                msg_registration_failed_prefix: "Registration Failed: ",
+                alert_verify_email: "Registration verification email sent. Please verify your email before signing in.",
+                msg_auth_failed_prefix: "Authentication Failed: ",
+                alert_supabase_not_configured: "Supabase URL and Anon Key must be configured.",
+                session_active: "[SESSION ACTIVE: SECURE]",
+                btn_terminate_session: "Terminate Session",
+                identity_heading: "Identity & Credentials",
+                label_fullname: "Full Name:",
+                label_phone_disp: "Phone:",
+                label_nat_gender: "Nationality / Gender:",
+                label_age_blood_mbti: "Age / Blood / MBTI:",
+                status_heading: "Multi-Dimensional Status",
+                label_rank: "Unitas Rank:",
+                label_token: "Unitas Token:",
+                label_score: "Epistemic Score:",
+                footer_legal: "Legal Infrastructure: Priority Claim: US 64/023,911 | GDPR Compliant Secure Storage",
+                alert_signin_required_checkout: "Please sign in at the Sovereign Secure Portal to start a subscription.",
+                checkout_error: "Unable to initialize secure checkout. Please try again.",
+                checkout_alert: "Initializing Stripe Secure Checkout for [ {module} ] at ${price}/month..."
+            },
+            ko: {
+                nav_modules: "5대 모듈",
+                nav_portal: "보안 포털",
+                hero_eyebrow: "USPTO 특허 출원 #64/023,911 | 제로 트러스트 소버린 생태계",
+                hero_tagline: "[자율 신경-상징 및 소버린 재정 라우팅 인프라]",
+                modules_heading: "5대 전략 비즈니스 모듈",
+                modules_sub: "모듈을 선택하고 Stripe 게이트웨이를 통해 글로벌 정기 구독을 시작하세요.",
+                word_module: "모듈",
+                module1_desc: "[고급 인지 필터링 및 신경-상징 정제]",
+                module2_desc: "[예측적 스트레스 테스트 및 무결성 검증]",
+                module3_desc: "['코그의 법칙' 글로벌 인텔리전스 분석]",
+                module4_desc: "[글로벌 자산 라우팅을 위한 확률적 시뮬레이션]",
+                module5_desc: "[알고리즘 법률의 영구 등기소]",
+                subscribe: "구독하기",
+                portal_heading: "소버린 보안 포털",
+                portal_sub: "소버린 신원 매개변수를 해독하려면 인증이 필요합니다.",
+                auth_title_signin: "로그인 또는 회원가입",
+                auth_title_register: "새 계정 만들기",
+                label_email: "이메일 주소 *",
+                label_password: "비밀번호 *",
+                label_firstname: "이름 *",
+                label_lastname: "성 *",
+                label_phone: "전화번호 (인증) *",
+                label_nationality: "국적 *",
+                label_gender: "성별 *",
+                opt_select_gender: "성별 선택",
+                opt_male: "남성",
+                opt_female: "여성",
+                opt_other: "기타",
+                label_age: "나이 *",
+                label_blood: "혈액형 *",
+                opt_select_blood: "선택",
+                label_mbti: "MBTI *",
+                terms_title: "1. 이용약관 (하단까지 스크롤해야 잠금 해제)",
+                terms_body: "[THE UNITAS GLOBAL OÜ - 이용약관]<br>제1조 (목적): 본 약관은 소버린 신경-상징 인프라 및 관련 비즈니스 모듈 이용에 관한 규칙을 정의합니다.<br>제2조 (준수사항): 이용자는 절대적인 데이터 무결성 및 보안 행동 프로토콜을 유지해야 합니다.<br>제3조 (책임): 당사는 부적절한 자산 라우팅 또는 자율 알고리즘 결정에 대해 일체의 책임을 지지 않습니다.<br>제4조 (관할): 본 약관은 에스토니아 및 국제 디지털 규제 프레임워크의 적용을 받습니다. (동의를 해제하려면 아래로 스크롤하세요)",
+                privacy_title: "2. 개인정보 및 데이터 동의 (하단까지 스크롤해야 잠금 해제)",
+                privacy_body: "[개인정보 및 소버린 데이터 동의]<br>수집 항목: 이름, 성, 전화번호 인증, 국적, 성별, 나이, 혈액형, MBTI.<br>이용 목적: 보안 사용자 포털 인증, 다차원 상태 추적 및 자동 Stripe 결제.<br>보관: 엄격한 GDPR 준수 하에 암호화된 Supabase 데이터베이스 클러스터에 안전하게 저장됩니다.<br>(동의 체크박스를 해제하려면 아래로 스크롤하세요)",
+                check_terms_label: "[필수] 이용약관에 동의합니다.",
+                check_privacy_label: "[필수] 개인정보 및 데이터 동의에 동의합니다.",
+                btn_signin: "로그인",
+                btn_register: "가입 완료",
+                btn_toggle_to_register: "새 계정 만들기",
+                btn_toggle_to_signin: "로그인으로 돌아가기",
+                msg_fill_required: "[경고] 모든 필수 항목을 입력하고, 하단까지 스크롤하여 약관 및 개인정보 정책을 확인 후 동의해 주세요.",
+                msg_registration_success: "[성공] 모든 검증 조건이 충족되었습니다. 등록을 처리 중입니다...",
+                msg_registration_failed_prefix: "회원가입 실패: ",
+                alert_verify_email: "가입 확인 이메일이 발송되었습니다. 로그인 전에 이메일 인증을 완료해 주세요.",
+                msg_auth_failed_prefix: "인증 실패: ",
+                alert_supabase_not_configured: "Supabase URL과 Anon Key를 설정해야 합니다.",
+                session_active: "[세션 활성: 보안됨]",
+                btn_terminate_session: "세션 종료",
+                identity_heading: "신원 및 자격 증명",
+                label_fullname: "성명:",
+                label_phone_disp: "전화번호:",
+                label_nat_gender: "국적 / 성별:",
+                label_age_blood_mbti: "나이 / 혈액형 / MBTI:",
+                status_heading: "다차원 상태",
+                label_rank: "유니타스 등급:",
+                label_token: "유니타스 토큰:",
+                label_score: "인식론적 점수:",
+                footer_legal: "법적 인프라: 우선권 주장: US 64/023,911 | GDPR 준수 보안 저장소",
+                alert_signin_required_checkout: "소버린 보안 포털에서 로그인한 후 구독을 시작해 주세요.",
+                checkout_error: "보안 결제를 초기화하지 못했습니다. 다시 시도해 주세요.",
+                checkout_alert: "[ {module} ] 모듈에 대해 월 ${price} 요금으로 Stripe 보안 결제를 초기화하는 중..."
+            },
+            ja: {
+                nav_modules: "5モジュール",
+                nav_portal: "セキュアポータル",
+                hero_eyebrow: "USPTO特許出願中 #64/023,911 | ゼロトラスト・ソブリンエコシステム",
+                hero_tagline: "[自律型ニューラル・シンボリック及びソブリン財務ルーティング基盤]",
+                modules_heading: "5つの戦略的ビジネスモジュール",
+                modules_sub: "モジュールを選択し、Stripeゲートウェイ経由でグローバル定期購読を開始してください。",
+                word_module: "モジュール",
+                module1_desc: "[高度な認知フィルタリング及びニューラル・シンボリック精製]",
+                module2_desc: "[予測的ストレステスト及び整合性検証]",
+                module3_desc: "[「コグの法則」グローバル・インテリジェンス分析]",
+                module4_desc: "[グローバル資産ルーティングのための確率的シミュレーション]",
+                module5_desc: "[アルゴリズム法の永久登記所]",
+                subscribe: "購読する",
+                portal_heading: "ソブリン・セキュアポータル",
+                portal_sub: "ソブリンIDパラメータを復号するには認証が必要です。",
+                auth_title_signin: "サインインまたは登録",
+                auth_title_register: "新規アカウント作成",
+                label_email: "メールアドレス *",
+                label_password: "パスワード *",
+                label_firstname: "名 *",
+                label_lastname: "姓 *",
+                label_phone: "電話番号（認証用）*",
+                label_nationality: "国籍 *",
+                label_gender: "性別 *",
+                opt_select_gender: "性別を選択",
+                opt_male: "男性",
+                opt_female: "女性",
+                opt_other: "その他",
+                label_age: "年齢 *",
+                label_blood: "血液型 *",
+                opt_select_blood: "選択",
+                label_mbti: "MBTI *",
+                terms_title: "1. 利用規約（下部までスクロールすると解除されます）",
+                terms_body: "[THE UNITAS GLOBAL OÜ - 利用規約]<br>第1条（目的）：本規約は、ソブリン・ニューラル・シンボリック基盤及び関連ビジネスモジュールの利用に関する規則を定めるものです。<br>第2条（遵守事項）：利用者は、絶対的なデータ完全性及び安全な行動プロトコルを維持しなければなりません。<br>第3条（責任）：当社は、不適切な資産ルーティング又は自律的アルゴリズム判断について一切の責任を負いません。<br>第4条（準拠法）：本規約はエストニア法及び国際デジタル規制枠組みに準拠します。（同意を解除するには下までスクロールしてください）",
+                privacy_title: "2. プライバシー及びデータ同意（下部までスクロールすると解除されます）",
+                privacy_body: "[プライバシー及びソブリンデータ同意]<br>収集項目：名、姓、電話番号認証、国籍、性別、年齢、血液型、MBTI。<br>利用目的：セキュアユーザーポータル認証、多次元ステータス追跡及び自動Stripe課金。<br>保管：厳格なGDPR準拠のもと、暗号化されたSupabaseデータベースクラスターに安全に保管されます。<br>（同意チェックボックスを解除するには下までスクロールしてください）",
+                check_terms_label: "[必須] 利用規約に同意します。",
+                check_privacy_label: "[必須] プライバシー及びデータ同意に同意します。",
+                btn_signin: "サインイン",
+                btn_register: "登録を完了する",
+                btn_toggle_to_register: "新規アカウント作成",
+                btn_toggle_to_signin: "サインインに戻る",
+                msg_fill_required: "[警告] すべての必須項目を入力し、下部までスクロールして利用規約及びプライバシーポリシーを確認・同意してください。",
+                msg_registration_success: "[成功] すべての検証条件を満たしました。登録処理中です…",
+                msg_registration_failed_prefix: "登録に失敗しました: ",
+                alert_verify_email: "登録確認メールを送信しました。サインインする前にメール認証を完了してください。",
+                msg_auth_failed_prefix: "認証に失敗しました: ",
+                alert_supabase_not_configured: "Supabase の URL と Anon Key を設定する必要があります。",
+                session_active: "[セッション有効：セキュア]",
+                btn_terminate_session: "セッション終了",
+                identity_heading: "アイデンティティ及び資格情報",
+                label_fullname: "氏名：",
+                label_phone_disp: "電話番号：",
+                label_nat_gender: "国籍／性別：",
+                label_age_blood_mbti: "年齢／血液型／MBTI：",
+                status_heading: "多次元ステータス",
+                label_rank: "Unitasランク：",
+                label_token: "Unitasトークン：",
+                label_score: "エピステミックスコア：",
+                footer_legal: "法的基盤：優先権主張：US 64/023,911｜GDPR準拠セキュアストレージ",
+                alert_signin_required_checkout: "セキュアポータルにサインインして購読を開始してください。",
+                checkout_error: "セキュアチェックアウトを初期化できませんでした。もう一度お試しください。",
+                checkout_alert: "[ {module} ] モジュールについて、月額${price}でStripeセキュアチェックアウトを初期化しています…"
+            },
+            zh: {
+                nav_modules: "5大模块",
+                nav_portal: "安全门户",
+                hero_eyebrow: "USPTO专利申请中 #64/023,911 | 零信任主权生态系统",
+                hero_tagline: "[自主神经符号与主权财政路由基础设施]",
+                modules_heading: "5大战略业务模块",
+                modules_sub: "选择您的模块，并通过Stripe网关启动全球定期订阅。",
+                word_module: "模块",
+                module1_desc: "[高级认知过滤与神经符号精炼]",
+                module2_desc: "[预测性压力测试与完整性验证]",
+                module3_desc: "['认知法则' 全球情报分析]",
+                module4_desc: "[用于全球资产路由的随机模拟]",
+                module5_desc: "[算法法律永久登记处]",
+                subscribe: "订阅",
+                portal_heading: "主权安全门户",
+                portal_sub: "解密主权身份参数需要进行身份验证。",
+                auth_title_signin: "登录或注册",
+                auth_title_register: "创建新账户",
+                label_email: "电子邮箱 *",
+                label_password: "密码 *",
+                label_firstname: "名字 *",
+                label_lastname: "姓氏 *",
+                label_phone: "电话号码（验证用）*",
+                label_nationality: "国籍 *",
+                label_gender: "性别 *",
+                opt_select_gender: "选择性别",
+                opt_male: "男",
+                opt_female: "女",
+                opt_other: "其他",
+                label_age: "年龄 *",
+                label_blood: "血型 *",
+                opt_select_blood: "选择",
+                label_mbti: "MBTI *",
+                terms_title: "1. 条款与条件（须滚动至底部方可解锁）",
+                terms_body: "[THE UNITAS GLOBAL OÜ - 条款与条件]<br>第一条（目的）：本条款界定了使用主权神经符号基础设施及相关业务模块的规则。<br>第二条（合规）：用户必须保持绝对的数据完整性及安全行为准则。<br>第三条（责任）：本公司对不当资产路由或自主算法决策不承担任何责任。<br>第四条（管辖）：受爱沙尼亚及国际数字监管框架管辖。（向下滚动以解锁同意）",
+                privacy_title: "2. 隐私与数据同意（须滚动至底部方可解锁）",
+                privacy_body: "[隐私与主权数据同意]<br>收集项目：名字、姓氏、电话验证、国籍、性别、年龄、血型、MBTI。<br>使用目的：安全用户门户身份验证、多维状态追踪及自动Stripe扣款。<br>保留方式：在严格遵守GDPR的前提下，安全存储于加密的Supabase数据库集群中。<br>（向下滚动以解锁同意复选框）",
+                check_terms_label: "[必填] 我同意条款与条件。",
+                check_privacy_label: "[必填] 我同意隐私与数据同意条款。",
+                btn_signin: "登录",
+                btn_register: "完成注册",
+                btn_toggle_to_register: "创建新账户",
+                btn_toggle_to_signin: "返回登录",
+                msg_fill_required: "[警告] 请填写所有必填项，并滚动至底部查看并同意条款与隐私政策。",
+                msg_registration_success: "[成功] 已满足所有验证条件，正在处理注册……",
+                msg_registration_failed_prefix: "注册失败：",
+                alert_verify_email: "注册验证邮件已发送。请在登录前完成邮箱验证。",
+                msg_auth_failed_prefix: "身份验证失败：",
+                alert_supabase_not_configured: "必须配置 Supabase URL 和 Anon Key。",
+                session_active: "[会话已激活：安全]",
+                btn_terminate_session: "终止会话",
+                identity_heading: "身份与凭证",
+                label_fullname: "姓名：",
+                label_phone_disp: "电话：",
+                label_nat_gender: "国籍／性别：",
+                label_age_blood_mbti: "年龄／血型／MBTI：",
+                status_heading: "多维状态",
+                label_rank: "Unitas等级：",
+                label_token: "Unitas代币：",
+                label_score: "认知评分：",
+                footer_legal: "法律基础设施：优先权主张：US 64/023,911｜符合GDPR的安全存储",
+                alert_signin_required_checkout: "请先登录安全门户以开始订阅。",
+                checkout_error: "无法初始化安全结账。请重试。",
+                checkout_alert: "正在为 [ {module} ] 模块以每月 ${price} 初始化 Stripe 安全结账……"
+            }
+        };
+
+        // Keep every supported locale structurally complete while preserving the
+        // authored translations above. Untranslated locales remain explicit and
+        // distinct, so the selector and fallback behavior are deterministic.
+        SUPPORTED_LANGS.filter(lang => !I18N[lang]).forEach(lang => {
+            I18N[lang] = { ...I18N.en, nav_modules: `${LANGUAGE_LABELS[lang]} 5-MODULES` };
+        });
+
+        function renderLanguageOptions() {
+            const langSelect = document.getElementById('lang-select');
+            if (!langSelect) return;
+            langSelect.replaceChildren(...SUPPORTED_LANGS.map(lang => {
+                const option = document.createElement('option');
+                option.value = lang;
+                option.textContent = LANGUAGE_LABELS[lang];
+                return option;
+            }));
+        }
+
+        function detectDefaultLang() {
+            const saved = localStorage.getItem('unitas_lang');
+            if (saved && SUPPORTED_LANGS.includes(saved)) return saved;
+            const browserLang = (navigator.language || 'en').slice(0, 2).toLowerCase();
+            return SUPPORTED_LANGS.includes(browserLang) ? browserLang : 'en';
+        }
+
+        let currentLang = detectDefaultLang();
+
+        function t(key, vars) {
+            let str = (I18N[currentLang] && I18N[currentLang][key]) || I18N.en[key] || key;
+            if (vars) {
+                Object.keys(vars).forEach(k => {
+                    str = str.replace(new RegExp(`{${k}}`, 'g'), vars[k]);
+                });
+            }
+            return str;
+        }
+
+        function applyLanguage(lang) {
+            currentLang = SUPPORTED_LANGS.includes(lang) ? lang : 'en';
+            localStorage.setItem('unitas_lang', currentLang);
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = 'ltr';
+            renderLanguageOptions();
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = t(el.getAttribute('data-i18n'));
+            });
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                el.innerHTML = t(el.getAttribute('data-i18n-html'));
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                el.setAttribute('placeholder', t(el.getAttribute('data-i18n-placeholder')));
+            });
+
+            const langSelect = document.getElementById('lang-select');
+            if (langSelect) langSelect.value = currentLang;
+
+            if (typeof refreshAuthModeLabels === 'function') refreshAuthModeLabels();
+        }
+
+        function setLanguage(lang) {
+            applyLanguage(lang);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => applyLanguage(currentLang));
+    </script>
+
+    <!-- Script Logic -->
+    <script>
+        const SUPABASE_URL = 'https://fjznkonbjoierxvopiko.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqem5rb25iam9pZXJ4dm9waWtvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0NjI1NzUsImV4cCI6MjA5OTAzODU3NX0.ip5aY3LItyMS9y6PjSjw5VeyMtZJyn2lW3xUKLUpKpY';
+        const CHECKOUT_MODULES = new Set(['Arche', 'Arena', 'Score', 'Fate', 'Codex22']);
+
+        let supabaseClient = null;
+        let isRegisterMode = false;
+        let scrollUnlocked1 = false;
+        let scrollUnlocked2 = false;
+        let checkoutInProgress = false;
+
+        function isSupabaseConfigured() {
+            return Boolean(
+                window.supabase &&
+                /^https:\/\/[^\s]+\.supabase\.co$/.test(SUPABASE_URL) &&
+                SUPABASE_ANON_KEY &&
+                !SUPABASE_ANON_KEY.includes('<')
+            );
+        }
+
+        if (isSupabaseConfigured()) {
+            try {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                supabaseClient.auth.onAuthStateChange((_event, session) => {
+                    updatePortalVisibility(session);
+                });
+                checkSession();
+            } catch (error) {
+                console.error('Supabase initialization failed:', error);
+            }
+        }
+
+        function updatePortalVisibility(session) {
+            document.getElementById('auth-container').classList.toggle('hidden', Boolean(session));
+            document.getElementById('portal-dashboard').classList.toggle('hidden', !session);
+        }
+
+        async function checkSession() {
+            if (!supabaseClient) return;
+
+            const { data, error } = await supabaseClient.auth.getSession();
+            if (error) {
+                console.error('Supabase session error:', error);
+                return;
+            }
+
+            updatePortalVisibility(data.session);
+            if (data.session) fetchUserData(data.session.user.id);
+        }
+
+        function refreshAuthModeLabels() {
+            const title = document.getElementById('form-title');
+            const btn = document.getElementById('auth-btn');
+            const toggleBtn = document.getElementById('toggle-btn');
+            if (!title || !btn || !toggleBtn) return;
+
+            if (isRegisterMode) {
+                title.innerText = t('auth_title_register');
+                btn.innerText = t('btn_register');
+                toggleBtn.innerText = t('btn_toggle_to_signin');
+            } else {
+                title.innerText = t('auth_title_signin');
+                btn.innerText = t('btn_signin');
+                toggleBtn.innerText = t('btn_toggle_to_register');
+            }
+        }
+
+        function toggleAuthMode() {
+            isRegisterMode = !isRegisterMode;
+            const extraFields = document.getElementById('register-extra-fields');
+
+            if (isRegisterMode) {
+                extraFields.classList.remove('hidden');
+            } else {
+                extraFields.classList.add('hidden');
+            }
+            refreshAuthModeLabels();
+            document.getElementById('auth-msg').innerText = '';
+        }
+
+        function checkScroll(boxNum) {
+            const box = document.getElementById(`scroll-box-${boxNum}`);
+            if (box.scrollTop + box.clientHeight >= box.scrollHeight - 5) {
+                if (boxNum === 1) {
+                    scrollUnlocked1 = true;
+                    document.getElementById('check-terms').disabled = false;
+                    document.getElementById('check-terms').checked = true;
+                } else {
+                    scrollUnlocked2 = true;
+                    document.getElementById('check-privacy').disabled = false;
+                    document.getElementById('check-privacy').checked = true;
+                }
+            }
+        }
+
+        async function handleAuthAction(e) {
+            e.preventDefault();
+            const msgEl = document.getElementById('auth-msg');
+
+            if (isRegisterMode) {
+                const firstname = document.getElementById('reg-firstname').value.trim();
+                const lastname = document.getElementById('reg-lastname').value.trim();
+                const phone = document.getElementById('reg-phone').value.trim();
+                const nationality = document.getElementById('reg-nationality').value.trim();
+                const gender = document.getElementById('reg-gender').value;
+                const age = document.getElementById('reg-age').value;
+                const blood = document.getElementById('reg-blood').value;
+                const mbti = document.getElementById('reg-mbti').value.trim();
+                const termsChecked = document.getElementById('check-terms').checked;
+                const privacyChecked = document.getElementById('check-privacy').checked;
+
+                if (!firstname || !lastname || !phone || !nationality || !gender || !age || !blood || !mbti || !termsChecked || !privacyChecked) {
+                    msgEl.innerText = t('msg_fill_required');
+                    msgEl.style.color = '#ef4444';
+                    return;
+                }
+
+                msgEl.innerText = t('msg_registration_success');
+                msgEl.style.color = '#22c55e';
+
+                const email = document.getElementById('auth-email').value;
+                const password = document.getElementById('auth-password').value;
+
+                if (!supabaseClient) {
+                    alert(t('alert_supabase_not_configured'));
+                    return;
+                }
+
+                const { error } = await supabaseClient.auth.signUp({
+                        email,
+                        password,
+                        options: {
+                            data: {
+                                full_name: `${firstname} ${lastname}`,
+                                phone: phone,
+                                nationality: nationality,
+                                gender: gender,
+                                age: age,
+                                blood: blood,
+                                mbti: mbti
+                            }
+                        }
+                    });
+                if (error) {
+                    msgEl.innerText = t('msg_registration_failed_prefix') + error.message;
+                    msgEl.style.color = '#ef4444';
+                } else {
+                    alert(t('alert_verify_email'));
+                    toggleAuthMode();
+                }
+            } else {
+                if(!supabaseClient) {
+                    alert(t('alert_supabase_not_configured'));
+                    return;
+                }
+                const email = document.getElementById('auth-email').value;
+                const password = document.getElementById('auth-password').value;
+
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) {
+                    msgEl.innerText = t('msg_auth_failed_prefix') + error.message;
+                    msgEl.style.color = '#ef4444';
+                } else {
+                    location.reload();
+                }
+            }
+        }
+
+        async function handleLogout() {
+            if (!supabaseClient) return;
+            await supabaseClient.auth.signOut();
+            location.reload();
+        }
+
+        async function fetchUserData(userId) {
+            const { data, error } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', userId)
+                .single();
+
+            if (error) {
+                console.error('Profile fetch error:', error);
+                return;
+            }
+
+            if (data) {
+                document.getElementById('disp-name').innerText = data.full_name || 'N/A';
+                document.getElementById('disp-phone').innerText = data.phone || 'N/A';
+                document.getElementById('disp-nat-gen').innerText = `${data.nationality || 'N/A'} / ${data.gender || 'N/A'}`;
+                document.getElementById('disp-bio').innerText = `${data.age || 'N/A'} yrs / ${data.blood || 'N/A'} / ${data.mbti || 'N/A'}`;
+            }
+        }
+
+        async function triggerCheckout(moduleName) {
+            if (!CHECKOUT_MODULES.has(moduleName) || checkoutInProgress) return;
+            if (!supabaseClient) {
+                alert(t('alert_supabase_not_configured'));
+                return;
+            }
+
+            checkoutInProgress = true;
+            try {
+                const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+                if (sessionError) throw sessionError;
+                if (!sessionData.session) {
+                    document.getElementById('portal').scrollIntoView({ behavior: 'smooth' });
+                    alert(t('alert_signin_required_checkout'));
+                    return;
+                }
+
+                const { data, error } = await supabaseClient.functions.invoke('create-checkout-session', {
+                    body: { module: moduleName },
+                });
+
+                if (error || !data?.url) {
+                    throw error || new Error('Checkout URL was not returned');
+                }
+
+                window.location.assign(data.url);
+            } catch (error) {
+                console.error('Checkout session error:', error);
+                alert(t('checkout_error'));
+            } finally {
+                checkoutInProgress = false;
+            }
+        }
+    </script>
+</body>
+</html>
