@@ -94,6 +94,7 @@
                     <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> I</span>
                     <h3 class="font-bold text-white text-lg mt-1 mb-2">Arche</h3>
                     <p class="text-xs text-gray-400 mb-6" data-i18n="module1_desc">[Advanced Cognitive Filtering & Neural-Symbolic Refinement]</p>
+                    <a href="pages/arche.html" class="block text-[10px] text-neon hover:underline mb-3" data-i18n="learn_more">Learn More</a>
                 </div>
                 <button onclick="triggerCheckout('Arche')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($29/mo)</button>
             </div>
@@ -102,6 +103,7 @@
                     <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> II</span>
                     <h3 class="font-bold text-white text-lg mt-1 mb-2">Arena</h3>
                     <p class="text-xs text-gray-400 mb-6" data-i18n="module2_desc">[Predictive Stress-Testing & Integrity Validation]</p>
+                    <a href="pages/arena.html" class="block text-[10px] text-neon hover:underline mb-3" data-i18n="learn_more">Learn More</a>
                 </div>
                 <button onclick="triggerCheckout('Arena')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($49/mo)</button>
             </div>
@@ -110,6 +112,7 @@
                     <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> III</span>
                     <h3 class="font-bold text-white text-lg mt-1 mb-2">Score</h3>
                     <p class="text-xs text-gray-400 mb-6" data-i18n="module3_desc">['Law of Cog' Global Intelligence Analytics]</p>
+                    <a href="pages/score.html" class="block text-[10px] text-neon hover:underline mb-3" data-i18n="learn_more">Learn More</a>
                 </div>
                 <button onclick="triggerCheckout('Score')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($39/mo)</button>
             </div>
@@ -118,6 +121,7 @@
                     <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> IV</span>
                     <h3 class="font-bold text-white text-lg mt-1 mb-2">Fate</h3>
                     <p class="text-xs text-gray-400 mb-6" data-i18n="module4_desc">[Stochastic Simulation for Global Asset Routing]</p>
+                    <a href="pages/fate.html" class="block text-[10px] text-neon hover:underline mb-3" data-i18n="learn_more">Learn More</a>
                 </div>
                 <button onclick="triggerCheckout('Fate')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($99/mo)</button>
             </div>
@@ -126,6 +130,7 @@
                     <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> V</span>
                     <h3 class="font-bold text-white text-lg mt-1 mb-2">Codex22</h3>
                     <p class="text-xs text-gray-400 mb-6" data-i18n="module5_desc">[The Permanent Registry of Algorithmic Law]</p>
+                    <a href="pages/codex22.html" class="block text-[10px] text-neon hover:underline mb-3" data-i18n="learn_more">Learn More</a>
                 </div>
                 <button onclick="triggerCheckout('Codex22')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($199/mo)</button>
             </div>
@@ -284,25 +289,10 @@
 
     <!-- i18n Engine -->
     <script>
-        const SUPPORTED_LANGS = [
-            'en', 'ko', 'ja', 'zh', 'km', 'es', 'pt', 'fr', 'de', 'ar', 'ru',
-            'hi', 'vi', 'id', 'it', 'tr', 'th', 'nl', 'pl', 'uk',
-            'sv', 'ro', 'hu', 'cs', 'el', 'da', 'fi', 'no',
-            'sw', 'ha', 'am', 'yo', 'zu', 'ig', 'ff', 'so', 'qu', 'gn', 'ay', 'om'
-        ];
+        const SUPPORTED_LANGS = ['en', 'ko', 'ja', 'zh'];
 
         const LANGUAGE_LABELS = {
-            en: 'EN - English', ko: 'KO - 한국어', ja: 'JA - 日本語', zh: 'ZH - 中文',
-            km: 'KM - ភាសាខ្មែរ', es: 'ES - Español', pt: 'PT - Português', fr: 'FR - Français',
-            de: 'DE - Deutsch', ar: 'AR - العربية', ru: 'RU - Русский', hi: 'HI - हिन्दी',
-            vi: 'VI - Tiếng Việt', id: 'ID - Bahasa Indonesia', it: 'IT - Italiano',
-            tr: 'TR - Türkçe', th: 'TH - ไทย', nl: 'NL - Nederlands', pl: 'PL - Polski',
-            uk: 'UK - Українська', sv: 'SV - Svenska', ro: 'RO - Română', hu: 'HU - Magyar',
-            cs: 'CS - Čeština', el: 'EL - Ελληνικά', da: 'DA - Dansk', fi: 'FI - Suomi',
-            no: 'NO - Norsk', sw: 'SW - Kiswahili', ha: 'HA - Hausa', am: 'AM - አማርኛ',
-            yo: 'YO - Yorùbá', zu: 'ZU - isiZulu', ig: 'IG - Igbo', ff: 'FF - Pulaar',
-            so: 'SO - Soomaali', qu: 'QU - Runasimi', gn: 'GN - Avañe’ẽ', ay: 'AY - Aymar aru',
-            om: 'OM - Afaan Oromoo'
+            en: 'EN - English', ko: 'KO - 한국어', ja: 'JA - 日本語', zh: 'ZH - 中文'
         };
 
         const I18N = {
@@ -320,6 +310,7 @@
                 module4_desc: "[Stochastic Simulation for Global Asset Routing]",
                 module5_desc: "[The Permanent Registry of Algorithmic Law]",
                 subscribe: "SUBSCRIBE",
+                learn_more: "Learn More",
                 portal_heading: "SOVEREIGN SECURE PORTAL",
                 portal_sub: "Authentication required to decrypt sovereign identity parameters.",
                 auth_title_signin: "Sign In or Register",
@@ -385,6 +376,7 @@
                 module4_desc: "[글로벌 자산 라우팅을 위한 확률적 시뮬레이션]",
                 module5_desc: "[알고리즘 법률의 영구 등기소]",
                 subscribe: "구독하기",
+                learn_more: "자세히 보기",
                 portal_heading: "소버린 보안 포털",
                 portal_sub: "소버린 신원 매개변수를 해독하려면 인증이 필요합니다.",
                 auth_title_signin: "로그인 또는 회원가입",
@@ -450,6 +442,7 @@
                 module4_desc: "[グローバル資産ルーティングのための確率的シミュレーション]",
                 module5_desc: "[アルゴリズム法の永久登記所]",
                 subscribe: "購読する",
+                learn_more: "詳しく見る",
                 portal_heading: "ソブリン・セキュアポータル",
                 portal_sub: "ソブリンIDパラメータを復号するには認証が必要です。",
                 auth_title_signin: "サインインまたは登録",
@@ -515,6 +508,7 @@
                 module4_desc: "[用于全球资产路由的随机模拟]",
                 module5_desc: "[算法法律永久登记处]",
                 subscribe: "订阅",
+                learn_more: "了解更多",
                 portal_heading: "主权安全门户",
                 portal_sub: "解密主权身份参数需要进行身份验证。",
                 auth_title_signin: "登录或注册",
@@ -568,13 +562,6 @@
             }
         };
 
-        // Keep every supported locale structurally complete while preserving the
-        // authored translations above. Untranslated locales remain explicit and
-        // distinct, so the selector and fallback behavior are deterministic.
-        SUPPORTED_LANGS.filter(lang => !I18N[lang]).forEach(lang => {
-            I18N[lang] = { ...I18N.en, nav_modules: `${LANGUAGE_LABELS[lang]} 5-MODULES` };
-        });
-
         function renderLanguageOptions() {
             const langSelect = document.getElementById('lang-select');
             if (!langSelect) return;
@@ -609,7 +596,6 @@
             currentLang = SUPPORTED_LANGS.includes(lang) ? lang : 'en';
             localStorage.setItem('unitas_lang', currentLang);
             document.documentElement.lang = currentLang;
-            document.documentElement.dir = 'ltr';
             renderLanguageOptions();
 
             document.querySelectorAll('[data-i18n]').forEach(el => {
