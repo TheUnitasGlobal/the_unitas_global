@@ -1,6 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { ModuleWorkspace } from '@/components/modules/ModuleWorkspace';
-import { ModulePlaceholderEngine } from '@/components/modules/ModulePlaceholderEngine';
+import { PulseEngine } from '@/components/modules/PulseEngine';
 import { ECOSYSTEMS } from '@/lib/ecosystems';
 
 const ecosystem = ECOSYSTEMS.find((e) => e.key === 'pulse')!;
@@ -15,7 +15,7 @@ export default async function PulsePage({
 
   return (
     <ModuleWorkspace ecosystem={ecosystem}>
-      <ModulePlaceholderEngine ecosystem={ecosystem} />
+      <PulseEngine ecosystem={ecosystem} />
     </ModuleWorkspace>
   );
 }

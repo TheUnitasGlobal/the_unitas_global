@@ -1,6 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { ModuleWorkspace } from '@/components/modules/ModuleWorkspace';
-import { ModulePlaceholderEngine } from '@/components/modules/ModulePlaceholderEngine';
+import { AuraEngine } from '@/components/modules/AuraEngine';
 import { ECOSYSTEMS } from '@/lib/ecosystems';
 
 const ecosystem = ECOSYSTEMS.find((e) => e.key === 'aura')!;
@@ -15,7 +15,7 @@ export default async function AuraPage({
 
   return (
     <ModuleWorkspace ecosystem={ecosystem}>
-      <ModulePlaceholderEngine ecosystem={ecosystem} />
+      <AuraEngine ecosystem={ecosystem} />
     </ModuleWorkspace>
   );
 }

@@ -1,6 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { ModuleWorkspace } from '@/components/modules/ModuleWorkspace';
-import { ModulePlaceholderEngine } from '@/components/modules/ModulePlaceholderEngine';
+import { ParadoxEngine } from '@/components/modules/ParadoxEngine';
 import { ECOSYSTEMS } from '@/lib/ecosystems';
 
 const ecosystem = ECOSYSTEMS.find((e) => e.key === 'paradox')!;
@@ -15,7 +15,7 @@ export default async function ParadoxPage({
 
   return (
     <ModuleWorkspace ecosystem={ecosystem}>
-      <ModulePlaceholderEngine ecosystem={ecosystem} />
+      <ParadoxEngine ecosystem={ecosystem} />
     </ModuleWorkspace>
   );
 }

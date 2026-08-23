@@ -1,6 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { ModuleWorkspace } from '@/components/modules/ModuleWorkspace';
-import { ModulePlaceholderEngine } from '@/components/modules/ModulePlaceholderEngine';
+import { SyndicateEngine } from '@/components/modules/SyndicateEngine';
 import { ECOSYSTEMS } from '@/lib/ecosystems';
 
 const ecosystem = ECOSYSTEMS.find((e) => e.key === 'syndicate')!;
@@ -15,7 +15,7 @@ export default async function SyndicatePage({
 
   return (
     <ModuleWorkspace ecosystem={ecosystem}>
-      <ModulePlaceholderEngine ecosystem={ecosystem} />
+      <SyndicateEngine ecosystem={ecosystem} />
     </ModuleWorkspace>
   );
 }
