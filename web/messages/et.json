@@ -1,15 +1,16 @@
 {
   "LocaleLayout": {
-    "title": "THE UNITAS GLOBAL OÜ | Neuro-Sümboolne Turvainfrastruktuur"
+    "title": "UNITAS | Neuro-Sümboolne Turvainfrastruktuur"
   },
   "Nav": {
     "portal": "Turvaline Portaal",
     "languageLabel": "Keel",
     "soundOn": "Heli sees",
-    "soundOff": "Heli väljas"
+    "soundOff": "Heli väljas",
+    "scrollToFooter": "Ettevõtte ülevaade"
   },
   "Home": {
-    "title": "THE UNITAS"
+    "title": "UNITAS"
   },
   "Modules": {
     "uSignature": {
@@ -158,6 +159,9 @@
   },
   "OmniSynapse": {
     "placeholder": "Küsi OMNI AI-lt ükskõik mida...",
+    "browseLabel": "AVASTA PLATVORMI",
+    "metricsLabel": "Süsteemi Mõõdikud",
+    "noBrowseMatches": "Vasteid ei leitud — proovi teist sõnastust.",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "Analüüsimine nelja dimensiooni ulatuses...",
     "dimDirectionality": "Suunatus",
@@ -176,7 +180,9 @@
   "EntryModal": {
     "rulesLabel": "Osalemise Reeglid",
     "payAndEnter": "Maksa ja Sisene",
-    "processing": "Suveräänse ligipääsu autoriseerimine..."
+    "processing": "Suveräänse ligipääsu autoriseerimine...",
+    "signInRequired": "Sisene, et kulutada U-Coin'e ja siseneda.",
+    "spendFailed": "Tehing ebaõnnestus -- proovi uuesti."
   },
   "Footer": {
     "customerService": "Klienditugi",
@@ -197,8 +203,89 @@
     "press": "Meedia"
   },
   "AudioGate": {
-    "title": "Ärata Singulaarsus",
-    "subtitle": "Ava süvakosmose ambient-heliriba ja neuroliidese heliviited.",
-    "skip": "Jätka ilma helita"
+    "title": "UNITAS",
+    "subtitle": "Kehast vabanenud teadvused on jõudnud igavikulisele orbiidile, kus nad ristuvad. Sünkroniseeri oma sagedus.",
+    "button": "[ SISENE SÜNDMUSHORISONDILE ]",
+    "enterMuted": "Sisene ilma helita"
+  },
+  "Auth": {
+    "login": "Logi sisse",
+    "logout": "Logi välja",
+    "settingsLabel": "Konto seaded",
+    "signInTab": "Sisselogimine",
+    "signUpTab": "Registreerimine",
+    "continueWithGoogle": "Jätka Google'iga",
+    "orDivider": "või",
+    "fullNameLabel": "Täisnimi",
+    "emailLabel": "E-post",
+    "passwordLabel": "Parool",
+    "phoneLabel": "Telefoninumber",
+    "phonePlaceholder": "+372 5123 4567",
+    "signInButton": "Logi sisse",
+    "signUpButton": "Loo konto",
+    "signUpNotice": "Meie „1 inimene = 1 konto\" põhimõtte kohaselt on telefoninumbri kinnitamine kohustuslik, et kaitsta sinu kontot ja mündisaldot.",
+    "checkEmailNotice": "Kinnita oma konto e-kirja kaudu ja logi seejärel uuesti sisse, et kinnitada oma telefoninumber.",
+    "phoneVerifyTitle": "Telefoninumbri kinnitamine",
+    "phoneVerifyBody": "Konto turvalisuse ja pettuste ennetamise huvides kinnita oma telefoninumber ühekordse koodiga.",
+    "sendCodeButton": "Saada kood",
+    "codeLabel": "Kinnituskood",
+    "verifyButton": "Kinnita",
+    "resendCode": "Saada kood uuesti",
+    "phoneVerifiedNotice": "Telefoninumber on kinnitatud.",
+    "skipForNow": "Jäta praegu vahele",
+    "errorInvalidCredentials": "Vale e-post või parool.",
+    "errorPhoneTaken": "See telefoninumber on juba teise kontoga seotud.",
+    "errorGeneric": "Midagi läks valesti. Proovi uuesti.",
+    "errorGoogleUnavailable": "Google'iga sisselogimine ei ole selles keskkonnas veel seadistatud.",
+    "errorSmsUnavailable": "SMS-i saatmine ei ole selles keskkonnas veel seadistatud."
+  },
+  "Account": {
+    "settingsTitle": "Konto seaded",
+    "tabProfile": "Profiil",
+    "tabSecurity": "Turvalisus",
+    "tabDanger": "Ohtlik tsoon",
+    "fullNameLabel": "Täisnimi",
+    "nationalityLabel": "Rahvus",
+    "genderLabel": "Sugu",
+    "ageLabel": "Vanus",
+    "bloodLabel": "Veregrupp",
+    "mbtiLabel": "MBTI",
+    "saveButton": "Salvesta muudatused",
+    "savedNotice": "Profiil on uuendatud.",
+    "phoneSectionTitle": "Telefoninumber",
+    "phoneVerifiedBadge": "Kinnitatud",
+    "phoneUnverifiedBadge": "Kinnitamata",
+    "changePhoneButton": "Muuda telefoninumbrit",
+    "passwordSectionTitle": "Parool",
+    "newPasswordLabel": "Uus parool",
+    "changePasswordButton": "Uuenda parooli",
+    "passwordUpdatedNotice": "Parool on uuendatud.",
+    "dangerTitle": "Kustuta konto",
+    "dangerBody": "See deaktiveerib su konto jäädavalt ja kustutab su isikuandmed. Sinu mündide tehingute ajalugu säilitatakse seaduse kohaselt finantsdokumentatsioonina.",
+    "dangerConfirmLabel": "Kinnitamiseks sisesta DELETE",
+    "dangerConfirmButton": "Kustuta minu konto",
+    "dangerCancelButton": "Tühista",
+    "deleteError": "Konto kustutamine ebaõnnestus. Proovi uuesti."
+  },
+  "ModuleWorkspace": {
+    "backLink": "Tagasi ökosüsteemide juurde"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "Sinu Päring",
+    "echoQueryPlaceholder": "Mida sa siin tegelikult otsustad?",
+    "echoRunButton": "Käivita Peegeldus",
+    "echoRunningLabel": "Peegeldamine...",
+    "echoSynthesisLabel": "Süntees",
+    "oracleQuestionLabel": "Sinu Otsus",
+    "oracleQuestionPlaceholder": "Kirjelda otsust, mida kaalud",
+    "oracleConfidenceLabel": "Kindlustunne praeguse info suhtes",
+    "oracleVolatilityLabel": "Olukorra Volatiilsus",
+    "oracleHorizonLabel": "Ajahorisont (aastad)",
+    "oracleRunButton": "Küsi Oraaklilt",
+    "oracleRunningLabel": "Tõenäosuste modelleerimine...",
+    "oracleLikely": "Tõenäoline",
+    "oracleUncertain": "Ebakindel",
+    "oracleUnlikely": "Ebatõenäoline",
+    "oracleRationaleLabel": "Põhjendus"
   }
 }

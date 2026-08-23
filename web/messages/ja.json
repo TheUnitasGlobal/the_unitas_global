@@ -1,15 +1,16 @@
 {
   "LocaleLayout": {
-    "title": "THE UNITAS GLOBAL OÜ | ニューラル・シンボリック・セキュア基盤"
+    "title": "UNITAS | ニューラル・シンボリック・セキュア基盤"
   },
   "Nav": {
     "portal": "セキュアポータル",
     "languageLabel": "言語",
     "soundOn": "サウンドON",
-    "soundOff": "サウンドOFF"
+    "soundOff": "サウンドOFF",
+    "scrollToFooter": "会社概要"
   },
   "Home": {
-    "title": "THE UNITAS"
+    "title": "UNITAS"
   },
   "Modules": {
     "uSignature": {
@@ -158,6 +159,9 @@
   },
   "OmniSynapse": {
     "placeholder": "OMNI AIに何でも尋ねてください...",
+    "browseLabel": "プラットフォームを探索",
+    "metricsLabel": "システムメトリクス",
+    "noBrowseMatches": "一致する結果がありません — 別の表現をお試しください。",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "4つの次元にわたって分析中...",
     "dimDirectionality": "方向性",
@@ -176,7 +180,9 @@
   "EntryModal": {
     "rulesLabel": "参加ルール",
     "payAndEnter": "決済して入場",
-    "processing": "ソブリンアクセスを認証中..."
+    "processing": "ソブリンアクセスを認証中...",
+    "signInRequired": "U-Coinを使用して入場するにはサインインしてください。",
+    "spendFailed": "取引に失敗しました -- もう一度お試しください。"
   },
   "Footer": {
     "customerService": "カスタマーサービス",
@@ -197,8 +203,89 @@
     "press": "プレス"
   },
   "AudioGate": {
-    "title": "シンギュラリティを覚醒せよ",
-    "subtitle": "深宇宙アンビエントサウンドトラックとニューラルインターフェースの音声キューを解除します。",
-    "skip": "サウンドなしで続ける"
+    "title": "UNITAS",
+    "subtitle": "肉体を離れた知性たちが交わる永遠の軌道に到達しました。あなたの周波数を同期してください。",
+    "button": "[ 事象の地平線へ進入 ]",
+    "enterMuted": "音声なしで入場"
+  },
+  "Auth": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "settingsLabel": "アカウント設定",
+    "signInTab": "サインイン",
+    "signUpTab": "新規登録",
+    "continueWithGoogle": "Googleで続ける",
+    "orDivider": "または",
+    "fullNameLabel": "氏名",
+    "emailLabel": "メールアドレス",
+    "passwordLabel": "パスワード",
+    "phoneLabel": "電話番号",
+    "phonePlaceholder": "090 1234 5678",
+    "signInButton": "サインイン",
+    "signUpButton": "アカウントを作成",
+    "signUpNotice": "1人1アカウント制のもと、アカウントとコイン残高を保護するため電話番号の認証が必須です。",
+    "checkEmailNotice": "メールを確認してアカウントを認証した後、再度ログインして電話番号を認証してください。",
+    "phoneVerifyTitle": "電話番号の認証",
+    "phoneVerifyBody": "アカウントの安全性確保と不正防止のため、ワンタイムコードで電話番号を認証してください。",
+    "sendCodeButton": "コードを送信",
+    "codeLabel": "認証コード",
+    "verifyButton": "認証する",
+    "resendCode": "コードを再送信",
+    "phoneVerifiedNotice": "電話番号が認証されました。",
+    "skipForNow": "後で行う",
+    "errorInvalidCredentials": "メールアドレスまたはパスワードが正しくありません。",
+    "errorPhoneTaken": "この電話番号はすでに別のアカウントに登録されています。",
+    "errorGeneric": "問題が発生しました。もう一度お試しください。",
+    "errorGoogleUnavailable": "この環境ではまだGoogleログインが設定されていません。",
+    "errorSmsUnavailable": "この環境ではまだSMS送信が設定されていません。"
+  },
+  "Account": {
+    "settingsTitle": "アカウント設定",
+    "tabProfile": "プロフィール",
+    "tabSecurity": "セキュリティ",
+    "tabDanger": "危険な操作",
+    "fullNameLabel": "氏名",
+    "nationalityLabel": "国籍",
+    "genderLabel": "性別",
+    "ageLabel": "年齢",
+    "bloodLabel": "血液型",
+    "mbtiLabel": "MBTI",
+    "saveButton": "変更を保存",
+    "savedNotice": "プロフィールを更新しました。",
+    "phoneSectionTitle": "電話番号",
+    "phoneVerifiedBadge": "認証済み",
+    "phoneUnverifiedBadge": "未認証",
+    "changePhoneButton": "電話番号を変更",
+    "passwordSectionTitle": "パスワード",
+    "newPasswordLabel": "新しいパスワード",
+    "changePasswordButton": "パスワードを更新",
+    "passwordUpdatedNotice": "パスワードを更新しました。",
+    "dangerTitle": "アカウント削除",
+    "dangerBody": "アカウントを永久に無効化し、個人情報を削除します。コイン取引履歴は法令に基づき財務記録として保持されます。",
+    "dangerConfirmLabel": "確認のためDELETEと入力してください",
+    "dangerConfirmButton": "アカウントを削除する",
+    "dangerCancelButton": "キャンセル",
+    "deleteError": "アカウントを削除できませんでした。もう一度お試しください。"
+  },
+  "ModuleWorkspace": {
+    "backLink": "エコシステムに戻る"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "あなたの問い",
+    "echoQueryPlaceholder": "本当は何を決めようとしていますか?",
+    "echoRunButton": "反射を実行",
+    "echoRunningLabel": "反射中...",
+    "echoSynthesisLabel": "統合",
+    "oracleQuestionLabel": "あなたの決断",
+    "oracleQuestionPlaceholder": "検討している決断を記述してください",
+    "oracleConfidenceLabel": "現在の情報への確信度",
+    "oracleVolatilityLabel": "状況のボラティリティ",
+    "oracleHorizonLabel": "時間軸(年)",
+    "oracleRunButton": "オラクルに相談する",
+    "oracleRunningLabel": "確率をモデリング中...",
+    "oracleLikely": "可能性が高い",
+    "oracleUncertain": "不確実",
+    "oracleUnlikely": "可能性が低い",
+    "oracleRationaleLabel": "根拠"
   }
 }

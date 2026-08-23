@@ -1,10 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { Modal } from '@/components/ui/Modal';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import type { B2CModule } from '@/lib/modules';
 
 interface ModuleQuestModalProps {
@@ -13,33 +15,64 @@ interface ModuleQuestModalProps {
 }
 
 /**
- * Opens on B2C card click: an immediate coin-balance check before entering
- * the quest/simulation subpage. The subpage itself is still a scaffolded
- * placeholder (see [[project-unitas-web-nextjs-scaffold]] memory) -- this
- * modal is the honest "gate" step the request asked for, not a fake quiz.
+ * Opens on B2C card click: checks balance, then actually calls spend_coins()
+ * before entering the quest/simulation subpage (previously this just showed
+ * the balance and navigated -- "Pay & Enter" didn't pay). Same RPC-gated
+ * flow as EcosystemEntryModal, just without its deliberate pause.
  */
 export function ModuleQuestModal({ module, onClose }: ModuleQuestModalProps) {
   const t = useTranslations('B2C');
   const tModules = useTranslations('Modules');
   const tWallet = useTranslations('Wallet');
+  const tEntry = useTranslations('EntryModal');
   const { session, balance, loading, configured } = useWallet();
   const { playQuestEnterSfx } = useSpatialAudio();
   const router = useRouter();
+  const [processing, setProcessing] = useState(false);
+  const [spendError, setSpendError] = useState<string | null>(null);
 
   const open = module !== null;
   const cost = module?.coinCost ?? 0;
   const hasBalanceInfo = configured && Boolean(session) && balance !== null && !loading;
   const insufficient = hasBalanceInfo && (balance as number) < cost;
 
-  function handleEnter() {
-    if (!module) return;
+  function handleClose() {
+    if (processing) return;
+    setSpendError(null);
+    onClose();
+  }
+
+  async function handleEnter() {
+    if (!module || processing) return;
+    if (!session) {
+      setSpendError(tEntry('signInRequired'));
+      return;
+    }
+    setSpendError(null);
+    setProcessing(true);
+    try {
+      const supabase = getSupabaseBrowserClient();
+      const { error } = await supabase.rpc('spend_coins', {
+        p_module: module.messageKey.charAt(0).toUpperCase() + module.messageKey.slice(1),
+        p_amount: module.coinCost,
+      });
+      if (error) {
+        setSpendError(error.message || tEntry('spendFailed'));
+        setProcessing(false);
+        return;
+      }
+    } catch {
+      setSpendError(tEntry('spendFailed'));
+      setProcessing(false);
+      return;
+    }
     playQuestEnterSfx();
     onClose();
     router.push(`/${module.route}`);
   }
 
   return (
-    <Modal open={open} onClose={onClose} labelledBy="quest-modal-title">
+    <Modal open={open} onClose={handleClose} labelledBy="quest-modal-title">
       {module && (
         <>
           <div className="mb-4 flex flex-wrap gap-2">
@@ -80,18 +113,22 @@ export function ModuleQuestModal({ module, onClose }: ModuleQuestModalProps) {
 
           <p className="mb-4 text-center text-[10px] text-gray-600">{tWallet('currencyNote')}</p>
 
-          {insufficient && (
+          {insufficient && !spendError && (
             <p className="mb-4 text-center text-[11px] font-bold text-red-400">
               {t('insufficientBalance')}
             </p>
+          )}
+          {spendError && (
+            <p className="mb-4 text-center text-[11px] font-bold text-red-400">{spendError}</p>
           )}
 
           <button
             type="button"
             onClick={handleEnter}
-            className="w-full bg-accent py-3 text-xs font-bold uppercase tracking-widest text-void transition-all hover:bg-white"
+            disabled={processing || (hasBalanceInfo && insufficient)}
+            className="w-full bg-accent py-3 text-xs font-bold uppercase tracking-widest text-void transition-all hover:bg-white disabled:cursor-wait disabled:opacity-50"
           >
-            {t('enterQuest')}
+            {processing ? tEntry('processing') : t('enterQuest')}
           </button>
         </>
       )}

@@ -1,15 +1,16 @@
 {
   "LocaleLayout": {
-    "title": "THE UNITAS GLOBAL OÜ | 신경-상징 보안 인프라"
+    "title": "UNITAS | 신경-상징 보안 인프라"
   },
   "Nav": {
     "portal": "보안 포털",
     "languageLabel": "언어",
     "soundOn": "사운드 켜짐",
-    "soundOff": "사운드 꺼짐"
+    "soundOff": "사운드 꺼짐",
+    "scrollToFooter": "회사 소개"
   },
   "Home": {
-    "title": "THE UNITAS"
+    "title": "UNITAS"
   },
   "Modules": {
     "uSignature": {
@@ -158,6 +159,9 @@
   },
   "OmniSynapse": {
     "placeholder": "OMNI AI에게 무엇이든 물어보세요...",
+    "browseLabel": "플랫폼 탐색",
+    "metricsLabel": "시스템 메트릭스",
+    "noBrowseMatches": "일치하는 결과가 없습니다 — 다른 표현을 시도해 보세요.",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "네 가지 차원에서 분석 중...",
     "dimDirectionality": "방향성",
@@ -176,7 +180,9 @@
   "EntryModal": {
     "rulesLabel": "참여 규칙",
     "payAndEnter": "결제 후 입장",
-    "processing": "소버린 접속 인증 중..."
+    "processing": "소버린 접속 인증 중...",
+    "signInRequired": "U-코인을 사용해 입장하려면 로그인하세요.",
+    "spendFailed": "거래에 실패했습니다 -- 다시 시도하세요."
   },
   "Footer": {
     "customerService": "고객 지원",
@@ -197,8 +203,89 @@
     "press": "보도자료"
   },
   "AudioGate": {
-    "title": "접속: 무의식의 경계를 넘다",
-    "subtitle": "심우주 앰비언트 사운드트랙과 뉴럴 인터페이스 오디오 신호를 활성화합니다.",
-    "skip": "사운드 없이 계속하기"
+    "title": "UNITAS",
+    "subtitle": "육신을 벗어난 지성들이 교차하는 영원의 궤도에 도달했습니다. 당신의 주파수를 동기화하십시오.",
+    "button": "[ 사건의 지평선으로 진입 ]",
+    "enterMuted": "소리 없이 입장"
+  },
+  "Auth": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "settingsLabel": "계정 설정",
+    "signInTab": "로그인",
+    "signUpTab": "회원가입",
+    "continueWithGoogle": "Google로 계속하기",
+    "orDivider": "또는",
+    "fullNameLabel": "이름",
+    "emailLabel": "이메일",
+    "passwordLabel": "비밀번호",
+    "phoneLabel": "휴대폰 번호",
+    "phonePlaceholder": "010 1234 5678",
+    "signInButton": "로그인",
+    "signUpButton": "계정 생성",
+    "signUpNotice": "1인 1계정 정책에 따라 계정과 코인 잔액을 보호하기 위해 휴대폰 인증이 필수입니다.",
+    "checkEmailNotice": "이메일을 확인해 계정을 인증한 뒤 다시 로그인하여 휴대폰 번호를 인증해 주세요.",
+    "phoneVerifyTitle": "휴대폰 번호 인증",
+    "phoneVerifyBody": "계정 보안과 부정 이용 방지를 위해 일회용 인증번호로 휴대폰 번호를 인증해 주세요.",
+    "sendCodeButton": "인증번호 전송",
+    "codeLabel": "인증번호",
+    "verifyButton": "인증하기",
+    "resendCode": "인증번호 재전송",
+    "phoneVerifiedNotice": "휴대폰 번호가 인증되었습니다.",
+    "skipForNow": "나중에 하기",
+    "errorInvalidCredentials": "이메일 또는 비밀번호가 올바르지 않습니다.",
+    "errorPhoneTaken": "이미 다른 계정에 등록된 휴대폰 번호입니다.",
+    "errorGeneric": "문제가 발생했습니다. 다시 시도해 주세요.",
+    "errorGoogleUnavailable": "이 환경에서는 아직 Google 로그인이 설정되어 있지 않습니다.",
+    "errorSmsUnavailable": "이 환경에서는 아직 SMS 발송이 설정되어 있지 않습니다."
+  },
+  "Account": {
+    "settingsTitle": "계정 설정",
+    "tabProfile": "프로필",
+    "tabSecurity": "보안",
+    "tabDanger": "위험 구역",
+    "fullNameLabel": "이름",
+    "nationalityLabel": "국적",
+    "genderLabel": "성별",
+    "ageLabel": "나이",
+    "bloodLabel": "혈액형",
+    "mbtiLabel": "MBTI",
+    "saveButton": "변경사항 저장",
+    "savedNotice": "프로필이 업데이트되었습니다.",
+    "phoneSectionTitle": "휴대폰 번호",
+    "phoneVerifiedBadge": "인증됨",
+    "phoneUnverifiedBadge": "미인증",
+    "changePhoneButton": "휴대폰 번호 변경",
+    "passwordSectionTitle": "비밀번호",
+    "newPasswordLabel": "새 비밀번호",
+    "changePasswordButton": "비밀번호 변경",
+    "passwordUpdatedNotice": "비밀번호가 변경되었습니다.",
+    "dangerTitle": "계정 탈퇴",
+    "dangerBody": "계정을 영구적으로 비활성화하고 개인정보를 삭제합니다. 코인 거래 내역은 법령에 따라 재무 기록 목적으로 보존됩니다.",
+    "dangerConfirmLabel": "확인을 위해 DELETE를 입력하세요",
+    "dangerConfirmButton": "계정 탈퇴하기",
+    "dangerCancelButton": "취소",
+    "deleteError": "계정을 삭제할 수 없습니다. 다시 시도해 주세요."
+  },
+  "ModuleWorkspace": {
+    "backLink": "생태계로 돌아가기"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "당신의 질문",
+    "echoQueryPlaceholder": "지금 실제로 무엇을 결정하려는 건가요?",
+    "echoRunButton": "반사 실행",
+    "echoRunningLabel": "반사 중...",
+    "echoSynthesisLabel": "종합",
+    "oracleQuestionLabel": "당신의 결정",
+    "oracleQuestionPlaceholder": "고민 중인 결정을 설명하세요",
+    "oracleConfidenceLabel": "현재 정보에 대한 확신도",
+    "oracleVolatilityLabel": "상황의 변동성",
+    "oracleHorizonLabel": "시간 지평 (년)",
+    "oracleRunButton": "오라클에게 묻기",
+    "oracleRunningLabel": "확률 모델링 중...",
+    "oracleLikely": "가능성 높음",
+    "oracleUncertain": "불확실",
+    "oracleUnlikely": "가능성 낮음",
+    "oracleRationaleLabel": "근거"
   }
 }

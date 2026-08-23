@@ -3,7 +3,6 @@
 import { useRef, useState, type MouseEvent } from 'react';
 import { motion, useMotionValue, useMotionTemplate, useSpring } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import { Gem } from 'lucide-react';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import type { B2CModule } from '@/lib/modules';
 
@@ -97,19 +96,25 @@ export function LiveServiceCard({ module, index, onOpen }: LiveServiceCardProps)
 
       <div className="relative">
         <div className="mb-4 flex items-center gap-3">
-          <Gem size={22} style={{ color: SILVER }} aria-hidden="true" />
+          <module.icon
+            size={22}
+            style={{ color: SILVER, filter: `drop-shadow(0 0 6px ${module.metal})` }}
+            aria-hidden="true"
+          />
           <h3 className="font-serif text-lg font-bold text-white" style={{ textShadow: `0 0 18px ${SILVER}55` }}>
             {tModules(`${module.messageKey}.title`)}
           </h3>
         </div>
-        <span className="mb-1 inline-block text-[9px] font-bold uppercase tracking-widest text-gray-400">
+        <span className="mb-1.5 inline-block text-[10px] font-bold uppercase tracking-widest text-gray-400">
           {module.metalName} · {t('badgeLive')}
         </span>
-        <p className="text-xs text-gray-400">{tModules(`${module.messageKey}.description`)}</p>
+        <p className="text-[13px] font-normal leading-snug text-gray-300">
+          {tModules(`${module.messageKey}.description`)}
+        </p>
       </div>
 
       <div className="relative mt-6 flex items-center justify-between border-t pt-4" style={{ borderColor: `${SILVER}22` }}>
-        <span className="text-[10px] uppercase tracking-widest text-gray-500">{t('badgeQuest')}</span>
+        <span className="text-[10px] uppercase tracking-widest text-gray-400">{t('badgeQuest')}</span>
         <span className="text-xs font-bold" style={{ color: SILVER }}>
           {module.coinCost.toLocaleString()} U-COIN
         </span>

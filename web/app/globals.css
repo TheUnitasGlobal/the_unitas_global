@@ -20,14 +20,74 @@ body {
   border: 1px solid rgba(212, 175, 55, 0.2);
 }
 
-/* Main title "breathing" pulse -- THE UNITAS */
+/* Main title "breathing" glow -- UNITAS. Kept deliberately subtle (glow only,
+   no scale pulse) for a sophisticated, non-flashy read on every main title. */
 @keyframes title-breathe {
-  0%, 100% { transform: scale(1); text-shadow: 0 0 30px rgba(212, 175, 55, 0.45), 0 0 70px rgba(0, 243, 255, 0.15); }
-  50% { transform: scale(1.025); text-shadow: 0 0 50px rgba(212, 175, 55, 0.7), 0 0 100px rgba(0, 243, 255, 0.3); }
+  0%, 100% { text-shadow: 0 0 16px rgba(212, 175, 55, 0.22), 0 0 40px rgba(0, 243, 255, 0.08); }
+  50% { text-shadow: 0 0 26px rgba(212, 175, 55, 0.38), 0 0 55px rgba(0, 243, 255, 0.16); }
 }
 .title-breathe {
-  animation: title-breathe 4.5s ease-in-out infinite;
+  animation: title-breathe 6s ease-in-out infinite;
   display: inline-block;
+}
+
+/* AudioGate primary CTA -- a fluid rainbow-spectrum ring (two-layer
+   background/border-box trick: inner fill on padding-box, conic-gradient
+   ring on border-box) animated purely via `filter: hue-rotate`, which only
+   touches chromatic pixels -- the white label text and dark fill are
+   grayscale/near-grayscale and stay put while the ring itself cycles color.
+   Replaces the old flat gold "retro terminal" button treatment. */
+@keyframes event-horizon-hue {
+  from { filter: hue-rotate(0deg); }
+  to { filter: hue-rotate(360deg); }
+}
+@keyframes event-horizon-pulse {
+  0%, 100% { box-shadow: 0 0 22px rgba(124, 58, 237, 0.22); }
+  50% { box-shadow: 0 0 38px rgba(0, 243, 255, 0.3); }
+}
+.event-horizon-btn {
+  position: relative;
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(135deg, rgba(12, 8, 20, 0.92), rgba(6, 14, 22, 0.92)) padding-box,
+    conic-gradient(from 0deg, #7c3aed, #00f3ff, #d4af37, #ec4899, #7c3aed) border-box;
+  animation: event-horizon-hue 5s linear infinite, event-horizon-pulse 3.2s ease-in-out infinite;
+}
+.event-horizon-btn:hover,
+.event-horizon-btn:focus-visible {
+  animation-play-state: running, paused;
+  box-shadow: 0 0 48px rgba(124, 58, 237, 0.45), 0 0 26px rgba(0, 243, 255, 0.3);
+}
+.event-horizon-btn:focus-visible {
+  outline: 2px solid rgba(167, 139, 250, 0.8);
+  outline-offset: 4px;
+}
+
+/* Rotating + pulsing rainbow-spectrum globe icon -- top-left nav mark. */
+@keyframes globe-spin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.12); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+@keyframes globe-hue {
+  0% { filter: hue-rotate(0deg) saturate(1.4) brightness(1.15); }
+  100% { filter: hue-rotate(360deg) saturate(1.4) brightness(1.15); }
+}
+.globe-rainbow {
+  color: #00f3ff;
+  animation: globe-spin 7s linear infinite, globe-hue 4s linear infinite;
+  transform-origin: center;
+}
+
+/* Scales the whole dashboard (nav + page content, not the entry gate) down
+   to a 75%-zoom-equivalent -- unlike `transform: scale()`, `zoom` triggers a
+   real layout recalculation at the scaled size (matching native browser
+   page-zoom), so more of the ecosystem fits the viewport with no dead
+   whitespace and `position: fixed` descendants (the nav bar) still track
+   correctly. Chromium and Safari support `zoom`; older Firefox (<126)
+   ignores it and simply renders at 100% -- a harmless no-op fallback. */
+.dashboard-zoom {
+  zoom: 0.75;
 }
 
 /* Click shockwave ring (see components/effects/Shockwave.tsx) */

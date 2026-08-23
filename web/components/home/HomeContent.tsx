@@ -29,7 +29,7 @@ export function HomeContent() {
       {shockwaveElement}
 
       <Hero />
-      <OmniSynapseSearch onSelectEcosystem={setActiveEcosystem} />
+      <OmniSynapseSearch onSelectEcosystem={setActiveEcosystem} onSelectModule={setActiveModule} />
 
       {/* Section 1 -- Cognitive Ecosystem (the 11 modules, always visible) */}
       <section id="ecosystems" className="mx-auto max-w-7xl px-6 py-16">
@@ -37,7 +37,9 @@ export function HomeContent() {
           <h2 className="glow-text mb-3 font-serif text-2xl font-bold text-accent md:text-3xl">
             {tCognitive('title')}
           </h2>
-          <p className="mx-auto max-w-xl text-xs text-gray-400 md:text-sm">{tCognitive('subtitle')}</p>
+          <p className="mx-auto max-w-2xl text-[11px] text-gray-400 sm:whitespace-nowrap sm:text-xs md:text-sm">
+            {tCognitive('subtitle')}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -59,7 +61,9 @@ export function HomeContent() {
           <h2 className="glow-text mb-3 font-serif text-2xl font-bold text-accent md:text-3xl">
             {tB2c('title')}
           </h2>
-          <p className="mx-auto max-w-xl text-xs text-gray-400 md:text-sm">{tB2c('subtitle')}</p>
+          <p className="mx-auto max-w-2xl text-[11px] text-gray-400 sm:whitespace-nowrap sm:text-xs md:text-sm">
+            {tB2c('subtitle')}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

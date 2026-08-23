@@ -37,10 +37,12 @@ export function LanguageSwitcher() {
         onClick={() => setOpen((prev) => !prev)}
         aria-label={t('languageLabel')}
         aria-expanded={open}
-        className="flex items-center gap-1.5 border border-accent/40 bg-void px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-widest text-accent transition-colors hover:border-accent"
+        className="flex items-center gap-1.5 border border-accent/40 bg-void px-2.5 py-1.5 text-xs font-bold uppercase tracking-widest text-accent transition-colors hover:border-accent"
       >
-        <span aria-hidden="true">{current.flag}</span>
-        <span>{locale}</span>
+        <span className="text-sm leading-none" aria-hidden="true">
+          {current.flag}
+        </span>
+        <span className="leading-none">{locale}</span>
         <ChevronDown size={12} className={open ? 'rotate-180 transition-transform' : 'transition-transform'} />
       </button>
 
@@ -54,11 +56,13 @@ export function LanguageSwitcher() {
                   type="button"
                   onClick={() => selectLocale(loc)}
                   className={`flex w-full items-center gap-2 px-3 py-2 text-left text-xs transition-colors hover:bg-accent/10 ${
-                    loc === locale ? 'text-accent' : 'text-gray-300'
+                    loc === locale ? 'font-bold text-accent' : 'font-normal text-gray-300'
                   }`}
                 >
-                  <span aria-hidden="true">{LANGUAGE_META[loc].flag}</span>
-                  <span>{LANGUAGE_META[loc].native}</span>
+                  <span className="text-sm leading-none" aria-hidden="true">
+                    {LANGUAGE_META[loc].flag}
+                  </span>
+                  <span className="leading-none">{LANGUAGE_META[loc].native}</span>
                 </button>
               </li>
             ))}

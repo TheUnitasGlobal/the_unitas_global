@@ -19,18 +19,21 @@ export function Footer() {
   const t = useTranslations('Footer');
 
   return (
-    <footer className="border-t border-white/10 bg-void/60">
+    <footer id="site-footer" className="scroll-mt-20 border-t border-white/10 bg-void/60">
       <div className="mx-auto max-w-6xl px-6 py-16">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
           {COLUMNS.map((col) => (
             <div key={col.headerKey}>
-              <h3 className="mb-4 text-[10px] font-bold uppercase tracking-widest text-accent">
+              <h3 className="mb-5 text-[15px] font-bold uppercase tracking-[0.15em] text-accent">
                 {t(col.headerKey)}
               </h3>
-              <ul className="space-y-2.5">
+              <ul className="space-y-3.5">
                 {col.linkKeys.map((linkKey) => (
                   <li key={linkKey}>
-                    <a href="#" className="text-xs text-gray-500 transition-colors hover:text-gray-300">
+                    <a
+                      href="#"
+                      className="text-[18px] font-medium tracking-wide text-gray-300 transition-colors hover:text-white"
+                    >
                       {t(linkKey)}
                     </a>
                   </li>
@@ -40,9 +43,11 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-8 text-center">
-          <p className="font-serif text-xs tracking-widest text-accent">THE UNITAS GLOBAL OÜ</p>
-          <p className="mt-2 text-[10px] text-gray-600">© 2026 THE UNITAS GLOBAL OÜ.</p>
+        <div className="mt-14 border-t border-white/10 pt-10 text-center">
+          <p className="font-serif text-[18px] font-semibold tracking-widest text-accent">UNITAS</p>
+          <p className="mt-3 text-[15px] font-medium tracking-wide text-gray-400">
+            © 2026 | THE UNITAS GLOBAL OÜ
+          </p>
         </div>
       </div>
     </footer>

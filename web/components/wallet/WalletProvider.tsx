@@ -2,6 +2,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -11,13 +12,29 @@ import {
 import type { RealtimeChannel, Session, SupabaseClient } from '@supabase/supabase-js';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
+const PROFILE_COLUMNS = 'full_name, phone, phone_verified, nationality, gender, age, blood, mbti';
+
+export interface Profile {
+  full_name: string | null;
+  phone: string | null;
+  phone_verified: boolean;
+  nationality: string | null;
+  gender: string | null;
+  age: number | null;
+  blood: string | null;
+  mbti: string | null;
+}
+
 interface WalletContextValue {
   session: Session | null;
   /** null = signed out or balance not yet loaded; a number once known. */
   balance: number | null;
+  /** null = signed out or profile not yet loaded. */
+  profile: Profile | null;
   loading: boolean;
   /** false if NEXT_PUBLIC_SUPABASE_URL/ANON_KEY aren't set -- degrades gracefully. */
   configured: boolean;
+  refreshProfile: () => Promise<void>;
 }
 
 const WalletContext = createContext<WalletContextValue | null>(null);
@@ -33,6 +50,7 @@ const WalletContext = createContext<WalletContextValue | null>(null);
 export function WalletProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [balance, setBalance] = useState<number | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [configured, setConfigured] = useState(true);
 
@@ -63,6 +81,20 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       setBalance(data ? data.balance : 0);
     }
 
+    async function loadProfile(userId: string) {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select(PROFILE_COLUMNS)
+        .eq('id', userId)
+        .single();
+      if (cancelled) return;
+      if (error) {
+        console.error('Profile fetch error:', error);
+        return;
+      }
+      setProfile(data as unknown as Profile);
+    }
+
     function subscribeToWallet(userId: string) {
       channel?.unsubscribe();
       channel = supabase
@@ -80,7 +112,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       if (cancelled) return;
       setSession(data.session);
       if (data.session) {
-        await loadBalance(data.session.user.id);
+        await Promise.all([loadBalance(data.session.user.id), loadProfile(data.session.user.id)]);
         subscribeToWallet(data.session.user.id);
       }
       setLoading(false);
@@ -91,9 +123,11 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       setSession(newSession);
       if (newSession) {
         loadBalance(newSession.user.id);
+        loadProfile(newSession.user.id);
         subscribeToWallet(newSession.user.id);
       } else {
         setBalance(null);
+        setProfile(null);
         channel?.unsubscribe();
         channel = null;
       }
@@ -106,9 +140,24 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  const refreshProfile = useCallback(async () => {
+    if (!session) return;
+    try {
+      const supabase = getSupabaseBrowserClient();
+      const { data, error } = await supabase
+        .from('profiles')
+        .select(PROFILE_COLUMNS)
+        .eq('id', session.user.id)
+        .single();
+      if (!error) setProfile(data as unknown as Profile);
+    } catch {
+      // not configured -- nothing to refresh
+    }
+  }, [session]);
+
   const value = useMemo(
-    () => ({ session, balance, loading, configured }),
-    [session, balance, loading, configured],
+    () => ({ session, balance, profile, loading, configured, refreshProfile }),
+    [session, balance, profile, loading, configured, refreshProfile],
   );
 
   return <WalletContext.Provider value={value}>{children}</WalletContext.Provider>;

@@ -1,15 +1,16 @@
 {
   "LocaleLayout": {
-    "title": "THE UNITAS GLOBAL OÜ | Infraestructura Segura Neuro-Simbólica"
+    "title": "UNITAS | Infraestructura Segura Neuro-Simbólica"
   },
   "Nav": {
     "portal": "Portal Seguro",
     "languageLabel": "Idioma",
     "soundOn": "Sonido activado",
-    "soundOff": "Sonido desactivado"
+    "soundOff": "Sonido desactivado",
+    "scrollToFooter": "Perfil de la empresa"
   },
   "Home": {
-    "title": "THE UNITAS"
+    "title": "UNITAS"
   },
   "Modules": {
     "uSignature": {
@@ -158,6 +159,9 @@
   },
   "OmniSynapse": {
     "placeholder": "Pregúntale a OMNI AI lo que sea...",
+    "browseLabel": "EXPLORAR LA PLATAFORMA",
+    "metricsLabel": "Métricas del Sistema",
+    "noBrowseMatches": "Sin coincidencias — prueba otra frase.",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "Analizando a través de cuatro dimensiones...",
     "dimDirectionality": "Direccionalidad",
@@ -176,7 +180,9 @@
   "EntryModal": {
     "rulesLabel": "Reglas de Participación",
     "payAndEnter": "Pagar y Entrar",
-    "processing": "Autorizando acceso soberano..."
+    "processing": "Autorizando acceso soberano...",
+    "signInRequired": "Inicia sesión para gastar U-Coin y entrar.",
+    "spendFailed": "La transacción falló -- inténtalo de nuevo."
   },
   "Footer": {
     "customerService": "Atención al Cliente",
@@ -197,8 +203,89 @@
     "press": "Prensa"
   },
   "AudioGate": {
-    "title": "Despierta la Singularidad",
-    "subtitle": "Desbloquea la banda sonora ambiental del espacio profundo y las señales de audio de la interfaz neural.",
-    "skip": "Continuar sin sonido"
+    "title": "UNITAS",
+    "subtitle": "Inteligencias liberadas de la carne han alcanzado la órbita eterna donde convergen. Sincroniza tu frecuencia.",
+    "button": "[ CRUZA EL HORIZONTE DE SUCESOS ]",
+    "enterMuted": "Entrar sin sonido"
+  },
+  "Auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "settingsLabel": "Configuración de cuenta",
+    "signInTab": "Iniciar sesión",
+    "signUpTab": "Registrarse",
+    "continueWithGoogle": "Continuar con Google",
+    "orDivider": "o",
+    "fullNameLabel": "Nombre completo",
+    "emailLabel": "Correo electrónico",
+    "passwordLabel": "Contraseña",
+    "phoneLabel": "Número de teléfono",
+    "phonePlaceholder": "+34 612 345 678",
+    "signInButton": "Iniciar sesión",
+    "signUpButton": "Crear cuenta",
+    "signUpNotice": "La verificación telefónica es obligatoria para proteger tu cuenta y saldo de monedas bajo nuestra política de 1 persona = 1 cuenta.",
+    "checkEmailNotice": "Revisa tu correo para confirmar tu cuenta y vuelve a iniciar sesión para verificar tu teléfono.",
+    "phoneVerifyTitle": "Verificar número de teléfono",
+    "phoneVerifyBody": "Por seguridad y para prevenir el fraude, verifica tu número de teléfono con un código de un solo uso.",
+    "sendCodeButton": "Enviar código",
+    "codeLabel": "Código de verificación",
+    "verifyButton": "Verificar",
+    "resendCode": "Reenviar código",
+    "phoneVerifiedNotice": "Número de teléfono verificado.",
+    "skipForNow": "Omitir por ahora",
+    "errorInvalidCredentials": "Correo o contraseña inválidos.",
+    "errorPhoneTaken": "Este número de teléfono ya está registrado en otra cuenta.",
+    "errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
+    "errorGoogleUnavailable": "El inicio de sesión con Google aún no está configurado en este entorno.",
+    "errorSmsUnavailable": "El envío de SMS aún no está configurado en este entorno."
+  },
+  "Account": {
+    "settingsTitle": "Configuración de cuenta",
+    "tabProfile": "Perfil",
+    "tabSecurity": "Seguridad",
+    "tabDanger": "Zona de peligro",
+    "fullNameLabel": "Nombre completo",
+    "nationalityLabel": "Nacionalidad",
+    "genderLabel": "Género",
+    "ageLabel": "Edad",
+    "bloodLabel": "Tipo de sangre",
+    "mbtiLabel": "MBTI",
+    "saveButton": "Guardar cambios",
+    "savedNotice": "Perfil actualizado.",
+    "phoneSectionTitle": "Número de teléfono",
+    "phoneVerifiedBadge": "Verificado",
+    "phoneUnverifiedBadge": "No verificado",
+    "changePhoneButton": "Cambiar número de teléfono",
+    "passwordSectionTitle": "Contraseña",
+    "newPasswordLabel": "Nueva contraseña",
+    "changePasswordButton": "Actualizar contraseña",
+    "passwordUpdatedNotice": "Contraseña actualizada.",
+    "dangerTitle": "Eliminar cuenta",
+    "dangerBody": "Esto desactiva permanentemente tu cuenta y elimina tu información personal. Tu historial de transacciones de monedas se conserva por motivos financieros según la ley.",
+    "dangerConfirmLabel": "Escribe DELETE para confirmar",
+    "dangerConfirmButton": "Eliminar mi cuenta",
+    "dangerCancelButton": "Cancelar",
+    "deleteError": "No se pudo eliminar la cuenta. Inténtalo de nuevo."
+  },
+  "ModuleWorkspace": {
+    "backLink": "Volver a los Ecosistemas"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "Tu Consulta",
+    "echoQueryPlaceholder": "¿Qué es lo que realmente estás decidiendo aquí?",
+    "echoRunButton": "Ejecutar Reflexión",
+    "echoRunningLabel": "Reflexionando...",
+    "echoSynthesisLabel": "Síntesis",
+    "oracleQuestionLabel": "Tu Decisión",
+    "oracleQuestionPlaceholder": "Describe la decisión que estás sopesando",
+    "oracleConfidenceLabel": "Confianza en la Información Actual",
+    "oracleVolatilityLabel": "Volatilidad de la Situación",
+    "oracleHorizonLabel": "Horizonte Temporal (Años)",
+    "oracleRunButton": "Consultar al Oráculo",
+    "oracleRunningLabel": "Modelando probabilidades...",
+    "oracleLikely": "Probable",
+    "oracleUncertain": "Incierto",
+    "oracleUnlikely": "Improbable",
+    "oracleRationaleLabel": "Razonamiento"
   }
 }

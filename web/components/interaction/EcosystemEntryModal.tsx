@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from '@/i18n/navigation';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import type { EcosystemTheme } from '@/lib/ecosystems';
 
 interface EcosystemEntryModalProps {
@@ -29,6 +30,7 @@ export function EcosystemEntryModal({ ecosystem, onClose }: EcosystemEntryModalP
   const { playQuestEnterSfx } = useSpatialAudio();
   const router = useRouter();
   const [processing, setProcessing] = useState(false);
+  const [spendError, setSpendError] = useState<string | null>(null);
 
   const open = ecosystem !== null;
   const cost = ecosystem?.coinCost ?? 0;
@@ -37,6 +39,7 @@ export function EcosystemEntryModal({ ecosystem, onClose }: EcosystemEntryModalP
 
   function handleClose() {
     if (processing) return;
+    setSpendError(null);
     onClose();
   }
 
@@ -50,10 +53,31 @@ export function EcosystemEntryModal({ ecosystem, onClose }: EcosystemEntryModalP
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, processing]);
 
-  function handlePayAndEnter() {
+  async function handlePayAndEnter() {
     if (!ecosystem || processing) return;
+    if (!session) {
+      setSpendError(tEntry('signInRequired'));
+      return;
+    }
+    setSpendError(null);
     setProcessing(true);
     playQuestEnterSfx();
+    try {
+      const supabase = getSupabaseBrowserClient();
+      const { error } = await supabase.rpc('spend_coins', {
+        p_module: ecosystem.key,
+        p_amount: ecosystem.coinCost,
+      });
+      if (error) {
+        setSpendError(error.message || tEntry('spendFailed'));
+        setProcessing(false);
+        return;
+      }
+    } catch {
+      setSpendError(tEntry('spendFailed'));
+      setProcessing(false);
+      return;
+    }
     window.setTimeout(() => {
       router.push(`/${ecosystem.route}`);
     }, 900);
@@ -147,17 +171,20 @@ export function EcosystemEntryModal({ ecosystem, onClose }: EcosystemEntryModalP
 
             <p className="mb-6 text-center text-[10px] text-gray-600">{tWallet('currencyNote')}</p>
 
-            {insufficient && !processing && (
+            {insufficient && !processing && !spendError && (
               <p className="mb-4 text-center text-[11px] font-bold text-red-400">
                 {t('insufficientBalance')}
               </p>
+            )}
+            {spendError && (
+              <p className="mb-4 text-center text-[11px] font-bold text-red-400">{spendError}</p>
             )}
 
             <button
               type="button"
               onClick={handlePayAndEnter}
-              disabled={processing}
-              className="w-full py-3 text-xs font-bold uppercase tracking-widest text-void transition-all disabled:cursor-wait"
+              disabled={processing || (hasBalanceInfo && insufficient)}
+              className="w-full py-3 text-xs font-bold uppercase tracking-widest text-void transition-all disabled:cursor-wait disabled:opacity-50"
               style={{ backgroundColor: processing ? `${ecosystem.color}88` : ecosystem.color }}
             >
               {processing ? tEntry('processing') : tEntry('payAndEnter')}

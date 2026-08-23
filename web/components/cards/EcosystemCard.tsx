@@ -112,7 +112,7 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
             {tEcosystems(`${ecosystem.messageKey}.title`)}
           </h3>
         </div>
-        <p className="text-[11px] leading-snug text-gray-400">
+        <p className="text-[13px] font-normal leading-snug text-gray-300">
           {tEcosystems(`${ecosystem.messageKey}.description`)}
         </p>
       </div>
@@ -121,8 +121,8 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
         className="relative mt-4 flex items-center justify-between border-t pt-3"
         style={{ borderColor: `${ecosystem.color}22` }}
       >
-        <span className="text-[9px] uppercase tracking-widest text-gray-500">{t('badgeCoinGated')}</span>
-        <span className="text-xs font-bold" style={{ color: ecosystem.color }}>
+        <span className="text-[13px] uppercase tracking-widest text-gray-400">{t('badgeCoinGated')}</span>
+        <span className="text-[13px] font-bold" style={{ color: ecosystem.color }}>
           {ecosystem.coinCost.toLocaleString()} U-COIN
         </span>
       </div>

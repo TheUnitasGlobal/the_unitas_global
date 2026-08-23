@@ -1,27 +1,13 @@
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Cinzel, JetBrains_Mono } from 'next/font/google';
 import { routing } from '@/i18n/routing';
-import { Scene } from '@/components/canvas/Scene';
-import { SpatialAudioProvider } from '@/components/audio/SpatialAudioProvider';
-import { AudioGate } from '@/components/audio/AudioGate';
+import { HtmlLangSync } from '@/components/i18n/HtmlLangSync';
 import { WalletProvider } from '@/components/wallet/WalletProvider';
 import { NavBar } from '@/components/nav/NavBar';
-import '../globals.css';
-
-const cinzel = Cinzel({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-cinzel',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['300', '400', '700'],
-  variable: '--font-jetbrains-mono',
-});
+import { AudioGate } from '@/components/audio/AudioGate';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -37,11 +23,21 @@ export async function generateMetadata({
   return { title: t('title') };
 }
 
+/**
+ * Locale-scoped layout -- re-renders on every language switch (that's the
+ * whole reason translations, NavBar and AudioGate live here rather than in
+ * the stable root: they need fresh `messages` each time). NavBar/AudioGate
+ * DO remount when this happens, but that's harmless for audio: the actual
+ * AudioContext/`muted` state lives in SpatialAudioProvider one level up in
+ * app/layout.tsx (which never remounts), so a fresh NavBar instance just
+ * re-subscribes to that same still-running context and shows the correct
+ * on/off state immediately -- the soundscape itself never stops.
+ */
 export default async function LocaleLayout({
   children,
   params,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
@@ -52,19 +48,20 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={`${cinzel.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-void font-sans text-gray-200 antialiased">
-        <NextIntlClientProvider>
-          <WalletProvider>
-            <SpatialAudioProvider>
-              <Scene />
-              <NavBar />
-              <AudioGate />
-              <div className="relative z-0">{children}</div>
-            </SpatialAudioProvider>
-          </WalletProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider>
+      <HtmlLangSync />
+      <WalletProvider>
+        {/* Everything but the entry gate renders at a 75%-zoom-equivalent
+            scale, so the whole ecosystem reads as one wide, majestic
+            composition on entry instead of a taller, more cramped 100%
+            layout. The gate itself stays outside this wrapper so its
+            typography renders at full, undiminished scale. */}
+        <div className="dashboard-zoom">
+          <NavBar />
+          <div className="relative z-0">{children}</div>
+        </div>
+        <AudioGate />
+      </WalletProvider>
+    </NextIntlClientProvider>
   );
 }

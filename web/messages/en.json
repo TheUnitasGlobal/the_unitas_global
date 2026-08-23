@@ -1,15 +1,16 @@
 {
   "LocaleLayout": {
-    "title": "THE UNITAS GLOBAL OÜ | Neural-Symbolic Secure Infrastructure"
+    "title": "UNITAS | Neural-Symbolic Secure Infrastructure"
   },
   "Nav": {
     "portal": "Secure Portal",
     "languageLabel": "Language",
     "soundOn": "Sound on",
-    "soundOff": "Sound off"
+    "soundOff": "Sound off",
+    "scrollToFooter": "Company overview"
   },
   "Home": {
-    "title": "THE UNITAS"
+    "title": "UNITAS"
   },
   "Modules": {
     "uSignature": {
@@ -158,6 +159,9 @@
   },
   "OmniSynapse": {
     "placeholder": "Ask OMNI AI anything...",
+    "browseLabel": "EXPLORE THE PLATFORM",
+    "metricsLabel": "System Metrics",
+    "noBrowseMatches": "No matches — try a different phrase.",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "Analyzing across four dimensions...",
     "dimDirectionality": "Directionality",
@@ -176,7 +180,9 @@
   "EntryModal": {
     "rulesLabel": "Engagement Rules",
     "payAndEnter": "Pay & Enter",
-    "processing": "Authorizing sovereign access..."
+    "processing": "Authorizing sovereign access...",
+    "signInRequired": "Sign in to spend U-Coin and enter.",
+    "spendFailed": "Transaction failed -- try again."
   },
   "Footer": {
     "customerService": "Customer Service",
@@ -197,8 +203,89 @@
     "press": "Press"
   },
   "AudioGate": {
-    "title": "Awaken the Singularity",
-    "subtitle": "Unlock the deep-space ambient soundtrack and neural interface audio cues.",
-    "skip": "Continue without sound"
+    "title": "UNITAS",
+    "subtitle": "Intelligences unbound from flesh have reached the eternal orbit where they converge. Synchronize your frequency.",
+    "button": "[ ENTER THE EVENT HORIZON ]",
+    "enterMuted": "Enter without sound"
+  },
+  "Auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "settingsLabel": "Account Settings",
+    "signInTab": "Sign In",
+    "signUpTab": "Sign Up",
+    "continueWithGoogle": "Continue with Google",
+    "orDivider": "or",
+    "fullNameLabel": "Full Name",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "+82 10 1234 5678",
+    "signInButton": "Sign In",
+    "signUpButton": "Create Account",
+    "signUpNotice": "Mandatory phone verification protects your account and coin balance under our 1-person, 1-account policy.",
+    "checkEmailNotice": "Check your email to confirm your account, then sign in to verify your phone number.",
+    "phoneVerifyTitle": "Verify Phone Number",
+    "phoneVerifyBody": "For account security and to prevent fraud, verify your phone number with a one-time code.",
+    "sendCodeButton": "Send Code",
+    "codeLabel": "Verification Code",
+    "verifyButton": "Verify",
+    "resendCode": "Resend code",
+    "phoneVerifiedNotice": "Phone number verified.",
+    "skipForNow": "Skip for now",
+    "errorInvalidCredentials": "Invalid email or password.",
+    "errorPhoneTaken": "This phone number is already registered to another account.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "errorGoogleUnavailable": "Google sign-in is not yet configured for this environment.",
+    "errorSmsUnavailable": "SMS delivery is not yet configured for this environment."
+  },
+  "Account": {
+    "settingsTitle": "Account Settings",
+    "tabProfile": "Profile",
+    "tabSecurity": "Security",
+    "tabDanger": "Danger Zone",
+    "fullNameLabel": "Full Name",
+    "nationalityLabel": "Nationality",
+    "genderLabel": "Gender",
+    "ageLabel": "Age",
+    "bloodLabel": "Blood Type",
+    "mbtiLabel": "MBTI",
+    "saveButton": "Save Changes",
+    "savedNotice": "Profile updated.",
+    "phoneSectionTitle": "Phone Number",
+    "phoneVerifiedBadge": "Verified",
+    "phoneUnverifiedBadge": "Not Verified",
+    "changePhoneButton": "Change Phone Number",
+    "passwordSectionTitle": "Password",
+    "newPasswordLabel": "New Password",
+    "changePasswordButton": "Update Password",
+    "passwordUpdatedNotice": "Password updated.",
+    "dangerTitle": "Delete Account",
+    "dangerBody": "This permanently deactivates your account and removes your personal information. Your coin transaction history is retained for financial records as required by law.",
+    "dangerConfirmLabel": "Type DELETE to confirm",
+    "dangerConfirmButton": "Delete My Account",
+    "dangerCancelButton": "Cancel",
+    "deleteError": "Could not delete account. Please try again."
+  },
+  "ModuleWorkspace": {
+    "backLink": "Back to Ecosystems"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "Your Query",
+    "echoQueryPlaceholder": "What are you actually deciding here?",
+    "echoRunButton": "Run Reflection",
+    "echoRunningLabel": "Reflecting...",
+    "echoSynthesisLabel": "Synthesis",
+    "oracleQuestionLabel": "Your Decision",
+    "oracleQuestionPlaceholder": "Describe the decision you're weighing",
+    "oracleConfidenceLabel": "Confidence in Current Information",
+    "oracleVolatilityLabel": "Situation Volatility",
+    "oracleHorizonLabel": "Time Horizon (Years)",
+    "oracleRunButton": "Consult Oracle",
+    "oracleRunningLabel": "Modeling probabilities...",
+    "oracleLikely": "Likely",
+    "oracleUncertain": "Uncertain",
+    "oracleUnlikely": "Unlikely",
+    "oracleRationaleLabel": "Reasoning"
   }
 }

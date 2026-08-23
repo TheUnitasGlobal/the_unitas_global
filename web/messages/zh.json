@@ -1,15 +1,16 @@
 {
   "LocaleLayout": {
-    "title": "THE UNITAS GLOBAL OÜ | 神经符号安全基础设施"
+    "title": "UNITAS | 神经符号安全基础设施"
   },
   "Nav": {
     "portal": "安全门户",
     "languageLabel": "语言",
     "soundOn": "声音开启",
-    "soundOff": "声音关闭"
+    "soundOff": "声音关闭",
+    "scrollToFooter": "公司简介"
   },
   "Home": {
-    "title": "THE UNITAS"
+    "title": "UNITAS"
   },
   "Modules": {
     "uSignature": {
@@ -158,6 +159,9 @@
   },
   "OmniSynapse": {
     "placeholder": "向 OMNI AI 提出任何问题...",
+    "browseLabel": "探索平台",
+    "metricsLabel": "系统指标",
+    "noBrowseMatches": "未找到匹配项 — 请尝试其他表达。",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "正在跨四个维度进行分析...",
     "dimDirectionality": "方向性",
@@ -176,7 +180,9 @@
   "EntryModal": {
     "rulesLabel": "参与规则",
     "payAndEnter": "支付并进入",
-    "processing": "正在授权主权访问..."
+    "processing": "正在授权主权访问...",
+    "signInRequired": "登录后即可使用U币进入。",
+    "spendFailed": "交易失败 -- 请重试。"
   },
   "Footer": {
     "customerService": "客户服务",
@@ -197,8 +203,89 @@
     "press": "新闻"
   },
   "AudioGate": {
-    "title": "唤醒奇点",
-    "subtitle": "解锁深空环境音轨与神经界面音效提示。",
-    "skip": "继续（不开启声音）"
+    "title": "UNITAS",
+    "subtitle": "挣脱肉身的智性，已抵达彼此交汇的永恒轨道。请同步你的频率。",
+    "button": "[ 进入事件视界 ]",
+    "enterMuted": "静音进入"
+  },
+  "Auth": {
+    "login": "登录",
+    "logout": "退出登录",
+    "settingsLabel": "账户设置",
+    "signInTab": "登录",
+    "signUpTab": "注册",
+    "continueWithGoogle": "使用 Google 继续",
+    "orDivider": "或",
+    "fullNameLabel": "姓名",
+    "emailLabel": "邮箱",
+    "passwordLabel": "密码",
+    "phoneLabel": "手机号码",
+    "phonePlaceholder": "138 0000 0000",
+    "signInButton": "登录",
+    "signUpButton": "创建账户",
+    "signUpNotice": "根据“一人一账户”政策，必须完成手机号验证以保护您的账户和U币余额。",
+    "checkEmailNotice": "请查收邮件确认账户，然后重新登录以验证手机号码。",
+    "phoneVerifyTitle": "验证手机号码",
+    "phoneVerifyBody": "为保障账户安全并防止欺诈，请使用一次性验证码验证您的手机号码。",
+    "sendCodeButton": "发送验证码",
+    "codeLabel": "验证码",
+    "verifyButton": "验证",
+    "resendCode": "重新发送验证码",
+    "phoneVerifiedNotice": "手机号码已验证。",
+    "skipForNow": "暂时跳过",
+    "errorInvalidCredentials": "邮箱或密码不正确。",
+    "errorPhoneTaken": "该手机号码已被其他账户注册。",
+    "errorGeneric": "出现问题，请重试。",
+    "errorGoogleUnavailable": "此环境尚未配置 Google 登录。",
+    "errorSmsUnavailable": "此环境尚未配置短信发送。"
+  },
+  "Account": {
+    "settingsTitle": "账户设置",
+    "tabProfile": "个人资料",
+    "tabSecurity": "安全",
+    "tabDanger": "危险区域",
+    "fullNameLabel": "姓名",
+    "nationalityLabel": "国籍",
+    "genderLabel": "性别",
+    "ageLabel": "年龄",
+    "bloodLabel": "血型",
+    "mbtiLabel": "MBTI",
+    "saveButton": "保存更改",
+    "savedNotice": "资料已更新。",
+    "phoneSectionTitle": "手机号码",
+    "phoneVerifiedBadge": "已验证",
+    "phoneUnverifiedBadge": "未验证",
+    "changePhoneButton": "更改手机号码",
+    "passwordSectionTitle": "密码",
+    "newPasswordLabel": "新密码",
+    "changePasswordButton": "更新密码",
+    "passwordUpdatedNotice": "密码已更新。",
+    "dangerTitle": "删除账户",
+    "dangerBody": "此操作将永久停用您的账户并删除您的个人信息。根据法律要求，您的U币交易记录将作为财务记录予以保留。",
+    "dangerConfirmLabel": "输入 DELETE 以确认",
+    "dangerConfirmButton": "删除我的账户",
+    "dangerCancelButton": "取消",
+    "deleteError": "无法删除账户，请重试。"
+  },
+  "ModuleWorkspace": {
+    "backLink": "返回生态系统"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "你的问题",
+    "echoQueryPlaceholder": "你实际上在决定什么?",
+    "echoRunButton": "运行反射",
+    "echoRunningLabel": "反射中...",
+    "echoSynthesisLabel": "综合",
+    "oracleQuestionLabel": "你的决定",
+    "oracleQuestionPlaceholder": "描述你正在权衡的决定",
+    "oracleConfidenceLabel": "对当前信息的信心",
+    "oracleVolatilityLabel": "局势波动性",
+    "oracleHorizonLabel": "时间跨度(年)",
+    "oracleRunButton": "咨询神谕",
+    "oracleRunningLabel": "正在建模概率...",
+    "oracleLikely": "可能",
+    "oracleUncertain": "不确定",
+    "oracleUnlikely": "不太可能",
+    "oracleRationaleLabel": "推理"
   }
 }

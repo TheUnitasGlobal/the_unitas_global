@@ -1,4 +1,4 @@
-### THE UNITAS GLOBAL -- API test template (VS Code REST Client extension)
+### UNITAS -- API test template (VS Code REST Client extension)
 ### Fill in the variables below from web/.env.local, then click "Send Request"
 ### above any block. Reuses the same Supabase project as the root static
 ### site's coin-core wallet system -- these are the same wallets/spend_coins

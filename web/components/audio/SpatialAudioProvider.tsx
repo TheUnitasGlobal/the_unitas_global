@@ -164,34 +164,69 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
 
   /**
    * Must be called directly from a user gesture handler (click/keydown) --
-   * resumes the AudioContext, starts the ambient drone if it hasn't
-   * started yet, and unmutes, all in the same synchronous gesture.
+   * resumes the AudioContext and unmutes in the same synchronous gesture.
+   * The ambient drone itself is deliberately deferred by ~850ms (matching
+   * the AudioGate overlay's 0.8s exit transition) so it never plays under
+   * the gate -- it only starts once the dashboard beneath is visible.
    */
   const unlockAndUnmute = useCallback(() => {
     const ctx = ensureContext();
     if (!ctx) return;
     ctx.resume().catch(() => {});
-    if (masterGainRef.current) startAmbient(ctx, masterGainRef.current);
     setUnlocked(true);
     setMuted(false);
+    window.setTimeout(() => {
+      const liveCtx = ctxRef.current;
+      const liveMaster = masterGainRef.current;
+      if (liveCtx && liveMaster) startAmbient(liveCtx, liveMaster);
+    }, 850);
   }, [ensureContext, startAmbient]);
 
+  /**
+   * Side effects live here in the handler, not inside a setMuted() updater
+   * -- updater functions must stay pure, and React 18 StrictMode
+   * double-invokes them in dev, which would otherwise fire ctx.resume()/
+   * startAmbient() twice per click.
+   */
   const toggleMuted = useCallback(() => {
-    setMuted((prev) => {
-      const next = !prev;
-      if (!next) {
-        // Turning sound ON: make sure the context is actually resumed too,
-        // in case the AudioGate was skipped.
-        const ctx = ensureContext();
-        if (ctx) {
-          ctx.resume().catch(() => {});
-          if (masterGainRef.current) startAmbient(ctx, masterGainRef.current);
-          setUnlocked(true);
-        }
+    const next = !muted;
+    setMuted(next);
+    if (!next) {
+      // Turning sound ON: make sure the context is actually resumed too,
+      // in case the AudioGate was skipped.
+      const ctx = ensureContext();
+      if (ctx) {
+        ctx.resume().catch(() => {});
+        setUnlocked(true);
+        if (masterGainRef.current) startAmbient(ctx, masterGainRef.current);
       }
-      return next;
-    });
-  }, [ensureContext, startAmbient]);
+    }
+  }, [muted, ensureContext, startAmbient]);
+
+  // Hardening: some browsers (mobile Safari especially) silently suspend a
+  // running AudioContext on tab-backgrounding or power-saving. If the user
+  // has sound on, resume on the next real interaction or when the tab comes
+  // back into view, so playback never gets stuck silent without the user
+  // ever explicitly muting it.
+  useEffect(() => {
+    if (muted) return;
+
+    function resumeIfSuspended() {
+      const ctx = ctxRef.current;
+      if (ctx && ctx.state === 'suspended') {
+        ctx.resume().catch(() => {});
+      }
+    }
+
+    document.addEventListener('visibilitychange', resumeIfSuspended);
+    window.addEventListener('pointerdown', resumeIfSuspended);
+    window.addEventListener('keydown', resumeIfSuspended);
+    return () => {
+      document.removeEventListener('visibilitychange', resumeIfSuspended);
+      window.removeEventListener('pointerdown', resumeIfSuspended);
+      window.removeEventListener('keydown', resumeIfSuspended);
+    };
+  }, [muted]);
 
   const playSpatialPing = useCallback(
     (pan = 0) => {

@@ -1,4 +1,9 @@
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
+import { ModuleWorkspace } from '@/components/modules/ModuleWorkspace';
+import { ModulePlaceholderEngine } from '@/components/modules/ModulePlaceholderEngine';
+import { ECOSYSTEMS } from '@/lib/ecosystems';
+
+const ecosystem = ECOSYSTEMS.find((e) => e.key === 'void')!;
 
 export default async function VoidPage({
   params,
@@ -8,18 +13,9 @@ export default async function VoidPage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const tEcosystems = await getTranslations('Ecosystems');
-  const tPlaceholder = await getTranslations('Placeholder');
-
   return (
-    <main className="mx-auto max-w-3xl px-6 py-32 text-center">
-      <h1 className="glow-text mb-4 font-serif text-3xl font-bold text-white">
-        {tEcosystems('void.title')}
-      </h1>
-      <p className="mb-8 text-sm text-gray-400">{tEcosystems('void.description')}</p>
-      <p className="text-xs uppercase tracking-widest text-accent">
-        {tPlaceholder('comingSoon')}
-      </p>
-    </main>
+    <ModuleWorkspace ecosystem={ecosystem}>
+      <ModulePlaceholderEngine ecosystem={ecosystem} />
+    </ModuleWorkspace>
   );
 }
