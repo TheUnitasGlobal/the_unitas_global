@@ -9,9 +9,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "git add . && git commit -m \"feat: automated low-memory sovereign checkpoint sync\" && git push origin main",
-            "timeout": 60,
-            "statusMessage": "Sovereign sync: committing and pushing checkpoint..."
+            "command": "if [ -n \"$(git status --porcelain -- web)\" ]; then npm --prefix web run typecheck && npm --prefix web run build || exit 1; fi; git add . && git commit -m \"feat: automated low-memory sovereign checkpoint sync\" && git push origin main",
+            "timeout": 300,
+            "statusMessage": "Sovereign sync: verifying web/ (typecheck + build) before checkpoint..."
           }
         ]
       }
