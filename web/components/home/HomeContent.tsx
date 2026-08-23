@@ -56,7 +56,7 @@ export function HomeContent() {
       </section>
 
       {/* Section 2 -- Live Consumer Services (restored: the original 5 modules) */}
-      <section id="live-services" className="mx-auto max-w-6xl border-t border-white/10 px-6 py-16">
+      <section id="live-services" className="mx-auto max-w-7xl border-t border-white/10 px-6 py-16">
         <div className="mb-10 text-center">
           <h2 className="glow-text mb-3 font-serif text-2xl font-bold text-accent md:text-3xl">
             {tB2c('title')}
@@ -74,7 +74,7 @@ export function HomeContent() {
       </section>
 
       {/* Section 3 -- Enterprise Protocols */}
-      <section id="b2b" className="mx-auto mt-8 max-w-6xl border-t border-accent/10 px-6 py-16">
+      <section id="b2b" className="mx-auto mt-8 max-w-7xl border-t border-accent/10 px-6 py-16">
         <div className="mb-10 text-center">
           <h2 className="mb-3 font-serif text-2xl font-bold text-accent/80 md:text-3xl">
             {tB2b('title')}

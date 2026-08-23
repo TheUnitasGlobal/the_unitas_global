@@ -26,11 +26,11 @@ export function NavBar() {
   }
 
   return (
-    <nav className="fixed left-0 top-0 z-50 flex w-full items-center justify-between border-b border-accent/20 bg-void/80 px-4 py-3 backdrop-blur-md sm:px-6">
+    <nav className="fixed left-0 top-0 z-50 flex w-full items-center justify-between border-b border-accent/20 bg-void/80 px-4 py-4 backdrop-blur-md sm:px-6">
       {shockwaveElement}
       <div className="flex items-center gap-3">
         <Link href="/" className="flex items-center gap-3">
-          <Globe size={18} className="globe-rainbow shrink-0" aria-hidden="true" />
+          <Globe size={26} className="globe-rainbow shrink-0" aria-hidden="true" />
           <span className="hidden font-serif text-[26px] font-bold leading-none tracking-widest text-accent sm:inline">
             UNITAS
           </span>
@@ -39,18 +39,18 @@ export function NavBar() {
           type="button"
           onClick={handleScrollToFooter}
           aria-label={t('scrollToFooter')}
-          className="text-sm font-bold tracking-[0.5em] text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
+          className="text-sm font-bold leading-none tracking-[0.5em] text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
         >
           ···
         </button>
       </div>
 
-      <div className="flex items-center gap-2 sm:gap-4">
+      <div className="flex items-center gap-3 sm:gap-5">
+        <SoundToggle />
         <CoinBalanceBadge />
+        <LanguageSwitcher />
         <AuthButton />
         {session && <SettingsButton />}
-        <SoundToggle />
-        <LanguageSwitcher />
       </div>
     </nav>
   );

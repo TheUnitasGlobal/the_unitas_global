@@ -196,7 +196,7 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
   const browsing = focused && !analyzing && !result;
 
   return (
-    <div className="relative mx-auto mt-10 w-full max-w-3xl px-6 md:w-[60%] md:max-w-none">
+    <div className="relative mx-auto mt-10 w-full max-w-7xl px-6">
       <form onSubmit={handleSubmit}>
         <div
           onDragOver={handleDragOver}

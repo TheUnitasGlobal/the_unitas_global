@@ -24,9 +24,9 @@ export function AuthButton() {
       <button
         type="button"
         onClick={() => (session ? handleLogout() : setOpen(true))}
-        className="flex items-center gap-1.5 border border-accent/50 bg-void/60 px-3 py-2 text-xs font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
+        className="flex items-center gap-2 border border-accent/50 bg-void/60 px-4 py-2.5 text-sm font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
       >
-        {session ? <LogOut size={15} /> : <LogIn size={15} />}
+        {session ? <LogOut size={20} /> : <LogIn size={20} />}
         <span className="hidden sm:inline">{session ? t('logout') : t('login')}</span>
       </button>
       <AuthModal open={open} onClose={() => setOpen(false)} />
