@@ -217,6 +217,7 @@
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
     "settingsLabel": "Configuración de cuenta",
+    "unavailable": "El inicio de sesión no está disponible temporalmente",
     "signInTab": "Iniciar sesión",
     "signUpTab": "Registrarse",
     "continueWithGoogle": "Continuar con Google",

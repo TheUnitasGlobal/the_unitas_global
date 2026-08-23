@@ -217,6 +217,7 @@
     "login": "ログイン",
     "logout": "ログアウト",
     "settingsLabel": "アカウント設定",
+    "unavailable": "ログインは現在利用できません",
     "signInTab": "サインイン",
     "signUpTab": "新規登録",
     "continueWithGoogle": "Googleで続ける",

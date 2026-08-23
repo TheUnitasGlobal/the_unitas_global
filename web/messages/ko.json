@@ -217,6 +217,7 @@
     "login": "로그인",
     "logout": "로그아웃",
     "settingsLabel": "계정 설정",
+    "unavailable": "로그인을 일시적으로 사용할 수 없습니다",
     "signInTab": "로그인",
     "signUpTab": "회원가입",
     "continueWithGoogle": "Google로 계속하기",

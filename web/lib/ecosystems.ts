@@ -27,7 +27,7 @@ export const ECOSYSTEMS: EcosystemTheme[] = [
   { key: 'apex', route: 'apex', messageKey: 'apex', coinCost: 4, color: '#84cc16', glow: '#bef264', sfx: 'apex' },
   { key: 'genesis', route: 'genesis', messageKey: 'genesis', coinCost: 5, color: '#f8fafc', glow: '#ffffff', sfx: 'genesis' },
   { key: 'syndicate', route: 'syndicate', messageKey: 'syndicate', coinCost: 3, color: '#ea580c', glow: '#fb923c', sfx: 'syndicate' },
-  { key: 'aura', route: 'aura', messageKey: 'aura', coinCost: 2, color: '#14b8a6', glow: '#c084fc', sfx: 'aura' },
+  { key: 'aura', route: 'aura', messageKey: 'aura', coinCost: 2, color: '#14b8a6', glow: '#5eead4', sfx: 'aura' },
   { key: 'paradox', route: 'paradox', messageKey: 'paradox', coinCost: 4, color: '#2563eb', glow: '#60a5fa', sfx: 'paradox' },
   { key: 'chronos', route: 'chronos', messageKey: 'chronos', coinCost: 5, color: '#b45309', glow: '#f59e0b', sfx: 'chronos' },
 ];

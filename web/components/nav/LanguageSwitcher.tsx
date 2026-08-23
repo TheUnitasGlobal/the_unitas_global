@@ -37,13 +37,13 @@ export function LanguageSwitcher() {
         onClick={() => setOpen((prev) => !prev)}
         aria-label={t('languageLabel')}
         aria-expanded={open}
-        className="flex items-center gap-2 border border-accent/40 bg-void px-4 py-2.5 text-base font-bold uppercase tracking-widest text-accent transition-colors hover:border-accent"
+        className="flex items-center gap-2 border border-accent/50 bg-void/60 px-5 py-3 text-base font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
       >
-        <span className="text-lg leading-none" aria-hidden="true">
+        <span className="text-2xl leading-none" aria-hidden="true">
           {current.flag}
         </span>
         <span className="leading-none">{locale}</span>
-        <ChevronDown size={18} className={open ? 'rotate-180 transition-transform' : 'transition-transform'} />
+        <ChevronDown size={22} className={open ? 'rotate-180 transition-transform' : 'transition-transform'} />
       </button>
 
       {open && (

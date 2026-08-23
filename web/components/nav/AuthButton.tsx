@@ -13,8 +13,6 @@ export function AuthButton() {
   const { session, configured } = useWallet();
   const [open, setOpen] = useState(false);
 
-  if (!configured) return null;
-
   async function handleLogout() {
     await getSupabaseBrowserClient().auth.signOut();
   }
@@ -23,13 +21,15 @@ export function AuthButton() {
     <>
       <button
         type="button"
+        disabled={!configured}
         onClick={() => (session ? handleLogout() : setOpen(true))}
-        className="flex items-center gap-2 border border-accent/50 bg-void/60 px-4 py-2.5 text-sm font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
+        title={!configured ? t('unavailable') : undefined}
+        className="flex items-center gap-2 border border-accent/50 bg-void/60 px-5 py-3 text-base font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-void/60 disabled:hover:text-accent"
       >
-        {session ? <LogOut size={20} /> : <LogIn size={20} />}
+        {session ? <LogOut size={26} /> : <LogIn size={26} />}
         <span className="hidden sm:inline">{session ? t('logout') : t('login')}</span>
       </button>
-      <AuthModal open={open} onClose={() => setOpen(false)} />
+      {configured && <AuthModal open={open} onClose={() => setOpen(false)} />}
     </>
   );
 }

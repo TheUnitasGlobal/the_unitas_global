@@ -217,6 +217,7 @@
     "login": "Login",
     "logout": "Logout",
     "settingsLabel": "Account Settings",
+    "unavailable": "Sign-in is temporarily unavailable",
     "signInTab": "Sign In",
     "signUpTab": "Sign Up",
     "continueWithGoogle": "Continue with Google",

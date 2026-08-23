@@ -217,6 +217,7 @@
     "login": "登录",
     "logout": "退出登录",
     "settingsLabel": "账户设置",
+    "unavailable": "登录暂不可用",
     "signInTab": "登录",
     "signUpTab": "注册",
     "continueWithGoogle": "使用 Google 继续",

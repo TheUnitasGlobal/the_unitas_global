@@ -217,6 +217,7 @@
     "login": "Logi sisse",
     "logout": "Logi välja",
     "settingsLabel": "Konto seaded",
+    "unavailable": "Sisselogimine ei ole ajutiselt saadaval",
     "signInTab": "Sisselogimine",
     "signUpTab": "Registreerimine",
     "continueWithGoogle": "Jätka Google'iga",
