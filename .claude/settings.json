@@ -1,0 +1,74 @@
+{
+  "autoCompactEnabled": true,
+  "autoCompactWindow": 100000,
+  "precomputeCompactionEnabled": true,
+  "autoMemoryEnabled": true,
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git add . && git commit -m \"feat: automated low-memory sovereign checkpoint sync\" && git push origin main",
+            "timeout": 60,
+            "statusMessage": "Sovereign sync: committing and pushing checkpoint..."
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(npm install)",
+      "Bash(npm ci)",
+      "Bash(npm run *)",
+      "Bash(pnpm install)",
+      "Bash(pnpm run *)",
+      "Bash(cd web && npm *)",
+      "Bash(tsc *)",
+      "Bash(npx tsc *)",
+      "Bash(node *)",
+      "Bash(npx next *)",
+      "Bash(npx playwright *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git branch)",
+      "Bash(git checkout -b *)",
+      "Bash(git fetch *)",
+      "Bash(git pull)",
+      "Bash(ls *)",
+      "Bash(cat *)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -f*)",
+      "Bash(rm -rf *)",
+      "Bash(supabase db reset*)",
+      "Bash(npm publish*)",
+      "Bash(npm deprecate*)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)"
+    ],
+    "ask": [
+      "Bash(git push*)",
+      "Bash(supabase db push*)",
+      "Bash(supabase migration *)",
+      "Bash(vercel *)",
+      "Bash(netlify *)",
+      "Bash(*deploy*)",
+      "Bash(gh pr create*)",
+      "Bash(gh pr merge*)"
+    ]
+  }
+}

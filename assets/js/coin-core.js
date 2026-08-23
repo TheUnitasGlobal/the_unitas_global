@@ -1,4 +1,4 @@
-// THE UNITAS GLOBAL -- Rev 1 Coin-Core live balance tracker.
+// UNITAS -- Rev 1 Coin-Core live balance tracker.
 //
 // Wraps a Supabase Realtime subscription on the caller's own `wallets` row
 // so the U-COIN balance shown in the portal dashboard updates the instant a

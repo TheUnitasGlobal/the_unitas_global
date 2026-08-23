@@ -1,6 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { ModuleWorkspace } from '@/components/modules/ModuleWorkspace';
-import { ModulePlaceholderEngine } from '@/components/modules/ModulePlaceholderEngine';
+import { GenesisEngine } from '@/components/modules/GenesisEngine';
 import { ECOSYSTEMS } from '@/lib/ecosystems';
 
 const ecosystem = ECOSYSTEMS.find((e) => e.key === 'genesis')!;
@@ -15,7 +15,7 @@ export default async function GenesisPage({
 
   return (
     <ModuleWorkspace ecosystem={ecosystem}>
-      <ModulePlaceholderEngine ecosystem={ecosystem} />
+      <GenesisEngine ecosystem={ecosystem} />
     </ModuleWorkspace>
   );
 }

@@ -18,7 +18,7 @@ const renderPage = (module) => `<!doctype html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHtml(module.key)} | THE UNITAS GLOBAL</title>
+  <title>${escapeHtml(module.key)} | UNITAS</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
@@ -29,7 +29,7 @@ const renderPage = (module) => `<!doctype html>
 <body class="grid-bg min-h-screen">
   <main class="min-h-screen max-w-3xl mx-auto px-6 py-16 flex items-center">
     <section class="w-full border border-yellow-500/30 bg-black/70 p-8 md:p-12">
-      <a href="../index.html" class="text-xs text-yellow-400 tracking-widest">THE UNITAS GLOBAL / HOME</a>
+      <a href="../index.html" class="text-xs text-yellow-400 tracking-widest">UNITAS / HOME</a>
       <p class="text-cyan-300 text-xs tracking-[.3em] uppercase mt-16">Revenue module</p>
       <h1 class="text-4xl md:text-6xl font-bold text-white mt-4">${escapeHtml(module.key)}</h1>
       <p class="text-gray-400 leading-relaxed mt-6">${escapeHtml(module.description)}</p>

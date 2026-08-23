@@ -14,19 +14,19 @@
       "script": "test",
       "group": "test",
       "problemMatcher": []
+    },
     {
-        "label": "Unitas: setup agents",
-        "type": "npm",
-        "script": "setup:agents",
-        "problemMatcher": []
-      },
-      {
-        "label": "Unitas: mock checkout",
-        "type": "npm",
-        "script": "mock:checkout",
-        "isBackground": true,
-        "problemMatcher": []
-      },
+      "label": "Unitas: setup agents",
+      "type": "npm",
+      "script": "setup:agents",
+      "problemMatcher": []
+    },
+    {
+      "label": "Unitas: mock checkout",
+      "type": "npm",
+      "script": "mock:checkout",
+      "isBackground": true,
+      "problemMatcher": []
     },
     {
       "label": "Unitas: agent review",
@@ -45,6 +45,30 @@
       "type": "npm",
       "script": "release",
       "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Dev: Web Next.js",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/web" },
+      "isBackground": true,
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: Full Portal",
+      "type": "shell",
+      "command": "npm run build",
+      "options": { "cwd": "${workspaceFolder}/web" },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Git: Sovereign Sync",
+      "type": "shell",
+      "command": "git add . && git commit -m \"feat: god-tier sovereign omni-ai absolute sync\" && git push origin main",
+      "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": []
     }
   ]

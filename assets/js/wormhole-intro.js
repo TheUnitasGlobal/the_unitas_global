@@ -1,4 +1,4 @@
-// THE UNITAS GLOBAL -- coin-core Rev 0 "quantum wormhole" cinematic intro.
+// UNITAS -- coin-core Rev 0 "quantum wormhole" cinematic intro.
 //
 // Only loaded when index.html's inline bootstrap decides the intro hasn't
 // been seen this session (see the <script> right after <body> opens). Loads

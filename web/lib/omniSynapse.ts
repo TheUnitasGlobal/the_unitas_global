@@ -5,6 +5,8 @@ export interface OmniSynapseAnalysis {
   concept: string;
   tendency: string;
   matches: Array<{ eco: EcosystemTheme; title: string }>;
+  /** All 11 ecosystems scored simultaneously, sorted highest-first -- the "Swarm Cross-Reasoning" view. */
+  swarm: Array<{ eco: EcosystemTheme; title: string; score: number }>;
 }
 
 /**
@@ -19,9 +21,11 @@ export interface OmniSynapseAnalysis {
 export function analyzeQuery(
   query: string,
   tEcosystems: (key: string) => string,
+  /** Extra text pulled from drag-and-dropped files/tabs, folded into scoring alongside the typed query. */
+  context = '',
 ): OmniSynapseAnalysis {
   const trimmed = query.trim();
-  const q = trimmed.toLowerCase();
+  const q = `${trimmed} ${context}`.trim().toLowerCase();
 
   const directionality = /\?\s*$|^(why|how|what|when|where|who|explain)\b/i.test(trimmed)
     ? 'Divergent'
@@ -36,20 +40,21 @@ export function analyzeQuery(
   ];
   const concept = conceptLexicon.find(([re]) => re.test(trimmed))?.[1] ?? 'Structural';
 
-  const wordCount = q.split(/\s+/).filter(Boolean).length;
-  const tendency = wordCount === 0 ? '—' : wordCount <= 3 ? 'Decisive' : wordCount <= 8 ? 'Exploratory' : 'Analytical';
+  const typedWordCount = trimmed.toLowerCase().split(/\s+/).filter(Boolean).length;
+  const tendency =
+    typedWordCount === 0 ? '—' : typedWordCount <= 3 ? 'Decisive' : typedWordCount <= 8 ? 'Exploratory' : 'Analytical';
 
   const words = q.split(/\s+/).filter((w) => w.length >= 3);
-  const scored = ECOSYSTEMS.map((eco) => {
+  const swarm = ECOSYSTEMS.map((eco) => {
     const title = tEcosystems(`${eco.messageKey}.title`);
     const description = tEcosystems(`${eco.messageKey}.description`);
     const text = `${title} ${description} ${eco.key}`.toLowerCase();
     let score = words.reduce((acc, w) => acc + (text.includes(w) ? 2 : 0), 0);
-    if (q.length > 0 && text.includes(q)) score += 3;
+    if (trimmed.length > 0 && text.includes(trimmed.toLowerCase())) score += 3;
     return { eco, title, score };
   }).sort((a, b) => b.score - a.score);
 
-  const matches = scored.filter((s) => s.score > 0).slice(0, 3).map(({ eco, title }) => ({ eco, title }));
+  const matches = swarm.filter((s) => s.score > 0).slice(0, 3).map(({ eco, title }) => ({ eco, title }));
 
-  return { directionality, concept, tendency, matches };
+  return { directionality, concept, tendency, matches, swarm };
 }

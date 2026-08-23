@@ -1,4 +1,4 @@
-// THE UNITAS GLOBAL -- Rev 1 Secure Auth modal component.
+// UNITAS -- Rev 1 Secure Auth modal component.
 //
 // Owns the #auth-modal-overlay markup declared in index.html: Email OTP
 // (doubles as Instant Signup, since Supabase auto-creates the user on first

@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 
 const fileUrl = 'file://' + path.resolve(__dirname, '..', 'index.html').replace(/\\/g, '/');
 
-test.describe('THE UNITAS GLOBAL OÜ site', () => {
+test.describe('UNITAS site', () => {
   test('loads without console/page errors', async ({ page }) => {
     const consoleErrors = [];
     const pageErrors = [];
@@ -13,8 +13,8 @@ test.describe('THE UNITAS GLOBAL OÜ site', () => {
     page.on('pageerror', (err) => pageErrors.push(err.message));
 
     await page.goto(fileUrl);
-    await expect(page).toHaveTitle(/THE UNITAS GLOBAL OÜ/);
-    await expect(page.locator('h1')).toContainText('THE UNITAS GLOBAL RESEARCH INSTITUTE');
+    await expect(page).toHaveTitle(/UNITAS/);
+    await expect(page.locator('h1')).toContainText('UNITAS');
 
     expect(pageErrors, `Uncaught page errors: ${pageErrors.join('; ')}`).toEqual([]);
     expect(consoleErrors, `Console errors: ${consoleErrors.join('; ')}`).toEqual([]);

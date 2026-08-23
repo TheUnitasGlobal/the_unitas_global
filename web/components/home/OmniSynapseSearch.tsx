@@ -1,9 +1,9 @@
 'use client';
 
-import { useMemo, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
+import { useMemo, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search } from 'lucide-react';
+import { Search, Paperclip, X } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { sceneInteraction } from '@/lib/sceneInteraction';
 import { analyzeQuery, type OmniSynapseAnalysis } from '@/lib/omniSynapse';
@@ -38,6 +38,13 @@ const SYSTEM_METRICS = [
  * -side heuristic across the 11 ecosystems -- see lib/omniSynapse.ts -- not
  * a real search index or LLM call. The "Web Synthesis Layer" and "Global
  * Unconscious Trends" panels stay honestly labeled as not-yet-connected.
+ *
+ * Multi-modal context injection: dropping a file or a dragged browser tab/
+ * link onto the bar attaches it as extra scoring context (text files are
+ * read client-side via FileReader; binary files contribute their filename
+ * only -- no OCR/parsing is attempted). "Swarm Cross-Reasoning" is the
+ * collapsible section in the result panel showing all 11 ecosystems' scores
+ * from that same heuristic simultaneously, not just the top match.
  */
 export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSynapseSearchProps) {
   const t = useTranslations('OmniSynapse');
@@ -52,7 +59,62 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
   const [focused, setFocused] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<OmniSynapseAnalysis | null>(null);
+  const [dragActive, setDragActive] = useState(false);
+  const [attachments, setAttachments] = useState<Array<{ id: string; label: string; content: string }>>([]);
+  const [swarmOpen, setSwarmOpen] = useState(false);
   const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const TEXT_LIKE_RE = /\.(txt|md|json|csv|log|ya?ml)$/i;
+  const MAX_ATTACHMENT_CHARS = 4000;
+
+  function addAttachment(label: string, content: string) {
+    setAttachments((prev) => [...prev.slice(-3), { id: `${Date.now()}-${label}`, label, content }]);
+  }
+
+  function removeAttachment(id: string) {
+    setAttachments((prev) => prev.filter((a) => a.id !== id));
+  }
+
+  function handleDragOver(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setDragActive(true);
+  }
+
+  function handleDragLeave(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setDragActive(false);
+  }
+
+  function handleDrop(e: DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setDragActive(false);
+
+    const files = Array.from(e.dataTransfer.files ?? []);
+    if (files.length > 0) {
+      files.forEach((file) => {
+        if (TEXT_LIKE_RE.test(file.name) || file.type.startsWith('text/')) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const text = typeof reader.result === 'string' ? reader.result.slice(0, MAX_ATTACHMENT_CHARS) : '';
+            addAttachment(file.name, text);
+          };
+          reader.readAsText(file);
+        } else {
+          // Binary/media files (images, PDFs, etc.) contribute their name as a
+          // context signal only -- no OCR or binary parsing is attempted.
+          addAttachment(file.name, file.name);
+        }
+      });
+      return;
+    }
+
+    // A dragged browser tab or link arrives as text/uri-list (or plain text),
+    // not a File -- this is the "drag a tab in" half of multi-modal injection.
+    const droppedText = e.dataTransfer.getData('text/uri-list') || e.dataTransfer.getData('text/plain');
+    if (droppedText) {
+      addAttachment(droppedText.length > 40 ? `${droppedText.slice(0, 40)}...` : droppedText, droppedText);
+    }
+  }
 
   const query = value.trim().toLowerCase();
 
@@ -118,12 +180,14 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!value.trim() || analyzing) return;
+    if ((!value.trim() && attachments.length === 0) || analyzing) return;
     setAnalyzing(true);
     setResult(null);
+    setSwarmOpen(false);
     playQuestEnterSfx();
+    const context = attachments.map((a) => a.content).join(' ');
     window.setTimeout(() => {
-      setResult(analyzeQuery(value, tEcosystems));
+      setResult(analyzeQuery(value, tEcosystems, context));
       setAnalyzing(false);
     }, 1000);
   }
@@ -135,10 +199,19 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
     <div className="relative mx-auto mt-10 w-full max-w-3xl px-6 md:w-[60%] md:max-w-none">
       <form onSubmit={handleSubmit}>
         <div
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}
           className={`flex items-center gap-3 border bg-white/[0.04] px-6 py-5 backdrop-blur-2xl transition-all duration-300 ${
-            focused ? 'border-accent' : 'border-white/15'
+            dragActive ? 'border-neon' : focused ? 'border-accent' : 'border-white/15'
           }`}
-          style={focused ? { boxShadow: '0 0 70px rgba(212,175,55,0.28)' } : undefined}
+          style={
+            dragActive
+              ? { boxShadow: '0 0 70px rgba(0,255,180,0.3)' }
+              : focused
+                ? { boxShadow: '0 0 70px rgba(212,175,55,0.28)' }
+                : undefined
+          }
         >
           <Search size={20} className="shrink-0 text-accent" aria-hidden="true" />
           <input
@@ -147,10 +220,37 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
             onChange={handleChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            placeholder={t('placeholder')}
+            placeholder={dragActive ? t('dropZoneHint') : t('placeholder')}
             className="w-full bg-transparent text-base text-white placeholder:text-gray-500 focus:outline-none"
           />
+          <span title={t('dropZoneHint')}>
+            <Paperclip size={16} className="shrink-0 text-gray-600" aria-hidden="true" />
+          </span>
         </div>
+
+        {attachments.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-2">
+            <span className="self-center text-[9px] font-bold uppercase tracking-widest text-gray-500">
+              {t('attachedLabel')}
+            </span>
+            {attachments.map((a) => (
+              <span
+                key={a.id}
+                className="flex items-center gap-1.5 border border-neon/30 bg-neon/[0.06] px-2 py-1 text-[11px] text-neon"
+              >
+                {a.label}
+                <button
+                  type="button"
+                  onClick={() => removeAttachment(a.id)}
+                  aria-label={t('removeAttachment')}
+                  className="text-neon/60 hover:text-neon"
+                >
+                  <X size={11} />
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
       </form>
 
       {/* Browse hub -- floats above the page (no layout push) so browsing
@@ -348,6 +448,61 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
                     </p>
                     <p className="text-[11px] italic text-gray-600">{t('trendsPlaceholder')}</p>
                   </div>
+                </div>
+
+                <div className="mt-6 border-t border-white/10 pt-5">
+                  <button
+                    type="button"
+                    onClick={() => setSwarmOpen((prev) => !prev)}
+                    aria-expanded={swarmOpen}
+                    className="flex w-full items-center justify-between text-left"
+                  >
+                    <span>
+                      <span className="block text-[10px] font-bold uppercase tracking-[0.25em] text-accent">
+                        {t('swarmLabel')}
+                      </span>
+                      <span className="mt-0.5 block text-[10px] text-gray-500">{t('swarmHint')}</span>
+                    </span>
+                    <span className="text-accent">{swarmOpen ? '−' : '+'}</span>
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {swarmOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-4 space-y-2">
+                          {result.swarm.map(({ eco, title, score }) => {
+                            const maxScore = result.swarm[0]?.score || 1;
+                            const width = score === 0 ? 4 : Math.max(6, (score / maxScore) * 100);
+                            return (
+                              <button
+                                key={eco.key}
+                                type="button"
+                                onClick={() => onSelectEcosystem(eco)}
+                                className="block w-full text-left"
+                              >
+                                <div className="mb-1 flex items-center justify-between text-[11px]">
+                                  <span className="text-gray-300">{title}</span>
+                                  <span className="font-mono text-gray-500">{score}</span>
+                                </div>
+                                <div className="h-1 w-full bg-white/5">
+                                  <div
+                                    className="h-1 transition-all"
+                                    style={{ width: `${width}%`, backgroundColor: eco.color }}
+                                  />
+                                </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {recommended && (

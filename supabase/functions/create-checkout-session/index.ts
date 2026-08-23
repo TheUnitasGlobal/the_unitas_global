@@ -8,7 +8,7 @@
 // calls this function. Do not wire new UI to it.
 //
 // Creates a Stripe Checkout Session (subscription mode) for one of the five
-// THE UNITAS GLOBAL OÜ modules and returns its hosted URL for the browser to
+// UNITAS modules and returns its hosted URL for the browser to
 // redirect to.
 //
 // Why this has to live server-side (and not in index.html):

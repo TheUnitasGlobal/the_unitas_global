@@ -1,4 +1,4 @@
-// THE UNITAS GLOBAL -- coin-core Rev 0 soundscape engine.
+// UNITAS -- coin-core Rev 0 soundscape engine.
 //
 // Native Web Audio API only, no library and no binary audio assets: every
 // sound is synthesized on the fly (oscillator blips for module hovers,
