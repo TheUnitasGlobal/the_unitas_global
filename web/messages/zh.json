@@ -1,0 +1,204 @@
+{
+  "LocaleLayout": {
+    "title": "THE UNITAS GLOBAL OÜ | 神经符号安全基础设施"
+  },
+  "Nav": {
+    "portal": "安全门户",
+    "languageLabel": "语言",
+    "soundOn": "声音开启",
+    "soundOff": "声音关闭"
+  },
+  "Home": {
+    "title": "THE UNITAS"
+  },
+  "Modules": {
+    "uSignature": {
+      "title": "U-Signature",
+      "description": "主权生物识别与加密签名层。"
+    },
+    "uKey": {
+      "title": "U-Key",
+      "description": "零信任密钥托管与访问控制。"
+    },
+    "uPay": {
+      "title": "U-Pay",
+      "description": "主权财政路由与结算通道。"
+    },
+    "arche": {
+      "title": "Arche",
+      "description": "高级认知过滤与神经符号精炼。"
+    },
+    "arena": {
+      "title": "Arena",
+      "description": "预测性压力测试与完整性验证。"
+    },
+    "score": {
+      "title": "Score",
+      "description": "\"认知法则\" 全球情报分析。"
+    },
+    "fate": {
+      "title": "Fate",
+      "description": "用于全球资产路由的随机模拟。"
+    },
+    "codex22": {
+      "title": "Codex22",
+      "description": "算法法律永久登记处。"
+    }
+  },
+  "Placeholder": {
+    "comingSoon": "此模块正处于脚手架阶段，目前正在积极建设中。"
+  },
+  "Wallet": {
+    "balance": "余额",
+    "coinUnit": "U-COIN",
+    "chargeCoins": "充值代币",
+    "signInRequired": "登录后即可查看实时余额",
+    "chargeTitle": "充值 U-COIN",
+    "chargeBody": "该门户的代币购买结账功能即将推出。在此之前，请前往主安全门户充值余额。",
+    "close": "关闭",
+    "currencyNote": "1 U-COIN = 1 欧元（EUR）（结账时自动转换为当地货币）。"
+  },
+  "Cognitive": {
+    "title": "认知生态系统",
+    "subtitle": "11 个人工认知模块，各自运行独立的推理机制。"
+  },
+  "B2C": {
+    "title": "实时消费者服务",
+    "subtitle": "即时接入、代币门控的模块，配备互动任务与模拟体验。",
+    "badgeLive": "实时服务",
+    "badgeCoinGated": "代币门控",
+    "badgeQuest": "互动任务",
+    "cost": "费用",
+    "yourBalance": "您的余额",
+    "enterQuest": "进入任务",
+    "insufficientBalance": "余额不足 -- 请先充值代币再进入。",
+    "checkingBalance": "正在检查余额..."
+  },
+  "B2B": {
+    "title": "企业级协议",
+    "subtitle": "正在积极研发中的主权基础设施。",
+    "rdNotice": "企业专属 B2B 协议正在积极研发中（Enterprise SaaS Subscription）。",
+    "patentBadge": "USPTO 专利申请中 #64/023,911",
+    "viewSpec": "查看技术规格",
+    "hideSpec": "隐藏技术规格",
+    "earlyAccess": "抢先体验 / 企业咨询",
+    "inquiryTitle": "申请抢先体验",
+    "inquiryName": "姓名",
+    "inquiryEmail": "工作邮箱",
+    "inquiryCompany": "公司名称",
+    "inquiryMessage": "您想构建什么样的项目？",
+    "inquirySubmit": "提交咨询",
+    "inquiryThanksTitle": "已收到您的请求",
+    "inquiryThanksBody": "感谢您的咨询 -- 我们的企业团队将尽快与您联系。",
+    "close": "关闭"
+  },
+  "ErrorBoundary": {
+    "title": "主权核心错误",
+    "body": "主权基础设施层发生严重故障。出于安全合规要求，此处不显示更多详细信息 -- 我们的系统已收到通知。",
+    "digestLabel": "参考编号：",
+    "retry": "重试",
+    "home": "返回门户"
+  },
+  "Ecosystems": {
+    "echo": {
+      "title": "Echo",
+      "description": "共振信号分析，通过层层认知回声将您的问题反射回来。",
+      "rules": "每个查询在答案浮现前都会经历三次反射循环。"
+    },
+    "void": {
+      "title": "Void",
+      "description": "将问题剥离至其负空间 -- 不是存在的东西，而是缺失的东西。",
+      "rules": "提交一个论点；Void 只返回能击破它的部分。"
+    },
+    "mirror": {
+      "title": "Mirror",
+      "description": "对行为与认知模式进行全谱自我诊断扫描。",
+      "rules": "每次会话一次扫描；结果仅密封于您的身份。"
+    },
+    "oracle": {
+      "title": "Oracle",
+      "description": "面向长期且不确定决策的概率性预见建模。",
+      "rules": "一次只问一个问题；Oracle 只以概率作答，从不给出定论。"
+    },
+    "pulse": {
+      "title": "Pulse",
+      "description": "市场、情绪与动能的实时生命体征 -- 在其变动之前先行读取。",
+      "rules": "实时数据流；每次会话仅监控一个信号。"
+    },
+    "apex": {
+      "title": "Apex",
+      "description": "在严酷倒计时下进行的高风险性能模拟。",
+      "rules": "计时器不会暂停。未在归零前提交，本次运行将被没收。"
+    },
+    "genesis": {
+      "title": "Genesis",
+      "description": "第一性原理构建：仅凭公理从零搭建一个想法。",
+      "rules": "从零假设开始；Genesis 会拒绝任何无法推导的前提。"
+    },
+    "syndicate": {
+      "title": "Syndicate",
+      "description": "跨越隐藏影响力与关联网络的联盟关系映射。",
+      "rules": "访问需指定目标实体；结果是网络图谱，而非结论。"
+    },
+    "aura": {
+      "title": "Aura",
+      "description": "调谐至您言语背后语气的环境情绪场感知。",
+      "rules": "没有直接提问 -- Aura 读取的是语气，而非文字。"
+    },
+    "paradox": {
+      "title": "Paradox",
+      "description": "通过逆向运行其自身逻辑对一个结论进行压力测试。",
+      "rules": "提交一个结论；Paradox 会将其倒带，找出自相矛盾之处。"
+    },
+    "chronos": {
+      "title": "Chronos",
+      "description": "跨越数十年而非头条新闻的长周期历史模式建模。",
+      "rules": "最短查询时间跨度：十年。Chronos 不回答当日问题。"
+    }
+  },
+  "OmniSynapse": {
+    "placeholder": "向 OMNI AI 提出任何问题...",
+    "architectLabel": "UNITAS ARCHITECT",
+    "analyzing": "正在跨四个维度进行分析...",
+    "dimDirectionality": "方向性",
+    "dimConcept": "概念／意识形态",
+    "dimTendency": "用户倾向",
+    "dimBlueprint": "蓝图",
+    "webDataLabel": "网络综合层",
+    "webDataPlaceholder": "连接实时索引以填充此维度。",
+    "ecosystemDataLabel": "生态系统数据",
+    "trendsLabel": "全球潜意识趋势",
+    "trendsPlaceholder": "此版本尚未接入聚合趋势遥测数据。",
+    "recommendationLabel": "推荐生态系统",
+    "enterRecommended": "进入推荐生态系统",
+    "noResults": "未找到匹配的生态系统 -- 请尝试其他表述。"
+  },
+  "EntryModal": {
+    "rulesLabel": "参与规则",
+    "payAndEnter": "支付并进入",
+    "processing": "正在授权主权访问..."
+  },
+  "Footer": {
+    "customerService": "客户服务",
+    "helpCenter": "帮助中心",
+    "contactUs": "联系我们",
+    "systemStatus": "系统状态",
+    "policies": "政策",
+    "privacyPolicy": "隐私政策",
+    "cookiePolicy": "Cookie 政策",
+    "termsOfService": "服务条款",
+    "legal": "法律信息",
+    "patentNotice": "专利声明",
+    "compliance": "合规",
+    "security": "安全",
+    "company": "公司",
+    "about": "关于我们",
+    "careers": "招聘",
+    "press": "新闻"
+  },
+  "AudioGate": {
+    "title": "唤醒奇点",
+    "subtitle": "解锁深空环境音轨与神经界面音效提示。",
+    "skip": "继续（不开启声音）"
+  }
+}

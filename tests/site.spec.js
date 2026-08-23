@@ -20,9 +20,9 @@ test.describe('THE UNITAS GLOBAL OÜ site', () => {
     expect(consoleErrors, `Console errors: ${consoleErrors.join('; ')}`).toEqual([]);
   });
 
-  test('renders all 5 modules with subscribe buttons', async ({ page }) => {
+  test('renders all 5 modules with coin-cost access buttons', async ({ page }) => {
     await page.goto(fileUrl);
-    await expect(page.locator('#modules button:has-text("SUBSCRIBE")')).toHaveCount(5);
+    await expect(page.locator('#modules button:has-text("ENTER MODULE")')).toHaveCount(5);
   });
 
   test('keeps the language selector compact and centers the main header and footer', async ({ page }) => {
@@ -139,16 +139,16 @@ test.describe('THE UNITAS GLOBAL OÜ site', () => {
     await expect(page.locator('h2', { hasText: '5대 전략 비즈니스 모듈' })).toBeVisible();
   });
 
-  test('subscribing while signed out prompts sign-in instead of hitting Stripe', async ({ page }) => {
+  test('entering a module while signed out prompts sign-in instead of spending coins', async ({ page }) => {
     await page.goto(fileUrl);
     let alertText = '';
     page.on('dialog', async (dialog) => {
       alertText = dialog.message();
       await dialog.dismiss();
     });
-    await page.locator('#modules button:has-text("SUBSCRIBE")').first().click();
+    await page.locator('#modules button:has-text("ENTER MODULE")').first().click();
     await expect.poll(() => alertText).toContain('Sovereign Secure Portal');
-    // Should not have called the checkout-session Edge Function without a session.
+    // Should not have called the spend_coins RPC without a session.
     await expect(page.locator('#portal')).toBeInViewport();
   });
 

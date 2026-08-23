@@ -9,3 +9,5 @@
 - Never expose `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, or `PRICE_ID_*` in browser code.
 - Do not hand-edit generated files under `pages/` or `site-dist/`.
 - Keep API keys in environment variables or VS Code secret storage only.
+- Module access is gated by coin balance (`spend_coins` RPC), not Stripe subscriptions. `create-checkout-session`/`public.subscriptions` are deprecated and dormant — do not wire new UI to them.
+- New coin purchases go through `create-coin-checkout-session` (one-time Stripe payment); never let the browser dictate a coin amount or Price ID.

@@ -2,31 +2,36 @@
   {
     "key": "Arche",
     "slug": "arche",
-    "priceLabel": "$29/mo",
+    "coinCost": 300,
+    "priceLabel": "300 U-COIN",
     "description": "Advanced Cognitive Filtering & Neural-Symbolic Refinement"
   },
   {
     "key": "Arena",
     "slug": "arena",
-    "priceLabel": "$49/mo",
+    "coinCost": 500,
+    "priceLabel": "500 U-COIN",
     "description": "Predictive Stress-Testing & Integrity Validation"
   },
   {
     "key": "Score",
     "slug": "score",
-    "priceLabel": "$39/mo",
+    "coinCost": 400,
+    "priceLabel": "400 U-COIN",
     "description": "Law of Cog Global Intelligence Analytics"
   },
   {
     "key": "Fate",
     "slug": "fate",
-    "priceLabel": "$99/mo",
+    "coinCost": 1000,
+    "priceLabel": "1000 U-COIN",
     "description": "Stochastic Simulation for Global Asset Routing"
   },
   {
     "key": "Codex22",
     "slug": "codex22",
-    "priceLabel": "$199/mo",
+    "coinCost": 2000,
+    "priceLabel": "2000 U-COIN",
     "description": "The Permanent Registry of Algorithmic Law"
   }
 ]

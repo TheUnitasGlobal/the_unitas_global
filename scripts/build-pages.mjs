@@ -34,27 +34,30 @@ const renderPage = (module) => `<!doctype html>
       <h1 class="text-4xl md:text-6xl font-bold text-white mt-4">${escapeHtml(module.key)}</h1>
       <p class="text-gray-400 leading-relaxed mt-6">${escapeHtml(module.description)}</p>
       <p class="text-yellow-400 text-xl mt-8">${escapeHtml(module.priceLabel)}</p>
-      <button id="checkout-button" type="button" class="mt-10 w-full border border-yellow-400 bg-yellow-400/10 py-4 text-yellow-300 tracking-widest hover:bg-yellow-400 hover:text-black transition-colors">
-        START SECURE CHECKOUT
+      <button id="access-button" type="button" class="mt-10 w-full border border-yellow-400 bg-yellow-400/10 py-4 text-yellow-300 tracking-widest hover:bg-yellow-400 hover:text-black transition-colors">
+        SPEND COINS &amp; ENTER
       </button>
-      <p id="checkout-message" class="text-xs text-gray-500 mt-4" role="status"></p>
+      <p id="access-message" class="text-xs text-gray-500 mt-4" role="status"></p>
     </section>
   </main>
   <script>
     const SUPABASE_URL = ${JSON.stringify(process.env.SUPABASE_URL || publicConfig.supabaseUrl)};
     const SUPABASE_ANON_KEY = ${JSON.stringify(process.env.SUPABASE_ANON_KEY || publicConfig.supabaseAnonKey)};
     const MODULE = ${JSON.stringify(module.key)};
-    const button = document.getElementById('checkout-button');
-    const message = document.getElementById('checkout-message');
+    const COIN_COST = ${JSON.stringify(module.coinCost)};
+    const button = document.getElementById('access-button');
+    const message = document.getElementById('access-message');
     const client = SUPABASE_ANON_KEY ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
+    // Button-triggered, not on bare page load -- a reload must not re-spend
+    // coins for a page the user has already paid to enter this session.
     button.addEventListener('click', async () => {
       if (!client) {
         message.textContent = 'Supabase browser configuration is missing.';
         return;
       }
       button.disabled = true;
-      message.textContent = 'Creating secure checkout session...';
+      message.textContent = 'Checking balance and spending coins...';
       try {
         const { data: sessionData, error: sessionError } = await client.auth.getSession();
         if (sessionError) throw sessionError;
@@ -63,12 +66,20 @@ const renderPage = (module) => `<!doctype html>
           window.location.assign('../index.html#portal');
           return;
         }
-        const { data, error } = await client.functions.invoke('create-checkout-session', { body: { module: MODULE } });
-        if (error || !data?.url) throw error || new Error('Checkout URL was not returned');
-        window.location.assign(data.url);
+        const { error } = await client.rpc('spend_coins', { p_module: MODULE, p_amount: COIN_COST });
+        if (error) {
+          if (String(error.message || '').includes('Insufficient balance')) {
+            message.textContent = 'Insufficient U-COIN balance. Buy more coins on the secure portal.';
+          } else {
+            throw error;
+          }
+          return;
+        }
+        message.textContent = 'Access granted.';
+        button.textContent = 'ENTERED';
       } catch (error) {
-        console.error('Checkout error:', error);
-        message.textContent = 'Unable to start secure checkout. Please try again.';
+        console.error('Module access error:', error);
+        message.textContent = 'Unable to spend coins for this module. Please try again.';
       } finally {
         button.disabled = false;
       }

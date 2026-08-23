@@ -4,8 +4,9 @@ Before changing business, localization, automation, Supabase, or Stripe behavior
 
 The archive is an operational baseline, not a legal or payment secret store. Preserve these invariants:
 
-- `config/modules.json` is the source of truth for revenue modules.
-- Browser checkout sends only a module name to `create-checkout-session`.
+- `config/modules.json` is the source of truth for revenue modules (`coinCost` is the canonical per-access price).
+- Module access is gated by the `spend_coins` Postgres RPC (coin balance debit), not by Stripe subscriptions. `create-checkout-session`/`public.subscriptions` are deprecated and dormant.
+- Coin purchases send only a bundle name to `create-coin-checkout-session`; browser never sends a coin amount or Price ID.
 - Stripe secrets and Price IDs stay in Supabase secrets.
 - Keep the 40 supported language codes and global LTR layout contract.
 - Do not invent missing Sovereign Codex 22 module names.

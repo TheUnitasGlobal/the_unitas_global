@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: #030305;
+  color: #e2e8f0;
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.glow-box {
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Main title "breathing" pulse -- THE UNITAS */
+@keyframes title-breathe {
+  0%, 100% { transform: scale(1); text-shadow: 0 0 30px rgba(212, 175, 55, 0.45), 0 0 70px rgba(0, 243, 255, 0.15); }
+  50% { transform: scale(1.025); text-shadow: 0 0 50px rgba(212, 175, 55, 0.7), 0 0 100px rgba(0, 243, 255, 0.3); }
+}
+.title-breathe {
+  animation: title-breathe 4.5s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* Click shockwave ring (see components/effects/Shockwave.tsx) */
+@keyframes shockwave-ring {
+  0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0.9; border-width: 3px; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; border-width: 1px; }
+}
+
+/* Global camera-shake, toggled briefly on the html root on ecosystem-card click */
+@keyframes camera-shake {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, 2px); }
+  80% { transform: translate(1px, -2px); }
+}
+.camera-shake {
+  animation: camera-shake 0.35s ease-in-out;
+}

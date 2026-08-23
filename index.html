@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,10 @@
     <title>THE UNITAS GLOBAL OÜ | Neural-Symbolic Secure Infrastructure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="assets/js/soundscape.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=JetBrains+Mono:wght@300;400;700&display=swap"
+        rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -28,27 +32,163 @@
         }
     </script>
     <style>
-        html, body { direction: ltr !important; text-align: left !important; }
-        body, body * { direction: ltr !important; text-align: left !important; }
-        body { background-color: #030305; color: #e2e8f0; font-family: 'JetBrains Mono', monospace; overflow-x: hidden; }
-        .responsive-container { width: calc(100% - 2rem); max-width: 1200px !important; box-sizing: border-box; margin-inline: auto; }
-        .lang-select { width: 11rem; max-width: min(100%, 11rem); }
-        .hero-header, .site-footer { display: flex; flex-direction: column; align-items: center; margin-inline: auto; text-align: center !important; }
-        .hero-header *, .site-footer * { text-align: center !important; }
-        .hero-header h1 { margin-inline: auto; }
-        .section-heading { width: 100%; margin-inline: auto; text-align: center !important; }
-        .section-heading > * { text-align: center !important; margin-inline: auto; }
-        .glow-text { text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
-        .glow-box { box-shadow: 0 0 30px rgba(0, 243, 255, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); }
-        .quantum-grid { background-image: radial-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px); background-size: 40px 40px; }
-        .scroll-box { max-height: 90px; overflow-y: scroll; border: 1px solid rgba(255,255,255,0.1); padding: 8px; font-size: 10px; background: #030305; color: #94a3b8; margin-bottom: 8px; }
-        #lang-select option { background-color: #0f1016; color: #e2e8f0; }
+        html,
+        body {
+            direction: ltr !important;
+            text-align: left !important;
+        }
+
+        body,
+        body * {
+            direction: ltr !important;
+            text-align: left !important;
+        }
+
+        body {
+            background-color: #030305;
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            overflow-x: hidden;
+        }
+
+        .responsive-container {
+            width: calc(100% - 2rem);
+            max-width: 1200px !important;
+            box-sizing: border-box;
+            margin-inline: auto;
+        }
+
+        .lang-select {
+            width: 11rem;
+            max-width: min(100%, 11rem);
+        }
+
+        .hero-header,
+        .site-footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-inline: auto;
+            text-align: center !important;
+        }
+
+        .hero-header *,
+        .site-footer * {
+            text-align: center !important;
+        }
+
+        .hero-header h1 {
+            margin-inline: auto;
+        }
+
+        .section-heading {
+            width: 100%;
+            margin-inline: auto;
+            text-align: center !important;
+        }
+
+        .section-heading>* {
+            text-align: center !important;
+            margin-inline: auto;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .glow-box {
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .quantum-grid {
+            background-image: radial-gradient(rgba(212, 175, 55, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .scroll-box {
+            max-height: 90px;
+            overflow-y: scroll;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            font-size: 10px;
+            background: #030305;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        #lang-select option {
+            background-color: #0f1016;
+            color: #e2e8f0;
+        }
+
+        /* Frosted glass neural lock UI (pre-auth gate) */
+        .neural-lock {
+            position: relative;
+            background: rgba(15, 16, 22, 0.45);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            -webkit-backdrop-filter: blur(18px) saturate(140%);
+            backdrop-filter: blur(18px) saturate(140%);
+            box-shadow: 0 0 60px rgba(0, 243, 255, 0.08), inset 0 0 40px rgba(212, 175, 55, 0.04);
+        }
+
+        .neural-lock-glyph {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1.25rem;
+            display: block;
+            filter: drop-shadow(0 0 12px rgba(0, 243, 255, 0.5));
+            animation: neural-lock-pulse 3.2s ease-in-out infinite;
+        }
+
+        .neural-lock-glyph circle,
+        .neural-lock-glyph path {
+            vector-effect: non-scaling-stroke;
+        }
+
+        @keyframes neural-lock-pulse {
+
+            0%,
+            100% {
+                opacity: 0.75;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
     </style>
 </head>
+
 <body class="quantum-grid min-h-screen selection:bg-accent selection:text-void">
 
+    <!-- Quantum wormhole cinematic intro (first visit only per session) -->
+    <script>
+            (function () {
+                if (sessionStorage.getItem('unitas_intro_seen')) return;
+                var overlay = document.createElement('div');
+                overlay.id = 'wormhole-intro';
+                overlay.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#030305;display:flex;align-items:center;justify-content:center;transition:opacity .6s ease;';
+                overlay.innerHTML =
+                    '<canvas id="wormhole-canvas" style="width:100%;height:100%;display:block;"></canvas>' +
+                    '<div id="wormhole-entrance-text" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;pointer-events:none;">' +
+                    '<p data-i18n="hero_eyebrow" style="color:#d4af37;font-family:\'JetBrains Mono\',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;margin:0 0 16px;">USPTO Patent Pending #64/023,911 | Zero-Trust Sovereign Ecosystem</p>' +
+                    '<p style="color:#fff;font-family:\'Cinzel\',serif;font-weight:700;letter-spacing:.05em;font-size:clamp(28px,5vw,56px);text-shadow:0 0 20px rgba(212,175,55,.4);margin:0 0 16px;">THE UNITAS GLOBAL RESEARCH INSTITUTE</p>' +
+                    '<p data-i18n="hero_tagline" style="color:#94a3b8;font-family:\'JetBrains Mono\',monospace;font-size:13px;font-weight:300;max-width:520px;margin:0;">[Autonomous Neural-Symbolic &amp; Sovereign Fiscal Routing Infrastructure]</p>' +
+                    '</div>' +
+                    '<button id="wormhole-skip" style="position:absolute;bottom:24px;right:24px;padding:8px 16px;background:transparent;border:1px solid #d4af37;color:#d4af37;font-family:monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;">Skip</button>';
+                document.body.appendChild(overlay);
+                var script = document.createElement('script');
+                script.src = 'assets/js/wormhole-intro.js';
+                document.body.appendChild(script);
+            })();
+    </script>
+
     <!-- Top Navigation Bar -->
-    <nav class="fixed top-0 left-0 w-full z-50 bg-void/80 backdrop-blur-md border-b border-accent/20 px-6 py-4 flex justify-between items-center">
+    <nav
+        class="fixed top-0 left-0 w-full z-50 bg-void/80 backdrop-blur-md border-b border-accent/20 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center space-x-3">
             <div class="w-3 h-3 bg-accent rounded-full animate-pulse"></div>
             <span class="font-serif tracking-widest text-accent text-sm font-bold">THE UNITAS GLOBAL OÜ</span>
@@ -58,7 +198,10 @@
                 <a href="#modules" class="hover:text-accent transition-colors" data-i18n="nav_modules">5-MODULES</a>
                 <a href="#portal" class="text-accent font-bold hover:underline" data-i18n="nav_portal">SECURE PORTAL</a>
             </div>
-            <select id="lang-select" onchange="setLanguage(this.value)" aria-label="Language selector" class="lang-select bg-void border border-accent/40 text-accent text-[10px] tracking-widest px-2 py-1.5 uppercase font-bold cursor-pointer focus:outline-none focus:border-accent hover:border-accent transition-colors">
+            <button id="audio-toggle" onclick="toggleAudioMuted()" aria-label="Toggle sound"
+                class="w-8 h-8 flex items-center justify-center border border-accent/40 text-accent text-xs hover:border-accent transition-colors">🔇</button>
+            <select id="lang-select" onchange="setLanguage(this.value)" aria-label="Language selector"
+                class="lang-select bg-void border border-accent/40 text-accent text-[10px] tracking-widest px-2 py-1.5 uppercase font-bold cursor-pointer focus:outline-none focus:border-accent hover:border-accent transition-colors">
                 <option value="en">EN</option>
                 <option value="ko">KO</option>
                 <option value="ja">JA</option>
@@ -72,11 +215,13 @@
         <div class="absolute inset-0 -z-10 flex items-center justify-center opacity-10">
             <div class="w-[600px] h-[600px] rounded-full bg-gradient-to-tr from-accent to-neon blur-3xl"></div>
         </div>
-        <p class="text-xs uppercase tracking-[0.3em] text-accent mb-4" data-i18n="hero_eyebrow">USPTO Patent Pending #64/023,911 | Zero-Trust Sovereign Ecosystem</p>
+        <p class="text-xs uppercase tracking-[0.3em] text-accent mb-4" data-i18n="hero_eyebrow">USPTO Patent Pending
+            #64/023,911 | Zero-Trust Sovereign Ecosystem</p>
         <h1 class="font-serif text-4xl md:text-6xl font-bold tracking-wider mb-6 glow-text text-white">
             THE UNITAS GLOBAL RESEARCH INSTITUTE
         </h1>
-        <p class="text-sm md:text-base text-gray-400 max-w-3xl mx-auto font-light leading-relaxed mb-10" data-i18n="hero_tagline">
+        <p class="text-sm md:text-base text-gray-400 max-w-3xl mx-auto font-light leading-relaxed mb-10"
+            data-i18n="hero_tagline">
             [Autonomous Neural-Symbolic & Sovereign Fiscal Routing Infrastructure]
         </p>
     </header>
@@ -84,55 +229,92 @@
     <!-- 5 Business Modules & Stripe Checkout -->
     <section id="modules" class="responsive-container py-20 px-6 max-w-6xl mx-auto border-t border-white/10">
         <div class="section-heading">
-            <h2 class="font-serif text-2xl text-accent mb-4 tracking-widest text-center" data-i18n="modules_heading">5 STRATEGIC BUSINESS MODULES</h2>
-            <p class="text-center text-xs text-gray-400 mb-12" data-i18n="modules_sub">Select your module and initialize global recurring subscription via Stripe Gateway.</p>
+            <h2 class="font-serif text-2xl text-accent mb-4 tracking-widest text-center" data-i18n="modules_heading">5
+                STRATEGIC BUSINESS MODULES</h2>
+            <p class="text-center text-xs text-gray-400 mb-12" data-i18n="modules_sub">Select your module and spend
+                U-COIN to initialize secure access.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
                 <div>
-                    <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> I</span>
+                    <span class="text-[10px] text-neon tracking-widest uppercase"><span
+                            data-i18n="word_module">Module</span> I</span>
+                    <span id="badge-Arche" class="ml-2 text-[10px] tracking-widest uppercase hidden"></span>
                     <h3 class="font-bold text-white text-lg mt-1 mb-2">Arche</h3>
-                    <p class="text-xs text-gray-400 mb-6" data-i18n="module1_desc">[Advanced Cognitive Filtering & Neural-Symbolic Refinement]</p>
-                    <a href="pages/arche.html" class="block text-[10px] text-neon hover:underline mb-3" data-i18n="learn_more">Learn More</a>
+                    <p class="text-xs text-gray-400 mb-6" data-i18n="module1_desc">[Advanced Cognitive Filtering &
+                        Neural-Symbolic Refinement]</p>
+                    <a href="pages/arche.html" class="block text-[10px] text-neon hover:underline mb-3"
+                        data-i18n="learn_more">Learn More</a>
                 </div>
-                <button onclick="triggerCheckout('Arche')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($29/mo)</button>
+                <button id="access-btn-Arche" onclick="triggerModuleAccess('Arche')"
+                    class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span
+                        data-i18n="enter_module">ENTER MODULE</span> (300 <span
+                        data-i18n="coin_unit">U-COIN</span>)</button>
             </div>
             <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
                 <div>
-                    <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> II</span>
+                    <span class="text-[10px] text-neon tracking-widest uppercase"><span
+                            data-i18n="word_module">Module</span> II</span>
+                    <span id="badge-Arena" class="ml-2 text-[10px] tracking-widest uppercase hidden"></span>
                     <h3 class="font-bold text-white text-lg mt-1 mb-2">Arena</h3>
-                    <p class="text-xs text-gray-400 mb-6" data-i18n="module2_desc">[Predictive Stress-Testing & Integrity Validation]</p>
-                    <a href="pages/arena.html" class="block text-[10px] text-neon hover:underline mb-3" data-i18n="learn_more">Learn More</a>
+                    <p class="text-xs text-gray-400 mb-6" data-i18n="module2_desc">[Predictive Stress-Testing &
+                        Integrity Validation]</p>
+                    <a href="pages/arena.html" class="block text-[10px] text-neon hover:underline mb-3"
+                        data-i18n="learn_more">Learn More</a>
                 </div>
-                <button onclick="triggerCheckout('Arena')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($49/mo)</button>
+                <button id="access-btn-Arena" onclick="triggerModuleAccess('Arena')"
+                    class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span
+                        data-i18n="enter_module">ENTER MODULE</span> (500 <span
+                        data-i18n="coin_unit">U-COIN</span>)</button>
             </div>
             <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
                 <div>
-                    <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> III</span>
+                    <span class="text-[10px] text-neon tracking-widest uppercase"><span
+                            data-i18n="word_module">Module</span> III</span>
+                    <span id="badge-Score" class="ml-2 text-[10px] tracking-widest uppercase hidden"></span>
                     <h3 class="font-bold text-white text-lg mt-1 mb-2">Score</h3>
-                    <p class="text-xs text-gray-400 mb-6" data-i18n="module3_desc">['Law of Cog' Global Intelligence Analytics]</p>
-                    <a href="pages/score.html" class="block text-[10px] text-neon hover:underline mb-3" data-i18n="learn_more">Learn More</a>
+                    <p class="text-xs text-gray-400 mb-6" data-i18n="module3_desc">['Law of Cog' Global Intelligence
+                        Analytics]</p>
+                    <a href="pages/score.html" class="block text-[10px] text-neon hover:underline mb-3"
+                        data-i18n="learn_more">Learn More</a>
                 </div>
-                <button onclick="triggerCheckout('Score')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($39/mo)</button>
+                <button id="access-btn-Score" onclick="triggerModuleAccess('Score')"
+                    class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span
+                        data-i18n="enter_module">ENTER MODULE</span> (400 <span
+                        data-i18n="coin_unit">U-COIN</span>)</button>
             </div>
             <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between">
                 <div>
-                    <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> IV</span>
+                    <span class="text-[10px] text-neon tracking-widest uppercase"><span
+                            data-i18n="word_module">Module</span> IV</span>
+                    <span id="badge-Fate" class="ml-2 text-[10px] tracking-widest uppercase hidden"></span>
                     <h3 class="font-bold text-white text-lg mt-1 mb-2">Fate</h3>
-                    <p class="text-xs text-gray-400 mb-6" data-i18n="module4_desc">[Stochastic Simulation for Global Asset Routing]</p>
-                    <a href="pages/fate.html" class="block text-[10px] text-neon hover:underline mb-3" data-i18n="learn_more">Learn More</a>
+                    <p class="text-xs text-gray-400 mb-6" data-i18n="module4_desc">[Stochastic Simulation for Global
+                        Asset Routing]</p>
+                    <a href="pages/fate.html" class="block text-[10px] text-neon hover:underline mb-3"
+                        data-i18n="learn_more">Learn More</a>
                 </div>
-                <button onclick="triggerCheckout('Fate')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($99/mo)</button>
+                <button id="access-btn-Fate" onclick="triggerModuleAccess('Fate')"
+                    class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span
+                        data-i18n="enter_module">ENTER MODULE</span> (1000 <span
+                        data-i18n="coin_unit">U-COIN</span>)</button>
             </div>
             <div class="glow-box p-6 bg-quantum/60 flex flex-col justify-between md:col-span-2 lg:col-span-1">
                 <div>
-                    <span class="text-[10px] text-neon tracking-widest uppercase"><span data-i18n="word_module">Module</span> V</span>
+                    <span class="text-[10px] text-neon tracking-widest uppercase"><span
+                            data-i18n="word_module">Module</span> V</span>
+                    <span id="badge-Codex22" class="ml-2 text-[10px] tracking-widest uppercase hidden"></span>
                     <h3 class="font-bold text-white text-lg mt-1 mb-2">Codex22</h3>
-                    <p class="text-xs text-gray-400 mb-6" data-i18n="module5_desc">[The Permanent Registry of Algorithmic Law]</p>
-                    <a href="pages/codex22.html" class="block text-[10px] text-neon hover:underline mb-3" data-i18n="learn_more">Learn More</a>
+                    <p class="text-xs text-gray-400 mb-6" data-i18n="module5_desc">[The Permanent Registry of
+                        Algorithmic Law]</p>
+                    <a href="pages/codex22.html" class="block text-[10px] text-neon hover:underline mb-3"
+                        data-i18n="learn_more">Learn More</a>
                 </div>
-                <button onclick="triggerCheckout('Codex22')" class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span data-i18n="subscribe">SUBSCRIBE</span> ($199/mo)</button>
+                <button id="access-btn-Codex22" onclick="triggerModuleAccess('Codex22')"
+                    class="w-full py-2 bg-accent/20 border border-accent text-accent text-xs tracking-widest hover:bg-accent hover:text-void transition-all font-bold"><span
+                        data-i18n="enter_module">ENTER MODULE</span> (2000 <span
+                        data-i18n="coin_unit">U-COIN</span>)</button>
             </div>
         </div>
     </section>
@@ -140,48 +322,73 @@
     <!-- Secure User Portal (Auth-Gated) -->
     <section id="portal" class="responsive-container py-20 px-6 max-w-4xl mx-auto border-t border-white/10">
         <div class="section-heading">
-            <h2 class="font-serif text-2xl text-accent mb-4 tracking-widest text-center" data-i18n="portal_heading">SOVEREIGN SECURE PORTAL</h2>
-            <p class="text-center text-xs text-gray-400 mb-10" data-i18n="portal_sub">Authentication required to decrypt sovereign identity parameters.</p>
+            <h2 class="font-serif text-2xl text-accent mb-4 tracking-widest text-center" data-i18n="portal_heading">
+                SOVEREIGN SECURE PORTAL</h2>
+            <p class="text-center text-xs text-gray-400 mb-10" data-i18n="portal_sub">Authentication required to decrypt
+                sovereign identity parameters.</p>
         </div>
 
         <!-- Login / Register Container -->
-        <div id="auth-container" class="glow-box p-8 bg-quantum max-w-lg mx-auto">
-            <h3 id="form-title" class="text-xs uppercase tracking-widest text-accent mb-6 font-bold text-center" data-i18n="auth_title_signin">Sign In or Register</h3>
+        <div id="auth-container" class="neural-lock p-8 max-w-lg mx-auto">
+            <svg class="neural-lock-glyph" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <circle cx="32" cy="32" r="30" stroke="#d4af37" stroke-width="1" opacity="0.5" />
+                <circle cx="32" cy="32" r="22" stroke="#00f3ff" stroke-width="1" opacity="0.6" />
+                <path d="M20 30 V24 a12 12 0 0 1 24 0 v6" stroke="#d4af37" stroke-width="2.5" stroke-linecap="round" />
+                <rect x="16" y="30" width="32" height="22" rx="3" stroke="#00f3ff" stroke-width="2.5" />
+                <circle cx="32" cy="41" r="3.5" fill="#00f3ff" />
+            </svg>
+            <h3 id="form-title" class="text-xs uppercase tracking-widest text-accent mb-6 font-bold text-center"
+                data-i18n="auth_title_signin">Sign In or Register</h3>
 
             <form onsubmit="handleAuthAction(event)" class="space-y-4">
                 <div>
-                    <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_email">Email Address *</label>
-                    <input type="email" id="auth-email" required placeholder="user@example.com" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                    <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_email">Email Address
+                        *</label>
+                    <input type="email" id="auth-email" required placeholder="user@example.com"
+                        class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
                 </div>
                 <div>
-                    <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_password">Password *</label>
-                    <input type="password" id="auth-password" required placeholder="••••••••" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                    <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_password">Password
+                        *</label>
+                    <input type="password" id="auth-password" required placeholder="••••••••"
+                        class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
                 </div>
 
                 <!-- Expanded Register Fields (Hidden by default) -->
                 <div id="register-extra-fields" class="space-y-3 hidden border-t border-white/10 pt-4">
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_firstname">First Name *</label>
-                            <input type="text" id="reg-firstname" placeholder="John" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1"
+                                data-i18n="label_firstname">First Name *</label>
+                            <input type="text" id="reg-firstname" placeholder="John"
+                                class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
                         </div>
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_lastname">Last Name *</label>
-                            <input type="text" id="reg-lastname" placeholder="Doe" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1"
+                                data-i18n="label_lastname">Last Name *</label>
+                            <input type="text" id="reg-lastname" placeholder="Doe"
+                                class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_phone">Phone Number (Verification) *</label>
-                        <input type="text" id="reg-phone" placeholder="+1 (555) 000-0000" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                        <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_phone">Phone
+                            Number (Verification) *</label>
+                        <input type="text" id="reg-phone" placeholder="+1 (555) 000-0000"
+                            class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_nationality">Nationality *</label>
-                            <input type="text" id="reg-nationality" placeholder="United States" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1"
+                                data-i18n="label_nationality">Nationality *</label>
+                            <input type="text" id="reg-nationality" placeholder="United States"
+                                class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
                         </div>
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_gender">Gender *</label>
-                            <select id="reg-gender" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1"
+                                data-i18n="label_gender">Gender *</label>
+                            <select id="reg-gender"
+                                class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
                                 <option value="" data-i18n="opt_select_gender">Select Gender</option>
                                 <option value="Male" data-i18n="opt_male">Male</option>
                                 <option value="Female" data-i18n="opt_female">Female</option>
@@ -191,12 +398,16 @@
                     </div>
                     <div class="grid grid-cols-3 gap-2">
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_age">Age *</label>
-                            <input type="number" id="reg-age" placeholder="25" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_age">Age
+                                *</label>
+                            <input type="number" id="reg-age" placeholder="25"
+                                class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
                         </div>
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_blood">Blood Type *</label>
-                            <select id="reg-blood" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_blood">Blood
+                                Type *</label>
+                            <select id="reg-blood"
+                                class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
                                 <option value="" data-i18n="opt_select_blood">Select</option>
                                 <option value="A">A</option>
                                 <option value="B">B</option>
@@ -205,21 +416,29 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_mbti">MBTI *</label>
-                            <input type="text" id="reg-mbti" placeholder="ENTJ" class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
+                            <label class="block text-[10px] text-gray-400 uppercase mb-1" data-i18n="label_mbti">MBTI
+                                *</label>
+                            <input type="text" id="reg-mbti" placeholder="ENTJ"
+                                class="w-full bg-void border border-white/20 p-2 text-xs text-white focus:border-accent outline-none">
                         </div>
                     </div>
 
                     <!-- Scrollable Terms & Conditions -->
                     <div class="space-y-3 pt-2">
                         <div>
-                            <label class="block text-[10px] text-accent font-bold mb-1" data-i18n="terms_title">1. Terms & Conditions (Must scroll to bottom to unlock)</label>
-                            <div id="scroll-box-1" onscroll="checkScroll(1)" class="scroll-box" data-i18n-html="terms_body">
+                            <label class="block text-[10px] text-accent font-bold mb-1" data-i18n="terms_title">1. Terms
+                                & Conditions (Must scroll to bottom to unlock)</label>
+                            <div id="scroll-box-1" onscroll="checkScroll(1)" class="scroll-box"
+                                data-i18n-html="terms_body">
                                 [THE UNITAS GLOBAL OÜ - Terms & Conditions]<br>
-                                Article 1 (Purpose): These terms define the rules for using the sovereign neural-symbolic infrastructure and associated business modules.<br>
-                                Article 2 (Compliance): Users must maintain absolute data integrity and secure behavior protocols.<br>
-                                Article 3 (Liability): The corporation holds zero liability for improper asset routing or autonomous algorithmic decisions.<br>
-                                Article 4 (Jurisdiction): Governed by Estonian and international digital regulatory frameworks. (Scroll down to unlock agreement)
+                                Article 1 (Purpose): These terms define the rules for using the sovereign
+                                neural-symbolic infrastructure and associated business modules.<br>
+                                Article 2 (Compliance): Users must maintain absolute data integrity and secure behavior
+                                protocols.<br>
+                                Article 3 (Liability): The corporation holds zero liability for improper asset routing
+                                or autonomous algorithmic decisions.<br>
+                                Article 4 (Jurisdiction): Governed by Estonian and international digital regulatory
+                                frameworks. (Scroll down to unlock agreement)
                             </div>
                             <label class="flex items-center space-x-2 text-[10px] text-gray-400 cursor-pointer">
                                 <input type="checkbox" id="check-terms" disabled class="accent-accent">
@@ -228,27 +447,37 @@
                         </div>
 
                         <div>
-                            <label class="block text-[10px] text-accent font-bold mb-1" data-i18n="privacy_title">2. Privacy & Data Consent (Must scroll to bottom to unlock)</label>
-                            <div id="scroll-box-2" onscroll="checkScroll(2)" class="scroll-box" data-i18n-html="privacy_body">
+                            <label class="block text-[10px] text-accent font-bold mb-1" data-i18n="privacy_title">2.
+                                Privacy & Data Consent (Must scroll to bottom to unlock)</label>
+                            <div id="scroll-box-2" onscroll="checkScroll(2)" class="scroll-box"
+                                data-i18n-html="privacy_body">
                                 [Privacy & Sovereign Data Consent]<br>
-                                Collection Items: First name, last name, phone verification, nationality, gender, age, blood type, MBTI.<br>
-                                Purpose: Secure user portal authentication, multi-dimensional status tracking, and automated Stripe billing.<br>
-                                Retention: Stored securely in encrypted Supabase database clusters under strict GDPR compliance.<br>
+                                Collection Items: First name, last name, phone verification, nationality, gender, age,
+                                blood type, MBTI.<br>
+                                Purpose: Secure user portal authentication, multi-dimensional status tracking, and
+                                automated Stripe billing.<br>
+                                Retention: Stored securely in encrypted Supabase database clusters under strict GDPR
+                                compliance.<br>
                                 (Scroll down to unlock consent checkbox)
                             </div>
                             <label class="flex items-center space-x-2 text-[10px] text-gray-400 cursor-pointer">
                                 <input type="checkbox" id="check-privacy" disabled class="accent-accent">
-                                <span data-i18n="check_privacy_label">[Required] I agree to the Privacy & Data Consent.</span>
+                                <span data-i18n="check_privacy_label">[Required] I agree to the Privacy & Data
+                                    Consent.</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
-                <button type="submit" id="auth-btn" class="w-full py-3 bg-accent text-void text-xs tracking-widest font-bold uppercase hover:bg-white transition-all" data-i18n="btn_signin">Sign In</button>
+                <button type="submit" id="auth-btn"
+                    class="w-full py-3 bg-accent text-void text-xs tracking-widest font-bold uppercase hover:bg-white transition-all"
+                    data-i18n="btn_signin">Sign In</button>
             </form>
 
             <div class="text-center mt-6 space-y-2">
-                <button onclick="toggleAuthMode()" id="toggle-btn" class="text-[10px] text-accent hover:underline uppercase tracking-wider" data-i18n="btn_toggle_to_register">Create New Account</button>
+                <button onclick="toggleAuthMode()" id="toggle-btn"
+                    class="text-[10px] text-accent hover:underline uppercase tracking-wider"
+                    data-i18n="btn_toggle_to_register">Create New Account</button>
             </div>
             <p id="auth-msg" class="text-[10px] text-center font-bold mt-4"></p>
         </div>
@@ -256,35 +485,81 @@
         <!-- Portal Dashboard Container (Hidden until logged in) -->
         <div id="portal-dashboard" class="glow-box p-8 bg-quantum hidden">
             <div class="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
-                <span class="text-xs text-green-400 font-bold" data-i18n="session_active">[SESSION ACTIVE: SECURE]</span>
-                <button onclick="handleLogout()" class="px-4 py-1 bg-red-500/20 border border-red-500 text-red-400 text-[10px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all" data-i18n="btn_terminate_session">Terminate Session</button>
+                <span class="text-xs text-green-400 font-bold" data-i18n="session_active">[SESSION ACTIVE:
+                    SECURE]</span>
+                <button onclick="handleLogout()"
+                    class="px-4 py-1 bg-red-500/20 border border-red-500 text-red-400 text-[10px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all"
+                    data-i18n="btn_terminate_session">Terminate Session</button>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 pb-8 border-b border-white/10">
                 <div>
-                    <h3 class="text-xs uppercase tracking-widest text-accent mb-4 font-bold" data-i18n="identity_heading">Identity & Credentials</h3>
+                    <h3 class="text-xs uppercase tracking-widest text-accent mb-4 font-bold"
+                        data-i18n="identity_heading">Identity & Credentials</h3>
                     <div class="space-y-3 text-xs">
-                        <div><span class="text-gray-500" data-i18n="label_fullname">Full Name:</span> <span id="disp-name" class="text-white font-bold">---</span></div>
-                        <div><span class="text-gray-500" data-i18n="label_phone_disp">Phone:</span> <span id="disp-phone" class="text-white">---</span></div>
-                        <div><span class="text-gray-500" data-i18n="label_nat_gender">Nationality / Gender:</span> <span id="disp-nat-gen" class="text-white">---</span></div>
-                        <div><span class="text-gray-500" data-i18n="label_age_blood_mbti">Age / Blood / MBTI:</span> <span id="disp-bio" class="text-white">---</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_fullname">Full Name:</span> <span
+                                id="disp-name" class="text-white font-bold">---</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_phone_disp">Phone:</span> <span
+                                id="disp-phone" class="text-white">---</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_nat_gender">Nationality / Gender:</span> <span
+                                id="disp-nat-gen" class="text-white">---</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_age_blood_mbti">Age / Blood / MBTI:</span>
+                            <span id="disp-bio" class="text-white">---</span></div>
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-xs uppercase tracking-widest text-neon mb-4 font-bold" data-i18n="status_heading">Multi-Dimensional Status</h3>
+                    <h3 class="text-xs uppercase tracking-widest text-neon mb-4 font-bold" data-i18n="status_heading">
+                        Multi-Dimensional Status</h3>
                     <div class="space-y-3 text-xs bg-void/60 p-4 border border-white/5">
-                        <div><span class="text-gray-500" data-i18n="label_rank">Unitas Rank:</span> <span class="text-accent font-bold">ARCH-FOUNDER [Level 01]</span></div>
-                        <div><span class="text-gray-500" data-i18n="label_token">Unitas Token:</span> <span class="text-neon font-bold">22,000.00 U-UNIT</span></div>
-                        <div><span class="text-gray-500" data-i18n="label_score">Epistemic Score:</span> <span class="text-white font-bold">999.98 / 1000</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_rank">Unitas Rank:</span> <span
+                                class="text-accent font-bold">ARCH-FOUNDER [Level 01]</span></div>
+                        <div><span class="text-gray-500" data-i18n="label_score">Epistemic Score:</span> <span
+                                class="text-white font-bold">999.98 / 1000</span></div>
                     </div>
                 </div>
+            </div>
+            <div>
+                <h3 class="text-xs uppercase tracking-widest text-accent mb-4 font-bold" data-i18n="wallet_heading">Coin
+                    Wallet</h3>
+                <div class="flex items-center justify-between bg-void/60 p-4 border border-white/5 mb-4">
+                    <div class="text-xs">
+                        <span class="text-gray-500" data-i18n="label_balance">Balance:</span>
+                        <span id="disp-balance" class="text-neon font-bold text-lg ml-2">--- <span
+                                data-i18n="coin_unit">U-COIN</span></span>
+                    </div>
+                    <button onclick="toggleBuyCoinsPanel()"
+                        class="px-4 py-1 bg-accent/20 border border-accent text-accent text-[10px] uppercase tracking-widest hover:bg-accent hover:text-void transition-all"
+                        data-i18n="btn_buy_coins">Buy Coins</button>
+                </div>
+                <div id="buy-coins-panel" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
+                    <button onclick="triggerCoinCheckout('small')"
+                        class="p-3 bg-void/60 border border-white/10 text-xs hover:border-accent transition-all text-left">
+                        <div class="text-white font-bold">1,000 <span data-i18n="coin_unit">U-COIN</span></div>
+                        <div class="text-gray-500 text-[10px]">$10</div>
+                    </button>
+                    <button onclick="triggerCoinCheckout('medium')"
+                        class="p-3 bg-void/60 border border-white/10 text-xs hover:border-accent transition-all text-left">
+                        <div class="text-white font-bold">2,750 <span data-i18n="coin_unit">U-COIN</span></div>
+                        <div class="text-gray-500 text-[10px]">$25</div>
+                    </button>
+                    <button onclick="triggerCoinCheckout('large')"
+                        class="p-3 bg-void/60 border border-white/10 text-xs hover:border-accent transition-all text-left">
+                        <div class="text-white font-bold">6,000 <span data-i18n="coin_unit">U-COIN</span></div>
+                        <div class="text-gray-500 text-[10px]">$50</div>
+                    </button>
+                </div>
+                <h4 class="text-[10px] uppercase tracking-widest text-gray-500 mb-2" data-i18n="ledger_heading">Recent
+                    Activity</h4>
+                <div id="coin-ledger-list" class="space-y-1 text-xs"></div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="responsive-container site-footer py-12 px-6 max-w-6xl mx-auto border-t border-white/10 text-center text-xs text-gray-500 space-y-4">
+    <footer
+        class="responsive-container site-footer py-12 px-6 max-w-6xl mx-auto border-t border-white/10 text-center text-xs text-gray-500 space-y-4">
         <p class="font-serif text-accent tracking-widest">THE UNITAS GLOBAL OÜ | EST. 2026</p>
-        <p class="text-[10px] text-gray-600" data-i18n="footer_legal">Legal Infrastructure: Priority Claim: US 64/023,911 | GDPR Compliant Secure Storage</p>
+        <p class="text-[10px] text-gray-600" data-i18n="footer_legal">Legal Infrastructure: Priority Claim: US
+            64/023,911 | GDPR Compliant Secure Storage</p>
     </footer>
 
     <!-- i18n Engine -->
@@ -302,14 +577,16 @@
                 hero_eyebrow: "USPTO Patent Pending #64/023,911 | Zero-Trust Sovereign Ecosystem",
                 hero_tagline: "[Autonomous Neural-Symbolic & Sovereign Fiscal Routing Infrastructure]",
                 modules_heading: "5 STRATEGIC BUSINESS MODULES",
-                modules_sub: "Select your module and initialize global recurring subscription via Stripe Gateway.",
+                modules_sub: "Select your module and spend U-COIN to initialize secure access.",
                 word_module: "Module",
                 module1_desc: "[Advanced Cognitive Filtering & Neural-Symbolic Refinement]",
                 module2_desc: "[Predictive Stress-Testing & Integrity Validation]",
                 module3_desc: "['Law of Cog' Global Intelligence Analytics]",
                 module4_desc: "[Stochastic Simulation for Global Asset Routing]",
                 module5_desc: "[The Permanent Registry of Algorithmic Law]",
-                subscribe: "SUBSCRIBE",
+                enter_module: "ENTER MODULE",
+                coin_unit: "U-COIN",
+                badge_insufficient: "LOW BALANCE",
                 learn_more: "Learn More",
                 portal_heading: "SOVEREIGN SECURE PORTAL",
                 portal_sub: "Authentication required to decrypt sovereign identity parameters.",
@@ -355,12 +632,21 @@
                 label_age_blood_mbti: "Age / Blood / MBTI:",
                 status_heading: "Multi-Dimensional Status",
                 label_rank: "Unitas Rank:",
-                label_token: "Unitas Token:",
                 label_score: "Epistemic Score:",
                 footer_legal: "Legal Infrastructure: Priority Claim: US 64/023,911 | GDPR Compliant Secure Storage",
-                alert_signin_required_checkout: "Please sign in at the Sovereign Secure Portal to start a subscription.",
-                checkout_error: "Unable to initialize secure checkout. Please try again.",
-                checkout_alert: "Initializing Stripe Secure Checkout for [ {module} ] at ${price}/month..."
+                alert_signin_required_access: "Please sign in at the Sovereign Secure Portal to access a module.",
+                access_error: "Unable to spend coins for this module. Please try again.",
+                insufficient_balance: "Insufficient U-COIN balance. Buy more coins to access this module.",
+                wallet_heading: "Coin Wallet",
+                label_balance: "Balance:",
+                btn_buy_coins: "Buy Coins",
+                ledger_heading: "Recent Activity",
+                ledger_kind_purchase: "Coin Purchase",
+                ledger_kind_module_access: "Module Access",
+                ledger_kind_admin_grant: "Admin Grant",
+                ledger_kind_refund: "Refund",
+                coin_checkout_error: "Unable to initialize secure checkout. Please try again.",
+                coin_checkout_success_notice: "Payment received. Your U-COIN balance updates automatically once Stripe confirms the purchase (usually within seconds)."
             },
             ko: {
                 nav_modules: "5대 모듈",
@@ -368,14 +654,16 @@
                 hero_eyebrow: "USPTO 특허 출원 #64/023,911 | 제로 트러스트 소버린 생태계",
                 hero_tagline: "[자율 신경-상징 및 소버린 재정 라우팅 인프라]",
                 modules_heading: "5대 전략 비즈니스 모듈",
-                modules_sub: "모듈을 선택하고 Stripe 게이트웨이를 통해 글로벌 정기 구독을 시작하세요.",
+                modules_sub: "모듈을 선택하고 U-COIN을 사용해 보안 접속을 시작하세요.",
                 word_module: "모듈",
                 module1_desc: "[고급 인지 필터링 및 신경-상징 정제]",
                 module2_desc: "[예측적 스트레스 테스트 및 무결성 검증]",
                 module3_desc: "['코그의 법칙' 글로벌 인텔리전스 분석]",
                 module4_desc: "[글로벌 자산 라우팅을 위한 확률적 시뮬레이션]",
                 module5_desc: "[알고리즘 법률의 영구 등기소]",
-                subscribe: "구독하기",
+                enter_module: "모듈 입장",
+                coin_unit: "U-COIN",
+                badge_insufficient: "잔액 부족",
                 learn_more: "자세히 보기",
                 portal_heading: "소버린 보안 포털",
                 portal_sub: "소버린 신원 매개변수를 해독하려면 인증이 필요합니다.",
@@ -421,12 +709,21 @@
                 label_age_blood_mbti: "나이 / 혈액형 / MBTI:",
                 status_heading: "다차원 상태",
                 label_rank: "유니타스 등급:",
-                label_token: "유니타스 토큰:",
                 label_score: "인식론적 점수:",
                 footer_legal: "법적 인프라: 우선권 주장: US 64/023,911 | GDPR 준수 보안 저장소",
-                alert_signin_required_checkout: "소버린 보안 포털에서 로그인한 후 구독을 시작해 주세요.",
-                checkout_error: "보안 결제를 초기화하지 못했습니다. 다시 시도해 주세요.",
-                checkout_alert: "[ {module} ] 모듈에 대해 월 ${price} 요금으로 Stripe 보안 결제를 초기화하는 중..."
+                alert_signin_required_access: "소버린 보안 포털에서 로그인한 후 모듈에 접속해 주세요.",
+                access_error: "모듈 접속을 위한 코인 차감에 실패했습니다. 다시 시도해 주세요.",
+                insufficient_balance: "U-COIN 잔액이 부족합니다. 코인을 추가 구매한 후 모듈에 접속해 주세요.",
+                wallet_heading: "코인 지갑",
+                label_balance: "잔액:",
+                btn_buy_coins: "코인 구매",
+                ledger_heading: "최근 내역",
+                ledger_kind_purchase: "코인 구매",
+                ledger_kind_module_access: "모듈 접속",
+                ledger_kind_admin_grant: "관리자 지급",
+                ledger_kind_refund: "환불",
+                coin_checkout_error: "보안 결제를 초기화하지 못했습니다. 다시 시도해 주세요.",
+                coin_checkout_success_notice: "결제가 완료되었습니다. Stripe가 결제를 확인하는 즉시(보통 몇 초 이내) U-COIN 잔액이 갱신됩니다."
             },
             ja: {
                 nav_modules: "5モジュール",
@@ -434,14 +731,16 @@
                 hero_eyebrow: "USPTO特許出願中 #64/023,911 | ゼロトラスト・ソブリンエコシステム",
                 hero_tagline: "[自律型ニューラル・シンボリック及びソブリン財務ルーティング基盤]",
                 modules_heading: "5つの戦略的ビジネスモジュール",
-                modules_sub: "モジュールを選択し、Stripeゲートウェイ経由でグローバル定期購読を開始してください。",
+                modules_sub: "モジュールを選択し、U-COINを使用してセキュアアクセスを開始してください。",
                 word_module: "モジュール",
                 module1_desc: "[高度な認知フィルタリング及びニューラル・シンボリック精製]",
                 module2_desc: "[予測的ストレステスト及び整合性検証]",
                 module3_desc: "[「コグの法則」グローバル・インテリジェンス分析]",
                 module4_desc: "[グローバル資産ルーティングのための確率的シミュレーション]",
                 module5_desc: "[アルゴリズム法の永久登記所]",
-                subscribe: "購読する",
+                enter_module: "モジュールに入る",
+                coin_unit: "U-COIN",
+                badge_insufficient: "残高不足",
                 learn_more: "詳しく見る",
                 portal_heading: "ソブリン・セキュアポータル",
                 portal_sub: "ソブリンIDパラメータを復号するには認証が必要です。",
@@ -487,12 +786,21 @@
                 label_age_blood_mbti: "年齢／血液型／MBTI：",
                 status_heading: "多次元ステータス",
                 label_rank: "Unitasランク：",
-                label_token: "Unitasトークン：",
                 label_score: "エピステミックスコア：",
                 footer_legal: "法的基盤：優先権主張：US 64/023,911｜GDPR準拠セキュアストレージ",
-                alert_signin_required_checkout: "セキュアポータルにサインインして購読を開始してください。",
-                checkout_error: "セキュアチェックアウトを初期化できませんでした。もう一度お試しください。",
-                checkout_alert: "[ {module} ] モジュールについて、月額${price}でStripeセキュアチェックアウトを初期化しています…"
+                alert_signin_required_access: "セキュアポータルにサインインしてモジュールにアクセスしてください。",
+                access_error: "モジュールへのコイン支払いに失敗しました。もう一度お試しください。",
+                insufficient_balance: "U-COIN残高が不足しています。コインを購入してからモジュールにアクセスしてください。",
+                wallet_heading: "コインウォレット",
+                label_balance: "残高：",
+                btn_buy_coins: "コインを購入",
+                ledger_heading: "最近のアクティビティ",
+                ledger_kind_purchase: "コイン購入",
+                ledger_kind_module_access: "モジュールアクセス",
+                ledger_kind_admin_grant: "管理者付与",
+                ledger_kind_refund: "返金",
+                coin_checkout_error: "セキュアチェックアウトを初期化できませんでした。もう一度お試しください。",
+                coin_checkout_success_notice: "お支払いを受け付けました。Stripeが支払いを確認次第(通常数秒以内)、U-COIN残高が更新されます。"
             },
             zh: {
                 nav_modules: "5大模块",
@@ -500,14 +808,16 @@
                 hero_eyebrow: "USPTO专利申请中 #64/023,911 | 零信任主权生态系统",
                 hero_tagline: "[自主神经符号与主权财政路由基础设施]",
                 modules_heading: "5大战略业务模块",
-                modules_sub: "选择您的模块，并通过Stripe网关启动全球定期订阅。",
+                modules_sub: "选择您的模块，使用U-COIN启动安全访问。",
                 word_module: "模块",
                 module1_desc: "[高级认知过滤与神经符号精炼]",
                 module2_desc: "[预测性压力测试与完整性验证]",
                 module3_desc: "['认知法则' 全球情报分析]",
                 module4_desc: "[用于全球资产路由的随机模拟]",
                 module5_desc: "[算法法律永久登记处]",
-                subscribe: "订阅",
+                enter_module: "进入模块",
+                coin_unit: "U-COIN",
+                badge_insufficient: "余额不足",
                 learn_more: "了解更多",
                 portal_heading: "主权安全门户",
                 portal_sub: "解密主权身份参数需要进行身份验证。",
@@ -553,12 +863,21 @@
                 label_age_blood_mbti: "年龄／血型／MBTI：",
                 status_heading: "多维状态",
                 label_rank: "Unitas等级：",
-                label_token: "Unitas代币：",
                 label_score: "认知评分：",
                 footer_legal: "法律基础设施：优先权主张：US 64/023,911｜符合GDPR的安全存储",
-                alert_signin_required_checkout: "请先登录安全门户以开始订阅。",
-                checkout_error: "无法初始化安全结账。请重试。",
-                checkout_alert: "正在为 [ {module} ] 模块以每月 ${price} 初始化 Stripe 安全结账……"
+                alert_signin_required_access: "请先登录安全门户以访问模块。",
+                access_error: "模块访问的代币扣款失败，请重试。",
+                insufficient_balance: "U-COIN余额不足，请先购买代币再访问此模块。",
+                wallet_heading: "代币钱包",
+                label_balance: "余额：",
+                btn_buy_coins: "购买代币",
+                ledger_heading: "最近活动",
+                ledger_kind_purchase: "代币购买",
+                ledger_kind_module_access: "模块访问",
+                ledger_kind_admin_grant: "管理员发放",
+                ledger_kind_refund: "退款",
+                coin_checkout_error: "无法初始化安全结账。请重试。",
+                coin_checkout_success_notice: "已收到付款。Stripe确认付款后（通常几秒内），U-COIN余额将自动更新。"
             }
         };
 
@@ -612,6 +931,9 @@
             if (langSelect) langSelect.value = currentLang;
 
             if (typeof refreshAuthModeLabels === 'function') refreshAuthModeLabels();
+            if (typeof renderWalletStatus === 'function' && lastWalletBalance !== null) {
+                renderWalletStatus(lastWalletBalance, lastCoinLedger);
+            }
         }
 
         function setLanguage(lang) {
@@ -625,13 +947,20 @@
     <script>
         const SUPABASE_URL = 'https://fjznkonbjoierxvopiko.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqem5rb25iam9pZXJ4dm9waWtvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM0NjI1NzUsImV4cCI6MjA5OTAzODU3NX0.ip5aY3LItyMS9y6PjSjw5VeyMtZJyn2lW3xUKLUpKpY';
-        const CHECKOUT_MODULES = new Set(['Arche', 'Arena', 'Score', 'Fate', 'Codex22']);
+        const MODULE_LIST = ['Arche', 'Arena', 'Score', 'Fate', 'Codex22'];
+        const MODULE_COSTS = { Arche: 300, Arena: 500, Score: 400, Fate: 1000, Codex22: 2000 };
+        const COIN_BUNDLES = {
+            small: { coins: 1000, price: '$10' },
+            medium: { coins: 2750, price: '$25' },
+            large: { coins: 6000, price: '$50' },
+        };
 
         let supabaseClient = null;
         let isRegisterMode = false;
         let scrollUnlocked1 = false;
         let scrollUnlocked2 = false;
         let checkoutInProgress = false;
+        let moduleAccessInProgress = false;
 
         function isSupabaseConfigured() {
             return Boolean(
@@ -669,7 +998,46 @@
             }
 
             updatePortalVisibility(data.session);
-            if (data.session) fetchUserData(data.session.user.id);
+            if (data.session) {
+                fetchUserData(data.session.user.id);
+                fetchWallet(data.session.user.id);
+            }
+        }
+
+        function checkoutStatusFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('coin_checkout') === 'success') {
+                alert(t('coin_checkout_success_notice'));
+                params.delete('coin_checkout');
+                params.delete('bundle');
+                const query = params.toString();
+                history.replaceState({}, '', window.location.pathname + (query ? `?${query}` : ''));
+            }
+        }
+        checkoutStatusFromUrl();
+
+        function updateAudioToggleIcon() {
+            const btn = document.getElementById('audio-toggle');
+            if (!btn || !window.UnitasSoundscape) return;
+            btn.textContent = window.UnitasSoundscape.isMuted() ? '🔇' : '🔊';
+        }
+
+        function toggleAudioMuted() {
+            if (!window.UnitasSoundscape) return;
+            window.UnitasSoundscape.setMuted(!window.UnitasSoundscape.isMuted());
+            updateAudioToggleIcon();
+        }
+
+        if (window.UnitasSoundscape) {
+            window.UnitasSoundscape.unlockOnFirstGesture();
+            updateAudioToggleIcon();
+            MODULE_LIST.forEach((module) => {
+                const btn = document.getElementById(`access-btn-${module}`);
+                const card = btn ? btn.closest('.glow-box') : null;
+                if (card) {
+                    card.addEventListener('mouseenter', () => window.UnitasSoundscape.playModuleHover(module));
+                }
+            });
         }
 
         function refreshAuthModeLabels() {
@@ -751,20 +1119,20 @@
                 }
 
                 const { error } = await supabaseClient.auth.signUp({
-                        email,
-                        password,
-                        options: {
-                            data: {
-                                full_name: `${firstname} ${lastname}`,
-                                phone: phone,
-                                nationality: nationality,
-                                gender: gender,
-                                age: age,
-                                blood: blood,
-                                mbti: mbti
-                            }
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            full_name: `${firstname} ${lastname}`,
+                            phone: phone,
+                            nationality: nationality,
+                            gender: gender,
+                            age: age,
+                            blood: blood,
+                            mbti: mbti
                         }
-                    });
+                    }
+                });
                 if (error) {
                     msgEl.innerText = t('msg_registration_failed_prefix') + error.message;
                     msgEl.style.color = '#ef4444';
@@ -773,7 +1141,7 @@
                     toggleAuthMode();
                 }
             } else {
-                if(!supabaseClient) {
+                if (!supabaseClient) {
                     alert(t('alert_supabase_not_configured'));
                     return;
                 }
@@ -816,8 +1184,82 @@
             }
         }
 
-        async function triggerCheckout(moduleName) {
-            if (!CHECKOUT_MODULES.has(moduleName) || checkoutInProgress) return;
+        let lastWalletBalance = null;
+        let lastCoinLedger = [];
+
+        const LEDGER_KIND_I18N_KEY = {
+            purchase: 'ledger_kind_purchase',
+            module_access: 'ledger_kind_module_access',
+            admin_grant: 'ledger_kind_admin_grant',
+            refund: 'ledger_kind_refund',
+        };
+
+        async function fetchWallet(userId) {
+            const [{ data: walletRow, error: walletError }, { data: ledgerRows, error: ledgerError }] = await Promise.all([
+                supabaseClient.from('wallets').select('balance').eq('user_id', userId).single(),
+                supabaseClient
+                    .from('coin_ledger')
+                    .select('amount, kind, module, created_at')
+                    .eq('user_id', userId)
+                    .order('created_at', { ascending: false })
+                    .limit(10),
+            ]);
+
+            if (walletError) console.error('Wallet fetch error:', walletError);
+            if (ledgerError) console.error('Coin ledger fetch error:', ledgerError);
+
+            lastWalletBalance = walletRow ? walletRow.balance : 0;
+            lastCoinLedger = ledgerRows || [];
+            renderWalletStatus(lastWalletBalance, lastCoinLedger);
+        }
+
+        function renderWalletStatus(balance, ledgerRows) {
+            const balanceEl = document.getElementById('disp-balance');
+            if (balanceEl) {
+                balanceEl.innerHTML = `${balance.toLocaleString(currentLang)} <span data-i18n="coin_unit">${t('coin_unit')}</span>`;
+            }
+
+            MODULE_LIST.forEach((module) => {
+                const badgeEl = document.getElementById(`badge-${module}`);
+                if (!badgeEl) return;
+                const cost = MODULE_COSTS[module];
+                if (balance < cost) {
+                    badgeEl.textContent = t('badge_insufficient');
+                    badgeEl.className = 'ml-2 text-[10px] tracking-widest uppercase text-red-400';
+                } else {
+                    badgeEl.textContent = '';
+                    badgeEl.className = 'ml-2 text-[10px] tracking-widest uppercase hidden';
+                }
+            });
+
+            const ledgerEl = document.getElementById('coin-ledger-list');
+            if (ledgerEl) {
+                if (ledgerRows.length === 0) {
+                    ledgerEl.replaceChildren();
+                } else {
+                    ledgerEl.replaceChildren(...ledgerRows.map((row) => {
+                        const rowEl = document.createElement('div');
+                        rowEl.className = 'flex items-center justify-between bg-void/60 px-3 py-2 border border-white/5';
+                        const label = t(LEDGER_KIND_I18N_KEY[row.kind] || row.kind) + (row.module ? ` (${row.module})` : '');
+                        const amountText = `${row.amount > 0 ? '+' : ''}${row.amount.toLocaleString(currentLang)}`;
+                        const amountClass = row.amount > 0 ? 'text-green-400' : 'text-red-400';
+                        const dateText = new Date(row.created_at).toLocaleDateString(currentLang);
+                        rowEl.innerHTML = `
+                            <span class="text-gray-400">${label} <span class="text-gray-600 text-[10px]">${dateText}</span></span>
+                            <span class="${amountClass} font-bold">${amountText}</span>
+                        `;
+                        return rowEl;
+                    }));
+                }
+            }
+        }
+
+        function toggleBuyCoinsPanel() {
+            document.getElementById('buy-coins-panel')?.classList.toggle('hidden');
+        }
+
+        async function triggerCoinCheckout(bundle) {
+            if (!COIN_BUNDLES[bundle] || checkoutInProgress) return;
             if (!supabaseClient) {
                 alert(t('alert_supabase_not_configured'));
                 return;
@@ -829,12 +1271,12 @@
                 if (sessionError) throw sessionError;
                 if (!sessionData.session) {
                     document.getElementById('portal').scrollIntoView({ behavior: 'smooth' });
-                    alert(t('alert_signin_required_checkout'));
+                    alert(t('alert_signin_required_access'));
                     return;
                 }
 
-                const { data, error } = await supabaseClient.functions.invoke('create-checkout-session', {
-                    body: { module: moduleName },
+                const { data, error } = await supabaseClient.functions.invoke('create-coin-checkout-session', {
+                    body: { bundle },
                 });
 
                 if (error || !data?.url) {
@@ -843,12 +1285,54 @@
 
                 window.location.assign(data.url);
             } catch (error) {
-                console.error('Checkout session error:', error);
-                alert(t('checkout_error'));
+                console.error('Coin checkout session error:', error);
+                alert(t('coin_checkout_error'));
             } finally {
                 checkoutInProgress = false;
             }
         }
+
+        async function triggerModuleAccess(moduleName) {
+            if (!MODULE_COSTS[moduleName] || moduleAccessInProgress) return;
+            if (!supabaseClient) {
+                alert(t('alert_supabase_not_configured'));
+                return;
+            }
+
+            moduleAccessInProgress = true;
+            try {
+                const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+                if (sessionError) throw sessionError;
+                if (!sessionData.session) {
+                    document.getElementById('portal').scrollIntoView({ behavior: 'smooth' });
+                    alert(t('alert_signin_required_access'));
+                    return;
+                }
+
+                const { error } = await supabaseClient.rpc('spend_coins', {
+                    p_module: moduleName,
+                    p_amount: MODULE_COSTS[moduleName],
+                });
+
+                if (error) {
+                    if (String(error.message || '').includes('Insufficient balance')) {
+                        alert(t('insufficient_balance'));
+                    } else {
+                        throw error;
+                    }
+                    return;
+                }
+
+                fetchWallet(sessionData.session.user.id);
+                window.location.assign(`pages/${moduleName.toLowerCase()}.html`);
+            } catch (error) {
+                console.error('Module access error:', error);
+                alert(t('access_error'));
+            } finally {
+                moduleAccessInProgress = false;
+            }
+        }
     </script>
 </body>
+
 </html>

@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "RooVeterinaryInc.roo-cline",
+    "anthropic.claude-code",
+    "Supabase.vscode-supabase-extension",
+    "bradlc.vscode-tailwindcss",
+    "humao.rest-client",
+    "Postman.postman-for-vscode",
+    "dtoplak.vscode-glsllint",
+    "slevesque.shader",
+    "ms-playwright.playwright"
+  ]
+}

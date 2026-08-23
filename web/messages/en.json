@@ -1,0 +1,204 @@
+{
+  "LocaleLayout": {
+    "title": "THE UNITAS GLOBAL OÜ | Neural-Symbolic Secure Infrastructure"
+  },
+  "Nav": {
+    "portal": "Secure Portal",
+    "languageLabel": "Language",
+    "soundOn": "Sound on",
+    "soundOff": "Sound off"
+  },
+  "Home": {
+    "title": "THE UNITAS"
+  },
+  "Modules": {
+    "uSignature": {
+      "title": "U-Signature",
+      "description": "Sovereign biometric & cryptographic signature layer."
+    },
+    "uKey": {
+      "title": "U-Key",
+      "description": "Zero-trust key custody and access control."
+    },
+    "uPay": {
+      "title": "U-Pay",
+      "description": "Sovereign fiscal routing and settlement rail."
+    },
+    "arche": {
+      "title": "Arche",
+      "description": "Advanced Cognitive Filtering & Neural-Symbolic Refinement."
+    },
+    "arena": {
+      "title": "Arena",
+      "description": "Predictive Stress-Testing & Integrity Validation."
+    },
+    "score": {
+      "title": "Score",
+      "description": "'Law of Cog' Global Intelligence Analytics."
+    },
+    "fate": {
+      "title": "Fate",
+      "description": "Stochastic Simulation for Global Asset Routing."
+    },
+    "codex22": {
+      "title": "Codex22",
+      "description": "The Permanent Registry of Algorithmic Law."
+    }
+  },
+  "Placeholder": {
+    "comingSoon": "This module is scaffolded and under active construction."
+  },
+  "Wallet": {
+    "balance": "Balance",
+    "coinUnit": "U-COIN",
+    "chargeCoins": "Charge Coins",
+    "signInRequired": "Sign in to view your live balance",
+    "chargeTitle": "Charge U-COIN",
+    "chargeBody": "Coin purchase checkout for this portal is coming soon. In the meantime, top up your balance from the main Secure Portal.",
+    "close": "Close",
+    "currencyNote": "1 U-Coin = 1 EUR (local currency automatically converted at checkout)."
+  },
+  "Cognitive": {
+    "title": "Cognitive Ecosystem",
+    "subtitle": "Eleven synthetic-cognition modules, each running its own reasoning discipline."
+  },
+  "B2C": {
+    "title": "Live Consumer Services",
+    "subtitle": "Instant-access, coin-gated modules with interactive quests and simulations.",
+    "badgeLive": "Live Service",
+    "badgeCoinGated": "Coin Gated",
+    "badgeQuest": "Interactive Quest",
+    "cost": "Cost",
+    "yourBalance": "Your Balance",
+    "enterQuest": "Enter Quest",
+    "insufficientBalance": "Insufficient balance -- charge coins to enter.",
+    "checkingBalance": "Checking balance..."
+  },
+  "B2B": {
+    "title": "Enterprise Protocols",
+    "subtitle": "Sovereign infrastructure under active research & development.",
+    "rdNotice": "Enterprise-only B2B protocol under active R&D (Enterprise SaaS Subscription).",
+    "patentBadge": "USPTO Patent Pending #64/023,911",
+    "viewSpec": "View Technical Specification",
+    "hideSpec": "Hide Technical Specification",
+    "earlyAccess": "Early Access / Enterprise Inquiry",
+    "inquiryTitle": "Request Early Access",
+    "inquiryName": "Full Name",
+    "inquiryEmail": "Work Email",
+    "inquiryCompany": "Company",
+    "inquiryMessage": "What are you looking to build?",
+    "inquirySubmit": "Submit Inquiry",
+    "inquiryThanksTitle": "Request received",
+    "inquiryThanksBody": "Thank you -- our enterprise team will reach out shortly.",
+    "close": "Close"
+  },
+  "ErrorBoundary": {
+    "title": "Sovereign Core Error",
+    "body": "A critical fault occurred in the sovereign infrastructure layer. No further detail is shown here for security compliance -- our systems have been notified.",
+    "digestLabel": "Reference ID:",
+    "retry": "Retry",
+    "home": "Return to Portal"
+  },
+  "Ecosystems": {
+    "echo": {
+      "title": "Echo",
+      "description": "Resonant signal analysis that reflects your query back through layered cognitive echoes.",
+      "rules": "Each query ripples through three reflection cycles before surfacing an answer."
+    },
+    "void": {
+      "title": "Void",
+      "description": "Strips a problem down to its negative space -- what is missing, not what is present.",
+      "rules": "Submit a thesis; Void returns only what breaks it."
+    },
+    "mirror": {
+      "title": "Mirror",
+      "description": "A full-spectrum self-diagnostic scan of behavioral and cognitive patterns.",
+      "rules": "One scan per session; results are sealed to your identity alone."
+    },
+    "oracle": {
+      "title": "Oracle",
+      "description": "Probabilistic foresight modeling for decisions with long, uncertain horizons.",
+      "rules": "Ask one question at a time; Oracle answers in probabilities, never certainties."
+    },
+    "pulse": {
+      "title": "Pulse",
+      "description": "Real-time vitals for markets, sentiment, and momentum -- read before it moves.",
+      "rules": "Live feed; each session monitors one signal at a time."
+    },
+    "apex": {
+      "title": "Apex",
+      "description": "High-stakes performance simulation under a hard countdown clock.",
+      "rules": "The timer does not pause. Submit before zero or the run is forfeit."
+    },
+    "genesis": {
+      "title": "Genesis",
+      "description": "First-principles construction: build an idea up from nothing but its axioms.",
+      "rules": "Start from zero assumptions; Genesis rejects any premise it cannot derive."
+    },
+    "syndicate": {
+      "title": "Syndicate",
+      "description": "Coalition-mapping across hidden networks of influence and affiliation.",
+      "rules": "Access requires a named target entity; results are network graphs, not verdicts."
+    },
+    "aura": {
+      "title": "Aura",
+      "description": "Ambient emotional-field sensing tuned to the tone beneath your words.",
+      "rules": "No direct questions -- Aura reads tone, not text."
+    },
+    "paradox": {
+      "title": "Paradox",
+      "description": "Stress-tests an idea by running it backward through its own logic.",
+      "rules": "Submit a conclusion; Paradox rewinds it to find where it contradicts itself."
+    },
+    "chronos": {
+      "title": "Chronos",
+      "description": "Long-cycle historical pattern modeling across decades, not headlines.",
+      "rules": "Minimum query horizon: ten years. Chronos does not answer same-day questions."
+    }
+  },
+  "OmniSynapse": {
+    "placeholder": "Ask OMNI AI anything...",
+    "architectLabel": "UNITAS ARCHITECT",
+    "analyzing": "Analyzing across four dimensions...",
+    "dimDirectionality": "Directionality",
+    "dimConcept": "Concept / Ideology",
+    "dimTendency": "User Tendency",
+    "dimBlueprint": "Blueprint",
+    "webDataLabel": "Web Synthesis Layer",
+    "webDataPlaceholder": "Connect a live index to populate this dimension.",
+    "ecosystemDataLabel": "Ecosystem Data",
+    "trendsLabel": "Global Unconscious Trends",
+    "trendsPlaceholder": "Aggregate trend telemetry not yet connected in this build.",
+    "recommendationLabel": "Recommended Ecosystem",
+    "enterRecommended": "Enter Recommended Ecosystem",
+    "noResults": "No matching ecosystem found -- try a different phrase."
+  },
+  "EntryModal": {
+    "rulesLabel": "Engagement Rules",
+    "payAndEnter": "Pay & Enter",
+    "processing": "Authorizing sovereign access..."
+  },
+  "Footer": {
+    "customerService": "Customer Service",
+    "helpCenter": "Help Center",
+    "contactUs": "Contact Us",
+    "systemStatus": "System Status",
+    "policies": "Policies",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "termsOfService": "Terms of Service",
+    "legal": "Legal",
+    "patentNotice": "Patent Notice",
+    "compliance": "Compliance",
+    "security": "Security",
+    "company": "Company",
+    "about": "About",
+    "careers": "Careers",
+    "press": "Press"
+  },
+  "AudioGate": {
+    "title": "Awaken the Singularity",
+    "subtitle": "Unlock the deep-space ambient soundtrack and neural interface audio cues.",
+    "skip": "Continue without sound"
+  }
+}

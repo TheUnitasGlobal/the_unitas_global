@@ -15,18 +15,18 @@
       "group": "test",
       "problemMatcher": []
     {
-      "label": "Unitas: setup agents",
-      "type": "npm",
-      "script": "setup:agents",
-      "problemMatcher": []
-    },
-    {
-      "label": "Unitas: mock checkout",
-      "type": "npm",
-      "script": "mock:checkout",
-      "isBackground": true,
-      "problemMatcher": []
-    },
+        "label": "Unitas: setup agents",
+        "type": "npm",
+        "script": "setup:agents",
+        "problemMatcher": []
+      },
+      {
+        "label": "Unitas: mock checkout",
+        "type": "npm",
+        "script": "mock:checkout",
+        "isBackground": true,
+        "problemMatcher": []
+      },
     },
     {
       "label": "Unitas: agent review",

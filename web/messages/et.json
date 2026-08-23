@@ -1,0 +1,204 @@
+{
+  "LocaleLayout": {
+    "title": "THE UNITAS GLOBAL OÜ | Neuro-Sümboolne Turvainfrastruktuur"
+  },
+  "Nav": {
+    "portal": "Turvaline Portaal",
+    "languageLabel": "Keel",
+    "soundOn": "Heli sees",
+    "soundOff": "Heli väljas"
+  },
+  "Home": {
+    "title": "THE UNITAS"
+  },
+  "Modules": {
+    "uSignature": {
+      "title": "U-Signature",
+      "description": "Suveräänne biomeetriline ja krüptograafiline allkirjakiht."
+    },
+    "uKey": {
+      "title": "U-Key",
+      "description": "Null-usalduse võtmehoid ja juurdepääsukontroll."
+    },
+    "uPay": {
+      "title": "U-Pay",
+      "description": "Suveräänne fiskaalse marsruutimise ja arvelduse rada."
+    },
+    "arche": {
+      "title": "Arche",
+      "description": "Täiustatud kognitiivne filtreerimine ja neuro-sümboolne rafineerimine."
+    },
+    "arena": {
+      "title": "Arena",
+      "description": "Ennustav stressitestimine ja terviklikkuse valideerimine."
+    },
+    "score": {
+      "title": "Score",
+      "description": "\"Cog'i seaduse\" globaalne luureanalüütika."
+    },
+    "fate": {
+      "title": "Fate",
+      "description": "Stohhastiline simulatsioon globaalse varade marsruutimise jaoks."
+    },
+    "codex22": {
+      "title": "Codex22",
+      "description": "Algoritmilise õiguse alaline register."
+    }
+  },
+  "Placeholder": {
+    "comingSoon": "See moodul on alles skafoldeeritud ja aktiivses ehitusjärgus."
+  },
+  "Wallet": {
+    "balance": "Saldo",
+    "coinUnit": "U-COIN",
+    "chargeCoins": "Laadi Münte",
+    "signInRequired": "Logi sisse, et näha oma reaalajas saldot",
+    "chargeTitle": "Laadi U-COIN",
+    "chargeBody": "Müntide ostmine selles portaalis on peagi saadaval. Seniks laadi oma saldot peamises Turvalises Portaalis.",
+    "close": "Sulge",
+    "currencyNote": "1 U-Coin = 1 EUR (kohalik valuuta teisendatakse automaatselt kassas)."
+  },
+  "Cognitive": {
+    "title": "Kognitiivne Ökosüsteem",
+    "subtitle": "Üksteist tehisliku tunnetuse moodulit, igaüks oma arutlusdistsipliiniga."
+  },
+  "B2C": {
+    "title": "Live Tarbijateenused",
+    "subtitle": "Koheselt kättesaadavad, müntidega lukustatud moodulid interaktiivsete ülesannete ja simulatsioonidega.",
+    "badgeLive": "Live Teenus",
+    "badgeCoinGated": "Müntidega Lukustatud",
+    "badgeQuest": "Interaktiivne Ülesanne",
+    "cost": "Hind",
+    "yourBalance": "Sinu Saldo",
+    "enterQuest": "Alusta Ülesannet",
+    "insufficientBalance": "Ebapiisav saldo -- laadi münte, et siseneda.",
+    "checkingBalance": "Saldo kontrollimine..."
+  },
+  "B2B": {
+    "title": "Ettevõtte Protokollid",
+    "subtitle": "Aktiivses teadus- ja arendustegevuses olev suveräänne infrastruktuur.",
+    "rdNotice": "Ainult ettevõtetele mõeldud B2B protokoll aktiivses T&A-s (Enterprise SaaS Subscription).",
+    "patentBadge": "USPTO patenditaotlus #64/023,911",
+    "viewSpec": "Vaata Tehnilist Spetsifikatsiooni",
+    "hideSpec": "Peida Tehniline Spetsifikatsioon",
+    "earlyAccess": "Varajane Ligipääs / Ettevõtte Päring",
+    "inquiryTitle": "Taotle Varajast Ligipääsu",
+    "inquiryName": "Täisnimi",
+    "inquiryEmail": "Töö E-post",
+    "inquiryCompany": "Ettevõte",
+    "inquiryMessage": "Mida soovid ehitada?",
+    "inquirySubmit": "Saada Päring",
+    "inquiryThanksTitle": "Päring vastu võetud",
+    "inquiryThanksBody": "Täname -- meie ettevõtete meeskond võtab peagi ühendust.",
+    "close": "Sulge"
+  },
+  "ErrorBoundary": {
+    "title": "Suveräänse Tuumiku Viga",
+    "body": "Suveräänse infrastruktuuri kihis esines kriitiline tõrge. Turvalisuse nõuete tõttu täpsemat teavet siin ei kuvata -- meie süsteemid on sellest teavitatud.",
+    "digestLabel": "Viite ID:",
+    "retry": "Proovi uuesti",
+    "home": "Tagasi Portaali"
+  },
+  "Ecosystems": {
+    "echo": {
+      "title": "Echo",
+      "description": "Resonantne signaalanalüüs, mis peegeldab su päringu tagasi läbi kihiliste kognitiivsete kajade.",
+      "rules": "Iga päring läbib kolm peegeldustsüklit enne vastuse ilmumist."
+    },
+    "void": {
+      "title": "Void",
+      "description": "Paljastab probleemi negatiivse ruumi -- mitte selle, mis on olemas, vaid mis puudub.",
+      "rules": "Esita väide; Void tagastab ainult selle, mis seda murrab."
+    },
+    "mirror": {
+      "title": "Mirror",
+      "description": "Käitumis- ja tunnetusmustrite täisspektriline enesediagnostiline skaneering.",
+      "rules": "Üks skaneering seansi kohta; tulemused on pitseeritud ainult sinu identiteediga."
+    },
+    "oracle": {
+      "title": "Oracle",
+      "description": "Tõenäosuslik tulevikumudel pikkade ja ebakindlate horisontidega otsuste jaoks.",
+      "rules": "Küsi korraga üks küsimus; Oracle vastab tõenäosustega, mitte kunagi kindlusega."
+    },
+    "pulse": {
+      "title": "Pulse",
+      "description": "Reaalajas elutähtsad näitajad turgudele, meeleolule ja hoole -- loe enne, kui see liigub.",
+      "rules": "Otseülekanne; iga seanss jälgib korraga üht signaali."
+    },
+    "apex": {
+      "title": "Apex",
+      "description": "Kõrge panusega jõudlussimulatsioon range pöördloenduskella all.",
+      "rules": "Taimer ei peatu. Esita enne nulli või katse läheb kaotsi."
+    },
+    "genesis": {
+      "title": "Genesis",
+      "description": "Esmapõhimõtete ülesehitus: ehita idee üles ainult selle aksioomidest.",
+      "rules": "Alusta nullist eeldusest; Genesis lükkab tagasi iga eelduse, mida ta ei suuda tuletada."
+    },
+    "syndicate": {
+      "title": "Syndicate",
+      "description": "Koalitsioonide kaardistamine varjatud mõju- ja seotusvõrgustike üle.",
+      "rules": "Ligipääs nõuab nimetatud sihtüksust; tulemused on võrgugraafid, mitte otsused."
+    },
+    "aura": {
+      "title": "Aura",
+      "description": "Ümbritsev emotsionaalse välja tuvastamine, häälestatud sinu sõnade alltoonile.",
+      "rules": "Otseseid küsimusi ei ole -- Aura loeb tooni, mitte teksti."
+    },
+    "paradox": {
+      "title": "Paradox",
+      "description": "Testib ideed, käivitades selle tagurpidi läbi tema enda loogika.",
+      "rules": "Esita järeldus; Paradox kerib selle tagasi, et leida, kus see iseendale vastu räägib."
+    },
+    "chronos": {
+      "title": "Chronos",
+      "description": "Pika tsükli ajalooline mustrimudel läbi aastakümnete, mitte pealkirjade.",
+      "rules": "Minimaalne päringu ajahorisont: kümme aastat. Chronos ei vasta samapäevastele küsimustele."
+    }
+  },
+  "OmniSynapse": {
+    "placeholder": "Küsi OMNI AI-lt ükskõik mida...",
+    "architectLabel": "UNITAS ARCHITECT",
+    "analyzing": "Analüüsimine nelja dimensiooni ulatuses...",
+    "dimDirectionality": "Suunatus",
+    "dimConcept": "Kontseptsioon / Ideoloogia",
+    "dimTendency": "Kasutaja Kalduvus",
+    "dimBlueprint": "Ehitusplaan",
+    "webDataLabel": "Veebisünteesi Kiht",
+    "webDataPlaceholder": "Selle dimensiooni täitmiseks ühenda reaalajas indeks.",
+    "ecosystemDataLabel": "Ökosüsteemi Andmed",
+    "trendsLabel": "Globaalsed Alateadvuse Trendid",
+    "trendsPlaceholder": "Koondatud trenditelemeetria pole selles versioonis veel ühendatud.",
+    "recommendationLabel": "Soovitatud Ökosüsteem",
+    "enterRecommended": "Sisene Soovitatud Ökosüsteemi",
+    "noResults": "Sobivat ökosüsteemi ei leitud -- proovi teistsugust fraasi."
+  },
+  "EntryModal": {
+    "rulesLabel": "Osalemise Reeglid",
+    "payAndEnter": "Maksa ja Sisene",
+    "processing": "Suveräänse ligipääsu autoriseerimine..."
+  },
+  "Footer": {
+    "customerService": "Klienditugi",
+    "helpCenter": "Abikeskus",
+    "contactUs": "Võta Ühendust",
+    "systemStatus": "Süsteemi Staatus",
+    "policies": "Reeglistik",
+    "privacyPolicy": "Privaatsuspoliitika",
+    "cookiePolicy": "Küpsiste Poliitika",
+    "termsOfService": "Kasutustingimused",
+    "legal": "Õiguslik",
+    "patentNotice": "Patendi Teatis",
+    "compliance": "Vastavus",
+    "security": "Turvalisus",
+    "company": "Ettevõte",
+    "about": "Meist",
+    "careers": "Karjäär",
+    "press": "Meedia"
+  },
+  "AudioGate": {
+    "title": "Ärata Singulaarsus",
+    "subtitle": "Ava süvakosmose ambient-heliriba ja neuroliidese heliviited.",
+    "skip": "Jätka ilma helita"
+  }
+}

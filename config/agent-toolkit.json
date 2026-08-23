@@ -34,10 +34,12 @@
   },
   "revenueModules": ["Arche", "Arena", "Score", "Fate", "Codex22"],
   "checkoutContract": {
-    "productionFunction": "create-checkout-session",
-    "requestField": "module",
-    "mockFixture": "tests/fixtures/stripe-checkout-session.json",
+    "productionFunction": "create-coin-checkout-session",
+    "requestField": "bundle",
+    "mockFixture": "tests/fixtures/coin-checkout-session.json",
     "clientMaySendPriceId": false,
-    "clientMaySendAmount": false
+    "clientMaySendAmount": false,
+    "deprecatedFunction": "create-checkout-session",
+    "deprecatedNote": "Rev 0 coin-core: module access is gated by spend_coins balance debit, not subscriptions. create-checkout-session is retained live/dormant, not the active contract."
   }
 }

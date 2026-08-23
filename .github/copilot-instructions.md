@@ -16,11 +16,12 @@ Every implementation task must follow this order:
 ## Architecture
 
 - `index.html` is the public browser entry point.
-- `config/modules.json` is the source of truth for revenue module pages and Stripe module names.
+- `config/modules.json` is the source of truth for revenue module pages, including canonical `coinCost` per module.
 - `pages/` is generated output. Do not hand-edit generated module pages.
 - Stripe secret keys and Price IDs are server-side Supabase secrets only.
 - Browser code may use only the Supabase URL and anon key.
-- Checkout requests send a module name to `create-checkout-session`; never accept a client-supplied amount or Price ID.
+- Module access is gated by coin balance, not Stripe subscriptions: the browser/generated pages call the `spend_coins` Postgres RPC to atomically check-and-debit a user's balance. `create-checkout-session` and `public.subscriptions` are deprecated and dormant — do not extend or wire new UI to them.
+- Coin purchases go through `create-coin-checkout-session` (one-time Stripe payment per bundle); requests send a bundle name, never a client-supplied coin amount or Price ID.
 
 ## Agent collaboration
 

@@ -1,0 +1,204 @@
+{
+  "LocaleLayout": {
+    "title": "THE UNITAS GLOBAL OÜ | Infraestructura Segura Neuro-Simbólica"
+  },
+  "Nav": {
+    "portal": "Portal Seguro",
+    "languageLabel": "Idioma",
+    "soundOn": "Sonido activado",
+    "soundOff": "Sonido desactivado"
+  },
+  "Home": {
+    "title": "THE UNITAS"
+  },
+  "Modules": {
+    "uSignature": {
+      "title": "U-Signature",
+      "description": "Capa de firma biométrica y criptográfica soberana."
+    },
+    "uKey": {
+      "title": "U-Key",
+      "description": "Custodia de claves y control de acceso de confianza cero."
+    },
+    "uPay": {
+      "title": "U-Pay",
+      "description": "Riel de enrutamiento fiscal y liquidación soberana."
+    },
+    "arche": {
+      "title": "Arche",
+      "description": "Filtrado Cognitivo Avanzado y Refinamiento Neuro-Simbólico."
+    },
+    "arena": {
+      "title": "Arena",
+      "description": "Pruebas de Estrés Predictivas y Validación de Integridad."
+    },
+    "score": {
+      "title": "Score",
+      "description": "Analítica de Inteligencia Global 'Ley de Cog'."
+    },
+    "fate": {
+      "title": "Fate",
+      "description": "Simulación Estocástica para el Enrutamiento Global de Activos."
+    },
+    "codex22": {
+      "title": "Codex22",
+      "description": "El Registro Permanente del Derecho Algorítmico."
+    }
+  },
+  "Placeholder": {
+    "comingSoon": "Este módulo está en fase de andamiaje y en construcción activa."
+  },
+  "Wallet": {
+    "balance": "Saldo",
+    "coinUnit": "U-COIN",
+    "chargeCoins": "Recargar Monedas",
+    "signInRequired": "Inicia sesión para ver tu saldo en tiempo real",
+    "chargeTitle": "Recargar U-COIN",
+    "chargeBody": "La compra de monedas en este portal estará disponible próximamente. Mientras tanto, recarga tu saldo desde el Portal Seguro principal.",
+    "close": "Cerrar",
+    "currencyNote": "1 U-Coin = 1 EUR (la moneda local se convierte automáticamente al pagar)."
+  },
+  "Cognitive": {
+    "title": "Ecosistema Cognitivo",
+    "subtitle": "Once módulos de cognición sintética, cada uno con su propia disciplina de razonamiento."
+  },
+  "B2C": {
+    "title": "Servicios en Vivo para Consumidores",
+    "subtitle": "Módulos de acceso instantáneo con control por monedas, misiones interactivas y simulaciones.",
+    "badgeLive": "Servicio en Vivo",
+    "badgeCoinGated": "Acceso con Monedas",
+    "badgeQuest": "Misión Interactiva",
+    "cost": "Costo",
+    "yourBalance": "Tu Saldo",
+    "enterQuest": "Iniciar Misión",
+    "insufficientBalance": "Saldo insuficiente -- recarga monedas para entrar.",
+    "checkingBalance": "Verificando saldo..."
+  },
+  "B2B": {
+    "title": "Protocolos Empresariales",
+    "subtitle": "Infraestructura soberana en investigación y desarrollo activos.",
+    "rdNotice": "Protocolo B2B exclusivo para empresas en I+D activo (Enterprise SaaS Subscription).",
+    "patentBadge": "Solicitud de Patente USPTO Pendiente #64/023,911",
+    "viewSpec": "Ver Especificación Técnica",
+    "hideSpec": "Ocultar Especificación Técnica",
+    "earlyAccess": "Acceso Anticipado / Consulta Empresarial",
+    "inquiryTitle": "Solicitar Acceso Anticipado",
+    "inquiryName": "Nombre Completo",
+    "inquiryEmail": "Correo Corporativo",
+    "inquiryCompany": "Empresa",
+    "inquiryMessage": "¿Qué te gustaría construir?",
+    "inquirySubmit": "Enviar Consulta",
+    "inquiryThanksTitle": "Solicitud recibida",
+    "inquiryThanksBody": "Gracias -- nuestro equipo empresarial se pondrá en contacto contigo en breve.",
+    "close": "Cerrar"
+  },
+  "ErrorBoundary": {
+    "title": "Error del Núcleo Soberano",
+    "body": "Se produjo un fallo crítico en la capa de infraestructura soberana. No se muestran más detalles aquí por cumplimiento de seguridad -- nuestros sistemas ya han sido notificados.",
+    "digestLabel": "ID de Referencia:",
+    "retry": "Reintentar",
+    "home": "Volver al Portal"
+  },
+  "Ecosystems": {
+    "echo": {
+      "title": "Echo",
+      "description": "Análisis de señal resonante que refleja tu consulta a través de capas de ecos cognitivos.",
+      "rules": "Cada consulta atraviesa tres ciclos de reflexión antes de que surja una respuesta."
+    },
+    "void": {
+      "title": "Void",
+      "description": "Reduce un problema a su espacio negativo -- lo que falta, no lo que está presente.",
+      "rules": "Presenta una tesis; Void devuelve solo aquello que la refuta."
+    },
+    "mirror": {
+      "title": "Mirror",
+      "description": "Un escaneo autodiagnóstico de espectro completo de patrones conductuales y cognitivos.",
+      "rules": "Un escaneo por sesión; los resultados quedan sellados únicamente a tu identidad."
+    },
+    "oracle": {
+      "title": "Oracle",
+      "description": "Modelado de previsión probabilística para decisiones con horizontes largos e inciertos.",
+      "rules": "Formula una pregunta a la vez; Oracle responde en probabilidades, nunca con certezas."
+    },
+    "pulse": {
+      "title": "Pulse",
+      "description": "Signos vitales en tiempo real de mercados, sentimiento e impulso -- léelos antes de que se muevan.",
+      "rules": "Transmisión en vivo; cada sesión monitorea una sola señal."
+    },
+    "apex": {
+      "title": "Apex",
+      "description": "Simulación de alto riesgo bajo una cuenta regresiva implacable.",
+      "rules": "El temporizador no se detiene. Entrega antes de llegar a cero o la corrida se pierde."
+    },
+    "genesis": {
+      "title": "Genesis",
+      "description": "Construcción desde primeros principios: erige una idea partiendo solo de sus axiomas.",
+      "rules": "Comienza sin ninguna suposición; Genesis rechaza toda premisa que no pueda derivar."
+    },
+    "syndicate": {
+      "title": "Syndicate",
+      "description": "Mapeo de coaliciones a través de redes ocultas de influencia y afiliación.",
+      "rules": "El acceso requiere una entidad objetivo nombrada; los resultados son grafos de red, no veredictos."
+    },
+    "aura": {
+      "title": "Aura",
+      "description": "Detección ambiental de campos emocionales sintonizada con el tono detrás de tus palabras.",
+      "rules": "Sin preguntas directas -- Aura lee el tono, no el texto."
+    },
+    "paradox": {
+      "title": "Paradox",
+      "description": "Somete una idea a prueba de estrés ejecutándola a la inversa a través de su propia lógica.",
+      "rules": "Presenta una conclusión; Paradox la rebobina para hallar dónde se contradice a sí misma."
+    },
+    "chronos": {
+      "title": "Chronos",
+      "description": "Modelado de patrones históricos de ciclo largo a través de décadas, no de titulares.",
+      "rules": "Horizonte mínimo de consulta: diez años. Chronos no responde preguntas del mismo día."
+    }
+  },
+  "OmniSynapse": {
+    "placeholder": "Pregúntale a OMNI AI lo que sea...",
+    "architectLabel": "UNITAS ARCHITECT",
+    "analyzing": "Analizando a través de cuatro dimensiones...",
+    "dimDirectionality": "Direccionalidad",
+    "dimConcept": "Concepto / Ideología",
+    "dimTendency": "Tendencia del Usuario",
+    "dimBlueprint": "Plano Maestro",
+    "webDataLabel": "Capa de Síntesis Web",
+    "webDataPlaceholder": "Conecta un índice en vivo para poblar esta dimensión.",
+    "ecosystemDataLabel": "Datos del Ecosistema",
+    "trendsLabel": "Tendencias del Inconsciente Global",
+    "trendsPlaceholder": "La telemetría de tendencias agregadas aún no está conectada en esta versión.",
+    "recommendationLabel": "Ecosistema Recomendado",
+    "enterRecommended": "Entrar al Ecosistema Recomendado",
+    "noResults": "No se encontró un ecosistema coincidente -- prueba con otra frase."
+  },
+  "EntryModal": {
+    "rulesLabel": "Reglas de Participación",
+    "payAndEnter": "Pagar y Entrar",
+    "processing": "Autorizando acceso soberano..."
+  },
+  "Footer": {
+    "customerService": "Atención al Cliente",
+    "helpCenter": "Centro de Ayuda",
+    "contactUs": "Contáctanos",
+    "systemStatus": "Estado del Sistema",
+    "policies": "Políticas",
+    "privacyPolicy": "Política de Privacidad",
+    "cookiePolicy": "Política de Cookies",
+    "termsOfService": "Términos de Servicio",
+    "legal": "Legal",
+    "patentNotice": "Aviso de Patente",
+    "compliance": "Cumplimiento",
+    "security": "Seguridad",
+    "company": "Empresa",
+    "about": "Sobre Nosotros",
+    "careers": "Carreras",
+    "press": "Prensa"
+  },
+  "AudioGate": {
+    "title": "Despierta la Singularidad",
+    "subtitle": "Desbloquea la banda sonora ambiental del espacio profundo y las señales de audio de la interfaz neural.",
+    "skip": "Continuar sin sonido"
+  }
+}

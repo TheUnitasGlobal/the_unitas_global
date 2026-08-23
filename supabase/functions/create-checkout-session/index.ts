@@ -1,5 +1,12 @@
 // Supabase Edge Function: create-checkout-session
 //
+// DEPRECATED (Rev 0 coin-core, 2026-08-21): module access is now gated by
+// coin balance (see create-coin-checkout-session/index.ts and the
+// spend_coins RPC), not by recurring subscriptions. This function and
+// public.subscriptions are left in place, live, and unmodified in case a
+// future "coin auto-refill subscription" tier wants them, but no current UI
+// calls this function. Do not wire new UI to it.
+//
 // Creates a Stripe Checkout Session (subscription mode) for one of the five
 // THE UNITAS GLOBAL OÜ modules and returns its hosted URL for the browser to
 // redirect to.
@@ -124,6 +131,11 @@ Deno.serve(async (req) => {
       customer_email: user.email,
       client_reference_id: user.id,
       metadata: { module: moduleName, supabase_user_id: user.id },
+      // Session metadata does NOT copy to the Subscription object it creates
+      // (Stripe only snapshots it onto the Session itself), so the webhook's
+      // customer.subscription.updated/deleted handlers — which only see the
+      // Subscription, not the originating Session — need it set here too.
+      subscription_data: { metadata: { module: moduleName, supabase_user_id: user.id } },
       success_url: `${SITE_URL}/?checkout=success&module=${encodeURIComponent(moduleName)}`,
       cancel_url: `${SITE_URL}/?checkout=cancelled`,
     })
