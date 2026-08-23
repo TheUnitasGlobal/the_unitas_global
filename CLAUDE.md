@@ -52,7 +52,7 @@ Every file under `supabase/migrations/` in this repo carries a "NOT YET APPLIED"
 
 ```bash
 if [ -n "$(git status --porcelain -- web)" ]; then npm --prefix web run typecheck && npm --prefix web run build || exit 1; fi
-git add . && git commit -m "feat: automated low-memory sovereign checkpoint sync" && git push origin main
+git add . && git commit -m "feat: automated low-memory sovereign checkpoint sync" && git push origin main && echo "checkpoint: $(git rev-parse --short HEAD) pushed to origin/main"
 ```
 
 This is the "automated UI error detection" layer, deliberately kept lightweight per owner decision 2026-08-23: **no Playwright / browser automation** was added for this (would pull in 100s of MB of browser binaries into `/web`, which directly fights the Low-Memory Armor goals above — root already has `@playwright/test`, but wired only to the legacy static site, not `/web`). Instead the gate is exactly `tsc --noEmit` + `next build`, which catches type errors, broken imports, and render-breaking mistakes across all 6 locales without installing anything new.
@@ -64,6 +64,7 @@ How it behaves:
 - It is *detection*, not *auto-fix*: nothing in this hook edits code on failure. A standing "detect and automatically retry a fix" loop is a different, heavier kind of automation (perpetual background agent) that hasn't been requested — ask explicitly (e.g. via `/loop`) if that's wanted later.
 - No-ops safely when there's nothing to commit (the trailing `&&` chain stops at the failed `git commit`).
 - Every turn that changes `web/` now costs one `next build` (last measured: tens of seconds, 124 static pages/6 locales) in exchange for the push-safety guarantee above — this is a deliberate low-spec tradeoff (a slow verify beats a broken deploy), not an oversight.
+- After a successful push, the hook echoes `checkpoint: <short-hash> pushed to origin/main` — a truthful, shell-only confirmation line (no `/cost`/`/usage` telemetry: those are host-UI slash commands and cannot be invoked from a hook's shell command).
 - To disable: remove the `hooks.Stop` entry in `.claude/settings.json`, or ask Claude Code to do it.
 
 ## Known gaps (intentionally out of scope unless a task names them)
