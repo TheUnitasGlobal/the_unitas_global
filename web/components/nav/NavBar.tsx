@@ -30,8 +30,8 @@ export function NavBar() {
       {shockwaveElement}
       <div className="flex items-center gap-3">
         <Link href="/" className="flex items-center gap-3">
-          <Globe size={18} className="globe-rainbow" aria-hidden="true" />
-          <span className="hidden font-serif text-[18px] font-bold leading-none tracking-widest text-accent sm:inline">
+          <Globe size={18} className="globe-rainbow shrink-0" aria-hidden="true" />
+          <span className="hidden font-serif text-[26px] font-bold leading-none tracking-widest text-accent sm:inline">
             UNITAS
           </span>
         </Link>

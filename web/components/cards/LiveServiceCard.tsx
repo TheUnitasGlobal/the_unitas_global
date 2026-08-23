@@ -105,7 +105,7 @@ export function LiveServiceCard({ module, index, onOpen }: LiveServiceCardProps)
             {tModules(`${module.messageKey}.title`)}
           </h3>
         </div>
-        <span className="mb-1.5 inline-block text-[10px] font-bold uppercase tracking-widest text-gray-400">
+        <span className="mb-1.5 inline-block text-[13px] font-bold uppercase tracking-widest text-gray-400">
           {module.metalName} · {t('badgeLive')}
         </span>
         <p className="text-[13px] font-normal leading-snug text-gray-300">
@@ -114,8 +114,8 @@ export function LiveServiceCard({ module, index, onOpen }: LiveServiceCardProps)
       </div>
 
       <div className="relative mt-6 flex items-center justify-between border-t pt-4" style={{ borderColor: `${SILVER}22` }}>
-        <span className="text-[10px] uppercase tracking-widest text-gray-400">{t('badgeQuest')}</span>
-        <span className="text-xs font-bold" style={{ color: SILVER }}>
+        <span className="text-[13px] uppercase tracking-widest text-gray-400">{t('badgeQuest')}</span>
+        <span className="text-[13px] font-bold" style={{ color: SILVER }}>
           {module.coinCost.toLocaleString()} U-COIN
         </span>
       </div>
