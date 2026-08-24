@@ -90,6 +90,26 @@ body {
   zoom: 0.75;
 }
 
+/* Subtle gold/cyan breathing pulse for the "UNITAS App Download" nav button --
+   deliberately modeled on .title-breathe (glow oscillation only, no rainbow
+   hue-rotate like .event-horizon-btn -- the request called for a gold/neon
+   tone specifically, not the full-spectrum ring treatment). */
+@keyframes app-download-pulse {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.35), 0 0 22px rgba(0, 243, 255, 0.12);
+    box-shadow: 0 0 14px rgba(212, 175, 55, 0.18), inset 0 0 10px rgba(212, 175, 55, 0.06);
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+  50% {
+    text-shadow: 0 0 18px rgba(212, 175, 55, 0.6), 0 0 34px rgba(0, 243, 255, 0.22);
+    box-shadow: 0 0 26px rgba(212, 175, 55, 0.34), inset 0 0 16px rgba(212, 175, 55, 0.12);
+    border-color: rgba(212, 175, 55, 0.6);
+  }
+}
+.app-download-pulse {
+  animation: app-download-pulse 4.5s ease-in-out infinite;
+}
+
 /* Click shockwave ring (see components/effects/Shockwave.tsx) */
 @keyframes shockwave-ring {
   0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0.9; border-width: 3px; }

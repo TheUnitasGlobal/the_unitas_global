@@ -7,7 +7,8 @@
     "languageLabel": "Idioma",
     "soundOn": "Sonido activado",
     "soundOff": "Sonido desactivado",
-    "scrollToFooter": "Perfil de la empresa"
+    "scrollToFooter": "Perfil de la empresa",
+    "appDownloadAria": "Descargar la app de UNITAS"
   },
   "Home": {
     "title": "UNITAS"
