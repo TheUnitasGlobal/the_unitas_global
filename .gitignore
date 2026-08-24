@@ -8,3 +8,4 @@ pages/
 graphify-out/
 node_modules/
 test-results/
+.vercel
