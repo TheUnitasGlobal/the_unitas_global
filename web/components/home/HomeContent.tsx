@@ -37,7 +37,7 @@ export function HomeContent() {
           <h2 className="glow-text mb-3 font-serif text-2xl font-bold text-accent md:text-3xl">
             {tCognitive('title')}
           </h2>
-          <p className="mx-auto max-w-2xl text-[13px] text-gray-400 sm:whitespace-nowrap sm:text-sm md:text-base">
+          <p className="mx-auto max-w-2xl text-[16px] text-gray-400 sm:whitespace-nowrap sm:text-[17px] md:text-[19px]">
             {tCognitive('subtitle')}
           </p>
         </div>
@@ -61,7 +61,7 @@ export function HomeContent() {
           <h2 className="glow-text mb-3 font-serif text-2xl font-bold text-accent md:text-3xl">
             {tB2c('title')}
           </h2>
-          <p className="mx-auto max-w-2xl text-[13px] text-gray-400 sm:whitespace-nowrap sm:text-sm md:text-base">
+          <p className="mx-auto max-w-2xl text-[16px] text-gray-400 sm:whitespace-nowrap sm:text-[17px] md:text-[19px]">
             {tB2c('subtitle')}
           </p>
         </div>
@@ -79,7 +79,7 @@ export function HomeContent() {
           <h2 className="mb-3 font-serif text-2xl font-bold text-accent/80 md:text-3xl">
             {tB2b('title')}
           </h2>
-          <p className="mx-auto max-w-2xl text-[13px] text-gray-500 sm:whitespace-nowrap sm:text-sm md:text-base">
+          <p className="mx-auto max-w-2xl text-[16px] text-gray-500 sm:whitespace-nowrap sm:text-[17px] md:text-[19px]">
             {tB2b('subtitle')}
           </p>
         </div>

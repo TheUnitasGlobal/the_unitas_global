@@ -221,7 +221,7 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
             onFocus={handleFocus}
             onBlur={handleBlur}
             placeholder={dragActive ? t('dropZoneHint') : t('placeholder')}
-            className="w-full bg-transparent text-base text-white placeholder:text-gray-500 focus:outline-none"
+            className="w-full bg-transparent text-[19px] text-white placeholder:text-gray-400 focus:outline-none"
           />
           <span title={t('dropZoneHint')}>
             <Paperclip size={16} className="shrink-0 text-gray-600" aria-hidden="true" />

@@ -8,7 +8,7 @@ export function Hero() {
 
   return (
     <div className="mx-auto max-w-3xl px-6 text-center">
-      <h1 className="title-breathe font-serif text-7xl font-bold tracking-[0.03em] text-white md:text-9xl">
+      <h1 className="title-breathe font-serif text-7xl font-bold leading-none tracking-[0.03em] text-white md:text-9xl">
         {t('title')}
       </h1>
     </div>
