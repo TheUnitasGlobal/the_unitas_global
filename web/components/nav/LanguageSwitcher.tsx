@@ -37,7 +37,7 @@ export function LanguageSwitcher() {
         onClick={() => setOpen((prev) => !prev)}
         aria-label={t('languageLabel')}
         aria-expanded={open}
-        className="flex items-center gap-2 border border-accent/50 bg-void/60 px-5 py-3 text-base font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
+        className="flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
       >
         <span className="text-2xl leading-none" aria-hidden="true">
           {current.flag}
@@ -49,7 +49,7 @@ export function LanguageSwitcher() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} aria-hidden="true" />
-          <ul className="absolute right-0 z-50 mt-1 w-40 border border-accent/30 bg-quantum shadow-[0_0_30px_rgba(0,243,255,0.08)]">
+          <ul className="absolute right-0 z-50 mt-3 w-40 bg-quantum/95 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-md">
             {routing.locales.map((loc) => (
               <li key={loc}>
                 <button

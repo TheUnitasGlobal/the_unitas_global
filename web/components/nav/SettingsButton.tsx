@@ -19,7 +19,7 @@ export function SettingsButton() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label={t('settingsLabel')}
-        className="relative flex h-[52px] w-[52px] items-center justify-center border border-accent/50 bg-void/60 text-accent transition-all hover:bg-accent hover:text-void"
+        className="relative flex h-11 w-11 items-center justify-center text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
       >
         <Settings size={26} />
         {profile && !profile.phone_verified && (

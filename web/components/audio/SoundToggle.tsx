@@ -14,7 +14,7 @@ export function SoundToggle() {
       onClick={toggleMuted}
       aria-label={muted ? t('soundOff') : t('soundOn')}
       aria-pressed={!muted}
-      className="flex h-[52px] w-[52px] items-center justify-center border border-accent/50 bg-void/60 text-accent transition-all hover:bg-accent hover:text-void"
+      className="flex h-11 w-11 items-center justify-center text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
     >
       {muted ? <VolumeX size={26} /> : <Volume2 size={26} />}
     </button>

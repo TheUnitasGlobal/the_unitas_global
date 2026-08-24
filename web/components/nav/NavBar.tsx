@@ -43,7 +43,7 @@ export function NavBar() {
         </button>
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-4">
+      <div className="flex items-center gap-6 sm:gap-9">
         <SoundToggle />
         <CoinBalanceBadge />
         <LanguageSwitcher />

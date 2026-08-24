@@ -19,21 +19,21 @@ export function CoinBalanceBadge() {
       : balance.toLocaleString();
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-5">
       <div
-        className="flex items-center gap-2 border border-accent/30 bg-void/60 px-5 py-3 text-base text-gray-300"
+        className="flex items-center gap-2 text-sm text-gray-300"
         title={!session ? t('signInRequired') : undefined}
       >
-        <Coins size={26} className="text-accent" />
+        <Coins size={22} className="text-accent/80" />
         <span className="font-bold text-neon">{balanceLabel}</span>
         <span className="hidden text-gray-500 sm:inline">{t('coinUnit')}</span>
       </div>
       <button
         type="button"
         onClick={() => setChargeOpen(true)}
-        className="flex items-center gap-2 border border-accent/50 bg-accent/10 px-5 py-3 text-base font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
+        className="flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
       >
-        <Plus size={26} />
+        <Plus size={20} />
         <span className="hidden sm:inline">{t('chargeCoins')}</span>
       </button>
       <ChargeCoinsModal open={chargeOpen} onClose={() => setChargeOpen(false)} />

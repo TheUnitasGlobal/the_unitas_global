@@ -24,7 +24,7 @@ export function AuthButton() {
         disabled={!configured}
         onClick={() => (session ? handleLogout() : setOpen(true))}
         title={!configured ? t('unavailable') : undefined}
-        className="flex items-center gap-2 border border-accent/50 bg-void/60 px-5 py-3 text-base font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-void/60 disabled:hover:text-accent"
+        className="flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:text-accent/60"
       >
         {session ? <LogOut size={26} /> : <LogIn size={26} />}
         <span className="hidden sm:inline">{session ? t('logout') : t('login')}</span>
