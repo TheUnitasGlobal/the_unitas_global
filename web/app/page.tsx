@@ -3,11 +3,12 @@ import { headers } from 'next/headers';
 import { routing } from '@/i18n/routing';
 
 /**
- * Bare "/" entry point. Locale resolution used to run in edge middleware
- * (Accept-Language sniffing + redirect); there is no middleware.ts at all
- * anymore, so this Node.js-runtime route is the only place that logic runs --
- * a parsing edge case here can't take down every other request the way an
- * edge middleware crash would.
+ * Bare "/" entry point. This used to be handled by next-intl's edge
+ * middleware (Accept-Language sniffing + redirect); that responsibility now
+ * lives here instead, in the Node.js runtime, so a parsing edge case only
+ * ever affects this one route instead of every request behind edge
+ * middleware (see middleware.ts, which is now a trivial pass-through and
+ * never touches locale logic at all).
  */
 export default function RootPage() {
   redirect(`/${resolvePreferredLocale()}`);
