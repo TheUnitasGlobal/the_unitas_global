@@ -46,7 +46,7 @@ export function Footer() {
         <div className="mt-14 border-t border-white/10 pt-10 text-center">
           <p className="font-serif text-[18px] font-semibold tracking-widest text-accent">UNITAS</p>
           <p className="mt-3 text-[15px] font-medium tracking-wide text-gray-400">
-            © 2026 | UNITAS GLOBAL OÜ
+            © 2026 | THE UNITAS GLOBAL OÜ
           </p>
         </div>
       </div>
