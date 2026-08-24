@@ -25,10 +25,16 @@ export function HomeContent() {
 
   return (
     <Fragment>
-    <main className="pb-24 pt-24">
+    <main className="pb-24">
       {shockwaveElement}
 
-      <Hero />
+      {/* nav clearance (fixed nav is out of flow) is kept separate from the centering box below,
+          so justify-center guarantees an exact, symmetric top/bottom split around the title itself */}
+      <div className="pt-24">
+        <div className="flex min-h-[220px] flex-col items-center justify-center md:min-h-[300px]">
+          <Hero />
+        </div>
+      </div>
       <OmniSynapseSearch onSelectEcosystem={setActiveEcosystem} onSelectModule={setActiveModule} />
 
       {/* Section 1 -- Cognitive Ecosystem (the 11 modules, always visible) */}
