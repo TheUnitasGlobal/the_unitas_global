@@ -79,7 +79,9 @@ export function HomeContent() {
           <h2 className="mb-3 font-serif text-2xl font-bold text-accent/80 md:text-3xl">
             {tB2b('title')}
           </h2>
-          <p className="mx-auto max-w-xl text-sm text-gray-500 md:text-base">{tB2b('subtitle')}</p>
+          <p className="mx-auto max-w-2xl text-[13px] text-gray-500 sm:whitespace-nowrap sm:text-sm md:text-base">
+            {tB2b('subtitle')}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
