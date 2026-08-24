@@ -28,12 +28,12 @@ export function HomeContent() {
     <main className="pb-24">
       {shockwaveElement}
 
-      {/* nav clearance (fixed nav is out of flow) is kept separate from the centering box below,
-          so justify-center guarantees an exact, symmetric top/bottom split around the title itself */}
-      <div className="pt-24">
-        <div className="flex min-h-[220px] flex-col items-center justify-center md:min-h-[300px]">
-          <Hero />
-        </div>
+      {/* pt-24 (nav clearance) and pb-24 are literally the same class, not independently-tuned
+          values that happen to match -- that is what guarantees exact top/bottom symmetry around
+          the title. OmniSynapseSearch carries no margin-top of its own (see its root div), so
+          this pb-24 is the entire gap down to the search box, mirroring the pt-24 gap up to the nav. */}
+      <div className="flex flex-col items-center pt-24 pb-24">
+        <Hero />
       </div>
       <OmniSynapseSearch onSelectEcosystem={setActiveEcosystem} onSelectModule={setActiveModule} />
 
