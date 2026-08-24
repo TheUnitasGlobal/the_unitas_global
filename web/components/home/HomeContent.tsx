@@ -62,7 +62,10 @@ export function HomeContent() {
       </section>
 
       {/* Section 2 -- Live Consumer Services (restored: the original 5 modules) */}
-      <section id="live-services" className="mx-auto max-w-7xl border-t border-white/10 px-6 py-16">
+      {/* mt-[19px] compensates the -mt-[19px] pulled by OmniSynapseSearch above, so this
+          section (and everything after it) stays at its original page position while only
+          the search bar + Cognitive Ecosystem block shifts up. */}
+      <section id="live-services" className="mx-auto mt-[19px] max-w-7xl border-t border-white/10 px-6 py-16">
         <div className="mb-10 text-center">
           <h2 className="glow-text mb-3 font-serif text-2xl font-bold text-accent md:text-3xl">
             {tB2c('title')}
