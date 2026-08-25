@@ -1,6 +1,7 @@
 {
   "LocaleLayout": {
-    "title": "UNITAS | 神经符号安全基础设施"
+    "title": "UNITAS | 神经符号安全基础设施",
+    "description": "自主神经符号与主权财政路由基础设施。由认知与财务模块构成的零信任生态系统。"
   },
   "Nav": {
     "portal": "安全门户",
@@ -63,6 +64,10 @@
     "chargeBody": "该门户的代币购买结账功能即将推出。在此之前，请前往主安全门户充值余额。",
     "close": "关闭",
     "currencyNote": "1 U-COIN = 1 欧元（EUR）（结账时自动转换为当地货币）。"
+  },
+  "About": {
+    "title": "关于 UNITAS",
+    "intro": "UNITAS(尤尼塔斯)是由 THE UNITAS GLOBAL OÜ 运营的主权认知生态系统，将十一大认知生态模块、五大实时消费者服务与三大企业协议统一为单一的代币原生基础设施。"
   },
   "Cognitive": {
     "title": "认知生态系统",

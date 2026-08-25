@@ -1,6 +1,7 @@
 {
   "LocaleLayout": {
-    "title": "UNITAS | Infraestructura Segura Neuro-Simbólica"
+    "title": "UNITAS | Infraestructura Segura Neuro-Simbólica",
+    "description": "Infraestructura autónoma de enrutamiento neuro-simbólico y fiscal soberano. Un ecosistema de confianza cero de módulos cognitivos y fiscales."
   },
   "Nav": {
     "portal": "Portal Seguro",
@@ -63,6 +64,10 @@
     "chargeBody": "La compra de monedas en este portal estará disponible próximamente. Mientras tanto, recarga tu saldo desde el Portal Seguro principal.",
     "close": "Cerrar",
     "currencyNote": "1 U-Coin = 1 EUR (la moneda local se convierte automáticamente al pagar)."
+  },
+  "About": {
+    "title": "Acerca de UNITAS",
+    "intro": "UNITAS es un ecosistema cognitivo soberano operado por THE UNITAS GLOBAL OÜ, que unifica once Ecosistemas Cognitivos, cinco Servicios de Consumidor en Vivo y tres Protocolos Empresariales en una única infraestructura basada en monedas."
   },
   "Cognitive": {
     "title": "Ecosistema Cognitivo",

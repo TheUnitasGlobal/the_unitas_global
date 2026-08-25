@@ -13,6 +13,8 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+const SITE_URL = 'https://www.theunitas.global';
+
 export async function generateMetadata({
   params,
 }: {
@@ -20,7 +22,33 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'LocaleLayout' });
-  return { title: t('title') };
+  const title = t('title');
+  const description = `${t('description')} · THE UNITAS GLOBAL OÜ`;
+  const url = `${SITE_URL}/${locale}`;
+
+  return {
+    title: { absolute: title },
+    description,
+    alternates: {
+      canonical: url,
+      languages: {
+        ...Object.fromEntries(routing.locales.map((loc) => [loc, `${SITE_URL}/${loc}`])),
+        'x-default': `${SITE_URL}/${routing.defaultLocale}`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: 'UNITAS',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
 }
 
 /**

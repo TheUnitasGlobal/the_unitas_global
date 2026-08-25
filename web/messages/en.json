@@ -1,6 +1,7 @@
 {
   "LocaleLayout": {
-    "title": "UNITAS | Neural-Symbolic Secure Infrastructure"
+    "title": "UNITAS | Neural-Symbolic Secure Infrastructure",
+    "description": "Autonomous Neural-Symbolic & Sovereign Fiscal Routing Infrastructure. A Zero-Trust ecosystem of cognitive and fiscal modules."
   },
   "Nav": {
     "portal": "Secure Portal",
@@ -63,6 +64,10 @@
     "chargeBody": "Coin purchase checkout for this portal is coming soon. In the meantime, top up your balance from the main Secure Portal.",
     "close": "Close",
     "currencyNote": "1 U-Coin = 1 EUR (local currency automatically converted at checkout)."
+  },
+  "About": {
+    "title": "About UNITAS",
+    "intro": "UNITAS is a sovereign cognitive ecosystem operated by THE UNITAS GLOBAL OÜ, unifying eleven Cognitive Ecosystems, five Live Consumer Services, and three Enterprise Protocols into a single coin-native infrastructure."
   },
   "Cognitive": {
     "title": "Cognitive Ecosystem",

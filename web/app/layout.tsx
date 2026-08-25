@@ -36,7 +36,23 @@ const jetbrainsMono = JetBrains_Mono({
  * there too rather than here -- only state that must survive a locale
  * switch belongs in this file.
  */
+const SITE_URL = 'https://www.theunitas.global';
+
+const ORGANIZATION_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'UNITAS',
+  legalName: 'THE UNITAS GLOBAL OÜ',
+  url: SITE_URL,
+  sameAs: [SITE_URL],
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: {
+    template: '%s | UNITAS',
+    default: 'UNITAS',
+  },
   manifest: '/manifest.json',
   icons: {
     icon: [
@@ -60,6 +76,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${cinzel.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-screen bg-void font-sans text-gray-200 antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }}
+        />
         <SpatialAudioProvider>
           <SceneLazy />
           {children}

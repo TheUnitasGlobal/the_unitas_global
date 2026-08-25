@@ -7,6 +7,7 @@ import { OmniSynapseSearch } from './OmniSynapseSearch';
 import { EcosystemCard } from '@/components/cards/EcosystemCard';
 import { LiveServiceCard } from '@/components/cards/LiveServiceCard';
 import { B2BProtocolCard } from '@/components/cards/B2BProtocolCard';
+import { AboutSection } from './AboutSection';
 import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModal';
 import { ModuleQuestModal } from '@/components/interaction/ModuleQuestModal';
 import { Footer } from '@/components/layout/Footer';
@@ -99,6 +100,8 @@ export function HomeContent() {
           ))}
         </div>
       </section>
+
+      <AboutSection />
 
       <EcosystemEntryModal ecosystem={activeEcosystem} onClose={() => setActiveEcosystem(null)} />
       <ModuleQuestModal module={activeModule} onClose={() => setActiveModule(null)} />

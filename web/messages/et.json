@@ -1,6 +1,7 @@
 {
   "LocaleLayout": {
-    "title": "UNITAS | Neuro-Sümboolne Turvainfrastruktuur"
+    "title": "UNITAS | Neuro-Sümboolne Turvainfrastruktuur",
+    "description": "Autonoomne neuro-sümboolne ja suveräänne finantsmarsruutimise infrastruktuur. Null-usalduse ökosüsteem kognitiivsetest ja finantsmoodulitest."
   },
   "Nav": {
     "portal": "Turvaline Portaal",
@@ -63,6 +64,10 @@
     "chargeBody": "Müntide ostmine selles portaalis on peagi saadaval. Seniks laadi oma saldot peamises Turvalises Portaalis.",
     "close": "Sulge",
     "currencyNote": "1 U-Coin = 1 EUR (kohalik valuuta teisendatakse automaatselt kassas)."
+  },
+  "About": {
+    "title": "Teave UNITASe kohta",
+    "intro": "UNITAS on suveräänne kognitiivne ökosüsteem, mida haldab THE UNITAS GLOBAL OÜ, ühendades üksteist kognitiivset ökosüsteemi, viis reaalajas tarbijateenust ja kolm ettevõtte protokolli üheks mündipõhiseks infrastruktuuriks."
   },
   "Cognitive": {
     "title": "Kognitiivne Ökosüsteem",
