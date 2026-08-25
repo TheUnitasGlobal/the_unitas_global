@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Globe } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { SoundToggle } from '@/components/audio/SoundToggle';
 import { usePwaInstall } from '@/lib/hooks/usePwaInstall';
@@ -35,7 +34,13 @@ export function NavBar() {
     <nav className="fixed left-0 top-0 z-50 flex w-full items-center justify-between border-b border-accent/20 bg-void/80 px-4 py-5 backdrop-blur-md sm:px-6">
       <div className="relative flex items-center gap-3">
         <Link href="/" className="flex items-center">
-          <Globe size={26} className="globe-rainbow shrink-0" aria-hidden="true" />
+          <img
+            src="/assets/svg/unitas-mark.svg"
+            alt="UNITAS"
+            width={30}
+            height={30}
+            className="shrink-0 drop-shadow-[0_0_10px_rgba(212,175,55,0.45)]"
+          />
         </Link>
         {!isInstalled && (
           <button

@@ -63,22 +63,6 @@ body {
   outline-offset: 4px;
 }
 
-/* Rotating + pulsing rainbow-spectrum globe icon -- top-left nav mark. */
-@keyframes globe-spin {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.12); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-@keyframes globe-hue {
-  0% { filter: hue-rotate(0deg) saturate(1.4) brightness(1.15); }
-  100% { filter: hue-rotate(360deg) saturate(1.4) brightness(1.15); }
-}
-.globe-rainbow {
-  color: #00f3ff;
-  animation: globe-spin 7s linear infinite, globe-hue 4s linear infinite;
-  transform-origin: center;
-}
-
 /* Scales the whole dashboard (nav + page content, not the entry gate) down
    to a 75%-zoom-equivalent -- unlike `transform: scale()`, `zoom` triggers a
    real layout recalculation at the scaled size (matching native browser
