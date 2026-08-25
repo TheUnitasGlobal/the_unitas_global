@@ -63,6 +63,57 @@ body {
   outline-offset: 4px;
 }
 
+/* Calm rainbow-spectrum hologram halo + glassmorphism panel -- top-left nav logo mark.
+   The gradient ring lives on ::before (a blurred, slowly-rotating conic-gradient) so it
+   radiates outward from behind the mark; the mark itself stays crisp and static on top
+   of a frosted glass disc, rather than the whole icon color-cycling. */
+@keyframes logo-halo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes logo-halo-breathe {
+  0%, 100% { opacity: 0.5; transform: scale(0.96); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+.logo-hologram {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px) saturate(1.4);
+  -webkit-backdrop-filter: blur(6px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.logo-hologram::before {
+  content: '';
+  position: absolute;
+  inset: -9px;
+  z-index: -1;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0deg,
+    #ff3b30,
+    #ff9500,
+    #ffcc00,
+    #34c759,
+    #0a84ff,
+    #1e2f97,
+    #af52de,
+    #ff3b30
+  );
+  filter: blur(9px);
+  animation: logo-halo-spin 16s linear infinite, logo-halo-breathe 5.5s ease-in-out infinite;
+}
+.logo-hologram img {
+  position: relative;
+  z-index: 1;
+  border-radius: 9999px;
+}
+
 /* Scales the whole dashboard (nav + page content, not the entry gate) down
    to a 75%-zoom-equivalent -- unlike `transform: scale()`, `zoom` triggers a
    real layout recalculation at the scaled size (matching native browser

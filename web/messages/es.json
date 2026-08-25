@@ -65,10 +65,6 @@
     "close": "Cerrar",
     "currencyNote": "1 U-Coin = 1 EUR (la moneda local se convierte automáticamente al pagar)."
   },
-  "About": {
-    "title": "Acerca de UNITAS",
-    "intro": "UNITAS es un ecosistema cognitivo soberano operado por THE UNITAS GLOBAL OÜ, que unifica once Ecosistemas Cognitivos, cinco Servicios de Consumidor en Vivo y tres Protocolos Empresariales en una única infraestructura basada en monedas."
-  },
   "Cognitive": {
     "title": "Ecosistema Cognitivo",
     "subtitle": "Once módulos de cognición sintética, cada uno con su propia disciplina de razonamiento."

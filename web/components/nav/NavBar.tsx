@@ -34,13 +34,9 @@ export function NavBar() {
     <nav className="fixed left-0 top-0 z-50 flex w-full items-center justify-between border-b border-accent/20 bg-void/80 px-4 py-5 backdrop-blur-md sm:px-6">
       <div className="relative flex items-center gap-3">
         <Link href="/" className="flex items-center">
-          <img
-            src="/assets/svg/unitas-mark.svg"
-            alt="UNITAS"
-            width={30}
-            height={30}
-            className="shrink-0 drop-shadow-[0_0_10px_rgba(212,175,55,0.45)]"
-          />
+          <span className="logo-hologram shrink-0">
+            <img src="/assets/svg/unitas-mark.svg" alt="UNITAS" width={30} height={30} />
+          </span>
         </Link>
         {!isInstalled && (
           <button

@@ -65,10 +65,6 @@
     "close": "关闭",
     "currencyNote": "1 U-COIN = 1 欧元（EUR）（结账时自动转换为当地货币）。"
   },
-  "About": {
-    "title": "关于 UNITAS",
-    "intro": "UNITAS(尤尼塔斯)是由 THE UNITAS GLOBAL OÜ 运营的主权认知生态系统，将十一大认知生态模块、五大实时消费者服务与三大企业协议统一为单一的代币原生基础设施。"
-  },
   "Cognitive": {
     "title": "认知生态系统",
     "subtitle": "11 个人工认知模块，各自运行独立的推理机制。"
