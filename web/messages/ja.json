@@ -9,7 +9,9 @@
     "soundOff": "サウンドOFF",
     "scrollToFooter": "会社概要",
     "appDownloadAria": "UNITASアプリをダウンロード",
+    "appDownloadModalTitle": "UNITASをインストール",
     "appDownloadIosHint": "共有ボタンをタップし、「ホーム画面に追加」を選ぶとUNITASをインストールできます。",
+    "appDownloadDesktopHint": "ブラウザのアドレスバーにあるインストールアイコンをクリックするか、ブラウザメニューから「UNITASをインストール」を選択してください。",
     "appDownloadUnsupported": "このブラウザではまだアプリのインストールに対応していません。"
   },
   "Home": {

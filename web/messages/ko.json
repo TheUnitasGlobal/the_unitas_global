@@ -9,7 +9,9 @@
     "soundOff": "사운드 꺼짐",
     "scrollToFooter": "회사 소개",
     "appDownloadAria": "UNITAS 앱 다운로드",
+    "appDownloadModalTitle": "UNITAS 설치",
     "appDownloadIosHint": "공유 버튼을 누른 뒤 \"홈 화면에 추가\"를 선택해 UNITAS를 설치하세요.",
+    "appDownloadDesktopHint": "브라우저 주소창의 설치 아이콘을 클릭하거나, 브라우저 메뉴에서 \"UNITAS 설치...\"를 선택하세요.",
     "appDownloadUnsupported": "이 브라우저에서는 앱 설치가 아직 지원되지 않습니다."
   },
   "Home": {

@@ -14,6 +14,11 @@ function isIosDevice() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent);
 }
 
+function isMobileDevice() {
+  if (typeof navigator === 'undefined') return false;
+  return /android|iphone|ipad|ipod|windows phone|mobile/i.test(navigator.userAgent);
+}
+
 function isStandalone() {
   if (typeof window === 'undefined') return false;
   return (
@@ -26,11 +31,13 @@ export function usePwaInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isIos, setIsIos] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [status, setStatus] = useState<InstallStatus>('idle');
 
   useEffect(() => {
     setIsInstalled(isStandalone());
     setIsIos(isIosDevice());
+    setIsMobile(isMobileDevice());
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').catch(() => {
@@ -72,6 +79,8 @@ export function usePwaInstall() {
     canInstall: Boolean(deferredPrompt),
     isInstalled,
     isIos,
+    isMobile,
+    isDesktop: !isMobile,
     status,
     promptInstall,
   };

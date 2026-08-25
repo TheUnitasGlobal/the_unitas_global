@@ -9,7 +9,9 @@
     "soundOff": "Heli väljas",
     "scrollToFooter": "Ettevõtte ülevaade",
     "appDownloadAria": "Laadi alla UNITAS rakendus",
+    "appDownloadModalTitle": "Paigalda UNITAS",
     "appDownloadIosHint": "Puuduta Jaga ja seejärel \"Lisa avakuvale\", et UNITAS paigaldada.",
+    "appDownloadDesktopHint": "Klõpsa brauseri aadressiribal paigaldusikoonil või vali brauseri menüüst \"Paigalda UNITAS...\".",
     "appDownloadUnsupported": "Rakenduse paigaldamine pole selles brauseris veel toetatud."
   },
   "Home": {

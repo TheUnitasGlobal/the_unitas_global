@@ -9,7 +9,9 @@
     "soundOff": "Sound off",
     "scrollToFooter": "Company overview",
     "appDownloadAria": "Download the UNITAS app",
+    "appDownloadModalTitle": "Install UNITAS",
     "appDownloadIosHint": "Tap Share, then \"Add to Home Screen\" to install UNITAS.",
+    "appDownloadDesktopHint": "Click the install icon in your browser's address bar, or choose \"Install UNITAS...\" from the browser menu.",
     "appDownloadUnsupported": "App installation isn't supported in this browser yet."
   },
   "Home": {
