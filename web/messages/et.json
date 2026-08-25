@@ -8,7 +8,9 @@
     "soundOn": "Heli sees",
     "soundOff": "Heli väljas",
     "scrollToFooter": "Ettevõtte ülevaade",
-    "appDownloadAria": "Laadi alla UNITAS rakendus"
+    "appDownloadAria": "Laadi alla UNITAS rakendus",
+    "appDownloadIosHint": "Puuduta Jaga ja seejärel \"Lisa avakuvale\", et UNITAS paigaldada.",
+    "appDownloadUnsupported": "Rakenduse paigaldamine pole selles brauseris veel toetatud."
   },
   "Home": {
     "title": "UNITAS"

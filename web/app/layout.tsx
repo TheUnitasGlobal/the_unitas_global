@@ -1,3 +1,4 @@
+import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { Cinzel, JetBrains_Mono } from 'next/font/google';
 import { SceneLazy } from '@/components/canvas/SceneLazy';
@@ -35,6 +36,26 @@ const jetbrainsMono = JetBrains_Mono({
  * there too rather than here -- only state that must survive a locale
  * switch belongs in this file.
  */
+export const metadata: Metadata = {
+  manifest: '/manifest.json',
+  icons: {
+    icon: [
+      { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/icons/apple-touch-icon.png',
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'UNITAS',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#d4af37',
+};
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${cinzel.variable} ${jetbrainsMono.variable}`}>

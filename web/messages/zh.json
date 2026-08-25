@@ -8,7 +8,9 @@
     "soundOn": "声音开启",
     "soundOff": "声音关闭",
     "scrollToFooter": "公司简介",
-    "appDownloadAria": "下载 UNITAS 应用"
+    "appDownloadAria": "下载 UNITAS 应用",
+    "appDownloadIosHint": "点击“分享”，然后选择“添加到主屏幕”即可安装 UNITAS。",
+    "appDownloadUnsupported": "此浏览器暂不支持应用安装。"
   },
   "Home": {
     "title": "UNITAS"

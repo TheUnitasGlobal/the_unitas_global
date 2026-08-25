@@ -8,7 +8,9 @@
     "soundOn": "Sonido activado",
     "soundOff": "Sonido desactivado",
     "scrollToFooter": "Perfil de la empresa",
-    "appDownloadAria": "Descargar la app de UNITAS"
+    "appDownloadAria": "Descargar la app de UNITAS",
+    "appDownloadIosHint": "Toca Compartir y luego \"Añadir a pantalla de inicio\" para instalar UNITAS.",
+    "appDownloadUnsupported": "La instalación de la app aún no es compatible con este navegador."
   },
   "Home": {
     "title": "UNITAS"

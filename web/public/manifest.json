@@ -1,7 +1,9 @@
 {
+  "id": "/",
   "name": "UNITAS | Neural-Symbolic Secure Infrastructure",
   "short_name": "UNITAS",
   "description": "UNITAS Sovereign Ecosystem -- zero-trust identity, U-Coin economy, and the 11-module cognitive ecosystem.",
+  "categories": ["productivity", "utilities", "finance"],
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
