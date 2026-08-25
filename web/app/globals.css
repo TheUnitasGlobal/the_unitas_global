@@ -152,6 +152,39 @@ body {
   opacity: 1 !important;
 }
 
+/* Mobile/tablet nav swipe-scroll (see components/nav/NavBar.tsx): the two
+   header clusters (logo+download / icon controls) sit in one flex row that
+   overflows on narrow viewports instead of wrapping or clipping -- the user
+   swipes it horizontally. Scrollbar is hidden cross-browser and an edge
+   gradient mask signals there's more to scroll. Reverts to a normal
+   non-scrolling justify-between row at the sm: breakpoint and above. */
+.nav-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge/IE */
+  -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+}
+.nav-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/WebKit */
+}
+@media (max-width: 639px) {
+  .nav-scroll {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 20px,
+      black calc(100% - 20px),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 20px,
+      black calc(100% - 20px),
+      transparent
+    );
+  }
+}
+
 /* Click shockwave ring (see components/effects/Shockwave.tsx) */
 @keyframes shockwave-ring {
   0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0.9; border-width: 3px; }
