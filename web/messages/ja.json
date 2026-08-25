@@ -13,7 +13,8 @@
     "appDownloadModalTitle": "UNITASをインストール",
     "appDownloadIosHint": "共有ボタンをタップし、「ホーム画面に追加」を選ぶとUNITASをインストールできます。",
     "appDownloadDesktopHint": "ブラウザのアドレスバーにあるインストールアイコンをクリックするか、ブラウザメニューから「UNITASをインストール」を選択してください。",
-    "appDownloadUnsupported": "このブラウザではまだアプリのインストールに対応していません。"
+    "appDownloadUnsupported": "このブラウザではまだアプリのインストールに対応していません。",
+    "appDownloadAlreadyInstalledHint": "UNITASはこの端末に既にインストールされています。ホーム画面またはアプリ一覧から起動してください。"
   },
   "Home": {
     "title": "UNITAS"

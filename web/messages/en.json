@@ -13,7 +13,8 @@
     "appDownloadModalTitle": "Install UNITAS",
     "appDownloadIosHint": "Tap Share, then \"Add to Home Screen\" to install UNITAS.",
     "appDownloadDesktopHint": "Click the install icon in your browser's address bar, or choose \"Install UNITAS...\" from the browser menu.",
-    "appDownloadUnsupported": "App installation isn't supported in this browser yet."
+    "appDownloadUnsupported": "App installation isn't supported in this browser yet.",
+    "appDownloadAlreadyInstalledHint": "UNITAS is already installed on this device -- launch it from your home screen or app list."
   },
   "Home": {
     "title": "UNITAS"

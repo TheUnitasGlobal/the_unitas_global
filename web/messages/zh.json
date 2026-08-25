@@ -13,7 +13,8 @@
     "appDownloadModalTitle": "安装 UNITAS",
     "appDownloadIosHint": "点击“分享”，然后选择“添加到主屏幕”即可安装 UNITAS。",
     "appDownloadDesktopHint": "点击浏览器地址栏中的安装图标，或在浏览器菜单中选择“安装 UNITAS...”。",
-    "appDownloadUnsupported": "此浏览器暂不支持应用安装。"
+    "appDownloadUnsupported": "此浏览器暂不支持应用安装。",
+    "appDownloadAlreadyInstalledHint": "UNITAS 已安装在此设备上 -- 请从主屏幕或应用列表启动。"
   },
   "Home": {
     "title": "UNITAS"

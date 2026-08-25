@@ -143,6 +143,13 @@ body {
 }
 .app-download-pulse {
   animation: app-download-pulse 4.5s ease-in-out infinite;
+  /* Forced-visibility guarantee: this CTA must never disappear -- not on
+     PWA-installed/standalone launches, not on mobile, not on any viewport.
+     !important overrides any future utility class or breakpoint rule that
+     might otherwise try to hide/collapse it. */
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* Click shockwave ring (see components/effects/Shockwave.tsx) */

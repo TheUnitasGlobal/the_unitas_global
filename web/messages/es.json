@@ -13,7 +13,8 @@
     "appDownloadModalTitle": "Instalar UNITAS",
     "appDownloadIosHint": "Toca Compartir y luego \"Añadir a pantalla de inicio\" para instalar UNITAS.",
     "appDownloadDesktopHint": "Haz clic en el icono de instalación de la barra de direcciones, o elige \"Instalar UNITAS...\" en el menú del navegador.",
-    "appDownloadUnsupported": "La instalación de la app aún no es compatible con este navegador."
+    "appDownloadUnsupported": "La instalación de la app aún no es compatible con este navegador.",
+    "appDownloadAlreadyInstalledHint": "UNITAS ya está instalada en este dispositivo: ábrela desde tu pantalla de inicio o lista de apps."
   },
   "Home": {
     "title": "UNITAS"

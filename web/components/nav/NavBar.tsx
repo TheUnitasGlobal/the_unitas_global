@@ -17,6 +17,10 @@ export function NavBar() {
   const [showGuide, setShowGuide] = useState(false);
 
   const handleAppDownloadClick = () => {
+    if (isInstalled) {
+      setShowGuide(true);
+      return;
+    }
     if (canInstall) {
       void promptInstall();
       return;
@@ -24,11 +28,13 @@ export function NavBar() {
     setShowGuide(true);
   };
 
-  const guideMessage = isIos
-    ? t('appDownloadIosHint')
-    : isDesktop
-      ? t('appDownloadDesktopHint')
-      : t('appDownloadUnsupported');
+  const guideMessage = isInstalled
+    ? t('appDownloadAlreadyInstalledHint')
+    : isIos
+      ? t('appDownloadIosHint')
+      : isDesktop
+        ? t('appDownloadDesktopHint')
+        : t('appDownloadUnsupported');
 
   return (
     <nav className="fixed left-0 top-0 z-50 flex w-full items-center justify-between border-b border-accent/20 bg-void/80 px-4 py-5 backdrop-blur-md sm:px-6">
@@ -38,21 +44,19 @@ export function NavBar() {
             <img src="/assets/svg/unitas-mark.svg" alt="UNITAS" width={30} height={30} />
           </span>
         </Link>
-        {!isInstalled && (
-          <button
-            type="button"
-            aria-label={t('appDownloadAria')}
-            onClick={handleAppDownloadClick}
-            className="app-download-pulse flex items-center gap-1.5 rounded-full border-none bg-transparent px-3 py-1.5 sm:px-4"
-          >
-            <span className="font-serif text-[13px] font-bold uppercase leading-none tracking-[0.18em] text-accent sm:text-[15px]">
-              UNITAS
-            </span>
-            <span className="hidden text-[11px] font-medium leading-none tracking-wide text-cyan-300/90 sm:inline">
-              App Download
-            </span>
-          </button>
-        )}
+        <button
+          type="button"
+          aria-label={t('appDownloadAria')}
+          onClick={handleAppDownloadClick}
+          className="app-download-pulse flex items-center gap-1.5 rounded-full border-none bg-transparent px-3 py-1.5 sm:px-4"
+        >
+          <span className="font-serif text-[13px] font-bold uppercase leading-none tracking-[0.18em] text-accent sm:text-[15px]">
+            UNITAS
+          </span>
+          <span className="hidden text-[11px] font-medium leading-none tracking-wide text-cyan-300/90 sm:inline">
+            App Download
+          </span>
+        </button>
       </div>
 
       <Modal open={showGuide} onClose={() => setShowGuide(false)} labelledBy="app-download-guide-title">

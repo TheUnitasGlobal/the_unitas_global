@@ -13,7 +13,8 @@
     "appDownloadModalTitle": "Paigalda UNITAS",
     "appDownloadIosHint": "Puuduta Jaga ja seejärel \"Lisa avakuvale\", et UNITAS paigaldada.",
     "appDownloadDesktopHint": "Klõpsa brauseri aadressiribal paigaldusikoonil või vali brauseri menüüst \"Paigalda UNITAS...\".",
-    "appDownloadUnsupported": "Rakenduse paigaldamine pole selles brauseris veel toetatud."
+    "appDownloadUnsupported": "Rakenduse paigaldamine pole selles brauseris veel toetatud.",
+    "appDownloadAlreadyInstalledHint": "UNITAS on selles seadmes juba paigaldatud -- ava see avakuvalt või rakenduste loendist."
   },
   "Home": {
     "title": "UNITAS"
