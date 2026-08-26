@@ -53,7 +53,7 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
   const tCognitive = useTranslations('Cognitive');
   const tB2c = useTranslations('B2C');
   const tB2b = useTranslations('B2B');
-  const { playTypingTick, playQuestEnterSfx, playHoverSfx } = useSpatialAudio();
+  const { playTypingTick, playQuestEnterSfx, playHoverSfx, playSearchFocusSfx } = useSpatialAudio();
 
   const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
@@ -155,6 +155,7 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
     if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
     setFocused(true);
     sceneInteraction.focusBoost = 1;
+    playSearchFocusSfx();
   }
 
   function handleBlur() {

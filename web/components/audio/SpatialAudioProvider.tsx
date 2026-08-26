@@ -22,6 +22,8 @@ interface SpatialAudioContextValue {
   playSpatialPing: (pan?: number) => void;
   /** Soft high-tech blip for card/button hover. */
   playHoverSfx: (pan?: number) => void;
+  /** Futuristic activation click when the OMNI-SYNAPSE search input gains focus. */
+  playSearchFocusSfx: () => void;
   /** Rising three-note confirm swell for entering a quest/module. */
   playQuestEnterSfx: () => void;
   /** Single percussive tick for each OMNI-SYNAPSE search keystroke. */
@@ -288,6 +290,53 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     [ensureContext, duckAmbient],
   );
 
+  const playSearchFocusSfx = useCallback(() => {
+    const ctx = ensureContext();
+    const master = masterGainRef.current;
+    if (!ctx || !master) return;
+    duckAmbient(ctx, 0.5, 0.35);
+
+    const now = ctx.currentTime;
+
+    // Rising pitched sweep -- the "activation" feel.
+    const osc = ctx.createOscillator();
+    const oscGain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(420, now);
+    osc.frequency.exponentialRampToValueAtTime(1800, now + 0.09);
+    oscGain.gain.setValueAtTime(0, now);
+    oscGain.gain.linearRampToValueAtTime(0.16, now + 0.015);
+    oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+
+    const oscFilter = ctx.createBiquadFilter();
+    oscFilter.type = 'bandpass';
+    oscFilter.frequency.value = 1600;
+    oscFilter.Q.value = 6;
+
+    osc.connect(oscFilter);
+    oscFilter.connect(oscGain);
+    oscGain.connect(master);
+    osc.start(now);
+    osc.stop(now + 0.16);
+
+    // Crisp digital noise transient layered on top for a "click" texture.
+    const buffer = getNoiseBuffer(ctx);
+    const noiseSrc = ctx.createBufferSource();
+    noiseSrc.buffer = buffer;
+    const noiseFilter = ctx.createBiquadFilter();
+    noiseFilter.type = 'highpass';
+    noiseFilter.frequency.value = 6000;
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.setValueAtTime(0.09, now);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
+
+    noiseSrc.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(master);
+    noiseSrc.start(now);
+    noiseSrc.stop(now + 0.03);
+  }, [ensureContext, duckAmbient, getNoiseBuffer]);
+
   const playQuestEnterSfx = useCallback(() => {
     const ctx = ensureContext();
     const master = masterGainRef.current;
@@ -505,6 +554,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       unlockAndUnmute,
       playSpatialPing,
       playHoverSfx,
+      playSearchFocusSfx,
       playQuestEnterSfx,
       playTypingTick,
       playEcosystemHover,
@@ -517,6 +567,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       unlockAndUnmute,
       playSpatialPing,
       playHoverSfx,
+      playSearchFocusSfx,
       playQuestEnterSfx,
       playTypingTick,
       playEcosystemHover,

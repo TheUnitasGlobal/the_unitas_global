@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type MouseEvent } from 'react';
+import { useRef, useState, useEffect, type MouseEvent } from 'react';
 import { motion, useMotionValue, useMotionTemplate, useSpring } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { Cpu } from 'lucide-react';
@@ -30,12 +30,44 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
   const { playEcosystemHover } = useSpatialAudio();
   const cardRef = useRef<HTMLButtonElement>(null);
   const [hovered, setHovered] = useState(false);
+  const [scrollFocused, setScrollFocused] = useState(false);
 
   const rotateX = useSpring(useMotionValue(0), { stiffness: 220, damping: 22 });
   const rotateY = useSpring(useMotionValue(0), { stiffness: 220, damping: 22 });
+  const scale = useSpring(1, { stiffness: 260, damping: 20 });
   const glowX = useMotionValue(50);
   const glowY = useMotionValue(50);
   const glowBackground = useMotionTemplate`radial-gradient(280px circle at ${glowX}% ${glowY}%, ${ecosystem.glow}33, transparent 65%)`;
+
+  // Touch devices have no hover state, so on narrow (single-column) viewports
+  // the card nearest the vertical center as the user scrolls auto-activates
+  // the same glow/particle/SFX treatment a cursor would trigger on desktop.
+  // rootMargin shrinks the observed root to a thin band around screen
+  // center so only the module actually "in focus" while scrolling lights up.
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!window.matchMedia('(max-width: 639px)').matches) {
+          setScrollFocused(false);
+          return;
+        }
+        setScrollFocused(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          playEcosystemHover(ecosystem.sfx, 0);
+        }
+      },
+      { rootMargin: '-42% 0px -42% 0px', threshold: 0 },
+    );
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [ecosystem.sfx, playEcosystemHover]);
+
+  useEffect(() => {
+    scale.set(scrollFocused ? 1.015 : 1);
+  }, [scrollFocused, scale]);
 
   function handleMouseMove(e: MouseEvent<HTMLButtonElement>) {
     const card = cardRef.current;
@@ -76,12 +108,14 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
       style={{
         rotateX,
         rotateY,
+        scale,
         transformPerspective: 900,
         borderColor: `${ecosystem.color}80`,
         backgroundColor: '#14131c',
         backgroundImage: `linear-gradient(${ecosystem.color}0d 1px, transparent 1px), linear-gradient(90deg, ${ecosystem.color}0d 1px, transparent 1px)`,
         backgroundSize: '18px 18px',
-        boxShadow: hovered ? `0 0 40px ${ecosystem.glow}44` : `0 0 18px ${ecosystem.color}26`,
+        boxShadow:
+          hovered || scrollFocused ? `0 0 40px ${ecosystem.glow}44` : `0 0 18px ${ecosystem.color}26`,
       }}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -100,7 +134,19 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
       />
 
       <motion.div className="pointer-events-none absolute inset-0" style={{ background: glowBackground }} />
-      <ParticleBurst active={hovered} color={ecosystem.glow} />
+      <ParticleBurst active={hovered || scrollFocused} color={ecosystem.glow} />
+
+      {/* Call-to-Action pulse: touch devices get no hover affordance, so while a card is the
+          scroll-focused one, a looping border pulse signals "this is tappable" without a tap. */}
+      {scrollFocused && (
+        <motion.div
+          className="pointer-events-none absolute inset-0 border-2"
+          style={{ borderColor: ecosystem.glow }}
+          animate={{ opacity: [0.25, 0.6, 0.25] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+          aria-hidden="true"
+        />
+      )}
 
       <div className="relative">
         <div className="mb-4 flex items-center gap-3">
