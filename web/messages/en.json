@@ -165,7 +165,7 @@
     }
   },
   "OmniSynapse": {
-    "placeholder": "Ask OMNI AI anything...",
+    "placeholder": "Ask U-AI anything...",
     "browseLabel": "EXPLORE THE PLATFORM",
     "metricsLabel": "System Metrics",
     "noBrowseMatches": "No matches — try a different phrase.",

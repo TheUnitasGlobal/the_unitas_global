@@ -165,7 +165,7 @@
     }
   },
   "OmniSynapse": {
-    "placeholder": "OMNI AI에게 무엇이든 물어보세요...",
+    "placeholder": "U-AI에게 무엇이든 물어보세요...",
     "browseLabel": "플랫폼 탐색",
     "metricsLabel": "시스템 메트릭스",
     "noBrowseMatches": "일치하는 결과가 없습니다 — 다른 표현을 시도해 보세요.",

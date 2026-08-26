@@ -165,7 +165,7 @@
     }
   },
   "OmniSynapse": {
-    "placeholder": "向 OMNI AI 提出任何问题...",
+    "placeholder": "向 U-AI 提出任何问题...",
     "browseLabel": "探索平台",
     "metricsLabel": "系统指标",
     "noBrowseMatches": "未找到匹配项 — 请尝试其他表达。",
