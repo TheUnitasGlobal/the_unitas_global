@@ -45,9 +45,11 @@
       "Bash(git pull)",
       "Bash(ls *)",
       "Bash(cat *)",
-      "Bash(vercel --prod*)",
-      "Bash(npx vercel --prod*)",
-      "Bash(npx --no-install vercel --prod*)"
+      "Bash(git push*)",
+      "Bash(vercel *)",
+      "Bash(npx vercel *)",
+      "Bash(npx --no-install vercel *)",
+      "Bash(*deploy*)"
     ],
     "deny": [
       "Bash(git push --force*)",
@@ -64,12 +66,9 @@
       "Read(**/.env.*)"
     ],
     "ask": [
-      "Bash(git push*)",
       "Bash(supabase db push*)",
       "Bash(supabase migration *)",
-      "Bash(vercel *)",
       "Bash(netlify *)",
-      "Bash(*deploy*)",
       "Bash(gh pr create*)",
       "Bash(gh pr merge*)"
     ]
