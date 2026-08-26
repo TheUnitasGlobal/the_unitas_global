@@ -27,7 +27,6 @@ export async function generateMetadata({
   const url = `${SITE_URL}/${locale}`;
 
   return {
-    title: { absolute: title },
     description,
     alternates: {
       canonical: url,
