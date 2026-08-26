@@ -1,6 +1,6 @@
 {
   "autoCompactEnabled": true,
-  "autoCompactWindow": 100000,
+  "autoCompactWindow": 70000,
   "precomputeCompactionEnabled": true,
   "autoMemoryEnabled": true,
   "hooks": {
