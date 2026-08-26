@@ -46,10 +46,9 @@
       "Bash(ls *)",
       "Bash(cat *)",
       "Bash(git push*)",
-      "Bash(vercel *)",
-      "Bash(npx vercel *)",
-      "Bash(npx --no-install vercel *)",
-      "Bash(*deploy*)"
+      "Bash(vercel --prod*)",
+      "Bash(npx vercel --prod*)",
+      "Bash(npx --no-install vercel --prod*)"
     ],
     "deny": [
       "Bash(git push --force*)",
