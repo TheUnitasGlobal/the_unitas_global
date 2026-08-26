@@ -39,21 +39,24 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
   const glowY = useMotionValue(50);
   const glowBackground = useMotionTemplate`radial-gradient(280px circle at ${glowX}% ${glowY}%, ${ecosystem.glow}33, transparent 65%)`;
 
-  // Touch devices have no hover state, so on narrow (single-column) viewports
-  // the card nearest the vertical center as the user scrolls auto-activates
-  // the same glow/particle/SFX treatment a cursor would trigger on desktop.
-  // rootMargin shrinks the observed root to a thin band around screen
-  // center so only the module actually "in focus" while scrolling lights up.
+  // `active` is the single source of truth for the glow/scale/particle/CTA-pulse treatment,
+  // fed by either trigger -- mouse hover (desktop) or scroll-through-center (any viewport,
+  // including desktop). Keeping every visual/audio effect keyed off one boolean is what
+  // guarantees PC, tablet, and mobile render literally the same reaction regardless of how
+  // the card was focused, closing the feature gap between pointer and scroll interaction.
+  const active = hovered || scrollFocused;
+
+  // Runs on every viewport (not just mobile): the card nearest the vertical center as the
+  // user scrolls -- via mouse wheel, trackpad, or touch -- auto-activates the same treatment
+  // a hover would on desktop, so scrolling itself is a first-class interaction everywhere.
+  // rootMargin shrinks the observed root to a thin band around screen center so only the
+  // module actually "in focus" while scrolling lights up.
   useEffect(() => {
     const card = cardRef.current;
     if (!card) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!window.matchMedia('(max-width: 639px)').matches) {
-          setScrollFocused(false);
-          return;
-        }
         setScrollFocused(entry.isIntersecting);
         if (entry.isIntersecting) {
           playEcosystemHover(ecosystem.sfx, 0);
@@ -66,8 +69,8 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
   }, [ecosystem.sfx, playEcosystemHover]);
 
   useEffect(() => {
-    scale.set(scrollFocused ? 1.015 : 1);
-  }, [scrollFocused, scale]);
+    scale.set(active ? 1.015 : 1);
+  }, [active, scale]);
 
   function handleMouseMove(e: MouseEvent<HTMLButtonElement>) {
     const card = cardRef.current;
@@ -114,8 +117,7 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
         backgroundColor: '#14131c',
         backgroundImage: `linear-gradient(${ecosystem.color}0d 1px, transparent 1px), linear-gradient(90deg, ${ecosystem.color}0d 1px, transparent 1px)`,
         backgroundSize: '18px 18px',
-        boxShadow:
-          hovered || scrollFocused ? `0 0 40px ${ecosystem.glow}44` : `0 0 18px ${ecosystem.color}26`,
+        boxShadow: active ? `0 0 40px ${ecosystem.glow}44` : `0 0 18px ${ecosystem.color}26`,
       }}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -134,11 +136,11 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
       />
 
       <motion.div className="pointer-events-none absolute inset-0" style={{ background: glowBackground }} />
-      <ParticleBurst active={hovered || scrollFocused} color={ecosystem.glow} />
+      <ParticleBurst active={active} color={ecosystem.glow} />
 
-      {/* Call-to-Action pulse: touch devices get no hover affordance, so while a card is the
-          scroll-focused one, a looping border pulse signals "this is tappable" without a tap. */}
-      {scrollFocused && (
+      {/* Call-to-Action pulse: identical border pulse whether the card is currently hovered
+          (desktop) or scroll-focused (any viewport) -- same `active` boolean as everything else. */}
+      {active && (
         <motion.div
           className="pointer-events-none absolute inset-0 border-2"
           style={{ borderColor: ecosystem.glow }}
