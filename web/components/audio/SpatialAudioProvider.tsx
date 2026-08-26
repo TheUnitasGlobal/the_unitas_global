@@ -37,19 +37,13 @@ interface SpatialAudioContextValue {
 const SpatialAudioContext = createContext<SpatialAudioContextValue | null>(null);
 
 const BASE_MASTER_GAIN = 0.4;
-const BASE_AMBIENT_GAIN = 0.12;
 
 /**
- * Web Audio API ambient + spatial-cue provider. No binary audio assets are
- * bundled -- everything (the cybernetic drone loop and every SFX, including
- * all 11 ecosystem themes) is synthesized (oscillators, filtered noise,
- * envelopes/LFOs), matching the root static site's assets/js/soundscape.js
- * approach. Autoplay-gated behind the first user gesture. Muting is
- * implemented purely via the master gain node.
- *
- * Implements ducking: every SFX helper calls `duckAmbient()` first, which
- * briefly pulls the ambient drone's gain down and lets it recover, so the
- * background track never masks a hover/click cue.
+ * Web Audio API spatial-cue provider. No binary audio assets are bundled --
+ * every SFX, including all 11 ecosystem themes, is synthesized (oscillators,
+ * filtered noise, envelopes/LFOs), matching the root static site's
+ * assets/js/soundscape.js approach. Autoplay-gated behind the first user
+ * gesture. Muting is implemented purely via the master gain node.
  *
  * "Whisper" layers (Echo, Aura) are a breathy band-passed noise texture, not
  * synthesized speech -- there's no real voice synthesis here, just a sound
@@ -68,9 +62,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   const [unlocked, setUnlocked] = useState(false);
   const ctxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
-  const ambientGainRef = useRef<GainNode | null>(null);
   const noiseBufferRef = useRef<AudioBuffer | null>(null);
-  const ambientStartedRef = useRef(false);
 
   const ensureContext = useCallback(() => {
     if (typeof window === 'undefined') return null;
