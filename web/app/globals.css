@@ -163,12 +163,16 @@ body {
   opacity: 1 !important;
 }
 
-/* Mobile/tablet nav swipe-scroll (see components/nav/NavBar.tsx): the two
-   header clusters (logo+download / icon controls) sit in one flex row that
-   overflows on narrow viewports instead of wrapping or clipping -- the user
-   swipes it horizontally. Scrollbar is hidden cross-browser and an edge
-   gradient mask softly fades the row's own content. Reverts to a normal
-   non-scrolling justify-between row at the lg: breakpoint and above.
+/* Mobile/tablet nav swipe-scroll (see components/nav/NavBar.tsx): only the
+   icon-controls cluster (sound/coin/language/auth/settings) lives inside
+   .nav-scroll and overflows on narrow viewports instead of wrapping or
+   clipping -- the user swipes it horizontally. The logo + "App Download"
+   brand cluster sits outside this container entirely (shrink-0, its own
+   flex item in the row above) so it never scrolls with the menu, satisfying
+   the fixed/anchored brand requirement without needing position: sticky.
+   Scrollbar is hidden cross-browser and an edge gradient mask softly fades
+   the row's own content. Reverts to a normal non-scrolling row at the lg:
+   breakpoint and above (the parent row switches to justify-between there).
    The separate .nav-edge-hint layer below adds a glassmorphism glow + pulse
    on top of that fade, driven by real scroll position (NavBar.tsx tracks
    scrollLeft/scrollWidth), so the hint disappears once there's nothing left
@@ -201,9 +205,11 @@ body {
 }
 
 /* Glassmorphism glow overlay hinting more nav items lie past the visible
-   edge. Sits as a sibling of .nav-scroll (inside the fixed <nav>, which
-   already establishes the containing block), never inside it -- so the
-   overlay itself never scrolls away with the content it's cueing. Opacity
+   edge. Sits as a sibling of .nav-scroll inside the relatively-positioned
+   menu-cluster wrapper (which establishes the containing block), never
+   inside .nav-scroll itself -- so the overlay itself never scrolls away
+   with the content it's cueing, and its left/right edges track only the
+   menu cluster's own box, not the fixed brand cluster beside it. Opacity
    is toggled from NavBar.tsx's edgeHint state, not CSS alone. */
 .nav-edge-hint {
   position: absolute;

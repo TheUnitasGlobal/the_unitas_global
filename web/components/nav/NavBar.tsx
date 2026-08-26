@@ -61,10 +61,9 @@ export function NavBar() {
 
   return (
     <nav className="fixed left-0 top-0 z-50 w-full border-b border-accent/20 bg-void/80 py-5 backdrop-blur-md">
-      <div
-        ref={scrollRef}
-        className="nav-scroll flex items-center gap-6 overflow-x-auto px-4 lg:justify-between lg:gap-0 lg:overflow-x-visible lg:px-6"
-      >
+      <div className="flex items-center gap-6 px-4 lg:justify-between lg:gap-0 lg:px-6">
+        {/* Brand anchor: always shrink-0, never inside the scroll container below --
+            stays put on screen through any swipe on the menu cluster. */}
         <div className="relative flex shrink-0 items-center gap-3">
           <Link href="/" className="flex items-center">
             <span className="logo-hologram shrink-0">
@@ -86,24 +85,32 @@ export function NavBar() {
           </button>
         </div>
 
-        <div className="flex shrink-0 items-center gap-6 sm:gap-9">
-          <SoundToggle />
-          <CoinBalanceBadge />
-          <LanguageSwitcher />
-          <AuthButton />
-          <SettingsButton />
-        </div>
-      </div>
+        {/* Menu cluster: the only part that swipe-scrolls. Isolated from the
+            brand anchor above so it can never drag the logo/download badge
+            offscreen with it. */}
+        <div className="relative min-w-0 flex-1 self-stretch lg:flex-initial">
+          <div
+            ref={scrollRef}
+            className="nav-scroll flex h-full items-center gap-6 overflow-x-auto sm:gap-9 lg:overflow-x-visible"
+          >
+            <SoundToggle />
+            <CoinBalanceBadge />
+            <LanguageSwitcher />
+            <AuthButton />
+            <SettingsButton />
+          </div>
 
-      <div
-        aria-hidden="true"
-        className={`nav-edge-hint nav-edge-hint-left lg:hidden ${edgeHint.left ? 'opacity-100' : 'opacity-0'}`}
-      />
-      <div
-        aria-hidden="true"
-        className={`nav-edge-hint nav-edge-hint-right lg:hidden ${edgeHint.right ? 'opacity-100' : 'opacity-0'}`}
-      >
-        <span className="nav-edge-hint-pulse" />
+          <div
+            aria-hidden="true"
+            className={`nav-edge-hint nav-edge-hint-left lg:hidden ${edgeHint.left ? 'opacity-100' : 'opacity-0'}`}
+          />
+          <div
+            aria-hidden="true"
+            className={`nav-edge-hint nav-edge-hint-right lg:hidden ${edgeHint.right ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <span className="nav-edge-hint-pulse" />
+          </div>
+        </div>
       </div>
 
       <Modal open={showGuide} onClose={() => setShowGuide(false)} labelledBy="app-download-guide-title">
