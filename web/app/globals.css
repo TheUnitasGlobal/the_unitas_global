@@ -6,6 +6,17 @@
   color-scheme: dark;
 }
 
+html,
+body {
+  /* .dashboard-zoom's CSS `zoom` can leak a pre-zoom (unscaled) layout width
+     from a zoomed descendant (e.g. .nav-scroll) into the document's own
+     scrollWidth on narrow/tablet viewports, producing a few px of phantom
+     horizontal document scroll with no single overflowing element. This is
+     a defensive backstop, not a fix for .nav-scroll's own intentional
+     horizontal swipe, which owns its overflow independently. */
+  overflow-x: hidden;
+}
+
 body {
   background-color: #030305;
   color: #e2e8f0;
@@ -157,7 +168,7 @@ body {
    overflows on narrow viewports instead of wrapping or clipping -- the user
    swipes it horizontally. Scrollbar is hidden cross-browser and an edge
    gradient mask signals there's more to scroll. Reverts to a normal
-   non-scrolling justify-between row at the sm: breakpoint and above. */
+   non-scrolling justify-between row at the lg: breakpoint and above. */
 .nav-scroll {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* legacy Edge/IE */
@@ -166,7 +177,7 @@ body {
 .nav-scroll::-webkit-scrollbar {
   display: none; /* Chrome/Safari/WebKit */
 }
-@media (max-width: 639px) {
+@media (max-width: 1023px) {
   .nav-scroll {
     -webkit-mask-image: linear-gradient(
       to right,

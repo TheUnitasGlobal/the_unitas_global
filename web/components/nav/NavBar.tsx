@@ -38,7 +38,7 @@ export function NavBar() {
 
   return (
     <nav className="fixed left-0 top-0 z-50 w-full border-b border-accent/20 bg-void/80 py-5 backdrop-blur-md">
-      <div className="nav-scroll flex items-center gap-6 overflow-x-auto px-4 sm:justify-between sm:gap-0 sm:overflow-x-visible sm:px-6">
+      <div className="nav-scroll flex items-center gap-6 overflow-x-auto px-4 lg:justify-between lg:gap-0 lg:overflow-x-visible lg:px-6">
         <div className="relative flex shrink-0 items-center gap-3">
           <Link href="/" className="flex items-center">
             <span className="logo-hologram shrink-0">
