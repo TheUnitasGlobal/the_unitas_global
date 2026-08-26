@@ -48,7 +48,8 @@
       "Bash(git push*)",
       "Bash(vercel --prod*)",
       "Bash(npx vercel --prod*)",
-      "Bash(npx --no-install vercel --prod*)"
+      "Bash(npx --no-install vercel --prod*)",
+      "Bash(bash scripts/deploy-with-rollback.sh*)"
     ],
     "deny": [
       "Bash(git push --force*)",
