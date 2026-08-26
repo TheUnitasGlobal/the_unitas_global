@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type MouseEvent } from 'react';
+import { useRef, useState, useEffect, type MouseEvent } from 'react';
 import { motion, useMotionValue, useMotionTemplate, useSpring } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
@@ -28,12 +28,39 @@ export function LiveServiceCard({ module, index, onOpen }: LiveServiceCardProps)
   const { playHoverSfx } = useSpatialAudio();
   const cardRef = useRef<HTMLButtonElement>(null);
   const [hovered, setHovered] = useState(false);
+  const [scrollFocused, setScrollFocused] = useState(false);
 
   const rotateX = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 });
   const rotateY = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 });
+  const scale = useSpring(1, { stiffness: 260, damping: 20 });
   const glowX = useMotionValue(50);
   const glowY = useMotionValue(50);
   const glowBackground = useMotionTemplate`radial-gradient(320px circle at ${glowX}% ${glowY}%, ${SILVER}2e, transparent 70%)`;
+
+  // Same device-agnostic pattern as EcosystemCard: `active` unifies mouse hover (desktop) and
+  // scroll-through-center (any viewport) into one boolean driving glow/scale/SFX identically.
+  const active = hovered || scrollFocused;
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setScrollFocused(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          playHoverSfx((index / 4) * 2 - 1);
+        }
+      },
+      { rootMargin: '-42% 0px -42% 0px', threshold: 0 },
+    );
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [index, playHoverSfx]);
+
+  useEffect(() => {
+    scale.set(active ? 1.015 : 1);
+  }, [active, scale]);
 
   function handleMouseMove(e: MouseEvent<HTMLButtonElement>) {
     const card = cardRef.current;
@@ -69,12 +96,13 @@ export function LiveServiceCard({ module, index, onOpen }: LiveServiceCardProps)
       style={{
         rotateX,
         rotateY,
+        scale,
         transformPerspective: 900,
         borderColor: `${SILVER}55`,
         backgroundColor: '#0a0908',
         backgroundImage: `linear-gradient(${SILVER}0d 1px, transparent 1px), linear-gradient(90deg, ${SILVER}0d 1px, transparent 1px)`,
         backgroundSize: '18px 18px',
-        boxShadow: hovered ? `0 0 45px ${SILVER}44` : `0 0 22px ${SILVER}22`,
+        boxShadow: active ? `0 0 45px ${SILVER}44` : `0 0 22px ${SILVER}22`,
       }}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}

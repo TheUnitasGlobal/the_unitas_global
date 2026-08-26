@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type MouseEvent } from 'react';
+import { useRef, useState, useEffect, type MouseEvent } from 'react';
 import { motion, AnimatePresence, useMotionValue, useMotionTemplate, useSpring } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { ArrowRight, ChevronDown } from 'lucide-react';
@@ -32,14 +32,42 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
   const [inquiryOpen, setInquiryOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
+  const [scrollFocused, setScrollFocused] = useState(false);
 
   const rotateX = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 });
   const rotateY = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 });
+  const scale = useSpring(1, { stiffness: 260, damping: 20 });
   const glowX = useMotionValue(50);
   const glowY = useMotionValue(50);
   const glowBackground = useMotionTemplate`radial-gradient(320px circle at ${glowX}% ${glowY}%, ${GOLD}2e, transparent 70%)`;
 
+  // Same device-agnostic pattern as EcosystemCard/LiveServiceCard: `active` unifies mouse
+  // hover (desktop) and scroll-through-center (any viewport) into one boolean driving
+  // glow/scale/SFX identically.
+  const active = hovered || scrollFocused;
+
   const nodes = B2B_TECH_SPECS[protocol.route] ?? [];
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setScrollFocused(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          playVaultSfx();
+        }
+      },
+      { rootMargin: '-42% 0px -42% 0px', threshold: 0 },
+    );
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [playVaultSfx]);
+
+  useEffect(() => {
+    scale.set(active ? 1.015 : 1);
+  }, [active, scale]);
 
   function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
     const card = cardRef.current;
@@ -77,13 +105,14 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
       style={{
         rotateX,
         rotateY,
+        scale,
         transformPerspective: 900,
-        borderColor: hovered ? `${GOLD}99` : `${GOLD}33`,
+        borderColor: active ? `${GOLD}99` : `${GOLD}33`,
         backgroundColor: '#050403',
         backgroundImage:
           'linear-gradient(rgba(212,175,55,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.05) 1px, transparent 1px)',
         backgroundSize: '18px 18px',
-        boxShadow: hovered ? `0 0 40px ${GOLD}33` : `0 0 18px ${GOLD}18`,
+        boxShadow: active ? `0 0 40px ${GOLD}33` : `0 0 18px ${GOLD}18`,
       }}
       className="relative overflow-hidden border p-6 transition-shadow duration-300"
     >
