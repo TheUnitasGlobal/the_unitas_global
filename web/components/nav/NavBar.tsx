@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { SoundToggle } from '@/components/audio/SoundToggle';
@@ -15,6 +15,29 @@ export function NavBar() {
   const t = useTranslations('Nav');
   const { canInstall, isInstalled, isIos, isDesktop, promptInstall } = usePwaInstall();
   const [showGuide, setShowGuide] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [edgeHint, setEdgeHint] = useState({ left: false, right: false });
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const updateEdgeHint = () => {
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      setEdgeHint({
+        left: el.scrollLeft > 8,
+        right: el.scrollLeft < maxScroll - 8,
+      });
+    };
+
+    updateEdgeHint();
+    el.addEventListener('scroll', updateEdgeHint, { passive: true });
+    window.addEventListener('resize', updateEdgeHint);
+    return () => {
+      el.removeEventListener('scroll', updateEdgeHint);
+      window.removeEventListener('resize', updateEdgeHint);
+    };
+  }, []);
 
   const handleAppDownloadClick = () => {
     if (isInstalled) {
@@ -38,7 +61,10 @@ export function NavBar() {
 
   return (
     <nav className="fixed left-0 top-0 z-50 w-full border-b border-accent/20 bg-void/80 py-5 backdrop-blur-md">
-      <div className="nav-scroll flex items-center gap-6 overflow-x-auto px-4 lg:justify-between lg:gap-0 lg:overflow-x-visible lg:px-6">
+      <div
+        ref={scrollRef}
+        className="nav-scroll flex items-center gap-6 overflow-x-auto px-4 lg:justify-between lg:gap-0 lg:overflow-x-visible lg:px-6"
+      >
         <div className="relative flex shrink-0 items-center gap-3">
           <Link href="/" className="flex items-center">
             <span className="logo-hologram shrink-0">
@@ -67,6 +93,17 @@ export function NavBar() {
           <AuthButton />
           <SettingsButton />
         </div>
+      </div>
+
+      <div
+        aria-hidden="true"
+        className={`nav-edge-hint nav-edge-hint-left lg:hidden ${edgeHint.left ? 'opacity-100' : 'opacity-0'}`}
+      />
+      <div
+        aria-hidden="true"
+        className={`nav-edge-hint nav-edge-hint-right lg:hidden ${edgeHint.right ? 'opacity-100' : 'opacity-0'}`}
+      >
+        <span className="nav-edge-hint-pulse" />
       </div>
 
       <Modal open={showGuide} onClose={() => setShowGuide(false)} labelledBy="app-download-guide-title">
