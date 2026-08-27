@@ -15,6 +15,15 @@ Two codebases live in this repo. Know which one you're touching before you edit:
 
 All application code under `/web` is TypeScript (`.ts`/`.tsx`). Never add a `.js`/`.jsx` file to `/web` — if a tool or config file conflicts with this, convert it rather than adding a JS sibling. The legacy root site is vanilla JS and stays that way; it is not being migrated.
 
+## Cross-archiving guide (legacy root ↔ /web)
+
+Extends the root/`/web` split above. When a legacy asset (image, copy, animation pattern) is ported into `/web`:
+
+- **Copy, never link.** Duplicate the file into `web/public/` (or reimplement the pattern as a typed component) — never `import`/symlink/reference a path back into the repo root. The two codebases must be able to diverge without either breaking the other.
+- **Never delete or modify the legacy original.** Root stays read-only (see top of this file); a port is an addition, not a migration. The legacy file remains the historical/brand source of truth even after `/web` has its own copy.
+- **Record lineage at the port site.** Add a one-line comment at the top of the new `/web` file naming the legacy source path (e.g. `// ported from /assets/logo-glow.png`) so a future audit can trace which `/web` assets originated from the legacy site without diffing two trees by hand.
+- **Reimplement, don't transliterate.** Legacy vanilla-JS DOM patterns get rewritten idiomatically in TypeScript/React per the TypeScript-only rule above — never pasted in as inline scripts or `dangerouslySetInnerHTML`.
+
 ## Zero-Trust identity: 1 person = 1 account
 
 Enforced in Postgres, not the client (see `supabase/migrations/20260823000000_zero_trust_identity.sql`):
@@ -37,6 +46,26 @@ Enforced in Postgres, not the client (see `supabase/migrations/20260823000000_ze
 
 Every file under `supabase/migrations/` in this repo carries a "NOT YET APPLIED" header — none has been run against the live project yet. Keep it that way until told otherwise: **new changes get a new, additively-timestamped migration file**, never an edit to an existing one, even pre-apply. This keeps the sequence replayable and matches the convention already established across the existing files.
 
+## Cryptographic ownership & metadata integrity
+
+Single source of truth for "which modules exist," plus tamper-evidence for what actually ships, live in `/web`:
+
+- **`web/lib/module-registry.ts`** aggregates the pre-existing typed catalogs (`ecosystems.ts`'s 11 ecosystems, `modules.ts`'s 5 B2C + 3 B2B modules) additively into one `MODULE_REGISTRY` list — neither source catalog is replaced.
+- **`web/scripts/validate-module-registry.mjs`** runs as `prebuild` (so on every `next build`, and therefore every Stop-hook checkpoint that touches `web/`): fails closed if a registered module has no matching `app/[locale]/<route>` folder, or vice versa. Keeps the catalog and the routed app from silently drifting apart as modules are added.
+- **`web/scripts/ownership-fingerprint.mjs`** runs as `postbuild`: hashes every file under `public/` (SHA-256), aggregates them into one build fingerprint, and writes `public/ownership-manifest.json` with THE UNITAS GLOBAL OÜ's ownership/license metadata, the source git commit, and a timestamp. Deliberately metadata-only, not a visible watermark (croppable/bypassable and hurts the product's aesthetics).
+- **`web/scripts/verify-integrity.mjs`** (`npm run verify:integrity`) re-derives the same aggregate hash over a *deployed* `public/` and compares it against the committed manifest — a mismatch or missing manifest means the artifact was modified outside the build pipeline. Deliberately **not** wired into pre/postbuild: running it in the same pass that just regenerated the manifest would always trivially pass and prove nothing. Run it manually or from CI against a live deploy.
+- **`web/middleware.ts`** sets `X-Unitas-Owner` / `X-Unitas-License` response headers on every page navigation the matcher allows through — the page-navigation complement to the manifest's static-asset coverage.
+- **"Real-time sync" in practice**: because `prebuild`/`postbuild` run inside `npm --prefix web run build`, which the Stop hook already runs on every turn that changes `web/`, the registry validation and ownership fingerprint are regenerated and checked at every checkpoint sync automatically — no separate cron or watcher needed. `verify:integrity` stays a distinct, manual/CI-triggered check against what's actually live, by design (see above).
+
+## Module-level test isolation
+
+`vitest` (`web/vitest.config.ts`) is the test runner, added specifically so each module's tests run isolated from every other module's:
+
+- One test file per module/concern under `web/__tests__/<area>/<name>.test.ts` (e.g. `__tests__/modules/module-registry.test.ts`). Never share mutable fixtures or mocks across files — vitest's default per-file worker isolation (`test.isolate`, left at its default `true`) means a bug or a broken mock in one module's test can't cascade into another's.
+- `npm --prefix web run test` (`vitest run`) executes the suite once and exits — no watch mode, per the Low-Memory Armor rule against long-lived processes.
+- **Deliberately not wired into the Stop hook.** The hook's gate is `tsc --noEmit` + `next build` only (see below); adding the test suite there would tax every single checkpoint turn, not just ones touching tested code. Run `npm --prefix web run test` by hand (or from CI) when changing a module that has tests — the Stop hook stays the fast fail-closed gate it was designed to be, not a full CI pipeline.
+- New modules should get a registry-shape test at minimum (uniqueness of `key`/`route`, correct `coinGated` per tier) following the `module-registry.test.ts` pattern — deeper per-module tests (business logic, Supabase interaction mocks) are added as that module's logic grows, not speculatively upfront.
+
 ## Session hygiene / token efficiency
 
 - Don't re-read a file you just wrote or edited — the tool result already confirms the change.
@@ -46,6 +75,8 @@ Every file under `supabase/migrations/` in this repo carries a "NOT YET APPLIED"
 - This repo already has a rich, existing design system (motion/glow card shells, coin-gated entry modals, the 11-ecosystem + 5-module catalogs in `web/lib/ecosystems.ts` / `web/lib/modules.ts`). Read the closest existing analogous component before building a new one from scratch.
 - Long-term project context lives in this session's auto-memory (the `memory/` directory + `MEMORY.md` index), not a separate "claude-mem" MCP server — that memory system already is the persistent-context mechanism for this project; there is nothing extra to install.
 - **Dual-engine parity (aider fallback):** `.aider.conf.yml` (repo root, gitignored via `.aider*`) is aider's config when it runs as the backup executor for whenever Claude Code itself is unavailable. It already loads this file (`read: [CLAUDE.md]`) so the constitution above — zero-capital 1-person automation, zero-compromise principles, sovereign SaaS philosophy, every rule in this document — applies there too without duplication. It also mirrors the Stop hook's fail-closed gate (`auto-commits: false`, `dirty-commits: false`, `auto-lint`/`auto-test` wired to the same `typecheck`/`build` commands, same order). One real gap: aider has no config-level timeout for that lint/test gate (its `timeout:` key only bounds LLM API calls, not local subprocesses) — documented as a limitation in the file itself rather than faked. Any future change to the Stop hook's gate commands or philosophy must be mirrored into `.aider.conf.yml` by hand in the same pass — it can't be, since aider ignores everything outside its own YAML except CLAUDE.md.
+- **Agent context hygiene automation (owner-named supplementary task, 2026-08-26):** two harness-level mechanisms already deliver this without extra setup — (1) deferred tool schemas (`ToolSearch`) keep MCP/Playwright/etc. tool definitions out of context until a task actually needs them, so a session that never touches Playwright never pays for its schema; (2) delegate open-ended exploration spanning more than ~3 searches to the `Explore` subagent instead of reading files directly in the main thread — its reads/greps don't bloat the primary session's context, only its final report does. Neither needs configuring; the discipline is choosing to use them.
+- Stop-hook checkpoint commits intentionally use one fixed, generic message (`feat: automated low-memory sovereign checkpoint sync`) rather than a per-turn generated summary — writing a bespoke message would require diffing and summarizing the change first, spending context on every single turn purely for a commit-log entry that `git log`/`git show` can already answer on demand.
 
 ## Low-Memory Armor (this is a low-spec dev machine)
 
