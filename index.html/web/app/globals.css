@@ -1,0 +1,274 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  /* .dashboard-zoom's CSS `zoom` can leak a pre-zoom (unscaled) layout width
+     from a zoomed descendant (e.g. .nav-scroll) into the document's own
+     scrollWidth on narrow/tablet viewports, producing a few px of phantom
+     horizontal document scroll with no single overflowing element. This is
+     a defensive backstop, not a fix for .nav-scroll's own intentional
+     horizontal swipe, which owns its overflow independently. */
+  overflow-x: hidden;
+}
+
+body {
+  background-color: #030305;
+  color: #e2e8f0;
+}
+
+.glow-text {
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.glow-box {
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* Main title "breathing" glow -- UNITAS. Kept deliberately subtle (glow only,
+   no scale pulse) for a sophisticated, non-flashy read on every main title. */
+@keyframes title-breathe {
+  0%, 100% { text-shadow: 0 0 16px rgba(212, 175, 55, 0.22), 0 0 40px rgba(0, 243, 255, 0.08); }
+  50% { text-shadow: 0 0 26px rgba(212, 175, 55, 0.38), 0 0 55px rgba(0, 243, 255, 0.16); }
+}
+.title-breathe {
+  animation: title-breathe 6s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* AudioGate primary CTA -- a fluid rainbow-spectrum ring (two-layer
+   background/border-box trick: inner fill on padding-box, conic-gradient
+   ring on border-box) animated purely via `filter: hue-rotate`, which only
+   touches chromatic pixels -- the white label text and dark fill are
+   grayscale/near-grayscale and stay put while the ring itself cycles color.
+   Replaces the old flat gold "retro terminal" button treatment. */
+@keyframes event-horizon-hue {
+  from { filter: hue-rotate(0deg); }
+  to { filter: hue-rotate(360deg); }
+}
+@keyframes event-horizon-pulse {
+  0%, 100% { box-shadow: 0 0 22px rgba(124, 58, 237, 0.22); }
+  50% { box-shadow: 0 0 38px rgba(0, 243, 255, 0.3); }
+}
+.event-horizon-btn {
+  position: relative;
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(135deg, rgba(12, 8, 20, 0.92), rgba(6, 14, 22, 0.92)) padding-box,
+    conic-gradient(from 0deg, #7c3aed, #00f3ff, #d4af37, #ec4899, #7c3aed) border-box;
+  animation: event-horizon-hue 5s linear infinite, event-horizon-pulse 3.2s ease-in-out infinite;
+}
+.event-horizon-btn:hover,
+.event-horizon-btn:focus-visible {
+  animation-play-state: running, paused;
+  box-shadow: 0 0 48px rgba(124, 58, 237, 0.45), 0 0 26px rgba(0, 243, 255, 0.3);
+}
+.event-horizon-btn:focus-visible {
+  outline: 2px solid rgba(167, 139, 250, 0.8);
+  outline-offset: 4px;
+}
+
+/* Calm rainbow-spectrum hologram halo + glassmorphism panel -- top-left nav logo mark.
+   The gradient ring lives on ::before (a blurred, slowly-rotating conic-gradient) so it
+   radiates outward from behind the mark; the mark itself stays crisp and static on top
+   of a frosted glass disc, rather than the whole icon color-cycling. */
+@keyframes logo-halo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes logo-halo-breathe {
+  0%, 100% { opacity: 0.5; transform: scale(0.96); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+.logo-hologram {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px) saturate(1.4);
+  -webkit-backdrop-filter: blur(6px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.logo-hologram::before {
+  content: '';
+  position: absolute;
+  inset: -9px;
+  z-index: -1;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 0deg,
+    #ff3b30,
+    #ff9500,
+    #ffcc00,
+    #34c759,
+    #0a84ff,
+    #1e2f97,
+    #af52de,
+    #ff3b30
+  );
+  filter: blur(9px);
+  animation: logo-halo-spin 16s linear infinite, logo-halo-breathe 5.5s ease-in-out infinite;
+}
+.logo-hologram img {
+  position: relative;
+  z-index: 1;
+  border-radius: 9999px;
+}
+
+/* Scales the whole dashboard (nav + page content, not the entry gate) down
+   to a 75%-zoom-equivalent -- unlike `transform: scale()`, `zoom` triggers a
+   real layout recalculation at the scaled size (matching native browser
+   page-zoom), so more of the ecosystem fits the viewport with no dead
+   whitespace and `position: fixed` descendants (the nav bar) still track
+   correctly. Chromium and Safari support `zoom`; older Firefox (<126)
+   ignores it and simply renders at 100% -- a harmless no-op fallback. */
+.dashboard-zoom {
+  zoom: 0.75;
+}
+
+/* Subtle gold/cyan breathing pulse for the "UNITAS App Download" nav button --
+   deliberately modeled on .title-breathe (glow oscillation only, no rainbow
+   hue-rotate like .event-horizon-btn -- the request called for a gold/neon
+   tone specifically, not the full-spectrum ring treatment). */
+@keyframes app-download-pulse {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.35), 0 0 22px rgba(0, 243, 255, 0.12);
+    box-shadow: 0 0 14px rgba(212, 175, 55, 0.18), inset 0 0 10px rgba(212, 175, 55, 0.06);
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+  50% {
+    text-shadow: 0 0 18px rgba(212, 175, 55, 0.6), 0 0 34px rgba(0, 243, 255, 0.22);
+    box-shadow: 0 0 26px rgba(212, 175, 55, 0.34), inset 0 0 16px rgba(212, 175, 55, 0.12);
+    border-color: rgba(212, 175, 55, 0.6);
+  }
+}
+.app-download-pulse {
+  animation: app-download-pulse 4.5s ease-in-out infinite;
+  /* Forced-visibility guarantee: this CTA must never disappear -- not on
+     PWA-installed/standalone launches, not on mobile, not on any viewport.
+     !important overrides any future utility class or breakpoint rule that
+     might otherwise try to hide/collapse it. */
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Mobile/tablet nav swipe-scroll (see components/nav/NavBar.tsx): only the
+   icon-controls cluster (sound/coin/language/auth/settings) lives inside
+   .nav-scroll and overflows on narrow viewports instead of wrapping or
+   clipping -- the user swipes it horizontally. The logo + "App Download"
+   brand cluster sits outside this container entirely (shrink-0, its own
+   flex item in the row above) so it never scrolls with the menu, satisfying
+   the fixed/anchored brand requirement without needing position: sticky.
+   Scrollbar is hidden cross-browser and an edge gradient mask softly fades
+   the row's own content. Reverts to a normal non-scrolling row at the lg:
+   breakpoint and above (the parent row switches to justify-between there).
+   The separate .nav-edge-hint layer below adds a glassmorphism glow + pulse
+   on top of that fade, driven by real scroll position (NavBar.tsx tracks
+   scrollLeft/scrollWidth), so the hint disappears once there's nothing left
+   to swipe toward in that direction instead of glowing at a dead end. */
+.nav-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge/IE */
+  -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
+}
+.nav-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/WebKit */
+}
+@media (max-width: 1023px) {
+  .nav-scroll {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 20px,
+      black calc(100% - 20px),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 20px,
+      black calc(100% - 20px),
+      transparent
+    );
+  }
+}
+
+/* Glassmorphism glow overlay hinting more nav items lie past the visible
+   edge. Sits as a sibling of .nav-scroll inside the relatively-positioned
+   menu-cluster wrapper (which establishes the containing block), never
+   inside .nav-scroll itself -- so the overlay itself never scrolls away
+   with the content it's cueing, and its left/right edges track only the
+   menu cluster's own box, not the fixed brand cluster beside it. Opacity
+   is toggled from NavBar.tsx's edgeHint state, not CSS alone. */
+.nav-edge-hint {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 44px;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.25s ease;
+  backdrop-filter: blur(3px) saturate(1.3);
+  -webkit-backdrop-filter: blur(3px) saturate(1.3);
+}
+.nav-edge-hint-left {
+  left: 0;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(to right, rgba(3, 3, 5, 0.82), rgba(3, 3, 5, 0.3) 65%, transparent);
+  box-shadow: inset 14px 0 20px -14px rgba(0, 243, 255, 0.28);
+}
+.nav-edge-hint-right {
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: linear-gradient(to left, rgba(3, 3, 5, 0.82), rgba(3, 3, 5, 0.3) 65%, transparent);
+  box-shadow: inset -14px 0 20px -14px rgba(212, 175, 55, 0.28);
+}
+
+/* Small pulsing dot inside the right-edge hint, nudging left to suggest the
+   "swipe this way for more" direction. Left edge intentionally has no dot --
+   a single directional cue reads clearer than two competing pulses. */
+@keyframes nav-edge-pulse {
+  0%, 100% { transform: translateX(0); opacity: 0.5; }
+  50% { transform: translateX(-5px); opacity: 1; }
+}
+.nav-edge-hint-pulse {
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.95), rgba(212, 175, 55, 0));
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.65);
+  animation: nav-edge-pulse 1.6s ease-in-out infinite;
+}
+
+/* Click shockwave ring (see components/effects/Shockwave.tsx) */
+@keyframes shockwave-ring {
+  0% { transform: translate(-50%, -50%) scale(0.1); opacity: 0.9; border-width: 3px; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; border-width: 1px; }
+}
+
+/* Global camera-shake, toggled briefly on the html root on ecosystem-card click */
+@keyframes camera-shake {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, 2px); }
+  80% { transform: translate(1px, -2px); }
+}
+.camera-shake {
+  animation: camera-shake 0.35s ease-in-out;
+}

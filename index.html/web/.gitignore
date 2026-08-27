@@ -1,0 +1,20 @@
+# Next.js
+/.next/
+/out/
+
+# dependencies
+/node_modules/
+
+# generated
+/lib/supabase/database.types.ts
+
+# env
+.env
+.env*.local
+
+# misc
+.DS_Store
+*.log
+
+.vercel
+.env*

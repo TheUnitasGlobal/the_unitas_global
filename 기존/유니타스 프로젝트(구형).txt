@@ -1,0 +1,168 @@
+[UNITAS 제국 마스터플랜 - 최종 재보완 완결판]
+0. 홈페이지 제작 기조
+
+0-1. 비주얼 전략: 초미래지향적, 하이테크 미니멀리즘, 황금색 및 일렉트릭 블루 포인트의 압도적 UI/UX 구축 예정.
+
+0-2. 언어 자동화 전략: 모든 영토의 홈페이지는 표준 영어(English) 제작을 원칙으로 하되, 유저의 접속 IP를 기반으로 한 실시간 로컬라이징(자동 번역) 시스템 로직을 설계 단계에 고정함.
+
+0-3. 도박성 문구 제외, 법적 리스크 문구 제외, 기타 모든 리스크 문구 제외. 
+
+0-4. 기술적, 경제적, 법적으로 모두 완벽해야 함.
+
+1. 사업 설립
+
+1-1. 에스토니아 디지털 ID 신청완료: 승인 대기 중 (e-Residency를 통한 EU 경제권 교두보 확보).
+
+1-2. 사업자별 회사 설립 계획: 
+
+1-2-1. Unitas Global OÜ (에스토니아): 글로벌 기술 기여 보상 및 정산 총괄 법인. (현지 세법 준수 및 글로벌 자금 인출 시 세무 로직 적용)
+
+1-2-2. Unitas Holdings: 지적재산권(IP) 및 지배구조를 관리하는 지주사.
+
+1-2-3. Unitas Foundation: 비영리 기부 재단 별도 분리 (사회 환원 전용).
+
+2. 영토 (Domain)
+
+2-1. theunitas.global (본부/보상)
+
+2-1-1. https://www.namecheap.com 도메인 등록 완료.
+
+2-1-2. 홈페이지 제작 예정
+[복사용 프롬프트]: "Create a high-energy, futuristic global rewards hub for 'UNITAS GLOBAL'. Dark theme with vibrant gold and electric blue accents. Feature the '$1 to $100 Technology Contribution investment' prominently with a real-time 'Problem Solving Reward' counter. Highlight 'Sync Reward' distribution (CEO, Operation, Foundation). Include a section for 'World's Best Cognitive Encryption Key' (Non-transferable). Ensure Zero-Knowledge Proof (ZKP) and Data Hashing security is mentioned. High-trust and high-excitement aesthetic."
+
+2-1-3. Footer 공통 적용: © 2026 UNITAS GLOBAL OÜ. Sepapaja tn 6, Tallinn, Estonia.
+
+2-2. theunitas.foundation (재단/평화)
+
+2-2-1. https://www.namecheap.com 도메인 등록 완료.
+
+2-2-2. 홈페이지 제작 예정
+[복사용 프롬프트]: "Create a noble and prestigious foundation page for 'UNITAS FOUNDATION'. Elegant dark theme with silver and soft gold. Highlight 'Advancing Global Peace and Human Progress'. Focus on philanthropic activities and the 'Nobel Peace Prize Project'. Include a 'Global Donation Roadmap powered by Sync Reward distribution' section. Maintain a deeply trustworthy and humanitarian aesthetic."
+
+2-2-3. Footer 공통 적용: © 2026 UNITAS GLOBAL OÜ. Sepapaja tn 6, Tallinn, Estonia.
+
+2-3. theunitas.holdings (지주/계급)
+
+2-3-1. https://www.namecheap.com 도메인 등록 완료.
+
+2-3-2 홈페이지 제작 예정
+[복사용 프롬프트]: "Create a high-end corporate governance landing page for 'UNITAS HOLDINGS'. Dark minimalist theme with gold accents. Feature a '11 Independent Business Domains' section. Focus on the 'Oracle Score Hierarchy' based on cognitive data hashing. Include sections for 'Global Asset Management' and 'Strategic Vision'. Ensure it looks like a world-class financial group with highest level of data privacy through ZKP."
+
+2-3-3. Footer 공통 적용: © 2026 UNITAS GLOBAL OÜ. Sepapaja tn 6, Tallinn, Estonia.
+
+2-4. theunitas.space (거점/보안)
+
+2-4-1. https://www.namecheap.com 도메인 등록 완료.
+
+2-4-2. 홈페이지 제작 예정
+[복사용 프롬프트]: "Create a futuristic, ultra-secure digital gate page for 'ORACLE SANCTUARY'. Dark sci-fi theme with holographic neon accents. Feature an 'Imperial Security Gate' UI using Zero-Knowledge Proof protocols. Focus on real-world physical asset connection and 'Cognitive Pattern Access Control'. Include a section for 'Hashed Encryption Key Verification'. Make it look like the most secure entrance in the world."
+
+2-4-3. Footer 공통 적용: © 2026 UNITAS GLOBAL OÜ. Sepapaja tn 6, Tallinn, Estonia.
+
+3. 사업 명칭
+
+3-1. Oracle Score (인지 계급)
+
+3-1-1. 인지테스트(게임/퀴즈) 참여를 통한 실력 증명 및 기술 기여도별 계급제 성장 시스템.
+
+3-1-2. 예술적·독창적 테마 문제로 인지 챌린지 참여 유도(우주 지도, 보물 찾기 등).
+
+3-1-3. MBTI 방식의 대중화 설계: 성격, 장단점, 운세, 궁합 등 데이터 기반 유행 창출.
+
+3-1-4. 계급별 권한 차등화: 높은 계급일수록 기술 투자 한도 상향 및 독점적 권한 부여.
+
+3-1-5. 수익 모델: 무료/유료 분석 자료 차별화 및 테마별 유료 테스트 패키지 운영.
+
+3-1-6. 인지 능력 평가 및 가치 수치화 표준 정립.
+
+3-2. Sync Reward (글로벌 기술 보상)
+
+3-2-1. 경제 시스템 고착: $1 = 1 UTC 가치 고정 및 'Technology Contribution investment' 기반의 보상 체계를 명확히 분리하여 법적 사행성 논란 원천 차단.
+
+3-2-2. 'Problem Solving Reward' 누적 금액 표기.
+
+3-2-3. 모든 지급 보상은 UTC로 표기.
+
+3-2-4. 접속 유저는 접속 국가의 화폐로 언어 및 통화 표시 변경 가능.
+
+3-2-5. [법적 리스크 보완] 모든 약관에 '기술 보상' 명시 및 UTC 전용 정산 체계 확립.
+
+3-2-6. 지급 조건: 100% 정답자 없음 원칙. 인지 알고리즘 99.0% 선착순 달성 시 'Master Reward' 수령.
+
+3-2-7. 초과학적 알고리즘: 예술·과학 등 다학제적 문제 출제. 99.0% 해결자 발생 시 즉시 새로운 문제 출제되어 교체 및 누적 금액 재시작.
+
+3-2-8. 정산 시스템: 보상 수령 시 유저 선택 통화로 환전 지급 (모든 수수료는 유니타스 귀속).
+
+3-3. Encryption Key (인지 암호)
+
+3-3-1. 세계 최고 수준의 인지패턴 보안 알고리즘.
+
+3-3-2. 오직 생존한 본인만 해독 가능 (AI, 해커 침입 차단).
+
+3-3-3. 독창성: 복제가 불가능한 개인 고유 인지 알고리즘 적용.
+
+3-3-4. 원칙: 양도/판매 절대 불가, 분실 위험 제로.
+
+3-3-5. 데이터 무결성 유지: 인지 패턴 데이터는 해시(Hash)화하여 저장 및 **영지식 증명(ZKP)**을 모든 기술 프롬프트와 약관의 기본 전제로 채택.
+
+3-4. Data Bunker (디지털 유산)
+
+3-4-1. 유저의 인지 데이터를 기반으로 한 AI 두뇌 생성 및 영구 보존.
+
+3-4-2. 개인 인지 패턴을 시각화한 양도 불가 고유 예술작품 및 NFT 가치 증명.
+
+3-5. Foundation (재단)
+
+3-5-1. 사업 수익의 일정 비율을 적립하여 인류 사회 환원 및 기부.
+
+3-5-2. 인류 평화 기여 및 글로벌 기부 재단 운영.
+
+3-6. Holdings (지주사)
+
+3-6-1. 유니타스 제국 11대 사업 지배구조 총괄 및 자산 관리.
+
+3-7. UNITAS Butler (비서/메신저)
+
+3-7-1. 인지 패턴 기반 초과학적 운세 서비스 및 초보안 SNS(유료).
+
+3-7-2. AI 버틀러 중재의 고도화된 비즈니스 메신저 (비밀 절대 보장).
+
+3-8. Oracle Ads (광고/매칭)
+
+3-8-1. 집중도 기반 초정밀 타겟팅 광고 (UTC 보상).
+
+3-8-2. 인지 패턴 기반 초정밀 휴먼 매칭 시스템.
+
+3-9. Oracle Sanctuary (거점)
+
+3-9-1. 현실 거점 보안 게이트 및 유니타스 자산 결제 허브.
+
+3-10. Oracle Ambassador (홍보/상속)
+
+3-10-1. 글로벌 홍보 권한 부여 및 제국 자산 상속 시스템 관리.
+
+3-11. Unitas B2B Insight (기업 서비스)
+
+3-11-1. 기업용 인지 데이터 솔루션 및 보안 컨설팅.
+
+4. 약관
+
+4-1. 유니타스 이용약관 (기술 기여 투자 및 보상 체계 명시)
+
+4-2. 개인정보 약관 (영지식 증명 및 해시 데이터 공시)
+
+4-3. 결제 및 화폐 약관 (UTC 규정 및 가치 고정)
+
+4-4. 보상금 수령 및 환전 약관 (세무 로직 포함)
+
+4-5. 오라클 스토어 기여도 및 계급 약관
+
+5. 특허
+
+5-1. 인지 보안 기술 특허 (해시 알고리즘 및 ZKP 포함)
+
+5-2. 인지 등급 산출 로직 특허 (Oracle Score)
+
+5-3. 기술 보상 배분 BM 특허 (자동 분배 시스템)
+
+5-4. 인지 기반 매칭 및 운세 BM 특허

@@ -1,0 +1,37 @@
+[
+  {
+    "key": "Arche",
+    "slug": "arche",
+    "coinCost": 300,
+    "priceLabel": "300 U-COIN",
+    "description": "Advanced Cognitive Filtering & Neural-Symbolic Refinement"
+  },
+  {
+    "key": "Arena",
+    "slug": "arena",
+    "coinCost": 500,
+    "priceLabel": "500 U-COIN",
+    "description": "Predictive Stress-Testing & Integrity Validation"
+  },
+  {
+    "key": "Score",
+    "slug": "score",
+    "coinCost": 400,
+    "priceLabel": "400 U-COIN",
+    "description": "Law of Cog Global Intelligence Analytics"
+  },
+  {
+    "key": "Fate",
+    "slug": "fate",
+    "coinCost": 1000,
+    "priceLabel": "1000 U-COIN",
+    "description": "Stochastic Simulation for Global Asset Routing"
+  },
+  {
+    "key": "Codex22",
+    "slug": "codex22",
+    "coinCost": 2000,
+    "priceLabel": "2000 U-COIN",
+    "description": "The Permanent Registry of Algorithmic Law"
+  }
+]

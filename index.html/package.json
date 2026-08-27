@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "scripts": {
+    "build:pages": "node scripts/build-pages.mjs",
+    "build:site": "node scripts/build-site.mjs",
+    "test": "npm run build:pages && playwright test",
+    "review:agents": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-review.ps1",
+    "check:ai": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-ai-config.ps1",
+    "release": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/release.ps1 -Review both",
+    "setup:tools": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1",
+    "setup:agents": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-agents.ps1",
+    "mock:checkout": "node scripts/mock-checkout-server.mjs",
+    "validate:stripe": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stripe.ps1",
+    "deploy:supabase": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-supabase.ps1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "supabase": "^2.115.0"
+  }
+}

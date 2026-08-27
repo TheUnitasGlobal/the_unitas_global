@@ -1,0 +1,6 @@
+{
+  "url": "http://127.0.0.1:54321/functions/v1/mock-coin-checkout-session?session=local-test",
+  "bundle": "small",
+  "mode": "payment",
+  "source": "local-test-fixture"
+}

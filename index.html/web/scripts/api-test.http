@@ -1,0 +1,72 @@
+### UNITAS -- API test template (VS Code REST Client extension)
+### Fill in the variables below from web/.env.local, then click "Send Request"
+### above any block. Reuses the same Supabase project as the root static
+### site's coin-core wallet system -- these are the same wallets/spend_coins
+### endpoints already live in production, so prefer a test/staging user
+### token here rather than a real one when trying destructive calls.
+
+@supabaseUrl = https://YOUR-PROJECT-REF.supabase.co
+@supabaseAnonKey = YOUR_ANON_KEY
+@userAccessToken = YOUR_USER_JWT_FROM_SIGN_IN
+@nextAppUrl = http://localhost:3000
+@mockWebhookUrl = http://localhost:4242
+
+### Supabase: current user's wallet balance
+GET {{supabaseUrl}}/rest/v1/wallets?select=balance
+Authorization: Bearer {{userAccessToken}}
+apikey: {{supabaseAnonKey}}
+
+### Supabase: recent coin ledger entries
+GET {{supabaseUrl}}/rest/v1/coin_ledger?select=amount,kind,module,created_at&order=created_at.desc&limit=10
+Authorization: Bearer {{userAccessToken}}
+apikey: {{supabaseAnonKey}}
+
+### Supabase: spend_coins RPC (module access gate)
+POST {{supabaseUrl}}/rest/v1/rpc/spend_coins
+Authorization: Bearer {{userAccessToken}}
+apikey: {{supabaseAnonKey}}
+Content-Type: application/json
+
+{
+  "p_module": "Arche",
+  "p_amount": 300
+}
+
+### Stripe webhook mock listener (root repo: `npm run mock:checkout`)
+POST {{mockWebhookUrl}}/webhook
+Content-Type: application/json
+
+{
+  "type": "checkout.session.completed",
+  "data": {
+    "object": {
+      "id": "cs_test_placeholder",
+      "metadata": { "bundle": "small" }
+    }
+  }
+}
+
+### U-Signature verify (placeholder -- implement app/api/u-signature/verify/route.ts)
+POST {{nextAppUrl}}/api/u-signature/verify
+Content-Type: application/json
+
+{
+  "signaturePayload": "base64-placeholder"
+}
+
+### U-Key issue (placeholder -- implement app/api/u-key/issue/route.ts)
+POST {{nextAppUrl}}/api/u-key/issue
+Content-Type: application/json
+
+{
+  "scope": "placeholder"
+}
+
+### U-Pay checkout (placeholder -- implement app/api/u-pay/checkout/route.ts)
+POST {{nextAppUrl}}/api/u-pay/checkout
+Content-Type: application/json
+
+{
+  "amount": 1000,
+  "currency": "usd"
+}

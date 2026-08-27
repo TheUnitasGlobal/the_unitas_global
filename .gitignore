@@ -1,0 +1,64 @@
+# ── UNITAS GLOBAL · 로컬 소버린 아카이브 (C:\dev\unitas) ─────────────────
+# 원본 개발 저장소: OneDrive\...\유니타스\메모\index.html  (origin: GitHub / Vercel)
+# 이 저장소는 노트 + 프로젝트 소스의 로컬 통합 사본입니다. 원격(remote) 미연결.
+
+# ── 의존성 ────────────────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+.yarn/
+
+# ── 빌드 산출물 / 캐시 ────────────────────────────────────────────────
+.next/
+out/
+dist/
+build/
+site-dist/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+.eslintcache
+
+# ── 환경변수 / 시크릿 ────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+# 평문 키가 포함된 노트 파일 (디스크에는 보존, 버전관리에서만 제외)
+/API Keys.txt
+/FlutterFlowLiveKey.txt
+/stripe_backup_code.txt
+
+# ── 배포 / 클라우드 링크 ─────────────────────────────────────────────
+.vercel/
+.vercel
+
+# ── 에이전트 툴체인 (자체 저장소·대용량, 재설치 가능) ────────────────
+.agent-tools/
+.agents/
+graphify-out/
+.aider*
+
+# ── 테스트 / 커버리지 산출물 ─────────────────────────────────────────
+test-results/
+playwright-report/
+playwright/.cache/
+coverage/
+
+# ── 생성 파일 ────────────────────────────────────────────────────────
+lib/supabase/database.types.ts
+web/lib/supabase/database.types.ts
+
+# ── 로그 ─────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── OS / 에디터 ──────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.swp
+*~

@@ -1,0 +1,86 @@
+{
+  "terminal.integrated.env.windows": {
+    "GEMINI_API_KEY": "${env:GEMINI_API_KEY}",
+    "ANTHROPIC_API_KEY": "${env:ANTHROPIC_API_KEY}",
+    "OPENAI_API_KEY": "${env:OPENAI_API_KEY}",
+    "DEEPSEEK_API_KEY": "${env:DEEPSEEK_API_KEY}",
+    "SUPABASE_PROJECT_REF": "${env:SUPABASE_PROJECT_REF}",
+    // Low-Memory Armor: caps Node's old-space heap for anything launched from
+    // an integrated terminal (next dev/build, scripts) so a single runaway
+    // process can't exhaust RAM on a low-spec machine. Override per-command
+    // with a higher value if a specific build genuinely needs more headroom.
+    "NODE_OPTIONS": "--max-old-space-size=3072"
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+
+  // Low-Memory Armor: files.exclude only hides these from the file tree;
+  // watcherExclude and search.exclude are what actually stop VS Code's
+  // filesystem watcher and search indexer from churning through them, which
+  // is where the real RAM/CPU cost is on a low-spec machine.
+  "files.exclude": {
+    "**/site-dist": true,
+    "**/test-results": true,
+    "**/web/.next": true,
+    "**/web/node_modules": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/site-dist/**": true,
+    "**/test-results/**": true,
+    "**/.git/objects/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/site-dist": true,
+    "**/test-results": true,
+    "**/package-lock.json": true
+  },
+
+  // Low-Memory Armor: default tsserver memory can climb unbounded on a big
+  // TS project; cap it so it gets killed and restarted instead of paging
+  // the whole machine to a crawl.
+  "typescript.tsserver.maxTsServerMemory": 3072,
+  "typescript.disableAutomaticTypeAcquisition": true,
+
+  "files.associations": {
+    "*.vert": "glsl",
+    "*.frag": "glsl",
+    "*.glsl": "glsl"
+  },
+
+  "typescript.tsdk": "web/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  "editor.formatOnSave": true,
+  "[typescript]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
+  "[typescriptreact]": { "editor.defaultFormatter": "vscode.typescript-language-features" },
+  "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
+
+  "tailwindCSS.experimental.configFile": "web/tailwind.config.ts",
+  "tailwindCSS.experimental.classRegex": [
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^'\"`]*)(?:'|\"|`)"],
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^'\"`]*)(?:'|\"|`)"],
+    ["twMerge\\(([^)]*)\\)", "(?:'|\"|`)([^'\"`]*)(?:'|\"|`)"]
+  ],
+  "tailwindCSS.includeLanguages": {
+    "typescript": "typescript",
+    "typescriptreact": "typescriptreact"
+  },
+
+  // --- Multi-agent coexistence: Claude Code + Roo Code + Gemini Code Assist ---
+  // Of the three, only Gemini Code Assist does Copilot-style inline ghost-text
+  // completion (Claude Code is a side-panel/diff-based agent; Roo Code ships
+  // no default keybindings at all, confirmed via its own package.json). That
+  // makes Gemini's auto-inline-suggest the one real source of a suggestion
+  // popping up unasked-for while another agent has focus -- disable auto-fire
+  // and require the manual trigger (Ctrl+Enter / Cmd+Return) instead.
+  "geminicodeassist.inlineSuggestions.enableAuto": false,
+
+  // Roo Code can auto-execute file writes/commands when this is on. With
+  // Claude Code also editing this workspace, leave it off so two agents never
+  // apply unreviewed changes to the same files at the same time -- Roo Code
+  // still prompts for approval per action instead.
+  "roo-cline.autoApprovalEnabled": false
+}

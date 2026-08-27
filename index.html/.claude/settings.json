@@ -1,0 +1,76 @@
+{
+  "autoCompactEnabled": true,
+  "autoCompactWindow": 70000,
+  "precomputeCompactionEnabled": true,
+  "autoMemoryEnabled": true,
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -n \"$(git status --porcelain -- web)\" ]; then npm --prefix web run typecheck && npm --prefix web run build || exit 1; fi; git add . && git commit -m \"feat: automated low-memory sovereign checkpoint sync\" && git push origin main && echo \"checkpoint: $(git rev-parse --short HEAD) pushed to origin/main\"",
+            "timeout": 300,
+            "statusMessage": "Sovereign sync: verifying web/ (typecheck + build) before checkpoint..."
+          }
+        ]
+      }
+    ]
+  },
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(npm install)",
+      "Bash(npm ci)",
+      "Bash(npm run *)",
+      "Bash(pnpm install)",
+      "Bash(pnpm run *)",
+      "Bash(cd web && npm *)",
+      "Bash(tsc *)",
+      "Bash(npx tsc *)",
+      "Bash(node *)",
+      "Bash(npx next *)",
+      "Bash(npx playwright *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git branch)",
+      "Bash(git checkout -b *)",
+      "Bash(git fetch *)",
+      "Bash(git pull)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(git push*)",
+      "Bash(vercel --prod*)",
+      "Bash(npx vercel --prod*)",
+      "Bash(npx --no-install vercel --prod*)",
+      "Bash(bash scripts/deploy-with-rollback.sh*)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -f*)",
+      "Bash(rm -rf *)",
+      "Bash(supabase db reset*)",
+      "Bash(npm publish*)",
+      "Bash(npm deprecate*)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)"
+    ],
+    "ask": [
+      "Bash(supabase db push*)",
+      "Bash(supabase migration *)",
+      "Bash(netlify *)",
+      "Bash(gh pr create*)",
+      "Bash(gh pr merge*)"
+    ]
+  }
+}

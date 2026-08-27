@@ -1,0 +1,118 @@
+## 1단계: USPTO 접속 및 제출 경로 (미국 현지 가이드)
+회원가입 없이 'Guest(게스트)' 자격으로 즉시 제출하는 방법입니다.
+
+사이트 접속: USPTO Patent Center 클릭.
+
+파일링 시작: 화면 중앙의 "File as a guest" 버튼을 클릭합니다.
+
+유형 선택:
+
+상단 메뉴에서 **"Provisional"**을 선택합니다.
+
+하단의 "Start New Submission" 버튼을 클릭합니다.
+
+정보 입력 (Application Data):
+
+Title of Invention: 아래 **[PART 1]**의 영문 제목을 복사해서 넣으십시오.
+
+Inventor: Dooyeong Hwang을 입력하십시오.
+
+문서 업로드 (Upload Documents):
+
+아래 **[PART 2]**의 영문 전문 전체를 워드(.docx) 파일로 저장하여 업로드합니다.
+
+문서 종류(Category)는 반드시 **"Specification"**으로 선택하십시오.
+
+자격 선택 (Entity Status):
+
+**"Micro Entity"**를 선택하십시오. (가장 저렴한 수수료 혜택, 약 $60~$80)
+
+결제 (Review & Pay):
+
+현재 사용 중인 미국 개인 카드로 결제하십시오.
+
+Billing Address: 현재 거주 중인 Auburn, Alabama 주소를 입력하십시오.
+
+완료: 결제 즉시 화면에 뜨는 Application Number를 캡처하고 영수증을 다운로드하십시오.
+
+## [PART 1] 복사해서 넣을 제목 (TITLE)
+USPTO 사이트 'Title of Invention' 칸에 아래 내용을 복사해서 넣으십시오.
+
+Cognitive-Behavioral Integrity Authentication and Distributed Asset Settlement Infrastructure with 22 Core Functional Modules (The Sovereign Codex 22 System)
+
+## [PART 2] 순수 영문 최종 명세서 (Copy & Paste Text)
+아래 텍스트 전체를 복사하여 워드 파일(Specification)로 만드십시오.
+
+SPECIFICATION
+
+1. TITLE OF THE INVENTION
+Cognitive-Behavioral Integrity Authentication and Distributed Asset Settlement Infrastructure with 22 Core Functional Modules (The Sovereign Codex 22 System)
+
+2. FIELD OF THE INVENTION
+The present invention relates to a system for cognitive computing, decentralized ledger technology, and behavioral security. More specifically, it relates to a protocol that preserves systemic integrity and operational continuity against external interferences while implementing a dynamic transaction settlement engine based on cognitive contribution and verification.
+
+3. INDEPENDENT CLAIMS
+Claim 1: [Cognitive Integrity ID & Authentication]
+A method for generating a unique authentication code by extracting non-replicable cognitive behavioral patterns—including reaction speed, typing rhythm, and causal analysis logic—to ensure absolute user integrity without relying on biological DNA.
+
+Claim 2: [Resilient Node Survival & Emergency Shield]
+A security automation technology that, upon detecting the absence of the designated administrator’s cognitive pattern or unauthorized access signals, immediately locks master authorities and transitions the system state to a decentralized mesh network to ensure eternal systemic survival.
+
+Claim 3: [Dynamic Incentive-Driven Asset Routing]
+A computerized settlement logic that automatically redirects 13% of the transaction volume as a platform fee and applies a variable 5% technical surcharge depending on the payment gateway's sovereignty status, incentivizing the use of proprietary low-cost financial networks.
+
+Claim 4: [Algorithmic Labor & Verification Settlement]
+A multi-mode cognitive verification engine that defines internal asset transfers as legitimate 'Cognitive Labor Fees' paid for the verification and optimization of the system's underlying algorithms, thereby establishing a technical basis for service-based compensation.
+
+Claim 5: [Hierarchical Cognitive Governance & Access Control]
+A system for dynamically allocating information access rights, computational priorities, and decision-making authorities based on a 16-to-256 step cognitive hierarchy (The Law of Cog), ensuring systemic stability through intellectual-meritocratic data governance.
+
+4. DETAILED SPECIFICATION: SOVEREIGN CODEX 22
+The present invention explicitly includes the following 22 core functional modules that operate synergistically within the unified ecosystem:
+
+[U-Signature]: Cognitive Biometric Authentication based on behavioral patterns.
+
+[U-Key Multi-Auth]: Hierarchical Access Control based on intellectual hierarchy.
+
+[U-Pay Protocol]: Dynamic Fee Settlement and Payment Sovereignty Engine.
+
+[Cognitive Heritage Sync]: Protocol for permanent inheritance of cognitive identity.
+
+[The Law of Cog Algorithm]: Core engine for cognitive quantification and sequence.
+
+[Cognitive Arcanum]: Master-key system for protecting the core high-security sector.
+
+[Arcanum Encryption]: Automated asymmetric data shredding and encryption.
+
+[Unitas-SSO]: Unified Single Sovereign Sign-On for the entire ecosystem.
+
+[Legacy Sync]: Real-time synchronization technology between founder and system.
+
+[Arche-Logic]: Non-deterministic causal determination and settlement engine.
+
+[Accuracy Bar UI]: Intuitive interface for visualizing truth-proximity (99.0% threshold).
+
+[Cog-Synthesis Engine]: Technology for synthesizing and assetizing intelligence data.
+
+[Destiny Rewrite Engine]: Predictive simulation algorithm for future causal correction.
+
+[Omni-Log Analytics]: Logging technology that converts attention into digital assets.
+
+[Gaia-Tax System]: Automated fee collection system for virtual territory utilization.
+
+[Nomos SDK]: Standardization toolkit for porting the protocol to external networks.
+
+[Ghost Protocol]: Distributed node survival technology based on IPFS/P2P networks.
+
+[Emergency Switch]: Threat-response switch that encrypts assets upon external danger.
+
+[Fiscal Shield]: Intelligent defense algorithm for protecting capital and asset sovereignty.
+
+[A-X Physical Grid]: Cyber-physical grid for integrated infrastructure control.
+
+[CCP Algorithm]: Logic for scoring data refinement contributions and labor rewards.
+
+[Arena Core Engine]: Quad-mode (Individual, Versus, Survival, Raid) battlefield engine.
+
+5. CLAIMS REGARDING MORAL & LEGAL IMMUNITY
+The system includes a mandatory humanitarian smart contract that automatically allocates 20% of designated revenue to global social welfare, establishing the platform's status as a morally superior and socially beneficial technological infrastructure.

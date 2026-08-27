@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="unitasMarkTitle">
+  <title id="unitasMarkTitle">UNITAS</title>
+  <defs>
+    <radialGradient id="coreGlass" cx="38%" cy="32%" r="75%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="35%" stop-color="#00f3ff" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#00f3ff" stop-opacity="0.05" />
+    </radialGradient>
+    <filter id="outerGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter id="softBlur" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" />
+    </filter>
+  </defs>
+
+  <circle cx="100" cy="94" r="80" fill="#d4af37" opacity="0.16" filter="url(#softBlur)" />
+
+  <g stroke="#00f3ff" stroke-width="0.6" stroke-opacity="0.75" stroke-linejoin="round">
+    <polygon points="100,8 100,28 153.7,59" fill="#e8c765" />
+    <polygon points="100,8 153.7,59 153.7,121" fill="#d4af37" />
+    <polygon points="100,8 153.7,121 100,152" fill="#a8842a" />
+    <polygon points="100,8 100,152 46.3,121" fill="#8a6a1f" />
+    <polygon points="100,8 46.3,121 46.3,59" fill="#b8912e" />
+    <polygon points="100,8 46.3,59 100,28" fill="#f5d98a" />
+
+    <polygon points="100,172 100,152 153.7,121" fill="#7a5c1a" />
+    <polygon points="100,172 153.7,121 153.7,59" fill="#58400f" />
+    <polygon points="100,172 153.7,59 100,28" fill="#6b5015" />
+    <polygon points="100,172 100,28 46.3,59" fill="#8a6a1f" />
+    <polygon points="100,172 46.3,59 46.3,121" fill="#a8842a" />
+    <polygon points="100,172 46.3,121 100,152" fill="#b8912e" />
+  </g>
+
+  <polygon
+    points="100,28 153.7,59 153.7,121 100,152 46.3,121 46.3,59"
+    fill="none"
+    stroke="#00f3ff"
+    stroke-width="1.1"
+    stroke-opacity="0.9"
+  />
+
+  <circle cx="100" cy="90" r="27" fill="url(#coreGlass)" filter="url(#outerGlow)" />
+  <circle cx="100" cy="90" r="27" fill="none" stroke="#ffffff" stroke-width="0.75" stroke-opacity="0.6" />
+  <ellipse cx="90" cy="78" rx="9" ry="5" fill="#ffffff" opacity="0.5" filter="url(#softBlur)" />
+</svg>
