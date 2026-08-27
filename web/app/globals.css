@@ -187,6 +187,16 @@ body {
 }
 @media (max-width: 1023px) {
   .nav-scroll {
+    /* Inset the row by exactly the mask's fade distance (20px) on both sides,
+       and mirror it into scroll-padding so momentum scrolling also rests
+       there. Result: at either scroll extreme the first/last control sits
+       flush against the fully-opaque plateau of the mask -- never inside the
+       transparent fade -- so the end icons read sharply. Mid-swipe, content
+       still passes under the soft fade, which is the intended edge look. */
+    padding-left: 20px;
+    padding-right: 20px;
+    scroll-padding-left: 20px;
+    scroll-padding-right: 20px;
     -webkit-mask-image: linear-gradient(
       to right,
       transparent,
@@ -215,18 +225,19 @@ body {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 44px;
+  width: 38px;
   pointer-events: none;
   z-index: 10;
   transition: opacity 0.25s ease;
-  backdrop-filter: blur(3px) saturate(1.3);
-  -webkit-backdrop-filter: blur(3px) saturate(1.3);
+  backdrop-filter: blur(2px) saturate(1.3);
+  -webkit-backdrop-filter: blur(2px) saturate(1.3);
 }
 .nav-edge-hint-left {
   left: 0;
   display: flex;
   align-items: center;
-  background: linear-gradient(to right, rgba(3, 3, 5, 0.82), rgba(3, 3, 5, 0.3) 65%, transparent);
+  justify-content: flex-start;
+  background: linear-gradient(to right, rgba(3, 3, 5, 0.7), rgba(3, 3, 5, 0.22) 60%, transparent);
   box-shadow: inset 14px 0 20px -14px rgba(0, 243, 255, 0.28);
 }
 .nav-edge-hint-right {
@@ -234,25 +245,36 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  background: linear-gradient(to left, rgba(3, 3, 5, 0.82), rgba(3, 3, 5, 0.3) 65%, transparent);
+  background: linear-gradient(to left, rgba(3, 3, 5, 0.7), rgba(3, 3, 5, 0.22) 60%, transparent);
   box-shadow: inset -14px 0 20px -14px rgba(212, 175, 55, 0.28);
 }
 
-/* Small pulsing dot inside the right-edge hint, nudging left to suggest the
-   "swipe this way for more" direction. Left edge intentionally has no dot --
-   a single directional cue reads clearer than two competing pulses. */
-@keyframes nav-edge-pulse {
+/* Pulsing dot inside each edge hint. Both ends carry an identical dot --
+   same 6px size, gold glow, and 1.6s cadence -- mirrored horizontally so
+   each one nudges toward its own off-screen content. Symmetric affordance
+   at both ends of the swipe cluster. */
+@keyframes nav-edge-pulse-right {
   0%, 100% { transform: translateX(0); opacity: 0.5; }
   50% { transform: translateX(-5px); opacity: 1; }
+}
+@keyframes nav-edge-pulse-left {
+  0%, 100% { transform: translateX(0); opacity: 0.5; }
+  50% { transform: translateX(5px); opacity: 1; }
 }
 .nav-edge-hint-pulse {
   width: 6px;
   height: 6px;
-  margin-right: 8px;
   border-radius: 9999px;
   background: radial-gradient(circle, rgba(212, 175, 55, 0.95), rgba(212, 175, 55, 0));
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.65);
-  animation: nav-edge-pulse 1.6s ease-in-out infinite;
+}
+.nav-edge-hint-right .nav-edge-hint-pulse {
+  margin-right: 8px;
+  animation: nav-edge-pulse-right 1.6s ease-in-out infinite;
+}
+.nav-edge-hint-left .nav-edge-hint-pulse {
+  margin-left: 8px;
+  animation: nav-edge-pulse-left 1.6s ease-in-out infinite;
 }
 
 /* Click shockwave ring (see components/effects/Shockwave.tsx) */
