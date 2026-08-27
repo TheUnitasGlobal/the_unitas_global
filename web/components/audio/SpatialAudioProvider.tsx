@@ -10,6 +10,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { isSoundMutedByChoice, storeSoundMuted } from '@/lib/preferences';
 
 interface SpatialAudioContextValue {
   muted: boolean;
@@ -82,9 +83,19 @@ const ECOSYSTEM_SFX_TRIM = REFERENCE_CUE_PEAK / 0.375; // 0.32
  * overlay, and internally by `toggleMuted` when turning sound on) is now
  * the single path that both resumes the context AND sets muted=false in
  * the same user-initiated action.
+ *
+ * SOUND-ON MANDATE (owner, 2026-08-27): `muted` now defaults to FALSE on
+ * every load, on every device. The only thing that flips it to true is the
+ * visitor pressing the SoundToggle -- and that single choice is the only
+ * value persisted (`unitas_sound_muted` in localStorage). A plain reload
+ * with no stored "off" therefore always comes back with sound enabled; it
+ * can never be silently muted by a refresh again. Browser autoplay policy
+ * still requires one user gesture before any audio is audible -- the
+ * AudioGate provides it, and the visibilitychange/pointerdown/keydown
+ * hardening below resumes a context that a later reload left suspended.
  */
 export function SpatialAudioProvider({ children }: { children: ReactNode }) {
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
   const ctxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
@@ -111,6 +122,16 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     }
   }, [muted]);
 
+  // Sound is ON by default (above). Re-mute ONLY for a visitor who turned it
+  // off by hand on a previous visit -- that is the sole persisted state.
+  // Runs once after mount so SSR and the first client render agree (both
+  // start unmuted), avoiding a hydration mismatch on the SoundToggle icon.
+  useEffect(() => {
+    if (isSoundMutedByChoice()) {
+      setMuted(true);
+    }
+  }, []);
+
   const getNoiseBuffer = useCallback((ctx: AudioContext) => {
     if (!noiseBufferRef.current) {
       const length = ctx.sampleRate * 2;
@@ -131,7 +152,12 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     if (!ctx) return;
     ctx.resume().catch(() => {});
     setUnlocked(true);
-    setMuted(false);
+    // Honour a visitor who has deliberately turned sound off before: entering
+    // through the gate resumes the context but leaves them muted. Everyone
+    // else (the default) gets sound.
+    if (!isSoundMutedByChoice()) {
+      setMuted(false);
+    }
   }, [ensureContext]);
 
   /**
@@ -143,6 +169,8 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   const toggleMuted = useCallback(() => {
     const next = !muted;
     setMuted(next);
+    // The toggle is the ONLY writer of the persisted sound preference.
+    storeSoundMuted(next);
     if (!next) {
       // Turning sound ON: make sure the context is actually resumed too,
       // in case the AudioGate was skipped.

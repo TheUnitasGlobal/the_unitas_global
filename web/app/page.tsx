@@ -1,30 +1,41 @@
-import { redirect } from 'next/navigation';
-import { headers } from 'next/headers';
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { readStoredLocale } from '@/lib/preferences';
 
 /**
- * Bare "/" entry point. This used to be handled by next-intl's edge
- * middleware (Accept-Language sniffing + redirect); that responsibility now
- * lives here instead, in the Node.js runtime, so a parsing edge case only
- * ever affects this one route instead of every request behind edge
- * middleware (see middleware.ts, which is now a trivial pass-through and
- * never touches locale logic at all).
+ * Bare "/" entry point. Per owner mandate (2026-08-27):
+ *   - A first-ever visit ALWAYS lands in English. The old server redirect
+ *     sniffed `Accept-Language` and could send e.g. a Korean browser straight
+ *     to `/ko`; that is gone.
+ *   - Once the visitor picks a language from the nav dropdown it is stored in
+ *     `localStorage` ('unitas_locale'); every later visit to "/" restores
+ *     that choice automatically.
+ *
+ * Deep links to "/ko", "/ja", … still work directly and are unaffected. The
+ * redirect must run on the client (that is where `localStorage` lives), so
+ * this renders a full-bleed void screen for the split second before it fires
+ * -- visually identical to the app's own background, plus a <noscript>
+ * fallback to English.
  */
 export default function RootPage() {
-  redirect(`/${resolvePreferredLocale()}`);
-}
+  const router = useRouter();
 
-function resolvePreferredLocale(): string {
-  try {
-    const acceptLanguage = headers().get('accept-language') ?? '';
-    for (const tag of acceptLanguage.split(',')) {
-      const code = tag.trim().split(';')[0]?.split('-')[0]?.toLowerCase();
-      if (code && (routing.locales as readonly string[]).includes(code)) {
-        return code;
-      }
-    }
-  } catch {
-    // Fall through to the default locale below.
-  }
-  return routing.defaultLocale;
+  useEffect(() => {
+    const target = readStoredLocale(routing.locales) ?? routing.defaultLocale;
+    router.replace(`/${target}`);
+  }, [router]);
+
+  return (
+    <div
+      aria-hidden="true"
+      style={{ position: 'fixed', inset: 0, background: '#030305' }}
+    >
+      <noscript>
+        <meta httpEquiv="refresh" content={`0; url=/${routing.defaultLocale}`} />
+      </noscript>
+    </div>
+  );
 }
