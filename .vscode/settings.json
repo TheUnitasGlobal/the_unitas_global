@@ -1,0 +1,27 @@
+{
+  // 에디터 영역 내장 브라우저(Simple Browser) 라우팅:
+  // 아래 호스트로 향하는 링크를 클릭하면 시스템 브라우저 대신
+  // VS Code 중앙 패널의 Simple Browser 로 열립니다.
+  "workbench.externalUriOpeners": {
+    "www.theunitas.global": "simpleBrowser.open",
+    "theunitas.global": "simpleBrowser.open",
+    "localhost": "simpleBrowser.open",
+    "127.0.0.1": "simpleBrowser.open"
+  },
+
+  // 프로젝트 실체는 하위 index.html/ 이므로, 루트를 워크스페이스로 열었을 때도
+  // 로우메모리 아머 설정이 살아 있도록 최소한만 승계 (상세 설정은 index.html/.vscode/settings.json).
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/site-dist/**": true,
+    "**/test-results/**": true,
+    "**/.git/objects/**": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/site-dist": true,
+    "**/package-lock.json": true
+  }
+}
