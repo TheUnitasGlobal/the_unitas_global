@@ -43,7 +43,7 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
 
   // Same device-agnostic pattern as EcosystemCard/LiveServiceCard: `active` unifies mouse
   // hover (desktop) and scroll-through-center (any viewport) into one boolean driving
-  // glow/scale/SFX identically.
+  // glow/scale identically.
   const active = hovered || scrollFocused;
 
   const nodes = B2B_TECH_SPECS[protocol.route] ?? [];
@@ -55,7 +55,9 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrollFocused(entry.isIntersecting);
-        if (entry.isIntersecting) {
+        // Fine-pointer (mouse/PC) devices already get this SFX from handleMouseEnter, so it's
+        // skipped here to avoid a duplicate, distracting cue firing on every scroll pass.
+        if (entry.isIntersecting && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
           playVaultSfx();
         }
       },

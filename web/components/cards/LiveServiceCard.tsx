@@ -38,7 +38,7 @@ export function LiveServiceCard({ module, index, onOpen }: LiveServiceCardProps)
   const glowBackground = useMotionTemplate`radial-gradient(320px circle at ${glowX}% ${glowY}%, ${SILVER}2e, transparent 70%)`;
 
   // Same device-agnostic pattern as EcosystemCard: `active` unifies mouse hover (desktop) and
-  // scroll-through-center (any viewport) into one boolean driving glow/scale/SFX identically.
+  // scroll-through-center (any viewport) into one boolean driving glow/scale identically.
   const active = hovered || scrollFocused;
 
   useEffect(() => {
@@ -48,7 +48,10 @@ export function LiveServiceCard({ module, index, onOpen }: LiveServiceCardProps)
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrollFocused(entry.isIntersecting);
-        if (entry.isIntersecting) {
+        // Scroll-triggered SFX is a touch-device substitute for hover, which mouse/PC
+        // users already get from handleMouseEnter -- fine-pointer devices would otherwise
+        // hear the cue twice (once per scroll pass, once per hover), so it's skipped there.
+        if (entry.isIntersecting && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
           playHoverSfx((index / 4) * 2 - 1);
         }
       },

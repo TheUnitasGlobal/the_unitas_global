@@ -41,16 +41,16 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
 
   // `active` is the single source of truth for the glow/scale/particle/CTA-pulse treatment,
   // fed by either trigger -- mouse hover (desktop) or scroll-through-center (any viewport,
-  // including desktop). Keeping every visual/audio effect keyed off one boolean is what
+  // including desktop). Keeping every visual effect keyed off one boolean is what
   // guarantees PC, tablet, and mobile render literally the same reaction regardless of how
   // the card was focused, closing the feature gap between pointer and scroll interaction.
   const active = hovered || scrollFocused;
 
   // Runs on every viewport (not just mobile): the card nearest the vertical center as the
-  // user scrolls -- via mouse wheel, trackpad, or touch -- auto-activates the same treatment
-  // a hover would on desktop, so scrolling itself is a first-class interaction everywhere.
-  // rootMargin shrinks the observed root to a thin band around screen center so only the
-  // module actually "in focus" while scrolling lights up.
+  // user scrolls -- via mouse wheel, trackpad, or touch -- auto-activates the same visual
+  // treatment a hover would on desktop, so scrolling itself is a first-class interaction
+  // everywhere. rootMargin shrinks the observed root to a thin band around screen center so
+  // only the module actually "in focus" while scrolling lights up.
   useEffect(() => {
     const card = cardRef.current;
     if (!card) return;
@@ -58,7 +58,10 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrollFocused(entry.isIntersecting);
-        if (entry.isIntersecting) {
+        // SFX stays touch-only here: fine-pointer (mouse/PC) devices already get the cue from
+        // handleMouseEnter, so firing it again on every scroll pass would double up and turn
+        // scrolling itself into a noisy, distracting interaction on desktop.
+        if (entry.isIntersecting && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
           playEcosystemHover(ecosystem.sfx, 0);
         }
       },

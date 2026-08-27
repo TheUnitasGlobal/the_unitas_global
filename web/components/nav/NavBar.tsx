@@ -79,7 +79,7 @@ export function NavBar() {
             <span className="font-serif text-[10px] font-bold uppercase leading-tight tracking-[0.1em] text-accent sm:text-[15px] sm:leading-none sm:tracking-[0.18em]">
               UNITAS
             </span>
-            <span className="text-[8px] font-medium uppercase leading-tight tracking-wide text-cyan-300/90 sm:text-[11px] sm:normal-case sm:leading-none">
+            <span className="text-[8px] font-medium normal-case leading-tight tracking-wide text-cyan-300/90 sm:text-[11px] sm:leading-none">
               App Download
             </span>
           </button>
