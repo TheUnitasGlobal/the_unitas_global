@@ -64,7 +64,9 @@
     "chargeTitle": "Recargar U-COIN",
     "chargeBody": "La compra de monedas en este portal estará disponible próximamente. Mientras tanto, recarga tu saldo desde el Portal Seguro principal.",
     "close": "Cerrar",
-    "currencyNote": "1 U-Coin = 1 EUR (la moneda local se convierte automáticamente al pagar)."
+    "currencyNote": "1 U-Coin = 1 EUR (la moneda local se convierte automáticamente al pagar).",
+    "balanceTitle": "Saldo de U-COIN",
+    "balanceBody": "Este es tu saldo de U-COIN en tiempo real. Úsalo en los módulos cognitivos y servicios en vivo, o recárgalo con Recargar Monedas."
   },
   "Cognitive": {
     "title": "Ecosistema Cognitivo",

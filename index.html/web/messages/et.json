@@ -64,7 +64,9 @@
     "chargeTitle": "Laadi U-COIN",
     "chargeBody": "Müntide ostmine selles portaalis on peagi saadaval. Seniks laadi oma saldot peamises Turvalises Portaalis.",
     "close": "Sulge",
-    "currencyNote": "1 U-Coin = 1 EUR (kohalik valuuta teisendatakse automaatselt kassas)."
+    "currencyNote": "1 U-Coin = 1 EUR (kohalik valuuta teisendatakse automaatselt kassas).",
+    "balanceTitle": "U-COIN saldo",
+    "balanceBody": "See on sinu reaalajas U-COIN saldo. Kasuta seda kognitiivsetes moodulites ja otseteenustes või täienda seda valikuga Laadi Münte."
   },
   "Cognitive": {
     "title": "Kognitiivne Ökosüsteem",

@@ -5,12 +5,14 @@ import { useTranslations } from 'next-intl';
 import { Coins, Plus } from 'lucide-react';
 import { useWallet } from './WalletProvider';
 import { ChargeCoinsModal } from './ChargeCoinsModal';
+import { WalletBalanceModal } from './WalletBalanceModal';
 
 /** Fixed top-right live coin balance + Charge Coins CTA (nav bar). */
 export function CoinBalanceBadge() {
   const t = useTranslations('Wallet');
   const { session, balance, loading, configured } = useWallet();
   const [chargeOpen, setChargeOpen] = useState(false);
+  const [balanceOpen, setBalanceOpen] = useState(false);
 
   const balanceLabel = !configured || !session
     ? '—'
@@ -20,22 +22,28 @@ export function CoinBalanceBadge() {
 
   return (
     <div className="flex items-center gap-5">
-      <div
-        className="flex items-center gap-2 text-sm text-gray-300"
+      <button
+        type="button"
+        onClick={() => setBalanceOpen(true)}
         title={!session ? t('signInRequired') : undefined}
+        aria-label={t('balanceTitle')}
+        aria-haspopup="dialog"
+        className="pointer-events-auto flex items-center gap-2 py-2 text-sm text-gray-300 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none"
       >
         <Coins size={22} className="text-accent/80" />
         <span className="font-bold text-neon">{balanceLabel}</span>
         <span className="hidden text-gray-500 sm:inline">{t('coinUnit')}</span>
-      </div>
+      </button>
       <button
         type="button"
         onClick={() => setChargeOpen(true)}
-        className="flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
+        aria-haspopup="dialog"
+        className="pointer-events-auto flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
       >
         <Plus size={20} />
         <span className="hidden sm:inline">{t('chargeCoins')}</span>
       </button>
+      <WalletBalanceModal open={balanceOpen} onClose={() => setBalanceOpen(false)} />
       <ChargeCoinsModal open={chargeOpen} onClose={() => setChargeOpen(false)} />
     </div>
   );

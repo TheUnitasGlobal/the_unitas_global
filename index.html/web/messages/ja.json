@@ -64,7 +64,9 @@
     "chargeTitle": "U-COINをチャージ",
     "chargeBody": "このポータルでのコイン購入は近日公開予定です。それまではメインのセキュアポータルから残高をチャージしてください。",
     "close": "閉じる",
-    "currencyNote": "1 U-COIN = 1ユーロ（EUR）（決済時に現地通貨へ自動換算されます）。"
+    "currencyNote": "1 U-COIN = 1ユーロ（EUR）（決済時に現地通貨へ自動換算されます）。",
+    "balanceTitle": "U-COIN残高",
+    "balanceBody": "リアルタイムのU-COIN残高です。コグニティブ・モジュールやライブサービスで使用するか、コインをチャージして残高を補充できます。"
   },
   "Cognitive": {
     "title": "コグニティブ・エコシステム",

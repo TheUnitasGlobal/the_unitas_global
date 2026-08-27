@@ -64,7 +64,9 @@
     "chargeTitle": "充值 U-COIN",
     "chargeBody": "该门户的代币购买结账功能即将推出。在此之前，请前往主安全门户充值余额。",
     "close": "关闭",
-    "currencyNote": "1 U-COIN = 1 欧元（EUR）（结账时自动转换为当地货币）。"
+    "currencyNote": "1 U-COIN = 1 欧元（EUR）（结账时自动转换为当地货币）。",
+    "balanceTitle": "U-COIN 余额",
+    "balanceBody": "这是您的实时 U-COIN 余额。可用于认知模块和实时服务，或通过充值代币补充余额。"
   },
   "Cognitive": {
     "title": "认知生态系统",

@@ -64,7 +64,9 @@
     "chargeTitle": "Charge U-COIN",
     "chargeBody": "Coin purchase checkout for this portal is coming soon. In the meantime, top up your balance from the main Secure Portal.",
     "close": "Close",
-    "currencyNote": "1 U-Coin = 1 EUR (local currency automatically converted at checkout)."
+    "currencyNote": "1 U-Coin = 1 EUR (local currency automatically converted at checkout).",
+    "balanceTitle": "U-COIN Balance",
+    "balanceBody": "This is your live U-COIN balance. Spend it on cognitive modules and live services, or top it up with Charge Coins."
   },
   "Cognitive": {
     "title": "Cognitive Ecosystem",

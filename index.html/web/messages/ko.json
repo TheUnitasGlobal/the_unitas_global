@@ -64,7 +64,9 @@
     "chargeTitle": "U-COIN 충전",
     "chargeBody": "이 포털에서의 코인 결제 기능은 곧 제공될 예정입니다. 그동안 메인 보안 포털에서 잔액을 충전해 주세요.",
     "close": "닫기",
-    "currencyNote": "1 U-COIN = 1 유로(EUR) (결제 시 현지 통화로 자동 환산됩니다)."
+    "currencyNote": "1 U-COIN = 1 유로(EUR) (결제 시 현지 통화로 자동 환산됩니다).",
+    "balanceTitle": "U-COIN 잔액",
+    "balanceBody": "실시간 U-COIN 잔액입니다. 코그니티브 모듈과 라이브 서비스에 사용하거나 코인 충전으로 잔액을 채울 수 있습니다."
   },
   "Cognitive": {
     "title": "코그니티브 생태계",
