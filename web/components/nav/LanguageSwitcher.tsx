@@ -7,6 +7,7 @@ import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { ChevronDown } from 'lucide-react';
 import { storeLocale } from '@/lib/preferences';
+import { useGatedSurface } from '@/components/ui/UIGateProvider';
 import { FlagIcon } from './FlagIcon';
 
 type Locale = (typeof routing.locales)[number];
@@ -40,10 +41,17 @@ export function LanguageSwitcher() {
   const locale = useLocale() as Locale;
   const pathname = usePathname();
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  // The dropdown is a function-window for the site-wide mutual-exclusion gate:
+  // it can't open over another popup and no popup can open over it. No scroll
+  // lock -- it's a small transient menu, not a full modal.
+  const { open, setOpen, blocked } = useGatedSurface('nav:language');
   const [mounted, setMounted] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const [menuPos, setMenuPos] = useState<{ top: number; left: number }>({ top: -9999, left: -9999 });
+  const [menuPos, setMenuPos] = useState<{ top: number; left: number; maxHeight: number }>({
+    top: -9999,
+    left: -9999,
+    maxHeight: 320,
+  });
 
   useEffect(() => setMounted(true), []);
 
@@ -54,7 +62,21 @@ export function LanguageSwitcher() {
     if (!el) return;
     const rect = el.getBoundingClientRect();
     const left = Math.max(8, Math.min(rect.right - MENU_WIDTH, window.innerWidth - MENU_WIDTH - 8));
-    setMenuPos({ top: rect.bottom + 10, left });
+
+    // Keep the whole menu inside the viewport on short / landscape screens:
+    // drop below the trigger when there's room, otherwise flip above, and cap
+    // the height so the last language is never clipped past the bottom edge.
+    const GAP = 10;
+    const MARGIN = 8;
+    const spaceBelow = window.innerHeight - rect.bottom - GAP - MARGIN;
+    const spaceAbove = rect.top - GAP - MARGIN;
+    const flipUp = spaceBelow < 200 && spaceAbove > spaceBelow;
+    const maxHeight = Math.max(160, Math.min(360, flipUp ? spaceAbove : spaceBelow));
+    const top = flipUp
+      ? Math.max(MARGIN, rect.top - GAP - maxHeight)
+      : rect.bottom + GAP;
+
+    setMenuPos({ top, left, maxHeight });
   }, []);
 
   useIsomorphicLayoutEffect(() => {
@@ -75,7 +97,7 @@ export function LanguageSwitcher() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [open]);
+  }, [open, setOpen]);
 
   function selectLocale(nextLocale: Locale) {
     setOpen(false);
@@ -88,11 +110,17 @@ export function LanguageSwitcher() {
       <button
         ref={triggerRef}
         type="button"
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={() => {
+          if (open) setOpen(false);
+          else if (!blocked) setOpen(true);
+        }}
         aria-label={t('languageLabel')}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
+        aria-disabled={blocked}
+        className={`flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none ${
+          blocked ? 'pointer-events-none opacity-40' : ''
+        }`}
       >
         <FlagIcon locale={locale} className="h-[18px] w-[27px] shrink-0 rounded-[3px] ring-1 ring-white/15" />
         <span className="leading-none normal-case tracking-normal">{current.native}</span>
@@ -113,8 +141,13 @@ export function LanguageSwitcher() {
               <ul
                 role="listbox"
                 aria-label={t('languageLabel')}
-                className="fixed z-[200] overflow-hidden rounded-lg border border-accent/25 bg-quantum/95 py-1.5 shadow-[0_16px_48px_rgba(0,0,0,0.55)] backdrop-blur-md"
-                style={{ top: menuPos.top, left: menuPos.left, width: MENU_WIDTH }}
+                className="fixed z-[200] overflow-y-auto overscroll-contain rounded-lg border border-accent/25 bg-quantum/95 py-1.5 shadow-[0_16px_48px_rgba(0,0,0,0.55)] backdrop-blur-md"
+                style={{
+                  top: menuPos.top,
+                  left: menuPos.left,
+                  width: MENU_WIDTH,
+                  maxHeight: menuPos.maxHeight,
+                }}
               >
                 {routing.locales.map((loc) => (
                   <li key={loc}>

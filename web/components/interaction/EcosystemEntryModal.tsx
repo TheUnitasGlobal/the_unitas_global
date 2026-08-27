@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRouter } from '@/i18n/navigation';
+import { ModalPortal } from '@/components/ui/ModalPortal';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
@@ -43,16 +44,6 @@ export function EcosystemEntryModal({ ecosystem, onClose }: EcosystemEntryModalP
     onClose();
   }
 
-  useEffect(() => {
-    if (!open) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handleClose();
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, processing]);
-
   async function handlePayAndEnter() {
     if (!ecosystem || processing) return;
     if (!session) {
@@ -84,18 +75,10 @@ export function EcosystemEntryModal({ ecosystem, onClose }: EcosystemEntryModalP
   }
 
   return (
-    <AnimatePresence>
-      {open && ecosystem && (
+    <ModalPortal open={open} onClose={handleClose} backdropClassName="bg-void/85 backdrop-blur-md">
+      {ecosystem && (
         <motion.div
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-void/85 p-6 backdrop-blur-md"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={handleClose}
-          role="presentation"
-        >
-          <motion.div
-            className="relative w-full max-w-md overflow-hidden border bg-quantum/90 p-8"
+            className="relative my-2 w-full max-w-md overflow-hidden border bg-quantum/90 p-8"
             style={{
               borderColor: `${ecosystem.color}66`,
               boxShadow: `0 0 60px ${ecosystem.glow}33, inset 0 0 40px ${ecosystem.color}11`,
@@ -190,8 +173,7 @@ export function EcosystemEntryModal({ ecosystem, onClose }: EcosystemEntryModalP
               {processing ? tEntry('processing') : tEntry('payAndEnter')}
             </button>
           </motion.div>
-        </motion.div>
       )}
-    </AnimatePresence>
+    </ModalPortal>
   );
 }

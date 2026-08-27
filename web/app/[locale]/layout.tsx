@@ -6,6 +6,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { HtmlLangSync } from '@/components/i18n/HtmlLangSync';
 import { WalletProvider } from '@/components/wallet/WalletProvider';
+import { UIGateProvider } from '@/components/ui/UIGateProvider';
 import { NavBar } from '@/components/nav/NavBar';
 import { AudioGate } from '@/components/audio/AudioGate';
 
@@ -78,16 +79,20 @@ export default async function LocaleLayout({
     <NextIntlClientProvider>
       <HtmlLangSync />
       <WalletProvider>
-        {/* Everything but the entry gate renders at a 75%-zoom-equivalent
-            scale, so the whole ecosystem reads as one wide, majestic
-            composition on entry instead of a taller, more cramped 100%
-            layout. The gate itself stays outside this wrapper so its
-            typography renders at full, undiminished scale. */}
-        <div className="dashboard-zoom">
-          <NavBar />
-          <div className="relative z-0">{children}</div>
-        </div>
-        <AudioGate />
+        <UIGateProvider>
+          {/* Everything but the entry gate renders at a 75%-zoom-equivalent
+              scale, so the whole ecosystem reads as one wide, majestic
+              composition on entry instead of a taller, more cramped 100%
+              layout. The gate itself stays outside this wrapper so its
+              typography renders at full, undiminished scale. Modals/popups
+              portal out to <body> (also above this wrapper) via ModalPortal
+              so `zoom` can never clip them. */}
+          <div className="dashboard-zoom">
+            <NavBar />
+            <div className="relative z-0">{children}</div>
+          </div>
+          <AudioGate />
+        </UIGateProvider>
       </WalletProvider>
     </NextIntlClientProvider>
   );

@@ -5,6 +5,7 @@ import { motion, AnimatePresence, useMotionValue, useMotionTemplate, useSpring }
 import { useTranslations } from 'next-intl';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { EnterpriseInquiryModal } from '@/components/interaction/EnterpriseInquiryModal';
+import { useGatedSurface } from '@/components/ui/UIGateProvider';
 import { SwordShieldIcon } from '@/components/icons/SwordShieldIcon';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { B2B_TECH_SPECS } from '@/lib/b2bSpecs';
@@ -30,7 +31,11 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
   const tModules = useTranslations('Modules');
   const { playVaultSfx } = useSpatialAudio();
   const [specOpen, setSpecOpen] = useState(false);
-  const [inquiryOpen, setInquiryOpen] = useState(false);
+  const {
+    open: inquiryOpen,
+    setOpen: setInquiryOpen,
+    blocked: inquiryBlocked,
+  } = useGatedSurface(`home:b2b:${protocol.key}`, { lockScroll: true });
   const cardRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
   const [scrollFocused, setScrollFocused] = useState(false);
@@ -191,8 +196,13 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
 
         <button
           type="button"
-          onClick={() => setInquiryOpen(true)}
-          className="w-full border border-accent bg-accent/10 py-2.5 text-[13px] font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
+          onClick={() => {
+            if (!inquiryBlocked) setInquiryOpen(true);
+          }}
+          aria-disabled={inquiryBlocked}
+          className={`w-full border border-accent bg-accent/10 py-2.5 text-[13px] font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void ${
+            inquiryBlocked ? 'pointer-events-none opacity-40' : ''
+          }`}
         >
           {t('earlyAccess')}
         </button>
@@ -200,7 +210,7 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
 
       <EnterpriseInquiryModal
         open={inquiryOpen}
-        onClose={() => setInquiryOpen(false)}
+        onClose={() => void setInquiryOpen(false)}
         protocolTitle={tModules(`${protocol.messageKey}.title`)}
       />
     </motion.div>

@@ -1,10 +1,19 @@
 'use client';
 
-import { useMemo, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type DragEvent,
+  type FormEvent,
+} from 'react';
 import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Paperclip, X } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
+import { useUIGate } from '@/components/ui/UIGateProvider';
 import { sceneInteraction } from '@/lib/sceneInteraction';
 import { analyzeQuery, type OmniSynapseAnalysis } from '@/lib/omniSynapse';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
@@ -54,6 +63,8 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
   const tB2c = useTranslations('B2C');
   const tB2b = useTranslations('B2B');
   const { playTypingTick, playQuestEnterSfx, playHoverSfx, playSearchFocusSfx } = useSpatialAudio();
+  const { acquire, release, isBlocked } = useUIGate();
+  const SEARCH_GATE = 'home:search';
 
   const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
@@ -63,6 +74,7 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
   const [attachments, setAttachments] = useState<Array<{ id: string; label: string; content: string }>>([]);
   const [swarmOpen, setSwarmOpen] = useState(false);
   const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const TEXT_LIKE_RE = /\.(txt|md|json|csv|log|ya?ml)$/i;
   const MAX_ATTACHMENT_CHARS = 4000;
@@ -151,7 +163,28 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
     filteredModules.length === 0 &&
     filteredProtocols.length === 0;
 
+  // The focused search bar (browse hub / U-AI ARCHITECT panel) counts as an
+  // open function-window for the site-wide mutual-exclusion gate -- while it
+  // holds the gate no nav popup or module modal can open, and vice versa.
+  // Held only until a result is shown; the result panel itself is passive.
+  useEffect(() => {
+    const shouldHold = focused && !result;
+    if (shouldHold) {
+      if (!acquire(SEARCH_GATE)) {
+        setFocused(false);
+        sceneInteraction.focusBoost = 0;
+      }
+    } else {
+      release(SEARCH_GATE);
+    }
+  }, [focused, result, acquire, release]);
+
   function handleFocus() {
+    if (isBlocked(SEARCH_GATE)) {
+      // Another surface is open -- refuse focus so nothing opens on top of it.
+      window.requestAnimationFrame(() => inputRef.current?.blur());
+      return;
+    }
     if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
     setFocused(true);
     sceneInteraction.focusBoost = 1;
@@ -159,6 +192,9 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
   }
 
   function handleBlur() {
+    // Release the gate synchronously so a click that lands on a card/nav
+    // button (which is what caused this blur) can immediately take it.
+    release(SEARCH_GATE);
     // Deferred so a click/mousedown on a grid item inside the dropdown
     // still registers before the dropdown unmounts.
     blurTimeoutRef.current = setTimeout(() => {
@@ -171,6 +207,7 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
     if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
     setFocused(false);
     sceneInteraction.focusBoost = 0;
+    release(SEARCH_GATE);
   }
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -216,6 +253,7 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
         >
           <Search size={20} className="shrink-0 text-accent" aria-hidden="true" />
           <input
+            ref={inputRef}
             type="text"
             value={value}
             onChange={handleChange}
@@ -298,8 +336,10 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
                           type="button"
                           onMouseEnter={() => playHoverSfx()}
                           onClick={() => {
-                            onSelectEcosystem(eco);
+                            // Release the search gate first so onSelectEcosystem
+                            // can immediately acquire it for the entry modal.
                             closeBrowseHub();
+                            onSelectEcosystem(eco);
                           }}
                           style={{ borderLeftColor: eco.color, borderLeftWidth: 3 }}
                           className="flex flex-col border border-white/10 border-l-[3px] bg-void/50 px-3 py-2 text-left transition-colors hover:border-white/25 hover:bg-void/70"
@@ -328,8 +368,8 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
                           type="button"
                           onMouseEnter={() => playHoverSfx()}
                           onClick={() => {
-                            onSelectModule(mod);
                             closeBrowseHub();
+                            onSelectModule(mod);
                           }}
                           style={{ borderLeftColor: mod.metal, borderLeftWidth: 3 }}
                           className="flex flex-col border border-white/10 border-l-[3px] bg-void/50 px-3 py-2 text-left transition-colors hover:border-white/25 hover:bg-void/70"

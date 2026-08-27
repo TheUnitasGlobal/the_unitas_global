@@ -1,8 +1,9 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Hero } from './Hero';
+import { useUIGate } from '@/components/ui/UIGateProvider';
 import { OmniSynapseSearch } from './OmniSynapseSearch';
 import { EcosystemCard } from '@/components/cards/EcosystemCard';
 import { LiveServiceCard } from '@/components/cards/LiveServiceCard';
@@ -23,6 +24,52 @@ export function HomeContent() {
   const [activeModule, setActiveModule] = useState<B2CModule | null>(null);
   const { trigger: triggerShockwave, element: shockwaveElement } = useShockwave();
 
+  // Site-wide mutual-exclusion gate: an ecosystem/module entry modal may open
+  // only when nothing else (a nav popup, the U-AI search hub, another module)
+  // holds it, and it hands the gate back the moment it closes.
+  const { activeId, acquire, release } = useUIGate();
+
+  const ECOSYSTEM_GATE = 'home:ecosystem';
+  const MODULE_GATE = 'home:module';
+
+  const openEcosystem = useCallback(
+    (eco: EcosystemTheme) => {
+      if (acquire(ECOSYSTEM_GATE, { lockScroll: true })) setActiveEcosystem(eco);
+    },
+    [acquire],
+  );
+  const closeEcosystem = useCallback(() => {
+    setActiveEcosystem(null);
+    release(ECOSYSTEM_GATE);
+  }, [release]);
+
+  const openModule = useCallback(
+    (module: B2CModule) => {
+      if (acquire(MODULE_GATE, { lockScroll: true })) setActiveModule(module);
+    },
+    [acquire],
+  );
+  const closeModule = useCallback(() => {
+    setActiveModule(null);
+    release(MODULE_GATE);
+  }, [release]);
+
+  // Pay & Enter navigates away without calling onClose -- release on unmount so
+  // the gate never stays stuck after leaving the homepage.
+  useEffect(
+    () => () => {
+      release(ECOSYSTEM_GATE);
+      release(MODULE_GATE);
+    },
+    [release],
+  );
+
+  // While any other surface owns the gate, the three card sections underneath
+  // must not react to clicks/hover -- the modal backdrop already covers them,
+  // this also covers the backdrop-less U-AI search hub case.
+  const sectionsLocked =
+    activeId !== null && activeId !== ECOSYSTEM_GATE && activeId !== MODULE_GATE;
+
   return (
     <Fragment>
     <main className="pb-24">
@@ -35,8 +82,9 @@ export function HomeContent() {
       <div className="flex flex-col items-center pt-24 pb-24">
         <Hero />
       </div>
-      <OmniSynapseSearch onSelectEcosystem={setActiveEcosystem} onSelectModule={setActiveModule} />
+      <OmniSynapseSearch onSelectEcosystem={openEcosystem} onSelectModule={openModule} />
 
+      <div className={sectionsLocked ? 'pointer-events-none' : undefined}>
       {/* Section 1 -- Cognitive Ecosystem (the 11 modules, always visible) */}
       <section id="ecosystems" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-10 text-center">
@@ -54,7 +102,7 @@ export function HomeContent() {
               key={eco.key}
               ecosystem={eco}
               index={index}
-              onOpen={setActiveEcosystem}
+              onOpen={openEcosystem}
               shockwaveTrigger={triggerShockwave}
             />
           ))}
@@ -77,7 +125,7 @@ export function HomeContent() {
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {B2C_MODULES.map((module, index) => (
-            <LiveServiceCard key={module.key} module={module} index={index} onOpen={setActiveModule} />
+            <LiveServiceCard key={module.key} module={module} index={index} onOpen={openModule} />
           ))}
         </div>
       </section>
@@ -100,8 +148,10 @@ export function HomeContent() {
         </div>
       </section>
 
-      <EcosystemEntryModal ecosystem={activeEcosystem} onClose={() => setActiveEcosystem(null)} />
-      <ModuleQuestModal module={activeModule} onClose={() => setActiveModule(null)} />
+      </div>
+
+      <EcosystemEntryModal ecosystem={activeEcosystem} onClose={closeEcosystem} />
+      <ModuleQuestModal module={activeModule} onClose={closeModule} />
     </main>
     <Footer />
     </Fragment>

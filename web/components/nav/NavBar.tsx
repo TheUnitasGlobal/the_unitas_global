@@ -6,6 +6,7 @@ import { Link } from '@/i18n/navigation';
 import { SoundToggle } from '@/components/audio/SoundToggle';
 import { usePwaInstall } from '@/lib/hooks/usePwaInstall';
 import { Modal } from '@/components/ui/Modal';
+import { useGatedSurface } from '@/components/ui/UIGateProvider';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { AuthButton } from './AuthButton';
 import { SettingsButton } from './SettingsButton';
@@ -14,7 +15,9 @@ import { CoinBalanceBadge } from '@/components/wallet/CoinBalanceBadge';
 export function NavBar() {
   const t = useTranslations('Nav');
   const { canInstall, isInstalled, isIos, isDesktop, promptInstall } = usePwaInstall();
-  const [showGuide, setShowGuide] = useState(false);
+  const { open: showGuide, setOpen: setShowGuide, blocked: guideBlocked } = useGatedSurface('nav:app-download', {
+    lockScroll: true,
+  });
   const scrollRef = useRef<HTMLDivElement>(null);
   const [edgeHint, setEdgeHint] = useState({ left: false, right: false });
 
@@ -40,6 +43,8 @@ export function NavBar() {
   }, []);
 
   const handleAppDownloadClick = () => {
+    // Locked out while any other popup/modal/function-window is open.
+    if (guideBlocked) return;
     if (isInstalled) {
       setShowGuide(true);
       return;
@@ -73,8 +78,11 @@ export function NavBar() {
           <button
             type="button"
             aria-label={t('appDownloadAria')}
+            aria-disabled={guideBlocked}
             onClick={handleAppDownloadClick}
-            className="app-download-pulse flex min-w-0 flex-col items-start justify-center gap-0 rounded-xl border-none bg-transparent px-2.5 py-1 sm:flex-row sm:items-center sm:gap-1.5 sm:rounded-full sm:px-4 sm:py-1.5"
+            className={`app-download-pulse flex min-w-0 flex-col items-start justify-center gap-0 rounded-xl border-none bg-transparent px-2.5 py-1 sm:flex-row sm:items-center sm:gap-1.5 sm:rounded-full sm:px-4 sm:py-1.5 ${
+              guideBlocked ? 'pointer-events-none' : ''
+            }`}
           >
             <span className="font-serif text-[10px] font-bold uppercase leading-tight tracking-[0.1em] text-accent sm:text-[15px] sm:leading-none sm:tracking-[0.18em]">
               UNITAS
@@ -115,7 +123,7 @@ export function NavBar() {
         </div>
       </div>
 
-      <Modal open={showGuide} onClose={() => setShowGuide(false)} labelledBy="app-download-guide-title">
+      <Modal open={showGuide} onClose={() => void setShowGuide(false)} labelledBy="app-download-guide-title">
         <h2
           id="app-download-guide-title"
           className="font-serif text-lg font-bold uppercase tracking-[0.18em] text-accent"

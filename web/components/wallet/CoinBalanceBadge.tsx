@@ -1,16 +1,19 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Coins, Plus } from 'lucide-react';
 import { useWallet } from './WalletProvider';
 import { ChargeCoinsModal } from './ChargeCoinsModal';
+import { useGatedSurface } from '@/components/ui/UIGateProvider';
 
 /** Fixed top-right live coin balance + Charge Coins CTA (nav bar). */
 export function CoinBalanceBadge() {
   const t = useTranslations('Wallet');
   const { session, balance, loading, configured } = useWallet();
-  const [chargeOpen, setChargeOpen] = useState(false);
+  const { open: chargeOpen, setOpen: setChargeOpen, blocked: chargeBlocked } = useGatedSurface(
+    'nav:charge',
+    { lockScroll: true },
+  );
 
   const balanceLabel = !configured || !session
     ? '—'
@@ -30,13 +33,18 @@ export function CoinBalanceBadge() {
       </div>
       <button
         type="button"
-        onClick={() => setChargeOpen(true)}
-        className="flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
+        onClick={() => {
+          if (!chargeBlocked) setChargeOpen(true);
+        }}
+        aria-disabled={chargeBlocked}
+        className={`flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none ${
+          chargeBlocked ? 'pointer-events-none opacity-40' : ''
+        }`}
       >
         <Plus size={20} />
         <span className="hidden sm:inline">{t('chargeCoins')}</span>
       </button>
-      <ChargeCoinsModal open={chargeOpen} onClose={() => setChargeOpen(false)} />
+      <ChargeCoinsModal open={chargeOpen} onClose={() => void setChargeOpen(false)} />
     </div>
   );
 }
