@@ -7,6 +7,7 @@ import { Cpu } from 'lucide-react';
 import { ParticleBurst } from '@/components/effects/ParticleBurst';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { useShockwave } from '@/components/effects/Shockwave';
+import { shouldPlayScrollFocusSfx } from '@/lib/pointerDevice';
 import type { EcosystemTheme } from '@/lib/ecosystems';
 
 interface EcosystemCardProps {
@@ -58,10 +59,11 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrollFocused(entry.isIntersecting);
-        // SFX stays touch-only here: fine-pointer (mouse/PC) devices already get the cue from
-        // handleMouseEnter, so firing it again on every scroll pass would double up and turn
-        // scrolling itself into a noisy, distracting interaction on desktop.
-        if (entry.isIntersecting && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        // SFX stays touch-first here: it fires on every touch-capable device (phone, tablet,
+        // hybrid laptop, stylus) as their hover substitute, and is muted ONLY on a pure
+        // no-touch mouse desktop -- there handleMouseEnter already plays the identical cue,
+        // so replaying it on each scroll pass would double up and make scrolling noisy.
+        if (entry.isIntersecting && shouldPlayScrollFocusSfx()) {
           playEcosystemHover(ecosystem.sfx, 0);
         }
       },

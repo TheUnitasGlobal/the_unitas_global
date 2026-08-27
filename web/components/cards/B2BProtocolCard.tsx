@@ -8,6 +8,7 @@ import { EnterpriseInquiryModal } from '@/components/interaction/EnterpriseInqui
 import { SwordShieldIcon } from '@/components/icons/SwordShieldIcon';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { B2B_TECH_SPECS } from '@/lib/b2bSpecs';
+import { shouldPlayScrollFocusSfx } from '@/lib/pointerDevice';
 import type { B2BProtocol } from '@/lib/modules';
 
 interface B2BProtocolCardProps {
@@ -55,9 +56,10 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrollFocused(entry.isIntersecting);
-        // Fine-pointer (mouse/PC) devices already get this SFX from handleMouseEnter, so it's
-        // skipped here to avoid a duplicate, distracting cue firing on every scroll pass.
-        if (entry.isIntersecting && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        // Touch-first: the scroll cue keeps firing on every touch-capable device (phone/
+        // tablet/hybrid/stylus) as their hover substitute, and is muted ONLY on a pure
+        // no-touch mouse desktop, where handleMouseEnter already plays the identical SFX.
+        if (entry.isIntersecting && shouldPlayScrollFocusSfx()) {
           playVaultSfx();
         }
       },

@@ -4,6 +4,7 @@ import { useRef, useState, useEffect, type MouseEvent } from 'react';
 import { motion, useMotionValue, useMotionTemplate, useSpring } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { shouldPlayScrollFocusSfx } from '@/lib/pointerDevice';
 import type { B2CModule } from '@/lib/modules';
 
 interface LiveServiceCardProps {
@@ -48,10 +49,10 @@ export function LiveServiceCard({ module, index, onOpen }: LiveServiceCardProps)
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrollFocused(entry.isIntersecting);
-        // Scroll-triggered SFX is a touch-device substitute for hover, which mouse/PC
-        // users already get from handleMouseEnter -- fine-pointer devices would otherwise
-        // hear the cue twice (once per scroll pass, once per hover), so it's skipped there.
-        if (entry.isIntersecting && !window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        // Scroll-triggered SFX is a touch-device substitute for hover: it keeps firing on
+        // every touch-capable device (phone/tablet/hybrid/stylus) and is muted ONLY on a
+        // pure no-touch mouse desktop, where handleMouseEnter already plays the same cue.
+        if (entry.isIntersecting && shouldPlayScrollFocusSfx()) {
           playHoverSfx((index / 4) * 2 - 1);
         }
       },
