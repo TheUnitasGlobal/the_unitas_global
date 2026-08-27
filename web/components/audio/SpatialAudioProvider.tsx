@@ -45,18 +45,29 @@ const BASE_MASTER_GAIN = 0.4;
  * the reference level that every other interaction and scroll cue is matched
  * to. Its peak envelope gain (0.12) is `REFERENCE_CUE_PEAK`.
  *
- * The two heavier cue families were noticeably louder than that reference:
+ * The two heavier cue families are each routed through a single fixed trim
+ * gain calibrated so their *perceived* level matches that reference:
  *   - `playVaultSfx`   -> the 3 B2B protocol cards
  *   - `playEcosystemHover` -> the 11 cognitive-ecosystem cards
- * Each is now routed through a single fixed trim gain that pulls its summed
- * peak down to `REFERENCE_CUE_PEAK`, so all three card tiers sound identical
- * in level. Both the pointer-hover path and the scroll-into-focus path call
- * these exact functions, so the page-scroll SFX are normalized in lockstep
- * with the hover SFX -- no separate scroll-volume knob to keep in sync.
+ * so all three card tiers sound equally loud. `playVaultSfx`'s trim is
+ * anchored on its mid-frequency clank layer rather than the raw numeric sum,
+ * because its sub-bass thud is perceptually much quieter than the same gain at
+ * hover-cue frequencies (an earlier numeric-sum trim left it too quiet). Both
+ * the pointer-hover path and the scroll-into-focus path call these exact
+ * functions, so the page-scroll SFX are normalized in lockstep with the hover
+ * SFX -- no separate scroll-volume knob to keep in sync.
  */
 const REFERENCE_CUE_PEAK = 0.12;
-// playVaultSfx sums a ~0.35 thud + ~0.15 filtered-noise clank at onset (~0.5).
-const VAULT_SFX_TRIM = REFERENCE_CUE_PEAK / 0.5; // 0.24
+// playVaultSfx: the earlier trim (0.24) treated the raw numeric sum (~0.5 of a
+// ~0.35 sub-bass thud + ~0.15 clank) as if it mapped linearly to loudness. It
+// does not -- almost all of that energy sits at 45-120 Hz, which the ear hears
+// far more quietly than playHoverSfx's 1200 Hz triangle at the same gain, so the
+// 3-protocol-card cue came out audibly weaker than the 5- and 11-module cues on
+// every viewport. Re-anchor on the mid-frequency clank layer (900 Hz bandpassed
+// noise, 0.2 gain) -- the part perceptually comparable to the hover triangle --
+// so it lands on REFERENCE_CUE_PEAK; the sub-bass thud then rides underneath at a
+// perceptually matched level.
+const VAULT_SFX_TRIM = REFERENCE_CUE_PEAK / 0.2; // 0.6
 // playEcosystemHover's loudest theme stacks to ~0.375 of concurrent gain.
 const ECOSYSTEM_SFX_TRIM = REFERENCE_CUE_PEAK / 0.375; // 0.32
 
