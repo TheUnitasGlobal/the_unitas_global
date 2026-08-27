@@ -39,6 +39,27 @@ const SpatialAudioContext = createContext<SpatialAudioContextValue | null>(null)
 const BASE_MASTER_GAIN = 0.4;
 
 /**
+ * Loudness standard across every access environment (PC, tablet, mobile):
+ * `playHoverSfx` -- the cue for the 5 B2C "Live Consumer Service" cards -- is
+ * the reference level that every other interaction and scroll cue is matched
+ * to. Its peak envelope gain (0.12) is `REFERENCE_CUE_PEAK`.
+ *
+ * The two heavier cue families were noticeably louder than that reference:
+ *   - `playVaultSfx`   -> the 3 B2B protocol cards
+ *   - `playEcosystemHover` -> the 11 cognitive-ecosystem cards
+ * Each is now routed through a single fixed trim gain that pulls its summed
+ * peak down to `REFERENCE_CUE_PEAK`, so all three card tiers sound identical
+ * in level. Both the pointer-hover path and the scroll-into-focus path call
+ * these exact functions, so the page-scroll SFX are normalized in lockstep
+ * with the hover SFX -- no separate scroll-volume knob to keep in sync.
+ */
+const REFERENCE_CUE_PEAK = 0.12;
+// playVaultSfx sums a ~0.35 thud + ~0.15 filtered-noise clank at onset (~0.5).
+const VAULT_SFX_TRIM = REFERENCE_CUE_PEAK / 0.5; // 0.24
+// playEcosystemHover's loudest theme stacks to ~0.375 of concurrent gain.
+const ECOSYSTEM_SFX_TRIM = REFERENCE_CUE_PEAK / 0.375; // 0.32
+
+/**
  * Web Audio API spatial-cue provider. No binary audio assets are bundled --
  * every SFX, including all 11 ecosystem themes, is synthesized (oscillators,
  * filtered noise, envelopes/LFOs), matching the root static site's
@@ -318,6 +339,12 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
 
     const now = ctx.currentTime;
 
+    // Normalization trim: brings the whole vault cue down to the shared
+    // REFERENCE_CUE_PEAK (playHoverSfx) level on every viewport.
+    const trim = ctx.createGain();
+    trim.gain.value = VAULT_SFX_TRIM;
+    trim.connect(master);
+
     // Low mechanical thud.
     const thud = ctx.createOscillator();
     thud.type = 'sine';
@@ -327,7 +354,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     thudGain.gain.setValueAtTime(0.35, now);
     thudGain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
     thud.connect(thudGain);
-    thudGain.connect(master);
+    thudGain.connect(trim);
     thud.start(now);
     thud.stop(now + 0.42);
 
@@ -344,7 +371,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
     src.connect(filter);
     filter.connect(gain);
-    gain.connect(master);
+    gain.connect(trim);
     src.start(now);
     src.stop(now + 0.22);
   }, [ensureContext, getNoiseBuffer]);
@@ -356,9 +383,17 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       if (!ctx || !master) return;
 
       const now = ctx.currentTime;
+
+      // Normalization trim: every ecosystem theme cue (hover AND scroll-into-
+      // focus) is pulled down through this to the shared REFERENCE_CUE_PEAK
+      // (playHoverSfx) level, identically on PC, tablet and mobile.
+      const trim = ctx.createGain();
+      trim.gain.value = ECOSYSTEM_SFX_TRIM;
+      trim.connect(master);
+
       const panner = ctx.createStereoPanner();
       panner.pan.value = Math.max(-1, Math.min(1, pan));
-      panner.connect(master);
+      panner.connect(trim);
 
       const tone = (
         freq: number,
