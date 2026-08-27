@@ -1,0 +1,22 @@
+{
+  "owner": "THE UNITAS GLOBAL OU",
+  "copyright": "© 2026 THE UNITAS GLOBAL OU",
+  "license": "Proprietary -- All Rights Reserved. See /legal#license.",
+  "generatedAt": "2026-08-27T00:09:26.418Z",
+  "gitCommit": "a67033720678815ec718379da56118d1fef14824",
+  "algorithm": "sha256",
+  "fileCount": 10,
+  "buildFingerprint": "196520d85a02ae58cd79f129222790b7e514c82b7bb242774f8c215059845250",
+  "files": {
+    "assets/models/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "assets/svg/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "assets/svg/unitas-mark.svg": "a4c0556d1df06ebceaee57a87c705b77e59148665a33080045bdc5c5c8eb0f0d",
+    "icons/apple-touch-icon.png": "5b5696fdb63aa644589deba45765c45f11d95f5e2d365362b83f5bb4be87919a",
+    "icons/icon-192.png": "4677cb0a23901a6037d433ae07b307fa0696a6d2f7f5c53b3f5531c5ffbf1643",
+    "icons/icon-512.png": "1a91c350242ef0f653db5a12cd702da7ee1c0d6f1aa879556b1c5fb80b627f7c",
+    "icons/icon-maskable-512.png": "e2dc1c128f2cac757b2507a99ff0bf075525e6a4b8f72d30208fcda01999201e",
+    "icons/shortcut-192.png": "4677cb0a23901a6037d433ae07b307fa0696a6d2f7f5c53b3f5531c5ffbf1643",
+    "manifest.json": "4908b93f550274ee3ab688dffa3a313dc3c22998f87e5957abf9f88805d97c8e",
+    "sw.js": "cb1402d7aec4aa2a7363b365d424bfa184b43e0cb4f6f20d0f9dff531145143c"
+  }
+}

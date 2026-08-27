@@ -7,8 +7,17 @@ import { NextResponse } from 'next/server';
 //   - i18n/request.ts resolves the request locale for Server Components
 // This function can never throw, which eliminates MIDDLEWARE_INVOCATION_FAILED
 // at the source rather than catching it after the fact.
+//
+// Ownership/fingerprint headers (Item 1): a lightweight, non-visual
+// complement to scripts/ownership-fingerprint.mjs's public/ manifest. The
+// manifest covers static assets under public/; this covers page navigations
+// (everything the matcher below allows through). Both are metadata-level,
+// not a visible watermark, per the owner's explicit instruction.
 export function middleware() {
-  return NextResponse.next();
+  const response = NextResponse.next();
+  response.headers.set('X-Unitas-Owner', 'THE UNITAS GLOBAL OU');
+  response.headers.set('X-Unitas-License', 'Proprietary -- All Rights Reserved. See /legal#license.');
+  return response;
 }
 
 export const config = {

@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/validate-module-registry.mjs",
     "build": "next build",
+    "postbuild": "node scripts/ownership-fingerprint.mjs",
     "build:memcheck": "next build --experimental-debug-memory-usage",
     "start": "next start",
     "lint": "next lint",
@@ -13,6 +15,8 @@
     "gen:types": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-types.ps1",
     "i18n:sync": "node --experimental-strip-types scripts/i18n-sync.ts",
     "assets:sync": "node scripts/asset-pipeline-sync.mjs",
+    "verify:integrity": "node scripts/verify-integrity.mjs",
+    "test": "vitest run",
     "dev:all": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev-all.ps1"
   },
   "dependencies": {
@@ -43,6 +47,7 @@
     "autoprefixer": "^10.5.4",
     "postcss": "^8.5.26",
     "tailwindcss": "^3.4.19",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
   }
 }

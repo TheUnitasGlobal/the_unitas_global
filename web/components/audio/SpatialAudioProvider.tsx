@@ -37,6 +37,7 @@ interface SpatialAudioContextValue {
 const SpatialAudioContext = createContext<SpatialAudioContextValue | null>(null);
 
 const BASE_MASTER_GAIN = 0.4;
+const BASE_AMBIENT_GAIN = 0.15;
 
 /**
  * Web Audio API spatial-cue provider. No binary audio assets are bundled --
@@ -63,6 +64,8 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   const ctxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
   const noiseBufferRef = useRef<AudioBuffer | null>(null);
+  const ambientGainRef = useRef<GainNode | null>(null);
+  const ambientStartedRef = useRef(false);
 
   const ensureContext = useCallback(() => {
     if (typeof window === 'undefined') return null;
