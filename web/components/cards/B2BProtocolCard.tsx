@@ -56,9 +56,10 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrollFocused(entry.isIntersecting);
-        // Touch-first: the scroll cue keeps firing on every touch-capable device (phone/
-        // tablet/hybrid/stylus) as their hover substitute, and is muted ONLY on a pure
-        // no-touch mouse desktop, where handleMouseEnter already plays the identical SFX.
+        // Gates on the LIVE input modality (see lib/pointerDevice.ts): the scroll cue fires
+        // only while the visitor is scrolling by touch, and never on a mouse/trackpad
+        // session -- not even a touchscreen laptop -- where handleMouseEnter already plays
+        // the identical SFX.
         if (entry.isIntersecting && shouldPlayScrollFocusSfx()) {
           playVaultSfx();
         }

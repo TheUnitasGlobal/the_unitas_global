@@ -1,52 +1,92 @@
 /**
- * Pointer / input-capability detection shared by the scroll-into-focus card SFX
+ * Live input-modality detection for the scroll-into-focus card SFX
  * (EcosystemCard / LiveServiceCard / B2BProtocolCard).
  *
- * Intent (owner instruction 2026-08-27): the scroll-through-center sound effect is a
- * touch-device substitute for the hover cue mouse users already get. It must keep
- * firing on every touch/stylus/tablet/mobile device, and be muted ONLY on a pure
- * mouse-driven desktop that has no touch input at all.
+ * Owner instruction (2026-08-27, supersedes the earlier "touch-capable device"
+ * heuristic): the scroll-through-center sound must fire ONLY while the visitor is
+ * actually scrolling the page by touch (phone / tablet). On any mouse- or
+ * trackpad-driven session it must NEVER fire -- not even on a touchscreen laptop --
+ * because a pointer user already gets the identical cue from hover, and replaying it
+ * on every scroll pass makes scrolling itself noisy.
  *
- * The previous heuristic -- `(hover: hover) and (pointer: fine)` -- was too blunt: a
- * touchscreen laptop (Surface, most modern Windows laptops) and many Android tablets
- * report a fine primary pointer *and* hover, so they wrongly lost the scroll SFX.
- * We now gate on actual touch capability instead of the primary-pointer guess.
+ * Static capability probes (navigator.maxTouchPoints, `any-pointer: coarse`,
+ * `ontouchstart`) cannot tell a mouse user on a hybrid laptop apart from a finger
+ * user -- that is exactly what leaked the cue onto PCs before. So we track the *live*
+ * input modality: every real pointer / wheel / touch gesture bumps a monotonic
+ * sequence counter, and whichever modality acted most recently wins. Before the first
+ * interaction we fall back to a primary-pointer media query
+ * (`(pointer: coarse) and (hover: none)` == a genuine handheld, not a desktop). In
+ * practice the audio pipeline is gated behind the AudioGate's unlock gesture, so a
+ * real modality reading always exists before any SFX can play; the media-query
+ * fallback is only a defensive default.
  */
 
-/** True when the device can accept touch input at all (phone, tablet, hybrid laptop, stylus). */
-export function isTouchCapableDevice(): boolean {
-  if (typeof window === 'undefined') return false;
+let seq = 0;
+let lastTouchSeq = 0;
+let lastMouseSeq = 0;
+let listening = false;
 
-  // navigator.maxTouchPoints is the most reliable signal and covers hybrid devices
-  // whose *primary* pointer is a mouse but which still have a touchscreen.
-  const nav = typeof navigator !== 'undefined' ? navigator : undefined;
-  if (nav && typeof nav.maxTouchPoints === 'number' && nav.maxTouchPoints > 0) return true;
+function markTouch(): void {
+  lastTouchSeq = ++seq;
+}
 
-  // Fallbacks: any coarse pointer (finger) available, or any hover-incapable pointer.
-  if (typeof window.matchMedia === 'function') {
-    if (window.matchMedia('(any-pointer: coarse)').matches) return true;
-    if (window.matchMedia('(any-hover: none)').matches) return true;
+function markMouse(): void {
+  lastMouseSeq = ++seq;
+}
+
+function onPointer(event: Event): void {
+  const pointerType = (event as PointerEvent).pointerType;
+  if (pointerType === 'touch') {
+    markTouch();
+  } else if (pointerType === 'mouse') {
+    markMouse();
   }
+  // 'pen'/stylus is deliberately neither: it is not "a mouse-driven PC", and a stylus
+  // tablet should keep behaving like a touch device for this cue.
+}
 
-  // Legacy touch-event feature probe.
-  return 'ontouchstart' in window;
+/** Attach the passive modality listeners exactly once, as early as this module loads in the browser. */
+function startListening(): void {
+  if (listening || typeof window === 'undefined') return;
+  listening = true;
+  const opts: AddEventListenerOptions = { passive: true, capture: true };
+  window.addEventListener('pointerdown', onPointer, opts);
+  window.addEventListener('pointermove', onPointer, opts);
+  window.addEventListener('touchstart', markTouch, opts);
+  window.addEventListener('wheel', markMouse, opts);
+}
+
+startListening();
+
+/**
+ * A genuine handheld: the *primary* pointer is coarse (finger) and cannot hover.
+ * A mouse desktop is `(pointer: fine) and (hover: hover)`; a touchscreen laptop still
+ * reports a fine primary pointer, so it is (correctly) not counted here.
+ */
+export function isTouchPrimaryDevice(): boolean {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false;
+  return (
+    window.matchMedia('(pointer: coarse)').matches &&
+    window.matchMedia('(hover: none)').matches
+  );
 }
 
 /**
- * Whether the scroll-into-focus SFX should play on this device.
+ * Whether the scroll-into-focus SFX should play right now.
  *
- * Plays on every touch-capable device (its hover substitute). Muted only on a
- * genuine no-touch, fine-pointer desktop -- there the identical cue already fires
- * from the card's mouseenter handler, so replaying it on each scroll pass would
- * double up and make scrolling itself noisy.
+ * true  -> touch acted more recently than any mouse/trackpad input (or, pre-interaction,
+ *          the device is a coarse-primary handheld): the visitor is scrolling by finger
+ *          and wants the cue.
+ * false -> a mouse / trackpad / wheel gesture is the most recent input: treat the session
+ *          as a PC and stay silent, since hover already covers it.
  */
 export function shouldPlayScrollFocusSfx(): boolean {
   if (typeof window === 'undefined') return false;
-  if (isTouchCapableDevice()) return true;
+  startListening();
 
-  const finePointerDesktop =
-    typeof window.matchMedia === 'function' &&
-    window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  return !finePointerDesktop;
+  if (lastTouchSeq === 0 && lastMouseSeq === 0) {
+    // No qualifying gesture observed yet -- decide by the primary pointer.
+    return isTouchPrimaryDevice();
+  }
+  return lastTouchSeq > lastMouseSeq;
 }

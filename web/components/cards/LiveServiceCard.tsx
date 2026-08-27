@@ -49,9 +49,10 @@ export function LiveServiceCard({ module, index, onOpen }: LiveServiceCardProps)
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrollFocused(entry.isIntersecting);
-        // Scroll-triggered SFX is a touch-device substitute for hover: it keeps firing on
-        // every touch-capable device (phone/tablet/hybrid/stylus) and is muted ONLY on a
-        // pure no-touch mouse desktop, where handleMouseEnter already plays the same cue.
+        // Scroll-triggered SFX gates on the LIVE input modality (see lib/pointerDevice.ts):
+        // it fires only while the visitor is scrolling by touch, and never on a
+        // mouse/trackpad session -- not even a touchscreen laptop -- where handleMouseEnter
+        // already plays the same cue.
         if (entry.isIntersecting && shouldPlayScrollFocusSfx()) {
           playHoverSfx((index / 4) * 2 - 1);
         }

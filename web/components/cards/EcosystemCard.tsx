@@ -59,10 +59,10 @@ export function EcosystemCard({ ecosystem, index, onOpen, shockwaveTrigger }: Ec
     const observer = new IntersectionObserver(
       ([entry]) => {
         setScrollFocused(entry.isIntersecting);
-        // SFX stays touch-first here: it fires on every touch-capable device (phone, tablet,
-        // hybrid laptop, stylus) as their hover substitute, and is muted ONLY on a pure
-        // no-touch mouse desktop -- there handleMouseEnter already plays the identical cue,
-        // so replaying it on each scroll pass would double up and make scrolling noisy.
+        // SFX gates on the LIVE input modality (see lib/pointerDevice.ts): it fires only
+        // while the visitor is scrolling by touch, and never on a mouse/trackpad session
+        // -- not even a touchscreen laptop -- where handleMouseEnter already plays the
+        // identical cue, so replaying it on each scroll pass would just make scrolling noisy.
         if (entry.isIntersecting && shouldPlayScrollFocusSfx()) {
           playEcosystemHover(ecosystem.sfx, 0);
         }
