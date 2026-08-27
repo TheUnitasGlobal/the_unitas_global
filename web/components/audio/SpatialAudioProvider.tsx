@@ -37,7 +37,6 @@ interface SpatialAudioContextValue {
 const SpatialAudioContext = createContext<SpatialAudioContextValue | null>(null);
 
 const BASE_MASTER_GAIN = 0.4;
-const BASE_AMBIENT_GAIN = 0.15;
 
 /**
  * Web Audio API spatial-cue provider. No binary audio assets are bundled --
@@ -49,6 +48,11 @@ const BASE_AMBIENT_GAIN = 0.15;
  * "Whisper" layers (Echo, Aura) are a breathy band-passed noise texture, not
  * synthesized speech -- there's no real voice synthesis here, just a sound
  * design approximation.
+ *
+ * Deliberately has no background music / ambient drone -- interaction SFX
+ * (hover, focus, quest-enter, vault, ecosystem cues) only, per owner
+ * decision 2026-08-26 to keep the experience free of a persistent audio bed
+ * across all viewports.
  *
  * CRITICAL: browsers block AudioContext output until a user gesture, AND
  * this provider previously defaulted `muted` to true with no explicit path
@@ -64,8 +68,6 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   const ctxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
   const noiseBufferRef = useRef<AudioBuffer | null>(null);
-  const ambientGainRef = useRef<GainNode | null>(null);
-  const ambientStartedRef = useRef(false);
 
   const ensureContext = useCallback(() => {
     if (typeof window === 'undefined') return null;
@@ -99,72 +101,9 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     return noiseBufferRef.current;
   }, []);
 
-  /** Briefly pulls the ambient drone down so SFX always cuts through. */
-  const duckAmbient = useCallback((ctx: AudioContext, amount = 0.35, recoverAfter = 0.5) => {
-    const ambientGain = ambientGainRef.current;
-    if (!ambientGain) return;
-    const now = ctx.currentTime;
-    ambientGain.gain.cancelScheduledValues(now);
-    ambientGain.gain.setTargetAtTime(BASE_AMBIENT_GAIN * amount, now, 0.05);
-    ambientGain.gain.setTargetAtTime(BASE_AMBIENT_GAIN, now + recoverAfter, 0.4);
-  }, []);
-
-  const startAmbient = useCallback((ctx: AudioContext, master: GainNode) => {
-    if (ambientStartedRef.current) return;
-    ambientStartedRef.current = true;
-
-    const ambientGain = ctx.createGain();
-    ambientGain.gain.value = BASE_AMBIENT_GAIN;
-    ambientGain.connect(master);
-    ambientGainRef.current = ambientGain;
-
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 800;
-    filter.Q.value = 4;
-    filter.connect(ambientGain);
-
-    // Detuned low drone stack -- deep space ambient BGM.
-    const droneFreqs = [55, 82.5, 110];
-    droneFreqs.forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      osc.detune.value = i * 6;
-      const oscGain = ctx.createGain();
-      oscGain.gain.value = 0.5 / droneFreqs.length;
-      osc.connect(oscGain);
-      oscGain.connect(filter);
-      osc.start();
-    });
-
-    // Slow filter sweep so the drone evolves instead of sitting static.
-    const filterLfo = ctx.createOscillator();
-    filterLfo.type = 'sine';
-    filterLfo.frequency.value = 0.05;
-    const filterLfoGain = ctx.createGain();
-    filterLfoGain.gain.value = 400;
-    filterLfo.connect(filterLfoGain);
-    filterLfoGain.connect(filter.frequency);
-    filterLfo.start();
-
-    // Slow amplitude "breathing" swell.
-    const ampLfo = ctx.createOscillator();
-    ampLfo.type = 'sine';
-    ampLfo.frequency.value = 0.08;
-    const ampLfoGain = ctx.createGain();
-    ampLfoGain.gain.value = 0.04;
-    ampLfo.connect(ampLfoGain);
-    ampLfoGain.connect(ambientGain.gain);
-    ampLfo.start();
-  }, []);
-
   /**
    * Must be called directly from a user gesture handler (click/keydown) --
    * resumes the AudioContext and unmutes in the same synchronous gesture.
-   * The ambient drone itself is deliberately deferred by ~850ms (matching
-   * the AudioGate overlay's 0.8s exit transition) so it never plays under
-   * the gate -- it only starts once the dashboard beneath is visible.
    */
   const unlockAndUnmute = useCallback(() => {
     const ctx = ensureContext();
@@ -172,18 +111,13 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     ctx.resume().catch(() => {});
     setUnlocked(true);
     setMuted(false);
-    window.setTimeout(() => {
-      const liveCtx = ctxRef.current;
-      const liveMaster = masterGainRef.current;
-      if (liveCtx && liveMaster) startAmbient(liveCtx, liveMaster);
-    }, 850);
-  }, [ensureContext, startAmbient]);
+  }, [ensureContext]);
 
   /**
    * Side effects live here in the handler, not inside a setMuted() updater
    * -- updater functions must stay pure, and React 18 StrictMode
-   * double-invokes them in dev, which would otherwise fire ctx.resume()/
-   * startAmbient() twice per click.
+   * double-invokes them in dev, which would otherwise fire ctx.resume()
+   * twice per click.
    */
   const toggleMuted = useCallback(() => {
     const next = !muted;
@@ -195,10 +129,9 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       if (ctx) {
         ctx.resume().catch(() => {});
         setUnlocked(true);
-        if (masterGainRef.current) startAmbient(ctx, masterGainRef.current);
       }
     }
-  }, [muted, ensureContext, startAmbient]);
+  }, [muted, ensureContext]);
 
   // Hardening: some browsers (mobile Safari especially) silently suspend a
   // running AudioContext on tab-backgrounding or power-saving. If the user
@@ -230,7 +163,6 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       const ctx = ensureContext();
       const master = masterGainRef.current;
       if (!ctx || !master) return;
-      duckAmbient(ctx);
 
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -252,7 +184,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       osc.start(now);
       osc.stop(now + 0.4);
     },
-    [ensureContext, duckAmbient],
+    [ensureContext],
   );
 
   const playHoverSfx = useCallback(
@@ -260,7 +192,6 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       const ctx = ensureContext();
       const master = masterGainRef.current;
       if (!ctx || !master) return;
-      duckAmbient(ctx, 0.6, 0.3);
 
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -282,14 +213,13 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       osc.start(now);
       osc.stop(now + 0.15);
     },
-    [ensureContext, duckAmbient],
+    [ensureContext],
   );
 
   const playSearchFocusSfx = useCallback(() => {
     const ctx = ensureContext();
     const master = masterGainRef.current;
     if (!ctx || !master) return;
-    duckAmbient(ctx, 0.5, 0.35);
 
     const now = ctx.currentTime;
 
@@ -330,13 +260,12 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     noiseGain.connect(master);
     noiseSrc.start(now);
     noiseSrc.stop(now + 0.03);
-  }, [ensureContext, duckAmbient, getNoiseBuffer]);
+  }, [ensureContext, getNoiseBuffer]);
 
   const playQuestEnterSfx = useCallback(() => {
     const ctx = ensureContext();
     const master = masterGainRef.current;
     if (!ctx || !master) return;
-    duckAmbient(ctx, 0.3, 0.6);
 
     const now = ctx.currentTime;
     const notes = [440, 660, 880]; // rising arpeggio -- an "access granted" cue
@@ -356,7 +285,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       osc.start(start);
       osc.stop(start + 0.32);
     });
-  }, [ensureContext, duckAmbient]);
+  }, [ensureContext]);
 
   const playTypingTick = useCallback(() => {
     const ctx = ensureContext();
@@ -386,7 +315,6 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     const ctx = ensureContext();
     const master = masterGainRef.current;
     if (!ctx || !master) return;
-    duckAmbient(ctx, 0.25, 0.8);
 
     const now = ctx.currentTime;
 
@@ -419,14 +347,13 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     gain.connect(master);
     src.start(now);
     src.stop(now + 0.22);
-  }, [ensureContext, duckAmbient, getNoiseBuffer]);
+  }, [ensureContext, getNoiseBuffer]);
 
   const playEcosystemHover = useCallback(
     (theme: string, pan = 0) => {
       const ctx = ensureContext();
       const master = masterGainRef.current;
       if (!ctx || !master) return;
-      duckAmbient(ctx, 0.55, 0.35);
 
       const now = ctx.currentTime;
       const panner = ctx.createStereoPanner();
@@ -532,7 +459,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
           tone(900, now, 0.15, { gain: 0.15 });
       }
     },
-    [ensureContext, duckAmbient, getNoiseBuffer],
+    [ensureContext, getNoiseBuffer],
   );
 
   useEffect(() => {

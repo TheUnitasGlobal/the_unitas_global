@@ -15,10 +15,9 @@ const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffec
  * Browsers block AudioContext output until a real user gesture, so nothing
  * plays until the visitor clicks through here. The gate itself stays silent
  * (no icon, no preview audio) -- unlockAndUnmute() resumes the context
- * immediately but defers starting the ambient drone until just after this
- * overlay's exit transition finishes, so the soundscape only ever kicks in
- * once the dashboard underneath is actually visible (see
- * SpatialAudioProvider.unlockAndUnmute).
+ * immediately, unmuting interaction SFX (hover/focus/quest/vault cues) for
+ * the rest of the session. There is no background music/ambient drone to
+ * defer here -- see SpatialAudioProvider.unlockAndUnmute.
  *
  * `dismissed` defaults to false (gate visible) so the very first paint --
  * server-rendered and the first client render -- already shows the gate
