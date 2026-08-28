@@ -13,6 +13,7 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "gen:types": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/generate-types.ps1",
+    "gen:coming-soon": "node scripts/generate-coming-soon-cinema.mjs --loop --target=web --optimize=low-memory",
     "i18n:sync": "node --experimental-strip-types scripts/i18n-sync.ts",
     "assets:sync": "node scripts/asset-pipeline-sync.mjs",
     "verify:integrity": "node scripts/verify-integrity.mjs",

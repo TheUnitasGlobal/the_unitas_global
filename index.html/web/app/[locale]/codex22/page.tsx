@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { ComingSoonScene } from '@/components/modules/ComingSoonScene';
 
 export default async function Codex22Page({
   params,
@@ -12,14 +13,10 @@ export default async function Codex22Page({
   const tPlaceholder = await getTranslations('Placeholder');
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-32 text-center">
-      <h1 className="glow-text mb-4 font-serif text-3xl font-bold text-white">
-        {tModules('codex22.title')}
-      </h1>
-      <p className="mb-8 text-sm text-gray-400">{tModules('codex22.description')}</p>
-      <p className="text-xs uppercase tracking-widest text-accent">
-        {tPlaceholder('comingSoon')}
-      </p>
-    </main>
+    <ComingSoonScene
+      title={tModules('codex22.title')}
+      description={tModules('codex22.description')}
+      label={tPlaceholder('comingSoon')}
+    />
   );
 }
