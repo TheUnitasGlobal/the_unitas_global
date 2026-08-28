@@ -32,6 +32,11 @@ next-env.d.ts
 .vercel/
 .vercel
 
+# ── Supabase CLI 스크래치 ───────────────────────────────────────────
+# 실제 프로젝트는 index.html/supabase/ 에 있음. 저장소 루트에 생기는
+# supabase/(.temp 등)는 CLI가 잘못된 CWD에서 남긴 캐시라 추적 제외.
+/supabase/
+
 # ── 에이전트 툴체인 (자체 저장소·대용량, 재설치 가능) ────────────────
 .agent-tools/
 .agents/
