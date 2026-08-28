@@ -357,6 +357,23 @@
     "button": "[ CRUZA EL HORIZONTE DE SUCESOS ]",
     "enterMuted": "Entrar sin sonido"
   },
+  "ComingSoonGate": {
+    "langLabel": "Idioma",
+    "autoNote": "Localizado al idioma de tu navegador",
+    "soundOn": "Sonido",
+    "soundOff": "Silenciado",
+    "skip": "Omitir",
+    "replay": "Repetir la secuencia",
+    "cinemaS1": "Colapso hacia la singularidad",
+    "cinemaS2": "Once núcleos cognitivos se activan",
+    "cinemaS3": "U-AI · Patente en trámite USPTO #64/023,911",
+    "cinemaS4": "Cinco sistemas. Tres ejes soberanos.",
+    "cinemaS5": "El horizonte de sucesos se cierra",
+    "comingSoon": "COMING SOON",
+    "awakening": "La Inteligencia Soberana está despertando",
+    "sealed": "El acceso público a la interfaz principal está sellado hasta el lanzamiento.",
+    "rights": "© THE UNITAS GLOBAL OÜ — Todos los derechos reservados"
+  },
   "Auth": {
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",

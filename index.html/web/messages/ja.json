@@ -357,6 +357,23 @@
     "button": "[ 事象の地平線へ進入 ]",
     "enterMuted": "音声なしで入場"
   },
+  "ComingSoonGate": {
+    "langLabel": "言語",
+    "autoNote": "ブラウザの言語に自動ローカライズ",
+    "soundOn": "サウンド",
+    "soundOff": "ミュート",
+    "skip": "スキップ",
+    "replay": "シーケンスを再生",
+    "cinemaS1": "特異点へと収束する",
+    "cinemaS2": "11のコグニティブ・コアが起動する",
+    "cinemaS3": "U-AI · USPTO 特許出願中 #64/023,911",
+    "cinemaS4": "5つのシステム。3つの主権の軸。",
+    "cinemaS5": "事象の地平線が閉じる",
+    "comingSoon": "COMING SOON",
+    "awakening": "主権的知性が目覚めつつある",
+    "sealed": "正式ローンチまで、メインインターフェースへの一般アクセスは封印されています。",
+    "rights": "© THE UNITAS GLOBAL OÜ — 全著作権所有"
+  },
   "Auth": {
     "login": "ログイン",
     "logout": "ログアウト",

@@ -8,6 +8,7 @@ import { HtmlLangSync } from '@/components/i18n/HtmlLangSync';
 import { WalletProvider } from '@/components/wallet/WalletProvider';
 import { NavBar } from '@/components/nav/NavBar';
 import { AudioGate } from '@/components/audio/AudioGate';
+import { ComingSoonCinema } from '@/components/ComingSoonCinema';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -88,6 +89,40 @@ export default async function LocaleLayout({
           <div className="relative z-0">{children}</div>
         </div>
         <AudioGate />
+        {/* Pre-launch curtain: opaque, non-dismissable for the public; the
+            founder bypasses it via ?dev=true / secret key / persisted grant
+            (see lib/foundersGate.ts). Sits above everything, at full scale. */}
+        <ComingSoonCinema />
+        <noscript>
+          {/* Fail-closed when JS is disabled: the client curtain can't mount,
+              so seal the interface with a static panel instead. */}
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 500,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#030305',
+              color: '#e2e8f0',
+              textAlign: 'center',
+              padding: '1.5rem',
+              fontFamily: 'var(--font-cinzel), serif',
+            }}
+          >
+            <p style={{ letterSpacing: '0.4em', color: 'rgba(212,175,55,0.7)', fontSize: '0.75rem' }}>
+              UNITAS
+            </p>
+            <h2 style={{ letterSpacing: '0.2em', fontSize: '2rem', margin: '1rem 0 0.5rem' }}>
+              COMING SOON
+            </h2>
+            <p style={{ fontSize: '0.85rem', color: '#cbd5e1' }}>
+              The Sovereign Intelligence is Awakening
+            </p>
+          </div>
+        </noscript>
       </WalletProvider>
     </NextIntlClientProvider>
   );

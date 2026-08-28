@@ -357,6 +357,23 @@
     "button": "[ ENTER THE EVENT HORIZON ]",
     "enterMuted": "Enter without sound"
   },
+  "ComingSoonGate": {
+    "langLabel": "Language",
+    "autoNote": "Localized to your browser language",
+    "soundOn": "Sound",
+    "soundOff": "Muted",
+    "skip": "Skip",
+    "replay": "Replay the sequence",
+    "cinemaS1": "Collapse into the singularity",
+    "cinemaS2": "Eleven cognitive cores come online",
+    "cinemaS3": "U-AI · USPTO Patent Pending #64/023,911",
+    "cinemaS4": "Five systems. Three sovereign axes.",
+    "cinemaS5": "The event horizon closes",
+    "comingSoon": "COMING SOON",
+    "awakening": "The Sovereign Intelligence is Awakening",
+    "sealed": "Public entry to the main interface is sealed until launch.",
+    "rights": "© THE UNITAS GLOBAL OÜ — All rights reserved"
+  },
   "Auth": {
     "login": "Login",
     "logout": "Logout",

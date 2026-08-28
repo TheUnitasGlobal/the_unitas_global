@@ -357,6 +357,23 @@
     "button": "[ 进入事件视界 ]",
     "enterMuted": "静音进入"
   },
+  "ComingSoonGate": {
+    "langLabel": "语言",
+    "autoNote": "已根据浏览器语言自动本地化",
+    "soundOn": "声音",
+    "soundOff": "静音",
+    "skip": "跳过",
+    "replay": "重新播放序列",
+    "cinemaS1": "坍缩为奇点",
+    "cinemaS2": "十一大认知核心上线",
+    "cinemaS3": "U-AI · USPTO 专利申请中 #64/023,911",
+    "cinemaS4": "五大系统。三大主权轴心。",
+    "cinemaS5": "事件视界闭合",
+    "comingSoon": "COMING SOON",
+    "awakening": "主权智能正在觉醒",
+    "sealed": "正式发布前，主界面的公众入口已封锁。",
+    "rights": "© THE UNITAS GLOBAL OÜ — 保留所有权利"
+  },
   "Auth": {
     "login": "登录",
     "logout": "退出登录",

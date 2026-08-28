@@ -357,6 +357,23 @@
     "button": "[ SISENE SÜNDMUSHORISONDILE ]",
     "enterMuted": "Sisene ilma helita"
   },
+  "ComingSoonGate": {
+    "langLabel": "Keel",
+    "autoNote": "Lokaliseeritud sinu brauseri keelde",
+    "soundOn": "Heli",
+    "soundOff": "Vaigistatud",
+    "skip": "Jäta vahele",
+    "replay": "Esita jada uuesti",
+    "cinemaS1": "Kokkuvarisemine singulaarsusesse",
+    "cinemaS2": "Üksteist kognitiivset tuuma ärkab",
+    "cinemaS3": "U-AI · USPTO patenditaotlus menetluses #64/023,911",
+    "cinemaS4": "Viis süsteemi. Kolm suveräänset telge.",
+    "cinemaS5": "Sündmushorisont sulgub",
+    "comingSoon": "COMING SOON",
+    "awakening": "Suveräänne intelligentsus ärkab",
+    "sealed": "Avalik sisenemine peamisse liidesesse on lukustatud kuni käivitamiseni.",
+    "rights": "© THE UNITAS GLOBAL OÜ — Kõik õigused kaitstud"
+  },
   "Auth": {
     "login": "Logi sisse",
     "logout": "Logi välja",

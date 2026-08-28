@@ -357,6 +357,23 @@
     "button": "[ 사건의 지평선으로 진입 ]",
     "enterMuted": "소리 없이 입장"
   },
+  "ComingSoonGate": {
+    "langLabel": "언어",
+    "autoNote": "브라우저 언어로 자동 현지화됨",
+    "soundOn": "사운드",
+    "soundOff": "음소거",
+    "skip": "건너뛰기",
+    "replay": "시퀀스 다시 재생",
+    "cinemaS1": "특이점으로 붕괴한다",
+    "cinemaS2": "11대 인지 코어가 깨어난다",
+    "cinemaS3": "U-AI · USPTO 특허 출원 중 #64/023,911",
+    "cinemaS4": "5대 시스템. 3대 주권 축.",
+    "cinemaS5": "사건의 지평선이 닫힌다",
+    "comingSoon": "COMING SOON",
+    "awakening": "주권적 지성이 깨어나고 있습니다",
+    "sealed": "정식 출시 전까지 메인 인터페이스로의 일반 진입은 봉인되어 있습니다.",
+    "rights": "© THE UNITAS GLOBAL OÜ — 모든 권리 보유"
+  },
   "Auth": {
     "login": "로그인",
     "logout": "로그아웃",
