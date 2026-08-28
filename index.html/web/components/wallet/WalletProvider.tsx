@@ -11,8 +11,15 @@ import {
 } from 'react';
 import type { RealtimeChannel, Session, SupabaseClient } from '@supabase/supabase-js';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import {
+  clearGuestIdentity,
+  ensureGuestIdentity,
+  loadGuestIdentity,
+  type GuestIdentity,
+} from '@/lib/guestIdentity';
 
-const PROFILE_COLUMNS = 'full_name, phone, phone_verified, nationality, gender, age, blood, mbti';
+const PROFILE_COLUMNS =
+  'full_name, phone, phone_verified, nationality, gender, age, blood, mbti, iq, eq';
 
 export interface Profile {
   full_name: string | null;
@@ -23,6 +30,8 @@ export interface Profile {
   age: number | null;
   blood: string | null;
   mbti: string | null;
+  iq: number | null;
+  eq: number | null;
 }
 
 interface WalletContextValue {
@@ -35,6 +44,12 @@ interface WalletContextValue {
   /** false if NEXT_PUBLIC_SUPABASE_URL/ANON_KEY aren't set -- degrades gracefully. */
   configured: boolean;
   refreshProfile: () => Promise<void>;
+  /** Local-only browse-as-guest identity. Null once a real session exists. */
+  guest: GuestIdentity | null;
+  /** Mint (or reuse) the local guest identity. No network call. */
+  startGuest: () => void;
+  /** Drop the local guest identity (e.g. on "upgrade to full account"). */
+  endGuest: () => void;
 }
 
 const WalletContext = createContext<WalletContextValue | null>(null);
@@ -53,6 +68,21 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [configured, setConfigured] = useState(true);
+  const [guest, setGuest] = useState<GuestIdentity | null>(null);
+
+  // Hydrate any existing guest identity after mount (localStorage is client-only).
+  useEffect(() => {
+    if (!session) setGuest(loadGuestIdentity());
+  }, [session]);
+
+  const startGuest = useCallback(() => {
+    setGuest(ensureGuestIdentity());
+  }, []);
+
+  const endGuest = useCallback(() => {
+    clearGuestIdentity();
+    setGuest(null);
+  }, []);
 
   useEffect(() => {
     let supabase: SupabaseClient;
@@ -122,6 +152,9 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     const { data: authListener } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession);
       if (newSession) {
+        // A real account supersedes any browse-as-guest handle.
+        clearGuestIdentity();
+        setGuest(null);
         loadBalance(newSession.user.id);
         loadProfile(newSession.user.id);
         subscribeToWallet(newSession.user.id);
@@ -156,8 +189,18 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   }, [session]);
 
   const value = useMemo(
-    () => ({ session, balance, profile, loading, configured, refreshProfile }),
-    [session, balance, profile, loading, configured, refreshProfile],
+    () => ({
+      session,
+      balance,
+      profile,
+      loading,
+      configured,
+      refreshProfile,
+      guest: session ? null : guest,
+      startGuest,
+      endGuest,
+    }),
+    [session, balance, profile, loading, configured, refreshProfile, guest, startGuest, endGuest],
   );
 
   return <WalletContext.Provider value={value}>{children}</WalletContext.Provider>;

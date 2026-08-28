@@ -1,2 +1,40 @@
 [functions.stripe-webhook]
 verify_jwt = false
+
+# ---------------------------------------------------------------------------
+# Auth — see docs/auth-provider-setup.md for the one-time Dashboard steps this
+# file cannot perform on its own. Values below take effect for `supabase start`
+# (local) and, where the CLI supports it, `supabase config push`.
+# ---------------------------------------------------------------------------
+[auth]
+# The site users are redirected back to after email links / OAuth.
+site_url = "https://www.theunitas.global"
+additional_redirect_urls = [
+  "https://www.theunitas.global",
+  "https://www.theunitas.global/en",
+  "https://www.theunitas.global/ko",
+  "http://localhost:3000",
+]
+
+[auth.email]
+enable_signup = true
+enable_confirmations = true
+# 6-digit code instead of a magic link, so the in-app OTP panels work.
+otp_length = 6
+
+[auth.sms]
+# SMS OTP for phone sign-up / phone login. Requires a provider (Twilio,
+# MessageBird, Vonage, …) configured in the Dashboard or the block below.
+enable_signup = true
+enable_confirmations = true
+otp_length = 6
+
+# Anonymous users are NOT used by this app — guests are a local-only identity
+# (web/lib/guestIdentity.ts). Left disabled on purpose.
+[auth.external.google]
+enabled = true
+client_id = "env(SUPABASE_AUTH_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_GOOGLE_SECRET)"
+# Google returns here; Supabase then bounces to site_url / redirectTo.
+redirect_uri = "https://fjznkonbjoierxvopiko.supabase.co/auth/v1/callback"
+skip_nonce_check = false

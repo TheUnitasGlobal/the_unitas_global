@@ -69,8 +69,17 @@
     "balanceBody": "Gestiona en un solo lugar tu saldo de U-COIN en tiempo real, la integridad del libro contable, la simulación de gasto por módulo y el límite de gasto automático.",
     "hintPrefix": "Ayuda: ",
     "saved": "Guardado localmente.",
-    "sec": { "description": "Qué es", "howto": "Cómo usarlo", "caution": "Precauciones" },
-    "tag": { "live": "En vivo", "pending": "Pendiente", "local": "Ajuste local", "sim": "Simulación" },
+    "sec": {
+      "description": "Qué es",
+      "howto": "Cómo usarlo",
+      "caution": "Precauciones"
+    },
+    "tag": {
+      "live": "En vivo",
+      "pending": "Pendiente",
+      "local": "Ajuste local",
+      "sim": "Simulación"
+    },
     "bal": {
       "summaryTitle": "Saldo disponible en tiempo real",
       "refresh": "Actualizar",
@@ -89,7 +98,12 @@
       "historyEmpty": "Aún no hay transacciones registradas.",
       "verifyPass": "Comprobación de integridad superada · {count} registros verificados",
       "verifyFail": "{count} discrepancia(s) detectada(s): contacta con soporte",
-      "kind": { "purchase": "Recarga", "module_access": "Acceso a módulo", "admin_grant": "Concesión de admin", "refund": "Reembolso" },
+      "kind": {
+        "purchase": "Recarga",
+        "module_access": "Acceso a módulo",
+        "admin_grant": "Concesión de admin",
+        "refund": "Reembolso"
+      },
       "historyHint": {
         "title": "Verificación en tiempo real del historial de transacciones",
         "description": "Carga los registros recientes del libro contable de solo anexado (coin_ledger) y vuelve a calcular en el navegador si el saldo de cada fila encadena exactamente con la anterior.",
@@ -112,7 +126,11 @@
       "autoEnable": "Activar gasto automático",
       "autoLimit": "Límite por periodo (U-COIN)",
       "autoWindow": "Periodo",
-      "window": { "day": "Por día", "week": "Por semana", "month": "Por mes" },
+      "window": {
+        "day": "Por día",
+        "week": "Por semana",
+        "month": "Por mes"
+      },
       "autoNote": "El ajuste se guarda localmente en este navegador; la ejecución del gasto automático se aplica cuando la pasarela de pago esté conectada.",
       "autoHint": {
         "title": "Límite de gasto automático",
@@ -124,7 +142,11 @@
     "chg": {
       "packagesTitle": "Paquetes inteligentes de recarga por niveles",
       "packagesIntro": "Elige Starter, Pro o Sovereign según cómo uses la plataforma. Los niveles superiores incluyen un bono mayor.",
-      "tier": { "starter": "Starter", "pro": "Pro", "sovereign": "Sovereign" },
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
       "tierDesc": {
         "starter": "Recarga base para usuarios ligeros y ocasionales",
         "pro": "Recarga con bono para usuarios habituales de módulos",
@@ -143,7 +165,11 @@
       "gatewayStripe": "Pago con tarjeta Stripe",
       "gatewayWeb3": "Pago on-chain Web3",
       "gatewayNote": "La integración de pago de este portal está en curso. Por ahora puedes recargar desde el Portal Seguro principal.",
-      "status": { "connected": "Conectado", "pending": "Pendiente", "offline": "Sin conexión" },
+      "status": {
+        "connected": "Conectado",
+        "pending": "Pendiente",
+        "offline": "Sin conexión"
+      },
       "gatewayHint": {
         "title": "Pasarela de pago instantáneo",
         "description": "Muestra el estado de conexión en vivo del canal de tarjeta Stripe y del canal on-chain Web3.",
@@ -361,7 +387,45 @@
     "errorPhoneTaken": "Este número de teléfono ya está registrado en otra cuenta.",
     "errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
     "errorGoogleUnavailable": "El inicio de sesión con Google aún no está configurado en este entorno.",
-    "errorSmsUnavailable": "El envío de SMS aún no está configurado en este entorno."
+    "errorSmsUnavailable": "El envío de SMS aún no está configurado en este entorno.",
+    "ageLabel": "Edad",
+    "genderLabel": "Género",
+    "nationalityLabel": "Nacionalidad",
+    "bloodLabel": "Grupo sanguíneo",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "CI",
+    "eqLabel": "CE",
+    "undisclosed": "Sin especificar",
+    "continueAsGuest": "Continuar como invitado",
+    "guestExitHint": "Haz clic para finalizar la sesión de invitado",
+    "signInWithCodeLink": "Recibir un código en lugar de contraseña",
+    "realNameLockNotice": "Tu nombre legal no se puede cambiar después del registro (salvo la contraseña).",
+    "optionalProfileToggle": "Perfil adicional (opcional)",
+    "optionalProfileHint": "Grupo sanguíneo, MBTI, CI y CE son opcionales: déjalos en blanco para “Sin especificar”.",
+    "emailVerifyTitle": "Verifica tu correo",
+    "emailVerifyBody": "Introduce el código de 6 dígitos enviado a {email}.",
+    "phoneCodeSentTo": "Se envió un código de 6 dígitos a {phone}.",
+    "backButton": "Atrás",
+    "codeResentNotice": "Se ha enviado un nuevo código.",
+    "errorGoogleNotEnabled": "El inicio de sesión con Google aún no está habilitado en este proyecto. Un administrador debe habilitar el proveedor de Google en Supabase.",
+    "errorNoSuchAccount": "Ninguna cuenta coincide con ese correo o número de teléfono.",
+    "errorCodeInvalid": "Ese código es incorrecto o ha caducado.",
+    "errorPasswordWeak": "Tu contraseña no cumple los requisitos indicados abajo.",
+    "errorProfileInvalid": "Revisa los campos de perfil resaltados.",
+    "errorEmailTaken": "Este correo ya está registrado. Prueba a iniciar sesión.",
+    "gender": {
+      "female": "Mujer",
+      "male": "Hombre",
+      "nonbinary": "No binario",
+      "other": "Otro"
+    },
+    "pwRule": {
+      "length": "10–72 caracteres",
+      "lower": "Letra minúscula",
+      "upper": "Letra mayúscula",
+      "digit": "Número",
+      "special": "Carácter especial"
+    }
   },
   "Account": {
     "settingsTitle": "Configuración de cuenta",
@@ -389,7 +453,25 @@
     "dangerConfirmLabel": "Escribe DELETE para confirmar",
     "dangerConfirmButton": "Eliminar mi cuenta",
     "dangerCancelButton": "Cancelar",
-    "deleteError": "No se pudo eliminar la cuenta. Inténtalo de nuevo."
+    "deleteError": "No se pudo eliminar la cuenta. Inténtalo de nuevo.",
+    "tabIdentity": "Acceso y perfil",
+    "tabBanking": "Banca y verificación",
+    "tabWithdrawal": "Cerrar cuenta",
+    "loginIdSection": "Identidad de acceso",
+    "personalSection": "Perfil personal y cognitivo",
+    "iqLabel": "CI",
+    "eqLabel": "CE",
+    "realNameLocked": "Tu nombre legal está bloqueado y no se puede cambiar.",
+    "realNameLockWarning": "Introduce tu nombre legal con cuidado: no se puede cambiar una vez guardado.",
+    "profileInvalid": "Revisa los campos resaltados.",
+    "profileSaveError": "No se pudo guardar tu perfil. Inténtalo de nuevo.",
+    "passwordChangeError": "No se pudo actualizar tu contraseña. Inténtalo de nuevo.",
+    "verifyPhoneButton": "Verificar número de teléfono",
+    "phoneAuthNote": "Se requiere un teléfono verificado antes de gastar monedas (1 persona = 1 cuenta).",
+    "bankSectionTitle": "Verificación bancaria / de pago",
+    "bankSectionBody": "Vincula y verifica un método de pago o cuenta bancaria para cargos y pagos. Se activa cuando la integración de la pasarela de pago esté operativa.",
+    "bankPending": "Pendiente",
+    "bankConnectButton": "Vincular método de pago"
   },
   "ModuleWorkspace": {
     "backLink": "Volver a los Ecosistemas"
@@ -551,5 +633,11 @@
     "chronosPhasePeak": "Fase de pico.",
     "chronosPhaseContraction": "Fase de contracción.",
     "chronosPhaseTrough": "Fase de valle."
+  },
+  "Guest": {
+    "badge": "Modo invitado",
+    "virtualIdLabel": "ID virtual",
+    "upgradeReason": "Los invitados solo pueden explorar. Verifica una cuenta para tener saldo y entrar en los módulos.",
+    "upgradeCta": "Crear cuenta completa"
   }
 }

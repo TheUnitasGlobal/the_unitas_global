@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Coins, RefreshCw, ShieldCheck, ShieldAlert, Minus, Plus } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useWallet } from './WalletProvider';
+import { GuestUpgradeStrip } from './GuestUpgradeStrip';
 import { useCoinLedger } from './useCoinLedger';
 import { SectionHeader } from './walletUi';
 import {
@@ -122,6 +123,8 @@ export function WalletBalanceModal({ open, onClose }: WalletBalanceModalProps) {
       <p className="mb-6 text-xs leading-relaxed text-gray-500">
         {signedIn ? t('balanceBody') : t('signInRequired')}
       </p>
+
+      <GuestUpgradeStrip />
 
       {/* 1 — real-time available balance summary */}
       <section className="mb-6 border border-white/10 bg-void/50 p-4">

@@ -1,11 +1,19 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 
 interface PhoneVerifyPanelProps {
   initialPhone?: string;
+  /**
+   * 'change' (default): `updateUser({ phone })` sends the OTP, verified with
+   *   `type: 'phone_change'` -- used when adding/changing a phone on an
+   *   existing session (signup step 2, Account settings).
+   * 'signup': the OTP was already sent by `signUp({ phone })`; skip straight
+   *   to the code entry and verify with `type: 'sms'`.
+   */
+  purpose?: 'change' | 'signup';
   onVerified: () => void;
   onSkip?: () => void;
 }
@@ -14,21 +22,30 @@ const INPUT_CLASS =
   'w-full border border-accent/30 bg-void px-3 py-2 text-sm text-white outline-none transition-colors focus:border-accent';
 
 /**
- * Shared phone-OTP step: `updateUser({ phone })` triggers Supabase's SMS
- * OTP, `verifyOtp({ type: 'phone_change' })` confirms it. Actual
- * verification/uniqueness is decided server-side (see
- * supabase/migrations/20260823000000_zero_trust_identity.sql's
- * handle_phone_verified trigger + the partial unique index) -- this panel
- * only surfaces whatever Supabase reports back. Reused by AuthModal
- * (signup) and AccountSettingsModal (change phone).
+ * Phone-OTP step. Actual verification/uniqueness is decided server-side (see
+ * supabase/migrations/20260823000000_zero_trust_identity.sql: the
+ * handle_phone_verified trigger + the partial unique index) -- this panel only
+ * surfaces whatever Supabase reports back. Reused by AuthModal (signup) and
+ * AccountSettingsModal (change phone).
  */
-export function PhoneVerifyPanel({ initialPhone = '', onVerified, onSkip }: PhoneVerifyPanelProps) {
+export function PhoneVerifyPanel({
+  initialPhone = '',
+  purpose = 'change',
+  onVerified,
+  onSkip,
+}: PhoneVerifyPanelProps) {
   const t = useTranslations('Auth');
   const [phone, setPhone] = useState(initialPhone);
   const [code, setCode] = useState('');
-  const [stage, setStage] = useState<'enter-phone' | 'enter-code'>('enter-phone');
+  const [stage, setStage] = useState<'enter-phone' | 'enter-code'>(
+    purpose === 'signup' ? 'enter-code' : 'enter-phone',
+  );
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (purpose === 'signup') setStage('enter-code');
+  }, [purpose]);
 
   async function handleSendCode(e: FormEvent) {
     e.preventDefault();
@@ -45,16 +62,43 @@ export function PhoneVerifyPanel({ initialPhone = '', onVerified, onSkip }: Phon
     setStage('enter-code');
   }
 
+  async function handleResend() {
+    setError(null);
+    setBusy(true);
+    const supabase = getSupabaseBrowserClient();
+    const { error: resendError } =
+      purpose === 'signup'
+        ? await supabase.auth.signInWithOtp({ phone })
+        : await supabase.auth.updateUser({ phone });
+    setBusy(false);
+    if (resendError) {
+      const msg = resendError.message.toLowerCase();
+      setError(
+        msg.includes('sms') || msg.includes('provider')
+          ? t('errorSmsUnavailable')
+          : resendError.message,
+      );
+    }
+  }
+
   async function handleVerify(e: FormEvent) {
     e.preventDefault();
     setError(null);
     setBusy(true);
     const supabase = getSupabaseBrowserClient();
-    const { error: verifyError } = await supabase.auth.verifyOtp({ phone, token: code, type: 'phone_change' });
+    const { error: verifyError } = await supabase.auth.verifyOtp({
+      phone,
+      token: code.trim(),
+      type: purpose === 'signup' ? 'sms' : 'phone_change',
+    });
     setBusy(false);
     if (verifyError) {
       const msg = verifyError.message.toLowerCase();
-      setError(msg.includes('duplicate') || msg.includes('unique') ? t('errorPhoneTaken') : t('errorGeneric'));
+      setError(
+        msg.includes('duplicate') || msg.includes('unique') || msg.includes('registered')
+          ? t('errorPhoneTaken')
+          : t('errorCodeInvalid'),
+      );
       return;
     }
     onVerified();
@@ -86,26 +130,32 @@ export function PhoneVerifyPanel({ initialPhone = '', onVerified, onSkip }: Phon
         </form>
       ) : (
         <form onSubmit={handleVerify} className="space-y-3">
+          {purpose === 'signup' && (
+            <p className="text-[11px] text-gray-500">{t('phoneCodeSentTo', { phone })}</p>
+          )}
           <input
             type="text"
             inputMode="numeric"
+            autoComplete="one-time-code"
             required
+            maxLength={6}
             value={code}
-            onChange={(e) => setCode(e.target.value)}
+            onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
             placeholder={t('codeLabel')}
             className={INPUT_CLASS}
           />
           <button
             type="submit"
-            disabled={busy}
+            disabled={busy || code.length < 6}
             className="w-full bg-accent py-2.5 text-xs font-bold uppercase tracking-widest text-void transition-all hover:bg-white disabled:opacity-50"
           >
             {t('verifyButton')}
           </button>
           <button
             type="button"
-            onClick={() => setStage('enter-phone')}
-            className="w-full text-center text-[11px] text-gray-400 transition-colors hover:text-accent"
+            onClick={handleResend}
+            disabled={busy}
+            className="w-full text-center text-[11px] text-gray-400 transition-colors hover:text-accent disabled:opacity-50"
           >
             {t('resendCode')}
           </button>

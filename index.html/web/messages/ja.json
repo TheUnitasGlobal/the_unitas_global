@@ -69,8 +69,17 @@
     "balanceBody": "リアルタイムのU-COIN残高、台帳の整合性、モジュール別消費シミュレーション、オートスペンディング上限を一括で管理します。",
     "hintPrefix": "ヘルプ: ",
     "saved": "ローカルに保存しました。",
-    "sec": { "description": "説明", "howto": "使い方", "caution": "注意事項" },
-    "tag": { "live": "リアルタイム", "pending": "接続待ち", "local": "ローカル設定", "sim": "シミュレーション" },
+    "sec": {
+      "description": "説明",
+      "howto": "使い方",
+      "caution": "注意事項"
+    },
+    "tag": {
+      "live": "リアルタイム",
+      "pending": "接続待ち",
+      "local": "ローカル設定",
+      "sim": "シミュレーション"
+    },
     "bal": {
       "summaryTitle": "リアルタイム利用可能残高",
       "refresh": "更新",
@@ -89,7 +98,12 @@
       "historyEmpty": "まだ記録された取引はありません。",
       "verifyPass": "整合性チェック合格 · {count}件を確認",
       "verifyFail": "不一致 {count}件を検出 — サポートにお問い合わせください",
-      "kind": { "purchase": "チャージ", "module_access": "モジュール利用", "admin_grant": "管理者付与", "refund": "返金" },
+      "kind": {
+        "purchase": "チャージ",
+        "module_access": "モジュール利用",
+        "admin_grant": "管理者付与",
+        "refund": "返金"
+      },
       "historyHint": {
         "title": "取引履歴のリアルタイム検証",
         "description": "追記専用の台帳（coin_ledger）から直近の取引を読み込み、各行の残高が直前の行と正確に連結しているかをブラウザ側で即時に再計算します。",
@@ -112,7 +126,11 @@
       "autoEnable": "オートスペンディングを有効化",
       "autoLimit": "期間別上限 (U-COIN)",
       "autoWindow": "基準期間",
-      "window": { "day": "日単位", "week": "週単位", "month": "月単位" },
+      "window": {
+        "day": "日単位",
+        "week": "週単位",
+        "month": "月単位"
+      },
       "autoNote": "設定はこのブラウザにローカル保存され、自動決済の実行は決済ゲートウェイ接続後に適用されます。",
       "autoHint": {
         "title": "オートスペンディング（自動決済）上限設定",
@@ -124,7 +142,11 @@
     "chg": {
       "packagesTitle": "ティア別スマートチャージパッケージ",
       "packagesIntro": "利用パターンに合わせてStarter・Pro・Sovereignから選択してください。上位ティアほどボーナスコインが大きくなります。",
-      "tier": { "starter": "Starter", "pro": "Pro", "sovereign": "Sovereign" },
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
       "tierDesc": {
         "starter": "気軽に試すユーザー向けの基本チャージ",
         "pro": "定期的にモジュールを利用するユーザー向けのボーナス付きチャージ",
@@ -143,7 +165,11 @@
       "gatewayStripe": "Stripeカード決済",
       "gatewayWeb3": "Web3オンチェーン決済",
       "gatewayNote": "このポータルの決済連携は準備中です。現在はメインのセキュアポータルからチャージできます。",
-      "status": { "connected": "接続済み", "pending": "接続待ち", "offline": "未接続" },
+      "status": {
+        "connected": "接続済み",
+        "pending": "接続待ち",
+        "offline": "未接続"
+      },
       "gatewayHint": {
         "title": "インスタント決済ゲートウェイ",
         "description": "Stripeカード決済チャネルとWeb3オンチェーン決済チャネルの現在の接続状態をリアルタイムで表示します。",
@@ -361,7 +387,45 @@
     "errorPhoneTaken": "この電話番号はすでに別のアカウントに登録されています。",
     "errorGeneric": "問題が発生しました。もう一度お試しください。",
     "errorGoogleUnavailable": "この環境ではまだGoogleログインが設定されていません。",
-    "errorSmsUnavailable": "この環境ではまだSMS送信が設定されていません。"
+    "errorSmsUnavailable": "この環境ではまだSMS送信が設定されていません。",
+    "ageLabel": "年齢",
+    "genderLabel": "性別",
+    "nationalityLabel": "国籍",
+    "bloodLabel": "血液型",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "undisclosed": "未回答",
+    "continueAsGuest": "ゲストとして続ける",
+    "guestExitHint": "クリックするとゲストセッションを終了します",
+    "signInWithCodeLink": "パスワードの代わりにコードを受け取る",
+    "realNameLockNotice": "登録後はパスワード以外の実名情報は変更できません。",
+    "optionalProfileToggle": "追加プロフィール（任意）",
+    "optionalProfileHint": "血液型・MBTI・IQ・EQ は任意です。空欄の場合は「未回答」として保存されます。",
+    "emailVerifyTitle": "メールアドレスの認証",
+    "emailVerifyBody": "{email} に送信された6桁のコードを入力してください。",
+    "phoneCodeSentTo": "{phone} に6桁の認証コードを送信しました。",
+    "backButton": "戻る",
+    "codeResentNotice": "新しいコードを再送しました。",
+    "errorGoogleNotEnabled": "このプロジェクトではGoogleログインがまだ有効になっていません。管理者がSupabaseでGoogleプロバイダーを有効にする必要があります。",
+    "errorNoSuchAccount": "そのメールアドレスまたは電話番号に一致するアカウントがありません。",
+    "errorCodeInvalid": "コードが正しくないか、有効期限が切れています。",
+    "errorPasswordWeak": "パスワードが以下の要件を満たしていません。",
+    "errorProfileInvalid": "強調表示されたプロフィール項目を確認してください。",
+    "errorEmailTaken": "このメールアドレスは既に登録されています。サインインをお試しください。",
+    "gender": {
+      "female": "女性",
+      "male": "男性",
+      "nonbinary": "ノンバイナリー",
+      "other": "その他"
+    },
+    "pwRule": {
+      "length": "10〜72文字",
+      "lower": "英小文字",
+      "upper": "英大文字",
+      "digit": "数字",
+      "special": "記号"
+    }
   },
   "Account": {
     "settingsTitle": "アカウント設定",
@@ -389,7 +453,25 @@
     "dangerConfirmLabel": "確認のためDELETEと入力してください",
     "dangerConfirmButton": "アカウントを削除する",
     "dangerCancelButton": "キャンセル",
-    "deleteError": "アカウントを削除できませんでした。もう一度お試しください。"
+    "deleteError": "アカウントを削除できませんでした。もう一度お試しください。",
+    "tabIdentity": "ログイン・個人情報",
+    "tabBanking": "銀行・認証管理",
+    "tabWithdrawal": "退会",
+    "loginIdSection": "ログイン識別子",
+    "personalSection": "個人・認知プロフィール",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "realNameLocked": "実名情報はロックされており変更できません。",
+    "realNameLockWarning": "実名は保存後に変更できません。正確に入力してください。",
+    "profileInvalid": "強調表示された項目を確認してください。",
+    "profileSaveError": "プロフィールを保存できませんでした。もう一度お試しください。",
+    "passwordChangeError": "パスワードを更新できませんでした。もう一度お試しください。",
+    "verifyPhoneButton": "電話番号を認証",
+    "phoneAuthNote": "1人1アカウント制のもと、コイン利用前に電話番号の認証が必要です。",
+    "bankSectionTitle": "銀行／決済の認証",
+    "bankSectionBody": "チャージや払い出しに使う決済手段または銀行口座を登録・認証します。決済ゲートウェイ連携の稼働後に有効化されます。",
+    "bankPending": "連携待ち",
+    "bankConnectButton": "決済手段を接続"
   },
   "ModuleWorkspace": {
     "backLink": "エコシステムに戻る"
@@ -551,5 +633,11 @@
     "chronosPhasePeak": "ピークフェーズ。",
     "chronosPhaseContraction": "収縮フェーズ。",
     "chronosPhaseTrough": "底値フェーズ。"
+  },
+  "Guest": {
+    "badge": "ゲストモード",
+    "virtualIdLabel": "仮想番号",
+    "upgradeReason": "ゲストは閲覧のみ可能です。残高の保有とモジュール入場にはアカウント認証が必要です。",
+    "upgradeCta": "本会員登録"
   }
 }

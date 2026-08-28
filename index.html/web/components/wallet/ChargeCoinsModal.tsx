@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Check, Coins, FileLock2, Zap } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useWallet } from './WalletProvider';
+import { GuestUpgradeStrip } from './GuestUpgradeStrip';
 import { SectionHeader, StatusDot } from './walletUi';
 import {
   CHARGE_PACKAGES,
@@ -89,6 +90,8 @@ export function ChargeCoinsModal({ open, onClose }: ChargeCoinsModalProps) {
         {t('chargeTitle')}
       </h2>
       <p className="mb-6 text-xs leading-relaxed text-gray-500">{t('chargeBody')}</p>
+
+      <GuestUpgradeStrip />
 
       {/* 1 — tiered smart charge packages */}
       <section className="mb-6 border border-white/10 bg-void/50 p-4">

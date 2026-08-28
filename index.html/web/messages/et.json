@@ -69,8 +69,17 @@
     "balanceBody": "Halda ühes kohas oma reaalajas U-COIN saldot, pearaamatu terviklust, moodulipõhist kulusimulatsiooni ja automaatse kulutamise limiiti.",
     "hintPrefix": "Abi: ",
     "saved": "Salvestatud lokaalselt.",
-    "sec": { "description": "Mis see on", "howto": "Kuidas kasutada", "caution": "Millele tähelepanu pöörata" },
-    "tag": { "live": "Reaalajas", "pending": "Ootel", "local": "Lokaalne säte", "sim": "Simulatsioon" },
+    "sec": {
+      "description": "Mis see on",
+      "howto": "Kuidas kasutada",
+      "caution": "Millele tähelepanu pöörata"
+    },
+    "tag": {
+      "live": "Reaalajas",
+      "pending": "Ootel",
+      "local": "Lokaalne säte",
+      "sim": "Simulatsioon"
+    },
     "bal": {
       "summaryTitle": "Reaalajas saadaolev saldo",
       "refresh": "Värskenda",
@@ -89,7 +98,12 @@
       "historyEmpty": "Tehinguid pole veel salvestatud.",
       "verifyPass": "Tervikluskontroll läbitud · {count} kirjet kontrollitud",
       "verifyFail": "Tuvastati {count} lahknevust – võta ühendust toega",
-      "kind": { "purchase": "Laadimine", "module_access": "Mooduli kasutus", "admin_grant": "Administraatori eraldis", "refund": "Tagasimakse" },
+      "kind": {
+        "purchase": "Laadimine",
+        "module_access": "Mooduli kasutus",
+        "admin_grant": "Administraatori eraldis",
+        "refund": "Tagasimakse"
+      },
       "historyHint": {
         "title": "Tehingute ajaloo reaalajas kontroll",
         "description": "Laadib hiljutised kirjed ainult-lisamise pearaamatust (coin_ledger) ja arvutab brauseris uuesti, kas iga rea saldo ühildub täpselt eelmisega.",
@@ -112,7 +126,11 @@
       "autoEnable": "Luba automaatne kulutamine",
       "autoLimit": "Limiit perioodi kohta (U-COIN)",
       "autoWindow": "Periood",
-      "window": { "day": "Päevas", "week": "Nädalas", "month": "Kuus" },
+      "window": {
+        "day": "Päevas",
+        "week": "Nädalas",
+        "month": "Kuus"
+      },
       "autoNote": "Säte salvestatakse lokaalselt selles brauseris; automaatse kulutamise täitmine rakendub, kui makselüüs on ühendatud.",
       "autoHint": {
         "title": "Automaatse kulutamise limiit",
@@ -124,7 +142,11 @@
     "chg": {
       "packagesTitle": "Astmelised nutikad laadimispaketid",
       "packagesIntro": "Vali Starter, Pro või Sovereign vastavalt sellele, kuidas platvormi kasutad. Kõrgemad astmed sisaldavad suuremat boonust.",
-      "tier": { "starter": "Starter", "pro": "Pro", "sovereign": "Sovereign" },
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
       "tierDesc": {
         "starter": "Põhilaadimine kergetele ja juhukasutajatele",
         "pro": "Boonusega laadimine regulaarsetele moodulikasutajatele",
@@ -143,7 +165,11 @@
       "gatewayStripe": "Stripe kaardimakse",
       "gatewayWeb3": "Web3 ahelasisene makse",
       "gatewayNote": "Selle portaali makselõimimine on pooleli. Praegu saad laadida peamises Turvalises Portaalis.",
-      "status": { "connected": "Ühendatud", "pending": "Ootel", "offline": "Ühenduseta" },
+      "status": {
+        "connected": "Ühendatud",
+        "pending": "Ootel",
+        "offline": "Ühenduseta"
+      },
       "gatewayHint": {
         "title": "Kohese makse lüüs",
         "description": "Näitab reaalajas Stripe'i kaardikanali ja Web3 ahelasisese kanali praegust ühenduse olekut.",
@@ -361,7 +387,45 @@
     "errorPhoneTaken": "See telefoninumber on juba teise kontoga seotud.",
     "errorGeneric": "Midagi läks valesti. Proovi uuesti.",
     "errorGoogleUnavailable": "Google'iga sisselogimine ei ole selles keskkonnas veel seadistatud.",
-    "errorSmsUnavailable": "SMS-i saatmine ei ole selles keskkonnas veel seadistatud."
+    "errorSmsUnavailable": "SMS-i saatmine ei ole selles keskkonnas veel seadistatud.",
+    "ageLabel": "Vanus",
+    "genderLabel": "Sugu",
+    "nationalityLabel": "Rahvus",
+    "bloodLabel": "Veregrupp",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "undisclosed": "Määramata",
+    "continueAsGuest": "Jätka külalisena",
+    "guestExitHint": "Klõpsa külalisseansi lõpetamiseks",
+    "signInWithCodeLink": "Saada parooli asemel kood",
+    "realNameLockNotice": "Sinu ametlikku nime ei saa pärast registreerimist muuta (välja arvatud parool).",
+    "optionalProfileToggle": "Lisaprofiil (valikuline)",
+    "optionalProfileHint": "Veregrupp, MBTI, IQ ja EQ on valikulised – tühjaks jättes salvestatakse „Määramata“.",
+    "emailVerifyTitle": "Kinnita oma e-post",
+    "emailVerifyBody": "Sisesta {email} aadressile saadetud 6-kohaline kood.",
+    "phoneCodeSentTo": "Numbrile {phone} saadeti 6-kohaline kood.",
+    "backButton": "Tagasi",
+    "codeResentNotice": "Uus kood on saadetud.",
+    "errorGoogleNotEnabled": "Google’iga sisselogimine ei ole selles projektis veel lubatud. Administraator peab Supabase’is Google’i teenusepakkuja lubama.",
+    "errorNoSuchAccount": "Ükski konto ei vasta sellele e-postile ega telefoninumbrile.",
+    "errorCodeInvalid": "See kood on vale või aegunud.",
+    "errorPasswordWeak": "Sinu parool ei vasta allolevatele nõuetele.",
+    "errorProfileInvalid": "Palun kontrolli esiletõstetud profiiliväljasid.",
+    "errorEmailTaken": "See e-post on juba registreeritud. Proovi sisse logida.",
+    "gender": {
+      "female": "Naine",
+      "male": "Mees",
+      "nonbinary": "Mittebinaarne",
+      "other": "Muu"
+    },
+    "pwRule": {
+      "length": "10–72 märki",
+      "lower": "Väiketäht",
+      "upper": "Suurtäht",
+      "digit": "Number",
+      "special": "Erimärk"
+    }
   },
   "Account": {
     "settingsTitle": "Konto seaded",
@@ -389,7 +453,25 @@
     "dangerConfirmLabel": "Kinnitamiseks sisesta DELETE",
     "dangerConfirmButton": "Kustuta minu konto",
     "dangerCancelButton": "Tühista",
-    "deleteError": "Konto kustutamine ebaõnnestus. Proovi uuesti."
+    "deleteError": "Konto kustutamine ebaõnnestus. Proovi uuesti.",
+    "tabIdentity": "Sisselogimine ja profiil",
+    "tabBanking": "Pank ja kinnitamine",
+    "tabWithdrawal": "Konto sulgemine",
+    "loginIdSection": "Sisselogimise identiteet",
+    "personalSection": "Isiklik ja kognitiivne profiil",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "realNameLocked": "Sinu ametlik nimi on lukustatud ja seda ei saa muuta.",
+    "realNameLockWarning": "Sisesta oma ametlik nimi hoolikalt – seda ei saa pärast salvestamist muuta.",
+    "profileInvalid": "Palun kontrolli esiletõstetud välju.",
+    "profileSaveError": "Profiili ei õnnestunud salvestada. Proovi uuesti.",
+    "passwordChangeError": "Parooli ei õnnestunud uuendada. Proovi uuesti.",
+    "verifyPhoneButton": "Kinnita telefoninumber",
+    "phoneAuthNote": "Enne müntide kulutamist on vaja kinnitatud telefoninumbrit („1 inimene = 1 konto“).",
+    "bankSectionTitle": "Panga / makse kinnitamine",
+    "bankSectionBody": "Seo ja kinnita makseviis või pangakonto laadimiste ja väljamaksete jaoks. Aktiveeritakse, kui makselüüsi integratsioon käivitub.",
+    "bankPending": "Ootel",
+    "bankConnectButton": "Seo makseviis"
   },
   "ModuleWorkspace": {
     "backLink": "Tagasi ökosüsteemide juurde"
@@ -551,5 +633,11 @@
     "chronosPhasePeak": "Tipufaas.",
     "chronosPhaseContraction": "Languse faas.",
     "chronosPhaseTrough": "Põhjafaas."
+  },
+  "Guest": {
+    "badge": "Külalisrežiim",
+    "virtualIdLabel": "Virtuaalne number",
+    "upgradeReason": "Külalised saavad ainult sirvida. Saldo hoidmiseks ja moodulitesse sisenemiseks kinnita konto.",
+    "upgradeCta": "Loo täiskonto"
   }
 }

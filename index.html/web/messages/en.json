@@ -69,8 +69,17 @@
     "balanceBody": "Manage your live U-COIN balance, ledger integrity, per-module spend simulation, and auto-spending limit in one place.",
     "hintPrefix": "Help: ",
     "saved": "Saved locally.",
-    "sec": { "description": "What it is", "howto": "How to use", "caution": "Watch out for" },
-    "tag": { "live": "Live", "pending": "Pending", "local": "Local setting", "sim": "Simulation" },
+    "sec": {
+      "description": "What it is",
+      "howto": "How to use",
+      "caution": "Watch out for"
+    },
+    "tag": {
+      "live": "Live",
+      "pending": "Pending",
+      "local": "Local setting",
+      "sim": "Simulation"
+    },
     "bal": {
       "summaryTitle": "Real-time available balance",
       "refresh": "Refresh",
@@ -89,7 +98,12 @@
       "historyEmpty": "No transactions recorded yet.",
       "verifyPass": "Integrity check passed · {count} rows verified",
       "verifyFail": "{count} mismatch(es) detected — contact support",
-      "kind": { "purchase": "Charge", "module_access": "Module access", "admin_grant": "Admin grant", "refund": "Refund" },
+      "kind": {
+        "purchase": "Charge",
+        "module_access": "Module access",
+        "admin_grant": "Admin grant",
+        "refund": "Refund"
+      },
       "historyHint": {
         "title": "Transaction history real-time verification",
         "description": "Loads recent rows from the append-only coin_ledger and re-derives, in the browser, whether each row's balance chains exactly to the one before it.",
@@ -112,7 +126,11 @@
       "autoEnable": "Enable auto-spending",
       "autoLimit": "Limit per window (U-COIN)",
       "autoWindow": "Window",
-      "window": { "day": "Per day", "week": "Per week", "month": "Per month" },
+      "window": {
+        "day": "Per day",
+        "week": "Per week",
+        "month": "Per month"
+      },
       "autoNote": "The setting is stored locally in this browser; auto-spending execution applies once the payment gateway is connected.",
       "autoHint": {
         "title": "Auto-spending limit",
@@ -124,7 +142,11 @@
     "chg": {
       "packagesTitle": "Tiered smart charge packages",
       "packagesIntro": "Choose Starter, Pro or Sovereign to match how you use the platform. Higher tiers carry a larger bonus.",
-      "tier": { "starter": "Starter", "pro": "Pro", "sovereign": "Sovereign" },
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
       "tierDesc": {
         "starter": "Base charge for light, occasional users",
         "pro": "Bonus-included charge for regular module users",
@@ -143,7 +165,11 @@
       "gatewayStripe": "Stripe card payment",
       "gatewayWeb3": "Web3 on-chain payment",
       "gatewayNote": "Payment integration for this portal is in progress. For now you can charge from the main Secure Portal.",
-      "status": { "connected": "Connected", "pending": "Pending", "offline": "Offline" },
+      "status": {
+        "connected": "Connected",
+        "pending": "Pending",
+        "offline": "Offline"
+      },
       "gatewayHint": {
         "title": "Instant payment gateway",
         "description": "Shows the live connection status of the Stripe card channel and the Web3 on-chain channel.",
@@ -361,7 +387,45 @@
     "errorPhoneTaken": "This phone number is already registered to another account.",
     "errorGeneric": "Something went wrong. Please try again.",
     "errorGoogleUnavailable": "Google sign-in is not yet configured for this environment.",
-    "errorSmsUnavailable": "SMS delivery is not yet configured for this environment."
+    "errorSmsUnavailable": "SMS delivery is not yet configured for this environment.",
+    "ageLabel": "Age",
+    "genderLabel": "Gender",
+    "nationalityLabel": "Nationality",
+    "bloodLabel": "Blood Type",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "undisclosed": "Undisclosed",
+    "continueAsGuest": "Continue as Guest",
+    "guestExitHint": "Click to end the guest session",
+    "signInWithCodeLink": "Get a sign-in code instead",
+    "realNameLockNotice": "Your legal name cannot be changed after sign-up (password aside).",
+    "optionalProfileToggle": "Additional profile (optional)",
+    "optionalProfileHint": "Blood type, MBTI, IQ and EQ are optional — leave blank for “Undisclosed”.",
+    "emailVerifyTitle": "Verify Your Email",
+    "emailVerifyBody": "Enter the 6-digit code sent to {email}.",
+    "phoneCodeSentTo": "A 6-digit code was sent to {phone}.",
+    "backButton": "Back",
+    "codeResentNotice": "A new code is on its way.",
+    "errorGoogleNotEnabled": "Google sign-in is not enabled for this project yet. An administrator must enable the Google provider in Supabase.",
+    "errorNoSuchAccount": "No account matches that email or phone number.",
+    "errorCodeInvalid": "That code is incorrect or has expired.",
+    "errorPasswordWeak": "Your password does not meet the requirements below.",
+    "errorProfileInvalid": "Please check the highlighted profile fields.",
+    "errorEmailTaken": "This email is already registered. Try signing in instead.",
+    "gender": {
+      "female": "Female",
+      "male": "Male",
+      "nonbinary": "Non-binary",
+      "other": "Other"
+    },
+    "pwRule": {
+      "length": "10–72 characters",
+      "lower": "Lower-case letter",
+      "upper": "Upper-case letter",
+      "digit": "Number",
+      "special": "Special character"
+    }
   },
   "Account": {
     "settingsTitle": "Account Settings",
@@ -389,7 +453,25 @@
     "dangerConfirmLabel": "Type DELETE to confirm",
     "dangerConfirmButton": "Delete My Account",
     "dangerCancelButton": "Cancel",
-    "deleteError": "Could not delete account. Please try again."
+    "deleteError": "Could not delete account. Please try again.",
+    "tabIdentity": "Login & Profile",
+    "tabBanking": "Banking & Verification",
+    "tabWithdrawal": "Close Account",
+    "loginIdSection": "Login Identity",
+    "personalSection": "Personal & Cognitive Profile",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "realNameLocked": "Your legal name is locked and cannot be changed.",
+    "realNameLockWarning": "Enter your legal name carefully — it cannot be changed once saved.",
+    "profileInvalid": "Please check the highlighted fields.",
+    "profileSaveError": "Could not save your profile. Please try again.",
+    "passwordChangeError": "Could not update your password. Please try again.",
+    "verifyPhoneButton": "Verify Phone Number",
+    "phoneAuthNote": "A verified phone number is required before spending coins (1 person = 1 account).",
+    "bankSectionTitle": "Bank / Payment Verification",
+    "bankSectionBody": "Link and verify a payment method or bank account for charges and payouts. Activated once the payment gateway integration goes live.",
+    "bankPending": "Pending",
+    "bankConnectButton": "Connect Payment Method"
   },
   "ModuleWorkspace": {
     "backLink": "Back to Ecosystems"
@@ -551,5 +633,11 @@
     "chronosPhasePeak": "Peak phase.",
     "chronosPhaseContraction": "Contraction phase.",
     "chronosPhaseTrough": "Trough phase."
+  },
+  "Guest": {
+    "badge": "Guest Mode",
+    "virtualIdLabel": "Virtual ID",
+    "upgradeReason": "Guests can browse only. Verify an account to hold a balance and enter modules.",
+    "upgradeCta": "Create Full Account"
   }
 }

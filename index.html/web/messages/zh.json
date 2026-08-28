@@ -69,8 +69,17 @@
     "balanceBody": "在一个面板中管理实时 U-COIN 余额、账本完整性、按模块消耗模拟以及自动支付限额。",
     "hintPrefix": "帮助： ",
     "saved": "已保存到本地。",
-    "sec": { "description": "说明", "howto": "使用方法", "caution": "注意事项" },
-    "tag": { "live": "实时", "pending": "待接入", "local": "本地设置", "sim": "模拟" },
+    "sec": {
+      "description": "说明",
+      "howto": "使用方法",
+      "caution": "注意事项"
+    },
+    "tag": {
+      "live": "实时",
+      "pending": "待接入",
+      "local": "本地设置",
+      "sim": "模拟"
+    },
     "bal": {
       "summaryTitle": "实时可用余额概览",
       "refresh": "刷新",
@@ -89,7 +98,12 @@
       "historyEmpty": "尚无交易记录。",
       "verifyPass": "完整性校验通过 · 已核对 {count} 条",
       "verifyFail": "检测到 {count} 处不一致 — 请联系支持",
-      "kind": { "purchase": "充值", "module_access": "模块使用", "admin_grant": "管理员发放", "refund": "退款" },
+      "kind": {
+        "purchase": "充值",
+        "module_access": "模块使用",
+        "admin_grant": "管理员发放",
+        "refund": "退款"
+      },
       "historyHint": {
         "title": "交易历史实时校验",
         "description": "从仅追加的账本（coin_ledger）加载最近交易，并在浏览器中重新推算每一行的余额是否与前一行精确衔接。",
@@ -112,7 +126,11 @@
       "autoEnable": "启用自动支付",
       "autoLimit": "周期限额 (U-COIN)",
       "autoWindow": "周期",
-      "window": { "day": "按天", "week": "按周", "month": "按月" },
+      "window": {
+        "day": "按天",
+        "week": "按周",
+        "month": "按月"
+      },
       "autoNote": "设置保存在此浏览器本地，自动支付执行将在支付网关接入后生效。",
       "autoHint": {
         "title": "自动支付限额设置",
@@ -124,7 +142,11 @@
     "chg": {
       "packagesTitle": "分级智能充值套餐",
       "packagesIntro": "根据使用习惯选择 Starter、Pro 或 Sovereign。等级越高，赠送代币越多。",
-      "tier": { "starter": "Starter", "pro": "Pro", "sovereign": "Sovereign" },
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
       "tierDesc": {
         "starter": "面向轻度、偶尔使用者的基础充值",
         "pro": "面向常规模块用户的含赠送充值",
@@ -143,7 +165,11 @@
       "gatewayStripe": "Stripe 银行卡支付",
       "gatewayWeb3": "Web3 链上支付",
       "gatewayNote": "该门户的支付接入正在进行中。目前可在主安全门户进行充值。",
-      "status": { "connected": "已连接", "pending": "待接入", "offline": "未接入" },
+      "status": {
+        "connected": "已连接",
+        "pending": "待接入",
+        "offline": "未接入"
+      },
       "gatewayHint": {
         "title": "即时支付网关",
         "description": "实时显示 Stripe 银行卡通道和 Web3 链上通道的当前连接状态。",
@@ -361,7 +387,45 @@
     "errorPhoneTaken": "该手机号码已被其他账户注册。",
     "errorGeneric": "出现问题，请重试。",
     "errorGoogleUnavailable": "此环境尚未配置 Google 登录。",
-    "errorSmsUnavailable": "此环境尚未配置短信发送。"
+    "errorSmsUnavailable": "此环境尚未配置短信发送。",
+    "ageLabel": "年龄",
+    "genderLabel": "性别",
+    "nationalityLabel": "国籍",
+    "bloodLabel": "血型",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "undisclosed": "不透露",
+    "continueAsGuest": "以访客身份继续",
+    "guestExitHint": "点击结束访客会话",
+    "signInWithCodeLink": "改用验证码登录",
+    "realNameLockNotice": "注册后除密码外的实名信息不可更改。",
+    "optionalProfileToggle": "附加资料（可选）",
+    "optionalProfileHint": "血型、MBTI、IQ 和 EQ 为可选项，留空即保存为“不透露”。",
+    "emailVerifyTitle": "验证邮箱",
+    "emailVerifyBody": "请输入发送至 {email} 的 6 位验证码。",
+    "phoneCodeSentTo": "已向 {phone} 发送 6 位验证码。",
+    "backButton": "返回",
+    "codeResentNotice": "已重新发送新的验证码。",
+    "errorGoogleNotEnabled": "此项目尚未启用 Google 登录。管理员需在 Supabase 中启用 Google 提供商。",
+    "errorNoSuchAccount": "没有与该邮箱或手机号匹配的账户。",
+    "errorCodeInvalid": "验证码不正确或已过期。",
+    "errorPasswordWeak": "密码不符合以下要求。",
+    "errorProfileInvalid": "请检查高亮显示的资料项。",
+    "errorEmailTaken": "该邮箱已注册，请尝试登录。",
+    "gender": {
+      "female": "女",
+      "male": "男",
+      "nonbinary": "非二元",
+      "other": "其他"
+    },
+    "pwRule": {
+      "length": "10–72 个字符",
+      "lower": "小写字母",
+      "upper": "大写字母",
+      "digit": "数字",
+      "special": "特殊字符"
+    }
   },
   "Account": {
     "settingsTitle": "账户设置",
@@ -389,7 +453,25 @@
     "dangerConfirmLabel": "输入 DELETE 以确认",
     "dangerConfirmButton": "删除我的账户",
     "dangerCancelButton": "取消",
-    "deleteError": "无法删除账户，请重试。"
+    "deleteError": "无法删除账户，请重试。",
+    "tabIdentity": "登录与个人信息",
+    "tabBanking": "银行与验证",
+    "tabWithdrawal": "注销账户",
+    "loginIdSection": "登录标识",
+    "personalSection": "个人与认知资料",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "realNameLocked": "实名信息已锁定，无法更改。",
+    "realNameLockWarning": "实名保存后不可更改，请准确填写。",
+    "profileInvalid": "请检查高亮显示的项目。",
+    "profileSaveError": "无法保存资料，请重试。",
+    "passwordChangeError": "无法更新密码，请重试。",
+    "verifyPhoneButton": "验证手机号码",
+    "phoneAuthNote": "根据“一人一账户”政策，使用 U 币前需完成手机验证。",
+    "bankSectionTitle": "银行 / 支付验证",
+    "bankSectionBody": "关联并验证用于充值和结算的支付方式或银行账户。支付网关集成上线后启用。",
+    "bankPending": "待接入",
+    "bankConnectButton": "关联支付方式"
   },
   "ModuleWorkspace": {
     "backLink": "返回生态系统"
@@ -551,5 +633,11 @@
     "chronosPhasePeak": "顶峰阶段。",
     "chronosPhaseContraction": "收缩阶段。",
     "chronosPhaseTrough": "低谷阶段。"
+  },
+  "Guest": {
+    "badge": "访客模式",
+    "virtualIdLabel": "虚拟编号",
+    "upgradeReason": "访客仅可浏览。验证账户后方可持有余额并进入模块。",
+    "upgradeCta": "创建正式账户"
   }
 }
