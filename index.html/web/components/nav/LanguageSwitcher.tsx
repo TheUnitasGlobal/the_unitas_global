@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { ChevronDown } from 'lucide-react';
+import { useGatedSurface } from '@/components/ui/useGatedSurface';
 
 const LANGUAGE_META: Record<(typeof routing.locales)[number], { flag: string; native: string }> = {
   en: { flag: '🇺🇸', native: 'English' },
@@ -21,7 +21,7 @@ export function LanguageSwitcher() {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const { open, blocked, setOpen, toggle } = useGatedSurface('nav:language');
 
   const current = LANGUAGE_META[locale as (typeof routing.locales)[number]] ?? LANGUAGE_META.en;
 
@@ -34,10 +34,13 @@ export function LanguageSwitcher() {
     <div className="relative">
       <button
         type="button"
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={toggle}
         aria-label={t('languageLabel')}
         aria-expanded={open}
-        className="flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
+        aria-disabled={blocked || undefined}
+        className={`flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none ${
+          blocked ? 'pointer-events-none opacity-50' : ''
+        }`}
       >
         <span className="text-2xl leading-none" aria-hidden="true">
           {current.flag}

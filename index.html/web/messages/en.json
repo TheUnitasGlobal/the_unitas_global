@@ -62,11 +62,120 @@
     "chargeCoins": "Charge Coins",
     "signInRequired": "Sign in to view your live balance",
     "chargeTitle": "Charge U-COIN",
-    "chargeBody": "Coin purchase checkout for this portal is coming soon. In the meantime, top up your balance from the main Secure Portal.",
+    "chargeBody": "Pick a tiered charge package and set your auto-refill and secure-invoice options. Real payment activates once the payment gateway is connected.",
     "close": "Close",
     "currencyNote": "1 U-Coin = 1 EUR (local currency automatically converted at checkout).",
     "balanceTitle": "U-COIN Balance",
-    "balanceBody": "This is your live U-COIN balance. Spend it on cognitive modules and live services, or top it up with Charge Coins."
+    "balanceBody": "Manage your live U-COIN balance, ledger integrity, per-module spend simulation, and auto-spending limit in one place.",
+    "hintPrefix": "Help: ",
+    "saved": "Saved locally.",
+    "sec": { "description": "What it is", "howto": "How to use", "caution": "Watch out for" },
+    "tag": { "live": "Live", "pending": "Pending", "local": "Local setting", "sim": "Simulation" },
+    "bal": {
+      "summaryTitle": "Real-time available balance",
+      "refresh": "Refresh",
+      "available": "Available",
+      "reserved": "Reserved",
+      "lifetimeSpent": "Lifetime spent",
+      "summaryHint": {
+        "title": "Real-time available balance",
+        "description": "Your current balance read straight from the Supabase wallet ledger, plus the amount reserved by auto-spending and your ledger-based lifetime spend.",
+        "howto": "Press Refresh to re-pull the latest ledger state. The reserved figure tracks your auto-spending limit setting.",
+        "caution": "Reserved and lifetime figures are a summary over your 12 most recent ledger rows, not your full history."
+      },
+      "historyTitle": "Transaction history real-time verification",
+      "historySignedOut": "Sign in to see your recent transactions and their integrity check.",
+      "historyUnavailable": "Ledger service is unreachable. Try again after the gateway is connected.",
+      "historyEmpty": "No transactions recorded yet.",
+      "verifyPass": "Integrity check passed · {count} rows verified",
+      "verifyFail": "{count} mismatch(es) detected — contact support",
+      "kind": { "purchase": "Charge", "module_access": "Module access", "admin_grant": "Admin grant", "refund": "Refund" },
+      "historyHint": {
+        "title": "Transaction history real-time verification",
+        "description": "Loads recent rows from the append-only coin_ledger and re-derives, in the browser, whether each row's balance chains exactly to the one before it.",
+        "howto": "A green shield above the balance deltas means the ledger chain and your current balance agree.",
+        "caution": "This is a local check over the 12 most recent rows. Full audit is done separately by server-side reconciliation."
+      },
+      "simTitle": "Per-module coin-consumption simulator",
+      "simIntro": "Pick the modules and how many times you'll use them to instantly compute the spend and remaining balance.",
+      "simTotal": "Estimated spend",
+      "simRemaining": "Estimated remaining",
+      "simInsufficient": "The selected mix exceeds your current balance.",
+      "simReset": "Reset",
+      "simHint": {
+        "title": "Per-module coin-consumption simulator",
+        "description": "Pre-computes total spend from the real coin unit costs of the 11 cognitive ecosystems and 5 live-service modules.",
+        "howto": "Adjust each module's count with + / − and the totals and remaining balance update live.",
+        "caution": "The result is an estimate. Real debits happen only via spend_coins when you enter each module."
+      },
+      "autoTitle": "Auto-spending limit",
+      "autoEnable": "Enable auto-spending",
+      "autoLimit": "Limit per window (U-COIN)",
+      "autoWindow": "Window",
+      "window": { "day": "Per day", "week": "Per week", "month": "Per month" },
+      "autoNote": "The setting is stored locally in this browser; auto-spending execution applies once the payment gateway is connected.",
+      "autoHint": {
+        "title": "Auto-spending limit",
+        "description": "Sets the maximum coin amount auto-approved without a confirmation step during the chosen window.",
+        "howto": "Enter a limit and window and it saves locally at once. Any spend above the limit always asks for manual confirmation.",
+        "caution": "A high limit can allow unintended back-to-back spends. Disable it on shared devices."
+      }
+    },
+    "chg": {
+      "packagesTitle": "Tiered smart charge packages",
+      "packagesIntro": "Choose Starter, Pro or Sovereign to match how you use the platform. Higher tiers carry a larger bonus.",
+      "tier": { "starter": "Starter", "pro": "Pro", "sovereign": "Sovereign" },
+      "tierDesc": {
+        "starter": "Base charge for light, occasional users",
+        "pro": "Bonus-included charge for regular module users",
+        "sovereign": "Maximum-bonus charge for heavy or team use"
+      },
+      "bestValue": "Best value",
+      "bonusBadge": "+{n} bonus",
+      "summaryEstimate": "Balance after charge",
+      "packagesHint": {
+        "title": "Tiered smart charge packages",
+        "description": "Compares each package's base coins, bonus coins, EUR price and effective per-coin cost.",
+        "howto": "Select a package to see the projected balance after charging. The 'Best value' badge marks the lowest per-coin cost.",
+        "caution": "Prices are shown excluding VAT; the final amount depends on the exchange and tax rates at checkout."
+      },
+      "gatewayTitle": "Instant payment gateway",
+      "gatewayStripe": "Stripe card payment",
+      "gatewayWeb3": "Web3 on-chain payment",
+      "gatewayNote": "Payment integration for this portal is in progress. For now you can charge from the main Secure Portal.",
+      "status": { "connected": "Connected", "pending": "Pending", "offline": "Offline" },
+      "gatewayHint": {
+        "title": "Instant payment gateway",
+        "description": "Shows the live connection status of the Stripe card channel and the Web3 on-chain channel.",
+        "howto": "When a status light turns green, that channel is ready for instant payment.",
+        "caution": "While a channel is pending, no payment is processed and nothing is charged."
+      },
+      "autoRefillTitle": "Auto-refill threshold",
+      "autoRefillEnable": "Enable auto-refill",
+      "autoRefillThreshold": "Threshold (U-COIN)",
+      "autoRefillPackageLabel": "Refill package",
+      "autoRefillNote": "The setting is stored locally in this browser; auto-refill execution applies once the payment gateway is connected.",
+      "autoRefillHint": {
+        "title": "Auto-refill threshold",
+        "description": "Schedules an automatic charge with the chosen package whenever your balance drops to or below the threshold.",
+        "howto": "Pick a threshold and refill package and it saves at once. It runs automatically once the gateway is connected and the condition is met.",
+        "caution": "Setting the threshold too high can trigger frequent auto-charges. Check your payment method's limit too."
+      },
+      "invoiceTitle": "Secure invoice issuance",
+      "invoiceIntro": "Store the details you need for business billing and a tax-invoice-format document is issued when a charge completes.",
+      "invoiceCompany": "Billing entity",
+      "invoiceVat": "VAT / company registration no.",
+      "invoiceEmail": "Invoice recipient email",
+      "invoiceGenerate": "Issue secure invoice",
+      "invoicePending": "Issuance activates once the payment gateway is connected.",
+      "invoiceHint": {
+        "title": "Secure invoice issuance",
+        "description": "A signed PDF invoice issued in the name of THE UNITAS GLOBAL OÜ, including the VAT number and payment reference.",
+        "howto": "Save your entity, VAT and recipient email once and invoices are sent automatically from your next charge onward.",
+        "caution": "The details you enter are used only for invoicing. An invalid VAT number can delay tax processing."
+      },
+      "proceedPending": "Waiting for payment gateway connection"
+    }
   },
   "Cognitive": {
     "title": "Cognitive Ecosystem",

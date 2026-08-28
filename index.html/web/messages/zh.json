@@ -62,11 +62,120 @@
     "chargeCoins": "充值代币",
     "signInRequired": "登录后即可查看实时余额",
     "chargeTitle": "充值 U-COIN",
-    "chargeBody": "该门户的代币购买结账功能即将推出。在此之前，请前往主安全门户充值余额。",
+    "chargeBody": "选择分级充值套餐，并设置自动补充与安全发票选项。实际支付将在支付网关接入后启用。",
     "close": "关闭",
     "currencyNote": "1 U-COIN = 1 欧元（EUR）（结账时自动转换为当地货币）。",
     "balanceTitle": "U-COIN 余额",
-    "balanceBody": "这是您的实时 U-COIN 余额。可用于认知模块和实时服务，或通过充值代币补充余额。"
+    "balanceBody": "在一个面板中管理实时 U-COIN 余额、账本完整性、按模块消耗模拟以及自动支付限额。",
+    "hintPrefix": "帮助： ",
+    "saved": "已保存到本地。",
+    "sec": { "description": "说明", "howto": "使用方法", "caution": "注意事项" },
+    "tag": { "live": "实时", "pending": "待接入", "local": "本地设置", "sim": "模拟" },
+    "bal": {
+      "summaryTitle": "实时可用余额概览",
+      "refresh": "刷新",
+      "available": "可用",
+      "reserved": "预留",
+      "lifetimeSpent": "累计消费",
+      "summaryHint": {
+        "title": "实时可用余额概览",
+        "description": "直接从 Supabase 钱包账本读取的当前余额，以及自动支付预留金额和基于账本的累计消费。",
+        "howto": "点击刷新可重新拉取最新账本状态。预留金额与自动支付限额设置联动。",
+        "caution": "预留与累计数值基于最近 12 条账本记录的汇总指标，并非完整历史。"
+      },
+      "historyTitle": "交易历史实时校验",
+      "historySignedOut": "登录后可查看最近交易及其完整性校验结果。",
+      "historyUnavailable": "无法连接账本服务。请在网关接入后重试。",
+      "historyEmpty": "尚无交易记录。",
+      "verifyPass": "完整性校验通过 · 已核对 {count} 条",
+      "verifyFail": "检测到 {count} 处不一致 — 请联系支持",
+      "kind": { "purchase": "充值", "module_access": "模块使用", "admin_grant": "管理员发放", "refund": "退款" },
+      "historyHint": {
+        "title": "交易历史实时校验",
+        "description": "从仅追加的账本（coin_ledger）加载最近交易，并在浏览器中重新推算每一行的余额是否与前一行精确衔接。",
+        "howto": "余额变动上方的盾牌图标为绿色，表示账本链与当前余额一致。",
+        "caution": "这是对最近 12 条记录的本地校验。完整审计由服务器端对账另行进行。"
+      },
+      "simTitle": "按模块代币消耗实时模拟器",
+      "simIntro": "选择要使用的模块及次数，即可即时计算预计消耗与剩余余额。",
+      "simTotal": "预计消耗",
+      "simRemaining": "预计剩余余额",
+      "simInsufficient": "所选组合超过当前余额。",
+      "simReset": "重置",
+      "simHint": {
+        "title": "按模块代币消耗实时模拟器",
+        "description": "基于 11 个认知生态模块和 5 个实时服务模块的实际代币单价，预先计算总消耗。",
+        "howto": "用 + / − 按钮调整每个模块的使用次数，底部合计和剩余余额会实时更新。",
+        "caution": "模拟结果为预估值，实际扣费仅在进入各模块时通过 spend_coins 进行。"
+      },
+      "autoTitle": "自动支付限额设置",
+      "autoEnable": "启用自动支付",
+      "autoLimit": "周期限额 (U-COIN)",
+      "autoWindow": "周期",
+      "window": { "day": "按天", "week": "按周", "month": "按月" },
+      "autoNote": "设置保存在此浏览器本地，自动支付执行将在支付网关接入后生效。",
+      "autoHint": {
+        "title": "自动支付限额设置",
+        "description": "设置在所选周期内无需确认即可自动批准的最大代币金额。",
+        "howto": "输入限额和周期后立即保存到本地。超过限额的支付始终要求手动确认。",
+        "caution": "限额设置过高可能导致意外的连续支付。在公用设备上请禁用。"
+      }
+    },
+    "chg": {
+      "packagesTitle": "分级智能充值套餐",
+      "packagesIntro": "根据使用习惯选择 Starter、Pro 或 Sovereign。等级越高，赠送代币越多。",
+      "tier": { "starter": "Starter", "pro": "Pro", "sovereign": "Sovereign" },
+      "tierDesc": {
+        "starter": "面向轻度、偶尔使用者的基础充值",
+        "pro": "面向常规模块用户的含赠送充值",
+        "sovereign": "面向大量使用或团队的最大赠送充值"
+      },
+      "bestValue": "最优价",
+      "bonusBadge": "+{n} 赠送",
+      "summaryEstimate": "充值后预计余额",
+      "packagesHint": {
+        "title": "分级智能充值套餐",
+        "description": "对比每个套餐的基础代币、赠送代币、欧元价格以及每枚代币的实际单价。",
+        "howto": "选择套餐后，底部会显示充值后的预计余额。“最优价”徽章标记每枚代币单价最低的套餐。",
+        "caution": "价格为不含增值税报价，最终金额取决于结账时的汇率与税率。"
+      },
+      "gatewayTitle": "即时支付网关",
+      "gatewayStripe": "Stripe 银行卡支付",
+      "gatewayWeb3": "Web3 链上支付",
+      "gatewayNote": "该门户的支付接入正在进行中。目前可在主安全门户进行充值。",
+      "status": { "connected": "已连接", "pending": "待接入", "offline": "未接入" },
+      "gatewayHint": {
+        "title": "即时支付网关",
+        "description": "实时显示 Stripe 银行卡通道和 Web3 链上通道的当前连接状态。",
+        "howto": "状态指示灯变为绿色时，该通道即可用于即时支付。",
+        "caution": "通道处于待接入状态时不会处理任何支付，也不会产生任何扣款。"
+      },
+      "autoRefillTitle": "自动补充阈值设置",
+      "autoRefillEnable": "启用自动补充",
+      "autoRefillThreshold": "阈值 (U-COIN)",
+      "autoRefillPackageLabel": "补充套餐",
+      "autoRefillNote": "设置保存在此浏览器本地，自动充值执行将在支付网关接入后生效。",
+      "autoRefillHint": {
+        "title": "自动补充阈值设置",
+        "description": "当余额降至阈值或以下时，按所选套餐预约一次自动充值。",
+        "howto": "选择阈值和补充套餐后立即保存。网关接入且满足条件后自动执行。",
+        "caution": "阈值设置过高可能导致频繁自动充值。请同时确认支付方式的额度。"
+      },
+      "invoiceTitle": "安全发票开具",
+      "invoiceIntro": "预先填写企业开票所需信息，充值完成时即会开具税务发票格式的发票。",
+      "invoiceCompany": "开票主体",
+      "invoiceVat": "VAT / 企业注册号",
+      "invoiceEmail": "发票接收邮箱",
+      "invoiceGenerate": "开具安全发票",
+      "invoicePending": "开具功能将在支付网关接入后启用。",
+      "invoiceHint": {
+        "title": "安全发票开具",
+        "description": "以 THE UNITAS GLOBAL OÜ 名义开具的签名 PDF 发票，包含 VAT 号码和支付参考。",
+        "howto": "预先保存主体、VAT 和接收邮箱，从下次充值起将自动发送发票。",
+        "caution": "所填信息仅用于开票。VAT 号码无效可能导致税务处理延迟。"
+      },
+      "proceedPending": "等待支付网关连接"
+    }
   },
   "Cognitive": {
     "title": "认知生态系统",

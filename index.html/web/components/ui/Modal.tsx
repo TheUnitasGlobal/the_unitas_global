@@ -3,16 +3,19 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, type ReactNode } from 'react';
 import { X } from 'lucide-react';
+import { ModalPortal } from './ModalPortal';
 
 interface ModalProps {
   open: boolean;
   onClose: () => void;
   children: ReactNode;
   labelledBy?: string;
+  /** Widen the panel for feature-dense dialogs (wallet/charge). Default: 'md'. */
+  size?: 'md' | 'lg';
 }
 
 /** Shared overlay/dialog shell used by the wallet, quest, and inquiry modals. */
-export function Modal({ open, onClose, children, labelledBy }: ModalProps) {
+export function Modal({ open, onClose, children, labelledBy, size = 'md' }: ModalProps) {
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -23,39 +26,50 @@ export function Modal({ open, onClose, children, labelledBy }: ModalProps) {
   }, [open, onClose]);
 
   return (
-    <AnimatePresence>
-      {open && (
-        <motion.div
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-void/80 p-6 backdrop-blur-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-          role="presentation"
-        >
+    <ModalPortal>
+      <AnimatePresence>
+        {open && (
           <motion.div
-            className="glow-box relative w-full max-w-md bg-quantum p-8"
-            initial={{ opacity: 0, scale: 0.95, y: 12 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 12 }}
-            transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={labelledBy}
+            className="fixed inset-0 z-[200] h-[100dvh] overflow-y-auto overscroll-contain bg-void/80 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            role="presentation"
           >
-            <button
-              type="button"
-              onClick={onClose}
-              aria-label="Close"
-              className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center border border-accent/40 text-accent transition-colors hover:border-accent"
+            {/* min-h-full flex centering + safe-area padding: the panel is never
+                clipped on short / landscape / notched screens, and long panels
+                scroll the backdrop rather than overflowing the viewport. */}
+            <div
+              className="flex min-h-full items-center justify-center p-[max(1.5rem,env(safe-area-inset-top))]"
             >
-              <X size={14} />
-            </button>
-            {children}
+              <motion.div
+                className={`glow-box relative w-full ${
+                  size === 'lg' ? 'max-w-lg' : 'max-w-md'
+                } bg-quantum p-6 sm:p-8`}
+                initial={{ opacity: 0, scale: 0.95, y: 12 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 12 }}
+                transition={{ type: 'spring', stiffness: 320, damping: 28 }}
+                onClick={(e) => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={labelledBy}
+              >
+                <button
+                  type="button"
+                  onClick={onClose}
+                  aria-label="Close"
+                  className="absolute right-4 top-4 z-10 flex h-7 w-7 items-center justify-center border border-accent/40 bg-quantum/80 text-accent transition-colors hover:border-accent"
+                >
+                  <X size={14} />
+                </button>
+                {children}
+              </motion.div>
+            </div>
           </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+    </ModalPortal>
   );
 }

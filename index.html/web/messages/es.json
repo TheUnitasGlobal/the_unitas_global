@@ -62,11 +62,120 @@
     "chargeCoins": "Recargar Monedas",
     "signInRequired": "Inicia sesión para ver tu saldo en tiempo real",
     "chargeTitle": "Recargar U-COIN",
-    "chargeBody": "La compra de monedas en este portal estará disponible próximamente. Mientras tanto, recarga tu saldo desde el Portal Seguro principal.",
+    "chargeBody": "Elige un paquete de recarga por niveles y configura la recarga automática y la factura segura. El pago real se activa cuando la pasarela de pago esté conectada.",
     "close": "Cerrar",
     "currencyNote": "1 U-Coin = 1 EUR (la moneda local se convierte automáticamente al pagar).",
     "balanceTitle": "Saldo de U-COIN",
-    "balanceBody": "Este es tu saldo de U-COIN en tiempo real. Úsalo en los módulos cognitivos y servicios en vivo, o recárgalo con Recargar Monedas."
+    "balanceBody": "Gestiona en un solo lugar tu saldo de U-COIN en tiempo real, la integridad del libro contable, la simulación de gasto por módulo y el límite de gasto automático.",
+    "hintPrefix": "Ayuda: ",
+    "saved": "Guardado localmente.",
+    "sec": { "description": "Qué es", "howto": "Cómo usarlo", "caution": "Precauciones" },
+    "tag": { "live": "En vivo", "pending": "Pendiente", "local": "Ajuste local", "sim": "Simulación" },
+    "bal": {
+      "summaryTitle": "Saldo disponible en tiempo real",
+      "refresh": "Actualizar",
+      "available": "Disponible",
+      "reserved": "Reservado",
+      "lifetimeSpent": "Gasto acumulado",
+      "summaryHint": {
+        "title": "Saldo disponible en tiempo real",
+        "description": "Tu saldo actual leído directamente del libro contable de la billetera en Supabase, más el importe reservado por el gasto automático y tu gasto acumulado según el libro.",
+        "howto": "Pulsa Actualizar para volver a cargar el estado más reciente del libro. La cifra reservada sigue tu ajuste de límite de gasto automático.",
+        "caution": "Las cifras de reservado y acumulado son un resumen de tus 12 registros más recientes, no tu historial completo."
+      },
+      "historyTitle": "Verificación en tiempo real del historial de transacciones",
+      "historySignedOut": "Inicia sesión para ver tus transacciones recientes y su comprobación de integridad.",
+      "historyUnavailable": "No se puede acceder al servicio del libro contable. Inténtalo de nuevo cuando la pasarela esté conectada.",
+      "historyEmpty": "Aún no hay transacciones registradas.",
+      "verifyPass": "Comprobación de integridad superada · {count} registros verificados",
+      "verifyFail": "{count} discrepancia(s) detectada(s): contacta con soporte",
+      "kind": { "purchase": "Recarga", "module_access": "Acceso a módulo", "admin_grant": "Concesión de admin", "refund": "Reembolso" },
+      "historyHint": {
+        "title": "Verificación en tiempo real del historial de transacciones",
+        "description": "Carga los registros recientes del libro contable de solo anexado (coin_ledger) y vuelve a calcular en el navegador si el saldo de cada fila encadena exactamente con la anterior.",
+        "howto": "Un escudo verde sobre las variaciones de saldo significa que la cadena del libro y tu saldo actual coinciden.",
+        "caution": "Es una comprobación local sobre los 12 registros más recientes. La auditoría completa la realiza por separado la conciliación del lado del servidor."
+      },
+      "simTitle": "Simulador en tiempo real de consumo de monedas por módulo",
+      "simIntro": "Elige los módulos y cuántas veces los usarás para calcular al instante el gasto y el saldo restante.",
+      "simTotal": "Gasto estimado",
+      "simRemaining": "Restante estimado",
+      "simInsufficient": "La combinación seleccionada supera tu saldo actual.",
+      "simReset": "Restablecer",
+      "simHint": {
+        "title": "Simulador en tiempo real de consumo de monedas por módulo",
+        "description": "Calcula por adelantado el gasto total a partir de los costes reales por moneda de los 11 ecosistemas cognitivos y los 5 módulos de servicios en vivo.",
+        "howto": "Ajusta el recuento de cada módulo con + / − y los totales y el saldo restante se actualizan en vivo.",
+        "caution": "El resultado es una estimación. Los cargos reales solo se producen mediante spend_coins al entrar en cada módulo."
+      },
+      "autoTitle": "Límite de gasto automático",
+      "autoEnable": "Activar gasto automático",
+      "autoLimit": "Límite por periodo (U-COIN)",
+      "autoWindow": "Periodo",
+      "window": { "day": "Por día", "week": "Por semana", "month": "Por mes" },
+      "autoNote": "El ajuste se guarda localmente en este navegador; la ejecución del gasto automático se aplica cuando la pasarela de pago esté conectada.",
+      "autoHint": {
+        "title": "Límite de gasto automático",
+        "description": "Fija el importe máximo de monedas aprobado automáticamente sin paso de confirmación durante el periodo elegido.",
+        "howto": "Introduce un límite y un periodo y se guarda localmente al instante. Cualquier gasto por encima del límite siempre pide confirmación manual.",
+        "caution": "Un límite alto puede permitir gastos seguidos no deseados. Desactívalo en dispositivos compartidos."
+      }
+    },
+    "chg": {
+      "packagesTitle": "Paquetes inteligentes de recarga por niveles",
+      "packagesIntro": "Elige Starter, Pro o Sovereign según cómo uses la plataforma. Los niveles superiores incluyen un bono mayor.",
+      "tier": { "starter": "Starter", "pro": "Pro", "sovereign": "Sovereign" },
+      "tierDesc": {
+        "starter": "Recarga base para usuarios ligeros y ocasionales",
+        "pro": "Recarga con bono para usuarios habituales de módulos",
+        "sovereign": "Recarga con bono máximo para uso intensivo o de equipo"
+      },
+      "bestValue": "Mejor valor",
+      "bonusBadge": "+{n} de bono",
+      "summaryEstimate": "Saldo tras la recarga",
+      "packagesHint": {
+        "title": "Paquetes inteligentes de recarga por niveles",
+        "description": "Compara las monedas base, las monedas de bono, el precio en EUR y el coste efectivo por moneda de cada paquete.",
+        "howto": "Selecciona un paquete para ver el saldo previsto tras recargar. La etiqueta «Mejor valor» marca el menor coste por moneda.",
+        "caution": "Los precios se muestran sin IVA; el importe final depende del tipo de cambio y los impuestos al pagar."
+      },
+      "gatewayTitle": "Pasarela de pago instantáneo",
+      "gatewayStripe": "Pago con tarjeta Stripe",
+      "gatewayWeb3": "Pago on-chain Web3",
+      "gatewayNote": "La integración de pago de este portal está en curso. Por ahora puedes recargar desde el Portal Seguro principal.",
+      "status": { "connected": "Conectado", "pending": "Pendiente", "offline": "Sin conexión" },
+      "gatewayHint": {
+        "title": "Pasarela de pago instantáneo",
+        "description": "Muestra el estado de conexión en vivo del canal de tarjeta Stripe y del canal on-chain Web3.",
+        "howto": "Cuando una luz de estado se pone verde, ese canal está listo para el pago instantáneo.",
+        "caution": "Mientras un canal está pendiente, no se procesa ningún pago y no se cobra nada."
+      },
+      "autoRefillTitle": "Umbral de recarga automática",
+      "autoRefillEnable": "Activar recarga automática",
+      "autoRefillThreshold": "Umbral (U-COIN)",
+      "autoRefillPackageLabel": "Paquete de recarga",
+      "autoRefillNote": "El ajuste se guarda localmente en este navegador; la ejecución de la recarga automática se aplica cuando la pasarela de pago esté conectada.",
+      "autoRefillHint": {
+        "title": "Umbral de recarga automática",
+        "description": "Programa una recarga automática con el paquete elegido cuando tu saldo baje hasta el umbral o por debajo.",
+        "howto": "Elige un umbral y un paquete de recarga y se guarda al instante. Se ejecuta automáticamente cuando la pasarela esté conectada y se cumpla la condición.",
+        "caution": "Un umbral demasiado alto puede provocar recargas automáticas frecuentes. Comprueba también el límite de tu método de pago."
+      },
+      "invoiceTitle": "Emisión de factura segura",
+      "invoiceIntro": "Guarda los datos necesarios para la facturación empresarial y se emite un documento con formato de factura fiscal al completarse una recarga.",
+      "invoiceCompany": "Entidad de facturación",
+      "invoiceVat": "IVA / n.º de registro de empresa",
+      "invoiceEmail": "Correo del destinatario de la factura",
+      "invoiceGenerate": "Emitir factura segura",
+      "invoicePending": "La emisión se activa cuando la pasarela de pago esté conectada.",
+      "invoiceHint": {
+        "title": "Emisión de factura segura",
+        "description": "Una factura PDF firmada emitida a nombre de THE UNITAS GLOBAL OÜ, con el número de IVA y la referencia de pago.",
+        "howto": "Guarda una vez tu entidad, IVA y correo de destinatario y las facturas se envían automáticamente desde tu siguiente recarga.",
+        "caution": "Los datos que introduces se usan solo para la facturación. Un número de IVA no válido puede retrasar el tratamiento fiscal."
+      },
+      "proceedPending": "Esperando la conexión de la pasarela de pago"
+    }
   },
   "Cognitive": {
     "title": "Ecosistema Cognitivo",

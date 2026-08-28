@@ -62,11 +62,120 @@
     "chargeCoins": "Laadi Münte",
     "signInRequired": "Logi sisse, et näha oma reaalajas saldot",
     "chargeTitle": "Laadi U-COIN",
-    "chargeBody": "Müntide ostmine selles portaalis on peagi saadaval. Seniks laadi oma saldot peamises Turvalises Portaalis.",
+    "chargeBody": "Vali astmeline laadimispakett ning seadista automaatse taastäite ja turvalise arve valikud. Tegelik makse aktiveerub, kui makselüüs on ühendatud.",
     "close": "Sulge",
     "currencyNote": "1 U-Coin = 1 EUR (kohalik valuuta teisendatakse automaatselt kassas).",
     "balanceTitle": "U-COIN saldo",
-    "balanceBody": "See on sinu reaalajas U-COIN saldo. Kasuta seda kognitiivsetes moodulites ja otseteenustes või täienda seda valikuga Laadi Münte."
+    "balanceBody": "Halda ühes kohas oma reaalajas U-COIN saldot, pearaamatu terviklust, moodulipõhist kulusimulatsiooni ja automaatse kulutamise limiiti.",
+    "hintPrefix": "Abi: ",
+    "saved": "Salvestatud lokaalselt.",
+    "sec": { "description": "Mis see on", "howto": "Kuidas kasutada", "caution": "Millele tähelepanu pöörata" },
+    "tag": { "live": "Reaalajas", "pending": "Ootel", "local": "Lokaalne säte", "sim": "Simulatsioon" },
+    "bal": {
+      "summaryTitle": "Reaalajas saadaolev saldo",
+      "refresh": "Värskenda",
+      "available": "Saadaval",
+      "reserved": "Reserveeritud",
+      "lifetimeSpent": "Kokku kulutatud",
+      "summaryHint": {
+        "title": "Reaalajas saadaolev saldo",
+        "description": "Sinu praegune saldo loetuna otse Supabase'i rahakoti pearaamatust, lisaks automaatse kulutamisega reserveeritud summa ja pearaamatu põhine kogukulu.",
+        "howto": "Vajuta Värskenda, et laadida uuesti pearaamatu viimane olek. Reserveeritud number järgib sinu automaatse kulutamise limiidi sätet.",
+        "caution": "Reserveeritud ja kogukulu numbrid on kokkuvõte sinu 12 viimasest pearaamatu kirjest, mitte kogu ajalugu."
+      },
+      "historyTitle": "Tehingute ajaloo reaalajas kontroll",
+      "historySignedOut": "Logi sisse, et näha oma hiljutisi tehinguid ja nende tervikluskontrolli.",
+      "historyUnavailable": "Pearaamatu teenus pole kättesaadav. Proovi uuesti, kui lüüs on ühendatud.",
+      "historyEmpty": "Tehinguid pole veel salvestatud.",
+      "verifyPass": "Tervikluskontroll läbitud · {count} kirjet kontrollitud",
+      "verifyFail": "Tuvastati {count} lahknevust – võta ühendust toega",
+      "kind": { "purchase": "Laadimine", "module_access": "Mooduli kasutus", "admin_grant": "Administraatori eraldis", "refund": "Tagasimakse" },
+      "historyHint": {
+        "title": "Tehingute ajaloo reaalajas kontroll",
+        "description": "Laadib hiljutised kirjed ainult-lisamise pearaamatust (coin_ledger) ja arvutab brauseris uuesti, kas iga rea saldo ühildub täpselt eelmisega.",
+        "howto": "Roheline kilp saldomuutuste kohal tähendab, et pearaamatu ahel ja sinu praegune saldo on kooskõlas.",
+        "caution": "See on lokaalne kontroll 12 viimase kirje ulatuses. Täisauditi teeb eraldi serveripoolne võrdlus."
+      },
+      "simTitle": "Moodulipõhine müntide kulu reaalajas simulaator",
+      "simIntro": "Vali moodulid ja kordade arv, et kohe arvutada kulu ja järelejääv saldo.",
+      "simTotal": "Hinnanguline kulu",
+      "simRemaining": "Hinnanguline jääk",
+      "simInsufficient": "Valitud kombinatsioon ületab sinu praeguse saldo.",
+      "simReset": "Lähtesta",
+      "simHint": {
+        "title": "Moodulipõhine müntide kulu reaalajas simulaator",
+        "description": "Arvutab kogukulu ette 11 kognitiivse ökosüsteemi ja 5 otseteenuse mooduli tegelike müntide ühikuhindade põhjal.",
+        "howto": "Muuda iga mooduli arvu nuppudega + / − ning kokkuvõte ja järelejääv saldo uuenevad reaalajas.",
+        "caution": "Tulemus on hinnang. Tegelik mahaarvamine toimub ainult spend_coins kaudu iga moodulisse sisenemisel."
+      },
+      "autoTitle": "Automaatse kulutamise limiit",
+      "autoEnable": "Luba automaatne kulutamine",
+      "autoLimit": "Limiit perioodi kohta (U-COIN)",
+      "autoWindow": "Periood",
+      "window": { "day": "Päevas", "week": "Nädalas", "month": "Kuus" },
+      "autoNote": "Säte salvestatakse lokaalselt selles brauseris; automaatse kulutamise täitmine rakendub, kui makselüüs on ühendatud.",
+      "autoHint": {
+        "title": "Automaatse kulutamise limiit",
+        "description": "Määrab maksimaalse müntide summa, mis valitud perioodil ilma kinnitussammuta automaatselt heaks kiidetakse.",
+        "howto": "Sisesta limiit ja periood ning see salvestatakse kohe lokaalselt. Limiiti ületav kulu nõuab alati käsitsi kinnitust.",
+        "caution": "Kõrge limiit võib lubada soovimatuid järjestikuseid kulutusi. Jagatud seadmetes lülita see välja."
+      }
+    },
+    "chg": {
+      "packagesTitle": "Astmelised nutikad laadimispaketid",
+      "packagesIntro": "Vali Starter, Pro või Sovereign vastavalt sellele, kuidas platvormi kasutad. Kõrgemad astmed sisaldavad suuremat boonust.",
+      "tier": { "starter": "Starter", "pro": "Pro", "sovereign": "Sovereign" },
+      "tierDesc": {
+        "starter": "Põhilaadimine kergetele ja juhukasutajatele",
+        "pro": "Boonusega laadimine regulaarsetele moodulikasutajatele",
+        "sovereign": "Maksimaalse boonusega laadimine intensiivseks või meeskonna kasutuseks"
+      },
+      "bestValue": "Parim väärtus",
+      "bonusBadge": "+{n} boonust",
+      "summaryEstimate": "Saldo pärast laadimist",
+      "packagesHint": {
+        "title": "Astmelised nutikad laadimispaketid",
+        "description": "Võrdleb iga paketi põhimünte, boonusmünte, EUR-hinda ja tegelikku ühe mündi hinda.",
+        "howto": "Vali pakett, et näha prognoositavat saldot pärast laadimist. Silt „Parim väärtus“ tähistab madalaimat ühe mündi hinda.",
+        "caution": "Hinnad on näidatud käibemaksuta; lõppsumma sõltub kassas kehtivast vahetuskursist ja maksumäärast."
+      },
+      "gatewayTitle": "Kohese makse lüüs",
+      "gatewayStripe": "Stripe kaardimakse",
+      "gatewayWeb3": "Web3 ahelasisene makse",
+      "gatewayNote": "Selle portaali makselõimimine on pooleli. Praegu saad laadida peamises Turvalises Portaalis.",
+      "status": { "connected": "Ühendatud", "pending": "Ootel", "offline": "Ühenduseta" },
+      "gatewayHint": {
+        "title": "Kohese makse lüüs",
+        "description": "Näitab reaalajas Stripe'i kaardikanali ja Web3 ahelasisese kanali praegust ühenduse olekut.",
+        "howto": "Kui olekutuli muutub roheliseks, on see kanal kohese makse jaoks valmis.",
+        "caution": "Kuni kanal on ootel, ei töödelda ühtki makset ega võeta midagi tasu."
+      },
+      "autoRefillTitle": "Automaatse taastäite lävi",
+      "autoRefillEnable": "Luba automaatne taastäide",
+      "autoRefillThreshold": "Lävi (U-COIN)",
+      "autoRefillPackageLabel": "Taastäite pakett",
+      "autoRefillNote": "Säte salvestatakse lokaalselt selles brauseris; automaatse taastäite täitmine rakendub, kui makselüüs on ühendatud.",
+      "autoRefillHint": {
+        "title": "Automaatse taastäite lävi",
+        "description": "Planeerib valitud paketiga automaatse laadimise alati, kui sinu saldo langeb läveni või alla selle.",
+        "howto": "Vali lävi ja taastäite pakett ning see salvestatakse kohe. See käivitub automaatselt, kui lüüs on ühendatud ja tingimus täidetud.",
+        "caution": "Liiga kõrge lävi võib põhjustada sagedasi automaatseid laadimisi. Kontrolli ka oma maksevahendi limiiti."
+      },
+      "invoiceTitle": "Turvalise arve väljastamine",
+      "invoiceIntro": "Salvesta äriarvelduseks vajalikud andmed ja laadimise lõppedes väljastatakse maksuarve vormingus dokument.",
+      "invoiceCompany": "Arveldusüksus",
+      "invoiceVat": "KMKR / äriregistri number",
+      "invoiceEmail": "Arve saaja e-post",
+      "invoiceGenerate": "Väljasta turvaline arve",
+      "invoicePending": "Väljastamine aktiveerub, kui makselüüs on ühendatud.",
+      "invoiceHint": {
+        "title": "Turvalise arve väljastamine",
+        "description": "Allkirjastatud PDF-arve, mis väljastatakse THE UNITAS GLOBAL OÜ nimel ja sisaldab KMKR-numbrit ning makseviidet.",
+        "howto": "Salvesta üks kord oma üksus, KMKR ja saaja e-post ning arved saadetakse automaatselt alates järgmisest laadimisest.",
+        "caution": "Sisestatud andmeid kasutatakse ainult arveldamiseks. Kehtetu KMKR-number võib maksumenetlust edasi lükata."
+      },
+      "proceedPending": "Ootab makselüüsi ühendust"
+    }
   },
   "Cognitive": {
     "title": "Kognitiivne Ökosüsteem",

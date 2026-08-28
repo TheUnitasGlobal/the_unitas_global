@@ -6,6 +6,7 @@ import { Link } from '@/i18n/navigation';
 import { SoundToggle } from '@/components/audio/SoundToggle';
 import { usePwaInstall } from '@/lib/hooks/usePwaInstall';
 import { Modal } from '@/components/ui/Modal';
+import { useGatedSurface } from '@/components/ui/useGatedSurface';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { AuthButton } from './AuthButton';
 import { SettingsButton } from './SettingsButton';
@@ -14,7 +15,9 @@ import { CoinBalanceBadge } from '@/components/wallet/CoinBalanceBadge';
 export function NavBar() {
   const t = useTranslations('Nav');
   const { canInstall, isInstalled, isIos, isDesktop, promptInstall } = usePwaInstall();
-  const [showGuide, setShowGuide] = useState(false);
+  const { open: showGuide, setOpen: setShowGuide } = useGatedSurface('nav:app-download', {
+    lockScroll: true,
+  });
   const scrollRef = useRef<HTMLDivElement>(null);
   const [edgeHint, setEdgeHint] = useState({ left: false, right: false });
 
@@ -41,14 +44,14 @@ export function NavBar() {
 
   const handleAppDownloadClick = () => {
     if (isInstalled) {
-      setShowGuide(true);
+      setShowGuide(true, { force: true });
       return;
     }
     if (canInstall) {
       void promptInstall();
       return;
     }
-    setShowGuide(true);
+    setShowGuide(true, { force: true });
   };
 
   const guideMessage = isInstalled
