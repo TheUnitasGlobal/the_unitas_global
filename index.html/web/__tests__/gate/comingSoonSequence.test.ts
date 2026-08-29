@@ -23,10 +23,10 @@ describe('cinema timeline helpers', () => {
     expect(cinemaSegmentAt(3_000).id).toBe(2);
     expect(cinemaSegmentAt(9_999).id).toBe(2);
     expect(cinemaSegmentAt(10_000).id).toBe(3);
-    expect(cinemaSegmentAt(17_999).id).toBe(3);
-    expect(cinemaSegmentAt(18_000).id).toBe(4);
-    expect(cinemaSegmentAt(23_999).id).toBe(4);
-    expect(cinemaSegmentAt(24_000).id).toBe(5);
+    expect(cinemaSegmentAt(14_999).id).toBe(3);
+    expect(cinemaSegmentAt(15_000).id).toBe(4);
+    expect(cinemaSegmentAt(21_999).id).toBe(4);
+    expect(cinemaSegmentAt(22_000).id).toBe(5);
     expect(cinemaSegmentAt(29_999).id).toBe(5);
   });
 

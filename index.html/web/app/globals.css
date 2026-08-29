@@ -288,6 +288,43 @@ body {
 .cs-awaken {
   animation: cs-awaken-glow 5s ease-in-out infinite;
 }
+
+/* Cinema backdrop -- pure-CSS compositor layers that start animating the
+   instant the cinema phase mounts, so there is *always* motion on screen
+   even before the first <canvas> rAF frame lands (kills the black-screen /
+   sound-only failure mode). The canvas particle field layers on top. */
+@keyframes cs-core-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.86); opacity: 0.5; }
+  50%      { transform: translate(-50%, -50%) scale(1.14); opacity: 0.95; }
+}
+@keyframes cs-horizon-spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes cs-grain-drift {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(-2%, -3%); }
+}
+@keyframes cs-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.cs-core {
+  animation: cs-core-breathe 3.6s ease-in-out infinite;
+}
+.cs-horizon {
+  animation: cs-horizon-spin 26s linear infinite;
+}
+.cs-grain {
+  animation: cs-grain-drift 6s steps(4, end) infinite alternate;
+}
+.cs-stage-in {
+  animation: cs-fade-in 0.6s ease-out both;
+}
 @media (prefers-reduced-motion: reduce) {
-  .cs-awaken { animation: none; }
+  .cs-awaken,
+  .cs-core,
+  .cs-horizon,
+  .cs-grain,
+  .cs-stage-in { animation: none; }
+  .cs-stage-in { opacity: 1; }
 }

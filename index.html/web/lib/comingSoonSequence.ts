@@ -5,11 +5,11 @@
 // (the component draws a single frame instead of running the rAF loop).
 //
 // Timeline (per the owner's spec):
-//   0-3s   black-hole logo condensation
-//   3-10s  11 cognitive echo cores -- rotating hologram constellation
-//   10-18s U-AI & USPTO Patent Pending (#64/023,911) silhouette
-//   18-24s 5 systems + 3 sovereign axes
-//   24-30s closing collapse
+//   0-3s   "The Singularity is Near"        -- black-hole condensation
+//   3-10s  "11 Cognitive Cores"             -- rotating hologram constellation
+//   10-15s "U-AI Decision & Blueprint Engine" (USPTO Patent Pending #64/023,911)
+//   15-22s "5 Systems, 3 Pillars"           -- pentagon + sovereign axes
+//   22-30s "The Sovereign Intelligence is Awakening" -- closing bloom + lock
 //
 // The pure timing helpers (cinemaSegmentAt / *Progress) are unit-tested in
 // __tests__/gate/comingSoonSequence.test.ts. drawFrame() itself is visual-only.
@@ -27,9 +27,9 @@ export interface CinemaSegment {
 export const CINEMA_SEGMENTS: readonly CinemaSegment[] = [
   { id: 1, startMs: 0, endMs: 3_000, captionKey: 'cinemaS1' },
   { id: 2, startMs: 3_000, endMs: 10_000, captionKey: 'cinemaS2' },
-  { id: 3, startMs: 10_000, endMs: 18_000, captionKey: 'cinemaS3' },
-  { id: 4, startMs: 18_000, endMs: 24_000, captionKey: 'cinemaS4' },
-  { id: 5, startMs: 24_000, endMs: 30_000, captionKey: 'cinemaS5' },
+  { id: 3, startMs: 10_000, endMs: 15_000, captionKey: 'cinemaS3' },
+  { id: 4, startMs: 15_000, endMs: 22_000, captionKey: 'cinemaS4' },
+  { id: 5, startMs: 22_000, endMs: 30_000, captionKey: 'cinemaS5' },
 ] as const;
 
 function wrap(ms: number): number {
