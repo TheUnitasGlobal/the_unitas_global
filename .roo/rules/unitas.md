@@ -1,5 +1,6 @@
 # THE UNITAS GLOBAL Roo Code rules
 
+- **`.roo/rules/unitas-constitution.md`의 최상위 운영 헌법이 이 파일보다 상위다.** 충돌 시 헌법이 우선한다.
 - Read `.github/copilot-instructions.md` before implementation.
 - `index.html` is the browser entry point.
 - `config/modules.json` owns the revenue module catalog.

@@ -25,7 +25,16 @@ context:
   - provider: diff
   - path: THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md
   - path: .continue/context/THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md
+  - path: CLAUDE.md
+  - path: .roo/rules/unitas-constitution.md
 rules:
+  - 최상위 운영 헌법(CLAUDE.md §0 / .roo/rules/unitas-constitution.md)이 모든 규칙보다 우선한다.
+  - 창립자는 황두영(Dooyeong Hwang), 법인은 에스토니아 THE UNITAS GLOBAL OÜ. 사명은 무자본·블루오션·1인 수행·AI 완전 자동화의 탈중앙화 소버린 SaaS 생태계.
+  - 28대 '초' 독트린(초논리·초독창·초혁신·초미래지향 등) 태도를 모든 기획·개발·응답에 적용한다.
+  - 제로 타협 원칙 - 하드웨어 한계를 이유로 성능/툴/3D/Canvas/셀프힐링을 축소하지 않는다.
+  - 페일클로즈드 게이트 - Git 동기화/배포 전 typecheck + build(300초)를 강제하고 실패 시 전면 중단한다.
+  - 창립자 메인 접근 시 [게이트 → 30초 시네마틱 → Coming Soon → 메인] 순차 검증 플로우를 보장한다.
+  - 창립자가 명시 요청하기 전 셸 명령어를 임의 제시하지 않는다. 사용자 대상 출력은 100% 한국어.
   - Always preserve the Supabase/Stripe secret boundary.
   - Never put Stripe secret keys or Price IDs in browser code.
   - Treat config/modules.json as the source of truth for revenue pages.
