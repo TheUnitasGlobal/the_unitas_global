@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { Globe, Volume2, VolumeX } from 'lucide-react';
+import { Volume2, VolumeX } from 'lucide-react';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
+import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
 import {
   persistFounderBypass,
   readFounderBypass,
@@ -38,14 +39,10 @@ const LOCALE_AUTO_KEY = 'unitas_locale_autodetected';
 // screen on the far side (only matters if the page later hard-reloads).
 const AUDIO_GATE_SEEN_KEY = 'unitas_audio_gate_seen';
 
-const LOCALE_NATIVE: Record<string, string> = {
-  en: 'English',
-  ko: '한국어',
-  et: 'Eesti',
-  ja: '日本語',
-  zh: '中文',
-  es: 'Español',
-};
+// The cinematic soundtrack sits a touch below the main-site ambient bed so the
+// 30s ad never feels loud -- majesty comes from harmonic weight and slow
+// evolution, not volume (owner instruction 2026-08-29).
+const CINEMA_MASTER_GAIN = 0.42;
 
 // Each cinema segment now renders as a two-line high-end keyword lockup:
 // an English keyword HEAD + a localized, riddle-like SUB line beneath it.
@@ -98,7 +95,6 @@ export function ComingSoonCinema() {
   const [phase, setPhase] = useState<Phase>('gate');
   const [segId, setSegId] = useState(1);
   const [muted, setMuted] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
   const [autoLocalized, setAutoLocalized] = useState(false);
 
   const field = useMemo(() => seedCinemaField(), []);
@@ -200,18 +196,28 @@ export function ComingSoonCinema() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function selectLocale(next: string) {
-    setLangOpen(false);
-    setAutoLocalized(false);
-    try {
-      localStorage.setItem(LOCALE_PREF_KEY, next);
-    } catch {
-      /* no-op */
-    }
-    if (next !== locale) router.replace(pathname, { locale: next });
-  }
-
-  // --- ambient audio (Web Audio API, low gain, user-gesture gated) ---------
+  // --- cinematic soundtrack (Web Audio API, fully synthesized, gesture-gated) ---
+  //
+  // "압도적으로 웅장하고 신비로우며 질리지 않는 하이엔드 시네마틱" (owner
+  // instruction 2026-08-29). No audio files -- every layer is oscillators +
+  // filtered noise, matching the Low-Memory Armor / no-binary-assets rule:
+  //
+  //   1. SUB + ROOT DRONE  -- a stacked perfect-fifth on D (D1/D2/A2/D3),
+  //      detuned stereo pairs for width, under a slow breathing lowpass.
+  //   2. CATHEDRAL PAD      -- a Dsus2 triad an octave up (D4/E4/A4) on
+  //      triangle waves with a 6s attack, cross-drifting so it never sits
+  //      still -- this is the "majestic" body, kept soft so it never fatigues.
+  //   3. SHIMMER MOTES      -- sparse, consonant D-minor-pentatonic sine bells
+  //      (every 9-15s, randomized, ~0.02 gain, 4s tails) panned across the
+  //      field -- "신비로움" without high-frequency harshness.
+  //   4. DISTANT SWELL      -- a very slow band-passed noise riser every ~22s,
+  //      felt more than heard, that keeps the loop from ever feeling static.
+  //
+  // ZERO-DELAY SYMPHONY: master rises in 0.3s, the drone + pad start at t0
+  // with a fast 1.1s "bloom" envelope layered under their true long attack,
+  // and a one-shot arrival impact (sub boom + rising bloom) fires on the same
+  // frame `enter()` is called -- there is never a beat of silence before the
+  // visuals land.
   const startAmbient = useCallback(() => {
     if (audioRef.current || typeof window === 'undefined') return;
     const AudioCtx =
@@ -219,105 +225,197 @@ export function ComingSoonCinema() {
       (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!AudioCtx) return;
     const ctx = new AudioCtx();
+    const now = ctx.currentTime;
+
     const master = ctx.createGain();
-    master.gain.value = 0;
+    master.gain.setValueAtTime(0, now);
+    master.gain.linearRampToValueAtTime(CINEMA_MASTER_GAIN, now + 0.3);
     master.connect(ctx.destination);
 
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 420;
-    filter.Q.value = 4;
-    filter.connect(master);
+    const disposables: Array<{ stop: (t: number) => void }> = [];
+    const track = (node: AudioScheduledSourceNode) => {
+      disposables.push({ stop: (t) => { try { node.stop(t); } catch { /* already stopped */ } } });
+      return node;
+    };
 
-    const drone: OscillatorNode[] = [];
-    [55, 82.5, 110].forEach((freq, i) => {
+    // shared noise buffer (2s white noise, looped) for the air + swell layers
+    const noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
+    const nd = noiseBuffer.getChannelData(0);
+    for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+
+    // ---- 1. sub + root drone -------------------------------------------------
+    const droneFilter = ctx.createBiquadFilter();
+    droneFilter.type = 'lowpass';
+    droneFilter.frequency.value = 360;
+    droneFilter.Q.value = 3;
+    droneFilter.connect(master);
+
+    const breath = ctx.createOscillator();
+    breath.type = 'sine';
+    breath.frequency.value = 0.035; // ~28s period -- glacial, non-repetitive feel
+    const breathDepth = ctx.createGain();
+    breathDepth.gain.value = 150;
+    breath.connect(breathDepth);
+    breathDepth.connect(droneFilter.frequency);
+    track(breath).start(now);
+
+    // D1 36.71 · D2 73.42 · A2 110.00 · D3 146.83  (root + octave + fifth + octave)
+    const droneSpecs: Array<{ f: number; type: OscillatorType; g: number; det: number; pan: number }> = [
+      { f: 36.71, type: 'sine', g: 0.16, det: 0, pan: 0 },
+      { f: 73.42, type: 'sine', g: 0.13, det: -5, pan: -0.25 },
+      { f: 73.42, type: 'sine', g: 0.11, det: 6, pan: 0.25 },
+      { f: 110.0, type: 'triangle', g: 0.06, det: -4, pan: 0.3 },
+      { f: 146.83, type: 'sine', g: 0.05, det: 5, pan: -0.3 },
+    ];
+    droneSpecs.forEach(({ f, type, g, det, pan }) => {
       const osc = ctx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      osc.detune.value = (i - 1) * 6;
-      const g = ctx.createGain();
-      g.gain.value = i === 2 ? 0.04 : 0.09;
-      osc.connect(g);
-      g.connect(filter);
-      osc.start();
-      drone.push(osc);
+      osc.type = type;
+      osc.frequency.value = f;
+      osc.detune.value = det;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(g, now + 1.1); // fast bloom (zero-delay)
+      const panner = ctx.createStereoPanner();
+      panner.pan.value = pan;
+      osc.connect(gain);
+      gain.connect(panner);
+      panner.connect(droneFilter);
+      track(osc).start(now);
     });
 
-    const lfo = ctx.createOscillator();
-    lfo.frequency.value = 0.05;
-    const lfoGain = ctx.createGain();
-    lfoGain.gain.value = 180;
-    lfo.connect(lfoGain);
-    lfoGain.connect(filter.frequency);
-    lfo.start();
+    // ---- 2. cathedral pad (Dsus2 an octave up: D4 · E4 · A4) ---------------
+    const padBus = ctx.createGain();
+    padBus.gain.value = 0.9;
+    const padFilter = ctx.createBiquadFilter();
+    padFilter.type = 'lowpass';
+    padFilter.frequency.value = 1400;
+    padFilter.Q.value = 0.7;
+    padBus.connect(padFilter);
+    padFilter.connect(master);
 
-    // ZERO-DELAY SYMPHONY: the bed is audible the instant the visitor commits
-    // to entering -- a fast 0.35s rise instead of a slow 2.5s fade -- and a
-    // one-shot "arrival" impact (sub boom + rising shimmer) fires on the same
-    // frame so there is never a beat of silence before the visuals land.
-    const now = ctx.currentTime;
-    master.gain.setValueAtTime(0, now);
-    master.gain.linearRampToValueAtTime(0.5, now + 0.35);
+    const padSwell = ctx.createOscillator();
+    padSwell.type = 'sine';
+    padSwell.frequency.value = 0.06; // slow cross-drift so the chord "breathes"
+    const padSwellDepth = ctx.createGain();
+    padSwellDepth.gain.value = 0.18;
+    padSwell.connect(padSwellDepth);
+    padSwellDepth.connect(padBus.gain);
+    track(padSwell).start(now);
 
-    const boom = ctx.createOscillator();
-    boom.type = 'sine';
-    boom.frequency.setValueAtTime(140, now);
-    boom.frequency.exponentialRampToValueAtTime(34, now + 1.6);
-    const boomGain = ctx.createGain();
-    boomGain.gain.setValueAtTime(0.0001, now);
-    boomGain.gain.linearRampToValueAtTime(0.42, now + 0.02);
-    boomGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
-    boom.connect(boomGain);
-    boomGain.connect(master);
-    boom.start(now);
-    boom.stop(now + 1.9);
+    [293.66, 329.63, 440.0].forEach((f, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = 'triangle';
+      osc.frequency.value = f;
+      osc.detune.value = (i - 1) * 4;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(0.05, now + 1.1); // audible immediately...
+      gain.gain.linearRampToValueAtTime(0.075, now + 6); // ...then keeps blooming
+      const panner = ctx.createStereoPanner();
+      panner.pan.value = (i - 1) * 0.4;
+      osc.connect(gain);
+      gain.connect(panner);
+      panner.connect(padBus);
+      track(osc).start(now);
+    });
 
-    const riser = ctx.createOscillator();
-    riser.type = 'sawtooth';
-    riser.frequency.setValueAtTime(180, now);
-    riser.frequency.exponentialRampToValueAtTime(1320, now + 1.4);
-    const riserFilter = ctx.createBiquadFilter();
-    riserFilter.type = 'bandpass';
-    riserFilter.frequency.value = 900;
-    riserFilter.Q.value = 3;
-    const riserGain = ctx.createGain();
-    riserGain.gain.setValueAtTime(0.0001, now);
-    riserGain.gain.linearRampToValueAtTime(0.12, now + 0.05);
-    riserGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
-    riser.connect(riserFilter);
-    riserFilter.connect(riserGain);
-    riserGain.connect(master);
-    riser.start(now);
-    riser.stop(now + 1.6);
-
-    const bell = window.setInterval(() => {
-      if (ctx.state !== 'running') return;
+    // ---- 3. shimmer motes (D minor pentatonic: D5 F5 A5 C6 E6) -------------
+    const PENT = [587.33, 698.46, 880.0, 1046.5, 1318.51];
+    let motesActive = true;
+    const scheduleMote = () => {
+      if (!motesActive || ctx.state === 'closed') return;
       const b = ctx.currentTime;
       const osc = ctx.createOscillator();
       osc.type = 'sine';
-      osc.frequency.value = [523.25, 659.25, 783.99, 1046.5][Math.floor(Math.random() * 4)];
+      osc.frequency.value = PENT[Math.floor(Math.random() * PENT.length)];
       const g = ctx.createGain();
       g.gain.setValueAtTime(0, b);
-      g.gain.linearRampToValueAtTime(0.03, b + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, b + 3);
+      g.gain.linearRampToValueAtTime(0.022, b + 0.4);
+      g.gain.exponentialRampToValueAtTime(0.0001, b + 4);
+      const panner = ctx.createStereoPanner();
+      panner.pan.value = Math.random() * 1.6 - 0.8;
       osc.connect(g);
-      g.connect(master);
+      g.connect(panner);
+      panner.connect(master);
       osc.start(b);
-      osc.stop(b + 3.2);
-    }, 7000);
+      osc.stop(b + 4.2);
+      moteTimer = window.setTimeout(scheduleMote, 9000 + Math.random() * 6000);
+    };
+    let moteTimer = window.setTimeout(scheduleMote, 2600);
+
+    // ---- 4. distant swell (slow band-passed noise riser) ------------------
+    let swellActive = true;
+    const scheduleSwell = () => {
+      if (!swellActive || ctx.state === 'closed') return;
+      const b = ctx.currentTime;
+      const src = ctx.createBufferSource();
+      src.buffer = noiseBuffer;
+      src.loop = true;
+      const bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.setValueAtTime(180, b);
+      bp.frequency.exponentialRampToValueAtTime(1100, b + 5);
+      bp.Q.value = 1.4;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, b);
+      g.gain.linearRampToValueAtTime(0.05, b + 4);
+      g.gain.exponentialRampToValueAtTime(0.0001, b + 7.5);
+      src.connect(bp);
+      bp.connect(g);
+      g.connect(master);
+      src.start(b);
+      src.stop(b + 7.8);
+      swellTimer = window.setTimeout(scheduleSwell, 20000 + Math.random() * 6000);
+    };
+    let swellTimer = window.setTimeout(scheduleSwell, 6000);
+
+    // ---- arrival impact (one-shot, fires on the entry frame) --------------
+    const boom = ctx.createOscillator();
+    boom.type = 'sine';
+    boom.frequency.setValueAtTime(140, now);
+    boom.frequency.exponentialRampToValueAtTime(34, now + 1.8);
+    const boomGain = ctx.createGain();
+    boomGain.gain.setValueAtTime(0.0001, now);
+    boomGain.gain.linearRampToValueAtTime(0.4, now + 0.02);
+    boomGain.gain.exponentialRampToValueAtTime(0.0001, now + 2);
+    boom.connect(boomGain);
+    boomGain.connect(master);
+    track(boom).start(now);
+    boom.stop(now + 2.1);
+
+    const bloom = ctx.createOscillator();
+    bloom.type = 'triangle';
+    bloom.frequency.setValueAtTime(220, now);
+    bloom.frequency.exponentialRampToValueAtTime(880, now + 1.3);
+    const bloomFilter = ctx.createBiquadFilter();
+    bloomFilter.type = 'bandpass';
+    bloomFilter.frequency.value = 700;
+    bloomFilter.Q.value = 2.5;
+    const bloomGain = ctx.createGain();
+    bloomGain.gain.setValueAtTime(0.0001, now);
+    bloomGain.gain.linearRampToValueAtTime(0.1, now + 0.06);
+    bloomGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+    bloom.connect(bloomFilter);
+    bloomFilter.connect(bloomGain);
+    bloomGain.connect(master);
+    track(bloom).start(now);
+    bloom.stop(now + 1.7);
 
     audioRef.current = {
       ctx,
       master,
       stop: () => {
-        window.clearInterval(bell);
+        motesActive = false;
+        swellActive = false;
+        window.clearTimeout(moteTimer);
+        window.clearTimeout(swellTimer);
         try {
-          const end = ctx.currentTime + 0.4;
+          const end = ctx.currentTime + 0.5;
           master.gain.cancelScheduledValues(ctx.currentTime);
+          master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), ctx.currentTime);
           master.gain.linearRampToValueAtTime(0, end);
-          drone.forEach((o) => o.stop(end));
-          lfo.stop(end);
-          setTimeout(() => ctx.close().catch(() => {}), 600);
+          disposables.forEach((d) => d.stop(end));
+          setTimeout(() => ctx.close().catch(() => {}), 700);
         } catch {
           ctx.close().catch(() => {});
         }
@@ -331,7 +429,7 @@ export function ComingSoonCinema() {
     if (!a) return;
     const now = a.ctx.currentTime;
     a.master.gain.cancelScheduledValues(now);
-    a.master.gain.linearRampToValueAtTime(muted ? 0 : 0.5, now + 0.3);
+    a.master.gain.linearRampToValueAtTime(muted ? 0 : CINEMA_MASTER_GAIN, now + 0.3);
   }, [muted]);
 
   // stop the ambient bed once the founder leaves the curtain for the real site
@@ -551,37 +649,14 @@ export function ComingSoonCinema() {
             </div>
           )}
 
-          {/* language selector -- available in every phase */}
+          {/* flag + native-language selector -- available in every phase
+              (gate, cinematic, sealed) so the visitor is never stuck on an
+              unreadable screen. Shared component -- same one the audio gate
+              and the main-site nav use. */}
           <div className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6">
-            <button
-              type="button"
-              onClick={() => setLangOpen((v) => !v)}
-              aria-expanded={langOpen}
-              aria-label={t('langLabel')}
-              className="cs-glass flex items-center gap-2 rounded-full px-3 py-2 text-xs font-medium uppercase tracking-[0.15em] text-white/80 transition-colors hover:text-white"
-            >
-              <Globe size={15} aria-hidden="true" />
-              <span>{LOCALE_NATIVE[locale] ?? locale}</span>
-            </button>
-            {langOpen && (
-              <ul className="cs-glass absolute right-0 mt-2 w-40 overflow-hidden rounded-2xl py-1 text-left">
-                {routing.locales.map((loc) => (
-                  <li key={loc}>
-                    <button
-                      type="button"
-                      onClick={() => selectLocale(loc)}
-                      className={`block w-full px-4 py-2 text-xs tracking-wide transition-colors hover:bg-white/10 ${
-                        loc === locale ? 'font-bold text-accent' : 'text-white/70'
-                      }`}
-                    >
-                      {LOCALE_NATIVE[loc]}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <GlobalLanguagePicker onSelect={() => setAutoLocalized(false)} />
             {autoLocalized && (
-              <p className="mt-2 max-w-[10rem] text-[10px] leading-tight text-white/40">
+              <p className="mt-2 max-w-[11rem] text-[10px] leading-tight text-white/40">
                 {t('autoNote')}
               </p>
             )}
@@ -694,7 +769,7 @@ export function ComingSoonCinema() {
                         initial={{ letterSpacing: '0.5em' }}
                         animate={{ letterSpacing: '0.16em' }}
                         transition={{ duration: 1.1, ease: [0.16, 0.84, 0.44, 1] }}
-                        className="bg-gradient-to-r from-accent via-white to-neon bg-clip-text font-serif text-[1.7rem] font-bold uppercase leading-[1.12] text-transparent [text-wrap:balance] sm:text-5xl lg:text-6xl"
+                        className="bg-gradient-to-r from-accent via-white to-neon bg-clip-text font-serif text-[2.15rem] font-bold uppercase leading-[1.1] text-transparent [text-wrap:balance] sm:text-6xl lg:text-7xl"
                         style={{
                           filter:
                             'drop-shadow(0 0 26px rgba(212,175,55,0.4)) drop-shadow(0 0 60px rgba(0,243,255,0.18))',
@@ -704,13 +779,13 @@ export function ComingSoonCinema() {
                       </motion.h2>
                       <span
                         aria-hidden="true"
-                        className="my-5 block h-px w-16 bg-gradient-to-r from-transparent via-accent/70 to-transparent sm:w-24"
+                        className="my-6 block h-px w-16 bg-gradient-to-r from-transparent via-accent/70 to-transparent sm:w-28"
                       />
                       <motion.p
                         initial={{ opacity: 0, letterSpacing: '0.32em' }}
                         animate={{ opacity: 1, letterSpacing: '0.14em' }}
                         transition={{ delay: 0.22, duration: 1, ease: [0.16, 0.84, 0.44, 1] }}
-                        className="max-w-2xl font-serif text-sm font-medium leading-relaxed text-white/70 [text-wrap:balance] sm:text-lg lg:text-xl"
+                        className="max-w-2xl font-serif text-[15px] font-medium leading-relaxed text-white/70 [text-wrap:balance] sm:text-xl lg:text-2xl"
                         style={{ textShadow: '0 0 24px rgba(0,243,255,0.14)' }}
                       >
                         {t(captionKeyFor(segId, 'Sub'))}
@@ -741,16 +816,21 @@ export function ComingSoonCinema() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.1, ease: 'easeOut' }}
               >
-                <p className="mb-4 text-xs uppercase tracking-[0.4em] text-accent/70">
+                <p
+                  className="mb-5 font-serif text-5xl font-bold uppercase tracking-[0.28em] text-white sm:text-7xl lg:text-8xl"
+                  style={{
+                    textShadow: '0 0 30px rgba(212,175,55,0.35), 0 0 72px rgba(0,243,255,0.14)',
+                  }}
+                >
                   {tGate('title')}
                 </p>
-                <h2 className="cs-awaken font-serif text-4xl font-bold tracking-[0.2em] text-white sm:text-6xl lg:text-7xl">
+                <h2 className="cs-awaken font-serif text-[2.75rem] font-bold tracking-[0.22em] text-white sm:text-7xl lg:text-[5.25rem]">
                   {t('comingSoon')}
                 </h2>
-                <p className="mt-6 max-w-md text-sm leading-relaxed text-gray-300 [text-wrap:balance] sm:text-base">
+                <p className="mt-7 max-w-lg text-base leading-relaxed text-gray-300 [text-wrap:balance] sm:text-lg">
                   {t('awakening')}
                 </p>
-                <p className="mt-3 max-w-xs text-[11px] leading-relaxed text-white/35 [text-wrap:balance]">
+                <p className="mt-3 max-w-sm text-xs leading-relaxed text-white/35 [text-wrap:balance] sm:text-sm">
                   {t('sealed')}
                 </p>
                 <div className="mt-10 flex flex-col items-center gap-3">
@@ -761,8 +841,8 @@ export function ComingSoonCinema() {
                   >
                     ▷ {t('replay')}
                   </button>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/25">
-                    U-AI · USPTO Patent Pending #64/023,911
+                  <p className="text-[10px] uppercase tracking-[0.24em] text-white/30">
+                    {t('sovereignSignature')}
                   </p>
                   <p className="text-[10px] tracking-wide text-white/20">{t('rights')}</p>
                 </div>

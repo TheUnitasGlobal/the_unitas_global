@@ -141,9 +141,22 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
           </h3>
         </div>
 
-        <p className="mb-4 text-[13px] font-normal leading-snug text-gray-300">
+        <p className="mb-3 text-[13px] font-normal leading-snug text-gray-300">
           {tModules(`${protocol.messageKey}.description`)}
         </p>
+
+        <p className="mb-3 text-[13px] font-normal leading-relaxed text-gray-400">
+          {tModules(`${protocol.messageKey}.longDescription`)}
+        </p>
+
+        <figure className="mb-4">
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent/50">
+            {t('doctrineLabel')}
+          </p>
+          <blockquote className="mt-1 border-l-2 border-accent/50 pl-3 text-[13px] italic leading-snug text-accent/80">
+            {tModules(`${protocol.messageKey}.doctrine`)}
+          </blockquote>
+        </figure>
 
         <div className="mb-4 space-y-2">
           <p className="border-l-2 border-accent/50 pl-3 text-[13px] italic text-gray-400">

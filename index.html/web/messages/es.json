@@ -22,15 +22,21 @@
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
-      "description": "Capa de firma biométrica y criptográfica soberana."
+      "description": "Una capa de firma biométrica y criptográfica soberana que devuelve la identidad al individuo, no al Estado ni a la plataforma.",
+      "longDescription": "U-Signature redefine la firma como un acto de soberanía y no como una marca dejada en un documento. Fusiona factores biométricos con criptografía de umbral para que ningún emisor central pueda falsificarla, suspenderla ni revocarla. Los 11 Núcleos Cognitivos verifican el contexto de firma (quién · qué · por qué · cuándo) en tiempo real, y cada firma queda grabada en un registro de solo anexión que hace imposible el repudio posterior. Las reglas de delegación, revocación y sucesión se expresan como código, de modo que un solo fundador puede ejecutar todas las decisiones de una empresa con una firma.",
+      "doctrine": "“Una firma no toma prestada la autoridad: demuestra la soberanía.” — Fundador, Dooyeong Hwang"
     },
     "uKey": {
       "title": "U-Key",
-      "description": "Custodia de claves y control de acceso de confianza cero."
+      "description": "Custodia de claves y control de acceso de confianza cero donde los secretos los guarda la política, no las personas.",
+      "longDescription": "U-Key no confía en “quién pregunta” sino solo en “si este acceso cumple la política en este preciso momento”. Las claves nunca existen en texto plano; se mantienen mediante fragmentación distribuida y rotación instantánea, y cada decisión de acceso la toma de forma autónoma el motor U-AI a partir de contexto, riesgo y señales de anomalía. Cada concesión, denegación y revocación se escribe en un registro de auditoría inmutable, de modo que la auditoría regulatoria y la respuesta a incidentes se sostienen incluso con una operación de una sola persona: gobernanza de claves de nivel bancario sin jaula HSM ni equipo de seguridad dedicado.",
+      "doctrine": "“La confianza no se concede una vez: se vuelve a demostrar en cada momento.”"
     },
     "uPay": {
       "title": "U-Pay",
-      "description": "Riel de enrutamiento fiscal y liquidación soberana."
+      "description": "Un riel soberano de enrutamiento fiscal y liquidación donde el movimiento del valor lo deciden las reglas, no los bancos.",
+      "longDescription": "U-Pay convierte el pago de “pedir permiso a un intermediario” en “un contrato que se autoejecuta cuando se cumplen las condiciones”. Abstrae flujos multidivisa y multirriel (fíat, stablecoins, el registro interno U-Coin) en un único grafo de liquidación, y U-AI calcula de forma autónoma el enrutamiento, la optimización de comisiones, la cobertura de divisas y la retención de impuestos por transacción. Cada flujo obedece el mismo invariante contable de solo anexión que coin_ledger: ningún cambio de saldo sin su asiento correspondiente. Diseñado para que una empresa de una sola persona posea y opere directamente infraestructura de liquidación global, en un mercado océano azul sin competidores.",
+      "doctrine": "“El camino del dinero no se permite: se diseña.”"
     },
     "arche": {
       "title": "Arche",
@@ -244,7 +250,10 @@
     "inquirySubmit": "Enviar Consulta",
     "inquiryThanksTitle": "Solicitud recibida",
     "inquiryThanksBody": "Gracias -- nuestro equipo empresarial se pondrá en contacto contigo en breve.",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "manifesto": "La capa de Protocolos Empresariales traduce la doctrina soberana de THE UNITAS GLOBAL OÜ en infraestructura corporativa. Cada uno de los tres protocolos sostiene un pilar de la soberanía —identidad (U-Signature), secretos (U-Key), valor (U-Pay)— y operan como un solo organismo sobre los 11 Núcleos Cognitivos y el motor de decisión autónoma U-AI. El objetivo no es otro SaaS, sino una infraestructura descentralizada que sustituye bancos, autoridades de certificación y redes de pago, operada sin capital, por una persona y de forma totalmente automatizada.",
+    "patentAnchorNote": "Todos los avisos de propiedad intelectual y de patente en trámite (USPTO #64/023,911) se limitan exclusivamente a esta capa de I+D empresarial.",
+    "doctrineLabel": "Doctrina de diseño"
   },
   "ErrorBoundary": {
     "title": "Error del Núcleo Soberano",
@@ -386,7 +395,7 @@
     "cinemaS2Head": "11 Cognitive Cores",
     "cinemaS2Sub": "Once núcleos autónomos que piensan por sí mismos: un imperio de agentes.",
     "cinemaS3Head": "U-AI Engine",
-    "cinemaS3Sub": "Decisión y diseño autónomos · USPTO #64/023,911 Patente en trámite.",
+    "cinemaS3Sub": "Un motor que decide por sí mismo y traza sus propios planos.",
     "cinemaS4Head": "5 Systems & 3 Pillars",
     "cinemaS4Sub": "La arquitectura perpetua de un ecosistema SaaS soberano y descentralizado.",
     "cinemaS5Head": "The Sovereign Intelligence is Awakening.",
@@ -394,7 +403,8 @@
     "comingSoon": "COMING SOON",
     "awakening": "La Inteligencia Soberana está despertando",
     "sealed": "El acceso público a la interfaz principal está sellado hasta el lanzamiento.",
-    "rights": "© THE UNITAS GLOBAL OÜ — Todos los derechos reservados"
+    "rights": "© THE UNITAS GLOBAL OÜ — Todos los derechos reservados",
+    "sovereignSignature": "11 Núcleos Cognitivos · 5 Sistemas · 3 Pilares"
   },
   "Auth": {
     "login": "Iniciar sesión",
@@ -464,7 +474,9 @@
       "upper": "Letra mayúscula",
       "digit": "Número",
       "special": "Carácter especial"
-    }
+    },
+    "memberFallback": "Miembro",
+    "guestExit": "Salir de invitado"
   },
   "Account": {
     "settingsTitle": "Configuración de cuenta",

@@ -22,15 +22,21 @@
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
-      "description": "Sovereign biometric & cryptographic signature layer."
+      "description": "A sovereign biometric & cryptographic signature layer that returns identity to the individual — not the state or the platform.",
+      "longDescription": "U-Signature reframes a signature as an act of sovereignty rather than a mark left on a document. It fuses biometric factors with threshold cryptography so no central issuer can forge, suspend, or revoke it. The 11 Cognitive Cores verify signing context (who · what · why · when) in real time, and every signature is engraved into an append-only ledger that makes after-the-fact repudiation impossible. Delegation, revocation, and succession rules are expressed as code, so a single founder can execute an entire company’s decisions with one signature.",
+      "doctrine": "“A signature does not borrow authority — it proves sovereignty.” — Founder, Dooyeong Hwang"
     },
     "uKey": {
       "title": "U-Key",
-      "description": "Zero-trust key custody and access control."
+      "description": "Zero-trust key custody and access control where secrets are guarded by policy, not by people.",
+      "longDescription": "U-Key trusts not \"who is asking\" but only \"does this access satisfy policy at this exact moment.\" Keys never exist in plaintext; they are kept through distributed sharding and instant rotation, and every access decision is made autonomously by the U-AI engine from context, risk, and anomaly signals. Every grant, denial, and revocation is written to an immutable audit log, so regulatory audit and incident response hold even under a one-person operation — bank-grade key governance with no HSM cage and no dedicated security team.",
+      "doctrine": "“Trust is not granted once — it is re-proven every moment.”"
     },
     "uPay": {
       "title": "U-Pay",
-      "description": "Sovereign fiscal routing and settlement rail."
+      "description": "A sovereign fiscal routing and settlement rail where the movement of value is decided by rules, not by banks.",
+      "longDescription": "U-Pay turns payment from \"asking an intermediary for permission\" into \"a contract that self-executes once conditions are met.\" It abstracts multi-currency, multi-rail flows (fiat, stablecoins, the internal U-Coin ledger) into a single settlement graph, and U-AI computes routing, fee optimisation, FX hedging, and tax withholding autonomously per transaction. Every flow obeys the same append-only accounting invariant as coin_ledger — no balance change without a matching ledger entry. Built for a one-person company to own and operate global settlement infrastructure directly, in a blue-ocean market with no incumbent.",
+      "doctrine": "“The path of money is not permitted — it is designed.”"
     },
     "arche": {
       "title": "Arche",
@@ -244,7 +250,10 @@
     "inquirySubmit": "Submit Inquiry",
     "inquiryThanksTitle": "Request received",
     "inquiryThanksBody": "Thank you -- our enterprise team will reach out shortly.",
-    "close": "Close"
+    "close": "Close",
+    "manifesto": "The Enterprise Protocol tier translates THE UNITAS GLOBAL OÜ’s sovereign doctrine into corporate infrastructure. The three protocols each hold one pillar of sovereignty — identity (U-Signature), secrets (U-Key), value (U-Pay) — and operate as one organism on top of the 11 Cognitive Cores and the U-AI autonomous decision engine. The goal is not another SaaS, but decentralised infrastructure that replaces banks, certificate authorities, and payment networks while being run zero-capital, by one person, fully automated.",
+    "patentAnchorNote": "All intellectual-property and patent-pending notices (USPTO #64/023,911) are scoped exclusively to this Enterprise R&D tier.",
+    "doctrineLabel": "Design doctrine"
   },
   "ErrorBoundary": {
     "title": "Sovereign Core Error",
@@ -386,7 +395,7 @@
     "cinemaS2Head": "11 Cognitive Cores",
     "cinemaS2Sub": "Eleven autonomous cores that think for themselves — an empire of agents.",
     "cinemaS3Head": "U-AI Engine",
-    "cinemaS3Sub": "Autonomous Decision & Blueprint · USPTO #64/023,911 Patent Pending.",
+    "cinemaS3Sub": "An engine that decides for itself and draws its own blueprints.",
     "cinemaS4Head": "5 Systems & 3 Pillars",
     "cinemaS4Sub": "The perpetual architecture of a decentralized sovereign SaaS ecosystem.",
     "cinemaS5Head": "The Sovereign Intelligence is Awakening.",
@@ -394,7 +403,8 @@
     "comingSoon": "COMING SOON",
     "awakening": "The Sovereign Intelligence is Awakening",
     "sealed": "Public entry to the main interface is sealed until launch.",
-    "rights": "© THE UNITAS GLOBAL OÜ — All rights reserved"
+    "rights": "© THE UNITAS GLOBAL OÜ — All rights reserved",
+    "sovereignSignature": "11 Cognitive Cores · 5 Systems · 3 Pillars"
   },
   "Auth": {
     "login": "Login",
@@ -464,7 +474,9 @@
       "upper": "Upper-case letter",
       "digit": "Number",
       "special": "Special character"
-    }
+    },
+    "memberFallback": "Member",
+    "guestExit": "Exit guest"
   },
   "Account": {
     "settingsTitle": "Account Settings",

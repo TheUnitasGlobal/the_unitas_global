@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSpatialAudio } from './SpatialAudioProvider';
+import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
 
 const STORAGE_KEY = 'unitas_audio_gate_seen';
 
@@ -78,6 +79,12 @@ export function AudioGate() {
           aria-modal="true"
           aria-labelledby="audio-gate-title"
         >
+          {/* Flag + native-language selector -- present on the very first
+              screen so a visitor can read the gate before committing. */}
+          <div className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6">
+            <GlobalLanguagePicker />
+          </div>
+
           <div
             className="pointer-events-none absolute inset-0 opacity-40"
             style={{

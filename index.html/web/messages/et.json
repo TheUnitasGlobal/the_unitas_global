@@ -22,15 +22,21 @@
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
-      "description": "Suveräänne biomeetriline ja krüptograafiline allkirjakiht."
+      "description": "Suveräänne biomeetriline ja krüptograafiline allkirjakiht, mis annab identiteedi tagasi indiviidile — mitte riigile ega platvormile.",
+      "longDescription": "U-Signature määratleb allkirja ümber kui suveräänsuse akti, mitte kui dokumendile jäetud jälje. See ühendab biomeetrilised tegurid lävekrüptograafiaga, nii et ükski keskne väljastaja ei saa seda võltsida, peatada ega tühistada. 11 kognitiivset tuuma kontrollivad allkirjastamise konteksti (kes · mida · miks · millal) reaalajas ning iga allkiri raiutakse ainult-lisatavasse pearaamatusse, mis muudab hilisema salgamise võimatuks. Delegeerimise, tühistamise ja pärimise reeglid on väljendatud koodina, nii et üksainus asutaja saab kogu ettevõtte otsused ühe allkirjaga täide viia.",
+      "doctrine": "“Allkiri ei laena volitust — see tõestab suveräänsust.” — asutaja Dooyeong Hwang"
     },
     "uKey": {
       "title": "U-Key",
-      "description": "Null-usalduse võtmehoid ja juurdepääsukontroll."
+      "description": "Null-usalduse võtmehoid ja juurdepääsukontroll, kus saladusi valvab poliitika, mitte inimesed.",
+      "longDescription": "U-Key ei usalda mitte “kes küsib”, vaid ainult “kas see juurdepääs vastab poliitikale just sel hetkel”. Võtmeid ei eksisteeri kunagi avatekstina; neid hoitakse hajutatud tükeldamise ja kohese rotatsiooni abil ning iga juurdepääsuotsuse teeb autonoomselt U-AI mootor konteksti, riski ja anomaaliasignaalide põhjal. Iga andmine, keeldumine ja tühistamine kirjutatakse muutumatusse auditlogisse, nii et regulatiivne audit ja intsidendile reageerimine kehtivad ka ühe inimese käitamise korral — pangatasemel võtmehaldus ilma HSM-puuri ja pühendunud turvameeskonnata.",
+      "doctrine": "“Usaldust ei anta üks kord — seda tõestatakse igal hetkel uuesti.”"
     },
     "uPay": {
       "title": "U-Pay",
-      "description": "Suveräänne fiskaalse marsruutimise ja arvelduse rada."
+      "description": "Suveräänne fiskaalse marsruutimise ja arvelduse rada, kus väärtuse liikumise otsustavad reeglid, mitte pangad.",
+      "longDescription": "U-Pay muudab makse “vahendajalt loa küsimisest” “lepinguks, mis täidab end ise, kui tingimused on täidetud”. See abstraheerib mitmevaluuta- ja mitmerajavood (fiat, stabiilmündid, sisemine U-Coin pearaamat) üheks arveldusgraafiks ning U-AI arvutab iga tehingu kohta autonoomselt marsruutimise, tasude optimeerimise, valuutariski maandamise ja maksukinnipidamise. Iga voog järgib sama ainult-lisatavat raamatupidamise invarianti nagu coin_ledger — ühtki saldomuutust ilma vastava kandeta. Loodud selleks, et üheinimese-ettevõte omaks ja käitaks otse globaalset arveldustaristut sinise ookeani turul, kus konkurente pole.",
+      "doctrine": "“Raha teed ei lubata — see kavandatakse.”"
     },
     "arche": {
       "title": "Arche",
@@ -244,7 +250,10 @@
     "inquirySubmit": "Saada Päring",
     "inquiryThanksTitle": "Päring vastu võetud",
     "inquiryThanksBody": "Täname -- meie ettevõtete meeskond võtab peagi ühendust.",
-    "close": "Sulge"
+    "close": "Sulge",
+    "manifesto": "Ettevõtte protokollide kiht tõlgib THE UNITAS GLOBAL OÜ suveräänse doktriini ettevõtte taristuks. Kolm protokolli kannavad kumbki üht suveräänsuse sammast — identiteet (U-Signature), saladused (U-Key), väärtus (U-Pay) — ja toimivad ühe organismina 11 kognitiivse tuuma ja U-AI autonoomse otsustusmootori peal. Eesmärk ei ole järjekordne SaaS, vaid detsentraliseeritud taristu, mis asendab pangad, sertifitseerimisasutused ja maksevõrgud, olles käitatud kapitalita, ühe inimese poolt ja täisautomaatselt.",
+    "patentAnchorNote": "Kõik intellektuaalomandi ja patenditaotluse teated (USPTO #64/023,911) piirduvad ainuüksi selle ettevõtte T&A kihiga.",
+    "doctrineLabel": "Disainidoktriin"
   },
   "ErrorBoundary": {
     "title": "Suveräänse Tuumiku Viga",
@@ -386,7 +395,7 @@
     "cinemaS2Head": "11 Cognitive Cores",
     "cinemaS2Sub": "Üksteist autonoomset tuuma, mis mõtlevad ise — agentide impeerium.",
     "cinemaS3Head": "U-AI Engine",
-    "cinemaS3Sub": "Autonoomne otsus ja plaan · USPTO #64/023,911 patenditaotlus menetluses.",
+    "cinemaS3Sub": "Mootor, mis otsustab ise ja joonistab ise oma plaanid.",
     "cinemaS4Head": "5 Systems & 3 Pillars",
     "cinemaS4Sub": "Detsentraliseeritud suveräänse SaaS-ökosüsteemi püsiv arhitektuur.",
     "cinemaS5Head": "The Sovereign Intelligence is Awakening.",
@@ -394,7 +403,8 @@
     "comingSoon": "COMING SOON",
     "awakening": "Suveräänne intelligentsus ärkab",
     "sealed": "Avalik sisenemine peamisse liidesesse on lukustatud kuni käivitamiseni.",
-    "rights": "© THE UNITAS GLOBAL OÜ — Kõik õigused kaitstud"
+    "rights": "© THE UNITAS GLOBAL OÜ — Kõik õigused kaitstud",
+    "sovereignSignature": "11 kognitiivset tuuma · 5 süsteemi · 3 sammast"
   },
   "Auth": {
     "login": "Logi sisse",
@@ -464,7 +474,9 @@
       "upper": "Suurtäht",
       "digit": "Number",
       "special": "Erimärk"
-    }
+    },
+    "memberFallback": "Liige",
+    "guestExit": "Välju külalisena"
   },
   "Account": {
     "settingsTitle": "Konto seaded",

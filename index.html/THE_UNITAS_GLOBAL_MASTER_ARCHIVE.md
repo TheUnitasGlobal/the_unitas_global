@@ -1,7 +1,7 @@
 # THE UNITAS GLOBAL MASTER ARCHIVE
 
 Status: workspace operational baseline
-Last synchronized: 2026-08-28 (Rev 1 — 최상위 운영 헌법 각인)
+Last synchronized: 2026-08-29 (Rev 2 — 인프라 자율 진화·툴링 셋업 권한 각인)
 
 This archive consolidates business and technical parameters explicitly supplied in the current workspace conversation and the locally indexed sessions available to Copilot. It is an operational reference, not a legal opinion, government filing, patent status determination, or source of payment secrets.
 
@@ -24,6 +24,7 @@ This archive consolidates business and technical parameters explicitly supplied 
 - 제로 타협 원칙 (Zero Feature Compromise): 하드웨어 한계를 이유로 성능·툴·3D/Canvas 시뮬레이터·셀프 힐링 루프를 절대 축소/비활성화하지 않는다.
 - 로우메모리 아머 (Low-Memory Armor): 유휴 백그라운드 파일 워처를 차단하되 필요 순간 100% 온디맨드 초고속 호출.
 - 페일클로즈드 게이트 (Fail-Closed Gate): Git 동기화·배포 전 `npm --prefix web run typecheck` + `npm --prefix web run build`(300초 타임아웃) 강제 수행, 실패 시 커밋/푸시/배포 전면 중단.
+- 인프라 자율 진화 및 툴링 셋업 권한 (Infrastructure Autonomous Evolution & Tooling Authority, 2026-08-29): 에이전트는 개발 인프라·빌드 파이프라인·CI·린트/테스트 하네스·의존성·엔진 설정(`.claude/settings.json`, `.vscode/`, `web/next.config.mjs`, `.roo/`, `.aider.conf.yml`)을 창립자의 개별 재승인 없이 자율 도입·업그레이드·재구성할 권한을 영구 보유한다. 단 (a) 무결성 게이트·로우메모리 아머를 약화시키지 않고, (b) DB 파괴·프로덕션 강제 배포·시크릿 노출·`deny` 목록 우회를 포함하지 않으며, (c) 변경 사유를 커밋 메시지/헌법에 남긴다.
 
 ### 4. 개발 및 테스트 공정 제어
 

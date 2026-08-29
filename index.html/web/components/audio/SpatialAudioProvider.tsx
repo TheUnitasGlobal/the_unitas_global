@@ -526,36 +526,71 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     if (!ctx || !master) return;
 
     const now = ctx.currentTime;
-
-    // Low mechanical thud.
-    const thud = ctx.createOscillator();
-    thud.type = 'sine';
-    thud.frequency.setValueAtTime(120, now);
-    thud.frequency.exponentialRampToValueAtTime(45, now + 0.25);
-    const thudGain = ctx.createGain();
-    thudGain.gain.setValueAtTime(0.35, now);
-    thudGain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-    thud.connect(thudGain);
-    thudGain.connect(master);
-    thud.start(now);
-    thud.stop(now + 0.42);
-
-    // Metallic clank layer (filtered noise burst).
     const buffer = getNoiseBuffer(ctx);
-    const src = ctx.createBufferSource();
-    src.buffer = buffer;
-    const filter = ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.value = 900;
-    filter.Q.value = 6;
-    const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
-    src.connect(filter);
-    filter.connect(gain);
-    gain.connect(master);
-    src.start(now);
-    src.stop(now + 0.22);
+
+    // Owner instruction 2026-08-29: 3대 모듈 박스 타격감 대폭 상향 + 음색 튜닝.
+    // Four stacked layers -- deep sub-impact, a body thud, a metallic clank and
+    // a resonant ring tail -- so the B2B card cue lands like a real vault door
+    // instead of a soft click.
+
+    // 1. Deep sub-impact (chest-hit weight).
+    const sub = ctx.createOscillator();
+    sub.type = 'sine';
+    sub.frequency.setValueAtTime(96, now);
+    sub.frequency.exponentialRampToValueAtTime(28, now + 0.3);
+    const subGain = ctx.createGain();
+    subGain.gain.setValueAtTime(0.55, now);
+    subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+    sub.connect(subGain);
+    subGain.connect(master);
+    sub.start(now);
+    sub.stop(now + 0.52);
+
+    // 2. Body thud -- triangle gives a woodier "door slab" tone than a pure sine.
+    const body = ctx.createOscillator();
+    body.type = 'triangle';
+    body.frequency.setValueAtTime(190, now);
+    body.frequency.exponentialRampToValueAtTime(58, now + 0.22);
+    const bodyGain = ctx.createGain();
+    bodyGain.gain.setValueAtTime(0.34, now);
+    bodyGain.gain.exponentialRampToValueAtTime(0.001, now + 0.34);
+    body.connect(bodyGain);
+    bodyGain.connect(master);
+    body.start(now);
+    body.stop(now + 0.36);
+
+    // 3. Metallic clank (bolt slam) -- filtered noise burst.
+    const clank = ctx.createBufferSource();
+    clank.buffer = buffer;
+    const clankFilter = ctx.createBiquadFilter();
+    clankFilter.type = 'bandpass';
+    clankFilter.frequency.value = 760;
+    clankFilter.Q.value = 7;
+    const clankGain = ctx.createGain();
+    clankGain.gain.setValueAtTime(0.3, now);
+    clankGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+    clank.connect(clankFilter);
+    clankFilter.connect(clankGain);
+    clankGain.connect(master);
+    clank.start(now);
+    clank.stop(now + 0.24);
+
+    // 4. Resonant ring tail -- a high, narrow band that keeps humming for ~0.5s
+    // so the hit has a lingering steel-vault character ("타격감").
+    const ring = ctx.createBufferSource();
+    ring.buffer = buffer;
+    const ringFilter = ctx.createBiquadFilter();
+    ringFilter.type = 'bandpass';
+    ringFilter.frequency.value = 2600;
+    ringFilter.Q.value = 14;
+    const ringGain = ctx.createGain();
+    ringGain.gain.setValueAtTime(0.14, now + 0.02);
+    ringGain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+    ring.connect(ringFilter);
+    ringFilter.connect(ringGain);
+    ringGain.connect(master);
+    ring.start(now);
+    ring.stop(now + 0.57);
   }, [ensureContext, getNoiseBuffer]);
 
   const playEcosystemHover = useCallback(
