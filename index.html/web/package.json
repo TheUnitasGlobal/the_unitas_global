@@ -17,6 +17,7 @@
     "i18n:sync": "node --experimental-strip-types scripts/i18n-sync.ts",
     "assets:sync": "node scripts/asset-pipeline-sync.mjs",
     "verify:integrity": "node scripts/verify-integrity.mjs",
+    "admin:verify-phone": "node scripts/admin-verify-phone.mjs",
     "test": "vitest run",
     "dev:all": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev-all.ps1"
   },
