@@ -56,6 +56,15 @@
   "Placeholder": {
     "comingSoon": "此模块正处于脚手架阶段，目前正在积极建设中。"
   },
+  "ModuleGate": {
+    "eyebrow": "主权访问控制",
+    "lockedTitle": "访问已封印",
+    "lockedBody": "此模块需要有效的 U-Coin 访问授权。您的授权已过期或未在此会话中签发。请通过模块入口重新进入以继续。",
+    "signinTitle": "需要登录",
+    "signinBody": "模块访问与您的主权身份绑定。请登录后通过模块入口进入。",
+    "moduleLabel": "模块",
+    "returnToCatalog": "返回目录"
+  },
   "Wallet": {
     "balance": "余额",
     "coinUnit": "U-COIN",
@@ -372,6 +381,16 @@
     "cinemaS3": "U-AI · 自主决策与蓝图引擎。",
     "cinemaS4": "五大系统、三大支柱 · 主权架构。",
     "cinemaS5": "主权智能正在觉醒。",
+    "cinemaS1Head": "The Singularity is Near.",
+    "cinemaS1Sub": "挣脱肉身的智性，其轨道正在开启。",
+    "cinemaS2Head": "11 Cognitive Cores",
+    "cinemaS2Sub": "十一枚自主认知核心各自思考，构成智能体的帝国。",
+    "cinemaS3Head": "U-AI Engine",
+    "cinemaS3Sub": "自主决策与蓝图 · USPTO #64/023,911 专利申请中。",
+    "cinemaS4Head": "5 Systems & 3 Pillars",
+    "cinemaS4Sub": "去中心化主权 SaaS 生态系统的永续架构。",
+    "cinemaS5Head": "The Sovereign Intelligence is Awakening.",
+    "cinemaS5Sub": "主宰未来的唯一频率。",
     "comingSoon": "COMING SOON",
     "awakening": "主权智能正在觉醒",
     "sealed": "正式发布前，主界面的公众入口已封锁。",

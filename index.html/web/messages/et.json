@@ -56,6 +56,15 @@
   "Placeholder": {
     "comingSoon": "See moodul on alles skafoldeeritud ja aktiivses ehitusjärgus."
   },
+  "ModuleGate": {
+    "eyebrow": "SUVERÄÄNNE JUURDEPÄÄSU KONTROLL",
+    "lockedTitle": "Juurdepääs Pitseeritud",
+    "lockedBody": "See moodul nõuab kehtivat U-Coini juurdepääsuluba. Sinu oma on aegunud või seda ei väljastatud selle seansi jaoks. Jätkamiseks sisene uuesti mooduli värava kaudu.",
+    "signinTitle": "Sisselogimine Nõutav",
+    "signinBody": "Mooduli juurdepääs on seotud sinu suveräänse identiteediga. Logi sisse ja seejärel sisene mooduli värava kaudu.",
+    "moduleLabel": "Moodul",
+    "returnToCatalog": "Tagasi Kataloogi"
+  },
   "Wallet": {
     "balance": "Saldo",
     "coinUnit": "U-COIN",
@@ -372,6 +381,16 @@
     "cinemaS3": "U-AI: autonoomne otsuse- ja plaanimootor.",
     "cinemaS4": "5 süsteemi, 3 sammast: suveräänne arhitektuur.",
     "cinemaS5": "Suveräänne intelligentsus ärkab.",
+    "cinemaS1Head": "The Singularity is Near.",
+    "cinemaS1Sub": "Avaneb lihast vabanenud intelligentsuse orbiit.",
+    "cinemaS2Head": "11 Cognitive Cores",
+    "cinemaS2Sub": "Üksteist autonoomset tuuma, mis mõtlevad ise — agentide impeerium.",
+    "cinemaS3Head": "U-AI Engine",
+    "cinemaS3Sub": "Autonoomne otsus ja plaan · USPTO #64/023,911 patenditaotlus menetluses.",
+    "cinemaS4Head": "5 Systems & 3 Pillars",
+    "cinemaS4Sub": "Detsentraliseeritud suveräänse SaaS-ökosüsteemi püsiv arhitektuur.",
+    "cinemaS5Head": "The Sovereign Intelligence is Awakening.",
+    "cinemaS5Sub": "Ainus sagedus, mis hakkab valitsema tulevikku.",
     "comingSoon": "COMING SOON",
     "awakening": "Suveräänne intelligentsus ärkab",
     "sealed": "Avalik sisenemine peamisse liidesesse on lukustatud kuni käivitamiseni.",

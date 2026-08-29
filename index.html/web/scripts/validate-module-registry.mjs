@@ -13,6 +13,13 @@
 //
 // Wired as `prebuild`, so it runs before every `next build` (and therefore
 // before every Stop-hook checkpoint commit).
+//
+// Route groups: the 16 coin-gated module routes live under
+// app/[locale]/(gated)/ (a Next.js route group -- transparent to the URL, so
+// /{locale}/arche still resolves). This script therefore scans BOTH
+// app/[locale] and app/[locale]/(gated) and unions the folder names; the
+// `(gated)` group directory itself is skipped (parenthesised names are never
+// URL segments).
 
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -31,7 +38,7 @@ const localeAppDir = path.resolve(__dirname, '..', 'app', '[locale]');
 // a product, so forcing a fake registry entry for it would misrepresent the
 // catalog. Extend this list for future non-product routes instead of adding
 // synthetic MODULE_REGISTRY entries.
-const INFRA_ROUTES = new Set(['legal', 'company', 'support']);
+const INFRA_ROUTES = new Set(['legal', 'company', 'support', 'locked']);
 
 function extractRoutes(source) {
   const routes = [];
@@ -53,9 +60,18 @@ function main() {
     process.exit(1);
   }
 
-  const actualFolders = readdirSync(localeAppDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name);
+  const readModuleFolders = (dir) =>
+    readdirSync(dir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      // Route-group dirs like "(gated)" are not URL segments -- their
+      // children are scanned separately below, so drop the wrapper itself.
+      .filter((name) => !(name.startsWith('(') && name.endsWith(')')));
+
+  const actualFolders = [
+    ...readModuleFolders(localeAppDir),
+    ...readModuleFolders(path.join(localeAppDir, '(gated)')),
+  ];
 
   const registrySet = new Set(registryRoutes);
   const folderSet = new Set(actualFolders);

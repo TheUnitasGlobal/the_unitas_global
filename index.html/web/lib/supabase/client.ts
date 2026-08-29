@@ -1,6 +1,7 @@
 'use client';
 
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 let browserClient: SupabaseClient | null = null;
 
@@ -9,6 +10,14 @@ let browserClient: SupabaseClient | null = null;
  * project as the root static site's coin-core wallet system (see
  * ../../../supabase/migrations) -- this app is a new frontend against the
  * same backend, not a separate one.
+ *
+ * Uses @supabase/ssr's createBrowserClient (not @supabase/supabase-js's
+ * createClient) so the auth session is persisted to COOKIES rather than
+ * localStorage. That is what lets the server (middleware.ts, the
+ * app/[locale]/(gated)/ layout, any future Server Component / Route Handler)
+ * see who is signed in -- required for the page-level coin gate. The
+ * `auth` / `.rpc` / `.from` surface is unchanged, so WalletProvider and the
+ * entry modals need no changes.
  */
 export function getSupabaseBrowserClient(): SupabaseClient {
   if (browserClient) return browserClient;
@@ -22,6 +31,6 @@ export function getSupabaseBrowserClient(): SupabaseClient {
     );
   }
 
-  browserClient = createClient(url, anonKey);
+  browserClient = createBrowserClient(url, anonKey);
   return browserClient;
 }

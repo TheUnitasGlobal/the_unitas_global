@@ -27,7 +27,8 @@
 
 - **창립자 전용 순차 검증 풀코스:** 창립자(황두영)가 메인 홈페이지에 접근할 때 바로 메인으로 점프시키지 않는다. 반드시 **[최초 게이트(주파수 동기화) → 30초 시네마틱 광고(U-AI · 11대·5대·3대 코그니티브 구조) → 준비 중(Coming Soon) → 메인 홈페이지]** 전체 순차 플로우를 창립자가 직접 보고 기획·검증·개선할 수 있는 테스트 환경을 철저히 보장한다. (일반 유저는 Coming Soon에서 fail-closed 봉인. 창립자 우회 키는 auto-memory `coming-soon-gate` 참조: `?dev=true` 또는 `?key=sovereign-64-023911`.)
 - **대화 통제 독트린:** 창립자가 **명시적으로 요청하기 전에는 임의로 셸 명령어를 제시하지 않는다.** 요청 시에만 유효하고 정밀한 **단일 최적화 명령어**를 제공한다.
-- **출력 언어:** 사용자에게 향하는 모든 대화형 출력은 **100% 한국어** (소스 코드, 명령어 구문, 파일 경로, 기술 고유명사만 예외). 아래 "Output language & standing approval protocol" 절과 auto-memory `feedback-respond-in-korean` 참조.
+- **자율 승인 분기 원칙 (Smart Auto-Accept, owner instruction 2026-08-29):** 단순 루틴 명령어(읽기·파일 검색·검증·빌드·테스트·cURL·타입체크 등)와 시스템 안정성에 리스크가 없는 안전한 툴 실행은 창립자 승인 요청 없이 에이전트가 자체 판단하여 자동 실행(Auto-Accept)한다. 단, **데이터베이스 파괴, 파일 강제 삭제, 외부 배포(Vercel 프로덕션 강제 배포), 핵심 아키텍처·정책 설계 선택지(User Question)**가 발생하면 반드시 실행을 멈추고 창립자에게 보고·명시적 승인을 요청한다. 이는 "대화 통제 독트린"(창립자에게 명령어를 *제시*하지 않음)과 별개로, 에이전트 자신의 툴 호출 실행 판단에 적용된다. auto-memory `smart-auto-accept-doctrine` 참조.
+- **출력 언어 (Korean-First Localization):** 사용자에게 향하는 모든 대화형 출력·결과 창·로그 요약·설명·상태 보고는 **100% 자연스러운 한국어**로 번역해 출력한다 (셸 명령어 자체의 필수 영문 코드, 파일 경로, 고유 식별자, 특수문자 코드 블록만 예외). 아래 "Output language & standing approval protocol" 절과 auto-memory `feedback-respond-in-korean` 참조.
 
 ---
 

@@ -167,7 +167,10 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
 
       const bed = ctx.createGain();
       bed.gain.setValueAtTime(0.0001, now);
-      bed.gain.exponentialRampToValueAtTime(AMBIENT_GAIN, now + 2.4);
+      // ZERO-DELAY SYMPHONY (owner instruction 2026-08-29): the bed reaches
+      // full level in ~0.7s instead of 2.4s so the soundscape is present the
+      // instant a page/render appears -- no silent lead-in.
+      bed.gain.exponentialRampToValueAtTime(AMBIENT_GAIN, now + 0.7);
 
       // Gentle movement: a slow LFO sweeps a lowpass cutoff so the drone
       // breathes instead of sitting as a dead tone.
@@ -278,6 +281,38 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     ctx.resume().catch(() => {});
     setUnlocked(true);
     setMuted(false);
+
+    // Immediate "arrival" impact so crossing the gate is never silent while
+    // the ambient bed ramps up behind it (zero-delay symphony).
+    const master = masterGainRef.current;
+    if (master) {
+      const now = ctx.currentTime;
+      const boom = ctx.createOscillator();
+      boom.type = 'sine';
+      boom.frequency.setValueAtTime(150, now);
+      boom.frequency.exponentialRampToValueAtTime(40, now + 1.4);
+      const boomGain = ctx.createGain();
+      boomGain.gain.setValueAtTime(0.0001, now);
+      boomGain.gain.linearRampToValueAtTime(0.5, now + 0.02);
+      boomGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+      boom.connect(boomGain);
+      boomGain.connect(master);
+      boom.start(now);
+      boom.stop(now + 1.7);
+
+      const shimmer = ctx.createOscillator();
+      shimmer.type = 'triangle';
+      shimmer.frequency.setValueAtTime(320, now);
+      shimmer.frequency.exponentialRampToValueAtTime(1280, now + 0.9);
+      const shimmerGain = ctx.createGain();
+      shimmerGain.gain.setValueAtTime(0.0001, now);
+      shimmerGain.gain.linearRampToValueAtTime(0.14, now + 0.04);
+      shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.1);
+      shimmer.connect(shimmerGain);
+      shimmerGain.connect(master);
+      shimmer.start(now);
+      shimmer.stop(now + 1.2);
+    }
   }, [ensureContext]);
 
   /**

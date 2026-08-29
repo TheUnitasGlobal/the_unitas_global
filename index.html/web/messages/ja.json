@@ -56,6 +56,15 @@
   "Placeholder": {
     "comingSoon": "このモジュールはスキャフォールディング段階にあり、現在構築中です。"
   },
+  "ModuleGate": {
+    "eyebrow": "主権アクセス制御",
+    "lockedTitle": "アクセス封印",
+    "lockedBody": "このモジュールには有効な U-Coin アクセス権が必要です。権限が失効したか、このセッションでは発行されていません。続行するにはモジュールゲートから再入場してください。",
+    "signinTitle": "サインインが必要",
+    "signinBody": "モジュールへのアクセスは主権的アイデンティティに紐付けられています。サインインしてからモジュールゲートより入場してください。",
+    "moduleLabel": "モジュール",
+    "returnToCatalog": "カタログに戻る"
+  },
   "Wallet": {
     "balance": "残高",
     "coinUnit": "U-COIN",
@@ -372,6 +381,16 @@
     "cinemaS3": "U-AI ― 自律的意思決定・設計エンジン。",
     "cinemaS4": "5つのシステム、3つの柱 ― 主権アーキテクチャ。",
     "cinemaS5": "主権的知性が目覚めつつある。",
+    "cinemaS1Head": "The Singularity is Near.",
+    "cinemaS1Sub": "肉体を離れた知性の軌道が開かれる。",
+    "cinemaS2Head": "11 Cognitive Cores",
+    "cinemaS2Sub": "自ら思考する11の自律コアが築くエージェントの帝国。",
+    "cinemaS3Head": "U-AI Engine",
+    "cinemaS3Sub": "自律的意思決定と設計図 · USPTO #64/023,911 特許出願中。",
+    "cinemaS4Head": "5 Systems & 3 Pillars",
+    "cinemaS4Sub": "分散型ソブリンSaaSエコシステムの永続的アーキテクチャ。",
+    "cinemaS5Head": "The Sovereign Intelligence is Awakening.",
+    "cinemaS5Sub": "未来を支配する、唯一の周波数。",
     "comingSoon": "COMING SOON",
     "awakening": "主権的知性が目覚めつつある",
     "sealed": "正式ローンチまで、メインインターフェースへの一般アクセスは封印されています。",

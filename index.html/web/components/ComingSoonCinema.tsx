@@ -47,9 +47,17 @@ const LOCALE_NATIVE: Record<string, string> = {
   es: 'Español',
 };
 
-type CaptionKey = 'cinemaS1' | 'cinemaS2' | 'cinemaS3' | 'cinemaS4' | 'cinemaS5';
-const captionKeyFor = (segId: number): CaptionKey =>
-  (`cinemaS${Math.min(Math.max(segId, 1), 5)}` as CaptionKey);
+// Each cinema segment now renders as a two-line high-end keyword lockup:
+// an English keyword HEAD + a localized, riddle-like SUB line beneath it.
+type CaptionSlot = 'Head' | 'Sub';
+type CaptionKey =
+  | 'cinemaS1Head' | 'cinemaS1Sub'
+  | 'cinemaS2Head' | 'cinemaS2Sub'
+  | 'cinemaS3Head' | 'cinemaS3Sub'
+  | 'cinemaS4Head' | 'cinemaS4Sub'
+  | 'cinemaS5Head' | 'cinemaS5Sub';
+const captionKeyFor = (segId: number, slot: CaptionSlot): CaptionKey =>
+  `cinemaS${Math.min(Math.max(segId, 1), 5)}${slot}` as CaptionKey;
 
 /**
  * Pre-launch curtain.
@@ -243,9 +251,44 @@ export function ComingSoonCinema() {
     lfoGain.connect(filter.frequency);
     lfo.start();
 
+    // ZERO-DELAY SYMPHONY: the bed is audible the instant the visitor commits
+    // to entering -- a fast 0.35s rise instead of a slow 2.5s fade -- and a
+    // one-shot "arrival" impact (sub boom + rising shimmer) fires on the same
+    // frame so there is never a beat of silence before the visuals land.
     const now = ctx.currentTime;
     master.gain.setValueAtTime(0, now);
-    master.gain.linearRampToValueAtTime(0.5, now + 2.5);
+    master.gain.linearRampToValueAtTime(0.5, now + 0.35);
+
+    const boom = ctx.createOscillator();
+    boom.type = 'sine';
+    boom.frequency.setValueAtTime(140, now);
+    boom.frequency.exponentialRampToValueAtTime(34, now + 1.6);
+    const boomGain = ctx.createGain();
+    boomGain.gain.setValueAtTime(0.0001, now);
+    boomGain.gain.linearRampToValueAtTime(0.42, now + 0.02);
+    boomGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
+    boom.connect(boomGain);
+    boomGain.connect(master);
+    boom.start(now);
+    boom.stop(now + 1.9);
+
+    const riser = ctx.createOscillator();
+    riser.type = 'sawtooth';
+    riser.frequency.setValueAtTime(180, now);
+    riser.frequency.exponentialRampToValueAtTime(1320, now + 1.4);
+    const riserFilter = ctx.createBiquadFilter();
+    riserFilter.type = 'bandpass';
+    riserFilter.frequency.value = 900;
+    riserFilter.Q.value = 3;
+    const riserGain = ctx.createGain();
+    riserGain.gain.setValueAtTime(0.0001, now);
+    riserGain.gain.linearRampToValueAtTime(0.12, now + 0.05);
+    riserGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
+    riser.connect(riserFilter);
+    riserFilter.connect(riserGain);
+    riserGain.connect(master);
+    riser.start(now);
+    riser.stop(now + 1.6);
 
     const bell = window.setInterval(() => {
       if (ctx.state !== 'running') return;
@@ -401,15 +444,19 @@ export function ComingSoonCinema() {
     };
   }, [phase, field, reduceMotion]);
 
-  // --- scroll lock while the curtain is up --------------------------------
+  // --- NO scroll lock -----------------------------------------------------
+  // Owner instruction 2026-08-29: the curtain must never freeze up/down
+  // scrolling on ANY device. We do NOT touch `document.documentElement.style
+  // .overflow` anymore. The curtain is a full-viewport fixed layer and each
+  // phase panel scrolls its own overflow (`overflow-y-auto overscroll-contain`)
+  // so tall content on short/landscape viewports stays reachable with a
+  // natural, organic scroll instead of a dead, locked page. As a one-time
+  // defensive cleanup, clear any stale inline overflow lock a previous build
+  // (or a hot-reload of the old code) may have left on the root element.
   useEffect(() => {
-    if (phase === 'released') return;
-    const prev = document.documentElement.style.overflow;
-    document.documentElement.style.overflow = 'hidden';
-    return () => {
-      document.documentElement.style.overflow = prev;
-    };
-  }, [phase]);
+    const el = document.documentElement;
+    if (el.style.overflow === 'hidden') el.style.overflow = '';
+  }, []);
 
   // --- actions -----------------------------------------------------------
   const enter = () => {
@@ -439,6 +486,9 @@ export function ComingSoonCinema() {
     }
     audioRef.current?.stop();
     audioRef.current = null;
+    // Land the real homepage at the very top (the page behind the curtain was
+    // free to scroll while the curtain was up -- we no longer lock it).
+    window.scrollTo(0, 0);
     setPhase('released');
   };
 
@@ -555,7 +605,7 @@ export function ComingSoonCinema() {
             {phase === 'gate' && (
               <motion.div
                 key="gate"
-                className="absolute inset-0 flex flex-col items-center justify-center px-6 backdrop-blur-2xl"
+                className="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain px-6 py-16 backdrop-blur-2xl"
                 initial={false}
                 exit={{ opacity: 0, scale: 1.04 }}
                 transition={{ duration: 0.9, ease: 'easeInOut' }}
@@ -630,22 +680,42 @@ export function ComingSoonCinema() {
                   />
                 </div>
 
-                <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-8">
+                <div className="absolute inset-0 flex items-center justify-center overflow-y-auto overscroll-contain px-6 py-20 sm:px-10">
                   <AnimatePresence mode="wait">
-                    <motion.p
+                    <motion.div
                       key={segId}
-                      initial={{ opacity: 0, y: 16, filter: 'blur(10px)', letterSpacing: '0.55em' }}
-                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)', letterSpacing: '0.18em' }}
-                      exit={{ opacity: 0, y: -16, filter: 'blur(10px)' }}
+                      initial={{ opacity: 0, y: 18, filter: 'blur(12px)' }}
+                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                      exit={{ opacity: 0, y: -18, filter: 'blur(12px)' }}
                       transition={{ duration: 0.9, ease: [0.16, 0.84, 0.44, 1] }}
-                      className="max-w-4xl text-center font-serif text-2xl font-semibold uppercase leading-tight text-white [text-wrap:balance] sm:text-4xl lg:text-5xl"
-                      style={{
-                        textShadow:
-                          '0 0 30px rgba(212,175,55,0.35), 0 0 72px rgba(0,243,255,0.12)',
-                      }}
+                      className="flex max-w-4xl flex-col items-center text-center"
                     >
-                      {t(captionKeyFor(segId))}
-                    </motion.p>
+                      <motion.h2
+                        initial={{ letterSpacing: '0.5em' }}
+                        animate={{ letterSpacing: '0.16em' }}
+                        transition={{ duration: 1.1, ease: [0.16, 0.84, 0.44, 1] }}
+                        className="bg-gradient-to-r from-accent via-white to-neon bg-clip-text font-serif text-[1.7rem] font-bold uppercase leading-[1.12] text-transparent [text-wrap:balance] sm:text-5xl lg:text-6xl"
+                        style={{
+                          filter:
+                            'drop-shadow(0 0 26px rgba(212,175,55,0.4)) drop-shadow(0 0 60px rgba(0,243,255,0.18))',
+                        }}
+                      >
+                        {t(captionKeyFor(segId, 'Head'))}
+                      </motion.h2>
+                      <span
+                        aria-hidden="true"
+                        className="my-5 block h-px w-16 bg-gradient-to-r from-transparent via-accent/70 to-transparent sm:w-24"
+                      />
+                      <motion.p
+                        initial={{ opacity: 0, letterSpacing: '0.32em' }}
+                        animate={{ opacity: 1, letterSpacing: '0.14em' }}
+                        transition={{ delay: 0.22, duration: 1, ease: [0.16, 0.84, 0.44, 1] }}
+                        className="max-w-2xl font-serif text-sm font-medium leading-relaxed text-white/70 [text-wrap:balance] sm:text-lg lg:text-xl"
+                        style={{ textShadow: '0 0 24px rgba(0,243,255,0.14)' }}
+                      >
+                        {t(captionKeyFor(segId, 'Sub'))}
+                      </motion.p>
+                    </motion.div>
                   </AnimatePresence>
                 </div>
 
@@ -666,7 +736,7 @@ export function ComingSoonCinema() {
             {phase === 'sealed' && (
               <motion.div
                 key="sealed"
-                className="absolute inset-0 flex flex-col items-center justify-center px-6"
+                className="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain px-6 py-16"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.1, ease: 'easeOut' }}

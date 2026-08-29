@@ -7,6 +7,7 @@ import { Modal } from '@/components/ui/Modal';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { moduleAccessName } from '@/lib/module-registry';
 import type { B2CModule } from '@/lib/modules';
 
 interface ModuleQuestModalProps {
@@ -53,7 +54,7 @@ export function ModuleQuestModal({ module, onClose }: ModuleQuestModalProps) {
     try {
       const supabase = getSupabaseBrowserClient();
       const { error } = await supabase.rpc('spend_coins', {
-        p_module: module.messageKey.charAt(0).toUpperCase() + module.messageKey.slice(1),
+        p_module: moduleAccessName(module.route) ?? module.key,
         p_amount: module.coinCost,
       });
       if (error) {

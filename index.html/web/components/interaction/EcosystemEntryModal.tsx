@@ -7,6 +7,7 @@ import { useRouter } from '@/i18n/navigation';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { moduleAccessName } from '@/lib/module-registry';
 import type { EcosystemTheme } from '@/lib/ecosystems';
 
 interface EcosystemEntryModalProps {
@@ -65,7 +66,7 @@ export function EcosystemEntryModal({ ecosystem, onClose }: EcosystemEntryModalP
     try {
       const supabase = getSupabaseBrowserClient();
       const { error } = await supabase.rpc('spend_coins', {
-        p_module: ecosystem.key,
+        p_module: moduleAccessName(ecosystem.route) ?? ecosystem.key,
         p_amount: ecosystem.coinCost,
       });
       if (error) {

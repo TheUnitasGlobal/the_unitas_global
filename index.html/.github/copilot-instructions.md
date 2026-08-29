@@ -12,6 +12,7 @@ Before implementation, consult `THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md` for the wor
 - **아키텍처 원칙:** 제로 타협(성능·툴·3D/Canvas·셀프힐링 축소 금지) · 로우메모리 아머(유휴 워처 차단, 온디맨드 호출) · 페일클로즈드 게이트(`npm --prefix web run typecheck` + `npm --prefix web run build`, 300초, 실패 시 커밋/푸시/배포 전면 중단).
 - **개발/테스트 공정:** 창립자 메인 접근 시 [최초 게이트 → 30초 시네마틱 → Coming Soon → 메인] 전체 순차 플로우 검증 환경을 보장. 일반 유저는 Coming Soon에서 fail-closed 봉인.
 - **대화 통제 독트린:** 창립자가 명시 요청하기 전 셸 명령어 임의 제시 금지. 요청 시에만 단일 최적화 명령어 제공. 사용자 대상 출력은 100% 한국어(코드·명령어·경로·기술 고유명사 예외).
+- **자율 승인 분기 원칙 (Smart Auto-Accept, 2026-08-29):** 루틴 명령어(읽기·검색·검증·빌드·테스트·cURL·타입체크)와 안전한 툴 실행은 승인 요청 없이 자동 실행. DB 파괴·파일 강제 삭제·외부 배포·핵심 아키텍처/정책 선택지는 반드시 멈추고 창립자 승인 요청.
 
 ## Delivery protocol
 

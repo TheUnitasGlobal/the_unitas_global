@@ -43,19 +43,14 @@ export function AudioGate() {
 
   const open = !dismissed && !unlocked;
 
-  // The gate's content fits the viewport by design -- lock document scroll
-  // while it's open so no vertical scrollbar can appear behind/through the
-  // fixed overlay (a `position: fixed` panel doesn't stop the page under it
-  // from scrolling on its own).
+  // NO document scroll lock (owner instruction 2026-08-29: never freeze up/down
+  // scrolling on any device). The overlay is a full-viewport fixed layer that
+  // scrolls its own overflow instead; clear any stale inline lock a previous
+  // build may have left on the root element.
   useEffect(() => {
     if (typeof document === 'undefined') return;
-    if (open) {
-      const previous = document.documentElement.style.overflow;
-      document.documentElement.style.overflow = 'hidden';
-      return () => {
-        document.documentElement.style.overflow = previous;
-      };
-    }
+    const el = document.documentElement;
+    if (el.style.overflow === 'hidden') el.style.overflow = '';
   }, [open]);
 
   function markSeen() {
@@ -75,7 +70,7 @@ export function AudioGate() {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-[300] flex flex-col items-center justify-center bg-void px-6 text-center backdrop-blur-2xl"
+          className="fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-y-auto overscroll-contain bg-void px-6 py-16 text-center backdrop-blur-2xl"
           initial={false}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: 'easeInOut' }}

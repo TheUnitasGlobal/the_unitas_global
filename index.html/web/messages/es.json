@@ -56,6 +56,15 @@
   "Placeholder": {
     "comingSoon": "Este módulo está en fase de andamiaje y en construcción activa."
   },
+  "ModuleGate": {
+    "eyebrow": "CONTROL DE ACCESO SOBERANO",
+    "lockedTitle": "Acceso Sellado",
+    "lockedBody": "Este módulo requiere una concesión de acceso U-Coin activa. La tuya ha caducado o no se emitió para esta sesión. Vuelve a entrar por la puerta del módulo para continuar.",
+    "signinTitle": "Inicio de Sesión Requerido",
+    "signinBody": "El acceso al módulo está vinculado a tu identidad soberana. Inicia sesión y luego entra por la puerta del módulo.",
+    "moduleLabel": "Módulo",
+    "returnToCatalog": "Volver al Catálogo"
+  },
   "Wallet": {
     "balance": "Saldo",
     "coinUnit": "U-COIN",
@@ -372,6 +381,16 @@
     "cinemaS3": "U-AI: motor autónomo de decisión y diseño.",
     "cinemaS4": "5 sistemas, 3 pilares: la arquitectura soberana.",
     "cinemaS5": "La inteligencia soberana está despertando.",
+    "cinemaS1Head": "The Singularity is Near.",
+    "cinemaS1Sub": "Se abre la órbita de una inteligencia liberada de la carne.",
+    "cinemaS2Head": "11 Cognitive Cores",
+    "cinemaS2Sub": "Once núcleos autónomos que piensan por sí mismos: un imperio de agentes.",
+    "cinemaS3Head": "U-AI Engine",
+    "cinemaS3Sub": "Decisión y diseño autónomos · USPTO #64/023,911 Patente en trámite.",
+    "cinemaS4Head": "5 Systems & 3 Pillars",
+    "cinemaS4Sub": "La arquitectura perpetua de un ecosistema SaaS soberano y descentralizado.",
+    "cinemaS5Head": "The Sovereign Intelligence is Awakening.",
+    "cinemaS5Sub": "La única frecuencia que gobernará el futuro.",
     "comingSoon": "COMING SOON",
     "awakening": "La Inteligencia Soberana está despertando",
     "sealed": "El acceso público a la interfaz principal está sellado hasta el lanzamiento.",

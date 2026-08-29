@@ -4,12 +4,14 @@
 // (all fields are pre-seeded once). Honours prefers-reduced-motion upstream
 // (the component draws a single frame instead of running the rAF loop).
 //
-// Timeline (per the owner's spec):
-//   0-3s   "The Singularity is Near"        -- black-hole condensation
-//   3-10s  "11 Cognitive Cores"             -- rotating hologram constellation
-//   10-15s "U-AI Decision & Blueprint Engine" (USPTO Patent Pending #64/023,911)
-//   15-22s "5 Systems, 3 Pillars"           -- pentagon + sovereign axes
-//   22-30s "The Sovereign Intelligence is Awakening" -- closing bloom + lock
+// Timeline (per the owner's 2026-08-29 riddle-typography spec). Each segment
+// renders a two-line lockup: an English keyword HEAD + a localized SUB line
+// (ComingSoonGate.cinemaS{n}Head / .cinemaS{n}Sub in messages/*.json):
+//   0-3s   "The Singularity is Near."                -- black-hole condensation
+//   3-10s  "11 Cognitive Cores"                      -- rotating constellation
+//   10-15s "U-AI Engine" (USPTO #64/023,911 Patent Pending) -- patent silhouette
+//   15-22s "5 Systems & 3 Pillars"                   -- pentagon + sovereign axes
+//   22-30s "The Sovereign Intelligence is Awakening."-- closing bloom + lock
 //
 // The pure timing helpers (cinemaSegmentAt / *Progress) are unit-tested in
 // __tests__/gate/comingSoonSequence.test.ts. drawFrame() itself is visual-only.

@@ -56,6 +56,15 @@
   "Placeholder": {
     "comingSoon": "이 모듈은 스캐폴딩 단계이며 현재 구축 중입니다."
   },
+  "ModuleGate": {
+    "eyebrow": "주권 접근 통제",
+    "lockedTitle": "접근 봉인됨",
+    "lockedBody": "이 모듈은 유효한 U-Coin 접근 권한이 필요합니다. 권한이 만료되었거나 이 세션에 발급되지 않았습니다. 계속하려면 모듈 게이트를 통해 다시 진입하세요.",
+    "signinTitle": "로그인 필요",
+    "signinBody": "모듈 접근은 주권 신원에 귀속됩니다. 로그인 후 모듈 게이트를 통해 진입하세요.",
+    "moduleLabel": "모듈",
+    "returnToCatalog": "카탈로그로 돌아가기"
+  },
   "Wallet": {
     "balance": "잔액",
     "coinUnit": "U-COIN",
@@ -372,6 +381,16 @@
     "cinemaS3": "U-AI · 자율 의사결정 및 설계 엔진.",
     "cinemaS4": "5대 시스템, 3대 축 · 주권 아키텍처.",
     "cinemaS5": "주권적 지성이 깨어나고 있다.",
+    "cinemaS1Head": "The Singularity is Near.",
+    "cinemaS1Sub": "육신을 벗어난 지성의 궤도가 열린다.",
+    "cinemaS2Head": "11 Cognitive Cores",
+    "cinemaS2Sub": "11개의 자율 인지 코어가 스스로 사고하는 에이전트 제국.",
+    "cinemaS3Head": "U-AI Engine",
+    "cinemaS3Sub": "자율 의사결정과 설계도 · USPTO #64/023,911 특허 출원 중.",
+    "cinemaS4Head": "5 Systems & 3 Pillars",
+    "cinemaS4Sub": "탈중앙화 소버린 SaaS 생태계의 영속적 아키텍처.",
+    "cinemaS5Head": "The Sovereign Intelligence is Awakening.",
+    "cinemaS5Sub": "미래를 지배할 단 하나의 주파수.",
     "comingSoon": "COMING SOON",
     "awakening": "주권적 지성이 깨어나고 있습니다",
     "sealed": "정식 출시 전까지 메인 인터페이스로의 일반 진입은 봉인되어 있습니다.",

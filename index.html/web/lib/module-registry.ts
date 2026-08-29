@@ -55,3 +55,31 @@ export const MODULE_REGISTRY: ModuleRegistryEntry[] = [
     coinGated: false,
   })),
 ];
+
+const REGISTRY_BY_ROUTE = new Map(MODULE_REGISTRY.map((m) => [m.route, m]));
+const REGISTRY_BY_KEY = new Map(MODULE_REGISTRY.map((m) => [m.key, m]));
+
+/**
+ * The exact string a spend is recorded under in `coin_ledger.module` /
+ * `module_access_grants.module`. The two client entry modals historically
+ * derived this ad-hoc and INCONSISTENTLY -- ModuleQuestModal capitalised the
+ * b2c messageKey ('Arche'), EcosystemEntryModal passed the raw ecosystem key
+ * ('echo'). Both conventions match their half of the DB whitelist, so this
+ * helper preserves them exactly, in one place, so the entry modals and the
+ * page-level gate (app/[locale]/(gated)/layout.tsx) always agree.
+ *
+ * Returns null for an unknown route/key or a non-coin-gated (b2b) module.
+ */
+export function moduleAccessName(routeOrKey: string): string | null {
+  const entry = REGISTRY_BY_ROUTE.get(routeOrKey) ?? REGISTRY_BY_KEY.get(routeOrKey);
+  if (!entry || !entry.coinGated) return null;
+  if (entry.tier === 'b2c') {
+    return entry.messageKey.charAt(0).toUpperCase() + entry.messageKey.slice(1);
+  }
+  return entry.key;
+}
+
+/** Registry entry for a route segment, or null if it isn't a known module route. */
+export function moduleForRoute(route: string): ModuleRegistryEntry | null {
+  return REGISTRY_BY_ROUTE.get(route) ?? null;
+}
