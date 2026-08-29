@@ -20,13 +20,14 @@ import {
 } from '@/lib/comingSoonSequence';
 
 /**
- * gate     -> glassmorphism entry screen (public + founder)
+ * gate     -> glassmorphism entry screen (public + founder, identical)
  * cinema   -> 30s canvas + CSS cinematic, mysterious keyword typography only
- * sealed   -> PUBLIC terminal: "COMING SOON" locked screen, dimmed loop behind
- * handoff  -> FOUNDER only: brief "entering the main interface" beat
+ * sealed   -> TERMINAL for everyone: "COMING SOON" locked screen, dimmed loop
+ *             behind. PUBLIC has no path past this -- ever. FOUNDER gets one
+ *             extra secret button here that flips to `released`.
  * released -> FOUNDER only: curtain dissolves, the real site is revealed
  */
-type Phase = 'gate' | 'cinema' | 'sealed' | 'handoff' | 'released';
+type Phase = 'gate' | 'cinema' | 'sealed' | 'released';
 type Mode = 'public' | 'founder';
 
 const PHASE_KEY = 'unitas_cinema_phase';
@@ -54,12 +55,16 @@ const captionKeyFor = (segId: number): CaptionKey =>
  * Pre-launch curtain.
  *
  * PUBLIC: a permanent, non-dismissable overlay -- entry gate -> 30s cinematic
- * -> sealed "Coming Soon" screen. The main interface is never reachable.
+ * -> sealed "Coming Soon" screen. The main interface is never reachable and no
+ * control that could reach it is ever rendered (fail-closed).
  *
  * FOUNDER (build/QA -- ?dev=true | ?key=<secret> | ?dev=skip | ?dev=replay |
- * persisted grant): walks the SAME sequential flow -- entry gate -> cinematic
- * -> then the curtain dissolves and hands off to the real homepage. The founder
- * verifies the whole "진입화면 -> 광고화면 -> 메인" path rather than teleporting.
+ * persisted grant): walks the EXACT SAME sequential flow -- entry gate ->
+ * cinematic -> sealed "Coming Soon" -- so the founder monitors every screen a
+ * real visitor sees. The ONLY difference: on that final sealed screen the
+ * founder (and only the founder) is shown a secret
+ * "[ 창립자 전용 메인 사이트 진입 ]" button that dissolves the curtain into
+ * the real homepage. ?dev=skip is a QA shortcut straight to that release.
  *
  * Mounted in app/[locale]/layout.tsx AFTER <AudioGate/> and outside
  * `.dashboard-zoom`. Client Component, but Next App Router SSRs it, so the
@@ -95,8 +100,9 @@ export function ComingSoonCinema() {
   const startRef = useRef<number>(0);
   const audioRef = useRef<{ ctx: AudioContext; master: GainNode; stop: () => void } | null>(null);
 
+  // Everyone -- public AND founder -- ends the cinematic on the same locked
+  // 'sealed' "COMING SOON" screen; the founder just gets an extra button there.
   const isFounder = mode === 'founder';
-  const terminalPhase: Phase = isFounder ? 'handoff' : 'sealed';
 
   // --- founder bypass + persisted phase --------------------------------------
   useEffect(() => {
@@ -137,8 +143,9 @@ export function ComingSoonCinema() {
 
     try {
       const saved = sessionStorage.getItem(PHASE_KEY);
-      if (saved === 'released' || saved === 'handoff')
-        setPhase(founder ? 'released' : 'sealed');
+      // 'released' is founder-only; a public browser that somehow has it stored
+      // still resolves to the locked screen.
+      if (saved === 'released') setPhase(founder ? 'released' : 'sealed');
       else if (saved === 'sealed') setPhase('sealed');
       else if (saved === 'cinema') setPhase('cinema');
     } catch {
@@ -284,19 +291,12 @@ export function ComingSoonCinema() {
     a.master.gain.linearRampToValueAtTime(muted ? 0 : 0.5, now + 0.3);
   }, [muted]);
 
-  // stop audio once the founder hand-off begins / the site is released
+  // stop the ambient bed once the founder leaves the curtain for the real site
   useEffect(() => {
-    if (phase === 'handoff' || phase === 'released') {
+    if (phase === 'released') {
       audioRef.current?.stop();
       audioRef.current = null;
     }
-  }, [phase]);
-
-  // founder hand-off: hold the "entering" beat, then dissolve the curtain
-  useEffect(() => {
-    if (phase !== 'handoff') return;
-    const to = window.setTimeout(() => setPhase('released'), 1500);
-    return () => window.clearTimeout(to);
   }, [phase]);
 
   useEffect(() => {
@@ -309,7 +309,7 @@ export function ComingSoonCinema() {
 
   // --- canvas render loop --------------------------------------------------
   useEffect(() => {
-    if (phase !== 'cinema' && phase !== 'sealed' && phase !== 'handoff') return;
+    if (phase !== 'cinema' && phase !== 'sealed') return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -333,13 +333,13 @@ export function ComingSoonCinema() {
     // Start the clock once per cinema run. enter()/replay() reset it to the
     // sentinel 0; we only stamp it here so a mid-cinema effect re-run (e.g.
     // useReducedMotion resolving null -> false after hydration, or a locale
-    // switch) can NOT rewind the timeline. On the sealed/handoff loop we keep
+    // switch) can NOT rewind the timeline. On the sealed loop we keep
     // whatever clock we had so the dimmed background keeps flowing unbroken.
     if (phase === 'cinema' && startRef.current === 0) {
       startRef.current = performance.now();
     }
 
-    const sealed = phase === 'sealed' || phase === 'handoff';
+    const sealed = phase === 'sealed';
     let stopped = false;
 
     const draw = (elapsed: number) => {
@@ -366,7 +366,7 @@ export function ComingSoonCinema() {
       draw(sealed ? 26_000 : 8_000);
       if (phase === 'cinema') {
         setSegId(3);
-        const to = window.setTimeout(() => setPhase(terminalPhase), 2200);
+        const to = window.setTimeout(() => setPhase('sealed'), 2200);
         return () => {
           stopped = true;
           window.clearTimeout(to);
@@ -383,7 +383,7 @@ export function ComingSoonCinema() {
       if (stopped) return;
       const elapsed = now - startRef.current;
       if (phase === 'cinema' && elapsed >= CINEMA_DURATION_MS) {
-        setPhase(terminalPhase);
+        setPhase('sealed');
         return;
       }
       draw(elapsed);
@@ -399,7 +399,7 @@ export function ComingSoonCinema() {
       }
       window.removeEventListener('resize', resize);
     };
-  }, [phase, field, reduceMotion, terminalPhase]);
+  }, [phase, field, reduceMotion]);
 
   // --- scroll lock while the curtain is up --------------------------------
   useEffect(() => {
@@ -414,13 +414,6 @@ export function ComingSoonCinema() {
   // --- actions -----------------------------------------------------------
   const enter = () => {
     if (!reduceMotion) startAmbient();
-    if (isFounder) {
-      try {
-        sessionStorage.setItem(AUDIO_GATE_SEEN_KEY, '1');
-      } catch {
-        /* no-op */
-      }
-    }
     startRef.current = 0;
     setSegId(1);
     setPhase('cinema');
@@ -432,10 +425,24 @@ export function ComingSoonCinema() {
     setPhase('cinema');
   };
 
-  const skip = () => setPhase(terminalPhase);
+  const skip = () => setPhase('sealed');
+
+  // FOUNDER-ONLY: leave the curtain for the real homepage. Guarded by
+  // `isFounder` at the call site AND here -- a public build can never call it.
+  const enterMainSite = () => {
+    if (!isFounder) return;
+    try {
+      // don't make the founder clear the site's own <AudioGate/> as well
+      sessionStorage.setItem(AUDIO_GATE_SEEN_KEY, '1');
+    } catch {
+      /* no-op */
+    }
+    audioRef.current?.stop();
+    audioRef.current = null;
+    setPhase('released');
+  };
 
   const showChrome = phase === 'cinema' || phase === 'sealed';
-  const showBackdrop = showChrome || phase === 'handoff';
 
   return (
     <AnimatePresence>
@@ -457,7 +464,7 @@ export function ComingSoonCinema() {
           />
 
           {/* pure-CSS cinematic backdrop -- guaranteed motion from frame zero */}
-          {showBackdrop && !reduceMotion && (
+          {showChrome && !reduceMotion && (
             <div className="cs-stage-in pointer-events-none absolute inset-0" aria-hidden="true">
               <div
                 className="cs-horizon absolute left-1/2 top-1/2 h-[120vmin] w-[120vmin]"
@@ -653,7 +660,8 @@ export function ComingSoonCinema() {
             )}
           </AnimatePresence>
 
-          {/* SEALED -- public terminal */}
+          {/* SEALED -- the terminal screen for EVERYONE. Public sees no path
+              out. Founder alone gets the secret entry button at the bottom. */}
           <AnimatePresence>
             {phase === 'sealed' && (
               <motion.div
@@ -688,29 +696,31 @@ export function ComingSoonCinema() {
                   </p>
                   <p className="text-[10px] tracking-wide text-white/20">{t('rights')}</p>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
-          {/* FOUNDER HAND-OFF: brief beat, then `phase` -> 'released' and this
-              whole curtain plays its exit + unmounts, revealing the real
-              homepage (and its own <AudioGate/>) underneath. */}
-          <AnimatePresence>
-            {phase === 'handoff' && (
-              <motion.div
-                key="handoff"
-                className="absolute inset-0 flex flex-col items-center justify-center px-6"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <p
-                  className="cs-awaken font-serif text-2xl uppercase tracking-[0.3em] text-white sm:text-4xl"
-                  style={{ textShadow: '0 0 30px rgba(212,175,55,0.35)' }}
-                >
-                  {t('enterMain')}
-                </p>
+                {/* FOUNDER-ONLY secret door. Never rendered for the public,
+                    so there is no path past the curtain in a normal session. */}
+                {isFounder && (
+                  <motion.div
+                    className="mt-12 flex flex-col items-center gap-3 border-t border-white/10 pt-8"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6, duration: 0.8 }}
+                  >
+                    <p className="text-[10px] uppercase tracking-[0.4em] text-accent/60">
+                      {t('founderAccessLabel')}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={enterMainSite}
+                      className="event-horizon-btn inline-block whitespace-nowrap px-7 py-3.5 text-xs font-medium uppercase tracking-[0.15em] text-white backdrop-blur-md transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98] sm:text-sm"
+                    >
+                      {t('enterMain')}
+                    </button>
+                    <p className="max-w-xs text-[10px] leading-relaxed text-white/30 [text-wrap:balance]">
+                      {t('founderAccessNote')}
+                    </p>
+                  </motion.div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
