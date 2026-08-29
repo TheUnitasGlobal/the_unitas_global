@@ -106,7 +106,9 @@ export function NavBar() {
           <div
             aria-hidden="true"
             className={`nav-edge-hint nav-edge-hint-left lg:hidden ${edgeHint.left ? 'opacity-100' : 'opacity-0'}`}
-          />
+          >
+            <span className="nav-edge-hint-pulse nav-edge-hint-pulse-left" />
+          </div>
           <div
             aria-hidden="true"
             className={`nav-edge-hint nav-edge-hint-right lg:hidden ${edgeHint.right ? 'opacity-100' : 'opacity-0'}`}

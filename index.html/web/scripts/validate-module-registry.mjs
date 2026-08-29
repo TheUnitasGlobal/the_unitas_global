@@ -31,7 +31,7 @@ const localeAppDir = path.resolve(__dirname, '..', 'app', '[locale]');
 // a product, so forcing a fake registry entry for it would misrepresent the
 // catalog. Extend this list for future non-product routes instead of adding
 // synthetic MODULE_REGISTRY entries.
-const INFRA_ROUTES = new Set(['legal']);
+const INFRA_ROUTES = new Set(['legal', 'company', 'support']);
 
 function extractRoutes(source) {
   const routes = [];

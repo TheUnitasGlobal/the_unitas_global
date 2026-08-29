@@ -170,13 +170,15 @@ body {
    brand cluster sits outside this container entirely (shrink-0, its own
    flex item in the row above) so it never scrolls with the menu, satisfying
    the fixed/anchored brand requirement without needing position: sticky.
-   Scrollbar is hidden cross-browser and an edge gradient mask softly fades
-   the row's own content. Reverts to a normal non-scrolling row at the lg:
-   breakpoint and above (the parent row switches to justify-between there).
-   The separate .nav-edge-hint layer below adds a glassmorphism glow + pulse
-   on top of that fade, driven by real scroll position (NavBar.tsx tracks
-   scrollLeft/scrollWidth), so the hint disappears once there's nothing left
-   to swipe toward in that direction instead of glowing at a dead end. */
+   Scrollbar is hidden cross-browser. The row's own content is NEVER masked
+   or faded -- glyphs and icons stay 100% sharp edge to edge (owner
+   instruction 2026-08-29: no scattering/blur at either end). Reverts to a
+   normal non-scrolling row at the lg: breakpoint and above (the parent row
+   switches to justify-between there). The separate .nav-edge-hint layer
+   below is the ONLY scroll affordance: a thin non-blurring gradient scrim +
+   a pulsing dot at each end, mirrored left/right, driven by real scroll
+   position (NavBar.tsx tracks scrollLeft/scrollWidth) so each hint
+   disappears once there is nothing left to swipe toward on that side. */
 .nav-scroll {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* legacy Edge/IE */
@@ -185,65 +187,63 @@ body {
 .nav-scroll::-webkit-scrollbar {
   display: none; /* Chrome/Safari/WebKit */
 }
-@media (max-width: 1023px) {
-  .nav-scroll {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent,
-      black 20px,
-      black calc(100% - 20px),
-      transparent
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      black 20px,
-      black calc(100% - 20px),
-      transparent
-    );
-  }
-}
 
-/* Glassmorphism glow overlay hinting more nav items lie past the visible
-   edge. Sits as a sibling of .nav-scroll inside the relatively-positioned
-   menu-cluster wrapper (which establishes the containing block), never
-   inside .nav-scroll itself -- so the overlay itself never scrolls away
-   with the content it's cueing, and its left/right edges track only the
-   menu cluster's own box, not the fixed brand cluster beside it. Opacity
-   is toggled from NavBar.tsx's edgeHint state, not CSS alone. */
+/* Symmetric scroll-affordance overlay hinting more nav items lie past the
+   visible edge. Sits as a sibling of .nav-scroll inside the relatively-
+   positioned menu-cluster wrapper (which establishes the containing block),
+   never inside .nav-scroll itself -- so the overlay never scrolls away with
+   the content it is cueing. NO backdrop-filter: blurring the layer would
+   smear the very glyphs/icons sitting under it near the edge. The scrim is a
+   short, low-opacity gradient confined to the outermost ~18px so the last
+   readable item stays crisp. Opacity is toggled from NavBar.tsx's edgeHint
+   state, not CSS alone. */
 .nav-edge-hint {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 44px;
+  width: 40px;
   pointer-events: none;
   z-index: 10;
   transition: opacity 0.25s ease;
-  backdrop-filter: blur(3px) saturate(1.3);
-  -webkit-backdrop-filter: blur(3px) saturate(1.3);
 }
 .nav-edge-hint-left {
   left: 0;
   display: flex;
   align-items: center;
-  background: linear-gradient(to right, rgba(3, 3, 5, 0.82), rgba(3, 3, 5, 0.3) 65%, transparent);
-  box-shadow: inset 14px 0 20px -14px rgba(0, 243, 255, 0.28);
+  justify-content: flex-start;
+  background: linear-gradient(
+    to right,
+    rgba(3, 3, 5, 0.7) 0%,
+    rgba(3, 3, 5, 0.28) 45%,
+    transparent 100%
+  );
+  box-shadow: inset 12px 0 18px -14px rgba(0, 243, 255, 0.3);
 }
 .nav-edge-hint-right {
   right: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  background: linear-gradient(to left, rgba(3, 3, 5, 0.82), rgba(3, 3, 5, 0.3) 65%, transparent);
-  box-shadow: inset -14px 0 20px -14px rgba(212, 175, 55, 0.28);
+  background: linear-gradient(
+    to left,
+    rgba(3, 3, 5, 0.7) 0%,
+    rgba(3, 3, 5, 0.28) 45%,
+    transparent 100%
+  );
+  box-shadow: inset -12px 0 18px -14px rgba(212, 175, 55, 0.3);
 }
 
-/* Small pulsing dot inside the right-edge hint, nudging left to suggest the
-   "swipe this way for more" direction. Left edge intentionally has no dot --
-   a single directional cue reads clearer than two competing pulses. */
-@keyframes nav-edge-pulse {
+/* Mirrored pulsing dots: the right dot nudges toward the left edge and the
+   left dot toward the right edge -- each points inward, "there is more this
+   way". Both ends now carry an identical cue (owner instruction 2026-08-29:
+   full left/right symmetry). */
+@keyframes nav-edge-pulse-right {
   0%, 100% { transform: translateX(0); opacity: 0.5; }
   50% { transform: translateX(-5px); opacity: 1; }
+}
+@keyframes nav-edge-pulse-left {
+  0%, 100% { transform: translateX(0); opacity: 0.5; }
+  50% { transform: translateX(5px); opacity: 1; }
 }
 .nav-edge-hint-pulse {
   width: 6px;
@@ -252,7 +252,14 @@ body {
   border-radius: 9999px;
   background: radial-gradient(circle, rgba(212, 175, 55, 0.95), rgba(212, 175, 55, 0));
   box-shadow: 0 0 10px rgba(212, 175, 55, 0.65);
-  animation: nav-edge-pulse 1.6s ease-in-out infinite;
+  animation: nav-edge-pulse-right 1.6s ease-in-out infinite;
+}
+.nav-edge-hint-pulse-left {
+  margin-right: 0;
+  margin-left: 8px;
+  background: radial-gradient(circle, rgba(0, 243, 255, 0.95), rgba(0, 243, 255, 0));
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.65);
+  animation: nav-edge-pulse-left 1.6s ease-in-out infinite;
 }
 
 /* Click shockwave ring (see components/effects/Shockwave.tsx) */

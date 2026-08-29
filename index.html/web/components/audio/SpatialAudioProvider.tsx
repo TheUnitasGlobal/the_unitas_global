@@ -5,11 +5,15 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
   type ReactNode,
 } from 'react';
+
+// useLayoutEffect warns during SSR; fall back to useEffect on the server.
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 interface SpatialAudioContextValue {
   muted: boolean;
@@ -39,6 +43,27 @@ const SpatialAudioContext = createContext<SpatialAudioContextValue | null>(null)
 const BASE_MASTER_GAIN = 0.4;
 
 /**
+ * Persistent audio preference. Absent OR 'on' => sound is ON by default on
+ * every device and every page load (home + each module). Only an explicit
+ * user mute writes 'off', and that survives F5 / full reloads. This is the
+ * fix for "sound silently OFF after refresh": `muted` no longer resets to a
+ * hardcoded true on mount -- it is rehydrated from here.
+ */
+const AUDIO_PREF_KEY = 'unitas_audio_pref';
+
+/** Ambient bed level (under BASE_MASTER_GAIN). Deliberately low -- a presence, not a soundtrack. */
+const AMBIENT_GAIN = 0.05;
+
+function readAudioPrefMuted(): boolean {
+  if (typeof window === 'undefined') return true; // SSR / first paint parity
+  try {
+    return window.localStorage.getItem(AUDIO_PREF_KEY) === 'off';
+  } catch {
+    return false; // storage blocked -> default ON
+  }
+}
+
+/**
  * Web Audio API spatial-cue provider. No binary audio assets are bundled --
  * every SFX, including all 11 ecosystem themes, is synthesized (oscillators,
  * filtered noise, envelopes/LFOs), matching the root static site's
@@ -49,25 +74,33 @@ const BASE_MASTER_GAIN = 0.4;
  * synthesized speech -- there's no real voice synthesis here, just a sound
  * design approximation.
  *
- * Deliberately has no background music / ambient drone -- interaction SFX
- * (hover, focus, quest-enter, vault, ecosystem cues) only, per owner
- * decision 2026-08-26 to keep the experience free of a persistent audio bed
- * across all viewports.
+ * Ambient bed (owner instruction 2026-08-29, supersedes the 2026-08-26
+ * "no persistent audio bed" decision): a fully synthesized, very low-level
+ * drone (two detuned low oscillators + a slow filter LFO + a faint filtered-
+ * noise "air" layer) plays continuously whenever sound is ON, on every
+ * device and every page. It routes through the same master gain as the SFX,
+ * so muting silences it too -- there is still exactly one mute path.
  *
- * CRITICAL: browsers block AudioContext output until a user gesture, AND
- * this provider previously defaulted `muted` to true with no explicit path
- * to false -- so even after a gesture resumed the context, playback stayed
- * silenced by the master gain. `unlockAndUnmute()` (called by the AudioGate
- * overlay, and internally by `toggleMuted` when turning sound on) is now
- * the single path that both resumes the context AND sets muted=false in
- * the same user-initiated action.
+ * CRITICAL: browsers block AudioContext output until a user gesture. `muted`
+ * now rehydrates from localStorage (`unitas_audio_pref`) and defaults to
+ * false (sound ON) when no explicit 'off' was ever stored, so a refresh
+ * never silently flips sound off. The context still needs a gesture to
+ * actually produce sound: the AudioGate is that gesture on first visit, and
+ * after an in-session reload the existing pointerdown/keydown/visibilitychange
+ * resume handler below revives a suspended context on the very next
+ * interaction while `muted` stays false the whole time.
  */
 export function SpatialAudioProvider({ children }: { children: ReactNode }) {
+  // Start from the SSR-safe default (true) so server and first client render
+  // match, then rehydrate synchronously from localStorage in a layout effect
+  // before paint -- see the effect below.
   const [muted, setMuted] = useState(true);
   const [unlocked, setUnlocked] = useState(false);
   const ctxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
   const noiseBufferRef = useRef<AudioBuffer | null>(null);
+  const hydratedRef = useRef(false);
+  const ambientRef = useRef<{ stop: () => void } | null>(null);
 
   const ensureContext = useCallback(() => {
     if (typeof window === 'undefined') return null;
@@ -82,6 +115,26 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       masterGainRef.current = masterGain;
     }
     return ctxRef.current;
+  }, [muted]);
+
+  // Rehydrate the persisted preference before the first paint so the sound
+  // toggle never flashes the wrong state, and sound is ON unless the user
+  // explicitly turned it off in a previous session.
+  useIsomorphicLayoutEffect(() => {
+    const prefMuted = readAudioPrefMuted();
+    if (prefMuted !== muted) setMuted(prefMuted);
+    hydratedRef.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Persist every change (but not the initial hydration write-back).
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    try {
+      window.localStorage.setItem(AUDIO_PREF_KEY, muted ? 'off' : 'on');
+    } catch {
+      /* storage blocked -- in-memory state still holds for this session */
+    }
   }, [muted]);
 
   useEffect(() => {
@@ -100,6 +153,120 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     }
     return noiseBufferRef.current;
   }, []);
+
+  /**
+   * Builds the continuous ambient bed and returns a stop() that fades it out.
+   * Idempotent-safe: callers null out ambientRef, and StrictMode's
+   * double-invoke is handled by the effect below stopping any prior instance
+   * before starting a new one.
+   */
+  const startAmbient = useCallback(
+    (ctx: AudioContext): { stop: () => void } => {
+      const master = masterGainRef.current;
+      const now = ctx.currentTime;
+
+      const bed = ctx.createGain();
+      bed.gain.setValueAtTime(0.0001, now);
+      bed.gain.exponentialRampToValueAtTime(AMBIENT_GAIN, now + 2.4);
+
+      // Gentle movement: a slow LFO sweeps a lowpass cutoff so the drone
+      // breathes instead of sitting as a dead tone.
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.value = 320;
+      lp.Q.value = 0.6;
+      const lfo = ctx.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.value = 0.05;
+      const lfoDepth = ctx.createGain();
+      lfoDepth.gain.value = 120;
+      lfo.connect(lfoDepth);
+      lfoDepth.connect(lp.frequency);
+
+      lp.connect(bed);
+      if (master) bed.connect(master);
+
+      // Two detuned low oscillators -- A1 (55 Hz) + E2 (~82.4 Hz), a hollow fifth.
+      const oscSpecs: Array<{ freq: number; type: OscillatorType; detune: number; gain: number }> = [
+        { freq: 55, type: 'sine', detune: -4, gain: 0.6 },
+        { freq: 82.41, type: 'triangle', detune: 5, gain: 0.32 },
+        { freq: 110, type: 'sine', detune: 0, gain: 0.14 },
+      ];
+      const oscs = oscSpecs.map(({ freq, type, detune, gain }) => {
+        const osc = ctx.createOscillator();
+        osc.type = type;
+        osc.frequency.value = freq;
+        osc.detune.value = detune;
+        const g = ctx.createGain();
+        g.gain.value = gain;
+        osc.connect(g);
+        g.connect(lp);
+        osc.start(now);
+        return osc;
+      });
+
+      // Faint filtered-noise "air" layer for texture.
+      const airSrc = ctx.createBufferSource();
+      airSrc.buffer = getNoiseBuffer(ctx);
+      airSrc.loop = true;
+      const airFilter = ctx.createBiquadFilter();
+      airFilter.type = 'bandpass';
+      airFilter.frequency.value = 1600;
+      airFilter.Q.value = 0.4;
+      const airGain = ctx.createGain();
+      airGain.gain.value = 0.05;
+      airSrc.connect(airFilter);
+      airFilter.connect(airGain);
+      airGain.connect(bed);
+      airSrc.start(now);
+      lfo.start(now);
+
+      return {
+        stop: () => {
+          const t = ctx.currentTime;
+          try {
+            bed.gain.cancelScheduledValues(t);
+            bed.gain.setValueAtTime(Math.max(bed.gain.value, 0.0001), t);
+            bed.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+          } catch {
+            /* no-op */
+          }
+          const stopAt = t + 0.7;
+          [...oscs, lfo, airSrc].forEach((node) => {
+            try {
+              node.stop(stopAt);
+            } catch {
+              /* already stopped */
+            }
+          });
+          window.setTimeout(() => {
+            try {
+              bed.disconnect();
+            } catch {
+              /* no-op */
+            }
+          }, 900);
+        },
+      };
+    },
+    [getNoiseBuffer],
+  );
+
+  // Drive the ambient bed off `muted`: present whenever sound is on, on every
+  // page and device. Pre-gesture the context is suspended so this schedules
+  // silently and becomes audible the moment the context resumes.
+  useEffect(() => {
+    if (muted) return;
+    const ctx = ensureContext();
+    if (!ctx) return;
+    ctx.resume().catch(() => {});
+    ambientRef.current?.stop();
+    ambientRef.current = startAmbient(ctx);
+    return () => {
+      ambientRef.current?.stop();
+      ambientRef.current = null;
+    };
+  }, [muted, ensureContext, startAmbient]);
 
   /**
    * Must be called directly from a user gesture handler (click/keydown) --
@@ -133,11 +300,13 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     }
   }, [muted, ensureContext]);
 
-  // Hardening: some browsers (mobile Safari especially) silently suspend a
-  // running AudioContext on tab-backgrounding or power-saving. If the user
-  // has sound on, resume on the next real interaction or when the tab comes
-  // back into view, so playback never gets stuck silent without the user
-  // ever explicitly muting it.
+  // Hardening: browsers create every AudioContext suspended and require a
+  // gesture to start it, AND some (mobile Safari especially) silently
+  // re-suspend a running context on tab-backgrounding or power-saving. This
+  // is also what revives sound after an in-session F5: `muted` has already
+  // rehydrated to false, and the very first interaction of any kind resumes
+  // the fresh (suspended) context so the ambient bed + SFX come back without
+  // the visitor ever seeing the entry gate again or touching the toggle.
   useEffect(() => {
     if (muted) return;
 
@@ -148,12 +317,17 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       }
     }
 
+    const opts: AddEventListenerOptions = { passive: true };
     document.addEventListener('visibilitychange', resumeIfSuspended);
-    window.addEventListener('pointerdown', resumeIfSuspended);
+    window.addEventListener('pointerdown', resumeIfSuspended, opts);
+    window.addEventListener('touchstart', resumeIfSuspended, opts);
+    window.addEventListener('wheel', resumeIfSuspended, opts);
     window.addEventListener('keydown', resumeIfSuspended);
     return () => {
       document.removeEventListener('visibilitychange', resumeIfSuspended);
       window.removeEventListener('pointerdown', resumeIfSuspended);
+      window.removeEventListener('touchstart', resumeIfSuspended);
+      window.removeEventListener('wheel', resumeIfSuspended);
       window.removeEventListener('keydown', resumeIfSuspended);
     };
   }, [muted]);

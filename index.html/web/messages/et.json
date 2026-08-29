@@ -659,5 +659,107 @@
     "virtualIdLabel": "Virtuaalne number",
     "upgradeReason": "Külalised saavad ainult sirvida. Saldo hoidmiseks ja moodulitesse sisenemiseks kinnita konto.",
     "upgradeCta": "Loo täiskonto"
+  },
+  "SitePages": {
+    "common": {
+      "back": "Tagasi UNITASesse",
+      "disclaimer": "See leht on esitatud üksnes üldiseks teavitamiseks. See ei ole õigusnõustamine ega loo lepingut ega garantiid. Kui siin kirjeldatakse plaane või menetluses olevaid küsimusi, võivad need muutuda. THE UNITAS GLOBAL OÜ, Eesti."
+    },
+    "about": {
+      "title": "UNITASest",
+      "lede": "THE UNITAS GLOBAL OÜ ehitab detsentraliseeritud suveräänset SaaS-ökosüsteemi, mille on kavandanud üks asutaja ja mida käitatakse täieliku tehisintellekti automatiseerimisega.",
+      "body": [
+        "UNITAS on Eesti ettevõte, mis järgib üht ideed: kogu maailma inimesi teenindavat kognitiivset taristut saab kavandada, välja anda ja käitada ilma kapitalimahukate meeskondade või riskikapitali sõltuvuseta. Iga ökosüsteemi moodul on ehitatud selle standardi järgi.",
+        "Platvorm on üles ehitatud kognitiivsete struktuuride ümber — üheteistkümneosaline elav ökosüsteem, viis tarbijateenust ja kolm ettevõtteprotokolli — mis jagavad ühte identiteedikihti, ühte pearaamatut ja ühte disainikeelt."
+      ]
+    },
+    "careers": {
+      "title": "Karjäär",
+      "lede": "UNITAS toimib asutaja juhitud ja tehisintellektiga automatiseeritud tegevusena. Praegu avatud palgalisi ametikohti ei ole.",
+      "body": [
+        "Mudel on teadlik valik: kompaktne suveräänne struktuur, kus automatiseerimine kannab töökoormust, mille tavaettevõte täidaks personaliga. See hoiab ökosüsteemi sõltumatu ja vastupidava.",
+        "Kui mudel muutub, avaldatakse vabad kohad esmalt siin. Partnerlus- ja panustamispäringud saab saata kontaktilehe kaudu."
+      ]
+    },
+    "press": {
+      "title": "Meedia",
+      "lede": "Meediamaterjalid ja ettevõtte taust ajakirjanikele ja analüütikutele.",
+      "body": [
+        "Intervjuude, taustabriifingute või faktikontrolli jaoks võtke meiega ühendust kontaktilehe kaudu ning märkige oma väljaanne ja tähtaeg.",
+        "Palun viidake ettevõttele kui \"THE UNITAS GLOBAL OÜ\" ja tootele kui \"UNITAS\". Logod ja brändijuhised on saadaval soovi korral."
+      ]
+    },
+    "patent-notice": {
+      "title": "Patenditeade",
+      "lede": "Teatavad UNITASe meetodid ja süsteemid on menetluses oleva patenditaotluse esemeks.",
+      "body": [
+        "Ameerika Ühendriikides on esitatud ajutine patenditaotlus (nr 64/023,911), mis hõlmab UNITASe kognitiivsete ja allkirjaprotokollide aspekte. Taotlus on menetluses; patenti ei ole antud ja siin toodut ei tohi käsitada antud õiguste väitena.",
+        "Menetluses olek ei anna jõustatavat ainuõigust enne, kui patent on väljastatud. Tootenimesid ja Sovereign Codexi süsteeminimesid kasutatakse päritolu tähistajatena."
+      ]
+    },
+    "compliance": {
+      "title": "Vastavus",
+      "lede": "Kuidas UNITAS läheneb oma regulatiivsetele kohustustele jurisdiktsioonides, kus ta tegutseb.",
+      "body": [
+        "UNITASt käitab Eesti ettevõte ning ta joondab oma tavad Euroopa Liidu andmekaitse ja tarbijakaitse põhimõtetega. Maksete töötlemist teostavad kolmandast isikust teenusepakkujad oma reguleeritud raamistike alusel.",
+        "Me ei väida vastavust ühelegi konkreetsele standardile. Vastavusküsimusi, sealhulgas andmesubjekti taotlusi, saab esitada kontaktilehe kaudu."
+      ]
+    },
+    "security": {
+      "title": "Turvalisus",
+      "lede": "Kontrollid, mis kaitsevad kontosid, saldosid ja identiteediandmeid.",
+      "body": [
+        "Konto identiteeti jõustatakse andmebaasis, mitte brauseris: kinnitatud telefoninumber on aktiivsete kontode lõikes unikaalne, saldomuudatused läbivad ainult auditeeritud serveripoolseid funktsioone ja tehingute pearaamat on ainult lisatav.",
+        "Saladused, näiteks maksevõtmed, ei jõua kunagi kliendikoodi. Haavatavusest teatamiseks kasutage kontaktilehte, esitades piisavalt üksikasju probleemi taasesitamiseks, ning palun ärge avalikustage seda enne, kui oleme vastanud."
+      ]
+    },
+    "privacy": {
+      "title": "Privaatsuspõhimõtted",
+      "lede": "Mida UNITAS kogub, miks ja millised on teie valikud.",
+      "body": [
+        "UNITAS kogub konto käitamiseks vajalikku miinimumi: identifikaatorit (e-post või telefon) autentimiseks, mündisaldot ja selle pearaamatut ning põhilisi keele- ja seadme-eelistusi, mis salvestatakse teie seadmesse. Külalisseansid jäävad teie brauserisse.",
+        "Andmeid töödeldakse teenuse käitamiseks, mitte reklaamiprofiilide loomiseks. Oma kontoandmetega tutvumist või nende kustutamist saate taotleda kontaktilehe või rakendusesiseste konto seadete kaudu."
+      ]
+    },
+    "cookies": {
+      "title": "Küpsiste põhimõtted",
+      "lede": "UNITAS kasutab kohalikku salvestusruumi ja küpsiseid säästlikult ja funktsionaalselt.",
+      "body": [
+        "Sait salvestab väikese hulga väärtusi — teie keele, heli-eelistuse, seansi- ja autentimislubad ning eelkäivituse juurdepääsu lipu. Need on vajalikud liidese korrektseks toimimiseks.",
+        "Kolmandate isikute reklaami- ega saitideüleseid jälgimisküpsiseid ei seata. Brauseri salvestusruumi tühjendamine lähtestab need eelistused järgmisel külastusel."
+      ]
+    },
+    "terms": {
+      "title": "Kasutustingimused",
+      "lede": "UNITASe kasutamise põhitingimused, kuni see on eelkäivituse faasis.",
+      "body": [
+        "UNITASt pakutakse aktiivse arenduse ajal põhimõttel \"nagu on\". Juurdepääsu tasulistele moodulitele reguleerib teie konto mündisaldo; mündid on ettemakstud juurdepääsukrediit — mitte väärtpaber ega salvestatud väärtuse instrument — ja neid ei saa üle kanda.",
+        "Funktsioonid võivad platvormi arenedes muutuda või peatuda. Kasutamise jätkamine pärast muudatust tähendab uuendatud tingimustega nõustumist. Kohaldatav õigus on Eesti õigus."
+      ]
+    },
+    "help-center": {
+      "title": "Abikeskus",
+      "lede": "Vastused kõige sagedamini esitatavatele küsimustele.",
+      "body": [
+        "Heli: taustaheli on igas seadmes vaikimisi sees ja püsib pärast lehe värskendamist; lülitage seda ülemise navigatsiooni kõlariikooniga. Keel: vahetage igal ajal lipumenüüst — teie valik jäetakse meelde.",
+        "Juurdepääs: moodul avaneb, kui teie kontol on vajalik mündisaldo olemas. Kui midagi näib kinni jäänud, värskendage lehte; konto ja saldo olek taastatakse automaatselt."
+      ]
+    },
+    "contact": {
+      "title": "Kontakt",
+      "lede": "Üks kanal jõuab otse asutajani.",
+      "body": [
+        "Üld-, partnerlus-, meedia-, turva- ja andmekaitsepäringutega tegeleb asutaja. Vestluse alustamiseks kasutage rakendusesisest konto seadete paneeli või pöörduge aadressil, mis on toodud THE UNITAS GLOBAL OÜ ametlikes kanalites.",
+        "Telefonitoe liini ei ole. Vastamisaeg sõltub mahust; turvateated on esmatähtsad."
+      ]
+    },
+    "system-status": {
+      "title": "Süsteemi olek",
+      "lede": "UNITASe platvormi praegune tööseisund.",
+      "body": [
+        "UNITAS on eelkäivituse faasis. Avalik liides on tahtlikult suletud \"Coming Soon\" värava taha, kuni asutaja lõpetab sisenemisvoo järjestikuse kontrolli.",
+        "Planeeritud hooldus ja kõik kontosid või saldosid mõjutavad intsidendid võetakse siin kokku, kui platvorm on avalikult käivitatud."
+      ]
+    }
   }
 }

@@ -5,14 +5,18 @@ import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { ChevronDown } from 'lucide-react';
 import { useGatedSurface } from '@/components/ui/useGatedSurface';
+import { FlagIcon } from './FlagIcon';
 
-const LANGUAGE_META: Record<(typeof routing.locales)[number], { flag: string; native: string }> = {
-  en: { flag: '🇺🇸', native: 'English' },
-  ko: { flag: '🇰🇷', native: '한국어' },
-  et: { flag: '🇪🇪', native: 'Eesti' },
-  ja: { flag: '🇯🇵', native: '日本語' },
-  zh: { flag: '🇨🇳', native: '中文' },
-  es: { flag: '🇪🇸', native: 'Español' },
+type Locale = (typeof routing.locales)[number];
+
+/** Native (endonym) language names shown beside each flag. */
+const NATIVE_NAME: Record<Locale, string> = {
+  en: 'English',
+  ko: '한국어',
+  et: 'Eesti',
+  ja: '日本語',
+  zh: '中文',
+  es: 'Español',
 };
 
 /** 6-language flag/native-name dropdown, preserves the current page on switch. */
@@ -23,7 +27,9 @@ export function LanguageSwitcher() {
   const router = useRouter();
   const { open, blocked, setOpen, toggle } = useGatedSurface('nav:language');
 
-  const current = LANGUAGE_META[locale as (typeof routing.locales)[number]] ?? LANGUAGE_META.en;
+  const activeLocale = (routing.locales as readonly string[]).includes(locale)
+    ? (locale as Locale)
+    : ('en' as Locale);
 
   function selectLocale(nextLocale: string) {
     setOpen(false);
@@ -42,10 +48,8 @@ export function LanguageSwitcher() {
           blocked ? 'pointer-events-none opacity-50' : ''
         }`}
       >
-        <span className="text-2xl leading-none" aria-hidden="true">
-          {current.flag}
-        </span>
-        <span className="leading-none">{locale}</span>
+        <FlagIcon locale={activeLocale} size={24} />
+        <span className="leading-none">{activeLocale}</span>
         <ChevronDown size={22} className={open ? 'rotate-180 transition-transform' : 'transition-transform'} />
       </button>
 
@@ -58,14 +62,12 @@ export function LanguageSwitcher() {
                 <button
                   type="button"
                   onClick={() => selectLocale(loc)}
-                  className={`flex w-full items-center gap-2 px-3 py-2 text-left text-xs transition-colors hover:bg-accent/10 ${
-                    loc === locale ? 'font-bold text-accent' : 'font-normal text-gray-300'
+                  className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-xs transition-colors hover:bg-accent/10 ${
+                    loc === activeLocale ? 'font-bold text-accent' : 'font-normal text-gray-300'
                   }`}
                 >
-                  <span className="text-sm leading-none" aria-hidden="true">
-                    {LANGUAGE_META[loc].flag}
-                  </span>
-                  <span className="leading-none">{LANGUAGE_META[loc].native}</span>
+                  <FlagIcon locale={loc} size={20} />
+                  <span className="leading-none">{NATIVE_NAME[loc]}</span>
                 </button>
               </li>
             ))}
