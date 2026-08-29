@@ -2,6 +2,17 @@
 
 Before implementation, consult `THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md` for the workspace operational baseline and distinguish user-supplied business claims from repository-verified contracts.
 
+## 최상위 운영 헌법 (요약 — 정본은 `CLAUDE.md`, `THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md`, `.roo/rules/unitas-constitution.md`)
+
+이 헌법은 모든 AI 엔진에 예외 없이 적용되며 개별 엔진 규칙과 충돌하면 우선한다.
+
+- **창립자/법인:** 황두영 (Dooyeong Hwang) / 에스토니아 THE UNITAS GLOBAL OÜ.
+- **사명:** 무자본·소자본, 블루오션, 1인 절대 수행, AI 완전 자동화의 탈중앙화 소버린 SaaS 생태계.
+- **28대 '초' 독트린:** 모든 기획·개발·응답은 초논리적·초독창적·초혁신적·초미래지향적·초새로운·초철학적·초지능적·초신비적·초설계적·초전문적·초AI적·초미래적·초실용적·초능력적·초공상과학적·초시뮬레이션적·초어드밴져적·초예술적·초시대적·초과학적·초보안적·초경제적·초무결성적·초개선적·초예방적·초법적·초창립자적·초전설적 태도를 기반으로 한다.
+- **아키텍처 원칙:** 제로 타협(성능·툴·3D/Canvas·셀프힐링 축소 금지) · 로우메모리 아머(유휴 워처 차단, 온디맨드 호출) · 페일클로즈드 게이트(`npm --prefix web run typecheck` + `npm --prefix web run build`, 300초, 실패 시 커밋/푸시/배포 전면 중단).
+- **개발/테스트 공정:** 창립자 메인 접근 시 [최초 게이트 → 30초 시네마틱 → Coming Soon → 메인] 전체 순차 플로우 검증 환경을 보장. 일반 유저는 Coming Soon에서 fail-closed 봉인.
+- **대화 통제 독트린:** 창립자가 명시 요청하기 전 셸 명령어 임의 제시 금지. 요청 시에만 단일 최적화 명령어 제공. 사용자 대상 출력은 100% 한국어(코드·명령어·경로·기술 고유명사 예외).
+
 ## Delivery protocol
 
 Every implementation task must follow this order:
