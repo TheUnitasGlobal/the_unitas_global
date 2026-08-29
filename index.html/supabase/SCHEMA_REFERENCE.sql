@@ -1,13 +1,12 @@
 -- ============================================================================
 -- supabase/SCHEMA_REFERENCE.sql  —  LIVE public-schema reference
 -- project fjznkonbjoierxvopiko. Reconstructed via information_schema /
--- pg_get_*def introspection (NOT pg_dump — Docker was unavailable on the
--- authoring machine, so `supabase db pull` / `db dump` could not run).
--- Authoritative schema = supabase/migrations/*.sql (10 files, all verified
--- applied; `supabase db push --dry-run` reports the remote up-to-date).
+-- pg_get_*def introspection (NOT pg_dump — Docker unavailable on the
+-- authoring machine). Authoritative schema = supabase/migrations/*.sql
+-- (all verified applied; `supabase db push --dry-run` reports up-to-date).
 -- Regenerate the canonical baseline with `supabase db pull` from a
 -- Docker-capable host / CI when available.
--- generated_at: 2026-08-29T14:23:18.740364+00:00
+-- generated_at: 2026-08-29T15:12:55.546814+00:00
 -- ============================================================================
 
 -- --------- TABLE public.coin_ledger   (RLS enabled/forced: true/true) ---------
@@ -53,7 +52,7 @@ CREATE UNIQUE INDEX module_access_grants_pkey ON public.module_access_grants USI
 --   phone text
 --   nationality text
 --   gender text
---   age text
+--   age integer
 --   blood text
 --   mbti text
 --   created_at timestamp with time zone
@@ -62,6 +61,7 @@ CREATE UNIQUE INDEX module_access_grants_pkey ON public.module_access_grants USI
 --   deleted_at timestamp with time zone
 --   iq integer
 --   eq integer
+--   CONSTRAINT profiles_age_range: CHECK (((age IS NULL) OR ((age >= 14) AND (age <= 120))))
 --   CONSTRAINT profiles_eq_range: CHECK (((eq IS NULL) OR ((eq >= 0) AND (eq <= 200))))
 --   CONSTRAINT profiles_id_fkey: FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE
 --   CONSTRAINT profiles_iq_range: CHECK (((iq IS NULL) OR ((iq >= 40) AND (iq <= 200))))
@@ -261,6 +261,14 @@ begin
     'genesis', 'syndicate', 'aura', 'paradox', 'chronos'
   ) then
     raise exception 'Unknown module: %', p_module;
+  end if;
+
+  -- Zero-Trust guard: DB-side enforcement, independent of the frontend.
+  if not exists (
+    select 1 from public.profiles
+    where id = v_user_id and phone_verified = true and deleted_at is null
+  ) then
+    raise exception 'Phone verification required before spending coins';
   end if;
 
   select balance into v_balance
