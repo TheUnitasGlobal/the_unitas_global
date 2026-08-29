@@ -39,6 +39,9 @@ const SpatialAudioContext = createContext<SpatialAudioContextValue | null>(null)
 
 const BASE_MASTER_GAIN = 0.4;
 
+/** Ambient bed level (routed under BASE_MASTER_GAIN). Deliberately low -- a presence, not a soundtrack. */
+const AMBIENT_GAIN = 0.05;
+
 /**
  * Loudness standard across every access environment (PC, tablet, mobile):
  * `playHoverSfx` -- the cue for the 5 B2C "Live Consumer Service" cards -- is
@@ -82,10 +85,13 @@ const ECOSYSTEM_SFX_TRIM = REFERENCE_CUE_PEAK / 0.375; // 0.32
  * synthesized speech -- there's no real voice synthesis here, just a sound
  * design approximation.
  *
- * Deliberately has no background music / ambient drone -- interaction SFX
- * (hover, focus, quest-enter, vault, ecosystem cues) only, per owner
- * decision 2026-08-26 to keep the experience free of a persistent audio bed
- * across all viewports.
+ * Ambient bed (owner instruction 2026-08-29, supersedes the 2026-08-26
+ * "no persistent audio bed" decision and the 15a93b5 removal): a fully
+ * synthesized, very low-level drone (two detuned low oscillators + a slow
+ * filter LFO + a faint filtered-noise "air" layer) plays continuously
+ * whenever sound is ON, on every device and every page. It routes through
+ * the same master gain as the SFX, so muting silences it too -- still
+ * exactly one mute path.
  *
  * CRITICAL: browsers block AudioContext output until a user gesture, AND
  * this provider previously defaulted `muted` to true with no explicit path
@@ -111,6 +117,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   const ctxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
   const noiseBufferRef = useRef<AudioBuffer | null>(null);
+  const ambientRef = useRef<{ stop: () => void } | null>(null);
 
   const ensureContext = useCallback(() => {
     if (typeof window === 'undefined') return null;
@@ -153,6 +160,119 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     }
     return noiseBufferRef.current;
   }, []);
+
+  /**
+   * Builds the continuous ambient bed and returns a stop() that fades it out.
+   * StrictMode's double-invoke is handled by the effect below stopping any
+   * prior instance before starting a new one.
+   */
+  const startAmbient = useCallback(
+    (ctx: AudioContext): { stop: () => void } => {
+      const master = masterGainRef.current;
+      const now = ctx.currentTime;
+
+      const bed = ctx.createGain();
+      bed.gain.setValueAtTime(0.0001, now);
+      bed.gain.exponentialRampToValueAtTime(AMBIENT_GAIN, now + 2.4);
+
+      // Gentle movement: a slow LFO sweeps a lowpass cutoff so the drone
+      // breathes instead of sitting as a dead tone.
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.value = 320;
+      lp.Q.value = 0.6;
+      const lfo = ctx.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.value = 0.05;
+      const lfoDepth = ctx.createGain();
+      lfoDepth.gain.value = 120;
+      lfo.connect(lfoDepth);
+      lfoDepth.connect(lp.frequency);
+
+      lp.connect(bed);
+      if (master) bed.connect(master);
+
+      // Two detuned low oscillators -- A1 (55 Hz) + E2 (~82.4 Hz), a hollow fifth.
+      const oscSpecs: Array<{ freq: number; type: OscillatorType; detune: number; gain: number }> = [
+        { freq: 55, type: 'sine', detune: -4, gain: 0.6 },
+        { freq: 82.41, type: 'triangle', detune: 5, gain: 0.32 },
+        { freq: 110, type: 'sine', detune: 0, gain: 0.14 },
+      ];
+      const oscs = oscSpecs.map(({ freq, type, detune, gain }) => {
+        const osc = ctx.createOscillator();
+        osc.type = type;
+        osc.frequency.value = freq;
+        osc.detune.value = detune;
+        const g = ctx.createGain();
+        g.gain.value = gain;
+        osc.connect(g);
+        g.connect(lp);
+        osc.start(now);
+        return osc;
+      });
+
+      // Faint filtered-noise "air" layer for texture.
+      const airSrc = ctx.createBufferSource();
+      airSrc.buffer = getNoiseBuffer(ctx);
+      airSrc.loop = true;
+      const airFilter = ctx.createBiquadFilter();
+      airFilter.type = 'bandpass';
+      airFilter.frequency.value = 1600;
+      airFilter.Q.value = 0.4;
+      const airGain = ctx.createGain();
+      airGain.gain.value = 0.05;
+      airSrc.connect(airFilter);
+      airFilter.connect(airGain);
+      airGain.connect(bed);
+      airSrc.start(now);
+      lfo.start(now);
+
+      return {
+        stop: () => {
+          const t = ctx.currentTime;
+          try {
+            bed.gain.cancelScheduledValues(t);
+            bed.gain.setValueAtTime(Math.max(bed.gain.value, 0.0001), t);
+            bed.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+          } catch {
+            /* no-op */
+          }
+          const stopAt = t + 0.7;
+          [...oscs, lfo, airSrc].forEach((node) => {
+            try {
+              node.stop(stopAt);
+            } catch {
+              /* already stopped */
+            }
+          });
+          window.setTimeout(() => {
+            try {
+              bed.disconnect();
+            } catch {
+              /* no-op */
+            }
+          }, 900);
+        },
+      };
+    },
+    [getNoiseBuffer],
+  );
+
+  // Drive the ambient bed off `muted`: present whenever sound is on, on every
+  // page and device. Pre-gesture the context is suspended so this schedules
+  // silently and becomes audible the moment the context resumes.
+  useEffect(() => {
+    if (muted) return;
+    const ctx = ensureContext();
+    if (!ctx) return;
+    ctx.resume().catch(() => {});
+    ambientRef.current?.stop();
+    ambientRef.current = startAmbient(ctx);
+    return () => {
+      ambientRef.current?.stop();
+      ambientRef.current = null;
+    };
+  }, [muted, ensureContext, startAmbient]);
 
   /**
    * Must be called directly from a user gesture handler (click/keydown) --
@@ -208,12 +328,17 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       }
     }
 
+    const opts: AddEventListenerOptions = { passive: true };
     document.addEventListener('visibilitychange', resumeIfSuspended);
-    window.addEventListener('pointerdown', resumeIfSuspended);
+    window.addEventListener('pointerdown', resumeIfSuspended, opts);
+    window.addEventListener('touchstart', resumeIfSuspended, opts);
+    window.addEventListener('wheel', resumeIfSuspended, opts);
     window.addEventListener('keydown', resumeIfSuspended);
     return () => {
       document.removeEventListener('visibilitychange', resumeIfSuspended);
       window.removeEventListener('pointerdown', resumeIfSuspended);
+      window.removeEventListener('touchstart', resumeIfSuspended);
+      window.removeEventListener('wheel', resumeIfSuspended);
       window.removeEventListener('keydown', resumeIfSuspended);
     };
   }, [muted]);

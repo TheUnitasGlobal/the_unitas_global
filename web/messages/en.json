@@ -440,5 +440,107 @@
     "chronosPhasePeak": "Peak phase.",
     "chronosPhaseContraction": "Contraction phase.",
     "chronosPhaseTrough": "Trough phase."
+  },
+  "SitePages": {
+    "common": {
+      "back": "Back to UNITAS",
+      "disclaimer": "This page is provided for general information only. It is not legal advice and creates no contract or warranty. Where it describes plans or pending matters, those may change. THE UNITAS GLOBAL OÜ, Estonia."
+    },
+    "about": {
+      "title": "About UNITAS",
+      "lede": "THE UNITAS GLOBAL OÜ builds a decentralized, sovereign SaaS ecosystem — designed by one founder and operated through full AI automation.",
+      "body": [
+        "UNITAS is an Estonian company pursuing a single idea: a cognitive infrastructure serving people worldwide can be designed, shipped and run without capital-heavy teams or venture dependency. Every module in the ecosystem is built to that standard.",
+        "The platform is organized around cognitive structures — an eleven-part live ecosystem, five consumer services and three enterprise protocols — that share one identity layer, one ledger and one design language."
+      ]
+    },
+    "careers": {
+      "title": "Careers",
+      "lede": "UNITAS runs as a founder-led, AI-automated operation. There are no open salaried positions today.",
+      "body": [
+        "The model is deliberate: a lean sovereign structure where automation carries the workload a conventional company would staff. This keeps the ecosystem independent and resilient.",
+        "If that model changes, openings will be posted here first. Partnership and contributor inquiries can be sent through the Contact page."
+      ]
+    },
+    "press": {
+      "title": "Press",
+      "lede": "Media resources and company background for journalists and analysts.",
+      "body": [
+        "For interviews, background briefings or fact-checking, reach us through the Contact page and identify your outlet and deadline.",
+        "Please attribute the company as \"THE UNITAS GLOBAL OÜ\" and the product as \"UNITAS\". Logos and brand guidance are available on request."
+      ]
+    },
+    "patent-notice": {
+      "title": "Patent Notice",
+      "lede": "Certain UNITAS methods and systems are the subject of a pending patent application.",
+      "body": [
+        "A United States provisional patent application (No. 64/023,911) has been filed covering aspects of the UNITAS cognitive and signature protocols. The application is pending; no patent has been granted, and nothing here should be read as a claim of granted rights.",
+        "Pending status confers no enforceable exclusivity unless and until a patent issues. Product names and the Sovereign Codex system names are used as identifiers of origin."
+      ]
+    },
+    "compliance": {
+      "title": "Compliance",
+      "lede": "How UNITAS approaches its regulatory obligations across the jurisdictions it serves.",
+      "body": [
+        "UNITAS is operated by an Estonian company and aligns its practices with European Union data-protection and consumer-protection principles. Payment processing is performed by third-party providers under their own regulated frameworks.",
+        "We do not claim certification under any specific standard. Compliance questions, including data-subject requests, can be raised through the Contact page."
+      ]
+    },
+    "security": {
+      "title": "Security",
+      "lede": "The controls that protect accounts, balances and identity data.",
+      "body": [
+        "Account identity is enforced in the database, not the browser: a verified phone number is unique across active accounts, balance changes pass only through audited server-side functions, and the transaction ledger is append-only.",
+        "Secrets such as payment keys never reach client code. To report a vulnerability, use the Contact page with enough detail to reproduce the issue, and please do not disclose it publicly before we have responded."
+      ]
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "lede": "What UNITAS collects, why, and the choices you have.",
+      "body": [
+        "UNITAS collects the minimum needed to run an account: an identifier (email or phone) for authentication, a coin balance and its ledger, and basic locale and device preferences stored on your device. Guest sessions stay local to your browser.",
+        "Data is processed to operate the service, not to build advertising profiles. You can request access to or deletion of your account data through the Contact page or the in-app account settings."
+      ]
+    },
+    "cookies": {
+      "title": "Cookie Policy",
+      "lede": "UNITAS uses local storage and cookies sparingly and functionally.",
+      "body": [
+        "The site stores a small set of values — your language, your audio preference, session and authentication tokens, and a pre-launch access flag. These are required for the interface to work correctly.",
+        "No third-party advertising or cross-site tracking cookies are set. Clearing your browser storage resets these preferences on your next visit."
+      ]
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "lede": "The basic terms for using UNITAS while it is in its pre-launch phase.",
+      "body": [
+        "UNITAS is provided on an \"as is\" basis during active development. Access to paid modules is governed by the coin balance on your account; coins are a prepaid access credit — not a security or a stored-value instrument — and are non-transferable.",
+        "Features may change or be suspended as the platform evolves. Continued use after a change means you accept the updated terms. Governing law is that of Estonia."
+      ]
+    },
+    "help-center": {
+      "title": "Help Center",
+      "lede": "Answers to the questions that come up most often.",
+      "body": [
+        "Sound: ambient audio is on by default on every device and persists across refreshes; toggle it from the speaker icon in the top navigation. Language: switch anytime from the flag menu — your choice is remembered.",
+        "Access: a module opens once the required coin balance is available on your account. If something looks stuck, reload the page; account and balance state is restored automatically."
+      ]
+    },
+    "contact": {
+      "title": "Contact Us",
+      "lede": "One channel reaches the founder directly.",
+      "body": [
+        "General, partnership, press, security and data-protection inquiries are all handled by the founder. Use the account settings panel inside the app to open a conversation, or reach the address listed on THE UNITAS GLOBAL OÜ's official channels.",
+        "There is no phone support line. Response time depends on volume; security reports are prioritized."
+      ]
+    },
+    "system-status": {
+      "title": "System Status",
+      "lede": "The current operational state of the UNITAS platform.",
+      "body": [
+        "UNITAS is in a pre-launch phase. The public interface is intentionally sealed behind the \"Coming Soon\" gate while the founder completes sequential verification of the entry flow.",
+        "Planned maintenance and any incidents affecting accounts or balances will be summarized here once the platform is publicly live."
+      ]
+    }
   }
 }

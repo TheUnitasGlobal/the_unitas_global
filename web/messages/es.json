@@ -440,5 +440,107 @@
     "chronosPhasePeak": "Fase de pico.",
     "chronosPhaseContraction": "Fase de contracción.",
     "chronosPhaseTrough": "Fase de valle."
+  },
+  "SitePages": {
+    "common": {
+      "back": "Volver a UNITAS",
+      "disclaimer": "Esta página se ofrece solo con fines informativos generales. No constituye asesoramiento jurídico ni crea contrato o garantía alguna. Cuando describe planes o asuntos en trámite, estos pueden cambiar. THE UNITAS GLOBAL OÜ, Estonia."
+    },
+    "about": {
+      "title": "Acerca de UNITAS",
+      "lede": "THE UNITAS GLOBAL OÜ construye un ecosistema SaaS soberano y descentralizado, diseñado por un único fundador y operado mediante automatización de IA completa.",
+      "body": [
+        "UNITAS es una empresa estonia que persigue una sola idea: una infraestructura cognitiva al servicio de personas de todo el mundo puede diseñarse, lanzarse y operarse sin equipos intensivos en capital ni dependencia de capital riesgo. Cada módulo del ecosistema se construye con ese estándar.",
+        "La plataforma se organiza en torno a estructuras cognitivas — un ecosistema en vivo de once partes, cinco servicios de consumo y tres protocolos empresariales — que comparten una capa de identidad, un libro mayor y un lenguaje de diseño."
+      ]
+    },
+    "careers": {
+      "title": "Empleo",
+      "lede": "UNITAS funciona como una operación dirigida por el fundador y automatizada con IA. Hoy no hay puestos asalariados abiertos.",
+      "body": [
+        "El modelo es deliberado: una estructura soberana y ligera en la que la automatización asume la carga de trabajo que una empresa convencional cubriría con personal. Esto mantiene el ecosistema independiente y resiliente.",
+        "Si ese modelo cambia, las vacantes se publicarán primero aquí. Las consultas de colaboración y aportación pueden enviarse a través de la página de Contacto."
+      ]
+    },
+    "press": {
+      "title": "Prensa",
+      "lede": "Recursos para medios e información corporativa para periodistas y analistas.",
+      "body": [
+        "Para entrevistas, sesiones de contexto o verificación de datos, contáctanos a través de la página de Contacto e indica tu medio y tu fecha límite.",
+        "Atribuye la empresa como \"THE UNITAS GLOBAL OÜ\" y el producto como \"UNITAS\". Los logotipos y las pautas de marca están disponibles a petición."
+      ]
+    },
+    "patent-notice": {
+      "title": "Aviso de patente",
+      "lede": "Ciertos métodos y sistemas de UNITAS son objeto de una solicitud de patente en trámite.",
+      "body": [
+        "Se ha presentado una solicitud provisional de patente en Estados Unidos (n.º 64/023,911) que cubre aspectos de los protocolos cognitivos y de firma de UNITAS. La solicitud está en trámite; no se ha concedido ninguna patente y nada de lo aquí expuesto debe interpretarse como una reivindicación de derechos concedidos.",
+        "El estado en trámite no confiere exclusividad exigible mientras no se conceda una patente. Los nombres de producto y los nombres del sistema Sovereign Codex se usan como identificadores de origen."
+      ]
+    },
+    "compliance": {
+      "title": "Cumplimiento",
+      "lede": "Cómo aborda UNITAS sus obligaciones regulatorias en las jurisdicciones en las que opera.",
+      "body": [
+        "UNITAS es operada por una empresa estonia y alinea sus prácticas con los principios de protección de datos y protección del consumidor de la Unión Europea. El procesamiento de pagos lo realizan proveedores externos bajo sus propios marcos regulados.",
+        "No reclamamos certificación bajo ningún estándar concreto. Las consultas de cumplimiento, incluidas las solicitudes de los interesados, pueden plantearse a través de la página de Contacto."
+      ]
+    },
+    "security": {
+      "title": "Seguridad",
+      "lede": "Los controles que protegen las cuentas, los saldos y los datos de identidad.",
+      "body": [
+        "La identidad de la cuenta se aplica en la base de datos, no en el navegador: un número de teléfono verificado es único entre las cuentas activas, los cambios de saldo solo pasan por funciones auditadas del lado del servidor y el libro de transacciones es de solo anexión.",
+        "Los secretos, como las claves de pago, nunca llegan al código del cliente. Para informar de una vulnerabilidad, usa la página de Contacto con suficiente detalle para reproducir el problema y, por favor, no la divulgues públicamente antes de que hayamos respondido."
+      ]
+    },
+    "privacy": {
+      "title": "Política de privacidad",
+      "lede": "Qué recopila UNITAS, por qué y qué opciones tienes.",
+      "body": [
+        "UNITAS recopila lo mínimo necesario para operar una cuenta: un identificador (correo o teléfono) para la autenticación, un saldo de monedas y su libro mayor, y preferencias básicas de idioma y dispositivo almacenadas en tu dispositivo. Las sesiones de invitado permanecen locales en tu navegador.",
+        "Los datos se procesan para operar el servicio, no para crear perfiles publicitarios. Puedes solicitar el acceso a los datos de tu cuenta o su eliminación a través de la página de Contacto o de los ajustes de cuenta dentro de la aplicación."
+      ]
+    },
+    "cookies": {
+      "title": "Política de cookies",
+      "lede": "UNITAS usa el almacenamiento local y las cookies de forma limitada y funcional.",
+      "body": [
+        "El sitio almacena un pequeño conjunto de valores — tu idioma, tu preferencia de audio, los tokens de sesión y autenticación, y un indicador de acceso previo al lanzamiento. Son necesarios para que la interfaz funcione correctamente.",
+        "No se establecen cookies de publicidad de terceros ni de seguimiento entre sitios. Borrar el almacenamiento del navegador restablecerá estas preferencias en tu próxima visita."
+      ]
+    },
+    "terms": {
+      "title": "Condiciones del servicio",
+      "lede": "Las condiciones básicas para usar UNITAS mientras se encuentra en su fase previa al lanzamiento.",
+      "body": [
+        "UNITAS se ofrece \"tal cual\" durante el desarrollo activo. El acceso a los módulos de pago se rige por el saldo de monedas de tu cuenta; las monedas son un crédito de acceso prepagado — no un valor ni un instrumento de valor almacenado — y no son transferibles.",
+        "Las funciones pueden cambiar o suspenderse a medida que la plataforma evoluciona. El uso continuado tras un cambio implica que aceptas las condiciones actualizadas. La ley aplicable es la de Estonia."
+      ]
+    },
+    "help-center": {
+      "title": "Centro de ayuda",
+      "lede": "Respuestas a las preguntas más frecuentes.",
+      "body": [
+        "Sonido: el audio ambiental está activado por defecto en todos los dispositivos y se mantiene tras recargar; actívalo o desactívalo con el icono del altavoz en la navegación superior. Idioma: cámbialo cuando quieras desde el menú de banderas — tu elección se recuerda.",
+        "Acceso: un módulo se abre cuando el saldo de monedas necesario está disponible en tu cuenta. Si algo parece bloqueado, recarga la página; el estado de la cuenta y del saldo se restaura automáticamente."
+      ]
+    },
+    "contact": {
+      "title": "Contacto",
+      "lede": "Un solo canal llega directamente al fundador.",
+      "body": [
+        "Las consultas generales, de colaboración, de prensa, de seguridad y de protección de datos las atiende el fundador. Usa el panel de ajustes de cuenta dentro de la aplicación para iniciar una conversación, o escribe a la dirección indicada en los canales oficiales de THE UNITAS GLOBAL OÜ.",
+        "No hay línea telefónica de soporte. El tiempo de respuesta depende del volumen; los informes de seguridad tienen prioridad."
+      ]
+    },
+    "system-status": {
+      "title": "Estado del sistema",
+      "lede": "El estado operativo actual de la plataforma UNITAS.",
+      "body": [
+        "UNITAS está en una fase previa al lanzamiento. La interfaz pública está sellada de forma intencionada tras la puerta \"Coming Soon\" mientras el fundador completa la verificación secuencial del flujo de entrada.",
+        "El mantenimiento planificado y cualquier incidencia que afecte a las cuentas o los saldos se resumirán aquí cuando la plataforma esté públicamente en funcionamiento."
+      ]
+    }
   }
 }
