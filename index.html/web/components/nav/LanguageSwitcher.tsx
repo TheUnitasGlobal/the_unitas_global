@@ -49,7 +49,9 @@ export function LanguageSwitcher() {
         }`}
       >
         <FlagIcon locale={activeLocale} size={24} />
-        <span className="leading-none">{activeLocale}</span>
+        {/* flag + native language name (현지어) -- consistent with the entry
+            gate / cinematic GlobalLanguagePicker across every surface. */}
+        <span className="leading-none normal-case">{NATIVE_NAME[activeLocale]}</span>
         <ChevronDown size={22} className={open ? 'rotate-180 transition-transform' : 'transition-transform'} />
       </button>
 

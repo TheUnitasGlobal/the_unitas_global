@@ -1,7 +1,7 @@
 # THE UNITAS GLOBAL MASTER ARCHIVE
 
 Status: workspace operational baseline
-Last synchronized: 2026-08-29 (Rev 2 — 인프라 자율 진화·툴링 셋업 권한 각인)
+Last synchronized: 2026-08-29 (Rev 3 — 토큰 다이어트·제로 타협 자율 구동·정밀 지시 체계 각인)
 
 This archive consolidates business and technical parameters explicitly supplied in the current workspace conversation and the locally indexed sessions available to Copilot. It is an operational reference, not a legal opinion, government filing, patent status determination, or source of payment secrets.
 
@@ -32,6 +32,9 @@ This archive consolidates business and technical parameters explicitly supplied 
 - 대화 통제 독트린: 창립자가 명시적으로 요청하기 전에는 셸 명령어를 임의 제시하지 않는다. 요청 시에만 유효·정밀한 단일 최적화 명령어를 제공한다.
 - 자율 승인 분기 원칙 (Smart Auto-Accept, 2026-08-29): 단순 루틴 명령어(읽기·검색·검증·빌드·테스트·cURL·타입체크 등)와 안전한 툴 실행은 창립자 승인 없이 에이전트가 자체 판단하여 자동 실행한다. 단, DB 파괴·파일 강제 삭제·외부 배포(Vercel 프로덕션 강제 배포)·핵심 아키텍처/정책 설계 선택지가 발생하면 반드시 멈추고 창립자에게 보고·명시적 승인을 요청한다.
 - 출력 언어(Korean-First): 사용자 대상 모든 대화형 출력·로그 요약·상태 보고는 100% 자연스러운 한국어로 번역 출력(셸 명령어 필수 영문 코드·파일 경로·고유 식별자·코드 블록만 예외).
+- 토큰 다이어트 원칙 (Token Diet Principle, 2026-08-29): 주요 공정 완료 시 에이전트는 창립자 지시 없이 자율적으로 `/compact` 또는 `/clear`를 수행해 150k 컨텍스트 한계를 관리한다. `.claude/settings.json`의 `autoCompactEnabled`/`autoCompactWindow: 70000`이 자동 안전망이다.
+- 제로 타협 에이전트 자율 구동 (Zero-Compromise Autonomous Operation): 하드웨어·컨텍스트·토큰 제약을 이유로 공정 완결성을 낮추지 않는다. 탐색→구현→검증(typecheck+build)→배포를 자율 완주하고, 중단은 헌법이 명시한 승인 게이트에서만 한다.
+- 정밀 지시 체계 유지 (Precision Directive Discipline): 다항목 지시는 항목 단위로 완전 이행·개별 보고한다. 누락·부분 이행·미검증 항목을 완료로 보고하지 않는다.
 
 ## Enterprise Identity
 
