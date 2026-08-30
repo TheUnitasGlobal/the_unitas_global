@@ -149,7 +149,12 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
         {/* Unified lower stack: every block from the design doctrine down to the
             bottom click box shares one left axis (border-l-2 + pl-3 / full-width),
             13px type, leading-relaxed line height and a single space-y-3 rhythm,
-            so all three B2B cards render pixel-identical. */}
+            so all three B2B cards render pixel-identical.
+            Enterprise-protocol R&D blurb + USPTO patent-pending badge removed
+            from this section (owner instruction 2026-08-29): the homepage B2B
+            tier is now a lightweight core introduction only -- doctrine line,
+            spec toggle, early-access CTA. The standalone /legal/patent-notice
+            page remains the single canonical IP disclosure surface. */}
         <div className="space-y-3">
           <figure className="border-l-2 border-accent/40 pl-3">
             <figcaption className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-accent/50">
@@ -159,16 +164,6 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
               {tModules(`${protocol.messageKey}.doctrine`)}
             </blockquote>
           </figure>
-
-          <p className="border-l-2 border-accent/40 pl-3 text-[13px] italic leading-relaxed text-gray-400">
-            {t('rdNotice')}
-          </p>
-
-          <div className="border-l-2 border-accent/40 pl-3">
-            <span className="inline-block border border-accent/30 bg-accent/5 px-2 py-1 text-[13px] font-bold uppercase tracking-widest text-accent">
-              {t('patentBadge')}
-            </span>
-          </div>
 
           <button
             type="button"

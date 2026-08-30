@@ -1,7 +1,7 @@
 {
   "LocaleLayout": {
     "title": "UNITAS | 신경-상징 보안 인프라",
-    "description": "자율 신경-상징 및 주권 재정 라우팅 인프라. 코그니티브 및 재정 모듈로 구성된 제로 트러스트 생태계."
+    "description": "자율 신경-상징 및 소버린 재정 라우팅 인프라. 코그니티브 및 재정 모듈로 구성된 제로 트러스트 생태계."
   },
   "Nav": {
     "portal": "보안 포털",
@@ -25,7 +25,7 @@
     "uSignature": {
       "title": "U-Signature",
       "description": "신원을 국가나 플랫폼이 아닌 개인에게 되돌려주는 소버린 생체·암호 서명 계층.",
-      "doctrine": "“서명은 권한을 빌리는 것이 아니라, 주권을 증명하는 것이다.”"
+      "doctrine": "“서명은 권한을 빌리는 것이 아니라, 자주성을 증명하는 것이다.”"
     },
     "uKey": {
       "title": "U-Key",
@@ -62,11 +62,11 @@
     "comingSoon": "이 모듈은 스캐폴딩 단계이며 현재 구축 중입니다."
   },
   "ModuleGate": {
-    "eyebrow": "주권 접근 통제",
+    "eyebrow": "소버린 접근 통제",
     "lockedTitle": "접근 봉인됨",
     "lockedBody": "이 모듈은 유효한 U-Coin 접근 권한이 필요합니다. 권한이 만료되었거나 이 세션에 발급되지 않았습니다. 계속하려면 모듈 게이트를 통해 다시 진입하세요.",
     "signinTitle": "로그인 필요",
-    "signinBody": "모듈 접근은 주권 신원에 귀속됩니다. 로그인 후 모듈 게이트를 통해 진입하세요.",
+    "signinBody": "모듈 접근은 소버린 신원에 귀속됩니다. 로그인 후 모듈 게이트를 통해 진입하세요.",
     "moduleLabel": "모듈",
     "returnToCatalog": "카탈로그로 돌아가기"
   },
@@ -250,7 +250,7 @@
     "inquiryThanksTitle": "접수되었습니다",
     "inquiryThanksBody": "감사합니다 -- 엔터프라이즈 팀이 곧 연락드리겠습니다.",
     "close": "닫기",
-    "manifesto": "엔터프라이즈 프로토콜 계층은 THE UNITAS GLOBAL OÜ의 소버린 독트린을 기업 인프라로 번역한 것이다. 세 프로토콜은 각각 신원(U-Signature)·비밀(U-Key)·가치(U-Pay)라는 주권의 세 기둥을 담당하며, 11대 인지 코어와 U-AI 자율 의사결정 엔진 위에서 하나의 유기체로 작동한다. 목표는 단순한 SaaS가 아니라, 무자본·1인·완전 자동화로 운영되면서도 은행·인증기관·결제망을 대체하는 탈중앙 인프라다.",
+    "manifesto": "엔터프라이즈 프로토콜 계층은 THE UNITAS GLOBAL OÜ의 소버린 독트린을 기업 인프라로 번역한 것이다. 세 프로토콜은 각각 신원(U-Signature)·비밀(U-Key)·가치(U-Pay)라는 자주성의 세 기둥을 담당하며, 11대 인지 코어와 U-AI 자율 의사결정 엔진 위에서 하나의 유기체로 작동한다. 목표는 단순한 SaaS가 아니라, 무자본·1인·완전 자동화로 운영되면서도 은행·인증기관·결제망을 대체하는 탈중앙 인프라다.",
     "patentAnchorNote": "지식재산 및 특허 출원(USPTO #64/023,911)에 관한 모든 표기는 이 엔터프라이즈 R&D 계층에만 귀속된다.",
     "doctrineLabel": "설계 독트린"
   },
@@ -388,19 +388,19 @@
     "cinemaS2": "U-AI · 자율 의사결정 및 설계 엔진.",
     "cinemaS3": "11대 인지 코어 · 자율하는 웹.",
     "cinemaS4": "5대 라이브 시스템 · 소비자 모듈.",
-    "cinemaS5": "3대 주권 기둥 · 신원, 비밀, 가치.",
+    "cinemaS5": "3대 소버린 기둥 · 신원, 비밀, 가치.",
     "cinemaS1Head": "The Singularity is Near.",
     "cinemaS1Sub": "육신을 벗어난 지성의 궤도가 열린다.",
     "cinemaS2Head": "U-AI Engine",
     "cinemaS2Sub": "스스로 판단하고 스스로 설계도를 그리는 자율 의사결정 엔진.",
     "cinemaS3Head": "11 Cognitive Cores",
-    "cinemaS3Sub": "11개의 자율 인지 코어가 스스로 사고하는 에이전트 제국.",
+    "cinemaS3Sub": "스스로 사고하는 11개의 인지 코어가 짜 올리는 자율 지성의 성좌.",
     "cinemaS4Head": "5 Live Systems",
-    "cinemaS4Sub": "지금 바로 입장하는 5대 라이브 소비자 모듈.",
+    "cinemaS4Sub": "지금 이 순간 문을 여는 5대 라이브 소비자 시스템.",
     "cinemaS5Head": "3 Sovereign Pillars",
-    "cinemaS5Sub": "신원·비밀·가치를 지키는 3대 주권 프로토콜.",
+    "cinemaS5Sub": "신원·비밀·가치를 지키는 3대 소버린 프로토콜.",
     "comingSoon": "COMING SOON",
-    "awakening": "주권적 지성이 깨어나고 있습니다",
+    "awakening": "자주적 지성이 깨어나고 있습니다",
     "sealed": "정식 출시 전까지 메인 인터페이스로의 일반 진입은 봉인되어 있습니다."
   },
   "Auth": {

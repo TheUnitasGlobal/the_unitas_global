@@ -783,41 +783,51 @@ export function ComingSoonCinema() {
                   />
                 </div>
 
-                <div className="absolute inset-0 flex items-center justify-center overflow-y-auto overscroll-contain px-6 py-20 sm:px-10">
-                  <AnimatePresence mode="wait">
+                {/* GLITCH-FREE CROSS-FADE (owner instruction 2026-08-29): the
+                    old + new phase lockups occupy the SAME centered grid cell
+                    (col/row-start-1) and only opacity + a small compositor-only
+                    y-shift tween between them -- a clean simultaneous cross-fade,
+                    no hard cut. The previous build animated `letterSpacing` and
+                    `filter: blur()` on the gradient-clipped headline every frame;
+                    that forced `[text-wrap:balance]` to re-wrap mid-animation
+                    (the headline visibly collapsing 2 lines -> 1) and repainted
+                    the `bg-clip-text` fill (the flicker / ghost double-image).
+                    Both tweens are removed: letter-spacing is now static, the
+                    drop-shadow is static, so the text swap is seamless.
+                    `line-clamp-2` hard-guarantees the large typography never
+                    exceeds two lines on any mobile viewport. */}
+                <div className="absolute inset-0 grid place-items-center overflow-y-auto overscroll-contain px-6 py-20 sm:px-10">
+                  <AnimatePresence>
                     <motion.div
                       key={segId}
-                      initial={{ opacity: 0, y: 18, filter: 'blur(12px)' }}
-                      animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                      exit={{ opacity: 0, y: -18, filter: 'blur(12px)' }}
-                      transition={{ duration: 0.9, ease: [0.16, 0.84, 0.44, 1] }}
-                      className="flex max-w-4xl flex-col items-center text-center"
+                      initial={{ opacity: 0, y: 14 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -14 }}
+                      transition={{
+                        opacity: { duration: 1.15, ease: 'easeInOut' },
+                        y: { duration: 1.3, ease: [0.16, 0.84, 0.44, 1] },
+                      }}
+                      className="col-start-1 row-start-1 flex max-w-4xl flex-col items-center text-center [will-change:opacity,transform]"
                     >
-                      <motion.h2
-                        initial={{ letterSpacing: '0.5em' }}
-                        animate={{ letterSpacing: '0.16em' }}
-                        transition={{ duration: 1.1, ease: [0.16, 0.84, 0.44, 1] }}
-                        className="break-keep bg-gradient-to-r from-accent via-white to-neon bg-clip-text font-serif text-[clamp(1.05rem,5.4vw,1.9rem)] font-bold uppercase leading-[1.12] text-transparent [text-wrap:balance] sm:text-5xl lg:text-7xl"
+                      <h2
+                        className="line-clamp-2 break-keep bg-gradient-to-r from-accent via-white to-neon bg-clip-text font-serif text-[clamp(1.05rem,5.4vw,1.9rem)] font-bold uppercase leading-[1.12] tracking-[0.16em] text-transparent [text-wrap:balance] sm:text-5xl sm:tracking-[0.14em] lg:text-7xl"
                         style={{
                           filter:
                             'drop-shadow(0 0 26px rgba(212,175,55,0.4)) drop-shadow(0 0 60px rgba(0,243,255,0.18))',
                         }}
                       >
                         {t(captionKeyFor(segId, 'Head'))}
-                      </motion.h2>
+                      </h2>
                       <span
                         aria-hidden="true"
                         className="my-6 block h-px w-16 bg-gradient-to-r from-transparent via-accent/70 to-transparent sm:w-28"
                       />
-                      <motion.p
-                        initial={{ opacity: 0, letterSpacing: '0.32em' }}
-                        animate={{ opacity: 1, letterSpacing: '0.14em' }}
-                        transition={{ delay: 0.22, duration: 1, ease: [0.16, 0.84, 0.44, 1] }}
-                        className="max-w-2xl break-keep font-serif text-[clamp(0.72rem,3.2vw,0.95rem)] font-medium leading-snug text-white/70 [text-wrap:balance] sm:text-lg lg:text-2xl"
+                      <p
+                        className="line-clamp-2 max-w-2xl break-keep font-serif text-[clamp(0.72rem,3.2vw,0.95rem)] font-medium leading-snug tracking-[0.14em] text-white/70 [text-wrap:balance] sm:text-lg lg:text-2xl"
                         style={{ textShadow: '0 0 24px rgba(0,243,255,0.14)' }}
                       >
                         {t(captionKeyFor(segId, 'Sub'))}
-                      </motion.p>
+                      </p>
                     </motion.div>
                   </AnimatePresence>
                 </div>
