@@ -5,27 +5,18 @@ import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { ChevronDown } from 'lucide-react';
 import { useGatedSurface } from '@/components/ui/useGatedSurface';
+import { LOCALE_NATIVE_NAME } from '@/components/i18n/GlobalLanguagePicker';
 import { FlagIcon } from './FlagIcon';
 
 type Locale = (typeof routing.locales)[number];
 
-/** Native (endonym) language names shown beside each flag. */
-const NATIVE_NAME: Record<Locale, string> = {
-  en: 'English',
-  ko: '한국어',
-  et: 'Eesti',
-  ja: '日本語',
-  zh: '中文',
-  es: 'Español',
-  km: 'ខ្មែរ',
-  fr: 'Français',
-  de: 'Deutsch',
-  pt: 'Português',
-  vi: 'Tiếng Việt',
-  // Shortened from "Bahasa Indonesia" (owner instruction 2026-08-29) to keep
-  // the endonym on a single line in the dropdown.
-  id: 'Indonesia',
-};
+/**
+ * Native (endonym) language names shown beside each flag -- imported from the
+ * single source of truth in <GlobalLanguagePicker/> so the nav-bar twin and the
+ * entry-gate / cinematic picker can never drift apart (owner instruction
+ * 2026-08-30: endonyms restored and locked consistently across every surface).
+ */
+const NATIVE_NAME = LOCALE_NATIVE_NAME;
 
 /** 6-language flag/native-name dropdown, preserves the current page on switch. */
 export function LanguageSwitcher() {
