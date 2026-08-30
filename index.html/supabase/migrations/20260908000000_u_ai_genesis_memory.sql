@@ -118,10 +118,12 @@ grant  execute on function public.spend_coins(text, bigint) to authenticated;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 2. Genesis Memory -- the shared, deduplicated Claude-response cache.
---    query_hash = sha256(`${locale}::${normalized query}`) computed in the
---    route. Rows are written ONLY by the service-role API route (no RLS
---    insert/update policy -- SECURITY: authenticated users may read the cache
---    but never seed it). payload is the parsed DeepReport JSON.
+--    query_hash = sha256(`${cacheVersion}::${locale}::${normalized query}`),
+--    computed in the route. The route reads AND writes this table only with
+--    the service-role client, so RLS is force-enabled with NO policy at all
+--    (default-deny for anon/authenticated) -- a signed-in user can never read
+--    another user's cached analysis or seed a poisoned row. payload is the
+--    validated DeepReport JSON.
 -- ─────────────────────────────────────────────────────────────────────────────
 create table if not exists public.genesis_memory (
   query_hash   text primary key,
@@ -136,9 +138,9 @@ create table if not exists public.genesis_memory (
 alter table public.genesis_memory enable row level security;
 alter table public.genesis_memory force row level security;
 
+-- Explicitly drop any prior permissive policy; the service role bypasses RLS
+-- and is the only writer/reader, so no policy is created.
 drop policy if exists genesis_memory_read on public.genesis_memory;
-create policy genesis_memory_read on public.genesis_memory
-  for select to authenticated using (true);
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 3. Brain-Grid -- per-user cognitive trajectory (search history + resolution

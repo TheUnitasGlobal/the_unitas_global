@@ -13,10 +13,6 @@ export const UAI_DEEP_INSIGHT_COST = 3;
 /** spend_coins() / coin_ledger / module_access_grants whitelist entry. */
 export const UAI_MODULE = 'u-ai' as const;
 
-/** Proof-of-burn window the API route requires between spend_coins() and the
- *  insight call (see supabase/migrations/20260908000000_u_ai_genesis_memory.sql). */
-export const UAI_BURN_FRESH_MS = 120_000;
-
 export type LensKey = 'tech' | 'economy' | 'opinion';
 export type Band = 'low' | 'mid' | 'high';
 export type ShieldVerdict = 'clear' | 'caution' | 'biased';
@@ -86,6 +82,15 @@ export interface DeepReport {
   cached: boolean;
 }
 
+export type DeepInsightError =
+  | 'burn_required'
+  | 'insufficient'
+  | 'phone'
+  | 'deep_unavailable'
+  | 'unauthenticated'
+  | 'bad_request'
+  | 'generation_failed';
+
 export type DeepInsightApiResponse =
   | ({ ok: true } & DeepReport)
-  | { ok: false; error: 'burn_required' | 'deep_unavailable' | 'unauthenticated' | 'bad_request' | 'generation_failed' };
+  | { ok: false; error: DeepInsightError };

@@ -6,34 +6,11 @@ import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { analyzeSurface } from './heuristics';
 import { recordBrainGrid, loadBrainGrid, clearBrainGrid, type BrainGridEntry } from './brainGrid';
-import {
-  UAI_DEEP_INSIGHT_COST,
-  UAI_MODULE,
-  type DeepInsightApiResponse,
-  type DeepReport,
-  type SurfaceReport,
-} from './types';
+import type { DeepInsightApiResponse, DeepInsightError, DeepReport, SurfaceReport } from './types';
 
 export type UaiPhase = 'idle' | 'surface-loading' | 'surface' | 'deep-loading' | 'deep';
 
-export type UaiError =
-  | 'signin'
-  | 'phone'
-  | 'insufficient'
-  | 'burn_required'
-  | 'deep_unavailable'
-  | 'generation_failed'
-  | 'bad_request'
-  | 'unauthenticated';
-
-function mapSpendError(message: string | undefined): UaiError {
-  const m = (message ?? '').toLowerCase();
-  if (m.includes('insufficient')) return 'insufficient';
-  if (m.includes('phone')) return 'phone';
-  if (m.includes('wallet not found')) return 'insufficient';
-  if (m.includes('authenticat')) return 'signin';
-  return 'generation_failed';
-}
+export type UaiError = 'signin' | DeepInsightError;
 
 interface RunSurfaceOptions {
   tEcosystems: (key: string) => string;
@@ -43,7 +20,7 @@ interface RunSurfaceOptions {
 /**
  * Orchestrates the U-AI two-tier flow: instant client-side surface analysis
  * (free), then the coin-burning deep insight (Phase 2-4) via
- * spend_coins('u-ai', N) + POST /api/u-ai/insight.
+ * POST /api/u-ai/insight (the route does the server-side Micro-Burn).
  */
 export function useUai() {
   const locale = useLocale();
@@ -114,17 +91,10 @@ export function useUai() {
     setError(null);
     setPhase('deep-loading');
     try {
+      // The U-COIN Micro-Burn happens server-side, inside the route, exactly
+      // once per request (see app/api/u-ai/insight/route.ts) -- the client
+      // never calls spend_coins for U-AI, so a burn can't be replayed.
       const supabase = getSupabaseBrowserClient();
-      const { error: spendError } = await supabase.rpc('spend_coins', {
-        p_module: UAI_MODULE,
-        p_amount: UAI_DEEP_INSIGHT_COST,
-      });
-      if (spendError) {
-        setError(mapSpendError(spendError.message));
-        setPhase('surface');
-        return;
-      }
-
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token ?? session.access_token;
       const res = await fetch('/api/u-ai/insight', {
