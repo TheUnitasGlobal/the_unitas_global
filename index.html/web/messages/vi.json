@@ -23,19 +23,16 @@
     "uSignature": {
       "title": "U-Signature",
       "description": "Một lớp chữ ký sinh trắc học và mật mã có chủ quyền, trả lại danh tính cho cá nhân — không phải cho nhà nước hay nền tảng.",
-      "longDescription": "U-Signature định nghĩa lại chữ ký như một hành vi chủ quyền chứ không phải một dấu để lại trên tài liệu. Nó kết hợp các yếu tố sinh trắc học với mật mã ngưỡng để không một cơ quan phát hành trung tâm nào có thể giả mạo, đình chỉ hay thu hồi. 11 Lõi Nhận thức xác minh bối cảnh ký (ai · điều gì · vì sao · khi nào) theo thời gian thực, và mọi chữ ký được khắc vào một sổ cái chỉ-ghi-thêm khiến việc phủ nhận về sau là bất khả thi. Các quy tắc ủy quyền, thu hồi và kế thừa được biểu diễn dưới dạng mã, nên một nhà sáng lập duy nhất có thể thực thi toàn bộ quyết định của một công ty bằng một chữ ký.",
-      "doctrine": "\"Một chữ ký không vay mượn thẩm quyền — nó chứng minh chủ quyền.\" — Nhà sáng lập, Dooyeong Hwang"
+      "doctrine": "\"Một chữ ký không vay mượn thẩm quyền — nó chứng minh chủ quyền.\""
     },
     "uKey": {
       "title": "U-Key",
       "description": "Lưu ký khóa và kiểm soát truy cập zero-trust, nơi bí mật được bảo vệ bằng chính sách, không phải bằng con người.",
-      "longDescription": "U-Key không tin \"ai đang yêu cầu\" mà chỉ tin \"quyền truy cập này có thỏa mãn chính sách vào đúng thời điểm này không\". Khóa không bao giờ tồn tại ở dạng văn bản rõ; chúng được giữ qua phân mảnh phân tán và xoay vòng tức thì, và mọi quyết định truy cập đều do bộ máy U-AI đưa ra một cách tự trị từ bối cảnh, rủi ro và tín hiệu bất thường. Mọi cấp phép, từ chối và thu hồi đều được ghi vào nhật ký kiểm toán bất biến, nên việc kiểm toán theo quy định và ứng phó sự cố vẫn vững vàng ngay cả trong hoạt động một người — quản trị khóa cấp ngân hàng mà không cần lồng HSM và không cần đội bảo mật chuyên trách.",
       "doctrine": "\"Niềm tin không được cấp một lần — nó được chứng minh lại ở mọi khoảnh khắc.\""
     },
     "uPay": {
       "title": "U-Pay",
       "description": "Một đường ray định tuyến và thanh toán tài chính có chủ quyền, nơi dòng chảy giá trị được quyết định bởi quy tắc, không phải bởi ngân hàng.",
-      "longDescription": "U-Pay biến thanh toán từ \"xin phép một bên trung gian\" thành \"một hợp đồng tự thực thi khi điều kiện được đáp ứng\". Nó trừu tượng hóa các dòng chảy đa tiền tệ, đa đường ray (tiền pháp định, stablecoin, sổ cái U-Coin nội bộ) thành một đồ thị thanh toán duy nhất, và U-AI tự trị tính toán định tuyến, tối ưu phí, phòng ngừa rủi ro tỷ giá và khấu trừ thuế cho từng giao dịch. Mọi dòng chảy tuân theo cùng một bất biến kế toán chỉ-ghi-thêm như coin_ledger — không thay đổi số dư nào mà không có một bút toán sổ cái tương ứng. Được xây dựng để một công ty một người sở hữu và vận hành trực tiếp hạ tầng thanh toán toàn cầu, trong một thị trường đại dương xanh không có đối thủ hiện hữu.",
       "doctrine": "\"Con đường của tiền không được cho phép — nó được thiết kế.\""
     },
     "arche": {
@@ -402,9 +399,7 @@
     "cinemaS5Sub": "Tần số duy nhất sẽ chỉ huy tương lai.",
     "comingSoon": "SẮP RA MẮT",
     "awakening": "Trí tuệ chủ quyền đang thức tỉnh",
-    "sealed": "Lối vào công khai đến giao diện chính bị niêm phong cho đến khi ra mắt.",
-    "rights": "© THE UNITAS GLOBAL OÜ — Bảo lưu mọi quyền",
-    "sovereignSignature": "11 Lõi Nhận thức · 5 hệ thống · 3 trụ cột"
+    "sealed": "Lối vào công khai đến giao diện chính bị niêm phong cho đến khi ra mắt."
   },
   "Auth": {
     "login": "Đăng nhập",

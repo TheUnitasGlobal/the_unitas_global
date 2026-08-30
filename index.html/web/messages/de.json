@@ -23,19 +23,16 @@
     "uSignature": {
       "title": "U-Signature",
       "description": "Eine souveräne biometrische und kryptografische Signaturschicht, die Identität an die einzelne Person zurückgibt — nicht an den Staat oder die Plattform.",
-      "longDescription": "U-Signature begreift eine Unterschrift neu als Souveränitätsakt statt als Markierung auf einem Dokument. Sie verbindet biometrische Faktoren mit Schwellenwert-Kryptografie, sodass keine zentrale Ausgabestelle sie fälschen, aussetzen oder widerrufen kann. Die 11 kognitiven Kerne prüfen den Signaturkontext (wer · was · warum · wann) in Echtzeit, und jede Signatur wird in ein reines Anhänge-Register eingraviert, das ein nachträgliches Bestreiten unmöglich macht. Delegations-, Widerrufs- und Nachfolgeregeln sind als Code ausgedrückt, sodass eine einzelne Gründerperson die gesamten Entscheidungen eines Unternehmens mit einer Signatur ausführen kann.",
-      "doctrine": "„Eine Signatur leiht sich keine Autorität — sie beweist Souveränität.“ — Der Gründer, Dooyeong Hwang"
+      "doctrine": "„Eine Signatur leiht sich keine Autorität — sie beweist Souveränität.“"
     },
     "uKey": {
       "title": "U-Key",
       "description": "Zero-Trust-Schlüsselverwahrung und Zugriffskontrolle, bei der Geheimnisse durch Richtlinien geschützt werden, nicht durch Menschen.",
-      "longDescription": "U-Key vertraut nicht darauf, „wer fragt“, sondern nur darauf, „erfüllt dieser Zugriff genau in diesem Moment die Richtlinie“. Schlüssel existieren nie im Klartext; sie werden durch verteiltes Sharding und sofortige Rotation gehalten, und jede Zugriffsentscheidung trifft die U-AI-Engine autonom aus Kontext, Risiko und Anomaliesignalen. Jede Gewährung, Ablehnung und jeder Widerruf wird in ein unveränderliches Prüfprotokoll geschrieben, sodass regulatorische Prüfung und Vorfallreaktion auch im Ein-Personen-Betrieb Bestand haben — Schlüssel-Governance auf Bankniveau ohne HSM-Käfig und ohne dediziertes Sicherheitsteam.",
       "doctrine": "„Vertrauen wird nicht einmal gewährt — es wird in jedem Moment neu bewiesen.“"
     },
     "uPay": {
       "title": "U-Pay",
       "description": "Ein souveränes fiskalisches Routing- und Abwicklungsgleis, bei dem die Bewegung von Wert durch Regeln entschieden wird, nicht durch Banken.",
-      "longDescription": "U-Pay verwandelt Zahlung von „einen Vermittler um Erlaubnis bitten“ in „einen Vertrag, der sich selbst ausführt, sobald die Bedingungen erfüllt sind“. Es abstrahiert Mehrwährungs- und Mehrgleis-Flüsse (Fiat, Stablecoins, das interne U-Coin-Register) in einen einzigen Abwicklungsgraphen, und U-AI berechnet Routing, Gebührenoptimierung, Devisenabsicherung und Steuereinbehalt autonom pro Transaktion. Jeder Fluss folgt derselben reinen Anhänge-Buchhaltungsinvariante wie coin_ledger — keine Saldoänderung ohne passende Registerbuchung. Gebaut dafür, dass ein Ein-Personen-Unternehmen globale Abwicklungsinfrastruktur direkt besitzt und betreibt, in einem Blue-Ocean-Markt ohne etablierten Anbieter.",
       "doctrine": "„Der Weg des Geldes wird nicht erlaubt — er wird entworfen.“"
     },
     "arche": {
@@ -402,9 +399,7 @@
     "cinemaS5Sub": "Die eine Frequenz, die die Zukunft befehligen wird.",
     "comingSoon": "DEMNÄCHST",
     "awakening": "Die souveräne Intelligenz erwacht",
-    "sealed": "Der öffentliche Zugang zur Hauptoberfläche ist bis zum Start versiegelt.",
-    "rights": "© THE UNITAS GLOBAL OÜ — Alle Rechte vorbehalten",
-    "sovereignSignature": "11 kognitive Kerne · 5 Systeme · 3 Säulen"
+    "sealed": "Der öffentliche Zugang zur Hauptoberfläche ist bis zum Start versiegelt."
   },
   "Auth": {
     "login": "Anmelden",

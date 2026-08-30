@@ -576,11 +576,12 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     const now = ctx.currentTime;
     const buffer = getNoiseBuffer(ctx);
 
-    // Owner instruction 2026-08-29: 3대 모듈 박스 타격감 대폭 상향 + 음색 튜닝,
-    // then SFX polish -- 타격감과 명료도를 한층 더 세련되게. Five stacked layers:
-    // a crisp attack transient for definition, a deep sub-impact, a body thud,
-    // a metallic clank and a resonant ring tail -- so the B2B card cue lands
-    // like a real vault door, and the leading edge is unambiguous.
+    // Owner instruction 2026-08-29 (volume balancing pass): the same five-layer
+    // vault-door design -- attack transient, sub-impact, body thud, metallic
+    // clank, resonant ring tail -- but every layer's level is cut to roughly a
+    // third so the 3대 모듈 cue sits at the SAME comfortable loudness as the
+    // other cards' hover SFX (playHoverSfx ~0.11, playEcosystemHover ~0.1-0.15),
+    // instead of dominating the mix.
 
     // 0. Attack transient -- a ~7 ms highpassed noise spike that gives the hit
     //    a clean, articulate leading edge instead of a soft swell into the sub.
@@ -590,7 +591,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     attackFilter.type = 'highpass';
     attackFilter.frequency.value = 3200;
     const attackGain = ctx.createGain();
-    attackGain.gain.setValueAtTime(0.32, now);
+    attackGain.gain.setValueAtTime(0.11, now);
     attackGain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
     attack.connect(attackFilter);
     attackFilter.connect(attackGain);
@@ -605,7 +606,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     sub.frequency.setValueAtTime(104, now);
     sub.frequency.exponentialRampToValueAtTime(32, now + 0.26);
     const subGain = ctx.createGain();
-    subGain.gain.setValueAtTime(0.52, now);
+    subGain.gain.setValueAtTime(0.17, now);
     subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
     sub.connect(subGain);
     subGain.connect(master);
@@ -618,7 +619,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     body.frequency.setValueAtTime(190, now);
     body.frequency.exponentialRampToValueAtTime(58, now + 0.22);
     const bodyGain = ctx.createGain();
-    bodyGain.gain.setValueAtTime(0.34, now);
+    bodyGain.gain.setValueAtTime(0.12, now);
     bodyGain.gain.exponentialRampToValueAtTime(0.001, now + 0.34);
     body.connect(bodyGain);
     bodyGain.connect(master);
@@ -633,7 +634,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     clankFilter.frequency.value = 760;
     clankFilter.Q.value = 7;
     const clankGain = ctx.createGain();
-    clankGain.gain.setValueAtTime(0.3, now);
+    clankGain.gain.setValueAtTime(0.1, now);
     clankGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
     clank.connect(clankFilter);
     clankFilter.connect(clankGain);
@@ -650,7 +651,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     ringFilter.frequency.value = 2600;
     ringFilter.Q.value = 14;
     const ringGain = ctx.createGain();
-    ringGain.gain.setValueAtTime(0.14, now + 0.02);
+    ringGain.gain.setValueAtTime(0.05, now + 0.02);
     ringGain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
     ring.connect(ringFilter);
     ringFilter.connect(ringGain);

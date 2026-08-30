@@ -23,19 +23,16 @@
     "uSignature": {
       "title": "U-Signature",
       "description": "Suveräänne biomeetriline ja krüptograafiline allkirjakiht, mis annab identiteedi tagasi indiviidile — mitte riigile ega platvormile.",
-      "longDescription": "U-Signature määratleb allkirja ümber kui suveräänsuse akti, mitte kui dokumendile jäetud jälje. See ühendab biomeetrilised tegurid lävekrüptograafiaga, nii et ükski keskne väljastaja ei saa seda võltsida, peatada ega tühistada. 11 kognitiivset tuuma kontrollivad allkirjastamise konteksti (kes · mida · miks · millal) reaalajas ning iga allkiri raiutakse ainult-lisatavasse pearaamatusse, mis muudab hilisema salgamise võimatuks. Delegeerimise, tühistamise ja pärimise reeglid on väljendatud koodina, nii et üksainus asutaja saab kogu ettevõtte otsused ühe allkirjaga täide viia.",
-      "doctrine": "“Allkiri ei laena volitust — see tõestab suveräänsust.” — asutaja Dooyeong Hwang"
+      "doctrine": "“Allkiri ei laena volitust — see tõestab suveräänsust.”"
     },
     "uKey": {
       "title": "U-Key",
       "description": "Null-usalduse võtmehoid ja juurdepääsukontroll, kus saladusi valvab poliitika, mitte inimesed.",
-      "longDescription": "U-Key ei usalda mitte “kes küsib”, vaid ainult “kas see juurdepääs vastab poliitikale just sel hetkel”. Võtmeid ei eksisteeri kunagi avatekstina; neid hoitakse hajutatud tükeldamise ja kohese rotatsiooni abil ning iga juurdepääsuotsuse teeb autonoomselt U-AI mootor konteksti, riski ja anomaaliasignaalide põhjal. Iga andmine, keeldumine ja tühistamine kirjutatakse muutumatusse auditlogisse, nii et regulatiivne audit ja intsidendile reageerimine kehtivad ka ühe inimese käitamise korral — pangatasemel võtmehaldus ilma HSM-puuri ja pühendunud turvameeskonnata.",
       "doctrine": "“Usaldust ei anta üks kord — seda tõestatakse igal hetkel uuesti.”"
     },
     "uPay": {
       "title": "U-Pay",
       "description": "Suveräänne fiskaalse marsruutimise ja arvelduse rada, kus väärtuse liikumise otsustavad reeglid, mitte pangad.",
-      "longDescription": "U-Pay muudab makse “vahendajalt loa küsimisest” “lepinguks, mis täidab end ise, kui tingimused on täidetud”. See abstraheerib mitmevaluuta- ja mitmerajavood (fiat, stabiilmündid, sisemine U-Coin pearaamat) üheks arveldusgraafiks ning U-AI arvutab iga tehingu kohta autonoomselt marsruutimise, tasude optimeerimise, valuutariski maandamise ja maksukinnipidamise. Iga voog järgib sama ainult-lisatavat raamatupidamise invarianti nagu coin_ledger — ühtki saldomuutust ilma vastava kandeta. Loodud selleks, et üheinimese-ettevõte omaks ja käitaks otse globaalset arveldustaristut sinise ookeani turul, kus konkurente pole.",
       "doctrine": "“Raha teed ei lubata — see kavandatakse.”"
     },
     "arche": {
@@ -402,9 +399,7 @@
     "cinemaS5Sub": "Ainus sagedus, mis hakkab valitsema tulevikku.",
     "comingSoon": "COMING SOON",
     "awakening": "Suveräänne intelligentsus ärkab",
-    "sealed": "Avalik sisenemine peamisse liidesesse on lukustatud kuni käivitamiseni.",
-    "rights": "© THE UNITAS GLOBAL OÜ — Kõik õigused kaitstud",
-    "sovereignSignature": "11 kognitiivset tuuma · 5 süsteemi · 3 sammast"
+    "sealed": "Avalik sisenemine peamisse liidesesse on lukustatud kuni käivitamiseni."
   },
   "Auth": {
     "login": "Logi sisse",

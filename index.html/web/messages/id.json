@@ -23,19 +23,16 @@
     "uSignature": {
       "title": "U-Signature",
       "description": "Lapisan tanda tangan biometrik dan kriptografis berdaulat yang mengembalikan identitas kepada individu — bukan negara atau platform.",
-      "longDescription": "U-Signature memaknai ulang tanda tangan sebagai tindakan kedaulatan, bukan tanda yang ditinggalkan pada dokumen. Ia memadukan faktor biometrik dengan kriptografi ambang sehingga tidak ada penerbit pusat yang dapat memalsukan, menangguhkan, atau mencabutnya. 11 Inti Kognitif memverifikasi konteks penandatanganan (siapa · apa · mengapa · kapan) secara waktu nyata, dan setiap tanda tangan diukir ke dalam buku besar hanya-tambah yang membuat penyangkalan setelahnya menjadi mustahil. Aturan pendelegasian, pencabutan, dan suksesi dinyatakan sebagai kode, sehingga seorang pendiri tunggal dapat mengeksekusi seluruh keputusan sebuah perusahaan dengan satu tanda tangan.",
-      "doctrine": "\"Tanda tangan tidak meminjam otoritas — ia membuktikan kedaulatan.\" — Pendiri, Dooyeong Hwang"
+      "doctrine": "\"Tanda tangan tidak meminjam otoritas — ia membuktikan kedaulatan.\""
     },
     "uKey": {
       "title": "U-Key",
       "description": "Penyimpanan kunci dan kontrol akses zero-trust di mana rahasia dijaga oleh kebijakan, bukan oleh manusia.",
-      "longDescription": "U-Key tidak memercayai \"siapa yang meminta\" melainkan hanya \"apakah akses ini memenuhi kebijakan pada momen yang tepat ini\". Kunci tidak pernah ada dalam bentuk teks biasa; kunci disimpan melalui sharding terdistribusi dan rotasi instan, dan setiap keputusan akses diambil secara otonom oleh mesin U-AI dari konteks, risiko, dan sinyal anomali. Setiap pemberian, penolakan, dan pencabutan dicatat ke log audit yang tidak dapat diubah, sehingga audit regulasi dan respons insiden tetap kokoh bahkan dalam operasi satu orang — tata kelola kunci setara bank tanpa kandang HSM dan tanpa tim keamanan khusus.",
       "doctrine": "\"Kepercayaan tidak diberikan sekali — ia dibuktikan ulang setiap saat.\""
     },
     "uPay": {
       "title": "U-Pay",
       "description": "Jalur perutean dan penyelesaian fiskal berdaulat di mana pergerakan nilai ditentukan oleh aturan, bukan oleh bank.",
-      "longDescription": "U-Pay mengubah pembayaran dari \"meminta izin kepada perantara\" menjadi \"kontrak yang mengeksekusi dirinya sendiri begitu syarat terpenuhi\". Ia mengabstraksikan aliran multi-mata uang dan multi-jalur (fiat, stablecoin, buku besar U-Coin internal) menjadi satu graf penyelesaian, dan U-AI menghitung perutean, optimasi biaya, lindung nilai valas, dan pemotongan pajak secara otonom per transaksi. Setiap aliran mematuhi invarian akuntansi hanya-tambah yang sama dengan coin_ledger — tidak ada perubahan saldo tanpa entri buku besar yang bersesuaian. Dibangun agar perusahaan satu orang dapat memiliki dan mengoperasikan infrastruktur penyelesaian global secara langsung, di pasar samudra biru tanpa pemain lama.",
       "doctrine": "\"Jalur uang tidak diizinkan — ia dirancang.\""
     },
     "arche": {
@@ -402,9 +399,7 @@
     "cinemaS5Sub": "Satu frekuensi yang akan memerintah masa depan.",
     "comingSoon": "SEGERA HADIR",
     "awakening": "Kecerdasan Berdaulat Sedang Terbangun",
-    "sealed": "Pintu masuk publik ke antarmuka utama tersegel hingga peluncuran.",
-    "rights": "© THE UNITAS GLOBAL OÜ — Hak cipta dilindungi",
-    "sovereignSignature": "11 Inti Kognitif · 5 Sistem · 3 Pilar"
+    "sealed": "Pintu masuk publik ke antarmuka utama tersegel hingga peluncuran."
   },
   "Auth": {
     "login": "Masuk",

@@ -141,74 +141,78 @@ export function B2BProtocolCard({ protocol, index }: B2BProtocolCardProps) {
           </h3>
         </div>
 
-        <p className="mb-3 text-[13px] font-normal leading-snug text-gray-300">
+        {/* Simple Introduction -- one intuitive sentence, no implementation detail. */}
+        <p className="mb-5 text-[13px] font-normal leading-relaxed text-gray-300">
           {tModules(`${protocol.messageKey}.description`)}
         </p>
 
-        <p className="mb-3 text-[13px] font-normal leading-relaxed text-gray-400">
-          {tModules(`${protocol.messageKey}.longDescription`)}
-        </p>
+        {/* Unified lower stack: every block from the design doctrine down to the
+            bottom click box shares one left axis (border-l-2 + pl-3 / full-width),
+            13px type, leading-relaxed line height and a single space-y-3 rhythm,
+            so all three B2B cards render pixel-identical. */}
+        <div className="space-y-3">
+          <figure className="border-l-2 border-accent/40 pl-3">
+            <figcaption className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-accent/50">
+              {t('doctrineLabel')}
+            </figcaption>
+            <blockquote className="text-[13px] italic leading-relaxed text-accent/80">
+              {tModules(`${protocol.messageKey}.doctrine`)}
+            </blockquote>
+          </figure>
 
-        <figure className="mb-4">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent/50">
-            {t('doctrineLabel')}
-          </p>
-          <blockquote className="mt-1 border-l-2 border-accent/50 pl-3 text-[13px] italic leading-snug text-accent/80">
-            {tModules(`${protocol.messageKey}.doctrine`)}
-          </blockquote>
-        </figure>
-
-        <div className="mb-4 space-y-2">
-          <p className="border-l-2 border-accent/50 pl-3 text-[13px] italic text-gray-400">
+          <p className="border-l-2 border-accent/40 pl-3 text-[13px] italic leading-relaxed text-gray-400">
             {t('rdNotice')}
           </p>
-          <span className="inline-block border border-accent/30 bg-accent/5 px-2 py-1 text-[13px] font-bold uppercase tracking-widest text-accent">
-            {t('patentBadge')}
-          </span>
+
+          <div className="border-l-2 border-accent/40 pl-3">
+            <span className="inline-block border border-accent/30 bg-accent/5 px-2 py-1 text-[13px] font-bold uppercase tracking-widest text-accent">
+              {t('patentBadge')}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setSpecOpen((prev) => !prev)}
+            aria-expanded={specOpen}
+            className="flex w-full items-center justify-between border border-white/10 bg-void/60 px-3 py-2.5 text-[13px] font-bold uppercase tracking-widest text-gray-300 transition-colors hover:border-accent/40 hover:text-accent"
+          >
+            <span>{specOpen ? t('hideSpec') : t('viewSpec')}</span>
+            <ChevronDown size={14} className={specOpen ? 'rotate-180 transition-transform' : 'transition-transform'} />
+          </button>
+
+          <AnimatePresence initial={false}>
+            {specOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="flex flex-col gap-2 border border-white/10 bg-void/40 p-4">
+                  {nodes.map((node, i) => (
+                    <div key={node} className="flex items-center gap-2">
+                      <span className="flex-1 border border-accent/20 bg-accent/5 px-2 py-1.5 text-[13px] text-gray-300">
+                        {node}
+                      </span>
+                      {i < nodes.length - 1 && (
+                        <ArrowRight size={12} className="shrink-0 rotate-90 text-accent/60 sm:rotate-0" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <button
+            type="button"
+            onClick={() => setInquiryOpen(true)}
+            className="w-full border border-accent bg-accent/10 py-2.5 text-[13px] font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
+          >
+            {t('earlyAccess')}
+          </button>
         </div>
-
-        <button
-          type="button"
-          onClick={() => setSpecOpen((prev) => !prev)}
-          aria-expanded={specOpen}
-          className="mb-2 flex w-full items-center justify-between border border-white/10 bg-void/60 px-3 py-2 text-[13px] font-bold uppercase tracking-widest text-gray-300 transition-colors hover:border-accent/40 hover:text-accent"
-        >
-          <span>{specOpen ? t('hideSpec') : t('viewSpec')}</span>
-          <ChevronDown size={14} className={specOpen ? 'rotate-180 transition-transform' : 'transition-transform'} />
-        </button>
-
-        <AnimatePresence initial={false}>
-          {specOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
-              <div className="mb-4 flex flex-col gap-2 border border-white/10 bg-void/40 p-4">
-                {nodes.map((node, i) => (
-                  <div key={node} className="flex items-center gap-2">
-                    <span className="flex-1 border border-accent/20 bg-accent/5 px-2 py-1.5 text-[13px] text-gray-300">
-                      {node}
-                    </span>
-                    {i < nodes.length - 1 && (
-                      <ArrowRight size={12} className="shrink-0 rotate-90 text-accent/60 sm:rotate-0" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <button
-          type="button"
-          onClick={() => setInquiryOpen(true)}
-          className="w-full border border-accent bg-accent/10 py-2.5 text-[13px] font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
-        >
-          {t('earlyAccess')}
-        </button>
       </div>
 
       <EnterpriseInquiryModal

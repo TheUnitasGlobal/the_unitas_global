@@ -844,14 +844,6 @@ export function ComingSoonCinema() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.1, ease: 'easeOut' }}
               >
-                <p
-                  className="mb-5 font-serif text-5xl font-bold uppercase tracking-[0.28em] text-white sm:text-7xl lg:text-8xl"
-                  style={{
-                    textShadow: '0 0 30px rgba(212,175,55,0.35), 0 0 72px rgba(0,243,255,0.14)',
-                  }}
-                >
-                  {tGate('title')}
-                </p>
                 <h2 className="cs-awaken font-serif text-[2.75rem] font-bold tracking-[0.22em] text-white sm:text-7xl lg:text-[5.25rem]">
                   {t('comingSoon')}
                 </h2>
@@ -861,19 +853,19 @@ export function ComingSoonCinema() {
                 <p className="mt-3 max-w-sm text-xs leading-relaxed text-white/35 [text-wrap:balance] sm:text-sm">
                   {t('sealed')}
                 </p>
-                <div className="mt-10 flex flex-col items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={replay}
-                    className="text-[11px] uppercase tracking-[0.25em] text-white/45 transition-colors hover:text-white/85"
-                  >
-                    ▷ {t('replay')}
-                  </button>
-                  <p className="text-[10px] uppercase tracking-[0.24em] text-white/30">
-                    {t('sovereignSignature')}
-                  </p>
-                  <p className="text-[10px] tracking-wide text-white/20">{t('rights')}</p>
-                </div>
+
+                {/* One clear blank line of separation, then the relocated
+                    'UNITAS' wordmark sitting directly above the corporate name.
+                    Scale steps down from COMING SOON by ~golden ratio; a
+                    champagne-gold gradient sets it apart from the white legal
+                    line beneath it. */}
+                <p
+                  className="mt-16 bg-gradient-to-r from-[#d4af37] via-[#f5e6b8] to-[#d4af37] bg-clip-text font-serif text-[1.62rem] font-bold uppercase tracking-[0.45em] text-transparent sm:text-[2.62rem]"
+                  style={{ filter: 'drop-shadow(0 0 22px rgba(212,175,55,0.35))' }}
+                >
+                  {tGate('title')}
+                </p>
+                <p className="mt-2 text-[10px] tracking-wide text-white/25">© THE UNITAS GLOBAL OÜ</p>
 
                 {/* FOUNDER-ONLY secret door. Never rendered for the public,
                     so there is no path past the curtain in a normal session. */}
@@ -899,6 +891,16 @@ export function ComingSoonCinema() {
                     </p>
                   </motion.div>
                 )}
+
+                {/* Replay -- small minimal control, pinned bottom-right, mirrors
+                    the cinema 'skip' affordance. */}
+                <button
+                  type="button"
+                  onClick={replay}
+                  className="absolute bottom-6 right-6 z-20 text-[10px] uppercase tracking-[0.3em] text-white/30 transition-colors hover:text-white/80"
+                >
+                  ▷ {t('replay')}
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
