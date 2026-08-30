@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { routing } from '@/i18n/routing';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { buildInsightPrompt, normalizeQuery, parseInsightResponse } from '@/lib/uai/deepInsight';
+import { generateInsight, insightProviderAvailable } from '@/lib/uai/provider';
 import {
   UAI_DEEP_INSIGHT_COST,
   UAI_MODULE,
@@ -14,8 +15,6 @@ import {
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const INSIGHT_MODEL = process.env.UAI_INSIGHT_MODEL || 'claude-sonnet-5';
-const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 /** Bump when buildInsightPrompt / the DeepReport schema changes, so stale
  *  (or prompt-injection-poisoned) Genesis Memory rows are never served. */
 const CACHE_VERSION = 'v1';
@@ -27,7 +26,7 @@ const MAX_QUERY_LEN = 400;
  *
  * Contract:
  *  - GET  -> { available } so the client can hide the deep button (and never
- *            attempt a burn) when ANTHROPIC_API_KEY is not configured.
+ *            attempt a burn) when no LLM provider key is configured.
  *  - POST -> requires a valid Supabase session. The U-COIN burn
  *            (spend_coins('u-ai', N)) happens HERE, server-side, exactly once
  *            per request, using a client scoped to the caller's JWT -- there
@@ -42,7 +41,7 @@ const MAX_QUERY_LEN = 400;
  */
 
 export function GET() {
-  return NextResponse.json({ available: Boolean(process.env.ANTHROPIC_API_KEY) });
+  return NextResponse.json({ available: insightProviderAvailable() });
 }
 
 function mapSpendError(message: string | undefined): DeepInsightError {
@@ -98,8 +97,7 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
 
   // Capability gate BEFORE burning: if we can't deliver a deep insight at all,
   // the caller must not be charged.
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
+  if (!insightProviderAvailable()) {
     return NextResponse.json({ ok: false, error: 'deep_unavailable' }, { status: 503 });
   }
 
@@ -144,7 +142,7 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
       return NextResponse.json({
         ok: true,
         ...(cached.payload as object),
-        model: (cached.model as string) || INSIGHT_MODEL,
+        model: (cached.model as string) || 'genesis-memory',
         cached: true,
       } as DeepInsightApiResponse);
     }
@@ -154,24 +152,8 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
 
   const { system, user: userPrompt } = buildInsightPrompt(query, locale);
   try {
-    const res = await fetch(ANTHROPIC_URL, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: INSIGHT_MODEL,
-        max_tokens: 1800,
-        system,
-        messages: [{ role: 'user', content: userPrompt }],
-      }),
-    });
-    if (!res.ok) throw new Error(`Anthropic ${res.status}`);
-    const data = (await res.json()) as { content?: Array<{ text?: string }> };
-    const text = data.content?.map((c) => c.text ?? '').join('') ?? '';
-    const report = parseInsightResponse(text, INSIGHT_MODEL);
+    const { text, model } = await generateInsight(system, userPrompt);
+    const report = parseInsightResponse(text, model);
 
     // Persist to Genesis Memory + Brain-Grid (best-effort -- a failure here
     // (tables not applied yet) must not fail the paid request the user
@@ -179,7 +161,7 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
     await Promise.allSettled([
       admin
         .from('genesis_memory')
-        .upsert({ query_hash: queryHash, locale, payload: report, model: INSIGHT_MODEL }),
+        .upsert({ query_hash: queryHash, locale, payload: report, model }),
       admin.from('brain_grid').insert({ user_id: user.id, query, depth: 'deep', shield_score: shieldScore }),
     ]);
 

@@ -26,7 +26,29 @@
 --    in sync (CLAUDE.md "U-Coin ledger audit compliance"): the coin_ledger
 --    CHECK, the module_access_grants CHECK, and the spend_coins() body.
 -- ─────────────────────────────────────────────────────────────────────────────
-alter table public.coin_ledger drop constraint if exists coin_ledger_module_check;
+-- Drop EVERY existing CHECK constraint on the .module column of each table
+-- (whatever it is named on the live project -- inline column checks are
+-- auto-named public convention `<table>_module_check`, but a hand-built
+-- Dashboard schema may differ), then re-add the canonical one widened by
+-- 'u-ai'. Fully idempotent and name-agnostic.
+do $$
+declare
+  r record;
+begin
+  for r in
+    select con.conname, rel.relname
+    from pg_constraint con
+    join pg_class rel on rel.oid = con.conrelid
+    join pg_namespace nsp on nsp.oid = rel.relnamespace
+    where nsp.nspname = 'public'
+      and rel.relname in ('coin_ledger', 'module_access_grants')
+      and con.contype = 'c'
+      and pg_get_constraintdef(con.oid) ilike '%genesis%'   -- the module-list check
+  loop
+    execute format('alter table public.%I drop constraint %I', r.relname, r.conname);
+  end loop;
+end $$;
+
 alter table public.coin_ledger add constraint coin_ledger_module_check
   check (module in (
     'Arche', 'Arena', 'Score', 'Fate', 'Codex22',
@@ -35,7 +57,6 @@ alter table public.coin_ledger add constraint coin_ledger_module_check
     'u-ai'
   ));
 
-alter table public.module_access_grants drop constraint if exists module_access_grants_module_check;
 alter table public.module_access_grants add constraint module_access_grants_module_check
   check (module in (
     'Arche', 'Arena', 'Score', 'Fate', 'Codex22',

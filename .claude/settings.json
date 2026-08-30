@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(git check-ignore *)",
-      "Bash(git commit -q -m ' *)"
+      "Bash(git commit -q -m ' *)",
+      "Bash(curl -s -o /dev/null -w \"root: %{http_code}\\\\n\" https://www.theunitas.global/)",
+      "Bash(curl -s -o /dev/null -w \"/en/u-ai: %{http_code}\\\\n\" https://www.theunitas.global/en/u-ai)",
+      "Bash(curl -s -o /dev/null -w \"GET /api/u-ai/insight: %{http_code}\\\\n\" https://www.theunitas.global/api/u-ai/insight)",
+      "Bash(curl -s https://www.theunitas.global/api/u-ai/insight)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST https://www.theunitas.global/api/u-ai/insight -H 'content-type: application/json' -d '{\"query\":\"test\"}')",
+      "Bash(curl -s https://www.theunitas.global/ko/u-ai)",
+      "Bash(npx supabase *)",
+      "Bash(python -c \"import sys,json; m=json.load\\(sys.stdin\\)['migrations']; print\\('\\\\n'.join\\(f\\\\\"{x['local'] or '—':>16} {x['remote'] or '\\(NOT APPLIED\\)':>16}\\\\\" for x in m[-4:]\\)\\)\")"
     ]
   }
 }
