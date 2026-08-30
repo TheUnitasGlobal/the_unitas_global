@@ -10,7 +10,11 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST https://www.theunitas.global/api/u-ai/insight -H 'content-type: application/json' -d '{\"query\":\"test\"}')",
       "Bash(curl -s https://www.theunitas.global/ko/u-ai)",
       "Bash(npx supabase *)",
-      "Bash(python -c \"import sys,json; m=json.load\\(sys.stdin\\)['migrations']; print\\('\\\\n'.join\\(f\\\\\"{x['local'] or '—':>16} {x['remote'] or '\\(NOT APPLIED\\)':>16}\\\\\" for x in m[-4:]\\)\\)\")"
+      "Bash(python -c \"import sys,json; m=json.load\\(sys.stdin\\)['migrations']; print\\('\\\\n'.join\\(f\\\\\"{x['local'] or '—':>16} {x['remote'] or '\\(NOT APPLIED\\)':>16}\\\\\" for x in m[-4:]\\)\\)\")",
+      "Bash(curl -s https://the-unitas-global-4gue9tcxc-the-unitas-global-ou-e.vercel.app/api/u-ai/insight)",
+      "Bash(curl -s -o /dev/null -w \"www /en/u-ai: %{http_code}\\\\n\" https://www.theunitas.global/en/u-ai)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST https://www.theunitas.global/api/u-ai/insight -H 'content-type: application/json' -d '{\"query\":\"AI 자동화로 1인 SaaS를 만들 때 가장 큰 리스크는?\"}')",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" -X POST https://www.theunitas.global/api/u-ai/insight -H 'content-type: application/json' -H 'authorization: Bearer invalid' -d '{\"query\":\"test\",\"locale\":\"../etc\"}')"
     ]
   }
 }
