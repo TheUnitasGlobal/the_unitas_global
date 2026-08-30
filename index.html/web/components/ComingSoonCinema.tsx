@@ -875,7 +875,13 @@ export function ComingSoonCinema() {
                 >
                   {tGate('title')}
                 </p>
-                <p className="mt-2 text-[10px] tracking-wide text-white/25">© THE UNITAS GLOBAL OÜ</p>
+                {/* 법인명: 모든 디바이스에서 좌우 여백 기준 완벽 중앙 정렬
+                    (w-full text-center) + 한눈에 들어오는 황금비 스케일 --
+                    바로 위 UNITAS 워드마크에서 약 φ 단계 축소, 가독 대비 상향
+                    (owner instruction 2026-08-29). */}
+                <p className="mt-3 w-full text-center text-[0.8rem] font-medium uppercase tracking-[0.2em] text-white/45 sm:text-[1.05rem]">
+                  © THE UNITAS GLOBAL OÜ
+                </p>
 
                 {/* FOUNDER-ONLY secret door. Never rendered for the public,
                     so there is no path past the curtain in a normal session. */}
