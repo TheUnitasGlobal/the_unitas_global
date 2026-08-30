@@ -832,12 +832,24 @@ export function ComingSoonCinema() {
                   </AnimatePresence>
                 </div>
 
+                {/* Skip -- "건너뛰기" label + a skip-forward glyph (⏭: double
+                    triangle + trailing bar) haloed in the exact same rotating
+                    rainbow-neon pulse as the sealed-screen 'replay' control, so
+                    the two affordances feel like one system. */}
                 <button
                   type="button"
                   onClick={skip}
-                  className="absolute bottom-6 right-6 z-20 text-[10px] uppercase tracking-[0.3em] text-white/30 transition-colors hover:text-white/80"
+                  aria-label={t('skip')}
+                  className="absolute bottom-6 right-6 z-20 flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/30 transition-colors hover:text-white/80"
                 >
-                  {t('skip')} →
+                  <span>{t('skip')}</span>
+                  <span className="cs-skip-aurora" aria-hidden="true">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M4 5l8.5 7L4 19z" />
+                      <path d="M12 5l8.5 7L12 19z" />
+                      <rect x="19.6" y="5" width="2.4" height="14" rx="1" />
+                    </svg>
+                  </span>
                 </button>
               </motion.div>
             )}

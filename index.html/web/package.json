@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
+    "dev:lan": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/lan-bridge.ps1 && next dev -H 0.0.0.0",
     "prebuild": "node scripts/validate-module-registry.mjs",
     "build": "next build",
     "postbuild": "node scripts/ownership-fingerprint.mjs",

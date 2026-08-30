@@ -23,8 +23,10 @@ $webhookJob = Start-Job -Name "unitas-webhook" -ScriptBlock {
 } -ArgumentList $repoRoot
 
 try {
-  Write-Host "[dev-all] Starting Next.js dev server (foreground, http://localhost:3000 + LAN http://<this-PC-IP>:3000 for same-Wi-Fi mobile testing)..."
   Set-Location $webRoot
+  Write-Host "[dev-all] Opening the LAN bridge for same-Wi-Fi mobile testing..."
+  & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot "lan-bridge.ps1")
+  Write-Host "[dev-all] Starting Next.js dev server (foreground, bound to 0.0.0.0 -- reachable at http://localhost:3000 and the LAN URL printed above)..."
   npm run dev
 }
 finally {
