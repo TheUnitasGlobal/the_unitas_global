@@ -789,5 +789,80 @@
         "Planeeritud hooldus ja kõik kontosid või saldosid mõjutavad intsidendid võetakse siin kokku, kui platvorm on avalikult käivitatud."
       ]
     }
+  },
+  "UAI": {
+    "title": "U-AI OMNI-MOOTOR",
+    "headline": "Küsi korra. Näe kõiki nurki.",
+    "subhead": "Kolmesekundiline stereoskoopiline vaade, ärilise kallutatuse kilp ning seejärel nõudmisel sügav trajektoor. See pole vestlus, vaid otsustustasemel ülevaade.",
+    "placeholder": "Küsi U-AI-lt ükskõik mida…",
+    "submit": "Analüüsi",
+    "reportLabel": "U-AI · ANALÜÜSIARUANNE",
+    "surfaceScanning": "Skaneerin kolme vaatenurka — tehniline, majanduslik, avalik…",
+    "directionality": {
+      "divergent": "Hajus küsimus",
+      "convergent": "Koonduv kavatsus"
+    },
+    "lensLabel": "3-sekundiline stereoskoopiline vaade",
+    "lens": {
+      "tech": "Tehniline",
+      "economy": "Majanduslik",
+      "opinion": "Avalik arvamus"
+    },
+    "shieldLabel": "Ärilise kallutatuse kilp",
+    "shield": {
+      "clear": "Neutraalne",
+      "caution": "Ettevaatust",
+      "biased": "Tugev kallutatus"
+    },
+    "checklistLabel": "3-sammuline tegevusloend",
+    "checklist": {
+      "explore": [
+        "Sõnasta tegelik küsimus ühe lausega, enne kui laiemalt otsid.",
+        "Kogu kolm sõltumatut allikat vastandlike huvidega.",
+        "Kirjuta üles, mis su meelt muudaks, ja pane see proovile."
+      ],
+      "decide": [
+        "Sõnasta kaks valikut ja üksainus otsustav kriteerium.",
+        "Anna igale kulule, riskile ja tulule ligikaudne arv.",
+        "Vali suurema oodatava väärtusega variant ja määra ülevaatuskuupäev."
+      ],
+      "analyze": [
+        "Jaga küsimus kolmeks kandvaks eelduseks.",
+        "Pane kõige nõrgem eeldus reaalsete andmetega proovile.",
+        "Ehita järeldus üles sellest, mis alles jäi."
+      ]
+    },
+    "swarmLabel": "Parve ristarutlus · 11 ökosüsteemi",
+    "deepLabel": "Sügav taip · The VOID",
+    "deepHint": "Chronose trajektoor, kvantifitseeritud otsus, varjatud kavatsuse dekodeerimine ja negatiivse ruumi lugemine.",
+    "deepCta": "Ava sügav taip · {cost} U-COIN",
+    "deepLocked": "Sügavat taipu kalibreeritakse — tuleme peagi tagasi.",
+    "deepScanning": "Sisenen VOID-i — sünteesin trajektoori…",
+    "openFullReport": "Ava täielik U-AI aruanne",
+    "chronosLabel": "Chronos · 1–3 aasta trajektoor",
+    "chronos": {
+      "y1": "1 aasta pärast",
+      "y2": "2 aasta pärast",
+      "y3": "3 aasta pärast"
+    },
+    "binaryLabel": "Kas või · Matemaatiline otsus",
+    "confidence": "Kindlus",
+    "redPenLabel": "Punane pliiats · Varjatud kavatsus",
+    "voidLabel": "The VOID · Negatiivse ruumi taip",
+    "pathLabel": "Suurima tõhususe tee",
+    "cachedBadge": "Genesis Memory vahemälu",
+    "modelNote": "Mootor: {model}",
+    "brainGridLabel": "Brain-Grid · Kognitiivne ajalugu",
+    "brainGridClear": "Tühjenda",
+    "err": {
+      "signin": "Sügava taipu avamiseks logi sisse.",
+      "phone": "Enne U-COIN-i kulutamist kinnita oma telefoninumber.",
+      "insufficient": "Sügava taipu jaoks pole piisavalt U-COIN-e.",
+      "burn_required": "U-COIN-i kulutust ei registreeritud — proovi uuesti.",
+      "deep_unavailable": "Sügav taip on ajutiselt kättesaamatu.",
+      "generation_failed": "Sügava analüüsi loomine ebaõnnestus — proovi uuesti.",
+      "bad_request": "Seda päringut ei saa analüüsida — sõnasta ümber ja proovi uuesti.",
+      "unauthenticated": "Sinu seanss aegus — logi uuesti sisse."
+    }
   }
 }

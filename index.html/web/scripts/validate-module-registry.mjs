@@ -38,7 +38,11 @@ const localeAppDir = path.resolve(__dirname, '..', 'app', '[locale]');
 // a product, so forcing a fake registry entry for it would misrepresent the
 // catalog. Extend this list for future non-product routes instead of adding
 // synthetic MODULE_REGISTRY entries.
-const INFRA_ROUTES = new Set(['legal', 'company', 'support', 'locked']);
+// 'u-ai' is the omni search-engine surface, not a coin-gated product module:
+// its Phase-1 analysis is free client-side heuristic and its Phase 2-4 deep
+// insight is gated by spend_coins('u-ai', N) at request time, not by a
+// MODULE_REGISTRY route entry (owner instruction 2026-08-30).
+const INFRA_ROUTES = new Set(['legal', 'company', 'support', 'locked', 'u-ai']);
 
 function extractRoutes(source) {
   const routes = [];

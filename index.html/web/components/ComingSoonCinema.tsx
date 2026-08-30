@@ -918,11 +918,11 @@ export function ComingSoonCinema() {
                   type="button"
                   onClick={skip}
                   aria-label={t('skip')}
-                  className="absolute bottom-6 right-6 z-20 flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/30 transition-colors hover:text-white/80"
+                  className="absolute bottom-6 right-6 z-20 flex items-center gap-2.5 whitespace-nowrap text-[11px] uppercase tracking-[0.22em] text-white/45 transition-colors hover:text-white/90"
                 >
                   <span>{t('skip')}</span>
                   <span className="cs-skip-aurora" aria-hidden="true">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M4 5l8.5 7L4 19z" />
                       <path d="M12 5l8.5 7L12 19z" />
                       <rect x="19.6" y="5" width="2.4" height="14" rx="1" />
@@ -1011,10 +1011,10 @@ export function ComingSoonCinema() {
                   type="button"
                   onClick={replay}
                   aria-label={t('replay')}
-                  className="absolute bottom-6 right-6 z-20 flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/45 transition-colors hover:text-white/90"
+                  className="absolute bottom-6 right-6 z-20 flex items-center gap-2.5 whitespace-nowrap text-[11px] uppercase tracking-[0.22em] text-white/45 transition-colors hover:text-white/90"
                 >
                   <span className="cs-replay-aurora" aria-hidden="true">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                       {/* reverse-play: triangle to the left + a leading stop bar */}
                       <path d="M20 5v14L9 12z" />
                       <rect x="4" y="5" width="2.6" height="14" rx="1" />

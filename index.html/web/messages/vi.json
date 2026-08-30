@@ -789,5 +789,80 @@
         "Việc bảo trì theo kế hoạch và bất kỳ sự cố nào ảnh hưởng đến tài khoản hoặc số dư sẽ được tóm tắt tại đây khi nền tảng chính thức hoạt động công khai."
       ]
     }
+  },
+  "UAI": {
+    "title": "ĐỘNG CƠ OMNI U-AI",
+    "headline": "Hỏi một lần. Thấy mọi góc độ.",
+    "subhead": "Một góc nhìn lập thể ba giây, một lá chắn thiên kiến thương mại, rồi — khi cần — quỹ đạo chuyên sâu. Không phải trò chuyện, mà là bản tóm tắt cấp ra quyết định.",
+    "placeholder": "Hỏi U-AI bất cứ điều gì…",
+    "submit": "Phân tích",
+    "reportLabel": "U-AI · BÁO CÁO PHÂN TÍCH",
+    "surfaceScanning": "Đang quét ba góc nhìn — kỹ thuật, kinh tế, dư luận…",
+    "directionality": {
+      "divergent": "Câu hỏi phân kỳ",
+      "convergent": "Ý định hội tụ"
+    },
+    "lensLabel": "Góc nhìn lập thể 3 giây",
+    "lens": {
+      "tech": "Kỹ thuật",
+      "economy": "Kinh tế",
+      "opinion": "Dư luận"
+    },
+    "shieldLabel": "Lá chắn thiên kiến thương mại",
+    "shield": {
+      "clear": "Trung lập",
+      "caution": "Thận trọng",
+      "biased": "Thiên kiến nặng"
+    },
+    "checklistLabel": "Danh sách hành động 3 bước",
+    "checklist": {
+      "explore": [
+        "Diễn đạt câu hỏi thật trong một câu trước khi tìm rộng hơn.",
+        "Thu thập ba nguồn độc lập có lợi ích đối nghịch.",
+        "Ghi ra điều gì sẽ khiến bạn đổi ý, rồi kiểm chứng nó."
+      ],
+      "decide": [
+        "Nêu rõ hai lựa chọn và tiêu chí quyết định duy nhất.",
+        "Gán một con số ước lượng cho chi phí, rủi ro và lợi ích của mỗi lựa chọn.",
+        "Chọn phương án có giá trị kỳ vọng cao hơn và đặt ngày rà soát."
+      ],
+      "analyze": [
+        "Chia câu hỏi thành ba giả định chịu lực.",
+        "Thử thách giả định yếu nhất bằng dữ liệu thực.",
+        "Dựng lại kết luận từ những gì còn trụ lại."
+      ]
+    },
+    "swarmLabel": "Suy luận chéo bầy đàn · 11 hệ sinh thái",
+    "deepLabel": "Thấu thị chuyên sâu · The VOID",
+    "deepHint": "Quỹ đạo Chronos, phán quyết định lượng, giải mã ý đồ ẩn và góc đọc khoảng trống.",
+    "deepCta": "Mở khóa thấu thị chuyên sâu · {cost} U-COIN",
+    "deepLocked": "Thấu thị chuyên sâu đang được hiệu chỉnh — sẽ sớm trở lại.",
+    "deepScanning": "Đang tiến vào VOID — tổng hợp quỹ đạo…",
+    "openFullReport": "Mở báo cáo U-AI đầy đủ",
+    "chronosLabel": "Chronos · Quỹ đạo 1–3 năm",
+    "chronos": {
+      "y1": "Sau 1 năm",
+      "y2": "Sau 2 năm",
+      "y3": "Sau 3 năm"
+    },
+    "binaryLabel": "Chọn một · Phán quyết toán học",
+    "confidence": "Độ tin cậy",
+    "redPenLabel": "Bút đỏ · Ý đồ ẩn",
+    "voidLabel": "The VOID · Thấu thị khoảng trống",
+    "pathLabel": "Lộ trình hiệu quả nhất",
+    "cachedBadge": "Bộ nhớ đệm Genesis Memory",
+    "modelNote": "Động cơ: {model}",
+    "brainGridLabel": "Brain-Grid · Lịch sử nhận thức",
+    "brainGridClear": "Xóa",
+    "err": {
+      "signin": "Đăng nhập để mở khóa thấu thị chuyên sâu.",
+      "phone": "Xác minh số điện thoại trước khi tiêu U-COIN.",
+      "insufficient": "Không đủ U-COIN cho thấu thị chuyên sâu.",
+      "burn_required": "Việc tiêu U-COIN chưa được ghi nhận — hãy thử lại.",
+      "deep_unavailable": "Thấu thị chuyên sâu tạm thời không khả dụng.",
+      "generation_failed": "Không tạo được phân tích chuyên sâu — vui lòng thử lại.",
+      "bad_request": "Không thể phân tích truy vấn này — hãy diễn đạt lại và thử lại.",
+      "unauthenticated": "Phiên của bạn đã hết hạn — hãy đăng nhập lại."
+    }
   }
 }

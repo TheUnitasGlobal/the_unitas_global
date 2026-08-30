@@ -789,5 +789,80 @@
         "La maintenance planifiée et tout incident affectant les comptes ou les soldes seront résumés ici une fois la plateforme publiquement en service."
       ]
     }
+  },
+  "UAI": {
+    "title": "MOTEUR OMNI U-AI",
+    "headline": "Demandez une fois. Voyez tous les angles.",
+    "subhead": "Une lecture stéréoscopique de trois secondes, un bouclier de biais commercial, puis — à la demande — la trajectoire profonde. Pas une conversation : une note de niveau décisionnel.",
+    "placeholder": "Demandez n’importe quoi à U-AI…",
+    "submit": "Analyser",
+    "reportLabel": "U-AI · RAPPORT D’ANALYSE",
+    "surfaceScanning": "Analyse de trois perspectives — technique, économique, publique…",
+    "directionality": {
+      "divergent": "Question divergente",
+      "convergent": "Intention convergente"
+    },
+    "lensLabel": "Vue stéréoscopique de 3 secondes",
+    "lens": {
+      "tech": "Technique",
+      "economy": "Économique",
+      "opinion": "Opinion publique"
+    },
+    "shieldLabel": "Bouclier de biais commercial",
+    "shield": {
+      "clear": "Neutre",
+      "caution": "Prudence",
+      "biased": "Biais élevé"
+    },
+    "checklistLabel": "Liste d’action en 3 étapes",
+    "checklist": {
+      "explore": [
+        "Formulez la vraie question en une phrase avant d’élargir la recherche.",
+        "Réunissez trois sources indépendantes aux intérêts opposés.",
+        "Notez ce qui vous ferait changer d’avis, puis testez-le."
+      ],
+      "decide": [
+        "Énoncez les deux options et l’unique critère décisif.",
+        "Attribuez un chiffre approximatif au coût, au risque et au gain de chacune.",
+        "Choisissez l’option à plus forte valeur attendue et fixez une date de revue."
+      ],
+      "analyze": [
+        "Décomposez la question en ses trois hypothèses porteuses.",
+        "Mettez l’hypothèse la plus faible à l’épreuve de données réelles.",
+        "Reconstruisez la conclusion à partir de ce qui a survécu."
+      ]
+    },
+    "swarmLabel": "Raisonnement croisé en essaim · 11 écosystèmes",
+    "deepLabel": "Analyse profonde · The VOID",
+    "deepHint": "Trajectoire Chronos, verdict quantifié, décodage de l’intention cachée et lecture de l’espace négatif.",
+    "deepCta": "Débloquer l’analyse profonde · {cost} U-COIN",
+    "deepLocked": "L’analyse profonde est en cours de calibrage — de retour bientôt.",
+    "deepScanning": "Entrée dans le VOID — synthèse de la trajectoire…",
+    "openFullReport": "Ouvrir le rapport U-AI complet",
+    "chronosLabel": "Chronos · Trajectoire sur 1 à 3 ans",
+    "chronos": {
+      "y1": "Dans 1 an",
+      "y2": "Dans 2 ans",
+      "y3": "Dans 3 ans"
+    },
+    "binaryLabel": "L’un ou l’autre · Verdict mathématique",
+    "confidence": "Confiance",
+    "redPenLabel": "Stylo rouge · Intention cachée",
+    "voidLabel": "The VOID · Aperçu de l’espace négatif",
+    "pathLabel": "Chemin de plus haute efficacité",
+    "cachedBadge": "Cache Genesis Memory",
+    "modelNote": "Moteur : {model}",
+    "brainGridLabel": "Brain-Grid · Historique cognitif",
+    "brainGridClear": "Effacer",
+    "err": {
+      "signin": "Connectez-vous pour débloquer l’analyse profonde.",
+      "phone": "Vérifiez votre numéro de téléphone avant de dépenser des U-COIN.",
+      "insufficient": "Pas assez de U-COIN pour l’analyse profonde.",
+      "burn_required": "La dépense de U-COIN n’a pas été enregistrée — réessayez.",
+      "deep_unavailable": "L’analyse profonde est temporairement indisponible.",
+      "generation_failed": "L’analyse profonde n’a pas pu être générée — réessayez.",
+      "bad_request": "Cette requête ne peut pas être analysée — reformulez et réessayez.",
+      "unauthenticated": "Votre session a expiré — reconnectez-vous."
+    }
   }
 }

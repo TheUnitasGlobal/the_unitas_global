@@ -789,5 +789,80 @@
         "Pemeliharaan terencana dan setiap insiden yang memengaruhi akun atau saldo akan diringkas di sini setelah platform aktif secara publik."
       ]
     }
+  },
+  "UAI": {
+    "title": "MESIN OMNI U-AI",
+    "headline": "Tanya sekali. Lihat semua sudut.",
+    "subhead": "Pandangan stereoskopis tiga detik, perisai bias komersial, lalu — sesuai permintaan — lintasan mendalam. Bukan obrolan, melainkan ringkasan tingkat keputusan.",
+    "placeholder": "Tanyakan apa saja ke U-AI…",
+    "submit": "Analisis",
+    "reportLabel": "U-AI · LAPORAN ANALISIS",
+    "surfaceScanning": "Memindai tiga perspektif — teknis, ekonomi, publik…",
+    "directionality": {
+      "divergent": "Pertanyaan divergen",
+      "convergent": "Niat konvergen"
+    },
+    "lensLabel": "Pandangan Stereoskopis 3 Detik",
+    "lens": {
+      "tech": "Teknis",
+      "economy": "Ekonomi",
+      "opinion": "Opini Publik"
+    },
+    "shieldLabel": "Perisai Bias Komersial",
+    "shield": {
+      "clear": "Netral",
+      "caution": "Hati-hati",
+      "biased": "Bias tinggi"
+    },
+    "checklistLabel": "Daftar Tindakan 3 Langkah",
+    "checklist": {
+      "explore": [
+        "Rumuskan pertanyaan sebenarnya dalam satu kalimat sebelum mencari lebih luas.",
+        "Kumpulkan tiga sumber independen dengan kepentingan berlawanan.",
+        "Tuliskan apa yang akan mengubah pikiran Anda, lalu ujilah."
+      ],
+      "decide": [
+        "Nyatakan dua pilihan dan satu kriteria penentu.",
+        "Beri angka kasar pada biaya, risiko, dan manfaat masing-masing.",
+        "Pilih opsi dengan nilai harapan lebih tinggi dan tetapkan tanggal peninjauan."
+      ],
+      "analyze": [
+        "Uraikan pertanyaan menjadi tiga asumsi penyangga.",
+        "Uji asumsi terlemah dengan data nyata.",
+        "Bangun kembali kesimpulan dari yang bertahan."
+      ]
+    },
+    "swarmLabel": "Penalaran Silang Swarm · 11 Ekosistem",
+    "deepLabel": "Wawasan Mendalam · The VOID",
+    "deepHint": "Lintasan Chronos, putusan terkuantifikasi, pembacaan niat tersembunyi, dan pembacaan ruang negatif.",
+    "deepCta": "Buka wawasan mendalam · {cost} U-COIN",
+    "deepLocked": "Wawasan mendalam sedang dikalibrasi — segera kembali.",
+    "deepScanning": "Memasuki VOID — mensintesis lintasan…",
+    "openFullReport": "Buka laporan U-AI lengkap",
+    "chronosLabel": "Chronos · Lintasan 1–3 Tahun",
+    "chronos": {
+      "y1": "Dalam 1 tahun",
+      "y2": "Dalam 2 tahun",
+      "y3": "Dalam 3 tahun"
+    },
+    "binaryLabel": "Salah Satu · Putusan Matematis",
+    "confidence": "Keyakinan",
+    "redPenLabel": "Pena Merah · Niat Tersembunyi",
+    "voidLabel": "The VOID · Wawasan Ruang Negatif",
+    "pathLabel": "Jalur Paling Efisien",
+    "cachedBadge": "Cache Genesis Memory",
+    "modelNote": "Mesin: {model}",
+    "brainGridLabel": "Brain-Grid · Riwayat Kognitif",
+    "brainGridClear": "Bersihkan",
+    "err": {
+      "signin": "Masuk untuk membuka wawasan mendalam.",
+      "phone": "Verifikasi nomor telepon Anda sebelum membelanjakan U-COIN.",
+      "insufficient": "U-COIN tidak cukup untuk wawasan mendalam.",
+      "burn_required": "Pembakaran U-COIN tidak tercatat — coba lagi.",
+      "deep_unavailable": "Wawasan mendalam sementara tidak tersedia.",
+      "generation_failed": "Analisis mendalam gagal dibuat — silakan coba lagi.",
+      "bad_request": "Kueri itu tidak dapat dianalisis — susun ulang dan coba lagi.",
+      "unauthenticated": "Sesi Anda kedaluwarsa — masuk lagi."
+    }
   }
 }

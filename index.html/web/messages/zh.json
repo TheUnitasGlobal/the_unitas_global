@@ -789,5 +789,80 @@
         "计划内维护以及任何影响账户或余额的事件，将在平台正式上线后在此汇总。"
       ]
     }
+  },
+  "UAI": {
+    "title": "U-AI 全域引擎",
+    "headline": "问一次，看清每一个角度。",
+    "subhead": "三秒立体视角、商业偏见护盾，随后按需展开深层轨迹。这不是聊天，而是决策级简报。",
+    "placeholder": "向 U-AI 提问任何问题…",
+    "submit": "分析",
+    "reportLabel": "U-AI · 分析报告",
+    "surfaceScanning": "正在扫描三种视角 — 技术、经济、舆论…",
+    "directionality": {
+      "divergent": "发散型问题",
+      "convergent": "收敛型意图"
+    },
+    "lensLabel": "三秒立体视角",
+    "lens": {
+      "tech": "技术",
+      "economy": "经济",
+      "opinion": "舆论"
+    },
+    "shieldLabel": "商业偏见护盾",
+    "shield": {
+      "clear": "中立",
+      "caution": "注意",
+      "biased": "偏见严重"
+    },
+    "checklistLabel": "三步行动清单",
+    "checklist": {
+      "explore": [
+        "在扩大搜索前，用一句话界定真正的问题。",
+        "收集三个利益相反的独立信源。",
+        "写下什么会改变你的看法，然后去验证。"
+      ],
+      "decide": [
+        "明确两个选项和唯一的决定性标准。",
+        "为每个选项的成本、风险和收益赋予粗略数值。",
+        "选定期望值更高的一方，并设定复盘日期。"
+      ],
+      "analyze": [
+        "将问题拆解为三个承重假设。",
+        "用真实数据对最薄弱的假设进行压力测试。",
+        "仅用幸存下来的部分重建结论。"
+      ]
+    },
+    "swarmLabel": "蜂群交叉推理 · 11 大生态",
+    "deepLabel": "深层洞察 · The VOID",
+    "deepHint": "Chronos 轨迹、量化裁决、隐藏意图解码，以及负空间洞察。",
+    "deepCta": "解锁深层洞察 · {cost} U-COIN",
+    "deepLocked": "深层洞察正在校准 — 稍后回来。",
+    "deepScanning": "进入 VOID — 正在合成轨迹…",
+    "openFullReport": "打开完整 U-AI 报告",
+    "chronosLabel": "Chronos · 1–3 年轨迹",
+    "chronos": {
+      "y1": "1 年后",
+      "y2": "2 年后",
+      "y3": "3 年后"
+    },
+    "binaryLabel": "二选一 · 数学裁决",
+    "confidence": "置信度",
+    "redPenLabel": "红笔 · 隐藏意图",
+    "voidLabel": "The VOID · 负空间洞察",
+    "pathLabel": "最高效率路径",
+    "cachedBadge": "Genesis Memory 缓存",
+    "modelNote": "引擎：{model}",
+    "brainGridLabel": "Brain-Grid · 认知历史",
+    "brainGridClear": "清空",
+    "err": {
+      "signin": "登录后即可解锁深层洞察。",
+      "phone": "在消费 U-COIN 前请先验证手机号。",
+      "insufficient": "深层洞察所需的 U-COIN 不足。",
+      "burn_required": "U-COIN 消费未被记录 — 请重试。",
+      "deep_unavailable": "深层洞察暂时不可用。",
+      "generation_failed": "深层分析生成失败 — 请重试。",
+      "bad_request": "该查询无法分析 — 请改写后重试。",
+      "unauthenticated": "会话已过期 — 请重新登录。"
+    }
   }
 }

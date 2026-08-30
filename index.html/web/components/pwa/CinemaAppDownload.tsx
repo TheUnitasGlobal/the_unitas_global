@@ -35,20 +35,20 @@ export function CinemaAppDownload() {
           : t('appDownloadUnsupported');
 
   return (
-    <div className="absolute bottom-6 left-6 z-20 flex items-center gap-3">
-      <span className="logo-hologram shrink-0" aria-hidden="true">
-        <img src="/assets/svg/unitas-mark.svg" alt="" width={30} height={30} />
+    <div className="absolute bottom-6 left-6 z-20 flex items-center gap-2.5">
+      <span className="logo-hologram logo-hologram--sm shrink-0" aria-hidden="true">
+        <img src="/assets/svg/unitas-mark.svg" alt="" width={18} height={18} />
       </span>
       <button
         type="button"
         aria-label={t('appDownloadAria')}
         onClick={() => setOpen(true)}
-        className="app-download-pulse flex min-w-0 flex-col items-start justify-center gap-0 rounded-xl border-none bg-transparent px-2.5 py-1 sm:flex-row sm:items-center sm:gap-1.5 sm:rounded-full sm:px-4 sm:py-1.5"
+        className="app-download-pulse flex items-center gap-1.5 whitespace-nowrap rounded-full border-none bg-transparent px-3 py-1.5"
       >
-        <span className="font-serif text-[10px] font-bold uppercase leading-tight tracking-[0.1em] text-accent sm:text-[15px] sm:leading-none sm:tracking-[0.18em]">
+        <span className="font-serif text-[11px] font-bold uppercase leading-none tracking-[0.22em] text-accent">
           UNITAS
         </span>
-        <span className="text-[8px] font-medium normal-case leading-tight tracking-wide text-cyan-300/90 sm:text-[11px] sm:leading-none">
+        <span className="text-[11px] font-medium normal-case leading-none tracking-[0.02em] text-cyan-300/90">
           App Download
         </span>
       </button>

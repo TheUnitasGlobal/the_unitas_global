@@ -124,6 +124,19 @@ body {
   z-index: 1;
   border-radius: 9999px;
 }
+/* Compact variant -- used only for the sealed-cinema "UNITAS App Download"
+   lockup (components/pwa/CinemaAppDownload.tsx), sized to sit 1:1 with the
+   sealed-screen "다시 재생" reverse-play glyph on the opposite corner so the
+   two bottom controls read as one perfectly mirrored system (owner
+   instruction 2026-08-30). The nav-bar mark keeps the default 40px. */
+.logo-hologram--sm {
+  width: 28px;
+  height: 28px;
+}
+.logo-hologram--sm::before {
+  inset: -6px;
+  filter: blur(6px);
+}
 
 /* Scales the whole dashboard (nav + page content, not the entry gate) down
    to a 75%-zoom-equivalent -- unlike `transform: scale()`, `zoom` triggers a
@@ -351,8 +364,13 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  /* 28px == .logo-hologram--sm on the opposite bottom corner: the sealed
+     screen's "다시 재생" glyph and the "UNITAS App Download" mark are locked
+     to the exact same footprint, and the cinema "건너뛰기" glyph inherits it
+     so the whole ad sequence's corner controls scale as one unit (owner
+     instruction 2026-08-30). */
+  width: 28px;
+  height: 28px;
   border-radius: 9999px;
   color: #fff;
 }

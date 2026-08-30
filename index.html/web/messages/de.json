@@ -789,5 +789,80 @@
         "Geplante Wartungen und alle Vorfälle, die Konten oder Guthaben betreffen, werden hier zusammengefasst, sobald die Plattform öffentlich live ist."
       ]
     }
+  },
+  "UAI": {
+    "title": "U-AI OMNI-ENGINE",
+    "headline": "Einmal fragen. Jeden Blickwinkel sehen.",
+    "subhead": "Ein dreisekündiger stereoskopischer Blick, ein Schild gegen kommerzielle Verzerrung und dann — auf Abruf — die tiefe Trajektorie. Kein Chat, sondern ein Briefing auf Entscheidungsniveau.",
+    "placeholder": "Frag U-AI alles…",
+    "submit": "Analysieren",
+    "reportLabel": "U-AI · ANALYSEBERICHT",
+    "surfaceScanning": "Scanne drei Perspektiven — technisch, wirtschaftlich, öffentlich…",
+    "directionality": {
+      "divergent": "Divergente Frage",
+      "convergent": "Konvergente Absicht"
+    },
+    "lensLabel": "3-Sekunden-Stereoblick",
+    "lens": {
+      "tech": "Technisch",
+      "economy": "Wirtschaftlich",
+      "opinion": "Öffentliche Meinung"
+    },
+    "shieldLabel": "Schild gegen kommerzielle Verzerrung",
+    "shield": {
+      "clear": "Neutral",
+      "caution": "Vorsicht",
+      "biased": "Starke Verzerrung"
+    },
+    "checklistLabel": "3-Schritte-Aktionscheckliste",
+    "checklist": {
+      "explore": [
+        "Formuliere die eigentliche Frage in einem Satz, bevor du breiter suchst.",
+        "Sammle drei unabhängige Quellen mit gegensätzlichen Interessen.",
+        "Schreibe auf, was deine Meinung ändern würde, und prüfe es."
+      ],
+      "decide": [
+        "Benenne die zwei Optionen und das eine entscheidende Kriterium.",
+        "Ordne Kosten, Risiko und Nutzen jeder Option eine grobe Zahl zu.",
+        "Entscheide dich für die Option mit dem höheren Erwartungswert und lege einen Prüftermin fest."
+      ],
+      "analyze": [
+        "Zerlege die Frage in ihre drei tragenden Annahmen.",
+        "Setze die schwächste Annahme echten Daten aus.",
+        "Baue die Schlussfolgerung aus dem wieder auf, was übrig blieb."
+      ]
+    },
+    "swarmLabel": "Schwarm-Querdenken · 11 Ökosysteme",
+    "deepLabel": "Tiefe Einsicht · The VOID",
+    "deepHint": "Chronos-Trajektorie, quantifiziertes Urteil, Entschlüsselung verborgener Absichten und der Blick in den Negativraum.",
+    "deepCta": "Tiefe Einsicht freischalten · {cost} U-COIN",
+    "deepLocked": "Tiefe Einsicht wird kalibriert — bald zurück.",
+    "deepScanning": "Eintritt in den VOID — Trajektorie wird synthetisiert…",
+    "openFullReport": "Vollständigen U-AI-Bericht öffnen",
+    "chronosLabel": "Chronos · Trajektorie über 1–3 Jahre",
+    "chronos": {
+      "y1": "In 1 Jahr",
+      "y2": "In 2 Jahren",
+      "y3": "In 3 Jahren"
+    },
+    "binaryLabel": "Entweder / oder · Mathematisches Urteil",
+    "confidence": "Konfidenz",
+    "redPenLabel": "Rotstift · Verborgene Absicht",
+    "voidLabel": "The VOID · Einsicht in den Negativraum",
+    "pathLabel": "Weg der höchsten Effizienz",
+    "cachedBadge": "Genesis-Memory-Cache",
+    "modelNote": "Engine: {model}",
+    "brainGridLabel": "Brain-Grid · Kognitive Historie",
+    "brainGridClear": "Leeren",
+    "err": {
+      "signin": "Melde dich an, um die tiefe Einsicht freizuschalten.",
+      "phone": "Bestätige deine Telefonnummer, bevor du U-COIN ausgibst.",
+      "insufficient": "Nicht genug U-COIN für die tiefe Einsicht.",
+      "burn_required": "Der U-COIN-Abzug wurde nicht registriert — versuch es erneut.",
+      "deep_unavailable": "Die tiefe Einsicht ist vorübergehend nicht verfügbar.",
+      "generation_failed": "Die tiefe Analyse konnte nicht erzeugt werden — bitte erneut versuchen.",
+      "bad_request": "Diese Anfrage lässt sich nicht analysieren — umformulieren und erneut versuchen.",
+      "unauthenticated": "Deine Sitzung ist abgelaufen — melde dich erneut an."
+    }
   }
 }

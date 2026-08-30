@@ -789,5 +789,80 @@
         "계획된 유지보수 및 계정·잔액에 영향을 주는 모든 인시던트는 플랫폼이 공개적으로 가동되면 이곳에 요약됩니다."
       ]
     }
+  },
+  "UAI": {
+    "title": "U-AI 옴니 엔진",
+    "headline": "한 번 묻고, 모든 각도를 본다.",
+    "subhead": "3초 입체 관점, 상업적 편향 실드, 그리고 필요할 때만 여는 심층 궤적. 대화가 아니라 결단 등급 보고서다.",
+    "placeholder": "무엇이든 U-AI에 물어보세요…",
+    "submit": "분석",
+    "reportLabel": "U-AI · 분석 보고서",
+    "surfaceScanning": "세 관점을 스캔하는 중 — 기술 · 경제 · 여론…",
+    "directionality": {
+      "divergent": "발산형 질문",
+      "convergent": "수렴형 의도"
+    },
+    "lensLabel": "3초 입체 관점",
+    "lens": {
+      "tech": "기술",
+      "economy": "경제",
+      "opinion": "여론"
+    },
+    "shieldLabel": "상업적 편향 실드",
+    "shield": {
+      "clear": "중립",
+      "caution": "주의",
+      "biased": "편향 심함"
+    },
+    "checklistLabel": "3단계 액션 체크리스트",
+    "checklist": {
+      "explore": [
+        "더 넓게 찾기 전에, 진짜 질문을 한 문장으로 정의한다.",
+        "이해관계가 상반된 독립 출처 세 곳을 모은다.",
+        "무엇이 내 생각을 바꿀지 적고, 그것을 검증한다."
+      ],
+      "decide": [
+        "두 선택지와 단 하나의 결정 기준을 명시한다.",
+        "각 선택지의 비용 · 리스크 · 기대이득에 대략의 숫자를 매긴다.",
+        "기대값이 높은 쪽을 확정하고 재검토 날짜를 잡는다."
+      ],
+      "analyze": [
+        "질문을 지탱하는 세 가지 핵심 가정으로 분해한다.",
+        "가장 약한 가정을 실제 데이터로 압박 시험한다.",
+        "살아남은 것만으로 결론을 다시 세운다."
+      ]
+    },
+    "swarmLabel": "스웜 교차 추론 · 11대 에코시스템",
+    "deepLabel": "심층 통찰 · The VOID",
+    "deepHint": "Chronos 궤적, 정량화된 결단, 숨은 의도 해독, 그리고 네거티브 스페이스 통찰.",
+    "deepCta": "심층 통찰 해제 · {cost} U-COIN",
+    "deepLocked": "심층 통찰을 보정 중입니다 — 곧 돌아옵니다.",
+    "deepScanning": "VOID 진입 — 궤적을 합성하는 중…",
+    "openFullReport": "U-AI 전체 보고서 열기",
+    "chronosLabel": "Chronos · 1–3년 궤적",
+    "chronos": {
+      "y1": "1년 후",
+      "y2": "2년 후",
+      "y3": "3년 후"
+    },
+    "binaryLabel": "양자택일 · 수학적 결단",
+    "confidence": "확신도",
+    "redPenLabel": "붉은펜 · 숨은 의도",
+    "voidLabel": "The VOID · 네거티브 스페이스 통찰",
+    "pathLabel": "최고 효율 경로",
+    "cachedBadge": "Genesis Memory 캐시",
+    "modelNote": "엔진: {model}",
+    "brainGridLabel": "Brain-Grid · 인지 이력",
+    "brainGridClear": "비우기",
+    "err": {
+      "signin": "심층 통찰을 열려면 로그인하세요.",
+      "phone": "U-COIN을 사용하기 전에 전화번호를 인증하세요.",
+      "insufficient": "심층 통찰에 필요한 U-COIN이 부족합니다.",
+      "burn_required": "U-COIN 소모가 기록되지 않았습니다 — 다시 시도하세요.",
+      "deep_unavailable": "심층 통찰을 일시적으로 사용할 수 없습니다.",
+      "generation_failed": "심층 분석 생성에 실패했습니다 — 다시 시도하세요.",
+      "bad_request": "이 질의는 분석할 수 없습니다 — 문장을 바꿔 다시 시도하세요.",
+      "unauthenticated": "세션이 만료되었습니다 — 다시 로그인하세요."
+    }
   }
 }

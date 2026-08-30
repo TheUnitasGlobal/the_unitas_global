@@ -1,13 +1,15 @@
 'use client';
 
 import { useMemo, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Paperclip, X } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { sceneInteraction } from '@/lib/sceneInteraction';
-import { analyzeQuery, type OmniSynapseAnalysis } from '@/lib/omniSynapse';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { useWallet } from '@/components/wallet/WalletProvider';
+import { useUai } from '@/lib/uai/useUai';
+import { UaiDashboard } from '@/components/uai/UaiDashboard';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
 
@@ -54,14 +56,14 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
   const tB2c = useTranslations('B2C');
   const tB2b = useTranslations('B2B');
   const { playTypingTick, playQuestEnterSfx, playHoverSfx, playSearchFocusSfx } = useSpatialAudio();
+  const locale = useLocale();
+  const { session } = useWallet();
+  const uai = useUai();
 
   const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
-  const [analyzing, setAnalyzing] = useState(false);
-  const [result, setResult] = useState<OmniSynapseAnalysis | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [attachments, setAttachments] = useState<Array<{ id: string; label: string; content: string }>>([]);
-  const [swarmOpen, setSwarmOpen] = useState(false);
   const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const TEXT_LIKE_RE = /\.(txt|md|json|csv|log|ya?ml)$/i;
@@ -175,26 +177,25 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setValue(e.target.value);
-    if (result) setResult(null);
+    if (uai.phase !== 'idle') uai.reset();
     playTypingTick();
   }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if ((!value.trim() && attachments.length === 0) || analyzing) return;
-    setAnalyzing(true);
-    setResult(null);
-    setSwarmOpen(false);
+    if ((!value.trim() && attachments.length === 0) || uai.phase === 'surface-loading') return;
     playQuestEnterSfx();
     const context = attachments.map((a) => a.content).join(' ');
-    window.setTimeout(() => {
-      setResult(analyzeQuery(value, tEcosystems, context));
-      setAnalyzing(false);
-    }, 1000);
+    uai.runSurface(value, { tEcosystems: (k) => tEcosystems(k), context });
   }
 
-  const recommended = result?.matches[0]?.eco ?? null;
-  const browsing = focused && !analyzing && !result;
+  function selectEcosystemByKey(key: string) {
+    const eco = ECOSYSTEMS.find((e) => e.key === key);
+    if (eco) onSelectEcosystem(eco);
+  }
+
+  const browsing = focused && uai.phase === 'idle';
+  const fullReportHref = `/${locale}/u-ai${value.trim() ? `?q=${encodeURIComponent(value.trim())}` : ''}`;
 
   return (
     <div className="relative mx-auto -mt-[19px] w-full max-w-7xl px-6">
@@ -377,150 +378,19 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
-        {(analyzing || result) && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="glow-box mt-4 bg-quantum/90 p-6 backdrop-blur-xl"
-          >
-            <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-accent">
-              {t('architectLabel')}
-            </p>
-
-            {analyzing && <p className="text-xs text-gray-400">{t('analyzing')}</p>}
-
-            {result && (
-              <>
-                <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  {[
-                    [t('dimDirectionality'), result.directionality],
-                    [t('dimConcept'), result.concept],
-                    [t('dimTendency'), result.tendency],
-                    [t('dimBlueprint'), recommended ? tEcosystems(`${recommended.messageKey}.title`) : '—'],
-                  ].map(([label, val], i) => (
-                    <motion.div
-                      key={label}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.12 }}
-                      className="border border-white/10 bg-void/60 p-3"
-                    >
-                      <p className="mb-1 text-[9px] uppercase tracking-widest text-gray-500">{label}</p>
-                      <p className="text-xs font-bold text-neon">{val}</p>
-                    </motion.div>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <div>
-                    <p className="mb-2 text-[9px] font-bold uppercase tracking-widest text-gray-500">
-                      {t('ecosystemDataLabel')}
-                    </p>
-                    {result.matches.length === 0 ? (
-                      <p className="text-[11px] text-gray-600">{t('noResults')}</p>
-                    ) : (
-                      <ul className="space-y-1.5">
-                        {result.matches.map(({ eco, title }) => (
-                          <li key={eco.key}>
-                            <button
-                              type="button"
-                              onClick={() => onSelectEcosystem(eco)}
-                              className="text-left text-xs hover:underline"
-                              style={{ color: eco.color }}
-                            >
-                              {title}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                  <div>
-                    <p className="mb-2 text-[9px] font-bold uppercase tracking-widest text-gray-500">
-                      {t('webDataLabel')}
-                    </p>
-                    <p className="text-[11px] italic text-gray-600">{t('webDataPlaceholder')}</p>
-                  </div>
-                  <div>
-                    <p className="mb-2 text-[9px] font-bold uppercase tracking-widest text-gray-500">
-                      {t('trendsLabel')}
-                    </p>
-                    <p className="text-[11px] italic text-gray-600">{t('trendsPlaceholder')}</p>
-                  </div>
-                </div>
-
-                <div className="mt-6 border-t border-white/10 pt-5">
-                  <button
-                    type="button"
-                    onClick={() => setSwarmOpen((prev) => !prev)}
-                    aria-expanded={swarmOpen}
-                    className="flex w-full items-center justify-between text-left"
-                  >
-                    <span>
-                      <span className="block text-[10px] font-bold uppercase tracking-[0.25em] text-accent">
-                        {t('swarmLabel')}
-                      </span>
-                      <span className="mt-0.5 block text-[10px] text-gray-500">{t('swarmHint')}</span>
-                    </span>
-                    <span className="text-accent">{swarmOpen ? '−' : '+'}</span>
-                  </button>
-
-                  <AnimatePresence initial={false}>
-                    {swarmOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-4 space-y-2">
-                          {result.swarm.map(({ eco, title, score }) => {
-                            const maxScore = result.swarm[0]?.score || 1;
-                            const width = score === 0 ? 4 : Math.max(6, (score / maxScore) * 100);
-                            return (
-                              <button
-                                key={eco.key}
-                                type="button"
-                                onClick={() => onSelectEcosystem(eco)}
-                                className="block w-full text-left"
-                              >
-                                <div className="mb-1 flex items-center justify-between text-[11px]">
-                                  <span className="text-gray-300">{title}</span>
-                                  <span className="font-mono text-gray-500">{score}</span>
-                                </div>
-                                <div className="h-1 w-full bg-white/5">
-                                  <div
-                                    className="h-1 transition-all"
-                                    style={{ width: `${width}%`, backgroundColor: eco.color }}
-                                  />
-                                </div>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-
-                {recommended && (
-                  <button
-                    type="button"
-                    onClick={() => onSelectEcosystem(recommended)}
-                    className="mt-6 w-full border py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all"
-                    style={{ borderColor: recommended.color, color: recommended.color }}
-                  >
-                    {t('enterRecommended')}
-                  </button>
-                )}
-              </>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <UaiDashboard
+        phase={uai.phase}
+        surface={uai.surface}
+        deep={uai.deep}
+        error={uai.error}
+        canDeep={uai.canDeep}
+        deepAvailable={uai.deepAvailable}
+        hasSession={Boolean(session)}
+        onRunDeep={uai.runDeep}
+        onSelectEcosystem={selectEcosystemByKey}
+        compact
+        fullReportHref={fullReportHref}
+      />
     </div>
   );
 }

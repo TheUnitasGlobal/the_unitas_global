@@ -789,5 +789,80 @@
         "計画されたメンテナンス、およびアカウントや残高に影響するインシデントは、プラットフォームが正式に稼働した時点でここに要約されます。"
       ]
     }
+  },
+  "UAI": {
+    "title": "U-AI オムニエンジン",
+    "headline": "一度問えば、すべての角度が見える。",
+    "subhead": "3秒の立体視点、商業バイアスのシールド、そして必要なときだけ開く深層の軌跡。会話ではなく、意思決定グレードのブリーフ。",
+    "placeholder": "U-AI に何でも聞いてください…",
+    "submit": "分析",
+    "reportLabel": "U-AI · 分析レポート",
+    "surfaceScanning": "3つの視点をスキャン中 — 技術・経済・世論…",
+    "directionality": {
+      "divergent": "発散型の問い",
+      "convergent": "収束型の意図"
+    },
+    "lensLabel": "3秒の立体視点",
+    "lens": {
+      "tech": "技術",
+      "economy": "経済",
+      "opinion": "世論"
+    },
+    "shieldLabel": "商業バイアス・シールド",
+    "shield": {
+      "clear": "中立",
+      "caution": "注意",
+      "biased": "強い偏り"
+    },
+    "checklistLabel": "3ステップ・アクションチェックリスト",
+    "checklist": {
+      "explore": [
+        "広く調べる前に、本当の問いを一文で定義する。",
+        "利害が対立する独立した情報源を3つ集める。",
+        "何が自分の考えを変えるかを書き出し、それを検証する。"
+      ],
+      "decide": [
+        "2つの選択肢と、決め手となる唯一の基準を明示する。",
+        "各選択肢のコスト・リスク・利得におおよその数値を割り当てる。",
+        "期待値の高い方を確定し、見直し日を設定する。"
+      ],
+      "analyze": [
+        "問いを支える3つの中核的前提に分解する。",
+        "最も弱い前提を実データで負荷試験する。",
+        "生き残ったものだけで結論を組み直す。"
+      ]
+    },
+    "swarmLabel": "スウォーム相互推論 · 11エコシステム",
+    "deepLabel": "深層インサイト · The VOID",
+    "deepHint": "Chronos の軌跡、定量化された判定、隠れた意図の解読、そして余白（ネガティブスペース）の洞察。",
+    "deepCta": "深層インサイトを解放 · {cost} U-COIN",
+    "deepLocked": "深層インサイトは調整中です — まもなく復帰します。",
+    "deepScanning": "VOID に進入 — 軌跡を合成中…",
+    "openFullReport": "U-AI の完全レポートを開く",
+    "chronosLabel": "Chronos · 1〜3年の軌跡",
+    "chronos": {
+      "y1": "1年後",
+      "y2": "2年後",
+      "y3": "3年後"
+    },
+    "binaryLabel": "二者択一 · 数理的判定",
+    "confidence": "確信度",
+    "redPenLabel": "赤ペン · 隠れた意図",
+    "voidLabel": "The VOID · 余白の洞察",
+    "pathLabel": "最高効率の経路",
+    "cachedBadge": "Genesis Memory キャッシュ",
+    "modelNote": "エンジン: {model}",
+    "brainGridLabel": "Brain-Grid · 認知履歴",
+    "brainGridClear": "クリア",
+    "err": {
+      "signin": "深層インサイトを開くにはサインインしてください。",
+      "phone": "U-COIN を使う前に電話番号を認証してください。",
+      "insufficient": "深層インサイトに必要な U-COIN が不足しています。",
+      "burn_required": "U-COIN の消費が記録されませんでした — もう一度お試しください。",
+      "deep_unavailable": "深層インサイトは一時的に利用できません。",
+      "generation_failed": "深層分析の生成に失敗しました — もう一度お試しください。",
+      "bad_request": "このクエリは分析できません — 言い換えて再試行してください。",
+      "unauthenticated": "セッションの有効期限が切れました — もう一度サインインしてください。"
+    }
   }
 }

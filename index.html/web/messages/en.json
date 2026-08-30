@@ -789,5 +789,80 @@
         "Planned maintenance and any incidents affecting accounts or balances will be summarized here once the platform is publicly live."
       ]
     }
+  },
+  "UAI": {
+    "title": "U-AI OMNI ENGINE",
+    "headline": "Ask once. See every angle.",
+    "subhead": "A three-second stereoscopic read, a commercial-bias shield, then — on demand — the deep trajectory. Not a chat. A decision-grade brief.",
+    "placeholder": "Ask U-AI anything…",
+    "submit": "Analyze",
+    "reportLabel": "U-AI · ANALYSIS REPORT",
+    "surfaceScanning": "Scanning three perspectives — technical, economic, public…",
+    "directionality": {
+      "divergent": "Divergent question",
+      "convergent": "Convergent intent"
+    },
+    "lensLabel": "3-Second Stereoscopic View",
+    "lens": {
+      "tech": "Technical",
+      "economy": "Economic",
+      "opinion": "Public Opinion"
+    },
+    "shieldLabel": "Commercial-Bias Shield",
+    "shield": {
+      "clear": "Clear",
+      "caution": "Caution",
+      "biased": "Heavy bias"
+    },
+    "checklistLabel": "3-Step Action Checklist",
+    "checklist": {
+      "explore": [
+        "Frame the real question in one sentence before searching wider.",
+        "Collect three independent sources with opposing incentives.",
+        "Write down what would change your mind, then test it."
+      ],
+      "decide": [
+        "State the two options and the single deciding criterion.",
+        "Put a rough number on cost, risk and upside for each.",
+        "Commit to the higher-expected-value option and set a review date."
+      ],
+      "analyze": [
+        "Break the question into its three load-bearing assumptions.",
+        "Pressure-test the weakest assumption against real data.",
+        "Rebuild the conclusion from what survived."
+      ]
+    },
+    "swarmLabel": "Swarm Cross-Reasoning · 11 Ecosystems",
+    "deepLabel": "Deep Insight · The VOID",
+    "deepHint": "Chronos trajectory, a quantified verdict, hidden-intent decode and the negative-space read.",
+    "deepCta": "Unlock deep insight · {cost} U-COIN",
+    "deepLocked": "Deep insight is being calibrated — back soon.",
+    "deepScanning": "Entering the VOID — synthesizing the trajectory…",
+    "openFullReport": "Open the full U-AI report",
+    "chronosLabel": "Chronos · 1–3 Year Trajectory",
+    "chronos": {
+      "y1": "In 1 year",
+      "y2": "In 2 years",
+      "y3": "In 3 years"
+    },
+    "binaryLabel": "Either / Or · Mathematical Verdict",
+    "confidence": "Confidence",
+    "redPenLabel": "Red-Pen · Hidden Intent",
+    "voidLabel": "The VOID · Negative-Space Insight",
+    "pathLabel": "Highest-Efficiency Path",
+    "cachedBadge": "Genesis Memory cache",
+    "modelNote": "Engine: {model}",
+    "brainGridLabel": "Brain-Grid · Cognitive History",
+    "brainGridClear": "Clear",
+    "err": {
+      "signin": "Sign in to unlock deep insight.",
+      "phone": "Verify your phone number before spending U-COIN.",
+      "insufficient": "Not enough U-COIN for deep insight.",
+      "burn_required": "The U-COIN burn didn’t register — try again.",
+      "deep_unavailable": "Deep insight is temporarily unavailable.",
+      "generation_failed": "Deep analysis failed to generate — please retry.",
+      "bad_request": "That query can’t be analyzed — rephrase and retry.",
+      "unauthenticated": "Your session expired — sign in again."
+    }
   }
 }

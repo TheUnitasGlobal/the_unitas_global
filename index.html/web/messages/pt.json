@@ -789,5 +789,80 @@
         "A manutenção planeada e quaisquer incidentes que afetem contas ou saldos serão resumidos aqui assim que a plataforma estiver publicamente ativa."
       ]
     }
+  },
+  "UAI": {
+    "title": "MOTOR OMNI U-AI",
+    "headline": "Pergunte uma vez. Veja todos os ângulos.",
+    "subhead": "Uma leitura estereoscópica de três segundos, um escudo de viés comercial e, sob demanda, a trajetória profunda. Não é um chat: é um relatório com grau de decisão.",
+    "placeholder": "Pergunte qualquer coisa à U-AI…",
+    "submit": "Analisar",
+    "reportLabel": "U-AI · RELATÓRIO DE ANÁLISE",
+    "surfaceScanning": "Analisando três perspectivas — técnica, econômica, pública…",
+    "directionality": {
+      "divergent": "Pergunta divergente",
+      "convergent": "Intenção convergente"
+    },
+    "lensLabel": "Visão estereoscópica de 3 segundos",
+    "lens": {
+      "tech": "Técnica",
+      "economy": "Econômica",
+      "opinion": "Opinião pública"
+    },
+    "shieldLabel": "Escudo de viés comercial",
+    "shield": {
+      "clear": "Neutro",
+      "caution": "Cautela",
+      "biased": "Viés alto"
+    },
+    "checklistLabel": "Lista de ação em 3 passos",
+    "checklist": {
+      "explore": [
+        "Defina a pergunta real em uma frase antes de pesquisar mais.",
+        "Reúna três fontes independentes com incentivos opostos.",
+        "Anote o que mudaria sua opinião e teste isso."
+      ],
+      "decide": [
+        "Enuncie as duas opções e o único critério decisivo.",
+        "Atribua um número aproximado a custo, risco e ganho de cada uma.",
+        "Comprometa-se com a de maior valor esperado e marque uma data de revisão."
+      ],
+      "analyze": [
+        "Divida a pergunta em suas três suposições de sustentação.",
+        "Submeta a suposição mais fraca a dados reais.",
+        "Reconstrua a conclusão a partir do que sobreviveu."
+      ]
+    },
+    "swarmLabel": "Raciocínio cruzado em enxame · 11 ecossistemas",
+    "deepLabel": "Insight profundo · The VOID",
+    "deepHint": "Trajetória Chronos, veredicto quantificado, decodificação de intenção oculta e leitura do espaço negativo.",
+    "deepCta": "Desbloquear insight profundo · {cost} U-COIN",
+    "deepLocked": "O insight profundo está sendo calibrado — voltamos já.",
+    "deepScanning": "Entrando no VOID — sintetizando a trajetória…",
+    "openFullReport": "Abrir o relatório completo da U-AI",
+    "chronosLabel": "Chronos · Trajetória de 1 a 3 anos",
+    "chronos": {
+      "y1": "Em 1 ano",
+      "y2": "Em 2 anos",
+      "y3": "Em 3 anos"
+    },
+    "binaryLabel": "Um ou outro · Veredicto matemático",
+    "confidence": "Confiança",
+    "redPenLabel": "Caneta vermelha · Intenção oculta",
+    "voidLabel": "The VOID · Insight do espaço negativo",
+    "pathLabel": "Caminho de máxima eficiência",
+    "cachedBadge": "Cache do Genesis Memory",
+    "modelNote": "Motor: {model}",
+    "brainGridLabel": "Brain-Grid · Histórico cognitivo",
+    "brainGridClear": "Limpar",
+    "err": {
+      "signin": "Entre na conta para desbloquear o insight profundo.",
+      "phone": "Verifique seu número de telefone antes de gastar U-COIN.",
+      "insufficient": "U-COIN insuficiente para o insight profundo.",
+      "burn_required": "O gasto de U-COIN não foi registrado — tente de novo.",
+      "deep_unavailable": "O insight profundo está temporariamente indisponível.",
+      "generation_failed": "Não foi possível gerar a análise profunda — tente novamente.",
+      "bad_request": "Essa consulta não pode ser analisada — reformule e tente de novo.",
+      "unauthenticated": "Sua sessão expirou — entre novamente."
+    }
   }
 }
