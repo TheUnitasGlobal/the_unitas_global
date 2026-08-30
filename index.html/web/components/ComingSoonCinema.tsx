@@ -7,6 +7,7 @@ import { Volume2, VolumeX } from 'lucide-react';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
+import { CinemaAppDownload } from '@/components/pwa/CinemaAppDownload';
 import {
   persistFounderBypass,
   readFounderBypass,
@@ -107,7 +108,13 @@ export function ComingSoonCinema() {
   const progressRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const startRef = useRef<number>(0);
-  const audioRef = useRef<{ ctx: AudioContext; master: GainNode; stop: () => void } | null>(null);
+  const audioRef = useRef<{
+    ctx: AudioContext;
+    master: GainNode;
+    phaseCue: () => void;
+    stop: () => void;
+  } | null>(null);
+  const prevSegRef = useRef(1);
 
   // Everyone -- public AND founder -- ends the cinematic on the same locked
   // 'sealed' "COMING SOON" screen; the founder just gets an extra button there.
@@ -236,13 +243,24 @@ export function ComingSoonCinema() {
     master.gain.linearRampToValueAtTime(CINEMA_MASTER_GAIN, now + 0.3);
     master.connect(ctx.destination);
 
+    // AUDIO BALANCE (owner instruction 2026-08-30): the sustained ambient BGM
+    // drops so the 30s ad stays gentle on the ears, while the discrete
+    // phase-transition cues (see `phaseCue` below) fire at full presence
+    // through `master` for a clean sense of "타격감". Everything continuous
+    // (root warmth, cathedral pad, air veil) routes through `bedGain`;
+    // one-shot / sparkle layers stay on `master` so they read louder
+    // relative to the quieter bed.
+    const bedGain = ctx.createGain();
+    bedGain.gain.value = 0.66;
+    bedGain.connect(master);
+
     // A gentle high-pass on the whole bed guarantees nothing sub-70 Hz ever
     // reaches the speakers -- the structural fix for the "웅~~" complaint.
     const subKill = ctx.createBiquadFilter();
     subKill.type = 'highpass';
     subKill.frequency.value = 68;
     subKill.Q.value = 0.5;
-    subKill.connect(master);
+    subKill.connect(bedGain);
 
     const disposables: Array<{ stop: (t: number) => void }> = [];
     const track = (node: AudioScheduledSourceNode) => {
@@ -368,7 +386,7 @@ export function ComingSoonCinema() {
     veilGain.gain.linearRampToValueAtTime(0.012, now + 3);
     veilSrc.connect(veilFilter);
     veilFilter.connect(veilGain);
-    veilGain.connect(master);
+    veilGain.connect(bedGain);
     track(veilSrc).start(now);
 
     // ---- 4b. slow airy riser (high band-passed noise, never a low rumble) --
@@ -408,7 +426,7 @@ export function ComingSoonCinema() {
     bloomFilter.Q.value = 2;
     const bloomGain = ctx.createGain();
     bloomGain.gain.setValueAtTime(0.0001, now);
-    bloomGain.gain.linearRampToValueAtTime(0.07, now + 0.12);
+    bloomGain.gain.linearRampToValueAtTime(0.085, now + 0.12);
     bloomGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.9);
     bloom.connect(bloomFilter);
     bloomFilter.connect(bloomGain);
@@ -422,16 +440,63 @@ export function ComingSoonCinema() {
     arriveBell.frequency.value = 880;
     const arriveBellGain = ctx.createGain();
     arriveBellGain.gain.setValueAtTime(0.0001, now);
-    arriveBellGain.gain.linearRampToValueAtTime(0.03, now + 0.15);
+    arriveBellGain.gain.linearRampToValueAtTime(0.038, now + 0.15);
     arriveBellGain.gain.exponentialRampToValueAtTime(0.0001, now + 3);
     arriveBell.connect(arriveBellGain);
     arriveBellGain.connect(master);
     track(arriveBell).start(now);
     arriveBell.stop(now + 3.1);
 
+    // ---- phase-transition cue (fires on every S1->S2->...->S5 hand-off) ----
+    // A short, consonant rising two-note ping (A5 -> D6) plus an airy
+    // high-passed tick -- clean attack, no boom, no sub. Routed through
+    // `master` (NOT `bedGain`), so it sits clearly on top of the lowered
+    // ambient bed and gives each segment change a crisp, high-end punctuation
+    // (owner instruction 2026-08-30: "타격감·청각적 몰입감").
+    const phaseCue = () => {
+      if (ctx.state === 'closed') return;
+      const b = ctx.currentTime;
+      [880, 1174.66].forEach((f, i) => {
+        const at = b + i * 0.07;
+        const osc = ctx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.value = f;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, at);
+        g.gain.linearRampToValueAtTime(0.12, at + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, at + 0.55);
+        const bp = ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = 2400;
+        bp.Q.value = 0.9;
+        const panner = ctx.createStereoPanner();
+        panner.pan.value = i === 0 ? -0.12 : 0.12;
+        osc.connect(g);
+        g.connect(bp);
+        bp.connect(panner);
+        panner.connect(master);
+        osc.start(at);
+        osc.stop(at + 0.7);
+      });
+      const tick = ctx.createBufferSource();
+      tick.buffer = noiseBuffer;
+      const tg = ctx.createGain();
+      tg.gain.setValueAtTime(0.05, b);
+      tg.gain.exponentialRampToValueAtTime(0.0001, b + 0.14);
+      const tf = ctx.createBiquadFilter();
+      tf.type = 'highpass';
+      tf.frequency.value = 1800;
+      tick.connect(tf);
+      tf.connect(tg);
+      tg.connect(master);
+      tick.start(b);
+      tick.stop(b + 0.2);
+    };
+
     audioRef.current = {
       ctx,
       master,
+      phaseCue,
       stop: () => {
         motesActive = false;
         swellActive = false;
@@ -459,6 +524,19 @@ export function ComingSoonCinema() {
     a.master.gain.cancelScheduledValues(now);
     a.master.gain.linearRampToValueAtTime(muted ? 0 : CINEMA_MASTER_GAIN, now + 0.3);
   }, [muted]);
+
+  // Fire the crisp phase-transition cue on each cinema segment hand-off
+  // (S1->S2->...->S5). Segment 1's entrance already has the arrival swell,
+  // so it's skipped here to avoid doubling.
+  useEffect(() => {
+    if (phase !== 'cinema') {
+      prevSegRef.current = segId;
+      return;
+    }
+    if (segId === prevSegRef.current) return;
+    prevSegRef.current = segId;
+    if (segId > 1 && !muted) audioRef.current?.phaseCue();
+  }, [segId, phase, muted]);
 
   // stop the ambient bed once the founder leaves the curtain for the real site
   useEffect(() => {
@@ -919,6 +997,12 @@ export function ComingSoonCinema() {
                     </p>
                   </motion.div>
                 )}
+
+                {/* Post-ad growth path: the exact nav-bar "shimmering logo +
+                    UNITAS App Download" lockup, pinned bottom-left, mirroring
+                    the replay control on the right. One tap -> in-curtain PWA
+                    install sheet (owner instruction 2026-08-30). */}
+                <CinemaAppDownload />
 
                 {/* Replay -- minimal "다시 재생" label + a reverse-play glyph
                     haloed in a soft, slow rainbow aurora. Pinned bottom-right,
