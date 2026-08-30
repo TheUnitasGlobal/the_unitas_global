@@ -832,6 +832,25 @@
         "Bangun kembali kesimpulan dari yang bertahan."
       ]
     },
+    "constitutionLabel": "Dekonstruksi 51 Doktrin",
+    "constitution": {
+      "logic": "Logika · Desain",
+      "future": "Masa Depan · Inovasi",
+      "economy": "Ekonomi · Efisiensi",
+      "security": "Keamanan · Integritas",
+      "sovereign": "Kedaulatan · Desentral.",
+      "art": "Seni · Filsafat"
+    },
+    "constitutionAxisNote": "Sumbu jangkar perancangan ulang · {axis}",
+    "webSourcesLabel": "Sintesis web langsung",
+    "webSourcedBadge": "{count} sumber disintesis secara real-time",
+    "webLocalBadge": "Sintesis heuristik lokal · nol panggilan eksternal",
+    "redesignLabel": "Vektor perancangan ulang doktrin",
+    "redesign": [
+      "Buang jawaban permukaan — dekonstruksi pertanyaan pada 6 sumbu doktrin.",
+      "Bangun ulang kesimpulan dari sumbu berskor terendah, bukan yang paling nyaring.",
+      "Uji tekan perancangan ulang secara fail-closed — buang yang tidak bertahan."
+    ],
     "swarmLabel": "Penalaran Silang Swarm · 11 Ekosistem",
     "deepLabel": "Wawasan Mendalam · The VOID",
     "deepHint": "Lintasan Chronos, putusan terkuantifikasi, pembacaan niat tersembunyi, dan pembacaan ruang negatif.",

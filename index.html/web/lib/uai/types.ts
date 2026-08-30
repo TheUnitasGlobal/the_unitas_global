@@ -19,11 +19,55 @@ export type ShieldVerdict = 'clear' | 'caution' | 'biased';
 export type Directionality = 'divergent' | 'convergent';
 export type QueryArchetype = 'explore' | 'decide' | 'analyze';
 
+/**
+ * The 51-doctrine constitution collapsed to 6 load-bearing axes -- the lens
+ * the free Phase-1 search uses to *deconstruct and redesign* whatever it
+ * collected (web digest + query) rather than merely restate it. Deterministic
+ * per query, so the same question always decomposes the same way.
+ */
+export type ConstitutionAxis =
+  | 'logic'
+  | 'future'
+  | 'economy'
+  | 'security'
+  | 'sovereign'
+  | 'art';
+
 export interface LensScore {
   key: LensKey;
   /** 0-100. */
   score: number;
   band: Band;
+}
+
+export interface ConstitutionScore {
+  axis: ConstitutionAxis;
+  /** 0-100. */
+  score: number;
+  band: Band;
+}
+
+/** One real online reference folded into the free-tier synthesis. */
+export interface WebSource {
+  title: string;
+  url: string;
+  snippet: string;
+}
+
+/**
+ * Result of the zero-cost "live web synthesis" pass -- keyless, CORS-only
+ * Wikipedia/Wikimedia REST calls made client-side behind
+ * NEXT_PUBLIC_UAI_WEB_SYNTHESIS, cached in localStorage. `sourced: false`
+ * means the call was disabled, timed out or failed and Phase 1 fell back to
+ * pure local heuristics -- never an error to the user.
+ */
+export interface WebSynthesis {
+  sourced: boolean;
+  sources: WebSource[];
+  /** concatenated, control-stripped excerpt text fed into the heuristics. */
+  digest: string;
+  lang: string | null;
+  fetchedAt: number;
 }
 
 export interface SwarmScore {
@@ -45,6 +89,14 @@ export interface SurfaceReport {
   /** Phase 1 -- 3-step action checklist, as translation-key suffixes under
    *  `UAI.checklist.<archetype>.<0|1|2>`. */
   checklistArchetype: QueryArchetype;
+  /** Phase 1 -- the 51-doctrine deconstruction: every axis scored. */
+  constitution: ConstitutionScore[];
+  /** highest-scoring axis -- the frame the subject already leans into. */
+  topConstitutionAxis: ConstitutionAxis;
+  /** lowest-scoring axis -- the blind spot the redesign vector attacks. */
+  redesignAxis: ConstitutionAxis;
+  /** Phase 1 -- live web synthesis provenance (or the local-fallback flag). */
+  web: WebSynthesis;
   /** All 11 ecosystems scored at once. */
   swarm: SwarmScore[];
   topEcosystemKey: string | null;

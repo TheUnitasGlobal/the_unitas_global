@@ -832,6 +832,25 @@
         "Baue die Schlussfolgerung aus dem wieder auf, was übrig blieb."
       ]
     },
+    "constitutionLabel": "Dekonstruktion der 51 Doktrinen",
+    "constitution": {
+      "logic": "Logik · Design",
+      "future": "Zukunft · Innovation",
+      "economy": "Ökonomie · Effizienz",
+      "security": "Sicherheit · Integrität",
+      "sovereign": "Souveränität · Dezentral.",
+      "art": "Kunst · Philosophie"
+    },
+    "constitutionAxisNote": "Ankerachse der Neugestaltung · {axis}",
+    "webSourcesLabel": "Live-Web-Synthese",
+    "webSourcedBadge": "{count} Quellen in Echtzeit synthetisiert",
+    "webLocalBadge": "Lokale heuristische Synthese · null externe Aufrufe",
+    "redesignLabel": "Doktrin-Neugestaltungsvektoren",
+    "redesign": [
+      "Verwirf die oberflächliche Antwort — zerlege die Frage entlang der 6 Doktrinachsen.",
+      "Baue die Schlussfolgerung von der schwächsten Achse aus neu auf, nicht von der lautesten.",
+      "Prüfe die Neugestaltung fail-closed — verwirf alles, was nicht standhält."
+    ],
     "swarmLabel": "Schwarm-Querdenken · 11 Ökosysteme",
     "deepLabel": "Tiefe Einsicht · The VOID",
     "deepHint": "Chronos-Trajektorie, quantifiziertes Urteil, Entschlüsselung verborgener Absichten und der Blick in den Negativraum.",

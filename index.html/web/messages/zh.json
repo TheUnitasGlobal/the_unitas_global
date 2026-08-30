@@ -832,6 +832,25 @@
         "仅用幸存下来的部分重建结论。"
       ]
     },
+    "constitutionLabel": "51 大 超-宪法 立体解构",
+    "constitution": {
+      "logic": "逻辑 · 设计",
+      "future": "未来 · 创新",
+      "economy": "经济 · 效率",
+      "security": "安全 · 完整",
+      "sovereign": "主权 · 去中心",
+      "art": "艺术 · 哲学"
+    },
+    "constitutionAxisNote": "重新设计的基准轴 · {axis}",
+    "webSourcesLabel": "网络实时综合",
+    "webSourcedBadge": "已实时综合 {count} 个来源",
+    "webLocalBadge": "本地启发式综合 · 零外部调用",
+    "redesignLabel": "宪法重构向量",
+    "redesign": [
+      "舍弃表层答案 —— 将问题沿六大宪法轴解构。",
+      "从得分最低的轴、而非最响亮的轴重建结论。",
+      "以失败即关闭方式压力测试重构方案 —— 未能存活者一律弃用。"
+    ],
     "swarmLabel": "蜂群交叉推理 · 11 大生态",
     "deepLabel": "深层洞察 · The VOID",
     "deepHint": "Chronos 轨迹、量化裁决、隐藏意图解码，以及负空间洞察。",

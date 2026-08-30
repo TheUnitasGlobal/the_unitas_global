@@ -832,6 +832,25 @@
         "Rebuild the conclusion from what survived."
       ]
     },
+    "constitutionLabel": "51-Doctrine Deconstruction",
+    "constitution": {
+      "logic": "Logic · Design",
+      "future": "Future · Innovation",
+      "economy": "Economy · Efficiency",
+      "security": "Security · Integrity",
+      "sovereign": "Sovereignty · Decentral.",
+      "art": "Art · Philosophy"
+    },
+    "constitutionAxisNote": "Redesign anchor axis · {axis}",
+    "webSourcesLabel": "Live Web Synthesis",
+    "webSourcedBadge": "{count} sources synthesized in real time",
+    "webLocalBadge": "Local heuristic synthesis · zero external calls",
+    "redesignLabel": "Doctrine Redesign Vectors",
+    "redesign": [
+      "Drop the surface answer — deconstruct the question across the 6 doctrine axes.",
+      "Rebuild the conclusion from the lowest-scoring axis, not the loudest one.",
+      "Pressure-test the redesign fail-closed — discard whatever doesn't survive."
+    ],
     "swarmLabel": "Swarm Cross-Reasoning · 11 Ecosystems",
     "deepLabel": "Deep Insight · The VOID",
     "deepHint": "Chronos trajectory, a quantified verdict, hidden-intent decode and the negative-space read.",

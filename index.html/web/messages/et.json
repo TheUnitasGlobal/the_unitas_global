@@ -832,6 +832,25 @@
         "Ehita järeldus üles sellest, mis alles jäi."
       ]
     },
+    "constitutionLabel": "51 doktriini dekonstruktsioon",
+    "constitution": {
+      "logic": "Loogika · Disain",
+      "future": "Tulevik · Innovatsioon",
+      "economy": "Majandus · Tõhusus",
+      "security": "Turvalisus · Terviklus",
+      "sovereign": "Suveräänsus · Detsentr.",
+      "art": "Kunst · Filosoofia"
+    },
+    "constitutionAxisNote": "Ümberkujundamise tugitelg · {axis}",
+    "webSourcesLabel": "Veebi reaalajas süntees",
+    "webSourcedBadge": "{count} allikat sünteesitud reaalajas",
+    "webLocalBadge": "Kohalik heuristiline süntees · null välispäringut",
+    "redesignLabel": "Doktriini ümberkujundamise vektorid",
+    "redesign": [
+      "Loobu pinnapealsest vastusest — dekonstrueeri küsimus 6 doktriinitelje lõikes.",
+      "Ehita järeldus üles madalaima, mitte valjeima telje põhjalt.",
+      "Testi ümberkujundust tõrkekindlalt — jäta kõrvale kõik, mis ei pea vastu."
+    ],
     "swarmLabel": "Parve ristarutlus · 11 ökosüsteemi",
     "deepLabel": "Sügav taip · The VOID",
     "deepHint": "Chronose trajektoor, kvantifitseeritud otsus, varjatud kavatsuse dekodeerimine ja negatiivse ruumi lugemine.",

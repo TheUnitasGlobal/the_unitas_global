@@ -832,6 +832,25 @@
         "Dựng lại kết luận từ những gì còn trụ lại."
       ]
     },
+    "constitutionLabel": "Giải cấu trúc 51 học thuyết",
+    "constitution": {
+      "logic": "Logic · Thiết kế",
+      "future": "Tương lai · Đổi mới",
+      "economy": "Kinh tế · Hiệu quả",
+      "security": "Bảo mật · Toàn vẹn",
+      "sovereign": "Chủ quyền · Phi tập trung",
+      "art": "Nghệ thuật · Triết học"
+    },
+    "constitutionAxisNote": "Trục neo của thiết kế lại · {axis}",
+    "webSourcesLabel": "Tổng hợp web thời gian thực",
+    "webSourcedBadge": "Đã tổng hợp {count} nguồn theo thời gian thực",
+    "webLocalBadge": "Tổng hợp heuristic cục bộ · không gọi bên ngoài",
+    "redesignLabel": "Vector thiết kế lại học thuyết",
+    "redesign": [
+      "Bỏ câu trả lời bề mặt — giải cấu trúc câu hỏi theo 6 trục học thuyết.",
+      "Dựng lại kết luận từ trục điểm thấp nhất, không phải trục ồn ào nhất.",
+      "Kiểm thử thiết kế lại theo kiểu fail-closed — loại bỏ những gì không trụ được."
+    ],
     "swarmLabel": "Suy luận chéo bầy đàn · 11 hệ sinh thái",
     "deepLabel": "Thấu thị chuyên sâu · The VOID",
     "deepHint": "Quỹ đạo Chronos, phán quyết định lượng, giải mã ý đồ ẩn và góc đọc khoảng trống.",

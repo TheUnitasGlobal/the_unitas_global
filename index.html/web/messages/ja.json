@@ -832,6 +832,25 @@
         "生き残ったものだけで結論を組み直す。"
       ]
     },
+    "constitutionLabel": "51大 超-憲法 立体解体",
+    "constitution": {
+      "logic": "論理 · 設計",
+      "future": "未来 · 革新",
+      "economy": "経済 · 効率",
+      "security": "セキュリティ · 完全性",
+      "sovereign": "ソブリン · 分散",
+      "art": "芸術 · 哲学"
+    },
+    "constitutionAxisNote": "再設計の基準軸 · {axis}",
+    "webSourcesLabel": "ウェブ・リアルタイム統合",
+    "webSourcedBadge": "{count}件の出典をリアルタイム統合",
+    "webLocalBadge": "ローカル・ヒューリスティック統合 · 外部呼び出し0",
+    "redesignLabel": "憲法リデザイン・ベクトル",
+    "redesign": [
+      "表層の答えを捨て — 問いを6つの憲法軸へ解体する。",
+      "最も大きい軸ではなく、最も低い軸から結論を再構築する。",
+      "リデザイン案をフェイルクローズドで負荷試験する — 生き残らなければ破棄。"
+    ],
     "swarmLabel": "スウォーム相互推論 · 11エコシステム",
     "deepLabel": "深層インサイト · The VOID",
     "deepHint": "Chronos の軌跡、定量化された判定、隠れた意図の解読、そして余白（ネガティブスペース）の洞察。",

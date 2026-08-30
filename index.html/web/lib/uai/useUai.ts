@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { analyzeSurface } from './heuristics';
+import { synthesizeWeb } from './webSynthesis';
 import { recordBrainGrid, loadBrainGrid, clearBrainGrid, type BrainGridEntry } from './brainGrid';
 import type { DeepInsightApiResponse, DeepInsightError, DeepReport, SurfaceReport } from './types';
 
@@ -33,6 +34,9 @@ export function useUai() {
   const [deepAvailable, setDeepAvailable] = useState(false);
   const [history, setHistory] = useState<BrainGridEntry[]>([]);
   const surfaceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /** the most recent query runSurface was called with -- guards against a
+   *  slow web-synthesis fetch resolving after a newer query started. */
+  const queryRef = useRef('');
 
   useEffect(() => {
     setHistory(loadBrainGrid());
@@ -63,23 +67,37 @@ export function useUai() {
       const trimmed = query.trim();
       if (!trimmed) return;
       if (surfaceTimer.current) clearTimeout(surfaceTimer.current);
+      queryRef.current = trimmed;
       setError(null);
       setDeep(null);
       setSurface(null);
       setPhase('surface-loading');
+      const startedFor = trimmed;
       surfaceTimer.current = setTimeout(() => {
-        const report = analyzeSurface(trimmed, tEcosystems, context);
-        setSurface(report);
-        setPhase('surface');
-        setHistory(
-          recordBrainGrid(
-            { q: report.query, ts: Date.now(), shield: report.shield.score, depth: 'surface' },
-            session,
-          ),
-        );
+        // Live web synthesis (keyless Wikipedia/Wikimedia REST, client-side,
+        // behind NEXT_PUBLIC_UAI_WEB_SYNTHESIS + localStorage cache). Resolves
+        // to a `sourced: false` synthesis when disabled / timed out / failed
+        // -- analyzeSurface then runs on the query alone, no error surfaced.
+        void synthesizeWeb(trimmed, locale)
+          .then(
+            (web) => analyzeSurface(trimmed, tEcosystems, context, web),
+            () => analyzeSurface(trimmed, tEcosystems, context),
+          )
+          .then((report) => {
+            // A newer query started while we were fetching -- drop this result.
+            if (queryRef.current !== startedFor) return;
+            setSurface(report);
+            setPhase('surface');
+            setHistory(
+              recordBrainGrid(
+                { q: report.query, ts: Date.now(), shield: report.shield.score, depth: 'surface' },
+                session,
+              ),
+            );
+          });
       }, 900);
     },
-    [session],
+    [session, locale],
   );
 
   const runDeep = useCallback(async () => {
@@ -132,6 +150,7 @@ export function useUai() {
 
   const reset = useCallback(() => {
     if (surfaceTimer.current) clearTimeout(surfaceTimer.current);
+    queryRef.current = '';
     setPhase('idle');
     setSurface(null);
     setDeep(null);

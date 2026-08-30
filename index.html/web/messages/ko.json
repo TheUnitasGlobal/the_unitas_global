@@ -832,6 +832,25 @@
         "살아남은 것만으로 결론을 다시 세운다."
       ]
     },
+    "constitutionLabel": "51대 초-헌법 입체 해체",
+    "constitution": {
+      "logic": "논리 · 설계",
+      "future": "미래 · 혁신",
+      "economy": "경제 · 효율",
+      "security": "보안 · 무결",
+      "sovereign": "소버린 · 탈중앙",
+      "art": "예술 · 철학"
+    },
+    "constitutionAxisNote": "재설계 기준 축 · {axis}",
+    "webSourcesLabel": "웹 실시간 종합",
+    "webSourcedBadge": "{count}개 출처 실시간 종합",
+    "webLocalBadge": "로컬 휴리스틱 종합 · 외부 호출 0",
+    "redesignLabel": "헌법 재설계 벡터",
+    "redesign": [
+      "표면 답을 버리고 — 질문을 6대 헌법 축으로 해체한다.",
+      "가장 큰 축이 아니라 가장 낮은 축에서 결론을 다시 세운다.",
+      "재설계안을 페일클로즈드로 압박 시험한다 — 살아남지 못하면 폐기."
+    ],
     "swarmLabel": "스웜 교차 추론 · 11대 에코시스템",
     "deepLabel": "심층 통찰 · The VOID",
     "deepHint": "Chronos 궤적, 정량화된 결단, 숨은 의도 해독, 그리고 네거티브 스페이스 통찰.",

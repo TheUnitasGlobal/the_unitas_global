@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ShieldHalf, Sparkles, Lock } from 'lucide-react';
+import { ShieldHalf, Sparkles, Lock, Globe, Layers, Wand2 } from 'lucide-react';
 import { UAI_DEEP_INSIGHT_COST, type DeepReport, type SurfaceReport } from '@/lib/uai/types';
 import type { UaiError, UaiPhase } from '@/lib/uai/useUai';
 
@@ -24,6 +24,14 @@ interface UaiDashboardProps {
 
 const BAND_COLOR: Record<string, string> = { low: '#64748b', mid: '#22d3ee', high: '#d4af37' };
 const SHIELD_COLOR: Record<string, string> = { clear: '#34d399', caution: '#fbbf24', biased: '#f87171' };
+const AXIS_COLOR: Record<string, string> = {
+  logic: '#38bdf8',
+  future: '#a78bfa',
+  economy: '#34d399',
+  security: '#f87171',
+  sovereign: '#d4af37',
+  art: '#f472b6',
+};
 
 function Bar({ value, color }: { value: number; color: string }) {
   return (
@@ -81,6 +89,44 @@ export function UaiDashboard({
 
       {surface && (
         <>
+          {/* Phase 1 -- live web synthesis provenance (or local-fallback flag).
+              Compact home embed shows the one-line badge only. */}
+          <section className="space-y-2">
+            <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-gray-500">
+              <Globe size={12} aria-hidden="true" /> {t('webSourcesLabel')}
+            </p>
+            {compact ? (
+              <p className="text-[10px] text-gray-500">
+                {surface.web.sourced
+                  ? t('webSourcedBadge', { count: surface.web.sources.length })
+                  : t('webLocalBadge')}
+              </p>
+            ) : surface.web.sourced ? (
+              <>
+                <p className="text-[10px] text-neon/70">
+                  {t('webSourcedBadge', { count: surface.web.sources.length })}
+                </p>
+                <ul className="space-y-1.5">
+                  {surface.web.sources.map((s) => (
+                    <li key={s.url}>
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block border-l-2 border-neon/40 pl-3 text-[11px] leading-snug text-gray-300 transition-colors hover:text-white"
+                      >
+                        <span className="font-bold text-gray-200">{s.title}</span>
+                        <span className="mt-0.5 block text-[10px] text-gray-500">{s.snippet}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <p className="text-[10px] text-gray-500">{t('webLocalBadge')}</p>
+            )}
+          </section>
+
           {/* Phase 1 -- 3-second triple lens */}
           <section className="space-y-3">
             <p className="text-[9px] font-bold uppercase tracking-widest text-gray-500">{t('lensLabel')}</p>
@@ -92,6 +138,25 @@ export function UaiDashboard({
               </div>
             ))}
           </section>
+
+          {/* Phase 1 -- 51-doctrine deconstruction (constitution axes) */}
+          {!compact && (
+            <section className="space-y-3">
+              <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-gray-500">
+                <Layers size={12} aria-hidden="true" /> {t('constitutionLabel')}
+              </p>
+              {surface.constitution.map((c) => (
+                <div key={c.axis} className="grid grid-cols-[88px_1fr_auto] items-center gap-3">
+                  <span className="text-[11px] font-medium text-gray-300">{t(`constitution.${c.axis}`)}</span>
+                  <Bar value={c.score} color={AXIS_COLOR[c.axis]} />
+                  <span className="w-10 text-right font-mono text-[10px] text-gray-500">{c.score}</span>
+                </div>
+              ))}
+              <p className="text-[10px] text-gray-500">
+                {t('constitutionAxisNote', { axis: t(`constitution.${surface.redesignAxis}`) })}
+              </p>
+            </section>
+          )}
 
           {/* Phase 1 -- commercial-bias shield gauge */}
           <section className="space-y-2">
@@ -135,6 +200,23 @@ export function UaiDashboard({
               ))}
             </ul>
           </section>
+
+          {/* Phase 1 -- 51-doctrine redesign vectors (blind-spot axis) */}
+          {!compact && (
+            <section className="space-y-2">
+              <p className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-gray-500">
+                <Wand2 size={12} aria-hidden="true" /> {t('redesignLabel')}
+              </p>
+              <ol className="space-y-1.5">
+                {(t.raw('redesign') as string[]).map((step, i) => (
+                  <li key={i} className="flex gap-2.5 text-[12px] leading-snug text-gray-300">
+                    <span className="font-mono text-[10px] text-accent">{String(i + 1).padStart(2, '0')}</span>
+                    {step}
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
 
           {/* Swarm cross-reasoning */}
           <section className="space-y-2">

@@ -832,6 +832,25 @@
         "Reconstrua a conclusão a partir do que sobreviveu."
       ]
     },
+    "constitutionLabel": "Desconstrução das 51 doutrinas",
+    "constitution": {
+      "logic": "Lógica · Design",
+      "future": "Futuro · Inovação",
+      "economy": "Economia · Eficiência",
+      "security": "Segurança · Integridade",
+      "sovereign": "Soberania · Descentral.",
+      "art": "Arte · Filosofia"
+    },
+    "constitutionAxisNote": "Eixo de ancoragem do redesenho · {axis}",
+    "webSourcesLabel": "Síntese web ao vivo",
+    "webSourcedBadge": "{count} fontes sintetizadas em tempo real",
+    "webLocalBadge": "Síntese heurística local · zero chamadas externas",
+    "redesignLabel": "Vetores de redesenho doutrinário",
+    "redesign": [
+      "Descarte a resposta superficial — desconstrua a questão nos 6 eixos doutrinários.",
+      "Reconstrua a conclusão a partir do eixo de menor pontuação, não do mais barulhento.",
+      "Teste o redesenho em modo fail-closed — descarte o que não sobreviver."
+    ],
     "swarmLabel": "Raciocínio cruzado em enxame · 11 ecossistemas",
     "deepLabel": "Insight profundo · The VOID",
     "deepHint": "Trajetória Chronos, veredicto quantificado, decodificação de intenção oculta e leitura do espaço negativo.",

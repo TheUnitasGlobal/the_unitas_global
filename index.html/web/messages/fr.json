@@ -832,6 +832,25 @@
         "Reconstruisez la conclusion à partir de ce qui a survécu."
       ]
     },
+    "constitutionLabel": "Déconstruction des 51 doctrines",
+    "constitution": {
+      "logic": "Logique · Conception",
+      "future": "Futur · Innovation",
+      "economy": "Économie · Efficacité",
+      "security": "Sécurité · Intégrité",
+      "sovereign": "Souveraineté · Décentral.",
+      "art": "Art · Philosophie"
+    },
+    "constitutionAxisNote": "Axe d'ancrage de la refonte · {axis}",
+    "webSourcesLabel": "Synthèse web en direct",
+    "webSourcedBadge": "{count} sources synthétisées en temps réel",
+    "webLocalBadge": "Synthèse heuristique locale · zéro appel externe",
+    "redesignLabel": "Vecteurs de refonte doctrinale",
+    "redesign": [
+      "Abandonnez la réponse de surface — déconstruisez la question selon les 6 axes doctrinaux.",
+      "Reconstruisez la conclusion depuis l'axe le plus faible, pas le plus bruyant.",
+      "Testez la refonte en mode fail-closed — écartez tout ce qui ne survit pas."
+    ],
     "swarmLabel": "Raisonnement croisé en essaim · 11 écosystèmes",
     "deepLabel": "Analyse profonde · The VOID",
     "deepHint": "Trajectoire Chronos, verdict quantifié, décodage de l’intention cachée et lecture de l’espace négatif.",
