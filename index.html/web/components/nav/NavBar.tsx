@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { Download } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { SoundToggle } from '@/components/audio/SoundToggle';
 import { usePwaInstall } from '@/lib/hooks/usePwaInstall';
@@ -42,25 +43,27 @@ export function NavBar() {
     };
   }, []);
 
+  // Always surface the install popup (owner instruction 2026-08-29): the modal
+  // now hosts the live one-click install button wired to `beforeinstallprompt`,
+  // so we no longer fire the native prompt straight from the nav click.
   const handleAppDownloadClick = () => {
-    if (isInstalled) {
-      setShowGuide(true, { force: true });
-      return;
-    }
-    if (canInstall) {
-      void promptInstall();
-      return;
-    }
     setShowGuide(true, { force: true });
+  };
+
+  const handleModalInstall = () => {
+    void promptInstall();
+    setShowGuide(false);
   };
 
   const guideMessage = isInstalled
     ? t('appDownloadAlreadyInstalledHint')
-    : isIos
-      ? t('appDownloadIosHint')
-      : isDesktop
-        ? t('appDownloadDesktopHint')
-        : t('appDownloadUnsupported');
+    : canInstall
+      ? t('appDownloadReadyHint')
+      : isIos
+        ? t('appDownloadIosHint')
+        : isDesktop
+          ? t('appDownloadDesktopHint')
+          : t('appDownloadUnsupported');
 
   return (
     <nav className="fixed left-0 top-0 z-50 w-full border-b border-accent/20 bg-void/80 py-5 backdrop-blur-md">
@@ -126,6 +129,20 @@ export function NavBar() {
           {t('appDownloadModalTitle')}
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-gray-200">{guideMessage}</p>
+
+        {/* Live one-click install: only rendered while the browser has actually
+            fired `beforeinstallprompt` (canInstall), so tapping it always
+            resolves to the real native install flow -- no dead button. */}
+        {!isInstalled && canInstall && (
+          <button
+            type="button"
+            onClick={handleModalInstall}
+            className="mt-6 flex w-full items-center justify-center gap-2 border border-accent bg-accent/10 py-3 text-sm font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
+          >
+            <Download size={16} aria-hidden="true" />
+            {t('appDownloadInstallNow')}
+          </button>
+        )}
       </Modal>
     </nav>
   );

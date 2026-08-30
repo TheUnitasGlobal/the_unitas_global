@@ -22,7 +22,9 @@ const NATIVE_NAME: Record<Locale, string> = {
   de: 'Deutsch',
   pt: 'Português',
   vi: 'Tiếng Việt',
-  id: 'Bahasa Indonesia',
+  // Shortened from "Bahasa Indonesia" (owner instruction 2026-08-29) to keep
+  // the endonym on a single line in the dropdown.
+  id: 'Indonesia',
 };
 
 /** 6-language flag/native-name dropdown, preserves the current page on switch. */
@@ -75,7 +77,7 @@ export function LanguageSwitcher() {
                   }`}
                 >
                   <FlagIcon locale={loc} size={20} />
-                  <span className="leading-none">{NATIVE_NAME[loc]}</span>
+                  <span className="whitespace-nowrap leading-none">{NATIVE_NAME[loc]}</span>
                 </button>
               </li>
             ))}

@@ -91,12 +91,9 @@ export function HomeContent() {
           <p className="mx-auto max-w-2xl text-[16px] text-gray-500 sm:whitespace-nowrap sm:text-[17px] md:text-[19px]">
             {tB2b('subtitle')}
           </p>
-          <p className="mx-auto mt-6 max-w-3xl text-left text-[14px] leading-relaxed text-gray-400 sm:text-center md:text-[15px]">
-            {tB2b('manifesto')}
-          </p>
-          <p className="mx-auto mt-4 max-w-2xl text-[12px] leading-relaxed text-accent/50 [text-wrap:balance]">
-            {tB2b('patentAnchorNote')}
-          </p>
+          {/* Manifesto + patent-anchor paragraphs removed (owner instruction
+              2026-08-29): the enterprise section header is now just the title +
+              one-line subtitle, matching the other two sections' altitude. */}
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">

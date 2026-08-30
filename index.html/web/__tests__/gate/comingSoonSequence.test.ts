@@ -17,28 +17,28 @@ describe('cinema timeline helpers', () => {
     }
   });
 
-  it('maps representative times to the spec segments', () => {
+  it('maps representative times to the spec segments (even 6s cadence)', () => {
     expect(cinemaSegmentAt(0).id).toBe(1);
-    expect(cinemaSegmentAt(2_999).id).toBe(1);
-    expect(cinemaSegmentAt(3_000).id).toBe(2);
-    expect(cinemaSegmentAt(9_999).id).toBe(2);
-    expect(cinemaSegmentAt(10_000).id).toBe(3);
-    expect(cinemaSegmentAt(14_999).id).toBe(3);
-    expect(cinemaSegmentAt(15_000).id).toBe(4);
-    expect(cinemaSegmentAt(21_999).id).toBe(4);
-    expect(cinemaSegmentAt(22_000).id).toBe(5);
+    expect(cinemaSegmentAt(5_999).id).toBe(1);
+    expect(cinemaSegmentAt(6_000).id).toBe(2);
+    expect(cinemaSegmentAt(11_999).id).toBe(2);
+    expect(cinemaSegmentAt(12_000).id).toBe(3);
+    expect(cinemaSegmentAt(17_999).id).toBe(3);
+    expect(cinemaSegmentAt(18_000).id).toBe(4);
+    expect(cinemaSegmentAt(23_999).id).toBe(4);
+    expect(cinemaSegmentAt(24_000).id).toBe(5);
     expect(cinemaSegmentAt(29_999).id).toBe(5);
   });
 
   it('wraps past 30s and handles negative time (loop-safe)', () => {
     expect(cinemaSegmentAt(CINEMA_DURATION_MS).id).toBe(1);
-    expect(cinemaSegmentAt(CINEMA_DURATION_MS + 3_500).id).toBe(2);
+    expect(cinemaSegmentAt(CINEMA_DURATION_MS + 7_000).id).toBe(2);
     expect(cinemaSegmentAt(-1).id).toBe(5);
   });
 
   it('reports 0..1 progress within a segment and across the loop', () => {
-    expect(cinemaSegmentProgress(3_000)).toBeCloseTo(0);
-    expect(cinemaSegmentProgress(6_500)).toBeCloseTo(0.5);
+    expect(cinemaSegmentProgress(6_000)).toBeCloseTo(0);
+    expect(cinemaSegmentProgress(9_000)).toBeCloseTo(0.5);
     expect(cinemaOverallProgress(0)).toBeCloseTo(0);
     expect(cinemaOverallProgress(15_000)).toBeCloseTo(0.5);
     expect(cinemaOverallProgress(CINEMA_DURATION_MS + 7_500)).toBeCloseTo(0.25);

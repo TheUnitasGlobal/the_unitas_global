@@ -23,7 +23,7 @@ $webhookJob = Start-Job -Name "unitas-webhook" -ScriptBlock {
 } -ArgumentList $repoRoot
 
 try {
-  Write-Host "[dev-all] Starting Next.js dev server (foreground, http://localhost:3000)..."
+  Write-Host "[dev-all] Starting Next.js dev server (foreground, http://localhost:3000 + LAN http://<this-PC-IP>:3000 for same-Wi-Fi mobile testing)..."
   Set-Location $webRoot
   npm run dev
 }

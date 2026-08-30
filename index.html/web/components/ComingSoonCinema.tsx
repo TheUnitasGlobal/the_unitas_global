@@ -797,7 +797,7 @@ export function ComingSoonCinema() {
                         initial={{ letterSpacing: '0.5em' }}
                         animate={{ letterSpacing: '0.16em' }}
                         transition={{ duration: 1.1, ease: [0.16, 0.84, 0.44, 1] }}
-                        className="bg-gradient-to-r from-accent via-white to-neon bg-clip-text font-serif text-[2.15rem] font-bold uppercase leading-[1.1] text-transparent [text-wrap:balance] sm:text-6xl lg:text-7xl"
+                        className="break-keep bg-gradient-to-r from-accent via-white to-neon bg-clip-text font-serif text-[clamp(1.05rem,5.4vw,1.9rem)] font-bold uppercase leading-[1.12] text-transparent [text-wrap:balance] sm:text-5xl lg:text-7xl"
                         style={{
                           filter:
                             'drop-shadow(0 0 26px rgba(212,175,55,0.4)) drop-shadow(0 0 60px rgba(0,243,255,0.18))',
@@ -813,7 +813,7 @@ export function ComingSoonCinema() {
                         initial={{ opacity: 0, letterSpacing: '0.32em' }}
                         animate={{ opacity: 1, letterSpacing: '0.14em' }}
                         transition={{ delay: 0.22, duration: 1, ease: [0.16, 0.84, 0.44, 1] }}
-                        className="max-w-2xl font-serif text-[15px] font-medium leading-relaxed text-white/70 [text-wrap:balance] sm:text-xl lg:text-2xl"
+                        className="max-w-2xl break-keep font-serif text-[clamp(0.72rem,3.2vw,0.95rem)] font-medium leading-snug text-white/70 [text-wrap:balance] sm:text-lg lg:text-2xl"
                         style={{ textShadow: '0 0 24px rgba(0,243,255,0.14)' }}
                       >
                         {t(captionKeyFor(segId, 'Sub'))}
@@ -892,14 +892,23 @@ export function ComingSoonCinema() {
                   </motion.div>
                 )}
 
-                {/* Replay -- small minimal control, pinned bottom-right, mirrors
-                    the cinema 'skip' affordance. */}
+                {/* Replay -- minimal "다시 재생" label + a reverse-play glyph
+                    haloed in a soft, slow rainbow aurora. Pinned bottom-right,
+                    mirrors the cinema 'skip' affordance. */}
                 <button
                   type="button"
                   onClick={replay}
-                  className="absolute bottom-6 right-6 z-20 text-[10px] uppercase tracking-[0.3em] text-white/30 transition-colors hover:text-white/80"
+                  aria-label={t('replay')}
+                  className="absolute bottom-6 right-6 z-20 flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-white/45 transition-colors hover:text-white/90"
                 >
-                  ▷ {t('replay')}
+                  <span className="cs-replay-aurora" aria-hidden="true">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                      {/* reverse-play: triangle to the left + a leading stop bar */}
+                      <path d="M20 5v14L9 12z" />
+                      <rect x="4" y="5" width="2.6" height="14" rx="1" />
+                    </svg>
+                  </span>
+                  <span>{t('replay')}</span>
                 </button>
               </motion.div>
             )}

@@ -21,7 +21,9 @@ export const LOCALE_NATIVE_NAME: Record<Locale, string> = {
   de: 'Deutsch',
   pt: 'Português',
   vi: 'Tiếng Việt',
-  id: 'Bahasa Indonesia',
+  // Shortened from "Bahasa Indonesia" (owner instruction 2026-08-29) so the
+  // endonym never wraps to a second line in the narrow language dropdown.
+  id: 'Indonesia',
 };
 
 /** Shared with <ComingSoonCinema/> so the manual pick isn't re-overridden by auto-detect. */
@@ -102,7 +104,7 @@ export function GlobalLanguagePicker({
         {/* No globe/world icon (owner instruction 2026-08-29) -- a clean
             flag + native-language text selector only, on every surface. */}
         <FlagIcon locale={active} size={variant === 'glass' ? 16 : 20} />
-        <span className="leading-none">{LOCALE_NATIVE_NAME[active]}</span>
+        <span className="whitespace-nowrap leading-none">{LOCALE_NATIVE_NAME[active]}</span>
       </button>
 
       {open && (
@@ -120,12 +122,12 @@ export function GlobalLanguagePicker({
               <button
                 type="button"
                 onClick={() => selectLocale(loc)}
-                className={`flex w-full items-center gap-2.5 px-4 py-2 text-xs tracking-wide transition-colors hover:bg-white/10 ${
+                className={`flex w-full items-center gap-2.5 px-4 py-2 text-left text-xs tracking-wide transition-colors hover:bg-white/10 ${
                   loc === active ? 'font-bold text-accent' : 'text-white/70'
                 }`}
               >
                 <FlagIcon locale={loc} size={18} />
-                <span className="leading-none">{LOCALE_NATIVE_NAME[loc]}</span>
+                <span className="whitespace-nowrap leading-none">{LOCALE_NATIVE_NAME[loc]}</span>
               </button>
             </li>
           ))}

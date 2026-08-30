@@ -4,14 +4,16 @@
 // (all fields are pre-seeded once). Honours prefers-reduced-motion upstream
 // (the component draws a single frame instead of running the rAF loop).
 //
-// Timeline (per the owner's 2026-08-29 riddle-typography spec). Each segment
-// renders a two-line lockup: an English keyword HEAD + a localized SUB line
-// (ComingSoonGate.cinemaS{n}Head / .cinemaS{n}Sub in messages/*.json):
-//   0-3s   "The Singularity is Near."                -- black-hole condensation
-//   3-10s  "11 Cognitive Cores"                      -- rotating constellation
-//   10-15s "U-AI Engine" (USPTO #64/023,911 Patent Pending) -- patent silhouette
-//   15-22s "5 Systems & 3 Pillars"                   -- pentagon + sovereign axes
-//   22-30s "The Sovereign Intelligence is Awakening."-- closing bloom + lock
+// Timeline (owner instruction 2026-08-29: even 6s cadence, no uneven jumps /
+// buffering feel). Each segment renders a two-line lockup: an English keyword
+// HEAD + a localized SUB line (ComingSoonGate.cinemaS{n}Head / .cinemaS{n}Sub
+// in messages/*.json). Flow: UNITAS -> U-AI -> 11 Cores -> 5&3 -> Awakening,
+// then the sealed "COMING SOON" screen:
+//   0-6s   "The Singularity is Near."  (UNITAS overture) -- black-hole condensation
+//   6-12s  "U-AI Engine"                                 -- autonomous-engine silhouette
+//   12-18s "11 Cognitive Cores"                          -- rotating constellation
+//   18-24s "5 Systems & 3 Pillars"                       -- pentagon + sovereign axes
+//   24-30s "The Sovereign Intelligence is Awakening."    -- closing bloom + lock
 //
 // The pure timing helpers (cinemaSegmentAt / *Progress) are unit-tested in
 // __tests__/gate/comingSoonSequence.test.ts. drawFrame() itself is visual-only.
@@ -27,11 +29,11 @@ export interface CinemaSegment {
 }
 
 export const CINEMA_SEGMENTS: readonly CinemaSegment[] = [
-  { id: 1, startMs: 0, endMs: 3_000, captionKey: 'cinemaS1' },
-  { id: 2, startMs: 3_000, endMs: 10_000, captionKey: 'cinemaS2' },
-  { id: 3, startMs: 10_000, endMs: 15_000, captionKey: 'cinemaS3' },
-  { id: 4, startMs: 15_000, endMs: 22_000, captionKey: 'cinemaS4' },
-  { id: 5, startMs: 22_000, endMs: 30_000, captionKey: 'cinemaS5' },
+  { id: 1, startMs: 0, endMs: 6_000, captionKey: 'cinemaS1' },
+  { id: 2, startMs: 6_000, endMs: 12_000, captionKey: 'cinemaS2' },
+  { id: 3, startMs: 12_000, endMs: 18_000, captionKey: 'cinemaS3' },
+  { id: 4, startMs: 18_000, endMs: 24_000, captionKey: 'cinemaS4' },
+  { id: 5, startMs: 24_000, endMs: 30_000, captionKey: 'cinemaS5' },
 ] as const;
 
 function wrap(ms: number): number {
@@ -245,8 +247,8 @@ export function drawCinemaFrame({
     }
   }
 
-  // SEGMENT 2 -- 11 echo cores
-  if (seg.id === 2) {
+  // SEGMENT 3 -- 11 echo cores
+  if (seg.id === 3) {
     const grow = easeOut(clamp01(local * 1.6));
     const a = edgeFade(local, seg.endMs - seg.startMs);
     const ring = minDim * (0.16 + 0.16 * grow);
@@ -281,8 +283,8 @@ export function drawCinemaFrame({
     });
   }
 
-  // SEGMENT 3 -- U-AI / patent silhouette
-  if (seg.id === 3) {
+  // SEGMENT 2 -- U-AI / autonomous-engine silhouette
+  if (seg.id === 2) {
     const a = edgeFade(local, seg.endMs - seg.startMs);
     for (let k = 0; k < 4; k++) {
       const rr = minDim * (0.08 + k * 0.06) + (reducedMotion ? 0 : Math.sin(time * 1.2 + k) * 4);
@@ -302,20 +304,11 @@ export function drawCinemaFrame({
     ctx.fillRect(-minDim * 0.32, scanY - 12, minDim * 0.64, 24);
   }
 
-  // SEGMENT 4 -- 5 systems + 3 axes
+  // SEGMENT 4 -- 5 live systems (pentagon only; the 3 sovereign axes moved
+  // to their own SEGMENT 5 now that 5대 and 3대 are distinct ad phases)
   if (seg.id === 4) {
     const a = edgeFade(local, seg.endMs - seg.startMs);
     const R = minDim * 0.24;
-    // 3 sovereign axes
-    ctx.lineWidth = 1.6;
-    for (let i = 0; i < 3; i++) {
-      const ang = (i / 3) * Math.PI * 2 + spin * 0.15;
-      ctx.strokeStyle = withAlpha(PALETTE.violet, 0.4 * a * globalAlpha);
-      ctx.beginPath();
-      ctx.moveTo(-Math.cos(ang) * R * 1.3, -Math.sin(ang) * R * 1.3);
-      ctx.lineTo(Math.cos(ang) * R * 1.3, Math.sin(ang) * R * 1.3);
-      ctx.stroke();
-    }
     // 5-system pentagon
     ctx.beginPath();
     for (let i = 0; i < 5; i++) {
@@ -343,18 +336,35 @@ export function drawCinemaFrame({
     }
   }
 
-  // SEGMENT 5 -- closing collapse
+  // SEGMENT 5 -- 3 sovereign pillars (triangle of nodes + axes), then a soft
+  // closing bloom that hands off to the sealed "COMING SOON" screen
   if (seg.id === 5) {
-    const close = easeInOut(local);
     const a = 1 - clamp01((local - 0.7) / 0.3);
-    for (const p of field.spiral) {
-      const rad = minDim * p.rad * (1 - close) * 0.8;
-      const ang = p.a0 - spin * p.spin - close * 6;
-      ctx.fillStyle = hueColor(p.hue, (1 - close) * a * globalAlpha);
-      ctx.beginPath();
-      ctx.arc(Math.cos(ang) * rad, Math.sin(ang) * rad, p.size, 0, Math.PI * 2);
-      ctx.fill();
+    const R = minDim * 0.22;
+    const tri: Array<[number, number]> = [];
+    for (let i = 0; i < 3; i++) {
+      const ang = (i / 3) * Math.PI * 2 - Math.PI / 2 + spin * 0.18;
+      tri.push([Math.cos(ang) * R, Math.sin(ang) * R]);
     }
+    // connecting axes
+    ctx.lineWidth = 1.8;
+    ctx.strokeStyle = withAlpha(PALETTE.violet, 0.42 * a * globalAlpha);
+    ctx.beginPath();
+    tri.forEach(([x, y], i) => (i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)));
+    ctx.closePath();
+    ctx.stroke();
+    // pillar nodes
+    tri.forEach(([x, y], i) => {
+      const pulse = reducedMotion ? 0.6 : 0.5 + 0.5 * Math.sin(time * 1.8 + i * 2.1);
+      const g = ctx.createRadialGradient(x, y, 0, x, y, minDim * 0.05);
+      g.addColorStop(0, withAlpha('#ffffff', 0.92 * a * globalAlpha));
+      g.addColorStop(0.4, withAlpha(PALETTE.accent, 0.6 * a * globalAlpha));
+      g.addColorStop(1, withAlpha(PALETTE.accent, 0));
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, y, minDim * (0.016 + 0.008 * pulse), 0, Math.PI * 2);
+      ctx.fill();
+    });
     if (local > 0.55) {
       const bloom = (local - 0.55) / 0.45;
       const g = ctx.createRadialGradient(0, 0, 0, 0, 0, minDim * 0.5 * bloom);
