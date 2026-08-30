@@ -4,7 +4,7 @@ import type { routing } from '@/i18n/routing';
 type Locale = (typeof routing.locales)[number];
 
 /**
- * Inline SVG flags for the 6 supported locales. Emoji regional-indicator
+ * Inline SVG flags for the 12 supported locales. Emoji regional-indicator
  * flags (🇺🇸 …) do NOT render as flags on Windows Chrome/Edge and many
  * Android browsers -- they fall back to two letters -- which is the "flags
  * missing / unclear" bug. These vector marks render identically everywhere,
@@ -96,6 +96,76 @@ function EsFlag() {
   );
 }
 
+/** 5-point star centred at (10,7), outer R 4 / inner r 1.6 -- shared by KH/VN. */
+const STAR_PATH =
+  'M10 3 L10.94 5.706 L13.804 5.764 L11.522 7.494 L12.351 10.236 L10 8.6 L7.649 10.236 L8.478 7.494 L6.196 5.764 L9.06 5.706 Z';
+
+function FrFlag() {
+  return (
+    <g>
+      <rect width="20" height="14" fill="#fff" />
+      <rect width="6.67" height="14" fill="#002654" />
+      <rect x="13.33" width="6.67" height="14" fill="#ce1126" />
+    </g>
+  );
+}
+
+function DeFlag() {
+  return (
+    <g>
+      <rect width="20" height="4.667" fill="#000" />
+      <rect y="4.667" width="20" height="4.666" fill="#dd0000" />
+      <rect y="9.333" width="20" height="4.667" fill="#ffce00" />
+    </g>
+  );
+}
+
+function PtFlag() {
+  return (
+    <g>
+      <rect width="20" height="14" fill="#da291c" />
+      <rect width="8" height="14" fill="#046a38" />
+      <circle cx="8" cy="7" r="2.4" fill="none" stroke="#ffe000" strokeWidth="0.9" />
+      <circle cx="8" cy="7" r="1.1" fill="#fff" stroke="#da291c" strokeWidth="0.5" />
+    </g>
+  );
+}
+
+function IdFlag() {
+  return (
+    <g>
+      <rect width="20" height="7" fill="#ce1126" />
+      <rect y="7" width="20" height="7" fill="#fff" />
+    </g>
+  );
+}
+
+function VnFlag() {
+  return (
+    <g>
+      <rect width="20" height="14" fill="#da251d" />
+      <path d={STAR_PATH} fill="#ff0" />
+    </g>
+  );
+}
+
+function KhFlag() {
+  return (
+    <g>
+      <rect width="20" height="14" fill="#032ea1" />
+      <rect y="3.5" width="20" height="7" fill="#e00025" />
+      {/* simplified white Angkor Wat silhouette -- three towers on a plinth */}
+      <g fill="#fff">
+        <rect x="7" y="8.4" width="6" height="1.1" />
+        <rect x="7.7" y="6.6" width="1.3" height="2" />
+        <rect x="11" y="6.6" width="1.3" height="2" />
+        <rect x="9.35" y="5.6" width="1.3" height="3" />
+        <path d="M8.35 6.6 L7.7 6.6 L8.02 5.7 Z M12.3 6.6 L11.65 6.6 L11.98 5.7 Z M10.65 5.6 L9.35 5.6 L10 4.3 Z" />
+      </g>
+    </g>
+  );
+}
+
 const FLAGS: Record<Locale, () => ReactElement> = {
   en: UsFlag,
   ko: KrFlag,
@@ -103,6 +173,12 @@ const FLAGS: Record<Locale, () => ReactElement> = {
   ja: JpFlag,
   zh: CnFlag,
   es: EsFlag,
+  km: KhFlag,
+  fr: FrFlag,
+  de: DeFlag,
+  pt: PtFlag,
+  vi: VnFlag,
+  id: IdFlag,
 };
 
 export function FlagIcon({

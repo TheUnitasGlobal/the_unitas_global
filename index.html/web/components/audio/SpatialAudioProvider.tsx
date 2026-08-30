@@ -176,24 +176,27 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       // breathes instead of sitting as a dead tone.
       const lp = ctx.createBiquadFilter();
       lp.type = 'lowpass';
-      lp.frequency.value = 320;
+      lp.frequency.value = 420;
       lp.Q.value = 0.6;
       const lfo = ctx.createOscillator();
       lfo.type = 'sine';
       lfo.frequency.value = 0.05;
       const lfoDepth = ctx.createGain();
-      lfoDepth.gain.value = 120;
+      lfoDepth.gain.value = 90;
       lfo.connect(lfoDepth);
       lfoDepth.connect(lp.frequency);
 
       lp.connect(bed);
       if (master) bed.connect(master);
 
-      // Two detuned low oscillators -- A1 (55 Hz) + E2 (~82.4 Hz), a hollow fifth.
+      // Detuned low oscillators -- A1 (55 Hz) + E2 (~82.4 Hz) + A2 (110 Hz).
+      // The 55 Hz fundamental is deliberately de-weighted (owner instruction
+      // 2026-08-29 audio purify): presence lives in the fifth above it, not
+      // in a sub rumble.
       const oscSpecs: Array<{ freq: number; type: OscillatorType; detune: number; gain: number }> = [
-        { freq: 55, type: 'sine', detune: -4, gain: 0.6 },
-        { freq: 82.41, type: 'triangle', detune: 5, gain: 0.32 },
-        { freq: 110, type: 'sine', detune: 0, gain: 0.14 },
+        { freq: 55, type: 'sine', detune: -4, gain: 0.3 },
+        { freq: 82.41, type: 'triangle', detune: 5, gain: 0.3 },
+        { freq: 110, type: 'sine', detune: 0, gain: 0.16 },
       ];
       const oscs = oscSpecs.map(({ freq, type, detune, gain }) => {
         const osc = ctx.createOscillator();
@@ -282,23 +285,25 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     setUnlocked(true);
     setMuted(false);
 
-    // Immediate "arrival" impact so crossing the gate is never silent while
-    // the ambient bed ramps up behind it (zero-delay symphony).
+    // Immediate "arrival" cue so crossing the gate is never silent while the
+    // ambient bed ramps up behind it (zero-delay symphony). AUDIO PURIFY
+    // (owner instruction 2026-08-29): this is now a soft warm swell, not a
+    // low "웅~~" boom -- it never drops below ~90 Hz and its level is halved.
     const master = masterGainRef.current;
     if (master) {
       const now = ctx.currentTime;
       const boom = ctx.createOscillator();
       boom.type = 'sine';
-      boom.frequency.setValueAtTime(150, now);
-      boom.frequency.exponentialRampToValueAtTime(40, now + 1.4);
+      boom.frequency.setValueAtTime(220, now);
+      boom.frequency.exponentialRampToValueAtTime(96, now + 1.2);
       const boomGain = ctx.createGain();
       boomGain.gain.setValueAtTime(0.0001, now);
-      boomGain.gain.linearRampToValueAtTime(0.5, now + 0.02);
-      boomGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+      boomGain.gain.linearRampToValueAtTime(0.26, now + 0.04);
+      boomGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
       boom.connect(boomGain);
       boomGain.connect(master);
       boom.start(now);
-      boom.stop(now + 1.7);
+      boom.stop(now + 1.6);
 
       const shimmer = ctx.createOscillator();
       shimmer.type = 'triangle';
@@ -402,25 +407,44 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       const master = masterGainRef.current;
       if (!ctx || !master) return;
 
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+      const now = ctx.currentTime;
       const panner = ctx.createStereoPanner();
-
-      osc.type = 'triangle';
-      osc.frequency.value = 1200;
       panner.pan.value = Math.max(-1, Math.min(1, pan));
 
-      const now = ctx.currentTime;
-      gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(0.12, now + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-
-      osc.connect(gain);
-      gain.connect(panner);
+      // Refined high-tech blip (owner instruction 2026-08-29 SFX polish):
+      // a clean voiced core + a soft octave partial for sparkle, run through
+      // a gentle lowpass so it reads as crisp, not harsh. Framework unchanged.
+      const shape = ctx.createBiquadFilter();
+      shape.type = 'lowpass';
+      shape.frequency.value = 5200;
+      shape.Q.value = 0.7;
+      shape.connect(panner);
       panner.connect(master);
 
-      osc.start(now);
-      osc.stop(now + 0.15);
+      const core = ctx.createOscillator();
+      core.type = 'triangle';
+      core.frequency.setValueAtTime(1180, now);
+      core.frequency.exponentialRampToValueAtTime(1320, now + 0.05);
+      const coreGain = ctx.createGain();
+      coreGain.gain.setValueAtTime(0, now);
+      coreGain.gain.linearRampToValueAtTime(0.11, now + 0.008);
+      coreGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      core.connect(coreGain);
+      coreGain.connect(shape);
+      core.start(now);
+      core.stop(now + 0.12);
+
+      const partial = ctx.createOscillator();
+      partial.type = 'sine';
+      partial.frequency.value = 2400;
+      const partialGain = ctx.createGain();
+      partialGain.gain.setValueAtTime(0, now);
+      partialGain.gain.linearRampToValueAtTime(0.03, now + 0.006);
+      partialGain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+      partial.connect(partialGain);
+      partialGain.connect(shape);
+      partial.start(now);
+      partial.stop(now + 0.09);
     },
     [ensureContext],
   );
@@ -478,21 +502,45 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
 
     const now = ctx.currentTime;
     const notes = [440, 660, 880]; // rising arpeggio -- an "access granted" cue
+
+    // SFX polish (owner instruction 2026-08-29): each note keeps its sine core
+    // but gains a soft octave partial for sparkle and a longer, cleaner tail,
+    // so the confirm swell reads clearly instead of blurring together.
+    const bus = ctx.createGain();
+    bus.gain.value = 1;
+    const busShape = ctx.createBiquadFilter();
+    busShape.type = 'lowpass';
+    busShape.frequency.value = 4200;
+    busShape.Q.value = 0.6;
+    bus.connect(busShape);
+    busShape.connect(master);
+
     notes.forEach((freq, i) => {
+      const start = now + i * 0.075;
+
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sine';
       osc.frequency.value = freq;
-
-      const start = now + i * 0.07;
       gain.gain.setValueAtTime(0, start);
-      gain.gain.linearRampToValueAtTime(0.25, start + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.3);
-
+      gain.gain.linearRampToValueAtTime(0.24, start + 0.018);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.36);
       osc.connect(gain);
-      gain.connect(master);
+      gain.connect(bus);
       osc.start(start);
-      osc.stop(start + 0.32);
+      osc.stop(start + 0.38);
+
+      const partial = ctx.createOscillator();
+      const partialGain = ctx.createGain();
+      partial.type = 'sine';
+      partial.frequency.value = freq * 2;
+      partialGain.gain.setValueAtTime(0, start);
+      partialGain.gain.linearRampToValueAtTime(0.05, start + 0.015);
+      partialGain.gain.exponentialRampToValueAtTime(0.001, start + 0.22);
+      partial.connect(partialGain);
+      partialGain.connect(bus);
+      partial.start(start);
+      partial.stop(start + 0.24);
     });
   }, [ensureContext]);
 
@@ -528,23 +576,41 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     const now = ctx.currentTime;
     const buffer = getNoiseBuffer(ctx);
 
-    // Owner instruction 2026-08-29: 3대 모듈 박스 타격감 대폭 상향 + 음색 튜닝.
-    // Four stacked layers -- deep sub-impact, a body thud, a metallic clank and
-    // a resonant ring tail -- so the B2B card cue lands like a real vault door
-    // instead of a soft click.
+    // Owner instruction 2026-08-29: 3대 모듈 박스 타격감 대폭 상향 + 음색 튜닝,
+    // then SFX polish -- 타격감과 명료도를 한층 더 세련되게. Five stacked layers:
+    // a crisp attack transient for definition, a deep sub-impact, a body thud,
+    // a metallic clank and a resonant ring tail -- so the B2B card cue lands
+    // like a real vault door, and the leading edge is unambiguous.
 
-    // 1. Deep sub-impact (chest-hit weight).
+    // 0. Attack transient -- a ~7 ms highpassed noise spike that gives the hit
+    //    a clean, articulate leading edge instead of a soft swell into the sub.
+    const attack = ctx.createBufferSource();
+    attack.buffer = buffer;
+    const attackFilter = ctx.createBiquadFilter();
+    attackFilter.type = 'highpass';
+    attackFilter.frequency.value = 3200;
+    const attackGain = ctx.createGain();
+    attackGain.gain.setValueAtTime(0.32, now);
+    attackGain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+    attack.connect(attackFilter);
+    attackFilter.connect(attackGain);
+    attackGain.connect(master);
+    attack.start(now);
+    attack.stop(now + 0.04);
+
+    // 1. Deep sub-impact (chest-hit weight) -- tightened decay for a punchier,
+    //    less boomy tail.
     const sub = ctx.createOscillator();
     sub.type = 'sine';
-    sub.frequency.setValueAtTime(96, now);
-    sub.frequency.exponentialRampToValueAtTime(28, now + 0.3);
+    sub.frequency.setValueAtTime(104, now);
+    sub.frequency.exponentialRampToValueAtTime(32, now + 0.26);
     const subGain = ctx.createGain();
-    subGain.gain.setValueAtTime(0.55, now);
-    subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+    subGain.gain.setValueAtTime(0.52, now);
+    subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
     sub.connect(subGain);
     subGain.connect(master);
     sub.start(now);
-    sub.stop(now + 0.52);
+    sub.stop(now + 0.44);
 
     // 2. Body thud -- triangle gives a woodier "door slab" tone than a pure sine.
     const body = ctx.createOscillator();

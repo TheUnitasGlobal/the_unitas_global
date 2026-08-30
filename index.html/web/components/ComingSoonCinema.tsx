@@ -39,10 +39,15 @@ const LOCALE_AUTO_KEY = 'unitas_locale_autodetected';
 // screen on the far side (only matters if the page later hard-reloads).
 const AUDIO_GATE_SEEN_KEY = 'unitas_audio_gate_seen';
 
-// The cinematic soundtrack sits a touch below the main-site ambient bed so the
-// 30s ad never feels loud -- majesty comes from harmonic weight and slow
-// evolution, not volume (owner instruction 2026-08-29).
-const CINEMA_MASTER_GAIN = 0.42;
+// AUDIO PURIFY (owner instruction 2026-08-29): the pre-launch cinematic
+// soundtrack is now ONLY a calm, focus-inducing, deeply-curious, extremely
+// mysterious high-end ambient bed. The old chest-thumping ~37 Hz sub-drone
+// and the low "boom" arrival impact -- the grating "웅~~" -- are DELETED
+// outright: there is no sub-bass rumble here anymore. Presence comes from
+// harmonic weight in the low-MID register, a slow-breathing cathedral pad,
+// sparse consonant bells and an airy high shimmer -- never from level or
+// sub weight. Master also drops so the 30s ad never feels loud.
+const CINEMA_MASTER_GAIN = 0.3;
 
 // Each cinema segment now renders as a two-line high-end keyword lockup:
 // an English keyword HEAD + a localized, riddle-like SUB line beneath it.
@@ -198,26 +203,25 @@ export function ComingSoonCinema() {
 
   // --- cinematic soundtrack (Web Audio API, fully synthesized, gesture-gated) ---
   //
-  // "압도적으로 웅장하고 신비로우며 질리지 않는 하이엔드 시네마틱" (owner
-  // instruction 2026-08-29). No audio files -- every layer is oscillators +
-  // filtered noise, matching the Low-Memory Armor / no-binary-assets rule:
+  // "잔잔하며 집중력·깊은 호기심·극도의 신비감" (owner instruction 2026-08-29).
+  // No audio files -- every layer is oscillators + filtered noise, matching the
+  // Low-Memory Armor / no-binary-assets rule. Deliberately NO sub-bass:
   //
-  //   1. SUB + ROOT DRONE  -- a stacked perfect-fifth on D (D1/D2/A2/D3),
-  //      detuned stereo pairs for width, under a slow breathing lowpass.
-  //   2. CATHEDRAL PAD      -- a Dsus2 triad an octave up (D4/E4/A4) on
-  //      triangle waves with a 6s attack, cross-drifting so it never sits
-  //      still -- this is the "majestic" body, kept soft so it never fatigues.
-  //   3. SHIMMER MOTES      -- sparse, consonant D-minor-pentatonic sine bells
-  //      (every 9-15s, randomized, ~0.02 gain, 4s tails) panned across the
-  //      field -- "신비로움" without high-frequency harshness.
-  //   4. DISTANT SWELL      -- a very slow band-passed noise riser every ~22s,
-  //      felt more than heard, that keeps the loop from ever feeling static.
+  //   1. ROOT WARMTH   -- a soft low-MID stack on D (D2/A2/D3/A3, lowest tone
+  //      73 Hz -- nothing below it), detuned stereo pairs, under a gently
+  //      breathing lowpass. This is a warm floor, not a rumble.
+  //   2. CATHEDRAL PAD -- a Dsus2 triad an octave up (D4/E4/A4) on triangle
+  //      waves, cross-drifting so it never sits still -- the mysterious body.
+  //   3. SHIMMER MOTES -- sparse, consonant D-minor-pentatonic sine bells
+  //      panned across the field -- "신비감" / "깊은 호기심".
+  //   4. AIR SHIMMER   -- a continuous, near-silent high band-passed noise
+  //      veil (~7 kHz) plus a slow airy riser -- the "high-end" top that
+  //      replaces the old felt-not-heard low swell.
   //
-  // ZERO-DELAY SYMPHONY: master rises in 0.3s, the drone + pad start at t0
-  // with a fast 1.1s "bloom" envelope layered under their true long attack,
-  // and a one-shot arrival impact (sub boom + rising bloom) fires on the same
-  // frame `enter()` is called -- there is never a beat of silence before the
-  // visuals land.
+  // ZERO-DELAY SYMPHONY: master rises in 0.3s, the warmth + pad start at t0
+  // with a fast 1.1s "bloom" envelope, and a one-shot SOFT arrival swell
+  // (rising airy bloom only -- no boom, no sub) fires on the same frame
+  // `enter()` is called, so there is never a beat of silence, and never a thud.
   const startAmbient = useCallback(() => {
     if (audioRef.current || typeof window === 'undefined') return;
     const AudioCtx =
@@ -232,40 +236,48 @@ export function ComingSoonCinema() {
     master.gain.linearRampToValueAtTime(CINEMA_MASTER_GAIN, now + 0.3);
     master.connect(ctx.destination);
 
+    // A gentle high-pass on the whole bed guarantees nothing sub-70 Hz ever
+    // reaches the speakers -- the structural fix for the "웅~~" complaint.
+    const subKill = ctx.createBiquadFilter();
+    subKill.type = 'highpass';
+    subKill.frequency.value = 68;
+    subKill.Q.value = 0.5;
+    subKill.connect(master);
+
     const disposables: Array<{ stop: (t: number) => void }> = [];
     const track = (node: AudioScheduledSourceNode) => {
       disposables.push({ stop: (t) => { try { node.stop(t); } catch { /* already stopped */ } } });
       return node;
     };
 
-    // shared noise buffer (2s white noise, looped) for the air + swell layers
+    // shared noise buffer (2s white noise, looped) for the air layers
     const noiseBuffer = ctx.createBuffer(1, ctx.sampleRate * 2, ctx.sampleRate);
     const nd = noiseBuffer.getChannelData(0);
     for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
 
-    // ---- 1. sub + root drone -------------------------------------------------
+    // ---- 1. root warmth (NO sub -- lowest tone is D2 73.42 Hz) ------------
     const droneFilter = ctx.createBiquadFilter();
     droneFilter.type = 'lowpass';
-    droneFilter.frequency.value = 360;
-    droneFilter.Q.value = 3;
-    droneFilter.connect(master);
+    droneFilter.frequency.value = 480;
+    droneFilter.Q.value = 1.2;
+    droneFilter.connect(subKill);
 
     const breath = ctx.createOscillator();
     breath.type = 'sine';
     breath.frequency.value = 0.035; // ~28s period -- glacial, non-repetitive feel
     const breathDepth = ctx.createGain();
-    breathDepth.gain.value = 150;
+    breathDepth.gain.value = 90;
     breath.connect(breathDepth);
     breathDepth.connect(droneFilter.frequency);
     track(breath).start(now);
 
-    // D1 36.71 · D2 73.42 · A2 110.00 · D3 146.83  (root + octave + fifth + octave)
+    // D2 73.42 · A2 110.00 · D3 146.83 · A3 220.00 (root + fifth + octave + fifth)
     const droneSpecs: Array<{ f: number; type: OscillatorType; g: number; det: number; pan: number }> = [
-      { f: 36.71, type: 'sine', g: 0.16, det: 0, pan: 0 },
-      { f: 73.42, type: 'sine', g: 0.13, det: -5, pan: -0.25 },
-      { f: 73.42, type: 'sine', g: 0.11, det: 6, pan: 0.25 },
-      { f: 110.0, type: 'triangle', g: 0.06, det: -4, pan: 0.3 },
-      { f: 146.83, type: 'sine', g: 0.05, det: 5, pan: -0.3 },
+      { f: 73.42, type: 'sine', g: 0.1, det: -5, pan: -0.22 },
+      { f: 73.42, type: 'sine', g: 0.085, det: 6, pan: 0.22 },
+      { f: 110.0, type: 'sine', g: 0.075, det: -3, pan: 0.3 },
+      { f: 146.83, type: 'triangle', g: 0.05, det: 4, pan: -0.3 },
+      { f: 220.0, type: 'sine', g: 0.03, det: -6, pan: 0.15 },
     ];
     droneSpecs.forEach(({ f, type, g, det, pan }) => {
       const osc = ctx.createOscillator();
@@ -288,10 +300,10 @@ export function ComingSoonCinema() {
     padBus.gain.value = 0.9;
     const padFilter = ctx.createBiquadFilter();
     padFilter.type = 'lowpass';
-    padFilter.frequency.value = 1400;
+    padFilter.frequency.value = 1600;
     padFilter.Q.value = 0.7;
     padBus.connect(padFilter);
-    padFilter.connect(master);
+    padFilter.connect(subKill);
 
     const padSwell = ctx.createOscillator();
     padSwell.type = 'sine';
@@ -310,7 +322,7 @@ export function ComingSoonCinema() {
       const gain = ctx.createGain();
       gain.gain.setValueAtTime(0.0001, now);
       gain.gain.linearRampToValueAtTime(0.05, now + 1.1); // audible immediately...
-      gain.gain.linearRampToValueAtTime(0.075, now + 6); // ...then keeps blooming
+      gain.gain.linearRampToValueAtTime(0.07, now + 6); // ...then keeps blooming
       const panner = ctx.createStereoPanner();
       panner.pan.value = (i - 1) * 0.4;
       osc.connect(gain);
@@ -330,20 +342,36 @@ export function ComingSoonCinema() {
       osc.frequency.value = PENT[Math.floor(Math.random() * PENT.length)];
       const g = ctx.createGain();
       g.gain.setValueAtTime(0, b);
-      g.gain.linearRampToValueAtTime(0.022, b + 0.4);
-      g.gain.exponentialRampToValueAtTime(0.0001, b + 4);
+      g.gain.linearRampToValueAtTime(0.024, b + 0.5);
+      g.gain.exponentialRampToValueAtTime(0.0001, b + 4.5);
       const panner = ctx.createStereoPanner();
       panner.pan.value = Math.random() * 1.6 - 0.8;
       osc.connect(g);
       g.connect(panner);
       panner.connect(master);
       osc.start(b);
-      osc.stop(b + 4.2);
-      moteTimer = window.setTimeout(scheduleMote, 9000 + Math.random() * 6000);
+      osc.stop(b + 4.7);
+      moteTimer = window.setTimeout(scheduleMote, 8000 + Math.random() * 5000);
     };
-    let moteTimer = window.setTimeout(scheduleMote, 2600);
+    let moteTimer = window.setTimeout(scheduleMote, 1800);
 
-    // ---- 4. distant swell (slow band-passed noise riser) ------------------
+    // ---- 4a. continuous air-shimmer veil (near-silent high band) ----------
+    const veilSrc = ctx.createBufferSource();
+    veilSrc.buffer = noiseBuffer;
+    veilSrc.loop = true;
+    const veilFilter = ctx.createBiquadFilter();
+    veilFilter.type = 'bandpass';
+    veilFilter.frequency.value = 7200;
+    veilFilter.Q.value = 0.8;
+    const veilGain = ctx.createGain();
+    veilGain.gain.setValueAtTime(0.0001, now);
+    veilGain.gain.linearRampToValueAtTime(0.012, now + 3);
+    veilSrc.connect(veilFilter);
+    veilFilter.connect(veilGain);
+    veilGain.connect(master);
+    track(veilSrc).start(now);
+
+    // ---- 4b. slow airy riser (high band-passed noise, never a low rumble) --
     let swellActive = true;
     const scheduleSwell = () => {
       if (!swellActive || ctx.state === 'closed') return;
@@ -353,53 +381,53 @@ export function ComingSoonCinema() {
       src.loop = true;
       const bp = ctx.createBiquadFilter();
       bp.type = 'bandpass';
-      bp.frequency.setValueAtTime(180, b);
-      bp.frequency.exponentialRampToValueAtTime(1100, b + 5);
-      bp.Q.value = 1.4;
+      bp.frequency.setValueAtTime(900, b);
+      bp.frequency.exponentialRampToValueAtTime(3200, b + 5);
+      bp.Q.value = 1.1;
       const g = ctx.createGain();
       g.gain.setValueAtTime(0.0001, b);
-      g.gain.linearRampToValueAtTime(0.05, b + 4);
-      g.gain.exponentialRampToValueAtTime(0.0001, b + 7.5);
+      g.gain.linearRampToValueAtTime(0.028, b + 4);
+      g.gain.exponentialRampToValueAtTime(0.0001, b + 8);
       src.connect(bp);
       bp.connect(g);
       g.connect(master);
       src.start(b);
-      src.stop(b + 7.8);
+      src.stop(b + 8.3);
       swellTimer = window.setTimeout(scheduleSwell, 20000 + Math.random() * 6000);
     };
     let swellTimer = window.setTimeout(scheduleSwell, 6000);
 
-    // ---- arrival impact (one-shot, fires on the entry frame) --------------
-    const boom = ctx.createOscillator();
-    boom.type = 'sine';
-    boom.frequency.setValueAtTime(140, now);
-    boom.frequency.exponentialRampToValueAtTime(34, now + 1.8);
-    const boomGain = ctx.createGain();
-    boomGain.gain.setValueAtTime(0.0001, now);
-    boomGain.gain.linearRampToValueAtTime(0.4, now + 0.02);
-    boomGain.gain.exponentialRampToValueAtTime(0.0001, now + 2);
-    boom.connect(boomGain);
-    boomGain.connect(master);
-    track(boom).start(now);
-    boom.stop(now + 2.1);
-
+    // ---- arrival swell (one-shot, SOFT -- rising airy bloom, no boom/sub) --
     const bloom = ctx.createOscillator();
     bloom.type = 'triangle';
-    bloom.frequency.setValueAtTime(220, now);
-    bloom.frequency.exponentialRampToValueAtTime(880, now + 1.3);
+    bloom.frequency.setValueAtTime(330, now);
+    bloom.frequency.exponentialRampToValueAtTime(990, now + 1.6);
     const bloomFilter = ctx.createBiquadFilter();
     bloomFilter.type = 'bandpass';
-    bloomFilter.frequency.value = 700;
-    bloomFilter.Q.value = 2.5;
+    bloomFilter.frequency.value = 800;
+    bloomFilter.Q.value = 2;
     const bloomGain = ctx.createGain();
     bloomGain.gain.setValueAtTime(0.0001, now);
-    bloomGain.gain.linearRampToValueAtTime(0.1, now + 0.06);
-    bloomGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+    bloomGain.gain.linearRampToValueAtTime(0.07, now + 0.12);
+    bloomGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.9);
     bloom.connect(bloomFilter);
     bloomFilter.connect(bloomGain);
     bloomGain.connect(master);
     track(bloom).start(now);
-    bloom.stop(now + 1.7);
+    bloom.stop(now + 2);
+
+    // a single soft consonant bell (A5) to mark arrival without any impact
+    const arriveBell = ctx.createOscillator();
+    arriveBell.type = 'sine';
+    arriveBell.frequency.value = 880;
+    const arriveBellGain = ctx.createGain();
+    arriveBellGain.gain.setValueAtTime(0.0001, now);
+    arriveBellGain.gain.linearRampToValueAtTime(0.03, now + 0.15);
+    arriveBellGain.gain.exponentialRampToValueAtTime(0.0001, now + 3);
+    arriveBell.connect(arriveBellGain);
+    arriveBellGain.connect(master);
+    track(arriveBell).start(now);
+    arriveBell.stop(now + 3.1);
 
     audioRef.current = {
       ctx,

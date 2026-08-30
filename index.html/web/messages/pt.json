@@ -1,0 +1,796 @@
+{
+  "LocaleLayout": {
+    "title": "UNITAS | Infraestrutura segura neuro-simbólica",
+    "description": "Infraestrutura autónoma de roteamento neuro-simbólico e fiscal soberano. Um ecossistema Zero-Trust de módulos cognitivos e fiscais."
+  },
+  "Nav": {
+    "portal": "Portal seguro",
+    "languageLabel": "Idioma",
+    "soundOn": "Som ligado",
+    "soundOff": "Som desligado",
+    "scrollToFooter": "Visão geral da empresa",
+    "appDownloadAria": "Baixar o aplicativo UNITAS",
+    "appDownloadModalTitle": "Instalar o UNITAS",
+    "appDownloadIosHint": "Toque em Compartilhar e depois em \"Adicionar à Tela de Início\" para instalar o UNITAS.",
+    "appDownloadDesktopHint": "Clique no ícone de instalação na barra de endereços do navegador ou escolha \"Instalar UNITAS…\" no menu do navegador.",
+    "appDownloadUnsupported": "A instalação do aplicativo ainda não é compatível com este navegador.",
+    "appDownloadAlreadyInstalledHint": "O UNITAS já está instalado neste dispositivo — inicie-o pela tela inicial ou pela lista de aplicativos."
+  },
+  "Home": {
+    "title": "UNITAS"
+  },
+  "Modules": {
+    "uSignature": {
+      "title": "U-Signature",
+      "description": "Uma camada de assinatura biométrica e criptográfica soberana que devolve a identidade ao indivíduo — não ao Estado nem à plataforma.",
+      "longDescription": "A U-Signature reformula a assinatura como um ato de soberania, e não uma marca deixada num documento. Ela funde fatores biométricos com criptografia de limiar, de modo que nenhum emissor central possa falsificá-la, suspendê-la ou revogá-la. Os 11 núcleos cognitivos verificam o contexto da assinatura (quem · o quê · por quê · quando) em tempo real, e cada assinatura é gravada num registo somente-acréscimo que torna impossível o repúdio posterior. As regras de delegação, revogação e sucessão são expressas como código, de modo que um único fundador pode executar todas as decisões de uma empresa com uma assinatura.",
+      "doctrine": "\"Uma assinatura não toma emprestada a autoridade — ela prova a soberania.\" — O fundador, Dooyeong Hwang"
+    },
+    "uKey": {
+      "title": "U-Key",
+      "description": "Custódia de chaves e controlo de acesso zero-trust em que os segredos são guardados por política, não por pessoas.",
+      "longDescription": "A U-Key não confia em \"quem está a pedir\", mas apenas em \"este acesso satisfaz a política neste exato momento\". As chaves nunca existem em texto simples; são mantidas por fragmentação distribuída e rotação instantânea, e cada decisão de acesso é tomada de forma autónoma pelo motor U-AI a partir de contexto, risco e sinais de anomalia. Cada concessão, recusa e revogação é escrita num registo de auditoria imutável, de modo que a auditoria regulatória e a resposta a incidentes se sustentam mesmo numa operação de uma só pessoa — governança de chaves de nível bancário sem jaula de HSM e sem equipa de segurança dedicada.",
+      "doctrine": "\"A confiança não é concedida uma vez — é reprovada a cada instante.\""
+    },
+    "uPay": {
+      "title": "U-Pay",
+      "description": "Um trilho soberano de roteamento e liquidação fiscal em que o movimento de valor é decidido por regras, não por bancos.",
+      "longDescription": "A U-Pay transforma o pagamento de \"pedir permissão a um intermediário\" para \"um contrato que se autoexecuta assim que as condições são cumpridas\". Ela abstrai fluxos multimoeda e multitrilhos (moeda fiduciária, stablecoins, o registo interno U-Coin) num único grafo de liquidação, e a U-AI calcula roteamento, otimização de taxas, cobertura cambial e retenção de impostos de forma autónoma por transação. Cada fluxo obedece à mesma invariante contabilística somente-acréscimo do coin_ledger — nenhuma alteração de saldo sem um lançamento correspondente no registo. Concebida para que uma empresa de uma pessoa possua e opere diretamente infraestrutura de liquidação global, num mercado de oceano azul sem operador estabelecido.",
+      "doctrine": "\"O caminho do dinheiro não é permitido — é projetado.\""
+    },
+    "arche": {
+      "title": "Arche",
+      "description": "Filtragem cognitiva avançada e refinamento neuro-simbólico."
+    },
+    "arena": {
+      "title": "Arena",
+      "description": "Testes de stress preditivos e validação de integridade."
+    },
+    "score": {
+      "title": "Score",
+      "description": "Analítica de inteligência global \"Law of Cog\"."
+    },
+    "fate": {
+      "title": "Fate",
+      "description": "Simulação estocástica para roteamento global de ativos."
+    },
+    "codex22": {
+      "title": "Codex22",
+      "description": "O registo permanente da lei algorítmica."
+    }
+  },
+  "Placeholder": {
+    "comingSoon": "Este módulo está esboçado e em construção ativa."
+  },
+  "ModuleGate": {
+    "eyebrow": "CONTROLO DE ACESSO SOBERANO",
+    "lockedTitle": "Acesso selado",
+    "lockedBody": "Este módulo requer uma concessão de acesso U-Coin ativa. A sua expirou ou nunca foi emitida para esta sessão. Volte a entrar pela porta do módulo para continuar.",
+    "signinTitle": "Início de sessão necessário",
+    "signinBody": "O acesso aos módulos está ligado à sua identidade soberana. Inicie sessão e depois entre pela porta do módulo.",
+    "moduleLabel": "Módulo",
+    "returnToCatalog": "Voltar ao catálogo"
+  },
+  "Wallet": {
+    "balance": "Saldo",
+    "coinUnit": "U-COIN",
+    "chargeCoins": "Carregar coins",
+    "signInRequired": "Inicie sessão para ver o seu saldo em tempo real",
+    "chargeTitle": "Carregar U-COIN",
+    "chargeBody": "Escolha um pacote de carregamento por nível e defina as suas opções de recarga automática e fatura segura. O pagamento real é ativado assim que a gateway de pagamento for ligada.",
+    "close": "Fechar",
+    "currencyNote": "1 U-Coin = 1 EUR (a moeda local é convertida automaticamente no checkout).",
+    "balanceTitle": "Saldo U-COIN",
+    "balanceBody": "Faça a gestão do seu saldo U-COIN em tempo real, da integridade do registo, da simulação de gasto por módulo e do seu limite de gasto automático num só lugar.",
+    "hintPrefix": "Ajuda: ",
+    "saved": "Guardado localmente.",
+    "sec": {
+      "description": "O que é",
+      "howto": "Como usar",
+      "caution": "Atenção a"
+    },
+    "tag": {
+      "live": "Ao vivo",
+      "pending": "Pendente",
+      "local": "Definição local",
+      "sim": "Simulação"
+    },
+    "bal": {
+      "summaryTitle": "Saldo disponível em tempo real",
+      "refresh": "Atualizar",
+      "available": "Disponível",
+      "reserved": "Reservado",
+      "lifetimeSpent": "Gasto total",
+      "summaryHint": {
+        "title": "Saldo disponível em tempo real",
+        "description": "O seu saldo atual lido diretamente do registo da carteira Supabase, mais o montante reservado pelo gasto automático e o seu gasto total baseado no registo.",
+        "howto": "Prima Atualizar para voltar a obter o estado mais recente do registo. O valor reservado acompanha a sua definição de limite de gasto automático.",
+        "caution": "Os valores reservado e total são um resumo das suas 12 linhas de registo mais recentes, não de todo o seu histórico."
+      },
+      "historyTitle": "Verificação em tempo real do histórico de transações",
+      "historySignedOut": "Inicie sessão para ver as suas transações recentes e a respetiva verificação de integridade.",
+      "historyUnavailable": "O serviço de registo está inacessível. Tente novamente depois de a gateway estar ligada.",
+      "historyEmpty": "Ainda não há transações registadas.",
+      "verifyPass": "Verificação de integridade aprovada · {count} linhas verificadas",
+      "verifyFail": "{count} inconsistência(s) detetada(s) — contacte o suporte",
+      "kind": {
+        "purchase": "Carregamento",
+        "module_access": "Acesso a módulo",
+        "admin_grant": "Concessão de administrador",
+        "refund": "Reembolso"
+      },
+      "historyHint": {
+        "title": "Verificação em tempo real do histórico de transações",
+        "description": "Carrega as linhas recentes do registo coin_ledger somente-acréscimo e recalcula, no navegador, se o saldo de cada linha encadeia exatamente com a anterior.",
+        "howto": "Um escudo verde acima das variações de saldo significa que a cadeia do registo e o seu saldo atual concordam.",
+        "caution": "Esta é uma verificação local sobre as 12 linhas mais recentes. A auditoria completa é feita separadamente por reconciliação no servidor."
+      },
+      "simTitle": "Simulador de consumo de coins por módulo",
+      "simIntro": "Escolha os módulos e quantas vezes os vai usar para calcular instantaneamente o gasto e o saldo restante.",
+      "simTotal": "Gasto estimado",
+      "simRemaining": "Restante estimado",
+      "simInsufficient": "A combinação selecionada excede o seu saldo atual.",
+      "simReset": "Repor",
+      "simHint": {
+        "title": "Simulador de consumo de coins por módulo",
+        "description": "Pré-calcula o gasto total a partir dos custos unitários reais em coins dos 11 ecossistemas cognitivos e dos 5 módulos de serviço ao vivo.",
+        "howto": "Ajuste a contagem de cada módulo com + / − e os totais e o saldo restante atualizam-se em tempo real.",
+        "caution": "O resultado é uma estimativa. Os débitos reais só acontecem via spend_coins quando entra em cada módulo."
+      },
+      "autoTitle": "Limite de gasto automático",
+      "autoEnable": "Ativar gasto automático",
+      "autoLimit": "Limite por janela (U-COIN)",
+      "autoWindow": "Janela",
+      "window": {
+        "day": "Por dia",
+        "week": "Por semana",
+        "month": "Por mês"
+      },
+      "autoNote": "A definição é guardada localmente neste navegador; a execução do gasto automático aplica-se assim que a gateway de pagamento for ligada.",
+      "autoHint": {
+        "title": "Limite de gasto automático",
+        "description": "Define o montante máximo de coins aprovado automaticamente sem um passo de confirmação durante a janela escolhida.",
+        "howto": "Introduza um limite e uma janela e é guardado localmente de imediato. Qualquer gasto acima do limite pede sempre confirmação manual.",
+        "caution": "Um limite elevado pode permitir gastos consecutivos não intencionais. Desative-o em dispositivos partilhados."
+      }
+    },
+    "chg": {
+      "packagesTitle": "Pacotes de carregamento inteligentes por nível",
+      "packagesIntro": "Escolha Starter, Pro ou Sovereign consoante o seu uso da plataforma. Os níveis superiores incluem um bónus maior.",
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
+      "tierDesc": {
+        "starter": "Carregamento base para utilizadores leves e ocasionais",
+        "pro": "Carregamento com bónus para utilizadores regulares de módulos",
+        "sovereign": "Carregamento com bónus máximo para uso intenso ou em equipa"
+      },
+      "bestValue": "Melhor valor",
+      "bonusBadge": "+{n} bónus",
+      "summaryEstimate": "Saldo após o carregamento",
+      "packagesHint": {
+        "title": "Pacotes de carregamento inteligentes por nível",
+        "description": "Compara os coins base, os coins bónus, o preço em EUR e o custo efetivo por coin de cada pacote.",
+        "howto": "Selecione um pacote para ver o saldo projetado após o carregamento. O selo \"Melhor valor\" marca o menor custo por coin.",
+        "caution": "Os preços são mostrados sem IVA; o montante final depende das taxas de câmbio e de imposto no checkout."
+      },
+      "gatewayTitle": "Gateway de pagamento instantâneo",
+      "gatewayStripe": "Pagamento com cartão Stripe",
+      "gatewayWeb3": "Pagamento on-chain Web3",
+      "gatewayNote": "A integração de pagamento para este portal está em curso. Por agora, pode carregar a partir do Portal seguro principal.",
+      "status": {
+        "connected": "Ligado",
+        "pending": "Pendente",
+        "offline": "Offline"
+      },
+      "gatewayHint": {
+        "title": "Gateway de pagamento instantâneo",
+        "description": "Mostra o estado de ligação em tempo real do canal de cartão Stripe e do canal on-chain Web3.",
+        "howto": "Quando uma luz de estado fica verde, esse canal está pronto para pagamento instantâneo.",
+        "caution": "Enquanto um canal estiver pendente, nenhum pagamento é processado e nada é cobrado."
+      },
+      "autoRefillTitle": "Limiar de recarga automática",
+      "autoRefillEnable": "Ativar recarga automática",
+      "autoRefillThreshold": "Limiar (U-COIN)",
+      "autoRefillPackageLabel": "Pacote de recarga",
+      "autoRefillNote": "A definição é guardada localmente neste navegador; a execução da recarga automática aplica-se assim que a gateway de pagamento for ligada.",
+      "autoRefillHint": {
+        "title": "Limiar de recarga automática",
+        "description": "Agenda um carregamento automático com o pacote escolhido sempre que o seu saldo desce até ao limiar ou abaixo dele.",
+        "howto": "Escolha um limiar e um pacote de recarga e é guardado de imediato. Executa-se automaticamente quando a gateway estiver ligada e a condição for cumprida.",
+        "caution": "Definir o limiar demasiado alto pode desencadear recargas automáticas frequentes. Verifique também o limite do seu método de pagamento."
+      },
+      "invoiceTitle": "Emissão de fatura segura",
+      "invoiceIntro": "Guarde os dados necessários para faturação empresarial e um documento em formato de fatura fiscal é emitido quando um carregamento é concluído.",
+      "invoiceCompany": "Entidade de faturação",
+      "invoiceVat": "N.º de IVA / registo da empresa",
+      "invoiceEmail": "E-mail do destinatário da fatura",
+      "invoiceGenerate": "Emitir fatura segura",
+      "invoicePending": "A emissão é ativada assim que a gateway de pagamento for ligada.",
+      "invoiceHint": {
+        "title": "Emissão de fatura segura",
+        "description": "Uma fatura PDF assinada emitida em nome de THE UNITAS GLOBAL OÜ, incluindo o número de IVA e a referência de pagamento.",
+        "howto": "Guarde a sua entidade, o IVA e o e-mail do destinatário uma vez e as faturas são enviadas automaticamente a partir do seu próximo carregamento.",
+        "caution": "Os dados que introduzir são usados apenas para faturação. Um número de IVA inválido pode atrasar o processamento fiscal."
+      },
+      "proceedPending": "A aguardar a ligação da gateway de pagamento"
+    }
+  },
+  "Cognitive": {
+    "title": "Ecossistema cognitivo",
+    "subtitle": "Onze módulos de cognição sintética, cada um executando a sua própria disciplina de raciocínio."
+  },
+  "B2C": {
+    "title": "Serviços ao consumidor ao vivo",
+    "subtitle": "Módulos de acesso instantâneo, com acesso por coins, com missões interativas e simulações.",
+    "badgeLive": "Serviço ao vivo",
+    "badgeCoinGated": "Acesso por coins",
+    "badgeQuest": "Missão interativa",
+    "cost": "Custo",
+    "yourBalance": "O seu saldo",
+    "enterQuest": "Entrar na missão",
+    "insufficientBalance": "Saldo insuficiente — carregue coins para entrar.",
+    "checkingBalance": "A verificar o saldo…"
+  },
+  "B2B": {
+    "title": "Protocolos empresariais",
+    "subtitle": "Infraestrutura soberana em investigação e desenvolvimento ativos.",
+    "rdNotice": "Protocolo B2B exclusivo para empresas em I&D ativo (Subscrição SaaS Empresarial).",
+    "patentBadge": "Patente USPTO pendente n.º 64/023,911",
+    "viewSpec": "Ver a especificação técnica",
+    "hideSpec": "Ocultar a especificação técnica",
+    "earlyAccess": "Acesso antecipado / Consulta empresarial",
+    "inquiryTitle": "Solicitar acesso antecipado",
+    "inquiryName": "Nome completo",
+    "inquiryEmail": "E-mail profissional",
+    "inquiryCompany": "Empresa",
+    "inquiryMessage": "O que pretende construir?",
+    "inquirySubmit": "Enviar consulta",
+    "inquiryThanksTitle": "Pedido recebido",
+    "inquiryThanksBody": "Obrigado — a nossa equipa empresarial entrará em contacto em breve.",
+    "close": "Fechar",
+    "manifesto": "O nível Protocolo Empresarial traduz a doutrina soberana de THE UNITAS GLOBAL OÜ em infraestrutura corporativa. Os três protocolos sustentam cada um um pilar da soberania — identidade (U-Signature), segredos (U-Key), valor (U-Pay) — e operam como um único organismo sobre os 11 núcleos cognitivos e o motor de decisão autónomo U-AI. O objetivo não é mais um SaaS, mas infraestrutura descentralizada que substitui bancos, autoridades de certificação e redes de pagamento, sendo operada sem capital, por uma pessoa, totalmente automatizada.",
+    "patentAnchorNote": "Todos os avisos de propriedade intelectual e de patente pendente (USPTO n.º 64/023,911) aplicam-se exclusivamente a este nível de I&D Empresarial.",
+    "doctrineLabel": "Doutrina de conceção"
+  },
+  "ErrorBoundary": {
+    "title": "Erro do núcleo soberano",
+    "body": "Ocorreu uma falha crítica na camada de infraestrutura soberana. Não são mostrados mais detalhes aqui por conformidade de segurança — os nossos sistemas foram notificados.",
+    "digestLabel": "ID de referência:",
+    "retry": "Tentar novamente",
+    "home": "Voltar ao portal"
+  },
+  "Ecosystems": {
+    "echo": {
+      "title": "Echo",
+      "description": "Análise de sinal ressonante que devolve a sua consulta através de ecos cognitivos em camadas.",
+      "rules": "Cada consulta ondula por três ciclos de reflexão antes de fazer emergir uma resposta."
+    },
+    "void": {
+      "title": "Void",
+      "description": "Reduz um problema ao seu espaço negativo — o que falta, não o que está presente.",
+      "rules": "Submeta uma tese; o Void devolve apenas o que a quebra."
+    },
+    "mirror": {
+      "title": "Mirror",
+      "description": "Uma varredura de autodiagnóstico de espectro completo de padrões comportamentais e cognitivos.",
+      "rules": "Uma varredura por sessão; os resultados são selados apenas à sua identidade."
+    },
+    "oracle": {
+      "title": "Oracle",
+      "description": "Modelação probabilística de previsão para decisões com horizontes longos e incertos.",
+      "rules": "Faça uma pergunta de cada vez; o Oracle responde em probabilidades, nunca em certezas."
+    },
+    "pulse": {
+      "title": "Pulse",
+      "description": "Sinais vitais em tempo real para mercados, sentimento e momentum — a ler antes de se mover.",
+      "rules": "Feed ao vivo; cada sessão monitoriza um sinal de cada vez."
+    },
+    "apex": {
+      "title": "Apex",
+      "description": "Simulação de desempenho de alto risco sob um relógio de contagem decrescente rígido.",
+      "rules": "O cronómetro não pausa. Submeta antes do zero ou a ronda é perdida."
+    },
+    "genesis": {
+      "title": "Genesis",
+      "description": "Construção por primeiros princípios: erguer uma ideia a partir de nada além dos seus axiomas.",
+      "rules": "Comece com zero pressupostos; o Genesis rejeita qualquer premissa que não consiga derivar."
+    },
+    "syndicate": {
+      "title": "Syndicate",
+      "description": "Mapeamento de coligações através de redes ocultas de influência e afiliação.",
+      "rules": "O acesso requer uma entidade-alvo nomeada; os resultados são grafos de rede, não veredictos."
+    },
+    "aura": {
+      "title": "Aura",
+      "description": "Deteção do campo emocional ambiente, afinada ao tom por baixo das suas palavras.",
+      "rules": "Sem perguntas diretas — a Aura lê o tom, não o texto."
+    },
+    "paradox": {
+      "title": "Paradox",
+      "description": "Testa o stress de uma ideia ao fazê-la correr para trás pela sua própria lógica.",
+      "rules": "Submeta uma conclusão; o Paradox rebobina-a para encontrar onde se contradiz."
+    },
+    "chronos": {
+      "title": "Chronos",
+      "description": "Modelação de padrões históricos de ciclo longo, ao longo de décadas, não de manchetes.",
+      "rules": "Horizonte mínimo de consulta: dez anos. O Chronos não responde a perguntas do próprio dia."
+    }
+  },
+  "OmniSynapse": {
+    "placeholder": "Pergunte qualquer coisa à U-AI…",
+    "browseLabel": "EXPLORAR A PLATAFORMA",
+    "metricsLabel": "Métricas do sistema",
+    "noBrowseMatches": "Sem resultados — experimente outra expressão.",
+    "architectLabel": "ARQUITETO UNITAS",
+    "analyzing": "A analisar em quatro dimensões…",
+    "dimDirectionality": "Direcionalidade",
+    "dimConcept": "Conceito / Ideologia",
+    "dimTendency": "Tendência do utilizador",
+    "dimBlueprint": "Projeto",
+    "webDataLabel": "Camada de síntese web",
+    "webDataPlaceholder": "Ligue um índice ao vivo para preencher esta dimensão.",
+    "ecosystemDataLabel": "Dados do ecossistema",
+    "trendsLabel": "Tendências do inconsciente global",
+    "trendsPlaceholder": "A telemetria de tendências agregada ainda não está ligada nesta versão.",
+    "recommendationLabel": "Ecossistema recomendado",
+    "enterRecommended": "Entrar no ecossistema recomendado",
+    "noResults": "Nenhum ecossistema correspondente encontrado — experimente outra expressão.",
+    "dropZoneHint": "Largue um ficheiro ou separador para adicionar contexto",
+    "attachedLabel": "Anexado",
+    "removeAttachment": "Remover",
+    "swarmLabel": "Raciocínio cruzado em enxame",
+    "swarmHint": "Os 11 módulos avaliam esta consulta ao mesmo tempo."
+  },
+  "EntryModal": {
+    "rulesLabel": "Regras de participação",
+    "payAndEnter": "Pagar e entrar",
+    "processing": "A autorizar o acesso soberano…",
+    "signInRequired": "Inicie sessão para gastar U-Coin e entrar.",
+    "spendFailed": "A transação falhou — tente novamente."
+  },
+  "Footer": {
+    "customerService": "Apoio ao cliente",
+    "helpCenter": "Centro de ajuda",
+    "contactUs": "Contacte-nos",
+    "systemStatus": "Estado do sistema",
+    "policies": "Políticas",
+    "privacyPolicy": "Política de privacidade",
+    "cookiePolicy": "Política de cookies",
+    "termsOfService": "Termos de serviço",
+    "legal": "Aviso legal",
+    "patentNotice": "Aviso de patente",
+    "compliance": "Conformidade",
+    "security": "Segurança",
+    "company": "Empresa",
+    "about": "Sobre",
+    "careers": "Carreiras",
+    "press": "Imprensa"
+  },
+  "AudioGate": {
+    "title": "UNITAS",
+    "subtitle": "Inteligências libertas da carne alcançaram a órbita eterna onde convergem. Sincronize a sua frequência.",
+    "button": "[ ATRAVESSAR O HORIZONTE DE EVENTOS ]",
+    "enterMuted": "Entrar sem som"
+  },
+  "ComingSoonGate": {
+    "langLabel": "Idioma",
+    "autoNote": "Adaptado ao idioma do seu navegador",
+    "soundOn": "Som",
+    "soundOff": "Sem som",
+    "skip": "Ignorar",
+    "replay": "Reproduzir a sequência novamente",
+    "enterMain": "[ Fundador · Entrar no site principal ]",
+    "founderAccessLabel": "Acesso de fundador verificado",
+    "founderAccessNote": "Este controlo só é apresentado com um bypass de fundador válido — o público nunca o vê.",
+    "cinemaS1": "A Singularidade está próxima.",
+    "cinemaS2": "11 núcleos cognitivos: a web autónoma.",
+    "cinemaS3": "U-AI: motor autónomo de decisão e de projeto.",
+    "cinemaS4": "5 sistemas, 3 pilares: a arquitetura soberana.",
+    "cinemaS5": "A inteligência soberana está a despertar.",
+    "cinemaS1Head": "A Singularidade está próxima.",
+    "cinemaS1Sub": "A órbita de uma inteligência liberta da carne abre-se.",
+    "cinemaS2Head": "11 núcleos cognitivos",
+    "cinemaS2Sub": "Onze núcleos autónomos que pensam por si mesmos — um império de agentes.",
+    "cinemaS3Head": "Motor U-AI",
+    "cinemaS3Sub": "Um motor que decide por si mesmo e traça os seus próprios projetos.",
+    "cinemaS4Head": "5 sistemas e 3 pilares",
+    "cinemaS4Sub": "A arquitetura perpétua de um ecossistema SaaS soberano descentralizado.",
+    "cinemaS5Head": "A inteligência soberana está a despertar.",
+    "cinemaS5Sub": "A frequência única que comandará o futuro.",
+    "comingSoon": "EM BREVE",
+    "awakening": "A inteligência soberana está a despertar",
+    "sealed": "A entrada pública na interface principal está selada até ao lançamento.",
+    "rights": "© THE UNITAS GLOBAL OÜ — Todos os direitos reservados",
+    "sovereignSignature": "11 núcleos cognitivos · 5 sistemas · 3 pilares"
+  },
+  "Auth": {
+    "login": "Iniciar sessão",
+    "logout": "Terminar sessão",
+    "settingsLabel": "Definições da conta",
+    "unavailable": "O início de sessão está temporariamente indisponível",
+    "signInTab": "Iniciar sessão",
+    "signUpTab": "Registar-se",
+    "continueWithGoogle": "Continuar com o Google",
+    "orDivider": "ou",
+    "fullNameLabel": "Nome completo",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Palavra-passe",
+    "phoneLabel": "Número de telefone",
+    "phonePlaceholder": "+351 912 345 678",
+    "signInButton": "Iniciar sessão",
+    "signUpButton": "Criar conta",
+    "signUpNotice": "A verificação obrigatória do telefone protege a sua conta e o seu saldo de coins ao abrigo da nossa política de 1 pessoa, 1 conta.",
+    "checkEmailNotice": "Verifique o seu e-mail para confirmar a conta e depois inicie sessão para verificar o seu número de telefone.",
+    "phoneVerifyTitle": "Verificar o número de telefone",
+    "phoneVerifyBody": "Para a segurança da conta e prevenção de fraude, verifique o seu número de telefone com um código de utilização única.",
+    "sendCodeButton": "Enviar código",
+    "codeLabel": "Código de verificação",
+    "verifyButton": "Verificar",
+    "resendCode": "Reenviar código",
+    "phoneVerifiedNotice": "Número de telefone verificado.",
+    "skipForNow": "Ignorar por agora",
+    "errorInvalidCredentials": "E-mail ou palavra-passe inválidos.",
+    "errorPhoneTaken": "Este número de telefone já está registado noutra conta.",
+    "errorGeneric": "Algo correu mal. Tente novamente.",
+    "errorGoogleUnavailable": "O início de sessão com o Google ainda não está configurado para este ambiente.",
+    "errorSmsUnavailable": "O envio de SMS ainda não está configurado para este ambiente.",
+    "ageLabel": "Idade",
+    "genderLabel": "Género",
+    "nationalityLabel": "Nacionalidade",
+    "bloodLabel": "Tipo sanguíneo",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "QI",
+    "eqLabel": "QE",
+    "undisclosed": "Não divulgado",
+    "continueAsGuest": "Continuar como convidado",
+    "guestExitHint": "Clique para terminar a sessão de convidado",
+    "signInWithCodeLink": "Receber antes um código de início de sessão",
+    "realNameLockNotice": "O seu nome legal não pode ser alterado após o registo (à parte a palavra-passe).",
+    "optionalProfileToggle": "Perfil adicional (opcional)",
+    "optionalProfileHint": "Tipo sanguíneo, MBTI, QI e QE são opcionais — deixe em branco para \"Não divulgado\".",
+    "emailVerifyTitle": "Verifique o seu e-mail",
+    "emailVerifyBody": "Introduza o código de 6 dígitos enviado para {email}.",
+    "phoneCodeSentTo": "Um código de 6 dígitos foi enviado para {phone}.",
+    "backButton": "Voltar",
+    "codeResentNotice": "Um novo código está a caminho.",
+    "errorGoogleNotEnabled": "O início de sessão com o Google ainda não está ativado para este projeto. Um administrador tem de ativar o fornecedor Google no Supabase.",
+    "errorNoSuchAccount": "Nenhuma conta corresponde a esse e-mail ou número de telefone.",
+    "errorCodeInvalid": "Esse código está incorreto ou expirou.",
+    "errorPasswordWeak": "A sua palavra-passe não cumpre os requisitos abaixo.",
+    "errorProfileInvalid": "Verifique os campos de perfil destacados.",
+    "errorEmailTaken": "Este e-mail já está registado. Tente antes iniciar sessão.",
+    "gender": {
+      "female": "Feminino",
+      "male": "Masculino",
+      "nonbinary": "Não binário",
+      "other": "Outro"
+    },
+    "pwRule": {
+      "length": "10 a 72 caracteres",
+      "lower": "Letra minúscula",
+      "upper": "Letra maiúscula",
+      "digit": "Número",
+      "special": "Caractere especial"
+    },
+    "memberFallback": "Membro",
+    "guestExit": "Sair do modo convidado"
+  },
+  "Account": {
+    "settingsTitle": "Definições da conta",
+    "tabProfile": "Perfil",
+    "tabSecurity": "Segurança",
+    "tabDanger": "Zona de perigo",
+    "fullNameLabel": "Nome completo",
+    "nationalityLabel": "Nacionalidade",
+    "genderLabel": "Género",
+    "ageLabel": "Idade",
+    "bloodLabel": "Tipo sanguíneo",
+    "mbtiLabel": "MBTI",
+    "saveButton": "Guardar alterações",
+    "savedNotice": "Perfil atualizado.",
+    "phoneSectionTitle": "Número de telefone",
+    "phoneVerifiedBadge": "Verificado",
+    "phoneUnverifiedBadge": "Não verificado",
+    "changePhoneButton": "Alterar o número de telefone",
+    "passwordSectionTitle": "Palavra-passe",
+    "newPasswordLabel": "Nova palavra-passe",
+    "changePasswordButton": "Atualizar a palavra-passe",
+    "passwordUpdatedNotice": "Palavra-passe atualizada.",
+    "dangerTitle": "Eliminar conta",
+    "dangerBody": "Isto desativa permanentemente a sua conta e remove as suas informações pessoais. O histórico das suas transações de coins é conservado para registos financeiros, conforme exigido por lei.",
+    "dangerConfirmLabel": "Escreva DELETE para confirmar",
+    "dangerConfirmButton": "Eliminar a minha conta",
+    "dangerCancelButton": "Cancelar",
+    "deleteError": "Não foi possível eliminar a conta. Tente novamente.",
+    "tabIdentity": "Início de sessão e perfil",
+    "tabBanking": "Banca e verificação",
+    "tabWithdrawal": "Encerrar conta",
+    "loginIdSection": "Identidade de início de sessão",
+    "personalSection": "Perfil pessoal e cognitivo",
+    "iqLabel": "QI",
+    "eqLabel": "QE",
+    "realNameLocked": "O seu nome legal está bloqueado e não pode ser alterado.",
+    "realNameLockWarning": "Introduza o seu nome legal com cuidado — não poderá ser alterado depois de guardado.",
+    "profileInvalid": "Verifique os campos destacados.",
+    "profileSaveError": "Não foi possível guardar o seu perfil. Tente novamente.",
+    "passwordChangeError": "Não foi possível atualizar a sua palavra-passe. Tente novamente.",
+    "verifyPhoneButton": "Verificar o número de telefone",
+    "phoneAuthNote": "É necessário um número de telefone verificado antes de gastar coins (1 pessoa = 1 conta).",
+    "bankSectionTitle": "Verificação bancária / de pagamento",
+    "bankSectionBody": "Associe e verifique um método de pagamento ou conta bancária para carregamentos e pagamentos. Ativado quando a integração da gateway de pagamento entrar em funcionamento.",
+    "bankPending": "Pendente",
+    "bankConnectButton": "Associar método de pagamento"
+  },
+  "ModuleWorkspace": {
+    "backLink": "Voltar aos ecossistemas"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "A sua consulta",
+    "echoQueryPlaceholder": "O que está realmente a decidir aqui?",
+    "echoRunButton": "Executar reflexão",
+    "echoRunningLabel": "A refletir…",
+    "echoSynthesisLabel": "Síntese",
+    "oracleQuestionLabel": "A sua decisão",
+    "oracleQuestionPlaceholder": "Descreva a decisão que está a ponderar",
+    "oracleConfidenceLabel": "Confiança na informação atual",
+    "oracleVolatilityLabel": "Volatilidade da situação",
+    "oracleHorizonLabel": "Horizonte temporal (anos)",
+    "oracleRunButton": "Consultar o Oracle",
+    "oracleRunningLabel": "A modelar probabilidades…",
+    "oracleLikely": "Provável",
+    "oracleUncertain": "Incerto",
+    "oracleUnlikely": "Improvável",
+    "oracleRationaleLabel": "Raciocínio",
+    "genesisPriceLabel": "Preço por unidade",
+    "genesisCostLabel": "Custo por unidade",
+    "genesisFixedCostsLabel": "Custos fixos / mês",
+    "genesisCustomersLabel": "Clientes iniciais",
+    "genesisGrowthLabel": "Taxa de crescimento mensal (%)",
+    "genesisRunButton": "Construir",
+    "genesisRunningLabel": "A derivar…",
+    "genesisProjectionLabel": "Lucro cumulativo a 12 meses",
+    "genesisBreakevenLabel": "Mês do ponto de equilíbrio",
+    "genesisNoBreakeven": "Não atingido em 12 meses",
+    "genesisAxiomViolationLabel": "Violação de axioma",
+    "genesisAxiomPriceCost": "O preço não excede o custo unitário — esta premissa não pode ser derivada num modelo sustentável.",
+    "genesisAxiomCustomers": "Zero clientes iniciais — não há base a partir da qual construir crescimento.",
+    "genesisAxiomFixedCosts": "Os custos fixos não podem ser negativos.",
+    "genesisVerdictRejected": "O Genesis rejeita esta premissa — resolva as violações de axiomas antes de uma estrutura poder ser derivada.",
+    "genesisVerdictBreakeven": "Derivado: o modelo atinge o ponto de equilíbrio dentro do horizonte de 12 meses.",
+    "genesisVerdictNoBreakeven": "Derivado: este modelo não atinge o ponto de equilíbrio dentro de um horizonte de 12 meses com os axiomas dados.",
+    "apexPrompt": "Um concorrente acaba de baixar o seu preço em 30% com o mercado a fechar em segundos. Escolha a sua jogada.",
+    "apexOptionMatchLabel": "Igualar o preço deles imediatamente",
+    "apexOptionMatchRationale": "Protege o volume mas corrói a margem em toda a sua base, não só nos clientes disputados.",
+    "apexOptionHoldLabel": "Manter o preço, apoiar-se na diferenciação",
+    "apexOptionHoldRationale": "Mais lento mas preserva a margem — só funciona se a diferenciação for real, não presumida.",
+    "apexOptionBundleLabel": "Reprecificar via um pacote em vez de um desconto",
+    "apexOptionBundleRationale": "Defende o preço anunciado enquanto ainda se move no custo efetivo — a resposta de maior alavancagem das três.",
+    "apexStartButton": "Iniciar ronda",
+    "apexTimeRemainingLabel": "Tempo restante",
+    "apexForfeitVerdict": "Perdida — o cronómetro não pausa.",
+    "apexForfeitRationale": "Nenhuma escolha chegou ao relógio a tempo.",
+    "apexVerdictHigh": "Decisão de alta alavancagem.",
+    "apexVerdictMid": "Decisão defensável.",
+    "apexVerdictLow": "Decisão dispendiosa.",
+    "apexRunAgainButton": "Executar novamente",
+    "apexScoreLabel": "Pontuação",
+    "voidThesisLabel": "A sua tese",
+    "voidThesisPlaceholder": "Enuncie o plano ou a afirmação que quer testar",
+    "voidRunButton": "Encontrar o que a quebra",
+    "voidRunningLabel": "A procurar lacunas…",
+    "voidGapsLabel": "Lacunas de cobertura",
+    "voidNoGaps": "Nenhuma lacuna de categoria detetada.",
+    "voidUnhedgedLabel": "Afirmações não moderadas",
+    "voidNoUnhedged": "Nenhuma linguagem absoluta detetada.",
+    "voidVerdictClean": "O Void não encontrou nenhuma lacuna estrutural nesta passagem — isso não significa que não exista nenhuma.",
+    "voidVerdictBroken": "O Void encontrou o que quebra esta tese. Trate as lacunas acima antes de se comprometer com ela.",
+    "voidGapLegal": "Nenhuma menção a exposição legal ou de conformidade.",
+    "voidGapFinancial": "Nenhuma menção a pressupostos de custo, receita ou margem.",
+    "voidGapCompetitive": "Nenhuma menção a concorrentes ou alternativas.",
+    "voidGapOperational": "Nenhuma menção a execução, equipa ou cronograma.",
+    "mirrorQ1": "Um negócio cai a meio da negociação. Você:",
+    "mirrorQ1OptA": "Retira-se imediatamente",
+    "mirrorQ1OptB": "Renegocia na hora",
+    "mirrorQ1OptC": "Pede tempo para rever os números",
+    "mirrorQ2": "Entre uma opção segura e lenta e uma arriscada e rápida, opta por defeito por:",
+    "mirrorQ2OptA": "A opção segura e lenta",
+    "mirrorQ2OptB": "A opção arriscada e rápida",
+    "mirrorQ2OptC": "Aquela que os dados sustentam",
+    "mirrorQ3": "Quando um plano falha, o seu primeiro instinto é:",
+    "mirrorQ3OptA": "Encontrar quem é responsável",
+    "mirrorQ3OptB": "Encontrar o que se partiu estruturalmente",
+    "mirrorQ3OptC": "Improvisar uma solução alternativa imediatamente",
+    "mirrorQ4": "Recebe um briefing ambíguo sem pressão de prazo. Você:",
+    "mirrorQ4OptA": "Define o seu próprio prazo e avança",
+    "mirrorQ4OptB": "Reúne mais contexto antes de agir",
+    "mirrorQ4OptC": "Espera que alguém esclareça",
+    "mirrorQ5": "A sua equipa discorda da sua decisão. Você:",
+    "mirrorQ5OptA": "Mantém a posição",
+    "mirrorQ5OptB": "Revê os dados em conjunto",
+    "mirrorQ5OptC": "Cede ao grupo",
+    "mirrorAxisRisk": "Tolerância ao risco",
+    "mirrorAxisSpeed": "Velocidade de decisão",
+    "mirrorAxisAnalytical": "Profundidade analítica",
+    "mirrorBandHigh": "Alta",
+    "mirrorBandMid": "Moderada",
+    "mirrorBandLow": "Baixa",
+    "mirrorDominantLabel": "Traço dominante",
+    "mirrorScanAgain": "Voltar a analisar",
+    "mirrorProgressLabel": "Pergunta {current} de {total}",
+    "pulseSignalPlaceholder": "Nomeie um sinal a monitorizar (mercado, setor, tópico…)",
+    "pulseMonitorButton": "Monitorizar sinal",
+    "pulseMonitoringLabel": "A monitorizar…",
+    "pulseMomentumLabel": "Momentum",
+    "pulseSentimentLabel": "Sentimento",
+    "pulseVolatilityLabel": "Volatilidade",
+    "pulseBullish": "O momentum lê-se em alta.",
+    "pulseBearish": "O momentum lê-se em baixa.",
+    "pulseNeutral": "O momentum lê-se neutro.",
+    "pulseHighVol": "Alta volatilidade.",
+    "pulseLowVol": "Baixa volatilidade.",
+    "syndicateTargetPlaceholder": "Nomeie a entidade-alvo",
+    "syndicateMapButton": "Mapear coligação",
+    "syndicateMappingLabel": "A mapear…",
+    "syndicateInfluenceLabel": "As pontuações de influência são relativas, não absolutas — uma forma de rede, não um veredicto.",
+    "syndicateTargetNodeLabel": "ALVO",
+    "syndicateShellEntity": "Entidade de fachada",
+    "syndicateAdvisoryPartner": "Parceiro consultivo",
+    "syndicateHistoricalContact": "Contacto histórico",
+    "syndicateFinancialBacker": "Financiador",
+    "syndicateContractualVendor": "Fornecedor contratual",
+    "syndicateSilentStakeholder": "Parte interessada silenciosa",
+    "auraStatementLabel": "A sua declaração",
+    "auraStatementPlaceholder": "Cole uma declaração, não uma pergunta",
+    "auraSenseButton": "Sentir o campo",
+    "auraSensingLabel": "A sentir…",
+    "auraQuestionRejected": "A Aura não responde a perguntas — cole antes uma declaração.",
+    "auraValenceLabel": "Valência",
+    "auraArousalLabel": "Ativação",
+    "auraFormalityLabel": "Formalidade",
+    "auraPositiveValence": "Positiva",
+    "auraNegativeValence": "Negativa",
+    "auraNeutralValence": "Neutra",
+    "auraIntense": "Intensa",
+    "auraCalm": "Calma",
+    "auraModerateArousal": "Moderada",
+    "auraFormalTone": "Formal",
+    "auraCasualTone": "Casual",
+    "auraBalancedFormality": "Equilibrada",
+    "paradoxClaimLabel": "A sua conclusão",
+    "paradoxClaimPlaceholder": "Enuncie a conclusão que quer testar",
+    "paradoxRunButton": "Rebobinar a lógica",
+    "paradoxRunningLabel": "A rebobinar…",
+    "paradoxFindingsLabel": "Conclusões",
+    "paradoxNoFindings": "Nenhum padrão de contradição detetado nesta passagem.",
+    "paradoxAbsoluteClaim": "Uma afirmação absoluta está a um contraexemplo de se quebrar.",
+    "paradoxSelfContradiction": "Esta afirmação modera e afirma de forma absoluta no mesmo fôlego — escolha uma.",
+    "paradoxCircular": "Isto justifica-se ao reafirmar-se — isso não é uma razão.",
+    "paradoxUnderspecified": "Demasiado curta para testar de forma significativa — enuncie a afirmação completa.",
+    "paradoxVerdictBroken": "O Paradox encontrou onde isto se contradiz.",
+    "paradoxVerdictHeld": "Esta conclusão resistiu à passagem para trás.",
+    "chronosStartValueLabel": "Valor inicial",
+    "chronosHorizonLabel": "Horizonte em anos (mín. {min})",
+    "chronosCycleLengthLabel": "Duração do ciclo (anos)",
+    "chronosGrowthLabel": "Taxa de crescimento anual (%)",
+    "chronosRunButton": "Executar o ciclo longo",
+    "chronosRunningLabel": "A modelar décadas…",
+    "chronosProjectionLabel": "Projeção de ciclo longo",
+    "chronosFinalValueLabel": "Valor no horizonte",
+    "chronosMinHorizonNotice": "O Chronos não responde a perguntas do próprio dia — horizonte elevado para o mínimo de 10 anos.",
+    "chronosPhaseExpansion": "Fase de expansão.",
+    "chronosPhasePeak": "Fase de pico.",
+    "chronosPhaseContraction": "Fase de contração.",
+    "chronosPhaseTrough": "Fase de vale."
+  },
+  "Guest": {
+    "badge": "Modo convidado",
+    "virtualIdLabel": "ID virtual",
+    "upgradeReason": "Os convidados só podem navegar. Verifique uma conta para ter saldo e entrar nos módulos.",
+    "upgradeCta": "Criar conta completa"
+  },
+  "SitePages": {
+    "common": {
+      "back": "Voltar ao UNITAS",
+      "disclaimer": "Esta página é fornecida apenas para informação geral. Não constitui aconselhamento jurídico e não cria qualquer contrato ou garantia. Quando descreve planos ou assuntos pendentes, estes podem mudar. THE UNITAS GLOBAL OÜ, Estónia."
+    },
+    "about": {
+      "title": "Sobre o UNITAS",
+      "lede": "A THE UNITAS GLOBAL OÜ constrói um ecossistema SaaS soberano e descentralizado — concebido por um único fundador e operado através de automação total por IA.",
+      "body": [
+        "O UNITAS é uma empresa estónia que persegue uma única ideia: uma infraestrutura cognitiva ao serviço de pessoas em todo o mundo pode ser concebida, lançada e operada sem equipas intensivas em capital ou dependência de capital de risco. Cada módulo do ecossistema é construído segundo esse padrão.",
+        "A plataforma está organizada em torno de estruturas cognitivas — um ecossistema ao vivo de onze partes, cinco serviços ao consumidor e três protocolos empresariais — que partilham uma camada de identidade, um registo e uma linguagem de conceção."
+      ]
+    },
+    "careers": {
+      "title": "Carreiras",
+      "lede": "O UNITAS funciona como uma operação liderada pelo fundador e automatizada por IA. Não há hoje posições assalariadas em aberto.",
+      "body": [
+        "O modelo é deliberado: uma estrutura soberana enxuta em que a automação carrega a carga de trabalho que uma empresa convencional teria com pessoal. Isto mantém o ecossistema independente e resiliente.",
+        "Se esse modelo mudar, as vagas serão publicadas aqui primeiro. Consultas de parceria e de contribuição podem ser enviadas através da página de Contacto."
+      ]
+    },
+    "press": {
+      "title": "Imprensa",
+      "lede": "Recursos para media e contexto da empresa para jornalistas e analistas.",
+      "body": [
+        "Para entrevistas, briefings de contexto ou verificação de factos, contacte-nos através da página de Contacto e identifique o seu meio e o seu prazo.",
+        "Por favor, atribua a empresa como \"THE UNITAS GLOBAL OÜ\" e o produto como \"UNITAS\". Logótipos e orientações de marca estão disponíveis a pedido."
+      ]
+    },
+    "patent-notice": {
+      "title": "Aviso de patente",
+      "lede": "Certos métodos e sistemas do UNITAS são objeto de um pedido de patente pendente.",
+      "body": [
+        "Foi apresentado um pedido provisório de patente nos Estados Unidos (n.º 64/023,911) cobrindo aspetos dos protocolos cognitivos e de assinatura do UNITAS. O pedido está pendente; nenhuma patente foi concedida, e nada aqui deve ser lido como uma reivindicação de direitos concedidos.",
+        "O estado de pendente não confere qualquer exclusividade oponível a menos e até que uma patente seja emitida. Os nomes dos produtos e os nomes do sistema Sovereign Codex são usados como identificadores de origem."
+      ]
+    },
+    "compliance": {
+      "title": "Conformidade",
+      "lede": "Como o UNITAS aborda as suas obrigações regulatórias nas jurisdições que serve.",
+      "body": [
+        "O UNITAS é operado por uma empresa estónia e alinha as suas práticas com os princípios de proteção de dados e de proteção do consumidor da União Europeia. O processamento de pagamentos é efetuado por fornecedores terceiros ao abrigo dos seus próprios enquadramentos regulados.",
+        "Não reivindicamos certificação segundo qualquer norma específica. Questões de conformidade, incluindo pedidos de titulares de dados, podem ser colocadas através da página de Contacto."
+      ]
+    },
+    "security": {
+      "title": "Segurança",
+      "lede": "Os controlos que protegem contas, saldos e dados de identidade.",
+      "body": [
+        "A identidade da conta é imposta na base de dados, não no navegador: um número de telefone verificado é único entre as contas ativas, as alterações de saldo passam apenas por funções auditadas no servidor, e o registo de transações é somente-acréscimo.",
+        "Segredos como chaves de pagamento nunca chegam ao código do cliente. Para reportar uma vulnerabilidade, use a página de Contacto com detalhe suficiente para reproduzir o problema, e por favor não a divulgue publicamente antes de termos respondido."
+      ]
+    },
+    "privacy": {
+      "title": "Política de privacidade",
+      "lede": "O que o UNITAS recolhe, porquê, e as escolhas que tem.",
+      "body": [
+        "O UNITAS recolhe o mínimo necessário para operar uma conta: um identificador (e-mail ou telefone) para autenticação, um saldo de coins e o seu registo, e preferências básicas de idioma e dispositivo guardadas no seu dispositivo. As sessões de convidado permanecem locais ao seu navegador.",
+        "Os dados são processados para operar o serviço, não para construir perfis publicitários. Pode solicitar acesso aos dados da sua conta ou a sua eliminação através da página de Contacto ou das definições de conta na aplicação."
+      ]
+    },
+    "cookies": {
+      "title": "Política de cookies",
+      "lede": "O UNITAS utiliza armazenamento local e cookies de forma comedida e funcional.",
+      "body": [
+        "O site guarda um pequeno conjunto de valores — o seu idioma, a sua preferência de áudio, tokens de sessão e de autenticação, e um sinalizador de acesso pré-lançamento. Estes são necessários para que a interface funcione corretamente.",
+        "Não são definidos cookies de publicidade de terceiros nem de rastreio entre sites. Limpar o armazenamento do seu navegador repõe estas preferências na sua próxima visita."
+      ]
+    },
+    "terms": {
+      "title": "Termos de serviço",
+      "lede": "Os termos básicos para usar o UNITAS enquanto está na fase de pré-lançamento.",
+      "body": [
+        "O UNITAS é fornecido \"tal como está\" durante o desenvolvimento ativo. O acesso a módulos pagos é regido pelo saldo de coins da sua conta; os coins são um crédito de acesso pré-pago — não um valor mobiliário nem um instrumento de valor armazenado — e são intransmissíveis.",
+        "As funcionalidades podem mudar ou ser suspensas à medida que a plataforma evolui. Continuar a usar após uma alteração significa que aceita os termos atualizados. A lei aplicável é a da Estónia."
+      ]
+    },
+    "help-center": {
+      "title": "Centro de ajuda",
+      "lede": "Respostas às perguntas que surgem com mais frequência.",
+      "body": [
+        "Som: o áudio ambiente está ligado por predefinição em todos os dispositivos e persiste entre atualizações; alterne-o a partir do ícone de altifalante na navegação superior. Idioma: mude a qualquer momento a partir do menu de bandeiras — a sua escolha é memorizada.",
+        "Acesso: um módulo abre-se assim que o saldo de coins necessário estiver disponível na sua conta. Se algo parecer bloqueado, recarregue a página; o estado da conta e do saldo é restaurado automaticamente."
+      ]
+    },
+    "contact": {
+      "title": "Contacte-nos",
+      "lede": "Um canal chega diretamente ao fundador.",
+      "body": [
+        "Consultas gerais, de parceria, de imprensa, de segurança e de proteção de dados são todas tratadas pelo fundador. Use o painel de definições de conta dentro da aplicação para iniciar uma conversa, ou contacte o endereço indicado nos canais oficiais de THE UNITAS GLOBAL OÜ.",
+        "Não existe linha telefónica de apoio. O tempo de resposta depende do volume; os relatórios de segurança são prioritários."
+      ]
+    },
+    "system-status": {
+      "title": "Estado do sistema",
+      "lede": "O estado operacional atual da plataforma UNITAS.",
+      "body": [
+        "O UNITAS está numa fase de pré-lançamento. A interface pública está intencionalmente selada por trás da porta \"Em breve\" enquanto o fundador conclui a verificação sequencial do fluxo de entrada.",
+        "A manutenção planeada e quaisquer incidentes que afetem contas ou saldos serão resumidos aqui assim que a plataforma estiver publicamente ativa."
+      ]
+    }
+  }
+}

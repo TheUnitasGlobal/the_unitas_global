@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useLocale } from 'next-intl';
-import { Globe } from 'lucide-react';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { FlagIcon } from '@/components/nav/FlagIcon';
@@ -17,6 +16,12 @@ export const LOCALE_NATIVE_NAME: Record<Locale, string> = {
   ja: '日本語',
   zh: '中文',
   es: 'Español',
+  km: 'ខ្មែរ',
+  fr: 'Français',
+  de: 'Deutsch',
+  pt: 'Português',
+  vi: 'Tiếng Việt',
+  id: 'Bahasa Indonesia',
 };
 
 /** Shared with <ComingSoonCinema/> so the manual pick isn't re-overridden by auto-detect. */
@@ -94,7 +99,8 @@ export function GlobalLanguagePicker({
         aria-label="Language"
         className={triggerClass}
       >
-        {variant === 'glass' && <Globe size={14} aria-hidden="true" />}
+        {/* No globe/world icon (owner instruction 2026-08-29) -- a clean
+            flag + native-language text selector only, on every surface. */}
         <FlagIcon locale={active} size={variant === 'glass' ? 16 : 20} />
         <span className="leading-none">{LOCALE_NATIVE_NAME[active]}</span>
       </button>

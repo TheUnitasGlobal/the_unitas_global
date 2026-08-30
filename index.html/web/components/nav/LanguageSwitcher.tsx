@@ -17,6 +17,12 @@ const NATIVE_NAME: Record<Locale, string> = {
   ja: '日本語',
   zh: '中文',
   es: 'Español',
+  km: 'ខ្មែរ',
+  fr: 'Français',
+  de: 'Deutsch',
+  pt: 'Português',
+  vi: 'Tiếng Việt',
+  id: 'Bahasa Indonesia',
 };
 
 /** 6-language flag/native-name dropdown, preserves the current page on switch. */

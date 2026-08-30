@@ -1,5 +1,6 @@
-// Checks messages/{en,ko,et}.json for missing translation keys against the
-// `en` baseline and fills gaps with a "[MISSING:en] <source text>"
+// Checks every messages/<locale>.json (en, ko, et, ja, zh, es, km, fr, de, pt,
+// vi, id) for missing translation keys against the `en` baseline and fills gaps
+// with a "[MISSING:en] <source text>"
 // placeholder so nothing silently falls back to raw keys at runtime.
 //
 // Run with: node --experimental-strip-types scripts/i18n-sync.ts
@@ -13,7 +14,7 @@ import path from 'node:path';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const messagesDir = path.resolve(__dirname, '..', 'messages');
 
-const locales = ['en', 'ko', 'et', 'ja', 'zh', 'es'] as const;
+const locales = ['en', 'ko', 'et', 'ja', 'zh', 'es', 'km', 'fr', 'de', 'pt', 'vi', 'id'] as const;
 const baseLocale: (typeof locales)[number] = 'en';
 
 type Messages = { [key: string]: string | Messages };

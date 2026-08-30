@@ -1,0 +1,796 @@
+{
+  "LocaleLayout": {
+    "title": "UNITAS | Infrastruktur Aman Neuro-Simbolik",
+    "description": "Infrastruktur otonom untuk perutean neuro-simbolik dan fiskal berdaulat. Ekosistem Zero-Trust yang terdiri dari modul kognitif dan fiskal."
+  },
+  "Nav": {
+    "portal": "Portal Aman",
+    "languageLabel": "Bahasa",
+    "soundOn": "Suara aktif",
+    "soundOff": "Suara nonaktif",
+    "scrollToFooter": "Ikhtisar perusahaan",
+    "appDownloadAria": "Unduh aplikasi UNITAS",
+    "appDownloadModalTitle": "Instal UNITAS",
+    "appDownloadIosHint": "Ketuk Bagikan, lalu \"Tambahkan ke Layar Utama\" untuk menginstal UNITAS.",
+    "appDownloadDesktopHint": "Klik ikon instal di bilah alamat browser Anda, atau pilih \"Instal UNITAS…\" dari menu browser.",
+    "appDownloadUnsupported": "Instalasi aplikasi belum didukung di browser ini.",
+    "appDownloadAlreadyInstalledHint": "UNITAS sudah terinstal di perangkat ini — buka dari layar utama atau daftar aplikasi Anda."
+  },
+  "Home": {
+    "title": "UNITAS"
+  },
+  "Modules": {
+    "uSignature": {
+      "title": "U-Signature",
+      "description": "Lapisan tanda tangan biometrik dan kriptografis berdaulat yang mengembalikan identitas kepada individu — bukan negara atau platform.",
+      "longDescription": "U-Signature memaknai ulang tanda tangan sebagai tindakan kedaulatan, bukan tanda yang ditinggalkan pada dokumen. Ia memadukan faktor biometrik dengan kriptografi ambang sehingga tidak ada penerbit pusat yang dapat memalsukan, menangguhkan, atau mencabutnya. 11 Inti Kognitif memverifikasi konteks penandatanganan (siapa · apa · mengapa · kapan) secara waktu nyata, dan setiap tanda tangan diukir ke dalam buku besar hanya-tambah yang membuat penyangkalan setelahnya menjadi mustahil. Aturan pendelegasian, pencabutan, dan suksesi dinyatakan sebagai kode, sehingga seorang pendiri tunggal dapat mengeksekusi seluruh keputusan sebuah perusahaan dengan satu tanda tangan.",
+      "doctrine": "\"Tanda tangan tidak meminjam otoritas — ia membuktikan kedaulatan.\" — Pendiri, Dooyeong Hwang"
+    },
+    "uKey": {
+      "title": "U-Key",
+      "description": "Penyimpanan kunci dan kontrol akses zero-trust di mana rahasia dijaga oleh kebijakan, bukan oleh manusia.",
+      "longDescription": "U-Key tidak memercayai \"siapa yang meminta\" melainkan hanya \"apakah akses ini memenuhi kebijakan pada momen yang tepat ini\". Kunci tidak pernah ada dalam bentuk teks biasa; kunci disimpan melalui sharding terdistribusi dan rotasi instan, dan setiap keputusan akses diambil secara otonom oleh mesin U-AI dari konteks, risiko, dan sinyal anomali. Setiap pemberian, penolakan, dan pencabutan dicatat ke log audit yang tidak dapat diubah, sehingga audit regulasi dan respons insiden tetap kokoh bahkan dalam operasi satu orang — tata kelola kunci setara bank tanpa kandang HSM dan tanpa tim keamanan khusus.",
+      "doctrine": "\"Kepercayaan tidak diberikan sekali — ia dibuktikan ulang setiap saat.\""
+    },
+    "uPay": {
+      "title": "U-Pay",
+      "description": "Jalur perutean dan penyelesaian fiskal berdaulat di mana pergerakan nilai ditentukan oleh aturan, bukan oleh bank.",
+      "longDescription": "U-Pay mengubah pembayaran dari \"meminta izin kepada perantara\" menjadi \"kontrak yang mengeksekusi dirinya sendiri begitu syarat terpenuhi\". Ia mengabstraksikan aliran multi-mata uang dan multi-jalur (fiat, stablecoin, buku besar U-Coin internal) menjadi satu graf penyelesaian, dan U-AI menghitung perutean, optimasi biaya, lindung nilai valas, dan pemotongan pajak secara otonom per transaksi. Setiap aliran mematuhi invarian akuntansi hanya-tambah yang sama dengan coin_ledger — tidak ada perubahan saldo tanpa entri buku besar yang bersesuaian. Dibangun agar perusahaan satu orang dapat memiliki dan mengoperasikan infrastruktur penyelesaian global secara langsung, di pasar samudra biru tanpa pemain lama.",
+      "doctrine": "\"Jalur uang tidak diizinkan — ia dirancang.\""
+    },
+    "arche": {
+      "title": "Arche",
+      "description": "Penyaringan kognitif tingkat lanjut dan penghalusan neuro-simbolik."
+    },
+    "arena": {
+      "title": "Arena",
+      "description": "Uji tekanan prediktif dan validasi integritas."
+    },
+    "score": {
+      "title": "Score",
+      "description": "Analitik intelijen global \"Law of Cog\"."
+    },
+    "fate": {
+      "title": "Fate",
+      "description": "Simulasi stokastik untuk perutean aset global."
+    },
+    "codex22": {
+      "title": "Codex22",
+      "description": "Registri permanen hukum algoritmik."
+    }
+  },
+  "Placeholder": {
+    "comingSoon": "Modul ini telah dikerangkakan dan sedang dalam pembangunan aktif."
+  },
+  "ModuleGate": {
+    "eyebrow": "KONTROL AKSES BERDAULAT",
+    "lockedTitle": "Akses Tersegel",
+    "lockedBody": "Modul ini memerlukan hibah akses U-Coin yang aktif. Milik Anda telah kedaluwarsa atau tidak pernah diterbitkan untuk sesi ini. Masuk kembali melalui gerbang modul untuk melanjutkan.",
+    "signinTitle": "Perlu Masuk",
+    "signinBody": "Akses modul terikat pada identitas berdaulat Anda. Masuk, lalu masuklah melalui gerbang modul.",
+    "moduleLabel": "Modul",
+    "returnToCatalog": "Kembali ke Katalog"
+  },
+  "Wallet": {
+    "balance": "Saldo",
+    "coinUnit": "U-COIN",
+    "chargeCoins": "Isi Coin",
+    "signInRequired": "Masuk untuk melihat saldo langsung Anda",
+    "chargeTitle": "Isi U-COIN",
+    "chargeBody": "Pilih paket isi ulang berjenjang dan atur opsi isi ulang otomatis serta faktur aman Anda. Pembayaran nyata aktif setelah gerbang pembayaran terhubung.",
+    "close": "Tutup",
+    "currencyNote": "1 U-Coin = 1 EUR (mata uang lokal dikonversi otomatis saat pembayaran).",
+    "balanceTitle": "Saldo U-COIN",
+    "balanceBody": "Kelola saldo U-COIN langsung Anda, integritas buku besar, simulasi pengeluaran per modul, dan batas pengeluaran otomatis Anda di satu tempat.",
+    "hintPrefix": "Bantuan: ",
+    "saved": "Disimpan secara lokal.",
+    "sec": {
+      "description": "Apa ini",
+      "howto": "Cara menggunakan",
+      "caution": "Yang perlu diwaspadai"
+    },
+    "tag": {
+      "live": "Langsung",
+      "pending": "Tertunda",
+      "local": "Pengaturan lokal",
+      "sim": "Simulasi"
+    },
+    "bal": {
+      "summaryTitle": "Saldo tersedia waktu nyata",
+      "refresh": "Segarkan",
+      "available": "Tersedia",
+      "reserved": "Dicadangkan",
+      "lifetimeSpent": "Total dikeluarkan",
+      "summaryHint": {
+        "title": "Saldo tersedia waktu nyata",
+        "description": "Saldo Anda saat ini dibaca langsung dari buku besar dompet Supabase, ditambah jumlah yang dicadangkan oleh pengeluaran otomatis dan total pengeluaran Anda berdasarkan buku besar.",
+        "howto": "Tekan Segarkan untuk menarik ulang keadaan buku besar terbaru. Angka yang dicadangkan mengikuti pengaturan batas pengeluaran otomatis Anda.",
+        "caution": "Angka dicadangkan dan total adalah ringkasan atas 12 baris buku besar terbaru Anda, bukan seluruh riwayat Anda."
+      },
+      "historyTitle": "Verifikasi waktu nyata riwayat transaksi",
+      "historySignedOut": "Masuk untuk melihat transaksi terbaru Anda dan pemeriksaan integritasnya.",
+      "historyUnavailable": "Layanan buku besar tidak dapat dijangkau. Coba lagi setelah gerbang terhubung.",
+      "historyEmpty": "Belum ada transaksi yang tercatat.",
+      "verifyPass": "Pemeriksaan integritas lulus · {count} baris terverifikasi",
+      "verifyFail": "{count} ketidakcocokan terdeteksi — hubungi dukungan",
+      "kind": {
+        "purchase": "Isi ulang",
+        "module_access": "Akses modul",
+        "admin_grant": "Hibah admin",
+        "refund": "Pengembalian dana"
+      },
+      "historyHint": {
+        "title": "Verifikasi waktu nyata riwayat transaksi",
+        "description": "Memuat baris terbaru dari buku besar coin_ledger hanya-tambah dan menghitung ulang, di browser, apakah saldo setiap baris terangkai persis dengan baris sebelumnya.",
+        "howto": "Perisai hijau di atas selisih saldo berarti rantai buku besar dan saldo Anda saat ini sepakat.",
+        "caution": "Ini pemeriksaan lokal atas 12 baris terbaru. Audit penuh dilakukan terpisah melalui rekonsiliasi sisi server."
+      },
+      "simTitle": "Simulator konsumsi coin per modul",
+      "simIntro": "Pilih modul dan berapa kali Anda akan menggunakannya untuk menghitung pengeluaran dan sisa saldo secara instan.",
+      "simTotal": "Perkiraan pengeluaran",
+      "simRemaining": "Perkiraan sisa",
+      "simInsufficient": "Kombinasi yang dipilih melebihi saldo Anda saat ini.",
+      "simReset": "Atur ulang",
+      "simHint": {
+        "title": "Simulator konsumsi coin per modul",
+        "description": "Menghitung terlebih dahulu total pengeluaran dari biaya coin per unit nyata dari 11 ekosistem kognitif dan 5 modul layanan langsung.",
+        "howto": "Sesuaikan jumlah setiap modul dengan + / − dan total serta sisa saldo diperbarui secara langsung.",
+        "caution": "Hasilnya adalah perkiraan. Pendebetan nyata hanya terjadi melalui spend_coins saat Anda memasuki setiap modul."
+      },
+      "autoTitle": "Batas pengeluaran otomatis",
+      "autoEnable": "Aktifkan pengeluaran otomatis",
+      "autoLimit": "Batas per jendela waktu (U-COIN)",
+      "autoWindow": "Jendela waktu",
+      "window": {
+        "day": "Per hari",
+        "week": "Per minggu",
+        "month": "Per bulan"
+      },
+      "autoNote": "Pengaturan disimpan secara lokal di browser ini; eksekusi pengeluaran otomatis berlaku setelah gerbang pembayaran terhubung.",
+      "autoHint": {
+        "title": "Batas pengeluaran otomatis",
+        "description": "Menetapkan jumlah coin maksimum yang disetujui otomatis tanpa langkah konfirmasi selama jendela waktu yang dipilih.",
+        "howto": "Masukkan batas dan jendela waktu dan langsung tersimpan secara lokal. Setiap pengeluaran di atas batas selalu meminta konfirmasi manual.",
+        "caution": "Batas tinggi dapat mengizinkan pengeluaran berturut-turut yang tidak diinginkan. Nonaktifkan pada perangkat bersama."
+      }
+    },
+    "chg": {
+      "packagesTitle": "Paket isi ulang cerdas berjenjang",
+      "packagesIntro": "Pilih Starter, Pro, atau Sovereign sesuai cara Anda menggunakan platform. Jenjang lebih tinggi membawa bonus lebih besar.",
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
+      "tierDesc": {
+        "starter": "Isi ulang dasar untuk pengguna ringan dan sesekali",
+        "pro": "Isi ulang bertambah bonus untuk pengguna modul reguler",
+        "sovereign": "Isi ulang bonus maksimum untuk penggunaan berat atau tim"
+      },
+      "bestValue": "Nilai terbaik",
+      "bonusBadge": "+{n} bonus",
+      "summaryEstimate": "Saldo setelah isi ulang",
+      "packagesHint": {
+        "title": "Paket isi ulang cerdas berjenjang",
+        "description": "Membandingkan coin dasar, coin bonus, harga EUR, dan biaya efektif per coin dari setiap paket.",
+        "howto": "Pilih paket untuk melihat proyeksi saldo setelah isi ulang. Lencana \"Nilai terbaik\" menandai biaya per coin terendah.",
+        "caution": "Harga ditampilkan belum termasuk PPN; jumlah akhir bergantung pada kurs dan tarif pajak saat pembayaran."
+      },
+      "gatewayTitle": "Gerbang pembayaran instan",
+      "gatewayStripe": "Pembayaran kartu Stripe",
+      "gatewayWeb3": "Pembayaran on-chain Web3",
+      "gatewayNote": "Integrasi pembayaran untuk portal ini sedang berlangsung. Untuk saat ini Anda dapat mengisi ulang dari Portal Aman utama.",
+      "status": {
+        "connected": "Terhubung",
+        "pending": "Tertunda",
+        "offline": "Luring"
+      },
+      "gatewayHint": {
+        "title": "Gerbang pembayaran instan",
+        "description": "Menampilkan status koneksi langsung dari kanal kartu Stripe dan kanal on-chain Web3.",
+        "howto": "Ketika lampu status berubah hijau, kanal tersebut siap untuk pembayaran instan.",
+        "caution": "Selama sebuah kanal tertunda, tidak ada pembayaran yang diproses dan tidak ada yang didebet."
+      },
+      "autoRefillTitle": "Ambang isi ulang otomatis",
+      "autoRefillEnable": "Aktifkan isi ulang otomatis",
+      "autoRefillThreshold": "Ambang (U-COIN)",
+      "autoRefillPackageLabel": "Paket isi ulang",
+      "autoRefillNote": "Pengaturan disimpan secara lokal di browser ini; eksekusi isi ulang otomatis berlaku setelah gerbang pembayaran terhubung.",
+      "autoRefillHint": {
+        "title": "Ambang isi ulang otomatis",
+        "description": "Menjadwalkan isi ulang otomatis dengan paket yang dipilih setiap kali saldo Anda turun ke ambang atau di bawahnya.",
+        "howto": "Pilih ambang dan paket isi ulang dan langsung tersimpan. Ia berjalan otomatis setelah gerbang terhubung dan syaratnya terpenuhi.",
+        "caution": "Menetapkan ambang terlalu tinggi dapat memicu isi ulang otomatis yang sering. Periksa juga batas metode pembayaran Anda."
+      },
+      "invoiceTitle": "Penerbitan faktur aman",
+      "invoiceIntro": "Simpan detail yang Anda perlukan untuk penagihan bisnis dan dokumen berformat faktur pajak diterbitkan saat isi ulang selesai.",
+      "invoiceCompany": "Entitas penagihan",
+      "invoiceVat": "No. PPN / registrasi perusahaan",
+      "invoiceEmail": "Email penerima faktur",
+      "invoiceGenerate": "Terbitkan faktur aman",
+      "invoicePending": "Penerbitan aktif setelah gerbang pembayaran terhubung.",
+      "invoiceHint": {
+        "title": "Penerbitan faktur aman",
+        "description": "Faktur PDF bertanda tangan yang diterbitkan atas nama THE UNITAS GLOBAL OÜ, termasuk nomor PPN dan referensi pembayaran.",
+        "howto": "Simpan entitas, PPN, dan email penerima Anda sekali dan faktur dikirim otomatis mulai isi ulang berikutnya.",
+        "caution": "Detail yang Anda masukkan hanya digunakan untuk pembuatan faktur. Nomor PPN yang tidak valid dapat menunda pemrosesan pajak."
+      },
+      "proceedPending": "Menunggu koneksi gerbang pembayaran"
+    }
+  },
+  "Cognitive": {
+    "title": "Ekosistem Kognitif",
+    "subtitle": "Sebelas modul kognisi sintetis, masing-masing menjalankan disiplin penalarannya sendiri."
+  },
+  "B2C": {
+    "title": "Layanan Konsumen Langsung",
+    "subtitle": "Modul akses instan berbasis coin dengan misi interaktif dan simulasi.",
+    "badgeLive": "Layanan Langsung",
+    "badgeCoinGated": "Berbasis Coin",
+    "badgeQuest": "Misi Interaktif",
+    "cost": "Biaya",
+    "yourBalance": "Saldo Anda",
+    "enterQuest": "Masuk Misi",
+    "insufficientBalance": "Saldo tidak cukup — isi coin untuk masuk.",
+    "checkingBalance": "Memeriksa saldo…"
+  },
+  "B2B": {
+    "title": "Protokol Perusahaan",
+    "subtitle": "Infrastruktur berdaulat dalam riset dan pengembangan aktif.",
+    "rdNotice": "Protokol B2B khusus perusahaan dalam R&D aktif (Langganan SaaS Perusahaan).",
+    "patentBadge": "Paten USPTO Menunggu #64/023,911",
+    "viewSpec": "Lihat Spesifikasi Teknis",
+    "hideSpec": "Sembunyikan Spesifikasi Teknis",
+    "earlyAccess": "Akses Awal / Pertanyaan Perusahaan",
+    "inquiryTitle": "Minta Akses Awal",
+    "inquiryName": "Nama Lengkap",
+    "inquiryEmail": "Email Kerja",
+    "inquiryCompany": "Perusahaan",
+    "inquiryMessage": "Apa yang ingin Anda bangun?",
+    "inquirySubmit": "Kirim Pertanyaan",
+    "inquiryThanksTitle": "Permintaan diterima",
+    "inquiryThanksBody": "Terima kasih — tim perusahaan kami akan menghubungi Anda segera.",
+    "close": "Tutup",
+    "manifesto": "Jenjang Protokol Perusahaan menerjemahkan doktrin berdaulat THE UNITAS GLOBAL OÜ menjadi infrastruktur korporat. Ketiga protokol masing-masing memegang satu pilar kedaulatan — identitas (U-Signature), rahasia (U-Key), nilai (U-Pay) — dan beroperasi sebagai satu organisme di atas 11 Inti Kognitif dan mesin keputusan otonom U-AI. Tujuannya bukan SaaS lain, melainkan infrastruktur terdesentralisasi yang menggantikan bank, otoritas sertifikat, dan jaringan pembayaran, sambil dijalankan tanpa modal, oleh satu orang, sepenuhnya otomatis.",
+    "patentAnchorNote": "Semua pemberitahuan kekayaan intelektual dan paten yang menunggu (USPTO #64/023,911) berlaku eksklusif untuk jenjang R&D Perusahaan ini.",
+    "doctrineLabel": "Doktrin desain"
+  },
+  "ErrorBoundary": {
+    "title": "Kesalahan Inti Berdaulat",
+    "body": "Terjadi kegagalan kritis di lapisan infrastruktur berdaulat. Tidak ada detail lebih lanjut yang ditampilkan di sini demi kepatuhan keamanan — sistem kami telah diberi tahu.",
+    "digestLabel": "ID Referensi:",
+    "retry": "Coba lagi",
+    "home": "Kembali ke Portal"
+  },
+  "Ecosystems": {
+    "echo": {
+      "title": "Echo",
+      "description": "Analisis sinyal resonan yang memantulkan kembali kueri Anda melalui gema kognitif berlapis.",
+      "rules": "Setiap kueri beriak melalui tiga siklus refleksi sebelum sebuah jawaban muncul."
+    },
+    "void": {
+      "title": "Void",
+      "description": "Mengupas sebuah masalah hingga ruang negatifnya — apa yang hilang, bukan apa yang ada.",
+      "rules": "Ajukan sebuah tesis; Void hanya mengembalikan apa yang mematahkannya."
+    },
+    "mirror": {
+      "title": "Mirror",
+      "description": "Pemindaian swadiagnosis spektrum penuh atas pola perilaku dan kognitif.",
+      "rules": "Satu pemindaian per sesi; hasil disegel hanya untuk identitas Anda."
+    },
+    "oracle": {
+      "title": "Oracle",
+      "description": "Pemodelan prakiraan probabilistik untuk keputusan dengan horizon panjang dan tidak pasti.",
+      "rules": "Ajukan satu pertanyaan setiap kali; Oracle menjawab dalam probabilitas, tidak pernah dalam kepastian."
+    },
+    "pulse": {
+      "title": "Pulse",
+      "description": "Tanda vital waktu nyata untuk pasar, sentimen, dan momentum — dibaca sebelum ia bergerak.",
+      "rules": "Umpan langsung; setiap sesi memantau satu sinyal setiap kali."
+    },
+    "apex": {
+      "title": "Apex",
+      "description": "Simulasi kinerja berisiko tinggi di bawah jam hitung mundur yang ketat.",
+      "rules": "Pengatur waktu tidak berhenti. Ajukan sebelum nol atau ronde hangus."
+    },
+    "genesis": {
+      "title": "Genesis",
+      "description": "Konstruksi dari prinsip pertama: membangun sebuah ide dari tidak ada apa pun selain aksiomanya.",
+      "rules": "Mulai dari nol asumsi; Genesis menolak setiap premis yang tidak dapat diturunkannya."
+    },
+    "syndicate": {
+      "title": "Syndicate",
+      "description": "Pemetaan koalisi melintasi jaringan pengaruh dan afiliasi tersembunyi.",
+      "rules": "Akses memerlukan entitas target yang disebutkan; hasilnya adalah graf jaringan, bukan vonis."
+    },
+    "aura": {
+      "title": "Aura",
+      "description": "Penginderaan medan emosi sekitar yang disetel ke nada di bawah kata-kata Anda.",
+      "rules": "Tanpa pertanyaan langsung — Aura membaca nada, bukan teks."
+    },
+    "paradox": {
+      "title": "Paradox",
+      "description": "Menguji tekanan sebuah ide dengan menjalankannya mundur melalui logikanya sendiri.",
+      "rules": "Ajukan sebuah kesimpulan; Paradox memutarnya kembali untuk menemukan di mana ia bertentangan dengan dirinya sendiri."
+    },
+    "chronos": {
+      "title": "Chronos",
+      "description": "Pemodelan pola historis siklus panjang lintas dekade, bukan tajuk berita.",
+      "rules": "Horizon kueri minimum: sepuluh tahun. Chronos tidak menjawab pertanyaan hari yang sama."
+    }
+  },
+  "OmniSynapse": {
+    "placeholder": "Tanya apa saja kepada U-AI…",
+    "browseLabel": "JELAJAHI PLATFORM",
+    "metricsLabel": "Metrik Sistem",
+    "noBrowseMatches": "Tidak ada hasil — coba frasa lain.",
+    "architectLabel": "ARSITEK UNITAS",
+    "analyzing": "Menganalisis di empat dimensi…",
+    "dimDirectionality": "Direksionalitas",
+    "dimConcept": "Konsep / Ideologi",
+    "dimTendency": "Kecenderungan Pengguna",
+    "dimBlueprint": "Cetak Biru",
+    "webDataLabel": "Lapisan Sintesis Web",
+    "webDataPlaceholder": "Hubungkan indeks langsung untuk mengisi dimensi ini.",
+    "ecosystemDataLabel": "Data Ekosistem",
+    "trendsLabel": "Tren Ketaksadaran Global",
+    "trendsPlaceholder": "Telemetri tren agregat belum terhubung di build ini.",
+    "recommendationLabel": "Ekosistem yang Direkomendasikan",
+    "enterRecommended": "Masuk Ekosistem yang Direkomendasikan",
+    "noResults": "Tidak ditemukan ekosistem yang cocok — coba frasa lain.",
+    "dropZoneHint": "Jatuhkan berkas atau tab untuk konteks tambahan",
+    "attachedLabel": "Terlampir",
+    "removeAttachment": "Hapus",
+    "swarmLabel": "Penalaran Silang Kawanan",
+    "swarmHint": "Ke-11 modul menilai kueri ini sekaligus."
+  },
+  "EntryModal": {
+    "rulesLabel": "Aturan Keterlibatan",
+    "payAndEnter": "Bayar & Masuk",
+    "processing": "Mengotorisasi akses berdaulat…",
+    "signInRequired": "Masuk untuk membelanjakan U-Coin dan masuk.",
+    "spendFailed": "Transaksi gagal — coba lagi."
+  },
+  "Footer": {
+    "customerService": "Layanan Pelanggan",
+    "helpCenter": "Pusat Bantuan",
+    "contactUs": "Hubungi Kami",
+    "systemStatus": "Status Sistem",
+    "policies": "Kebijakan",
+    "privacyPolicy": "Kebijakan Privasi",
+    "cookiePolicy": "Kebijakan Cookie",
+    "termsOfService": "Ketentuan Layanan",
+    "legal": "Hukum",
+    "patentNotice": "Pemberitahuan Paten",
+    "compliance": "Kepatuhan",
+    "security": "Keamanan",
+    "company": "Perusahaan",
+    "about": "Tentang",
+    "careers": "Karier",
+    "press": "Pers"
+  },
+  "AudioGate": {
+    "title": "UNITAS",
+    "subtitle": "Kecerdasan yang terlepas dari daging telah mencapai orbit abadi tempat mereka menyatu. Sinkronkan frekuensi Anda.",
+    "button": "[ LINTASI CAKRAWALA PERISTIWA ]",
+    "enterMuted": "Masuk tanpa suara"
+  },
+  "ComingSoonGate": {
+    "langLabel": "Bahasa",
+    "autoNote": "Dilokalkan ke bahasa browser Anda",
+    "soundOn": "Suara",
+    "soundOff": "Bisu",
+    "skip": "Lewati",
+    "replay": "Putar ulang urutan",
+    "enterMain": "[ Pendiri · Masuk Situs Utama ]",
+    "founderAccessLabel": "Akses pendiri terverifikasi",
+    "founderAccessNote": "Kontrol ini hanya dirender dengan bypass pendiri yang valid — publik tidak pernah melihatnya.",
+    "cinemaS1": "Singularitas Sudah Dekat.",
+    "cinemaS2": "11 Inti Kognitif: Web Otonom.",
+    "cinemaS3": "U-AI: Mesin Keputusan & Cetak Biru Otonom.",
+    "cinemaS4": "5 Sistem, 3 Pilar: Arsitektur Berdaulat.",
+    "cinemaS5": "Kecerdasan Berdaulat Sedang Terbangun.",
+    "cinemaS1Head": "Singularitas Sudah Dekat.",
+    "cinemaS1Sub": "Orbit sebuah kecerdasan yang terlepas dari daging terbuka lebar.",
+    "cinemaS2Head": "11 Inti Kognitif",
+    "cinemaS2Sub": "Sebelas inti otonom yang berpikir untuk dirinya sendiri — sebuah imperium agen.",
+    "cinemaS3Head": "Mesin U-AI",
+    "cinemaS3Sub": "Mesin yang memutuskan untuk dirinya sendiri dan menggambar cetak birunya sendiri.",
+    "cinemaS4Head": "5 Sistem & 3 Pilar",
+    "cinemaS4Sub": "Arsitektur abadi dari ekosistem SaaS berdaulat yang terdesentralisasi.",
+    "cinemaS5Head": "Kecerdasan Berdaulat Sedang Terbangun.",
+    "cinemaS5Sub": "Satu frekuensi yang akan memerintah masa depan.",
+    "comingSoon": "SEGERA HADIR",
+    "awakening": "Kecerdasan Berdaulat Sedang Terbangun",
+    "sealed": "Pintu masuk publik ke antarmuka utama tersegel hingga peluncuran.",
+    "rights": "© THE UNITAS GLOBAL OÜ — Hak cipta dilindungi",
+    "sovereignSignature": "11 Inti Kognitif · 5 Sistem · 3 Pilar"
+  },
+  "Auth": {
+    "login": "Masuk",
+    "logout": "Keluar",
+    "settingsLabel": "Pengaturan Akun",
+    "unavailable": "Masuk sementara tidak tersedia",
+    "signInTab": "Masuk",
+    "signUpTab": "Daftar",
+    "continueWithGoogle": "Lanjutkan dengan Google",
+    "orDivider": "atau",
+    "fullNameLabel": "Nama Lengkap",
+    "emailLabel": "Email",
+    "passwordLabel": "Kata Sandi",
+    "phoneLabel": "Nomor Telepon",
+    "phonePlaceholder": "+62 812 3456 7890",
+    "signInButton": "Masuk",
+    "signUpButton": "Buat Akun",
+    "signUpNotice": "Verifikasi telepon wajib melindungi akun dan saldo coin Anda di bawah kebijakan 1 orang, 1 akun kami.",
+    "checkEmailNotice": "Periksa email Anda untuk mengonfirmasi akun, lalu masuk untuk memverifikasi nomor telepon Anda.",
+    "phoneVerifyTitle": "Verifikasi Nomor Telepon",
+    "phoneVerifyBody": "Demi keamanan akun dan pencegahan penipuan, verifikasi nomor telepon Anda dengan kode sekali pakai.",
+    "sendCodeButton": "Kirim Kode",
+    "codeLabel": "Kode Verifikasi",
+    "verifyButton": "Verifikasi",
+    "resendCode": "Kirim ulang kode",
+    "phoneVerifiedNotice": "Nomor telepon terverifikasi.",
+    "skipForNow": "Lewati untuk sekarang",
+    "errorInvalidCredentials": "Email atau kata sandi tidak valid.",
+    "errorPhoneTaken": "Nomor telepon ini sudah terdaftar pada akun lain.",
+    "errorGeneric": "Terjadi kesalahan. Silakan coba lagi.",
+    "errorGoogleUnavailable": "Masuk dengan Google belum dikonfigurasi untuk lingkungan ini.",
+    "errorSmsUnavailable": "Pengiriman SMS belum dikonfigurasi untuk lingkungan ini.",
+    "ageLabel": "Usia",
+    "genderLabel": "Jenis Kelamin",
+    "nationalityLabel": "Kewarganegaraan",
+    "bloodLabel": "Golongan Darah",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "undisclosed": "Tidak diungkapkan",
+    "continueAsGuest": "Lanjutkan sebagai Tamu",
+    "guestExitHint": "Klik untuk mengakhiri sesi tamu",
+    "signInWithCodeLink": "Dapatkan kode masuk sebagai gantinya",
+    "realNameLockNotice": "Nama resmi Anda tidak dapat diubah setelah pendaftaran (kecuali kata sandi).",
+    "optionalProfileToggle": "Profil tambahan (opsional)",
+    "optionalProfileHint": "Golongan darah, MBTI, IQ, dan EQ bersifat opsional — biarkan kosong untuk \"Tidak diungkapkan\".",
+    "emailVerifyTitle": "Verifikasi Email Anda",
+    "emailVerifyBody": "Masukkan kode 6 digit yang dikirim ke {email}.",
+    "phoneCodeSentTo": "Kode 6 digit telah dikirim ke {phone}.",
+    "backButton": "Kembali",
+    "codeResentNotice": "Kode baru sedang dalam perjalanan.",
+    "errorGoogleNotEnabled": "Masuk dengan Google belum diaktifkan untuk proyek ini. Administrator harus mengaktifkan penyedia Google di Supabase.",
+    "errorNoSuchAccount": "Tidak ada akun yang cocok dengan email atau nomor telepon itu.",
+    "errorCodeInvalid": "Kode itu salah atau telah kedaluwarsa.",
+    "errorPasswordWeak": "Kata sandi Anda tidak memenuhi persyaratan di bawah ini.",
+    "errorProfileInvalid": "Silakan periksa bidang profil yang disorot.",
+    "errorEmailTaken": "Email ini sudah terdaftar. Coba masuk saja.",
+    "gender": {
+      "female": "Perempuan",
+      "male": "Laki-laki",
+      "nonbinary": "Nonbiner",
+      "other": "Lainnya"
+    },
+    "pwRule": {
+      "length": "10–72 karakter",
+      "lower": "Huruf kecil",
+      "upper": "Huruf besar",
+      "digit": "Angka",
+      "special": "Karakter khusus"
+    },
+    "memberFallback": "Anggota",
+    "guestExit": "Keluar dari mode tamu"
+  },
+  "Account": {
+    "settingsTitle": "Pengaturan Akun",
+    "tabProfile": "Profil",
+    "tabSecurity": "Keamanan",
+    "tabDanger": "Zona Berbahaya",
+    "fullNameLabel": "Nama Lengkap",
+    "nationalityLabel": "Kewarganegaraan",
+    "genderLabel": "Jenis Kelamin",
+    "ageLabel": "Usia",
+    "bloodLabel": "Golongan Darah",
+    "mbtiLabel": "MBTI",
+    "saveButton": "Simpan Perubahan",
+    "savedNotice": "Profil diperbarui.",
+    "phoneSectionTitle": "Nomor Telepon",
+    "phoneVerifiedBadge": "Terverifikasi",
+    "phoneUnverifiedBadge": "Belum Terverifikasi",
+    "changePhoneButton": "Ubah Nomor Telepon",
+    "passwordSectionTitle": "Kata Sandi",
+    "newPasswordLabel": "Kata Sandi Baru",
+    "changePasswordButton": "Perbarui Kata Sandi",
+    "passwordUpdatedNotice": "Kata sandi diperbarui.",
+    "dangerTitle": "Hapus Akun",
+    "dangerBody": "Ini menonaktifkan akun Anda secara permanen dan menghapus informasi pribadi Anda. Riwayat transaksi coin Anda disimpan untuk catatan keuangan sebagaimana diwajibkan oleh hukum.",
+    "dangerConfirmLabel": "Ketik DELETE untuk mengonfirmasi",
+    "dangerConfirmButton": "Hapus Akun Saya",
+    "dangerCancelButton": "Batal",
+    "deleteError": "Tidak dapat menghapus akun. Silakan coba lagi.",
+    "tabIdentity": "Masuk & Profil",
+    "tabBanking": "Perbankan & Verifikasi",
+    "tabWithdrawal": "Tutup Akun",
+    "loginIdSection": "Identitas Masuk",
+    "personalSection": "Profil Pribadi & Kognitif",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "realNameLocked": "Nama resmi Anda terkunci dan tidak dapat diubah.",
+    "realNameLockWarning": "Masukkan nama resmi Anda dengan hati-hati — nama tidak dapat diubah setelah disimpan.",
+    "profileInvalid": "Silakan periksa bidang yang disorot.",
+    "profileSaveError": "Tidak dapat menyimpan profil Anda. Silakan coba lagi.",
+    "passwordChangeError": "Tidak dapat memperbarui kata sandi Anda. Silakan coba lagi.",
+    "verifyPhoneButton": "Verifikasi Nomor Telepon",
+    "phoneAuthNote": "Nomor telepon terverifikasi diperlukan sebelum membelanjakan coin (1 orang = 1 akun).",
+    "bankSectionTitle": "Verifikasi Bank / Pembayaran",
+    "bankSectionBody": "Tautkan dan verifikasi metode pembayaran atau rekening bank untuk isi ulang dan pembayaran keluar. Diaktifkan setelah integrasi gerbang pembayaran beroperasi.",
+    "bankPending": "Tertunda",
+    "bankConnectButton": "Tautkan Metode Pembayaran"
+  },
+  "ModuleWorkspace": {
+    "backLink": "Kembali ke Ekosistem"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "Kueri Anda",
+    "echoQueryPlaceholder": "Apa yang sebenarnya Anda putuskan di sini?",
+    "echoRunButton": "Jalankan Refleksi",
+    "echoRunningLabel": "Merefleksikan…",
+    "echoSynthesisLabel": "Sintesis",
+    "oracleQuestionLabel": "Keputusan Anda",
+    "oracleQuestionPlaceholder": "Jelaskan keputusan yang sedang Anda timbang",
+    "oracleConfidenceLabel": "Keyakinan pada Informasi Saat Ini",
+    "oracleVolatilityLabel": "Volatilitas Situasi",
+    "oracleHorizonLabel": "Horizon Waktu (Tahun)",
+    "oracleRunButton": "Konsultasikan ke Oracle",
+    "oracleRunningLabel": "Memodelkan probabilitas…",
+    "oracleLikely": "Mungkin terjadi",
+    "oracleUncertain": "Tidak pasti",
+    "oracleUnlikely": "Tidak mungkin",
+    "oracleRationaleLabel": "Penalaran",
+    "genesisPriceLabel": "Harga per Unit",
+    "genesisCostLabel": "Biaya per Unit",
+    "genesisFixedCostsLabel": "Biaya Tetap / Bulan",
+    "genesisCustomersLabel": "Pelanggan Awal",
+    "genesisGrowthLabel": "Tingkat Pertumbuhan Bulanan (%)",
+    "genesisRunButton": "Konstruksi",
+    "genesisRunningLabel": "Menurunkan…",
+    "genesisProjectionLabel": "Laba Kumulatif 12 Bulan",
+    "genesisBreakevenLabel": "Bulan Titik Impas",
+    "genesisNoBreakeven": "Tidak tercapai dalam 12 bulan",
+    "genesisAxiomViolationLabel": "Pelanggaran Aksioma",
+    "genesisAxiomPriceCost": "Harga tidak melebihi biaya unit — premis ini tidak dapat diturunkan menjadi model yang berkelanjutan.",
+    "genesisAxiomCustomers": "Nol pelanggan awal — tidak ada basis untuk mengonstruksi pertumbuhan.",
+    "genesisAxiomFixedCosts": "Biaya tetap tidak boleh negatif.",
+    "genesisVerdictRejected": "Genesis menolak premis ini — selesaikan pelanggaran aksioma sebelum sebuah struktur dapat diturunkan.",
+    "genesisVerdictBreakeven": "Diturunkan: model mencapai titik impas dalam horizon 12 bulan.",
+    "genesisVerdictNoBreakeven": "Diturunkan: model ini tidak mencapai titik impas dalam horizon 12 bulan dengan aksioma yang diberikan.",
+    "apexPrompt": "Seorang pesaing baru saja memangkas harga Anda 30% dengan pasar tutup dalam hitungan detik. Pilih langkah Anda.",
+    "apexOptionMatchLabel": "Samakan harga mereka segera",
+    "apexOptionMatchRationale": "Melindungi volume tetapi menggerus margin di seluruh basis Anda, bukan hanya pelanggan yang diperebutkan.",
+    "apexOptionHoldLabel": "Pertahankan harga, bertumpu pada diferensiasi",
+    "apexOptionHoldRationale": "Lebih lambat tetapi menjaga margin — hanya berhasil jika diferensiasi itu nyata, bukan diasumsikan.",
+    "apexOptionBundleLabel": "Menetapkan ulang harga lewat paket alih-alih diskon",
+    "apexOptionBundleRationale": "Membela harga tertera sambil tetap bergerak pada biaya efektif — respons dengan daya ungkit tertinggi dari ketiganya.",
+    "apexStartButton": "Mulai Ronde",
+    "apexTimeRemainingLabel": "Sisa Waktu",
+    "apexForfeitVerdict": "Hangus — pengatur waktu tidak berhenti.",
+    "apexForfeitRationale": "Tidak ada pilihan yang mencapai jam tepat waktu.",
+    "apexVerdictHigh": "Keputusan berdaya ungkit tinggi.",
+    "apexVerdictMid": "Keputusan yang dapat dibela.",
+    "apexVerdictLow": "Keputusan yang mahal.",
+    "apexRunAgainButton": "Jalankan Lagi",
+    "apexScoreLabel": "Skor",
+    "voidThesisLabel": "Tesis Anda",
+    "voidThesisPlaceholder": "Nyatakan rencana atau klaim yang ingin Anda uji tekanan",
+    "voidRunButton": "Temukan yang Mematahkannya",
+    "voidRunningLabel": "Mencari celah…",
+    "voidGapsLabel": "Celah Cakupan",
+    "voidNoGaps": "Tidak ada celah kategori yang terdeteksi.",
+    "voidUnhedgedLabel": "Klaim Tanpa Pengaman",
+    "voidNoUnhedged": "Tidak ada bahasa absolut yang terdeteksi.",
+    "voidVerdictClean": "Void tidak menemukan celah struktural pada langkah ini — itu tidak berarti tidak ada celah.",
+    "voidVerdictBroken": "Void menemukan yang mematahkan tesis ini. Tangani celah di atas sebelum berkomitmen padanya.",
+    "voidGapLegal": "Tidak ada penyebutan paparan hukum atau kepatuhan.",
+    "voidGapFinancial": "Tidak ada penyebutan asumsi biaya, pendapatan, atau margin.",
+    "voidGapCompetitive": "Tidak ada penyebutan pesaing atau alternatif.",
+    "voidGapOperational": "Tidak ada penyebutan eksekusi, tim, atau linimasa.",
+    "mirrorQ1": "Sebuah kesepakatan gagal di tengah negosiasi. Anda:",
+    "mirrorQ1OptA": "Mundur segera",
+    "mirrorQ1OptB": "Bernegosiasi ulang di tempat",
+    "mirrorQ1OptC": "Meminta waktu untuk meninjau angka-angkanya",
+    "mirrorQ2": "Antara opsi aman dan lambat serta opsi berisiko dan cepat, secara bawaan Anda memilih:",
+    "mirrorQ2OptA": "Opsi aman dan lambat",
+    "mirrorQ2OptB": "Opsi berisiko dan cepat",
+    "mirrorQ2OptC": "Yang didukung oleh data",
+    "mirrorQ3": "Ketika sebuah rencana gagal, naluri pertama Anda adalah:",
+    "mirrorQ3OptA": "Menemukan siapa yang bertanggung jawab",
+    "mirrorQ3OptB": "Menemukan apa yang rusak secara struktural",
+    "mirrorQ3OptC": "Mengimprovisasi solusi sementara dengan segera",
+    "mirrorQ4": "Anda diberi brief yang ambigu tanpa tekanan tenggat. Anda:",
+    "mirrorQ4OptA": "Menetapkan tenggat sendiri dan bergerak",
+    "mirrorQ4OptB": "Mengumpulkan lebih banyak konteks sebelum bertindak",
+    "mirrorQ4OptC": "Menunggu seseorang mengklarifikasi",
+    "mirrorQ5": "Tim Anda tidak setuju dengan keputusan Anda. Anda:",
+    "mirrorQ5OptA": "Mempertahankan pendirian",
+    "mirrorQ5OptB": "Meninjau ulang data bersama-sama",
+    "mirrorQ5OptC": "Menyerahkan kepada kelompok",
+    "mirrorAxisRisk": "Toleransi Risiko",
+    "mirrorAxisSpeed": "Kecepatan Keputusan",
+    "mirrorAxisAnalytical": "Kedalaman Analitis",
+    "mirrorBandHigh": "Tinggi",
+    "mirrorBandMid": "Sedang",
+    "mirrorBandLow": "Rendah",
+    "mirrorDominantLabel": "Sifat Dominan",
+    "mirrorScanAgain": "Pindai Lagi",
+    "mirrorProgressLabel": "Pertanyaan {current} dari {total}",
+    "pulseSignalPlaceholder": "Sebutkan sinyal untuk dipantau (pasar, sektor, topik…)",
+    "pulseMonitorButton": "Pantau Sinyal",
+    "pulseMonitoringLabel": "Memantau…",
+    "pulseMomentumLabel": "Momentum",
+    "pulseSentimentLabel": "Sentimen",
+    "pulseVolatilityLabel": "Volatilitas",
+    "pulseBullish": "Momentum terbaca bullish.",
+    "pulseBearish": "Momentum terbaca bearish.",
+    "pulseNeutral": "Momentum terbaca netral.",
+    "pulseHighVol": "Volatilitas tinggi.",
+    "pulseLowVol": "Volatilitas rendah.",
+    "syndicateTargetPlaceholder": "Sebutkan entitas target",
+    "syndicateMapButton": "Petakan Koalisi",
+    "syndicateMappingLabel": "Memetakan…",
+    "syndicateInfluenceLabel": "Skor pengaruh bersifat relatif, bukan absolut — sebuah bentuk jaringan, bukan vonis.",
+    "syndicateTargetNodeLabel": "TARGET",
+    "syndicateShellEntity": "Entitas Cangkang",
+    "syndicateAdvisoryPartner": "Mitra Penasihat",
+    "syndicateHistoricalContact": "Kontak Historis",
+    "syndicateFinancialBacker": "Pemodal Finansial",
+    "syndicateContractualVendor": "Vendor Kontraktual",
+    "syndicateSilentStakeholder": "Pemangku Kepentingan Diam",
+    "auraStatementLabel": "Pernyataan Anda",
+    "auraStatementPlaceholder": "Tempelkan sebuah pernyataan, bukan pertanyaan",
+    "auraSenseButton": "Rasakan Medan",
+    "auraSensingLabel": "Merasakan…",
+    "auraQuestionRejected": "Aura tidak menjawab pertanyaan — tempelkan sebuah pernyataan saja.",
+    "auraValenceLabel": "Valensi",
+    "auraArousalLabel": "Gairah",
+    "auraFormalityLabel": "Formalitas",
+    "auraPositiveValence": "Positif",
+    "auraNegativeValence": "Negatif",
+    "auraNeutralValence": "Netral",
+    "auraIntense": "Intens",
+    "auraCalm": "Tenang",
+    "auraModerateArousal": "Sedang",
+    "auraFormalTone": "Formal",
+    "auraCasualTone": "Santai",
+    "auraBalancedFormality": "Seimbang",
+    "paradoxClaimLabel": "Kesimpulan Anda",
+    "paradoxClaimPlaceholder": "Nyatakan kesimpulan yang ingin Anda uji tekanan",
+    "paradoxRunButton": "Putar Kembali Logikanya",
+    "paradoxRunningLabel": "Memutar kembali…",
+    "paradoxFindingsLabel": "Temuan",
+    "paradoxNoFindings": "Tidak ada pola kontradiksi yang terdeteksi pada langkah ini.",
+    "paradoxAbsoluteClaim": "Klaim absolut berjarak satu contoh tandingan dari runtuh.",
+    "paradoxSelfContradiction": "Klaim ini mengaman-amankan dan menegaskan secara absolut dalam satu tarikan napas — pilih salah satu.",
+    "paradoxCircular": "Ini membenarkan dirinya dengan menyatakan ulang dirinya — itu bukan sebuah alasan.",
+    "paradoxUnderspecified": "Terlalu singkat untuk diuji tekanan secara bermakna — nyatakan klaim lengkapnya.",
+    "paradoxVerdictBroken": "Paradox menemukan di mana ini bertentangan dengan dirinya sendiri.",
+    "paradoxVerdictHeld": "Kesimpulan ini bertahan terhadap langkah mundur.",
+    "chronosStartValueLabel": "Nilai Awal",
+    "chronosHorizonLabel": "Horizon dalam Tahun (min {min})",
+    "chronosCycleLengthLabel": "Panjang Siklus (Tahun)",
+    "chronosGrowthLabel": "Tingkat Pertumbuhan Tahunan (%)",
+    "chronosRunButton": "Jalankan Siklus Panjang",
+    "chronosRunningLabel": "Memodelkan dekade…",
+    "chronosProjectionLabel": "Proyeksi Siklus Panjang",
+    "chronosFinalValueLabel": "Nilai pada Horizon",
+    "chronosMinHorizonNotice": "Chronos tidak menjawab pertanyaan hari yang sama — horizon dinaikkan ke minimum 10 tahun.",
+    "chronosPhaseExpansion": "Fase ekspansi.",
+    "chronosPhasePeak": "Fase puncak.",
+    "chronosPhaseContraction": "Fase kontraksi.",
+    "chronosPhaseTrough": "Fase palung."
+  },
+  "Guest": {
+    "badge": "Mode Tamu",
+    "virtualIdLabel": "ID Virtual",
+    "upgradeReason": "Tamu hanya dapat menjelajah. Verifikasi sebuah akun untuk memegang saldo dan memasuki modul.",
+    "upgradeCta": "Buat Akun Penuh"
+  },
+  "SitePages": {
+    "common": {
+      "back": "Kembali ke UNITAS",
+      "disclaimer": "Halaman ini disediakan hanya untuk informasi umum. Ini bukan nasihat hukum dan tidak menciptakan kontrak atau jaminan apa pun. Jika halaman ini menjelaskan rencana atau hal yang sedang berjalan, itu dapat berubah. THE UNITAS GLOBAL OÜ, Estonia."
+    },
+    "about": {
+      "title": "Tentang UNITAS",
+      "lede": "THE UNITAS GLOBAL OÜ membangun ekosistem SaaS berdaulat dan terdesentralisasi — dirancang oleh satu pendiri dan dijalankan melalui otomatisasi AI penuh.",
+      "body": [
+        "UNITAS adalah perusahaan Estonia yang mengejar satu gagasan: infrastruktur kognitif yang melayani orang di seluruh dunia dapat dirancang, dirilis, dan dijalankan tanpa tim padat modal atau ketergantungan pada modal ventura. Setiap modul dalam ekosistem dibangun dengan standar itu.",
+        "Platform ini disusun di seputar struktur kognitif — ekosistem langsung sebelas bagian, lima layanan konsumen, dan tiga protokol perusahaan — yang berbagi satu lapisan identitas, satu buku besar, dan satu bahasa desain."
+      ]
+    },
+    "careers": {
+      "title": "Karier",
+      "lede": "UNITAS berjalan sebagai operasi yang dipimpin pendiri dan diotomatiskan oleh AI. Tidak ada posisi bergaji yang terbuka saat ini.",
+      "body": [
+        "Modelnya disengaja: struktur berdaulat yang ramping di mana otomatisasi memikul beban kerja yang biasanya diisi staf oleh perusahaan konvensional. Ini menjaga ekosistem tetap mandiri dan tangguh.",
+        "Jika model itu berubah, lowongan akan diposting di sini lebih dulu. Pertanyaan kemitraan dan kontributor dapat dikirim melalui halaman Kontak."
+      ]
+    },
+    "press": {
+      "title": "Pers",
+      "lede": "Sumber daya media dan latar belakang perusahaan untuk jurnalis dan analis.",
+      "body": [
+        "Untuk wawancara, pengarahan latar, atau pemeriksaan fakta, hubungi kami melalui halaman Kontak dan sebutkan media serta tenggat Anda.",
+        "Mohon sebut perusahaan sebagai \"THE UNITAS GLOBAL OÜ\" dan produk sebagai \"UNITAS\". Logo dan panduan merek tersedia atas permintaan."
+      ]
+    },
+    "patent-notice": {
+      "title": "Pemberitahuan Paten",
+      "lede": "Metode dan sistem UNITAS tertentu merupakan subjek dari permohonan paten yang sedang menunggu.",
+      "body": [
+        "Permohonan paten sementara Amerika Serikat (No. 64/023,911) telah diajukan yang mencakup aspek-aspek dari protokol kognitif dan tanda tangan UNITAS. Permohonan sedang menunggu; tidak ada paten yang telah diberikan, dan tidak ada di sini yang boleh dibaca sebagai klaim atas hak yang telah diberikan.",
+        "Status menunggu tidak memberikan eksklusivitas yang dapat ditegakkan kecuali dan sampai sebuah paten diterbitkan. Nama produk dan nama sistem Sovereign Codex digunakan sebagai penanda asal."
+      ]
+    },
+    "compliance": {
+      "title": "Kepatuhan",
+      "lede": "Bagaimana UNITAS menyikapi kewajiban regulasinya di yurisdiksi yang dilayaninya.",
+      "body": [
+        "UNITAS dioperasikan oleh perusahaan Estonia dan menyelaraskan praktiknya dengan prinsip perlindungan data dan perlindungan konsumen Uni Eropa. Pemrosesan pembayaran dilakukan oleh penyedia pihak ketiga di bawah kerangka teregulasi mereka sendiri.",
+        "Kami tidak mengklaim sertifikasi di bawah standar tertentu. Pertanyaan kepatuhan, termasuk permintaan subjek data, dapat diajukan melalui halaman Kontak."
+      ]
+    },
+    "security": {
+      "title": "Keamanan",
+      "lede": "Kontrol yang melindungi akun, saldo, dan data identitas.",
+      "body": [
+        "Identitas akun ditegakkan di basis data, bukan di browser: nomor telepon terverifikasi bersifat unik di seluruh akun aktif, perubahan saldo hanya melalui fungsi sisi server yang teraudit, dan buku besar transaksi bersifat hanya-tambah.",
+        "Rahasia seperti kunci pembayaran tidak pernah mencapai kode klien. Untuk melaporkan kerentanan, gunakan halaman Kontak dengan detail yang cukup untuk mereproduksi masalah, dan mohon jangan mengungkapkannya secara publik sebelum kami menanggapi."
+      ]
+    },
+    "privacy": {
+      "title": "Kebijakan Privasi",
+      "lede": "Apa yang dikumpulkan UNITAS, mengapa, dan pilihan yang Anda miliki.",
+      "body": [
+        "UNITAS mengumpulkan minimum yang dibutuhkan untuk menjalankan sebuah akun: satu pengenal (email atau telepon) untuk autentikasi, saldo coin dan buku besarnya, serta preferensi dasar bahasa dan perangkat yang disimpan di perangkat Anda. Sesi tamu tetap lokal di browser Anda.",
+        "Data diproses untuk mengoperasikan layanan, bukan untuk membangun profil iklan. Anda dapat meminta akses ke data akun Anda atau penghapusannya melalui halaman Kontak atau pengaturan akun di dalam aplikasi."
+      ]
+    },
+    "cookies": {
+      "title": "Kebijakan Cookie",
+      "lede": "UNITAS menggunakan penyimpanan lokal dan cookie secara hemat dan fungsional.",
+      "body": [
+        "Situs menyimpan sekumpulan kecil nilai — bahasa Anda, preferensi audio Anda, token sesi dan autentikasi, dan sebuah penanda akses pra-peluncuran. Ini diperlukan agar antarmuka bekerja dengan benar.",
+        "Tidak ada cookie iklan pihak ketiga atau pelacakan lintas situs yang dipasang. Menghapus penyimpanan browser Anda mengatur ulang preferensi ini pada kunjungan berikutnya."
+      ]
+    },
+    "terms": {
+      "title": "Ketentuan Layanan",
+      "lede": "Ketentuan dasar untuk menggunakan UNITAS selama berada dalam fase pra-peluncuran.",
+      "body": [
+        "UNITAS disediakan atas dasar \"sebagaimana adanya\" selama pengembangan aktif. Akses ke modul berbayar diatur oleh saldo coin pada akun Anda; coin adalah kredit akses prabayar — bukan sekuritas atau instrumen bernilai tersimpan — dan tidak dapat dipindahtangankan.",
+        "Fitur dapat berubah atau ditangguhkan seiring platform berkembang. Melanjutkan penggunaan setelah sebuah perubahan berarti Anda menerima ketentuan yang diperbarui. Hukum yang berlaku adalah hukum Estonia."
+      ]
+    },
+    "help-center": {
+      "title": "Pusat Bantuan",
+      "lede": "Jawaban atas pertanyaan yang paling sering muncul.",
+      "body": [
+        "Suara: audio latar aktif secara bawaan di setiap perangkat dan bertahan melintasi penyegaran; alihkan dari ikon pengeras suara di navigasi atas. Bahasa: ganti kapan saja dari menu bendera — pilihan Anda diingat.",
+        "Akses: sebuah modul terbuka setelah saldo coin yang diperlukan tersedia di akun Anda. Jika sesuatu tampak macet, muat ulang halaman; keadaan akun dan saldo dipulihkan secara otomatis."
+      ]
+    },
+    "contact": {
+      "title": "Hubungi Kami",
+      "lede": "Satu kanal menjangkau pendiri secara langsung.",
+      "body": [
+        "Pertanyaan umum, kemitraan, pers, keamanan, dan perlindungan data semuanya ditangani oleh pendiri. Gunakan panel pengaturan akun di dalam aplikasi untuk membuka percakapan, atau hubungi alamat yang tercantum di kanal resmi THE UNITAS GLOBAL OÜ.",
+        "Tidak ada saluran dukungan telepon. Waktu tanggapan bergantung pada volume; laporan keamanan diprioritaskan."
+      ]
+    },
+    "system-status": {
+      "title": "Status Sistem",
+      "lede": "Keadaan operasional platform UNITAS saat ini.",
+      "body": [
+        "UNITAS berada dalam fase pra-peluncuran. Antarmuka publik sengaja disegel di balik gerbang \"Segera Hadir\" sementara pendiri menyelesaikan verifikasi berurutan atas alur masuk.",
+        "Pemeliharaan terencana dan setiap insiden yang memengaruhi akun atau saldo akan diringkas di sini setelah platform aktif secara publik."
+      ]
+    }
+  }
+}

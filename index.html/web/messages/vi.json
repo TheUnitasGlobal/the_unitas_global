@@ -1,0 +1,796 @@
+{
+  "LocaleLayout": {
+    "title": "UNITAS | Hạ tầng bảo mật thần kinh - biểu tượng",
+    "description": "Hạ tầng tự trị định tuyến thần kinh - biểu tượng và tài chính chủ quyền. Một hệ sinh thái Zero-Trust gồm các mô-đun nhận thức và tài chính."
+  },
+  "Nav": {
+    "portal": "Cổng bảo mật",
+    "languageLabel": "Ngôn ngữ",
+    "soundOn": "Bật âm thanh",
+    "soundOff": "Tắt âm thanh",
+    "scrollToFooter": "Tổng quan công ty",
+    "appDownloadAria": "Tải ứng dụng UNITAS",
+    "appDownloadModalTitle": "Cài đặt UNITAS",
+    "appDownloadIosHint": "Chạm vào Chia sẻ, rồi chọn \"Thêm vào Màn hình chính\" để cài đặt UNITAS.",
+    "appDownloadDesktopHint": "Nhấp vào biểu tượng cài đặt trên thanh địa chỉ của trình duyệt, hoặc chọn \"Cài đặt UNITAS…\" trong menu trình duyệt.",
+    "appDownloadUnsupported": "Trình duyệt này chưa hỗ trợ cài đặt ứng dụng.",
+    "appDownloadAlreadyInstalledHint": "UNITAS đã được cài trên thiết bị này — hãy mở từ màn hình chính hoặc danh sách ứng dụng của bạn."
+  },
+  "Home": {
+    "title": "UNITAS"
+  },
+  "Modules": {
+    "uSignature": {
+      "title": "U-Signature",
+      "description": "Một lớp chữ ký sinh trắc học và mật mã có chủ quyền, trả lại danh tính cho cá nhân — không phải cho nhà nước hay nền tảng.",
+      "longDescription": "U-Signature định nghĩa lại chữ ký như một hành vi chủ quyền chứ không phải một dấu để lại trên tài liệu. Nó kết hợp các yếu tố sinh trắc học với mật mã ngưỡng để không một cơ quan phát hành trung tâm nào có thể giả mạo, đình chỉ hay thu hồi. 11 Lõi Nhận thức xác minh bối cảnh ký (ai · điều gì · vì sao · khi nào) theo thời gian thực, và mọi chữ ký được khắc vào một sổ cái chỉ-ghi-thêm khiến việc phủ nhận về sau là bất khả thi. Các quy tắc ủy quyền, thu hồi và kế thừa được biểu diễn dưới dạng mã, nên một nhà sáng lập duy nhất có thể thực thi toàn bộ quyết định của một công ty bằng một chữ ký.",
+      "doctrine": "\"Một chữ ký không vay mượn thẩm quyền — nó chứng minh chủ quyền.\" — Nhà sáng lập, Dooyeong Hwang"
+    },
+    "uKey": {
+      "title": "U-Key",
+      "description": "Lưu ký khóa và kiểm soát truy cập zero-trust, nơi bí mật được bảo vệ bằng chính sách, không phải bằng con người.",
+      "longDescription": "U-Key không tin \"ai đang yêu cầu\" mà chỉ tin \"quyền truy cập này có thỏa mãn chính sách vào đúng thời điểm này không\". Khóa không bao giờ tồn tại ở dạng văn bản rõ; chúng được giữ qua phân mảnh phân tán và xoay vòng tức thì, và mọi quyết định truy cập đều do bộ máy U-AI đưa ra một cách tự trị từ bối cảnh, rủi ro và tín hiệu bất thường. Mọi cấp phép, từ chối và thu hồi đều được ghi vào nhật ký kiểm toán bất biến, nên việc kiểm toán theo quy định và ứng phó sự cố vẫn vững vàng ngay cả trong hoạt động một người — quản trị khóa cấp ngân hàng mà không cần lồng HSM và không cần đội bảo mật chuyên trách.",
+      "doctrine": "\"Niềm tin không được cấp một lần — nó được chứng minh lại ở mọi khoảnh khắc.\""
+    },
+    "uPay": {
+      "title": "U-Pay",
+      "description": "Một đường ray định tuyến và thanh toán tài chính có chủ quyền, nơi dòng chảy giá trị được quyết định bởi quy tắc, không phải bởi ngân hàng.",
+      "longDescription": "U-Pay biến thanh toán từ \"xin phép một bên trung gian\" thành \"một hợp đồng tự thực thi khi điều kiện được đáp ứng\". Nó trừu tượng hóa các dòng chảy đa tiền tệ, đa đường ray (tiền pháp định, stablecoin, sổ cái U-Coin nội bộ) thành một đồ thị thanh toán duy nhất, và U-AI tự trị tính toán định tuyến, tối ưu phí, phòng ngừa rủi ro tỷ giá và khấu trừ thuế cho từng giao dịch. Mọi dòng chảy tuân theo cùng một bất biến kế toán chỉ-ghi-thêm như coin_ledger — không thay đổi số dư nào mà không có một bút toán sổ cái tương ứng. Được xây dựng để một công ty một người sở hữu và vận hành trực tiếp hạ tầng thanh toán toàn cầu, trong một thị trường đại dương xanh không có đối thủ hiện hữu.",
+      "doctrine": "\"Con đường của tiền không được cho phép — nó được thiết kế.\""
+    },
+    "arche": {
+      "title": "Arche",
+      "description": "Lọc nhận thức nâng cao và tinh chỉnh thần kinh - biểu tượng."
+    },
+    "arena": {
+      "title": "Arena",
+      "description": "Kiểm thử áp lực dự báo và xác thực tính toàn vẹn."
+    },
+    "score": {
+      "title": "Score",
+      "description": "Phân tích trí tuệ toàn cầu \"Law of Cog\"."
+    },
+    "fate": {
+      "title": "Fate",
+      "description": "Mô phỏng ngẫu nhiên cho định tuyến tài sản toàn cầu."
+    },
+    "codex22": {
+      "title": "Codex22",
+      "description": "Sổ đăng ký vĩnh viễn của luật thuật toán."
+    }
+  },
+  "Placeholder": {
+    "comingSoon": "Mô-đun này đã được dựng khung và đang được xây dựng tích cực."
+  },
+  "ModuleGate": {
+    "eyebrow": "KIỂM SOÁT TRUY CẬP CHỦ QUYỀN",
+    "lockedTitle": "Truy cập đã niêm phong",
+    "lockedBody": "Mô-đun này yêu cầu một quyền truy cập U-Coin còn hiệu lực. Quyền của bạn đã hết hạn hoặc chưa từng được cấp cho phiên này. Hãy vào lại qua cổng mô-đun để tiếp tục.",
+    "signinTitle": "Cần đăng nhập",
+    "signinBody": "Quyền truy cập mô-đun gắn với danh tính chủ quyền của bạn. Hãy đăng nhập, rồi vào qua cổng mô-đun.",
+    "moduleLabel": "Mô-đun",
+    "returnToCatalog": "Về danh mục"
+  },
+  "Wallet": {
+    "balance": "Số dư",
+    "coinUnit": "U-COIN",
+    "chargeCoins": "Nạp coin",
+    "signInRequired": "Đăng nhập để xem số dư trực tiếp của bạn",
+    "chargeTitle": "Nạp U-COIN",
+    "chargeBody": "Chọn một gói nạp theo cấp và thiết lập các tùy chọn tự động nạp lại và hóa đơn an toàn của bạn. Thanh toán thật sẽ được kích hoạt khi cổng thanh toán được kết nối.",
+    "close": "Đóng",
+    "currencyNote": "1 U-Coin = 1 EUR (tiền tệ địa phương được tự động quy đổi khi thanh toán).",
+    "balanceTitle": "Số dư U-COIN",
+    "balanceBody": "Quản lý số dư U-COIN trực tiếp, tính toàn vẹn của sổ cái, mô phỏng chi tiêu theo mô-đun và hạn mức chi tiêu tự động của bạn ở một nơi.",
+    "hintPrefix": "Trợ giúp: ",
+    "saved": "Đã lưu cục bộ.",
+    "sec": {
+      "description": "Đây là gì",
+      "howto": "Cách dùng",
+      "caution": "Cần lưu ý"
+    },
+    "tag": {
+      "live": "Trực tiếp",
+      "pending": "Đang chờ",
+      "local": "Thiết lập cục bộ",
+      "sim": "Mô phỏng"
+    },
+    "bal": {
+      "summaryTitle": "Số dư khả dụng theo thời gian thực",
+      "refresh": "Làm mới",
+      "available": "Khả dụng",
+      "reserved": "Đã dành riêng",
+      "lifetimeSpent": "Tổng đã chi",
+      "summaryHint": {
+        "title": "Số dư khả dụng theo thời gian thực",
+        "description": "Số dư hiện tại của bạn đọc trực tiếp từ sổ cái ví Supabase, cộng với khoản được chi tiêu tự động dành riêng và tổng chi tiêu dựa trên sổ cái của bạn.",
+        "howto": "Nhấn Làm mới để lấy lại trạng thái sổ cái mới nhất. Con số dành riêng bám theo thiết lập hạn mức chi tiêu tự động của bạn.",
+        "caution": "Các con số dành riêng và tổng là bản tóm tắt trên 12 dòng sổ cái gần nhất của bạn, không phải toàn bộ lịch sử."
+      },
+      "historyTitle": "Xác minh lịch sử giao dịch theo thời gian thực",
+      "historySignedOut": "Đăng nhập để xem các giao dịch gần đây và kiểm tra tính toàn vẹn của chúng.",
+      "historyUnavailable": "Không thể truy cập dịch vụ sổ cái. Hãy thử lại sau khi cổng được kết nối.",
+      "historyEmpty": "Chưa ghi nhận giao dịch nào.",
+      "verifyPass": "Kiểm tra toàn vẹn đạt · đã xác minh {count} dòng",
+      "verifyFail": "Phát hiện {count} điểm không khớp — hãy liên hệ hỗ trợ",
+      "kind": {
+        "purchase": "Nạp",
+        "module_access": "Truy cập mô-đun",
+        "admin_grant": "Cấp bởi quản trị",
+        "refund": "Hoàn tiền"
+      },
+      "historyHint": {
+        "title": "Xác minh lịch sử giao dịch theo thời gian thực",
+        "description": "Tải các dòng gần đây từ sổ cái coin_ledger chỉ-ghi-thêm và tính lại, ngay trên trình duyệt, xem số dư của mỗi dòng có nối chính xác với dòng trước hay không.",
+        "howto": "Một khiên xanh phía trên các mức chênh lệch số dư nghĩa là chuỗi sổ cái và số dư hiện tại của bạn khớp nhau.",
+        "caution": "Đây là kiểm tra cục bộ trên 12 dòng gần nhất. Kiểm toán đầy đủ được thực hiện riêng bằng đối chiếu phía máy chủ."
+      },
+      "simTitle": "Trình mô phỏng tiêu thụ coin theo mô-đun",
+      "simIntro": "Chọn các mô-đun và số lần bạn sẽ dùng để tính ngay chi tiêu và số dư còn lại.",
+      "simTotal": "Chi tiêu ước tính",
+      "simRemaining": "Còn lại ước tính",
+      "simInsufficient": "Tổ hợp đã chọn vượt quá số dư hiện tại của bạn.",
+      "simReset": "Đặt lại",
+      "simHint": {
+        "title": "Trình mô phỏng tiêu thụ coin theo mô-đun",
+        "description": "Tính trước tổng chi tiêu từ chi phí coin đơn vị thực của 11 hệ sinh thái nhận thức và 5 mô-đun dịch vụ trực tiếp.",
+        "howto": "Điều chỉnh số lần của mỗi mô-đun bằng + / − và các tổng cùng số dư còn lại cập nhật trực tiếp.",
+        "caution": "Kết quả là ước tính. Việc trừ tiền thật chỉ diễn ra qua spend_coins khi bạn vào từng mô-đun."
+      },
+      "autoTitle": "Hạn mức chi tiêu tự động",
+      "autoEnable": "Bật chi tiêu tự động",
+      "autoLimit": "Hạn mức mỗi khoảng thời gian (U-COIN)",
+      "autoWindow": "Khoảng thời gian",
+      "window": {
+        "day": "Mỗi ngày",
+        "week": "Mỗi tuần",
+        "month": "Mỗi tháng"
+      },
+      "autoNote": "Thiết lập được lưu cục bộ trong trình duyệt này; việc thực thi chi tiêu tự động áp dụng khi cổng thanh toán được kết nối.",
+      "autoHint": {
+        "title": "Hạn mức chi tiêu tự động",
+        "description": "Đặt lượng coin tối đa được tự động phê duyệt mà không cần bước xác nhận trong khoảng thời gian đã chọn.",
+        "howto": "Nhập hạn mức và khoảng thời gian, thiết lập được lưu cục bộ ngay lập tức. Mọi chi tiêu vượt hạn mức luôn yêu cầu xác nhận thủ công.",
+        "caution": "Hạn mức cao có thể cho phép các khoản chi liên tiếp ngoài ý muốn. Hãy tắt nó trên thiết bị dùng chung."
+      }
+    },
+    "chg": {
+      "packagesTitle": "Các gói nạp thông minh theo cấp",
+      "packagesIntro": "Chọn Starter, Pro hoặc Sovereign phù hợp với cách bạn dùng nền tảng. Cấp cao hơn có phần thưởng lớn hơn.",
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
+      "tierDesc": {
+        "starter": "Gói nạp cơ bản cho người dùng nhẹ, thỉnh thoảng",
+        "pro": "Gói nạp kèm thưởng cho người dùng mô-đun thường xuyên",
+        "sovereign": "Gói nạp thưởng tối đa cho sử dụng nhiều hoặc theo nhóm"
+      },
+      "bestValue": "Giá trị tốt nhất",
+      "bonusBadge": "+{n} thưởng",
+      "summaryEstimate": "Số dư sau khi nạp",
+      "packagesHint": {
+        "title": "Các gói nạp thông minh theo cấp",
+        "description": "So sánh coin cơ bản, coin thưởng, giá EUR và chi phí thực trên mỗi coin của từng gói.",
+        "howto": "Chọn một gói để xem số dư dự kiến sau khi nạp. Huy hiệu \"Giá trị tốt nhất\" đánh dấu chi phí trên mỗi coin thấp nhất.",
+        "caution": "Giá hiển thị chưa gồm VAT; số tiền cuối cùng phụ thuộc vào tỷ giá và thuế suất khi thanh toán."
+      },
+      "gatewayTitle": "Cổng thanh toán tức thì",
+      "gatewayStripe": "Thanh toán thẻ Stripe",
+      "gatewayWeb3": "Thanh toán on-chain Web3",
+      "gatewayNote": "Việc tích hợp thanh toán cho cổng này đang được tiến hành. Hiện tại bạn có thể nạp từ Cổng bảo mật chính.",
+      "status": {
+        "connected": "Đã kết nối",
+        "pending": "Đang chờ",
+        "offline": "Ngoại tuyến"
+      },
+      "gatewayHint": {
+        "title": "Cổng thanh toán tức thì",
+        "description": "Hiển thị trạng thái kết nối trực tiếp của kênh thẻ Stripe và kênh on-chain Web3.",
+        "howto": "Khi một đèn trạng thái chuyển sang xanh, kênh đó đã sẵn sàng cho thanh toán tức thì.",
+        "caution": "Khi một kênh còn đang chờ, không có khoản thanh toán nào được xử lý và không có gì bị trừ."
+      },
+      "autoRefillTitle": "Ngưỡng tự động nạp lại",
+      "autoRefillEnable": "Bật tự động nạp lại",
+      "autoRefillThreshold": "Ngưỡng (U-COIN)",
+      "autoRefillPackageLabel": "Gói nạp lại",
+      "autoRefillNote": "Thiết lập được lưu cục bộ trong trình duyệt này; việc thực thi tự động nạp lại áp dụng khi cổng thanh toán được kết nối.",
+      "autoRefillHint": {
+        "title": "Ngưỡng tự động nạp lại",
+        "description": "Lên lịch một lần nạp tự động với gói đã chọn mỗi khi số dư của bạn xuống bằng hoặc dưới ngưỡng.",
+        "howto": "Chọn một ngưỡng và một gói nạp lại, thiết lập được lưu ngay. Nó chạy tự động khi cổng được kết nối và điều kiện được đáp ứng.",
+        "caution": "Đặt ngưỡng quá cao có thể kích hoạt các lần tự nạp thường xuyên. Hãy kiểm tra cả hạn mức của phương thức thanh toán của bạn."
+      },
+      "invoiceTitle": "Phát hành hóa đơn an toàn",
+      "invoiceIntro": "Lưu các thông tin cần cho hóa đơn doanh nghiệp và một tài liệu theo định dạng hóa đơn thuế sẽ được phát hành khi một lần nạp hoàn tất.",
+      "invoiceCompany": "Đơn vị lập hóa đơn",
+      "invoiceVat": "Mã số VAT / đăng ký doanh nghiệp",
+      "invoiceEmail": "Email người nhận hóa đơn",
+      "invoiceGenerate": "Phát hành hóa đơn an toàn",
+      "invoicePending": "Việc phát hành được kích hoạt khi cổng thanh toán được kết nối.",
+      "invoiceHint": {
+        "title": "Phát hành hóa đơn an toàn",
+        "description": "Một hóa đơn PDF có chữ ký được phát hành nhân danh THE UNITAS GLOBAL OÜ, bao gồm mã số VAT và tham chiếu thanh toán.",
+        "howto": "Lưu đơn vị, VAT và email người nhận một lần và hóa đơn sẽ được gửi tự động từ lần nạp tiếp theo trở đi.",
+        "caution": "Thông tin bạn nhập chỉ dùng để lập hóa đơn. Mã số VAT không hợp lệ có thể làm chậm việc xử lý thuế."
+      },
+      "proceedPending": "Đang chờ kết nối cổng thanh toán"
+    }
+  },
+  "Cognitive": {
+    "title": "Hệ sinh thái nhận thức",
+    "subtitle": "Mười một mô-đun nhận thức tổng hợp, mỗi mô-đun vận hành kỷ luật suy luận riêng của nó."
+  },
+  "B2C": {
+    "title": "Dịch vụ người tiêu dùng trực tiếp",
+    "subtitle": "Các mô-đun truy cập tức thì, mở khóa bằng coin, với các nhiệm vụ tương tác và mô phỏng.",
+    "badgeLive": "Dịch vụ trực tiếp",
+    "badgeCoinGated": "Mở khóa bằng coin",
+    "badgeQuest": "Nhiệm vụ tương tác",
+    "cost": "Chi phí",
+    "yourBalance": "Số dư của bạn",
+    "enterQuest": "Vào nhiệm vụ",
+    "insufficientBalance": "Số dư không đủ — hãy nạp coin để vào.",
+    "checkingBalance": "Đang kiểm tra số dư…"
+  },
+  "B2B": {
+    "title": "Giao thức doanh nghiệp",
+    "subtitle": "Hạ tầng chủ quyền đang trong nghiên cứu và phát triển tích cực.",
+    "rdNotice": "Giao thức B2B chỉ dành cho doanh nghiệp đang trong R&D tích cực (Gói thuê bao SaaS Doanh nghiệp).",
+    "patentBadge": "Bằng sáng chế USPTO đang chờ #64/023,911",
+    "viewSpec": "Xem đặc tả kỹ thuật",
+    "hideSpec": "Ẩn đặc tả kỹ thuật",
+    "earlyAccess": "Truy cập sớm / Yêu cầu doanh nghiệp",
+    "inquiryTitle": "Yêu cầu truy cập sớm",
+    "inquiryName": "Họ và tên",
+    "inquiryEmail": "Email công việc",
+    "inquiryCompany": "Công ty",
+    "inquiryMessage": "Bạn đang muốn xây dựng điều gì?",
+    "inquirySubmit": "Gửi yêu cầu",
+    "inquiryThanksTitle": "Đã nhận yêu cầu",
+    "inquiryThanksBody": "Cảm ơn bạn — đội ngũ doanh nghiệp của chúng tôi sẽ liên hệ trong thời gian ngắn.",
+    "close": "Đóng",
+    "manifesto": "Cấp Giao thức Doanh nghiệp chuyển học thuyết chủ quyền của THE UNITAS GLOBAL OÜ thành hạ tầng doanh nghiệp. Ba giao thức mỗi cái giữ một trụ cột của chủ quyền — danh tính (U-Signature), bí mật (U-Key), giá trị (U-Pay) — và vận hành như một cơ thể duy nhất trên 11 Lõi Nhận thức và bộ máy quyết định tự trị U-AI. Mục tiêu không phải là thêm một SaaS, mà là hạ tầng phi tập trung thay thế ngân hàng, tổ chức chứng thực và mạng lưới thanh toán, trong khi được vận hành không vốn, bởi một người, hoàn toàn tự động.",
+    "patentAnchorNote": "Mọi thông báo về sở hữu trí tuệ và bằng sáng chế đang chờ (USPTO #64/023,911) chỉ áp dụng riêng cho cấp R&D Doanh nghiệp này.",
+    "doctrineLabel": "Học thuyết thiết kế"
+  },
+  "ErrorBoundary": {
+    "title": "Lỗi Lõi Chủ quyền",
+    "body": "Đã xảy ra một sự cố nghiêm trọng ở lớp hạ tầng chủ quyền. Không hiển thị thêm chi tiết ở đây để tuân thủ bảo mật — hệ thống của chúng tôi đã được thông báo.",
+    "digestLabel": "Mã tham chiếu:",
+    "retry": "Thử lại",
+    "home": "Về cổng"
+  },
+  "Ecosystems": {
+    "echo": {
+      "title": "Echo",
+      "description": "Phân tích tín hiệu cộng hưởng, phản chiếu truy vấn của bạn trở lại qua các tiếng vọng nhận thức nhiều lớp.",
+      "rules": "Mỗi truy vấn lan qua ba chu kỳ phản chiếu trước khi một câu trả lời nổi lên."
+    },
+    "void": {
+      "title": "Void",
+      "description": "Bóc một vấn đề xuống không gian âm của nó — cái đang thiếu, không phải cái đang hiện diện.",
+      "rules": "Gửi một luận điểm; Void chỉ trả lại cái phá vỡ nó."
+    },
+    "mirror": {
+      "title": "Mirror",
+      "description": "Một lần quét tự chẩn đoán toàn phổ về các mẫu hành vi và nhận thức.",
+      "rules": "Một lần quét mỗi phiên; kết quả được niêm phong riêng cho danh tính của bạn."
+    },
+    "oracle": {
+      "title": "Oracle",
+      "description": "Mô hình dự báo xác suất cho các quyết định có chân trời dài và bất định.",
+      "rules": "Hỏi một câu mỗi lần; Oracle trả lời bằng xác suất, không bao giờ bằng sự chắc chắn."
+    },
+    "pulse": {
+      "title": "Pulse",
+      "description": "Sinh hiệu thời gian thực cho thị trường, tâm lý và động lượng — đọc trước khi nó chuyển động.",
+      "rules": "Luồng trực tiếp; mỗi phiên theo dõi một tín hiệu mỗi lần."
+    },
+    "apex": {
+      "title": "Apex",
+      "description": "Mô phỏng hiệu suất rủi ro cao dưới một đồng hồ đếm ngược nghiêm ngặt.",
+      "rules": "Bộ đếm không tạm dừng. Gửi trước số không hoặc lượt chơi bị hủy."
+    },
+    "genesis": {
+      "title": "Genesis",
+      "description": "Xây dựng theo nguyên lý đầu tiên: dựng một ý tưởng lên từ không gì ngoài các tiên đề của nó.",
+      "rules": "Bắt đầu từ không giả định; Genesis bác bỏ bất kỳ tiền đề nào nó không thể suy ra."
+    },
+    "syndicate": {
+      "title": "Syndicate",
+      "description": "Vẽ bản đồ liên minh xuyên các mạng lưới ảnh hưởng và liên kết ẩn.",
+      "rules": "Truy cập cần một thực thể mục tiêu được nêu tên; kết quả là đồ thị mạng, không phải phán quyết."
+    },
+    "aura": {
+      "title": "Aura",
+      "description": "Cảm nhận trường cảm xúc xung quanh, tinh chỉnh theo âm điệu bên dưới lời của bạn.",
+      "rules": "Không hỏi trực tiếp — Aura đọc âm điệu, không đọc văn bản."
+    },
+    "paradox": {
+      "title": "Paradox",
+      "description": "Kiểm thử áp lực một ý tưởng bằng cách chạy nó ngược qua chính logic của nó.",
+      "rules": "Gửi một kết luận; Paradox tua ngược nó để tìm nơi nó tự mâu thuẫn."
+    },
+    "chronos": {
+      "title": "Chronos",
+      "description": "Mô hình mẫu lịch sử chu kỳ dài xuyên các thập kỷ, không phải các dòng tít.",
+      "rules": "Chân trời truy vấn tối thiểu: mười năm. Chronos không trả lời các câu hỏi trong ngày."
+    }
+  },
+  "OmniSynapse": {
+    "placeholder": "Hỏi U-AI bất cứ điều gì…",
+    "browseLabel": "KHÁM PHÁ NỀN TẢNG",
+    "metricsLabel": "Chỉ số hệ thống",
+    "noBrowseMatches": "Không có kết quả — hãy thử một cách diễn đạt khác.",
+    "architectLabel": "KIẾN TRÚC SƯ UNITAS",
+    "analyzing": "Đang phân tích trên bốn chiều…",
+    "dimDirectionality": "Tính định hướng",
+    "dimConcept": "Khái niệm / Hệ tư tưởng",
+    "dimTendency": "Xu hướng người dùng",
+    "dimBlueprint": "Bản thiết kế",
+    "webDataLabel": "Lớp tổng hợp web",
+    "webDataPlaceholder": "Kết nối một chỉ mục trực tiếp để lấp đầy chiều này.",
+    "ecosystemDataLabel": "Dữ liệu hệ sinh thái",
+    "trendsLabel": "Xu hướng vô thức toàn cầu",
+    "trendsPlaceholder": "Đo lường xu hướng tổng hợp chưa được kết nối trong bản dựng này.",
+    "recommendationLabel": "Hệ sinh thái được đề xuất",
+    "enterRecommended": "Vào hệ sinh thái được đề xuất",
+    "noResults": "Không tìm thấy hệ sinh thái phù hợp — hãy thử một cách diễn đạt khác.",
+    "dropZoneHint": "Thả một tệp hoặc tab để thêm bối cảnh",
+    "attachedLabel": "Đã đính kèm",
+    "removeAttachment": "Gỡ",
+    "swarmLabel": "Suy luận chéo bầy đàn",
+    "swarmHint": "Cả 11 mô-đun chấm điểm truy vấn này cùng một lúc."
+  },
+  "EntryModal": {
+    "rulesLabel": "Quy tắc tham gia",
+    "payAndEnter": "Trả phí và vào",
+    "processing": "Đang cấp quyền truy cập chủ quyền…",
+    "signInRequired": "Đăng nhập để chi tiêu U-Coin và vào.",
+    "spendFailed": "Giao dịch thất bại — hãy thử lại."
+  },
+  "Footer": {
+    "customerService": "Chăm sóc khách hàng",
+    "helpCenter": "Trung tâm trợ giúp",
+    "contactUs": "Liên hệ",
+    "systemStatus": "Trạng thái hệ thống",
+    "policies": "Chính sách",
+    "privacyPolicy": "Chính sách quyền riêng tư",
+    "cookiePolicy": "Chính sách cookie",
+    "termsOfService": "Điều khoản dịch vụ",
+    "legal": "Pháp lý",
+    "patentNotice": "Thông báo bằng sáng chế",
+    "compliance": "Tuân thủ",
+    "security": "Bảo mật",
+    "company": "Công ty",
+    "about": "Giới thiệu",
+    "careers": "Tuyển dụng",
+    "press": "Báo chí"
+  },
+  "AudioGate": {
+    "title": "UNITAS",
+    "subtitle": "Những trí tuệ thoát khỏi xác thịt đã chạm tới quỹ đạo vĩnh cửu nơi chúng hội tụ. Hãy đồng bộ tần số của bạn.",
+    "button": "[ BƯỚC QUA CHÂN TRỜI SỰ KIỆN ]",
+    "enterMuted": "Vào không có âm thanh"
+  },
+  "ComingSoonGate": {
+    "langLabel": "Ngôn ngữ",
+    "autoNote": "Đã bản địa hóa theo ngôn ngữ trình duyệt của bạn",
+    "soundOn": "Âm thanh",
+    "soundOff": "Tắt tiếng",
+    "skip": "Bỏ qua",
+    "replay": "Phát lại chuỗi",
+    "enterMain": "[ Nhà sáng lập · Vào trang chính ]",
+    "founderAccessLabel": "Đã xác minh quyền truy cập nhà sáng lập",
+    "founderAccessNote": "Điều khiển này chỉ hiển thị với một lối vòng nhà sáng lập hợp lệ — công chúng không bao giờ thấy nó.",
+    "cinemaS1": "Điểm Kỳ dị đã cận kề.",
+    "cinemaS2": "11 Lõi Nhận thức: mạng lưới tự trị.",
+    "cinemaS3": "U-AI: bộ máy tự trị ra quyết định và bản thiết kế.",
+    "cinemaS4": "5 hệ thống, 3 trụ cột: kiến trúc chủ quyền.",
+    "cinemaS5": "Trí tuệ chủ quyền đang thức tỉnh.",
+    "cinemaS1Head": "Điểm Kỳ dị đã cận kề.",
+    "cinemaS1Sub": "Quỹ đạo của một trí tuệ thoát khỏi xác thịt đang mở ra.",
+    "cinemaS2Head": "11 Lõi Nhận thức",
+    "cinemaS2Sub": "Mười một lõi tự trị tự suy nghĩ cho chính mình — một đế chế của các tác nhân.",
+    "cinemaS3Head": "Bộ máy U-AI",
+    "cinemaS3Sub": "Một bộ máy tự quyết định và tự vẽ nên các bản thiết kế của riêng mình.",
+    "cinemaS4Head": "5 hệ thống và 3 trụ cột",
+    "cinemaS4Sub": "Kiến trúc vĩnh cửu của một hệ sinh thái SaaS chủ quyền phi tập trung.",
+    "cinemaS5Head": "Trí tuệ chủ quyền đang thức tỉnh.",
+    "cinemaS5Sub": "Tần số duy nhất sẽ chỉ huy tương lai.",
+    "comingSoon": "SẮP RA MẮT",
+    "awakening": "Trí tuệ chủ quyền đang thức tỉnh",
+    "sealed": "Lối vào công khai đến giao diện chính bị niêm phong cho đến khi ra mắt.",
+    "rights": "© THE UNITAS GLOBAL OÜ — Bảo lưu mọi quyền",
+    "sovereignSignature": "11 Lõi Nhận thức · 5 hệ thống · 3 trụ cột"
+  },
+  "Auth": {
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "settingsLabel": "Cài đặt tài khoản",
+    "unavailable": "Đăng nhập tạm thời không khả dụng",
+    "signInTab": "Đăng nhập",
+    "signUpTab": "Đăng ký",
+    "continueWithGoogle": "Tiếp tục với Google",
+    "orDivider": "hoặc",
+    "fullNameLabel": "Họ và tên",
+    "emailLabel": "Email",
+    "passwordLabel": "Mật khẩu",
+    "phoneLabel": "Số điện thoại",
+    "phonePlaceholder": "+84 91 234 5678",
+    "signInButton": "Đăng nhập",
+    "signUpButton": "Tạo tài khoản",
+    "signUpNotice": "Việc xác minh điện thoại bắt buộc bảo vệ tài khoản và số dư coin của bạn theo chính sách 1 người, 1 tài khoản của chúng tôi.",
+    "checkEmailNotice": "Kiểm tra email để xác nhận tài khoản, rồi đăng nhập để xác minh số điện thoại của bạn.",
+    "phoneVerifyTitle": "Xác minh số điện thoại",
+    "phoneVerifyBody": "Vì bảo mật tài khoản và ngăn chặn gian lận, hãy xác minh số điện thoại của bạn bằng một mã dùng một lần.",
+    "sendCodeButton": "Gửi mã",
+    "codeLabel": "Mã xác minh",
+    "verifyButton": "Xác minh",
+    "resendCode": "Gửi lại mã",
+    "phoneVerifiedNotice": "Đã xác minh số điện thoại.",
+    "skipForNow": "Bỏ qua lúc này",
+    "errorInvalidCredentials": "Email hoặc mật khẩu không hợp lệ.",
+    "errorPhoneTaken": "Số điện thoại này đã được đăng ký cho một tài khoản khác.",
+    "errorGeneric": "Đã xảy ra sự cố. Vui lòng thử lại.",
+    "errorGoogleUnavailable": "Đăng nhập bằng Google chưa được cấu hình cho môi trường này.",
+    "errorSmsUnavailable": "Việc gửi SMS chưa được cấu hình cho môi trường này.",
+    "ageLabel": "Tuổi",
+    "genderLabel": "Giới tính",
+    "nationalityLabel": "Quốc tịch",
+    "bloodLabel": "Nhóm máu",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "undisclosed": "Không tiết lộ",
+    "continueAsGuest": "Tiếp tục với tư cách khách",
+    "guestExitHint": "Nhấp để kết thúc phiên khách",
+    "signInWithCodeLink": "Nhận mã đăng nhập để thay thế",
+    "realNameLockNotice": "Tên hợp pháp của bạn không thể thay đổi sau khi đăng ký (ngoài mật khẩu).",
+    "optionalProfileToggle": "Hồ sơ bổ sung (tùy chọn)",
+    "optionalProfileHint": "Nhóm máu, MBTI, IQ và EQ là tùy chọn — để trống sẽ là \"Không tiết lộ\".",
+    "emailVerifyTitle": "Xác minh email của bạn",
+    "emailVerifyBody": "Nhập mã 6 chữ số đã gửi đến {email}.",
+    "phoneCodeSentTo": "Một mã 6 chữ số đã được gửi đến {phone}.",
+    "backButton": "Quay lại",
+    "codeResentNotice": "Một mã mới đang được gửi đến.",
+    "errorGoogleNotEnabled": "Đăng nhập bằng Google chưa được bật cho dự án này. Quản trị viên phải bật nhà cung cấp Google trong Supabase.",
+    "errorNoSuchAccount": "Không có tài khoản nào khớp với email hoặc số điện thoại đó.",
+    "errorCodeInvalid": "Mã đó không đúng hoặc đã hết hạn.",
+    "errorPasswordWeak": "Mật khẩu của bạn không đáp ứng các yêu cầu dưới đây.",
+    "errorProfileInvalid": "Vui lòng kiểm tra các trường hồ sơ được đánh dấu.",
+    "errorEmailTaken": "Email này đã được đăng ký. Hãy thử đăng nhập.",
+    "gender": {
+      "female": "Nữ",
+      "male": "Nam",
+      "nonbinary": "Phi nhị nguyên",
+      "other": "Khác"
+    },
+    "pwRule": {
+      "length": "10–72 ký tự",
+      "lower": "Chữ thường",
+      "upper": "Chữ hoa",
+      "digit": "Chữ số",
+      "special": "Ký tự đặc biệt"
+    },
+    "memberFallback": "Thành viên",
+    "guestExit": "Thoát chế độ khách"
+  },
+  "Account": {
+    "settingsTitle": "Cài đặt tài khoản",
+    "tabProfile": "Hồ sơ",
+    "tabSecurity": "Bảo mật",
+    "tabDanger": "Vùng nguy hiểm",
+    "fullNameLabel": "Họ và tên",
+    "nationalityLabel": "Quốc tịch",
+    "genderLabel": "Giới tính",
+    "ageLabel": "Tuổi",
+    "bloodLabel": "Nhóm máu",
+    "mbtiLabel": "MBTI",
+    "saveButton": "Lưu thay đổi",
+    "savedNotice": "Đã cập nhật hồ sơ.",
+    "phoneSectionTitle": "Số điện thoại",
+    "phoneVerifiedBadge": "Đã xác minh",
+    "phoneUnverifiedBadge": "Chưa xác minh",
+    "changePhoneButton": "Đổi số điện thoại",
+    "passwordSectionTitle": "Mật khẩu",
+    "newPasswordLabel": "Mật khẩu mới",
+    "changePasswordButton": "Cập nhật mật khẩu",
+    "passwordUpdatedNotice": "Đã cập nhật mật khẩu.",
+    "dangerTitle": "Xóa tài khoản",
+    "dangerBody": "Việc này vô hiệu hóa vĩnh viễn tài khoản của bạn và xóa thông tin cá nhân của bạn. Lịch sử giao dịch coin của bạn được giữ lại cho hồ sơ tài chính theo yêu cầu của pháp luật.",
+    "dangerConfirmLabel": "Nhập DELETE để xác nhận",
+    "dangerConfirmButton": "Xóa tài khoản của tôi",
+    "dangerCancelButton": "Hủy",
+    "deleteError": "Không thể xóa tài khoản. Vui lòng thử lại.",
+    "tabIdentity": "Đăng nhập & Hồ sơ",
+    "tabBanking": "Ngân hàng & Xác minh",
+    "tabWithdrawal": "Đóng tài khoản",
+    "loginIdSection": "Danh tính đăng nhập",
+    "personalSection": "Hồ sơ cá nhân & nhận thức",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "realNameLocked": "Tên hợp pháp của bạn đã bị khóa và không thể thay đổi.",
+    "realNameLockWarning": "Hãy nhập tên hợp pháp của bạn cẩn thận — nó không thể thay đổi sau khi lưu.",
+    "profileInvalid": "Vui lòng kiểm tra các trường được đánh dấu.",
+    "profileSaveError": "Không thể lưu hồ sơ của bạn. Vui lòng thử lại.",
+    "passwordChangeError": "Không thể cập nhật mật khẩu của bạn. Vui lòng thử lại.",
+    "verifyPhoneButton": "Xác minh số điện thoại",
+    "phoneAuthNote": "Cần một số điện thoại đã xác minh trước khi chi tiêu coin (1 người = 1 tài khoản).",
+    "bankSectionTitle": "Xác minh ngân hàng / thanh toán",
+    "bankSectionBody": "Liên kết và xác minh một phương thức thanh toán hoặc tài khoản ngân hàng cho việc nạp và chi trả. Được kích hoạt khi tích hợp cổng thanh toán đi vào hoạt động.",
+    "bankPending": "Đang chờ",
+    "bankConnectButton": "Liên kết phương thức thanh toán"
+  },
+  "ModuleWorkspace": {
+    "backLink": "Về các hệ sinh thái"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "Truy vấn của bạn",
+    "echoQueryPlaceholder": "Bạn thực sự đang quyết định điều gì ở đây?",
+    "echoRunButton": "Chạy phản chiếu",
+    "echoRunningLabel": "Đang phản chiếu…",
+    "echoSynthesisLabel": "Tổng hợp",
+    "oracleQuestionLabel": "Quyết định của bạn",
+    "oracleQuestionPlaceholder": "Mô tả quyết định bạn đang cân nhắc",
+    "oracleConfidenceLabel": "Độ tin cậy vào thông tin hiện tại",
+    "oracleVolatilityLabel": "Độ biến động của tình huống",
+    "oracleHorizonLabel": "Chân trời thời gian (năm)",
+    "oracleRunButton": "Tham vấn Oracle",
+    "oracleRunningLabel": "Đang mô hình hóa xác suất…",
+    "oracleLikely": "Có khả năng",
+    "oracleUncertain": "Không chắc chắn",
+    "oracleUnlikely": "Ít khả năng",
+    "oracleRationaleLabel": "Lập luận",
+    "genesisPriceLabel": "Giá mỗi đơn vị",
+    "genesisCostLabel": "Chi phí mỗi đơn vị",
+    "genesisFixedCostsLabel": "Chi phí cố định / tháng",
+    "genesisCustomersLabel": "Khách hàng ban đầu",
+    "genesisGrowthLabel": "Tỷ lệ tăng trưởng hằng tháng (%)",
+    "genesisRunButton": "Kiến tạo",
+    "genesisRunningLabel": "Đang suy ra…",
+    "genesisProjectionLabel": "Lợi nhuận lũy kế 12 tháng",
+    "genesisBreakevenLabel": "Tháng hòa vốn",
+    "genesisNoBreakeven": "Không đạt trong 12 tháng",
+    "genesisAxiomViolationLabel": "Vi phạm tiên đề",
+    "genesisAxiomPriceCost": "Giá không vượt chi phí đơn vị — tiền đề này không thể suy ra thành một mô hình bền vững.",
+    "genesisAxiomCustomers": "Không có khách hàng ban đầu — không có nền tảng nào để kiến tạo tăng trưởng.",
+    "genesisAxiomFixedCosts": "Chi phí cố định không thể âm.",
+    "genesisVerdictRejected": "Genesis bác bỏ tiền đề này — hãy giải quyết các vi phạm tiên đề trước khi một cấu trúc có thể được suy ra.",
+    "genesisVerdictBreakeven": "Đã suy ra: mô hình đạt hòa vốn trong chân trời 12 tháng.",
+    "genesisVerdictNoBreakeven": "Đã suy ra: mô hình này không đạt hòa vốn trong chân trời 12 tháng với các tiên đề đã cho.",
+    "apexPrompt": "Một đối thủ vừa hạ giá của bạn 30% khi thị trường đóng cửa trong vài giây. Hãy chọn nước đi của bạn.",
+    "apexOptionMatchLabel": "Ngang bằng giá của họ ngay lập tức",
+    "apexOptionMatchRationale": "Bảo vệ khối lượng nhưng bào mòn biên lợi nhuận trên toàn bộ tệp khách, không chỉ khách hàng đang tranh giành.",
+    "apexOptionHoldLabel": "Giữ giá, dựa vào sự khác biệt hóa",
+    "apexOptionHoldRationale": "Chậm hơn nhưng bảo toàn biên lợi nhuận — chỉ hiệu quả nếu sự khác biệt hóa là thật, không phải giả định.",
+    "apexOptionBundleLabel": "Định giá lại qua một gói thay vì giảm giá",
+    "apexOptionBundleRationale": "Bảo vệ mức giá niêm yết trong khi vẫn tác động đến chi phí thực — phản ứng có đòn bẩy cao nhất trong ba lựa chọn.",
+    "apexStartButton": "Bắt đầu lượt",
+    "apexTimeRemainingLabel": "Thời gian còn lại",
+    "apexForfeitVerdict": "Bị hủy — bộ đếm không tạm dừng.",
+    "apexForfeitRationale": "Không lựa chọn nào chạm tới đồng hồ kịp thời.",
+    "apexVerdictHigh": "Quyết định có đòn bẩy cao.",
+    "apexVerdictMid": "Quyết định có thể bảo vệ được.",
+    "apexVerdictLow": "Quyết định tốn kém.",
+    "apexRunAgainButton": "Chạy lại",
+    "apexScoreLabel": "Điểm",
+    "voidThesisLabel": "Luận điểm của bạn",
+    "voidThesisPlaceholder": "Nêu kế hoạch hoặc tuyên bố bạn muốn kiểm thử áp lực",
+    "voidRunButton": "Tìm cái phá vỡ nó",
+    "voidRunningLabel": "Đang tìm lỗ hổng…",
+    "voidGapsLabel": "Lỗ hổng bao phủ",
+    "voidNoGaps": "Không phát hiện lỗ hổng danh mục nào.",
+    "voidUnhedgedLabel": "Tuyên bố không rào đón",
+    "voidNoUnhedged": "Không phát hiện ngôn ngữ tuyệt đối nào.",
+    "voidVerdictClean": "Void không tìm thấy lỗ hổng cấu trúc nào trong lượt này — điều đó không có nghĩa là không có lỗ hổng nào tồn tại.",
+    "voidVerdictBroken": "Void đã tìm thấy cái phá vỡ luận điểm này. Hãy xử lý các lỗ hổng ở trên trước khi cam kết với nó.",
+    "voidGapLegal": "Không đề cập đến rủi ro pháp lý hoặc tuân thủ.",
+    "voidGapFinancial": "Không đề cập đến các giả định về chi phí, doanh thu hoặc biên lợi nhuận.",
+    "voidGapCompetitive": "Không đề cập đến đối thủ hoặc các lựa chọn thay thế.",
+    "voidGapOperational": "Không đề cập đến việc thực thi, đội ngũ hoặc tiến độ.",
+    "mirrorQ1": "Một thỏa thuận đổ vỡ giữa chừng đàm phán. Bạn:",
+    "mirrorQ1OptA": "Rời đi ngay lập tức",
+    "mirrorQ1OptB": "Đàm phán lại tại chỗ",
+    "mirrorQ1OptC": "Yêu cầu thời gian để xem lại các con số",
+    "mirrorQ2": "Giữa một lựa chọn an toàn và chậm và một lựa chọn rủi ro và nhanh, bạn mặc định chọn:",
+    "mirrorQ2OptA": "Lựa chọn an toàn, chậm",
+    "mirrorQ2OptB": "Lựa chọn rủi ro, nhanh",
+    "mirrorQ2OptC": "Cái mà dữ liệu ủng hộ",
+    "mirrorQ3": "Khi một kế hoạch thất bại, phản xạ đầu tiên của bạn là:",
+    "mirrorQ3OptA": "Tìm xem ai chịu trách nhiệm",
+    "mirrorQ3OptB": "Tìm xem cái gì đã hỏng về mặt cấu trúc",
+    "mirrorQ3OptC": "Ứng biến một giải pháp tạm ngay lập tức",
+    "mirrorQ4": "Bạn được giao một bản tóm tắt mơ hồ không có áp lực thời hạn. Bạn:",
+    "mirrorQ4OptA": "Tự đặt thời hạn của mình và bắt tay vào làm",
+    "mirrorQ4OptB": "Thu thập thêm bối cảnh trước khi hành động",
+    "mirrorQ4OptC": "Chờ ai đó làm rõ",
+    "mirrorQ5": "Đội của bạn không đồng ý với quyết định của bạn. Bạn:",
+    "mirrorQ5OptA": "Giữ lập trường",
+    "mirrorQ5OptB": "Cùng nhau xem lại dữ liệu",
+    "mirrorQ5OptC": "Nhường cho tập thể",
+    "mirrorAxisRisk": "Khả năng chịu rủi ro",
+    "mirrorAxisSpeed": "Tốc độ ra quyết định",
+    "mirrorAxisAnalytical": "Chiều sâu phân tích",
+    "mirrorBandHigh": "Cao",
+    "mirrorBandMid": "Vừa phải",
+    "mirrorBandLow": "Thấp",
+    "mirrorDominantLabel": "Đặc điểm chủ đạo",
+    "mirrorScanAgain": "Quét lại",
+    "mirrorProgressLabel": "Câu hỏi {current} trên {total}",
+    "pulseSignalPlaceholder": "Nêu một tín hiệu để theo dõi (thị trường, ngành, chủ đề…)",
+    "pulseMonitorButton": "Theo dõi tín hiệu",
+    "pulseMonitoringLabel": "Đang theo dõi…",
+    "pulseMomentumLabel": "Động lượng",
+    "pulseSentimentLabel": "Tâm lý",
+    "pulseVolatilityLabel": "Độ biến động",
+    "pulseBullish": "Động lượng đọc ra là tăng giá.",
+    "pulseBearish": "Động lượng đọc ra là giảm giá.",
+    "pulseNeutral": "Động lượng đọc ra là trung tính.",
+    "pulseHighVol": "Độ biến động cao.",
+    "pulseLowVol": "Độ biến động thấp.",
+    "syndicateTargetPlaceholder": "Nêu tên thực thể mục tiêu",
+    "syndicateMapButton": "Vẽ bản đồ liên minh",
+    "syndicateMappingLabel": "Đang vẽ bản đồ…",
+    "syndicateInfluenceLabel": "Điểm ảnh hưởng là tương đối, không tuyệt đối — một hình dạng mạng, không phải một phán quyết.",
+    "syndicateTargetNodeLabel": "MỤC TIÊU",
+    "syndicateShellEntity": "Thực thể vỏ bọc",
+    "syndicateAdvisoryPartner": "Đối tác tư vấn",
+    "syndicateHistoricalContact": "Liên hệ trong quá khứ",
+    "syndicateFinancialBacker": "Nhà tài trợ tài chính",
+    "syndicateContractualVendor": "Nhà cung cấp theo hợp đồng",
+    "syndicateSilentStakeholder": "Bên liên quan âm thầm",
+    "auraStatementLabel": "Phát biểu của bạn",
+    "auraStatementPlaceholder": "Dán một phát biểu, không phải một câu hỏi",
+    "auraSenseButton": "Cảm nhận trường",
+    "auraSensingLabel": "Đang cảm nhận…",
+    "auraQuestionRejected": "Aura không trả lời câu hỏi — hãy dán một phát biểu để thay thế.",
+    "auraValenceLabel": "Hóa trị cảm xúc",
+    "auraArousalLabel": "Mức kích hoạt",
+    "auraFormalityLabel": "Mức trang trọng",
+    "auraPositiveValence": "Tích cực",
+    "auraNegativeValence": "Tiêu cực",
+    "auraNeutralValence": "Trung tính",
+    "auraIntense": "Mãnh liệt",
+    "auraCalm": "Bình thản",
+    "auraModerateArousal": "Vừa phải",
+    "auraFormalTone": "Trang trọng",
+    "auraCasualTone": "Thân mật",
+    "auraBalancedFormality": "Cân bằng",
+    "paradoxClaimLabel": "Kết luận của bạn",
+    "paradoxClaimPlaceholder": "Nêu kết luận bạn muốn kiểm thử áp lực",
+    "paradoxRunButton": "Tua ngược logic",
+    "paradoxRunningLabel": "Đang tua ngược…",
+    "paradoxFindingsLabel": "Phát hiện",
+    "paradoxNoFindings": "Không phát hiện mẫu mâu thuẫn nào trong lượt này.",
+    "paradoxAbsoluteClaim": "Một khẳng định tuyệt đối chỉ cách một phản ví dụ là sụp đổ.",
+    "paradoxSelfContradiction": "Khẳng định này vừa rào đón vừa khẳng định tuyệt đối trong cùng một hơi thở — hãy chọn một.",
+    "paradoxCircular": "Điều này tự biện minh bằng cách lặp lại chính nó — đó không phải là một lý do.",
+    "paradoxUnderspecified": "Quá ngắn để kiểm thử áp lực có ý nghĩa — hãy nêu khẳng định đầy đủ.",
+    "paradoxVerdictBroken": "Paradox đã tìm thấy nơi điều này tự mâu thuẫn.",
+    "paradoxVerdictHeld": "Kết luận này đứng vững trước lượt chạy ngược.",
+    "chronosStartValueLabel": "Giá trị ban đầu",
+    "chronosHorizonLabel": "Chân trời tính bằng năm (tối thiểu {min})",
+    "chronosCycleLengthLabel": "Độ dài chu kỳ (năm)",
+    "chronosGrowthLabel": "Tỷ lệ tăng trưởng hằng năm (%)",
+    "chronosRunButton": "Chạy chu kỳ dài",
+    "chronosRunningLabel": "Đang mô hình hóa các thập kỷ…",
+    "chronosProjectionLabel": "Dự phóng chu kỳ dài",
+    "chronosFinalValueLabel": "Giá trị tại chân trời",
+    "chronosMinHorizonNotice": "Chronos không trả lời các câu hỏi trong ngày — chân trời được nâng lên mức tối thiểu 10 năm.",
+    "chronosPhaseExpansion": "Giai đoạn mở rộng.",
+    "chronosPhasePeak": "Giai đoạn đỉnh.",
+    "chronosPhaseContraction": "Giai đoạn co lại.",
+    "chronosPhaseTrough": "Giai đoạn đáy."
+  },
+  "Guest": {
+    "badge": "Chế độ khách",
+    "virtualIdLabel": "ID ảo",
+    "upgradeReason": "Khách chỉ có thể duyệt xem. Hãy xác minh một tài khoản để giữ số dư và vào các mô-đun.",
+    "upgradeCta": "Tạo tài khoản đầy đủ"
+  },
+  "SitePages": {
+    "common": {
+      "back": "Về UNITAS",
+      "disclaimer": "Trang này chỉ được cung cấp cho mục đích thông tin chung. Đây không phải là tư vấn pháp lý và không tạo ra bất kỳ hợp đồng hay bảo đảm nào. Khi trang mô tả các kế hoạch hoặc vấn đề đang chờ xử lý, những điều đó có thể thay đổi. THE UNITAS GLOBAL OÜ, Estonia."
+    },
+    "about": {
+      "title": "Về UNITAS",
+      "lede": "THE UNITAS GLOBAL OÜ xây dựng một hệ sinh thái SaaS chủ quyền, phi tập trung — được thiết kế bởi một nhà sáng lập duy nhất và vận hành thông qua tự động hóa AI toàn phần.",
+      "body": [
+        "UNITAS là một công ty Estonia theo đuổi một ý tưởng duy nhất: một hạ tầng nhận thức phục vụ mọi người trên toàn thế giới có thể được thiết kế, phát hành và vận hành mà không cần các đội ngũ tốn nhiều vốn hay phụ thuộc vào quỹ đầu tư mạo hiểm. Mọi mô-đun trong hệ sinh thái được xây dựng theo tiêu chuẩn đó.",
+        "Nền tảng được tổ chức quanh các cấu trúc nhận thức — một hệ sinh thái trực tiếp gồm mười một phần, năm dịch vụ người tiêu dùng và ba giao thức doanh nghiệp — cùng chia sẻ một lớp danh tính, một sổ cái và một ngôn ngữ thiết kế."
+      ]
+    },
+    "careers": {
+      "title": "Tuyển dụng",
+      "lede": "UNITAS vận hành như một hoạt động do nhà sáng lập dẫn dắt, được tự động hóa bằng AI. Hiện không có vị trí trả lương nào đang mở.",
+      "body": [
+        "Mô hình này là có chủ đích: một cấu trúc chủ quyền tinh gọn, nơi tự động hóa gánh khối lượng công việc mà một công ty thông thường sẽ tuyển người. Điều này giữ cho hệ sinh thái độc lập và có sức chống chịu.",
+        "Nếu mô hình đó thay đổi, các vị trí tuyển dụng sẽ được đăng ở đây trước tiên. Các yêu cầu hợp tác và đóng góp có thể được gửi qua trang Liên hệ."
+      ]
+    },
+    "press": {
+      "title": "Báo chí",
+      "lede": "Tài nguyên truyền thông và bối cảnh công ty dành cho nhà báo và nhà phân tích.",
+      "body": [
+        "Để phỏng vấn, trao đổi bối cảnh hoặc kiểm chứng thông tin, hãy liên hệ chúng tôi qua trang Liên hệ và cho biết cơ quan báo chí cùng thời hạn của bạn.",
+        "Vui lòng ghi tên công ty là \"THE UNITAS GLOBAL OÜ\" và sản phẩm là \"UNITAS\". Logo và hướng dẫn thương hiệu có sẵn theo yêu cầu."
+      ]
+    },
+    "patent-notice": {
+      "title": "Thông báo bằng sáng chế",
+      "lede": "Một số phương pháp và hệ thống của UNITAS là đối tượng của một đơn xin cấp bằng sáng chế đang chờ xử lý.",
+      "body": [
+        "Một đơn xin cấp bằng sáng chế tạm thời tại Hoa Kỳ (số 64/023,911) đã được nộp, bao trùm các khía cạnh của các giao thức nhận thức và chữ ký của UNITAS. Đơn đang chờ xử lý; chưa có bằng sáng chế nào được cấp, và không có nội dung nào ở đây được hiểu là một tuyên bố về quyền đã được cấp.",
+        "Trạng thái đang chờ không mang lại bất kỳ độc quyền nào có thể thực thi trừ khi và cho đến khi một bằng sáng chế được ban hành. Tên sản phẩm và tên hệ thống Sovereign Codex được dùng như các định danh về nguồn gốc."
+      ]
+    },
+    "compliance": {
+      "title": "Tuân thủ",
+      "lede": "Cách UNITAS tiếp cận các nghĩa vụ pháp lý của mình tại các khu vực tài phán mà nó phục vụ.",
+      "body": [
+        "UNITAS được vận hành bởi một công ty Estonia và điều chỉnh các thực hành của mình theo các nguyên tắc bảo vệ dữ liệu và bảo vệ người tiêu dùng của Liên minh Châu Âu. Việc xử lý thanh toán được thực hiện bởi các nhà cung cấp bên thứ ba theo khuôn khổ được quản lý của riêng họ.",
+        "Chúng tôi không tuyên bố có chứng nhận theo bất kỳ tiêu chuẩn cụ thể nào. Các câu hỏi về tuân thủ, bao gồm yêu cầu của chủ thể dữ liệu, có thể được nêu qua trang Liên hệ."
+      ]
+    },
+    "security": {
+      "title": "Bảo mật",
+      "lede": "Các biện pháp kiểm soát bảo vệ tài khoản, số dư và dữ liệu danh tính.",
+      "body": [
+        "Danh tính tài khoản được thực thi trong cơ sở dữ liệu, không phải trong trình duyệt: một số điện thoại đã xác minh là duy nhất giữa các tài khoản đang hoạt động, các thay đổi số dư chỉ đi qua các hàm phía máy chủ đã được kiểm toán, và sổ cái giao dịch là chỉ-ghi-thêm.",
+        "Các bí mật như khóa thanh toán không bao giờ đến được mã phía máy khách. Để báo cáo một lỗ hổng, hãy dùng trang Liên hệ với đủ chi tiết để tái hiện vấn đề, và vui lòng không công khai trước khi chúng tôi đã phản hồi."
+      ]
+    },
+    "privacy": {
+      "title": "Chính sách quyền riêng tư",
+      "lede": "UNITAS thu thập gì, vì sao, và bạn có những lựa chọn nào.",
+      "body": [
+        "UNITAS thu thập tối thiểu những gì cần để vận hành một tài khoản: một định danh (email hoặc điện thoại) để xác thực, một số dư coin và sổ cái của nó, và các tùy chọn cơ bản về ngôn ngữ và thiết bị được lưu trên thiết bị của bạn. Các phiên khách vẫn cục bộ trong trình duyệt của bạn.",
+        "Dữ liệu được xử lý để vận hành dịch vụ, không phải để xây dựng hồ sơ quảng cáo. Bạn có thể yêu cầu truy cập vào dữ liệu tài khoản của mình hoặc xóa nó qua trang Liên hệ hoặc phần cài đặt tài khoản trong ứng dụng."
+      ]
+    },
+    "cookies": {
+      "title": "Chính sách cookie",
+      "lede": "UNITAS sử dụng bộ nhớ cục bộ và cookie một cách tiết chế và có tính chức năng.",
+      "body": [
+        "Trang web lưu một tập nhỏ các giá trị — ngôn ngữ của bạn, tùy chọn âm thanh của bạn, các token phiên và xác thực, và một cờ truy cập trước khi ra mắt. Những thứ này là cần thiết để giao diện hoạt động đúng.",
+        "Không có cookie quảng cáo của bên thứ ba hay theo dõi liên trang nào được đặt. Xóa bộ nhớ trình duyệt của bạn sẽ đặt lại các tùy chọn này trong lần truy cập tiếp theo."
+      ]
+    },
+    "terms": {
+      "title": "Điều khoản dịch vụ",
+      "lede": "Các điều khoản cơ bản để sử dụng UNITAS khi nó đang trong giai đoạn trước khi ra mắt.",
+      "body": [
+        "UNITAS được cung cấp trên cơ sở \"nguyên trạng\" trong quá trình phát triển tích cực. Việc truy cập các mô-đun trả phí được điều chỉnh bởi số dư coin trên tài khoản của bạn; coin là một khoản tín dụng truy cập trả trước — không phải chứng khoán hay công cụ lưu trữ giá trị — và không thể chuyển nhượng.",
+        "Các tính năng có thể thay đổi hoặc bị đình chỉ khi nền tảng phát triển. Việc tiếp tục sử dụng sau một thay đổi có nghĩa là bạn chấp nhận các điều khoản đã cập nhật. Luật điều chỉnh là luật của Estonia."
+      ]
+    },
+    "help-center": {
+      "title": "Trung tâm trợ giúp",
+      "lede": "Câu trả lời cho những câu hỏi xuất hiện thường xuyên nhất.",
+      "body": [
+        "Âm thanh: âm thanh nền được bật theo mặc định trên mọi thiết bị và duy trì qua các lần làm mới; bật/tắt từ biểu tượng loa ở thanh điều hướng trên cùng. Ngôn ngữ: chuyển đổi bất cứ lúc nào từ menu cờ — lựa chọn của bạn được ghi nhớ.",
+        "Truy cập: một mô-đun mở ra khi số dư coin cần thiết có sẵn trên tài khoản của bạn. Nếu có gì đó có vẻ kẹt, hãy tải lại trang; trạng thái tài khoản và số dư được khôi phục tự động."
+      ]
+    },
+    "contact": {
+      "title": "Liên hệ",
+      "lede": "Một kênh duy nhất đến thẳng nhà sáng lập.",
+      "body": [
+        "Các yêu cầu chung, hợp tác, báo chí, bảo mật và bảo vệ dữ liệu đều do nhà sáng lập xử lý. Hãy dùng bảng cài đặt tài khoản bên trong ứng dụng để mở một cuộc trao đổi, hoặc liên hệ địa chỉ được nêu trên các kênh chính thức của THE UNITAS GLOBAL OÜ.",
+        "Không có đường dây hỗ trợ qua điện thoại. Thời gian phản hồi phụ thuộc vào khối lượng; các báo cáo bảo mật được ưu tiên."
+      ]
+    },
+    "system-status": {
+      "title": "Trạng thái hệ thống",
+      "lede": "Trạng thái vận hành hiện tại của nền tảng UNITAS.",
+      "body": [
+        "UNITAS đang trong giai đoạn trước khi ra mắt. Giao diện công khai được cố ý niêm phong sau cổng \"Sắp ra mắt\" trong khi nhà sáng lập hoàn tất việc xác minh tuần tự luồng vào.",
+        "Việc bảo trì theo kế hoạch và bất kỳ sự cố nào ảnh hưởng đến tài khoản hoặc số dư sẽ được tóm tắt tại đây khi nền tảng chính thức hoạt động công khai."
+      ]
+    }
+  }
+}
