@@ -4,6 +4,7 @@ import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { normalizeQuery } from '@/lib/uai/deepInsight';
 import {
   DAILY_REDESIGN_CAP,
+  REDESIGN_MAX_TOKENS,
   TREND_THRESHOLD,
   buildRedesignPrompt,
   parseRedesignResponse,
@@ -128,7 +129,7 @@ export async function POST(req: Request): Promise<NextResponse<TrendApiResponse>
   // 4. Forge the 6-axis Sovereign Redesign — exactly once for this query.
   try {
     const { system, user } = buildRedesignPrompt(query, locale);
-    const { text, model } = await generateInsight(system, user);
+    const { text, model } = await generateInsight(system, user, REDESIGN_MAX_TOKENS);
     const report = parseRedesignResponse(text, model, query, hits);
     await admin
       .from('genesis_memory')

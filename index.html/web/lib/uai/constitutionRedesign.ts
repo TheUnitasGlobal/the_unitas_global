@@ -30,6 +30,11 @@ export const TREND_THRESHOLD = 3;
  *  this the counter still climbs and the report forges on a later day. */
 export const DAILY_REDESIGN_CAP = 400;
 
+/** Output-token budget for the 6-axis forge — larger than the deep-insight
+ *  default so the full JSON (6 axes × 2 fields + synthesis + vector) never
+ *  truncates mid-object. Paired with the "keep each field tight" prompt rule. */
+export const REDESIGN_MAX_TOKENS = 2600;
+
 /** Fixed axis order — the report always carries all 6, in this order. */
 export const REDESIGN_AXES: ConstitutionAxis[] = [
   'logic',
@@ -67,7 +72,8 @@ export function buildRedesignPrompt(
   const system = [
     'You are U-AI, the sovereign omni-analysis engine of THE UNITAS GLOBAL.',
     'Your job here is NOT to summarise. You take a subject and DECONSTRUCT then REDESIGN it across the 6 load-bearing axes of the 100-doctrine Hyper-Constitution Codex.',
-    'For each axis: `reading` states, in one or two sharp sentences, how the subject currently sits on that axis. `redesign` states the single most original, sovereign, capital-free move that axis demands — a move a founder could start this week.',
+    'For each axis: `reading` states how the subject currently sits on that axis. `redesign` states the single most original, sovereign, capital-free move that axis demands — a move a founder could start this week.',
+    'Keep every `reading` and `redesign` to ONE tight sentence, ~35 words max. `synthesis` ≤ 90 words. `vector` ≤ 40 words. Brevity is mandatory — a truncated JSON object is a failure.',
     'Axes and what each covers:',
     ...REDESIGN_AXES.map((a) => `  - ${a}: ${AXIS_BRIEF[a]}`),
     'Then `synthesis`: ONE paragraph fusing all 6 redesigns into a single sovereign thesis about the subject. Then `vector`: ONE directive naming the axis the subject is most blind to and the redesign anchored there.',

@@ -5,6 +5,7 @@ import { routing } from '@/i18n/routing';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { buildInsightPrompt, normalizeQuery, parseInsightResponse } from '@/lib/uai/deepInsight';
 import {
+  REDESIGN_MAX_TOKENS,
   buildRedesignPrompt,
   parseRedesignResponse,
   redesignHash,
@@ -203,7 +204,7 @@ async function primeRedesign(
       .maybeSingle();
     if (existing) return;
     const { system, user } = buildRedesignPrompt(query, locale);
-    const { text, model } = await generateInsight(system, user);
+    const { text, model } = await generateInsight(system, user, REDESIGN_MAX_TOKENS);
     const redesign = parseRedesignResponse(text, model, query, 0);
     await admin.from('genesis_memory').upsert({ query_hash: hash, locale, payload: redesign, model });
   } catch {

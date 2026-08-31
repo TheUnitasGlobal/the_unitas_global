@@ -45,9 +45,11 @@ function activeProvider(): { provider: InsightProvider; key: string; model: stri
 export async function generateInsight(
   system: string,
   userPrompt: string,
+  maxTokens = 1800,
 ): Promise<{ text: string; model: string }> {
   const active = activeProvider();
   if (!active) throw new Error('No insight provider configured');
+  const max_tokens = Math.max(256, Math.min(4096, Math.round(maxTokens)));
 
   if (active.provider === 'anthropic') {
     const res = await fetch(ANTHROPIC_URL, {
@@ -59,7 +61,7 @@ export async function generateInsight(
       },
       body: JSON.stringify({
         model: active.model,
-        max_tokens: 1800,
+        max_tokens,
         system,
         messages: [{ role: 'user', content: userPrompt }],
       }),
@@ -74,7 +76,7 @@ export async function generateInsight(
     headers: { 'content-type': 'application/json', authorization: `Bearer ${active.key}` },
     body: JSON.stringify({
       model: active.model,
-      max_tokens: 1800,
+      max_tokens,
       response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: system },
