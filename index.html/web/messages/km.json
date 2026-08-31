@@ -19,7 +19,8 @@
     "appDownloadReadyHint": "កម្មវិធីរុករករបស់អ្នកអាចដំឡើង UNITAS ជាកម្មវិធីឥឡូវនេះ។ ចុចខាងក្រោមដើម្បីដំឡើង។"
   },
   "Home": {
-    "title": "UNITAS"
+    "title": "UNITAS",
+    "modulesLinkedLabel": "ប្រព័ន្ធអេកូឡូស៊ីម៉ូឌុល UNITAS · ភ្ជាប់នឹងការស្វែងរករបស់អ្នក"
   },
   "Modules": {
     "uSignature": {

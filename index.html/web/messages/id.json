@@ -19,7 +19,8 @@
     "appDownloadReadyHint": "Browser Anda dapat memasang UNITAS sebagai aplikasi sekarang. Ketuk di bawah untuk memasang."
   },
   "Home": {
-    "title": "UNITAS"
+    "title": "UNITAS",
+    "modulesLinkedLabel": "Ekosistem modul UNITAS · terhubung dengan pencarian Anda"
   },
   "Modules": {
     "uSignature": {

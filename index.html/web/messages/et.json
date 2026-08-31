@@ -19,7 +19,8 @@
     "appDownloadReadyHint": "Sinu brauser saab UNITASe kohe rakendusena paigaldada. Puuduta all paigaldamiseks."
   },
   "Home": {
-    "title": "UNITAS"
+    "title": "UNITAS",
+    "modulesLinkedLabel": "UNITASe moodulite ökosüsteem · seotud sinu otsinguga"
   },
   "Modules": {
     "uSignature": {

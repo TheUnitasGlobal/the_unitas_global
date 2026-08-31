@@ -19,7 +19,8 @@
     "appDownloadReadyHint": "お使いのブラウザは今すぐ UNITAS をアプリとしてインストールできます。下をタップしてインストールしてください。"
   },
   "Home": {
-    "title": "UNITAS"
+    "title": "UNITAS",
+    "modulesLinkedLabel": "検索結果と連動する UNITAS モジュール生態系"
   },
   "Modules": {
     "uSignature": {

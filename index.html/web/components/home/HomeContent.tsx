@@ -16,6 +16,7 @@ import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
 
 export function HomeContent() {
+  const tHome = useTranslations('Home');
   const tCognitive = useTranslations('Cognitive');
   const tB2c = useTranslations('B2C');
   const tB2b = useTranslations('B2B');
@@ -24,9 +25,12 @@ export function HomeContent() {
   const [activeModule, setActiveModule] = useState<B2CModule | null>(null);
   const { trigger: triggerShockwave, element: shockwaveElement } = useShockwave();
 
-  // Single U-AI session for the whole home page: the search bar drives it and
-  // the ecosystem / module / protocol walls below stay hidden until a search
-  // has produced a report (owner instruction 2026-08-30).
+  // Single U-AI session for the whole home page: the search bar drives it.
+  // The ecosystem / module / protocol walls below are ALWAYS mounted on the
+  // bare home screen (restored, owner instruction 2026-08-30) -- when a U-AI
+  // search is running they simply gain a connective heading and stay directly
+  // beneath the result dashboard, so the catalog reads as linked to the
+  // search output rather than as a separate page section.
   const uai = useUai();
   const searchActive = uai.phase !== 'idle';
 
@@ -49,11 +53,18 @@ export function HomeContent() {
       />
 
       {/* Sections 1-3 -- the UNITAS ecosystem / consumer / enterprise catalogs.
-          Hidden on the bare home screen; mounted only once a U-AI search has
-          run, directly beneath the result window (owner instruction
-          2026-08-30). */}
+          Always visible on the bare home screen (restored, owner instruction
+          2026-08-30). While a U-AI search is running they render directly under
+          the result dashboard with a connective heading, so the catalog reads
+          as organically linked to the search output. */}
       {searchActive && (
-      <Fragment>
+        <div className="mx-auto max-w-7xl px-6 pt-14">
+          <p className="border-l-2 border-accent pl-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent/80">
+            {tHome('modulesLinkedLabel')}
+          </p>
+        </div>
+      )}
+
       {/* Section 1 -- Cognitive Ecosystem (the 11 modules) */}
       <section id="ecosystems" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-10 text-center">
@@ -119,8 +130,6 @@ export function HomeContent() {
           ))}
         </div>
       </section>
-      </Fragment>
-      )}
 
       <EcosystemEntryModal ecosystem={activeEcosystem} onClose={() => setActiveEcosystem(null)} />
       <ModuleQuestModal module={activeModule} onClose={() => setActiveModule(null)} />

@@ -19,7 +19,8 @@
     "appDownloadReadyHint": "O seu navegador pode instalar o UNITAS como app agora. Toque abaixo para instalar."
   },
   "Home": {
-    "title": "UNITAS"
+    "title": "UNITAS",
+    "modulesLinkedLabel": "Ecossistema de módulos UNITAS · ligado à sua pesquisa"
   },
   "Modules": {
     "uSignature": {

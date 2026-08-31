@@ -19,7 +19,8 @@
     "appDownloadReadyHint": "Trình duyệt của bạn có thể cài UNITAS thành ứng dụng ngay bây giờ. Chạm bên dưới để cài đặt."
   },
   "Home": {
-    "title": "UNITAS"
+    "title": "UNITAS",
+    "modulesLinkedLabel": "Hệ sinh thái mô-đun UNITAS · liên kết với tìm kiếm của bạn"
   },
   "Modules": {
     "uSignature": {

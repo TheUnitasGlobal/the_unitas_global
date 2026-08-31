@@ -19,7 +19,8 @@
     "appDownloadReadyHint": "Your browser can install UNITAS as an app right now. Tap below to install."
   },
   "Home": {
-    "title": "UNITAS"
+    "title": "UNITAS",
+    "modulesLinkedLabel": "UNITAS module ecosystem · linked to your search"
   },
   "Modules": {
     "uSignature": {

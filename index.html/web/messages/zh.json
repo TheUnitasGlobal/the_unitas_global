@@ -19,7 +19,8 @@
     "appDownloadReadyHint": "您的浏览器现在即可将 UNITAS 安装为应用。点按下方按钮进行安装。"
   },
   "Home": {
-    "title": "UNITAS"
+    "title": "UNITAS",
+    "modulesLinkedLabel": "与搜索结果联动的 UNITAS 模块生态"
   },
   "Modules": {
     "uSignature": {
