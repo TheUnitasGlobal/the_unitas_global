@@ -832,7 +832,7 @@
         "生き残ったものだけで結論を組み直す。"
       ]
     },
-    "constitutionLabel": "71大 超-憲法 立体解体",
+    "constitutionLabel": "100大 超-憲法 立体解体",
     "constitution": {
       "logic": "論理 · 設計",
       "future": "未来 · 革新",
@@ -887,6 +887,6 @@
     "reporterPaid": "有料レポーター · ログイン",
     "followupLabel": "追加検索クエリ · 視点の選択肢",
     "followupHint": "別の憲法軸で再検索するか、引用元をさらに掘り下げる。",
-    "webBlendNote": "ビッグテック級のウェブ統合 90% + UNITAS 71大憲法リデザイン 10%。"
+    "webBlendNote": "ビッグテック級のウェブ統合 90% + UNITAS 100大憲法リデザイン 10%。"
   }
 }

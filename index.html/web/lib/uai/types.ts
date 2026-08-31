@@ -20,7 +20,7 @@ export type Directionality = 'divergent' | 'convergent';
 export type QueryArchetype = 'explore' | 'decide' | 'analyze';
 
 /**
- * The 71-doctrine Hyper-Constitution Codex collapsed to 6 load-bearing axes --
+ * The 100-doctrine Hyper-Constitution Codex collapsed to 6 load-bearing axes --
  * the lens the free Phase-1 search uses to *deconstruct and redesign* whatever
  * it collected (big-tech-grade web digest + query) rather than merely restate
  * it. Deterministic per query, so the same question always decomposes the same
@@ -92,7 +92,7 @@ export interface SurfaceReport {
   /** Phase 1 -- 3-step action checklist, as translation-key suffixes under
    *  `UAI.checklist.<archetype>.<0|1|2>`. */
   checklistArchetype: QueryArchetype;
-  /** Phase 1 -- the 71-doctrine deconstruction: every axis scored. */
+  /** Phase 1 -- the 100-doctrine deconstruction: every axis scored. */
   constitution: ConstitutionScore[];
   /** highest-scoring axis -- the frame the subject already leans into. */
   topConstitutionAxis: ConstitutionAxis;

@@ -23,7 +23,7 @@ import type {
  * on the query alone -- the output shape is identical either way.
  *
  * On top of the original triple lens / shield / swarm it now runs the
- * **71-doctrine deconstruction**: the Hyper-Constitution Codex collapsed to 6
+ * **100-doctrine deconstruction**: the Hyper-Constitution Codex collapsed to 6
  * load-bearing axes (logic·law·risk / future·science·cosmos / economy·payment·
  * markets·bitcoin / security·hacker·cyber·forensic / sovereign·decentral /
  * art·philosophy), each scored, so the free tier can hand back a "redesign
@@ -46,9 +46,9 @@ const COMMERCIAL_LEXICON =
   /\b(buy|best|cheapest|deal|discount|coupon|review|vs|versus|recommend|top\s?\d*|worth\s+it|should\s+i\s+(buy|get)|which\s+.*(better|best)|affiliate|sponsor|promo|sale|brand)\w*/gi;
 
 /**
- * The 71 '초' doctrines folded into 6 scored axes. Each regex is the English
+ * The 100 '초' doctrines folded into 6 scored axes. Each regex is the English
  * keyword surface for that axis; non-English queries still get a spread from
- * the deterministic per-axis fingerprint below. The 2026-08-30 71-doctrine
+ * the deterministic per-axis fingerprint below. The 2026-08-30 100-doctrine
  * expansion widened every axis: logic now also carries law/risk/pros-cons,
  * future carries science/cosmos/geopolitics/prediction, economy carries
  * payment/stock/bitcoin/crypto/on-chain/hedging, security carries
@@ -151,7 +151,7 @@ export function analyzeSurface(
   const shieldVerdict: ShieldVerdict =
     shieldScore >= 60 ? 'biased' : shieldScore >= 30 ? 'caution' : 'clear';
 
-  // 71-doctrine deconstruction: keyword surface + a deterministic per-axis
+  // 100-doctrine deconstruction: keyword surface + a deterministic per-axis
   // fingerprint (so non-English queries still decompose distinctly) + a bonus
   // when the axis is actually attested in the live web digest.
   const seed = hashString(trimmed.toLowerCase() || 'unitas');

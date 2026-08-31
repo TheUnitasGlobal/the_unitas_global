@@ -832,7 +832,7 @@
         "Rebuild the conclusion from what survived."
       ]
     },
-    "constitutionLabel": "71-Doctrine Deconstruction",
+    "constitutionLabel": "100-Doctrine Deconstruction",
     "constitution": {
       "logic": "Logic · Design",
       "future": "Future · Innovation",
@@ -887,6 +887,6 @@
     "reporterPaid": "Paid Reporter · Sign in",
     "followupLabel": "Follow-up Queries · Angle Options",
     "followupHint": "Re-run the search from another doctrine axis, or dig into a cited source.",
-    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 71-doctrine redesign 10%."
+    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%."
   }
 }

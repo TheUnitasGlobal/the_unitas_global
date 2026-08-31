@@ -832,7 +832,7 @@
         "仅用幸存下来的部分重建结论。"
       ]
     },
-    "constitutionLabel": "71 大 超-宪法 立体解构",
+    "constitutionLabel": "100 大 超-宪法 立体解构",
     "constitution": {
       "logic": "逻辑 · 设计",
       "future": "未来 · 创新",
@@ -887,6 +887,6 @@
     "reporterPaid": "付费报告器 · 登录",
     "followupLabel": "追加检索查询 · 视角选项",
     "followupHint": "从另一条宪法轴重新检索，或深入引用的来源。",
-    "webBlendNote": "大厂级网络综合 90% + UNITAS 71条宪法重构 10%。"
+    "webBlendNote": "大厂级网络综合 90% + UNITAS 100条宪法重构 10%。"
   }
 }

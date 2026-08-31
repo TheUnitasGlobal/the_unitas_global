@@ -832,7 +832,7 @@
         "Reconstruye la conclusión con lo que sobrevivió."
       ]
     },
-    "constitutionLabel": "Deconstrucción de las 71 Doctrinas",
+    "constitutionLabel": "Deconstrucción de las 100 Doctrinas",
     "constitution": {
       "logic": "Lógica · Diseño",
       "future": "Futuro · Innovación",
@@ -887,6 +887,6 @@
     "reporterPaid": "Reportero de pago · Iniciar sesión",
     "followupLabel": "Consultas de seguimiento · Opciones de enfoque",
     "followupHint": "Relanza la búsqueda desde otro eje doctrinal o profundiza en una fuente citada.",
-    "webBlendNote": "Síntesis web de nivel big-tech 90 % + rediseño de las 71 doctrinas de UNITAS 10 %."
+    "webBlendNote": "Síntesis web de nivel big-tech 90 % + rediseño de las 100 doctrinas de UNITAS 10 %."
   }
 }

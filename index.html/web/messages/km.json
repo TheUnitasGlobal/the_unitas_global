@@ -832,7 +832,7 @@
         "កសាងសេចក្តីសន្និដ្ឋានឡើងវិញ ពីអ្វីដែលនៅសល់។"
       ]
     },
-    "constitutionLabel": "ការវិភាគគោលការណ៍ ៧១ ចំណុច",
+    "constitutionLabel": "ការវិភាគគោលការណ៍ ១០០ ចំណុច",
     "constitution": {
       "logic": "តក្កវិជ្ជា · ការរចនា",
       "future": "អនាគត · នវានុវត្តន៍",
@@ -887,6 +887,6 @@
     "reporterPaid": "Paid Reporter · Sign in",
     "followupLabel": "Follow-up Queries · Angle Options",
     "followupHint": "Re-run the search from another doctrine axis, or dig into a cited source.",
-    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 71-doctrine redesign 10%."
+    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%."
   }
 }

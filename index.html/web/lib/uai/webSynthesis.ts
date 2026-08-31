@@ -7,7 +7,7 @@ import type { WebSynthesis, WebSource } from './types';
  *
  * DATA-VOLUME MANDATE (owner instruction 2026-08-30 — "빅테크 90% + 유니타스 10%"):
  * the free tier now casts a wide, big-tech-search-grade net over the open
- * knowledge graph before the 71-doctrine redesign runs on top of it. Every
+ * knowledge graph before the 100-doctrine redesign runs on top of it. Every
  * source is still keyless + CORS-only so the cost stays exactly 0원:
  *  - <lang>.wikipedia.org REST search (broad, up to 10 hits)
  *  - en.wikipedia.org REST search cross-pass (when the UI locale isn't English)
