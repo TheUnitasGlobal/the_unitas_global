@@ -832,7 +832,7 @@
         "Rebuild the conclusion from what survived."
       ]
     },
-    "constitutionLabel": "51-Doctrine Deconstruction",
+    "constitutionLabel": "71-Doctrine Deconstruction",
     "constitution": {
       "logic": "Logic · Design",
       "future": "Future · Innovation",
@@ -882,6 +882,11 @@
       "generation_failed": "Deep analysis failed to generate — please retry.",
       "bad_request": "That query can’t be analyzed — rephrase and retry.",
       "unauthenticated": "Your session expired — sign in again."
-    }
+    },
+    "reporterFree": "Free Reporter",
+    "reporterPaid": "Paid Reporter · Sign in",
+    "followupLabel": "Follow-up Queries · Angle Options",
+    "followupHint": "Re-run the search from another doctrine axis, or dig into a cited source.",
+    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 71-doctrine redesign 10%."
   }
 }

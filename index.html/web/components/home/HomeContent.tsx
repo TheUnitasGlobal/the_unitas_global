@@ -11,6 +11,7 @@ import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModa
 import { ModuleQuestModal } from '@/components/interaction/ModuleQuestModal';
 import { Footer } from '@/components/layout/Footer';
 import { useShockwave } from '@/components/effects/Shockwave';
+import { useUai } from '@/lib/uai/useUai';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
 
@@ -22,6 +23,12 @@ export function HomeContent() {
   const [activeEcosystem, setActiveEcosystem] = useState<EcosystemTheme | null>(null);
   const [activeModule, setActiveModule] = useState<B2CModule | null>(null);
   const { trigger: triggerShockwave, element: shockwaveElement } = useShockwave();
+
+  // Single U-AI session for the whole home page: the search bar drives it and
+  // the ecosystem / module / protocol walls below stay hidden until a search
+  // has produced a report (owner instruction 2026-08-30).
+  const uai = useUai();
+  const searchActive = uai.phase !== 'idle';
 
   return (
     <Fragment>
@@ -35,9 +42,19 @@ export function HomeContent() {
       <div className="flex flex-col items-center pt-24 pb-24">
         <Hero />
       </div>
-      <OmniSynapseSearch onSelectEcosystem={setActiveEcosystem} onSelectModule={setActiveModule} />
+      <OmniSynapseSearch
+        uai={uai}
+        onSelectEcosystem={setActiveEcosystem}
+        onSelectModule={setActiveModule}
+      />
 
-      {/* Section 1 -- Cognitive Ecosystem (the 11 modules, always visible) */}
+      {/* Sections 1-3 -- the UNITAS ecosystem / consumer / enterprise catalogs.
+          Hidden on the bare home screen; mounted only once a U-AI search has
+          run, directly beneath the result window (owner instruction
+          2026-08-30). */}
+      {searchActive && (
+      <Fragment>
+      {/* Section 1 -- Cognitive Ecosystem (the 11 modules) */}
       <section id="ecosystems" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-10 text-center">
           <h2 className="glow-text mb-3 font-serif text-2xl font-bold text-accent md:text-3xl">
@@ -102,6 +119,8 @@ export function HomeContent() {
           ))}
         </div>
       </section>
+      </Fragment>
+      )}
 
       <EcosystemEntryModal ecosystem={activeEcosystem} onClose={() => setActiveEcosystem(null)} />
       <ModuleQuestModal module={activeModule} onClose={() => setActiveModule(null)} />

@@ -832,7 +832,7 @@
         "살아남은 것만으로 결론을 다시 세운다."
       ]
     },
-    "constitutionLabel": "51대 초-헌법 입체 해체",
+    "constitutionLabel": "71대 초-헌법 입체 해체",
     "constitution": {
       "logic": "논리 · 설계",
       "future": "미래 · 혁신",
@@ -882,6 +882,11 @@
       "generation_failed": "심층 분석 생성에 실패했습니다 — 다시 시도하세요.",
       "bad_request": "이 질의는 분석할 수 없습니다 — 문장을 바꿔 다시 시도하세요.",
       "unauthenticated": "세션이 만료되었습니다 — 다시 로그인하세요."
-    }
+    },
+    "reporterFree": "무료 리포터",
+    "reporterPaid": "유료 리포터 · 로그인",
+    "followupLabel": "추가 검색 쿼리 · 관점 선택지",
+    "followupHint": "다른 헌법 축으로 다시 검색하거나, 인용된 출처를 더 파고든다.",
+    "webBlendNote": "글로벌 빅테크 수준 웹 종합 90% + 유니타스 71대 초-헌법 재설계 10%."
   }
 }

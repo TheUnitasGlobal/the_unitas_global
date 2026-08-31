@@ -958,18 +958,30 @@ export function ComingSoonCinema() {
                     'UNITAS' wordmark sitting directly above the corporate name.
                     Scale steps down from COMING SOON by ~golden ratio; a
                     champagne-gold gradient sets it apart from the white legal
-                    line beneath it. */}
+                    line beneath it.
+
+                    OPTICAL-CENTER FIX (owner instruction 2026-08-30): CSS
+                    letter-spacing appends the full tracking value as trailing
+                    space after the LAST glyph but adds none before the first,
+                    so a `text-align:center` box centres the glyph-run + that
+                    trailing gap -- pushing the visible letters left of true
+                    centre and making the (less-tracked) corporate line beneath
+                    read as shifted right. Re-adding an equal `text-indent`
+                    before the first glyph restores a symmetric gap on both
+                    sides, so 'UNITAS' and '© THE UNITAS GLOBAL OÜ' now share
+                    one exact vertical centre line (±0). Both lines are
+                    `w-full text-center` for the same box reference. */}
                 <p
-                  className="mt-16 bg-gradient-to-r from-[#d4af37] via-[#f5e6b8] to-[#d4af37] bg-clip-text font-serif text-[1.62rem] font-bold uppercase tracking-[0.45em] text-transparent sm:text-[2.62rem]"
+                  className="mt-16 w-full bg-gradient-to-r from-[#d4af37] via-[#f5e6b8] to-[#d4af37] bg-clip-text text-center font-serif text-[1.62rem] font-bold uppercase tracking-[0.45em] text-transparent [text-indent:0.45em] sm:text-[2.62rem]"
                   style={{ filter: 'drop-shadow(0 0 22px rgba(212,175,55,0.35))' }}
                 >
                   {tGate('title')}
                 </p>
                 {/* 법인명: 모든 디바이스에서 좌우 여백 기준 완벽 중앙 정렬
-                    (w-full text-center) + 한눈에 들어오는 황금비 스케일 --
-                    바로 위 UNITAS 워드마크에서 약 φ 단계 축소, 가독 대비 상향
-                    (owner instruction 2026-08-29). */}
-                <p className="mt-3 w-full text-center text-[0.8rem] font-medium uppercase tracking-[0.2em] text-white/45 sm:text-[1.05rem]">
+                    (w-full text-center) + tracking 상쇄 text-indent 로 위
+                    UNITAS 워드마크 정중앙과 1~2px 오차 없이 대칭
+                    (owner instruction 2026-08-30). */}
+                <p className="mt-3 w-full text-center text-[0.8rem] font-medium uppercase tracking-[0.2em] text-white/45 [text-indent:0.2em] sm:text-[1.05rem]">
                   © THE UNITAS GLOBAL OÜ
                 </p>
 

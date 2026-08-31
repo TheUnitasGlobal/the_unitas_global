@@ -832,7 +832,7 @@
         "Baue die Schlussfolgerung aus dem wieder auf, was übrig blieb."
       ]
     },
-    "constitutionLabel": "Dekonstruktion der 51 Doktrinen",
+    "constitutionLabel": "Dekonstruktion der 71 Doktrinen",
     "constitution": {
       "logic": "Logik · Design",
       "future": "Zukunft · Innovation",
@@ -882,6 +882,11 @@
       "generation_failed": "Die tiefe Analyse konnte nicht erzeugt werden — bitte erneut versuchen.",
       "bad_request": "Diese Anfrage lässt sich nicht analysieren — umformulieren und erneut versuchen.",
       "unauthenticated": "Deine Sitzung ist abgelaufen — melde dich erneut an."
-    }
+    },
+    "reporterFree": "Kostenloser Reporter",
+    "reporterPaid": "Bezahl-Reporter · Anmelden",
+    "followupLabel": "Folgeabfragen · Blickwinkel-Optionen",
+    "followupHint": "Starte die Suche von einer anderen Doktrin-Achse neu oder vertiefe eine zitierte Quelle.",
+    "webBlendNote": "Web-Synthese auf Big-Tech-Niveau 90 % + Neugestaltung der 71 UNITAS-Doktrinen 10 %."
   }
 }

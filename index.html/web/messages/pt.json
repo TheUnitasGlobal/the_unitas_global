@@ -832,7 +832,7 @@
         "Reconstrua a conclusão a partir do que sobreviveu."
       ]
     },
-    "constitutionLabel": "Desconstrução das 51 doutrinas",
+    "constitutionLabel": "Desconstrução das 71 doutrinas",
     "constitution": {
       "logic": "Lógica · Design",
       "future": "Futuro · Inovação",
@@ -882,6 +882,11 @@
       "generation_failed": "Não foi possível gerar a análise profunda — tente novamente.",
       "bad_request": "Essa consulta não pode ser analisada — reformule e tente de novo.",
       "unauthenticated": "Sua sessão expirou — entre novamente."
-    }
+    },
+    "reporterFree": "Repórter gratuito",
+    "reporterPaid": "Repórter pago · Entrar",
+    "followupLabel": "Consultas de acompanhamento · Opções de ângulo",
+    "followupHint": "Refaça a busca a partir de outro eixo doutrinário ou aprofunde uma fonte citada.",
+    "webBlendNote": "Síntese web de nível big tech 90% + redesenho das 71 doutrinas da UNITAS 10%."
   }
 }

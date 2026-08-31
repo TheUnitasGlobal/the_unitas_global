@@ -832,7 +832,7 @@
         "Dựng lại kết luận từ những gì còn trụ lại."
       ]
     },
-    "constitutionLabel": "Giải cấu trúc 51 học thuyết",
+    "constitutionLabel": "Giải cấu trúc 71 học thuyết",
     "constitution": {
       "logic": "Logic · Thiết kế",
       "future": "Tương lai · Đổi mới",
@@ -882,6 +882,11 @@
       "generation_failed": "Không tạo được phân tích chuyên sâu — vui lòng thử lại.",
       "bad_request": "Không thể phân tích truy vấn này — hãy diễn đạt lại và thử lại.",
       "unauthenticated": "Phiên của bạn đã hết hạn — hãy đăng nhập lại."
-    }
+    },
+    "reporterFree": "Trình báo cáo miễn phí",
+    "reporterPaid": "Trình báo cáo trả phí · Đăng nhập",
+    "followupLabel": "Truy vấn tiếp theo · Tùy chọn góc nhìn",
+    "followupHint": "Chạy lại tìm kiếm từ một trục học thuyết khác, hoặc đào sâu vào nguồn được trích dẫn.",
+    "webBlendNote": "Tổng hợp web tầm cỡ big tech 90% + tái thiết kế 71 học thuyết UNITAS 10%."
   }
 }

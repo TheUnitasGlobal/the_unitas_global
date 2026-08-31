@@ -75,6 +75,10 @@ export function UaiWorkspace({ initialQuery = '' }: { initialQuery?: string }) {
         hasSession={Boolean(session)}
         onRunDeep={uai.runDeep}
         onSelectEcosystem={(key) => router.push(`/${key}`)}
+        onRunQuery={(q) => {
+          setValue(q);
+          run(q);
+        }}
       />
 
       {uai.history.length > 0 && (

@@ -832,7 +832,7 @@
         "Reconstruisez la conclusion à partir de ce qui a survécu."
       ]
     },
-    "constitutionLabel": "Déconstruction des 51 doctrines",
+    "constitutionLabel": "Déconstruction des 71 doctrines",
     "constitution": {
       "logic": "Logique · Conception",
       "future": "Futur · Innovation",
@@ -882,6 +882,11 @@
       "generation_failed": "L’analyse profonde n’a pas pu être générée — réessayez.",
       "bad_request": "Cette requête ne peut pas être analysée — reformulez et réessayez.",
       "unauthenticated": "Votre session a expiré — reconnectez-vous."
-    }
+    },
+    "reporterFree": "Rapporteur gratuit",
+    "reporterPaid": "Rapporteur payant · Se connecter",
+    "followupLabel": "Requêtes de suivi · Options d’angle",
+    "followupHint": "Relancez la recherche depuis un autre axe doctrinal ou creusez une source citée.",
+    "webBlendNote": "Synthèse web de niveau big tech 90 % + refonte des 71 doctrines UNITAS 10 %."
   }
 }

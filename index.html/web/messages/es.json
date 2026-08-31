@@ -832,7 +832,7 @@
         "Reconstruye la conclusión con lo que sobrevivió."
       ]
     },
-    "constitutionLabel": "Deconstrucción de las 51 Doctrinas",
+    "constitutionLabel": "Deconstrucción de las 71 Doctrinas",
     "constitution": {
       "logic": "Lógica · Diseño",
       "future": "Futuro · Innovación",
@@ -882,6 +882,11 @@
       "generation_failed": "No se pudo generar el análisis profundo — inténtalo de nuevo.",
       "bad_request": "Esa consulta no se puede analizar — reformúlala y reinténtalo.",
       "unauthenticated": "Tu sesión ha caducado — inicia sesión de nuevo."
-    }
+    },
+    "reporterFree": "Reportero gratuito",
+    "reporterPaid": "Reportero de pago · Iniciar sesión",
+    "followupLabel": "Consultas de seguimiento · Opciones de enfoque",
+    "followupHint": "Relanza la búsqueda desde otro eje doctrinal o profundiza en una fuente citada.",
+    "webBlendNote": "Síntesis web de nivel big-tech 90 % + rediseño de las 71 doctrinas de UNITAS 10 %."
   }
 }

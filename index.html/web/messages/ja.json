@@ -832,7 +832,7 @@
         "生き残ったものだけで結論を組み直す。"
       ]
     },
-    "constitutionLabel": "51大 超-憲法 立体解体",
+    "constitutionLabel": "71大 超-憲法 立体解体",
     "constitution": {
       "logic": "論理 · 設計",
       "future": "未来 · 革新",
@@ -882,6 +882,11 @@
       "generation_failed": "深層分析の生成に失敗しました — もう一度お試しください。",
       "bad_request": "このクエリは分析できません — 言い換えて再試行してください。",
       "unauthenticated": "セッションの有効期限が切れました — もう一度サインインしてください。"
-    }
+    },
+    "reporterFree": "無料レポーター",
+    "reporterPaid": "有料レポーター · ログイン",
+    "followupLabel": "追加検索クエリ · 視点の選択肢",
+    "followupHint": "別の憲法軸で再検索するか、引用元をさらに掘り下げる。",
+    "webBlendNote": "ビッグテック級のウェブ統合 90% + UNITAS 71大憲法リデザイン 10%。"
   }
 }

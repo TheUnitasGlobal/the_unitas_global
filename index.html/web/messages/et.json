@@ -832,7 +832,7 @@
         "Ehita järeldus üles sellest, mis alles jäi."
       ]
     },
-    "constitutionLabel": "51 doktriini dekonstruktsioon",
+    "constitutionLabel": "71 doktriini dekonstruktsioon",
     "constitution": {
       "logic": "Loogika · Disain",
       "future": "Tulevik · Innovatsioon",
@@ -882,6 +882,11 @@
       "generation_failed": "Sügava analüüsi loomine ebaõnnestus — proovi uuesti.",
       "bad_request": "Seda päringut ei saa analüüsida — sõnasta ümber ja proovi uuesti.",
       "unauthenticated": "Sinu seanss aegus — logi uuesti sisse."
-    }
+    },
+    "reporterFree": "Tasuta raporter",
+    "reporterPaid": "Tasuline raporter · Logi sisse",
+    "followupLabel": "Järelpäringud · Vaatenurga valikud",
+    "followupHint": "Käivita otsing uuesti teiselt doktriinilt või süvene viidatud allikasse.",
+    "webBlendNote": "Big-tech-tasemel veebisüntees 90% + UNITASe 71 doktriini ümberkujundus 10%."
   }
 }

@@ -14,6 +14,9 @@ import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
 
 interface OmniSynapseSearchProps {
+  /** Lifted to HomeContent so the page can hide the ecosystem/module walls
+      until a search has actually run (owner instruction 2026-08-30). */
+  uai: ReturnType<typeof useUai>;
   onSelectEcosystem: (eco: EcosystemTheme) => void;
   onSelectModule: (module: B2CModule) => void;
 }
@@ -48,7 +51,7 @@ const SYSTEM_METRICS = [
  * collapsible section in the result panel showing all 11 ecosystems' scores
  * from that same heuristic simultaneously, not just the top match.
  */
-export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSynapseSearchProps) {
+export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: OmniSynapseSearchProps) {
   const t = useTranslations('OmniSynapse');
   const tEcosystems = useTranslations('Ecosystems');
   const tModules = useTranslations('Modules');
@@ -58,7 +61,6 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
   const { playTypingTick, playQuestEnterSfx, playHoverSfx, playSearchFocusSfx } = useSpatialAudio();
   const locale = useLocale();
   const { session } = useWallet();
-  const uai = useUai();
 
   const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
@@ -194,7 +196,10 @@ export function OmniSynapseSearch({ onSelectEcosystem, onSelectModule }: OmniSyn
     if (eco) onSelectEcosystem(eco);
   }
 
-  const browsing = focused && uai.phase === 'idle';
+  // Browse hub surfaces only once the visitor is actually searching (a
+  // non-empty query typed in) -- the bare home screen stays clean, the
+  // ecosystem/module lists appear on search only (owner instruction 2026-08-30).
+  const browsing = focused && query.length > 0 && uai.phase === 'idle';
   const fullReportHref = `/${locale}/u-ai${value.trim() ? `?q=${encodeURIComponent(value.trim())}` : ''}`;
 
   return (

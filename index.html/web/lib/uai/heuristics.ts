@@ -23,10 +23,13 @@ import type {
  * on the query alone -- the output shape is identical either way.
  *
  * On top of the original triple lens / shield / swarm it now runs the
- * **51-doctrine deconstruction**: the constitution collapsed to 6 axes
- * (logic / future / economy / security / sovereign / art), each scored, so
- * the free tier can hand back a "redesign this from the blind-spot axis"
- * directive instead of a flat summary (owner instruction 2026-08-30).
+ * **71-doctrine deconstruction**: the Hyper-Constitution Codex collapsed to 6
+ * load-bearing axes (logic·law·risk / future·science·cosmos / economy·payment·
+ * markets·bitcoin / security·hacker·cyber·forensic / sovereign·decentral /
+ * art·philosophy), each scored, so the free tier can hand back a "redesign
+ * this from the blind-spot axis" directive instead of a flat summary
+ * (owner instruction 2026-08-30). Big-tech-grade web digest 90% + this
+ * doctrine redesign 10%.
  *
  * All outputs are numbers or enum tags -- every piece of display text is
  * resolved from `messages/*.json` (`UAI.*`) by the dashboard, so this stays
@@ -43,19 +46,23 @@ const COMMERCIAL_LEXICON =
   /\b(buy|best|cheapest|deal|discount|coupon|review|vs|versus|recommend|top\s?\d*|worth\s+it|should\s+i\s+(buy|get)|which\s+.*(better|best)|affiliate|sponsor|promo|sale|brand)\w*/gi;
 
 /**
- * The 51 '초' doctrines folded into 6 scored axes. Each regex is the English
+ * The 71 '초' doctrines folded into 6 scored axes. Each regex is the English
  * keyword surface for that axis; non-English queries still get a spread from
- * the deterministic per-axis fingerprint below.
+ * the deterministic per-axis fingerprint below. The 2026-08-30 71-doctrine
+ * expansion widened every axis: logic now also carries law/risk/pros-cons,
+ * future carries science/cosmos/geopolitics/prediction, economy carries
+ * payment/stock/bitcoin/crypto/on-chain/hedging, security carries
+ * hacker/cyber/forensic defence.
  */
 const CONSTITUTION_LEXICON: Record<ConstitutionAxis, RegExp> = {
   logic:
-    /\b(logic|reason|proof|prove|analy|structure|framework|design|architect|precis|rigor|verif|evidence|method|system|model|define|assumption|deconstruct)\w*/gi,
+    /\b(logic|reason|proof|prove|analy|structure|framework|design|architect|precis|rigor|verif|evidence|method|system|model|define|assumption|deconstruct|law|legal|regulat|complian|contract|liabilit|pros?\s?and\s?cons?|tradeoff|risk|downside|upside|probabilit|scenario)\w*/gi,
   future:
-    /\b(future|forecast|trend|innovat|novel|original|ai|next|emerg|disrupt|frontier|vision|tomorrow|transform|202\d|203\d|revolution|paradigm|breakthrough)\w*/gi,
+    /\b(future|forecast|predict|trend|innovat|novel|original|ai|next|emerg|disrupt|frontier|vision|tomorrow|transform|202\d|203\d|revolution|paradigm|breakthrough|scien|physics|space|cosmos|universe|quantum|geopolit|research)\w*/gi,
   economy:
-    /\b(cost|price|capital|invest|efficien|scal|growth|revenue|margin|budget|lean|roi|profit|market|monet|fund|cheap|expensive|resource|leverage)\w*/gi,
+    /\b(cost|price|capital|invest|efficien|scal|growth|revenue|margin|budget|lean|roi|profit|market|monet|fund|cheap|expensive|resource|leverage|payment|checkout|billing|stock|equit|share|ticker|bitcoin|btc|crypto|ethereum|token|on.?chain|wallet|hedge|portfolio|yield|dividend|valuation)\w*/gi,
   security:
-    /\b(secur|risk|threat|protect|integrit|privacy|safe|audit|complian|ethic|trust|defen|vulnerab|attack|breach|fail|prevent|resilien|backup)\w*/gi,
+    /\b(secur|risk|threat|protect|integrit|privacy|safe|audit|complian|ethic|trust|defen|vulnerab|attack|breach|fail|prevent|resilien|backup|hack|hacker|exploit|malware|ransom|phish|cyber|forensic|zero.?day|intrusion|firewall|encrypt|patch)\w*/gi,
   sovereign:
     /\b(sovereign|decentral|autonom|independ|self|automat|distribut|control|own|freedom|permissionless|censor|custod|local|peer|edge|zero.?trust)\w*/gi,
   art: /\b(art|aesthetic|meaning|philosoph|beaut|cultur|story|narrat|myth|era|human|emotion|wonder|experience|craft|taste|elegan|soul)\w*/gi,
@@ -144,7 +151,7 @@ export function analyzeSurface(
   const shieldVerdict: ShieldVerdict =
     shieldScore >= 60 ? 'biased' : shieldScore >= 30 ? 'caution' : 'clear';
 
-  // 51-doctrine deconstruction: keyword surface + a deterministic per-axis
+  // 71-doctrine deconstruction: keyword surface + a deterministic per-axis
   // fingerprint (so non-English queries still decompose distinctly) + a bonus
   // when the axis is actually attested in the live web digest.
   const seed = hashString(trimmed.toLowerCase() || 'unitas');
