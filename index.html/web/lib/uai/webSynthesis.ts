@@ -5,15 +5,22 @@ import type { WebSynthesis, WebSource } from './types';
 /**
  * Zero-cost "live web synthesis" for the FREE Phase-1 search.
  *
- * DATA-VOLUME MANDATE (owner instruction 2026-08-30 — "빅테크 90% + 유니타스 10%"):
- * the free tier now casts a wide, big-tech-search-grade net over the open
- * knowledge graph before the 100-doctrine redesign runs on top of it. Every
- * source is still keyless + CORS-only so the cost stays exactly 0원:
+ * DATA-VOLUME MANDATE (owner instruction 2026-08-30 / 2026-08-31 — "글로벌
+ * 메타-서치 엣지 통합 · 빅테크 90% + 유니타스 10%"): the free tier casts a wide,
+ * big-tech-search-grade net over the open knowledge graph before the
+ * 100-doctrine redesign runs on top of it. Every source is keyless + CORS-only
+ * so the cost stays exactly 0원 and not one byte is stored server-side:
+ *  - DuckDuckGo Instant Answer API (api.duckduckgo.com, CORS `*`) — a real
+ *    open meta-search edge: abstract + related-topic spread across the whole
+ *    open web, not just an encyclopedia
  *  - <lang>.wikipedia.org REST search (broad, up to 10 hits)
  *  - en.wikipedia.org REST search cross-pass (when the UI locale isn't English)
  *    so a non-English query still reaches the far larger English corpus
  *  - wikidata.org wbsearchentities (entity graph — labels + one-line descriptions)
  *  - REST page summaries for the top hits (real extract + canonical URL)
+ *  - optional self-hosted SearXNG JSON (NEXT_PUBLIC_UAI_SEARXNG=<instance url>) —
+ *    off by default: public instances almost universally omit CORS headers, so
+ *    a browser fetch fails; wire your own instance to light it up. Fail-open.
  *
  * Constraints held:
  *  - API 비용 0원: only keyless, CORS-enabled public endpoints. No API key,
@@ -32,7 +39,9 @@ import type { WebSynthesis, WebSource } from './types';
 const FLAG = process.env.NEXT_PUBLIC_UAI_WEB_SYNTHESIS;
 const ENABLED = FLAG === '1' || FLAG === 'true';
 
-const CACHE_KEY = 'unitas.uai.websynth.v2';
+const SEARXNG = (process.env.NEXT_PUBLIC_UAI_SEARXNG || '').replace(/\/+$/, '');
+
+const CACHE_KEY = 'unitas.uai.websynth.v3';
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const CACHE_MAX = 40;
 const ABORT_MS = 3000;
@@ -107,6 +116,26 @@ interface RestSummaryResponse {
 interface WikidataResponse {
   search?: Array<{ label?: string; description?: string; concepturi?: string }>;
 }
+interface DdgRelatedTopic {
+  Text?: string;
+  FirstURL?: string;
+  Name?: string;
+  Topics?: DdgRelatedTopic[];
+}
+interface DdgResponse {
+  Heading?: string;
+  AbstractText?: string;
+  Abstract?: string;
+  AbstractURL?: string;
+  AbstractSource?: string;
+  Answer?: string;
+  Definition?: string;
+  DefinitionURL?: string;
+  RelatedTopics?: DdgRelatedTopic[];
+}
+interface SearxResponse {
+  results?: Array<{ title?: string; url?: string; content?: string }>;
+}
 
 async function fetchJson<T>(url: string, signal: AbortSignal): Promise<T | null> {
   try {
@@ -123,6 +152,37 @@ function wikiSearch(lang: string, query: string, limit: number, signal: AbortSig
     `https://${lang}.wikipedia.org/w/rest.php/v1/search/page?q=${encodeURIComponent(query)}&limit=${limit}`,
     signal,
   );
+}
+
+/** DuckDuckGo Instant Answer API — keyless, CORS `*`. A real open-web meta
+ *  search edge (abstract + related topics span the whole web, not one wiki). */
+function ddgSearch(query: string, signal: AbortSignal) {
+  return fetchJson<DdgResponse>(
+    `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&no_redirect=1&skip_disambig=1&t=unitas`,
+    signal,
+  );
+}
+
+/** Optional self-hosted SearXNG JSON search — only when NEXT_PUBLIC_UAI_SEARXNG
+ *  points at an instance that returns CORS headers. Fail-open. */
+function searxSearch(query: string, lang: string, signal: AbortSignal) {
+  if (!SEARXNG) return Promise.resolve<SearxResponse | null>(null);
+  return fetchJson<SearxResponse>(
+    `${SEARXNG}/search?q=${encodeURIComponent(query)}&format=json&safesearch=1&language=${encodeURIComponent(lang)}`,
+    signal,
+  );
+}
+
+/** Flatten DDG RelatedTopics (one level of nesting) into {text,url} rows. */
+function flattenDdgTopics(topics: DdgRelatedTopic[] | undefined): Array<{ text: string; url?: string }> {
+  const out: Array<{ text: string; url?: string }> = [];
+  (topics ?? []).forEach((t) => {
+    if (t.Text) out.push({ text: stripControl(t.Text), url: t.FirstURL });
+    (t.Topics ?? []).forEach((s) => {
+      if (s.Text) out.push({ text: stripControl(s.Text), url: s.FirstURL });
+    });
+  });
+  return out.filter((r) => r.text);
 }
 
 /**
@@ -147,7 +207,7 @@ export async function synthesizeWeb(query: string, locale: string): Promise<WebS
 
   try {
     // ---- Batch 1: wide net (parallel) --------------------------------------
-    const [primary, cross, wikidata] = await Promise.all([
+    const [primary, cross, wikidata, ddg, searx] = await Promise.all([
       wikiSearch(lang, trimmed, 10, controller.signal),
       lang === 'en'
         ? Promise.resolve<RestSearchResponse | null>(null)
@@ -158,13 +218,25 @@ export async function synthesizeWeb(query: string, locale: string): Promise<WebS
         )}&language=${lang}&uselang=${lang}&format=json&origin=*&limit=7`,
         controller.signal,
       ),
+      ddgSearch(trimmed, controller.signal),
+      searxSearch(trimmed, lang, controller.signal),
     ]);
 
     const pages = (primary?.pages ?? []).filter((p) => p.title);
     const crossPages = (cross?.pages ?? []).filter((p) => p.title);
     const entities = (wikidata?.search ?? []).filter((e) => e.label);
+    const ddgTopics = flattenDdgTopics(ddg?.RelatedTopics);
+    const ddgAbstract = stripControl(ddg?.AbstractText || ddg?.Abstract || ddg?.Answer || ddg?.Definition || '');
+    const searxResults = (searx?.results ?? []).filter((r) => r.title && r.content);
 
-    if (pages.length === 0 && crossPages.length === 0 && entities.length === 0) {
+    if (
+      pages.length === 0 &&
+      crossPages.length === 0 &&
+      entities.length === 0 &&
+      ddgTopics.length === 0 &&
+      !ddgAbstract &&
+      searxResults.length === 0
+    ) {
       clearTimeout(timer);
       const empty = EMPTY(lang);
       writeCache({ ...cache, [cacheId]: { data: empty, ts: Date.now() } });
@@ -229,6 +301,38 @@ export async function synthesizeWeb(query: string, locale: string): Promise<WebS
           url: `https://en.wikipedia.org/wiki/${encodeURIComponent(p.title.replace(/ /g, '_'))}`,
           snippet: stripControl(p.description ?? p.excerpt ?? ''),
         });
+      }
+    });
+
+    // DuckDuckGo: the instant-answer abstract becomes a lead source, related
+    // topics widen the digest (and fill remaining source slots).
+    if (ddgAbstract) {
+      digestParts.unshift(ddgAbstract.slice(0, MAX_SNIPPET));
+      if (ddg?.AbstractURL && sources.length < MAX_SOURCES) {
+        sources.unshift({
+          title: stripControl(ddg.Heading || trimmed),
+          url: ddg.AbstractURL,
+          snippet: ddgAbstract.slice(0, MAX_SNIPPET),
+        });
+      }
+    }
+    ddgTopics.slice(0, 8).forEach((topic) => {
+      digestParts.push(topic.text);
+      if (topic.url && sources.length < MAX_SOURCES) {
+        sources.push({
+          title: topic.text.split(' - ')[0].slice(0, 90),
+          url: topic.url,
+          snippet: topic.text.slice(0, MAX_SNIPPET),
+        });
+      }
+    });
+
+    // SearXNG (optional self-hosted): title + content snippet per result.
+    searxResults.slice(0, 6).forEach((r) => {
+      const snippet = stripControl(r.content ?? '').slice(0, MAX_SNIPPET);
+      if (snippet) digestParts.push(`${stripControl(r.title ?? '')} ${snippet}`);
+      if (r.url && sources.length < MAX_SOURCES) {
+        sources.push({ title: stripControl(r.title ?? ''), url: r.url, snippet });
       }
     });
 

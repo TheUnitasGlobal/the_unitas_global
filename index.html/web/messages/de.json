@@ -888,6 +888,14 @@
     "reporterPaid": "Bezahl-Reporter · Anmelden",
     "followupLabel": "Folgeabfragen · Blickwinkel-Optionen",
     "followupHint": "Starte die Suche von einer anderen Doktrin-Achse neu oder vertiefe eine zitierte Quelle.",
-    "webBlendNote": "Web-Synthese auf Big-Tech-Niveau 90 % + Neugestaltung der 100 UNITAS-Doktrinen 10 %."
+    "webBlendNote": "Web-Synthese auf Big-Tech-Niveau 90 % + Neugestaltung der 100 UNITAS-Doktrinen 10 %.",
+    "insightLabel": "UNITAS Insight-Bericht · Souveränes 6-Achsen-Redesign",
+    "insightForging": "Die souveräne Engine schmiedet das 6-Achsen-Redesign — es erscheint hier und bleibt für immer kostenlos.",
+    "insightPending": "{hits} / 3 Suchen. Bei der 3. schmiedet die 100-Doktrin-Engine dieses Redesign einmalig — danach ist es für alle für immer kostenlos.",
+    "insightFreshBadge": "Gerade geschmiedet · im Genesis-Speicher versiegelt",
+    "insightCachedNote": "Aus dem Genesis-Speicher geliefert · Engine-Kosten 0 $",
+    "insightVectorLabel": "Redesign-Vektor · Die blinde Achse",
+    "insightAxisReading": "Lesart",
+    "insightAxisRedesign": "Redesign"
   }
 }

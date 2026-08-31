@@ -7,7 +7,14 @@ import { useWallet } from '@/components/wallet/WalletProvider';
 import { analyzeSurface } from './heuristics';
 import { synthesizeWeb } from './webSynthesis';
 import { recordBrainGrid, loadBrainGrid, clearBrainGrid, type BrainGridEntry } from './brainGrid';
-import type { DeepInsightApiResponse, DeepInsightError, DeepReport, SurfaceReport } from './types';
+import type {
+  ConstitutionRedesignReport,
+  DeepInsightApiResponse,
+  DeepInsightError,
+  DeepReport,
+  SurfaceReport,
+  TrendApiResponse,
+} from './types';
 
 export type UaiPhase = 'idle' | 'surface-loading' | 'surface' | 'deep-loading' | 'deep';
 
@@ -30,6 +37,13 @@ export function useUai() {
   const [phase, setPhase] = useState<UaiPhase>('idle');
   const [surface, setSurface] = useState<SurfaceReport | null>(null);
   const [deep, setDeep] = useState<DeepReport | null>(null);
+  /** FREE 6-axis Sovereign Redesign — forged at the search threshold or a paid
+   *  burn, then served from Genesis Memory at engine cost 0원. */
+  const [insight, setInsight] = useState<ConstitutionRedesignReport | null>(null);
+  /** cumulative search count for the current query (drives the threshold hint). */
+  const [trendHits, setTrendHits] = useState(0);
+  /** the /api/u-ai/trend round-trip is in flight for the current query. */
+  const [insightForging, setInsightForging] = useState(false);
   const [error, setError] = useState<UaiError | null>(null);
   const [deepAvailable, setDeepAvailable] = useState(false);
   const [history, setHistory] = useState<BrainGridEntry[]>([]);
@@ -71,6 +85,9 @@ export function useUai() {
       setError(null);
       setDeep(null);
       setSurface(null);
+      setInsight(null);
+      setTrendHits(0);
+      setInsightForging(false);
       setPhase('surface-loading');
       const startedFor = trimmed;
       surfaceTimer.current = setTimeout(() => {
@@ -94,6 +111,28 @@ export function useUai() {
                 session,
               ),
             );
+
+            // Threshold assetization: POST the query to /api/u-ai/trend. It
+            // bumps the search_trends counter and -- on a Genesis Memory hit or
+            // the 3rd cumulative search -- hands back the FREE 6-axis Sovereign
+            // Redesign at engine cost 0원. Fully fail-open: any error just
+            // leaves the free surface report as-is.
+            setInsightForging(true);
+            void fetch('/api/u-ai/trend', {
+              method: 'POST',
+              headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ query: startedFor, locale }),
+            })
+              .then((r) => r.json() as Promise<TrendApiResponse>)
+              .then((d) => {
+                if (queryRef.current !== startedFor) return;
+                setInsightForging(false);
+                setTrendHits(typeof d.hits === 'number' ? d.hits : 0);
+                setInsight(d.report ?? null);
+              })
+              .catch(() => {
+                if (queryRef.current === startedFor) setInsightForging(false);
+              });
           });
       }, 900);
     },
@@ -154,6 +193,9 @@ export function useUai() {
     setPhase('idle');
     setSurface(null);
     setDeep(null);
+    setInsight(null);
+    setTrendHits(0);
+    setInsightForging(false);
     setError(null);
   }, []);
 
@@ -163,6 +205,9 @@ export function useUai() {
     phase,
     surface,
     deep,
+    insight,
+    trendHits,
+    insightForging,
     error,
     deepAvailable,
     history,

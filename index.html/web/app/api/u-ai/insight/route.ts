@@ -4,6 +4,11 @@ import { NextResponse } from 'next/server';
 import { routing } from '@/i18n/routing';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { buildInsightPrompt, normalizeQuery, parseInsightResponse } from '@/lib/uai/deepInsight';
+import {
+  buildRedesignPrompt,
+  parseRedesignResponse,
+  redesignHash,
+} from '@/lib/uai/constitutionRedesign';
 import { generateInsight, insightProviderAvailable } from '@/lib/uai/provider';
 import {
   UAI_DEEP_INSIGHT_COST,
@@ -163,6 +168,7 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
         .from('genesis_memory')
         .upsert({ query_hash: queryHash, locale, payload: report, model }),
       admin.from('brain_grid').insert({ user_id: user.id, query, depth: 'deep', shield_score: shieldScore }),
+      primeRedesign(admin, query, locale),
     ]);
 
     return NextResponse.json({ ok: true, ...report } as DeepInsightApiResponse);
@@ -173,5 +179,34 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
     // The burn is server-side and strictly 1:1 with the request, so this is
     // an honest "paid, generation failed", not a margin exploit.
     return NextResponse.json({ ok: false, error: 'generation_failed' }, { status: 502 });
+  }
+}
+
+/**
+ * A paid burn also primes the FREE 6-axis Sovereign Redesign for that subject
+ * (owner instruction 2026-08-31 §3) — one extra LLM call, written to the
+ * disjoint 'cr-v1::' Genesis Memory namespace so every LATER *free* searcher of
+ * this query is served it at engine cost 0원. Best-effort: a failure here never
+ * touches the paid response (the coin is already 1:1 with the deep report).
+ */
+async function primeRedesign(
+  admin: ReturnType<typeof getSupabaseServerClient>,
+  query: string,
+  locale: string,
+): Promise<void> {
+  try {
+    const hash = redesignHash(locale, query);
+    const { data: existing } = await admin
+      .from('genesis_memory')
+      .select('query_hash')
+      .eq('query_hash', hash)
+      .maybeSingle();
+    if (existing) return;
+    const { system, user } = buildRedesignPrompt(query, locale);
+    const { text, model } = await generateInsight(system, user);
+    const redesign = parseRedesignResponse(text, model, query, 0);
+    await admin.from('genesis_memory').upsert({ query_hash: hash, locale, payload: redesign, model });
+  } catch {
+    // free-tier priming is a bonus — never fatal to the paid path.
   }
 }

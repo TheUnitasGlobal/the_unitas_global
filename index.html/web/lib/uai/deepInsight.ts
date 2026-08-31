@@ -6,7 +6,7 @@ import type { BinaryVerdict, ChronosPoint, DeepReport } from './types';
  * can be unit-tested in isolation.
  */
 
-const LOCALE_NAME: Record<string, string> = {
+export const LOCALE_NAME: Record<string, string> = {
   en: 'English',
   ko: 'Korean',
   et: 'Estonian',

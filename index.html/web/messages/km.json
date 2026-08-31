@@ -888,6 +888,14 @@
     "reporterPaid": "Paid Reporter · Sign in",
     "followupLabel": "Follow-up Queries · Angle Options",
     "followupHint": "Re-run the search from another doctrine axis, or dig into a cited source.",
-    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%."
+    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%.",
+    "insightLabel": "របាយការណ៍ការយល់ដឹង UNITAS · ការរចនាឡើងវិញអធិបតេយ្យ ៦អ័ក្ស",
+    "insightForging": "ម៉ាស៊ីនអធិបតេយ្យកំពុងលោហៈការរចនាឡើងវិញ ៦អ័ក្ស — វានឹងបង្ហាញនៅទីនេះ ហើយនៅតែឥតគិតថ្លៃជារៀងរហូត។",
+    "insightPending": "ការស្វែងរក {hits} / ៣។ នៅលើកទី៣ ម៉ាស៊ីនគោលលទ្ធិ ១០០ នឹងបង្កើតការរចនាឡើងវិញនេះម្តង — បន្ទាប់មកវាឥតគិតថ្លៃសម្រាប់អ្នកទាំងអស់គ្នាជារៀងរហូត។",
+    "insightFreshBadge": "ទើបតែបង្កើត · បានផ្សាភ្ជាប់ក្នុង Genesis Memory",
+    "insightCachedNote": "ផ្តល់ពី Genesis Memory · ថ្លៃដើមម៉ាស៊ីន $0",
+    "insightVectorLabel": "វ៉ិចទ័ររចនាឡើងវិញ · អ័ក្សពិការ",
+    "insightAxisReading": "ការអាន",
+    "insightAxisRedesign": "រចនាឡើងវិញ"
   }
 }

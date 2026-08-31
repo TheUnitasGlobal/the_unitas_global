@@ -387,6 +387,9 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
         phase={uai.phase}
         surface={uai.surface}
         deep={uai.deep}
+        insight={uai.insight}
+        trendHits={uai.trendHits}
+        insightForging={uai.insightForging}
         error={uai.error}
         canDeep={uai.canDeep}
         deepAvailable={uai.deepAvailable}

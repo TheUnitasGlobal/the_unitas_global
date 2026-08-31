@@ -888,6 +888,14 @@
     "reporterPaid": "Reportero de pago · Iniciar sesión",
     "followupLabel": "Consultas de seguimiento · Opciones de enfoque",
     "followupHint": "Relanza la búsqueda desde otro eje doctrinal o profundiza en una fuente citada.",
-    "webBlendNote": "Síntesis web de nivel big-tech 90 % + rediseño de las 100 doctrinas de UNITAS 10 %."
+    "webBlendNote": "Síntesis web de nivel big-tech 90 % + rediseño de las 100 doctrinas de UNITAS 10 %.",
+    "insightLabel": "Informe de Perspectiva UNITAS · Rediseño Soberano de 6 Ejes",
+    "insightForging": "El motor soberano está forjando el rediseño de 6 ejes: aparecerá aquí y será gratis para siempre.",
+    "insightPending": "{hits} / 3 búsquedas. En la 3.ª, el motor de las 100 doctrinas forja este rediseño una sola vez y luego es gratis para todos, para siempre.",
+    "insightFreshBadge": "Recién forjado · sellado en la Memoria Génesis",
+    "insightCachedNote": "Servido desde la Memoria Génesis · coste de motor $0",
+    "insightVectorLabel": "Vector de Rediseño · El Eje Ciego",
+    "insightAxisReading": "Lectura",
+    "insightAxisRedesign": "Rediseño"
   }
 }

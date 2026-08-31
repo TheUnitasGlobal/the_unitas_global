@@ -888,6 +888,14 @@
     "reporterPaid": "Tasuline raporter · Logi sisse",
     "followupLabel": "Järelpäringud · Vaatenurga valikud",
     "followupHint": "Käivita otsing uuesti teiselt doktriinilt või süvene viidatud allikasse.",
-    "webBlendNote": "Big-tech-tasemel veebisüntees 90% + UNITASe 100 doktriini ümberkujundus 10%."
+    "webBlendNote": "Big-tech-tasemel veebisüntees 90% + UNITASe 100 doktriini ümberkujundus 10%.",
+    "insightLabel": "UNITASe taipluaruanne · 6-teljeline suveräänne ümberkujundus",
+    "insightForging": "Suveräänne mootor sepistab 6-teljelist ümberkujundust — see ilmub siia ja jääb igaveseks tasuta.",
+    "insightPending": "{hits} / 3 otsingut. Kolmandal korral sepistab 100 doktriini mootor selle ümberkujunduse ühe korra — seejärel on see kõigile igavesti tasuta.",
+    "insightFreshBadge": "Äsja sepistatud · pitseeritud Genesis-mällu",
+    "insightCachedNote": "Serveeritud Genesis-mälust · mootori kulu $0",
+    "insightVectorLabel": "Ümberkujunduse vektor · pime telg",
+    "insightAxisReading": "Lugem",
+    "insightAxisRedesign": "Ümberkujundus"
   }
 }

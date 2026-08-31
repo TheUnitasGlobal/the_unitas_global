@@ -888,6 +888,14 @@
     "reporterPaid": "有料レポーター · ログイン",
     "followupLabel": "追加検索クエリ · 視点の選択肢",
     "followupHint": "別の憲法軸で再検索するか、引用元をさらに掘り下げる。",
-    "webBlendNote": "ビッグテック級のウェブ統合 90% + UNITAS 100大憲法リデザイン 10%。"
+    "webBlendNote": "ビッグテック級のウェブ統合 90% + UNITAS 100大憲法リデザイン 10%。",
+    "insightLabel": "UNITAS インサイトレポート · 6軸ソブリン再設計",
+    "insightForging": "ソブリンエンジンが6軸の再設計を鍛造中 — ここに表示され、永久に無料のままです。",
+    "insightPending": "検索 {hits} / 3回。3回目で100の超憲法エンジンがこの再設計を一度だけ鍛造します — 以降は全員に永久無料です。",
+    "insightFreshBadge": "たった今鍛造 · ジェネシスメモリに封印",
+    "insightCachedNote": "ジェネシスメモリから配信 · エンジン原価 $0",
+    "insightVectorLabel": "再設計ベクトル · 盲点の軸",
+    "insightAxisReading": "読解",
+    "insightAxisRedesign": "再設計"
   }
 }

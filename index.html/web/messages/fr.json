@@ -888,6 +888,14 @@
     "reporterPaid": "Rapporteur payant · Se connecter",
     "followupLabel": "Requêtes de suivi · Options d’angle",
     "followupHint": "Relancez la recherche depuis un autre axe doctrinal ou creusez une source citée.",
-    "webBlendNote": "Synthèse web de niveau big tech 90 % + refonte des 71 doctrines UNITAS 10 %."
+    "webBlendNote": "Synthèse web de niveau big tech 90 % + refonte des 71 doctrines UNITAS 10 %.",
+    "insightLabel": "Rapport d'Aperçu UNITAS · Refonte Souveraine à 6 Axes",
+    "insightForging": "Le moteur souverain forge la refonte à 6 axes — elle apparaîtra ici et restera gratuite pour toujours.",
+    "insightPending": "{hits} / 3 recherches. À la 3e, le moteur aux 100 doctrines forge cette refonte une seule fois — ensuite elle est gratuite pour tous, pour toujours.",
+    "insightFreshBadge": "Forgé à l'instant · scellé dans la Mémoire Genèse",
+    "insightCachedNote": "Servi depuis la Mémoire Genèse · coût moteur 0 $",
+    "insightVectorLabel": "Vecteur de Refonte · L'Axe Aveugle",
+    "insightAxisReading": "Lecture",
+    "insightAxisRedesign": "Refonte"
   }
 }

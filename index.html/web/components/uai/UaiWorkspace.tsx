@@ -42,9 +42,9 @@ export function UaiWorkspace({ initialQuery = '' }: { initialQuery?: string }) {
 
   return (
     <main className="mx-auto min-h-screen w-full max-w-3xl px-6 pb-24 pt-28">
-      <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-accent">{t('title')}</p>
-      <h1 className="mt-2 font-serif text-2xl font-bold text-white sm:text-3xl">{t('headline')}</h1>
-      <p className="mt-2 text-sm text-gray-400 [text-wrap:balance]">{t('subhead')}</p>
+      <p className="text-[11px] font-bold uppercase tracking-[0.4em] text-accent">{t('title')}</p>
+      <h1 className="mt-3 font-serif text-3xl font-bold text-white sm:text-5xl">{t('headline')}</h1>
+      <p className="mt-3 text-base text-gray-400 [text-wrap:balance] sm:text-lg">{t('subhead')}</p>
 
       <form onSubmit={submit} className="mt-6">
         <div className="flex items-center gap-3 border border-white/15 bg-white/[0.04] px-5 py-4 backdrop-blur-2xl focus-within:border-accent">
@@ -69,6 +69,9 @@ export function UaiWorkspace({ initialQuery = '' }: { initialQuery?: string }) {
         phase={uai.phase}
         surface={uai.surface}
         deep={uai.deep}
+        insight={uai.insight}
+        trendHits={uai.trendHits}
+        insightForging={uai.insightForging}
         error={uai.error}
         canDeep={uai.canDeep}
         deepAvailable={uai.deepAvailable}

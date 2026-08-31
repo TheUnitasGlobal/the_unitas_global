@@ -888,6 +888,14 @@
     "reporterPaid": "Paid Reporter · Sign in",
     "followupLabel": "Follow-up Queries · Angle Options",
     "followupHint": "Re-run the search from another doctrine axis, or dig into a cited source.",
-    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%."
+    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%.",
+    "insightLabel": "UNITAS Insight Report · 6-Axis Sovereign Redesign",
+    "insightForging": "The sovereign engine is forging the 6-axis redesign — it will appear here and stay free forever.",
+    "insightPending": "{hits} / 3 searches. On the 3rd, the 100-doctrine engine forges this redesign once — then it is free for everyone, forever.",
+    "insightFreshBadge": "Forged just now · sealed into Genesis Memory",
+    "insightCachedNote": "Served from Genesis Memory · engine cost $0",
+    "insightVectorLabel": "Redesign Vector · The Blind Axis",
+    "insightAxisReading": "Reading",
+    "insightAxisRedesign": "Redesign"
   }
 }

@@ -888,6 +888,14 @@
     "reporterPaid": "Trình báo cáo trả phí · Đăng nhập",
     "followupLabel": "Truy vấn tiếp theo · Tùy chọn góc nhìn",
     "followupHint": "Chạy lại tìm kiếm từ một trục học thuyết khác, hoặc đào sâu vào nguồn được trích dẫn.",
-    "webBlendNote": "Tổng hợp web tầm cỡ big tech 90% + tái thiết kế 100 học thuyết UNITAS 10%."
+    "webBlendNote": "Tổng hợp web tầm cỡ big tech 90% + tái thiết kế 100 học thuyết UNITAS 10%.",
+    "insightLabel": "Báo cáo Chuyên sâu UNITAS · Tái thiết kế Chủ quyền 6 Trục",
+    "insightForging": "Động cơ chủ quyền đang rèn bản tái thiết kế 6 trục — nó sẽ hiện ở đây và miễn phí mãi mãi.",
+    "insightPending": "{hits} / 3 lượt tìm. Ở lượt thứ 3, động cơ 100 học thuyết rèn bản tái thiết kế này một lần — sau đó miễn phí cho tất cả mọi người, mãi mãi.",
+    "insightFreshBadge": "Vừa được rèn · niêm phong vào Genesis Memory",
+    "insightCachedNote": "Cung cấp từ Genesis Memory · chi phí động cơ $0",
+    "insightVectorLabel": "Vector Tái thiết kế · Trục Mù",
+    "insightAxisReading": "Đọc hiểu",
+    "insightAxisRedesign": "Tái thiết kế"
   }
 }

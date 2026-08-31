@@ -888,6 +888,14 @@
     "reporterPaid": "Repórter pago · Entrar",
     "followupLabel": "Consultas de acompanhamento · Opções de ângulo",
     "followupHint": "Refaça a busca a partir de outro eixo doutrinário ou aprofunde uma fonte citada.",
-    "webBlendNote": "Síntese web de nível big tech 90% + redesenho das 100 doutrinas da UNITAS 10%."
+    "webBlendNote": "Síntese web de nível big tech 90% + redesenho das 100 doutrinas da UNITAS 10%.",
+    "insightLabel": "Relatório de Perceção UNITAS · Redesenho Soberano de 6 Eixos",
+    "insightForging": "O motor soberano está a forjar o redesenho de 6 eixos — aparecerá aqui e ficará gratuito para sempre.",
+    "insightPending": "{hits} / 3 pesquisas. Na 3.ª, o motor das 100 doutrinas forja este redesenho uma única vez — depois é gratuito para todos, para sempre.",
+    "insightFreshBadge": "Forjado agora mesmo · selado na Memória Génesis",
+    "insightCachedNote": "Servido a partir da Memória Génesis · custo do motor $0",
+    "insightVectorLabel": "Vetor de Redesenho · O Eixo Cego",
+    "insightAxisReading": "Leitura",
+    "insightAxisRedesign": "Redesenho"
   }
 }

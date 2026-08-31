@@ -73,6 +73,54 @@ export interface WebSynthesis {
   fetchedAt: number;
 }
 
+/**
+ * One axis of the 6-axis "Sovereign Redesign" — the free-tier assetized report
+ * forged by the LLM once a query crosses the search threshold (TREND_THRESHOLD)
+ * or when a paid deep-insight primes it. `reading` = how the subject currently
+ * sits on that doctrine axis; `redesign` = the sovereign move that axis demands.
+ */
+export interface ConstitutionAxisRedesign {
+  axis: ConstitutionAxis;
+  reading: string;
+  redesign: string;
+}
+
+/**
+ * The free, permanently-cached "UNITAS Insight Report". Generated exactly once
+ * per (locale, normalized query) — at the 3rd cumulative search or the first
+ * paid burn — then served from Genesis Memory forever at engine cost 0원
+ * (the "초절대마진 / 초영속에코시스템" pipeline, owner instruction 2026-08-31).
+ */
+export interface ConstitutionRedesignReport {
+  query: string;
+  /** exactly 6, in ConstitutionAxis order. */
+  axes: ConstitutionAxisRedesign[];
+  /** one paragraph fusing all 6 axes into a single sovereign thesis. */
+  synthesis: string;
+  /** the single blind-spot directive the redesign is anchored on. */
+  vector: string;
+  model: string;
+  /** true when served from Genesis Memory rather than a fresh LLM call. */
+  cached: boolean;
+  /** cumulative search count for this query at the moment it was forged. */
+  hits: number;
+}
+
+/** POST /api/u-ai/trend response — the threshold assetization channel. */
+export interface TrendApiResponse {
+  ok: boolean;
+  /** cumulative search count for this (locale, query) after this call. */
+  hits: number;
+  /** the forged/cached 6-axis report, or null while still below threshold. */
+  report: ConstitutionRedesignReport | null;
+  /** true when a report exists but is still being forged / capped for today. */
+  pending?: boolean;
+  /** true when `report` came straight from Genesis Memory (0원). */
+  cached?: boolean;
+  /** true when `report` was forged by this very request. */
+  fresh?: boolean;
+}
+
 export interface SwarmScore {
   key: string;
   messageKey: string;

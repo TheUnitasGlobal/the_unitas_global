@@ -888,6 +888,14 @@
     "reporterPaid": "Pelapor Berbayar · Masuk",
     "followupLabel": "Kueri Lanjutan · Opsi Sudut Pandang",
     "followupHint": "Jalankan ulang pencarian dari sumbu doktrin lain, atau telusuri sumber yang dikutip.",
-    "webBlendNote": "Sintesis web setara big tech 90% + desain ulang 100 doktrin UNITAS 10%."
+    "webBlendNote": "Sintesis web setara big tech 90% + desain ulang 100 doktrin UNITAS 10%.",
+    "insightLabel": "Laporan Wawasan UNITAS · Desain Ulang Berdaulat 6 Sumbu",
+    "insightForging": "Mesin berdaulat sedang menempa desain ulang 6 sumbu — akan muncul di sini dan tetap gratis selamanya.",
+    "insightPending": "{hits} / 3 pencarian. Pada pencarian ke-3, mesin 100 doktrin menempa desain ulang ini satu kali — setelah itu gratis untuk semua orang, selamanya.",
+    "insightFreshBadge": "Baru ditempa · disegel ke Genesis Memory",
+    "insightCachedNote": "Disajikan dari Genesis Memory · biaya mesin $0",
+    "insightVectorLabel": "Vektor Desain Ulang · Sumbu Buta",
+    "insightAxisReading": "Pembacaan",
+    "insightAxisRedesign": "Desain Ulang"
   }
 }

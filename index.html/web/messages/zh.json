@@ -888,6 +888,14 @@
     "reporterPaid": "付费报告器 · 登录",
     "followupLabel": "追加检索查询 · 视角选项",
     "followupHint": "从另一条宪法轴重新检索，或深入引用的来源。",
-    "webBlendNote": "大厂级网络综合 90% + UNITAS 100条宪法重构 10%。"
+    "webBlendNote": "大厂级网络综合 90% + UNITAS 100条宪法重构 10%。",
+    "insightLabel": "UNITAS 洞察报告 · 六轴主权重设计",
+    "insightForging": "主权引擎正在锻造六轴重设计 — 它将显示在此处并永久免费。",
+    "insightPending": "搜索 {hits} / 3 次。第 3 次时，百大超宪法引擎将一次性锻造此重设计 — 此后对所有人永久免费。",
+    "insightFreshBadge": "刚刚锻造 · 已封入创世记忆",
+    "insightCachedNote": "由创世记忆提供 · 引擎成本 $0",
+    "insightVectorLabel": "重设计向量 · 盲区轴",
+    "insightAxisReading": "解读",
+    "insightAxisRedesign": "重设计"
   }
 }
