@@ -100,7 +100,18 @@ export function NavBar() {
             className="nav-scroll flex h-full items-center gap-6 overflow-x-auto sm:gap-9 lg:overflow-x-visible"
           >
             <SoundToggle />
-            <CoinBalanceBadge />
+            {/* Coin economy is the core CTA -- must never scroll out of view when
+                the mobile icon cluster is swiped. `sticky left-0` clamps it to the
+                scroll container's left edge once swiping would otherwise carry it
+                past that point; before that it simply sits at its normal flow
+                position, so nothing shifts on initial render. No-op on lg+ (the
+                cluster switches to overflow-x-visible there, so there is nothing
+                to stick to). z-20 (above .nav-edge-hint's z-10) so the purely
+                decorative left scroll-scrim never paints over the badge once
+                both occupy the same left edge. */}
+            <div className="sticky left-0 z-20 flex shrink-0 items-center bg-void/90 pr-3 backdrop-blur-md lg:static lg:bg-transparent lg:pr-0 lg:backdrop-blur-none">
+              <CoinBalanceBadge />
+            </div>
             <LanguageSwitcher />
             <AuthButton />
             <SettingsButton />
