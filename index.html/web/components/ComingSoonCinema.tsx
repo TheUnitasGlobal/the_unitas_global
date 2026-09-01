@@ -986,10 +986,23 @@ export function ComingSoonCinema() {
                 </p>
 
                 {/* FOUNDER-ONLY secret door. Never rendered for the public,
-                    so there is no path past the curtain in a normal session. */}
+                    so there is no path past the curtain in a normal session.
+
+                    MOBILE VISIBILITY FIX (owner instruction 2026-09-01): this
+                    used to sit in-flow (`mt-12` after the corporate name
+                    block), so on short mobile viewports it could be pushed
+                    below the fold and require a scroll to discover. Pinned
+                    `absolute` + `inset-x-0 bottom-24` instead, matching the
+                    same pinned-corner pattern already used by
+                    `CinemaAppDownload` (bottom-left) and the replay control
+                    (bottom-right) below -- now it renders at fixed
+                    screen-bottom-center on every viewport, identically on
+                    PC and mobile, with no scroll required. `bottom-24`
+                    (not `bottom-6`) keeps it clear of that same bottom-6
+                    corner-control row so nothing overlaps on narrow phones. */}
                 {isFounder && (
                   <motion.div
-                    className="mt-12 flex flex-col items-center gap-3 border-t border-white/10 pt-8"
+                    className="absolute inset-x-0 bottom-24 z-20 flex flex-col items-center gap-3 px-6"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6, duration: 0.8 }}
@@ -1004,7 +1017,7 @@ export function ComingSoonCinema() {
                     >
                       {t('enterMain')}
                     </button>
-                    <p className="max-w-xs text-[10px] leading-relaxed text-white/30 [text-wrap:balance]">
+                    <p className="max-w-[85vw] text-[10px] leading-relaxed text-white/30 [text-wrap:balance] sm:max-w-xs">
                       {t('founderAccessNote')}
                     </p>
                   </motion.div>
