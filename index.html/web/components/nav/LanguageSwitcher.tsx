@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
@@ -9,6 +10,9 @@ import { LOCALE_NATIVE_NAME } from '@/components/i18n/GlobalLanguagePicker';
 import { FlagIcon } from './FlagIcon';
 
 type Locale = (typeof routing.locales)[number];
+
+/** Matches the dropdown's `w-40` Tailwind class (10rem @ 16px root = 160px). */
+const MENU_WIDTH = 160;
 
 /**
  * Native (endonym) language names shown beside each flag -- imported from the
@@ -25,10 +29,43 @@ export function LanguageSwitcher() {
   const pathname = usePathname();
   const router = useRouter();
   const { open, blocked, setOpen, toggle } = useGatedSurface('nav:language');
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
 
   const activeLocale = (routing.locales as readonly string[]).includes(locale)
     ? (locale as Locale)
     : ('en' as Locale);
+
+  // The trigger lives inside NavBar's horizontally-swiping `.nav-scroll` strip.
+  // That strip sets `overflow-x: auto`, which per the CSS overflow spec forces
+  // the browser to compute its `overflow-y` as `auto` too (never left at
+  // `visible` when the other axis isn't) -- so a `position: absolute` dropdown
+  // anchored inside it renders but is clipped the instant it extends past the
+  // strip's own ~44px row height, invisible on mobile. Positioning the menu
+  // `fixed` from the trigger's live bounding rect escapes that clip entirely.
+  useEffect(() => {
+    if (!open) return;
+    const updatePosition = () => {
+      const rect = buttonRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      const left = Math.min(
+        Math.max(8, rect.right - MENU_WIDTH),
+        window.innerWidth - MENU_WIDTH - 8,
+      );
+      setMenuPos({ top: rect.bottom + 12, left });
+    };
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    // A swipe of the nav strip moves the trigger out from under the menu --
+    // close rather than fight the scroll with continuous repositioning.
+    const scrollParent = buttonRef.current?.closest('.nav-scroll');
+    const closeOnScroll = () => setOpen(false);
+    scrollParent?.addEventListener('scroll', closeOnScroll, { passive: true });
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      scrollParent?.removeEventListener('scroll', closeOnScroll);
+    };
+  }, [open, setOpen]);
 
   function selectLocale(nextLocale: string) {
     setOpen(false);
@@ -38,6 +75,7 @@ export function LanguageSwitcher() {
   return (
     <div className="relative">
       <button
+        ref={buttonRef}
         type="button"
         onClick={toggle}
         aria-label={t('languageLabel')}
@@ -57,7 +95,10 @@ export function LanguageSwitcher() {
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} aria-hidden="true" />
-          <ul className="absolute right-0 z-50 mt-3 w-40 bg-quantum/95 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-md">
+          <ul
+            style={{ top: menuPos.top, left: menuPos.left }}
+            className="fixed z-50 w-40 bg-quantum/95 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-md"
+          >
             {routing.locales.map((loc) => (
               <li key={loc}>
                 <button
