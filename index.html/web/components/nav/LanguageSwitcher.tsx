@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { ChevronDown } from 'lucide-react';
 import { useGatedSurface } from '@/components/ui/useGatedSurface';
+import { ModalPortal } from '@/components/ui/ModalPortal';
 import { LOCALE_NATIVE_NAME } from '@/components/i18n/GlobalLanguagePicker';
 import { FlagIcon } from './FlagIcon';
 
@@ -30,7 +31,7 @@ export function LanguageSwitcher() {
   const router = useRouter();
   const { open, blocked, setOpen, toggle } = useGatedSurface('nav:language');
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
+  const [menuPos, setMenuPos] = useState<{ top: number; left: number } | null>(null);
 
   const activeLocale = (routing.locales as readonly string[]).includes(locale)
     ? (locale as Locale)
@@ -43,8 +44,11 @@ export function LanguageSwitcher() {
   // anchored inside it renders but is clipped the instant it extends past the
   // strip's own ~44px row height, invisible on mobile. Positioning the menu
   // `fixed` from the trigger's live bounding rect escapes that clip entirely.
-  useEffect(() => {
-    if (!open) return;
+  useLayoutEffect(() => {
+    if (!open) {
+      setMenuPos(null);
+      return;
+    }
     const updatePosition = () => {
       const rect = buttonRef.current?.getBoundingClientRect();
       if (!rect) return;
@@ -92,8 +96,8 @@ export function LanguageSwitcher() {
         <ChevronDown size={22} className={open ? 'rotate-180 transition-transform' : 'transition-transform'} />
       </button>
 
-      {open && (
-        <>
+      {open && menuPos && (
+        <ModalPortal>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} aria-hidden="true" />
           <ul
             style={{ top: menuPos.top, left: menuPos.left }}
@@ -114,7 +118,7 @@ export function LanguageSwitcher() {
               </li>
             ))}
           </ul>
-        </>
+        </ModalPortal>
       )}
     </div>
   );
