@@ -345,7 +345,17 @@
     "swarmHint": "11 modülün tamamı bu sorguyu aynı anda puanlar.",
     "imageTooLarge": "Görsel çok büyük (maks. 4MB).",
     "imageUnsupported": "Desteklenmeyen görsel biçimi.",
-    "attachImageAria": "Görsel veya dosya ekle"
+    "attachImageAria": "Görsel veya dosya ekle",
+    "attachVideoAria": "Video ekle (temsili bir kare yakalar)",
+    "attachCanvasAria": "Bir taslak çiz ve ekle",
+    "videoUnsupported": "Desteklenmeyen video biçimi.",
+    "videoCaptureFailed": "O videodan bir kare yakalanamadı.",
+    "drawTitle": "Çiz ve Ekle",
+    "drawClear": "Temizle",
+    "drawAttach": "Taslağı Ekle",
+    "drawClose": "Kapat",
+    "ladderShortcutLabel": "16 Eksenli Yönetişim Kısayolları",
+    "ladderShortcutHint": "Yönetişim merdivenini açmak için bir eksene dokunun"
   },
   "EntryModal": {
     "rulesLabel": "Katılım Kuralları",

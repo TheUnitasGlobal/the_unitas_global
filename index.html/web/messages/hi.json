@@ -345,7 +345,17 @@
     "swarmHint": "सभी 11 मॉड्यूल इस क्वेरी को एक साथ स्कोर करते हैं।",
     "imageTooLarge": "छवि बहुत बड़ी है (अधिकतम 4MB)।",
     "imageUnsupported": "असमर्थित छवि प्रारूप।",
-    "attachImageAria": "छवि या फ़ाइल जोड़ें"
+    "attachImageAria": "छवि या फ़ाइल जोड़ें",
+    "attachVideoAria": "वीडियो जोड़ें (एक प्रतिनिधि फ़्रेम कैप्चर करता है)",
+    "attachCanvasAria": "स्केच बनाएं और जोड़ें",
+    "videoUnsupported": "असमर्थित वीडियो प्रारूप।",
+    "videoCaptureFailed": "उस वीडियो से फ़्रेम कैप्चर नहीं हो सका।",
+    "drawTitle": "स्केच करें और जोड़ें",
+    "drawClear": "साफ़ करें",
+    "drawAttach": "स्केच जोड़ें",
+    "drawClose": "बंद करें",
+    "ladderShortcutLabel": "16-अक्ष गवर्नेंस शॉर्टकट",
+    "ladderShortcutHint": "गवर्नेंस लैडर खोलने के लिए किसी अक्ष को टैप करें"
   },
   "EntryModal": {
     "rulesLabel": "सहभागिता नियम",

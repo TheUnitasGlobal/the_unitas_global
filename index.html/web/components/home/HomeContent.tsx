@@ -1,7 +1,8 @@
 'use client';
 
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { motion } from 'framer-motion';
 import { Hero } from './Hero';
 import { OmniSynapseSearch } from './OmniSynapseSearch';
 import { EcosystemCard } from '@/components/cards/EcosystemCard';
@@ -18,6 +19,12 @@ import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
 import { GOVERNANCE_AXES, type GovernanceAxis } from '@/lib/governance';
 
+/** Restores which governance axis was open across a next-intl locale switch
+ *  (which remounts the client tree) -- The Living Knowledge Ouroboros's
+ *  "keep results synced" requirement, scoped to *what was open*, not a
+ *  re-fetch of any coin-costing report. */
+const AXIS_STORAGE_KEY = 'unitas.ouroboros.axis.v1';
+
 export function HomeContent() {
   const tHome = useTranslations('Home');
   const tCognitive = useTranslations('Cognitive');
@@ -28,7 +35,37 @@ export function HomeContent() {
   const [activeEcosystem, setActiveEcosystem] = useState<EcosystemTheme | null>(null);
   const [activeModule, setActiveModule] = useState<B2CModule | null>(null);
   const [activeAxis, setActiveAxis] = useState<GovernanceAxis | null>(null);
+  /** Focus Isolation: true while OmniSynapseSearch is focused on an empty
+      query ("ouroboros" mode) -- sinks Sections 1-3 behind the search bar's
+      16-axis Governance shortcut marquee instead of the usual browse hub. */
+  const [isOuroboros, setIsOuroboros] = useState(false);
   const { trigger: triggerShockwave, element: shockwaveElement } = useShockwave();
+
+  // Restore the governance axis that was open before a locale switch
+  // remounted this tree (next-intl's router.replace re-navigates the whole
+  // client tree on a locale change -- see GovernanceLadderStrip/
+  // OmniSynapseSearch for the matching query-text persistence).
+  useEffect(() => {
+    try {
+      const savedKey = sessionStorage.getItem(AXIS_STORAGE_KEY);
+      if (savedKey) {
+        const found = GOVERNANCE_AXES.find((a) => a.key === savedKey);
+        if (found) setActiveAxis(found);
+      }
+    } catch {
+      // sessionStorage unavailable -- restoring the open axis is a nicety,
+      // not a requirement.
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      if (activeAxis) sessionStorage.setItem(AXIS_STORAGE_KEY, activeAxis.key);
+      else sessionStorage.removeItem(AXIS_STORAGE_KEY);
+    } catch {
+      // non-fatal, see above.
+    }
+  }, [activeAxis]);
 
   // Single U-AI session for the whole home page: the search bar drives it.
   // The ecosystem / module / protocol walls below are ALWAYS mounted on the
@@ -55,6 +92,8 @@ export function HomeContent() {
         uai={uai}
         onSelectEcosystem={setActiveEcosystem}
         onSelectModule={setActiveModule}
+        onOpenAxis={setActiveAxis}
+        onOuroborosChange={setIsOuroboros}
       />
 
       {/* Sections 1-3 -- the UNITAS ecosystem / consumer / enterprise catalogs.
@@ -70,6 +109,21 @@ export function HomeContent() {
         </div>
       )}
 
+      {/* Focus Isolation (The Living Knowledge Ouroboros): Sections 1-3 sink
+          -- dim/blur/settle back -- while the search bar is focused on an
+          empty query and showing the Governance shortcut marquee instead.
+          Section 4 (Governance) is excluded on purpose: it sits directly
+          below the marquee it mirrors, so keeping it at full opacity reads
+          as one continuous surface rather than a second sunken block. */}
+      <motion.div
+        animate={
+          isOuroboros
+            ? { opacity: 0.35, scale: 0.985, filter: 'blur(2px)' }
+            : { opacity: 1, scale: 1, filter: 'blur(0px)' }
+        }
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+        style={{ pointerEvents: isOuroboros ? 'none' : 'auto' }}
+      >
       {/* Section 1 -- Cognitive Ecosystem (the 11 modules) */}
       <section id="ecosystems" className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-10 text-center">
@@ -135,6 +189,7 @@ export function HomeContent() {
           ))}
         </div>
       </section>
+      </motion.div>
 
       {/* Section 4 -- 16-Axis Governance Matrix (CLAUDE.md §3.3, first UI
           rendering of the doctrine's "지성 문명 및 사회 거버넌스" list). Free,

@@ -345,7 +345,17 @@
     "swarmHint": "11個すべてのモジュールがこのクエリを同時に評価します。",
     "imageTooLarge": "画像が大きすぎます(最大4MB)。",
     "imageUnsupported": "サポートされていない画像形式です。",
-    "attachImageAria": "画像またはファイルを添付"
+    "attachImageAria": "画像またはファイルを添付",
+    "attachVideoAria": "動画を添付(代表的な1フレームをキャプチャ)",
+    "attachCanvasAria": "スケッチを描いて添付",
+    "videoUnsupported": "サポートされていない動画形式です。",
+    "videoCaptureFailed": "その動画からフレームをキャプチャできませんでした。",
+    "drawTitle": "スケッチして添付",
+    "drawClear": "クリア",
+    "drawAttach": "スケッチを添付",
+    "drawClose": "閉じる",
+    "ladderShortcutLabel": "16軸ガバナンス・ショートカット",
+    "ladderShortcutHint": "軸をタップしてガバナンス・ラダーを開く"
   },
   "EntryModal": {
     "rulesLabel": "参加ルール",

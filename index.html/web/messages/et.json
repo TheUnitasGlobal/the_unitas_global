@@ -345,7 +345,17 @@
     "swarmHint": "Kõik 11 moodulit hindavad seda päringut korraga.",
     "imageTooLarge": "Pilt on liiga suur (max 4MB).",
     "imageUnsupported": "Toetamata pildivorming.",
-    "attachImageAria": "Lisa pilt või fail"
+    "attachImageAria": "Lisa pilt või fail",
+    "attachVideoAria": "Lisa video (jäädvustab ühe kaadri)",
+    "attachCanvasAria": "Joonista visand ja lisa see",
+    "videoUnsupported": "Toetamata videovorming.",
+    "videoCaptureFailed": "Sellest videost ei õnnestunud kaadrit jäädvustada.",
+    "drawTitle": "Joonista ja lisa",
+    "drawClear": "Tühjenda",
+    "drawAttach": "Lisa visand",
+    "drawClose": "Sulge",
+    "ladderShortcutLabel": "16-teljeline valitsemise otsetee",
+    "ladderShortcutHint": "Puuduta telge, et avada valitsemisredel"
   },
   "EntryModal": {
     "rulesLabel": "Osalemise Reeglid",

@@ -345,7 +345,17 @@
     "swarmHint": "11개 모듈 전체가 이 질문을 동시에 평가합니다.",
     "imageTooLarge": "이미지가 너무 큽니다 (최대 4MB).",
     "imageUnsupported": "지원하지 않는 이미지 형식입니다.",
-    "attachImageAria": "이미지 또는 파일 첨부"
+    "attachImageAria": "이미지 또는 파일 첨부",
+    "attachVideoAria": "동영상 첨부 (대표 프레임 1장 캡처)",
+    "attachCanvasAria": "스케치를 그려서 첨부",
+    "videoUnsupported": "지원하지 않는 동영상 형식입니다.",
+    "videoCaptureFailed": "해당 동영상에서 프레임을 캡처하지 못했습니다.",
+    "drawTitle": "스케치 후 첨부",
+    "drawClear": "지우기",
+    "drawAttach": "스케치 첨부",
+    "drawClose": "닫기",
+    "ladderShortcutLabel": "16축 거버넌스 숏컷",
+    "ladderShortcutHint": "축을 탭하면 거버넌스 사다리가 열립니다"
   },
   "EntryModal": {
     "rulesLabel": "참여 규칙",

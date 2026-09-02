@@ -1,17 +1,21 @@
 'use client';
 
-import { useMemo, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Paperclip, X, Image as ImageIcon } from 'lucide-react';
+import { Search, Paperclip, Video, PenTool, X, Image as ImageIcon } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { sceneInteraction } from '@/lib/sceneInteraction';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useUai } from '@/lib/uai/useUai';
 import { UaiDashboard } from '@/components/uai/UaiDashboard';
+import { CanvasDrawInput } from '@/components/interaction/CanvasDrawInput';
+import { GovernanceLadderStrip } from '@/components/home/GovernanceLadderStrip';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
+import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
+import type { GovernanceAxis } from '@/lib/governance';
 
 interface OmniSynapseSearchProps {
   /** Lifted to HomeContent so the page can hide the ecosystem/module walls
@@ -19,6 +23,12 @@ interface OmniSynapseSearchProps {
   uai: ReturnType<typeof useUai>;
   onSelectEcosystem: (eco: EcosystemTheme) => void;
   onSelectModule: (module: B2CModule) => void;
+  /** Governance axis shortcuts (The Living Knowledge Ouroboros) open the same
+      shared GovernanceLadderModal HomeContent already owns for Section 4. */
+  onOpenAxis: (axis: GovernanceAxis) => void;
+  /** True while the search bar is focused on an empty query -- HomeContent
+      uses this to sink (Focus Isolation) Sections 1-3 behind the ladder. */
+  onOuroborosChange?: (active: boolean) => void;
 }
 
 /**
@@ -32,6 +42,13 @@ const SYSTEM_METRICS = [
   { key: 'latency', label: 'LATENCY', value: '0.3ms' },
   { key: 'coherence', label: 'COHERENCE', value: '99.2%' },
 ];
+
+/** Persists what was typed/open across a next-intl locale switch (which
+ *  remounts the client tree and would otherwise wipe component state) --
+ *  see The Living Knowledge Ouroboros's "keep results synced" requirement. */
+const QUERY_STORAGE_KEY = 'unitas.ouroboros.query.v1';
+
+type VisualAttachment = UaiImageAttachment & { id: string; label: string };
 
 /**
  * The OMNI-SYNAPSE search bar + browse hub + UNITAS ARCHITECT result panel.
@@ -50,8 +67,25 @@ const SYSTEM_METRICS = [
  * only -- no OCR/parsing is attempted). "Swarm Cross-Reasoning" is the
  * collapsible section in the result panel showing all 11 ecosystems' scores
  * from that same heuristic simultaneously, not just the top match.
+ *
+ * Vision attachments (photo / video / sketch) feed the *deep* insight call
+ * (Anthropic vision), capped at MAX_UAI_ATTACHMENTS total -- see
+ * addVisualAttachment. A video attachment is really its one extracted
+ * representative frame (Anthropic's Messages API has no video content
+ * block); a canvas attachment is a PNG snapshot from CanvasDrawInput. Both
+ * travel identically to a photo from this point on.
+ *
+ * When the bar is focused on an *empty* query ("ouroboros" mode), the
+ * ecosystem/module walls sink behind a 16-axis Governance shortcut marquee
+ * instead of the browse hub -- see GovernanceLadderStrip + onOuroborosChange.
  */
-export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: OmniSynapseSearchProps) {
+export function OmniSynapseSearch({
+  uai,
+  onSelectEcosystem,
+  onSelectModule,
+  onOpenAxis,
+  onOuroborosChange,
+}: OmniSynapseSearchProps) {
   const t = useTranslations('OmniSynapse');
   const tEcosystems = useTranslations('Ecosystems');
   const tModules = useTranslations('Modules');
@@ -62,22 +96,42 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
   const locale = useLocale();
   const { session } = useWallet();
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    try {
+      return sessionStorage.getItem(QUERY_STORAGE_KEY) ?? '';
+    } catch {
+      return '';
+    }
+  });
   const [focused, setFocused] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [attachments, setAttachments] = useState<Array<{ id: string; label: string; content: string }>>([]);
-  const [image, setImage] = useState<{ id: string; label: string; mediaType: string; data: string } | null>(null);
-  const [imageError, setImageError] = useState<string | null>(null);
+  const [visualAttachments, setVisualAttachments] = useState<VisualAttachment[]>([]);
+  const [attachError, setAttachError] = useState<string | null>(null);
+  const [drawOpen, setDrawOpen] = useState(false);
   const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const videoInputRef = useRef<HTMLInputElement | null>(null);
 
   const TEXT_LIKE_RE = /\.(txt|md|json|csv|log|ya?ml)$/i;
   const MAX_ATTACHMENT_CHARS = 4000;
   // Vision input for the deep-insight endpoint (see lib/uai/provider.ts) --
-  // one image at a time, since it's sent to a single-image vision call, not
-  // folded into the free-tier text heuristic like the attachments above.
+  // up to MAX_UAI_ATTACHMENTS images at a time (photo / video-frame / canvas
+  // sketch alike), sent to a multi-image vision call, not folded into the
+  // free-tier text heuristic like the attachments above.
   const IMAGE_TYPE_RE = /^image\/(png|jpeg|jpg|webp|gif)$/;
   const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
+  const VIDEO_CAPTURE_TIMEOUT_MS = 5000;
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(QUERY_STORAGE_KEY, value);
+    } catch {
+      // sessionStorage unavailable (private mode / disabled) -- non-fatal,
+      // the ouroboros sync degrades to "not restored" rather than erroring.
+    }
+  }, [value]);
 
   function addAttachment(label: string, content: string) {
     setAttachments((prev) => [...prev.slice(-3), { id: `${Date.now()}-${label}`, label, content }]);
@@ -87,14 +141,23 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
     setAttachments((prev) => prev.filter((a) => a.id !== id));
   }
 
+  function addVisualAttachment(item: VisualAttachment) {
+    setAttachError(null);
+    setVisualAttachments((prev) => [...prev.slice(-(MAX_UAI_ATTACHMENTS - 1)), item]);
+  }
+
+  function removeVisualAttachment(id: string) {
+    setVisualAttachments((prev) => prev.filter((a) => a.id !== id));
+  }
+
   function addImageFile(file: File) {
-    setImageError(null);
+    setAttachError(null);
     if (!IMAGE_TYPE_RE.test(file.type)) {
-      setImageError(t('imageUnsupported'));
+      setAttachError(t('imageUnsupported'));
       return;
     }
     if (file.size > MAX_IMAGE_BYTES) {
-      setImageError(t('imageTooLarge'));
+      setAttachError(t('imageTooLarge'));
       return;
     }
     const reader = new FileReader();
@@ -102,15 +165,89 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
       const dataUrl = typeof reader.result === 'string' ? reader.result : '';
       const base64 = dataUrl.slice(dataUrl.indexOf(',') + 1);
       if (!base64) return;
-      setImage({ id: `${Date.now()}-${file.name}`, label: file.name, mediaType: file.type, data: base64 });
+      addVisualAttachment({
+        id: `${Date.now()}-${file.name}`,
+        label: file.name,
+        mediaType: file.type,
+        data: base64,
+        kind: 'image',
+      });
     };
     reader.readAsDataURL(file);
+  }
+
+  /**
+   * Extracts one representative frame from a video file client-side and
+   * attaches it as a plain image -- the only way to fold video content into
+   * a vision call, since Anthropic's Messages API has no video content
+   * block. Runs entirely off-DOM (a detached <video>/<canvas> pair); browsers
+   * decode the first frame without the element needing to be mounted.
+   */
+  function addVideoFile(file: File) {
+    setAttachError(null);
+    if (!file.type.startsWith('video/')) {
+      setAttachError(t('videoUnsupported'));
+      return;
+    }
+    const url = URL.createObjectURL(file);
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+    video.muted = true;
+    video.playsInline = true;
+
+    let settled = false;
+    const finish = (ok: boolean) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeoutId);
+      URL.revokeObjectURL(url);
+      if (!ok) setAttachError(t('videoCaptureFailed'));
+    };
+    const timeoutId = setTimeout(() => finish(false), VIDEO_CAPTURE_TIMEOUT_MS);
+
+    video.onloadeddata = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth || 320;
+        canvas.height = video.videoHeight || 320;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('no-2d-context');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+        const base64 = dataUrl.slice(dataUrl.indexOf(',') + 1);
+        if (!base64) throw new Error('empty-frame');
+        addVisualAttachment({
+          id: `${Date.now()}-${file.name}`,
+          label: file.name,
+          mediaType: 'image/jpeg',
+          data: base64,
+          kind: 'video-frame',
+        });
+        finish(true);
+      } catch {
+        finish(false);
+      }
+    };
+    video.onerror = () => finish(false);
+    video.src = url;
+  }
+
+  function handleCanvasAttach(data: string) {
+    addVisualAttachment({
+      id: `${Date.now()}-sketch`,
+      label: t('drawTitle'),
+      mediaType: 'image/png',
+      data,
+      kind: 'canvas',
+    });
   }
 
   function processDroppedFiles(files: File[]) {
     files.forEach((file) => {
       if (IMAGE_TYPE_RE.test(file.type)) {
         addImageFile(file);
+      } else if (file.type.startsWith('video/')) {
+        addVideoFile(file);
       } else if (TEXT_LIKE_RE.test(file.name) || file.type.startsWith('text/')) {
         const reader = new FileReader();
         reader.onload = () => {
@@ -159,8 +296,13 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
     e.target.value = '';
   }
 
+  function handleVideoInputChange(e: ChangeEvent<HTMLInputElement>) {
+    Array.from(e.target.files ?? []).forEach((file) => addVideoFile(file));
+    e.target.value = '';
+  }
+
   function handleRunDeep() {
-    uai.runDeep(image ? { mediaType: image.mediaType, data: image.data } : undefined);
+    uai.runDeep(visualAttachments.length > 0 ? visualAttachments : undefined);
   }
 
   const query = value.trim().toLowerCase();
@@ -243,7 +385,15 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
   // non-empty query typed in) -- the bare home screen stays clean, the
   // ecosystem/module lists appear on search only (owner instruction 2026-08-30).
   const browsing = focused && query.length > 0 && uai.phase === 'idle';
+  // "The Living Knowledge Ouroboros": focused on a *clean* (empty) search bar
+  // -- shows the 16-axis Governance shortcut marquee instead, and tells
+  // HomeContent to sink Sections 1-3 behind it (Focus Isolation).
+  const ouroboros = focused && query.length === 0 && uai.phase === 'idle';
   const fullReportHref = `/${locale}/u-ai${value.trim() ? `?q=${encodeURIComponent(value.trim())}` : ''}`;
+
+  useEffect(() => {
+    onOuroborosChange?.(ouroboros);
+  }, [ouroboros, onOuroborosChange]);
 
   return (
     <div className="relative mx-auto -mt-[19px] w-full max-w-7xl px-6">
@@ -281,6 +431,14 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
             onChange={handleFileInputChange}
             className="hidden"
           />
+          <input
+            ref={videoInputRef}
+            type="file"
+            accept="video/*"
+            multiple
+            onChange={handleVideoInputChange}
+            className="hidden"
+          />
           <button
             type="button"
             title={t('dropZoneHint')}
@@ -290,29 +448,53 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
           >
             <Paperclip size={16} aria-hidden="true" />
           </button>
+          <button
+            type="button"
+            title={t('attachVideoAria')}
+            aria-label={t('attachVideoAria')}
+            onClick={() => videoInputRef.current?.click()}
+            className="shrink-0 text-gray-600 transition-colors hover:text-neon"
+          >
+            <Video size={16} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            title={t('attachCanvasAria')}
+            aria-label={t('attachCanvasAria')}
+            onClick={() => setDrawOpen(true)}
+            className="shrink-0 text-gray-600 transition-colors hover:text-neon"
+          >
+            <PenTool size={16} aria-hidden="true" />
+          </button>
         </div>
 
-        {imageError && <p className="mt-2 text-[11px] font-bold text-red-400">{imageError}</p>}
+        {attachError && <p className="mt-2 text-[11px] font-bold text-red-400">{attachError}</p>}
 
-        {(attachments.length > 0 || image) && (
+        {(attachments.length > 0 || visualAttachments.length > 0) && (
           <div className="mt-2 flex flex-wrap gap-2">
             <span className="self-center text-[9px] font-bold uppercase tracking-widest text-gray-500">
               {t('attachedLabel')}
             </span>
-            {image && (
-              <span className="flex items-center gap-1.5 border border-accent/30 bg-accent/[0.06] px-2 py-1 text-[11px] text-accent">
-                <ImageIcon size={11} aria-hidden="true" />
-                {image.label}
-                <button
-                  type="button"
-                  onClick={() => setImage(null)}
-                  aria-label={t('removeAttachment')}
-                  className="text-accent/60 hover:text-accent"
+            {visualAttachments.map((a) => {
+              const Icon = a.kind === 'video-frame' ? Video : a.kind === 'canvas' ? PenTool : ImageIcon;
+              return (
+                <span
+                  key={a.id}
+                  className="flex items-center gap-1.5 border border-accent/30 bg-accent/[0.06] px-2 py-1 text-[11px] text-accent"
                 >
-                  <X size={11} />
-                </button>
-              </span>
-            )}
+                  <Icon size={11} aria-hidden="true" />
+                  {a.label}
+                  <button
+                    type="button"
+                    onClick={() => removeVisualAttachment(a.id)}
+                    aria-label={t('removeAttachment')}
+                    className="text-accent/60 hover:text-accent"
+                  >
+                    <X size={11} />
+                  </button>
+                </span>
+              );
+            })}
             {attachments.map((a) => (
               <span
                 key={a.id}
@@ -455,6 +637,10 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AnimatePresence>{ouroboros && <GovernanceLadderStrip onOpenAxis={onOpenAxis} />}</AnimatePresence>
+
+      <CanvasDrawInput open={drawOpen} onClose={() => setDrawOpen(false)} onAttach={handleCanvasAttach} />
 
       <UaiDashboard
         phase={uai.phase}

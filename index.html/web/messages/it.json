@@ -345,7 +345,17 @@
     "swarmHint": "Tutti gli 11 moduli valutano questa domanda contemporaneamente.",
     "imageTooLarge": "L'immagine è troppo grande (max 4MB).",
     "imageUnsupported": "Formato immagine non supportato.",
-    "attachImageAria": "Allega un'immagine o un file"
+    "attachImageAria": "Allega un'immagine o un file",
+    "attachVideoAria": "Allega un video (cattura un fotogramma rappresentativo)",
+    "attachCanvasAria": "Disegna uno schizzo e allegalo",
+    "videoUnsupported": "Formato video non supportato.",
+    "videoCaptureFailed": "Impossibile catturare un fotogramma da quel video.",
+    "drawTitle": "Disegna e allega",
+    "drawClear": "Cancella",
+    "drawAttach": "Allega schizzo",
+    "drawClose": "Chiudi",
+    "ladderShortcutLabel": "Scorciatoie di governance a 16 assi",
+    "ladderShortcutHint": "Tocca un asse per aprire la scala di governance"
   },
   "EntryModal": {
     "rulesLabel": "Regole di Ingaggio",

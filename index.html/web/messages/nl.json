@@ -345,7 +345,17 @@
     "swarmHint": "Alle 11 modules beoordelen deze vraag tegelijk.",
     "imageTooLarge": "Afbeelding is te groot (max. 4MB).",
     "imageUnsupported": "Niet-ondersteund afbeeldingsformaat.",
-    "attachImageAria": "Afbeelding of bestand bijvoegen"
+    "attachImageAria": "Afbeelding of bestand bijvoegen",
+    "attachVideoAria": "Video bijvoegen (legt één representatief frame vast)",
+    "attachCanvasAria": "Schets tekenen en bijvoegen",
+    "videoUnsupported": "Niet-ondersteund videoformaat.",
+    "videoCaptureFailed": "Kon geen frame vastleggen uit die video.",
+    "drawTitle": "Schetsen & bijvoegen",
+    "drawClear": "Wissen",
+    "drawAttach": "Schets bijvoegen",
+    "drawClose": "Sluiten",
+    "ladderShortcutLabel": "16-assige governance-snelkoppelingen",
+    "ladderShortcutHint": "Tik op een as om de governance-ladder te openen"
   },
   "EntryModal": {
     "rulesLabel": "Spelregels",

@@ -17,11 +17,21 @@ export const UAI_DEEP_INSIGHT_COST = 3;
  * Vision analysis is currently wired for the Anthropic provider branch only
  * (see lib/uai/provider.ts) -- the OpenAI-compatible fallback branches
  * degrade gracefully to text-only rather than erroring.
+ *
+ * `kind` is a client-facing display hint only (which chip icon to render) --
+ * a video attachment is really its one extracted representative frame, and a
+ * canvas attachment is a PNG snapshot of a freehand sketch; both travel to
+ * the server and the LLM as plain images, identically to `kind: 'image'`.
  */
 export interface UaiImageAttachment {
   mediaType: string;
   data: string;
+  kind?: 'image' | 'video-frame' | 'canvas';
 }
+
+/** Max simultaneous image-family attachments (image/video-frame/canvas) on
+ *  one deep-insight request -- mirrors the text-attachment `.slice(-3)` cap. */
+export const MAX_UAI_ATTACHMENTS = 3;
 
 /** spend_coins() / coin_ledger / module_access_grants whitelist entry. */
 export const UAI_MODULE = 'u-ai' as const;

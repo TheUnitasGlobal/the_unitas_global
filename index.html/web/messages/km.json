@@ -345,7 +345,17 @@
     "swarmHint": "ម៉ូឌុលទាំង ១១ ដាក់ពិន្ទុសំណួរនេះក្នុងពេលតែមួយ។",
     "imageTooLarge": "រូបភាពធំពេក (អតិបរមា ៤MB)។",
     "imageUnsupported": "ទ្រង់ទ្រាយរូបភាពមិនគាំទ្រ។",
-    "attachImageAria": "ភ្ជាប់រូបភាព ឬឯកសារ"
+    "attachImageAria": "ភ្ជាប់រូបភាព ឬឯកសារ",
+    "attachVideoAria": "ភ្ជាប់វីដេអូ (ចាប់យករូបភាពតំណាងមួយ)",
+    "attachCanvasAria": "គូររូបព្រាងហើយភ្ជាប់",
+    "videoUnsupported": "ទ្រង់ទ្រាយវីដេអូមិនគាំទ្រ។",
+    "videoCaptureFailed": "មិនអាចចាប់យករូបភាពពីវីដេអូនោះបានទេ។",
+    "drawTitle": "គូរនិងភ្ជាប់",
+    "drawClear": "សម្អាត",
+    "drawAttach": "ភ្ជាប់រូបព្រាង",
+    "drawClose": "បិទ",
+    "ladderShortcutLabel": "ផ្លូវកាត់អភិបាលកិច្ច ១៦អ័ក្ស",
+    "ladderShortcutHint": "ចុចអ័ក្សមួយដើម្បីបើកជណ្ដើរអភិបាលកិច្ច"
   },
   "EntryModal": {
     "rulesLabel": "ក្បួនចូលរួម",

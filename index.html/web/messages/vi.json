@@ -345,7 +345,17 @@
     "swarmHint": "Cả 11 mô-đun chấm điểm truy vấn này cùng một lúc.",
     "imageTooLarge": "Hình ảnh quá lớn (tối đa 4MB).",
     "imageUnsupported": "Định dạng hình ảnh không được hỗ trợ.",
-    "attachImageAria": "Đính kèm hình ảnh hoặc tệp"
+    "attachImageAria": "Đính kèm hình ảnh hoặc tệp",
+    "attachVideoAria": "Đính kèm video (chụp một khung hình đại diện)",
+    "attachCanvasAria": "Vẽ phác thảo và đính kèm",
+    "videoUnsupported": "Định dạng video không được hỗ trợ.",
+    "videoCaptureFailed": "Không thể chụp khung hình từ video đó.",
+    "drawTitle": "Vẽ & Đính kèm",
+    "drawClear": "Xóa",
+    "drawAttach": "Đính kèm bản phác thảo",
+    "drawClose": "Đóng",
+    "ladderShortcutLabel": "Lối tắt quản trị 16 trục",
+    "ladderShortcutHint": "Chạm vào một trục để mở thang quản trị"
   },
   "EntryModal": {
     "rulesLabel": "Quy tắc tham gia",

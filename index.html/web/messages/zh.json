@@ -345,7 +345,17 @@
     "swarmHint": "全部11个模块同时对该查询评分。",
     "imageTooLarge": "图片过大(最大4MB)。",
     "imageUnsupported": "不支持的图片格式。",
-    "attachImageAria": "附加图片或文件"
+    "attachImageAria": "附加图片或文件",
+    "attachVideoAria": "附加视频(捕获一帧代表画面)",
+    "attachCanvasAria": "绘制草图并附加",
+    "videoUnsupported": "不支持的视频格式。",
+    "videoCaptureFailed": "无法从该视频中捕获画面。",
+    "drawTitle": "绘制并附加",
+    "drawClear": "清除",
+    "drawAttach": "附加草图",
+    "drawClose": "关闭",
+    "ladderShortcutLabel": "16轴治理快捷方式",
+    "ladderShortcutHint": "点击一个轴以打开治理阶梯"
   },
   "EntryModal": {
     "rulesLabel": "参与规则",

@@ -345,7 +345,17 @@
     "swarmHint": "Los 11 módulos puntúan esta consulta a la vez.",
     "imageTooLarge": "La imagen es demasiado grande (máx. 4 MB).",
     "imageUnsupported": "Formato de imagen no compatible.",
-    "attachImageAria": "Adjuntar una imagen o archivo"
+    "attachImageAria": "Adjuntar una imagen o archivo",
+    "attachVideoAria": "Adjuntar un video (captura un fotograma representativo)",
+    "attachCanvasAria": "Dibujar un boceto y adjuntarlo",
+    "videoUnsupported": "Formato de video no compatible.",
+    "videoCaptureFailed": "No se pudo capturar un fotograma de ese video.",
+    "drawTitle": "Dibujar y adjuntar",
+    "drawClear": "Borrar",
+    "drawAttach": "Adjuntar boceto",
+    "drawClose": "Cerrar",
+    "ladderShortcutLabel": "Atajos de gobernanza de 16 ejes",
+    "ladderShortcutHint": "Toca un eje para abrir la escalera de gobernanza"
   },
   "EntryModal": {
     "rulesLabel": "Reglas de Participación",

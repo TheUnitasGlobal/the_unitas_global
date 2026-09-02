@@ -12,6 +12,7 @@ import {
 } from '@/lib/uai/constitutionRedesign';
 import { generateInsight, insightProviderAvailable } from '@/lib/uai/provider';
 import {
+  MAX_UAI_ATTACHMENTS,
   UAI_DEEP_INSIGHT_COST,
   UAI_MODULE,
   type DeepInsightApiResponse,
@@ -70,7 +71,7 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
     return NextResponse.json({ ok: false, error: 'unauthenticated' }, { status: 401 });
   }
 
-  let body: { query?: unknown; locale?: unknown; shieldScore?: unknown; image?: unknown };
+  let body: { query?: unknown; locale?: unknown; shieldScore?: unknown; images?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -89,19 +90,24 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
   // Multimodal image input -- fail-open: a malformed/oversized/disallowed
   // image is dropped silently (the request proceeds text-only) rather than
   // rejecting a request whose coin burn is about to happen; a burned coin
-  // must never come back empty-handed over an optional attachment.
-  let image: { mediaType: string; data: string } | undefined;
-  if (body.image && typeof body.image === 'object') {
-    const raw = body.image as { mediaType?: unknown; data?: unknown };
-    const mediaType = typeof raw.mediaType === 'string' ? raw.mediaType : '';
-    const data = typeof raw.data === 'string' ? raw.data : '';
-    if (
-      ALLOWED_IMAGE_TYPES.has(mediaType) &&
-      data.length > 0 &&
-      data.length <= MAX_IMAGE_BASE64_LEN &&
-      BASE64_RE.test(data)
-    ) {
-      image = { mediaType, data };
+  // must never come back empty-handed over an optional attachment. `images`
+  // covers photo / extracted-video-frame / canvas-sketch attachments alike --
+  // all three arrive here as plain base64 image bytes (see OmniSynapseSearch).
+  const images: Array<{ mediaType: string; data: string }> = [];
+  if (Array.isArray(body.images)) {
+    for (const raw of body.images.slice(0, MAX_UAI_ATTACHMENTS) as unknown[]) {
+      if (!raw || typeof raw !== 'object') continue;
+      const item = raw as { mediaType?: unknown; data?: unknown };
+      const mediaType = typeof item.mediaType === 'string' ? item.mediaType : '';
+      const data = typeof item.data === 'string' ? item.data : '';
+      if (
+        ALLOWED_IMAGE_TYPES.has(mediaType) &&
+        data.length > 0 &&
+        data.length <= MAX_IMAGE_BASE64_LEN &&
+        BASE64_RE.test(data)
+      ) {
+        images.push({ mediaType, data });
+      }
     }
   }
 
@@ -132,8 +138,18 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
     return NextResponse.json({ ok: false, error: 'deep_unavailable' }, { status: 503 });
   }
 
+  // Content-hash addendum: folds a short hash of the attached image bytes
+  // into the cache key, so a repeat of the exact same query+image pair hits
+  // Genesis Memory (no re-burn of the paid LLM call) while a different image
+  // against the same query still gets its own cache slot. This is the
+  // honest, zero-new-dependency stand-in for "semantic vector compression" --
+  // there is no embedding model/vector DB in this app, and content-hash
+  // dedupe is what actually works without one (owner instruction 2026-09-02).
+  const imageDigest = images.length
+    ? `::img:${createHash('sha256').update(images.map((i) => i.data).join('|')).digest('hex').slice(0, 16)}`
+    : '';
   const queryHash = createHash('sha256')
-    .update(`${CACHE_VERSION}::${locale}::${normalizeQuery(query)}`)
+    .update(`${CACHE_VERSION}::${locale}::${normalizeQuery(query)}${imageDigest}`)
     .digest('hex');
 
   // Micro-Burn: exactly one spend per request, enforced server-side with a
@@ -182,11 +198,11 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
   }
 
   const { system, user: userPrompt } = buildInsightPrompt(query, locale);
-  const systemWithImage = image
-    ? `${system}\n\nAn image was attached to this request -- incorporate genuine visual analysis of it into the brief wherever relevant.`
+  const systemWithImage = images.length
+    ? `${system}\n\n${images.length} image(s) were attached to this request -- incorporate genuine visual analysis of them into the brief wherever relevant.`
     : system;
   try {
-    const { text, model } = await generateInsight(systemWithImage, userPrompt, undefined, image);
+    const { text, model } = await generateInsight(systemWithImage, userPrompt, undefined, images);
     const report = parseInsightResponse(text, model);
 
     // Persist to Genesis Memory + Brain-Grid (best-effort -- a failure here

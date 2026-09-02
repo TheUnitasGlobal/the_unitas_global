@@ -345,7 +345,17 @@
     "swarmHint": "ทั้ง 11 โมดูลให้คะแนนคำถามนี้พร้อมกัน",
     "imageTooLarge": "รูปภาพมีขนาดใหญ่เกินไป (สูงสุด 4MB)",
     "imageUnsupported": "รูปแบบรูปภาพไม่รองรับ",
-    "attachImageAria": "แนบรูปภาพหรือไฟล์"
+    "attachImageAria": "แนบรูปภาพหรือไฟล์",
+    "attachVideoAria": "แนบวิดีโอ (จับภาพหนึ่งเฟรมตัวแทน)",
+    "attachCanvasAria": "วาดภาพร่างแล้วแนบ",
+    "videoUnsupported": "รูปแบบวิดีโอไม่รองรับ",
+    "videoCaptureFailed": "ไม่สามารถจับภาพเฟรมจากวิดีโอนั้นได้",
+    "drawTitle": "วาดและแนบ",
+    "drawClear": "ล้าง",
+    "drawAttach": "แนบภาพร่าง",
+    "drawClose": "ปิด",
+    "ladderShortcutLabel": "ทางลัดธรรมาภิบาล 16 แกน",
+    "ladderShortcutHint": "แตะแกนเพื่อเปิดบันไดธรรมาภิบาล"
   },
   "EntryModal": {
     "rulesLabel": "กติกาการมีส่วนร่วม",

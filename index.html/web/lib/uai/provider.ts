@@ -89,28 +89,34 @@ export interface InsightImage {
  * used. Throws on any transport / HTTP error so the route can treat it as a
  * generation failure.
  *
- * `image`, when present, is folded into the Anthropic message as a
- * `content: [{type:'image',...}, {type:'text',...}]` array -- real vision
- * input, not a filename hint. The OpenAI-compatible branch below (which also
- * covers the free openrouter/nvidia-nim/bytez fallbacks) intentionally
- * ignores it: those endpoints' vision support varies per model/provider, and
- * silently degrading to text-only there is safer than assuming a capability
- * that may not exist on whichever free model is configured.
+ * `images`, when present (up to a few, each independently a photo / an
+ * extracted video frame / a canvas sketch -- the server treats all three
+ * identically as image bytes), are folded into the Anthropic message as a
+ * `content: [{type:'image',...}, ..., {type:'text',...}]` array -- real
+ * vision input, not a filename hint. The OpenAI-compatible branch below
+ * (which also covers the free openrouter/nvidia-nim/bytez fallbacks)
+ * intentionally ignores it: those endpoints' vision support varies per
+ * model/provider, and silently degrading to text-only there is safer than
+ * assuming a capability that may not exist on whichever free model is
+ * configured.
  */
 export async function generateInsight(
   system: string,
   userPrompt: string,
   maxTokens = 1800,
-  image?: InsightImage,
+  images?: InsightImage[],
 ): Promise<{ text: string; model: string }> {
   const active = activeProvider();
   if (!active) throw new Error('No insight provider configured');
   const max_tokens = Math.max(256, Math.min(4096, Math.round(maxTokens)));
 
   if (active.provider === 'anthropic') {
-    const content = image
+    const content = images?.length
       ? [
-          { type: 'image', source: { type: 'base64', media_type: image.mediaType, data: image.data } },
+          ...images.map((img) => ({
+            type: 'image',
+            source: { type: 'base64', media_type: img.mediaType, data: img.data },
+          })),
           { type: 'text', text: userPrompt },
         ]
       : userPrompt;

@@ -345,7 +345,17 @@
     "swarmHint": "Alle 11 Module bewerten diese Anfrage gleichzeitig.",
     "imageTooLarge": "Bild ist zu groß (max. 4 MB).",
     "imageUnsupported": "Nicht unterstütztes Bildformat.",
-    "attachImageAria": "Bild oder Datei anhängen"
+    "attachImageAria": "Bild oder Datei anhängen",
+    "attachVideoAria": "Video anhängen (erfasst ein repräsentatives Bild)",
+    "attachCanvasAria": "Skizze zeichnen und anhängen",
+    "videoUnsupported": "Nicht unterstütztes Videoformat.",
+    "videoCaptureFailed": "Aus diesem Video konnte kein Bild erfasst werden.",
+    "drawTitle": "Skizzieren & Anhängen",
+    "drawClear": "Löschen",
+    "drawAttach": "Skizze anhängen",
+    "drawClose": "Schließen",
+    "ladderShortcutLabel": "16-Achsen-Governance-Kurzwahl",
+    "ladderShortcutHint": "Tippen Sie auf eine Achse, um die Governance-Leiter zu öffnen"
   },
   "EntryModal": {
     "rulesLabel": "Engagement-Regeln",

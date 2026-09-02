@@ -345,7 +345,17 @@
     "swarmHint": "All 11 modules score this query at once.",
     "imageTooLarge": "Image is too large (max 4MB).",
     "imageUnsupported": "Unsupported image format.",
-    "attachImageAria": "Attach an image or file"
+    "attachImageAria": "Attach an image or file",
+    "attachVideoAria": "Attach a video (captures one representative frame)",
+    "attachCanvasAria": "Draw a sketch and attach it",
+    "videoUnsupported": "Unsupported video format.",
+    "videoCaptureFailed": "Couldn't capture a frame from that video.",
+    "drawTitle": "Sketch & Attach",
+    "drawClear": "Clear",
+    "drawAttach": "Attach Sketch",
+    "drawClose": "Close",
+    "ladderShortcutLabel": "16-Axis Governance Shortcuts",
+    "ladderShortcutHint": "Tap an axis to open the governance ladder"
   },
   "EntryModal": {
     "rulesLabel": "Engagement Rules",

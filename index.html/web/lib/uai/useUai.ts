@@ -140,7 +140,7 @@ export function useUai() {
     [session, locale],
   );
 
-  const runDeep = useCallback(async (image?: UaiImageAttachment) => {
+  const runDeep = useCallback(async (attachments?: UaiImageAttachment[]) => {
     if (!surface || phase === 'deep-loading') return;
     if (!session) {
       setError('signin');
@@ -158,7 +158,12 @@ export function useUai() {
       const res = await fetch('/api/u-ai/insight', {
         method: 'POST',
         headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-        body: JSON.stringify({ query: surface.query, locale, shieldScore: surface.shield.score, image }),
+        body: JSON.stringify({
+          query: surface.query,
+          locale,
+          shieldScore: surface.shield.score,
+          images: attachments?.map(({ mediaType, data }) => ({ mediaType, data })),
+        }),
       });
       const json = (await res.json()) as DeepInsightApiResponse;
       if (!json.ok) {

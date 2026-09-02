@@ -345,7 +345,17 @@
     "swarmHint": "Ke-11 modul menilai kueri ini sekaligus.",
     "imageTooLarge": "Gambar terlalu besar (maks 4MB).",
     "imageUnsupported": "Format gambar tidak didukung.",
-    "attachImageAria": "Lampirkan gambar atau berkas"
+    "attachImageAria": "Lampirkan gambar atau berkas",
+    "attachVideoAria": "Lampirkan video (menangkap satu bingkai representatif)",
+    "attachCanvasAria": "Gambar sketsa dan lampirkan",
+    "videoUnsupported": "Format video tidak didukung.",
+    "videoCaptureFailed": "Tidak dapat menangkap bingkai dari video itu.",
+    "drawTitle": "Gambar & Lampirkan",
+    "drawClear": "Hapus",
+    "drawAttach": "Lampirkan Sketsa",
+    "drawClose": "Tutup",
+    "ladderShortcutLabel": "Pintasan Tata Kelola 16 Sumbu",
+    "ladderShortcutHint": "Ketuk sebuah sumbu untuk membuka tangga tata kelola"
   },
   "EntryModal": {
     "rulesLabel": "Aturan Keterlibatan",

@@ -345,7 +345,17 @@
     "swarmHint": "Sinusuri ng lahat ng 11 module ang tanong na ito nang sabay-sabay.",
     "imageTooLarge": "Masyadong malaki ang larawan (max 4MB).",
     "imageUnsupported": "Hindi suportadong format ng larawan.",
-    "attachImageAria": "Maglakip ng larawan o file"
+    "attachImageAria": "Maglakip ng larawan o file",
+    "attachVideoAria": "Maglakip ng video (kumukuha ng isang representative na frame)",
+    "attachCanvasAria": "Gumuhit ng sketch at ilakip",
+    "videoUnsupported": "Hindi suportadong format ng video.",
+    "videoCaptureFailed": "Hindi makuha ang frame mula sa video na iyon.",
+    "drawTitle": "Gumuhit at Ilakip",
+    "drawClear": "I-clear",
+    "drawAttach": "Ilakip ang Sketch",
+    "drawClose": "Isara",
+    "ladderShortcutLabel": "16-Axis na Shortcut ng Governance",
+    "ladderShortcutHint": "I-tap ang isang axis para buksan ang governance ladder"
   },
   "EntryModal": {
     "rulesLabel": "Mga Panuntunan sa Pakikilahok",

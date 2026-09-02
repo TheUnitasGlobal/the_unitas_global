@@ -345,7 +345,17 @@
     "swarmHint": "Wszystkie 11 modułów ocenia to zapytanie jednocześnie.",
     "imageTooLarge": "Obraz jest za duży (maks. 4MB).",
     "imageUnsupported": "Nieobsługiwany format obrazu.",
-    "attachImageAria": "Załącz obraz lub plik"
+    "attachImageAria": "Załącz obraz lub plik",
+    "attachVideoAria": "Załącz wideo (przechwytuje jedną reprezentatywną klatkę)",
+    "attachCanvasAria": "Narysuj szkic i załącz",
+    "videoUnsupported": "Nieobsługiwany format wideo.",
+    "videoCaptureFailed": "Nie udało się przechwycić klatki z tego wideo.",
+    "drawTitle": "Rysuj i załącz",
+    "drawClear": "Wyczyść",
+    "drawAttach": "Załącz szkic",
+    "drawClose": "Zamknij",
+    "ladderShortcutLabel": "16-osiowe skróty zarządzania",
+    "ladderShortcutHint": "Dotknij osi, aby otworzyć drabinę zarządzania"
   },
   "EntryModal": {
     "rulesLabel": "Zasady uczestnictwa",

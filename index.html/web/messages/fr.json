@@ -345,7 +345,17 @@
     "swarmHint": "Les 11 modules évaluent cette requête en même temps.",
     "imageTooLarge": "L'image est trop volumineuse (4 Mo max).",
     "imageUnsupported": "Format d'image non pris en charge.",
-    "attachImageAria": "Joindre une image ou un fichier"
+    "attachImageAria": "Joindre une image ou un fichier",
+    "attachVideoAria": "Joindre une vidéo (capture une image représentative)",
+    "attachCanvasAria": "Dessiner un croquis et le joindre",
+    "videoUnsupported": "Format vidéo non pris en charge.",
+    "videoCaptureFailed": "Impossible de capturer une image de cette vidéo.",
+    "drawTitle": "Dessiner et joindre",
+    "drawClear": "Effacer",
+    "drawAttach": "Joindre le croquis",
+    "drawClose": "Fermer",
+    "ladderShortcutLabel": "Raccourcis de gouvernance à 16 axes",
+    "ladderShortcutHint": "Touchez un axe pour ouvrir l'échelle de gouvernance"
   },
   "EntryModal": {
     "rulesLabel": "Règles d'engagement",

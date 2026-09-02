@@ -345,7 +345,17 @@
     "swarmHint": "Os 11 módulos avaliam esta consulta ao mesmo tempo.",
     "imageTooLarge": "Imagem muito grande (máx. 4 MB).",
     "imageUnsupported": "Formato de imagem não suportado.",
-    "attachImageAria": "Anexar uma imagem ou arquivo"
+    "attachImageAria": "Anexar uma imagem ou arquivo",
+    "attachVideoAria": "Anexar um vídeo (captura um fotograma representativo)",
+    "attachCanvasAria": "Desenhar um esboço e anexá-lo",
+    "videoUnsupported": "Formato de vídeo não suportado.",
+    "videoCaptureFailed": "Não foi possível capturar um fotograma desse vídeo.",
+    "drawTitle": "Desenhar e anexar",
+    "drawClear": "Limpar",
+    "drawAttach": "Anexar esboço",
+    "drawClose": "Fechar",
+    "ladderShortcutLabel": "Atalhos de governança de 16 eixos",
+    "ladderShortcutHint": "Toque num eixo para abrir a escada de governança"
   },
   "EntryModal": {
     "rulesLabel": "Regras de participação",
