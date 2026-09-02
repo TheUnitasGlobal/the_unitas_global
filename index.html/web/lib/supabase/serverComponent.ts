@@ -40,5 +40,10 @@ export function getSupabaseServerComponentClient(): SupabaseClient | null {
         }
       },
     },
+    // Same guard as lib/supabase/server.ts: keep Next's Data Cache off
+    // PostgREST reads, so a grant check never sees a stale row set.
+    global: {
+      fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }),
+    },
   });
 }

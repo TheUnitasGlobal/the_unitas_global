@@ -1044,7 +1044,14 @@
     "deepLabel": "유니타스 심층 분석",
     "deepPending": "글로벌 검색 {hits} / 3회. 3회째에 100대 헌법 엔진이 이 키워드의 6축 심층 분석을 단 한 번 포징하며, 이후 모두에게 무료로 제공됩니다.",
     "appLoopLabel": "다이렉트 앱 & 에셋 순환 고리",
-    "restoredNote": "언어 전환 후 사다리가 복원되었습니다 — 결과는 유실되지 않았습니다."
+    "restoredNote": "언어 전환 후 사다리가 복원되었습니다 — 결과는 유실되지 않았습니다.",
+    "cachedBadge": "소버린 캐시 · 비용 0원",
+    "freshBadge": "방금 합성됨",
+    "synthesizedJustNow": "방금 합성",
+    "synthesizedAgo": "{hours}시간 전 합성",
+    "nextSynthesis": "다음 합성까지 {hours}시간 {minutes}분",
+    "refreshCooldown": "최근 갱신됨 — 캐시 제공",
+    "deepQueued": "6축 UNITAS 심층 분석이 야간 100대 헌법 포징 대기열에 있습니다. 한 번 합성되면 이후 모든 사용자에게 무료로 제공됩니다."
   },
   "Finance": {
     "axes": {

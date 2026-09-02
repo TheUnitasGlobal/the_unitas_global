@@ -1044,7 +1044,14 @@
     "deepLabel": "Analisi profonda UNITAS",
     "deepPending": "{hits} / 3 ricerche globali. Alla 3ª, il motore delle 100 dottrine forgia una sola volta l’analisi profonda a 6 assi di questa parola chiave — poi è gratis per tutti.",
     "appLoopLabel": "Ciclo diretto app e risorse",
-    "restoredNote": "Scala ripristinata dopo il cambio di lingua — nulla è andato perso."
+    "restoredNote": "Scala ripristinata dopo il cambio di lingua — nulla è andato perso.",
+    "cachedBadge": "Cache sovrana · costo 0",
+    "freshBadge": "Appena sintetizzato",
+    "synthesizedJustNow": "Sintetizzato proprio ora",
+    "synthesizedAgo": "Sintetizzato {hours} h fa",
+    "nextSynthesis": "prossima sintesi tra {hours} h {minutes} min",
+    "refreshCooldown": "Aggiornato di recente — servita la cache",
+    "deepQueued": "L’analisi profonda UNITAS a 6 assi è in coda per la forgia notturna delle 100 dottrine. Viene sintetizzata una sola volta e poi servita gratis a tutti."
   },
   "Finance": {
     "axes": {

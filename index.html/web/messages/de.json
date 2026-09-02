@@ -1044,7 +1044,14 @@
     "deepLabel": "UNITAS-Tiefenanalyse",
     "deepPending": "{hits} / 3 globale Suchen. Bei der 3. schmiedet die 100-Doktrinen-Engine die 6-Achsen-Tiefenanalyse dieses Schlüsselworts genau einmal – danach für alle kostenlos.",
     "appLoopLabel": "Direkt-App- & Asset-Schleife",
-    "restoredNote": "Leiter nach dem Sprachwechsel wiederhergestellt – nichts ging verloren."
+    "restoredNote": "Leiter nach dem Sprachwechsel wiederhergestellt – nichts ging verloren.",
+    "cachedBadge": "Souveräner Cache · 0 Kosten",
+    "freshBadge": "Frisch synthetisiert",
+    "synthesizedJustNow": "Gerade eben synthetisiert",
+    "synthesizedAgo": "Vor {hours} Std. synthetisiert",
+    "nextSynthesis": "nächste Synthese in {hours} Std. {minutes} Min.",
+    "refreshCooldown": "Kürzlich aktualisiert — Cache wird geliefert",
+    "deepQueued": "Die 6-Achsen-UNITAS-Tiefenanalyse steht in der Warteschlange der nächtlichen 100-Doktrin-Schmiede. Sie wird einmal synthetisiert und danach allen kostenlos geliefert."
   },
   "Finance": {
     "axes": {

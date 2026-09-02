@@ -1044,7 +1044,14 @@
     "deepLabel": "Análise profunda UNITAS",
     "deepPending": "{hits} / 3 pesquisas globais. Na 3.ª, o motor das 100 doutrinas forja uma única vez a análise profunda de 6 eixos desta palavra-chave — depois é grátis para todos.",
     "appLoopLabel": "Ciclo direto de apps e recursos",
-    "restoredNote": "Escada restaurada após a mudança de idioma — nada se perdeu."
+    "restoredNote": "Escada restaurada após a mudança de idioma — nada se perdeu.",
+    "cachedBadge": "Cache soberano · custo 0",
+    "freshBadge": "Recém-sintetizado",
+    "synthesizedJustNow": "Sintetizado agora mesmo",
+    "synthesizedAgo": "Sintetizado há {hours} h",
+    "nextSynthesis": "próxima síntese em {hours} h {minutes} min",
+    "refreshCooldown": "Atualizado recentemente — cache servido",
+    "deepQueued": "A análise profunda UNITAS de 6 eixos está na fila da forja noturna das 100 doutrinas. É sintetizada uma única vez e depois servida gratuitamente a todos."
   },
   "Finance": {
     "axes": {

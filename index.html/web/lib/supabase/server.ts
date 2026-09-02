@@ -28,5 +28,15 @@ export function getSupabaseServerClient(): SupabaseClient {
 
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
+    // Next.js patches the global fetch with its Data Cache, which memoizes
+    // GET responses by URL -- and every PostgREST select is a GET whose URL
+    // repeats verbatim across requests. Left alone, a route handler can be
+    // served a minutes-old (or hours-old) row set as if it were live; the
+    // shortcut-cache batch was re-synthesizing every tier on every run
+    // because its scan kept seeing the first deploy's near-empty table.
+    // Privileged DB reads must always hit Postgres.
+    global: {
+      fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }),
+    },
   });
 }

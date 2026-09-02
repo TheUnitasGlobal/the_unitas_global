@@ -1044,7 +1044,14 @@
     "deepLabel": "UNITAS-diepteanalyse",
     "deepPending": "{hits} / 3 wereldwijde zoekopdrachten. Bij de 3e smeedt de 100-doctrine-engine de 6-assige diepteanalyse van dit trefwoord één keer — daarna gratis voor iedereen.",
     "appLoopLabel": "Directe app- & assetlus",
-    "restoredNote": "Ladder hersteld na de taalwissel — niets is verloren gegaan."
+    "restoredNote": "Ladder hersteld na de taalwissel — niets is verloren gegaan.",
+    "cachedBadge": "Soevereine cache · 0 kosten",
+    "freshBadge": "Zojuist gesynthetiseerd",
+    "synthesizedJustNow": "Zojuist gesynthetiseerd",
+    "synthesizedAgo": "{hours} u geleden gesynthetiseerd",
+    "nextSynthesis": "volgende synthese over {hours} u {minutes} min",
+    "refreshCooldown": "Onlangs ververst — cache geleverd",
+    "deepQueued": "De 6-assige UNITAS-diepteanalyse staat in de wachtrij van de nachtelijke 100-doctrine-smederij. Eén keer gesynthetiseerd en daarna gratis voor iedereen."
   },
   "Finance": {
     "axes": {

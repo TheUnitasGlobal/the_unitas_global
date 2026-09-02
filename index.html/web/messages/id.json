@@ -1044,7 +1044,14 @@
     "deepLabel": "Analisis mendalam UNITAS",
     "deepPending": "{hits} / 3 pencarian global. Pada yang ke-3, mesin 100 doktrin menempa analisis mendalam 6 sumbu untuk kata kunci ini sekali saja — setelahnya gratis untuk semua.",
     "appLoopLabel": "Lingkar aplikasi & aset langsung",
-    "restoredNote": "Tangga dipulihkan setelah ganti bahasa — tidak ada yang hilang."
+    "restoredNote": "Tangga dipulihkan setelah ganti bahasa — tidak ada yang hilang.",
+    "cachedBadge": "Cache berdaulat · biaya 0",
+    "freshBadge": "Baru disintesis",
+    "synthesizedJustNow": "Baru saja disintesis",
+    "synthesizedAgo": "Disintesis {hours} jam lalu",
+    "nextSynthesis": "sintesis berikutnya dalam {hours} jam {minutes} menit",
+    "refreshCooldown": "Baru diperbarui — cache disajikan",
+    "deepQueued": "Analisis mendalam UNITAS 6 sumbu sedang antre untuk penempaan 100 doktrin malam ini. Disintesis sekali dan setelah itu disajikan gratis untuk semua."
   },
   "Finance": {
     "axes": {

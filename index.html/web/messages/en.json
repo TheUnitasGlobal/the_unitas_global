@@ -1044,7 +1044,14 @@
     "deepLabel": "UNITAS deep analysis",
     "deepPending": "{hits} / 3 global searches. On the 3rd, the 100-doctrine engine forges this keyword’s 6-axis deep analysis once — free for everyone after.",
     "appLoopLabel": "Direct app & asset loop",
-    "restoredNote": "Ladder restored after the language switch — nothing was lost."
+    "restoredNote": "Ladder restored after the language switch — nothing was lost.",
+    "cachedBadge": "Sovereign cache · 0-cost",
+    "freshBadge": "Freshly synthesized",
+    "synthesizedJustNow": "Synthesized just now",
+    "synthesizedAgo": "Synthesized {hours}h ago",
+    "nextSynthesis": "next synthesis in {hours}h {minutes}m",
+    "refreshCooldown": "Refreshed recently — cache served",
+    "deepQueued": "The 6-axis UNITAS deep analysis is queued for the nightly 100-doctrine forge. It is synthesized once and served free to everyone after."
   },
   "Finance": {
     "axes": {

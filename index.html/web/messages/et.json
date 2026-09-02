@@ -1044,7 +1044,14 @@
     "deepLabel": "UNITASe süvaanalüüs",
     "deepPending": "{hits} / 3 globaalset otsingut. Kolmandal sepistab 100 doktriini mootor selle märksõna 6-teljelise süvaanalüüsi ühe korra — pärast seda on see kõigile tasuta.",
     "appLoopLabel": "Otserakenduste ja varade ring",
-    "restoredNote": "Redel taastati pärast keelevahetust — midagi ei läinud kaduma."
+    "restoredNote": "Redel taastati pärast keelevahetust — midagi ei läinud kaduma.",
+    "cachedBadge": "Suveräänne vahemälu · 0 kulu",
+    "freshBadge": "Värskelt sünteesitud",
+    "synthesizedJustNow": "Sünteesitud just nüüd",
+    "synthesizedAgo": "Sünteesitud {hours} h tagasi",
+    "nextSynthesis": "järgmine süntees {hours} h {minutes} min pärast",
+    "refreshCooldown": "Hiljuti värskendatud — serveeritakse vahemälust",
+    "deepQueued": "6-teljeline UNITAS süvaanalüüs on öise 100-doktriini sepistuse järjekorras. Sünteesitakse üks kord ja jagatakse pärast tasuta kõigile."
   },
   "Finance": {
     "axes": {

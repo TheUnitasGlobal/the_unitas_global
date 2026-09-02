@@ -1044,7 +1044,14 @@
     "deepLabel": "UNITAS 深層分析",
     "deepPending": "グローバル検索 {hits} / 3回。3回目に100ドクトリンエンジンがこのキーワードの6軸深層分析を一度だけ鍛造し、以降は誰でも無料です。",
     "appLoopLabel": "ダイレクトアプリ & アセットループ",
-    "restoredNote": "言語切替後にラダーを復元しました — 何も失われていません。"
+    "restoredNote": "言語切替後にラダーを復元しました — 何も失われていません。",
+    "cachedBadge": "ソブリンキャッシュ · コスト0",
+    "freshBadge": "合成したばかり",
+    "synthesizedJustNow": "たった今合成",
+    "synthesizedAgo": "{hours}時間前に合成",
+    "nextSynthesis": "次の合成まで {hours}時間{minutes}分",
+    "refreshCooldown": "最近更新済み — キャッシュを提供",
+    "deepQueued": "6軸UNITAS深層分析は夜間の100大憲法フォージ待ちです。一度合成されると、その後は全員に無料で提供されます。"
   },
   "Finance": {
     "axes": {

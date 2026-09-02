@@ -1044,7 +1044,14 @@
     "deepLabel": "UNITAS derin analizi",
     "deepPending": "{hits} / 3 küresel arama. 3.’de 100 doktrin motoru bu anahtar kelimenin 6 eksenli derin analizini yalnızca bir kez döver — sonrası herkese ücretsiz.",
     "appLoopLabel": "Doğrudan uygulama ve varlık döngüsü",
-    "restoredNote": "Dil değişiminden sonra merdiven geri yüklendi — hiçbir şey kaybolmadı."
+    "restoredNote": "Dil değişiminden sonra merdiven geri yüklendi — hiçbir şey kaybolmadı.",
+    "cachedBadge": "Egemen önbellek · 0 maliyet",
+    "freshBadge": "Yeni sentezlendi",
+    "synthesizedJustNow": "Az önce sentezlendi",
+    "synthesizedAgo": "{hours} sa önce sentezlendi",
+    "nextSynthesis": "sonraki sentez {hours} sa {minutes} dk sonra",
+    "refreshCooldown": "Yakın zamanda yenilendi — önbellek sunuldu",
+    "deepQueued": "6 eksenli UNITAS derin analizi gece 100 doktrin dövme kuyruğunda. Bir kez sentezlenir ve ardından herkese ücretsiz sunulur."
   },
   "Finance": {
     "axes": {

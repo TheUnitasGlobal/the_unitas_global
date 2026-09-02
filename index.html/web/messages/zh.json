@@ -1044,7 +1044,14 @@
     "deepLabel": "UNITAS 深度分析",
     "deepPending": "全球搜索 {hits} / 3 次。第 3 次时，百条宪章引擎将为该关键词一次性锻造 6 轴深度分析，此后对所有人永久免费。",
     "appLoopLabel": "直达应用与资产循环",
-    "restoredNote": "语言切换后阶梯已恢复 — 结果未丢失。"
+    "restoredNote": "语言切换后阶梯已恢复 — 结果未丢失。",
+    "cachedBadge": "主权缓存 · 零成本",
+    "freshBadge": "刚刚合成",
+    "synthesizedJustNow": "刚刚合成",
+    "synthesizedAgo": "{hours}小时前合成",
+    "nextSynthesis": "距下次合成 {hours}小时{minutes}分",
+    "refreshCooldown": "最近已刷新 — 提供缓存",
+    "deepQueued": "6轴UNITAS深度分析已排入夜间100大宪法锻造队列。只合成一次，此后对所有人免费提供。"
   },
   "Finance": {
     "axes": {

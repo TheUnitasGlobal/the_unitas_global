@@ -1044,7 +1044,14 @@
     "deepLabel": "Malalim na pagsusuri ng UNITAS",
     "deepPending": "{hits} / 3 pandaigdigang paghahanap. Sa ika-3, minsang huhubugin ng 100-doctrine engine ang 6-axis na malalim na pagsusuri ng keyword na ito — libre na para sa lahat pagkatapos.",
     "appLoopLabel": "Direktang app at asset loop",
-    "restoredNote": "Naibalik ang hagdan matapos magpalit ng wika — walang nawala."
+    "restoredNote": "Naibalik ang hagdan matapos magpalit ng wika — walang nawala.",
+    "cachedBadge": "Sovereign cache · 0 gastos",
+    "freshBadge": "Bagong na-synthesize",
+    "synthesizedJustNow": "Na-synthesize ngayon lang",
+    "synthesizedAgo": "Na-synthesize {hours} oras na ang nakalipas",
+    "nextSynthesis": "susunod na synthesis sa loob ng {hours} oras {minutes} min",
+    "refreshCooldown": "Kaka-refresh lang — cache ang inihain",
+    "deepQueued": "Nakapila ang 6-axis UNITAS deep analysis para sa gabi-gabing 100-doctrine forge. Isang beses lang ito sini-synthesize at libre para sa lahat pagkatapos."
   },
   "Finance": {
     "axes": {

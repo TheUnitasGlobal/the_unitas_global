@@ -1044,7 +1044,14 @@
     "deepLabel": "Analyse approfondie UNITAS",
     "deepPending": "{hits} / 3 recherches mondiales. À la 3e, le moteur des 100 doctrines forge une seule fois l’analyse approfondie à 6 axes de ce mot-clé — gratuite pour tous ensuite.",
     "appLoopLabel": "Boucle directe apps & ressources",
-    "restoredNote": "Échelle restaurée après le changement de langue — rien n’a été perdu."
+    "restoredNote": "Échelle restaurée après le changement de langue — rien n’a été perdu.",
+    "cachedBadge": "Cache souverain · coût 0",
+    "freshBadge": "Fraîchement synthétisé",
+    "synthesizedJustNow": "Synthétisé à l’instant",
+    "synthesizedAgo": "Synthétisé il y a {hours} h",
+    "nextSynthesis": "prochaine synthèse dans {hours} h {minutes} min",
+    "refreshCooldown": "Actualisé récemment — cache servi",
+    "deepQueued": "L’analyse profonde UNITAS à 6 axes est en file pour la forge nocturne des 100 doctrines. Synthétisée une seule fois, elle est ensuite servie gratuitement à tous."
   },
   "Finance": {
     "axes": {

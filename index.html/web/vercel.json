@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/u-ai/shortcut-cache/refresh",
+      "schedule": "0 3 * * *"
+    }
+  ]
+}

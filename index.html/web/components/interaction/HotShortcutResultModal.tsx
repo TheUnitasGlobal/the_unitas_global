@@ -33,7 +33,8 @@ import {
 import { DIRECT_APP_SHORTCUTS } from '@/lib/appShortcuts';
 import { UNITAS_ASSETS } from '@/lib/unitasAssets';
 import { useShortcutFeed } from '@/lib/uai/useShortcutFeed';
-import { analyzeShortcut, type AnalyticsLabels, type ShortcutAnalysis } from '@/lib/uai/shortcutAnalytics';
+import { loadShortcutAnalysis } from '@/lib/uai/shortcutCacheClient';
+import type { AnalyticsLabels, ShortcutAnalysis } from '@/lib/uai/shortcutAnalytics';
 import type { ConstitutionAxis, ConstitutionRedesignReport, LensKey } from '@/lib/uai/types';
 
 interface HotShortcutResultModalProps {
@@ -110,6 +111,19 @@ const TREND_ICON: Record<ShortcutAnalysis['pulse']['trend'], LucideIcon> = {
   cooling: TrendingDown,
 };
 
+/** Seconds -> the {hours, minutes} pair the `nextSynthesis` copy expects. */
+function nextSynthesisParts(seconds: number): { hours: number; minutes: number } {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.max(0, Math.floor((seconds % 3600) / 60));
+  return { hours, minutes };
+}
+
+/** Whole hours since the served snapshot was synthesized (null = local pass). */
+function hoursSince(ts: number | null): number | null {
+  if (!ts) return null;
+  return Math.max(0, Math.floor((Date.now() - ts) / 3_600_000));
+}
+
 /**
  * The multi-tier chained U-AI popup opened by HotShortcutMatrixStrip -- the
  * "infinite knowledge ladder". Tier 0 is the tapped tile; every later tier
@@ -124,11 +138,13 @@ const TREND_ICON: Record<ShortcutAnalysis['pulse']['trend'], LucideIcon> = {
  * 4. the app/asset loop row hands the visitor out to a webmail / social app
  *    or a UNITAS asset download and back without losing a single tier.
  *
- * Every tier runs the fully-automated shortcut analytics engine
- * (lib/uai/shortcutAnalytics.ts); the newest tier is "in focus" and its feed
- * auto-refreshes on a fixed cadence via useShortcutFeed, upgrading in place
- * to the LLM-forged 6-axis UNITAS deep analysis once the keyword crosses the
- * global threshold (served from Genesis Memory at 0원).
+ * Every tier is served by the 24h sovereign caching engine (GET
+ * /api/u-ai/shortcut-cache via lib/uai/shortcutCacheClient.ts): the snapshot
+ * the nightly batch parked in Postgres + the Vercel CDN, plus the LLM-forged
+ * 6-axis UNITAS deep analysis from Genesis Memory -- 0초 to render, 0원 per
+ * visit, no browser-side synthesis. The newest tier is "in focus"; its HUD
+ * shows the cache state and hosts the manual refresh launcher
+ * (useShortcutFeed.refreshNow, cooldown-guarded server-side).
  */
 export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultModalProps) {
   const locale = useLocale();
@@ -294,9 +310,10 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     return () => window.clearTimeout(timer);
   }, [restored]);
 
-  // Every non-focused tier without an analysis (i.e. restored ones) gets its
-  // own engine pass, sequentially so a long restored ladder is a trickle,
-  // not a burst. The focused tier is served by the feed hook below.
+  // Every non-focused tier without an analysis (i.e. restored ones) is
+  // re-read from the 24h cache, sequentially so a long restored ladder is a
+  // trickle of CDN hits, not a burst. The focused tier is served by the feed
+  // hook below.
   useEffect(() => {
     if (!open) return;
     const missing = chain.filter((t, i) => !t.analysis && i !== chain.length - 1);
@@ -305,7 +322,7 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     (async () => {
       for (const tier of missing) {
         if (cancelled) return;
-        const analysis = await analyzeShortcut(tier.query, locale, labelsRef.current);
+        const { analysis } = await loadShortcutAnalysis(tier.query, locale, labelsRef.current);
         if (cancelled) return;
         setChain((prev) => prev.map((t) => (t.id === tier.id && !t.analysis ? { ...t, analysis } : t)));
       }
@@ -425,9 +442,18 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
                   />
                   {feed.refreshing
                     ? tModal('syncing')
-                    : feed.nextSyncIn > 0
-                      ? tModal('syncIn', { seconds: feed.nextSyncIn })
-                      : tModal('liveBadge')}
+                    : feed.cooldown
+                      ? tModal('refreshCooldown')
+                      : feed.source === 'cache'
+                        ? tModal('cachedBadge')
+                        : feed.source === 'fresh' || feed.source === 'cooldown'
+                          ? tModal('freshBadge')
+                          : tModal('liveBadge')}
+                  {!feed.refreshing && feed.nextSyncIn > 0 && (
+                    <span className="normal-case tracking-normal text-gray-500">
+                      · {tModal('nextSynthesis', nextSynthesisParts(feed.nextSyncIn))}
+                    </span>
+                  )}
                 </span>
                 <button
                   type="button"
@@ -615,12 +641,16 @@ interface TierCardProps {
 function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCardProps) {
   const TierIcon = tier.icon;
   const analysis = focused && feed?.analysis ? feed.analysis : tier.analysis;
-  const report: ConstitutionRedesignReport | null = focused && feed ? feed.report : null;
-  const hits = focused && feed ? feed.hits : 0;
-  const pending = focused && feed ? feed.pending : false;
+  // Every tier carries its own parked deep report now (the cache route
+  // returns it with the snapshot), so a restored / stepped-past tier keeps
+  // showing it -- not only the one in focus.
+  const report: ConstitutionRedesignReport | null = focused && feed ? feed.report : (analysis?.deep ?? null);
+  const hits = focused && feed ? feed.hits : (analysis?.hits ?? 0);
+  const pending = focused && feed ? feed.pending : Boolean(analysis && analysis.source !== 'local' && !analysis.deep);
   const leadSnippet = analysis?.web.sources[0]?.snippet ?? '';
   const isNested = tier.kind === 'query' || tier.kind === 'keyword';
   const TrendIcon = analysis ? TREND_ICON[analysis.pulse.trend] : Activity;
+  const cachedHours = analysis && analysis.source !== 'local' ? hoursSince(analysis.synthesizedAt) : null;
 
   return (
     <motion.article
@@ -668,6 +698,15 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
           {analysis.web.sourced && (
             <span className="border border-white/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-gray-400">
               {tUai('webSourcedBadge', { count: analysis.web.sources.length })}
+            </span>
+          )}
+          {cachedHours !== null && (
+            <span
+              className="border px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest"
+              style={{ color: `${tier.color}cc`, borderColor: `${tier.color}33` }}
+              title={tModal('cachedBadge')}
+            >
+              {cachedHours === 0 ? tModal('synthesizedJustNow') : tModal('synthesizedAgo', { hours: cachedHours })}
             </span>
           )}
         </div>
@@ -779,10 +818,9 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
           )}
 
           {/* UNITAS deep analysis -- the LLM-forged 6-axis sovereign
-              redesign, served from Genesis Memory at 0원 once the keyword
-              crosses the global threshold. Focused tier only (it is what
-              the feed is polling for). */}
-          {focused && (report || pending || feed?.refreshing === false) && (
+              redesign the nightly batch parks in Genesis Memory, served at
+              0원 on every tier that has one; otherwise the queue notice. */}
+          {(report || pending || (focused && feed?.refreshing === false)) && (
             <div className="border p-3" style={{ borderColor: `${tier.color}33`, backgroundColor: `${tier.color}0a` }}>
               <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.3em]" style={{ color: tier.color }}>
                 {tModal('deepLabel')}
@@ -805,7 +843,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
                 </div>
               ) : (
                 <p className="text-[11px] leading-relaxed text-gray-400">
-                  {pending ? tUai('insightForging') : tModal('deepPending', { hits: Math.min(hits, 3) })}
+                  {tModal('deepQueued')}
                 </p>
               )}
             </div>
