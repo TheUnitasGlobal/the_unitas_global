@@ -342,7 +342,10 @@
     "attachedLabel": "Đã đính kèm",
     "removeAttachment": "Gỡ",
     "swarmLabel": "Suy luận chéo bầy đàn",
-    "swarmHint": "Cả 11 mô-đun chấm điểm truy vấn này cùng một lúc."
+    "swarmHint": "Cả 11 mô-đun chấm điểm truy vấn này cùng một lúc.",
+    "imageTooLarge": "Hình ảnh quá lớn (tối đa 4MB).",
+    "imageUnsupported": "Định dạng hình ảnh không được hỗ trợ.",
+    "attachImageAria": "Đính kèm hình ảnh hoặc tệp"
   },
   "EntryModal": {
     "rulesLabel": "Quy tắc tham gia",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Vector Tái thiết kế · Trục Mù",
     "insightAxisReading": "Đọc hiểu",
     "insightAxisRedesign": "Tái thiết kế"
+  },
+  "Governance": {
+    "title": "Ma Trận Quản Trị Văn Minh",
+    "subtitle": "Chọn một trong 16 trục chủ quyền nâng đỡ mọi quyết định của UNITAS để bắt đầu bậc thang.",
+    "badge": "TRỤC QUẢN TRỊ CHỦ QUYỀN",
+    "prev": "Trước",
+    "next": "Tiếp theo",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Ngôn ngữ",
+        "description": "Giao thức mà mọi hệ thống chủ quyền dùng để giao tiếp."
+      },
+      "culture": {
+        "title": "Văn hóa",
+        "description": "Khuôn mẫu kế thừa đằng sau mọi quyết định tập thể."
+      },
+      "society": {
+        "title": "Xã hội",
+        "description": "Cấu trúc mà con người tổ chức cuộc sống xung quanh."
+      },
+      "structure": {
+        "title": "Cấu trúc",
+        "description": "Kiến trúc chịu lực bên dưới mọi hệ thống."
+      },
+      "art": {
+        "title": "Nghệ thuật",
+        "description": "Lớp thẩm mỹ biến chức năng thành ý nghĩa."
+      },
+      "expression": {
+        "title": "Biểu đạt",
+        "description": "Kênh biến ý định thành hành động hữu hình."
+      },
+      "pragma": {
+        "title": "Thực dụng",
+        "description": "Kỷ luật chọn thứ thực sự hiệu quả."
+      },
+      "economy": {
+        "title": "Kinh tế",
+        "description": "Sự lưu thông giá trị vượt ngoài khan hiếm nhân tạo."
+      },
+      "engineering": {
+        "title": "Kỹ thuật",
+        "description": "Kỷ luật biến ý tưởng thành hệ thống vận hành."
+      },
+      "technology": {
+        "title": "Công nghệ",
+        "description": "Đòn bẩy mà mọi trục khác phụ thuộc vào."
+      },
+      "law": {
+        "title": "Pháp luật",
+        "description": "Ranh giới có thể thực thi khiến niềm tin mở rộng được."
+      },
+      "institution": {
+        "title": "Thể chế",
+        "description": "Cấu trúc tồn tại lâu hơn bất kỳ chủ thể đơn lẻ nào."
+      },
+      "education": {
+        "title": "Giáo dục",
+        "description": "Sự truyền tải năng lực qua các thế hệ."
+      },
+      "welfare": {
+        "title": "Phúc lợi",
+        "description": "Mức nền giữ cho hệ thống nhân văn ở quy mô lớn."
+      },
+      "security": {
+        "title": "An ninh",
+        "description": "Lớp phòng vệ giữ cho chủ quyền không bị vay mượn."
+      },
+      "strategy": {
+        "title": "Chiến lược",
+        "description": "Trình tự các bước hướng tới lợi thế lâu dài."
+      }
+    }
   }
 }

@@ -342,7 +342,10 @@
     "attachedLabel": "Allegato",
     "removeAttachment": "Rimuovi",
     "swarmLabel": "Ragionamento Incrociato dello Sciame",
-    "swarmHint": "Tutti gli 11 moduli valutano questa domanda contemporaneamente."
+    "swarmHint": "Tutti gli 11 moduli valutano questa domanda contemporaneamente.",
+    "imageTooLarge": "L'immagine è troppo grande (max 4MB).",
+    "imageUnsupported": "Formato immagine non supportato.",
+    "attachImageAria": "Allega un'immagine o un file"
   },
   "EntryModal": {
     "rulesLabel": "Regole di Ingaggio",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Vettore di Riprogettazione · L'Asse Cieco",
     "insightAxisReading": "Lettura",
     "insightAxisRedesign": "Riprogettazione"
+  },
+  "Governance": {
+    "title": "Matrice di Governance Civilizzazionale",
+    "subtitle": "Scegli uno dei 16 assi sovrani che sostengono ogni decisione di UNITAS per avviare la scala.",
+    "badge": "ASSE DI GOVERNANCE SOVRANA",
+    "prev": "Precedente",
+    "next": "Successivo",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Lingua",
+        "description": "Il protocollo con cui ogni sistema sovrano comunica."
+      },
+      "culture": {
+        "title": "Cultura",
+        "description": "Lo schema ereditato dietro ogni decisione collettiva."
+      },
+      "society": {
+        "title": "Società",
+        "description": "La struttura attorno a cui si organizza la vita."
+      },
+      "structure": {
+        "title": "Struttura",
+        "description": "L'architettura portante sotto ogni sistema."
+      },
+      "art": {
+        "title": "Arte",
+        "description": "Lo strato estetico che trasforma la funzione in significato."
+      },
+      "expression": {
+        "title": "Espressione",
+        "description": "Il canale che trasforma l'intenzione in azione visibile."
+      },
+      "pragma": {
+        "title": "Pragmatismo",
+        "description": "La disciplina di scegliere ciò che funziona davvero."
+      },
+      "economy": {
+        "title": "Economia",
+        "description": "La circolazione di valore oltre la scarsità artificiale."
+      },
+      "engineering": {
+        "title": "Ingegneria",
+        "description": "La disciplina che trasforma le idee in sistemi funzionanti."
+      },
+      "technology": {
+        "title": "Tecnologia",
+        "description": "La leva da cui dipende ogni altro asse."
+      },
+      "law": {
+        "title": "Diritto",
+        "description": "Il limite esecutivo che rende la fiducia scalabile."
+      },
+      "institution": {
+        "title": "Istituzione",
+        "description": "La struttura che sopravvive a qualsiasi singolo attore."
+      },
+      "education": {
+        "title": "Istruzione",
+        "description": "Il trasferimento di capacità tra le generazioni."
+      },
+      "welfare": {
+        "title": "Benessere",
+        "description": "La base che mantiene umano un sistema su larga scala."
+      },
+      "security": {
+        "title": "Sicurezza",
+        "description": "Lo strato difensivo che impedisce alla sovranità di essere prestata."
+      },
+      "strategy": {
+        "title": "Strategia",
+        "description": "La sequenza di mosse verso un vantaggio duraturo."
+      }
+    }
   }
 }

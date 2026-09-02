@@ -7,22 +7,27 @@ import { OmniSynapseSearch } from './OmniSynapseSearch';
 import { EcosystemCard } from '@/components/cards/EcosystemCard';
 import { LiveServiceCard } from '@/components/cards/LiveServiceCard';
 import { B2BProtocolCard } from '@/components/cards/B2BProtocolCard';
+import { GovernanceCard } from '@/components/cards/GovernanceCard';
 import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModal';
 import { ModuleQuestModal } from '@/components/interaction/ModuleQuestModal';
+import { GovernanceLadderModal } from '@/components/interaction/GovernanceLadderModal';
 import { Footer } from '@/components/layout/Footer';
 import { useShockwave } from '@/components/effects/Shockwave';
 import { useUai } from '@/lib/uai/useUai';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
+import { GOVERNANCE_AXES, type GovernanceAxis } from '@/lib/governance';
 
 export function HomeContent() {
   const tHome = useTranslations('Home');
   const tCognitive = useTranslations('Cognitive');
   const tB2c = useTranslations('B2C');
   const tB2b = useTranslations('B2B');
+  const tGovernance = useTranslations('Governance');
 
   const [activeEcosystem, setActiveEcosystem] = useState<EcosystemTheme | null>(null);
   const [activeModule, setActiveModule] = useState<B2CModule | null>(null);
+  const [activeAxis, setActiveAxis] = useState<GovernanceAxis | null>(null);
   const { trigger: triggerShockwave, element: shockwaveElement } = useShockwave();
 
   // Single U-AI session for the whole home page: the search bar drives it.
@@ -131,8 +136,35 @@ export function HomeContent() {
         </div>
       </section>
 
+      {/* Section 4 -- 16-Axis Governance Matrix (CLAUDE.md §3.3, first UI
+          rendering of the doctrine's "지성 문명 및 사회 거버넌스" list). Free,
+          not coin-gated -- a reference/doctrine surface, not a product. */}
+      <section id="governance" className="mx-auto mt-8 max-w-7xl border-t border-white/10 px-6 py-16">
+        <div className="mb-10 text-center">
+          <h2 className="glow-text mb-3 font-serif text-2xl font-bold text-accent md:text-3xl">
+            {tGovernance('title')}
+          </h2>
+          <p className="mx-auto max-w-2xl text-[16px] text-gray-400 sm:text-[17px] md:text-[19px]">
+            {tGovernance('subtitle')}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
+          {GOVERNANCE_AXES.map((axis, index) => (
+            <GovernanceCard
+              key={axis.key}
+              axis={axis}
+              index={index}
+              total={GOVERNANCE_AXES.length}
+              onOpen={setActiveAxis}
+            />
+          ))}
+        </div>
+      </section>
+
       <EcosystemEntryModal ecosystem={activeEcosystem} onClose={() => setActiveEcosystem(null)} />
       <ModuleQuestModal module={activeModule} onClose={() => setActiveModule(null)} />
+      <GovernanceLadderModal axis={activeAxis} onClose={() => setActiveAxis(null)} />
     </main>
     <Footer />
     </Fragment>

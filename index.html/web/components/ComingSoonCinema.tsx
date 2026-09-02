@@ -15,6 +15,7 @@ import {
 } from '@/lib/foundersGate';
 import {
   CINEMA_DURATION_MS,
+  CINEMA_SEGMENTS,
   cinemaOverallProgress,
   cinemaSegmentAt,
   drawCinemaFrame,
@@ -859,6 +860,28 @@ export function ComingSoonCinema() {
                     className="h-full origin-left bg-accent/40"
                     style={{ transform: 'scaleX(0)' }}
                   />
+                </div>
+
+                {/* 5-segment scroll indicator dots -- permanently fixed (lives
+                    inside the curtain's `fixed inset-0` ancestor, so it never
+                    moves with page scroll or resize) and tracks `segId`,
+                    giving a persistent "where am I in the 30s loop" cue that
+                    the old ultra-thin progress line alone didn't provide. */}
+                <div
+                  className="pointer-events-none absolute inset-x-0 top-5 z-20 flex items-center justify-center gap-2"
+                  aria-hidden="true"
+                >
+                  {CINEMA_SEGMENTS.map((seg) => (
+                    <span
+                      key={seg.id}
+                      className="h-1.5 rounded-full transition-all duration-500 ease-out"
+                      style={{
+                        width: seg.id === segId ? '22px' : '6px',
+                        backgroundColor: seg.id === segId ? 'rgba(212,175,55,0.85)' : 'rgba(255,255,255,0.22)',
+                        boxShadow: seg.id === segId ? '0 0 10px rgba(212,175,55,0.55)' : 'none',
+                      }}
+                    />
+                  ))}
                 </div>
 
                 {/* GLITCH-FREE CROSS-FADE (owner instruction 2026-08-29): the

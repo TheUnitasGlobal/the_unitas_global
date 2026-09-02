@@ -342,7 +342,10 @@
     "attachedLabel": "Dołączono",
     "removeAttachment": "Usuń",
     "swarmLabel": "Rozumowanie rojowe wielu modułów",
-    "swarmHint": "Wszystkie 11 modułów ocenia to zapytanie jednocześnie."
+    "swarmHint": "Wszystkie 11 modułów ocenia to zapytanie jednocześnie.",
+    "imageTooLarge": "Obraz jest za duży (maks. 4MB).",
+    "imageUnsupported": "Nieobsługiwany format obrazu.",
+    "attachImageAria": "Załącz obraz lub plik"
   },
   "EntryModal": {
     "rulesLabel": "Zasady uczestnictwa",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Wektor przeprojektowania · ślepa oś",
     "insightAxisReading": "Odczyt",
     "insightAxisRedesign": "Przeprojektowanie"
+  },
+  "Governance": {
+    "title": "Macierz Ładu Cywilizacyjnego",
+    "subtitle": "Wybierz jedną z 16 suwerennych osi, na których opiera się każda decyzja UNITAS, aby rozpocząć drabinę.",
+    "badge": "OŚ SUWERENNEGO ŁADU",
+    "prev": "Wstecz",
+    "next": "Dalej",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Język",
+        "description": "Protokół, za pomocą którego komunikuje się każdy suwerenny system."
+      },
+      "culture": {
+        "title": "Kultura",
+        "description": "Odziedziczony wzorzec stojący za każdą zbiorową decyzją."
+      },
+      "society": {
+        "title": "Społeczeństwo",
+        "description": "Struktura, wokół której ludzie organizują swoje życie."
+      },
+      "structure": {
+        "title": "Struktura",
+        "description": "Nośna architektura pod każdym systemem."
+      },
+      "art": {
+        "title": "Sztuka",
+        "description": "Warstwa estetyczna zamieniająca funkcję w znaczenie."
+      },
+      "expression": {
+        "title": "Ekspresja",
+        "description": "Kanał zamieniający intencję w widoczne działanie."
+      },
+      "pragma": {
+        "title": "Pragmatyzm",
+        "description": "Dyscyplina wybierania tego, co naprawdę działa."
+      },
+      "economy": {
+        "title": "Gospodarka",
+        "description": "Obieg wartości poza sztucznym niedoborem."
+      },
+      "engineering": {
+        "title": "Inżynieria",
+        "description": "Dyscyplina zamieniająca pomysły w działające systemy."
+      },
+      "technology": {
+        "title": "Technologia",
+        "description": "Dźwignia, od której zależy każda inna oś."
+      },
+      "law": {
+        "title": "Prawo",
+        "description": "Egzekwowalna granica, która czyni zaufanie skalowalnym."
+      },
+      "institution": {
+        "title": "Instytucja",
+        "description": "Struktura, która przetrwa każdego pojedynczego aktora."
+      },
+      "education": {
+        "title": "Edukacja",
+        "description": "Przekazywanie zdolności między pokoleniami."
+      },
+      "welfare": {
+        "title": "Dobrostan",
+        "description": "Poziom bazowy utrzymujący system ludzkim w dużej skali."
+      },
+      "security": {
+        "title": "Bezpieczeństwo",
+        "description": "Warstwa obronna chroniąca suwerenność przed pożyczaniem."
+      },
+      "strategy": {
+        "title": "Strategia",
+        "description": "Sekwencja ruchów prowadząca do trwałej przewagi."
+      }
+    }
   }
 }

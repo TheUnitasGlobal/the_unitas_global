@@ -342,7 +342,10 @@
     "attachedLabel": "Terlampir",
     "removeAttachment": "Hapus",
     "swarmLabel": "Penalaran Silang Kawanan",
-    "swarmHint": "Ke-11 modul menilai kueri ini sekaligus."
+    "swarmHint": "Ke-11 modul menilai kueri ini sekaligus.",
+    "imageTooLarge": "Gambar terlalu besar (maks 4MB).",
+    "imageUnsupported": "Format gambar tidak didukung.",
+    "attachImageAria": "Lampirkan gambar atau berkas"
   },
   "EntryModal": {
     "rulesLabel": "Aturan Keterlibatan",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Vektor Desain Ulang · Sumbu Buta",
     "insightAxisReading": "Pembacaan",
     "insightAxisRedesign": "Desain Ulang"
+  },
+  "Governance": {
+    "title": "Matriks Tata Kelola Peradaban",
+    "subtitle": "Pilih salah satu dari 16 sumbu berdaulat yang menopang setiap keputusan UNITAS untuk memulai tangga.",
+    "badge": "SUMBU TATA KELOLA BERDAULAT",
+    "prev": "Sebelumnya",
+    "next": "Berikutnya",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Bahasa",
+        "description": "Protokol tempat setiap sistem berdaulat berkomunikasi."
+      },
+      "culture": {
+        "title": "Budaya",
+        "description": "Pola yang diwariskan di balik setiap keputusan kolektif."
+      },
+      "society": {
+        "title": "Masyarakat",
+        "description": "Struktur tempat individu mengatur kehidupannya."
+      },
+      "structure": {
+        "title": "Struktur",
+        "description": "Arsitektur penopang di balik setiap sistem."
+      },
+      "art": {
+        "title": "Seni",
+        "description": "Lapisan estetika yang mengubah fungsi menjadi makna."
+      },
+      "expression": {
+        "title": "Ekspresi",
+        "description": "Saluran yang mengubah niat menjadi tindakan nyata."
+      },
+      "pragma": {
+        "title": "Pragmatisme",
+        "description": "Disiplin memilih apa yang benar-benar berhasil."
+      },
+      "economy": {
+        "title": "Ekonomi",
+        "description": "Sirkulasi nilai di luar kelangkaan buatan."
+      },
+      "engineering": {
+        "title": "Rekayasa",
+        "description": "Disiplin yang mengubah gagasan menjadi sistem yang berjalan."
+      },
+      "technology": {
+        "title": "Teknologi",
+        "description": "Pengungkit yang menjadi tumpuan setiap sumbu lain."
+      },
+      "law": {
+        "title": "Hukum",
+        "description": "Batas yang dapat ditegakkan yang membuat kepercayaan dapat diskalakan."
+      },
+      "institution": {
+        "title": "Institusi",
+        "description": "Struktur yang bertahan melampaui aktor individu manapun."
+      },
+      "education": {
+        "title": "Pendidikan",
+        "description": "Transfer kapasitas lintas generasi."
+      },
+      "welfare": {
+        "title": "Kesejahteraan",
+        "description": "Garis dasar yang menjaga sistem tetap manusiawi dalam skala besar."
+      },
+      "security": {
+        "title": "Keamanan",
+        "description": "Lapisan pertahanan yang menjaga kedaulatan agar tidak dipinjam."
+      },
+      "strategy": {
+        "title": "Strategi",
+        "description": "Rangkaian langkah menuju keunggulan yang bertahan lama."
+      }
+    }
   }
 }

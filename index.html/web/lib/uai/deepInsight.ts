@@ -19,6 +19,14 @@ export const LOCALE_NAME: Record<string, string> = {
   pt: 'Portuguese',
   vi: 'Vietnamese',
   id: 'Indonesian',
+  ru: 'Russian',
+  hi: 'Hindi',
+  it: 'Italian',
+  tr: 'Turkish',
+  th: 'Thai',
+  pl: 'Polish',
+  nl: 'Dutch',
+  tl: 'Tagalog',
 };
 
 export function normalizeQuery(query: string): string {

@@ -342,7 +342,10 @@
     "attachedLabel": "Attached",
     "removeAttachment": "Remove",
     "swarmLabel": "Swarm Cross-Reasoning",
-    "swarmHint": "All 11 modules score this query at once."
+    "swarmHint": "All 11 modules score this query at once.",
+    "imageTooLarge": "Image is too large (max 4MB).",
+    "imageUnsupported": "Unsupported image format.",
+    "attachImageAria": "Attach an image or file"
   },
   "EntryModal": {
     "rulesLabel": "Engagement Rules",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Redesign Vector · The Blind Axis",
     "insightAxisReading": "Reading",
     "insightAxisRedesign": "Redesign"
+  },
+  "Governance": {
+    "title": "Civilizational Governance Matrix",
+    "subtitle": "16 sovereign axes underwriting every UNITAS decision — select one to enter the ladder.",
+    "badge": "SOVEREIGN GOVERNANCE AXIS",
+    "prev": "Prev",
+    "next": "Next",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Language",
+        "description": "The protocol every sovereign system speaks through."
+      },
+      "culture": {
+        "title": "Culture",
+        "description": "The inherited pattern behind every collective decision."
+      },
+      "society": {
+        "title": "Society",
+        "description": "The structure individuals organize their lives around."
+      },
+      "structure": {
+        "title": "Structure",
+        "description": "The load-bearing architecture beneath any system."
+      },
+      "art": {
+        "title": "Art",
+        "description": "The aesthetic layer that turns function into meaning."
+      },
+      "expression": {
+        "title": "Expression",
+        "description": "The channel that turns intent into visible action."
+      },
+      "pragma": {
+        "title": "Pragmatism",
+        "description": "The discipline of choosing what actually works."
+      },
+      "economy": {
+        "title": "Economy",
+        "description": "The circulation of value beyond artificial scarcity."
+      },
+      "engineering": {
+        "title": "Engineering",
+        "description": "The discipline that turns ideas into working systems."
+      },
+      "technology": {
+        "title": "Technology",
+        "description": "The leverage every other axis depends on."
+      },
+      "law": {
+        "title": "Law",
+        "description": "The enforceable boundary that makes trust scalable."
+      },
+      "institution": {
+        "title": "Institution",
+        "description": "The structure that outlives any single actor."
+      },
+      "education": {
+        "title": "Education",
+        "description": "The transfer of capability across generations."
+      },
+      "welfare": {
+        "title": "Welfare",
+        "description": "The baseline that keeps a system humane."
+      },
+      "security": {
+        "title": "Security",
+        "description": "The defense that keeps sovereignty from being borrowed."
+      },
+      "strategy": {
+        "title": "Strategy",
+        "description": "The sequencing of moves toward lasting advantage."
+      }
+    }
   }
 }

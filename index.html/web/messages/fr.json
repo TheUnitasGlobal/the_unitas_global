@@ -342,7 +342,10 @@
     "attachedLabel": "Joint",
     "removeAttachment": "Retirer",
     "swarmLabel": "Raisonnement croisé en essaim",
-    "swarmHint": "Les 11 modules évaluent cette requête en même temps."
+    "swarmHint": "Les 11 modules évaluent cette requête en même temps.",
+    "imageTooLarge": "L'image est trop volumineuse (4 Mo max).",
+    "imageUnsupported": "Format d'image non pris en charge.",
+    "attachImageAria": "Joindre une image ou un fichier"
   },
   "EntryModal": {
     "rulesLabel": "Règles d'engagement",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Vecteur de Refonte · L'Axe Aveugle",
     "insightAxisReading": "Lecture",
     "insightAxisRedesign": "Refonte"
+  },
+  "Governance": {
+    "title": "Matrice de Gouvernance Civilisationnelle",
+    "subtitle": "16 axes souverains qui soutiennent chaque décision d'UNITAS — choisissez-en un pour démarrer l'échelle.",
+    "badge": "AXE DE GOUVERNANCE SOUVERAINE",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Langue",
+        "description": "Le protocole par lequel tout système souverain communique."
+      },
+      "culture": {
+        "title": "Culture",
+        "description": "Le motif hérité derrière toute décision collective."
+      },
+      "society": {
+        "title": "Société",
+        "description": "La structure autour de laquelle s'organise la vie."
+      },
+      "structure": {
+        "title": "Structure",
+        "description": "Architecture porteuse sous tout système."
+      },
+      "art": {
+        "title": "Art",
+        "description": "La couche esthétique qui transforme la fonction en sens."
+      },
+      "expression": {
+        "title": "Expression",
+        "description": "Le canal qui transforme l'intention en action visible."
+      },
+      "pragma": {
+        "title": "Pragmatisme",
+        "description": "La discipline de choisir ce qui fonctionne réellement."
+      },
+      "economy": {
+        "title": "Économie",
+        "description": "La circulation de valeur au-delà de la rareté artificielle."
+      },
+      "engineering": {
+        "title": "Ingénierie",
+        "description": "La discipline qui transforme les idées en systèmes fonctionnels."
+      },
+      "technology": {
+        "title": "Technologie",
+        "description": "Le levier dont dépend tout autre axe."
+      },
+      "law": {
+        "title": "Droit",
+        "description": "La limite exécutoire qui rend la confiance scalable."
+      },
+      "institution": {
+        "title": "Institution",
+        "description": "La structure qui survit à tout acteur individuel."
+      },
+      "education": {
+        "title": "Éducation",
+        "description": "Le transfert de capacité entre les générations."
+      },
+      "welfare": {
+        "title": "Bien-être",
+        "description": "Le socle qui garde un système humain à grande échelle."
+      },
+      "security": {
+        "title": "Sécurité",
+        "description": "La couche défensive qui empêche la souveraineté d'être empruntée."
+      },
+      "strategy": {
+        "title": "Stratégie",
+        "description": "La séquence de mouvements vers un avantage durable."
+      }
+    }
   }
 }

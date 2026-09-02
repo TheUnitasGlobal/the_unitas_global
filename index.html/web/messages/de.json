@@ -342,7 +342,10 @@
     "attachedLabel": "Angehängt",
     "removeAttachment": "Entfernen",
     "swarmLabel": "Schwarm-Querschlussfolgerung",
-    "swarmHint": "Alle 11 Module bewerten diese Anfrage gleichzeitig."
+    "swarmHint": "Alle 11 Module bewerten diese Anfrage gleichzeitig.",
+    "imageTooLarge": "Bild ist zu groß (max. 4 MB).",
+    "imageUnsupported": "Nicht unterstütztes Bildformat.",
+    "attachImageAria": "Bild oder Datei anhängen"
   },
   "EntryModal": {
     "rulesLabel": "Engagement-Regeln",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Redesign-Vektor · Die blinde Achse",
     "insightAxisReading": "Lesart",
     "insightAxisRedesign": "Redesign"
+  },
+  "Governance": {
+    "title": "Zivilisatorische Governance-Matrix",
+    "subtitle": "Wähle eine von 16 souveränen Achsen, die jede UNITAS-Entscheidung tragen, um die Leiter zu starten.",
+    "badge": "SOUVERÄNE GOVERNANCE-ACHSE",
+    "prev": "Zurück",
+    "next": "Weiter",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Sprache",
+        "description": "Das Protokoll, über das jedes souveräne System kommuniziert."
+      },
+      "culture": {
+        "title": "Kultur",
+        "description": "Das ererbte Muster hinter jeder kollektiven Entscheidung."
+      },
+      "society": {
+        "title": "Gesellschaft",
+        "description": "Die Struktur, um die herum Menschen ihr Leben organisieren."
+      },
+      "structure": {
+        "title": "Struktur",
+        "description": "Die tragende Architektur unter jedem System."
+      },
+      "art": {
+        "title": "Kunst",
+        "description": "Die ästhetische Ebene, die Funktion in Bedeutung verwandelt."
+      },
+      "expression": {
+        "title": "Ausdruck",
+        "description": "Der Kanal, der Absicht in sichtbares Handeln verwandelt."
+      },
+      "pragma": {
+        "title": "Pragmatismus",
+        "description": "Die Disziplin, das zu wählen, was wirklich funktioniert."
+      },
+      "economy": {
+        "title": "Wirtschaft",
+        "description": "Der Wertfluss jenseits künstlicher Knappheit."
+      },
+      "engineering": {
+        "title": "Ingenieurwesen",
+        "description": "Die Disziplin, die Ideen in funktionierende Systeme verwandelt."
+      },
+      "technology": {
+        "title": "Technologie",
+        "description": "Der Hebel, von dem jede andere Achse abhängt."
+      },
+      "law": {
+        "title": "Recht",
+        "description": "Die durchsetzbare Grenze, die Vertrauen skalierbar macht."
+      },
+      "institution": {
+        "title": "Institution",
+        "description": "Die Struktur, die jeden einzelnen Akteur überdauert."
+      },
+      "education": {
+        "title": "Bildung",
+        "description": "Die Weitergabe von Fähigkeit über Generationen hinweg."
+      },
+      "welfare": {
+        "title": "Wohlfahrt",
+        "description": "Die Grundlinie, die ein System auch im großen Maßstab menschlich hält."
+      },
+      "security": {
+        "title": "Sicherheit",
+        "description": "Die Verteidigungsebene, die Souveränität vor Verleih schützt."
+      },
+      "strategy": {
+        "title": "Strategie",
+        "description": "Die Abfolge von Zügen hin zu einem dauerhaften Vorteil."
+      }
+    }
   }
 }

@@ -23,7 +23,7 @@ const MENU_WIDTH = 160;
  */
 const NATIVE_NAME = LOCALE_NATIVE_NAME;
 
-/** 6-language flag/native-name dropdown, preserves the current page on switch. */
+/** 20-locale flag/native-name dropdown, preserves the current page on switch. */
 export function LanguageSwitcher() {
   const t = useTranslations('Nav');
   const locale = useLocale();

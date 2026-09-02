@@ -342,7 +342,10 @@
     "attachedLabel": "Adjunto",
     "removeAttachment": "Quitar",
     "swarmLabel": "Razonamiento Cruzado en Enjambre",
-    "swarmHint": "Los 11 módulos puntúan esta consulta a la vez."
+    "swarmHint": "Los 11 módulos puntúan esta consulta a la vez.",
+    "imageTooLarge": "La imagen es demasiado grande (máx. 4 MB).",
+    "imageUnsupported": "Formato de imagen no compatible.",
+    "attachImageAria": "Adjuntar una imagen o archivo"
   },
   "EntryModal": {
     "rulesLabel": "Reglas de Participación",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Vector de Rediseño · El Eje Ciego",
     "insightAxisReading": "Lectura",
     "insightAxisRedesign": "Rediseño"
+  },
+  "Governance": {
+    "title": "Matriz de Gobernanza Civilizatoria",
+    "subtitle": "16 ejes soberanos que sustentan cada decisión de UNITAS — elige uno para iniciar la escalera.",
+    "badge": "EJE DE GOBERNANZA SOBERANA",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Lenguaje",
+        "description": "El protocolo mediante el cual habla todo sistema soberano."
+      },
+      "culture": {
+        "title": "Cultura",
+        "description": "El patrón heredado detrás de toda decisión colectiva."
+      },
+      "society": {
+        "title": "Sociedad",
+        "description": "La estructura en torno a la cual se organiza la vida."
+      },
+      "structure": {
+        "title": "Estructura",
+        "description": "La arquitectura portante bajo cualquier sistema."
+      },
+      "art": {
+        "title": "Arte",
+        "description": "La capa estética que convierte función en significado."
+      },
+      "expression": {
+        "title": "Expresión",
+        "description": "El canal que convierte la intención en acción visible."
+      },
+      "pragma": {
+        "title": "Pragmatismo",
+        "description": "La disciplina de elegir lo que realmente funciona."
+      },
+      "economy": {
+        "title": "Economía",
+        "description": "La circulación de valor más allá de la escasez artificial."
+      },
+      "engineering": {
+        "title": "Ingeniería",
+        "description": "La disciplina que convierte ideas en sistemas funcionales."
+      },
+      "technology": {
+        "title": "Tecnología",
+        "description": "El apalancamiento del que dependen todos los demás ejes."
+      },
+      "law": {
+        "title": "Ley",
+        "description": "El límite exigible que hace escalable la confianza."
+      },
+      "institution": {
+        "title": "Institución",
+        "description": "La estructura que sobrevive a cualquier actor individual."
+      },
+      "education": {
+        "title": "Educación",
+        "description": "La transferencia de capacidad entre generaciones."
+      },
+      "welfare": {
+        "title": "Bienestar",
+        "description": "El mínimo que mantiene humano a un sistema a escala."
+      },
+      "security": {
+        "title": "Seguridad",
+        "description": "La capa defensiva que evita que la soberanía se preste."
+      },
+      "strategy": {
+        "title": "Estrategia",
+        "description": "La secuencia de movimientos hacia una ventaja duradera."
+      }
+    }
   }
 }

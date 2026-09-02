@@ -342,7 +342,10 @@
     "attachedLabel": "添付",
     "removeAttachment": "削除",
     "swarmLabel": "スウォーム・クロスリーズニング",
-    "swarmHint": "11個すべてのモジュールがこのクエリを同時に評価します。"
+    "swarmHint": "11個すべてのモジュールがこのクエリを同時に評価します。",
+    "imageTooLarge": "画像が大きすぎます(最大4MB)。",
+    "imageUnsupported": "サポートされていない画像形式です。",
+    "attachImageAria": "画像またはファイルを添付"
   },
   "EntryModal": {
     "rulesLabel": "参加ルール",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "再設計ベクトル · 盲点の軸",
     "insightAxisReading": "読解",
     "insightAxisRedesign": "再設計"
+  },
+  "Governance": {
+    "title": "文明統治マトリクス",
+    "subtitle": "UNITASのあらゆる決定を支える16の主権的軸 — 1つを選んでラダーを開始してください。",
+    "badge": "主権的ガバナンス軸",
+    "prev": "前へ",
+    "next": "次へ",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "言語",
+        "description": "あらゆる主権システムが通信するプロトコル。"
+      },
+      "culture": {
+        "title": "文化",
+        "description": "あらゆる集団的決定の背後にある継承パターン。"
+      },
+      "society": {
+        "title": "社会",
+        "description": "個人が生活を組織する構造そのもの。"
+      },
+      "structure": {
+        "title": "構造",
+        "description": "あらゆるシステムを支える荷重構造。"
+      },
+      "art": {
+        "title": "芸術",
+        "description": "機能を意味に変える美的層。"
+      },
+      "expression": {
+        "title": "表現",
+        "description": "意図を可視的な行動に変える回路。"
+      },
+      "pragma": {
+        "title": "実用",
+        "description": "実際に機能するものだけを選ぶ規律。"
+      },
+      "economy": {
+        "title": "経済",
+        "description": "人為的な希少性を超えた価値の循環。"
+      },
+      "engineering": {
+        "title": "工学",
+        "description": "アイデアを機能するシステムに変える実行規律。"
+      },
+      "technology": {
+        "title": "技術",
+        "description": "他のすべての軸が依存するレバレッジ。"
+      },
+      "law": {
+        "title": "法",
+        "description": "信頼を拡張可能にする強制可能な境界線。"
+      },
+      "institution": {
+        "title": "制度",
+        "description": "個々の主体より長く存続する構造。"
+      },
+      "education": {
+        "title": "教育",
+        "description": "世代を超えて伝達される能力。"
+      },
+      "welfare": {
+        "title": "福祉",
+        "description": "大規模でもシステムを人間的に保つ基準線。"
+      },
+      "security": {
+        "title": "安全保障",
+        "description": "主権が借り物にならないよう守る防衛層。"
+      },
+      "strategy": {
+        "title": "戦略",
+        "description": "不可逆的優位に向けた手順の配列。"
+      }
+    }
   }
 }

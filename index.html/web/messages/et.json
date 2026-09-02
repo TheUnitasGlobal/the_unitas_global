@@ -342,7 +342,10 @@
     "attachedLabel": "Lisatud",
     "removeAttachment": "Eemalda",
     "swarmLabel": "Parve Ristarutlus",
-    "swarmHint": "Kõik 11 moodulit hindavad seda päringut korraga."
+    "swarmHint": "Kõik 11 moodulit hindavad seda päringut korraga.",
+    "imageTooLarge": "Pilt on liiga suur (max 4MB).",
+    "imageUnsupported": "Toetamata pildivorming.",
+    "attachImageAria": "Lisa pilt või fail"
   },
   "EntryModal": {
     "rulesLabel": "Osalemise Reeglid",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Ümberkujunduse vektor · pime telg",
     "insightAxisReading": "Lugem",
     "insightAxisRedesign": "Ümberkujundus"
+  },
+  "Governance": {
+    "title": "Tsivilisatsiooni Valitsemise Maatriks",
+    "subtitle": "Vali üks 16-st suveräänsest teljest, mis kannavad iga UNITASe otsust, et alustada redelit.",
+    "badge": "SUVERÄÄNNE VALITSEMISE TELG",
+    "prev": "Eelmine",
+    "next": "Järgmine",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Keel",
+        "description": "Protokoll, mille kaudu iga suveräänne süsteem suhtleb."
+      },
+      "culture": {
+        "title": "Kultuur",
+        "description": "Pärandatud muster iga kollektiivse otsuse taga."
+      },
+      "society": {
+        "title": "Ühiskond",
+        "description": "Struktuur, mille ümber inimesed oma elu korraldavad."
+      },
+      "structure": {
+        "title": "Struktuur",
+        "description": "Kandev arhitektuur iga süsteemi all."
+      },
+      "art": {
+        "title": "Kunst",
+        "description": "Esteetiline kiht, mis muudab funktsiooni tähenduseks."
+      },
+      "expression": {
+        "title": "Väljendus",
+        "description": "Kanal, mis muudab kavatsuse nähtavaks teoks."
+      },
+      "pragma": {
+        "title": "Pragmatism",
+        "description": "Distsipliin valida see, mis tegelikult toimib."
+      },
+      "economy": {
+        "title": "Majandus",
+        "description": "Väärtuse ringlus väljaspool kunstlikku nappust."
+      },
+      "engineering": {
+        "title": "Inseneeria",
+        "description": "Distsipliin, mis muudab idee toimivaks süsteemiks."
+      },
+      "technology": {
+        "title": "Tehnoloogia",
+        "description": "Võimendus, millest iga teine telg sõltub."
+      },
+      "law": {
+        "title": "Õigus",
+        "description": "Jõustatav piir, mis muudab usalduse skaleeritavaks."
+      },
+      "institution": {
+        "title": "Institutsioon",
+        "description": "Struktuur, mis elab üle iga üksiku osaleja."
+      },
+      "education": {
+        "title": "Haridus",
+        "description": "Võimekuse ülekanne põlvkondade vahel."
+      },
+      "welfare": {
+        "title": "Heaolu",
+        "description": "Alusjoon, mis hoiab süsteemi inimlikuna ka suures mastaabis."
+      },
+      "security": {
+        "title": "Julgeolek",
+        "description": "Kaitsekiht, mis hoiab suveräänsust laenamatuna."
+      },
+      "strategy": {
+        "title": "Strateegia",
+        "description": "Käikude järjestus püsiva eelise suunas."
+      }
+    }
   }
 }

@@ -14,6 +14,7 @@ import type {
   DeepReport,
   SurfaceReport,
   TrendApiResponse,
+  UaiImageAttachment,
 } from './types';
 
 export type UaiPhase = 'idle' | 'surface-loading' | 'surface' | 'deep-loading' | 'deep';
@@ -139,7 +140,7 @@ export function useUai() {
     [session, locale],
   );
 
-  const runDeep = useCallback(async () => {
+  const runDeep = useCallback(async (image?: UaiImageAttachment) => {
     if (!surface || phase === 'deep-loading') return;
     if (!session) {
       setError('signin');
@@ -157,7 +158,7 @@ export function useUai() {
       const res = await fetch('/api/u-ai/insight', {
         method: 'POST',
         headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-        body: JSON.stringify({ query: surface.query, locale, shieldScore: surface.shield.score }),
+        body: JSON.stringify({ query: surface.query, locale, shieldScore: surface.shield.score, image }),
       });
       const json = (await res.json()) as DeepInsightApiResponse;
       if (!json.ok) {

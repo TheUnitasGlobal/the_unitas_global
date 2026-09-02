@@ -342,7 +342,10 @@
     "attachedLabel": "Bijgevoegd",
     "removeAttachment": "Verwijderen",
     "swarmLabel": "Swarm Cross-Reasoning",
-    "swarmHint": "Alle 11 modules beoordelen deze vraag tegelijk."
+    "swarmHint": "Alle 11 modules beoordelen deze vraag tegelijk.",
+    "imageTooLarge": "Afbeelding is te groot (max. 4MB).",
+    "imageUnsupported": "Niet-ondersteund afbeeldingsformaat.",
+    "attachImageAria": "Afbeelding of bestand bijvoegen"
   },
   "EntryModal": {
     "rulesLabel": "Spelregels",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Herontwerpvector · De Blinde As",
     "insightAxisReading": "Lezing",
     "insightAxisRedesign": "Herontwerp"
+  },
+  "Governance": {
+    "title": "Matrix voor Beschavingsbestuur",
+    "subtitle": "Kies één van de 16 soevereine assen die elke beslissing van UNITAS dragen om de ladder te starten.",
+    "badge": "SOEVEREINE BESTUURSAS",
+    "prev": "Vorige",
+    "next": "Volgende",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Taal",
+        "description": "Het protocol waarmee elk soeverein systeem communiceert."
+      },
+      "culture": {
+        "title": "Cultuur",
+        "description": "Het overgeërfde patroon achter elke collectieve beslissing."
+      },
+      "society": {
+        "title": "Samenleving",
+        "description": "De structuur waaromheen mensen hun leven organiseren."
+      },
+      "structure": {
+        "title": "Structuur",
+        "description": "De dragende architectuur onder elk systeem."
+      },
+      "art": {
+        "title": "Kunst",
+        "description": "De esthetische laag die functie in betekenis verandert."
+      },
+      "expression": {
+        "title": "Expressie",
+        "description": "Het kanaal dat intentie in zichtbare actie verandert."
+      },
+      "pragma": {
+        "title": "Pragmatisme",
+        "description": "De discipline om te kiezen wat echt werkt."
+      },
+      "economy": {
+        "title": "Economie",
+        "description": "De circulatie van waarde voorbij kunstmatige schaarste."
+      },
+      "engineering": {
+        "title": "Techniek",
+        "description": "De discipline die ideeën in werkende systemen verandert."
+      },
+      "technology": {
+        "title": "Technologie",
+        "description": "De hefboom waarvan elke andere as afhankelijk is."
+      },
+      "law": {
+        "title": "Recht",
+        "description": "De afdwingbare grens die vertrouwen schaalbaar maakt."
+      },
+      "institution": {
+        "title": "Instituut",
+        "description": "De structuur die elke individuele actor overleeft."
+      },
+      "education": {
+        "title": "Onderwijs",
+        "description": "De overdracht van vaardigheid tussen generaties."
+      },
+      "welfare": {
+        "title": "Welzijn",
+        "description": "De basislijn die een systeem op schaal menselijk houdt."
+      },
+      "security": {
+        "title": "Veiligheid",
+        "description": "De verdedigingslaag die voorkomt dat soevereiniteit wordt geleend."
+      },
+      "strategy": {
+        "title": "Strategie",
+        "description": "De volgorde van zetten naar een blijvend voordeel."
+      }
+    }
   }
 }

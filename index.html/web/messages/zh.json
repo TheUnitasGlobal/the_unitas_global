@@ -342,7 +342,10 @@
     "attachedLabel": "已附加",
     "removeAttachment": "移除",
     "swarmLabel": "群体交叉推理",
-    "swarmHint": "全部11个模块同时对该查询评分。"
+    "swarmHint": "全部11个模块同时对该查询评分。",
+    "imageTooLarge": "图片过大(最大4MB)。",
+    "imageUnsupported": "不支持的图片格式。",
+    "attachImageAria": "附加图片或文件"
   },
   "EntryModal": {
     "rulesLabel": "参与规则",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "重设计向量 · 盲区轴",
     "insightAxisReading": "解读",
     "insightAxisRedesign": "重设计"
+  },
+  "Governance": {
+    "title": "文明治理矩阵",
+    "subtitle": "支撑UNITAS每一项决策的16个主权轴心——选择其一,开启阶梯式浏览。",
+    "badge": "主权治理轴心",
+    "prev": "上一个",
+    "next": "下一个",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "语言",
+        "description": "每个主权系统赖以沟通的协议。"
+      },
+      "culture": {
+        "title": "文化",
+        "description": "每一次集体决策背后的遗传模式。"
+      },
+      "society": {
+        "title": "社会",
+        "description": "个体据以组织生活的结构本身。"
+      },
+      "structure": {
+        "title": "结构",
+        "description": "支撑任何系统的承重架构。"
+      },
+      "art": {
+        "title": "艺术",
+        "description": "把功能转化为意义的审美层。"
+      },
+      "expression": {
+        "title": "表达",
+        "description": "把意图转化为可见行动的通道。"
+      },
+      "pragma": {
+        "title": "实用",
+        "description": "只选择真正有效之物的纪律。"
+      },
+      "economy": {
+        "title": "经济",
+        "description": "超越人为稀缺性的价值流通。"
+      },
+      "engineering": {
+        "title": "工程",
+        "description": "把构想变成可运行系统的实践纪律。"
+      },
+      "technology": {
+        "title": "技术",
+        "description": "其余每个轴心都依赖的杠杆。"
+      },
+      "law": {
+        "title": "法律",
+        "description": "让信任得以规模化的可执行边界。"
+      },
+      "institution": {
+        "title": "制度",
+        "description": "比任何单一行动者都更持久的结构。"
+      },
+      "education": {
+        "title": "教育",
+        "description": "跨越世代传递的能力。"
+      },
+      "welfare": {
+        "title": "福祉",
+        "description": "让系统在规模化后仍保持人性的底线。"
+      },
+      "security": {
+        "title": "安全",
+        "description": "防止主权被借用的防御层。"
+      },
+      "strategy": {
+        "title": "战略",
+        "description": "通向不可逆优势的步骤排列。"
+      }
+    }
   }
 }

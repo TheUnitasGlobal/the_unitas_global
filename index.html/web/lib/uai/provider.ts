@@ -77,22 +77,43 @@ function activeProvider(): { provider: InsightProvider; key: string; model: stri
   return null;
 }
 
+/** One multimodal image block for the Anthropic content-array message shape. */
+export interface InsightImage {
+  mediaType: string;
+  data: string;
+}
+
 /**
  * Runs the deep-insight prompt against the active provider. Returns the raw
  * model text (still to be parsed by parseInsightResponse) plus the model id
  * used. Throws on any transport / HTTP error so the route can treat it as a
  * generation failure.
+ *
+ * `image`, when present, is folded into the Anthropic message as a
+ * `content: [{type:'image',...}, {type:'text',...}]` array -- real vision
+ * input, not a filename hint. The OpenAI-compatible branch below (which also
+ * covers the free openrouter/nvidia-nim/bytez fallbacks) intentionally
+ * ignores it: those endpoints' vision support varies per model/provider, and
+ * silently degrading to text-only there is safer than assuming a capability
+ * that may not exist on whichever free model is configured.
  */
 export async function generateInsight(
   system: string,
   userPrompt: string,
   maxTokens = 1800,
+  image?: InsightImage,
 ): Promise<{ text: string; model: string }> {
   const active = activeProvider();
   if (!active) throw new Error('No insight provider configured');
   const max_tokens = Math.max(256, Math.min(4096, Math.round(maxTokens)));
 
   if (active.provider === 'anthropic') {
+    const content = image
+      ? [
+          { type: 'image', source: { type: 'base64', media_type: image.mediaType, data: image.data } },
+          { type: 'text', text: userPrompt },
+        ]
+      : userPrompt;
     const res = await fetch(active.url, {
       method: 'POST',
       headers: {
@@ -104,7 +125,7 @@ export async function generateInsight(
         model: active.model,
         max_tokens,
         system,
-        messages: [{ role: 'user', content: userPrompt }],
+        messages: [{ role: 'user', content }],
       }),
     });
     if (!res.ok) throw new Error(`Anthropic ${res.status}`);

@@ -10,6 +10,19 @@
 /** U-COIN burned on every deep-insight request -- the "Micro-Burn" margin. */
 export const UAI_DEEP_INSIGHT_COST = 3;
 
+/**
+ * One image attached to a deep-insight request -- the multimodal input path.
+ * `data` is raw base64 (no `data:` URL prefix); `mediaType` is validated
+ * server-side against a strict allowlist before it ever reaches the LLM.
+ * Vision analysis is currently wired for the Anthropic provider branch only
+ * (see lib/uai/provider.ts) -- the OpenAI-compatible fallback branches
+ * degrade gracefully to text-only rather than erroring.
+ */
+export interface UaiImageAttachment {
+  mediaType: string;
+  data: string;
+}
+
 /** spend_coins() / coin_ledger / module_access_grants whitelist entry. */
 export const UAI_MODULE = 'u-ai' as const;
 

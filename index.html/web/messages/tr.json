@@ -342,7 +342,10 @@
     "attachedLabel": "Eklendi",
     "removeAttachment": "Kaldır",
     "swarmLabel": "Sürü Çapraz Akıl Yürütme",
-    "swarmHint": "11 modülün tamamı bu sorguyu aynı anda puanlar."
+    "swarmHint": "11 modülün tamamı bu sorguyu aynı anda puanlar.",
+    "imageTooLarge": "Görsel çok büyük (maks. 4MB).",
+    "imageUnsupported": "Desteklenmeyen görsel biçimi.",
+    "attachImageAria": "Görsel veya dosya ekle"
   },
   "EntryModal": {
     "rulesLabel": "Katılım Kuralları",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Yeniden Tasarım Vektörü · Kör Eksen",
     "insightAxisReading": "Okuma",
     "insightAxisRedesign": "Yeniden Tasarım"
+  },
+  "Governance": {
+    "title": "Medeniyet Yönetişim Matrisi",
+    "subtitle": "UNITAS'ın her kararını taşıyan 16 egemen eksenden birini seçerek merdiveni başlatın.",
+    "badge": "EGEMEN YÖNETİŞİM EKSENİ",
+    "prev": "Önceki",
+    "next": "Sonraki",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Dil",
+        "description": "Her egemen sistemin iletişim kurduğu protokol."
+      },
+      "culture": {
+        "title": "Kültür",
+        "description": "Her kolektif kararın ardındaki miras kalmış örüntü."
+      },
+      "society": {
+        "title": "Toplum",
+        "description": "Bireylerin hayatlarını etrafında örgütlediği yapı."
+      },
+      "structure": {
+        "title": "Yapı",
+        "description": "Her sistemin altındaki taşıyıcı mimari."
+      },
+      "art": {
+        "title": "Sanat",
+        "description": "İşlevi anlama dönüştüren estetik katman."
+      },
+      "expression": {
+        "title": "İfade",
+        "description": "Niyeti görünür eyleme dönüştüren kanal."
+      },
+      "pragma": {
+        "title": "Pragmatizm",
+        "description": "Gerçekten işe yarayanı seçme disiplini."
+      },
+      "economy": {
+        "title": "Ekonomi",
+        "description": "Yapay kıtlığın ötesinde değer dolaşımı."
+      },
+      "engineering": {
+        "title": "Mühendislik",
+        "description": "Fikirleri çalışan sistemlere dönüştüren disiplin."
+      },
+      "technology": {
+        "title": "Teknoloji",
+        "description": "Diğer her eksenin bağlı olduğu kaldıraç."
+      },
+      "law": {
+        "title": "Hukuk",
+        "description": "Güveni ölçeklenebilir kılan uygulanabilir sınır."
+      },
+      "institution": {
+        "title": "Kurum",
+        "description": "Herhangi bir tek aktörden daha uzun yaşayan yapı."
+      },
+      "education": {
+        "title": "Eğitim",
+        "description": "Yeteneğin nesiller arasında aktarımı."
+      },
+      "welfare": {
+        "title": "Refah",
+        "description": "Bir sistemi büyük ölçekte de insani tutan taban çizgi."
+      },
+      "security": {
+        "title": "Güvenlik",
+        "description": "Egemenliğin ödünç alınmasını önleyen savunma katmanı."
+      },
+      "strategy": {
+        "title": "Strateji",
+        "description": "Kalıcı bir avantaja giden hamlelerin sıralaması."
+      }
+    }
   }
 }

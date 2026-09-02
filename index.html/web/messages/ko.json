@@ -342,7 +342,10 @@
     "attachedLabel": "첨부됨",
     "removeAttachment": "제거",
     "swarmLabel": "스웜 교차 추론",
-    "swarmHint": "11개 모듈 전체가 이 질문을 동시에 평가합니다."
+    "swarmHint": "11개 모듈 전체가 이 질문을 동시에 평가합니다.",
+    "imageTooLarge": "이미지가 너무 큽니다 (최대 4MB).",
+    "imageUnsupported": "지원하지 않는 이미지 형식입니다.",
+    "attachImageAria": "이미지 또는 파일 첨부"
   },
   "EntryModal": {
     "rulesLabel": "참여 규칙",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "재설계 벡터 · 사각지대 축",
     "insightAxisReading": "판독",
     "insightAxisRedesign": "재설계"
+  },
+  "Governance": {
+    "title": "지성문명 거버넌스 매트릭스",
+    "subtitle": "유니타스의 모든 결정을 떠받치는 16대 소버린 축 — 하나를 선택해 사다리를 시작하세요.",
+    "badge": "소버린 거버넌스 축",
+    "prev": "이전",
+    "next": "다음",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "언어",
+        "description": "모든 소버린 시스템이 소통하는 근본 프로토콜."
+      },
+      "culture": {
+        "title": "문화",
+        "description": "모든 집단적 결정 이면에 새겨진 유전 패턴."
+      },
+      "society": {
+        "title": "사회",
+        "description": "개인의 삶이 조직되는 구조 그 자체."
+      },
+      "structure": {
+        "title": "구조",
+        "description": "모든 시스템을 떠받치는 하중 지지 골격."
+      },
+      "art": {
+        "title": "예술",
+        "description": "기능을 의미로 전환하는 심미적 층위."
+      },
+      "expression": {
+        "title": "표현",
+        "description": "의도를 가시적 행동으로 바꾸는 통로."
+      },
+      "pragma": {
+        "title": "실용",
+        "description": "실제로 작동하는 것만 선택하는 규율."
+      },
+      "economy": {
+        "title": "경제",
+        "description": "인위적 희소성을 넘어선 가치의 순환."
+      },
+      "engineering": {
+        "title": "공학",
+        "description": "아이디어를 작동하는 시스템으로 바꾸는 실행 규율."
+      },
+      "technology": {
+        "title": "기술",
+        "description": "다른 모든 축이 의존하는 복리의 레버리지."
+      },
+      "law": {
+        "title": "법",
+        "description": "신뢰를 확장 가능하게 만드는 강제 가능한 경계."
+      },
+      "institution": {
+        "title": "제도",
+        "description": "어떤 개별 행위자보다 오래 남는 지속 구조."
+      },
+      "education": {
+        "title": "교육",
+        "description": "세대와 행위자를 넘어 전달되는 역량."
+      },
+      "welfare": {
+        "title": "복지",
+        "description": "시스템을 대규모로도 인간답게 유지하는 최저선."
+      },
+      "security": {
+        "title": "안보",
+        "description": "주권이 대여되지 않도록 지키는 방어 층위."
+      },
+      "strategy": {
+        "title": "전략",
+        "description": "돌이킬 수 없는 우위를 향한 수순의 배열."
+      }
+    }
   }
 }

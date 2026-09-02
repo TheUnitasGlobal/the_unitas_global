@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Paperclip, X } from 'lucide-react';
+import { Search, Paperclip, X, Image as ImageIcon } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { sceneInteraction } from '@/lib/sceneInteraction';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
@@ -66,10 +66,18 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
   const [focused, setFocused] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const [attachments, setAttachments] = useState<Array<{ id: string; label: string; content: string }>>([]);
+  const [image, setImage] = useState<{ id: string; label: string; mediaType: string; data: string } | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
   const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const TEXT_LIKE_RE = /\.(txt|md|json|csv|log|ya?ml)$/i;
   const MAX_ATTACHMENT_CHARS = 4000;
+  // Vision input for the deep-insight endpoint (see lib/uai/provider.ts) --
+  // one image at a time, since it's sent to a single-image vision call, not
+  // folded into the free-tier text heuristic like the attachments above.
+  const IMAGE_TYPE_RE = /^image\/(png|jpeg|jpg|webp|gif)$/;
+  const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
 
   function addAttachment(label: string, content: string) {
     setAttachments((prev) => [...prev.slice(-3), { id: `${Date.now()}-${label}`, label, content }]);
@@ -77,6 +85,45 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
 
   function removeAttachment(id: string) {
     setAttachments((prev) => prev.filter((a) => a.id !== id));
+  }
+
+  function addImageFile(file: File) {
+    setImageError(null);
+    if (!IMAGE_TYPE_RE.test(file.type)) {
+      setImageError(t('imageUnsupported'));
+      return;
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      setImageError(t('imageTooLarge'));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = typeof reader.result === 'string' ? reader.result : '';
+      const base64 = dataUrl.slice(dataUrl.indexOf(',') + 1);
+      if (!base64) return;
+      setImage({ id: `${Date.now()}-${file.name}`, label: file.name, mediaType: file.type, data: base64 });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function processDroppedFiles(files: File[]) {
+    files.forEach((file) => {
+      if (IMAGE_TYPE_RE.test(file.type)) {
+        addImageFile(file);
+      } else if (TEXT_LIKE_RE.test(file.name) || file.type.startsWith('text/')) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const text = typeof reader.result === 'string' ? reader.result.slice(0, MAX_ATTACHMENT_CHARS) : '';
+          addAttachment(file.name, text);
+        };
+        reader.readAsText(file);
+      } else {
+        // Other binary files (PDFs, etc.) contribute their name as a context
+        // signal only -- no parsing is attempted.
+        addAttachment(file.name, file.name);
+      }
+    });
   }
 
   function handleDragOver(e: DragEvent<HTMLDivElement>) {
@@ -95,20 +142,7 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
 
     const files = Array.from(e.dataTransfer.files ?? []);
     if (files.length > 0) {
-      files.forEach((file) => {
-        if (TEXT_LIKE_RE.test(file.name) || file.type.startsWith('text/')) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const text = typeof reader.result === 'string' ? reader.result.slice(0, MAX_ATTACHMENT_CHARS) : '';
-            addAttachment(file.name, text);
-          };
-          reader.readAsText(file);
-        } else {
-          // Binary/media files (images, PDFs, etc.) contribute their name as a
-          // context signal only -- no OCR or binary parsing is attempted.
-          addAttachment(file.name, file.name);
-        }
-      });
+      processDroppedFiles(files);
       return;
     }
 
@@ -118,6 +152,15 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
     if (droppedText) {
       addAttachment(droppedText.length > 40 ? `${droppedText.slice(0, 40)}...` : droppedText, droppedText);
     }
+  }
+
+  function handleFileInputChange(e: ChangeEvent<HTMLInputElement>) {
+    processDroppedFiles(Array.from(e.target.files ?? []));
+    e.target.value = '';
+  }
+
+  function handleRunDeep() {
+    uai.runDeep(image ? { mediaType: image.mediaType, data: image.data } : undefined);
   }
 
   const query = value.trim().toLowerCase();
@@ -230,16 +273,46 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
             placeholder={dragActive ? t('dropZoneHint') : t('placeholder')}
             className="w-full bg-transparent text-[19px] text-white placeholder:text-gray-400 focus:outline-none"
           />
-          <span title={t('dropZoneHint')}>
-            <Paperclip size={16} className="shrink-0 text-gray-600" aria-hidden="true" />
-          </span>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif,.txt,.md,.json,.csv,.log,.yml,.yaml"
+            multiple
+            onChange={handleFileInputChange}
+            className="hidden"
+          />
+          <button
+            type="button"
+            title={t('dropZoneHint')}
+            aria-label={t('attachImageAria')}
+            onClick={() => fileInputRef.current?.click()}
+            className="shrink-0 text-gray-600 transition-colors hover:text-neon"
+          >
+            <Paperclip size={16} aria-hidden="true" />
+          </button>
         </div>
 
-        {attachments.length > 0 && (
+        {imageError && <p className="mt-2 text-[11px] font-bold text-red-400">{imageError}</p>}
+
+        {(attachments.length > 0 || image) && (
           <div className="mt-2 flex flex-wrap gap-2">
             <span className="self-center text-[9px] font-bold uppercase tracking-widest text-gray-500">
               {t('attachedLabel')}
             </span>
+            {image && (
+              <span className="flex items-center gap-1.5 border border-accent/30 bg-accent/[0.06] px-2 py-1 text-[11px] text-accent">
+                <ImageIcon size={11} aria-hidden="true" />
+                {image.label}
+                <button
+                  type="button"
+                  onClick={() => setImage(null)}
+                  aria-label={t('removeAttachment')}
+                  className="text-accent/60 hover:text-accent"
+                >
+                  <X size={11} />
+                </button>
+              </span>
+            )}
             {attachments.map((a) => (
               <span
                 key={a.id}
@@ -394,7 +467,7 @@ export function OmniSynapseSearch({ uai, onSelectEcosystem, onSelectModule }: Om
         canDeep={uai.canDeep}
         deepAvailable={uai.deepAvailable}
         hasSession={Boolean(session)}
-        onRunDeep={uai.runDeep}
+        onRunDeep={handleRunDeep}
         onSelectEcosystem={selectEcosystemByKey}
         compact
         fullReportHref={fullReportHref}

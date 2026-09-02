@@ -27,6 +27,12 @@ const CACHE_VERSION = 'v1';
 const LOCALES = new Set<string>(routing.locales);
 const MAX_QUERY_LEN = 400;
 
+/** Multimodal input validation -- see "U-AI multimodal" in provider.ts. */
+const ALLOWED_IMAGE_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/gif']);
+/** ~4MB raw -> base64 inflates by ~4/3. */
+const MAX_IMAGE_BASE64_LEN = 5_600_000;
+const BASE64_RE = /^[A-Za-z0-9+/]+={0,2}$/;
+
 /**
  * U-AI deep-insight (Phase 2-4) endpoint -- the "Monopoly Gate" server path.
  *
@@ -64,7 +70,7 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
     return NextResponse.json({ ok: false, error: 'unauthenticated' }, { status: 401 });
   }
 
-  let body: { query?: unknown; locale?: unknown; shieldScore?: unknown };
+  let body: { query?: unknown; locale?: unknown; shieldScore?: unknown; image?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -78,6 +84,25 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
       : null;
   if (query.length < 2) {
     return NextResponse.json({ ok: false, error: 'bad_request' }, { status: 400 });
+  }
+
+  // Multimodal image input -- fail-open: a malformed/oversized/disallowed
+  // image is dropped silently (the request proceeds text-only) rather than
+  // rejecting a request whose coin burn is about to happen; a burned coin
+  // must never come back empty-handed over an optional attachment.
+  let image: { mediaType: string; data: string } | undefined;
+  if (body.image && typeof body.image === 'object') {
+    const raw = body.image as { mediaType?: unknown; data?: unknown };
+    const mediaType = typeof raw.mediaType === 'string' ? raw.mediaType : '';
+    const data = typeof raw.data === 'string' ? raw.data : '';
+    if (
+      ALLOWED_IMAGE_TYPES.has(mediaType) &&
+      data.length > 0 &&
+      data.length <= MAX_IMAGE_BASE64_LEN &&
+      BASE64_RE.test(data)
+    ) {
+      image = { mediaType, data };
+    }
   }
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -157,8 +182,11 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
   }
 
   const { system, user: userPrompt } = buildInsightPrompt(query, locale);
+  const systemWithImage = image
+    ? `${system}\n\nAn image was attached to this request -- incorporate genuine visual analysis of it into the brief wherever relevant.`
+    : system;
   try {
-    const { text, model } = await generateInsight(system, userPrompt);
+    const { text, model } = await generateInsight(systemWithImage, userPrompt, undefined, image);
     const report = parseInsightResponse(text, model);
 
     // Persist to Genesis Memory + Brain-Grid (best-effort -- a failure here

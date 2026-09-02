@@ -342,7 +342,10 @@
     "attachedLabel": "Naka-attach",
     "removeAttachment": "Alisin",
     "swarmLabel": "Swarm Cross-Reasoning",
-    "swarmHint": "Sinusuri ng lahat ng 11 module ang tanong na ito nang sabay-sabay."
+    "swarmHint": "Sinusuri ng lahat ng 11 module ang tanong na ito nang sabay-sabay.",
+    "imageTooLarge": "Masyadong malaki ang larawan (max 4MB).",
+    "imageUnsupported": "Hindi suportadong format ng larawan.",
+    "attachImageAria": "Maglakip ng larawan o file"
   },
   "EntryModal": {
     "rulesLabel": "Mga Panuntunan sa Pakikilahok",
@@ -897,5 +900,79 @@
     "insightVectorLabel": "Redesign Vector · Ang Blind Axis",
     "insightAxisReading": "Pagbasa",
     "insightAxisRedesign": "Redesign"
+  },
+  "Governance": {
+    "title": "Matrix ng Pamamahalang Sibilisasyon",
+    "subtitle": "Pumili ng isa sa 16 soberanong aksis na sumusuporta sa bawat desisyon ng UNITAS para simulan ang hagdan.",
+    "badge": "AKSIS NG SOBERANONG PAMAMAHALA",
+    "prev": "Nakaraan",
+    "next": "Susunod",
+    "indexLabel": "{current} / {total}",
+    "axes": {
+      "language": {
+        "title": "Wika",
+        "description": "Ang protokol na ginagamit ng bawat soberanong sistema para makipag-ugnayan."
+      },
+      "culture": {
+        "title": "Kultura",
+        "description": "Ang minanang pattern sa likod ng bawat sama-samang desisyon."
+      },
+      "society": {
+        "title": "Lipunan",
+        "description": "Ang istruktura kung saan iniaayos ng mga tao ang kanilang buhay."
+      },
+      "structure": {
+        "title": "Istruktura",
+        "description": "Ang tagapagdalang arkitektura sa ilalim ng bawat sistema."
+      },
+      "art": {
+        "title": "Sining",
+        "description": "Ang estetikong layer na nagpapalit ng function tungo sa kahulugan."
+      },
+      "expression": {
+        "title": "Ekspresyon",
+        "description": "Ang daluyan na nagpapalit ng intensyon tungo sa nakikitang aksyon."
+      },
+      "pragma": {
+        "title": "Pragmatismo",
+        "description": "Ang disiplina ng pagpili sa kung ano ang talagang gumagana."
+      },
+      "economy": {
+        "title": "Ekonomiya",
+        "description": "Ang sirkulasyon ng halaga lampas sa artipisyal na kakulangan."
+      },
+      "engineering": {
+        "title": "Inhinyeriya",
+        "description": "Ang disiplinang nagpapalit ng ideya tungo sa gumaganang sistema."
+      },
+      "technology": {
+        "title": "Teknolohiya",
+        "description": "Ang lebereyds na inaasahan ng bawat ibang aksis."
+      },
+      "law": {
+        "title": "Batas",
+        "description": "Ang maipapatupad na hangganan na nagpapalawak sa tiwala."
+      },
+      "institution": {
+        "title": "Institusyon",
+        "description": "Ang istrukturang nabubuhay nang mas matagal kaysa sa sinumang tagaganap."
+      },
+      "education": {
+        "title": "Edukasyon",
+        "description": "Ang paglipat ng kakayahan sa mga sumunod na henerasyon."
+      },
+      "welfare": {
+        "title": "Kapakanan",
+        "description": "Ang batayang linya na nagpapanatiling makatao sa isang sistema kahit sa malaking sukat."
+      },
+      "security": {
+        "title": "Seguridad",
+        "description": "Ang panananggalang na pumipigil sa soberanya na hiramin."
+      },
+      "strategy": {
+        "title": "Estratehiya",
+        "description": "Ang pagkakasunod-sunod ng mga hakbang tungo sa pangmatagalang bentahe."
+      }
+    }
   }
 }
