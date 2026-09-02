@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "16-Achsen-Governance-Kurzwahl",
     "ladderShortcutHint": "Tippen Sie auf eine Achse, um die Governance-Leiter zu öffnen",
     "shortcutMatrixLabel": "Souveräne Shortcut-Matrix · Governance & globale Trendthemen",
-    "shortcutMatrixHint": "Tippen, um das U-AI-Suchergebnis-Popup zu öffnen"
+    "shortcutMatrixHint": "Tippen, um das U-AI-Suchergebnis-Popup zu öffnen",
+    "tab": {
+      "governance": "Governance",
+      "hotIssue": "Trendthemen",
+      "email": "E-Mail",
+      "finance": "Finanzen",
+      "career": "Karriere"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Engagement-Regeln",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Folgeanfrage eingeben und Enter drücken…",
     "chainSubmitAria": "Verkettete Suche ausführen",
     "closeAria": "Schließen"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "Der Echtzeit-Puls dezentraler Finanzen, die ohne Banken fließen."
+      },
+      "stocks": {
+        "title": "Aktien",
+        "description": "Das Signal der globalen Aktienmärkte, die die Zukunft im Sekundentakt einpreisen."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "Die in Echtzeit gezeichnete Wertkurve grenzenloser digitaler Knappheit."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Karriere",
+        "description": "Der Puls des globalen Arbeitsmarkts, auf dem Talentbewegung und Einstellungssignale Grenzen überschreiten."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Zugriff mit einem Klick auf die wichtigsten Webmail-Dienste der Welt.",
+    "openAria": "{brand} öffnen"
   }
 }

@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "Lối tắt quản trị 16 trục",
     "ladderShortcutHint": "Chạm vào một trục để mở thang quản trị",
     "shortcutMatrixLabel": "Ma trận lối tắt chủ quyền · Quản trị & Vấn đề nóng toàn cầu",
-    "shortcutMatrixHint": "Chạm để mở cửa sổ kết quả tìm kiếm U-AI"
+    "shortcutMatrixHint": "Chạm để mở cửa sổ kết quả tìm kiếm U-AI",
+    "tab": {
+      "governance": "Quản trị",
+      "hotIssue": "Vấn đề nóng",
+      "email": "Email",
+      "finance": "Tài chính",
+      "career": "Sự nghiệp"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Quy tắc tham gia",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Nhập truy vấn tiếp theo và nhấn Enter…",
     "chainSubmitAria": "Chạy tìm kiếm nối chuỗi",
     "closeAria": "Đóng"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "Nhịp đập thời gian thực của tài chính phi tập trung vận hành không cần ngân hàng."
+      },
+      "stocks": {
+        "title": "Cổ phiếu",
+        "description": "Tín hiệu của các thị trường chứng khoán toàn cầu định giá tương lai theo từng giây."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "Đường cong giá trị thời gian thực được vẽ nên bởi sự khan hiếm kỹ thuật số không biên giới."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Sự nghiệp",
+        "description": "Nhịp đập của thị trường việc làm toàn cầu, nơi dòng chảy nhân tài và tín hiệu tuyển dụng vượt qua biên giới."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Truy cập bằng một cú nhấp vào các dịch vụ webmail lớn nhất thế giới.",
+    "openAria": "Mở {brand}"
   }
 }

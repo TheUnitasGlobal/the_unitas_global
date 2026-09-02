@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "16-teljeline valitsemise otsetee",
     "ladderShortcutHint": "Puuduta telge, et avada valitsemisredel",
     "shortcutMatrixLabel": "Suveräänne otseteede maatriks · valitsemine ja globaalsed kuumad teemad",
-    "shortcutMatrixHint": "Puuduta, et avada U-AI otsingutulemuse hüpikaken"
+    "shortcutMatrixHint": "Puuduta, et avada U-AI otsingutulemuse hüpikaken",
+    "tab": {
+      "governance": "Valitsemine",
+      "hotIssue": "Kuumad Teemad",
+      "email": "E-post",
+      "finance": "Rahandus",
+      "career": "Karjäär"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Osalemise Reeglid",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Sisesta järelpärimine ja vajuta Enter…",
     "chainSubmitAria": "Käivita ahelotsing",
     "closeAria": "Sulge"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "Detsentraliseeritud finantssüsteemi reaalajapulss, mis liigub ilma pankadeta."
+      },
+      "stocks": {
+        "title": "Aktsiad",
+        "description": "Globaalsete aktsiaturgude signaal, mis hindab tulevikku iga sekundiga ümber."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "Reaalajas väärtuskõver, mille joonistab piirideta digitaalne nappus."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Karjäär",
+        "description": "Globaalse tööturu pulss, kus andekus liigub ja värbamissignaalid ületavad piire."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Ühe puudutusega ligipääs maailma suurimatele veebipostiteenustele.",
+    "openAria": "Ava {brand}"
   }
 }

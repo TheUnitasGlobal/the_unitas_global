@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "16축 거버넌스 숏컷",
     "ladderShortcutHint": "축을 탭하면 거버넌스 사다리가 열립니다",
     "shortcutMatrixLabel": "소버린 숏컷 매트릭스 · 거버넌스 & 글로벌 핫이슈",
-    "shortcutMatrixHint": "탭하면 U-AI 검색 결과 팝업이 열립니다"
+    "shortcutMatrixHint": "탭하면 U-AI 검색 결과 팝업이 열립니다",
+    "tab": {
+      "governance": "거버넌스",
+      "hotIssue": "핫이슈",
+      "email": "이메일",
+      "finance": "금융",
+      "career": "커리어"
+    }
   },
   "EntryModal": {
     "rulesLabel": "참여 규칙",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "추가 검색어를 입력하고 Enter...",
     "chainSubmitAria": "연쇄 검색 실행",
     "closeAria": "닫기"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "은행 없이 스스로 움직이는 탈중앙 금융의 실시간 맥박."
+      },
+      "stocks": {
+        "title": "주식",
+        "description": "기업의 미래를 초 단위로 가격에 새기는 글로벌 증시의 신호."
+      },
+      "bitcoin": {
+        "title": "비트코인",
+        "description": "국경 없는 디지털 희소성이 실시간으로 그려내는 가치 곡선."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "커리어",
+        "description": "전 세계 인재 이동과 채용 신호가 교차하는 글로벌 잡마켓의 맥박."
+      }
+    }
+  },
+  "Email": {
+    "hint": "원클릭으로 전 세계 주요 웹메일에 바로 접속하세요.",
+    "openAria": "{brand} 바로가기"
   }
 }

@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "16-assige governance-snelkoppelingen",
     "ladderShortcutHint": "Tik op een as om de governance-ladder te openen",
     "shortcutMatrixLabel": "Soevereine Snelkoppelingsmatrix · Governance & Wereldwijde Hot Issues",
-    "shortcutMatrixHint": "Tik om de U-AI-zoekresultatenpop-up te openen"
+    "shortcutMatrixHint": "Tik om de U-AI-zoekresultatenpop-up te openen",
+    "tab": {
+      "governance": "Governance",
+      "hotIssue": "Hot Issues",
+      "email": "E-mail",
+      "finance": "Financiën",
+      "career": "Carrière"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Spelregels",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Typ een vervolgvraag en druk op Enter…",
     "chainSubmitAria": "Geketende zoekopdracht uitvoeren",
     "closeAria": "Sluiten"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "De real-time pols van gedecentraliseerde financiën die zonder banken beweegt."
+      },
+      "stocks": {
+        "title": "Aandelen",
+        "description": "Het signaal van wereldwijde aandelenmarkten die de toekomst elke seconde herprijzen."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "De real-time waardecurve getekend door grenzeloze digitale schaarste."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Carrière",
+        "description": "De pols van de wereldwijde arbeidsmarkt, waar talentbeweging en wervingssignalen grenzen overschrijden."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Toegang met één klik tot 's werelds belangrijkste webmaildiensten.",
+    "openAria": "{brand} openen"
   }
 }

@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "16-Axis Governance Shortcuts",
     "ladderShortcutHint": "Tap an axis to open the governance ladder",
     "shortcutMatrixLabel": "Sovereign Shortcut Matrix · Governance & Global Hot Issues",
-    "shortcutMatrixHint": "Tap to open the U-AI search result popup"
+    "shortcutMatrixHint": "Tap to open the U-AI search result popup",
+    "tab": {
+      "governance": "Governance",
+      "hotIssue": "Hot Issues",
+      "email": "Email",
+      "finance": "Finance",
+      "career": "Career"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Engagement Rules",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Type a follow-up query and press Enter...",
     "chainSubmitAria": "Run chained search",
     "closeAria": "Close"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "The real-time pulse of decentralized finance moving without banks."
+      },
+      "stocks": {
+        "title": "Stocks",
+        "description": "The signal of global equity markets pricing the future by the second."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "The real-time value curve traced by borderless digital scarcity."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Career",
+        "description": "The pulse of the global job market where talent movement and hiring signals cross borders."
+      }
+    }
+  },
+  "Email": {
+    "hint": "One-click access to the world's major webmail services.",
+    "openAria": "Open {brand}"
   }
 }

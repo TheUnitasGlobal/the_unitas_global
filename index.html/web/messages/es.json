@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "Atajos de gobernanza de 16 ejes",
     "ladderShortcutHint": "Toca un eje para abrir la escalera de gobernanza",
     "shortcutMatrixLabel": "Matriz de Atajos Soberana · Gobernanza y Temas Globales de Actualidad",
-    "shortcutMatrixHint": "Toca para abrir la ventana emergente de resultados de U-AI"
+    "shortcutMatrixHint": "Toca para abrir la ventana emergente de resultados de U-AI",
+    "tab": {
+      "governance": "Gobernanza",
+      "hotIssue": "Actualidad",
+      "email": "Correo",
+      "finance": "Finanzas",
+      "career": "Carrera"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Reglas de Participación",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Escribe una consulta adicional y pulsa Enter…",
     "chainSubmitAria": "Ejecutar búsqueda encadenada",
     "closeAria": "Cerrar"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "El pulso en tiempo real de las finanzas descentralizadas moviéndose sin bancos."
+      },
+      "stocks": {
+        "title": "Acciones",
+        "description": "La señal de los mercados bursátiles globales que cotizan el futuro segundo a segundo."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "La curva de valor en tiempo real trazada por una escasez digital sin fronteras."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Carrera",
+        "description": "El pulso del mercado laboral global donde el movimiento de talento y las señales de contratación cruzan fronteras."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Acceso con un clic a los principales servicios de correo web del mundo.",
+    "openAria": "Abrir {brand}"
   }
 }

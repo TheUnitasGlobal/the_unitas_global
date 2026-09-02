@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "16轴治理快捷方式",
     "ladderShortcutHint": "点击一个轴以打开治理阶梯",
     "shortcutMatrixLabel": "主权快捷矩阵 · 治理与全球热点",
-    "shortcutMatrixHint": "点击以打开U-AI搜索结果弹窗"
+    "shortcutMatrixHint": "点击以打开U-AI搜索结果弹窗",
+    "tab": {
+      "governance": "治理",
+      "hotIssue": "热点",
+      "email": "邮箱",
+      "finance": "金融",
+      "career": "职业"
+    }
   },
   "EntryModal": {
     "rulesLabel": "参与规则",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "输入追加查询并按回车…",
     "chainSubmitAria": "执行连锁搜索",
     "closeAria": "关闭"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "无需银行、实时跳动的去中心化金融脉搏。"
+      },
+      "stocks": {
+        "title": "股票",
+        "description": "全球股票市场逐秒定价未来的信号。"
+      },
+      "bitcoin": {
+        "title": "比特币",
+        "description": "无国界数字稀缺性描绘出的实时价值曲线。"
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "职业",
+        "description": "人才流动与招聘信号跨越国界、脉动全球的就业市场。"
+      }
+    }
+  },
+  "Email": {
+    "hint": "一键直达全球主流网页邮箱服务。",
+    "openAria": "打开{brand}"
   }
 }

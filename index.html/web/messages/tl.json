@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "16-Axis na Shortcut ng Governance",
     "ladderShortcutHint": "I-tap ang isang axis para buksan ang governance ladder",
     "shortcutMatrixLabel": "Sovereign Shortcut Matrix · Governance at Pandaigdigang Hot Issues",
-    "shortcutMatrixHint": "I-tap para buksan ang U-AI search result popup"
+    "shortcutMatrixHint": "I-tap para buksan ang U-AI search result popup",
+    "tab": {
+      "governance": "Governance",
+      "hotIssue": "Hot Issues",
+      "email": "Email",
+      "finance": "Pananalapi",
+      "career": "Karera"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Mga Panuntunan sa Pakikilahok",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "I-type ang follow-up na query at pindutin ang Enter…",
     "chainSubmitAria": "Patakbuhin ang chained search",
     "closeAria": "Isara"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "Ang real-time na tibok ng decentralized finance na kumikilos nang walang bangko."
+      },
+      "stocks": {
+        "title": "Stocks",
+        "description": "Ang senyales ng pandaigdigang stock market na nagpepresyo sa hinaharap sa bawat segundo."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "Ang real-time na value curve na iginuhit ng walang-hangganang digital scarcity."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Karera",
+        "description": "Ang tibok ng pandaigdigang job market kung saan tumatawid sa hangganan ang paggalaw ng talento at mga senyales sa pag-hire."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Isang-click na access sa mga nangungunang webmail service sa daigdig.",
+    "openAria": "Buksan ang {brand}"
   }
 }

@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "Raccourcis de gouvernance à 16 axes",
     "ladderShortcutHint": "Touchez un axe pour ouvrir l'échelle de gouvernance",
     "shortcutMatrixLabel": "Matrice de raccourcis souveraine · Gouvernance et actualités brûlantes mondiales",
-    "shortcutMatrixHint": "Touchez pour ouvrir la fenêtre de résultats U-AI"
+    "shortcutMatrixHint": "Touchez pour ouvrir la fenêtre de résultats U-AI",
+    "tab": {
+      "governance": "Gouvernance",
+      "hotIssue": "Actualités Brûlantes",
+      "email": "E-mail",
+      "finance": "Finance",
+      "career": "Carrière"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Règles d'engagement",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Saisissez une requête complémentaire et appuyez sur Entrée…",
     "chainSubmitAria": "Lancer la recherche enchaînée",
     "closeAria": "Fermer"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "Le pouls en temps réel de la finance décentralisée qui circule sans banques."
+      },
+      "stocks": {
+        "title": "Actions",
+        "description": "Le signal des marchés boursiers mondiaux qui tarifent l'avenir seconde après seconde."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "La courbe de valeur en temps réel tracée par une rareté numérique sans frontières."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Carrière",
+        "description": "Le pouls du marché de l'emploi mondial où le mouvement des talents et les signaux de recrutement traversent les frontières."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Un accès en un clic aux principaux services de messagerie web du monde.",
+    "openAria": "Ouvrir {brand}"
   }
 }

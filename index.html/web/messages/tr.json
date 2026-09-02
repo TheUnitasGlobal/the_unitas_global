@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "16 Eksenli Yönetişim Kısayolları",
     "ladderShortcutHint": "Yönetişim merdivenini açmak için bir eksene dokunun",
     "shortcutMatrixLabel": "Egemen Kısayol Matrisi · Yönetişim ve Küresel Gündem Konuları",
-    "shortcutMatrixHint": "U-AI arama sonucu penceresini açmak için dokunun"
+    "shortcutMatrixHint": "U-AI arama sonucu penceresini açmak için dokunun",
+    "tab": {
+      "governance": "Yönetişim",
+      "hotIssue": "Gündem",
+      "email": "E-posta",
+      "finance": "Finans",
+      "career": "Kariyer"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Katılım Kuralları",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Ek bir sorgu yazın ve Enter'a basın…",
     "chainSubmitAria": "Zincirleme aramayı çalıştır",
     "closeAria": "Kapat"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "Bankalar olmadan hareket eden merkeziyetsiz finansın gerçek zamanlı nabzı."
+      },
+      "stocks": {
+        "title": "Hisse Senetleri",
+        "description": "Küresel hisse senedi piyasalarının geleceği her saniye fiyatlandıran sinyali."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "Sınırsız dijital kıtlığın çizdiği gerçek zamanlı değer eğrisi."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Kariyer",
+        "description": "Yetenek hareketliliğinin ve işe alım sinyallerinin sınırları aştığı küresel iş piyasasının nabzı."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Dünyanın önde gelen webmail hizmetlerine tek tıkla erişim.",
+    "openAria": "{brand} Aç"
   }
 }

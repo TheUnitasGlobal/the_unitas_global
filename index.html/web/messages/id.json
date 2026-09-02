@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "Pintasan Tata Kelola 16 Sumbu",
     "ladderShortcutHint": "Ketuk sebuah sumbu untuk membuka tangga tata kelola",
     "shortcutMatrixLabel": "Matriks Pintasan Berdaulat · Tata Kelola & Isu Hangat Global",
-    "shortcutMatrixHint": "Ketuk untuk membuka pop-up hasil pencarian U-AI"
+    "shortcutMatrixHint": "Ketuk untuk membuka pop-up hasil pencarian U-AI",
+    "tab": {
+      "governance": "Tata Kelola",
+      "hotIssue": "Isu Hangat",
+      "email": "Email",
+      "finance": "Keuangan",
+      "career": "Karier"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Aturan Keterlibatan",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Ketik kueri lanjutan lalu tekan Enter…",
     "chainSubmitAria": "Jalankan pencarian berantai",
     "closeAria": "Tutup"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "Denyut nadi real-time keuangan terdesentralisasi yang bergerak tanpa bank."
+      },
+      "stocks": {
+        "title": "Saham",
+        "description": "Sinyal pasar saham global yang menghargai masa depan setiap detik."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "Kurva nilai real-time yang digambar oleh kelangkaan digital tanpa batas negara."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Karier",
+        "description": "Denyut nadi pasar kerja global tempat pergerakan talenta dan sinyal perekrutan melintasi batas negara."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Akses sekali klik ke layanan webmail utama dunia.",
+    "openAria": "Buka {brand}"
   }
 }

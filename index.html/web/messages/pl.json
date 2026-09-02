@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "16-osiowe skróty zarządzania",
     "ladderShortcutHint": "Dotknij osi, aby otworzyć drabinę zarządzania",
     "shortcutMatrixLabel": "Suwerenna Matryca Skrótów · Zarządzanie i Globalne Gorące Tematy",
-    "shortcutMatrixHint": "Dotknij, aby otworzyć wyskakujące okno wyników U-AI"
+    "shortcutMatrixHint": "Dotknij, aby otworzyć wyskakujące okno wyników U-AI",
+    "tab": {
+      "governance": "Zarządzanie",
+      "hotIssue": "Gorące Tematy",
+      "email": "E-mail",
+      "finance": "Finanse",
+      "career": "Kariera"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Zasady uczestnictwa",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Wpisz kolejne zapytanie i naciśnij Enter…",
     "chainSubmitAria": "Uruchom wyszukiwanie łańcuchowe",
     "closeAria": "Zamknij"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "Puls finansów zdecentralizowanych w czasie rzeczywistym, poruszających się bez udziału banków."
+      },
+      "stocks": {
+        "title": "Akcje",
+        "description": "Sygnał globalnych rynków akcji, wyceniających przyszłość co sekundę."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "Krzywa wartości w czasie rzeczywistym, kreślona przez bezgraniczny cyfrowy niedobór."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Kariera",
+        "description": "Puls globalnego rynku pracy, na którym przepływ talentów i sygnały rekrutacyjne przekraczają granice."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Dostęp jednym kliknięciem do najważniejszych usług poczty internetowej na świecie.",
+    "openAria": "Otwórz {brand}"
   }
 }

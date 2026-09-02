@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "Scorciatoie di governance a 16 assi",
     "ladderShortcutHint": "Tocca un asse per aprire la scala di governance",
     "shortcutMatrixLabel": "Matrice di Scorciatoie Sovrana · Governance e Temi Caldi Globali",
-    "shortcutMatrixHint": "Tocca per aprire il popup dei risultati U-AI"
+    "shortcutMatrixHint": "Tocca per aprire il popup dei risultati U-AI",
+    "tab": {
+      "governance": "Governance",
+      "hotIssue": "Temi Caldi",
+      "email": "Email",
+      "finance": "Finanza",
+      "career": "Carriera"
+    }
   },
   "EntryModal": {
     "rulesLabel": "Regole di Ingaggio",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "Digita una query di follow-up e premi Invio…",
     "chainSubmitAria": "Esegui ricerca concatenata",
     "closeAria": "Chiudi"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "Il polso in tempo reale della finanza decentralizzata che si muove senza banche."
+      },
+      "stocks": {
+        "title": "Azioni",
+        "description": "Il segnale dei mercati azionari globali che prezzano il futuro secondo dopo secondo."
+      },
+      "bitcoin": {
+        "title": "Bitcoin",
+        "description": "La curva di valore in tempo reale tracciata da una scarsità digitale senza confini."
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "Carriera",
+        "description": "Il polso del mercato del lavoro globale dove il movimento dei talenti e i segnali di assunzione attraversano i confini."
+      }
+    }
+  },
+  "Email": {
+    "hint": "Accesso con un clic ai principali servizi di webmail del mondo.",
+    "openAria": "Apri {brand}"
   }
 }

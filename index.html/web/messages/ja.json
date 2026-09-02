@@ -357,7 +357,14 @@
     "ladderShortcutLabel": "16軸ガバナンス・ショートカット",
     "ladderShortcutHint": "軸をタップしてガバナンス・ラダーを開く",
     "shortcutMatrixLabel": "主権ショートカット・マトリクス · ガバナンスとグローバルホットイシュー",
-    "shortcutMatrixHint": "タップしてU-AI検索結果ポップアップを開く"
+    "shortcutMatrixHint": "タップしてU-AI検索結果ポップアップを開く",
+    "tab": {
+      "governance": "ガバナンス",
+      "hotIssue": "ホットイシュー",
+      "email": "メール",
+      "finance": "金融",
+      "career": "キャリア"
+    }
   },
   "EntryModal": {
     "rulesLabel": "参加ルール",
@@ -1012,5 +1019,33 @@
     "chainPlaceholder": "追加の検索語を入力してEnterを押してください…",
     "chainSubmitAria": "連鎖検索を実行",
     "closeAria": "閉じる"
+  },
+  "Finance": {
+    "axes": {
+      "defi": {
+        "title": "DeFi",
+        "description": "銀行を介さずに動く分散型金融のリアルタイムの鼓動。"
+      },
+      "stocks": {
+        "title": "株式",
+        "description": "世界の株式市場が未来を秒単位で織り込むシグナル。"
+      },
+      "bitcoin": {
+        "title": "ビットコイン",
+        "description": "国境なきデジタル希少性が描くリアルタイムの価値曲線。"
+      }
+    }
+  },
+  "Career": {
+    "axes": {
+      "career": {
+        "title": "キャリア",
+        "description": "人材の移動と採用シグナルが国境を越える、世界の雇用市場の鼓動。"
+      }
+    }
+  },
+  "Email": {
+    "hint": "世界の主要ウェブメールサービスへワンクリックでアクセス。",
+    "openAria": "{brand}を開く"
   }
 }
