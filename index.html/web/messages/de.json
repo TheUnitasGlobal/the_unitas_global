@@ -355,7 +355,9 @@
     "drawAttach": "Skizze anhängen",
     "drawClose": "Schließen",
     "ladderShortcutLabel": "16-Achsen-Governance-Kurzwahl",
-    "ladderShortcutHint": "Tippen Sie auf eine Achse, um die Governance-Leiter zu öffnen"
+    "ladderShortcutHint": "Tippen Sie auf eine Achse, um die Governance-Leiter zu öffnen",
+    "shortcutMatrixLabel": "Souveräne Shortcut-Matrix · Governance & globale Trendthemen",
+    "shortcutMatrixHint": "Tippen, um das U-AI-Suchergebnis-Popup zu öffnen"
   },
   "EntryModal": {
     "rulesLabel": "Engagement-Regeln",
@@ -984,5 +986,31 @@
         "description": "Die Abfolge von Zügen hin zu einem dauerhaften Vorteil."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Spiele",
+        "description": "Der Echtzeit-Puls interaktiver Unterhaltung, live erfasst von Spielern weltweit."
+      },
+      "sports": {
+        "title": "Sport",
+        "description": "Der lebendige Herzschlag des globalen Wettbewerbs, spürbar in jedem entscheidenden Moment."
+      },
+      "movie": {
+        "title": "Film",
+        "description": "Die narrative Grenze der Kultur, die sich jetzt jenseits der Leinwand entfaltet."
+      },
+      "weather": {
+        "title": "Wetter",
+        "description": "Die globale Echtzeit-Atmosphärenvariable, die den Alltag unmittelbar prägt."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Jede weitere Suche stapelt eine neue Ergebniskarte darunter.",
+    "chainPlaceholder": "Folgeanfrage eingeben und Enter drücken…",
+    "chainSubmitAria": "Verkettete Suche ausführen",
+    "closeAria": "Schließen"
   }
 }

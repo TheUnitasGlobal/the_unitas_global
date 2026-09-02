@@ -355,7 +355,9 @@
     "drawAttach": "Đính kèm bản phác thảo",
     "drawClose": "Đóng",
     "ladderShortcutLabel": "Lối tắt quản trị 16 trục",
-    "ladderShortcutHint": "Chạm vào một trục để mở thang quản trị"
+    "ladderShortcutHint": "Chạm vào một trục để mở thang quản trị",
+    "shortcutMatrixLabel": "Ma trận lối tắt chủ quyền · Quản trị & Vấn đề nóng toàn cầu",
+    "shortcutMatrixHint": "Chạm để mở cửa sổ kết quả tìm kiếm U-AI"
   },
   "EntryModal": {
     "rulesLabel": "Quy tắc tham gia",
@@ -984,5 +986,31 @@
         "description": "Trình tự các bước hướng tới lợi thế lâu dài."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Trò chơi",
+        "description": "Nhịp đập thời gian thực của giải trí tương tác, ghi nhận trực tiếp từ người chơi trên toàn thế giới."
+      },
+      "sports": {
+        "title": "Thể thao",
+        "description": "Nhịp tim sống động của cuộc đua toàn cầu, cảm nhận được ở từng khoảnh khắc quyết định."
+      },
+      "movie": {
+        "title": "Điện ảnh",
+        "description": "Đường biên tường thuật của văn hóa, đang mở ra ngay lúc này vượt ra ngoài màn ảnh."
+      },
+      "weather": {
+        "title": "Thời tiết",
+        "description": "Biến số khí quyển thời gian thực trải khắp toàn cầu, định hình trực tiếp đời sống thường nhật."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Mỗi lượt tìm kiếm tiếp theo sẽ xếp thêm một thẻ kết quả mới bên dưới.",
+    "chainPlaceholder": "Nhập truy vấn tiếp theo và nhấn Enter…",
+    "chainSubmitAria": "Chạy tìm kiếm nối chuỗi",
+    "closeAria": "Đóng"
   }
 }

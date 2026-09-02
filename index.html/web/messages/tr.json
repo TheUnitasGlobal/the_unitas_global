@@ -355,7 +355,9 @@
     "drawAttach": "Taslağı Ekle",
     "drawClose": "Kapat",
     "ladderShortcutLabel": "16 Eksenli Yönetişim Kısayolları",
-    "ladderShortcutHint": "Yönetişim merdivenini açmak için bir eksene dokunun"
+    "ladderShortcutHint": "Yönetişim merdivenini açmak için bir eksene dokunun",
+    "shortcutMatrixLabel": "Egemen Kısayol Matrisi · Yönetişim ve Küresel Gündem Konuları",
+    "shortcutMatrixHint": "U-AI arama sonucu penceresini açmak için dokunun"
   },
   "EntryModal": {
     "rulesLabel": "Katılım Kuralları",
@@ -984,5 +986,31 @@
         "description": "Kalıcı bir avantaja giden hamlelerin sıralaması."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Oyun",
+        "description": "Dünyanın dört bir yanındaki oyunculardan canlı yakalanan, etkileşimli eğlencenin gerçek zamanlı nabzı."
+      },
+      "sports": {
+        "title": "Spor",
+        "description": "Her belirleyici anda hissedilen, küresel rekabetin canlı kalp atışı."
+      },
+      "movie": {
+        "title": "Film",
+        "description": "Artık ekranın ötesinde açılan, kültürün anlatı sınırı."
+      },
+      "weather": {
+        "title": "Hava Durumu",
+        "description": "Küreyi kaplayan ve günlük yaşamı doğrudan şekillendiren gerçek zamanlı atmosferik değişken."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Her ek arama, altına yeni bir sonuç kartı ekler.",
+    "chainPlaceholder": "Ek bir sorgu yazın ve Enter'a basın…",
+    "chainSubmitAria": "Zincirleme aramayı çalıştır",
+    "closeAria": "Kapat"
   }
 }

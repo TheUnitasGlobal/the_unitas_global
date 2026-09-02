@@ -355,7 +355,9 @@
     "drawAttach": "Allega schizzo",
     "drawClose": "Chiudi",
     "ladderShortcutLabel": "Scorciatoie di governance a 16 assi",
-    "ladderShortcutHint": "Tocca un asse per aprire la scala di governance"
+    "ladderShortcutHint": "Tocca un asse per aprire la scala di governance",
+    "shortcutMatrixLabel": "Matrice di Scorciatoie Sovrana · Governance e Temi Caldi Globali",
+    "shortcutMatrixHint": "Tocca per aprire il popup dei risultati U-AI"
   },
   "EntryModal": {
     "rulesLabel": "Regole di Ingaggio",
@@ -984,5 +986,31 @@
         "description": "La sequenza di mosse verso un vantaggio duraturo."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Giochi",
+        "description": "Il polso in tempo reale dell'intrattenimento interattivo, catturato dal vivo dai giocatori di tutto il mondo."
+      },
+      "sports": {
+        "title": "Sport",
+        "description": "Il battito dal vivo della competizione globale, avvertito in ogni momento decisivo."
+      },
+      "movie": {
+        "title": "Cinema",
+        "description": "La frontiera narrativa della cultura, che si dispiega ora oltre lo schermo."
+      },
+      "weather": {
+        "title": "Meteo",
+        "description": "La variabile atmosferica in tempo reale che attraversa il globo e plasma direttamente la vita quotidiana."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Ogni ricerca successiva impila una nuova scheda di risultati sotto.",
+    "chainPlaceholder": "Digita una query di follow-up e premi Invio…",
+    "chainSubmitAria": "Esegui ricerca concatenata",
+    "closeAria": "Chiudi"
   }
 }

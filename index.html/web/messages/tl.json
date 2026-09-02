@@ -355,7 +355,9 @@
     "drawAttach": "Ilakip ang Sketch",
     "drawClose": "Isara",
     "ladderShortcutLabel": "16-Axis na Shortcut ng Governance",
-    "ladderShortcutHint": "I-tap ang isang axis para buksan ang governance ladder"
+    "ladderShortcutHint": "I-tap ang isang axis para buksan ang governance ladder",
+    "shortcutMatrixLabel": "Sovereign Shortcut Matrix · Governance at Pandaigdigang Hot Issues",
+    "shortcutMatrixHint": "I-tap para buksan ang U-AI search result popup"
   },
   "EntryModal": {
     "rulesLabel": "Mga Panuntunan sa Pakikilahok",
@@ -984,5 +986,31 @@
         "description": "Ang pagkakasunod-sunod ng mga hakbang tungo sa pangmatagalang bentahe."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Game",
+        "description": "Ang real-time na pulso ng interactive entertainment, direktang nakukuha mula sa mga manlalaro sa buong mundo."
+      },
+      "sports": {
+        "title": "Sports",
+        "description": "Ang buhay na tibok ng pandaigdigang kompetisyon, nararamdaman sa bawat desisibong sandali."
+      },
+      "movie": {
+        "title": "Movie",
+        "description": "Ang narrative frontier ng kultura, na patuloy na bumubukas ngayon nang lampas sa screen."
+      },
+      "weather": {
+        "title": "Weather",
+        "description": "Ang real-time na atmospheric variable sa buong mundo na direktang humuhubog sa pang-araw-araw na buhay."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Bawat follow-up na search ay nagdaragdag ng bagong result card sa ibaba.",
+    "chainPlaceholder": "I-type ang follow-up na query at pindutin ang Enter…",
+    "chainSubmitAria": "Patakbuhin ang chained search",
+    "closeAria": "Isara"
   }
 }

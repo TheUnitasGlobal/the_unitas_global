@@ -355,7 +355,9 @@
     "drawAttach": "Attach Sketch",
     "drawClose": "Close",
     "ladderShortcutLabel": "16-Axis Governance Shortcuts",
-    "ladderShortcutHint": "Tap an axis to open the governance ladder"
+    "ladderShortcutHint": "Tap an axis to open the governance ladder",
+    "shortcutMatrixLabel": "Sovereign Shortcut Matrix · Governance & Global Hot Issues",
+    "shortcutMatrixHint": "Tap to open the U-AI search result popup"
   },
   "EntryModal": {
     "rulesLabel": "Engagement Rules",
@@ -984,5 +986,31 @@
         "description": "The sequencing of moves toward lasting advantage."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Game",
+        "description": "The real-time pulse of interactive entertainment, captured live from players worldwide."
+      },
+      "sports": {
+        "title": "Sports",
+        "description": "The live heartbeat of global competition, felt in every decisive moment."
+      },
+      "movie": {
+        "title": "Movie",
+        "description": "The narrative frontier of culture, unfolding now beyond the screen."
+      },
+      "weather": {
+        "title": "Weather",
+        "description": "The real-time atmospheric variable spanning the globe that directly shapes daily life."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Each follow-up search stacks a new result card below.",
+    "chainPlaceholder": "Type a follow-up query and press Enter...",
+    "chainSubmitAria": "Run chained search",
+    "closeAria": "Close"
   }
 }

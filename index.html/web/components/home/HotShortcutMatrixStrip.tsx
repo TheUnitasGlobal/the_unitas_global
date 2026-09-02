@@ -2,30 +2,38 @@
 
 import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
-import { GOVERNANCE_AXES, type GovernanceAxis } from '@/lib/governance';
+import { HOT_SHORTCUT_MATRIX, type HotShortcutAxis } from '@/lib/hotIssues';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 
-interface GovernanceLadderStripProps {
-  onOpenAxis: (axis: GovernanceAxis) => void;
+interface HotShortcutMatrixStripProps {
+  onOpenShortcut: (axis: HotShortcutAxis) => void;
 }
 
 // Duplicated once so the CSS marquee (globals.css .governance-ladder-track,
-// -50% translateX) loops seamlessly -- the second half is an exact repeat of
-// the first, so the reset is invisible.
-const LOOP_AXES = [...GOVERNANCE_AXES, ...GOVERNANCE_AXES];
+// -50% translateX) loops seamlessly -- reused as-is from the 16-axis-only
+// strip this replaces, now looping the full governance + hot-issue matrix.
+const LOOP_AXES = [...HOT_SHORTCUT_MATRIX, ...HOT_SHORTCUT_MATRIX];
 
 /**
- * "The Living Knowledge Ouroboros" -- an infinite-loop shortcut strip of all
- * 16 Governance axes, rendered directly under the search bar while it's
+ * "The Living Knowledge Ouroboros", expanded: an infinite-loop shortcut strip
+ * spanning the 16 Governance axes AND the global hot-issue categories (game,
+ * sports, movie, weather), rendered directly under the search bar while it's
  * focused with an empty query (see OmniSynapseSearch's `ouroboros` state).
- * Clicking an axis reuses the existing GovernanceLadderModal (via the
- * `onOpenAxis` callback lifted from HomeContent) rather than owning its own
- * modal -- one detail surface, many entry points.
+ * Clicking any tile opens HotShortcutResultModal's chained U-AI popup --
+ * distinct from GovernanceLadderStrip/GovernanceLadderModal, which stay
+ * wired to Section 4's pure 16-axis reference grid.
  */
-export function GovernanceLadderStrip({ onOpenAxis }: GovernanceLadderStripProps) {
+export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStripProps) {
   const t = useTranslations('OmniSynapse');
   const tGovernance = useTranslations('Governance');
+  const tHotIssue = useTranslations('HotIssue');
   const { playHoverSfx } = useSpatialAudio();
+
+  function titleOf(axis: HotShortcutAxis) {
+    return axis.group === 'hotIssue'
+      ? tHotIssue(`axes.${axis.messageKey}.title`)
+      : tGovernance(`axes.${axis.messageKey}.title`);
+  }
 
   return (
     <motion.div
@@ -36,23 +44,21 @@ export function GovernanceLadderStrip({ onOpenAxis }: GovernanceLadderStripProps
       className="absolute inset-x-0 top-full z-30 mt-3 overflow-hidden border border-white/10 bg-white/[0.03] py-4 backdrop-blur-xl"
     >
       <p className="mb-3 px-6 text-[9px] font-bold uppercase tracking-[0.3em] text-gray-500">
-        {t('ladderShortcutLabel')}
+        {t('shortcutMatrixLabel')}
       </p>
       <div className="governance-ladder-track flex w-max gap-3 px-6">
         {LOOP_AXES.map((axis, i) => (
           <button
             key={`${axis.key}-${i}`}
             type="button"
-            title={t('ladderShortcutHint')}
+            title={t('shortcutMatrixHint')}
             onMouseEnter={() => playHoverSfx()}
-            onClick={() => onOpenAxis(axis)}
+            onClick={() => onOpenShortcut(axis)}
             style={{ borderColor: `${axis.color}44` }}
             className="flex shrink-0 items-center gap-2 border bg-void/50 px-3 py-2 text-left transition-colors hover:bg-void/80"
           >
             <axis.icon size={14} style={{ color: axis.color }} aria-hidden="true" />
-            <span className="whitespace-nowrap text-xs font-bold text-white">
-              {tGovernance(`axes.${axis.messageKey}.title`)}
-            </span>
+            <span className="whitespace-nowrap text-xs font-bold text-white">{titleOf(axis)}</span>
           </button>
         ))}
       </div>

@@ -355,7 +355,9 @@
     "drawAttach": "附加草图",
     "drawClose": "关闭",
     "ladderShortcutLabel": "16轴治理快捷方式",
-    "ladderShortcutHint": "点击一个轴以打开治理阶梯"
+    "ladderShortcutHint": "点击一个轴以打开治理阶梯",
+    "shortcutMatrixLabel": "主权快捷矩阵 · 治理与全球热点",
+    "shortcutMatrixHint": "点击以打开U-AI搜索结果弹窗"
   },
   "EntryModal": {
     "rulesLabel": "参与规则",
@@ -984,5 +986,31 @@
         "description": "通向不可逆优势的步骤排列。"
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "游戏",
+        "description": "实时捕捉全球玩家脉动的互动娱乐动态。"
+      },
+      "sports": {
+        "title": "体育",
+        "description": "在每个决定性时刻感受到的全球竞技实时心跳。"
+      },
+      "movie": {
+        "title": "电影",
+        "description": "在银幕之外持续展开的文化叙事前沿。"
+      },
+      "weather": {
+        "title": "天气",
+        "description": "直接影响日常生活、遍及全球的实时大气变量。"
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "每次追加搜索都会在下方叠加一张新的结果卡片。",
+    "chainPlaceholder": "输入追加查询并按回车…",
+    "chainSubmitAria": "执行连锁搜索",
+    "closeAria": "关闭"
   }
 }

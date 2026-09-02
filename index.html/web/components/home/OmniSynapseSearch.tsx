@@ -11,11 +11,11 @@ import { useWallet } from '@/components/wallet/WalletProvider';
 import { useUai } from '@/lib/uai/useUai';
 import { UaiDashboard } from '@/components/uai/UaiDashboard';
 import { CanvasDrawInput } from '@/components/interaction/CanvasDrawInput';
-import { GovernanceLadderStrip } from '@/components/home/GovernanceLadderStrip';
+import { HotShortcutMatrixStrip } from '@/components/home/HotShortcutMatrixStrip';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
 import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
-import type { GovernanceAxis } from '@/lib/governance';
+import type { HotShortcutAxis } from '@/lib/hotIssues';
 
 interface OmniSynapseSearchProps {
   /** Lifted to HomeContent so the page can hide the ecosystem/module walls
@@ -23,9 +23,10 @@ interface OmniSynapseSearchProps {
   uai: ReturnType<typeof useUai>;
   onSelectEcosystem: (eco: EcosystemTheme) => void;
   onSelectModule: (module: B2CModule) => void;
-  /** Governance axis shortcuts (The Living Knowledge Ouroboros) open the same
-      shared GovernanceLadderModal HomeContent already owns for Section 4. */
-  onOpenAxis: (axis: GovernanceAxis) => void;
+  /** Governance + hot-issue shortcuts (The Living Knowledge Ouroboros, now a
+      multi-dimensional matrix) open HomeContent's HotShortcutResultModal --
+      distinct from Section 4's pure 16-axis GovernanceLadderModal. */
+  onOpenShortcut: (axis: HotShortcutAxis) => void;
   /** True while the search bar is focused on an empty query -- HomeContent
       uses this to sink (Focus Isolation) Sections 1-3 behind the ladder. */
   onOuroborosChange?: (active: boolean) => void;
@@ -76,14 +77,15 @@ type VisualAttachment = UaiImageAttachment & { id: string; label: string };
  * travel identically to a photo from this point on.
  *
  * When the bar is focused on an *empty* query ("ouroboros" mode), the
- * ecosystem/module walls sink behind a 16-axis Governance shortcut marquee
- * instead of the browse hub -- see GovernanceLadderStrip + onOuroborosChange.
+ * ecosystem/module walls sink behind a multi-dimensional shortcut marquee
+ * (16 Governance axes + global hot-issue categories) instead of the browse
+ * hub -- see HotShortcutMatrixStrip + onOuroborosChange.
  */
 export function OmniSynapseSearch({
   uai,
   onSelectEcosystem,
   onSelectModule,
-  onOpenAxis,
+  onOpenShortcut,
   onOuroborosChange,
 }: OmniSynapseSearchProps) {
   const t = useTranslations('OmniSynapse');
@@ -638,7 +640,7 @@ export function OmniSynapseSearch({
         )}
       </AnimatePresence>
 
-      <AnimatePresence>{ouroboros && <GovernanceLadderStrip onOpenAxis={onOpenAxis} />}</AnimatePresence>
+      <AnimatePresence>{ouroboros && <HotShortcutMatrixStrip onOpenShortcut={onOpenShortcut} />}</AnimatePresence>
 
       <CanvasDrawInput open={drawOpen} onClose={() => setDrawOpen(false)} onAttach={handleCanvasAttach} />
 

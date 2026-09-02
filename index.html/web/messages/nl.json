@@ -355,7 +355,9 @@
     "drawAttach": "Schets bijvoegen",
     "drawClose": "Sluiten",
     "ladderShortcutLabel": "16-assige governance-snelkoppelingen",
-    "ladderShortcutHint": "Tik op een as om de governance-ladder te openen"
+    "ladderShortcutHint": "Tik op een as om de governance-ladder te openen",
+    "shortcutMatrixLabel": "Soevereine Snelkoppelingsmatrix · Governance & Wereldwijde Hot Issues",
+    "shortcutMatrixHint": "Tik om de U-AI-zoekresultatenpop-up te openen"
   },
   "EntryModal": {
     "rulesLabel": "Spelregels",
@@ -984,5 +986,31 @@
         "description": "De volgorde van zetten naar een blijvend voordeel."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Games",
+        "description": "De realtime puls van interactief entertainment, live vastgelegd van spelers wereldwijd."
+      },
+      "sports": {
+        "title": "Sport",
+        "description": "De levende hartslag van wereldwijde competitie, voelbaar op elk beslissend moment."
+      },
+      "movie": {
+        "title": "Film",
+        "description": "De narratieve grens van cultuur, die zich nu voorbij het scherm ontvouwt."
+      },
+      "weather": {
+        "title": "Weer",
+        "description": "De wereldwijde realtime atmosferische variabele die het dagelijks leven direct vormgeeft."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Elke vervolgzoekopdracht stapelt een nieuwe resultaatkaart eronder.",
+    "chainPlaceholder": "Typ een vervolgvraag en druk op Enter…",
+    "chainSubmitAria": "Geketende zoekopdracht uitvoeren",
+    "closeAria": "Sluiten"
   }
 }

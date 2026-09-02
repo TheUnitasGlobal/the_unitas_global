@@ -355,7 +355,9 @@
     "drawAttach": "Joindre le croquis",
     "drawClose": "Fermer",
     "ladderShortcutLabel": "Raccourcis de gouvernance à 16 axes",
-    "ladderShortcutHint": "Touchez un axe pour ouvrir l'échelle de gouvernance"
+    "ladderShortcutHint": "Touchez un axe pour ouvrir l'échelle de gouvernance",
+    "shortcutMatrixLabel": "Matrice de raccourcis souveraine · Gouvernance et actualités brûlantes mondiales",
+    "shortcutMatrixHint": "Touchez pour ouvrir la fenêtre de résultats U-AI"
   },
   "EntryModal": {
     "rulesLabel": "Règles d'engagement",
@@ -984,5 +986,31 @@
         "description": "La séquence de mouvements vers un avantage durable."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Jeu",
+        "description": "Le pouls en temps réel du divertissement interactif, capté en direct auprès des joueurs du monde entier."
+      },
+      "sports": {
+        "title": "Sport",
+        "description": "Le battement de cœur en direct de la compétition mondiale, ressenti à chaque instant décisif."
+      },
+      "movie": {
+        "title": "Cinéma",
+        "description": "La frontière narrative de la culture, qui se déploie désormais au-delà de l'écran."
+      },
+      "weather": {
+        "title": "Météo",
+        "description": "La variable atmosphérique en temps réel, à l'échelle du globe, qui façonne directement la vie quotidienne."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Chaque recherche complémentaire empile une nouvelle carte de résultat en dessous.",
+    "chainPlaceholder": "Saisissez une requête complémentaire et appuyez sur Entrée…",
+    "chainSubmitAria": "Lancer la recherche enchaînée",
+    "closeAria": "Fermer"
   }
 }

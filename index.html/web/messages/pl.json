@@ -355,7 +355,9 @@
     "drawAttach": "Załącz szkic",
     "drawClose": "Zamknij",
     "ladderShortcutLabel": "16-osiowe skróty zarządzania",
-    "ladderShortcutHint": "Dotknij osi, aby otworzyć drabinę zarządzania"
+    "ladderShortcutHint": "Dotknij osi, aby otworzyć drabinę zarządzania",
+    "shortcutMatrixLabel": "Suwerenna Matryca Skrótów · Zarządzanie i Globalne Gorące Tematy",
+    "shortcutMatrixHint": "Dotknij, aby otworzyć wyskakujące okno wyników U-AI"
   },
   "EntryModal": {
     "rulesLabel": "Zasady uczestnictwa",
@@ -984,5 +986,31 @@
         "description": "Sekwencja ruchów prowadząca do trwałej przewagi."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Gry",
+        "description": "Puls interaktywnej rozrywki w czasie rzeczywistym, rejestrowany na żywo od graczy z całego świata."
+      },
+      "sports": {
+        "title": "Sport",
+        "description": "Żywe tętno globalnej rywalizacji, odczuwalne w każdej decydującej chwili."
+      },
+      "movie": {
+        "title": "Film",
+        "description": "Narracyjna granica kultury, rozwijająca się teraz poza ekranem."
+      },
+      "weather": {
+        "title": "Pogoda",
+        "description": "Zmienna atmosferyczna w czasie rzeczywistym, obejmująca cały świat i bezpośrednio kształtująca codzienne życie."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Każde kolejne wyszukiwanie dokłada nową kartę wyniku poniżej.",
+    "chainPlaceholder": "Wpisz kolejne zapytanie i naciśnij Enter…",
+    "chainSubmitAria": "Uruchom wyszukiwanie łańcuchowe",
+    "closeAria": "Zamknij"
   }
 }

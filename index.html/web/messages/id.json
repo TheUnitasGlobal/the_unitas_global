@@ -355,7 +355,9 @@
     "drawAttach": "Lampirkan Sketsa",
     "drawClose": "Tutup",
     "ladderShortcutLabel": "Pintasan Tata Kelola 16 Sumbu",
-    "ladderShortcutHint": "Ketuk sebuah sumbu untuk membuka tangga tata kelola"
+    "ladderShortcutHint": "Ketuk sebuah sumbu untuk membuka tangga tata kelola",
+    "shortcutMatrixLabel": "Matriks Pintasan Berdaulat · Tata Kelola & Isu Hangat Global",
+    "shortcutMatrixHint": "Ketuk untuk membuka pop-up hasil pencarian U-AI"
   },
   "EntryModal": {
     "rulesLabel": "Aturan Keterlibatan",
@@ -984,5 +986,31 @@
         "description": "Rangkaian langkah menuju keunggulan yang bertahan lama."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Gim",
+        "description": "Denyut real-time hiburan interaktif, ditangkap langsung dari para pemain di seluruh dunia."
+      },
+      "sports": {
+        "title": "Olahraga",
+        "description": "Detak jantung langsung kompetisi global, terasa di setiap momen penentu."
+      },
+      "movie": {
+        "title": "Film",
+        "description": "Garis depan naratif budaya, yang kini terus berkembang melampaui layar."
+      },
+      "weather": {
+        "title": "Cuaca",
+        "description": "Variabel atmosfer real-time yang membentang di seluruh dunia dan langsung membentuk kehidupan sehari-hari."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Setiap pencarian lanjutan menumpuk kartu hasil baru di bawahnya.",
+    "chainPlaceholder": "Ketik kueri lanjutan lalu tekan Enter…",
+    "chainSubmitAria": "Jalankan pencarian berantai",
+    "closeAria": "Tutup"
   }
 }

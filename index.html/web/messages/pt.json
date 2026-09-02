@@ -355,7 +355,9 @@
     "drawAttach": "Anexar esboço",
     "drawClose": "Fechar",
     "ladderShortcutLabel": "Atalhos de governança de 16 eixos",
-    "ladderShortcutHint": "Toque num eixo para abrir a escada de governança"
+    "ladderShortcutHint": "Toque num eixo para abrir a escada de governança",
+    "shortcutMatrixLabel": "Matriz de Atalhos Soberana · Governança e Temas Quentes Globais",
+    "shortcutMatrixHint": "Toque para abrir a janela de resultados da U-AI"
   },
   "EntryModal": {
     "rulesLabel": "Regras de participação",
@@ -984,5 +986,31 @@
         "description": "A sequência de movimentos rumo a uma vantagem duradoura."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Jogos",
+        "description": "O pulso em tempo real do entretenimento interativo, captado ao vivo de jogadores em todo o mundo."
+      },
+      "sports": {
+        "title": "Desporto",
+        "description": "O batimento ao vivo da competição global, sentido em cada momento decisivo."
+      },
+      "movie": {
+        "title": "Cinema",
+        "description": "A fronteira narrativa da cultura, a desenrolar-se agora para além do ecrã."
+      },
+      "weather": {
+        "title": "Meteorologia",
+        "description": "A variável atmosférica em tempo real que atravessa o globo e molda diretamente o quotidiano."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Cada pesquisa de continuação acrescenta um novo cartão de resultado abaixo.",
+    "chainPlaceholder": "Escreva uma pesquisa de continuação e prima Enter…",
+    "chainSubmitAria": "Executar pesquisa encadeada",
+    "closeAria": "Fechar"
   }
 }

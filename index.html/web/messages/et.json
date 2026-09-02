@@ -355,7 +355,9 @@
     "drawAttach": "Lisa visand",
     "drawClose": "Sulge",
     "ladderShortcutLabel": "16-teljeline valitsemise otsetee",
-    "ladderShortcutHint": "Puuduta telge, et avada valitsemisredel"
+    "ladderShortcutHint": "Puuduta telge, et avada valitsemisredel",
+    "shortcutMatrixLabel": "Suveräänne otseteede maatriks · valitsemine ja globaalsed kuumad teemad",
+    "shortcutMatrixHint": "Puuduta, et avada U-AI otsingutulemuse hüpikaken"
   },
   "EntryModal": {
     "rulesLabel": "Osalemise Reeglid",
@@ -984,5 +986,31 @@
         "description": "Käikude järjestus püsiva eelise suunas."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "Mäng",
+        "description": "Interaktiivse meelelahutuse reaalajas pulss otse mängijatelt üle kogu maailma."
+      },
+      "sports": {
+        "title": "Sport",
+        "description": "Globaalse võistluse elav pulss, tuntav igal otsustaval hetkel."
+      },
+      "movie": {
+        "title": "Film",
+        "description": "Kultuuri narratiivne piirimaa, mis avaneb nüüd väljaspool ekraani."
+      },
+      "weather": {
+        "title": "Ilm",
+        "description": "Reaalajas atmosfääri muutuja üle kogu maailma, mis kujundab otseselt igapäevaelu."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "Iga järelpärimine lisab uue tulemuskaardi allapoole.",
+    "chainPlaceholder": "Sisesta järelpärimine ja vajuta Enter…",
+    "chainSubmitAria": "Käivita ahelotsing",
+    "closeAria": "Sulge"
   }
 }

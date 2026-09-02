@@ -355,7 +355,9 @@
     "drawAttach": "스케치 첨부",
     "drawClose": "닫기",
     "ladderShortcutLabel": "16축 거버넌스 숏컷",
-    "ladderShortcutHint": "축을 탭하면 거버넌스 사다리가 열립니다"
+    "ladderShortcutHint": "축을 탭하면 거버넌스 사다리가 열립니다",
+    "shortcutMatrixLabel": "소버린 숏컷 매트릭스 · 거버넌스 & 글로벌 핫이슈",
+    "shortcutMatrixHint": "탭하면 U-AI 검색 결과 팝업이 열립니다"
   },
   "EntryModal": {
     "rulesLabel": "참여 규칙",
@@ -984,5 +986,31 @@
         "description": "돌이킬 수 없는 우위를 향한 수순의 배열."
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "게임",
+        "description": "전 세계 플레이어의 열기를 실시간으로 포착하는 인터랙티브 엔터테인먼트 펄스."
+      },
+      "sports": {
+        "title": "스포츠",
+        "description": "승부의 순간마다 전 세계가 함께 숨죽이는 실시간 경쟁의 맥박."
+      },
+      "movie": {
+        "title": "영화",
+        "description": "스크린 너머 문화의 최전선에서 지금 이야기되는 서사."
+      },
+      "weather": {
+        "title": "날씨",
+        "description": "지구 전역의 대기가 그려내는, 삶을 직접 뒤흔드는 실시간 변수."
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "연쇄 검색은 새로운 결과 카드를 아래에 쌓습니다.",
+    "chainPlaceholder": "추가 검색어를 입력하고 Enter...",
+    "chainSubmitAria": "연쇄 검색 실행",
+    "closeAria": "닫기"
   }
 }

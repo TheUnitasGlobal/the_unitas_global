@@ -355,7 +355,9 @@
     "drawAttach": "スケッチを添付",
     "drawClose": "閉じる",
     "ladderShortcutLabel": "16軸ガバナンス・ショートカット",
-    "ladderShortcutHint": "軸をタップしてガバナンス・ラダーを開く"
+    "ladderShortcutHint": "軸をタップしてガバナンス・ラダーを開く",
+    "shortcutMatrixLabel": "主権ショートカット・マトリクス · ガバナンスとグローバルホットイシュー",
+    "shortcutMatrixHint": "タップしてU-AI検索結果ポップアップを開く"
   },
   "EntryModal": {
     "rulesLabel": "参加ルール",
@@ -984,5 +986,31 @@
         "description": "不可逆的優位に向けた手順の配列。"
       }
     }
+  },
+  "HotIssue": {
+    "axes": {
+      "game": {
+        "title": "ゲーム",
+        "description": "世界中のプレイヤーからライブで捉える、インタラクティブ・エンターテインメントのリアルタイムな鼓動。"
+      },
+      "sports": {
+        "title": "スポーツ",
+        "description": "あらゆる決定的瞬間に感じる、世界的競技のライブな鼓動。"
+      },
+      "movie": {
+        "title": "映画",
+        "description": "スクリーンの向こうで今も紡がれる、文化の物語的フロンティア。"
+      },
+      "weather": {
+        "title": "天気",
+        "description": "日々の生活を直接左右する、世界規模でリアルタイムに変化する大気の変数。"
+      }
+    }
+  },
+  "HotShortcutModal": {
+    "chainHint": "追加検索のたびに、新しい結果カードが下に積み重なります。",
+    "chainPlaceholder": "追加の検索語を入力してEnterを押してください…",
+    "chainSubmitAria": "連鎖検索を実行",
+    "closeAria": "閉じる"
   }
 }
