@@ -113,29 +113,35 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
         title={tApp('openAria', { brand: app.brand })}
         onMouseEnter={() => playHoverSfx()}
         style={{ borderColor: `${app.color}44` }}
-        className="flex shrink-0 items-center gap-2 border bg-void/50 px-3 py-2 text-left transition-colors hover:bg-void/80"
+        className="flex shrink-0 items-center gap-2.5 border bg-void/50 px-4 py-3 text-left transition-colors hover:bg-void/80"
       >
-        <app.icon size={14} style={{ color: app.color }} aria-hidden="true" />
-        <span className="whitespace-nowrap text-xs font-bold text-white">{app.brand}</span>
-        <ExternalLink size={11} className="text-gray-500" aria-hidden="true" />
+        <app.icon size={18} style={{ color: app.color }} aria-hidden="true" />
+        <span className="whitespace-nowrap text-[15px] font-bold text-white sm:text-base">{app.brand}</span>
+        <ExternalLink size={13} className="text-gray-500" aria-hidden="true" />
       </a>
     );
   }
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
+      initial={{ opacity: 0, y: -8, height: 0 }}
+      animate={{ opacity: 1, y: 0, height: 'auto' }}
+      exit={{ opacity: 0, y: -8, height: 0 }}
       transition={{ duration: 0.22, ease: 'easeOut' }}
-      className="absolute inset-x-0 top-full z-30 mt-3 border border-white/10 bg-white/[0.03] py-4 backdrop-blur-xl"
+      // mousedown would otherwise blur the search input and unmount this whole
+      // strip 150ms later (OmniSynapseSearch.handleBlur) before a tab switch or
+      // shortcut tap ever felt "즉시" -- swallowing it keeps the input focused,
+      // so every interaction in here lands with the strip still open.
+      onMouseDown={(e) => e.preventDefault()}
+      className="relative z-30 overflow-hidden"
     >
-      <p className="mb-3 px-4 text-[9px] font-bold uppercase tracking-[0.3em] text-gray-500 sm:px-6">
-        {t('shortcutMatrixLabel')}
-      </p>
-
+      {/* In flow (not an absolute overlay): opening the matrix pushes the
+          module walls below downward, so the strip can keep growing new
+          categories without ever covering them -- and its edges align exactly
+          with the search bar above (same content box, no inset-x bleed). */}
+      <div className="mt-3 border border-white/10 bg-white/[0.03] py-5 backdrop-blur-xl">
       {/* Themed tab banner row -- "가시적 그룹핑" (visible grouping) */}
-      <div className="mb-3 flex flex-wrap gap-1.5 px-4 sm:px-6" role="tablist">
+      <div className="mb-4 flex flex-wrap gap-2 px-4 sm:px-6" role="tablist">
         {TABS.map((tab) => (
           <button
             key={tab}
@@ -144,7 +150,7 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
             aria-selected={activeTab === tab}
             onMouseEnter={() => playHoverSfx()}
             onClick={() => selectTab(tab)}
-            className={`border px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors sm:px-3 sm:text-[11px] ${
+            className={`border px-3 py-2 text-[13px] font-bold uppercase tracking-widest transition-colors sm:px-4 sm:text-[15px] ${
               activeTab === tab
                 ? 'border-accent bg-accent/15 text-accent'
                 : 'border-white/15 text-gray-400 hover:border-white/30 hover:text-white'
@@ -155,7 +161,7 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
         ))}
       </div>
 
-      {hint && <p className="mb-2 px-4 text-[11px] text-gray-500 sm:px-6">{hint}</p>}
+      {hint && <p className="mb-3 px-4 text-[13px] text-gray-400 sm:px-6">{hint}</p>}
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -177,11 +183,11 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
                 title={tAssets('downloadAria', { name: tAssets(`items.${asset.key}`) })}
                 onMouseEnter={() => playHoverSfx()}
                 style={{ borderColor: `${asset.color}44` }}
-                className="flex shrink-0 items-center gap-2 border bg-void/50 px-3 py-2 text-left transition-colors hover:bg-void/80"
+                className="flex shrink-0 items-center gap-2.5 border bg-void/50 px-4 py-3 text-left transition-colors hover:bg-void/80"
               >
-                <asset.icon size={14} style={{ color: asset.color }} aria-hidden="true" />
-                <span className="whitespace-nowrap text-xs font-bold text-white">{tAssets(`items.${asset.key}`)}</span>
-                <Download size={11} className="text-gray-500" aria-hidden="true" />
+                <asset.icon size={18} style={{ color: asset.color }} aria-hidden="true" />
+                <span className="whitespace-nowrap text-[15px] font-bold text-white sm:text-base">{tAssets(`items.${asset.key}`)}</span>
+                <Download size={13} className="text-gray-500" aria-hidden="true" />
               </a>
             ))}
           {activeTab !== 'email' &&
@@ -195,14 +201,15 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
                 onMouseEnter={() => playHoverSfx()}
                 onClick={() => onOpenShortcut(axis)}
                 style={{ borderColor: `${axis.color}44` }}
-                className="flex shrink-0 items-center gap-2 border bg-void/50 px-3 py-2 text-left transition-colors hover:bg-void/80"
+                className="flex shrink-0 items-center gap-2.5 border bg-void/50 px-4 py-3 text-left transition-colors hover:bg-void/80"
               >
-                <axis.icon size={14} style={{ color: axis.color }} aria-hidden="true" />
-                <span className="whitespace-nowrap text-xs font-bold text-white">{axisTitle(axis, axisT)}</span>
+                <axis.icon size={18} style={{ color: axis.color }} aria-hidden="true" />
+                <span className="whitespace-nowrap text-[15px] font-bold text-white sm:text-base">{axisTitle(axis, axisT)}</span>
               </button>
             ))}
         </motion.div>
       </AnimatePresence>
+      </div>
     </motion.div>
   );
 }

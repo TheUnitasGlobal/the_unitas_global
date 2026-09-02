@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "ត្រឡប់ក្រោយ",
+    "homeButton": "ត្រឡប់ទៅទំព័រដើម",
+    "multiFeedLabel": "ព័ត៌មានផ្ទាល់ពហុទិដ្ឋភាព",
     "chainHint": "ការស្វែងរកបន្ថែមនីមួយៗនឹងបន្ថែមកាតលទ្ធផលថ្មីនៅខាងក្រោម។",
     "chainPlaceholder": "វាយសំណួរបន្ថែម ហើយចុច Enter…",
     "chainSubmitAria": "ដំណើរការស្វែងរកជាខ្សែសង្វាក់",

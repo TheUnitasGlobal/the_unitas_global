@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "Bumalik",
+    "homeButton": "Umuwi sa home",
+    "multiFeedLabel": "Live feed mula sa maraming anggulo",
     "chainHint": "Bawat follow-up na search ay nagdaragdag ng bagong result card sa ibaba.",
     "chainPlaceholder": "I-type ang follow-up na query at pindutin ang Enter…",
     "chainSubmitAria": "Patakbuhin ang chained search",

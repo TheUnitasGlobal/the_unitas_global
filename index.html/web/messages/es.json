@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "Atrás",
+    "homeButton": "Volver al inicio",
+    "multiFeedLabel": "Perspectivas en vivo multiángulo",
     "chainHint": "Cada búsqueda adicional apila una nueva tarjeta de resultado debajo.",
     "chainPlaceholder": "Escribe una consulta adicional y pulsa Enter…",
     "chainSubmitAria": "Ejecutar búsqueda encadenada",

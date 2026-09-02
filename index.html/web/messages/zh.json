@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "返回",
+    "homeButton": "返回主页",
+    "multiFeedLabel": "多角度实时视角",
     "chainHint": "每次追加搜索都会在下方叠加一张新的结果卡片。",
     "chainPlaceholder": "输入追加查询并按回车…",
     "chainSubmitAria": "执行连锁搜索",

@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "ย้อนกลับ",
+    "homeButton": "กลับหน้าหลัก",
+    "multiFeedLabel": "ฟีดสดหลายมุมมอง",
     "chainHint": "การค้นหาต่อยอดแต่ละครั้งจะซ้อนการ์ดผลลัพธ์ใหม่ไว้ด้านล่าง",
     "chainPlaceholder": "พิมพ์คำค้นหาต่อยอดแล้วกด Enter…",
     "chainSubmitAria": "เรียกใช้การค้นหาแบบต่อเนื่อง",

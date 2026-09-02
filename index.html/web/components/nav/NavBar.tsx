@@ -66,7 +66,7 @@ export function NavBar() {
           : t('appDownloadUnsupported');
 
   return (
-    <nav className="fixed left-0 top-0 z-50 w-full border-b border-accent/20 bg-void/80 py-5 backdrop-blur-md">
+    <nav id="unitas-nav" className="fixed left-0 top-0 z-50 w-full border-b border-accent/20 bg-void/80 py-5 backdrop-blur-md">
       <div className="flex items-center gap-6 px-4 lg:justify-between lg:gap-0 lg:px-6">
         {/* Brand anchor: always shrink-0, never inside the scroll container below --
             stays put on screen through any swipe on the menu cluster. */}

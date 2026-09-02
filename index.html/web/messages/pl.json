@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "Wstecz",
+    "homeButton": "Strona główna",
+    "multiFeedLabel": "Wielowymiarowe kanały na żywo",
     "chainHint": "Każde kolejne wyszukiwanie dokłada nową kartę wyniku poniżej.",
     "chainPlaceholder": "Wpisz kolejne zapytanie i naciśnij Enter…",
     "chainSubmitAria": "Uruchom wyszukiwanie łańcuchowe",

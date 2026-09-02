@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "Zurück",
+    "homeButton": "Zur Startseite",
+    "multiFeedLabel": "Live-Perspektiven aus mehreren Blickwinkeln",
     "chainHint": "Jede weitere Suche stapelt eine neue Ergebniskarte darunter.",
     "chainPlaceholder": "Folgeanfrage eingeben und Enter drücken…",
     "chainSubmitAria": "Verkettete Suche ausführen",

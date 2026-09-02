@@ -401,6 +401,7 @@ export function OmniSynapseSearch({
     <div className="relative mx-auto -mt-[19px] w-full max-w-7xl px-6">
       <form onSubmit={handleSubmit}>
         <div
+          id="omni-synapse-search"
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}

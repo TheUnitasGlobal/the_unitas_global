@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "Tagasi",
+    "homeButton": "Avalehele",
+    "multiFeedLabel": "Mitme vaatenurga reaalajas vood",
     "chainHint": "Iga järelpärimine lisab uue tulemuskaardi allapoole.",
     "chainPlaceholder": "Sisesta järelpärimine ja vajuta Enter…",
     "chainSubmitAria": "Käivita ahelotsing",

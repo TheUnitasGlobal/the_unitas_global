@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "뒤로 가기",
+    "homeButton": "홈으로 복귀",
+    "multiFeedLabel": "다각도 관점 실시간 피드",
     "chainHint": "연쇄 검색은 새로운 결과 카드를 아래에 쌓습니다.",
     "chainPlaceholder": "추가 검색어를 입력하고 Enter...",
     "chainSubmitAria": "연쇄 검색 실행",

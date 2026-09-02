@@ -8,11 +8,12 @@ import {
   Sparkles,
   X,
   ArrowRight,
+  ArrowLeft,
+  Home,
   ChevronLeft,
   ChevronRight,
   RefreshCw,
   ExternalLink,
-  Download,
   Layers,
   Activity,
   TrendingUp,
@@ -20,6 +21,7 @@ import {
   TrendingDown,
   type LucideIcon,
 } from 'lucide-react';
+import { ModalPortal } from '@/components/ui/ModalPortal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import {
   itemsInGroup,
@@ -31,7 +33,6 @@ import {
   type ShortcutGroup,
 } from '@/lib/hotIssues';
 import { DIRECT_APP_SHORTCUTS } from '@/lib/appShortcuts';
-import { UNITAS_ASSETS } from '@/lib/unitasAssets';
 import { useShortcutFeed } from '@/lib/uai/useShortcutFeed';
 import { loadShortcutAnalysis } from '@/lib/uai/shortcutCacheClient';
 import type { AnalyticsLabels, ShortcutAnalysis } from '@/lib/uai/shortcutAnalytics';
@@ -111,13 +112,6 @@ const TREND_ICON: Record<ShortcutAnalysis['pulse']['trend'], LucideIcon> = {
   cooling: TrendingDown,
 };
 
-/** Seconds -> the {hours, minutes} pair the `nextSynthesis` copy expects. */
-function nextSynthesisParts(seconds: number): { hours: number; minutes: number } {
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.max(0, Math.floor((seconds % 3600) / 60));
-  return { hours, minutes };
-}
-
 /** Whole hours since the served snapshot was synthesized (null = local pass). */
 function hoursSince(ts: number | null): number | null {
   if (!ts) return null;
@@ -159,7 +153,6 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
   const tModal = useTranslations('HotShortcutModal');
   const tEmail = useTranslations('Email');
   const tSocial = useTranslations('Social');
-  const tAssets = useTranslations('Assets');
   const { playHoverSfx, playQuestEnterSfx, playTypingTick } = useSpatialAudio();
 
   const axisT: AxisTranslators = {
@@ -206,6 +199,66 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
   const focus = chain.length > 0 ? chain[chain.length - 1] : null;
 
   const feed = useShortcutFeed(open && focus ? focus.query : null, locale, labels);
+
+  /** Stable handle on onClose -- HomeContent passes a fresh arrow every
+   *  render, and the history/frame effects below must not re-run (and
+   *  re-pushState) on each parent render. */
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
+  /** Full-size "dialogue tower" frame: the backdrop seals everything below
+   *  the top nav bar, and the panel itself rises from just under the U-AI
+   *  search bar to the bottom of the screen. Both edges are measured live
+   *  (the modal portals to document.body, outside the .dashboard-zoom
+   *  wrapper, so getBoundingClientRect values are true viewport pixels). */
+  const [frame, setFrame] = useState({ backdropTop: 0, panelTop: 0 });
+
+  useEffect(() => {
+    if (!open) return;
+    const measure = () => {
+      const nav = document.getElementById('unitas-nav');
+      const search = document.getElementById('omni-synapse-search');
+      const navBottom = nav ? Math.max(0, nav.getBoundingClientRect().bottom) : 0;
+      const searchBottom = search ? search.getBoundingClientRect().bottom + 10 : navBottom;
+      // Clamp so a scrolled-away search bar still leaves a usable tower.
+      const panelTop = Math.max(navBottom, Math.min(searchBottom, window.innerHeight * 0.45));
+      setFrame({ backdropTop: navBottom, panelTop });
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [open]);
+
+  // The tower is fixed and fills the viewport below the nav -- freeze the
+  // page behind it so the backdrop and panel never drift mid-interaction.
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+
+  // Mobile/desktop hardware & browser back: opening the tower parks one
+  // same-URL history entry, so the device's own back gesture closes the
+  // modal instead of ejecting the visitor off the site entirely. The marker
+  // check keeps repeated open/close cycles from stacking entries.
+  useEffect(() => {
+    if (!open) return;
+    try {
+      const state = window.history.state as { unitasShortcutModal?: boolean } | null;
+      if (!state?.unitasShortcutModal) {
+        window.history.pushState({ ...(state ?? {}), unitasShortcutModal: true }, '');
+      }
+    } catch {
+      // history unavailable (embedded webview edge cases) -- the on-screen
+      // back/home buttons below still cover navigation.
+    }
+    const onPop = () => onCloseRef.current();
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, [open]);
 
   const nextTierId = useCallback((label: string) => {
     tierSeqRef.current += 1;
@@ -386,75 +439,107 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     setChainQuery('');
   }
 
+  /** [← 뒤로 가기]: steps one tier back up the ladder; on the last tier it
+   *  closes the tower (same effect as the device back gesture). */
+  function goBackTier() {
+    playHoverSfx();
+    if (chain.length <= 1) {
+      onClose();
+      return;
+    }
+    const next = chain.slice(0, -1);
+    const landing = next[next.length - 1];
+    if (landing && 'group' in landing.descriptor) {
+      const idx = groupItems.findIndex((a) => a.key === (landing.descriptor as { key: string }).key);
+      if (idx !== -1) {
+        cursorRef.current = idx;
+        setCursorIndex(idx);
+      }
+    }
+    setChain(next);
+  }
+
+  /** [⌂ 홈으로 복귀]: collapses the whole tower back to the home screen. */
+  function goHome() {
+    playHoverSfx();
+    onClose();
+  }
+
   const accent = shortcut?.color ?? '#22d3ee';
   const accentGlow = shortcut?.glow ?? '#67e8f9';
 
   return (
+    <ModalPortal>
     <AnimatePresence>
       {open && shortcut && (
         <motion.div
-          className="fixed inset-0 z-[200] flex items-end justify-center bg-void/85 p-0 backdrop-blur-md sm:items-center sm:p-6"
+          key="shortcut-tower"
+          className="fixed inset-x-0 bottom-0 z-[120]"
+          style={{ top: frame.backdropTop }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={onClose}
-          role="presentation"
         >
+          {/* Backdrop seal -- swallows every click/tap so the module walls and
+              bottom menu underneath are completely inert while the tower is
+              up (no more accidental popup dismissal); deliberately NOT wired
+              to onClose. It starts below the nav bar, which stays live. */}
+          <div className="absolute inset-0 bg-void/85 backdrop-blur-md" role="presentation" aria-hidden="true" />
+
+          {/* The full-size "dialogue tower": from just under the U-AI search
+              bar down to the bottom edge of the screen, full width. */}
           <motion.div
-            className="relative flex max-h-[94vh] w-full max-w-lg flex-col overflow-hidden border bg-quantum/95 sm:max-h-[88vh] sm:max-w-xl lg:max-w-2xl"
+            className="absolute inset-x-0 bottom-0 flex flex-col overflow-hidden border-t bg-quantum/95"
             style={{
+              top: Math.max(0, frame.panelTop - frame.backdropTop),
               borderColor: `${accent}66`,
-              boxShadow: `0 0 60px ${accentGlow}33, inset 0 0 40px ${accent}11`,
+              boxShadow: `0 -24px 90px ${accentGlow}22, inset 0 0 40px ${accent}0d`,
             }}
-            initial={{ opacity: 0, scale: 0.94, y: 16 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 16 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 26 }}
-            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0, y: 36 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 36 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             role="dialog"
             aria-modal="true"
             aria-labelledby="hot-shortcut-result-title"
           >
-            {/* Header -- literal HUD-style badge, matching the site's existing
-                English telemetry labels (SYN-LOAD, NODES, ...) regardless of
-                locale, per owner's exact copy -- plus the live sync HUD. */}
+            <div className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col">
+            {/* Fixed top navigation row -- explicit back / home controls
+                (mobile & desktop), so leaving the tower is always one clear
+                tap and the device's own back button never ejects anyone. */}
             <div
-              className="flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 sm:px-6 sm:py-4"
+              className="flex shrink-0 items-center gap-2 border-b px-4 py-3 sm:px-6 sm:py-4"
               style={{ borderColor: `${accent}33` }}
             >
+              <button
+                type="button"
+                onClick={goBackTier}
+                onMouseEnter={() => playHoverSfx()}
+                className="flex shrink-0 items-center gap-1.5 border px-3 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors hover:bg-white/5 sm:text-[13px]"
+                style={{ borderColor: `${accent}55`, color: accent }}
+              >
+                <ArrowLeft size={15} aria-hidden="true" />
+                {tModal('backButton')}
+              </button>
+              <button
+                type="button"
+                onClick={goHome}
+                onMouseEnter={() => playHoverSfx()}
+                className="flex shrink-0 items-center gap-1.5 border px-3 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors hover:bg-white/5 sm:text-[13px]"
+                style={{ borderColor: `${accent}55`, color: accent }}
+              >
+                <Home size={15} aria-hidden="true" />
+                {tModal('homeButton')}
+              </button>
               <p
                 id="hot-shortcut-result-title"
-                className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.3em]"
+                className="ml-auto hidden items-center gap-2 text-[11px] font-bold uppercase tracking-[0.3em] md:flex"
                 style={{ color: accent, textShadow: `0 0 16px ${accentGlow}55` }}
               >
                 <Sparkles size={13} aria-hidden="true" />
                 U-AI SEARCH RESULT
               </p>
-              <div className="flex items-center gap-2">
-                <span
-                  className="hidden items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.25em] text-gray-400 sm:flex"
-                  aria-live="polite"
-                >
-                  <span
-                    className={`inline-block h-1.5 w-1.5 rounded-full ${feed.refreshing ? 'animate-ping' : 'animate-pulse'}`}
-                    style={{ backgroundColor: accent }}
-                    aria-hidden="true"
-                  />
-                  {feed.refreshing
-                    ? tModal('syncing')
-                    : feed.cooldown
-                      ? tModal('refreshCooldown')
-                      : feed.source === 'cache'
-                        ? tModal('cachedBadge')
-                        : feed.source === 'fresh' || feed.source === 'cooldown'
-                          ? tModal('freshBadge')
-                          : tModal('liveBadge')}
-                  {!feed.refreshing && feed.nextSyncIn > 0 && (
-                    <span className="normal-case tracking-normal text-gray-500">
-                      · {tModal('nextSynthesis', nextSynthesisParts(feed.nextSyncIn))}
-                    </span>
-                  )}
-                </span>
+              <div className="ml-auto flex items-center gap-2 md:ml-0">
                 <button
                   type="button"
                   onClick={() => {
@@ -464,19 +549,19 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
                   disabled={feed.refreshing}
                   aria-label={tModal('refreshAria')}
                   title={tModal('refreshAria')}
-                  className="flex h-7 w-7 shrink-0 items-center justify-center border text-xs transition-opacity disabled:opacity-50"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center border text-xs transition-opacity disabled:opacity-50"
                   style={{ borderColor: `${accent}55`, color: accent }}
                 >
-                  <RefreshCw size={13} className={feed.refreshing ? 'animate-spin' : ''} aria-hidden="true" />
+                  <RefreshCw size={15} className={feed.refreshing ? 'animate-spin' : ''} aria-hidden="true" />
                 </button>
                 <button
                   type="button"
                   onClick={onClose}
                   aria-label={tModal('closeAria')}
-                  className="flex h-7 w-7 shrink-0 items-center justify-center border text-xs"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center border text-xs"
                   style={{ borderColor: `${accent}55`, color: accent }}
                 >
-                  <X size={14} />
+                  <X size={16} />
                 </button>
               </div>
             </div>
@@ -541,6 +626,13 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
                   feed={index === chain.length - 1 ? feed : null}
                   tModal={tModal}
                   tUai={tUai}
+                  extraChips={
+                    'group' in tier.descriptor
+                      ? groupItems
+                          .filter((a) => a.key !== (tier.descriptor as { key: string }).key)
+                          .map((a) => ({ label: axisTitle(a, axisT), query: axisTitle(a, axisT) }))
+                      : []
+                  }
                   onNest={(q) => nestKeyword(tier, q)}
                   onHover={playHoverSfx}
                 />
@@ -580,9 +672,10 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
               </div>
             </form>
 
-            {/* Direct app & asset loop -- out to a webmail / social app or a
-                UNITAS asset download and straight back; the ladder above is
-                persisted so nothing is lost on the round trip. */}
+            {/* Direct app loop -- out to a webmail / social app and straight
+                back; the ladder above is persisted so nothing is lost on the
+                round trip. The asset download icons were removed per owner
+                cleansing instruction 2026-09-02. */}
             <div className="shrink-0 border-t px-4 pb-3 pt-2 sm:px-6" style={{ borderColor: `${accent}22` }}>
               <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.3em] text-gray-500">
                 {tModal('appLoopLabel')}
@@ -598,33 +691,19 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
                     aria-label={(app.family === 'email' ? tEmail : tSocial)('openAria', { brand: app.brand })}
                     onMouseEnter={() => playHoverSfx()}
                     style={{ borderColor: `${app.color}55`, color: app.color }}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center border bg-void/50 transition-colors hover:bg-void/90"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center border bg-void/50 transition-colors hover:bg-void/90"
                   >
-                    <app.icon size={13} aria-hidden="true" />
-                  </a>
-                ))}
-                <span className="mx-1 w-px shrink-0 self-stretch bg-white/10" aria-hidden="true" />
-                {UNITAS_ASSETS.map((asset) => (
-                  <a
-                    key={asset.key}
-                    href={asset.href}
-                    download={asset.fileName}
-                    title={tAssets('downloadAria', { name: tAssets(`items.${asset.key}`) })}
-                    aria-label={tAssets('downloadAria', { name: tAssets(`items.${asset.key}`) })}
-                    onMouseEnter={() => playHoverSfx()}
-                    style={{ borderColor: `${asset.color}55`, color: asset.color }}
-                    className="flex h-8 shrink-0 items-center gap-1 border bg-void/50 px-2 transition-colors hover:bg-void/90"
-                  >
-                    <asset.icon size={12} aria-hidden="true" />
-                    <Download size={10} aria-hidden="true" />
+                    <app.icon size={15} aria-hidden="true" />
                   </a>
                 ))}
               </div>
+            </div>
             </div>
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
+    </ModalPortal>
   );
 }
 
@@ -634,11 +713,14 @@ interface TierCardProps {
   feed: ReturnType<typeof useShortcutFeed> | null;
   tModal: ReturnType<typeof useTranslations>;
   tUai: ReturnType<typeof useTranslations>;
+  /** Sibling-axis ladder chips (the rest of the tier's group) -- merged into
+   *  the keyword chip wall so every tier offers dozens of onward clicks. */
+  extraChips: Array<{ label: string; query: string }>;
   onNest: (query: string) => void;
   onHover: () => void;
 }
 
-function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCardProps) {
+function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHover }: TierCardProps) {
   const TierIcon = tier.icon;
   const analysis = focused && feed?.analysis ? feed.analysis : tier.analysis;
   // Every tier carries its own parked deep report now (the cache route
@@ -646,7 +728,6 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
   // showing it -- not only the one in focus.
   const report: ConstitutionRedesignReport | null = focused && feed ? feed.report : (analysis?.deep ?? null);
   const hits = focused && feed ? feed.hits : (analysis?.hits ?? 0);
-  const pending = focused && feed ? feed.pending : Boolean(analysis && analysis.source !== 'local' && !analysis.deep);
   const leadSnippet = analysis?.web.sources[0]?.snippet ?? '';
   const isNested = tier.kind === 'query' || tier.kind === 'keyword';
   const TrendIcon = analysis ? TREND_ICON[analysis.pulse.trend] : Activity;
@@ -669,7 +750,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
           {isNested && <Search size={14} className="shrink-0" style={{ color: tier.color }} aria-hidden="true" />}
           {TierIcon && <TierIcon size={18} className="shrink-0" style={{ color: tier.color }} aria-hidden="true" />}
           <h2
-            className="break-words font-serif text-base font-bold text-white sm:text-lg"
+            className="break-words font-serif text-lg font-bold text-white sm:text-2xl"
             style={{ textShadow: `0 0 16px ${tier.glow}55` }}
           >
             {tier.title}
@@ -704,7 +785,6 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
             <span
               className="border px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest"
               style={{ color: `${tier.color}cc`, borderColor: `${tier.color}33` }}
-              title={tModal('cachedBadge')}
             >
               {cachedHours === 0 ? tModal('synthesizedJustNow') : tModal('synthesizedAgo', { hours: cachedHours })}
             </span>
@@ -721,10 +801,10 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
             {tModal('nestedFrom', { parent: tier.description })}
           </p>
         ) : (
-          <p className="text-[13px] leading-relaxed text-gray-300 sm:text-[14px]">{tier.description}</p>
+          <p className="text-[14px] leading-relaxed text-gray-300 sm:text-[16px]">{tier.description}</p>
         )}
         {analysis ? (
-          <p className={`text-[13px] leading-relaxed text-gray-200 sm:text-[14px] ${isNested ? 'mt-1' : 'mt-2'}`}>
+          <p className={`text-[14px] leading-relaxed text-gray-200 sm:text-[16px] ${isNested ? 'mt-1' : 'mt-2'}`}>
             {leadSnippet || tUai('constitutionAxisNote', { axis: tUai(`constitution.${analysis.report.redesignAxis}`) })}
           </p>
         ) : (
@@ -759,19 +839,20 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
             </div>
           </div>
 
-          {/* Live trend feed -- real titles + URLs from the open web. */}
+          {/* PRIMARY live trend feed -- real titles + URLs from the open web,
+              directly tied to this tier's main description. */}
           <div>
             <p className="mb-1 text-[9px] font-bold uppercase tracking-[0.25em] text-gray-500">{tModal('feedLabel')}</p>
             {analysis.web.sources.length > 0 ? (
               <ul className="space-y-1">
-                {analysis.web.sources.slice(0, 3).map((source) => (
+                {analysis.web.sources.slice(0, 5).map((source) => (
                   <li key={source.url}>
                     <a
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       onMouseEnter={onHover}
-                      className="group flex items-start gap-1.5 text-[12px] text-gray-300 transition-colors hover:text-white"
+                      className="group flex items-start gap-1.5 text-[13px] text-gray-300 transition-colors hover:text-white"
                     >
                       <ExternalLink size={11} className="mt-0.5 shrink-0 text-gray-500 group-hover:text-accent" aria-hidden="true" />
                       <span className="line-clamp-2">
@@ -789,8 +870,64 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
             )}
           </div>
 
-          {/* Keyword expansion -- every chip nests a new tier beneath. */}
-          {analysis.keywords.length > 0 && (
+          {/* SECONDARY multi-angle feed -- the same subject re-read through
+              every scored doctrine axis (each angle nests a new tier), plus
+              any live sources beyond the primary five. */}
+          <div>
+            <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.25em] text-gray-500">
+              {tModal('multiFeedLabel')}
+            </p>
+            <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
+              {analysis.report.constitution.slice(0, 6).map((cs) => (
+                <button
+                  key={cs.axis}
+                  type="button"
+                  onMouseEnter={onHover}
+                  onClick={() => onNest(`${tier.title} ${tUai(`constitution.${cs.axis}`)}`)}
+                  title={tModal('keywordHint')}
+                  className="flex items-center justify-between gap-2 border border-white/10 px-2.5 py-1.5 text-left transition-colors hover:bg-white/5"
+                >
+                  <span className="truncate text-[12px] font-bold text-gray-200">
+                    {tUai(`constitution.${cs.axis}`)}
+                  </span>
+                  <span className="flex shrink-0 items-center gap-1.5">
+                    <span className="h-1 w-10 bg-white/10">
+                      <span
+                        className="block h-full"
+                        style={{ width: `${cs.score}%`, backgroundColor: tier.color }}
+                      />
+                    </span>
+                    <span className="text-[10px] font-bold" style={{ color: tier.color }}>
+                      {cs.score}
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+            {analysis.web.sources.length > 5 && (
+              <ul className="mt-2 space-y-1">
+                {analysis.web.sources.slice(5, 11).map((source) => (
+                  <li key={source.url}>
+                    <a
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onMouseEnter={onHover}
+                      className="group flex items-start gap-1.5 text-[12px] text-gray-400 transition-colors hover:text-white"
+                    >
+                      <ExternalLink size={10} className="mt-0.5 shrink-0 text-gray-600 group-hover:text-accent" aria-hidden="true" />
+                      <span className="line-clamp-1">{source.title}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Keyword expansion wall -- live-feed entities, doctrine axes AND
+              every sibling axis of this tier's group: each chip nests a new
+              tier beneath, so the ladder invites endless clicking. */}
+          {(analysis.keywords.length > 0 || extraChips.length > 0) && (
             <div>
               <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.25em] text-gray-500">
                 {tModal('keywordsLabel')}
@@ -803,7 +940,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
                     onMouseEnter={onHover}
                     onClick={() => onNest(chip.query)}
                     title={tModal('keywordHint')}
-                    className="flex items-center gap-1 border px-2 py-1 text-[11px] font-bold transition-colors hover:bg-white/5"
+                    className="flex items-center gap-1 border px-2.5 py-1.5 text-[12px] font-bold transition-colors hover:bg-white/5"
                     style={{
                       borderColor: chip.kind === 'entity' ? `${tier.color}66` : 'rgba(255,255,255,0.15)',
                       color: chip.kind === 'entity' ? tier.color : '#d1d5db',
@@ -813,39 +950,47 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onHover }: TierCa
                     <ArrowRight size={10} className="opacity-60" aria-hidden="true" />
                   </button>
                 ))}
+                {extraChips.map((chip) => (
+                  <button
+                    key={`sibling-${chip.query}`}
+                    type="button"
+                    onMouseEnter={onHover}
+                    onClick={() => onNest(chip.query)}
+                    title={tModal('keywordHint')}
+                    className="flex items-center gap-1 border border-white/15 px-2.5 py-1.5 text-[12px] font-bold text-gray-400 transition-colors hover:bg-white/5 hover:text-white"
+                  >
+                    {chip.label}
+                    <ArrowRight size={10} className="opacity-60" aria-hidden="true" />
+                  </button>
+                ))}
               </div>
             </div>
           )}
 
-          {/* UNITAS deep analysis -- the LLM-forged 6-axis sovereign
-              redesign the nightly batch parks in Genesis Memory, served at
-              0원 on every tier that has one; otherwise the queue notice. */}
-          {(report || pending || (focused && feed?.refreshing === false)) && (
+          {/* UNITAS deep analysis -- the LLM-forged 6-axis sovereign redesign
+              the nightly batch parks in Genesis Memory, served at 0원 on every
+              tier that has one. (The queue-waiting notice box was removed per
+              owner cleansing instruction 2026-09-02 -- no report, no box.) */}
+          {report && (
             <div className="border p-3" style={{ borderColor: `${tier.color}33`, backgroundColor: `${tier.color}0a` }}>
               <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.3em]" style={{ color: tier.color }}>
                 {tModal('deepLabel')}
               </p>
-              {report ? (
-                <div className="space-y-2">
-                  <p className="text-[13px] italic leading-relaxed text-gray-100 [text-wrap:balance]">{report.vector}</p>
-                  <p className="text-[12px] leading-relaxed text-gray-300">{report.synthesis}</p>
-                  <ul className="grid gap-1.5 sm:grid-cols-2">
-                    {report.axes.map((ax) => (
-                      <li key={ax.axis} className="border border-white/10 p-2">
-                        <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: tier.color }}>
-                          {tUai(`constitution.${ax.axis}`)}
-                        </p>
-                        <p className="mt-1 text-[11px] leading-snug text-gray-300">{ax.redesign}</p>
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-[10px] text-gray-500">{tUai('insightCachedNote')}</p>
-                </div>
-              ) : (
-                <p className="text-[11px] leading-relaxed text-gray-400">
-                  {tModal('deepQueued')}
-                </p>
-              )}
+              <div className="space-y-2">
+                <p className="text-[13px] italic leading-relaxed text-gray-100 [text-wrap:balance]">{report.vector}</p>
+                <p className="text-[12px] leading-relaxed text-gray-300">{report.synthesis}</p>
+                <ul className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
+                  {report.axes.map((ax) => (
+                    <li key={ax.axis} className="border border-white/10 p-2">
+                      <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: tier.color }}>
+                        {tUai(`constitution.${ax.axis}`)}
+                      </p>
+                      <p className="mt-1 text-[11px] leading-snug text-gray-300">{ax.redesign}</p>
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-[10px] text-gray-500">{tUai('insightCachedNote')}</p>
+              </div>
             </div>
           )}
         </div>

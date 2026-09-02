@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "Retour",
+    "homeButton": "Accueil",
+    "multiFeedLabel": "Perspectives live multi-angles",
     "chainHint": "Chaque recherche complémentaire empile une nouvelle carte de résultat en dessous.",
     "chainPlaceholder": "Saisissez une requête complémentaire et appuyez sur Entrée…",
     "chainSubmitAria": "Lancer la recherche enchaînée",

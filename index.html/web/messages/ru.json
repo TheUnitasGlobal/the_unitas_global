@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "Назад",
+    "homeButton": "На главную",
+    "multiFeedLabel": "Многоракурсные живые ленты",
     "chainHint": "Каждый следующий запрос добавляет новую карточку результата снизу.",
     "chainPlaceholder": "Введите следующий запрос и нажмите Enter…",
     "chainSubmitAria": "Запустить цепочку поиска",

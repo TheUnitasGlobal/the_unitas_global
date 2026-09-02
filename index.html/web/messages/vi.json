@@ -1019,6 +1019,9 @@
     }
   },
   "HotShortcutModal": {
+    "backButton": "Quay lại",
+    "homeButton": "Về trang chủ",
+    "multiFeedLabel": "Nguồn cấp trực tiếp đa góc nhìn",
     "chainHint": "Mỗi lượt tìm kiếm tiếp theo sẽ xếp thêm một thẻ kết quả mới bên dưới.",
     "chainPlaceholder": "Nhập truy vấn tiếp theo và nhấn Enter…",
     "chainSubmitAria": "Chạy tìm kiếm nối chuỗi",
