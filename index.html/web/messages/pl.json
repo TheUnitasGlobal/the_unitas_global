@@ -363,7 +363,11 @@
       "hotIssue": "Gorące Tematy",
       "email": "E-mail",
       "finance": "Finanse",
-      "career": "Kariera"
+      "career": "Kariera",
+      "social": "Social",
+      "realEstate": "Nieruchomości",
+      "dating": "Randki",
+      "assets": "Zasoby"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Każde kolejne wyszukiwanie dokłada nową kartę wyniku poniżej.",
     "chainPlaceholder": "Wpisz kolejne zapytanie i naciśnij Enter…",
     "chainSubmitAria": "Uruchom wyszukiwanie łańcuchowe",
-    "closeAria": "Zamknij"
+    "closeAria": "Zamknij",
+    "liveBadge": "Na żywo",
+    "syncIn": "Synchronizacja za {seconds}s",
+    "syncing": "Synchronizacja…",
+    "refreshAria": "Odśwież analizę teraz",
+    "depthLabel": "Poziom {depth}",
+    "nestedFrom": "Rozwinięte z {parent}",
+    "analyzing": "Silnik UNITAS analizuje…",
+    "pulseLabel": "Puls globalny",
+    "pulse": {
+      "rising": "Rośnie",
+      "stable": "Stabilnie",
+      "cooling": "Stygnie"
+    },
+    "hitsLabel": "{count} wyszukiwań globalnych",
+    "feedLabel": "Feed trendów na żywo",
+    "feedEmpty": "Źródła na żywo się rozgrzewają — tymczasem analiza doktrynalna działa offline.",
+    "keywordsLabel": "Rozwiń drabinę",
+    "keywordHint": "Dotknij, aby zagnieździć nowy poziom poniżej",
+    "deepLabel": "Głęboka analiza UNITAS",
+    "deepPending": "{hits} / 3 wyszukiwań globalnych. Przy 3. silnik 100 doktryn wykuwa raz 6-osiową głęboką analizę tego słowa kluczowego — potem jest darmowa dla wszystkich.",
+    "appLoopLabel": "Bezpośrednia pętla aplikacji i zasobów",
+    "restoredNote": "Drabina przywrócona po zmianie języka — nic nie przepadło."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "Dostęp jednym kliknięciem do najważniejszych usług poczty internetowej na świecie.",
     "openAria": "Otwórz {brand}"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Mieszkania",
+        "description": "Puls cen mieszkań i popytu na nie w miastach świata, na żywo."
+      },
+      "rental": {
+        "title": "Wynajem",
+        "description": "Rynek najmu w czasie rzeczywistym, gdzie spotykają się mobilność, dochód i lokalizacja."
+      },
+      "mortgage": {
+        "title": "Kredyt hipoteczny",
+        "description": "Nurt stóp procentowych, który decyduje, kto i kiedy może zostać właścicielem."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Romans",
+        "description": "Zmieniający się język przyciągania — od pierwszego sygnału po trwałą więź."
+      },
+      "matchmaking": {
+        "title": "Dobieranie par",
+        "description": "Algorytmy i rytuały łączące ludzi ponad kulturami w czasie rzeczywistym."
+      },
+      "relationship": {
+        "title": "Związek",
+        "description": "Żywa struktura zaufania, komunikacji i wspólnej przyszłości."
+      }
+    }
+  },
+  "Social": {
+    "hint": "Dostęp jednym kliknięciem do największych aplikacji społecznościowych świata.",
+    "openAria": "Otwórz {brand}"
+  },
+  "Assets": {
+    "hint": "Pobieranie oficjalnych zasobów UNITAS jednym kliknięciem.",
+    "downloadAria": "Pobierz {name}",
+    "items": {
+      "mark": "Znak marki (SVG)",
+      "icon": "Ikona aplikacji (512px)",
+      "manifest": "Manifest aplikacji webowej",
+      "ownership": "Manifest własności"
+    }
   }
 }

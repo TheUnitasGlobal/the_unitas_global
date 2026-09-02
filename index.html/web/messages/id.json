@@ -363,7 +363,11 @@
       "hotIssue": "Isu Hangat",
       "email": "Email",
       "finance": "Keuangan",
-      "career": "Karier"
+      "career": "Karier",
+      "social": "Sosial",
+      "realEstate": "Properti",
+      "dating": "Kencan",
+      "assets": "Aset"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Setiap pencarian lanjutan menumpuk kartu hasil baru di bawahnya.",
     "chainPlaceholder": "Ketik kueri lanjutan lalu tekan Enter…",
     "chainSubmitAria": "Jalankan pencarian berantai",
-    "closeAria": "Tutup"
+    "closeAria": "Tutup",
+    "liveBadge": "Langsung",
+    "syncIn": "Sinkron dalam {seconds}d",
+    "syncing": "Menyinkronkan…",
+    "refreshAria": "Segarkan analisis sekarang",
+    "depthLabel": "Kedalaman {depth}",
+    "nestedFrom": "Diperluas dari {parent}",
+    "analyzing": "Mesin UNITAS sedang menganalisis…",
+    "pulseLabel": "Denyut global",
+    "pulse": {
+      "rising": "Naik",
+      "stable": "Stabil",
+      "cooling": "Mendingin"
+    },
+    "hitsLabel": "{count} pencarian global",
+    "feedLabel": "Umpan tren langsung",
+    "feedEmpty": "Sumber langsung sedang dipanaskan — sementara itu, analisis doktrin berjalan offline.",
+    "keywordsLabel": "Perluas tangga",
+    "keywordHint": "Ketuk untuk menyarangkan tingkat baru di bawah",
+    "deepLabel": "Analisis mendalam UNITAS",
+    "deepPending": "{hits} / 3 pencarian global. Pada yang ke-3, mesin 100 doktrin menempa analisis mendalam 6 sumbu untuk kata kunci ini sekali saja — setelahnya gratis untuk semua.",
+    "appLoopLabel": "Lingkar aplikasi & aset langsung",
+    "restoredNote": "Tangga dipulihkan setelah ganti bahasa — tidak ada yang hilang."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "Akses sekali klik ke layanan webmail utama dunia.",
     "openAria": "Buka {brand}"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Perumahan",
+        "description": "Denyut langsung harga rumah dan permintaan hunian di kota-kota dunia."
+      },
+      "rental": {
+        "title": "Sewa",
+        "description": "Pasar sewa waktu nyata tempat mobilitas, pendapatan, dan lokasi bertemu."
+      },
+      "mortgage": {
+        "title": "KPR",
+        "description": "Arus suku bunga yang menentukan siapa yang bisa memiliki dan kapan."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Romansa",
+        "description": "Bahasa ketertarikan yang terus berkembang, dari sinyal pertama hingga ikatan abadi."
+      },
+      "matchmaking": {
+        "title": "Perjodohan",
+        "description": "Algoritma dan ritual yang mempertemukan orang lintas budaya secara waktu nyata."
+      },
+      "relationship": {
+        "title": "Hubungan",
+        "description": "Struktur hidup dari kepercayaan, komunikasi, dan masa depan bersama."
+      }
+    }
+  },
+  "Social": {
+    "hint": "Akses satu klik ke aplikasi media sosial utama dunia.",
+    "openAria": "Buka {brand}"
+  },
+  "Assets": {
+    "hint": "Unduh aset resmi UNITAS dengan satu klik.",
+    "downloadAria": "Unduh {name}",
+    "items": {
+      "mark": "Tanda merek (SVG)",
+      "icon": "Ikon aplikasi (512px)",
+      "manifest": "Manifes aplikasi web",
+      "ownership": "Manifes kepemilikan"
+    }
   }
 }

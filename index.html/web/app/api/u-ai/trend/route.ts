@@ -145,6 +145,62 @@ export async function POST(req: Request): Promise<NextResponse<TrendApiResponse>
   }
 }
 
+/**
+ * Read-only feed poll for the shortcut matrix's auto-refreshing analysis
+ * (lib/uai/useShortcutFeed.ts). Same (locale, query) hash as POST, but it
+ * NEVER bumps the counter or claims a forge slot -- a popup left open and
+ * polling every minute must not inflate search_trends or spend a daily
+ * redesign forge. It only reports the live hit count and hands back the
+ * 6-axis report the moment some other searcher's POST has forged it, so an
+ * open ladder tier upgrades to the deep analysis without a reload.
+ */
+export async function GET(req: Request): Promise<NextResponse<TrendApiResponse>> {
+  const url = new URL(req.url);
+  const query = (url.searchParams.get('q') ?? '').trim().slice(0, MAX_QUERY_LEN);
+  const rawLocale = url.searchParams.get('locale') ?? '';
+  const locale = LOCALES.has(rawLocale) ? rawLocale : routing.defaultLocale;
+  if (query.length < 2) {
+    return NextResponse.json({ ok: false, hits: 0, report: null }, { status: 400 });
+  }
+
+  let admin;
+  try {
+    admin = getSupabaseServerClient();
+  } catch {
+    return NextResponse.json({ ok: true, hits: 0, report: null });
+  }
+
+  const hash = redesignHash(locale, query);
+  let hits = 0;
+  try {
+    const { data } = await admin.from('search_trends').select('hits').eq('query_hash', hash).maybeSingle();
+    hits = typeof data?.hits === 'number' ? data.hits : 0;
+  } catch {
+    // table not applied yet -> 0 hits, still fail-open.
+  }
+
+  try {
+    const { data: cached } = await admin
+      .from('genesis_memory')
+      .select('payload, model')
+      .eq('query_hash', hash)
+      .maybeSingle();
+    if (cached?.payload) {
+      const payload = cached.payload as ConstitutionRedesignReport;
+      return NextResponse.json({
+        ok: true,
+        hits: Math.max(hits, payload.hits ?? 0),
+        cached: true,
+        report: { ...payload, model: (cached.model as string) || payload.model || 'genesis-memory', cached: true },
+      });
+    }
+  } catch {
+    // genesis_memory not applied yet -> treat as a miss.
+  }
+
+  return NextResponse.json({ ok: true, hits, report: null, pending: hits >= TREND_THRESHOLD });
+}
+
 async function releaseSlot(admin: ReturnType<typeof getSupabaseServerClient>, hash: string) {
   try {
     await admin.rpc('release_search_trend', { p_query_hash: hash });

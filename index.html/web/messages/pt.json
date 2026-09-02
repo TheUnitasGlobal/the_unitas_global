@@ -363,7 +363,11 @@
       "hotIssue": "Temas Quentes",
       "email": "E-mail",
       "finance": "Finanças",
-      "career": "Carreira"
+      "career": "Carreira",
+      "social": "Social",
+      "realEstate": "Imóveis",
+      "dating": "Relacionamentos",
+      "assets": "Recursos"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Cada pesquisa de continuação acrescenta um novo cartão de resultado abaixo.",
     "chainPlaceholder": "Escreva uma pesquisa de continuação e prima Enter…",
     "chainSubmitAria": "Executar pesquisa encadeada",
-    "closeAria": "Fechar"
+    "closeAria": "Fechar",
+    "liveBadge": "Ao vivo",
+    "syncIn": "Sincroniza em {seconds}s",
+    "syncing": "A sincronizar…",
+    "refreshAria": "Atualizar a análise agora",
+    "depthLabel": "Nível {depth}",
+    "nestedFrom": "Aninhado de {parent}",
+    "analyzing": "O motor UNITAS está a analisar…",
+    "pulseLabel": "Pulso global",
+    "pulse": {
+      "rising": "Em alta",
+      "stable": "Estável",
+      "cooling": "A arrefecer"
+    },
+    "hitsLabel": "{count} pesquisas globais",
+    "feedLabel": "Feed de tendências ao vivo",
+    "feedEmpty": "As fontes ao vivo estão a aquecer — entretanto, a análise doutrinal corre offline.",
+    "keywordsLabel": "Expandir a escada",
+    "keywordHint": "Toque para aninhar um novo nível abaixo",
+    "deepLabel": "Análise profunda UNITAS",
+    "deepPending": "{hits} / 3 pesquisas globais. Na 3.ª, o motor das 100 doutrinas forja uma única vez a análise profunda de 6 eixos desta palavra-chave — depois é grátis para todos.",
+    "appLoopLabel": "Ciclo direto de apps e recursos",
+    "restoredNote": "Escada restaurada após a mudança de idioma — nada se perdeu."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "Acesso em um clique aos principais serviços de webmail do mundo.",
     "openAria": "Abrir {brand}"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Habitação",
+        "description": "O pulso ao vivo dos preços das casas e da procura residencial nas cidades do mundo."
+      },
+      "rental": {
+        "title": "Arrendamento",
+        "description": "O mercado de arrendamento em tempo real onde mobilidade, rendimento e localização se cruzam."
+      },
+      "mortgage": {
+        "title": "Crédito habitação",
+        "description": "A corrente das taxas de juro que decide quem pode ser proprietário e quando."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Romance",
+        "description": "A linguagem em evolução da atração, do primeiro sinal ao vínculo duradouro."
+      },
+      "matchmaking": {
+        "title": "Matchmaking",
+        "description": "Os algoritmos e rituais que unem pessoas entre culturas em tempo real."
+      },
+      "relationship": {
+        "title": "Relação",
+        "description": "A estrutura viva de confiança, comunicação e futuros partilhados."
+      }
+    }
+  },
+  "Social": {
+    "hint": "Acesso com um clique às principais apps de redes sociais do mundo.",
+    "openAria": "Abrir {brand}"
+  },
+  "Assets": {
+    "hint": "Download com um clique dos recursos oficiais da UNITAS.",
+    "downloadAria": "Transferir {name}",
+    "items": {
+      "mark": "Marca (SVG)",
+      "icon": "Ícone da app (512px)",
+      "manifest": "Manifesto da web app",
+      "ownership": "Manifesto de propriedade"
+    }
   }
 }

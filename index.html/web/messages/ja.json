@@ -363,7 +363,11 @@
       "hotIssue": "ホットイシュー",
       "email": "メール",
       "finance": "金融",
-      "career": "キャリア"
+      "career": "キャリア",
+      "social": "ソーシャル",
+      "realEstate": "不動産",
+      "dating": "恋愛",
+      "assets": "アセット"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "追加検索のたびに、新しい結果カードが下に積み重なります。",
     "chainPlaceholder": "追加の検索語を入力してEnterを押してください…",
     "chainSubmitAria": "連鎖検索を実行",
-    "closeAria": "閉じる"
+    "closeAria": "閉じる",
+    "liveBadge": "ライブ",
+    "syncIn": "{seconds}秒後に同期",
+    "syncing": "同期中…",
+    "refreshAria": "今すぐ分析を更新",
+    "depthLabel": "深度 {depth}",
+    "nestedFrom": "{parent}から展開",
+    "analyzing": "UNITASエンジンが分析中…",
+    "pulseLabel": "グローバルパルス",
+    "pulse": {
+      "rising": "上昇",
+      "stable": "安定",
+      "cooling": "下降"
+    },
+    "hitsLabel": "グローバル検索 {count}回",
+    "feedLabel": "リアルタイムトレンドフィード",
+    "feedEmpty": "ライブソースを準備中 — その間、ドクトリン分析はオフラインで実行されます。",
+    "keywordsLabel": "ラダーを展開",
+    "keywordHint": "タップすると下に新しい階層が入れ子になります",
+    "deepLabel": "UNITAS 深層分析",
+    "deepPending": "グローバル検索 {hits} / 3回。3回目に100ドクトリンエンジンがこのキーワードの6軸深層分析を一度だけ鍛造し、以降は誰でも無料です。",
+    "appLoopLabel": "ダイレクトアプリ & アセットループ",
+    "restoredNote": "言語切替後にラダーを復元しました — 何も失われていません。"
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "世界の主要ウェブメールサービスへワンクリックでアクセス。",
     "openAria": "{brand}を開く"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "住宅",
+        "description": "世界の都市で脈打つ住宅価格と居住需要のリアルタイムな鼓動。"
+      },
+      "rental": {
+        "title": "賃貸",
+        "description": "移動性・所得・立地が交わるリアルタイムの賃貸市場。"
+      },
+      "mortgage": {
+        "title": "住宅ローン",
+        "description": "誰がいつ所有できるかを決める金利の潮流。"
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "ロマンス",
+        "description": "最初のサインから長く続く絆まで、進化し続ける惹かれ合いの言語。"
+      },
+      "matchmaking": {
+        "title": "マッチング",
+        "description": "文化を越えて人と人をリアルタイムで結ぶアルゴリズムと儀式。"
+      },
+      "relationship": {
+        "title": "関係",
+        "description": "信頼・対話・共有する未来でできた生きた構造。"
+      }
+    }
+  },
+  "Social": {
+    "hint": "世界の主要ソーシャルメディアアプリにワンクリックでアクセス。",
+    "openAria": "{brand}を開く"
+  },
+  "Assets": {
+    "hint": "UNITAS公式アセットをワンクリックでダウンロード。",
+    "downloadAria": "{name}をダウンロード",
+    "items": {
+      "mark": "ブランドマーク (SVG)",
+      "icon": "アプリアイコン (512px)",
+      "manifest": "ウェブアプリマニフェスト",
+      "ownership": "所有権マニフェスト"
+    }
   }
 }

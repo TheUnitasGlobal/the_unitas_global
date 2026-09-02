@@ -363,7 +363,11 @@
       "hotIssue": "Hot Issues",
       "email": "Email",
       "finance": "Pananalapi",
-      "career": "Karera"
+      "career": "Karera",
+      "social": "Social",
+      "realEstate": "Real Estate",
+      "dating": "Dating",
+      "assets": "Assets"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Bawat follow-up na search ay nagdaragdag ng bagong result card sa ibaba.",
     "chainPlaceholder": "I-type ang follow-up na query at pindutin ang Enter…",
     "chainSubmitAria": "Patakbuhin ang chained search",
-    "closeAria": "Isara"
+    "closeAria": "Isara",
+    "liveBadge": "Live",
+    "syncIn": "Sync sa {seconds}s",
+    "syncing": "Nagsi-sync…",
+    "refreshAria": "I-refresh ang pagsusuri ngayon",
+    "depthLabel": "Lalim {depth}",
+    "nestedFrom": "Pinalawak mula sa {parent}",
+    "analyzing": "Sinusuri ng UNITAS engine…",
+    "pulseLabel": "Pandaigdigang pulso",
+    "pulse": {
+      "rising": "Tumataas",
+      "stable": "Matatag",
+      "cooling": "Humuhupa"
+    },
+    "hitsLabel": "{count} pandaigdigang paghahanap",
+    "feedLabel": "Live trend feed",
+    "feedEmpty": "Nagpapainit pa ang mga live source — samantala, offline na tumatakbo ang doctrine analysis.",
+    "keywordsLabel": "Palawakin ang hagdan",
+    "keywordHint": "I-tap para maglagay ng bagong antas sa ibaba",
+    "deepLabel": "Malalim na pagsusuri ng UNITAS",
+    "deepPending": "{hits} / 3 pandaigdigang paghahanap. Sa ika-3, minsang huhubugin ng 100-doctrine engine ang 6-axis na malalim na pagsusuri ng keyword na ito — libre na para sa lahat pagkatapos.",
+    "appLoopLabel": "Direktang app at asset loop",
+    "restoredNote": "Naibalik ang hagdan matapos magpalit ng wika — walang nawala."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "Isang-click na access sa mga nangungunang webmail service sa daigdig.",
     "openAria": "Buksan ang {brand}"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Pabahay",
+        "description": "Ang live na pulso ng presyo ng bahay at pangangailangan sa tirahan sa mga lungsod ng mundo."
+      },
+      "rental": {
+        "title": "Paupahan",
+        "description": "Ang real-time na merkado ng paupahan kung saan nagtatagpo ang mobilidad, kita at lokasyon."
+      },
+      "mortgage": {
+        "title": "Mortgage",
+        "description": "Ang agos ng interes na nagpapasya kung sino ang makakapag-ari at kailan."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Romansa",
+        "description": "Ang nagbabagong wika ng pagkaakit, mula unang hudyat hanggang sa pangmatagalang ugnayan."
+      },
+      "matchmaking": {
+        "title": "Matchmaking",
+        "description": "Ang mga algorithm at ritwal na nagtatambal ng mga tao sa iba’t ibang kultura nang real time."
+      },
+      "relationship": {
+        "title": "Relasyon",
+        "description": "Ang buhay na istruktura ng tiwala, komunikasyon at pinagsasaluhang kinabukasan."
+      }
+    }
+  },
+  "Social": {
+    "hint": "Isang click na access sa mga pangunahing social media app ng mundo.",
+    "openAria": "Buksan ang {brand}"
+  },
+  "Assets": {
+    "hint": "Isang click na download ng mga opisyal na asset ng UNITAS.",
+    "downloadAria": "I-download ang {name}",
+    "items": {
+      "mark": "Brand mark (SVG)",
+      "icon": "App icon (512px)",
+      "manifest": "Web app manifest",
+      "ownership": "Ownership manifest"
+    }
   }
 }

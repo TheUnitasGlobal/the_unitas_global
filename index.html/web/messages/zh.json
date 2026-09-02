@@ -363,7 +363,11 @@
       "hotIssue": "热点",
       "email": "邮箱",
       "finance": "金融",
-      "career": "职业"
+      "career": "职业",
+      "social": "社交",
+      "realEstate": "房产",
+      "dating": "恋爱",
+      "assets": "资产"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "每次追加搜索都会在下方叠加一张新的结果卡片。",
     "chainPlaceholder": "输入追加查询并按回车…",
     "chainSubmitAria": "执行连锁搜索",
-    "closeAria": "关闭"
+    "closeAria": "关闭",
+    "liveBadge": "实时",
+    "syncIn": "{seconds}秒后同步",
+    "syncing": "同步中…",
+    "refreshAria": "立即刷新分析",
+    "depthLabel": "深度 {depth}",
+    "nestedFrom": "由 {parent} 展开",
+    "analyzing": "UNITAS 引擎分析中…",
+    "pulseLabel": "全球脉动",
+    "pulse": {
+      "rising": "上升",
+      "stable": "平稳",
+      "cooling": "降温"
+    },
+    "hitsLabel": "全球搜索 {count} 次",
+    "feedLabel": "实时趋势流",
+    "feedEmpty": "实时来源预热中 — 与此同时，宪章分析将离线运行。",
+    "keywordsLabel": "展开阶梯",
+    "keywordHint": "点击可在下方嵌套新的层级",
+    "deepLabel": "UNITAS 深度分析",
+    "deepPending": "全球搜索 {hits} / 3 次。第 3 次时，百条宪章引擎将为该关键词一次性锻造 6 轴深度分析，此后对所有人永久免费。",
+    "appLoopLabel": "直达应用与资产循环",
+    "restoredNote": "语言切换后阶梯已恢复 — 结果未丢失。"
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "一键直达全球主流网页邮箱服务。",
     "openAria": "打开{brand}"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "住房",
+        "description": "全球城市房价与居住需求的实时脉动。"
+      },
+      "rental": {
+        "title": "租赁",
+        "description": "流动性、收入与地段交汇的实时租赁市场。"
+      },
+      "mortgage": {
+        "title": "房贷",
+        "description": "决定谁能在何时拥有住房的利率洪流。"
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "浪漫",
+        "description": "从第一个信号到长久的纽带，不断演化的吸引之语。"
+      },
+      "matchmaking": {
+        "title": "配对",
+        "description": "跨越文化、实时为人们牵线的算法与仪式。"
+      },
+      "relationship": {
+        "title": "关系",
+        "description": "由信任、沟通与共同未来构成的活的结构。"
+      }
+    }
+  },
+  "Social": {
+    "hint": "一键直达全球主流社交媒体应用。",
+    "openAria": "打开 {brand}"
+  },
+  "Assets": {
+    "hint": "一键下载 UNITAS 官方资产。",
+    "downloadAria": "下载 {name}",
+    "items": {
+      "mark": "品牌标志 (SVG)",
+      "icon": "应用图标 (512px)",
+      "manifest": "Web 应用清单",
+      "ownership": "所有权清单"
+    }
   }
 }

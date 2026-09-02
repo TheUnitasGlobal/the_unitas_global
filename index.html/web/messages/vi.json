@@ -363,7 +363,11 @@
       "hotIssue": "Vấn đề nóng",
       "email": "Email",
       "finance": "Tài chính",
-      "career": "Sự nghiệp"
+      "career": "Sự nghiệp",
+      "social": "Mạng xã hội",
+      "realEstate": "Bất động sản",
+      "dating": "Hẹn hò",
+      "assets": "Tài sản"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Mỗi lượt tìm kiếm tiếp theo sẽ xếp thêm một thẻ kết quả mới bên dưới.",
     "chainPlaceholder": "Nhập truy vấn tiếp theo và nhấn Enter…",
     "chainSubmitAria": "Chạy tìm kiếm nối chuỗi",
-    "closeAria": "Đóng"
+    "closeAria": "Đóng",
+    "liveBadge": "Trực tiếp",
+    "syncIn": "Đồng bộ sau {seconds}s",
+    "syncing": "Đang đồng bộ…",
+    "refreshAria": "Làm mới phân tích ngay",
+    "depthLabel": "Độ sâu {depth}",
+    "nestedFrom": "Mở rộng từ {parent}",
+    "analyzing": "Động cơ UNITAS đang phân tích…",
+    "pulseLabel": "Nhịp đập toàn cầu",
+    "pulse": {
+      "rising": "Tăng",
+      "stable": "Ổn định",
+      "cooling": "Hạ nhiệt"
+    },
+    "hitsLabel": "{count} lượt tìm kiếm toàn cầu",
+    "feedLabel": "Nguồn xu hướng trực tiếp",
+    "feedEmpty": "Nguồn trực tiếp đang khởi động — trong lúc đó, phân tích học thuyết chạy ngoại tuyến.",
+    "keywordsLabel": "Mở rộng thang",
+    "keywordHint": "Chạm để lồng một tầng mới bên dưới",
+    "deepLabel": "Phân tích chuyên sâu UNITAS",
+    "deepPending": "{hits} / 3 lượt tìm kiếm toàn cầu. Ở lượt thứ 3, động cơ 100 học thuyết sẽ rèn phân tích chuyên sâu 6 trục cho từ khóa này đúng một lần — sau đó miễn phí cho mọi người.",
+    "appLoopLabel": "Vòng lặp ứng dụng & tài sản trực tiếp",
+    "restoredNote": "Thang đã được khôi phục sau khi đổi ngôn ngữ — không mất gì cả."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "Truy cập bằng một cú nhấp vào các dịch vụ webmail lớn nhất thế giới.",
     "openAria": "Mở {brand}"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Nhà ở",
+        "description": "Nhịp đập trực tiếp của giá nhà và nhu cầu nhà ở tại các thành phố trên thế giới."
+      },
+      "rental": {
+        "title": "Cho thuê",
+        "description": "Thị trường cho thuê thời gian thực nơi tính di động, thu nhập và vị trí gặp nhau."
+      },
+      "mortgage": {
+        "title": "Vay mua nhà",
+        "description": "Dòng chảy lãi suất quyết định ai có thể sở hữu và khi nào."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Lãng mạn",
+        "description": "Ngôn ngữ luôn tiến hóa của sự hấp dẫn, từ tín hiệu đầu tiên đến gắn kết lâu dài."
+      },
+      "matchmaking": {
+        "title": "Ghép đôi",
+        "description": "Những thuật toán và nghi thức kết nối con người xuyên văn hóa theo thời gian thực."
+      },
+      "relationship": {
+        "title": "Mối quan hệ",
+        "description": "Cấu trúc sống động của niềm tin, giao tiếp và tương lai chung."
+      }
+    }
+  },
+  "Social": {
+    "hint": "Truy cập một chạm tới các ứng dụng mạng xã hội lớn trên thế giới.",
+    "openAria": "Mở {brand}"
+  },
+  "Assets": {
+    "hint": "Tải tài sản chính thức của UNITAS chỉ với một chạm.",
+    "downloadAria": "Tải xuống {name}",
+    "items": {
+      "mark": "Biểu tượng thương hiệu (SVG)",
+      "icon": "Biểu tượng ứng dụng (512px)",
+      "manifest": "Manifest ứng dụng web",
+      "ownership": "Manifest quyền sở hữu"
+    }
   }
 }

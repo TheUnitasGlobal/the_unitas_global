@@ -19,7 +19,7 @@ import { useUai } from '@/lib/uai/useUai';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
 import { GOVERNANCE_AXES, type GovernanceAxis } from '@/lib/governance';
-import { HOT_SHORTCUT_MATRIX, type HotShortcutAxis } from '@/lib/hotIssues';
+import { HOT_SHORTCUT_MATRIX, findShortcutAxis, type HotShortcutAxis } from '@/lib/hotIssues';
 
 /** Restores which governance axis was open across a next-intl locale switch
  *  (which remounts the client tree) -- The Living Knowledge Ouroboros's
@@ -80,7 +80,10 @@ export function HomeContent() {
     try {
       const savedKey = sessionStorage.getItem(SHORTCUT_STORAGE_KEY);
       if (savedKey) {
-        const found = HOT_SHORTCUT_MATRIX.find((a) => a.key === savedKey);
+        // stored as `${group}:${key}` (v2); a bare key from the v1 format
+        // still resolves through the matrix-wide fallback.
+        const [group, key] = savedKey.includes(':') ? savedKey.split(':', 2) : ['', savedKey];
+        const found = findShortcutAxis(group, key) ?? HOT_SHORTCUT_MATRIX.find((a) => a.key === key);
         if (found) setActiveShortcut(found);
       }
     } catch {
@@ -90,7 +93,7 @@ export function HomeContent() {
 
   useEffect(() => {
     try {
-      if (activeShortcut) sessionStorage.setItem(SHORTCUT_STORAGE_KEY, activeShortcut.key);
+      if (activeShortcut) sessionStorage.setItem(SHORTCUT_STORAGE_KEY, `${activeShortcut.group}:${activeShortcut.key}`);
       else sessionStorage.removeItem(SHORTCUT_STORAGE_KEY);
     } catch {
       // non-fatal, see above.

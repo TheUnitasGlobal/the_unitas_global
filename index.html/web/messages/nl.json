@@ -363,7 +363,11 @@
       "hotIssue": "Hot Issues",
       "email": "E-mail",
       "finance": "Financiën",
-      "career": "Carrière"
+      "career": "Carrière",
+      "social": "Social",
+      "realEstate": "Vastgoed",
+      "dating": "Dating",
+      "assets": "Assets"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Elke vervolgzoekopdracht stapelt een nieuwe resultaatkaart eronder.",
     "chainPlaceholder": "Typ een vervolgvraag en druk op Enter…",
     "chainSubmitAria": "Geketende zoekopdracht uitvoeren",
-    "closeAria": "Sluiten"
+    "closeAria": "Sluiten",
+    "liveBadge": "Live",
+    "syncIn": "Sync over {seconds}s",
+    "syncing": "Synchroniseren…",
+    "refreshAria": "Analyse nu vernieuwen",
+    "depthLabel": "Niveau {depth}",
+    "nestedFrom": "Genest vanuit {parent}",
+    "analyzing": "De UNITAS-engine analyseert…",
+    "pulseLabel": "Wereldwijde polsslag",
+    "pulse": {
+      "rising": "Stijgend",
+      "stable": "Stabiel",
+      "cooling": "Afkoelend"
+    },
+    "hitsLabel": "{count} wereldwijde zoekopdrachten",
+    "feedLabel": "Live trendfeed",
+    "feedEmpty": "De live bronnen warmen op — intussen draait de doctrine-analyse offline.",
+    "keywordsLabel": "Ladder uitbreiden",
+    "keywordHint": "Tik om hieronder een nieuw niveau te nesten",
+    "deepLabel": "UNITAS-diepteanalyse",
+    "deepPending": "{hits} / 3 wereldwijde zoekopdrachten. Bij de 3e smeedt de 100-doctrine-engine de 6-assige diepteanalyse van dit trefwoord één keer — daarna gratis voor iedereen.",
+    "appLoopLabel": "Directe app- & assetlus",
+    "restoredNote": "Ladder hersteld na de taalwissel — niets is verloren gegaan."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "Toegang met één klik tot 's werelds belangrijkste webmaildiensten.",
     "openAria": "{brand} openen"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Wonen",
+        "description": "De live polsslag van huizenprijzen en woonvraag in de steden van de wereld."
+      },
+      "rental": {
+        "title": "Huur",
+        "description": "De realtime huurmarkt waar mobiliteit, inkomen en locatie samenkomen."
+      },
+      "mortgage": {
+        "title": "Hypotheek",
+        "description": "De rentestroom die bepaalt wie wanneer eigenaar kan worden."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Romantiek",
+        "description": "De veranderende taal van aantrekking, van het eerste signaal tot een blijvende band."
+      },
+      "matchmaking": {
+        "title": "Matchmaking",
+        "description": "De algoritmes en rituelen die mensen over culturen heen in realtime koppelen."
+      },
+      "relationship": {
+        "title": "Relatie",
+        "description": "De levende structuur van vertrouwen, communicatie en gedeelde toekomst."
+      }
+    }
+  },
+  "Social": {
+    "hint": "Met één klik naar de grootste socialemedia-apps ter wereld.",
+    "openAria": "{brand} openen"
+  },
+  "Assets": {
+    "hint": "Officiële UNITAS-assets met één klik downloaden.",
+    "downloadAria": "{name} downloaden",
+    "items": {
+      "mark": "Merkteken (SVG)",
+      "icon": "App-icoon (512px)",
+      "manifest": "Web-app-manifest",
+      "ownership": "Eigendomsmanifest"
+    }
   }
 }

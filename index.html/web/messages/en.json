@@ -363,7 +363,11 @@
       "hotIssue": "Hot Issues",
       "email": "Email",
       "finance": "Finance",
-      "career": "Career"
+      "career": "Career",
+      "social": "Social",
+      "realEstate": "Real Estate",
+      "dating": "Dating",
+      "assets": "Assets"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Each follow-up search stacks a new result card below.",
     "chainPlaceholder": "Type a follow-up query and press Enter...",
     "chainSubmitAria": "Run chained search",
-    "closeAria": "Close"
+    "closeAria": "Close",
+    "liveBadge": "Live",
+    "syncIn": "Sync in {seconds}s",
+    "syncing": "Syncing…",
+    "refreshAria": "Refresh the analysis now",
+    "depthLabel": "Depth {depth}",
+    "nestedFrom": "Nested from {parent}",
+    "analyzing": "The UNITAS engine is analyzing…",
+    "pulseLabel": "Global pulse",
+    "pulse": {
+      "rising": "Rising",
+      "stable": "Stable",
+      "cooling": "Cooling"
+    },
+    "hitsLabel": "{count} global searches",
+    "feedLabel": "Live trend feed",
+    "feedEmpty": "Live sources are warming up — the doctrine analysis runs offline meanwhile.",
+    "keywordsLabel": "Expand the ladder",
+    "keywordHint": "Tap to nest a new tier below",
+    "deepLabel": "UNITAS deep analysis",
+    "deepPending": "{hits} / 3 global searches. On the 3rd, the 100-doctrine engine forges this keyword’s 6-axis deep analysis once — free for everyone after.",
+    "appLoopLabel": "Direct app & asset loop",
+    "restoredNote": "Ladder restored after the language switch — nothing was lost."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "One-click access to the world's major webmail services.",
     "openAria": "Open {brand}"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Housing",
+        "description": "The live pulse of home prices and residential demand across the world’s cities."
+      },
+      "rental": {
+        "title": "Rental",
+        "description": "The real-time rental market where mobility, income and location meet."
+      },
+      "mortgage": {
+        "title": "Mortgage",
+        "description": "The interest-rate current that decides who can own and when."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Romance",
+        "description": "The evolving language of attraction, from first signal to lasting bond."
+      },
+      "matchmaking": {
+        "title": "Matchmaking",
+        "description": "The algorithms and rituals that pair people across cultures in real time."
+      },
+      "relationship": {
+        "title": "Relationship",
+        "description": "The living structure of trust, communication and shared futures."
+      }
+    }
+  },
+  "Social": {
+    "hint": "One-click access to the world’s major social media apps.",
+    "openAria": "Open {brand}"
+  },
+  "Assets": {
+    "hint": "One-click download of official UNITAS assets.",
+    "downloadAria": "Download {name}",
+    "items": {
+      "mark": "Brand mark (SVG)",
+      "icon": "App icon (512px)",
+      "manifest": "Web app manifest",
+      "ownership": "Ownership manifest"
+    }
   }
 }

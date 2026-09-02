@@ -363,7 +363,11 @@
       "hotIssue": "Temi Caldi",
       "email": "Email",
       "finance": "Finanza",
-      "career": "Carriera"
+      "career": "Carriera",
+      "social": "Social",
+      "realEstate": "Immobiliare",
+      "dating": "Incontri",
+      "assets": "Risorse"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Ogni ricerca successiva impila una nuova scheda di risultati sotto.",
     "chainPlaceholder": "Digita una query di follow-up e premi Invio…",
     "chainSubmitAria": "Esegui ricerca concatenata",
-    "closeAria": "Chiudi"
+    "closeAria": "Chiudi",
+    "liveBadge": "Live",
+    "syncIn": "Sincronizzazione tra {seconds}s",
+    "syncing": "Sincronizzazione…",
+    "refreshAria": "Aggiorna subito l’analisi",
+    "depthLabel": "Livello {depth}",
+    "nestedFrom": "Annidato da {parent}",
+    "analyzing": "Il motore UNITAS sta analizzando…",
+    "pulseLabel": "Polso globale",
+    "pulse": {
+      "rising": "In crescita",
+      "stable": "Stabile",
+      "cooling": "In calo"
+    },
+    "hitsLabel": "{count} ricerche globali",
+    "feedLabel": "Feed di tendenze live",
+    "feedEmpty": "Le fonti live si stanno preparando — nel frattempo l’analisi dottrinale gira offline.",
+    "keywordsLabel": "Espandi la scala",
+    "keywordHint": "Tocca per annidare un nuovo livello sotto",
+    "deepLabel": "Analisi profonda UNITAS",
+    "deepPending": "{hits} / 3 ricerche globali. Alla 3ª, il motore delle 100 dottrine forgia una sola volta l’analisi profonda a 6 assi di questa parola chiave — poi è gratis per tutti.",
+    "appLoopLabel": "Ciclo diretto app e risorse",
+    "restoredNote": "Scala ripristinata dopo il cambio di lingua — nulla è andato perso."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "Accesso con un clic ai principali servizi di webmail del mondo.",
     "openAria": "Apri {brand}"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Abitazioni",
+        "description": "Il polso in diretta dei prezzi delle case e della domanda residenziale nelle città del mondo."
+      },
+      "rental": {
+        "title": "Affitti",
+        "description": "Il mercato degli affitti in tempo reale dove si incontrano mobilità, reddito e posizione."
+      },
+      "mortgage": {
+        "title": "Mutuo",
+        "description": "La corrente dei tassi d’interesse che decide chi può possedere e quando."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Romanticismo",
+        "description": "Il linguaggio in evoluzione dell’attrazione, dal primo segnale al legame duraturo."
+      },
+      "matchmaking": {
+        "title": "Matchmaking",
+        "description": "Gli algoritmi e i rituali che uniscono le persone tra culture in tempo reale."
+      },
+      "relationship": {
+        "title": "Relazione",
+        "description": "La struttura viva di fiducia, comunicazione e futuri condivisi."
+      }
+    }
+  },
+  "Social": {
+    "hint": "Accesso con un clic alle principali app social del mondo.",
+    "openAria": "Apri {brand}"
+  },
+  "Assets": {
+    "hint": "Download con un clic delle risorse ufficiali UNITAS.",
+    "downloadAria": "Scarica {name}",
+    "items": {
+      "mark": "Marchio (SVG)",
+      "icon": "Icona dell’app (512px)",
+      "manifest": "Manifest della web app",
+      "ownership": "Manifest di proprietà"
+    }
   }
 }

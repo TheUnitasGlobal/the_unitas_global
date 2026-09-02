@@ -363,7 +363,11 @@
       "hotIssue": "Gündem",
       "email": "E-posta",
       "finance": "Finans",
-      "career": "Kariyer"
+      "career": "Kariyer",
+      "social": "Sosyal",
+      "realEstate": "Gayrimenkul",
+      "dating": "Flört",
+      "assets": "Varlıklar"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Her ek arama, altına yeni bir sonuç kartı ekler.",
     "chainPlaceholder": "Ek bir sorgu yazın ve Enter'a basın…",
     "chainSubmitAria": "Zincirleme aramayı çalıştır",
-    "closeAria": "Kapat"
+    "closeAria": "Kapat",
+    "liveBadge": "Canlı",
+    "syncIn": "{seconds} sn sonra eşitle",
+    "syncing": "Eşitleniyor…",
+    "refreshAria": "Analizi şimdi yenile",
+    "depthLabel": "Derinlik {depth}",
+    "nestedFrom": "{parent} içinden açıldı",
+    "analyzing": "UNITAS motoru analiz ediyor…",
+    "pulseLabel": "Küresel nabız",
+    "pulse": {
+      "rising": "Yükseliyor",
+      "stable": "Sabit",
+      "cooling": "Soğuyor"
+    },
+    "hitsLabel": "{count} küresel arama",
+    "feedLabel": "Canlı trend akışı",
+    "feedEmpty": "Canlı kaynaklar ısınıyor — bu sırada doktrin analizi çevrimdışı çalışıyor.",
+    "keywordsLabel": "Merdiveni genişlet",
+    "keywordHint": "Altına yeni bir katman eklemek için dokunun",
+    "deepLabel": "UNITAS derin analizi",
+    "deepPending": "{hits} / 3 küresel arama. 3.’de 100 doktrin motoru bu anahtar kelimenin 6 eksenli derin analizini yalnızca bir kez döver — sonrası herkese ücretsiz.",
+    "appLoopLabel": "Doğrudan uygulama ve varlık döngüsü",
+    "restoredNote": "Dil değişiminden sonra merdiven geri yüklendi — hiçbir şey kaybolmadı."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "Dünyanın önde gelen webmail hizmetlerine tek tıkla erişim.",
     "openAria": "{brand} Aç"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Konut",
+        "description": "Dünya şehirlerinde konut fiyatlarının ve talebinin canlı nabzı."
+      },
+      "rental": {
+        "title": "Kiralama",
+        "description": "Hareketlilik, gelir ve konumun buluştuğu gerçek zamanlı kiralama piyasası."
+      },
+      "mortgage": {
+        "title": "Konut kredisi",
+        "description": "Kimin ne zaman sahip olabileceğine karar veren faiz akımı."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Romantizm",
+        "description": "İlk sinyalden kalıcı bağa, çekimin sürekli evrilen dili."
+      },
+      "matchmaking": {
+        "title": "Eşleştirme",
+        "description": "İnsanları kültürler arasında gerçek zamanlı eşleştiren algoritmalar ve ritüeller."
+      },
+      "relationship": {
+        "title": "İlişki",
+        "description": "Güven, iletişim ve ortak geleceklerden oluşan canlı yapı."
+      }
+    }
+  },
+  "Social": {
+    "hint": "Dünyanın önde gelen sosyal medya uygulamalarına tek tıkla erişim.",
+    "openAria": "{brand} aç"
+  },
+  "Assets": {
+    "hint": "Resmi UNITAS varlıklarını tek tıkla indirin.",
+    "downloadAria": "{name} indir",
+    "items": {
+      "mark": "Marka işareti (SVG)",
+      "icon": "Uygulama simgesi (512px)",
+      "manifest": "Web uygulaması manifestosu",
+      "ownership": "Mülkiyet manifestosu"
+    }
   }
 }

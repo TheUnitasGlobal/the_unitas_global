@@ -363,7 +363,11 @@
       "hotIssue": "Kuumad Teemad",
       "email": "E-post",
       "finance": "Rahandus",
-      "career": "Karjäär"
+      "career": "Karjäär",
+      "social": "Sotsiaal",
+      "realEstate": "Kinnisvara",
+      "dating": "Kohtingud",
+      "assets": "Varad"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Iga järelpärimine lisab uue tulemuskaardi allapoole.",
     "chainPlaceholder": "Sisesta järelpärimine ja vajuta Enter…",
     "chainSubmitAria": "Käivita ahelotsing",
-    "closeAria": "Sulge"
+    "closeAria": "Sulge",
+    "liveBadge": "Otse",
+    "syncIn": "Sünkroonimine {seconds}s pärast",
+    "syncing": "Sünkroonimine…",
+    "refreshAria": "Värskenda analüüsi kohe",
+    "depthLabel": "Sügavus {depth}",
+    "nestedFrom": "Laiendatud: {parent}",
+    "analyzing": "UNITASe mootor analüüsib…",
+    "pulseLabel": "Globaalne pulss",
+    "pulse": {
+      "rising": "Tõusev",
+      "stable": "Stabiilne",
+      "cooling": "Jahtuv"
+    },
+    "hitsLabel": "{count} globaalset otsingut",
+    "feedLabel": "Reaalajas trendivoog",
+    "feedEmpty": "Otseallikad soojenevad — seni töötab doktriinianalüüs võrguühenduseta.",
+    "keywordsLabel": "Laienda redelit",
+    "keywordHint": "Puuduta, et lisada alla uus tasand",
+    "deepLabel": "UNITASe süvaanalüüs",
+    "deepPending": "{hits} / 3 globaalset otsingut. Kolmandal sepistab 100 doktriini mootor selle märksõna 6-teljelise süvaanalüüsi ühe korra — pärast seda on see kõigile tasuta.",
+    "appLoopLabel": "Otserakenduste ja varade ring",
+    "restoredNote": "Redel taastati pärast keelevahetust — midagi ei läinud kaduma."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "Ühe puudutusega ligipääs maailma suurimatele veebipostiteenustele.",
     "openAria": "Ava {brand}"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Eluase",
+        "description": "Maailma linnade koduhindade ja elamunõudluse reaalajas pulss."
+      },
+      "rental": {
+        "title": "Üür",
+        "description": "Reaalajas üüriturg, kus kohtuvad liikuvus, sissetulek ja asukoht."
+      },
+      "mortgage": {
+        "title": "Hüpoteek",
+        "description": "Intressimäärade vool, mis otsustab, kes ja millal saab omanikuks."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Romantika",
+        "description": "Tõmbe arenev keel esimesest signaalist püsiva sidemeni."
+      },
+      "matchmaking": {
+        "title": "Paaripanek",
+        "description": "Algoritmid ja rituaalid, mis viivad inimesi kultuuride üleselt reaalajas kokku."
+      },
+      "relationship": {
+        "title": "Suhe",
+        "description": "Usalduse, suhtluse ja jagatud tuleviku elav struktuur."
+      }
+    }
+  },
+  "Social": {
+    "hint": "Ühe klõpsuga ligipääs maailma peamistele sotsiaalmeedia rakendustele.",
+    "openAria": "Ava {brand}"
+  },
+  "Assets": {
+    "hint": "UNITASe ametlike varade allalaadimine ühe klõpsuga.",
+    "downloadAria": "Laadi alla {name}",
+    "items": {
+      "mark": "Brändimärk (SVG)",
+      "icon": "Rakenduse ikoon (512px)",
+      "manifest": "Veebirakenduse manifest",
+      "ownership": "Omandimanifest"
+    }
   }
 }

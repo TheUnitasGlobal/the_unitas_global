@@ -363,7 +363,11 @@
       "hotIssue": "Trendthemen",
       "email": "E-Mail",
       "finance": "Finanzen",
-      "career": "Karriere"
+      "career": "Karriere",
+      "social": "Social",
+      "realEstate": "Immobilien",
+      "dating": "Dating",
+      "assets": "Assets"
     }
   },
   "EntryModal": {
@@ -1018,7 +1022,29 @@
     "chainHint": "Jede weitere Suche stapelt eine neue Ergebniskarte darunter.",
     "chainPlaceholder": "Folgeanfrage eingeben und Enter drücken…",
     "chainSubmitAria": "Verkettete Suche ausführen",
-    "closeAria": "Schließen"
+    "closeAria": "Schließen",
+    "liveBadge": "Live",
+    "syncIn": "Sync in {seconds}s",
+    "syncing": "Synchronisiere…",
+    "refreshAria": "Analyse jetzt aktualisieren",
+    "depthLabel": "Ebene {depth}",
+    "nestedFrom": "Verschachtelt aus {parent}",
+    "analyzing": "Die UNITAS-Engine analysiert…",
+    "pulseLabel": "Globaler Puls",
+    "pulse": {
+      "rising": "Steigend",
+      "stable": "Stabil",
+      "cooling": "Abkühlend"
+    },
+    "hitsLabel": "{count} globale Suchen",
+    "feedLabel": "Live-Trendfeed",
+    "feedEmpty": "Die Live-Quellen laufen sich warm – derweil läuft die Doktrin-Analyse offline.",
+    "keywordsLabel": "Leiter erweitern",
+    "keywordHint": "Antippen, um darunter eine neue Ebene einzubetten",
+    "deepLabel": "UNITAS-Tiefenanalyse",
+    "deepPending": "{hits} / 3 globale Suchen. Bei der 3. schmiedet die 100-Doktrinen-Engine die 6-Achsen-Tiefenanalyse dieses Schlüsselworts genau einmal – danach für alle kostenlos.",
+    "appLoopLabel": "Direkt-App- & Asset-Schleife",
+    "restoredNote": "Leiter nach dem Sprachwechsel wiederhergestellt – nichts ging verloren."
   },
   "Finance": {
     "axes": {
@@ -1047,5 +1073,51 @@
   "Email": {
     "hint": "Zugriff mit einem Klick auf die wichtigsten Webmail-Dienste der Welt.",
     "openAria": "{brand} öffnen"
+  },
+  "RealEstate": {
+    "axes": {
+      "housing": {
+        "title": "Wohnen",
+        "description": "Der Live-Puls von Immobilienpreisen und Wohnnachfrage in den Städten der Welt."
+      },
+      "rental": {
+        "title": "Miete",
+        "description": "Der Echtzeit-Mietmarkt, auf dem Mobilität, Einkommen und Lage zusammentreffen."
+      },
+      "mortgage": {
+        "title": "Hypothek",
+        "description": "Der Zinsstrom, der entscheidet, wer wann Eigentum erwerben kann."
+      }
+    }
+  },
+  "Dating": {
+    "axes": {
+      "romance": {
+        "title": "Romantik",
+        "description": "Die sich wandelnde Sprache der Anziehung – vom ersten Signal bis zur dauerhaften Bindung."
+      },
+      "matchmaking": {
+        "title": "Matchmaking",
+        "description": "Die Algorithmen und Rituale, die Menschen über Kulturen hinweg in Echtzeit zusammenführen."
+      },
+      "relationship": {
+        "title": "Beziehung",
+        "description": "Die lebendige Struktur aus Vertrauen, Kommunikation und gemeinsamer Zukunft."
+      }
+    }
+  },
+  "Social": {
+    "hint": "Mit einem Klick zu den wichtigsten Social-Media-Apps der Welt.",
+    "openAria": "{brand} öffnen"
+  },
+  "Assets": {
+    "hint": "Offizielle UNITAS-Assets mit einem Klick herunterladen.",
+    "downloadAria": "{name} herunterladen",
+    "items": {
+      "mark": "Markenzeichen (SVG)",
+      "icon": "App-Icon (512px)",
+      "manifest": "Web-App-Manifest",
+      "ownership": "Eigentumsmanifest"
+    }
   }
 }
