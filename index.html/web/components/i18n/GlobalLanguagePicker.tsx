@@ -24,6 +24,14 @@ export const LOCALE_NATIVE_NAME: Record<Locale, string> = {
   // Shortened from "Bahasa Indonesia" (owner instruction 2026-08-29) so the
   // endonym never wraps to a second line in the narrow language dropdown.
   id: 'Indonesia',
+  ru: 'Русский',
+  hi: 'हिन्दी',
+  it: 'Italiano',
+  tr: 'Türkçe',
+  th: 'ไทย',
+  pl: 'Polski',
+  nl: 'Nederlands',
+  tl: 'Filipino',
 };
 
 /** Shared with <ComingSoonCinema/> so the manual pick isn't re-overridden by auto-detect. */
@@ -109,7 +117,8 @@ export function GlobalLanguagePicker({
 
       {open && (
         <ul
-          className={`absolute z-50 mt-2 w-44 overflow-hidden rounded-2xl py-1 text-left ${
+          style={{ maxHeight: 'min(60vh, 420px)' }}
+          className={`absolute z-50 mt-2 w-44 overflow-y-auto overscroll-contain rounded-2xl py-1 text-left ${
             align === 'right' ? 'right-0' : 'left-0'
           } ${
             variant === 'glass'

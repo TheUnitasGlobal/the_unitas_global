@@ -108,8 +108,20 @@ export function NavBar() {
                 cluster switches to overflow-x-visible there, so there is nothing
                 to stick to). z-20 (above .nav-edge-hint's z-10) so the purely
                 decorative left scroll-scrim never paints over the badge once
-                both occupy the same left edge. */}
-            <div className="sticky left-0 z-20 flex shrink-0 items-center bg-void/90 pr-3 backdrop-blur-md lg:static lg:bg-transparent lg:pr-0 lg:backdrop-blur-none">
+                both occupy the same left edge.
+
+                The dark backdrop itself is gated on `edgeHint.left` (only true
+                once the strip has actually been swiped) -- applying it
+                unconditionally painted a visibly solid black box around the
+                badge at rest, clashing against every non-black hero background
+                behind the translucent nav (owner-reported "상단바 검정 박스",
+                2026-09-01). It's only needed once other icons are actually
+                sliding underneath the stuck badge. */}
+            <div
+              className={`sticky left-0 z-20 flex shrink-0 items-center pr-3 transition-colors lg:static lg:bg-transparent lg:pr-0 lg:backdrop-blur-none ${
+                edgeHint.left ? 'bg-void/90 backdrop-blur-md' : 'bg-transparent'
+              }`}
+            >
               <CoinBalanceBadge />
             </div>
             <LanguageSwitcher />

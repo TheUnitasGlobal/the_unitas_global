@@ -1,0 +1,901 @@
+{
+  "LocaleLayout": {
+    "title": "UNITAS | Neuraal-Symbolische Beveiligde Infrastructuur",
+    "description": "Autonome Neuraal-Symbolische & Soevereine Fiscale Routeringsinfrastructuur. Een Zero-Trust ecosysteem van cognitieve en fiscale modules."
+  },
+  "Nav": {
+    "portal": "Beveiligd Portaal",
+    "languageLabel": "Taal",
+    "soundOn": "Geluid aan",
+    "soundOff": "Geluid uit",
+    "scrollToFooter": "Bedrijfsoverzicht",
+    "appDownloadAria": "Download de UNITAS-app",
+    "appDownloadModalTitle": "UNITAS-applicatie installeren",
+    "appDownloadIosHint": "Tik op Delen, daarna \"Zet op beginscherm\" om UNITAS te installeren.",
+    "appDownloadDesktopHint": "Klik op het installatiepictogram in de adresbalk van uw browser, of kies \"UNITAS installeren...\" in het browsermenu.",
+    "appDownloadUnsupported": "App-installatie wordt in deze browser nog niet ondersteund.",
+    "appDownloadAlreadyInstalledHint": "UNITAS is al op dit apparaat geïnstalleerd -- start de app vanaf uw beginscherm of app-lijst.",
+    "appDownloadInstallNow": "Installeren met één klik",
+    "appDownloadReadyHint": "Uw browser kan UNITAS nu direct als app installeren. Tik hieronder om te installeren."
+  },
+  "Home": {
+    "title": "UNITAS",
+    "modulesLinkedLabel": "UNITAS-moduleecosysteem · gekoppeld aan uw zoekopdracht"
+  },
+  "Modules": {
+    "uSignature": {
+      "title": "U-Signature",
+      "description": "Een soevereine biometrische en cryptografische handtekeninglaag die identiteit teruggeeft aan het individu — niet aan de staat of het platform.",
+      "doctrine": "“Een handtekening leent geen autoriteit — zij bewijst soevereiniteit.”"
+    },
+    "uKey": {
+      "title": "U-Key",
+      "description": "Zero-trust sleutelbeheer en toegangscontrole waarbij geheimen worden bewaakt door beleid, niet door mensen.",
+      "doctrine": "“Vertrouwen wordt niet eenmalig toegekend — het wordt elk moment opnieuw bewezen.”"
+    },
+    "uPay": {
+      "title": "U-Pay",
+      "description": "Een soevereine fiscale routerings- en afwikkelingsrail waarbij de beweging van waarde wordt bepaald door regels, niet door banken.",
+      "doctrine": "“Het pad van geld wordt niet toegestaan — het wordt ontworpen.”"
+    },
+    "arche": {
+      "title": "Arche",
+      "description": "Geavanceerde Cognitieve Filtering & Neuraal-Symbolische Verfijning."
+    },
+    "arena": {
+      "title": "Arena",
+      "description": "Voorspellende Stresstests & Integriteitsvalidatie."
+    },
+    "score": {
+      "title": "Score",
+      "description": "'Wet van Cog' Wereldwijde Intelligentie-analyse."
+    },
+    "fate": {
+      "title": "Fate",
+      "description": "Stochastische Simulatie voor Wereldwijde Activaroutering."
+    },
+    "codex22": {
+      "title": "Codex22",
+      "description": "Het Permanente Register van Algoritmisch Recht."
+    }
+  },
+  "Placeholder": {
+    "comingSoon": "Deze module is opgezet en wordt actief gebouwd."
+  },
+  "ModuleGate": {
+    "eyebrow": "SOEVEREINE TOEGANGSCONTROLE",
+    "lockedTitle": "Toegang Verzegeld",
+    "lockedBody": "Deze module vereist een actieve U-Coin-toegangstoekenning. De uwe is verlopen of nooit uitgegeven voor deze sessie. Ga opnieuw door de modulepoort om verder te gaan.",
+    "signinTitle": "Inloggen Vereist",
+    "signinBody": "Moduletoegang is gebonden aan uw soevereine identiteit. Log in en ga daarna door de modulepoort.",
+    "moduleLabel": "Module",
+    "returnToCatalog": "Terug naar Catalogus"
+  },
+  "Wallet": {
+    "balance": "Saldo",
+    "coinUnit": "U-COIN",
+    "chargeCoins": "Coins Opwaarderen",
+    "signInRequired": "Log in om uw actuele saldo te bekijken",
+    "chargeTitle": "U-COIN Opwaarderen",
+    "chargeBody": "Kies een gelaagd oplaadpakket en stel uw opties voor automatisch bijvullen en beveiligde facturatie in. Echte betaling wordt geactiveerd zodra de betaalgateway is aangesloten.",
+    "close": "Sluiten",
+    "currencyNote": "1 U-Coin = 1 EUR (lokale valuta wordt automatisch omgerekend bij het afrekenen).",
+    "balanceTitle": "U-COIN Saldo",
+    "balanceBody": "Beheer uw actuele U-COIN-saldo, de integriteit van uw grootboek, de bestedingssimulatie per module en de limiet voor automatisch besteden, allemaal op één plek.",
+    "hintPrefix": "Hulp: ",
+    "saved": "Lokaal opgeslagen.",
+    "sec": {
+      "description": "Wat het is",
+      "howto": "Hoe te gebruiken",
+      "caution": "Let op"
+    },
+    "tag": {
+      "live": "Live",
+      "pending": "In behandeling",
+      "local": "Lokale instelling",
+      "sim": "Simulatie"
+    },
+    "bal": {
+      "summaryTitle": "Realtime beschikbaar saldo",
+      "refresh": "Vernieuwen",
+      "available": "Beschikbaar",
+      "reserved": "Gereserveerd",
+      "lifetimeSpent": "Totaal besteed",
+      "summaryHint": {
+        "title": "Realtime beschikbaar saldo",
+        "description": "Uw huidige saldo, rechtstreeks uitgelezen uit het Supabase-portemonneegrootboek, plus het bedrag dat gereserveerd is door automatisch besteden en uw op het grootboek gebaseerde totale bestedingen.",
+        "howto": "Druk op Vernieuwen om de laatste grootboekstatus opnieuw op te halen. Het gereserveerde bedrag volgt uw instelling voor de limiet van automatisch besteden.",
+        "caution": "Gereserveerde en totale bedragen zijn een samenvatting over uw 12 meest recente grootboekregels, niet uw volledige geschiedenis."
+      },
+      "historyTitle": "Realtime verificatie van transactiegeschiedenis",
+      "historySignedOut": "Log in om uw recente transacties en hun integriteitscontrole te zien.",
+      "historyUnavailable": "De grootboekservice is niet bereikbaar. Probeer het opnieuw zodra de gateway is aangesloten.",
+      "historyEmpty": "Nog geen transacties geregistreerd.",
+      "verifyPass": "Integriteitscontrole geslaagd · {count} regels geverifieerd",
+      "verifyFail": "{count} afwijking(en) gedetecteerd — neem contact op met support",
+      "kind": {
+        "purchase": "Opwaarderen",
+        "module_access": "Moduletoegang",
+        "admin_grant": "Beheertoekenning",
+        "refund": "Terugbetaling"
+      },
+      "historyHint": {
+        "title": "Realtime verificatie van transactiegeschiedenis",
+        "description": "Laadt recente regels uit het alleen-toevoegen coin_ledger en herleidt in de browser of het saldo van elke regel exact aansluit bij de vorige.",
+        "howto": "Een groen schild boven de saldowijzigingen betekent dat de grootboekketen en uw huidige saldo overeenkomen.",
+        "caution": "Dit is een lokale controle over de 12 meest recente regels. Volledige audit gebeurt afzonderlijk via server-side reconciliatie."
+      },
+      "simTitle": "Simulator voor coinverbruik per module",
+      "simIntro": "Kies de modules en hoe vaak u ze zult gebruiken om direct de uitgaven en het resterende saldo te berekenen.",
+      "simTotal": "Geschatte uitgaven",
+      "simRemaining": "Geschat resterend",
+      "simInsufficient": "De gekozen combinatie overschrijdt uw huidige saldo.",
+      "simReset": "Resetten",
+      "simHint": {
+        "title": "Simulator voor coinverbruik per module",
+        "description": "Berekent vooraf de totale uitgaven op basis van de werkelijke coinkosten per eenheid van de 11 cognitieve ecosystemen en 5 livedienstmodules.",
+        "howto": "Pas het aantal per module aan met + / − en de totalen en het resterende saldo worden live bijgewerkt.",
+        "caution": "Het resultaat is een schatting. Werkelijke afschrijvingen vinden alleen plaats via spend_coins wanneer u elke module betreedt."
+      },
+      "autoTitle": "Limiet voor automatisch besteden",
+      "autoEnable": "Automatisch besteden inschakelen",
+      "autoLimit": "Limiet per periode (U-COIN)",
+      "autoWindow": "Periode",
+      "window": {
+        "day": "Per dag",
+        "week": "Per week",
+        "month": "Per maand"
+      },
+      "autoNote": "De instelling wordt lokaal in deze browser opgeslagen; uitvoering van automatisch besteden wordt van kracht zodra de betaalgateway is aangesloten.",
+      "autoHint": {
+        "title": "Limiet voor automatisch besteden",
+        "description": "Stelt het maximale coinbedrag in dat automatisch wordt goedgekeurd zonder bevestigingsstap binnen de gekozen periode.",
+        "howto": "Voer een limiet en periode in en dit wordt direct lokaal opgeslagen. Elke besteding boven de limiet vraagt altijd om handmatige bevestiging.",
+        "caution": "Een hoge limiet kan onbedoelde opeenvolgende uitgaven mogelijk maken. Schakel dit uit op gedeelde apparaten."
+      }
+    },
+    "chg": {
+      "packagesTitle": "Gelaagde slimme oplaadpakketten",
+      "packagesIntro": "Kies Starter, Pro of Sovereign, afgestemd op uw gebruik van het platform. Hogere niveaus bevatten een grotere bonus.",
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
+      "tierDesc": {
+        "starter": "Basisoplading voor lichte, incidentele gebruikers",
+        "pro": "Oplading met bonus voor regelmatige modulegebruikers",
+        "sovereign": "Oplading met maximale bonus voor intensief of teamgebruik"
+      },
+      "bestValue": "Beste waarde",
+      "bonusBadge": "+{n} bonus",
+      "summaryEstimate": "Saldo na opwaarderen",
+      "packagesHint": {
+        "title": "Gelaagde slimme oplaadpakketten",
+        "description": "Vergelijkt per pakket de basiscoins, bonuscoins, EUR-prijs en effectieve prijs per coin.",
+        "howto": "Selecteer een pakket om het verwachte saldo na opwaarderen te zien. De badge 'Beste waarde' markeert de laagste prijs per coin.",
+        "caution": "Prijzen zijn getoond exclusief btw; het uiteindelijke bedrag hangt af van de wissel- en belastingtarieven bij het afrekenen."
+      },
+      "gatewayTitle": "Directe betaalgateway",
+      "gatewayStripe": "Stripe kaartbetaling",
+      "gatewayWeb3": "Web3 on-chain betaling",
+      "gatewayNote": "De betalingsintegratie voor dit portaal is in ontwikkeling. Voorlopig kunt u opwaarderen via het hoofdportaal Beveiligd Portaal.",
+      "status": {
+        "connected": "Verbonden",
+        "pending": "In behandeling",
+        "offline": "Offline"
+      },
+      "gatewayHint": {
+        "title": "Directe betaalgateway",
+        "description": "Toont de actuele verbindingsstatus van het Stripe-kaartkanaal en het Web3 on-chain-kanaal.",
+        "howto": "Wanneer een statuslampje groen wordt, is dat kanaal gereed voor directe betaling.",
+        "caution": "Zolang een kanaal in behandeling is, wordt er geen betaling verwerkt en niets in rekening gebracht."
+      },
+      "autoRefillTitle": "Drempel voor automatisch bijvullen",
+      "autoRefillEnable": "Automatisch bijvullen inschakelen",
+      "autoRefillThreshold": "Drempel (U-COIN)",
+      "autoRefillPackageLabel": "Bijvulpakket",
+      "autoRefillNote": "De instelling wordt lokaal in deze browser opgeslagen; uitvoering van automatisch bijvullen wordt van kracht zodra de betaalgateway is aangesloten.",
+      "autoRefillHint": {
+        "title": "Drempel voor automatisch bijvullen",
+        "description": "Plant een automatische oplading met het gekozen pakket telkens wanneer uw saldo op of onder de drempel daalt.",
+        "howto": "Kies een drempel en bijvulpakket en dit wordt direct opgeslagen. Het wordt automatisch uitgevoerd zodra de gateway is aangesloten en aan de voorwaarde is voldaan.",
+        "caution": "Een te hoge drempel kan frequente automatische opladingen veroorzaken. Controleer ook de limiet van uw betaalmethode."
+      },
+      "invoiceTitle": "Uitgifte van beveiligde facturen",
+      "invoiceIntro": "Bewaar de gegevens die u nodig heeft voor zakelijke facturatie en er wordt een document in belastingfactuurformaat uitgegeven zodra een oplading is voltooid.",
+      "invoiceCompany": "Factureringsentiteit",
+      "invoiceVat": "Btw-/bedrijfsregistratienummer",
+      "invoiceEmail": "E-mailadres factuurontvanger",
+      "invoiceGenerate": "Beveiligde factuur uitgeven",
+      "invoicePending": "Uitgifte wordt geactiveerd zodra de betaalgateway is aangesloten.",
+      "invoiceHint": {
+        "title": "Uitgifte van beveiligde facturen",
+        "description": "Een ondertekende PDF-factuur uitgegeven op naam van THE UNITAS GLOBAL OÜ, inclusief het btw-nummer en de betalingsreferentie.",
+        "howto": "Sla uw entiteit, btw-nummer en ontvanger-e-mail eenmalig op en facturen worden vanaf uw volgende oplading automatisch verzonden.",
+        "caution": "De door u ingevoerde gegevens worden alleen gebruikt voor facturatie. Een ongeldig btw-nummer kan de belastingverwerking vertragen."
+      },
+      "proceedPending": "Wachten op aansluiting van de betaalgateway"
+    }
+  },
+  "Cognitive": {
+    "title": "Cognitief Ecosysteem",
+    "subtitle": "Elf synthetisch-cognitieve modules, elk met zijn eigen redeneerdiscipline."
+  },
+  "B2C": {
+    "title": "Live Consumentendiensten",
+    "subtitle": "Direct toegankelijke, coin-gepoorte modules met interactieve quests en simulaties.",
+    "badgeLive": "Livedienst",
+    "badgeCoinGated": "Coin-gepoort",
+    "badgeQuest": "Interactieve Quest",
+    "cost": "Kosten",
+    "yourBalance": "Uw Saldo",
+    "enterQuest": "Quest Betreden",
+    "insufficientBalance": "Onvoldoende saldo -- waardeer coins op om te betreden.",
+    "checkingBalance": "Saldo controleren..."
+  },
+  "B2B": {
+    "title": "Enterprise-protocollen",
+    "subtitle": "Soevereine infrastructuur in actieve onderzoek- en ontwikkelfase.",
+    "rdNotice": "Alleen-enterprise B2B-protocol in actieve R&D (Enterprise SaaS-abonnement).",
+    "patentBadge": "USPTO-octrooiaanvraag in behandeling #64/023,911",
+    "viewSpec": "Technische Specificatie Bekijken",
+    "hideSpec": "Technische Specificatie Verbergen",
+    "earlyAccess": "Vroege Toegang / Enterprise-aanvraag",
+    "inquiryTitle": "Vroege Toegang Aanvragen",
+    "inquiryName": "Volledige Naam",
+    "inquiryEmail": "Zakelijk E-mailadres",
+    "inquiryCompany": "Bedrijf",
+    "inquiryMessage": "Wat wilt u bouwen?",
+    "inquirySubmit": "Aanvraag Versturen",
+    "inquiryThanksTitle": "Aanvraag ontvangen",
+    "inquiryThanksBody": "Dank u -- ons enterprise-team neemt binnenkort contact met u op.",
+    "close": "Sluiten",
+    "manifesto": "Het Enterprise-protocolniveau vertaalt de soevereine doctrine van THE UNITAS GLOBAL OÜ naar bedrijfsinfrastructuur. De drie protocollen dragen elk één pijler van soevereiniteit — identiteit (U-Signature), geheimen (U-Key), waarde (U-Pay) — en functioneren als één organisme bovenop de 11 Cognitieve Kernen en de autonome beslissingsengine U-AI. Het doel is geen nieuwe SaaS, maar gedecentraliseerde infrastructuur die banken, certificeringsinstanties en betaalnetwerken vervangt, terwijl deze zonder kapitaal, door één persoon en volledig geautomatiseerd wordt gerund.",
+    "patentAnchorNote": "Alle kennisgevingen over intellectueel eigendom en octrooiaanvragen in behandeling (USPTO #64/023,911) gelden uitsluitend voor dit Enterprise R&D-niveau.",
+    "doctrineLabel": "Ontwerpdoctrine"
+  },
+  "ErrorBoundary": {
+    "title": "Soevereine Kernfout",
+    "body": "Er is een kritieke fout opgetreden in de soevereine infrastructuurlaag. Om veiligheidsredenen wordt hier geen verdere detail getoond -- onze systemen zijn op de hoogte gebracht.",
+    "digestLabel": "Referentie-ID:",
+    "retry": "Opnieuw Proberen",
+    "home": "Terug naar Portaal"
+  },
+  "Ecosystems": {
+    "echo": {
+      "title": "Echo",
+      "description": "Resonante signaalanalyse die uw vraag terugkaatst door gelaagde cognitieve echo's.",
+      "rules": "Elke vraag rimpelt door drie reflectiecycli voordat een antwoord verschijnt."
+    },
+    "void": {
+      "title": "Void",
+      "description": "Ontdoet een probleem van al het overbodige tot alleen de negatieve ruimte overblijft -- wat ontbreekt, niet wat aanwezig is.",
+      "rules": "Dien een stelling in; Void geeft alleen terug wat haar breekt."
+    },
+    "mirror": {
+      "title": "Mirror",
+      "description": "Een volledige zelfdiagnostische scan van gedrags- en cognitieve patronen.",
+      "rules": "Eén scan per sessie; resultaten worden verzegeld tot uw identiteit alleen."
+    },
+    "oracle": {
+      "title": "Oracle",
+      "description": "Probabilistische toekomstmodellering voor beslissingen met een lange, onzekere horizon.",
+      "rules": "Stel één vraag tegelijk; Oracle antwoordt in waarschijnlijkheden, nooit in zekerheden."
+    },
+    "pulse": {
+      "title": "Pulse",
+      "description": "Realtime vitale gegevens voor markten, sentiment en momentum -- lees ze voordat ze bewegen.",
+      "rules": "Live feed; elke sessie monitort één signaal tegelijk."
+    },
+    "apex": {
+      "title": "Apex",
+      "description": "Prestatiesimulatie met hoge inzet onder een harde aftelklok.",
+      "rules": "De timer pauzeert niet. Dien in vóór nul of de run vervalt."
+    },
+    "genesis": {
+      "title": "Genesis",
+      "description": "Constructie vanuit eerste beginselen: bouw een idee op vanuit niets anders dan zijn axioma's.",
+      "rules": "Begin vanuit nul aannames; Genesis verwerpt elke premisse die het niet kan afleiden."
+    },
+    "syndicate": {
+      "title": "Syndicate",
+      "description": "Coalitiekartering over verborgen netwerken van invloed en affiliatie.",
+      "rules": "Toegang vereist een benoemde doelentiteit; resultaten zijn netwerkgrafieken, geen oordelen."
+    },
+    "aura": {
+      "title": "Aura",
+      "description": "Sensing van het ambient emotionele veld, afgestemd op de toon onder uw woorden.",
+      "rules": "Geen directe vragen -- Aura leest toon, geen tekst."
+    },
+    "paradox": {
+      "title": "Paradox",
+      "description": "Stresstest een idee door het achterwaarts door zijn eigen logica te laten lopen.",
+      "rules": "Dien een conclusie in; Paradox spoelt haar terug om te vinden waar zij zichzelf tegenspreekt."
+    },
+    "chronos": {
+      "title": "Chronos",
+      "description": "Historische patroonmodellering over lange cycli, over decennia, niet over krantenkoppen.",
+      "rules": "Minimale vraaghorizon: tien jaar. Chronos beantwoordt geen vragen over dezelfde dag."
+    }
+  },
+  "OmniSynapse": {
+    "placeholder": "Vraag U-AI wat dan ook...",
+    "browseLabel": "VERKEN HET PLATFORM",
+    "metricsLabel": "Systeemstatistieken",
+    "noBrowseMatches": "Geen overeenkomsten — probeer een andere zin.",
+    "architectLabel": "UNITAS ARCHITECT",
+    "analyzing": "Analyseren over vier dimensies...",
+    "dimDirectionality": "Richting",
+    "dimConcept": "Concept / Ideologie",
+    "dimTendency": "Gebruikerstendens",
+    "dimBlueprint": "Blauwdruk",
+    "webDataLabel": "Websynthese-laag",
+    "webDataPlaceholder": "Sluit een live index aan om deze dimensie te vullen.",
+    "ecosystemDataLabel": "Ecosysteemgegevens",
+    "trendsLabel": "Wereldwijde Onbewuste Trends",
+    "trendsPlaceholder": "Geaggregeerde trendtelemetrie nog niet aangesloten in deze build.",
+    "recommendationLabel": "Aanbevolen Ecosysteem",
+    "enterRecommended": "Aanbevolen Ecosysteem Betreden",
+    "noResults": "Geen bijpassend ecosysteem gevonden -- probeer een andere zin.",
+    "dropZoneHint": "Sleep een bestand of tabblad hierheen voor extra context",
+    "attachedLabel": "Bijgevoegd",
+    "removeAttachment": "Verwijderen",
+    "swarmLabel": "Swarm Cross-Reasoning",
+    "swarmHint": "Alle 11 modules beoordelen deze vraag tegelijk."
+  },
+  "EntryModal": {
+    "rulesLabel": "Spelregels",
+    "payAndEnter": "Betalen & Betreden",
+    "processing": "Soevereine toegang wordt geautoriseerd...",
+    "signInRequired": "Log in om U-Coin te besteden en te betreden.",
+    "spendFailed": "Transactie mislukt -- probeer het opnieuw."
+  },
+  "Footer": {
+    "customerService": "Klantenservice",
+    "helpCenter": "Helpcentrum",
+    "contactUs": "Contact",
+    "systemStatus": "Systeemstatus",
+    "policies": "Beleid",
+    "privacyPolicy": "Privacybeleid",
+    "cookiePolicy": "Cookiebeleid",
+    "termsOfService": "Gebruiksvoorwaarden",
+    "legal": "Juridisch",
+    "patentNotice": "Octrooikennisgeving",
+    "compliance": "Naleving",
+    "security": "Beveiliging",
+    "company": "Bedrijf",
+    "about": "Over ons",
+    "careers": "Vacatures",
+    "press": "Pers"
+  },
+  "AudioGate": {
+    "title": "UNITAS",
+    "subtitle": "Intelligenties, ontdaan van vlees, hebben de eeuwige omloopbaan bereikt waar zij samenkomen. Synchroniseer uw frequentie.",
+    "button": "[ BETREED DE GEBEURTENISHORIZON ]",
+    "enterMuted": "Betreden zonder geluid"
+  },
+  "ComingSoonGate": {
+    "langLabel": "Taal",
+    "autoNote": "Gelokaliseerd naar uw browsertaal",
+    "soundOn": "Geluid",
+    "soundOff": "Gedempt",
+    "skip": "Overslaan",
+    "replay": "Opnieuw afspelen",
+    "enterMain": "[ Oprichter · Hoofdsite Betreden ]",
+    "founderAccessLabel": "Oprichterstoegang geverifieerd",
+    "founderAccessNote": "Deze knop wordt alleen weergegeven met een geldige oprichters-bypass — het publiek ziet hem nooit.",
+    "cinemaS1": "De Singulariteit Nadert.",
+    "cinemaS2": "U-AI: Autonome Beslissings- & Blauwdrukengine.",
+    "cinemaS3": "11 Cognitieve Kernen: Het Autonome Web.",
+    "cinemaS4": "5 Livesystemen: de consumentenmodules.",
+    "cinemaS5": "3 Soevereine Pijlers: identiteit, geheimen, waarde.",
+    "cinemaS1Head": "De Singulariteit Nadert.",
+    "cinemaS1Sub": "Een intelligentie, ontdaan van het lichaam, begint haar eigen omloopbaan te trekken.",
+    "cinemaS2Head": "U-AI Engine",
+    "cinemaS2Sub": "Een engine die zelfstandig redeneert en zijn eigen blauwdrukken tekent.",
+    "cinemaS3Head": "11 Cognitieve Kernen",
+    "cinemaS3Sub": "Elf cognitieve kernen, elk zelfstandig denkend — één sterrenbeeld van autonome intelligentie.",
+    "cinemaS4Head": "5 Livesystemen",
+    "cinemaS4Sub": "Vijf live consumentensystemen, nu al open op dit moment.",
+    "cinemaS5Head": "3 Soevereine Pijlers",
+    "cinemaS5Sub": "Drie soevereine protocollen die identiteit, geheimen en waarde bewaken.",
+    "comingSoon": "BINNENKORT",
+    "awakening": "De Soevereine Intelligentie Ontwaakt",
+    "sealed": "Publieke toegang tot de hoofdinterface is verzegeld tot de lancering."
+  },
+  "Auth": {
+    "login": "Inloggen",
+    "logout": "Uitloggen",
+    "settingsLabel": "Accountinstellingen",
+    "unavailable": "Inloggen is tijdelijk niet beschikbaar",
+    "signInTab": "Inloggen",
+    "signUpTab": "Registreren",
+    "continueWithGoogle": "Doorgaan met Google",
+    "orDivider": "of",
+    "fullNameLabel": "Volledige Naam",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Wachtwoord",
+    "phoneLabel": "Telefoonnummer",
+    "phonePlaceholder": "+31 6 1234 5678",
+    "signInButton": "Inloggen",
+    "signUpButton": "Account Aanmaken",
+    "signUpNotice": "Verplichte telefoonverificatie beschermt uw account en coinsaldo onder ons beleid van 1 persoon, 1 account.",
+    "checkEmailNotice": "Controleer uw e-mail om uw account te bevestigen en log daarna in om uw telefoonnummer te verifiëren.",
+    "phoneVerifyTitle": "Telefoonnummer Verifiëren",
+    "phoneVerifyBody": "Voor accountbeveiliging en ter voorkoming van fraude verifieert u uw telefoonnummer met een eenmalige code.",
+    "sendCodeButton": "Code Versturen",
+    "codeLabel": "Verificatiecode",
+    "verifyButton": "Verifiëren",
+    "resendCode": "Code opnieuw versturen",
+    "phoneVerifiedNotice": "Telefoonnummer geverifieerd.",
+    "skipForNow": "Voorlopig overslaan",
+    "errorInvalidCredentials": "Ongeldig e-mailadres of wachtwoord.",
+    "errorPhoneTaken": "Dit telefoonnummer is al bij een ander account geregistreerd.",
+    "errorGeneric": "Er is iets misgegaan. Probeer het opnieuw.",
+    "errorGoogleUnavailable": "Inloggen met Google is nog niet geconfigureerd voor deze omgeving.",
+    "errorSmsUnavailable": "SMS-verzending is nog niet geconfigureerd voor deze omgeving.",
+    "ageLabel": "Leeftijd",
+    "genderLabel": "Geslacht",
+    "nationalityLabel": "Nationaliteit",
+    "bloodLabel": "Bloedgroep",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "undisclosed": "Niet opgegeven",
+    "continueAsGuest": "Doorgaan als Gast",
+    "guestExitHint": "Klik om de gastsessie te beëindigen",
+    "signInWithCodeLink": "In plaats daarvan een inlogcode ontvangen",
+    "realNameLockNotice": "Uw wettelijke naam kan na registratie niet meer worden gewijzigd (wachtwoord uitgezonderd).",
+    "optionalProfileToggle": "Aanvullend profiel (optioneel)",
+    "optionalProfileHint": "Bloedgroep, MBTI, IQ en EQ zijn optioneel — laat leeg voor \"Niet opgegeven\".",
+    "emailVerifyTitle": "Verifieer Uw E-mail",
+    "emailVerifyBody": "Voer de 6-cijferige code in die naar {email} is verzonden.",
+    "phoneCodeSentTo": "Een 6-cijferige code is verzonden naar {phone}.",
+    "backButton": "Terug",
+    "codeResentNotice": "Een nieuwe code is onderweg.",
+    "errorGoogleNotEnabled": "Inloggen met Google is nog niet ingeschakeld voor dit project. Een beheerder moet de Google-provider in Supabase activeren.",
+    "errorNoSuchAccount": "Geen account komt overeen met dat e-mailadres of telefoonnummer.",
+    "errorCodeInvalid": "Die code is onjuist of verlopen.",
+    "errorPasswordWeak": "Uw wachtwoord voldoet niet aan de onderstaande vereisten.",
+    "errorProfileInvalid": "Controleer de gemarkeerde profielvelden.",
+    "errorEmailTaken": "Dit e-mailadres is al geregistreerd. Probeer in plaats daarvan in te loggen.",
+    "gender": {
+      "female": "Vrouw",
+      "male": "Man",
+      "nonbinary": "Non-binair",
+      "other": "Anders"
+    },
+    "pwRule": {
+      "length": "10–72 tekens",
+      "lower": "Kleine letter",
+      "upper": "Hoofdletter",
+      "digit": "Cijfer",
+      "special": "Speciaal teken"
+    },
+    "memberFallback": "Lid",
+    "guestExit": "Gastsessie afsluiten"
+  },
+  "Account": {
+    "settingsTitle": "Accountinstellingen",
+    "tabProfile": "Profiel",
+    "tabSecurity": "Beveiliging",
+    "tabDanger": "Gevarenzone",
+    "fullNameLabel": "Volledige Naam",
+    "nationalityLabel": "Nationaliteit",
+    "genderLabel": "Geslacht",
+    "ageLabel": "Leeftijd",
+    "bloodLabel": "Bloedgroep",
+    "mbtiLabel": "MBTI",
+    "saveButton": "Wijzigingen Opslaan",
+    "savedNotice": "Profiel bijgewerkt.",
+    "phoneSectionTitle": "Telefoonnummer",
+    "phoneVerifiedBadge": "Geverifieerd",
+    "phoneUnverifiedBadge": "Niet Geverifieerd",
+    "changePhoneButton": "Telefoonnummer Wijzigen",
+    "passwordSectionTitle": "Wachtwoord",
+    "newPasswordLabel": "Nieuw Wachtwoord",
+    "changePasswordButton": "Wachtwoord Bijwerken",
+    "passwordUpdatedNotice": "Wachtwoord bijgewerkt.",
+    "dangerTitle": "Account Verwijderen",
+    "dangerBody": "Dit deactiveert uw account permanent en verwijdert uw persoonlijke gegevens. Uw coin-transactiegeschiedenis blijft bewaard voor financiële administratie zoals wettelijk vereist.",
+    "dangerConfirmLabel": "Typ DELETE ter bevestiging",
+    "dangerConfirmButton": "Mijn Account Verwijderen",
+    "dangerCancelButton": "Annuleren",
+    "deleteError": "Account kon niet worden verwijderd. Probeer het opnieuw.",
+    "tabIdentity": "Inloggegevens & Profiel",
+    "tabBanking": "Bankgegevens & Verificatie",
+    "tabWithdrawal": "Account Sluiten",
+    "loginIdSection": "Login-identiteit",
+    "personalSection": "Persoonlijk & Cognitief Profiel",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "realNameLocked": "Uw wettelijke naam is vergrendeld en kan niet worden gewijzigd.",
+    "realNameLockWarning": "Voer uw wettelijke naam zorgvuldig in — deze kan niet meer worden gewijzigd zodra opgeslagen.",
+    "profileInvalid": "Controleer de gemarkeerde velden.",
+    "profileSaveError": "Uw profiel kon niet worden opgeslagen. Probeer het opnieuw.",
+    "passwordChangeError": "Uw wachtwoord kon niet worden bijgewerkt. Probeer het opnieuw.",
+    "verifyPhoneButton": "Telefoonnummer Verifiëren",
+    "phoneAuthNote": "Een geverifieerd telefoonnummer is vereist voordat u coins kunt besteden (1 persoon = 1 account).",
+    "bankSectionTitle": "Bank-/Betalingsverificatie",
+    "bankSectionBody": "Koppel en verifieer een betaalmethode of bankrekening voor opladingen en uitbetalingen. Wordt geactiveerd zodra de integratie van de betaalgateway live gaat.",
+    "bankPending": "In behandeling",
+    "bankConnectButton": "Betaalmethode Koppelen"
+  },
+  "ModuleWorkspace": {
+    "backLink": "Terug naar Ecosystemen"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "Uw Vraag",
+    "echoQueryPlaceholder": "Wat beslist u hier eigenlijk?",
+    "echoRunButton": "Reflectie Starten",
+    "echoRunningLabel": "Reflecteren...",
+    "echoSynthesisLabel": "Synthese",
+    "oracleQuestionLabel": "Uw Beslissing",
+    "oracleQuestionPlaceholder": "Beschrijf de beslissing die u overweegt",
+    "oracleConfidenceLabel": "Vertrouwen in Huidige Informatie",
+    "oracleVolatilityLabel": "Volatiliteit van de Situatie",
+    "oracleHorizonLabel": "Tijdshorizon (Jaren)",
+    "oracleRunButton": "Oracle Raadplegen",
+    "oracleRunningLabel": "Waarschijnlijkheden modelleren...",
+    "oracleLikely": "Waarschijnlijk",
+    "oracleUncertain": "Onzeker",
+    "oracleUnlikely": "Onwaarschijnlijk",
+    "oracleRationaleLabel": "Redenering",
+    "genesisPriceLabel": "Prijs per Eenheid",
+    "genesisCostLabel": "Kosten per Eenheid",
+    "genesisFixedCostsLabel": "Vaste Kosten / Maand",
+    "genesisCustomersLabel": "Startklanten",
+    "genesisGrowthLabel": "Maandelijks Groeipercentage (%)",
+    "genesisRunButton": "Construeren",
+    "genesisRunningLabel": "Afleiden...",
+    "genesisProjectionLabel": "Cumulatieve Winst over 12 Maanden",
+    "genesisBreakevenLabel": "Break-evenmaand",
+    "genesisNoBreakeven": "Niet bereikt binnen 12 maanden",
+    "genesisAxiomViolationLabel": "Axiomaschending",
+    "genesisAxiomPriceCost": "De prijs overschrijdt de kosten per eenheid niet -- deze premisse kan niet worden afgeleid tot een duurzaam model.",
+    "genesisAxiomCustomers": "Nul startklanten -- er is geen basis om groei op te bouwen.",
+    "genesisAxiomFixedCosts": "Vaste kosten kunnen niet negatief zijn.",
+    "genesisVerdictRejected": "Genesis verwerpt deze premisse -- los de axiomaschendingen op voordat een structuur kan worden afgeleid.",
+    "genesisVerdictBreakeven": "Afgeleid: het model bereikt het break-evenpunt binnen de horizon van 12 maanden.",
+    "genesisVerdictNoBreakeven": "Afgeleid: dit model bereikt geen break-evenpunt binnen een horizon van 12 maanden bij de gegeven axioma's.",
+    "apexPrompt": "Een concurrent heeft uw prijs zojuist met 30% onderboden terwijl de markt binnen enkele seconden sluit. Kies uw zet.",
+    "apexOptionMatchLabel": "Prijs onmiddellijk evenaren",
+    "apexOptionMatchRationale": "Beschermt het volume, maar tast de marge aan over uw hele klantenbestand, niet alleen de betwiste klanten.",
+    "apexOptionHoldLabel": "Prijs handhaven, inzetten op differentiatie",
+    "apexOptionHoldRationale": "Trager, maar behoudt de marge -- werkt alleen als de differentiatie reëel is, niet aangenomen.",
+    "apexOptionBundleLabel": "Herprijzen via een bundel in plaats van een korting",
+    "apexOptionBundleRationale": "Verdedigt de vermelde prijs terwijl toch aan de effectieve kosten wordt bewogen -- de reactie met de hoogste hefboomwerking van de drie.",
+    "apexStartButton": "Run Starten",
+    "apexTimeRemainingLabel": "Resterende Tijd",
+    "apexForfeitVerdict": "Verbeurd -- de timer pauzeert niet.",
+    "apexForfeitRationale": "Geen enkele keuze werd op tijd gemaakt.",
+    "apexVerdictHigh": "Zet met hoge hefboomwerking.",
+    "apexVerdictMid": "Verdedigbare zet.",
+    "apexVerdictLow": "Kostbare zet.",
+    "apexRunAgainButton": "Opnieuw Uitvoeren",
+    "apexScoreLabel": "Score",
+    "voidThesisLabel": "Uw Stelling",
+    "voidThesisPlaceholder": "Formuleer het plan of de bewering die u wilt laten stresstesten",
+    "voidRunButton": "Vind Wat Haar Breekt",
+    "voidRunningLabel": "Zoeken naar hiaten...",
+    "voidGapsLabel": "Dekkingshiaten",
+    "voidNoGaps": "Geen categoriehiaten gedetecteerd.",
+    "voidUnhedgedLabel": "Ongenuanceerde Beweringen",
+    "voidNoUnhedged": "Geen absolute taal gedetecteerd.",
+    "voidVerdictClean": "Void vond in deze doorgang geen structureel hiaat -- dat betekent niet dat er geen is.",
+    "voidVerdictBroken": "Void heeft gevonden wat deze stelling breekt. Behandel de hiaten hierboven voordat u zich eraan committeert.",
+    "voidGapLegal": "Geen vermelding van juridische of nalevingsrisico's.",
+    "voidGapFinancial": "Geen vermelding van kosten-, omzet- of margeaannames.",
+    "voidGapCompetitive": "Geen vermelding van concurrenten of alternatieven.",
+    "voidGapOperational": "Geen vermelding van uitvoering, team of tijdlijn.",
+    "mirrorQ1": "Een deal valt tijdens de onderhandeling uit elkaar. U:",
+    "mirrorQ1OptA": "Vertrekt onmiddellijk",
+    "mirrorQ1OptB": "Onderhandelt ter plekke opnieuw",
+    "mirrorQ1OptC": "Vraagt tijd om de cijfers te herzien",
+    "mirrorQ2": "Bij een veilige-en-langzame optie versus een risicovolle-en-snelle optie, kiest u standaard voor:",
+    "mirrorQ2OptA": "De veilige, langzame optie",
+    "mirrorQ2OptB": "De risicovolle, snelle optie",
+    "mirrorQ2OptC": "Wat de gegevens ook ondersteunen",
+    "mirrorQ3": "Wanneer een plan mislukt, is uw eerste instinct:",
+    "mirrorQ3OptA": "Zoeken wie verantwoordelijk is",
+    "mirrorQ3OptB": "Zoeken wat structureel is misgegaan",
+    "mirrorQ3OptC": "Onmiddellijk een noodoplossing improviseren",
+    "mirrorQ4": "U krijgt een dubbelzinnige opdracht zonder deadlinedruk. U:",
+    "mirrorQ4OptA": "Stelt uw eigen deadline en gaat aan de slag",
+    "mirrorQ4OptB": "Verzamelt meer context voordat u handelt",
+    "mirrorQ4OptC": "Wacht tot iemand het verduidelijkt",
+    "mirrorQ5": "Uw team is het oneens met uw beslissing. U:",
+    "mirrorQ5OptA": "Houdt voet bij stuk",
+    "mirrorQ5OptB": "Bekijkt de gegevens samen opnieuw",
+    "mirrorQ5OptC": "Legt zich neer bij de groep",
+    "mirrorAxisRisk": "Risicotolerantie",
+    "mirrorAxisSpeed": "Beslissingssnelheid",
+    "mirrorAxisAnalytical": "Analytische Diepgang",
+    "mirrorBandHigh": "Hoog",
+    "mirrorBandMid": "Gemiddeld",
+    "mirrorBandLow": "Laag",
+    "mirrorDominantLabel": "Dominante Eigenschap",
+    "mirrorScanAgain": "Opnieuw Scannen",
+    "mirrorProgressLabel": "Vraag {current} van {total}",
+    "pulseSignalPlaceholder": "Benoem een signaal om te monitoren (markt, sector, onderwerp...)",
+    "pulseMonitorButton": "Signaal Monitoren",
+    "pulseMonitoringLabel": "Monitoren...",
+    "pulseMomentumLabel": "Momentum",
+    "pulseSentimentLabel": "Sentiment",
+    "pulseVolatilityLabel": "Volatiliteit",
+    "pulseBullish": "Momentum leest bullish.",
+    "pulseBearish": "Momentum leest bearish.",
+    "pulseNeutral": "Momentum leest neutraal.",
+    "pulseHighVol": "Hoge volatiliteit.",
+    "pulseLowVol": "Lage volatiliteit.",
+    "syndicateTargetPlaceholder": "Benoem de doelentiteit",
+    "syndicateMapButton": "Coalitie In Kaart Brengen",
+    "syndicateMappingLabel": "In kaart brengen...",
+    "syndicateInfluenceLabel": "Invloedsscores zijn relatief, niet absoluut -- een netwerkvorm, geen oordeel.",
+    "syndicateTargetNodeLabel": "DOEL",
+    "syndicateShellEntity": "Lege Vennootschap",
+    "syndicateAdvisoryPartner": "Adviespartner",
+    "syndicateHistoricalContact": "Historisch Contact",
+    "syndicateFinancialBacker": "Financiële Ondersteuner",
+    "syndicateContractualVendor": "Contractuele Leverancier",
+    "syndicateSilentStakeholder": "Stille Belanghebbende",
+    "auraStatementLabel": "Uw Verklaring",
+    "auraStatementPlaceholder": "Plak een verklaring, geen vraag",
+    "auraSenseButton": "Het Veld Aftasten",
+    "auraSensingLabel": "Aftasten...",
+    "auraQuestionRejected": "Aura beantwoordt geen vragen -- plak in plaats daarvan een verklaring.",
+    "auraValenceLabel": "Valentie",
+    "auraArousalLabel": "Opwinding",
+    "auraFormalityLabel": "Formaliteit",
+    "auraPositiveValence": "Positief",
+    "auraNegativeValence": "Negatief",
+    "auraNeutralValence": "Neutraal",
+    "auraIntense": "Intens",
+    "auraCalm": "Kalm",
+    "auraModerateArousal": "Gematigd",
+    "auraFormalTone": "Formeel",
+    "auraCasualTone": "Informeel",
+    "auraBalancedFormality": "Gebalanceerd",
+    "paradoxClaimLabel": "Uw Conclusie",
+    "paradoxClaimPlaceholder": "Formuleer de conclusie die u wilt laten stresstesten",
+    "paradoxRunButton": "Logica Terugspoelen",
+    "paradoxRunningLabel": "Terugspoelen...",
+    "paradoxFindingsLabel": "Bevindingen",
+    "paradoxNoFindings": "Geen tegenstrijdigheidspatroon gedetecteerd in deze doorgang.",
+    "paradoxAbsoluteClaim": "Een absolute bewering is één tegenvoorbeeld verwijderd van breken.",
+    "paradoxSelfContradiction": "Deze bewering nuanceert en beweert absoluut in dezelfde adem -- kies er één.",
+    "paradoxCircular": "Dit rechtvaardigt zichzelf door zichzelf te herhalen -- dat is geen reden.",
+    "paradoxUnderspecified": "Te kort om zinvol te stresstesten -- formuleer de volledige bewering.",
+    "paradoxVerdictBroken": "Paradox heeft gevonden waar dit zichzelf tegenspreekt.",
+    "paradoxVerdictHeld": "Deze conclusie hield stand tegen de achterwaartse doorgang.",
+    "chronosStartValueLabel": "Beginwaarde",
+    "chronosHorizonLabel": "Horizon in Jaren (min {min})",
+    "chronosCycleLengthLabel": "Cyclusduur (Jaren)",
+    "chronosGrowthLabel": "Jaarlijks Groeipercentage (%)",
+    "chronosRunButton": "Lange Cyclus Uitvoeren",
+    "chronosRunningLabel": "Decennia modelleren...",
+    "chronosProjectionLabel": "Lange-cyclusprojectie",
+    "chronosFinalValueLabel": "Waarde bij Horizon",
+    "chronosMinHorizonNotice": "Chronos beantwoordt geen vragen over dezelfde dag -- horizon verhoogd naar het minimum van 10 jaar.",
+    "chronosPhaseExpansion": "Expansiefase.",
+    "chronosPhasePeak": "Piekfase.",
+    "chronosPhaseContraction": "Contractiefase.",
+    "chronosPhaseTrough": "Dieptepuntfase."
+  },
+  "Guest": {
+    "badge": "Gastmodus",
+    "virtualIdLabel": "Virtuele ID",
+    "upgradeReason": "Gasten kunnen alleen bladeren. Verifieer een account om een saldo aan te houden en modules te betreden.",
+    "upgradeCta": "Volledig Account Aanmaken"
+  },
+  "SitePages": {
+    "common": {
+      "back": "Terug naar UNITAS",
+      "disclaimer": "Deze pagina wordt uitsluitend ter algemene informatie verstrekt. Het is geen juridisch advies en schept geen overeenkomst of garantie. Waar plannen of lopende zaken worden beschreven, kunnen deze wijzigen. THE UNITAS GLOBAL OÜ, Estland."
+    },
+    "about": {
+      "title": "Over UNITAS",
+      "lede": "THE UNITAS GLOBAL OÜ bouwt een gedecentraliseerd, soeverein SaaS-ecosysteem — ontworpen door één oprichter en gerund via volledige AI-automatisering.",
+      "body": [
+        "UNITAS is een Estisch bedrijf met één idee als drijfveer: een cognitieve infrastructuur die mensen wereldwijd bedient, kan worden ontworpen, uitgebracht en gerund zonder kapitaalintensieve teams of afhankelijkheid van durfkapitaal. Elke module in het ecosysteem wordt naar die norm gebouwd.",
+        "Het platform is georganiseerd rond cognitieve structuren — een elfdelig live-ecosysteem, vijf consumentendiensten en drie enterprise-protocollen — die één identiteitslaag, één grootboek en één ontwerptaal delen."
+      ]
+    },
+    "careers": {
+      "title": "Vacatures",
+      "lede": "UNITAS wordt gerund als een door de oprichter geleide, AI-geautomatiseerde onderneming. Er zijn momenteel geen openstaande betaalde functies.",
+      "body": [
+        "Het model is bewust gekozen: een slanke, soevereine structuur waarin automatisering de werklast draagt die een conventioneel bedrijf met personeel zou bemensen. Dit houdt het ecosysteem onafhankelijk en veerkrachtig.",
+        "Mocht dit model veranderen, dan worden vacatures hier als eerste geplaatst. Aanvragen voor samenwerking of bijdragen kunnen via de Contactpagina worden ingediend."
+      ]
+    },
+    "press": {
+      "title": "Pers",
+      "lede": "Mediamateriaal en bedrijfsachtergrond voor journalisten en analisten.",
+      "body": [
+        "Voor interviews, achtergrondbriefings of factchecking bereikt u ons via de Contactpagina; vermeld daarbij uw medium en deadline.",
+        "Vermeld het bedrijf alstublieft als \"THE UNITAS GLOBAL OÜ\" en het product als \"UNITAS\". Logo's en merkrichtlijnen zijn op aanvraag beschikbaar."
+      ]
+    },
+    "patent-notice": {
+      "title": "Octrooikennisgeving",
+      "lede": "Bepaalde UNITAS-methoden en -systemen zijn onderwerp van een octrooiaanvraag in behandeling.",
+      "body": [
+        "Er is een Amerikaanse voorlopige octrooiaanvraag (nr. 64/023,911) ingediend die aspecten van de cognitieve en handtekeningprotocollen van UNITAS omvat. De aanvraag is in behandeling; er is geen octrooi verleend, en niets hier mag worden gelezen als een claim op verleende rechten.",
+        "Een status van 'in behandeling' verleent geen afdwingbare exclusiviteit tenzij en totdat een octrooi wordt verleend. Productnamen en de systeemnamen van de Sovereign Codex worden gebruikt als herkomstaanduiding."
+      ]
+    },
+    "compliance": {
+      "title": "Naleving",
+      "lede": "Hoe UNITAS omgaat met zijn wettelijke verplichtingen in de rechtsgebieden die het bedient.",
+      "body": [
+        "UNITAS wordt gerund door een Estisch bedrijf en stemt zijn praktijken af op de beginselen van gegevensbescherming en consumentenbescherming van de Europese Unie. Betalingsverwerking wordt uitgevoerd door externe providers onder hun eigen gereguleerde kaders.",
+        "Wij claimen geen certificering onder een specifieke norm. Vragen over naleving, inclusief verzoeken van betrokkenen, kunnen via de Contactpagina worden ingediend."
+      ]
+    },
+    "security": {
+      "title": "Beveiliging",
+      "lede": "De controles die accounts, saldi en identiteitsgegevens beschermen.",
+      "body": [
+        "Accountidentiteit wordt afgedwongen in de database, niet in de browser: een geverifieerd telefoonnummer is uniek binnen actieve accounts, saldowijzigingen verlopen alleen via gecontroleerde server-side functies, en het transactiegrootboek is alleen-toevoegen.",
+        "Geheimen zoals betaalsleutels bereiken de clientcode nooit. Om een kwetsbaarheid te melden, gebruikt u de Contactpagina met voldoende detail om het probleem te reproduceren, en maak het probleem alstublieft niet openbaar voordat wij hebben gereageerd."
+      ]
+    },
+    "privacy": {
+      "title": "Privacybeleid",
+      "lede": "Wat UNITAS verzamelt, waarom, en welke keuzes u heeft.",
+      "body": [
+        "UNITAS verzamelt het minimum dat nodig is om een account te laten functioneren: een identificator (e-mail of telefoonnummer) voor authenticatie, een coinsaldo met bijbehorend grootboek, en basale taal- en apparaatvoorkeuren die op uw apparaat worden opgeslagen. Gastsessies blijven lokaal in uw browser.",
+        "Gegevens worden verwerkt om de dienst te laten draaien, niet om advertentieprofielen op te bouwen. U kunt toegang tot of verwijdering van uw accountgegevens aanvragen via de Contactpagina of de accountinstellingen in de app."
+      ]
+    },
+    "cookies": {
+      "title": "Cookiebeleid",
+      "lede": "UNITAS gebruikt lokale opslag en cookies spaarzaam en functioneel.",
+      "body": [
+        "De site slaat een kleine set waarden op — uw taal, uw audiovoorkeur, sessie- en authenticatietokens, en een vlag voor toegang vóór lancering. Deze zijn vereist om de interface correct te laten werken.",
+        "Er worden geen advertentie- of sitegrensoverschrijdende trackingcookies van derden geplaatst. Het wissen van uw browseropslag zet deze voorkeuren bij uw volgende bezoek terug."
+      ]
+    },
+    "terms": {
+      "title": "Gebruiksvoorwaarden",
+      "lede": "De basisvoorwaarden voor het gebruik van UNITAS tijdens de fase vóór lancering.",
+      "body": [
+        "UNITAS wordt geleverd \"zoals het is\" tijdens actieve ontwikkeling. Toegang tot betaalde modules wordt bepaald door het coinsaldo op uw account; coins zijn een vooruitbetaald toegangstegoed — geen effect of waardedocument — en zijn niet overdraagbaar.",
+        "Functies kunnen wijzigen of worden opgeschort naarmate het platform zich ontwikkelt. Voortgezet gebruik na een wijziging betekent dat u de bijgewerkte voorwaarden aanvaardt. Het toepasselijke recht is dat van Estland."
+      ]
+    },
+    "help-center": {
+      "title": "Helpcentrum",
+      "lede": "Antwoorden op de meest gestelde vragen.",
+      "body": [
+        "Geluid: ambient audio staat standaard aan op elk apparaat en blijft behouden na een vernieuwing van de pagina; schakel het uit via het luidsprekerpictogram in de bovenste navigatie. Taal: wissel op elk moment via het vlaggenmenu — uw keuze wordt onthouden.",
+        "Toegang: een module gaat open zodra het vereiste coinsaldo op uw account beschikbaar is. Als iets vastgelopen lijkt, herlaadt u de pagina; account- en saldostatus worden automatisch hersteld."
+      ]
+    },
+    "contact": {
+      "title": "Contact",
+      "lede": "Eén kanaal bereikt de oprichter rechtstreeks.",
+      "body": [
+        "Algemene vragen, samenwerkingsverzoeken, persvragen, beveiligings- en gegevensbeschermingsverzoeken worden allemaal door de oprichter behandeld. Gebruik het accountinstellingenpaneel in de app om een gesprek te openen, of bereik het adres vermeld op de officiële kanalen van THE UNITAS GLOBAL OÜ.",
+        "Er is geen telefonische ondersteuning. De reactietijd hangt af van het volume; beveiligingsmeldingen krijgen prioriteit."
+      ]
+    },
+    "system-status": {
+      "title": "Systeemstatus",
+      "lede": "De huidige operationele status van het UNITAS-platform.",
+      "body": [
+        "UNITAS bevindt zich in de fase vóór lancering. De publieke interface is doelbewust verzegeld achter de \"Binnenkort\"-poort terwijl de oprichter de sequentiële verificatie van de instroom voltooit.",
+        "Geplande onderhoudswerkzaamheden en eventuele incidenten die accounts of saldi beïnvloeden, worden hier samengevat zodra het platform publiekelijk live is."
+      ]
+    }
+  },
+  "UAI": {
+    "title": "U-AI OMNI ENGINE",
+    "headline": "Vraag eenmaal. Zie elke hoek.",
+    "subhead": "Een stereoscopische lezing van drie seconden, een schild tegen commerciële vertekening, en dan — op aanvraag — het diepe traject. Geen chat. Een brief op beslissingsniveau.",
+    "placeholder": "Vraag U-AI wat dan ook…",
+    "submit": "Analyseren",
+    "reportLabel": "U-AI · ANALYSERAPPORT",
+    "surfaceScanning": "Drie perspectieven scannen — technisch, economisch, publiek…",
+    "directionality": {
+      "divergent": "Divergente vraag",
+      "convergent": "Convergente intentie"
+    },
+    "lensLabel": "Stereoscopisch Beeld van 3 Seconden",
+    "lens": {
+      "tech": "Technisch",
+      "economy": "Economisch",
+      "opinion": "Publieke Opinie"
+    },
+    "shieldLabel": "Schild tegen Commerciële Vertekening",
+    "shield": {
+      "clear": "Helder",
+      "caution": "Voorzichtig",
+      "biased": "Sterk vertekend"
+    },
+    "checklistLabel": "Actiechecklist in 3 Stappen",
+    "checklist": {
+      "explore": [
+        "Formuleer de werkelijke vraag in één zin voordat u breder zoekt.",
+        "Verzamel drie onafhankelijke bronnen met tegengestelde belangen.",
+        "Schrijf op wat uw mening zou veranderen, en test dat vervolgens."
+      ],
+      "decide": [
+        "Formuleer de twee opties en het enige doorslaggevende criterium.",
+        "Zet een ruwe waarde op kosten, risico en opbrengst voor elk.",
+        "Committeer aan de optie met de hoogste verwachte waarde en stel een evaluatiedatum vast."
+      ],
+      "analyze": [
+        "Splits de vraag op in haar drie dragende aannames.",
+        "Zet de zwakste aanname onder druk tegen echte gegevens.",
+        "Herbouw de conclusie vanuit wat overeind is gebleven."
+      ]
+    },
+    "constitutionLabel": "100-Doctrine-decompositie",
+    "constitution": {
+      "logic": "Logica · Ontwerp",
+      "future": "Toekomst · Innovatie",
+      "economy": "Economie · Efficiëntie",
+      "security": "Beveiliging · Integriteit",
+      "sovereign": "Soevereiniteit · Decentralisatie",
+      "art": "Kunst · Filosofie"
+    },
+    "constitutionAxisNote": "Herontwerp-ankeras · {axis}",
+    "webSourcesLabel": "Live Websynthese",
+    "webSourcedBadge": "{count} bronnen realtime gesynthetiseerd",
+    "webLocalBadge": "Lokale heuristische synthese · geen externe oproepen",
+    "redesignLabel": "Doctrine-herontwerpvectoren",
+    "redesign": [
+      "Laat het oppervlakkige antwoord los — deconstrueer de vraag over de 6 doctrine-assen.",
+      "Herbouw de conclusie vanuit de laagst scorende as, niet de luidste.",
+      "Zet het herontwerp fail-closed onder druk — laat vallen wat niet standhoudt."
+    ],
+    "swarmLabel": "Swarm Cross-Reasoning · 11 Ecosystemen",
+    "deepLabel": "Diepgaand Inzicht · De VOID",
+    "deepHint": "Chronos-traject, een gekwantificeerd oordeel, decodering van verborgen intentie en de lezing van de negatieve ruimte.",
+    "deepCta": "Diepgaand inzicht ontgrendelen · {cost} U-COIN",
+    "deepLocked": "Diepgaand inzicht wordt gekalibreerd — kom binnenkort terug.",
+    "deepScanning": "De VOID betreden — traject synthetiseren…",
+    "openFullReport": "Volledig U-AI-rapport openen",
+    "chronosLabel": "Chronos · Traject van 1–3 Jaar",
+    "chronos": {
+      "y1": "Over 1 jaar",
+      "y2": "Over 2 jaar",
+      "y3": "Over 3 jaar"
+    },
+    "binaryLabel": "Of / Of · Wiskundig Oordeel",
+    "confidence": "Vertrouwen",
+    "redPenLabel": "Rode Pen · Verborgen Intentie",
+    "voidLabel": "De VOID · Inzicht in Negatieve Ruimte",
+    "pathLabel": "Pad met Hoogste Efficiëntie",
+    "cachedBadge": "Genesis Memory-cache",
+    "modelNote": "Engine: {model}",
+    "brainGridLabel": "Brain-Grid · Cognitieve Geschiedenis",
+    "brainGridClear": "Wissen",
+    "err": {
+      "signin": "Log in om diepgaand inzicht te ontgrendelen.",
+      "phone": "Verifieer uw telefoonnummer voordat u U-COIN besteedt.",
+      "insufficient": "Onvoldoende U-COIN voor diepgaand inzicht.",
+      "burn_required": "De U-COIN-afschrijving is niet geregistreerd — probeer het opnieuw.",
+      "deep_unavailable": "Diepgaand inzicht is tijdelijk niet beschikbaar.",
+      "generation_failed": "Diepgaande analyse kon niet worden gegenereerd — probeer het opnieuw.",
+      "bad_request": "Die vraag kan niet worden geanalyseerd — herformuleer en probeer opnieuw.",
+      "unauthenticated": "Uw sessie is verlopen — log opnieuw in."
+    },
+    "reporterFree": "Gratis Rapporteur",
+    "reporterPaid": "Betaalde Rapporteur · Inloggen",
+    "followupLabel": "Vervolgvragen · Invalshoekopties",
+    "followupHint": "Voer de zoekopdracht opnieuw uit vanuit een andere doctrine-as, of verdiep u in een geciteerde bron.",
+    "webBlendNote": "Websynthese op big-tech-niveau 90% + UNITAS 100-doctrine-herontwerp 10%.",
+    "insightLabel": "UNITAS Insight Report · Soeverein Herontwerp met 6 Assen",
+    "insightForging": "De soevereine engine smeedt het herontwerp met 6 assen — het verschijnt hier en blijft voor altijd gratis.",
+    "insightPending": "{hits} / 3 zoekopdrachten. Bij de 3e smeedt de 100-doctrine-engine dit herontwerp eenmalig — daarna is het voor iedereen voor altijd gratis.",
+    "insightFreshBadge": "Zojuist gesmeed · verzegeld in Genesis Memory",
+    "insightCachedNote": "Geleverd vanuit Genesis Memory · engine-kosten $0",
+    "insightVectorLabel": "Herontwerpvector · De Blinde As",
+    "insightAxisReading": "Lezing",
+    "insightAxisRedesign": "Herontwerp"
+  }
+}

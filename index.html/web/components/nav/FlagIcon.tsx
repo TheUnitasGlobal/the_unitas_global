@@ -4,7 +4,7 @@ import type { routing } from '@/i18n/routing';
 type Locale = (typeof routing.locales)[number];
 
 /**
- * Inline SVG flags for the 12 supported locales. Emoji regional-indicator
+ * Inline SVG flags for the 20 supported locales. Emoji regional-indicator
  * flags (🇺🇸 …) do NOT render as flags on Windows Chrome/Edge and many
  * Android browsers -- they fall back to two letters -- which is the "flags
  * missing / unclear" bug. These vector marks render identically everywhere,
@@ -166,6 +166,93 @@ function KhFlag() {
   );
 }
 
+function RuFlag() {
+  return (
+    <g>
+      <rect width="20" height="4.667" fill="#fff" />
+      <rect y="4.667" width="20" height="4.666" fill="#0039a6" />
+      <rect y="9.333" width="20" height="4.667" fill="#d52b1e" />
+    </g>
+  );
+}
+
+function ItFlag() {
+  return (
+    <g>
+      <rect width="20" height="14" fill="#fff" />
+      <rect width="6.67" height="14" fill="#008c45" />
+      <rect x="13.33" width="6.67" height="14" fill="#cd212a" />
+    </g>
+  );
+}
+
+function PlFlag() {
+  return (
+    <g>
+      <rect width="20" height="7" fill="#fff" />
+      <rect y="7" width="20" height="7" fill="#dc143c" />
+    </g>
+  );
+}
+
+function NlFlag() {
+  return (
+    <g>
+      <rect width="20" height="4.667" fill="#ae1c28" />
+      <rect y="4.667" width="20" height="4.666" fill="#fff" />
+      <rect y="9.333" width="20" height="4.667" fill="#21468b" />
+    </g>
+  );
+}
+
+function TrFlag() {
+  return (
+    <g>
+      <rect width="20" height="14" fill="#e30a17" />
+      {/* crescent -- white disc with a red disc offset right "biting" into it, same
+          overlap technique KrFlag uses for the taegeuk (no clipPath collisions) */}
+      <circle cx="8.2" cy="7" r="3.4" fill="#fff" />
+      <circle cx="9.2" cy="7" r="2.8" fill="#e30a17" />
+      <circle cx="12.4" cy="7" r="0.9" fill="#fff" />
+    </g>
+  );
+}
+
+function ThFlag() {
+  return (
+    <g>
+      <rect width="20" height="2.333" fill="#a51931" />
+      <rect y="2.333" width="20" height="2.334" fill="#fff" />
+      <rect y="4.667" width="20" height="4.666" fill="#2d2a4a" />
+      <rect y="9.333" width="20" height="2.334" fill="#fff" />
+      <rect y="11.667" width="20" height="2.333" fill="#a51931" />
+    </g>
+  );
+}
+
+function InFlag() {
+  return (
+    <g>
+      <rect width="20" height="4.667" fill="#ff9933" />
+      <rect y="4.667" width="20" height="4.666" fill="#fff" />
+      <rect y="9.333" width="20" height="4.667" fill="#138808" />
+      <circle cx="10" cy="7" r="1.5" fill="none" stroke="#000080" strokeWidth="0.35" />
+      <circle cx="10" cy="7" r="0.35" fill="#000080" />
+    </g>
+  );
+}
+
+function PhFlag() {
+  return (
+    <g>
+      <rect width="20" height="7" fill="#0038a8" />
+      <rect y="7" width="20" height="7" fill="#ce1126" />
+      <path d="M0 0 L8.5 7 L0 14 Z" fill="#fff" />
+      <circle cx="3.2" cy="7" r="1.3" fill="#fcd116" />
+    </g>
+  );
+}
+
 const FLAGS: Record<Locale, () => ReactElement> = {
   en: UsFlag,
   ko: KrFlag,
@@ -179,6 +266,14 @@ const FLAGS: Record<Locale, () => ReactElement> = {
   pt: PtFlag,
   vi: VnFlag,
   id: IdFlag,
+  ru: RuFlag,
+  hi: InFlag,
+  it: ItFlag,
+  tr: TrFlag,
+  th: ThFlag,
+  pl: PlFlag,
+  nl: NlFlag,
+  tl: PhFlag,
 };
 
 export function FlagIcon({

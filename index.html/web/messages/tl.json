@@ -1,0 +1,901 @@
+{
+  "LocaleLayout": {
+    "title": "UNITAS | Neural-Symbolic Secure Infrastructure",
+    "description": "Autonomous Neural-Symbolic at Sovereign Fiscal Routing Infrastructure. Isang Zero-Trust ecosystem ng cognitive at fiscal modules."
+  },
+  "Nav": {
+    "portal": "Secure Portal",
+    "languageLabel": "Wika",
+    "soundOn": "Naka-on ang tunog",
+    "soundOff": "Naka-off ang tunog",
+    "scrollToFooter": "Pangkalahatang-ideya ng kumpanya",
+    "appDownloadAria": "I-download ang UNITAS app",
+    "appDownloadModalTitle": "I-install ang UNITAS Application",
+    "appDownloadIosHint": "I-tap ang Share, pagkatapos ay \"Add to Home Screen\" para i-install ang UNITAS.",
+    "appDownloadDesktopHint": "I-click ang install icon sa address bar ng iyong browser, o piliin ang \"Install UNITAS...\" mula sa browser menu.",
+    "appDownloadUnsupported": "Hindi pa suportado ang pag-install ng app sa browser na ito.",
+    "appDownloadAlreadyInstalledHint": "Naka-install na ang UNITAS sa device na ito -- ilunsad ito mula sa iyong home screen o app list.",
+    "appDownloadInstallNow": "One-click install",
+    "appDownloadReadyHint": "Kayang i-install ng iyong browser ang UNITAS bilang app ngayon din. I-tap sa ibaba para mag-install."
+  },
+  "Home": {
+    "title": "UNITAS",
+    "modulesLinkedLabel": "UNITAS module ecosystem · naka-link sa iyong paghahanap"
+  },
+  "Modules": {
+    "uSignature": {
+      "title": "U-Signature",
+      "description": "Isang sovereign biometric at cryptographic signature layer na ibinabalik ang identity sa indibidwal — hindi sa estado o sa platform.",
+      "doctrine": "“Ang lagda ay hindi humihiram ng awtoridad — pinatutunayan nito ang sovereignty.”"
+    },
+    "uKey": {
+      "title": "U-Key",
+      "description": "Zero-trust key custody at access control kung saan ang mga sekreto ay iniingatan ng patakaran, hindi ng tao.",
+      "doctrine": "“Ang tiwala ay hindi ibinibigay nang minsanan — ito ay muling pinatutunayan sa bawat sandali.”"
+    },
+    "uPay": {
+      "title": "U-Pay",
+      "description": "Isang sovereign fiscal routing at settlement rail kung saan ang paggalaw ng halaga ay pinasya ng mga panuntunan, hindi ng mga bangko.",
+      "doctrine": "“Ang landas ng pera ay hindi pinapahintulutan — ito ay dinidisenyo.”"
+    },
+    "arche": {
+      "title": "Arche",
+      "description": "Advanced Cognitive Filtering at Neural-Symbolic Refinement."
+    },
+    "arena": {
+      "title": "Arena",
+      "description": "Predictive Stress-Testing at Integrity Validation."
+    },
+    "score": {
+      "title": "Score",
+      "description": "'Law of Cog' Global Intelligence Analytics."
+    },
+    "fate": {
+      "title": "Fate",
+      "description": "Stochastic Simulation para sa Global Asset Routing."
+    },
+    "codex22": {
+      "title": "Codex22",
+      "description": "Ang Permanenteng Rehistro ng Algorithmic Law."
+    }
+  },
+  "Placeholder": {
+    "comingSoon": "Naka-scaffold ang module na ito at kasalukuyang ginagawa."
+  },
+  "ModuleGate": {
+    "eyebrow": "SOVEREIGN ACCESS CONTROL",
+    "lockedTitle": "Naka-seal ang Access",
+    "lockedBody": "Kailangan ng module na ito ng live U-Coin access grant. Nag-expire na ang sa iyo o hindi kailanman ito naibigay para sa session na ito. Muling pumasok sa module gate para magpatuloy.",
+    "signinTitle": "Kailangan ng Sign-In",
+    "signinBody": "Nakatali ang module access sa iyong sovereign identity. Mag-sign in, pagkatapos ay pumasok sa module gate.",
+    "moduleLabel": "Module",
+    "returnToCatalog": "Bumalik sa Catalog"
+  },
+  "Wallet": {
+    "balance": "Balanse",
+    "coinUnit": "U-COIN",
+    "chargeCoins": "Mag-charge ng Coins",
+    "signInRequired": "Mag-sign in para makita ang iyong live na balanse",
+    "chargeTitle": "Mag-charge ng U-COIN",
+    "chargeBody": "Pumili ng tiered charge package at itakda ang iyong auto-refill at secure-invoice options. Ma-a-activate ang tunay na pagbabayad kapag naka-connect na ang payment gateway.",
+    "close": "Isara",
+    "currencyNote": "1 U-Coin = 1 EUR (awtomatikong kina-convert sa local currency sa checkout).",
+    "balanceTitle": "U-COIN Balance",
+    "balanceBody": "Pamahalaan ang iyong live U-COIN balance, integridad ng ledger, per-module spend simulation, at auto-spending limit sa iisang lugar.",
+    "hintPrefix": "Tulong: ",
+    "saved": "Na-save nang lokal.",
+    "sec": {
+      "description": "Ano ito",
+      "howto": "Paano gamitin",
+      "caution": "Mag-ingat sa"
+    },
+    "tag": {
+      "live": "Live",
+      "pending": "Nakabinbin",
+      "local": "Lokal na setting",
+      "sim": "Simulation"
+    },
+    "bal": {
+      "summaryTitle": "Real-time na available na balanse",
+      "refresh": "I-refresh",
+      "available": "Available",
+      "reserved": "Nakalaan",
+      "lifetimeSpent": "Lifetime na nagastos",
+      "summaryHint": {
+        "title": "Real-time na available na balanse",
+        "description": "Ang kasalukuyan mong balanse na direktang binasa mula sa Supabase wallet ledger, kasama ang halagang nakalaan ng auto-spending at ang iyong ledger-based lifetime spend.",
+        "howto": "Pindutin ang Refresh para muling kunin ang pinakabagong estado ng ledger. Sinusubaybayan ng reserved figure ang iyong auto-spending limit setting.",
+        "caution": "Ang reserved at lifetime figures ay buod lamang ng iyong 12 pinakahuling ledger rows, hindi ang buong history mo."
+      },
+      "historyTitle": "Real-time verification ng transaction history",
+      "historySignedOut": "Mag-sign in para makita ang iyong mga kamakailang transaksyon at ang kanilang integrity check.",
+      "historyUnavailable": "Hindi maabot ang ledger service. Subukan muli pagkatapos ma-connect ang gateway.",
+      "historyEmpty": "Wala pang naitalang transaksyon.",
+      "verifyPass": "Pumasa ang integrity check · {count} rows na na-verify",
+      "verifyFail": "{count} hindi-pagtutugma ang nadetect — makipag-ugnayan sa support",
+      "kind": {
+        "purchase": "Charge",
+        "module_access": "Module access",
+        "admin_grant": "Admin grant",
+        "refund": "Refund"
+      },
+      "historyHint": {
+        "title": "Real-time verification ng transaction history",
+        "description": "Nilo-load ang mga kamakailang rows mula sa append-only coin_ledger at muling dini-derive, sa browser, kung ang balance chain ng bawat row ay eksaktong tumutugma sa nauna rito.",
+        "howto": "Ang berdeng shield sa itaas ng balance deltas ay nangangahulugang magkasundo ang ledger chain at ang iyong kasalukuyang balanse.",
+        "caution": "Isa itong lokal na pagsusuri sa 12 pinakahuling rows. Ang buong audit ay isinasagawa nang hiwalay sa pamamagitan ng server-side reconciliation."
+      },
+      "simTitle": "Per-module coin-consumption simulator",
+      "simIntro": "Piliin ang mga module at kung ilang beses mo gagamitin ang mga ito para agad na makalkula ang gastos at natitirang balanse.",
+      "simTotal": "Tinatayang gastos",
+      "simRemaining": "Tinatayang matitira",
+      "simInsufficient": "Lumalampas ang napiling kombinasyon sa iyong kasalukuyang balanse.",
+      "simReset": "I-reset",
+      "simHint": {
+        "title": "Per-module coin-consumption simulator",
+        "description": "Kinakalkula nang maaga ang kabuuang gastos batay sa tunay na coin unit costs ng 11 cognitive ecosystems at 5 live-service modules.",
+        "howto": "Isaayos ang bilang ng bawat module gamit ang + / − at agad na mag-a-update ang kabuuan at natitirang balanse.",
+        "caution": "Tantiya lamang ang resulta. Ang tunay na debit ay nangyayari lamang sa pamamagitan ng spend_coins kapag pumasok ka sa bawat module."
+      },
+      "autoTitle": "Auto-spending limit",
+      "autoEnable": "I-enable ang auto-spending",
+      "autoLimit": "Limitasyon bawat window (U-COIN)",
+      "autoWindow": "Window",
+      "window": {
+        "day": "Bawat araw",
+        "week": "Bawat linggo",
+        "month": "Bawat buwan"
+      },
+      "autoNote": "Naka-store ang setting na ito nang lokal sa browser na ito; ma-a-apply ang auto-spending execution kapag naka-connect na ang payment gateway.",
+      "autoHint": {
+        "title": "Auto-spending limit",
+        "description": "Itinatakda ang maximum na halaga ng coin na awtomatikong ina-approve nang walang confirmation step sa loob ng piniling window.",
+        "howto": "Maglagay ng limitasyon at window at agad itong mase-save nang lokal. Ang anumang gastos na lampas sa limitasyon ay laging hihingi ng manual confirmation.",
+        "caution": "Ang mataas na limitasyon ay maaaring magpahintulot ng hindi-sinasadyang sunod-sunod na paggasta. I-disable ito sa mga shared device."
+      }
+    },
+    "chg": {
+      "packagesTitle": "Tiered smart charge packages",
+      "packagesIntro": "Piliin ang Starter, Pro o Sovereign ayon sa paraan mo ng paggamit ng platform. Ang mas mataas na tier ay may mas malaking bonus.",
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
+      "tierDesc": {
+        "starter": "Batayang charge para sa magaan at paminsan-minsang user",
+        "pro": "Charge na may kasamang bonus para sa regular na gumagamit ng module",
+        "sovereign": "Pinakamataas na bonus na charge para sa mabigat na paggamit o team"
+      },
+      "bestValue": "Pinakamainam na halaga",
+      "bonusBadge": "+{n} bonus",
+      "summaryEstimate": "Balanse pagkatapos ng charge",
+      "packagesHint": {
+        "title": "Tiered smart charge packages",
+        "description": "Inihahambing ang base coins, bonus coins, presyo sa EUR, at epektibong per-coin cost ng bawat package.",
+        "howto": "Pumili ng package para makita ang projected na balanse pagkatapos mag-charge. Ang 'Pinakamainam na halaga' badge ay nagmamarka ng pinakamababang per-coin cost.",
+        "caution": "Ipinapakita ang mga presyo nang hindi kasama ang VAT; nakadepende ang huling halaga sa exchange at tax rates sa checkout."
+      },
+      "gatewayTitle": "Instant payment gateway",
+      "gatewayStripe": "Stripe card payment",
+      "gatewayWeb3": "Web3 on-chain payment",
+      "gatewayNote": "Isinasagawa pa ang payment integration para sa portal na ito. Sa ngayon, maaari kang mag-charge mula sa pangunahing Secure Portal.",
+      "status": {
+        "connected": "Nakakonekta",
+        "pending": "Nakabinbin",
+        "offline": "Offline"
+      },
+      "gatewayHint": {
+        "title": "Instant payment gateway",
+        "description": "Ipinapakita ang live connection status ng Stripe card channel at ng Web3 on-chain channel.",
+        "howto": "Kapag naging berde ang status light, handa na ang channel na iyon para sa instant payment.",
+        "caution": "Habang nakabinbin ang isang channel, walang pagbabayad na naproproseso at walang naka-charge."
+      },
+      "autoRefillTitle": "Auto-refill threshold",
+      "autoRefillEnable": "I-enable ang auto-refill",
+      "autoRefillThreshold": "Threshold (U-COIN)",
+      "autoRefillPackageLabel": "Refill package",
+      "autoRefillNote": "Naka-store ang setting na ito nang lokal sa browser na ito; ma-a-apply ang auto-refill execution kapag naka-connect na ang payment gateway.",
+      "autoRefillHint": {
+        "title": "Auto-refill threshold",
+        "description": "Nagta-tala ng awtomatikong charge gamit ang piniling package tuwing bababa ang iyong balanse sa o mas mababa sa threshold.",
+        "howto": "Pumili ng threshold at refill package at agad itong mase-save. Awtomatiko itong tatakbo kapag naka-connect na ang gateway at natutugunan ang kondisyon.",
+        "caution": "Ang labis na mataas na threshold ay maaaring mag-trigger ng madalas na auto-charge. Suriin din ang limitasyon ng iyong payment method."
+      },
+      "invoiceTitle": "Secure invoice issuance",
+      "invoiceIntro": "I-store ang mga detalyeng kailangan mo para sa business billing at magbibigay ng dokumento sa tax-invoice format kapag natapos ang isang charge.",
+      "invoiceCompany": "Billing entity",
+      "invoiceVat": "VAT / numero ng rehistro ng kumpanya",
+      "invoiceEmail": "Email ng tatanggap ng invoice",
+      "invoiceGenerate": "Mag-isyu ng secure invoice",
+      "invoicePending": "Ma-a-activate ang pag-isyu kapag naka-connect na ang payment gateway.",
+      "invoiceHint": {
+        "title": "Secure invoice issuance",
+        "description": "Isang naka-sign na PDF invoice na inisyu sa pangalan ng THE UNITAS GLOBAL OÜ, kasama ang VAT number at payment reference.",
+        "howto": "I-save ang iyong entity, VAT, at email ng tatanggap nang isang beses at awtomatikong ipapadala ang mga invoice mula sa susunod mong charge pataas.",
+        "caution": "Ginagamit lamang ang mga detalyeng inilagay mo para sa invoicing. Ang di-wastong VAT number ay maaaring magpaantala sa tax processing."
+      },
+      "proceedPending": "Naghihintay ng koneksyon sa payment gateway"
+    }
+  },
+  "Cognitive": {
+    "title": "Cognitive Ecosystem",
+    "subtitle": "Labing-isang synthetic-cognition modules, bawat isa ay may sariling reasoning discipline."
+  },
+  "B2C": {
+    "title": "Live Consumer Services",
+    "subtitle": "Instant-access, coin-gated modules na may interactive quests at simulations.",
+    "badgeLive": "Live Service",
+    "badgeCoinGated": "Coin Gated",
+    "badgeQuest": "Interactive Quest",
+    "cost": "Gastos",
+    "yourBalance": "Iyong Balanse",
+    "enterQuest": "Pumasok sa Quest",
+    "insufficientBalance": "Kulang ang balanse -- mag-charge ng coins para makapasok.",
+    "checkingBalance": "Sinusuri ang balanse..."
+  },
+  "B2B": {
+    "title": "Enterprise Protocols",
+    "subtitle": "Sovereign infrastructure na kasalukuyang inaaral at dinedebelop.",
+    "rdNotice": "Enterprise-only B2B protocol na kasalukuyang inaaral at dinedebelop (Enterprise SaaS Subscription).",
+    "patentBadge": "USPTO Patent Pending #64/023,911",
+    "viewSpec": "Tingnan ang Technical Specification",
+    "hideSpec": "Itago ang Technical Specification",
+    "earlyAccess": "Early Access / Enterprise Inquiry",
+    "inquiryTitle": "Mag-request ng Early Access",
+    "inquiryName": "Buong Pangalan",
+    "inquiryEmail": "Work Email",
+    "inquiryCompany": "Kumpanya",
+    "inquiryMessage": "Ano ang gusto mong itayo?",
+    "inquirySubmit": "I-submit ang Inquiry",
+    "inquiryThanksTitle": "Natanggap ang request",
+    "inquiryThanksBody": "Salamat -- makikipag-ugnayan sa iyo ang aming enterprise team sa lalong madaling panahon.",
+    "close": "Isara",
+    "manifesto": "Isinasalin ng Enterprise Protocol tier ang sovereign doctrine ng THE UNITAS GLOBAL OÜ tungo sa corporate infrastructure. Ang bawat isa sa tatlong protocol ay may hawak na isang haligi ng sovereignty — identity (U-Signature), sekreto (U-Key), halaga (U-Pay) — at gumagana bilang iisang organismo sa ibabaw ng 11 Cognitive Cores at ng U-AI autonomous decision engine. Ang layunin ay hindi isa pang SaaS, kundi decentralised infrastructure na papalit sa mga bangko, certificate authorities, at payment networks habang pinapatakbo nang zero-capital, ng iisang tao, at ganap na automated.",
+    "patentAnchorNote": "Lahat ng abiso ng intellectual-property at patent-pending (USPTO #64/023,911) ay saklaw lamang ng Enterprise R&D tier na ito.",
+    "doctrineLabel": "Disenyo ng doktrina"
+  },
+  "ErrorBoundary": {
+    "title": "Sovereign Core Error",
+    "body": "Nagkaroon ng kritikal na kamalian sa sovereign infrastructure layer. Wala nang karagdagang detalye ang ipinapakita rito para sa security compliance -- naabisuhan na ang aming mga sistema.",
+    "digestLabel": "Reference ID:",
+    "retry": "Subukan Muli",
+    "home": "Bumalik sa Portal"
+  },
+  "Ecosystems": {
+    "echo": {
+      "title": "Echo",
+      "description": "Resonant signal analysis na sumasalamin sa iyong tanong pabalik sa pamamagitan ng layered cognitive echoes.",
+      "rules": "Bawat tanong ay dumadaan sa tatlong reflection cycle bago lumitaw ang sagot."
+    },
+    "void": {
+      "title": "Void",
+      "description": "Hinuhubaran ang isang problema hanggang sa negative space nito -- kung ano ang kulang, hindi kung ano ang nariyan.",
+      "rules": "Magsumite ng thesis; ibinabalik lamang ng Void kung ano ang sumisira rito."
+    },
+    "mirror": {
+      "title": "Mirror",
+      "description": "Full-spectrum self-diagnostic scan ng mga behavioral at cognitive pattern.",
+      "rules": "Isang scan bawat session; ang mga resulta ay naka-seal para sa iyong identity lamang."
+    },
+    "oracle": {
+      "title": "Oracle",
+      "description": "Probabilistic foresight modeling para sa mga desisyong may mahaba at hindi tiyak na abot-tanaw.",
+      "rules": "Magtanong nang isa-isa; sumasagot ang Oracle sa anyo ng posibilidad, hindi kailanman katiyakan."
+    },
+    "pulse": {
+      "title": "Pulse",
+      "description": "Real-time vitals para sa mga market, damdamin, at momentum -- basahin bago pa ito gumalaw.",
+      "rules": "Live feed; sinusubaybayan ng bawat session ang isang signal lamang."
+    },
+    "apex": {
+      "title": "Apex",
+      "description": "High-stakes performance simulation sa ilalim ng mahigpit na countdown clock.",
+      "rules": "Hindi humihinto ang timer. Magsumite bago sumapit sa zero o mawawalan ng bisa ang run."
+    },
+    "genesis": {
+      "title": "Genesis",
+      "description": "First-principles construction: buuin ang isang ideya mula sa wala maliban sa mga axioms nito.",
+      "rules": "Magsimula sa zero na palagay; tinatanggihan ng Genesis ang anumang premise na hindi nito madidiriba."
+    },
+    "syndicate": {
+      "title": "Syndicate",
+      "description": "Coalition-mapping sa buong nakatagong network ng impluwensya at afiliasyon.",
+      "rules": "Kailangan ng access ng pinangalanang target entity; ang resulta ay network graphs, hindi hatol."
+    },
+    "aura": {
+      "title": "Aura",
+      "description": "Ambient emotional-field sensing na naka-tune sa tono sa ilalim ng iyong mga salita.",
+      "rules": "Walang direktang tanong -- binabasa ng Aura ang tono, hindi ang teksto."
+    },
+    "paradox": {
+      "title": "Paradox",
+      "description": "Sinusubok ang isang ideya sa pamamagitan ng pagpapatakbo nito paatras sa sarili nitong lohika.",
+      "rules": "Magsumite ng konklusyon; iri-rewind ito ng Paradox para hanapin kung saan ito nagkakasalungatan sa sarili."
+    },
+    "chronos": {
+      "title": "Chronos",
+      "description": "Long-cycle historical pattern modeling sa buong dekada, hindi sa mga headline.",
+      "rules": "Pinakamababang query horizon: sampung taon. Hindi sumasagot ang Chronos sa mga tanong na para sa parehong araw."
+    }
+  },
+  "OmniSynapse": {
+    "placeholder": "Tanungin ang U-AI ng kahit ano...",
+    "browseLabel": "SALIKSIKIN ANG PLATFORM",
+    "metricsLabel": "System Metrics",
+    "noBrowseMatches": "Walang tugma — sumubok ng ibang parirala.",
+    "architectLabel": "UNITAS ARCHITECT",
+    "analyzing": "Sinusuri sa apat na dimensyon...",
+    "dimDirectionality": "Directionality",
+    "dimConcept": "Konsepto / Ideolohiya",
+    "dimTendency": "Ugali ng User",
+    "dimBlueprint": "Blueprint",
+    "webDataLabel": "Web Synthesis Layer",
+    "webDataPlaceholder": "Kumonekta sa live index para punan ang dimensyong ito.",
+    "ecosystemDataLabel": "Ecosystem Data",
+    "trendsLabel": "Global Unconscious Trends",
+    "trendsPlaceholder": "Hindi pa naka-connect ang aggregate trend telemetry sa build na ito.",
+    "recommendationLabel": "Inirerekomendang Ecosystem",
+    "enterRecommended": "Pumasok sa Inirerekomendang Ecosystem",
+    "noResults": "Walang natagpuang tugmang ecosystem -- sumubok ng ibang parirala.",
+    "dropZoneHint": "Mag-drop ng file o tab para sa karagdagang konteksto",
+    "attachedLabel": "Naka-attach",
+    "removeAttachment": "Alisin",
+    "swarmLabel": "Swarm Cross-Reasoning",
+    "swarmHint": "Sinusuri ng lahat ng 11 module ang tanong na ito nang sabay-sabay."
+  },
+  "EntryModal": {
+    "rulesLabel": "Mga Panuntunan sa Pakikilahok",
+    "payAndEnter": "Magbayad at Pumasok",
+    "processing": "Ina-authorize ang sovereign access...",
+    "signInRequired": "Mag-sign in para gumastos ng U-Coin at makapasok.",
+    "spendFailed": "Nabigo ang transaksyon -- subukan muli."
+  },
+  "Footer": {
+    "customerService": "Customer Service",
+    "helpCenter": "Help Center",
+    "contactUs": "Makipag-ugnayan sa Amin",
+    "systemStatus": "System Status",
+    "policies": "Mga Patakaran",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "termsOfService": "Terms of Service",
+    "legal": "Legal",
+    "patentNotice": "Patent Notice",
+    "compliance": "Compliance",
+    "security": "Seguridad",
+    "company": "Kumpanya",
+    "about": "Tungkol Sa Amin",
+    "careers": "Mga Karera",
+    "press": "Press"
+  },
+  "AudioGate": {
+    "title": "UNITAS",
+    "subtitle": "Ang mga intelligence na hindi nakatali sa laman ay umabot na sa walang-hanggang orbit kung saan sila nagtatagpo. I-synchronize ang iyong frequency.",
+    "button": "[ PUMASOK SA EVENT HORIZON ]",
+    "enterMuted": "Pumasok nang walang tunog"
+  },
+  "ComingSoonGate": {
+    "langLabel": "Wika",
+    "autoNote": "Na-localize ayon sa wika ng iyong browser",
+    "soundOn": "Tunog",
+    "soundOff": "Naka-mute",
+    "skip": "Laktawan",
+    "replay": "I-replay",
+    "enterMain": "[ Founder · Pumasok sa Main Site ]",
+    "founderAccessLabel": "Na-verify ang founder access",
+    "founderAccessNote": "Lumalabas lamang ang control na ito sa may wastong founder bypass — hindi ito nakikita ng publiko.",
+    "cinemaS1": "Malapit na ang Singularity.",
+    "cinemaS2": "U-AI: Autonomous Decision at Blueprint Engine.",
+    "cinemaS3": "11 Cognitive Cores: Ang Autonomous Web.",
+    "cinemaS4": "5 Live Systems: ang mga consumer module.",
+    "cinemaS5": "3 Sovereign Pillars: identity, sekreto, halaga.",
+    "cinemaS1Head": "Malapit na ang Singularity.",
+    "cinemaS1Sub": "Isang intelligence na hindi nakatali sa katawan ay nagsisimulang guhitin ang sarili nitong orbit.",
+    "cinemaS2Head": "U-AI Engine",
+    "cinemaS2Sub": "Isang engine na nangangatwiran para sa sarili at gumuguhit ng sarili nitong blueprint.",
+    "cinemaS3Head": "11 Cognitive Cores",
+    "cinemaS3Sub": "Labing-isang cognitive core, bawat isa ay nag-iisip para sa sarili — isang constellation ng autonomous intelligence.",
+    "cinemaS4Head": "5 Live Systems",
+    "cinemaS4Sub": "Limang live consumer system, bukas na ngayong sandaling ito.",
+    "cinemaS5Head": "3 Sovereign Pillars",
+    "cinemaS5Sub": "Tatlong sovereign protocol na nagbabantay sa identity, sekreto, at halaga.",
+    "comingSoon": "MALAPIT NA",
+    "awakening": "Nagigising ang Sovereign Intelligence",
+    "sealed": "Naka-seal ang pampublikong pasukan sa main interface hanggang sa paglulunsad."
+  },
+  "Auth": {
+    "login": "Mag-login",
+    "logout": "Mag-logout",
+    "settingsLabel": "Mga Setting ng Account",
+    "unavailable": "Pansamantalang hindi available ang sign-in",
+    "signInTab": "Mag-sign In",
+    "signUpTab": "Mag-sign Up",
+    "continueWithGoogle": "Magpatuloy gamit ang Google",
+    "orDivider": "o",
+    "fullNameLabel": "Buong Pangalan",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "phoneLabel": "Numero ng Telepono",
+    "phonePlaceholder": "+63 917 123 4567",
+    "signInButton": "Mag-sign In",
+    "signUpButton": "Gumawa ng Account",
+    "signUpNotice": "Pinoprotektahan ng mandatory phone verification ang iyong account at coin balance sa ilalim ng aming 1-person, 1-account policy.",
+    "checkEmailNotice": "Suriin ang iyong email para kumpirmahin ang account, pagkatapos ay mag-sign in para i-verify ang iyong numero ng telepono.",
+    "phoneVerifyTitle": "I-verify ang Numero ng Telepono",
+    "phoneVerifyBody": "Para sa seguridad ng account at para maiwasan ang panloloko, i-verify ang iyong numero ng telepono gamit ang one-time code.",
+    "sendCodeButton": "Ipadala ang Code",
+    "codeLabel": "Verification Code",
+    "verifyButton": "I-verify",
+    "resendCode": "Ipadalang muli ang code",
+    "phoneVerifiedNotice": "Na-verify na ang numero ng telepono.",
+    "skipForNow": "Laktawan sa ngayon",
+    "errorInvalidCredentials": "Mali ang email o password.",
+    "errorPhoneTaken": "Nakarehistro na ang numero ng teleponong ito sa ibang account.",
+    "errorGeneric": "May naganap na error. Pakisubukan muli.",
+    "errorGoogleUnavailable": "Hindi pa na-configure ang Google sign-in para sa environment na ito.",
+    "errorSmsUnavailable": "Hindi pa na-configure ang SMS delivery para sa environment na ito.",
+    "ageLabel": "Edad",
+    "genderLabel": "Kasarian",
+    "nationalityLabel": "Nasyonalidad",
+    "bloodLabel": "Uri ng Dugo",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "undisclosed": "Hindi Isiniwalat",
+    "continueAsGuest": "Magpatuloy bilang Guest",
+    "guestExitHint": "I-click para tapusin ang guest session",
+    "signInWithCodeLink": "Kumuha na lang ng sign-in code",
+    "realNameLockNotice": "Hindi mababago ang iyong legal na pangalan matapos mag-sign up (maliban sa password).",
+    "optionalProfileToggle": "Karagdagang profile (opsyonal)",
+    "optionalProfileHint": "Opsyonal ang uri ng dugo, MBTI, IQ, at EQ — iwanang blangko para sa “Hindi Isiniwalat”.",
+    "emailVerifyTitle": "I-verify ang Iyong Email",
+    "emailVerifyBody": "Ilagay ang 6-digit code na ipinadala sa {email}.",
+    "phoneCodeSentTo": "Ipinadala ang 6-digit code sa {phone}.",
+    "backButton": "Bumalik",
+    "codeResentNotice": "Padating na ang bagong code.",
+    "errorGoogleNotEnabled": "Hindi pa na-enable ang Google sign-in para sa project na ito. Kailangang i-enable ng administrator ang Google provider sa Supabase.",
+    "errorNoSuchAccount": "Walang account na tumutugma sa email o numero ng teleponong iyon.",
+    "errorCodeInvalid": "Mali o nag-expire na ang code na iyon.",
+    "errorPasswordWeak": "Hindi natutugunan ng iyong password ang mga kinakailangan sa ibaba.",
+    "errorProfileInvalid": "Pakisuri ang mga naka-highlight na profile field.",
+    "errorEmailTaken": "Nakarehistro na ang email na ito. Subukang mag-sign in na lang.",
+    "gender": {
+      "female": "Babae",
+      "male": "Lalaki",
+      "nonbinary": "Non-binary",
+      "other": "Iba pa"
+    },
+    "pwRule": {
+      "length": "10–72 na karakter",
+      "lower": "Maliit na letra",
+      "upper": "Malaking letra",
+      "digit": "Numero",
+      "special": "Espesyal na karakter"
+    },
+    "memberFallback": "Miyembro",
+    "guestExit": "Lumabas sa guest"
+  },
+  "Account": {
+    "settingsTitle": "Mga Setting ng Account",
+    "tabProfile": "Profile",
+    "tabSecurity": "Seguridad",
+    "tabDanger": "Danger Zone",
+    "fullNameLabel": "Buong Pangalan",
+    "nationalityLabel": "Nasyonalidad",
+    "genderLabel": "Kasarian",
+    "ageLabel": "Edad",
+    "bloodLabel": "Uri ng Dugo",
+    "mbtiLabel": "MBTI",
+    "saveButton": "I-save ang mga Pagbabago",
+    "savedNotice": "Na-update ang profile.",
+    "phoneSectionTitle": "Numero ng Telepono",
+    "phoneVerifiedBadge": "Na-verify",
+    "phoneUnverifiedBadge": "Hindi Na-verify",
+    "changePhoneButton": "Baguhin ang Numero ng Telepono",
+    "passwordSectionTitle": "Password",
+    "newPasswordLabel": "Bagong Password",
+    "changePasswordButton": "I-update ang Password",
+    "passwordUpdatedNotice": "Na-update ang password.",
+    "dangerTitle": "Burahin ang Account",
+    "dangerBody": "Permanenteng dini-deactivate nito ang iyong account at inaalis ang iyong personal na impormasyon. Ang iyong coin transaction history ay pananatilihin para sa mga rekord na pinansyal ayon sa hinihingi ng batas.",
+    "dangerConfirmLabel": "I-type ang DELETE para kumpirmahin",
+    "dangerConfirmButton": "Burahin ang Aking Account",
+    "dangerCancelButton": "Kanselahin",
+    "deleteError": "Hindi mabura ang account. Pakisubukan muli.",
+    "tabIdentity": "Login at Profile",
+    "tabBanking": "Banking at Verification",
+    "tabWithdrawal": "Isara ang Account",
+    "loginIdSection": "Login Identity",
+    "personalSection": "Personal at Cognitive Profile",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "realNameLocked": "Naka-lock ang iyong legal na pangalan at hindi na ito mababago.",
+    "realNameLockWarning": "Ilagay nang maingat ang iyong legal na pangalan — hindi na ito mababago kapag na-save na.",
+    "profileInvalid": "Pakisuri ang mga naka-highlight na field.",
+    "profileSaveError": "Hindi ma-save ang iyong profile. Pakisubukan muli.",
+    "passwordChangeError": "Hindi ma-update ang iyong password. Pakisubukan muli.",
+    "verifyPhoneButton": "I-verify ang Numero ng Telepono",
+    "phoneAuthNote": "Kinakailangan ang na-verify na numero ng telepono bago gumastos ng coins (1 tao = 1 account).",
+    "bankSectionTitle": "Bank / Payment Verification",
+    "bankSectionBody": "I-link at i-verify ang isang payment method o bank account para sa mga charge at payout. Ma-a-activate kapag naka-live na ang payment gateway integration.",
+    "bankPending": "Nakabinbin",
+    "bankConnectButton": "Ikonekta ang Payment Method"
+  },
+  "ModuleWorkspace": {
+    "backLink": "Bumalik sa Ecosystems"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "Ang Iyong Tanong",
+    "echoQueryPlaceholder": "Ano ba talaga ang iyong pinagdedesisyunan dito?",
+    "echoRunButton": "Patakbuhin ang Reflection",
+    "echoRunningLabel": "Sinasalamin...",
+    "echoSynthesisLabel": "Synthesis",
+    "oracleQuestionLabel": "Ang Iyong Desisyon",
+    "oracleQuestionPlaceholder": "Ilarawan ang desisyong iyong tinitimbang",
+    "oracleConfidenceLabel": "Kumpiyansa sa Kasalukuyang Impormasyon",
+    "oracleVolatilityLabel": "Volatility ng Sitwasyon",
+    "oracleHorizonLabel": "Time Horizon (Taon)",
+    "oracleRunButton": "Konsultahin ang Oracle",
+    "oracleRunningLabel": "Kinukwenta ang mga posibilidad...",
+    "oracleLikely": "Malamang",
+    "oracleUncertain": "Hindi Tiyak",
+    "oracleUnlikely": "Malabong Mangyari",
+    "oracleRationaleLabel": "Pangangatwiran",
+    "genesisPriceLabel": "Presyo bawat Unit",
+    "genesisCostLabel": "Gastos bawat Unit",
+    "genesisFixedCostsLabel": "Fixed Costs / Buwan",
+    "genesisCustomersLabel": "Panimulang Customer",
+    "genesisGrowthLabel": "Buwanang Growth Rate (%)",
+    "genesisRunButton": "Buuin",
+    "genesisRunningLabel": "Dinideriba...",
+    "genesisProjectionLabel": "12-Buwang Cumulative Profit",
+    "genesisBreakevenLabel": "Buwan ng Breakeven",
+    "genesisNoBreakeven": "Hindi naabot sa loob ng 12 buwan",
+    "genesisAxiomViolationLabel": "Paglabag sa Axiom",
+    "genesisAxiomPriceCost": "Hindi lumalampas ang presyo sa unit cost -- hindi maaaring diribahin ang premise na ito tungo sa isang sustainable na modelo.",
+    "genesisAxiomCustomers": "Zero ang panimulang customer -- walang batayan para buuin ang paglago.",
+    "genesisAxiomFixedCosts": "Hindi maaaring negatibo ang fixed costs.",
+    "genesisVerdictRejected": "Tinatanggihan ng Genesis ang premise na ito -- lutasin muna ang mga paglabag sa axiom bago madiriba ang isang istruktura.",
+    "genesisVerdictBreakeven": "Diniriba: naabot ng modelo ang breakeven sa loob ng 12-buwang horizon.",
+    "genesisVerdictNoBreakeven": "Diniriba: hindi naaabot ng modelong ito ang breakeven sa loob ng 12-buwang horizon sa ibinigay na mga axiom.",
+    "apexPrompt": "Kababa lang ng isang kakumpitensya ang kanilang presyo nang 30% habang nagsasara na ang market sa loob ng segundo. Piliin ang iyong susunod na kilos.",
+    "apexOptionMatchLabel": "Itugma agad ang kanilang presyo",
+    "apexOptionMatchRationale": "Pinoprotektahan ang volume pero kinakain ang margin sa buong base mo, hindi lang sa mga kontestadong customer.",
+    "apexOptionHoldLabel": "Panatilihin ang presyo, umasa sa differentiation",
+    "apexOptionHoldRationale": "Mas mabagal pero pinapanatili ang margin -- gumagana lamang kung tunay ang differentiation, hindi ipinapalagay lamang.",
+    "apexOptionBundleLabel": "Muling itakda ang presyo sa pamamagitan ng bundle kaysa sa discount",
+    "apexOptionBundleRationale": "Ipinagtatanggol ang headline price habang gumagalaw pa rin sa effective cost -- ang tumutugon na may pinakamataas na leverage sa tatlo.",
+    "apexStartButton": "Simulan ang Run",
+    "apexTimeRemainingLabel": "Natitirang Oras",
+    "apexForfeitVerdict": "Naforfeit -- hindi humihinto ang timer.",
+    "apexForfeitRationale": "Walang pagpiling naabot ang orasan sa oras.",
+    "apexVerdictHigh": "Desisyong may mataas na leverage.",
+    "apexVerdictMid": "Depensableng desisyon.",
+    "apexVerdictLow": "Mapagpalang desisyon.",
+    "apexRunAgainButton": "Patakbuhin Muli",
+    "apexScoreLabel": "Score",
+    "voidThesisLabel": "Ang Iyong Thesis",
+    "voidThesisPlaceholder": "Ilahad ang plano o claim na gusto mong subukin",
+    "voidRunButton": "Hanapin ang Sumisira Rito",
+    "voidRunningLabel": "Naghahanap ng mga puwang...",
+    "voidGapsLabel": "Mga Puwang sa Coverage",
+    "voidNoGaps": "Walang natukoy na puwang sa kategorya.",
+    "voidUnhedgedLabel": "Mga Claim na Hindi Naprotektahan",
+    "voidNoUnhedged": "Walang natukoy na absolute na pananalita.",
+    "voidVerdictClean": "Walang nakitang structural gap ang Void sa pass na ito -- hindi nangangahulugang wala talaga.",
+    "voidVerdictBroken": "Natagpuan ng Void kung ano ang sumisira sa thesis na ito. Tugunan ang mga puwang sa itaas bago ito ipagpatuloy.",
+    "voidGapLegal": "Walang binanggit tungkol sa legal o compliance exposure.",
+    "voidGapFinancial": "Walang binanggit tungkol sa gastos, kita, o margin assumptions.",
+    "voidGapCompetitive": "Walang binanggit tungkol sa mga kakumpitensya o alternatibo.",
+    "voidGapOperational": "Walang binanggit tungkol sa execution, team, o timeline.",
+    "mirrorQ1": "Nabigo ang isang deal sa gitna ng negosasyon. Ikaw ay:",
+    "mirrorQ1OptA": "Agad na aalis",
+    "mirrorQ1OptB": "Muling nenegosasyon agad",
+    "mirrorQ1OptC": "Hihingi ng oras para suriin ang mga numero",
+    "mirrorQ2": "Sa pagitan ng ligtas-at-mabagal na opsyon at mapanganib-at-mabilis na opsyon, ikaw ay:",
+    "mirrorQ2OptA": "Ang ligtas at mabagal na opsyon",
+    "mirrorQ2OptB": "Ang mapanganib at mabilis na opsyon",
+    "mirrorQ2OptC": "Kung alin ang suportado ng datos",
+    "mirrorQ3": "Kapag nabigo ang isang plano, ang una mong instinct ay:",
+    "mirrorQ3OptA": "Hanapin kung sino ang mananagot",
+    "mirrorQ3OptB": "Hanapin kung ano ang nasira nang structural",
+    "mirrorQ3OptC": "Agad na mag-improvise ng workaround",
+    "mirrorQ4": "Binigyan ka ng malabong brief nang walang deadline pressure. Ikaw ay:",
+    "mirrorQ4OptA": "Magtatakda ng sarili mong deadline at gagalaw",
+    "mirrorQ4OptB": "Mangongolekta pa ng konteksto bago kumilos",
+    "mirrorQ4OptC": "Maghihintay na may magpaliwanag",
+    "mirrorQ5": "Hindi sumasang-ayon ang iyong team sa desisyon mo. Ikaw ay:",
+    "mirrorQ5OptA": "Ipagpapatuloy ang desisyon",
+    "mirrorQ5OptB": "Muling babalikan ang datos nang magkasama",
+    "mirrorQ5OptC": "Susunod sa grupo",
+    "mirrorAxisRisk": "Tolerance sa Risk",
+    "mirrorAxisSpeed": "Bilis ng Desisyon",
+    "mirrorAxisAnalytical": "Lalim ng Analitika",
+    "mirrorBandHigh": "Mataas",
+    "mirrorBandMid": "Katamtaman",
+    "mirrorBandLow": "Mababa",
+    "mirrorDominantLabel": "Dominanteng Katangian",
+    "mirrorScanAgain": "I-scan Muli",
+    "mirrorProgressLabel": "Tanong {current} ng {total}",
+    "pulseSignalPlaceholder": "Pangalanan ang signal na susubaybayan (market, sektor, paksa...)",
+    "pulseMonitorButton": "Subaybayan ang Signal",
+    "pulseMonitoringLabel": "Sinusubaybayan...",
+    "pulseMomentumLabel": "Momentum",
+    "pulseSentimentLabel": "Damdamin",
+    "pulseVolatilityLabel": "Volatility",
+    "pulseBullish": "Bullish ang binabasa ng momentum.",
+    "pulseBearish": "Bearish ang binabasa ng momentum.",
+    "pulseNeutral": "Neutral ang binabasa ng momentum.",
+    "pulseHighVol": "Mataas ang volatility.",
+    "pulseLowVol": "Mababa ang volatility.",
+    "syndicateTargetPlaceholder": "Pangalanan ang target entity",
+    "syndicateMapButton": "I-map ang Coalition",
+    "syndicateMappingLabel": "Nagma-map...",
+    "syndicateInfluenceLabel": "Ang mga influence score ay relative, hindi absolute -- isang hugis ng network, hindi isang hatol.",
+    "syndicateTargetNodeLabel": "TARGET",
+    "syndicateShellEntity": "Shell Entity",
+    "syndicateAdvisoryPartner": "Advisory Partner",
+    "syndicateHistoricalContact": "Historical Contact",
+    "syndicateFinancialBacker": "Financial Backer",
+    "syndicateContractualVendor": "Contractual Vendor",
+    "syndicateSilentStakeholder": "Silent Stakeholder",
+    "auraStatementLabel": "Ang Iyong Pahayag",
+    "auraStatementPlaceholder": "I-paste ang isang pahayag, hindi isang tanong",
+    "auraSenseButton": "Damhin ang Field",
+    "auraSensingLabel": "Nakikiramdam...",
+    "auraQuestionRejected": "Hindi sumasagot ang Aura sa mga tanong -- mag-paste ng pahayag sa halip.",
+    "auraValenceLabel": "Valence",
+    "auraArousalLabel": "Arousal",
+    "auraFormalityLabel": "Pormalidad",
+    "auraPositiveValence": "Positibo",
+    "auraNegativeValence": "Negatibo",
+    "auraNeutralValence": "Neutral",
+    "auraIntense": "Matindi",
+    "auraCalm": "Kalmado",
+    "auraModerateArousal": "Katamtaman",
+    "auraFormalTone": "Pormal",
+    "auraCasualTone": "Kaswal",
+    "auraBalancedFormality": "Balanse",
+    "paradoxClaimLabel": "Ang Iyong Konklusyon",
+    "paradoxClaimPlaceholder": "Ilahad ang konklusyong gusto mong subukin",
+    "paradoxRunButton": "I-rewind ang Lohika",
+    "paradoxRunningLabel": "Nire-rewind...",
+    "paradoxFindingsLabel": "Mga Natuklasan",
+    "paradoxNoFindings": "Walang natukoy na contradiction pattern sa pass na ito.",
+    "paradoxAbsoluteClaim": "Ang absolute na claim ay isang counterexample na lang bago masira.",
+    "paradoxSelfContradiction": "Ang claim na ito ay nag-hehedge at nagsasabi nang absolute nang sabay -- pumili ng isa.",
+    "paradoxCircular": "Ito ay nagbibigay-katwiran sa sarili sa pamamagitan ng pag-uulit sa sarili -- hindi iyon dahilan.",
+    "paradoxUnderspecified": "Napakaikli para masubukan nang makabuluhan -- ilahad ang buong claim.",
+    "paradoxVerdictBroken": "Natagpuan ng Paradox kung saan ito nagkakasalungatan sa sarili.",
+    "paradoxVerdictHeld": "Nanatiling matatag ang konklusyong ito sa backward pass.",
+    "chronosStartValueLabel": "Panimulang Halaga",
+    "chronosHorizonLabel": "Horizon sa Taon (min {min})",
+    "chronosCycleLengthLabel": "Haba ng Cycle (Taon)",
+    "chronosGrowthLabel": "Taunang Growth Rate (%)",
+    "chronosRunButton": "Patakbuhin ang Long Cycle",
+    "chronosRunningLabel": "Kinukwenta ang mga dekada...",
+    "chronosProjectionLabel": "Long-Cycle Projection",
+    "chronosFinalValueLabel": "Halaga sa Horizon",
+    "chronosMinHorizonNotice": "Hindi sumasagot ang Chronos sa mga tanong na para sa parehong araw -- itinaas ang horizon sa 10-taong minimum.",
+    "chronosPhaseExpansion": "Yugto ng Ekspansyon.",
+    "chronosPhasePeak": "Yugto ng Rurok.",
+    "chronosPhaseContraction": "Yugto ng Pag-urong.",
+    "chronosPhaseTrough": "Yugto ng Kaibuturan."
+  },
+  "Guest": {
+    "badge": "Guest Mode",
+    "virtualIdLabel": "Virtual ID",
+    "upgradeReason": "Makapag-browse lamang ang mga guest. Mag-verify ng account para magkaroon ng balanse at makapasok sa mga module.",
+    "upgradeCta": "Gumawa ng Buong Account"
+  },
+  "SitePages": {
+    "common": {
+      "back": "Bumalik sa UNITAS",
+      "disclaimer": "Ang pahinang ito ay ibinibigay para sa pangkalahatang impormasyon lamang. Hindi ito legal na payo at hindi lumilikha ng anumang kontrata o warranty. Kung saan inilalarawan nito ang mga plano o nakabinbing usapin, maaari itong magbago. THE UNITAS GLOBAL OÜ, Estonia."
+    },
+    "about": {
+      "title": "Tungkol sa UNITAS",
+      "lede": "Binubuo ng THE UNITAS GLOBAL OÜ ang isang decentralized, sovereign SaaS ecosystem — dinisenyo ng isang founder at pinapatakbo sa pamamagitan ng ganap na AI automation.",
+      "body": [
+        "Ang UNITAS ay isang kumpanyang Estonian na naghahangad ng iisang ideya: ang isang cognitive infrastructure na naglilingkod sa mga tao sa buong mundo ay maaaring disenyuhin, ilunsad, at patakbuhin nang walang capital-heavy na mga team o venture dependency. Ang bawat module sa ecosystem ay itinayo sa pamantayang iyon.",
+        "Nakaayos ang platform sa paligid ng mga cognitive structure — isang labing-isang-bahaging live ecosystem, limang consumer service, at tatlong enterprise protocol — na may iisang identity layer, iisang ledger, at iisang design language."
+      ]
+    },
+    "careers": {
+      "title": "Mga Karera",
+      "lede": "Pinapatakbo ang UNITAS bilang isang founder-led, AI-automated na operasyon. Wala pang bukas na sinasahurang posisyon sa ngayon.",
+      "body": [
+        "Sinadya ang modelo: isang payat na sovereign structure kung saan dinadala ng automation ang workload na kadalasang tinatauhan ng isang tradisyunal na kumpanya. Pinananatili nitong independiyente at matatag ang ecosystem.",
+        "Kung magbabago ang modelong ito, dito muna ilalathala ang mga bakanteng posisyon. Ang mga inquiry ukol sa partnership at contributor ay maaaring ipadala sa pamamagitan ng Contact page."
+      ]
+    },
+    "press": {
+      "title": "Press",
+      "lede": "Mga media resource at background ng kumpanya para sa mga mamamahayag at analyst.",
+      "body": [
+        "Para sa mga interview, background briefing, o fact-checking, kontakin kami sa pamamagitan ng Contact page at ipahayag ang inyong outlet at deadline.",
+        "Mangyaring i-attribute ang kumpanya bilang \"THE UNITAS GLOBAL OÜ\" at ang produkto bilang \"UNITAS\". Available ang mga logo at brand guidance kung hihilingin."
+      ]
+    },
+    "patent-notice": {
+      "title": "Patent Notice",
+      "lede": "Ilang paraan at sistema ng UNITAS ay paksa ng isang nakabinbing patent application.",
+      "body": [
+        "May naisumiteng United States provisional patent application (No. 64/023,911) na sumasaklaw sa mga aspeto ng UNITAS cognitive at signature protocols. Nakabinbin pa ang aplikasyon; wala pang naibigay na patent, at walang dapat basahin dito bilang isang claim ng naibigay na karapatan.",
+        "Ang pending status ay hindi nagbibigay ng enforceable exclusivity maliban kung at hanggang maglabas ng patent. Ang mga pangalan ng produkto at ng Sovereign Codex system ay ginagamit bilang identifiers ng pinagmulan."
+      ]
+    },
+    "compliance": {
+      "title": "Compliance",
+      "lede": "Kung paano lumalapit ang UNITAS sa mga obligasyong regulatory sa buong hurisdiksyong pinaglilingkuran nito.",
+      "body": [
+        "Pinapatakbo ang UNITAS ng isang kumpanyang Estonian at inaayon ang mga gawain nito sa mga prinsipyo ng European Union sa data-protection at consumer-protection. Isinasagawa ang payment processing ng mga third-party provider sa ilalim ng kanilang sariling regulated frameworks.",
+        "Hindi kami nagcla-claim ng certification sa ilalim ng anumang partikular na standard. Ang mga tanong tungkol sa compliance, kabilang ang mga data-subject request, ay maaaring itaas sa pamamagitan ng Contact page."
+      ]
+    },
+    "security": {
+      "title": "Seguridad",
+      "lede": "Ang mga control na nagpoprotekta sa mga account, balanse, at identity data.",
+      "body": [
+        "Ipinapatupad ang account identity sa database, hindi sa browser: ang isang na-verify na numero ng telepono ay natatangi sa lahat ng aktibong account, ang mga pagbabago sa balanse ay dumadaan lamang sa mga naaudit na server-side function, at ang transaction ledger ay append-only.",
+        "Hindi kailanman umaabot ang mga sekreto tulad ng payment keys sa client code. Para mag-ulat ng vulnerability, gamitin ang Contact page nang may sapat na detalye para maireproduce ang isyu, at mangyaring huwag itong isiwalat nang pampubliko hanggang sa kami ay tumugon."
+      ]
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "lede": "Kung ano ang kinokolekta ng UNITAS, bakit, at ang mga pagpipiliang mayroon ka.",
+      "body": [
+        "Kinokolekta ng UNITAS ang minimum na kailangan para patakbuhin ang isang account: isang identifier (email o telepono) para sa authentication, isang coin balance at ang ledger nito, at pangunahing preference ng locale at device na naka-store sa iyong device. Ang mga guest session ay nananatiling lokal sa iyong browser.",
+        "Ang datos ay pinoproseso para patakbuhin ang serbisyo, hindi para bumuo ng mga advertising profile. Maaari kang humiling ng access sa o pagbura ng iyong data ng account sa pamamagitan ng Contact page o ng in-app account settings."
+      ]
+    },
+    "cookies": {
+      "title": "Cookie Policy",
+      "lede": "Ginagamit ng UNITAS ang local storage at cookies nang bihira at functional lamang.",
+      "body": [
+        "Nagsto-store ang site ng maliit na hanay ng mga value — ang iyong wika, ang iyong audio preference, mga session at authentication token, at isang pre-launch access flag. Kinakailangan ang mga ito para tamang gumana ang interface.",
+        "Walang third-party advertising o cross-site tracking cookies na itinatakda. Ang pag-clear ng iyong browser storage ay nire-reset ang mga preference na ito sa susunod mong pagbisita."
+      ]
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "lede": "Ang mga batayang termino para sa paggamit ng UNITAS habang ito ay nasa yugto ng pre-launch.",
+      "body": [
+        "Ibinibigay ang UNITAS nang \"as is\" habang aktibong dinedebelop. Ang access sa mga bayad na module ay pinangangasiwaan ng coin balance sa iyong account; ang mga coin ay prepaid access credit — hindi isang security o stored-value instrument — at hindi maaaring ilipat.",
+        "Maaaring magbago o masuspinde ang mga feature habang umuunlad ang platform. Ang patuloy na paggamit matapos ang isang pagbabago ay nangangahulugang tinatanggap mo ang na-update na termino. Batas ng Estonia ang namamahala."
+      ]
+    },
+    "help-center": {
+      "title": "Help Center",
+      "lede": "Mga sagot sa mga tanong na pinakamadalas lumitaw.",
+      "body": [
+        "Tunog: naka-on bilang default ang ambient audio sa bawat device at nananatili sa buong refresh; i-toggle ito mula sa speaker icon sa itaas na navigation. Wika: lumipat anumang oras mula sa flag menu — natatandaan ang iyong pinili.",
+        "Access: nabubuksan ang isang module kapag available na ang kinakailangang coin balance sa iyong account. Kung may mukhang natigil, i-reload ang pahina; awtomatikong nare-restore ang estado ng account at balanse."
+      ]
+    },
+    "contact": {
+      "title": "Makipag-ugnayan sa Amin",
+      "lede": "Isang channel ang direktang umaabot sa founder.",
+      "body": [
+        "Ang mga pangkalahatan, partnership, press, security, at data-protection inquiry ay hinahawakan lahat ng founder. Gamitin ang account settings panel sa loob ng app para magbukas ng usapan, o umabot sa address na nakalista sa mga opisyal na channel ng THE UNITAS GLOBAL OÜ.",
+        "Walang phone support line. Nakadepende ang oras ng pagtugon sa dami; unang binibigyan ng priyoridad ang mga ulat sa seguridad."
+      ]
+    },
+    "system-status": {
+      "title": "System Status",
+      "lede": "Ang kasalukuyang operational na estado ng UNITAS platform.",
+      "body": [
+        "Ang UNITAS ay nasa yugto ng pre-launch. Sinadyang naka-seal ang pampublikong interface sa likod ng \"Coming Soon\" gate habang tinatapos ng founder ang sequential verification ng entry flow.",
+        "Ibubuod dito ang mga planadong maintenance at anumang insidenteng makakaapekto sa mga account o balanse kapag naka-live na nang pampubliko ang platform."
+      ]
+    }
+  },
+  "UAI": {
+    "title": "U-AI OMNI ENGINE",
+    "headline": "Magtanong nang isang beses. Makita ang bawat anggulo.",
+    "subhead": "Isang tatlong-segundong stereoscopic na pagbasa, isang commercial-bias shield, pagkatapos — kung kailangan — ang malalim na trajectory. Hindi isang chat. Isang decision-grade brief.",
+    "placeholder": "Tanungin ang U-AI ng kahit ano…",
+    "submit": "Suriin",
+    "reportLabel": "U-AI · ANALYSIS REPORT",
+    "surfaceScanning": "Sinusuri ang tatlong perspektiba — technical, economic, public…",
+    "directionality": {
+      "divergent": "Divergent na tanong",
+      "convergent": "Convergent na hangarin"
+    },
+    "lensLabel": "3-Segundong Stereoscopic View",
+    "lens": {
+      "tech": "Technical",
+      "economy": "Economic",
+      "opinion": "Public Opinion"
+    },
+    "shieldLabel": "Commercial-Bias Shield",
+    "shield": {
+      "clear": "Malinaw",
+      "caution": "Mag-ingat",
+      "biased": "Matinding bias"
+    },
+    "checklistLabel": "3-Hakbang na Action Checklist",
+    "checklist": {
+      "explore": [
+        "I-frame ang tunay na tanong sa isang pangungusap bago mas malawak na maghanap.",
+        "Mangolekta ng tatlong independent na source na may magkasalungat na incentive.",
+        "Isulat kung ano ang magpapabago sa iyong isip, pagkatapos ay subukan ito."
+      ],
+      "decide": [
+        "Ilahad ang dalawang opsyon at ang iisang deciding criterion.",
+        "Maglagay ng tinatayang numero sa gastos, panganib, at potensyal ng bawat isa.",
+        "Pumili sa opsyong may pinakamataas na expected value at magtakda ng review date."
+      ],
+      "analyze": [
+        "Hatiin ang tanong sa tatlo nitong load-bearing assumptions.",
+        "Pressure-test ang pinakamahinang palagay laban sa tunay na datos.",
+        "Muling buuin ang konklusyon mula sa nakaligtas."
+      ]
+    },
+    "constitutionLabel": "100-Doctrine Deconstruction",
+    "constitution": {
+      "logic": "Lohika · Disenyo",
+      "future": "Kinabukasan · Innovation",
+      "economy": "Ekonomiya · Efficiency",
+      "security": "Seguridad · Integridad",
+      "sovereign": "Sovereignty · Decentral.",
+      "art": "Sining · Pilosopiya"
+    },
+    "constitutionAxisNote": "Redesign anchor axis · {axis}",
+    "webSourcesLabel": "Live Web Synthesis",
+    "webSourcedBadge": "{count} na source ang na-synthesize nang real time",
+    "webLocalBadge": "Local heuristic synthesis · zero external calls",
+    "redesignLabel": "Doctrine Redesign Vectors",
+    "redesign": [
+      "Iwaksi ang surface answer — dekonstrukin ang tanong sa 6 na doctrine axis.",
+      "Muling buuin ang konklusyon mula sa pinakamababang-scoring axis, hindi sa pinakamalakas.",
+      "Pressure-test ang redesign nang fail-closed — itapon ang anumang hindi nakaligtas."
+    ],
+    "swarmLabel": "Swarm Cross-Reasoning · 11 Ecosystems",
+    "deepLabel": "Deep Insight · Ang VOID",
+    "deepHint": "Chronos trajectory, isang quantified na hatol, hidden-intent decode, at ang negative-space na pagbasa.",
+    "deepCta": "I-unlock ang deep insight · {cost} U-COIN",
+    "deepLocked": "Kinakalibrate pa ang deep insight — babalik kami sa lalong madaling panahon.",
+    "deepScanning": "Pumapasok sa VOID — sinisintesa ang trajectory…",
+    "openFullReport": "Buksan ang buong U-AI report",
+    "chronosLabel": "Chronos · 1–3 Taong Trajectory",
+    "chronos": {
+      "y1": "Sa loob ng 1 taon",
+      "y2": "Sa loob ng 2 taon",
+      "y3": "Sa loob ng 3 taon"
+    },
+    "binaryLabel": "Alinman / O · Mathematical Verdict",
+    "confidence": "Kumpiyansa",
+    "redPenLabel": "Red-Pen · Hidden Intent",
+    "voidLabel": "Ang VOID · Negative-Space Insight",
+    "pathLabel": "Landas na may Pinakamataas na Efficiency",
+    "cachedBadge": "Genesis Memory cache",
+    "modelNote": "Engine: {model}",
+    "brainGridLabel": "Brain-Grid · Cognitive History",
+    "brainGridClear": "I-clear",
+    "err": {
+      "signin": "Mag-sign in para i-unlock ang deep insight.",
+      "phone": "I-verify ang iyong numero ng telepono bago gumastos ng U-COIN.",
+      "insufficient": "Kulang ang U-COIN para sa deep insight.",
+      "burn_required": "Hindi na-register ang U-COIN burn — subukan muli.",
+      "deep_unavailable": "Pansamantalang hindi available ang deep insight.",
+      "generation_failed": "Nabigong buuin ang deep analysis — pakisubukan muli.",
+      "bad_request": "Hindi masusuri ang query na iyon — i-rephrase at subukan muli.",
+      "unauthenticated": "Nag-expire ang iyong session — mag-sign in muli."
+    },
+    "reporterFree": "Free Reporter",
+    "reporterPaid": "Paid Reporter · Mag-sign in",
+    "followupLabel": "Follow-up Queries · Angle Options",
+    "followupHint": "Muling patakbuhin ang paghahanap mula sa ibang doctrine axis, o siyasatin ang isang cited source.",
+    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%.",
+    "insightLabel": "UNITAS Insight Report · 6-Axis Sovereign Redesign",
+    "insightForging": "Ginagawa ng sovereign engine ang 6-axis redesign — lilitaw ito rito at mananatiling libre magpakailanman.",
+    "insightPending": "{hits} / 3 na paghahanap. Sa ika-3, isang beses bubuuin ng 100-doctrine engine ang redesign na ito — pagkatapos ay libre ito para sa lahat, magpakailanman.",
+    "insightFreshBadge": "Kababuo lamang · naka-seal sa Genesis Memory",
+    "insightCachedNote": "Mula sa Genesis Memory · engine cost $0",
+    "insightVectorLabel": "Redesign Vector · Ang Blind Axis",
+    "insightAxisReading": "Pagbasa",
+    "insightAxisRedesign": "Redesign"
+  }
+}

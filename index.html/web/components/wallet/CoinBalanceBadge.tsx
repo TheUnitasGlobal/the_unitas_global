@@ -25,7 +25,7 @@ export function CoinBalanceBadge() {
       : balance.toLocaleString();
 
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex items-center gap-3 sm:gap-5">
       <button
         type="button"
         onClick={() => balanceGate.setOpen(true, { force: true })}
@@ -33,11 +33,11 @@ export function CoinBalanceBadge() {
         aria-label={t('balanceTitle')}
         aria-haspopup="dialog"
         aria-disabled={balanceGate.blocked || undefined}
-        className={`flex items-center gap-2 py-2 text-sm text-gray-300 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none ${
+        className={`flex items-center gap-1.5 py-2 text-xs text-gray-300 transition-colors hover:text-white focus-visible:text-white focus-visible:outline-none sm:gap-2 sm:text-sm ${
           balanceGate.blocked ? 'pointer-events-none opacity-50' : 'pointer-events-auto'
         }`}
       >
-        <Coins size={22} className="text-accent/80" />
+        <Coins className="h-[18px] w-[18px] text-accent/80 sm:h-[22px] sm:w-[22px]" />
         <span className="font-bold text-neon">{balanceLabel}</span>
         <span className="hidden text-gray-500 sm:inline">{t('coinUnit')}</span>
       </button>
@@ -46,11 +46,11 @@ export function CoinBalanceBadge() {
         onClick={() => chargeGate.setOpen(true, { force: true })}
         aria-haspopup="dialog"
         aria-disabled={chargeGate.blocked || undefined}
-        className={`flex items-center gap-2 py-2 text-sm font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none ${
+        className={`flex items-center gap-1.5 py-2 text-xs font-bold uppercase tracking-widest text-accent/60 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none sm:gap-2 sm:text-sm ${
           chargeGate.blocked ? 'pointer-events-none opacity-50' : 'pointer-events-auto'
         }`}
       >
-        <Plus size={20} />
+        <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
         <span className="hidden sm:inline">{t('chargeCoins')}</span>
       </button>
       <WalletBalanceModal open={balanceGate.open} onClose={() => balanceGate.setOpen(false)} />

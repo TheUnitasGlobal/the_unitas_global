@@ -939,7 +939,9 @@ export function ComingSoonCinema() {
             {phase === 'sealed' && (
               <motion.div
                 key="sealed"
-                className="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain px-6 py-16"
+                className={`absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain px-6 py-16 ${
+                  isFounder ? 'pb-56' : ''
+                }`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.1, ease: 'easeOut' }}

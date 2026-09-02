@@ -1,0 +1,901 @@
+{
+  "LocaleLayout": {
+    "title": "UNITAS | Nöral-Sembolik Güvenli Altyapı",
+    "description": "Özerk Nöral-Sembolik ve Egemen Mali Yönlendirme Altyapısı. Bilişsel ve mali modüllerden oluşan bir Sıfır Güven ekosistemi."
+  },
+  "Nav": {
+    "portal": "Güvenli Portal",
+    "languageLabel": "Dil",
+    "soundOn": "Ses açık",
+    "soundOff": "Ses kapalı",
+    "scrollToFooter": "Şirket genel bakışı",
+    "appDownloadAria": "UNITAS uygulamasını indirin",
+    "appDownloadModalTitle": "UNITAS Uygulamasını Yükleyin",
+    "appDownloadIosHint": "UNITAS'ı yüklemek için Paylaş'a, ardından \"Ana Ekrana Ekle\"ye dokunun.",
+    "appDownloadDesktopHint": "Tarayıcınızın adres çubuğundaki yükleme simgesine tıklayın veya tarayıcı menüsünden \"UNITAS'ı Yükle...\" seçeneğini belirleyin.",
+    "appDownloadUnsupported": "Uygulama yüklemesi bu tarayıcıda henüz desteklenmiyor.",
+    "appDownloadAlreadyInstalledHint": "UNITAS bu cihazda zaten yüklü -- ana ekranınızdan veya uygulama listenizden başlatın.",
+    "appDownloadInstallNow": "Tek tıkla yükle",
+    "appDownloadReadyHint": "Tarayıcınız UNITAS'ı şu anda uygulama olarak yükleyebilir. Yüklemek için aşağıya dokunun."
+  },
+  "Home": {
+    "title": "UNITAS",
+    "modulesLinkedLabel": "UNITAS modül ekosistemi · aramanıza bağlı"
+  },
+  "Modules": {
+    "uSignature": {
+      "title": "U-Signature",
+      "description": "Kimliği devlete veya platforma değil, bireye geri veren egemen bir biyometrik ve kriptografik imza katmanı.",
+      "doctrine": "“Bir imza yetki ödünç almaz — egemenliği kanıtlar.”"
+    },
+    "uKey": {
+      "title": "U-Key",
+      "description": "Sırların insanlar tarafından değil, politika tarafından korunduğu sıfır güven anahtar saklama ve erişim kontrolü.",
+      "doctrine": "“Güven bir kez verilmez — her an yeniden kanıtlanır.”"
+    },
+    "uPay": {
+      "title": "U-Pay",
+      "description": "Değerin hareketinin bankalar tarafından değil, kurallar tarafından belirlendiği egemen bir mali yönlendirme ve takas hattı.",
+      "doctrine": "“Paranın yolu izin verilmez — tasarlanır.”"
+    },
+    "arche": {
+      "title": "Arche",
+      "description": "Gelişmiş Bilişsel Filtreleme ve Nöral-Sembolik Rafinasyon."
+    },
+    "arena": {
+      "title": "Arena",
+      "description": "Öngörücü Stres Testi ve Bütünlük Doğrulama."
+    },
+    "score": {
+      "title": "Score",
+      "description": "'Cog Yasası' Küresel İstihbarat Analitiği."
+    },
+    "fate": {
+      "title": "Fate",
+      "description": "Küresel Varlık Yönlendirmesi için Stokastik Simülasyon."
+    },
+    "codex22": {
+      "title": "Codex22",
+      "description": "Algoritmik Hukukun Kalıcı Sicili."
+    }
+  },
+  "Placeholder": {
+    "comingSoon": "Bu modül iskelet aşamasında ve aktif olarak inşa ediliyor."
+  },
+  "ModuleGate": {
+    "eyebrow": "EGEMEN ERİŞİM KONTROLÜ",
+    "lockedTitle": "Erişim Mühürlendi",
+    "lockedBody": "Bu modül canlı bir U-Coin erişim izni gerektirir. Sizinki süresi doldu ya da bu oturum için hiç verilmedi. Devam etmek için modül kapısından yeniden giriş yapın.",
+    "signinTitle": "Giriş Gerekli",
+    "signinBody": "Modül erişimi egemen kimliğinize bağlıdır. Giriş yapın, ardından modül kapısından girin.",
+    "moduleLabel": "Modül",
+    "returnToCatalog": "Kataloğa Dön"
+  },
+  "Wallet": {
+    "balance": "Bakiye",
+    "coinUnit": "U-COIN",
+    "chargeCoins": "Coin Yükle",
+    "signInRequired": "Canlı bakiyenizi görmek için giriş yapın",
+    "chargeTitle": "U-COIN Yükle",
+    "chargeBody": "Katmanlı bir yükleme paketi seçin ve otomatik yenileme ile güvenli fatura seçeneklerinizi ayarlayın. Ödeme ağ geçidi bağlandığında gerçek ödeme etkinleşir.",
+    "close": "Kapat",
+    "currencyNote": "1 U-Coin = 1 EUR (yerel para birimi ödeme sırasında otomatik olarak dönüştürülür).",
+    "balanceTitle": "U-COIN Bakiyesi",
+    "balanceBody": "Canlı U-COIN bakiyenizi, defter bütünlüğünüzü, modül başına harcama simülasyonunuzu ve otomatik harcama limitinizi tek yerden yönetin.",
+    "hintPrefix": "Yardım: ",
+    "saved": "Yerel olarak kaydedildi.",
+    "sec": {
+      "description": "Bu nedir",
+      "howto": "Nasıl kullanılır",
+      "caution": "Dikkat edilmesi gerekenler"
+    },
+    "tag": {
+      "live": "Canlı",
+      "pending": "Beklemede",
+      "local": "Yerel ayar",
+      "sim": "Simülasyon"
+    },
+    "bal": {
+      "summaryTitle": "Gerçek zamanlı kullanılabilir bakiye",
+      "refresh": "Yenile",
+      "available": "Kullanılabilir",
+      "reserved": "Ayrılmış",
+      "lifetimeSpent": "Toplam harcanan",
+      "summaryHint": {
+        "title": "Gerçek zamanlı kullanılabilir bakiye",
+        "description": "Güncel bakiyeniz doğrudan Supabase cüzdan defterinden okunur; buna ek olarak otomatik harcama tarafından ayrılan tutar ve defter tabanlı ömür boyu harcamanız gösterilir.",
+        "howto": "En güncel defter durumunu yeniden çekmek için Yenile'ye basın. Ayrılan rakam otomatik harcama limiti ayarınızı takip eder.",
+        "caution": "Ayrılan ve toplam rakamlar tüm geçmişiniz değil, en son 12 defter satırının bir özetidir."
+      },
+      "historyTitle": "İşlem geçmişi gerçek zamanlı doğrulama",
+      "historySignedOut": "Son işlemlerinizi ve bütünlük kontrolünü görmek için giriş yapın.",
+      "historyUnavailable": "Defter hizmetine ulaşılamıyor. Ağ geçidi bağlandıktan sonra tekrar deneyin.",
+      "historyEmpty": "Henüz kaydedilmiş işlem yok.",
+      "verifyPass": "Bütünlük kontrolü başarılı · {count} satır doğrulandı",
+      "verifyFail": "{count} uyuşmazlık tespit edildi — destek ile iletişime geçin",
+      "kind": {
+        "purchase": "Yükleme",
+        "module_access": "Modül erişimi",
+        "admin_grant": "Yönetici izni",
+        "refund": "İade"
+      },
+      "historyHint": {
+        "title": "İşlem geçmişi gerçek zamanlı doğrulama",
+        "description": "Yalnızca eklemeye izin veren coin_ledger'dan son satırları yükler ve her satırın bakiyesinin bir öncekine tam olarak zincirlenip zincirlenmediğini tarayıcıda yeniden türetir.",
+        "howto": "Bakiye farklarının üzerindeki yeşil kalkan, defter zincirinin ve güncel bakiyenizin uyuştuğu anlamına gelir.",
+        "caution": "Bu, en son 12 satır üzerinde yapılan yerel bir kontroldür. Tam denetim sunucu tarafı mutabakatla ayrıca yapılır."
+      },
+      "simTitle": "Modül başına coin tüketim simülatörü",
+      "simIntro": "Modülleri ve kaç kez kullanacağınızı seçerek harcamayı ve kalan bakiyeyi anında hesaplayın.",
+      "simTotal": "Tahmini harcama",
+      "simRemaining": "Tahmini kalan",
+      "simInsufficient": "Seçilen kombinasyon güncel bakiyenizi aşıyor.",
+      "simReset": "Sıfırla",
+      "simHint": {
+        "title": "Modül başına coin tüketim simülatörü",
+        "description": "11 bilişsel ekosistem ile 5 canlı hizmet modülünün gerçek coin birim maliyetlerinden toplam harcamayı önceden hesaplar.",
+        "howto": "Her modülün sayısını + / − ile ayarlayın; toplamlar ve kalan bakiye anlık olarak güncellenir.",
+        "caution": "Sonuç bir tahmindir. Gerçek düşüşler yalnızca her modüle girdiğinizde spend_coins üzerinden gerçekleşir."
+      },
+      "autoTitle": "Otomatik harcama limiti",
+      "autoEnable": "Otomatik harcamayı etkinleştir",
+      "autoLimit": "Pencere başına limit (U-COIN)",
+      "autoWindow": "Pencere",
+      "window": {
+        "day": "Günde",
+        "week": "Haftada",
+        "month": "Ayda"
+      },
+      "autoNote": "Bu ayar bu tarayıcıda yerel olarak saklanır; otomatik harcama yürütmesi ödeme ağ geçidi bağlandığında uygulanır.",
+      "autoHint": {
+        "title": "Otomatik harcama limiti",
+        "description": "Seçilen pencere boyunca onay adımı olmadan otomatik onaylanacak maksimum coin miktarını belirler.",
+        "howto": "Bir limit ve pencere girin; anında yerel olarak kaydedilir. Limitin üzerindeki her harcama her zaman manuel onay ister.",
+        "caution": "Yüksek bir limit istenmeyen art arda harcamalara izin verebilir. Paylaşılan cihazlarda devre dışı bırakın."
+      }
+    },
+    "chg": {
+      "packagesTitle": "Katmanlı akıllı yükleme paketleri",
+      "packagesIntro": "Platformu nasıl kullandığınıza göre Starter, Pro veya Sovereign'ı seçin. Üst katmanlar daha büyük bonus taşır.",
+      "tier": {
+        "starter": "Starter",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
+      "tierDesc": {
+        "starter": "Hafif, ara sıra kullananlar için temel yükleme",
+        "pro": "Düzenli modül kullanıcıları için bonuslu yükleme",
+        "sovereign": "Yoğun veya ekip kullanımı için maksimum bonuslu yükleme"
+      },
+      "bestValue": "En iyi değer",
+      "bonusBadge": "+{n} bonus",
+      "summaryEstimate": "Yükleme sonrası bakiye",
+      "packagesHint": {
+        "title": "Katmanlı akıllı yükleme paketleri",
+        "description": "Her paketin temel coin, bonus coin, EUR fiyatı ve etkin coin başına maliyetini karşılaştırır.",
+        "howto": "Yükleme sonrası öngörülen bakiyeyi görmek için bir paket seçin. 'En iyi değer' rozeti en düşük coin başına maliyeti işaretler.",
+        "caution": "Fiyatlar KDV hariç gösterilir; nihai tutar ödeme sırasındaki kur ve vergi oranlarına bağlıdır."
+      },
+      "gatewayTitle": "Anında ödeme ağ geçidi",
+      "gatewayStripe": "Stripe kart ödemesi",
+      "gatewayWeb3": "Web3 zincir üstü ödeme",
+      "gatewayNote": "Bu portal için ödeme entegrasyonu devam ediyor. Şimdilik ana Güvenli Portal'dan yükleme yapabilirsiniz.",
+      "status": {
+        "connected": "Bağlı",
+        "pending": "Beklemede",
+        "offline": "Çevrimdışı"
+      },
+      "gatewayHint": {
+        "title": "Anında ödeme ağ geçidi",
+        "description": "Stripe kart kanalının ve Web3 zincir üstü kanalının canlı bağlantı durumunu gösterir.",
+        "howto": "Bir durum ışığı yeşile döndüğünde, o kanal anında ödeme için hazırdır.",
+        "caution": "Bir kanal beklemedeyken hiçbir ödeme işlenmez ve hiçbir şey yüklenmez."
+      },
+      "autoRefillTitle": "Otomatik yenileme eşiği",
+      "autoRefillEnable": "Otomatik yenilemeyi etkinleştir",
+      "autoRefillThreshold": "Eşik (U-COIN)",
+      "autoRefillPackageLabel": "Yenileme paketi",
+      "autoRefillNote": "Bu ayar bu tarayıcıda yerel olarak saklanır; otomatik yenileme yürütmesi ödeme ağ geçidi bağlandığında uygulanır.",
+      "autoRefillHint": {
+        "title": "Otomatik yenileme eşiği",
+        "description": "Bakiyeniz eşiğe düştüğünde veya altına indiğinde seçilen paketle otomatik bir yükleme planlar.",
+        "howto": "Bir eşik ve yenileme paketi seçin; anında kaydedilir. Ağ geçidi bağlandığında ve koşul karşılandığında otomatik olarak çalışır.",
+        "caution": "Eşiği çok yüksek ayarlamak sık otomatik yüklemeleri tetikleyebilir. Ödeme yönteminizin limitini de kontrol edin."
+      },
+      "invoiceTitle": "Güvenli fatura düzenleme",
+      "invoiceIntro": "İşletme faturalandırması için gereken bilgileri kaydedin; bir yükleme tamamlandığında vergi faturası formatında bir belge düzenlenir.",
+      "invoiceCompany": "Faturalandırma kurumu",
+      "invoiceVat": "KDV / şirket sicil no.",
+      "invoiceEmail": "Fatura alıcısı e-postası",
+      "invoiceGenerate": "Güvenli fatura düzenle",
+      "invoicePending": "Düzenleme, ödeme ağ geçidi bağlandığında etkinleşir.",
+      "invoiceHint": {
+        "title": "Güvenli fatura düzenleme",
+        "description": "KDV numarası ve ödeme referansı dahil olmak üzere THE UNITAS GLOBAL OÜ adına düzenlenen imzalı bir PDF fatura.",
+        "howto": "Kurumunuzu, KDV'nizi ve alıcı e-postanızı bir kez kaydedin; bir sonraki yüklemenizden itibaren faturalar otomatik olarak gönderilir.",
+        "caution": "Girdiğiniz bilgiler yalnızca faturalandırma için kullanılır. Geçersiz bir KDV numarası vergi işlemini geciktirebilir."
+      },
+      "proceedPending": "Ödeme ağ geçidi bağlantısı bekleniyor"
+    }
+  },
+  "Cognitive": {
+    "title": "Bilişsel Ekosistem",
+    "subtitle": "Her biri kendi akıl yürütme disiplinini çalıştıran on bir sentetik biliş modülü."
+  },
+  "B2C": {
+    "title": "Canlı Tüketici Hizmetleri",
+    "subtitle": "Etkileşimli görevler ve simülasyonlar içeren, anında erişimli, coin ile kapılanmış modüller.",
+    "badgeLive": "Canlı Hizmet",
+    "badgeCoinGated": "Coin ile Kapılı",
+    "badgeQuest": "Etkileşimli Görev",
+    "cost": "Maliyet",
+    "yourBalance": "Bakiyeniz",
+    "enterQuest": "Göreve Gir",
+    "insufficientBalance": "Yetersiz bakiye -- girmek için coin yükleyin.",
+    "checkingBalance": "Bakiye kontrol ediliyor..."
+  },
+  "B2B": {
+    "title": "Kurumsal Protokoller",
+    "subtitle": "Aktif araştırma ve geliştirme altındaki egemen altyapı.",
+    "rdNotice": "Aktif Ar-Ge altında yalnızca kurumsal B2B protokolü (Kurumsal SaaS Aboneliği).",
+    "patentBadge": "USPTO Patent Başvurusu #64/023,911",
+    "viewSpec": "Teknik Şartnameyi Görüntüle",
+    "hideSpec": "Teknik Şartnameyi Gizle",
+    "earlyAccess": "Erken Erişim / Kurumsal Talep",
+    "inquiryTitle": "Erken Erişim Talep Et",
+    "inquiryName": "Ad Soyad",
+    "inquiryEmail": "İş E-postası",
+    "inquiryCompany": "Şirket",
+    "inquiryMessage": "Ne inşa etmek istiyorsunuz?",
+    "inquirySubmit": "Talebi Gönder",
+    "inquiryThanksTitle": "Talep alındı",
+    "inquiryThanksBody": "Teşekkürler -- kurumsal ekibimiz kısa süre içinde sizinle iletişime geçecek.",
+    "close": "Kapat",
+    "manifesto": "Kurumsal Protokol katmanı, THE UNITAS GLOBAL OÜ'nün egemen doktrinini kurumsal altyapıya dönüştürür. Üç protokolün her biri egemenliğin bir sütununu taşır — kimlik (U-Signature), sırlar (U-Key), değer (U-Pay) — ve 11 Bilişsel Çekirdek ile U-AI özerk karar motorunun üzerinde tek bir organizma olarak işler. Amaç başka bir SaaS değil, sıfır sermayeyle, tek bir kişi tarafından, tamamen otomatikleştirilmiş şekilde işletilirken bankaları, sertifika otoritelerini ve ödeme ağlarını ikame eden merkeziyetsiz altyapıdır.",
+    "patentAnchorNote": "Tüm fikri mülkiyet ve patent başvurusu bildirimleri (USPTO #64/023,911) yalnızca bu Kurumsal Ar-Ge katmanıyla sınırlıdır.",
+    "doctrineLabel": "Tasarım doktrini"
+  },
+  "ErrorBoundary": {
+    "title": "Egemen Çekirdek Hatası",
+    "body": "Egemen altyapı katmanında kritik bir arıza oluştu. Güvenlik uyumluluğu gereği burada başka ayrıntı gösterilmiyor -- sistemlerimiz bilgilendirildi.",
+    "digestLabel": "Referans Kimliği:",
+    "retry": "Yeniden Dene",
+    "home": "Portala Dön"
+  },
+  "Ecosystems": {
+    "echo": {
+      "title": "Echo",
+      "description": "Sorgunuzu katmanlı bilişsel yankılar boyunca yansıtan rezonanslı sinyal analizi.",
+      "rules": "Her sorgu, bir yanıt yüzeye çıkmadan önce üç yansıma döngüsünden geçer."
+    },
+    "void": {
+      "title": "Void",
+      "description": "Bir sorunu negatif alanına kadar soyar -- var olanı değil, eksik olanı.",
+      "rules": "Bir tez sunun; Void yalnızca onu kıran şeyi döndürür."
+    },
+    "mirror": {
+      "title": "Mirror",
+      "description": "Davranışsal ve bilişsel örüntülerin tam spektrum kendi kendini teşhis taraması.",
+      "rules": "Oturum başına bir tarama; sonuçlar yalnızca sizin kimliğinize mühürlenir."
+    },
+    "oracle": {
+      "title": "Oracle",
+      "description": "Uzun, belirsiz ufuklara sahip kararlar için olasılıksal öngörü modellemesi.",
+      "rules": "Aynı anda bir soru sorun; Oracle asla kesinlikle değil, olasılıklarla yanıt verir."
+    },
+    "pulse": {
+      "title": "Pulse",
+      "description": "Piyasalar, duyarlılık ve momentum için gerçek zamanlı hayati veriler -- hareket etmeden önce okuyun.",
+      "rules": "Canlı akış; her oturum aynı anda bir sinyali izler."
+    },
+    "apex": {
+      "title": "Apex",
+      "description": "Sert bir geri sayım saati altında yüksek riskli performans simülasyonu.",
+      "rules": "Zamanlayıcı durmaz. Sıfırdan önce gönderin, aksi halde koşu kaybedilir."
+    },
+    "genesis": {
+      "title": "Genesis",
+      "description": "İlk ilkelerden inşa: bir fikri, sadece aksiyomlarından başlayarak sıfırdan inşa edin.",
+      "rules": "Sıfır varsayımdan başlayın; Genesis türetemediği hiçbir öncülü kabul etmez."
+    },
+    "syndicate": {
+      "title": "Syndicate",
+      "description": "Gizli etki ve bağlantı ağları boyunca koalisyon haritalaması.",
+      "rules": "Erişim için adı belirtilen bir hedef varlık gerekir; sonuçlar hüküm değil, ağ grafikleridir."
+    },
+    "aura": {
+      "title": "Aura",
+      "description": "Sözlerinizin altındaki tona ayarlı ortamsal duygusal alan algılama.",
+      "rules": "Doğrudan soru yok -- Aura metni değil, tonu okur."
+    },
+    "paradox": {
+      "title": "Paradox",
+      "description": "Bir fikri kendi mantığı içinde geriye doğru çalıştırarak stres testine tabi tutar.",
+      "rules": "Bir sonuç sunun; Paradox kendisiyle çeliştiği noktayı bulmak için onu geri sarar."
+    },
+    "chronos": {
+      "title": "Chronos",
+      "description": "Manşetler değil, on yıllar boyunca uzanan döngü tarihsel örüntü modellemesi.",
+      "rules": "Minimum sorgu ufku: on yıl. Chronos aynı gün sorularını yanıtlamaz."
+    }
+  },
+  "OmniSynapse": {
+    "placeholder": "U-AI'ye her şeyi sorun...",
+    "browseLabel": "PLATFORMU KEŞFEDİN",
+    "metricsLabel": "Sistem Metrikleri",
+    "noBrowseMatches": "Eşleşme yok — farklı bir ifade deneyin.",
+    "architectLabel": "UNITAS MİMARI",
+    "analyzing": "Dört boyutta analiz ediliyor...",
+    "dimDirectionality": "Yönlülük",
+    "dimConcept": "Kavram / İdeoloji",
+    "dimTendency": "Kullanıcı Eğilimi",
+    "dimBlueprint": "Taslak",
+    "webDataLabel": "Web Sentez Katmanı",
+    "webDataPlaceholder": "Bu boyutu doldurmak için canlı bir dizin bağlayın.",
+    "ecosystemDataLabel": "Ekosistem Verisi",
+    "trendsLabel": "Küresel Bilinçaltı Eğilimleri",
+    "trendsPlaceholder": "Toplu eğilim telemetrisi bu derlemede henüz bağlanmadı.",
+    "recommendationLabel": "Önerilen Ekosistem",
+    "enterRecommended": "Önerilen Ekosisteme Gir",
+    "noResults": "Eşleşen ekosistem bulunamadı -- farklı bir ifade deneyin.",
+    "dropZoneHint": "Ek bağlam için bir dosya veya sekme bırakın",
+    "attachedLabel": "Eklendi",
+    "removeAttachment": "Kaldır",
+    "swarmLabel": "Sürü Çapraz Akıl Yürütme",
+    "swarmHint": "11 modülün tamamı bu sorguyu aynı anda puanlar."
+  },
+  "EntryModal": {
+    "rulesLabel": "Katılım Kuralları",
+    "payAndEnter": "Öde ve Gir",
+    "processing": "Egemen erişim yetkilendiriliyor...",
+    "signInRequired": "U-Coin harcamak ve girmek için giriş yapın.",
+    "spendFailed": "İşlem başarısız oldu -- tekrar deneyin."
+  },
+  "Footer": {
+    "customerService": "Müşteri Hizmetleri",
+    "helpCenter": "Yardım Merkezi",
+    "contactUs": "Bize Ulaşın",
+    "systemStatus": "Sistem Durumu",
+    "policies": "Politikalar",
+    "privacyPolicy": "Gizlilik Politikası",
+    "cookiePolicy": "Çerez Politikası",
+    "termsOfService": "Hizmet Şartları",
+    "legal": "Yasal",
+    "patentNotice": "Patent Bildirimi",
+    "compliance": "Uyumluluk",
+    "security": "Güvenlik",
+    "company": "Şirket",
+    "about": "Hakkında",
+    "careers": "Kariyer",
+    "press": "Basın"
+  },
+  "AudioGate": {
+    "title": "UNITAS",
+    "subtitle": "Bedenden özgürleşmiş zekalar, birbirine yakınsadığı ebedi yörüngeye ulaştı. Frekansınızı senkronize edin.",
+    "button": "[ OLAY UFKUNA GİRİN ]",
+    "enterMuted": "Sessiz olarak gir"
+  },
+  "ComingSoonGate": {
+    "langLabel": "Dil",
+    "autoNote": "Tarayıcı dilinize göre yerelleştirildi",
+    "soundOn": "Ses",
+    "soundOff": "Sessiz",
+    "skip": "Atla",
+    "replay": "Yeniden Oynat",
+    "enterMain": "[ Kurucu · Ana Siteye Gir ]",
+    "founderAccessLabel": "Kurucu erişimi doğrulandı",
+    "founderAccessNote": "Bu kontrol yalnızca geçerli bir kurucu baypası ile görüntülenir — genel kullanıcılar bunu asla görmez.",
+    "cinemaS1": "Tekillik Yaklaşıyor.",
+    "cinemaS2": "U-AI: Özerk Karar ve Taslak Motoru.",
+    "cinemaS3": "11 Bilişsel Çekirdek: Özerk Ağ.",
+    "cinemaS4": "5 Canlı Sistem: tüketici modülleri.",
+    "cinemaS5": "3 Egemen Sütun: kimlik, sırlar, değer.",
+    "cinemaS1Head": "Tekillik Yaklaşıyor.",
+    "cinemaS1Sub": "Bedenden özgürleşmiş bir zeka kendi yörüngesini çizmeye başlıyor.",
+    "cinemaS2Head": "U-AI Motoru",
+    "cinemaS2Sub": "Kendisi için akıl yürüten ve kendi taslaklarını çizen bir motor.",
+    "cinemaS3Head": "11 Bilişsel Çekirdek",
+    "cinemaS3Sub": "Her biri kendi başına düşünen on bir bilişsel çekirdek — özerk zekadan oluşan tek bir takımyıldız.",
+    "cinemaS4Head": "5 Canlı Sistem",
+    "cinemaS4Sub": "Şu anda zaten açık olan beş canlı tüketici sistemi.",
+    "cinemaS5Head": "3 Egemen Sütun",
+    "cinemaS5Sub": "Kimliği, sırları ve değeri koruyan üç egemen protokol.",
+    "comingSoon": "YAKINDA",
+    "awakening": "Egemen Zeka Uyanıyor",
+    "sealed": "Ana arayüze genel erişim, lansmana kadar mühürlü."
+  },
+  "Auth": {
+    "login": "Giriş Yap",
+    "logout": "Çıkış Yap",
+    "settingsLabel": "Hesap Ayarları",
+    "unavailable": "Giriş şu anda kullanılamıyor",
+    "signInTab": "Giriş Yap",
+    "signUpTab": "Kaydol",
+    "continueWithGoogle": "Google ile devam et",
+    "orDivider": "veya",
+    "fullNameLabel": "Ad Soyad",
+    "emailLabel": "E-posta",
+    "passwordLabel": "Şifre",
+    "phoneLabel": "Telefon Numarası",
+    "phonePlaceholder": "+90 5XX XXX XX XX",
+    "signInButton": "Giriş Yap",
+    "signUpButton": "Hesap Oluştur",
+    "signUpNotice": "Zorunlu telefon doğrulaması, 1 kişi 1 hesap politikamız kapsamında hesabınızı ve coin bakiyenizi korur.",
+    "checkEmailNotice": "Hesabınızı onaylamak için e-postanızı kontrol edin, ardından telefon numaranızı doğrulamak için giriş yapın.",
+    "phoneVerifyTitle": "Telefon Numarasını Doğrula",
+    "phoneVerifyBody": "Hesap güvenliği ve dolandırıcılığı önlemek için telefon numaranızı tek kullanımlık bir kodla doğrulayın.",
+    "sendCodeButton": "Kod Gönder",
+    "codeLabel": "Doğrulama Kodu",
+    "verifyButton": "Doğrula",
+    "resendCode": "Kodu yeniden gönder",
+    "phoneVerifiedNotice": "Telefon numarası doğrulandı.",
+    "skipForNow": "Şimdilik atla",
+    "errorInvalidCredentials": "Geçersiz e-posta veya şifre.",
+    "errorPhoneTaken": "Bu telefon numarası başka bir hesaba kayıtlı.",
+    "errorGeneric": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+    "errorGoogleUnavailable": "Google ile giriş bu ortam için henüz yapılandırılmadı.",
+    "errorSmsUnavailable": "SMS gönderimi bu ortam için henüz yapılandırılmadı.",
+    "ageLabel": "Yaş",
+    "genderLabel": "Cinsiyet",
+    "nationalityLabel": "Uyruk",
+    "bloodLabel": "Kan Grubu",
+    "mbtiLabel": "MBTI",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "undisclosed": "Belirtilmedi",
+    "continueAsGuest": "Misafir Olarak Devam Et",
+    "guestExitHint": "Misafir oturumunu sonlandırmak için tıklayın",
+    "signInWithCodeLink": "Bunun yerine bir giriş kodu al",
+    "realNameLockNotice": "Yasal adınız kayıttan sonra değiştirilemez (şifre hariç).",
+    "optionalProfileToggle": "Ek profil (isteğe bağlı)",
+    "optionalProfileHint": "Kan grubu, MBTI, IQ ve EQ isteğe bağlıdır — \"Belirtilmedi\" için boş bırakın.",
+    "emailVerifyTitle": "E-postanızı Doğrulayın",
+    "emailVerifyBody": "{email} adresine gönderilen 6 haneli kodu girin.",
+    "phoneCodeSentTo": "{phone} numarasına 6 haneli bir kod gönderildi.",
+    "backButton": "Geri",
+    "codeResentNotice": "Yeni bir kod yolda.",
+    "errorGoogleNotEnabled": "Google ile giriş bu proje için henüz etkinleştirilmedi. Bir yöneticinin Supabase'de Google sağlayıcısını etkinleştirmesi gerekir.",
+    "errorNoSuchAccount": "Bu e-posta veya telefon numarasıyla eşleşen bir hesap yok.",
+    "errorCodeInvalid": "Bu kod yanlış veya süresi doldu.",
+    "errorPasswordWeak": "Şifreniz aşağıdaki gereksinimleri karşılamıyor.",
+    "errorProfileInvalid": "Lütfen vurgulanan profil alanlarını kontrol edin.",
+    "errorEmailTaken": "Bu e-posta zaten kayıtlı. Bunun yerine giriş yapmayı deneyin.",
+    "gender": {
+      "female": "Kadın",
+      "male": "Erkek",
+      "nonbinary": "İkili olmayan",
+      "other": "Diğer"
+    },
+    "pwRule": {
+      "length": "10–72 karakter",
+      "lower": "Küçük harf",
+      "upper": "Büyük harf",
+      "digit": "Rakam",
+      "special": "Özel karakter"
+    },
+    "memberFallback": "Üye",
+    "guestExit": "Misafirlikten çık"
+  },
+  "Account": {
+    "settingsTitle": "Hesap Ayarları",
+    "tabProfile": "Profil",
+    "tabSecurity": "Güvenlik",
+    "tabDanger": "Tehlike Bölgesi",
+    "fullNameLabel": "Ad Soyad",
+    "nationalityLabel": "Uyruk",
+    "genderLabel": "Cinsiyet",
+    "ageLabel": "Yaş",
+    "bloodLabel": "Kan Grubu",
+    "mbtiLabel": "MBTI",
+    "saveButton": "Değişiklikleri Kaydet",
+    "savedNotice": "Profil güncellendi.",
+    "phoneSectionTitle": "Telefon Numarası",
+    "phoneVerifiedBadge": "Doğrulandı",
+    "phoneUnverifiedBadge": "Doğrulanmadı",
+    "changePhoneButton": "Telefon Numarasını Değiştir",
+    "passwordSectionTitle": "Şifre",
+    "newPasswordLabel": "Yeni Şifre",
+    "changePasswordButton": "Şifreyi Güncelle",
+    "passwordUpdatedNotice": "Şifre güncellendi.",
+    "dangerTitle": "Hesabı Sil",
+    "dangerBody": "Bu işlem hesabınızı kalıcı olarak devre dışı bırakır ve kişisel bilgilerinizi kaldırır. Coin işlem geçmişiniz, yasal gereklilik uyarınca mali kayıtlar için saklanır.",
+    "dangerConfirmLabel": "Onaylamak için DELETE yazın",
+    "dangerConfirmButton": "Hesabımı Sil",
+    "dangerCancelButton": "İptal",
+    "deleteError": "Hesap silinemedi. Lütfen tekrar deneyin.",
+    "tabIdentity": "Giriş ve Profil",
+    "tabBanking": "Bankacılık ve Doğrulama",
+    "tabWithdrawal": "Hesabı Kapat",
+    "loginIdSection": "Giriş Kimliği",
+    "personalSection": "Kişisel ve Bilişsel Profil",
+    "iqLabel": "IQ",
+    "eqLabel": "EQ",
+    "realNameLocked": "Yasal adınız kilitli ve değiştirilemez.",
+    "realNameLockWarning": "Yasal adınızı dikkatlice girin — kaydedildikten sonra değiştirilemez.",
+    "profileInvalid": "Lütfen vurgulanan alanları kontrol edin.",
+    "profileSaveError": "Profiliniz kaydedilemedi. Lütfen tekrar deneyin.",
+    "passwordChangeError": "Şifreniz güncellenemedi. Lütfen tekrar deneyin.",
+    "verifyPhoneButton": "Telefon Numarasını Doğrula",
+    "phoneAuthNote": "Coin harcamadan önce doğrulanmış bir telefon numarası gereklidir (1 kişi = 1 hesap).",
+    "bankSectionTitle": "Banka / Ödeme Doğrulaması",
+    "bankSectionBody": "Yükleme ve ödemeler için bir ödeme yöntemi veya banka hesabı bağlayın ve doğrulayın. Ödeme ağ geçidi entegrasyonu canlıya alındığında etkinleşir.",
+    "bankPending": "Beklemede",
+    "bankConnectButton": "Ödeme Yöntemi Bağla"
+  },
+  "ModuleWorkspace": {
+    "backLink": "Ekosistemlere Dön"
+  },
+  "ModuleEngine": {
+    "echoQueryLabel": "Sorgunuz",
+    "echoQueryPlaceholder": "Burada aslında neye karar veriyorsunuz?",
+    "echoRunButton": "Yansımayı Çalıştır",
+    "echoRunningLabel": "Yansıtılıyor...",
+    "echoSynthesisLabel": "Sentez",
+    "oracleQuestionLabel": "Kararınız",
+    "oracleQuestionPlaceholder": "Tarttığınız kararı tanımlayın",
+    "oracleConfidenceLabel": "Mevcut Bilgiye Güven",
+    "oracleVolatilityLabel": "Durum Oynaklığı",
+    "oracleHorizonLabel": "Zaman Ufku (Yıl)",
+    "oracleRunButton": "Oracle'a Danış",
+    "oracleRunningLabel": "Olasılıklar modelleniyor...",
+    "oracleLikely": "Muhtemel",
+    "oracleUncertain": "Belirsiz",
+    "oracleUnlikely": "Muhtemel Değil",
+    "oracleRationaleLabel": "Gerekçe",
+    "genesisPriceLabel": "Birim Başına Fiyat",
+    "genesisCostLabel": "Birim Başına Maliyet",
+    "genesisFixedCostsLabel": "Sabit Giderler / Ay",
+    "genesisCustomersLabel": "Başlangıç Müşterileri",
+    "genesisGrowthLabel": "Aylık Büyüme Oranı (%)",
+    "genesisRunButton": "İnşa Et",
+    "genesisRunningLabel": "Türetiliyor...",
+    "genesisProjectionLabel": "12 Aylık Kümülatif Kâr",
+    "genesisBreakevenLabel": "Başabaş Ayı",
+    "genesisNoBreakeven": "12 ay içinde ulaşılamadı",
+    "genesisAxiomViolationLabel": "Aksiyom İhlali",
+    "genesisAxiomPriceCost": "Fiyat, birim maliyeti aşmıyor -- bu öncül sürdürülebilir bir modele türetilemez.",
+    "genesisAxiomCustomers": "Sıfır başlangıç müşterisi -- büyümeyi inşa edecek bir temel yok.",
+    "genesisAxiomFixedCosts": "Sabit giderler negatif olamaz.",
+    "genesisVerdictRejected": "Genesis bu öncülü reddediyor -- bir yapı türetilebilmeden önce aksiyom ihlallerini çözün.",
+    "genesisVerdictBreakeven": "Türetildi: model, 12 aylık ufuk içinde başabaşa ulaşıyor.",
+    "genesisVerdictNoBreakeven": "Türetildi: bu model, verilen aksiyomlarla 12 aylık bir ufuk içinde başabaşa ulaşmıyor.",
+    "apexPrompt": "Bir rakip, piyasa saniyeler içinde kapanırken fiyatınızı %30 kırdı. Hamlenizi seçin.",
+    "apexOptionMatchLabel": "Fiyatlarını hemen eşleştir",
+    "apexOptionMatchRationale": "Hacmi korur ancak yalnızca çekişmeli müşterileri değil, tüm tabanınızdaki marjı aşındırır.",
+    "apexOptionHoldLabel": "Fiyatı koru, farklılaşmaya dayan",
+    "apexOptionHoldRationale": "Daha yavaş ama marjı korur -- yalnızca farklılaşma varsayılan değil gerçekse işe yarar.",
+    "apexOptionBundleLabel": "İndirim yerine paket ile yeniden fiyatlandır",
+    "apexOptionBundleRationale": "Başlık fiyatını korurken etkin maliyet üzerinde hâlâ hareket eder -- üçünün en yüksek kaldıraçlı yanıtı.",
+    "apexStartButton": "Koşuyu Başlat",
+    "apexTimeRemainingLabel": "Kalan Süre",
+    "apexForfeitVerdict": "Kaybedildi -- zamanlayıcı durmaz.",
+    "apexForfeitRationale": "Hiçbir seçim zamanında saate ulaşmadı.",
+    "apexVerdictHigh": "Yüksek kaldıraçlı hamle.",
+    "apexVerdictMid": "Savunulabilir hamle.",
+    "apexVerdictLow": "Maliyetli hamle.",
+    "apexRunAgainButton": "Yeniden Çalıştır",
+    "apexScoreLabel": "Puan",
+    "voidThesisLabel": "Teziniz",
+    "voidThesisPlaceholder": "Stres testine tabi tutmak istediğiniz plan veya iddiayı belirtin",
+    "voidRunButton": "Onu Kıran Şeyi Bul",
+    "voidRunningLabel": "Boşluklar aranıyor...",
+    "voidGapsLabel": "Kapsam Boşlukları",
+    "voidNoGaps": "Kategori boşluğu tespit edilmedi.",
+    "voidUnhedgedLabel": "Güvencesiz İddialar",
+    "voidNoUnhedged": "Mutlak dil tespit edilmedi.",
+    "voidVerdictClean": "Void bu geçişte yapısal bir boşluk bulmadı -- bu, hiç olmadığı anlamına gelmez.",
+    "voidVerdictBroken": "Void bu tezi kıran şeyi buldu. Ona bağlanmadan önce yukarıdaki boşlukları giderin.",
+    "voidGapLegal": "Yasal veya uyumluluk riskinden söz edilmiyor.",
+    "voidGapFinancial": "Maliyet, gelir veya marj varsayımlarından söz edilmiyor.",
+    "voidGapCompetitive": "Rakiplerden veya alternatiflerden söz edilmiyor.",
+    "voidGapOperational": "Yürütme, ekip veya zaman çizelgesinden söz edilmiyor.",
+    "mirrorQ1": "Bir anlaşma müzakere sırasında bozuluyor. Siz:",
+    "mirrorQ1OptA": "Hemen uzaklaşırsınız",
+    "mirrorQ1OptB": "Anında yeniden müzakere edersiniz",
+    "mirrorQ1OptC": "Rakamları gözden geçirmek için süre istersiniz",
+    "mirrorQ2": "Güvenli-ve-yavaş bir seçenek ile riskli-ve-hızlı bir seçenek arasında, varsayılan olarak şunu seçersiniz:",
+    "mirrorQ2OptA": "Güvenli, yavaş seçenek",
+    "mirrorQ2OptB": "Riskli, hızlı seçenek",
+    "mirrorQ2OptC": "Verilerin desteklediği hangisiyse o",
+    "mirrorQ3": "Bir plan başarısız olduğunda, ilk içgüdünüz şudur:",
+    "mirrorQ3OptA": "Kimin sorumlu olduğunu bulmak",
+    "mirrorQ3OptB": "Yapısal olarak neyin bozulduğunu bulmak",
+    "mirrorQ3OptC": "Hemen bir geçici çözüm doğaçlamak",
+    "mirrorQ4": "Size teslim tarihi baskısı olmayan belirsiz bir brief veriliyor. Siz:",
+    "mirrorQ4OptA": "Kendi teslim tarihinizi belirler ve harekete geçersiniz",
+    "mirrorQ4OptB": "Harekete geçmeden önce daha fazla bağlam toplarsınız",
+    "mirrorQ4OptC": "Birinin netleştirmesini beklersiniz",
+    "mirrorQ5": "Ekibiniz kararınıza katılmıyor. Siz:",
+    "mirrorQ5OptA": "Tutumunuzu korursunuz",
+    "mirrorQ5OptB": "Verileri birlikte yeniden gözden geçirirsiniz",
+    "mirrorQ5OptC": "Gruba bırakırsınız",
+    "mirrorAxisRisk": "Risk Toleransı",
+    "mirrorAxisSpeed": "Karar Hızı",
+    "mirrorAxisAnalytical": "Analitik Derinlik",
+    "mirrorBandHigh": "Yüksek",
+    "mirrorBandMid": "Orta",
+    "mirrorBandLow": "Düşük",
+    "mirrorDominantLabel": "Baskın Özellik",
+    "mirrorScanAgain": "Yeniden Tara",
+    "mirrorProgressLabel": "Soru {current} / {total}",
+    "pulseSignalPlaceholder": "İzlenecek bir sinyal adlandırın (piyasa, sektör, konu...)",
+    "pulseMonitorButton": "Sinyali İzle",
+    "pulseMonitoringLabel": "İzleniyor...",
+    "pulseMomentumLabel": "Momentum",
+    "pulseSentimentLabel": "Duyarlılık",
+    "pulseVolatilityLabel": "Oynaklık",
+    "pulseBullish": "Momentum yükseliş yönlü okunuyor.",
+    "pulseBearish": "Momentum düşüş yönlü okunuyor.",
+    "pulseNeutral": "Momentum nötr okunuyor.",
+    "pulseHighVol": "Yüksek oynaklık.",
+    "pulseLowVol": "Düşük oynaklık.",
+    "syndicateTargetPlaceholder": "Hedef varlığı adlandırın",
+    "syndicateMapButton": "Koalisyonu Haritalandır",
+    "syndicateMappingLabel": "Haritalandırılıyor...",
+    "syndicateInfluenceLabel": "Etki puanları göreceli olup mutlak değildir -- bir hüküm değil, bir ağ şeklidir.",
+    "syndicateTargetNodeLabel": "HEDEF",
+    "syndicateShellEntity": "Paravan Kuruluş",
+    "syndicateAdvisoryPartner": "Danışma Ortağı",
+    "syndicateHistoricalContact": "Geçmiş Bağlantı",
+    "syndicateFinancialBacker": "Mali Destekçi",
+    "syndicateContractualVendor": "Sözleşmeli Tedarikçi",
+    "syndicateSilentStakeholder": "Sessiz Paydaş",
+    "auraStatementLabel": "İfadeniz",
+    "auraStatementPlaceholder": "Bir soru değil, bir ifade yapıştırın",
+    "auraSenseButton": "Alanı Algıla",
+    "auraSensingLabel": "Algılanıyor...",
+    "auraQuestionRejected": "Aura sorulara yanıt vermez -- bunun yerine bir ifade yapıştırın.",
+    "auraValenceLabel": "Değerlik",
+    "auraArousalLabel": "Uyarılma",
+    "auraFormalityLabel": "Resmiyet",
+    "auraPositiveValence": "Olumlu",
+    "auraNegativeValence": "Olumsuz",
+    "auraNeutralValence": "Nötr",
+    "auraIntense": "Yoğun",
+    "auraCalm": "Sakin",
+    "auraModerateArousal": "Orta",
+    "auraFormalTone": "Resmi",
+    "auraCasualTone": "Gündelik",
+    "auraBalancedFormality": "Dengeli",
+    "paradoxClaimLabel": "Sonucunuz",
+    "paradoxClaimPlaceholder": "Stres testine tabi tutmak istediğiniz sonucu belirtin",
+    "paradoxRunButton": "Mantığı Geri Sar",
+    "paradoxRunningLabel": "Geri sarılıyor...",
+    "paradoxFindingsLabel": "Bulgular",
+    "paradoxNoFindings": "Bu geçişte çelişki örüntüsü tespit edilmedi.",
+    "paradoxAbsoluteClaim": "Mutlak bir iddia, kırılmaktan bir karşı örnek uzaklıktadır.",
+    "paradoxSelfContradiction": "Bu iddia aynı anda hem güvence sağlıyor hem de mutlak şekilde ileri sürüyor -- birini seçin.",
+    "paradoxCircular": "Bu, kendini yeniden ifade ederek kendini haklı çıkarıyor -- bu bir gerekçe değil.",
+    "paradoxUnderspecified": "Anlamlı bir stres testi için çok kısa -- iddianın tamamını belirtin.",
+    "paradoxVerdictBroken": "Paradox bunun nerede kendisiyle çeliştiğini buldu.",
+    "paradoxVerdictHeld": "Bu sonuç, geriye doğru geçişe karşı ayakta kaldı.",
+    "chronosStartValueLabel": "Başlangıç Değeri",
+    "chronosHorizonLabel": "Yıl Cinsinden Ufuk (min {min})",
+    "chronosCycleLengthLabel": "Döngü Uzunluğu (Yıl)",
+    "chronosGrowthLabel": "Yıllık Büyüme Oranı (%)",
+    "chronosRunButton": "Uzun Döngüyü Çalıştır",
+    "chronosRunningLabel": "On yıllar modelleniyor...",
+    "chronosProjectionLabel": "Uzun Döngü Projeksiyonu",
+    "chronosFinalValueLabel": "Ufuktaki Değer",
+    "chronosMinHorizonNotice": "Chronos aynı gün sorularını yanıtlamaz -- ufuk 10 yıllık minimuma yükseltildi.",
+    "chronosPhaseExpansion": "Genişleme aşaması.",
+    "chronosPhasePeak": "Zirve aşaması.",
+    "chronosPhaseContraction": "Daralma aşaması.",
+    "chronosPhaseTrough": "Dip aşaması."
+  },
+  "Guest": {
+    "badge": "Misafir Modu",
+    "virtualIdLabel": "Sanal Kimlik",
+    "upgradeReason": "Misafirler yalnızca göz atabilir. Bir bakiye tutmak ve modüllere girmek için bir hesap doğrulayın.",
+    "upgradeCta": "Tam Hesap Oluştur"
+  },
+  "SitePages": {
+    "common": {
+      "back": "UNITAS'a Dön",
+      "disclaimer": "Bu sayfa yalnızca genel bilgi amaçlıdır. Hukuki tavsiye niteliği taşımaz ve herhangi bir sözleşme veya garanti oluşturmaz. Planları veya beklemedeki konuları tanımladığı yerlerde bunlar değişebilir. THE UNITAS GLOBAL OÜ, Estonya."
+    },
+    "about": {
+      "title": "UNITAS Hakkında",
+      "lede": "THE UNITAS GLOBAL OÜ, tek bir kurucu tarafından tasarlanan ve tam AI otomasyonuyla işletilen merkeziyetsiz, egemen bir SaaS ekosistemi inşa ediyor.",
+      "body": [
+        "UNITAS, tek bir fikrin peşinden giden bir Estonya şirketidir: dünya çapında insanlara hizmet eden bilişsel bir altyapı, sermaye ağırlıklı ekipler veya risk sermayesi bağımlılığı olmadan tasarlanabilir, sevk edilebilir ve işletilebilir. Ekosistemdeki her modül bu standarda göre inşa edilmiştir.",
+        "Platform, tek bir kimlik katmanını, tek bir defteri ve tek bir tasarım dilini paylaşan bilişsel yapılar etrafında düzenlenmiştir — on bir parçalı canlı bir ekosistem, beş tüketici hizmeti ve üç kurumsal protokol."
+      ]
+    },
+    "careers": {
+      "title": "Kariyer",
+      "lede": "UNITAS, kurucu liderliğinde ve AI ile otomatikleştirilmiş bir operasyon olarak işletilir. Bugün açık maaşlı pozisyon bulunmamaktadır.",
+      "body": [
+        "Model kasıtlıdır: geleneksel bir şirketin kadroyla yürüteceği iş yükünü otomasyonun taşıdığı yalın, egemen bir yapı. Bu, ekosistemi bağımsız ve dayanıklı tutar.",
+        "Bu model değişirse, açık pozisyonlar önce burada yayınlanacaktır. Ortaklık ve katkı talepleri İletişim sayfası üzerinden gönderilebilir."
+      ]
+    },
+    "press": {
+      "title": "Basın",
+      "lede": "Gazeteciler ve analistler için medya kaynakları ve şirket geçmişi.",
+      "body": [
+        "Röportajlar, arka plan bilgilendirmeleri veya doğrulama için İletişim sayfası üzerinden bize ulaşın ve kuruluşunuzu ve son teslim tarihinizi belirtin.",
+        "Lütfen şirketi \"THE UNITAS GLOBAL OÜ\" ve ürünü \"UNITAS\" olarak atfedin. Logolar ve marka rehberliği talep üzerine sunulur."
+      ]
+    },
+    "patent-notice": {
+      "title": "Patent Bildirimi",
+      "lede": "Belirli UNITAS yöntemleri ve sistemleri, beklemede olan bir patent başvurusunun konusudur.",
+      "body": [
+        "UNITAS bilişsel ve imza protokollerinin yönlerini kapsayan bir Amerika Birleşik Devletleri geçici patent başvurusu (No. 64/023,911) dosyalanmıştır. Başvuru beklemededir; hiçbir patent verilmemiştir ve burada hiçbir şey verilmiş hakların iddiası olarak okunmamalıdır.",
+        "Beklemede durum, bir patent verilene kadar hiçbir uygulanabilir münhasıriyet vermez. Ürün adları ve Egemen Kodeks sistem adları, köken tanımlayıcıları olarak kullanılır."
+      ]
+    },
+    "compliance": {
+      "title": "Uyumluluk",
+      "lede": "UNITAS'ın hizmet verdiği yargı bölgelerindeki düzenleyici yükümlülüklerine yaklaşımı.",
+      "body": [
+        "UNITAS bir Estonya şirketi tarafından işletilir ve uygulamalarını Avrupa Birliği veri koruma ve tüketici koruma ilkeleriyle uyumlu hale getirir. Ödeme işlemleri, kendi düzenlenmiş çerçeveleri altında üçüncü taraf sağlayıcılar tarafından gerçekleştirilir.",
+        "Herhangi bir belirli standart altında sertifikasyon iddiasında bulunmuyoruz. Veri sahibi talepleri dahil uyumluluk soruları İletişim sayfası üzerinden iletilebilir."
+      ]
+    },
+    "security": {
+      "title": "Güvenlik",
+      "lede": "Hesapları, bakiyeleri ve kimlik verilerini koruyan kontroller.",
+      "body": [
+        "Hesap kimliği tarayıcıda değil, veritabanında uygulanır: doğrulanmış bir telefon numarası aktif hesaplar arasında benzersizdir, bakiye değişiklikleri yalnızca denetlenmiş sunucu tarafı işlevlerden geçer ve işlem defteri yalnızca eklemeye izin verir.",
+        "Ödeme anahtarları gibi sırlar hiçbir zaman istemci koduna ulaşmaz. Bir güvenlik açığı bildirmek için sorunu yeniden üretmeye yetecek ayrıntıyla İletişim sayfasını kullanın ve lütfen biz yanıt verene kadar bunu kamuya açıklamayın."
+      ]
+    },
+    "privacy": {
+      "title": "Gizlilik Politikası",
+      "lede": "UNITAS'ın topladığı veriler, nedenleri ve sahip olduğunuz seçenekler.",
+      "body": [
+        "UNITAS, bir hesabı işletmek için gereken minimum bilgiyi toplar: kimlik doğrulama için bir tanımlayıcı (e-posta veya telefon), bir coin bakiyesi ve defteri, ve cihazınızda saklanan temel bölge ile cihaz tercihleri. Misafir oturumları tarayıcınızda yerel kalır.",
+        "Veriler reklam profilleri oluşturmak için değil, hizmeti işletmek için işlenir. Hesap verilerinize erişim veya bunların silinmesini İletişim sayfası veya uygulama içi hesap ayarları üzerinden talep edebilirsiniz."
+      ]
+    },
+    "cookies": {
+      "title": "Çerez Politikası",
+      "lede": "UNITAS, yerel depolamayı ve çerezleri idareli ve işlevsel olarak kullanır.",
+      "body": [
+        "Site küçük bir değer kümesi saklar — diliniz, ses tercihiniz, oturum ve kimlik doğrulama belirteçleri ve bir lansman öncesi erişim bayrağı. Bunlar arayüzün doğru çalışması için gereklidir.",
+        "Hiçbir üçüncü taraf reklam veya siteler arası izleme çerezi ayarlanmaz. Tarayıcı depolamanızı temizlemek bu tercihleri bir sonraki ziyaretinizde sıfırlar."
+      ]
+    },
+    "terms": {
+      "title": "Hizmet Şartları",
+      "lede": "UNITAS'ı lansman öncesi aşamasındayken kullanmanın temel şartları.",
+      "body": [
+        "UNITAS, aktif geliştirme sırasında \"olduğu gibi\" sunulur. Ücretli modüllere erişim, hesabınızdaki coin bakiyesi tarafından yönetilir; coin'ler ön ödemeli bir erişim kredisidir — bir menkul kıymet veya saklanan değer aracı değildir — ve devredilemez.",
+        "Platform geliştikçe özellikler değişebilir veya askıya alınabilir. Bir değişiklikten sonra kullanmaya devam etmek, güncellenmiş şartları kabul ettiğiniz anlamına gelir. Uygulanacak hukuk Estonya hukukudur."
+      ]
+    },
+    "help-center": {
+      "title": "Yardım Merkezi",
+      "lede": "En sık karşılaşılan soruların yanıtları.",
+      "body": [
+        "Ses: ortam sesi her cihazda varsayılan olarak açıktır ve yenilemeler arasında kalıcıdır; üst gezinmedeki hoparlör simgesinden değiştirin. Dil: dil menüsünden istediğiniz zaman değiştirin — seçiminiz hatırlanır.",
+        "Erişim: gerekli coin bakiyesi hesabınızda mevcut olduğunda bir modül açılır. Bir şey takılı görünüyorsa sayfayı yeniden yükleyin; hesap ve bakiye durumu otomatik olarak geri yüklenir."
+      ]
+    },
+    "contact": {
+      "title": "Bize Ulaşın",
+      "lede": "Tek bir kanal doğrudan kurucuya ulaşır.",
+      "body": [
+        "Genel, ortaklık, basın, güvenlik ve veri koruma talepleri kurucu tarafından ele alınır. Bir konuşma başlatmak için uygulama içindeki hesap ayarları panelini kullanın veya THE UNITAS GLOBAL OÜ'nün resmi kanallarında listelenen adrese ulaşın.",
+        "Telefon destek hattı yoktur. Yanıt süresi hacme bağlıdır; güvenlik raporları önceliklendirilir."
+      ]
+    },
+    "system-status": {
+      "title": "Sistem Durumu",
+      "lede": "UNITAS platformunun mevcut operasyonel durumu.",
+      "body": [
+        "UNITAS lansman öncesi bir aşamadadır. Kurucu, giriş akışının sıralı doğrulamasını tamamlarken genel arayüz kasıtlı olarak \"Yakında\" kapısının arkasında mühürlenmiştir.",
+        "Planlı bakım ve hesapları veya bakiyeleri etkileyen herhangi bir olay, platform kamuya açık olarak canlıya alındığında burada özetlenecektir."
+      ]
+    }
+  },
+  "UAI": {
+    "title": "U-AI OMNI ENGINE",
+    "headline": "Bir kez sorun. Her açıyı görün.",
+    "subhead": "Üç saniyelik stereoskopik bir okuma, ticari önyargıya karşı bir kalkan, ardından -- talep üzerine -- derin yörünge. Bir sohbet değil. Karar seviyesinde bir brifing.",
+    "placeholder": "U-AI'ye her şeyi sorun…",
+    "submit": "Analiz Et",
+    "reportLabel": "U-AI · ANALİZ RAPORU",
+    "surfaceScanning": "Üç bakış açısı taranıyor — teknik, ekonomik, kamuoyu…",
+    "directionality": {
+      "divergent": "Iraksak soru",
+      "convergent": "Yakınsak niyet"
+    },
+    "lensLabel": "3 Saniyelik Stereoskopik Görünüm",
+    "lens": {
+      "tech": "Teknik",
+      "economy": "Ekonomik",
+      "opinion": "Kamuoyu"
+    },
+    "shieldLabel": "Ticari Önyargı Kalkanı",
+    "shield": {
+      "clear": "Temiz",
+      "caution": "Dikkat",
+      "biased": "Ağır önyargılı"
+    },
+    "checklistLabel": "3 Adımlı Eylem Kontrol Listesi",
+    "checklist": {
+      "explore": [
+        "Daha geniş aramadan önce gerçek soruyu tek bir cümlede çerçeveleyin.",
+        "Zıt teşviklere sahip üç bağımsız kaynak toplayın.",
+        "Fikrinizi neyin değiştireceğini yazın, ardından test edin."
+      ],
+      "decide": [
+        "İki seçeneği ve tek belirleyici kriteri belirtin.",
+        "Her biri için maliyet, risk ve getiriye kabaca bir rakam koyun.",
+        "Daha yüksek beklenen değere sahip seçeneğe bağlanın ve bir gözden geçirme tarihi belirleyin."
+      ],
+      "analyze": [
+        "Soruyu üç taşıyıcı varsayımına bölün.",
+        "En zayıf varsayımı gerçek verilere karşı baskı testine tabi tutun.",
+        "Sonucu hayatta kalanlardan yeniden inşa edin."
+      ]
+    },
+    "constitutionLabel": "100-Doktrin Ayrıştırması",
+    "constitution": {
+      "logic": "Mantık · Tasarım",
+      "future": "Gelecek · İnovasyon",
+      "economy": "Ekonomi · Verimlilik",
+      "security": "Güvenlik · Bütünlük",
+      "sovereign": "Egemenlik · Merkeziyetsizlik",
+      "art": "Sanat · Felsefe"
+    },
+    "constitutionAxisNote": "Yeniden tasarım çıpa ekseni · {axis}",
+    "webSourcesLabel": "Canlı Web Sentezi",
+    "webSourcedBadge": "{count} kaynak gerçek zamanlı olarak sentezlendi",
+    "webLocalBadge": "Yerel sezgisel sentez · sıfır dış çağrı",
+    "redesignLabel": "Doktrin Yeniden Tasarım Vektörleri",
+    "redesign": [
+      "Yüzeysel yanıtı bırakın — soruyu 6 doktrin ekseni boyunca ayrıştırın.",
+      "Sonucu en yüksek sesli eksenden değil, en düşük puanlı eksenden yeniden inşa edin.",
+      "Yeniden tasarımı fail-closed olarak baskı testine tabi tutun — hayatta kalmayan her şeyi atın."
+    ],
+    "swarmLabel": "Sürü Çapraz Akıl Yürütme · 11 Ekosistem",
+    "deepLabel": "Derin İçgörü · The VOID",
+    "deepHint": "Chronos yörüngesi, sayısallaştırılmış bir hüküm, gizli niyet çözümü ve negatif alan okuması.",
+    "deepCta": "Derin içgörüyü aç · {cost} U-COIN",
+    "deepLocked": "Derin içgörü kalibre ediliyor — yakında geri dönecek.",
+    "deepScanning": "VOID'e giriliyor — yörünge sentezleniyor…",
+    "openFullReport": "Tam U-AI raporunu aç",
+    "chronosLabel": "Chronos · 1-3 Yıllık Yörünge",
+    "chronos": {
+      "y1": "1 yıl içinde",
+      "y2": "2 yıl içinde",
+      "y3": "3 yıl içinde"
+    },
+    "binaryLabel": "Ya / Ya da · Matematiksel Hüküm",
+    "confidence": "Güven",
+    "redPenLabel": "Kırmızı Kalem · Gizli Niyet",
+    "voidLabel": "The VOID · Negatif Alan İçgörüsü",
+    "pathLabel": "En Yüksek Verimlilik Yolu",
+    "cachedBadge": "Genesis Memory önbelleği",
+    "modelNote": "Motor: {model}",
+    "brainGridLabel": "Brain-Grid · Bilişsel Geçmiş",
+    "brainGridClear": "Temizle",
+    "err": {
+      "signin": "Derin içgörüyü açmak için giriş yapın.",
+      "phone": "U-COIN harcamadan önce telefon numaranızı doğrulayın.",
+      "insufficient": "Derin içgörü için yeterli U-COIN yok.",
+      "burn_required": "U-COIN yakımı kaydedilmedi — tekrar deneyin.",
+      "deep_unavailable": "Derin içgörü geçici olarak kullanılamıyor.",
+      "generation_failed": "Derin analiz oluşturulamadı — lütfen tekrar deneyin.",
+      "bad_request": "Bu sorgu analiz edilemiyor — yeniden ifade edip tekrar deneyin.",
+      "unauthenticated": "Oturumunuzun süresi doldu — tekrar giriş yapın."
+    },
+    "reporterFree": "Ücretsiz Muhabir",
+    "reporterPaid": "Ücretli Muhabir · Giriş Yap",
+    "followupLabel": "Takip Sorguları · Açı Seçenekleri",
+    "followupHint": "Aramayı başka bir doktrin ekseninden yeniden çalıştırın veya alıntılanan bir kaynağı derinlemesine inceleyin.",
+    "webBlendNote": "Büyük teknoloji düzeyinde web sentezi %90 + UNITAS 100-doktrin yeniden tasarımı %10.",
+    "insightLabel": "UNITAS İçgörü Raporu · 6 Eksenli Egemen Yeniden Tasarım",
+    "insightForging": "Egemen motor 6 eksenli yeniden tasarımı dövüyor — burada görünecek ve sonsuza kadar ücretsiz kalacak.",
+    "insightPending": "{hits} / 3 arama. 3.'de, 100-doktrin motoru bu yeniden tasarımı bir kez dövüyor — ardından herkes için sonsuza kadar ücretsiz olur.",
+    "insightFreshBadge": "Az önce dövüldü · Genesis Memory'ye mühürlendi",
+    "insightCachedNote": "Genesis Memory'den sunuldu · motor maliyeti 0$",
+    "insightVectorLabel": "Yeniden Tasarım Vektörü · Kör Eksen",
+    "insightAxisReading": "Okuma",
+    "insightAxisRedesign": "Yeniden Tasarım"
+  }
+}
