@@ -323,6 +323,8 @@
     "placeholder": "U-AIに何でも尋ねてください...",
     "browseLabel": "プラットフォームを探索",
     "metricsLabel": "システムメトリクス",
+    "liveKeywordsLabel": "リアルタイム検索キーワード＆情報",
+    "liveLadderLabel": "リアルタイム・ラダー探索",
     "noBrowseMatches": "一致する結果がありません — 別の表現をお試しください。",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "4つの次元にわたって分析中...",

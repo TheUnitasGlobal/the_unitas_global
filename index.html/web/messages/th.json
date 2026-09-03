@@ -323,6 +323,8 @@
     "placeholder": "ถาม U-AI อะไรก็ได้...",
     "browseLabel": "สำรวจแพลตฟอร์ม",
     "metricsLabel": "เมตริกระบบ",
+    "liveKeywordsLabel": "คีย์เวิร์ดและข้อมูลการค้นหาแบบเรียลไทม์",
+    "liveLadderLabel": "การสำรวจบันไดแบบเรียลไทม์",
     "noBrowseMatches": "ไม่พบรายการที่ตรงกัน — ลองใช้วลีอื่น",
     "architectLabel": "สถาปนิก UNITAS",
     "analyzing": "กำลังวิเคราะห์ทั้งสี่มิติ...",

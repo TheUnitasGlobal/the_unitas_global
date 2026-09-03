@@ -323,6 +323,8 @@
     "placeholder": "សួរ U-AI អ្វីក៏បាន…",
     "browseLabel": "ស្វែងយល់វេទិកា",
     "metricsLabel": "រង្វាស់ប្រព័ន្ធ",
+    "liveKeywordsLabel": "ពាក្យគន្លឹះ និងព័ត៌មានស្វែងរកផ្ទាល់",
+    "liveLadderLabel": "ការស្វែងរកជណ្ដើរផ្ទាល់",
     "noBrowseMatches": "គ្មានលទ្ធផល — សូមសាកល្បងឃ្លាផ្សេង។",
     "architectLabel": "ស្ថាបត្យករ UNITAS",
     "analyzing": "កំពុងវិភាគលើបួនវិមាត្រ…",

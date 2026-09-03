@@ -323,6 +323,8 @@
     "placeholder": "U-AI से कुछ भी पूछें...",
     "browseLabel": "प्लेटफ़ॉर्म का अन्वेषण करें",
     "metricsLabel": "सिस्टम मेट्रिक्स",
+    "liveKeywordsLabel": "लाइव सर्च कीवर्ड और जानकारी",
+    "liveLadderLabel": "लाइव लैडर एक्सप्लोरेशन",
     "noBrowseMatches": "कोई मेल नहीं मिला — कोई अलग वाक्यांश आज़माएँ।",
     "architectLabel": "UNITAS आर्किटेक्ट",
     "analyzing": "चार आयामों में विश्लेषण किया जा रहा है...",

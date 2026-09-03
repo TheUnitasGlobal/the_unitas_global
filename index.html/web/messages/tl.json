@@ -323,6 +323,8 @@
     "placeholder": "Tanungin ang U-AI ng kahit ano...",
     "browseLabel": "SALIKSIKIN ANG PLATFORM",
     "metricsLabel": "System Metrics",
+    "liveKeywordsLabel": "Live na Search Keywords at Impormasyon",
+    "liveLadderLabel": "Live na Paggalugad sa Hagdan",
     "noBrowseMatches": "Walang tugma — sumubok ng ibang parirala.",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "Sinusuri sa apat na dimensyon...",

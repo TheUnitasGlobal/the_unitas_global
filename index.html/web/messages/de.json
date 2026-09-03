@@ -323,6 +323,8 @@
     "placeholder": "Fragen Sie U-AI alles …",
     "browseLabel": "DIE PLATTFORM ERKUNDEN",
     "metricsLabel": "Systemmetriken",
+    "liveKeywordsLabel": "Live-Suchbegriffe & Infos",
+    "liveLadderLabel": "Live-Leiter-Erkundung",
     "noBrowseMatches": "Keine Treffer — versuchen Sie eine andere Formulierung.",
     "architectLabel": "UNITAS-ARCHITEKT",
     "analyzing": "Analyse über vier Dimensionen …",

@@ -323,6 +323,8 @@
     "placeholder": "U-AI'ye her şeyi sorun...",
     "browseLabel": "PLATFORMU KEŞFEDİN",
     "metricsLabel": "Sistem Metrikleri",
+    "liveKeywordsLabel": "Canlı Arama Anahtar Kelimeleri ve Bilgi",
+    "liveLadderLabel": "Canlı Merdiven Keşfi",
     "noBrowseMatches": "Eşleşme yok — farklı bir ifade deneyin.",
     "architectLabel": "UNITAS MİMARI",
     "analyzing": "Dört boyutta analiz ediliyor...",

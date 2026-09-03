@@ -323,6 +323,8 @@
     "placeholder": "向 U-AI 提出任何问题...",
     "browseLabel": "探索平台",
     "metricsLabel": "系统指标",
+    "liveKeywordsLabel": "实时搜索关键词与信息",
+    "liveLadderLabel": "实时阶梯探索",
     "noBrowseMatches": "未找到匹配项 — 请尝试其他表达。",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "正在跨四个维度进行分析...",

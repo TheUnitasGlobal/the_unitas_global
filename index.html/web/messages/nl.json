@@ -323,6 +323,8 @@
     "placeholder": "Vraag U-AI wat dan ook...",
     "browseLabel": "VERKEN HET PLATFORM",
     "metricsLabel": "Systeemstatistieken",
+    "liveKeywordsLabel": "Live zoekwoorden & info",
+    "liveLadderLabel": "Live ladderverkenning",
     "noBrowseMatches": "Geen overeenkomsten — probeer een andere zin.",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "Analyseren over vier dimensies...",

@@ -323,6 +323,8 @@
     "placeholder": "Pergunte qualquer coisa à U-AI…",
     "browseLabel": "EXPLORAR A PLATAFORMA",
     "metricsLabel": "Métricas do sistema",
+    "liveKeywordsLabel": "Palavras-chave e informações de pesquisa em tempo real",
+    "liveLadderLabel": "Exploração da escada em tempo real",
     "noBrowseMatches": "Sem resultados — experimente outra expressão.",
     "architectLabel": "ARQUITETO UNITAS",
     "analyzing": "A analisar em quatro dimensões…",

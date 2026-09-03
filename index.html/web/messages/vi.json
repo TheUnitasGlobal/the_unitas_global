@@ -323,6 +323,8 @@
     "placeholder": "Hỏi U-AI bất cứ điều gì…",
     "browseLabel": "KHÁM PHÁ NỀN TẢNG",
     "metricsLabel": "Chỉ số hệ thống",
+    "liveKeywordsLabel": "Từ khóa & thông tin tìm kiếm trực tiếp",
+    "liveLadderLabel": "Khám phá thang trực tiếp",
     "noBrowseMatches": "Không có kết quả — hãy thử một cách diễn đạt khác.",
     "architectLabel": "KIẾN TRÚC SƯ UNITAS",
     "analyzing": "Đang phân tích trên bốn chiều…",

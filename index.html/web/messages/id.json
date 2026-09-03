@@ -323,6 +323,8 @@
     "placeholder": "Tanya apa saja kepada U-AI…",
     "browseLabel": "JELAJAHI PLATFORM",
     "metricsLabel": "Metrik Sistem",
+    "liveKeywordsLabel": "Kata Kunci & Info Pencarian Langsung",
+    "liveLadderLabel": "Penjelajahan Tangga Langsung",
     "noBrowseMatches": "Tidak ada hasil — coba frasa lain.",
     "architectLabel": "ARSITEK UNITAS",
     "analyzing": "Menganalisis di empat dimensi…",

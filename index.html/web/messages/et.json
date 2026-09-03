@@ -323,6 +323,8 @@
     "placeholder": "Küsi U-AI-lt ükskõik mida...",
     "browseLabel": "AVASTA PLATVORMI",
     "metricsLabel": "Süsteemi Mõõdikud",
+    "liveKeywordsLabel": "Reaalajas otsingusõnad ja teave",
+    "liveLadderLabel": "Reaalajas redeli uurimine",
     "noBrowseMatches": "Vasteid ei leitud — proovi teist sõnastust.",
     "architectLabel": "UNITAS ARCHITECT",
     "analyzing": "Analüüsimine nelja dimensiooni ulatuses...",
