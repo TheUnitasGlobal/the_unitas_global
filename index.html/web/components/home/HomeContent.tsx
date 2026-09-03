@@ -13,6 +13,7 @@ import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModa
 import { ModuleQuestModal } from '@/components/interaction/ModuleQuestModal';
 import { GovernanceLadderModal } from '@/components/interaction/GovernanceLadderModal';
 import { HotShortcutResultModal } from '@/components/interaction/HotShortcutResultModal';
+import { ExitGuard } from '@/components/interaction/ExitGuard';
 import { Footer } from '@/components/layout/Footer';
 import { useShockwave } from '@/components/effects/Shockwave';
 import { useUai } from '@/lib/uai/useUai';
@@ -124,10 +125,14 @@ export function HomeContent() {
       <OmniSynapseSearch
         uai={uai}
         onSelectEcosystem={setActiveEcosystem}
-        onSelectModule={setActiveModule}
         onOpenShortcut={setActiveShortcut}
         onOuroborosChange={setIsOuroboros}
       />
+
+      {/* Mobile "back = leave" double gate: the hardware/browser back gesture
+          (incl. the one dismissing the virtual keyboard) asks 로그아웃? then
+          종료? instead of bouncing the visitor straight to the home screen. */}
+      <ExitGuard />
 
       {/* Sections 1-3 -- the UNITAS ecosystem / consumer / enterprise catalogs.
           Always visible on the bare home screen (restored, owner instruction

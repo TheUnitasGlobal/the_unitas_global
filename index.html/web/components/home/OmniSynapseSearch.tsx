@@ -1,10 +1,29 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type DragEvent,
+  type FocusEvent,
+  type FormEvent,
+} from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Paperclip, Video, PenTool, X, Image as ImageIcon, CornerDownLeft } from 'lucide-react';
-import { Link } from '@/i18n/navigation';
+import {
+  Search,
+  Paperclip,
+  Video,
+  PenTool,
+  X,
+  Image as ImageIcon,
+  CornerDownLeft,
+  ExternalLink,
+  Globe,
+  Loader2,
+} from 'lucide-react';
 import { sceneInteraction } from '@/lib/sceneInteraction';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { useWallet } from '@/components/wallet/WalletProvider';
@@ -12,18 +31,20 @@ import { useUai } from '@/lib/uai/useUai';
 import { UaiDashboard } from '@/components/uai/UaiDashboard';
 import { CanvasDrawInput } from '@/components/interaction/CanvasDrawInput';
 import { HotShortcutMatrixStrip } from '@/components/home/HotShortcutMatrixStrip';
+import { LiveLadderExplorer } from '@/components/home/LiveLadderExplorer';
 import { DialogTower } from '@/components/ui/DialogTower';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
-import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
 import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
-import type { HotShortcutAxis } from '@/lib/hotIssues';
+import { buildLiveIndex, mergeLiveResults, searchLiveIndex, type LiveResult } from '@/lib/uai/liveSearchIndex';
+import { fetchLiveSuggestions, type LiveSuggestion } from '@/lib/uai/liveSuggest';
+import { isChoseongJamo } from '@/lib/hangul';
+import type { AxisTranslators, HotShortcutAxis } from '@/lib/hotIssues';
 
 interface OmniSynapseSearchProps {
   /** Lifted to HomeContent so the page can hide the ecosystem/module walls
       until a search has actually run (owner instruction 2026-08-30). */
   uai: ReturnType<typeof useUai>;
   onSelectEcosystem: (eco: EcosystemTheme) => void;
-  onSelectModule: (module: B2CModule) => void;
   /** Governance + hot-issue shortcuts (The Living Knowledge Ouroboros, now a
       multi-dimensional matrix) open HomeContent's HotShortcutResultModal --
       distinct from Section 4's pure 16-axis GovernanceLadderModal. */
@@ -38,18 +59,28 @@ interface OmniSynapseSearchProps {
  *  see The Living Knowledge Ouroboros's "keep results synced" requirement. */
 const QUERY_STORAGE_KEY = 'unitas.ouroboros.query.v1';
 
+/** Keystroke -> live-web prefix search debounce. Short enough that the list
+ *  visibly tracks each syllable, long enough that a fast typist's
+ *  intermediate shapes ('ㅅ' → '사' → '살') mostly never hit the network. */
+const LIVE_SUGGEST_DEBOUNCE_MS = 180;
+
 type VisualAttachment = UaiImageAttachment & { id: string; label: string };
 
 /**
- * The OMNI-SYNAPSE search bar + browse hub + UNITAS ARCHITECT result panel.
- * Focusing the input drives the shared shader's black-hole suction effect
- * (see lib/sceneInteraction.ts + components/canvas/NeuralShader.tsx) AND
- * opens a categorized, filterable grid of every ecosystem/service/protocol
- * in the app (float-above glassmorphism panel, not a layout push -- avoids
- * reflowing the page under it). Submitting still runs the original client
- * -side heuristic across the 11 ecosystems -- see lib/omniSynapse.ts -- not
- * a real search index or LLM call. The "Web Synthesis Layer" and "Global
- * Unconscious Trends" panels stay honestly labeled as not-yet-connected.
+ * The OMNI-SYNAPSE search bar + live-typing hub + UNITAS ARCHITECT result
+ * panel. Focusing the input drives the shared shader's black-hole suction
+ * effect (see lib/sceneInteraction.ts + components/canvas/NeuralShader.tsx)
+ * AND, once a query is being typed, opens the "글자 조합별 실시간 검색"
+ * dropdown (owner instruction 2026-09-03): every keystroke -- including
+ * half-composed Korean syllables, see lib/hangul.ts -- re-filters a local
+ * corpus of the 30-axis shortcut matrix + direct-app launchers and merges
+ * in debounced, keyless own-language Wikipedia prefix suggestions, each row
+ * carrying title, one-line description and category. The old ecosystem /
+ * module / protocol catalog cards are gone from here on purpose (they live
+ * on the module walls below). Beneath the rows sits the live ladder
+ * explorer (LiveLadderExplorer) and, untouched, the shortcut matrix strip.
+ * Submitting still runs the client-side heuristic across the 11 ecosystems
+ * -- see lib/omniSynapse.ts -- not a real search index or LLM call.
  *
  * Multi-modal context injection: dropping a file or a dragged browser tab/
  * link onto the bar attaches it as extra scoring context (text files are
@@ -73,16 +104,22 @@ type VisualAttachment = UaiImageAttachment & { id: string; label: string };
 export function OmniSynapseSearch({
   uai,
   onSelectEcosystem,
-  onSelectModule,
   onOpenShortcut,
   onOuroborosChange,
 }: OmniSynapseSearchProps) {
   const t = useTranslations('OmniSynapse');
   const tEcosystems = useTranslations('Ecosystems');
-  const tModules = useTranslations('Modules');
   /** Toolbar tooltip strings shared verbatim with the shortcut tower, so the
    *  two popups' chrome reads identically in every locale. */
   const tTower = useTranslations('HotShortcutModal');
+  const tGovernance = useTranslations('Governance');
+  const tHotIssue = useTranslations('HotIssue');
+  const tFinance = useTranslations('Finance');
+  const tRealEstate = useTranslations('RealEstate');
+  const tDating = useTranslations('Dating');
+  const tCareer = useTranslations('Career');
+  const tEmail = useTranslations('Email');
+  const tSocial = useTranslations('Social');
   const { playTypingTick, playQuestEnterSfx, playHoverSfx, playSearchFocusSfx } = useSpatialAudio();
   const locale = useLocale();
   const { session } = useWallet();
@@ -101,9 +138,14 @@ export function OmniSynapseSearch({
   const [visualAttachments, setVisualAttachments] = useState<VisualAttachment[]>([]);
   const [attachError, setAttachError] = useState<string | null>(null);
   const [drawOpen, setDrawOpen] = useState(false);
+  const [webSuggestions, setWebSuggestions] = useState<LiveSuggestion[]>([]);
+  const [suggestLoading, setSuggestLoading] = useState(false);
   const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const videoInputRef = useRef<HTMLInputElement | null>(null);
+  /** The whole bar + dropdown subtree: focus moving anywhere inside it (the
+   *  weather city box, ladder chips) must NOT collapse the popup. */
+  const rootRef = useRef<HTMLDivElement | null>(null);
 
   const TEXT_LIKE_RE = /\.(txt|md|json|csv|log|ya?ml)$/i;
   const MAX_ATTACHMENT_CHARS = 4000;
@@ -296,51 +338,99 @@ export function OmniSynapseSearch({
     uai.runDeep(visualAttachments.length > 0 ? visualAttachments : undefined);
   }
 
-  const query = value.trim().toLowerCase();
+  const query = value.trim();
 
-  const filteredEcosystems = useMemo(() => {
-    if (!query) return ECOSYSTEMS;
-    return ECOSYSTEMS.filter((eco) => {
-      const title = tEcosystems(`${eco.messageKey}.title`).toLowerCase();
-      const description = tEcosystems(`${eco.messageKey}.description`).toLowerCase();
-      return title.includes(query) || description.includes(query) || eco.key.includes(query);
-    });
-  }, [query, tEcosystems]);
+  const axisT: AxisTranslators = useMemo(
+    () => ({
+      governance: tGovernance,
+      hotIssue: tHotIssue,
+      finance: tFinance,
+      realEstate: tRealEstate,
+      dating: tDating,
+      career: tCareer,
+    }),
+    [tGovernance, tHotIssue, tFinance, tRealEstate, tDating, tCareer],
+  );
 
-  const filteredModules = useMemo(() => {
-    if (!query) return B2C_MODULES;
-    return B2C_MODULES.filter((mod) => {
-      const title = tModules(`${mod.messageKey}.title`).toLowerCase();
-      const description = tModules(`${mod.messageKey}.description`).toLowerCase();
-      return title.includes(query) || description.includes(query) || mod.key.includes(query);
-    });
-  }, [query, tModules]);
+  // Local, already-localized corpus (30 matrix axes + direct-app launchers)
+  // -- built once per locale, filtered on every keystroke by the IME-aware
+  // progressive matcher. Zero network.
+  const liveIndex = useMemo(
+    () =>
+      buildLiveIndex({
+        axisT,
+        tabLabel: (tab) => t(`tab.${tab}`),
+        appDescription: (app) => (app.family === 'email' ? tEmail : tSocial)('openAria', { brand: app.brand }),
+      }),
+    [axisT, t, tEmail, tSocial],
+  );
 
-  const filteredProtocols = useMemo(() => {
-    if (!query) return B2B_PROTOCOLS;
-    return B2B_PROTOCOLS.filter((protocol) => {
-      const title = tModules(`${protocol.messageKey}.title`).toLowerCase();
-      const description = tModules(`${protocol.messageKey}.description`).toLowerCase();
-      return title.includes(query) || description.includes(query) || protocol.key.includes(query);
-    });
-  }, [query, tModules]);
+  const localResults = useMemo(() => searchLiveIndex(liveIndex, query), [liveIndex, query]);
 
-  const hasNoMatches =
-    query.length > 0 &&
-    filteredEcosystems.length === 0 &&
-    filteredModules.length === 0 &&
-    filteredProtocols.length === 0;
+  const liveResults: LiveResult[] = useMemo(
+    () => mergeLiveResults(localResults, webSuggestions, query, t('liveWebCategory')),
+    [localResults, webSuggestions, query, t],
+  );
+
+  // Live-web half of the dropdown: debounced, abortable prefix search on the
+  // visitor's own-language Wikipedia. A query made only of lone 초성 ('ㅅ')
+  // is skipped -- nothing meaningful prefix-matches half a syllable, and the
+  // local index already answers it.
+  const suggestActive = focused && query.length > 0 && uai.phase === 'idle';
+  useEffect(() => {
+    if (!suggestActive) {
+      setWebSuggestions([]);
+      setSuggestLoading(false);
+      return;
+    }
+    const chars = Array.from(query);
+    if (chars.every((c) => isChoseongJamo(c) || c === ' ')) {
+      setWebSuggestions([]);
+      setSuggestLoading(false);
+      return;
+    }
+    const controller = new AbortController();
+    setSuggestLoading(true);
+    const timer = setTimeout(() => {
+      fetchLiveSuggestions(query, locale, controller.signal)
+        .then((list) => {
+          if (!controller.signal.aborted) setWebSuggestions(list);
+        })
+        .finally(() => {
+          if (!controller.signal.aborted) setSuggestLoading(false);
+        });
+    }, LIVE_SUGGEST_DEBOUNCE_MS);
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [suggestActive, query, locale]);
+
+  const hasNoMatches = query.length > 0 && liveResults.length === 0 && !suggestLoading;
+
+  function cancelPendingBlur() {
+    if (blurTimeoutRef.current) {
+      clearTimeout(blurTimeoutRef.current);
+      blurTimeoutRef.current = null;
+    }
+  }
 
   function handleFocus() {
-    if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
+    cancelPendingBlur();
     setFocused(true);
     sceneInteraction.focusBoost = 1;
     playSearchFocusSfx();
   }
 
-  function handleBlur() {
-    // Deferred so a click/mousedown on a grid item inside the dropdown
-    // still registers before the dropdown unmounts.
+  /** Root-level blur: fires for the search input AND every focusable inside
+   *  the dropdown (weather city box, ladder chips). Focus merely moving
+   *  between two of them is not a leave; only focus escaping the subtree
+   *  collapses the hub -- deferred so a click on a non-focusable row still
+   *  registers before the dropdown unmounts. */
+  function handleRootBlur(e: FocusEvent<HTMLDivElement>) {
+    const next = e.relatedTarget as Node | null;
+    if (next && rootRef.current?.contains(next)) return;
+    cancelPendingBlur();
     blurTimeoutRef.current = setTimeout(() => {
       setFocused(false);
       sceneInteraction.focusBoost = 0;
@@ -348,9 +438,34 @@ export function OmniSynapseSearch({
   }
 
   function closeBrowseHub() {
-    if (blurTimeoutRef.current) clearTimeout(blurTimeoutRef.current);
+    cancelPendingBlur();
     setFocused(false);
     sceneInteraction.focusBoost = 0;
+  }
+
+  /** A live result row: matrix axis -> the knowledge-ladder tower; direct
+   *  app -> its own page (rendered as a link, never lands here); live web
+   *  hit -> re-run the free U-AI pass on that exact title. */
+  function activateLiveResult(result: LiveResult) {
+    if (result.kind === 'axis' && result.axis) {
+      closeBrowseHub();
+      onOpenShortcut(result.axis);
+      return;
+    }
+    runFollowupQuery(result.title);
+  }
+
+  /** Title with the progressively-matched span lit in accent. */
+  function renderHighlighted(result: LiveResult) {
+    if (!result.range) return <span className="text-white">{result.title}</span>;
+    const chars = Array.from(result.title);
+    return (
+      <span className="text-white">
+        {chars.slice(0, result.range.start).join('')}
+        <mark className="bg-transparent text-accent">{chars.slice(result.range.start, result.range.end).join('')}</mark>
+        {chars.slice(result.range.end).join('')}
+      </span>
+    );
   }
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -417,7 +532,12 @@ export function OmniSynapseSearch({
   }, [ouroboros, onOuroborosChange]);
 
   return (
-    <div className="relative mx-auto -mt-[19px] w-full max-w-7xl px-6">
+    <div
+      ref={rootRef}
+      onFocus={cancelPendingBlur}
+      onBlur={handleRootBlur}
+      className="relative mx-auto -mt-[19px] w-full max-w-7xl px-6"
+    >
       <form onSubmit={handleSubmit}>
         <div
           id="omni-synapse-search"
@@ -441,7 +561,6 @@ export function OmniSynapseSearch({
             value={value}
             onChange={handleChange}
             onFocus={handleFocus}
-            onBlur={handleBlur}
             placeholder={dragActive ? t('dropZoneHint') : t('placeholder')}
             className="w-full bg-transparent text-[19px] text-white placeholder:text-gray-400 focus:outline-none"
           />
@@ -564,83 +683,113 @@ export function OmniSynapseSearch({
             onMouseDown={(e) => e.preventDefault()}
             className="absolute left-6 right-6 top-full z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-sm border border-white/15 bg-white/[0.045] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
           >
-            {/* Slimmed to exactly two live items (owner instruction 2026-09-03):
-                matched platform keywords/info, and the shortcut ladder -- the
-                decorative telemetry strip and per-category sub-headers are gone. */}
-            <section className="mb-7">
-              <p className="mb-2.5 text-[9px] font-bold uppercase tracking-widest text-gray-500">
+            {/* Section 1 -- "글자 조합별 실시간 검색": one row per live hit
+                (matched span lit, one-line description, category chip),
+                re-filtered on every keystroke incl. half-composed syllables.
+                The legacy ecosystem/module/protocol catalog cards are gone
+                (owner instruction 2026-09-03). */}
+            <section className="mb-6">
+              <p className="mb-2.5 flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-gray-500">
                 {t('liveKeywordsLabel')}
+                {suggestLoading && (
+                  <span className="flex items-center gap-1 normal-case tracking-normal text-accent">
+                    <Loader2 size={11} className="animate-spin" aria-hidden="true" />
+                    {t('liveSearching')}
+                  </span>
+                )}
               </p>
               {hasNoMatches ? (
-                <p className="py-8 text-center text-xs text-gray-500">{t('noBrowseMatches')}</p>
+                <p className="py-6 text-center text-xs text-gray-500">{t('noBrowseMatches')}</p>
               ) : (
-                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                  {filteredEcosystems.map((eco) => (
-                    <button
-                      key={eco.key}
-                      type="button"
-                      onMouseEnter={() => playHoverSfx()}
-                      onClick={() => {
-                        onSelectEcosystem(eco);
-                        closeBrowseHub();
-                      }}
-                      style={{ borderLeftColor: eco.color, borderLeftWidth: 3 }}
-                      className="flex flex-col border border-white/10 border-l-[3px] bg-void/50 px-3 py-2 text-left transition-colors hover:border-white/25 hover:bg-void/70"
-                    >
-                      <span className="text-xs font-bold text-white">
-                        {tEcosystems(`${eco.messageKey}.title`)}
-                      </span>
-                      <span className="truncate text-[10px] text-gray-500">
-                        {tEcosystems(`${eco.messageKey}.description`)}
-                      </span>
-                    </button>
-                  ))}
-
-                  {filteredModules.map((mod) => (
-                    <button
-                      key={mod.key}
-                      type="button"
-                      onMouseEnter={() => playHoverSfx()}
-                      onClick={() => {
-                        onSelectModule(mod);
-                        closeBrowseHub();
-                      }}
-                      style={{ borderLeftColor: mod.metal, borderLeftWidth: 3 }}
-                      className="flex flex-col border border-white/10 border-l-[3px] bg-void/50 px-3 py-2 text-left transition-colors hover:border-white/25 hover:bg-void/70"
-                    >
-                      <span className="text-xs font-bold text-white">
-                        {tModules(`${mod.messageKey}.title`)}
-                      </span>
-                      <span className="truncate text-[10px] text-gray-500">
-                        {tModules(`${mod.messageKey}.description`)}
-                      </span>
-                    </button>
-                  ))}
-
-                  {filteredProtocols.map((protocol) => (
-                    <Link
-                      key={protocol.key}
-                      href={`/${protocol.route}`}
-                      onMouseEnter={() => playHoverSfx()}
-                      onClick={closeBrowseHub}
-                      className="flex flex-col border border-l-[3px] border-accent/30 border-l-accent bg-void/50 px-3 py-2 text-left transition-colors hover:border-accent/60 hover:bg-void/70"
-                    >
-                      <span className="text-xs font-bold text-white">
-                        {tModules(`${protocol.messageKey}.title`)}
-                      </span>
-                      <span className="truncate text-[10px] text-gray-500">
-                        {tModules(`${protocol.messageKey}.description`)}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
+                <ul className="grid grid-cols-1 gap-1.5 md:grid-cols-2" role="listbox" aria-label={t('liveKeywordsLabel')}>
+                    {liveResults.map((result) => {
+                      const Icon = result.icon ?? Globe;
+                      const color = result.color ?? '#d4af37';
+                      const inner = (
+                        <>
+                          <Icon size={16} className="mt-0.5 shrink-0" style={{ color }} aria-hidden="true" />
+                          <span className="flex min-w-0 flex-1 flex-col">
+                            <span className="flex min-w-0 items-center gap-2">
+                              <span className="truncate text-[14px] font-bold sm:text-[15px]">{renderHighlighted(result)}</span>
+                              <span
+                                className="shrink-0 border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest"
+                                style={{ borderColor: `${color}55`, color }}
+                              >
+                                {result.category}
+                              </span>
+                            </span>
+                            {result.description && (
+                              <span className="line-clamp-1 text-[12px] text-gray-400">{result.description}</span>
+                            )}
+                          </span>
+                          {result.kind === 'app' && (
+                            <ExternalLink size={13} className="mt-1 shrink-0 text-gray-500" aria-hidden="true" />
+                          )}
+                        </>
+                      );
+                      const rowClass =
+                        'flex w-full items-start gap-3 border border-white/10 bg-void/50 px-3 py-2.5 text-left transition-colors hover:border-white/30 hover:bg-void/70';
+                      return (
+                        <motion.li
+                          key={result.id}
+                          role="option"
+                          aria-selected={false}
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.14 }}
+                        >
+                          {result.kind === 'app' && result.url ? (
+                            <a
+                              href={result.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onMouseEnter={() => playHoverSfx()}
+                              title={t('liveOpenHint')}
+                              className={rowClass}
+                              style={{ borderLeftColor: color, borderLeftWidth: 3 }}
+                            >
+                              {inner}
+                            </a>
+                          ) : (
+                            <button
+                              type="button"
+                              onMouseEnter={() => playHoverSfx()}
+                              onClick={() => activateLiveResult(result)}
+                              title={t('liveOpenHint')}
+                              className={rowClass}
+                              style={{ borderLeftColor: color, borderLeftWidth: 3 }}
+                            >
+                              {inner}
+                            </button>
+                          )}
+                        </motion.li>
+                      );
+                    })}
+                </ul>
               )}
             </section>
 
-            <section>
+            {/* Section 2 -- "실시간 사다리 탐색": climb from the typed root
+                through matrix / constitution / lens / live-keyword vectors to
+                a composed result. */}
+            <section className="mb-6">
               <p className="mb-2.5 text-[9px] font-bold uppercase tracking-widest text-gray-500">
                 {t('liveLadderLabel')}
               </p>
+              <LiveLadderExplorer
+                query={query}
+                axisT={axisT}
+                onOpenAxis={(axis) => {
+                  closeBrowseHub();
+                  onOpenShortcut(axis);
+                }}
+                onRunQuery={runFollowupQuery}
+              />
+            </section>
+
+            {/* Section 3 -- the shortcut matrix strip, exactly as before:
+                governance through the app/asset launchers, untouched. */}
+            <section>
               <HotShortcutMatrixStrip onOpenShortcut={onOpenShortcut} />
             </section>
           </motion.div>

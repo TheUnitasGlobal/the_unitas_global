@@ -14,16 +14,20 @@ import {
 import { EMAIL_SHORTCUTS, SOCIAL_SHORTCUTS, type DirectAppShortcut } from '@/lib/appShortcuts';
 import { UNITAS_ASSETS } from '@/lib/unitasAssets';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { HotIssueNewsList } from '@/components/home/HotIssueNewsList';
+import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
 
 interface HotShortcutMatrixStripProps {
   onOpenShortcut: (axis: HotShortcutAxis) => void;
 }
 
-type TabKey = ShortcutGroup | 'social' | 'email' | 'assets';
+type TabKey = ShortcutGroup | 'weather' | 'social' | 'email' | 'assets';
 
+/** 실시간 날씨 sits right beside 핫이슈 (owner instruction 2026-09-03). */
 const TABS: TabKey[] = [
   'governance',
   'hotIssue',
+  'weather',
   'social',
   'email',
   'finance',
@@ -197,9 +201,11 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
                 <Download size={13} className="text-gray-500" aria-hidden="true" />
               </a>
             ))}
+          {activeTab === 'weather' && <LiveWeatherPanel />}
           {activeTab !== 'email' &&
             activeTab !== 'social' &&
             activeTab !== 'assets' &&
+            activeTab !== 'weather' &&
             itemsInGroup(activeTab).map((axis) => (
               <button
                 key={axis.key}
@@ -214,6 +220,9 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
                 <span className="whitespace-nowrap text-[15px] font-bold text-white sm:text-base">{axisTitle(axis, axisT)}</span>
               </button>
             ))}
+          {/* 핫이슈: the four axis tiles stay exactly as they were; the live
+              category-wise news list (1–2 line summaries) lands beneath them. */}
+          {activeTab === 'hotIssue' && <HotIssueNewsList />}
         </motion.div>
       </AnimatePresence>
       </div>
