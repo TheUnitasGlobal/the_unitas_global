@@ -8,6 +8,8 @@ import { ChevronDown } from 'lucide-react';
 import { useGatedSurface } from '@/components/ui/useGatedSurface';
 import { ModalPortal } from '@/components/ui/ModalPortal';
 import { LOCALE_NATIVE_NAME } from '@/components/i18n/GlobalLanguagePicker';
+import { useWallet } from '@/components/wallet/WalletProvider';
+import { isAppLocale, persistUserLocale } from '@/lib/countryLocale';
 import { FlagIcon } from './FlagIcon';
 
 type Locale = (typeof routing.locales)[number];
@@ -29,6 +31,7 @@ export function LanguageSwitcher() {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
+  const { session } = useWallet();
   const { open, blocked, setOpen, toggle } = useGatedSurface('nav:language');
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [menuPos, setMenuPos] = useState<{ top: number; left: number } | null>(null);
@@ -73,6 +76,12 @@ export function LanguageSwitcher() {
 
   function selectLocale(nextLocale: string) {
     setOpen(false);
+    // Manual switch persists to the account immediately (owner instruction
+    // 2026-09-03) so it "wins" over the country-based auto-switch on every
+    // later login -- see components/i18n/LocaleAutoSwitch.tsx.
+    if (session && isAppLocale(nextLocale)) {
+      persistUserLocale(session.user.id, nextLocale);
+    }
     router.replace(pathname, { locale: nextLocale });
   }
 

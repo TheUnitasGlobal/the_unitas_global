@@ -15,6 +15,7 @@ import {
   validateCognitiveProfile,
   type CognitiveProfileInput,
 } from '@/lib/profileFields';
+import { detectBrowserCountryLocale } from '@/lib/countryLocale';
 import { PhoneVerifyPanel } from './PhoneVerifyPanel';
 import { EmailVerifyPanel } from './EmailVerifyPanel';
 import { PasswordChecklist } from './PasswordChecklist';
@@ -201,6 +202,15 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
     if (p.mbti) metadata.mbti = p.mbti;
     if (p.iq != null) metadata.iq = String(p.iq);
     if (p.eq != null) metadata.eq = String(p.eq);
+
+    // Country-based auto language switch (owner instruction 2026-09-03): seed
+    // the new profile's saved locale from the signup browser's country, with
+    // the current signup page's own locale as the reliable fallback -- the
+    // visitor is either browsing it because they picked it, or because
+    // app/page.tsx already Accept-Language-matched them into it.
+    const detected = detectBrowserCountryLocale();
+    if (detected.country) metadata.country = detected.country;
+    metadata.locale = detected.locale ?? locale;
 
     setBusy(true);
     const supabase = getSupabaseBrowserClient();

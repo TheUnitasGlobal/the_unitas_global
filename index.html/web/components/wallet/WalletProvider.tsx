@@ -19,7 +19,7 @@ import {
 } from '@/lib/guestIdentity';
 
 const PROFILE_COLUMNS =
-  'full_name, phone, phone_verified, nationality, gender, age, blood, mbti, iq, eq';
+  'full_name, phone, phone_verified, nationality, gender, age, blood, mbti, iq, eq, country, locale';
 
 export interface Profile {
   full_name: string | null;
@@ -32,6 +32,10 @@ export interface Profile {
   mbti: string | null;
   iq: number | null;
   eq: number | null;
+  /** ISO 3166-1 alpha-2, or null if undetected/undisclosed. */
+  country: string | null;
+  /** Preferred UI language -- see components/i18n/LocaleAutoSwitch.tsx. */
+  locale: string | null;
 }
 
 interface WalletContextValue {

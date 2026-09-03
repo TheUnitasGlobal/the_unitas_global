@@ -5,6 +5,7 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { HtmlLangSync } from '@/components/i18n/HtmlLangSync';
+import { LocaleAutoSwitch } from '@/components/i18n/LocaleAutoSwitch';
 import { WalletProvider } from '@/components/wallet/WalletProvider';
 import { NavBar } from '@/components/nav/NavBar';
 import { AudioGate } from '@/components/audio/AudioGate';
@@ -79,6 +80,7 @@ export default async function LocaleLayout({
     <NextIntlClientProvider>
       <HtmlLangSync />
       <WalletProvider>
+        <LocaleAutoSwitch />
         {/* Everything but the entry gate renders at a 75%-zoom-equivalent
             scale, so the whole ecosystem reads as one wide, majestic
             composition on entry instead of a taller, more cramped 100%
