@@ -22,7 +22,10 @@ interface LadderStep {
 
 const CONSTITUTION_KEYS = ['logic', 'future', 'economy', 'security', 'sovereign', 'art'] as const;
 const LENS_KEYS = ['tech', 'economy', 'opinion'] as const;
-const MATRIX_GROUPS: ShortcutGroup[] = ['governance', 'hotIssue', 'finance', 'realEstate', 'dating', 'career'];
+// 'governance' is deliberately absent here (owner instruction 2026-09-03):
+// its 16 axes no longer live behind their own tab -- they're folded flat
+// into the expanded vector row below, alongside the constitution/lens words.
+const MATRIX_GROUPS: ShortcutGroup[] = ['hotIssue', 'finance', 'realEstate', 'dating', 'career'];
 const MAX_DEPTH = 6;
 const LIVE_DEBOUNCE_MS = 260;
 
@@ -53,7 +56,7 @@ export function LiveLadderExplorer({ query, axisT, onOpenAxis, onRunQuery }: Liv
   const { playHoverSfx, playTypingTick } = useSpatialAudio();
 
   const [path, setPath] = useState<LadderStep[]>([]);
-  const [activeGroup, setActiveGroup] = useState<ShortcutGroup>('governance');
+  const [activeGroup, setActiveGroup] = useState<ShortcutGroup>('hotIssue');
   const [live, setLive] = useState<string[]>([]);
   const [liveLoading, setLiveLoading] = useState(false);
 
@@ -147,14 +150,15 @@ export function LiveLadderExplorer({ query, axisT, onOpenAxis, onRunQuery }: Liv
             </motion.button>
           ))}
         </AnimatePresence>
-        <span className="ml-auto text-[10px] font-bold uppercase tracking-widest text-gray-500">
-          {t('ladderDepth', { depth: path.length })}
-        </span>
+        {path.length > 0 && (
+          <span className="ml-auto text-[10px] font-bold uppercase tracking-widest text-gray-500">
+            {t('ladderDepth', { depth: path.length })}
+          </span>
+        )}
       </div>
 
-      <p className="mb-3 text-[12px] text-gray-400">{t('ladderVectorHint')}</p>
-
-      {/* Vector 1 -- the shortcut matrix, grouped by family. */}
+      {/* Vector 1 -- the shortcut matrix, grouped by family (governance's 16
+          axes excluded from these tabs -- they render flat below instead). */}
       <div className="mb-3">
         <p className="mb-1.5 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-500">
           <Layers size={11} aria-hidden="true" />
@@ -199,7 +203,12 @@ export function LiveLadderExplorer({ query, axisT, onOpenAxis, onRunQuery }: Liv
         </div>
       </div>
 
-      {/* Vector 2 + 3 -- constitution axes and stereoscopic lenses. */}
+      {/* Vector 2 + 3 -- the expanded flat vector pool: constitution axes,
+          stereoscopic lenses, and the 16 doctrine-derived governance axes
+          (language..strategy, lib/governance.ts), every one a single-word
+          box with no group tabs. Governance axes keep their `axis` payload
+          so the ladder-icon "open this axis" interaction below still works
+          exactly as it did behind the old tab. */}
       <div className="mb-3 flex flex-wrap gap-1.5">
         {CONSTITUTION_KEYS.map((key) => (
           <button
@@ -224,6 +233,22 @@ export function LiveLadderExplorer({ query, axisT, onOpenAxis, onRunQuery }: Liv
             {tUai(`lens.${key}`)}
           </button>
         ))}
+        {HOT_SHORTCUT_MATRIX.filter((axis) => axis.group === 'governance').map((axis) => {
+          const label = axisTitle(axis, axisT);
+          return (
+            <button
+              key={axis.key}
+              type="button"
+              onMouseEnter={() => playHoverSfx()}
+              onClick={() => push({ kind: 'axis', key: `governance:${axis.key}`, label, axis })}
+              style={{ borderColor: `${axis.color}55` }}
+              className={`${chip} bg-void/40 text-gray-200 hover:bg-void/70 hover:text-white`}
+            >
+              <axis.icon size={13} style={{ color: axis.color }} aria-hidden="true" />
+              {label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Vector 4 -- live related keywords for the composed path. */}
@@ -252,7 +277,10 @@ export function LiveLadderExplorer({ query, axisT, onOpenAxis, onRunQuery }: Liv
       </div>
 
       {/* Reach the result: the whole path as one U-AI search, or the last
-          matrix axis's knowledge-ladder tower. */}
+          matrix axis's knowledge-ladder tower. The hint sits directly above
+          the button it explains rather than floating at the top of the
+          card, separated from the action by the entire vector picker. */}
+      <p className="mb-1.5 text-[12px] text-gray-400">{t('ladderVectorHint')}</p>
       <div className="flex flex-wrap items-center gap-2 border-t border-white/10 pt-3">
         <span className="min-w-0 flex-1 truncate text-[12px] text-gray-400" title={composed}>
           {composed}
