@@ -5,23 +5,18 @@ import { useLocale, useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Search,
-  Sparkles,
-  X,
   ArrowRight,
-  ArrowLeft,
-  Home,
   ChevronLeft,
   ChevronRight,
-  RefreshCw,
+  CornerDownLeft,
   ExternalLink,
-  Layers,
   Activity,
   TrendingUp,
   Minus,
   TrendingDown,
   type LucideIcon,
 } from 'lucide-react';
-import { ModalPortal } from '@/components/ui/ModalPortal';
+import { DialogTower } from '@/components/ui/DialogTower';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import {
   itemsInGroup,
@@ -200,66 +195,6 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
 
   const feed = useShortcutFeed(open && focus ? focus.query : null, locale, labels);
 
-  /** Stable handle on onClose -- HomeContent passes a fresh arrow every
-   *  render, and the history/frame effects below must not re-run (and
-   *  re-pushState) on each parent render. */
-  const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
-
-  /** Full-size "dialogue tower" frame: the backdrop seals everything below
-   *  the top nav bar, and the panel itself rises from just under the U-AI
-   *  search bar to the bottom of the screen. Both edges are measured live
-   *  (the modal portals to document.body, outside the .dashboard-zoom
-   *  wrapper, so getBoundingClientRect values are true viewport pixels). */
-  const [frame, setFrame] = useState({ backdropTop: 0, panelTop: 0 });
-
-  useEffect(() => {
-    if (!open) return;
-    const measure = () => {
-      const nav = document.getElementById('unitas-nav');
-      const search = document.getElementById('omni-synapse-search');
-      const navBottom = nav ? Math.max(0, nav.getBoundingClientRect().bottom) : 0;
-      const searchBottom = search ? search.getBoundingClientRect().bottom + 10 : navBottom;
-      // Clamp so a scrolled-away search bar still leaves a usable tower.
-      const panelTop = Math.max(navBottom, Math.min(searchBottom, window.innerHeight * 0.45));
-      setFrame({ backdropTop: navBottom, panelTop });
-    };
-    measure();
-    window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
-  }, [open]);
-
-  // The tower is fixed and fills the viewport below the nav -- freeze the
-  // page behind it so the backdrop and panel never drift mid-interaction.
-  useEffect(() => {
-    if (!open) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = previous;
-    };
-  }, [open]);
-
-  // Mobile/desktop hardware & browser back: opening the tower parks one
-  // same-URL history entry, so the device's own back gesture closes the
-  // modal instead of ejecting the visitor off the site entirely. The marker
-  // check keeps repeated open/close cycles from stacking entries.
-  useEffect(() => {
-    if (!open) return;
-    try {
-      const state = window.history.state as { unitasShortcutModal?: boolean } | null;
-      if (!state?.unitasShortcutModal) {
-        window.history.pushState({ ...(state ?? {}), unitasShortcutModal: true }, '');
-      }
-    } catch {
-      // history unavailable (embedded webview edge cases) -- the on-screen
-      // back/home buttons below still cover navigation.
-    }
-    const onPop = () => onCloseRef.current();
-    window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
-  }, [open]);
-
   const nextTierId = useCallback((label: string) => {
     tierSeqRef.current += 1;
     return `${tierSeqRef.current}-${label}`;
@@ -397,15 +332,6 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
   }, [feed.analysis]);
 
   useEffect(() => {
-    if (!open) return;
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [open, onClose]);
-
-  useEffect(() => {
     if (chain.length > 1) bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }, [chain.length]);
 
@@ -469,108 +395,37 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
   const accentGlow = shortcut?.glow ?? '#67e8f9';
 
   return (
-    <ModalPortal>
-    <AnimatePresence>
-      {open && shortcut && (
-        <motion.div
-          key="shortcut-tower"
-          className="fixed inset-x-0 bottom-0 z-[120]"
-          style={{ top: frame.backdropTop }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          {/* Backdrop seal -- swallows every click/tap so the module walls and
-              bottom menu underneath are completely inert while the tower is
-              up (no more accidental popup dismissal); deliberately NOT wired
-              to onClose. It starts below the nav bar, which stays live. */}
-          <div className="absolute inset-0 bg-void/85 backdrop-blur-md" role="presentation" aria-hidden="true" />
-
-          {/* The full-size "dialogue tower": from just under the U-AI search
-              bar down to the bottom edge of the screen, full width. */}
-          <motion.div
-            className="absolute inset-x-0 bottom-0 flex flex-col overflow-hidden border-t bg-quantum/95"
-            style={{
-              top: Math.max(0, frame.panelTop - frame.backdropTop),
-              borderColor: `${accent}66`,
-              boxShadow: `0 -24px 90px ${accentGlow}22, inset 0 0 40px ${accent}0d`,
-            }}
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 36 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="hot-shortcut-result-title"
-          >
-            <div className="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col">
-            {/* Fixed top navigation row -- explicit back / home controls
-                (mobile & desktop), so leaving the tower is always one clear
-                tap and the device's own back button never ejects anyone. */}
-            <div
-              className="flex shrink-0 items-center gap-2 border-b px-4 py-3 sm:px-6 sm:py-4"
-              style={{ borderColor: `${accent}33` }}
-            >
-              <button
-                type="button"
-                onClick={goBackTier}
-                onMouseEnter={() => playHoverSfx()}
-                className="flex shrink-0 items-center gap-1.5 border px-3 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors hover:bg-white/5 sm:text-[13px]"
-                style={{ borderColor: `${accent}55`, color: accent }}
-              >
-                <ArrowLeft size={15} aria-hidden="true" />
-                {tModal('backButton')}
-              </button>
-              <button
-                type="button"
-                onClick={goHome}
-                onMouseEnter={() => playHoverSfx()}
-                className="flex shrink-0 items-center gap-1.5 border px-3 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors hover:bg-white/5 sm:text-[13px]"
-                style={{ borderColor: `${accent}55`, color: accent }}
-              >
-                <Home size={15} aria-hidden="true" />
-                {tModal('homeButton')}
-              </button>
-              <p
-                id="hot-shortcut-result-title"
-                className="ml-auto hidden items-center gap-2 text-[11px] font-bold uppercase tracking-[0.3em] md:flex"
-                style={{ color: accent, textShadow: `0 0 16px ${accentGlow}55` }}
-              >
-                <Sparkles size={13} aria-hidden="true" />
-                U-AI SEARCH RESULT
-              </p>
-              <div className="ml-auto flex items-center gap-2 md:ml-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    playHoverSfx();
-                    feed.refreshNow();
-                  }}
-                  disabled={feed.refreshing}
-                  aria-label={tModal('refreshAria')}
-                  title={tModal('refreshAria')}
-                  className="flex h-9 w-9 shrink-0 items-center justify-center border text-xs transition-opacity disabled:opacity-50"
-                  style={{ borderColor: `${accent}55`, color: accent }}
-                >
-                  <RefreshCw size={15} className={feed.refreshing ? 'animate-spin' : ''} aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  aria-label={tModal('closeAria')}
-                  className="flex h-9 w-9 shrink-0 items-center justify-center border text-xs"
-                  style={{ borderColor: `${accent}55`, color: accent }}
-                >
-                  <X size={16} />
-                </button>
-              </div>
-            </div>
-
+    <DialogTower
+      open={open && shortcut !== null}
+      title="U-AI SEARCH RESULT"
+      titleId="hot-shortcut-result-title"
+      accent={accent}
+      accentGlow={accentGlow}
+      historyMarker="unitasShortcutModal"
+      labels={{
+        refresh: tModal('refreshAria'),
+        home: tModal('homeButton'),
+        back: tModal('backButton'),
+        close: tModal('closeAria'),
+      }}
+      refreshing={feed.refreshing}
+      onRefresh={() => {
+        playHoverSfx();
+        feed.refreshNow();
+      }}
+      onBack={goBackTier}
+      onHome={goHome}
+      onClose={onClose}
+      onButtonHover={playHoverSfx}
+    >
+      {shortcut && (
+        <>
             {/* Sibling ladder -- steps to the prev/next axis in the same
-                group, wrapping endlessly, stacking each stop below. */}
+                group, wrapping endlessly, stacking each stop below. The page
+                counter is dead-centered regardless of button widths. */}
             {groupItems.length > 1 && (
               <div
-                className="flex shrink-0 items-center justify-between border-b px-4 py-2 sm:px-6"
+                className="relative flex shrink-0 items-center justify-between border-b px-2.5 py-2 sm:px-4"
                 style={{ borderColor: `${accent}22` }}
               >
                 <button
@@ -581,13 +436,8 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
                   <ChevronLeft size={14} aria-hidden="true" />
                   {tGovernance('prev')}
                 </button>
-                <span className="flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-gray-500">
+                <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] uppercase tracking-[0.25em] text-gray-500">
                   {tGovernance('indexLabel', { current: cursorIndex + 1, total: groupItems.length })}
-                  <span className="text-gray-700" aria-hidden="true">
-                    ·
-                  </span>
-                  <Layers size={11} aria-hidden="true" />
-                  {tModal('depthLabel', { depth: focus?.depth ?? 0 })}
                 </span>
                 <button
                   type="button"
@@ -606,7 +456,7 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="shrink-0 overflow-hidden border-b px-4 py-2 text-[11px] text-gray-300 sm:px-6"
+                  className="shrink-0 overflow-hidden border-b px-2.5 py-2 text-[11px] text-gray-300 sm:px-4"
                   style={{ borderColor: `${accent}22`, backgroundColor: `${accent}12` }}
                 >
                   {tModal('restoredNote')}
@@ -617,7 +467,7 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
             {/* Chained tier stack -- tier 0 is the tapped axis, every tier
                 after it is a ladder step, a nested keyword or a free-tier
                 query result, all stacked below in one continuous scroll. */}
-            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-4 sm:px-6 sm:py-5">
+            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-2.5 py-4 sm:px-4">
               {chain.map((tier, index) => (
                 <TierCard
                   key={tier.id}
@@ -640,15 +490,22 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
               <div ref={bottomRef} />
             </div>
 
-            {/* Chain-query box -- the "다단 연쇄" entry point: each submit
-                stacks a new tier above, all inside this one popup. */}
+            {/* 추가검색 bar -- the "다단 연쇄" entry point: a compact label
+                chip + input + a real keyboard-Enter submit key. Each submit
+                stacks a new tier above, all inside this one popup (the old
+                hint sentence was cleansed per owner instruction 2026-09-02). */}
             <form
               onSubmit={handleChainSubmit}
-              className="shrink-0 border-t px-4 pb-2 pt-3 sm:px-6 sm:pt-4"
+              className="shrink-0 border-t px-2.5 pb-2 pt-3 sm:px-4"
               style={{ borderColor: `${accent}33` }}
             >
-              <p className="mb-2 text-[11px] text-gray-500">{tModal('chainHint')}</p>
-              <div className="flex items-center gap-2">
+              <div className="flex items-stretch gap-2">
+                <span
+                  className="flex shrink-0 items-center border px-2.5 text-[11px] font-bold uppercase tracking-widest"
+                  style={{ borderColor: `${accent}55`, color: accent }}
+                >
+                  {tModal('chainLabel')}
+                </span>
                 <input
                   type="text"
                   value={chainQuery}
@@ -663,20 +520,22 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
                   type="submit"
                   onMouseEnter={() => playHoverSfx()}
                   disabled={!chainQuery.trim()}
+                  title={tModal('chainSubmitAria')}
                   aria-label={tModal('chainSubmitAria')}
-                  className="flex shrink-0 items-center justify-center border px-3 py-2.5 transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+                  className="flex shrink-0 items-center justify-center border px-3 transition-colors disabled:cursor-not-allowed disabled:opacity-40"
                   style={{ borderColor: `${accent}66`, color: accent }}
                 >
-                  <ArrowRight size={16} aria-hidden="true" />
+                  <CornerDownLeft size={16} aria-hidden="true" />
                 </button>
               </div>
             </form>
 
             {/* Direct app loop -- out to a webmail / social app and straight
                 back; the ladder above is persisted so nothing is lost on the
-                round trip. The asset download icons were removed per owner
-                cleansing instruction 2026-09-02. */}
-            <div className="shrink-0 border-t px-4 pb-3 pt-2 sm:px-6" style={{ borderColor: `${accent}22` }}>
+                round trip. Every launcher carries its brand name as a visible
+                text label plus the double hover tooltip (owner instruction
+                2026-09-02). */}
+            <div className="shrink-0 border-t px-2.5 pb-3 pt-2 sm:px-4" style={{ borderColor: `${accent}22` }}>
               <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.3em] text-gray-500">
                 {tModal('appLoopLabel')}
               </p>
@@ -691,19 +550,17 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
                     aria-label={(app.family === 'email' ? tEmail : tSocial)('openAria', { brand: app.brand })}
                     onMouseEnter={() => playHoverSfx()}
                     style={{ borderColor: `${app.color}55`, color: app.color }}
-                    className="flex h-9 w-9 shrink-0 items-center justify-center border bg-void/50 transition-colors hover:bg-void/90"
+                    className="flex h-9 shrink-0 items-center gap-1.5 border bg-void/50 px-2.5 transition-colors hover:bg-void/90"
                   >
-                    <app.icon size={15} aria-hidden="true" />
+                    <app.icon size={14} aria-hidden="true" />
+                    <span className="whitespace-nowrap text-[11px] font-bold">{app.brand}</span>
                   </a>
                 ))}
               </div>
             </div>
-            </div>
-          </motion.div>
-        </motion.div>
+        </>
       )}
-    </AnimatePresence>
-    </ModalPortal>
+    </DialogTower>
   );
 }
 
@@ -745,24 +602,17 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
         boxShadow: focused ? `0 0 28px ${tier.glow}22` : undefined,
       }}
     >
-      <div className="mb-2 flex items-start justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-2">
-          {isNested && <Search size={14} className="shrink-0" style={{ color: tier.color }} aria-hidden="true" />}
-          {TierIcon && <TierIcon size={18} className="shrink-0" style={{ color: tier.color }} aria-hidden="true" />}
-          <h2
-            className="break-words font-serif text-lg font-bold text-white sm:text-2xl"
-            style={{ textShadow: `0 0 16px ${tier.glow}55` }}
-          >
-            {tier.title}
-          </h2>
-        </div>
-        <span
-          className="flex shrink-0 items-center gap-1 border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest"
-          style={{ color: tier.color, borderColor: `${tier.color}44` }}
+      {/* The "깊이 N" badge and its icon were cleansed per owner instruction
+          2026-09-02 -- the indent already communicates nesting. */}
+      <div className="mb-2 flex min-w-0 items-center gap-2">
+        {isNested && <Search size={14} className="shrink-0" style={{ color: tier.color }} aria-hidden="true" />}
+        {TierIcon && <TierIcon size={18} className="shrink-0" style={{ color: tier.color }} aria-hidden="true" />}
+        <h2
+          className="break-words font-serif text-lg font-bold text-white sm:text-2xl"
+          style={{ textShadow: `0 0 16px ${tier.glow}55` }}
         >
-          <Layers size={10} aria-hidden="true" />
-          {tModal('depthLabel', { depth: tier.depth })}
-        </span>
+          {tier.title}
+        </h2>
       </div>
 
       {analysis && (

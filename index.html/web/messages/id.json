@@ -1022,7 +1022,7 @@
     "backButton": "Kembali",
     "homeButton": "Ke beranda",
     "multiFeedLabel": "Umpan langsung multi-sudut",
-    "chainHint": "Setiap pencarian lanjutan menumpuk kartu hasil baru di bawahnya.",
+    "chainLabel": "Pencarian tambahan",
     "chainPlaceholder": "Ketik kueri lanjutan lalu tekan Enter…",
     "chainSubmitAria": "Jalankan pencarian berantai",
     "closeAria": "Tutup",

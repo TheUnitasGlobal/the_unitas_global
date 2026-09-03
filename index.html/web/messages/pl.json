@@ -1022,7 +1022,7 @@
     "backButton": "Wstecz",
     "homeButton": "Strona główna",
     "multiFeedLabel": "Wielowymiarowe kanały na żywo",
-    "chainHint": "Każde kolejne wyszukiwanie dokłada nową kartę wyniku poniżej.",
+    "chainLabel": "Dodatkowe wyszukiwanie",
     "chainPlaceholder": "Wpisz kolejne zapytanie i naciśnij Enter…",
     "chainSubmitAria": "Uruchom wyszukiwanie łańcuchowe",
     "closeAria": "Zamknij",

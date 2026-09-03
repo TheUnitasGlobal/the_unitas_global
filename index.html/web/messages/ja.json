@@ -1022,7 +1022,7 @@
     "backButton": "戻る",
     "homeButton": "ホームへ戻る",
     "multiFeedLabel": "多角視点ライブフィード",
-    "chainHint": "追加検索のたびに、新しい結果カードが下に積み重なります。",
+    "chainLabel": "追加検索",
     "chainPlaceholder": "追加の検索語を入力してEnterを押してください…",
     "chainSubmitAria": "連鎖検索を実行",
     "closeAria": "閉じる",

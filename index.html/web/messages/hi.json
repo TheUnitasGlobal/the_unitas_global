@@ -1022,7 +1022,7 @@
     "backButton": "वापस",
     "homeButton": "होम पर लौटें",
     "multiFeedLabel": "बहु-कोण लाइव फ़ीड",
-    "chainHint": "हर फॉलो-अप खोज नीचे एक नया परिणाम कार्ड जोड़ देती है।",
+    "chainLabel": "अतिरिक्त खोज",
     "chainPlaceholder": "फॉलो-अप क्वेरी टाइप करें और Enter दबाएँ…",
     "chainSubmitAria": "चेन्ड खोज चलाएँ",
     "closeAria": "बंद करें",

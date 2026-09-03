@@ -33,6 +33,10 @@ interface UaiDashboardProps {
   onRunQuery?: (query: string) => void;
   /** Home embed: show only the top-3 swarm + a "full report" affordance. */
   compact?: boolean;
+  /** Tower (popup) mode: split-renders the report into two stacked zones --
+   *  상단 = live search results/feed, 하단 = the new sovereign design
+   *  structures (insight, doctrine deconstruction, redesign, deep gate). */
+  split?: boolean;
   fullReportHref?: string;
 }
 
@@ -76,6 +80,7 @@ export function UaiDashboard({
   onSelectEcosystem,
   onRunQuery,
   compact = false,
+  split = false,
   fullReportHref,
 }: UaiDashboardProps) {
   const t = useTranslations('UAI');
@@ -114,7 +119,11 @@ export function UaiDashboard({
   if (phase === 'idle') return null;
 
   return (
-    <div className="glow-box mt-4 space-y-8 bg-quantum/90 p-6 text-[16px] leading-relaxed backdrop-blur-xl sm:p-8 sm:text-[17px]">
+    <div
+      className={`glow-box flex flex-col gap-8 bg-quantum/90 text-[16px] leading-relaxed backdrop-blur-xl sm:text-[17px] ${
+        split ? 'mt-3 p-4 sm:p-5' : 'mt-4 p-6 sm:p-8'
+      }`}
+    >
       {/* Reporter tier switch -- compact, always at the very top of the result
           window (owner instruction 2026-08-30). FREE is the live view; PAID
           opens the coin-burning deep report (or the sign-in gate). */}
@@ -191,8 +200,14 @@ export function UaiDashboard({
               burn), then served from Genesis Memory forever at engine cost 0원
               (owner instruction 2026-08-31). Rendered directly below the
               meta-search provenance, per the directive. */}
+          {/* 분할 아키텍처 divider -- in split (tower) mode everything below
+              this line is the 하단 "신규 설계 구조" zone; everything above it
+              is the 상단 live results/feed zone (flex order re-slots the
+              sections without touching their standalone rendering). */}
+          {split && <div aria-hidden="true" className="order-1 border-t-2 border-accent/30" />}
+
           {(insight || insightForging || trendHits > 0) && (
-            <section className="space-y-4 border-y border-accent/20 py-6">
+            <section className={`space-y-4 border-y border-accent/20 py-6 ${split ? 'order-2' : ''}`}>
               <p className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.25em] text-accent">
                 <Wand2 size={15} aria-hidden="true" /> {t('insightLabel')}
               </p>
@@ -274,7 +289,7 @@ export function UaiDashboard({
 
           {/* Phase 1 -- 71-doctrine deconstruction (constitution axes) */}
           {!compact && (
-            <section className="space-y-3">
+            <section className={`space-y-3 ${split ? 'order-2' : ''}`}>
               <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-gray-500">
                 <Layers size={13} aria-hidden="true" /> {t('constitutionLabel')}
               </p>
@@ -372,7 +387,7 @@ export function UaiDashboard({
 
           {/* Phase 1 -- 71-doctrine redesign vectors (blind-spot axis) */}
           {!compact && (
-            <section className="space-y-2">
+            <section className={`space-y-2 ${split ? 'order-2' : ''}`}>
               <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-gray-500">
                 <Wand2 size={13} aria-hidden="true" /> {t('redesignLabel')}
               </p>
@@ -420,7 +435,7 @@ export function UaiDashboard({
           </section>
 
           {/* Phase 2-4 gate */}
-          <section ref={deepGateRef} className="border-t border-white/10 pt-5">
+          <section ref={deepGateRef} className={`border-t border-white/10 pt-5 ${split ? 'order-2' : ''}`}>
             <p className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.25em] text-accent">
               <Sparkles size={13} aria-hidden="true" /> {t('deepLabel')}
             </p>
@@ -466,7 +481,7 @@ export function UaiDashboard({
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="space-y-6 border-t border-white/10 pt-6"
+                className={`space-y-6 border-t border-white/10 pt-6 ${split ? 'order-2' : ''}`}
               >
                 {/* Chronos */}
                 <section>

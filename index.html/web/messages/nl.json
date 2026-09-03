@@ -1022,7 +1022,7 @@
     "backButton": "Terug",
     "homeButton": "Naar home",
     "multiFeedLabel": "Live perspectieven vanuit meerdere invalshoeken",
-    "chainHint": "Elke vervolgzoekopdracht stapelt een nieuwe resultaatkaart eronder.",
+    "chainLabel": "Extra zoeken",
     "chainPlaceholder": "Typ een vervolgvraag en druk op Enter…",
     "chainSubmitAria": "Geketende zoekopdracht uitvoeren",
     "closeAria": "Sluiten",

@@ -1022,7 +1022,7 @@
     "backButton": "Indietro",
     "homeButton": "Torna alla home",
     "multiFeedLabel": "Prospettive live multi-angolo",
-    "chainHint": "Ogni ricerca successiva impila una nuova scheda di risultati sotto.",
+    "chainLabel": "Ricerca aggiuntiva",
     "chainPlaceholder": "Digita una query di follow-up e premi Invio…",
     "chainSubmitAria": "Esegui ricerca concatenata",
     "closeAria": "Chiudi",

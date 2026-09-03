@@ -12,6 +12,7 @@ import { useUai } from '@/lib/uai/useUai';
 import { UaiDashboard } from '@/components/uai/UaiDashboard';
 import { CanvasDrawInput } from '@/components/interaction/CanvasDrawInput';
 import { HotShortcutMatrixStrip } from '@/components/home/HotShortcutMatrixStrip';
+import { DialogTower } from '@/components/ui/DialogTower';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
 import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
@@ -94,6 +95,9 @@ export function OmniSynapseSearch({
   const tCognitive = useTranslations('Cognitive');
   const tB2c = useTranslations('B2C');
   const tB2b = useTranslations('B2B');
+  /** Toolbar tooltip strings shared verbatim with the shortcut tower, so the
+   *  two popups' chrome reads identically in every locale. */
+  const tTower = useTranslations('HotShortcutModal');
   const { playTypingTick, playQuestEnterSfx, playHoverSfx, playSearchFocusSfx } = useSpatialAudio();
   const locale = useLocale();
   const { session } = useWallet();
@@ -370,12 +374,42 @@ export function OmniSynapseSearch({
     playTypingTick();
   }
 
+  function runSearch(query: string) {
+    const context = attachments.map((a) => a.content).join(' ');
+    uai.runSurface(query, { tEcosystems: (k) => tEcosystems(k), context });
+  }
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if ((!value.trim() && attachments.length === 0) || uai.phase === 'surface-loading') return;
     playQuestEnterSfx();
-    const context = attachments.map((a) => a.content).join(' ');
-    uai.runSurface(value, { tEcosystems: (k) => tEcosystems(k), context });
+    runSearch(value);
+  }
+
+  /** [갱신] -- re-runs the live pass for the query the tower is showing. */
+  function refreshSearchTower() {
+    if (!value.trim() && attachments.length === 0) return;
+    runSearch(value);
+  }
+
+  /** [뒤로 가기 / 창닫기] -- collapses the result tower back to the search
+   *  bar; the typed query survives in the bar for refinement. */
+  function closeSearchTower() {
+    uai.reset();
+  }
+
+  /** [⌂ 홈으로 복귀] -- collapses the tower AND clears the query, landing on
+   *  the bare home screen. */
+  function homeFromSearchTower() {
+    uai.reset();
+    setValue('');
+  }
+
+  /** Follow-up chips inside the tower re-run the free pass in place. */
+  function runFollowupQuery(q: string) {
+    playQuestEnterSfx();
+    setValue(q);
+    runSearch(q);
   }
 
   function selectEcosystemByKey(key: string) {
@@ -645,22 +679,54 @@ export function OmniSynapseSearch({
 
       <CanvasDrawInput open={drawOpen} onClose={() => setDrawOpen(false)} onAttach={handleCanvasAttach} />
 
-      <UaiDashboard
-        phase={uai.phase}
-        surface={uai.surface}
-        deep={uai.deep}
-        insight={uai.insight}
-        trendHits={uai.trendHits}
-        insightForging={uai.insightForging}
-        error={uai.error}
-        canDeep={uai.canDeep}
-        deepAvailable={uai.deepAvailable}
-        hasSession={Boolean(session)}
-        onRunDeep={handleRunDeep}
-        onSelectEcosystem={selectEcosystemByKey}
-        compact
-        fullReportHref={fullReportHref}
-      />
+      {/* U-AI live search result tower -- the same full-size popup frame and
+          [U-AI SEARCH RESULT / 갱신 / 홈으로 복귀 / 뒤로 가기 / 창닫기]
+          toolbar as the shortcut ladder, hosting the full (non-compact)
+          report in split architecture: 상단 = live results/feed, 하단 = the
+          new sovereign design structures (owner instruction 2026-09-02). */}
+      <DialogTower
+        open={uai.phase !== 'idle'}
+        title="U-AI SEARCH RESULT"
+        titleId="uai-search-result-title"
+        accent="#d4af37"
+        accentGlow="#f2d675"
+        historyMarker="unitasUaiSearchTower"
+        labels={{
+          refresh: tTower('refreshAria'),
+          home: tTower('homeButton'),
+          back: tTower('backButton'),
+          close: tTower('closeAria'),
+        }}
+        refreshing={uai.phase === 'surface-loading' || uai.phase === 'deep-loading'}
+        onRefresh={refreshSearchTower}
+        onBack={closeSearchTower}
+        onHome={homeFromSearchTower}
+        onClose={closeSearchTower}
+        onButtonHover={playHoverSfx}
+      >
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2.5 pb-6 sm:px-4">
+          <UaiDashboard
+            phase={uai.phase}
+            surface={uai.surface}
+            deep={uai.deep}
+            insight={uai.insight}
+            trendHits={uai.trendHits}
+            insightForging={uai.insightForging}
+            error={uai.error}
+            canDeep={uai.canDeep}
+            deepAvailable={uai.deepAvailable}
+            hasSession={Boolean(session)}
+            onRunDeep={handleRunDeep}
+            onSelectEcosystem={(key) => {
+              uai.reset();
+              selectEcosystemByKey(key);
+            }}
+            onRunQuery={runFollowupQuery}
+            split
+            fullReportHref={fullReportHref}
+          />
+        </div>
+      </DialogTower>
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ExternalLink, Download } from 'lucide-react';
+import { ExternalLink, Download, LayoutGrid } from 'lucide-react';
 import {
   itemsInGroup,
   axisTitle,
@@ -140,6 +140,13 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
           categories without ever covering them -- and its edges align exactly
           with the search bar above (same content box, no inset-x bleed). */}
       <div className="mt-3 border border-white/10 bg-white/[0.03] py-5 backdrop-blur-xl">
+      {/* Strip title -- brand HUD label (English-branded like "U-AI SEARCH
+          RESULT"), aligned to the same horizontal gutter as every row below
+          (owner instruction 2026-09-02). */}
+      <p className="mb-3 flex items-center gap-2 px-4 text-[11px] font-bold uppercase tracking-[0.3em] text-accent sm:px-6">
+        <LayoutGrid size={13} aria-hidden="true" />
+        Application Shortcuts
+      </p>
       {/* Themed tab banner row -- "가시적 그룹핑" (visible grouping) */}
       <div className="mb-4 flex flex-wrap gap-2 px-4 sm:px-6" role="tablist">
         {TABS.map((tab) => (

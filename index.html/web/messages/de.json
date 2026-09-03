@@ -1022,7 +1022,7 @@
     "backButton": "Zurück",
     "homeButton": "Zur Startseite",
     "multiFeedLabel": "Live-Perspektiven aus mehreren Blickwinkeln",
-    "chainHint": "Jede weitere Suche stapelt eine neue Ergebniskarte darunter.",
+    "chainLabel": "Zusatzsuche",
     "chainPlaceholder": "Folgeanfrage eingeben und Enter drücken…",
     "chainSubmitAria": "Verkettete Suche ausführen",
     "closeAria": "Schließen",

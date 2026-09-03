@@ -1022,7 +1022,7 @@
     "backButton": "Back",
     "homeButton": "Home",
     "multiFeedLabel": "Multi-angle live perspectives",
-    "chainHint": "Each follow-up search stacks a new result card below.",
+    "chainLabel": "Chain Search",
     "chainPlaceholder": "Type a follow-up query and press Enter...",
     "chainSubmitAria": "Run chained search",
     "closeAria": "Close",

@@ -1022,7 +1022,7 @@
     "backButton": "Geri",
     "homeButton": "Ana sayfaya dön",
     "multiFeedLabel": "Çok açılı canlı akışlar",
-    "chainHint": "Her ek arama, altına yeni bir sonuç kartı ekler.",
+    "chainLabel": "Ek Arama",
     "chainPlaceholder": "Ek bir sorgu yazın ve Enter'a basın…",
     "chainSubmitAria": "Zincirleme aramayı çalıştır",
     "closeAria": "Kapat",
