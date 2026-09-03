@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Matriz de Atajos Soberana · Gobernanza y Temas Globales de Actualidad",
     "shortcutMatrixHint": "Toca para abrir la ventana emergente de resultados de U-AI",
     "tab": {
-      "governance": "Gobernanza",
       "hotIssue": "Actualidad",
       "weather": "Clima en vivo",
       "email": "Correo",
@@ -381,7 +380,8 @@
       "social": "Social",
       "realEstate": "Inmobiliario",
       "dating": "Citas",
-      "assets": "Recursos"
+      "assets": "Recursos",
+      "civic": "Civil"
     },
     "searchSubmitAria": "Ejecutar búsqueda (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Clima",
         "description": "La variable atmosférica en tiempo real que recorre el planeta y moldea directamente la vida cotidiana."
+      },
+      "culture": {
+        "title": "Cultura",
+        "description": "El patrón heredado detrás de toda decisión colectiva."
+      },
+      "society": {
+        "title": "Sociedad",
+        "description": "La estructura en torno a la cual se organiza la vida."
+      },
+      "expression": {
+        "title": "Expresión",
+        "description": "El canal que convierte la intención en acción visible."
+      },
+      "strategy": {
+        "title": "Estrategia",
+        "description": "La secuencia de movimientos hacia una ventaja duradera."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "La curva de valor en tiempo real trazada por una escasez digital sin fronteras."
+      },
+      "economy": {
+        "title": "Economía",
+        "description": "La circulación de valor más allá de la escasez artificial."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Carrera",
         "description": "El pulso del mercado laboral global donde el movimiento de talento y las señales de contratación cruzan fronteras."
+      },
+      "engineering": {
+        "title": "Ingeniería",
+        "description": "La disciplina que convierte ideas en sistemas funcionales."
+      },
+      "technology": {
+        "title": "Tecnología",
+        "description": "El apalancamiento del que dependen todos los demás ejes."
+      },
+      "pragma": {
+        "title": "Pragmatismo",
+        "description": "La disciplina de elegir lo que realmente funciona."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Chubascos",
       "thunderstorm": "Tormenta",
       "hail": "Tormenta con granizo"
-    }
+    },
+    "stateBadge": "Estado",
+    "countryBadge": "País"
   },
   "ExitGuard": {
     "eyebrow": "Guardia de salida",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Salir",
     "exitCancel": "Cancelar",
     "exitManual": "Tu navegador no permitió que esta pestaña se cerrara sola — usa el botón atrás del dispositivo o cierra la pestaña manualmente."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Lenguaje",
+        "description": "El protocolo mediante el cual habla todo sistema soberano."
+      },
+      "art": {
+        "title": "Arte",
+        "description": "La capa estética que convierte función en significado."
+      },
+      "structure": {
+        "title": "Estructura",
+        "description": "La arquitectura portante bajo cualquier sistema."
+      },
+      "law": {
+        "title": "Ley",
+        "description": "El límite exigible que hace escalable la confianza."
+      },
+      "institution": {
+        "title": "Institución",
+        "description": "La estructura que sobrevive a cualquier actor individual."
+      },
+      "education": {
+        "title": "Educación",
+        "description": "La transferencia de capacidad entre generaciones."
+      },
+      "welfare": {
+        "title": "Bienestar",
+        "description": "El mínimo que mantiene humano a un sistema a escala."
+      },
+      "security": {
+        "title": "Seguridad",
+        "description": "La capa defensiva que evita que la soberanía se preste."
+      }
+    }
   }
 }

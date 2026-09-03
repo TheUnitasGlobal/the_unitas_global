@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Suveräänne otseteede maatriks · valitsemine ja globaalsed kuumad teemad",
     "shortcutMatrixHint": "Puuduta, et avada U-AI otsingutulemuse hüpikaken",
     "tab": {
-      "governance": "Valitsemine",
       "hotIssue": "Kuumad Teemad",
       "weather": "Ilm reaalajas",
       "email": "E-post",
@@ -381,7 +380,8 @@
       "social": "Sotsiaal",
       "realEstate": "Kinnisvara",
       "dating": "Kohtingud",
-      "assets": "Varad"
+      "assets": "Varad",
+      "civic": "Tsiviil"
     },
     "searchSubmitAria": "Käivita otsing (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Ilm",
         "description": "Reaalajas atmosfääri muutuja üle kogu maailma, mis kujundab otseselt igapäevaelu."
+      },
+      "culture": {
+        "title": "Kultuur",
+        "description": "Pärandatud muster iga kollektiivse otsuse taga."
+      },
+      "society": {
+        "title": "Ühiskond",
+        "description": "Struktuur, mille ümber inimesed oma elu korraldavad."
+      },
+      "expression": {
+        "title": "Väljendus",
+        "description": "Kanal, mis muudab kavatsuse nähtavaks teoks."
+      },
+      "strategy": {
+        "title": "Strateegia",
+        "description": "Käikude järjestus püsiva eelise suunas."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "Reaalajas väärtuskõver, mille joonistab piirideta digitaalne nappus."
+      },
+      "economy": {
+        "title": "Majandus",
+        "description": "Väärtuse ringlus väljaspool kunstlikku nappust."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Karjäär",
         "description": "Globaalse tööturu pulss, kus andekus liigub ja värbamissignaalid ületavad piire."
+      },
+      "engineering": {
+        "title": "Inseneeria",
+        "description": "Distsipliin, mis muudab idee toimivaks süsteemiks."
+      },
+      "technology": {
+        "title": "Tehnoloogia",
+        "description": "Võimendus, millest iga teine telg sõltub."
+      },
+      "pragma": {
+        "title": "Pragmatism",
+        "description": "Distsipliin valida see, mis tegelikult toimib."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Hoovihm",
       "thunderstorm": "Äike",
       "hail": "Äike rahega"
-    }
+    },
+    "stateBadge": "Osariik",
+    "countryBadge": "Riik"
   },
   "ExitGuard": {
     "eyebrow": "Väljumiskaitse",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Välju",
     "exitCancel": "Tühista",
     "exitManual": "Brauser ei lubanud sellel vahelehel end sulgeda — kasuta seadme tagasi-nuppu või sulge vaheleht käsitsi."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Keel",
+        "description": "Protokoll, mille kaudu iga suveräänne süsteem suhtleb."
+      },
+      "art": {
+        "title": "Kunst",
+        "description": "Esteetiline kiht, mis muudab funktsiooni tähenduseks."
+      },
+      "structure": {
+        "title": "Struktuur",
+        "description": "Kandev arhitektuur iga süsteemi all."
+      },
+      "law": {
+        "title": "Õigus",
+        "description": "Jõustatav piir, mis muudab usalduse skaleeritavaks."
+      },
+      "institution": {
+        "title": "Institutsioon",
+        "description": "Struktuur, mis elab üle iga üksiku osaleja."
+      },
+      "education": {
+        "title": "Haridus",
+        "description": "Võimekuse ülekanne põlvkondade vahel."
+      },
+      "welfare": {
+        "title": "Heaolu",
+        "description": "Alusjoon, mis hoiab süsteemi inimlikuna ka suures mastaabis."
+      },
+      "security": {
+        "title": "Julgeolek",
+        "description": "Kaitsekiht, mis hoiab suveräänsust laenamatuna."
+      }
+    }
   }
 }

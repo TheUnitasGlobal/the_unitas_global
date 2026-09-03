@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Matriks Pintasan Berdaulat · Tata Kelola & Isu Hangat Global",
     "shortcutMatrixHint": "Ketuk untuk membuka pop-up hasil pencarian U-AI",
     "tab": {
-      "governance": "Tata Kelola",
       "hotIssue": "Isu Hangat",
       "weather": "Cuaca langsung",
       "email": "Email",
@@ -381,7 +380,8 @@
       "social": "Sosial",
       "realEstate": "Properti",
       "dating": "Kencan",
-      "assets": "Aset"
+      "assets": "Aset",
+      "civic": "Sipil"
     },
     "searchSubmitAria": "Jalankan pencarian (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Cuaca",
         "description": "Variabel atmosfer real-time yang membentang di seluruh dunia dan langsung membentuk kehidupan sehari-hari."
+      },
+      "culture": {
+        "title": "Budaya",
+        "description": "Pola yang diwariskan di balik setiap keputusan kolektif."
+      },
+      "society": {
+        "title": "Masyarakat",
+        "description": "Struktur tempat individu mengatur kehidupannya."
+      },
+      "expression": {
+        "title": "Ekspresi",
+        "description": "Saluran yang mengubah niat menjadi tindakan nyata."
+      },
+      "strategy": {
+        "title": "Strategi",
+        "description": "Rangkaian langkah menuju keunggulan yang bertahan lama."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "Kurva nilai real-time yang digambar oleh kelangkaan digital tanpa batas negara."
+      },
+      "economy": {
+        "title": "Ekonomi",
+        "description": "Sirkulasi nilai di luar kelangkaan buatan."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Karier",
         "description": "Denyut nadi pasar kerja global tempat pergerakan talenta dan sinyal perekrutan melintasi batas negara."
+      },
+      "engineering": {
+        "title": "Rekayasa",
+        "description": "Disiplin yang mengubah gagasan menjadi sistem yang berjalan."
+      },
+      "technology": {
+        "title": "Teknologi",
+        "description": "Pengungkit yang menjadi tumpuan setiap sumbu lain."
+      },
+      "pragma": {
+        "title": "Pragmatisme",
+        "description": "Disiplin memilih apa yang benar-benar berhasil."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Hujan sesaat",
       "thunderstorm": "Badai petir",
       "hail": "Badai petir dengan hujan es"
-    }
+    },
+    "stateBadge": "Negara Bagian",
+    "countryBadge": "Negara"
   },
   "ExitGuard": {
     "eyebrow": "Penjaga keluar",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Keluar",
     "exitCancel": "Batal",
     "exitManual": "Browser tidak mengizinkan tab ini menutup sendiri — gunakan tombol kembali perangkat atau tutup tab secara manual."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Bahasa",
+        "description": "Protokol tempat setiap sistem berdaulat berkomunikasi."
+      },
+      "art": {
+        "title": "Seni",
+        "description": "Lapisan estetika yang mengubah fungsi menjadi makna."
+      },
+      "structure": {
+        "title": "Struktur",
+        "description": "Arsitektur penopang di balik setiap sistem."
+      },
+      "law": {
+        "title": "Hukum",
+        "description": "Batas yang dapat ditegakkan yang membuat kepercayaan dapat diskalakan."
+      },
+      "institution": {
+        "title": "Institusi",
+        "description": "Struktur yang bertahan melampaui aktor individu manapun."
+      },
+      "education": {
+        "title": "Pendidikan",
+        "description": "Transfer kapasitas lintas generasi."
+      },
+      "welfare": {
+        "title": "Kesejahteraan",
+        "description": "Garis dasar yang menjaga sistem tetap manusiawi dalam skala besar."
+      },
+      "security": {
+        "title": "Keamanan",
+        "description": "Lapisan pertahanan yang menjaga kedaulatan agar tidak dipinjam."
+      }
+    }
   }
 }

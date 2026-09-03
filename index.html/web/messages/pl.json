@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Suwerenna Matryca Skrótów · Zarządzanie i Globalne Gorące Tematy",
     "shortcutMatrixHint": "Dotknij, aby otworzyć wyskakujące okno wyników U-AI",
     "tab": {
-      "governance": "Zarządzanie",
       "hotIssue": "Gorące Tematy",
       "weather": "Pogoda na żywo",
       "email": "E-mail",
@@ -381,7 +380,8 @@
       "social": "Social",
       "realEstate": "Nieruchomości",
       "dating": "Randki",
-      "assets": "Zasoby"
+      "assets": "Zasoby",
+      "civic": "Cywilny"
     },
     "searchSubmitAria": "Uruchom wyszukiwanie (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Pogoda",
         "description": "Zmienna atmosferyczna w czasie rzeczywistym, obejmująca cały świat i bezpośrednio kształtująca codzienne życie."
+      },
+      "culture": {
+        "title": "Kultura",
+        "description": "Odziedziczony wzorzec stojący za każdą zbiorową decyzją."
+      },
+      "society": {
+        "title": "Społeczeństwo",
+        "description": "Struktura, wokół której ludzie organizują swoje życie."
+      },
+      "expression": {
+        "title": "Ekspresja",
+        "description": "Kanał zamieniający intencję w widoczne działanie."
+      },
+      "strategy": {
+        "title": "Strategia",
+        "description": "Sekwencja ruchów prowadząca do trwałej przewagi."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "Krzywa wartości w czasie rzeczywistym, kreślona przez bezgraniczny cyfrowy niedobór."
+      },
+      "economy": {
+        "title": "Gospodarka",
+        "description": "Obieg wartości poza sztucznym niedoborem."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Kariera",
         "description": "Puls globalnego rynku pracy, na którym przepływ talentów i sygnały rekrutacyjne przekraczają granice."
+      },
+      "engineering": {
+        "title": "Inżynieria",
+        "description": "Dyscyplina zamieniająca pomysły w działające systemy."
+      },
+      "technology": {
+        "title": "Technologia",
+        "description": "Dźwignia, od której zależy każda inna oś."
+      },
+      "pragma": {
+        "title": "Pragmatyzm",
+        "description": "Dyscyplina wybierania tego, co naprawdę działa."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Przelotne opady",
       "thunderstorm": "Burza",
       "hail": "Burza z gradem"
-    }
+    },
+    "stateBadge": "Stan",
+    "countryBadge": "Kraj"
   },
   "ExitGuard": {
     "eyebrow": "Ochrona wyjścia",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Wyjdź",
     "exitCancel": "Anuluj",
     "exitManual": "Przeglądarka nie pozwoliła tej karcie zamknąć się samodzielnie — użyj przycisku wstecz urządzenia lub zamknij kartę ręcznie."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Język",
+        "description": "Protokół, za pomocą którego komunikuje się każdy suwerenny system."
+      },
+      "art": {
+        "title": "Sztuka",
+        "description": "Warstwa estetyczna zamieniająca funkcję w znaczenie."
+      },
+      "structure": {
+        "title": "Struktura",
+        "description": "Nośna architektura pod każdym systemem."
+      },
+      "law": {
+        "title": "Prawo",
+        "description": "Egzekwowalna granica, która czyni zaufanie skalowalnym."
+      },
+      "institution": {
+        "title": "Instytucja",
+        "description": "Struktura, która przetrwa każdego pojedynczego aktora."
+      },
+      "education": {
+        "title": "Edukacja",
+        "description": "Przekazywanie zdolności między pokoleniami."
+      },
+      "welfare": {
+        "title": "Dobrostan",
+        "description": "Poziom bazowy utrzymujący system ludzkim w dużej skali."
+      },
+      "security": {
+        "title": "Bezpieczeństwo",
+        "description": "Warstwa obronna chroniąca suwerenność przed pożyczaniem."
+      }
+    }
   }
 }

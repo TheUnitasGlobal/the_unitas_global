@@ -17,6 +17,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { DialogTower } from '@/components/ui/DialogTower';
+import { AppLoopRow } from '@/components/interaction/AppLoopRow';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import {
   itemsInGroup,
@@ -27,7 +28,6 @@ import {
   type HotShortcutAxis,
   type ShortcutGroup,
 } from '@/lib/hotIssues';
-import { DIRECT_APP_SHORTCUTS } from '@/lib/appShortcuts';
 import { useShortcutFeed } from '@/lib/uai/useShortcutFeed';
 import { loadShortcutAnalysis } from '@/lib/uai/shortcutCacheClient';
 import type { AnalyticsLabels, ShortcutAnalysis } from '@/lib/uai/shortcutAnalytics';
@@ -137,7 +137,10 @@ function hoursSince(ts: number | null): number | null {
  */
 export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultModalProps) {
   const locale = useLocale();
+  // Generic ladder-nav labels (prev/next/indexLabel) live under 'Governance'
+  // for historical reasons -- kept for that, no longer for axis lookups.
   const tGovernance = useTranslations('Governance');
+  const tCivic = useTranslations('Civic');
   const tHotIssue = useTranslations('HotIssue');
   const tFinance = useTranslations('Finance');
   const tRealEstate = useTranslations('RealEstate');
@@ -146,12 +149,10 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
   const tUai = useTranslations('UAI');
   const tEcosystems = useTranslations('Ecosystems');
   const tModal = useTranslations('HotShortcutModal');
-  const tEmail = useTranslations('Email');
-  const tSocial = useTranslations('Social');
   const { playHoverSfx, playQuestEnterSfx, playTypingTick } = useSpatialAudio();
 
   const axisT: AxisTranslators = {
-    governance: tGovernance,
+    civic: tCivic,
     hotIssue: tHotIssue,
     finance: tFinance,
     realEstate: tRealEstate,
@@ -530,34 +531,12 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
               </div>
             </form>
 
-            {/* Direct app loop -- out to a webmail / social app and straight
+            {/* Pinned app loop -- out to a webmail / social app and straight
                 back; the ladder above is persisted so nothing is lost on the
-                round trip. Every launcher carries its brand name as a visible
-                text label plus the double hover tooltip (owner instruction
-                2026-09-02). */}
-            <div className="shrink-0 border-t px-2.5 pb-3 pt-2 sm:px-4" style={{ borderColor: `${accent}22` }}>
-              <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.3em] text-gray-500">
-                {tModal('appLoopLabel')}
-              </p>
-              <div className="flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:thin]">
-                {DIRECT_APP_SHORTCUTS.map((app) => (
-                  <a
-                    key={app.key}
-                    href={app.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={(app.family === 'email' ? tEmail : tSocial)('openAria', { brand: app.brand })}
-                    aria-label={(app.family === 'email' ? tEmail : tSocial)('openAria', { brand: app.brand })}
-                    onMouseEnter={() => playHoverSfx()}
-                    style={{ borderColor: `${app.color}55`, color: app.color }}
-                    className="flex h-9 shrink-0 items-center gap-1.5 border bg-void/50 px-2.5 transition-colors hover:bg-void/90"
-                  >
-                    <app.icon size={14} aria-hidden="true" />
-                    <span className="whitespace-nowrap text-[11px] font-bold">{app.brand}</span>
-                  </a>
-                ))}
-              </div>
-            </div>
+                round trip. Shared with OmniSynapseSearch's U-AI search tower
+                (owner instruction 2026-09-03: pinned across every U-AI
+                popup). */}
+            <AppLoopRow accent={accent} label={tModal('appLoopLabel')} onHover={playHoverSfx} />
         </>
       )}
     </DialogTower>
@@ -722,7 +701,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onMouseEnter={onHover}
+                      onMouseEnter={() => onHover()}
                       className="group flex items-start gap-1.5 text-[13px] text-gray-300 transition-colors hover:text-white"
                     >
                       <ExternalLink size={11} className="mt-0.5 shrink-0 text-gray-500 group-hover:text-accent" aria-hidden="true" />
@@ -753,7 +732,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
                 <button
                   key={cs.axis}
                   type="button"
-                  onMouseEnter={onHover}
+                  onMouseEnter={() => onHover()}
                   onClick={() => onNest(`${tier.title} ${tUai(`constitution.${cs.axis}`)}`)}
                   title={tModal('keywordHint')}
                   className="flex items-center justify-between gap-2 border border-white/10 px-2.5 py-1.5 text-left transition-colors hover:bg-white/5"
@@ -783,7 +762,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onMouseEnter={onHover}
+                      onMouseEnter={() => onHover()}
                       className="group flex items-start gap-1.5 text-[12px] text-gray-400 transition-colors hover:text-white"
                     >
                       <ExternalLink size={10} className="mt-0.5 shrink-0 text-gray-600 group-hover:text-accent" aria-hidden="true" />
@@ -808,7 +787,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
                   <button
                     key={`${chip.kind}-${chip.query}`}
                     type="button"
-                    onMouseEnter={onHover}
+                    onMouseEnter={() => onHover()}
                     onClick={() => onNest(chip.query)}
                     title={tModal('keywordHint')}
                     className="flex items-center gap-1 border px-2.5 py-1.5 text-[12px] font-bold transition-colors hover:bg-white/5"
@@ -825,7 +804,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
                   <button
                     key={`sibling-${chip.query}`}
                     type="button"
-                    onMouseEnter={onHover}
+                    onMouseEnter={() => onHover()}
                     onClick={() => onNest(chip.query)}
                     title={tModal('keywordHint')}
                     className="flex items-center gap-1 border border-white/15 px-2.5 py-1.5 text-[12px] font-bold text-gray-400 transition-colors hover:bg-white/5 hover:text-white"

@@ -20,7 +20,7 @@ import { WIKI_LANG, collectWebSynthesis } from './webSynthesisCore';
  * 24h SOVEREIGN CACHING ENGINE -- server half (owner directive 2026-09-02,
  * "24시간 초지능 캐싱 및 무자본 비용 제로 자동화").
  *
- * Every tier of the shortcut matrix (16 governance + hot issue + finance +
+ * Every tier of the shortcut matrix (civic + hot issue + finance +
  * real estate + dating + career seeds, in all 20 locales) and every keyword
  * tier visitors nest beneath them is synthesized ONCE per 24h by the nightly
  * batch (app/api/u-ai/shortcut-cache/refresh, Vercel cron) and parked in
@@ -81,7 +81,7 @@ export function labelsFor(messages: Messages): AnalyticsLabels {
 }
 
 const GROUP_NAMESPACE: Record<ShortcutGroup, string> = {
-  governance: 'Governance',
+  civic: 'Civic',
   hotIssue: 'HotIssue',
   finance: 'Finance',
   realEstate: 'RealEstate',

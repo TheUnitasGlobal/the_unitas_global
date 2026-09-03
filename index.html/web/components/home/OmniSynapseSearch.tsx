@@ -33,6 +33,7 @@ import { CanvasDrawInput } from '@/components/interaction/CanvasDrawInput';
 import { HotShortcutMatrixStrip } from '@/components/home/HotShortcutMatrixStrip';
 import { LiveLadderExplorer } from '@/components/home/LiveLadderExplorer';
 import { DialogTower } from '@/components/ui/DialogTower';
+import { AppLoopRow } from '@/components/interaction/AppLoopRow';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
 import { buildLiveIndex, mergeLiveResults, searchLiveIndex, type LiveResult } from '@/lib/uai/liveSearchIndex';
@@ -112,7 +113,7 @@ export function OmniSynapseSearch({
   /** Toolbar tooltip strings shared verbatim with the shortcut tower, so the
    *  two popups' chrome reads identically in every locale. */
   const tTower = useTranslations('HotShortcutModal');
-  const tGovernance = useTranslations('Governance');
+  const tCivic = useTranslations('Civic');
   const tHotIssue = useTranslations('HotIssue');
   const tFinance = useTranslations('Finance');
   const tRealEstate = useTranslations('RealEstate');
@@ -342,14 +343,14 @@ export function OmniSynapseSearch({
 
   const axisT: AxisTranslators = useMemo(
     () => ({
-      governance: tGovernance,
+      civic: tCivic,
       hotIssue: tHotIssue,
       finance: tFinance,
       realEstate: tRealEstate,
       dating: tDating,
       career: tCareer,
     }),
-    [tGovernance, tHotIssue, tFinance, tRealEstate, tDating, tCareer],
+    [tCivic, tHotIssue, tFinance, tRealEstate, tDating, tCareer],
   );
 
   // Local, already-localized corpus (30 matrix axes + direct-app launchers)
@@ -846,6 +847,9 @@ export function OmniSynapseSearch({
             fullReportHref={fullReportHref}
           />
         </div>
+        {/* Pinned app loop -- same fixed bottom bar as the shortcut ladder
+            tower (owner instruction 2026-09-03: 모든 U-AI 팝업 공통 고정). */}
+        <AppLoopRow accent="#d4af37" label={tTower('appLoopLabel')} onHover={playHoverSfx} />
       </DialogTower>
     </div>
   );

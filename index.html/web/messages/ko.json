@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "소버린 숏컷 매트릭스 · 거버넌스 & 글로벌 핫이슈",
     "shortcutMatrixHint": "탭하면 U-AI 검색 결과 팝업이 열립니다",
     "tab": {
-      "governance": "거버넌스",
       "hotIssue": "핫이슈",
       "weather": "실시간 날씨",
       "email": "이메일",
@@ -381,7 +380,8 @@
       "social": "소셜",
       "realEstate": "부동산",
       "dating": "연애",
-      "assets": "에셋"
+      "assets": "에셋",
+      "civic": "문명"
     },
     "searchSubmitAria": "검색 실행 (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "날씨",
         "description": "지구 전역의 대기가 그려내는, 삶을 직접 뒤흔드는 실시간 변수."
+      },
+      "culture": {
+        "title": "문화",
+        "description": "모든 집단적 결정 이면에 새겨진 유전 패턴."
+      },
+      "society": {
+        "title": "사회",
+        "description": "개인의 삶이 조직되는 구조 그 자체."
+      },
+      "expression": {
+        "title": "표현",
+        "description": "의도를 가시적 행동으로 바꾸는 통로."
+      },
+      "strategy": {
+        "title": "전략",
+        "description": "돌이킬 수 없는 우위를 향한 수순의 배열."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "비트코인",
         "description": "국경 없는 디지털 희소성이 실시간으로 그려내는 가치 곡선."
+      },
+      "economy": {
+        "title": "경제",
+        "description": "인위적 희소성을 넘어선 가치의 순환."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "커리어",
         "description": "전 세계 인재 이동과 채용 신호가 교차하는 글로벌 잡마켓의 맥박."
+      },
+      "engineering": {
+        "title": "공학",
+        "description": "아이디어를 작동하는 시스템으로 바꾸는 실행 규율."
+      },
+      "technology": {
+        "title": "기술",
+        "description": "다른 모든 축이 의존하는 복리의 레버리지."
+      },
+      "pragma": {
+        "title": "실용",
+        "description": "실제로 작동하는 것만 선택하는 규율."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "소나기",
       "thunderstorm": "뇌우",
       "hail": "우박 동반 뇌우"
-    }
+    },
+    "stateBadge": "주",
+    "countryBadge": "국가"
   },
   "ExitGuard": {
     "eyebrow": "종료 방어",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "종료",
     "exitCancel": "취소",
     "exitManual": "브라우저가 이 탭의 자동 닫기를 허용하지 않았습니다 — 기기의 뒤로가기 버튼을 사용하거나 탭을 직접 닫아주세요."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "언어",
+        "description": "모든 소버린 시스템이 소통하는 근본 프로토콜."
+      },
+      "art": {
+        "title": "예술",
+        "description": "기능을 의미로 전환하는 심미적 층위."
+      },
+      "structure": {
+        "title": "구조",
+        "description": "모든 시스템을 떠받치는 하중 지지 골격."
+      },
+      "law": {
+        "title": "법",
+        "description": "신뢰를 확장 가능하게 만드는 강제 가능한 경계."
+      },
+      "institution": {
+        "title": "제도",
+        "description": "어떤 개별 행위자보다 오래 남는 지속 구조."
+      },
+      "education": {
+        "title": "교육",
+        "description": "세대와 행위자를 넘어 전달되는 역량."
+      },
+      "welfare": {
+        "title": "복지",
+        "description": "시스템을 대규모로도 인간답게 유지하는 최저선."
+      },
+      "security": {
+        "title": "안보",
+        "description": "주권이 대여되지 않도록 지키는 방어 층위."
+      }
+    }
   }
 }

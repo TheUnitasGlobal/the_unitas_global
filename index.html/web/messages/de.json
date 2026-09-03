@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Souveräne Shortcut-Matrix · Governance & globale Trendthemen",
     "shortcutMatrixHint": "Tippen, um das U-AI-Suchergebnis-Popup zu öffnen",
     "tab": {
-      "governance": "Governance",
       "hotIssue": "Trendthemen",
       "weather": "Live-Wetter",
       "email": "E-Mail",
@@ -381,7 +380,8 @@
       "social": "Social",
       "realEstate": "Immobilien",
       "dating": "Dating",
-      "assets": "Assets"
+      "assets": "Assets",
+      "civic": "Zivil"
     },
     "searchSubmitAria": "Suche ausführen (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Wetter",
         "description": "Die globale Echtzeit-Atmosphärenvariable, die den Alltag unmittelbar prägt."
+      },
+      "culture": {
+        "title": "Kultur",
+        "description": "Das ererbte Muster hinter jeder kollektiven Entscheidung."
+      },
+      "society": {
+        "title": "Gesellschaft",
+        "description": "Die Struktur, um die herum Menschen ihr Leben organisieren."
+      },
+      "expression": {
+        "title": "Ausdruck",
+        "description": "Der Kanal, der Absicht in sichtbares Handeln verwandelt."
+      },
+      "strategy": {
+        "title": "Strategie",
+        "description": "Die Abfolge von Zügen hin zu einem dauerhaften Vorteil."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "Die in Echtzeit gezeichnete Wertkurve grenzenloser digitaler Knappheit."
+      },
+      "economy": {
+        "title": "Wirtschaft",
+        "description": "Der Wertfluss jenseits künstlicher Knappheit."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Karriere",
         "description": "Der Puls des globalen Arbeitsmarkts, auf dem Talentbewegung und Einstellungssignale Grenzen überschreiten."
+      },
+      "engineering": {
+        "title": "Ingenieurwesen",
+        "description": "Die Disziplin, die Ideen in funktionierende Systeme verwandelt."
+      },
+      "technology": {
+        "title": "Technologie",
+        "description": "Der Hebel, von dem jede andere Achse abhängt."
+      },
+      "pragma": {
+        "title": "Pragmatismus",
+        "description": "Die Disziplin, das zu wählen, was wirklich funktioniert."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Schauer",
       "thunderstorm": "Gewitter",
       "hail": "Gewitter mit Hagel"
-    }
+    },
+    "stateBadge": "Bundesstaat",
+    "countryBadge": "Land"
   },
   "ExitGuard": {
     "eyebrow": "Ausgangsschutz",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Beenden",
     "exitCancel": "Abbrechen",
     "exitManual": "Dein Browser hat diesem Tab nicht erlaubt, sich selbst zu schließen — nutze die Zurück-Taste des Geräts oder schließe den Tab manuell."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Sprache",
+        "description": "Das Protokoll, über das jedes souveräne System kommuniziert."
+      },
+      "art": {
+        "title": "Kunst",
+        "description": "Die ästhetische Ebene, die Funktion in Bedeutung verwandelt."
+      },
+      "structure": {
+        "title": "Struktur",
+        "description": "Die tragende Architektur unter jedem System."
+      },
+      "law": {
+        "title": "Recht",
+        "description": "Die durchsetzbare Grenze, die Vertrauen skalierbar macht."
+      },
+      "institution": {
+        "title": "Institution",
+        "description": "Die Struktur, die jeden einzelnen Akteur überdauert."
+      },
+      "education": {
+        "title": "Bildung",
+        "description": "Die Weitergabe von Fähigkeit über Generationen hinweg."
+      },
+      "welfare": {
+        "title": "Wohlfahrt",
+        "description": "Die Grundlinie, die ein System auch im großen Maßstab menschlich hält."
+      },
+      "security": {
+        "title": "Sicherheit",
+        "description": "Die Verteidigungsebene, die Souveränität vor Verleih schützt."
+      }
+    }
   }
 }

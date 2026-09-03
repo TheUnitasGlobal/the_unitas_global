@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Matriz de Atalhos Soberana · Governança e Temas Quentes Globais",
     "shortcutMatrixHint": "Toque para abrir a janela de resultados da U-AI",
     "tab": {
-      "governance": "Governança",
       "hotIssue": "Temas Quentes",
       "weather": "Tempo em direto",
       "email": "E-mail",
@@ -381,7 +380,8 @@
       "social": "Social",
       "realEstate": "Imóveis",
       "dating": "Relacionamentos",
-      "assets": "Recursos"
+      "assets": "Recursos",
+      "civic": "Cívico"
     },
     "searchSubmitAria": "Executar pesquisa (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Meteorologia",
         "description": "A variável atmosférica em tempo real que atravessa o globo e molda diretamente o quotidiano."
+      },
+      "culture": {
+        "title": "Cultura",
+        "description": "O padrão herdado por trás de toda decisão coletiva."
+      },
+      "society": {
+        "title": "Sociedade",
+        "description": "A estrutura em torno da qual a vida é organizada."
+      },
+      "expression": {
+        "title": "Expressão",
+        "description": "O canal que transforma intenção em ação visível."
+      },
+      "strategy": {
+        "title": "Estratégia",
+        "description": "A sequência de movimentos rumo a uma vantagem duradoura."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "A curva de valor em tempo real traçada pela escassez digital sem fronteiras."
+      },
+      "economy": {
+        "title": "Economia",
+        "description": "A circulação de valor além da escassez artificial."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Carreira",
         "description": "O pulso do mercado de trabalho global onde a movimentação de talentos e os sinais de contratação cruzam fronteiras."
+      },
+      "engineering": {
+        "title": "Engenharia",
+        "description": "A disciplina que transforma ideias em sistemas funcionais."
+      },
+      "technology": {
+        "title": "Tecnologia",
+        "description": "A alavancagem da qual todo outro eixo depende."
+      },
+      "pragma": {
+        "title": "Pragmatismo",
+        "description": "A disciplina de escolher o que realmente funciona."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Aguaceiros",
       "thunderstorm": "Trovoada",
       "hail": "Trovoada com granizo"
-    }
+    },
+    "stateBadge": "Estado",
+    "countryBadge": "País"
   },
   "ExitGuard": {
     "eyebrow": "Guarda de saída",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Sair",
     "exitCancel": "Cancelar",
     "exitManual": "O navegador não permitiu que este separador se fechasse sozinho — use o botão de retroceder do dispositivo ou feche o separador manualmente."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Idioma",
+        "description": "O protocolo pelo qual todo sistema soberano se comunica."
+      },
+      "art": {
+        "title": "Arte",
+        "description": "A camada estética que transforma função em significado."
+      },
+      "structure": {
+        "title": "Estrutura",
+        "description": "A arquitetura de sustentação sob qualquer sistema."
+      },
+      "law": {
+        "title": "Direito",
+        "description": "O limite exequível que torna a confiança escalável."
+      },
+      "institution": {
+        "title": "Instituição",
+        "description": "A estrutura que sobrevive a qualquer ator individual."
+      },
+      "education": {
+        "title": "Educação",
+        "description": "A transferência de capacidade entre gerações."
+      },
+      "welfare": {
+        "title": "Bem-estar",
+        "description": "A base que mantém um sistema humano em larga escala."
+      },
+      "security": {
+        "title": "Segurança",
+        "description": "A camada defensiva que impede a soberania de ser emprestada."
+      }
+    }
   }
 }

@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Matrice di Scorciatoie Sovrana · Governance e Temi Caldi Globali",
     "shortcutMatrixHint": "Tocca per aprire il popup dei risultati U-AI",
     "tab": {
-      "governance": "Governance",
       "hotIssue": "Temi Caldi",
       "weather": "Meteo live",
       "email": "Email",
@@ -381,7 +380,8 @@
       "social": "Social",
       "realEstate": "Immobiliare",
       "dating": "Incontri",
-      "assets": "Risorse"
+      "assets": "Risorse",
+      "civic": "Civile"
     },
     "searchSubmitAria": "Avvia ricerca (Invio)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Meteo",
         "description": "La variabile atmosferica in tempo reale che attraversa il globo e plasma direttamente la vita quotidiana."
+      },
+      "culture": {
+        "title": "Cultura",
+        "description": "Lo schema ereditato dietro ogni decisione collettiva."
+      },
+      "society": {
+        "title": "Società",
+        "description": "La struttura attorno a cui si organizza la vita."
+      },
+      "expression": {
+        "title": "Espressione",
+        "description": "Il canale che trasforma l'intenzione in azione visibile."
+      },
+      "strategy": {
+        "title": "Strategia",
+        "description": "La sequenza di mosse verso un vantaggio duraturo."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "La curva di valore in tempo reale tracciata da una scarsità digitale senza confini."
+      },
+      "economy": {
+        "title": "Economia",
+        "description": "La circolazione di valore oltre la scarsità artificiale."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Carriera",
         "description": "Il polso del mercato del lavoro globale dove il movimento dei talenti e i segnali di assunzione attraversano i confini."
+      },
+      "engineering": {
+        "title": "Ingegneria",
+        "description": "La disciplina che trasforma le idee in sistemi funzionanti."
+      },
+      "technology": {
+        "title": "Tecnologia",
+        "description": "La leva da cui dipende ogni altro asse."
+      },
+      "pragma": {
+        "title": "Pragmatismo",
+        "description": "La disciplina di scegliere ciò che funziona davvero."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Rovesci",
       "thunderstorm": "Temporale",
       "hail": "Temporale con grandine"
-    }
+    },
+    "stateBadge": "Stato",
+    "countryBadge": "Paese"
   },
   "ExitGuard": {
     "eyebrow": "Guardia di uscita",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Esci",
     "exitCancel": "Annulla",
     "exitManual": "Il browser non ha consentito a questa scheda di chiudersi da sola — usa il pulsante indietro del dispositivo o chiudi la scheda manualmente."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Lingua",
+        "description": "Il protocollo con cui ogni sistema sovrano comunica."
+      },
+      "art": {
+        "title": "Arte",
+        "description": "Lo strato estetico che trasforma la funzione in significato."
+      },
+      "structure": {
+        "title": "Struttura",
+        "description": "L'architettura portante sotto ogni sistema."
+      },
+      "law": {
+        "title": "Diritto",
+        "description": "Il limite esecutivo che rende la fiducia scalabile."
+      },
+      "institution": {
+        "title": "Istituzione",
+        "description": "La struttura che sopravvive a qualsiasi singolo attore."
+      },
+      "education": {
+        "title": "Istruzione",
+        "description": "Il trasferimento di capacità tra le generazioni."
+      },
+      "welfare": {
+        "title": "Benessere",
+        "description": "La base che mantiene umano un sistema su larga scala."
+      },
+      "security": {
+        "title": "Sicurezza",
+        "description": "Lo strato difensivo che impedisce alla sovranità di essere prestata."
+      }
+    }
   }
 }

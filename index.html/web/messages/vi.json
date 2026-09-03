@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Ma trận lối tắt chủ quyền · Quản trị & Vấn đề nóng toàn cầu",
     "shortcutMatrixHint": "Chạm để mở cửa sổ kết quả tìm kiếm U-AI",
     "tab": {
-      "governance": "Quản trị",
       "hotIssue": "Vấn đề nóng",
       "weather": "Thời tiết trực tiếp",
       "email": "Email",
@@ -381,7 +380,8 @@
       "social": "Mạng xã hội",
       "realEstate": "Bất động sản",
       "dating": "Hẹn hò",
-      "assets": "Tài sản"
+      "assets": "Tài sản",
+      "civic": "Dân sự"
     },
     "searchSubmitAria": "Chạy tìm kiếm (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Thời tiết",
         "description": "Biến số khí quyển thời gian thực trải khắp toàn cầu, định hình trực tiếp đời sống thường nhật."
+      },
+      "culture": {
+        "title": "Văn hóa",
+        "description": "Khuôn mẫu kế thừa đằng sau mọi quyết định tập thể."
+      },
+      "society": {
+        "title": "Xã hội",
+        "description": "Cấu trúc mà con người tổ chức cuộc sống xung quanh."
+      },
+      "expression": {
+        "title": "Biểu đạt",
+        "description": "Kênh biến ý định thành hành động hữu hình."
+      },
+      "strategy": {
+        "title": "Chiến lược",
+        "description": "Trình tự các bước hướng tới lợi thế lâu dài."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "Đường cong giá trị thời gian thực được vẽ nên bởi sự khan hiếm kỹ thuật số không biên giới."
+      },
+      "economy": {
+        "title": "Kinh tế",
+        "description": "Sự lưu thông giá trị vượt ngoài khan hiếm nhân tạo."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Sự nghiệp",
         "description": "Nhịp đập của thị trường việc làm toàn cầu, nơi dòng chảy nhân tài và tín hiệu tuyển dụng vượt qua biên giới."
+      },
+      "engineering": {
+        "title": "Kỹ thuật",
+        "description": "Kỷ luật biến ý tưởng thành hệ thống vận hành."
+      },
+      "technology": {
+        "title": "Công nghệ",
+        "description": "Đòn bẩy mà mọi trục khác phụ thuộc vào."
+      },
+      "pragma": {
+        "title": "Thực dụng",
+        "description": "Kỷ luật chọn thứ thực sự hiệu quả."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Mưa rào",
       "thunderstorm": "Dông",
       "hail": "Dông kèm mưa đá"
-    }
+    },
+    "stateBadge": "Bang",
+    "countryBadge": "Quốc gia"
   },
   "ExitGuard": {
     "eyebrow": "Bảo vệ thoát",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Thoát",
     "exitCancel": "Hủy",
     "exitManual": "Trình duyệt không cho phép thẻ này tự đóng — hãy dùng nút quay lại của thiết bị hoặc đóng thẻ thủ công."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Ngôn ngữ",
+        "description": "Giao thức mà mọi hệ thống chủ quyền dùng để giao tiếp."
+      },
+      "art": {
+        "title": "Nghệ thuật",
+        "description": "Lớp thẩm mỹ biến chức năng thành ý nghĩa."
+      },
+      "structure": {
+        "title": "Cấu trúc",
+        "description": "Kiến trúc chịu lực bên dưới mọi hệ thống."
+      },
+      "law": {
+        "title": "Pháp luật",
+        "description": "Ranh giới có thể thực thi khiến niềm tin mở rộng được."
+      },
+      "institution": {
+        "title": "Thể chế",
+        "description": "Cấu trúc tồn tại lâu hơn bất kỳ chủ thể đơn lẻ nào."
+      },
+      "education": {
+        "title": "Giáo dục",
+        "description": "Sự truyền tải năng lực qua các thế hệ."
+      },
+      "welfare": {
+        "title": "Phúc lợi",
+        "description": "Mức nền giữ cho hệ thống nhân văn ở quy mô lớn."
+      },
+      "security": {
+        "title": "An ninh",
+        "description": "Lớp phòng vệ giữ cho chủ quyền không bị vay mượn."
+      }
+    }
   }
 }

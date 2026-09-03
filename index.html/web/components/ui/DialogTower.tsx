@@ -178,7 +178,7 @@ export function DialogTower({
                     <button
                       type="button"
                       onClick={onRefresh}
-                      onMouseEnter={onButtonHover}
+                      onMouseEnter={() => onButtonHover?.()}
                       disabled={refreshing}
                       title={labels.refresh}
                       aria-label={labels.refresh}
@@ -191,7 +191,7 @@ export function DialogTower({
                   <button
                     type="button"
                     onClick={onHome}
-                    onMouseEnter={onButtonHover}
+                    onMouseEnter={() => onButtonHover?.()}
                     title={labels.home}
                     aria-label={labels.home}
                     className={buttonClass}
@@ -202,7 +202,7 @@ export function DialogTower({
                   <button
                     type="button"
                     onClick={onBack}
-                    onMouseEnter={onButtonHover}
+                    onMouseEnter={() => onButtonHover?.()}
                     title={labels.back}
                     aria-label={labels.back}
                     className={buttonClass}
@@ -213,7 +213,7 @@ export function DialogTower({
                   <button
                     type="button"
                     onClick={onClose}
-                    onMouseEnter={onButtonHover}
+                    onMouseEnter={() => onButtonHover?.()}
                     title={labels.close}
                     aria-label={labels.close}
                     className={buttonClass}

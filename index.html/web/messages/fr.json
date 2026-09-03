@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Matrice de raccourcis souveraine · Gouvernance et actualités brûlantes mondiales",
     "shortcutMatrixHint": "Touchez pour ouvrir la fenêtre de résultats U-AI",
     "tab": {
-      "governance": "Gouvernance",
       "hotIssue": "Actualités Brûlantes",
       "weather": "Météo en direct",
       "email": "E-mail",
@@ -381,7 +380,8 @@
       "social": "Social",
       "realEstate": "Immobilier",
       "dating": "Rencontres",
-      "assets": "Ressources"
+      "assets": "Ressources",
+      "civic": "Civil"
     },
     "searchSubmitAria": "Lancer la recherche (Entrée)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Météo",
         "description": "La variable atmosphérique en temps réel, à l'échelle du globe, qui façonne directement la vie quotidienne."
+      },
+      "culture": {
+        "title": "Culture",
+        "description": "Le motif hérité derrière toute décision collective."
+      },
+      "society": {
+        "title": "Société",
+        "description": "La structure autour de laquelle s'organise la vie."
+      },
+      "expression": {
+        "title": "Expression",
+        "description": "Le canal qui transforme l'intention en action visible."
+      },
+      "strategy": {
+        "title": "Stratégie",
+        "description": "La séquence de mouvements vers un avantage durable."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "La courbe de valeur en temps réel tracée par une rareté numérique sans frontières."
+      },
+      "economy": {
+        "title": "Économie",
+        "description": "La circulation de valeur au-delà de la rareté artificielle."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Carrière",
         "description": "Le pouls du marché de l'emploi mondial où le mouvement des talents et les signaux de recrutement traversent les frontières."
+      },
+      "engineering": {
+        "title": "Ingénierie",
+        "description": "La discipline qui transforme les idées en systèmes fonctionnels."
+      },
+      "technology": {
+        "title": "Technologie",
+        "description": "Le levier dont dépend tout autre axe."
+      },
+      "pragma": {
+        "title": "Pragmatisme",
+        "description": "La discipline de choisir ce qui fonctionne réellement."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Averses",
       "thunderstorm": "Orage",
       "hail": "Orage avec grêle"
-    }
+    },
+    "stateBadge": "État",
+    "countryBadge": "Pays"
   },
   "ExitGuard": {
     "eyebrow": "Garde de sortie",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Quitter",
     "exitCancel": "Annuler",
     "exitManual": "Votre navigateur n’a pas autorisé cet onglet à se fermer seul — utilisez le bouton retour de l’appareil ou fermez l’onglet manuellement."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Langue",
+        "description": "Le protocole par lequel tout système souverain communique."
+      },
+      "art": {
+        "title": "Art",
+        "description": "La couche esthétique qui transforme la fonction en sens."
+      },
+      "structure": {
+        "title": "Structure",
+        "description": "Architecture porteuse sous tout système."
+      },
+      "law": {
+        "title": "Droit",
+        "description": "La limite exécutoire qui rend la confiance scalable."
+      },
+      "institution": {
+        "title": "Institution",
+        "description": "La structure qui survit à tout acteur individuel."
+      },
+      "education": {
+        "title": "Éducation",
+        "description": "Le transfert de capacité entre les générations."
+      },
+      "welfare": {
+        "title": "Bien-être",
+        "description": "Le socle qui garde un système humain à grande échelle."
+      },
+      "security": {
+        "title": "Sécurité",
+        "description": "La couche défensive qui empêche la souveraineté d'être empruntée."
+      }
+    }
   }
 }

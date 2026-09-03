@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ExternalLink, Download, LayoutGrid } from 'lucide-react';
+import { Download, LayoutGrid } from 'lucide-react';
 import {
   itemsInGroup,
   axisTitle,
@@ -16,6 +16,7 @@ import { UNITAS_ASSETS } from '@/lib/unitasAssets';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { HotIssueNewsList } from '@/components/home/HotIssueNewsList';
 import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
+import { AppDetailCard } from '@/components/interaction/AppDetailCard';
 
 interface HotShortcutMatrixStripProps {
   onOpenShortcut: (axis: HotShortcutAxis) => void;
@@ -23,9 +24,11 @@ interface HotShortcutMatrixStripProps {
 
 type TabKey = ShortcutGroup | 'weather' | 'social' | 'email' | 'assets';
 
-/** 실시간 날씨 sits right beside 핫이슈 (owner instruction 2026-09-03). */
+/** 실시간 날씨 sits right beside 핫이슈 (owner instruction 2026-09-03). The
+ *  old standalone "governance" tab was retired the same day -- its 16 axes
+ *  now live folded into hotIssue/finance/career or the new "civic" tab (see
+ *  lib/hotIssues.ts). 핫이슈 is the default landing tab. */
 const TABS: TabKey[] = [
-  'governance',
   'hotIssue',
   'weather',
   'social',
@@ -34,6 +37,7 @@ const TABS: TabKey[] = [
   'realEstate',
   'dating',
   'career',
+  'civic',
   'assets',
 ];
 
@@ -57,7 +61,7 @@ function isTabKey(value: string | null): value is TabKey {
  */
 export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStripProps) {
   const t = useTranslations('OmniSynapse');
-  const tGovernance = useTranslations('Governance');
+  const tCivic = useTranslations('Civic');
   const tHotIssue = useTranslations('HotIssue');
   const tFinance = useTranslations('Finance');
   const tRealEstate = useTranslations('RealEstate');
@@ -68,7 +72,8 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
   const tAssets = useTranslations('Assets');
   const { playHoverSfx } = useSpatialAudio();
 
-  const [activeTab, setActiveTab] = useState<TabKey>('governance');
+  const [activeTab, setActiveTab] = useState<TabKey>('hotIssue');
+  const [expandedApp, setExpandedApp] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -81,6 +86,7 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
 
   function selectTab(tab: TabKey) {
     setActiveTab(tab);
+    setExpandedApp(null);
     try {
       sessionStorage.setItem(TAB_STORAGE_KEY, tab);
     } catch {
@@ -89,7 +95,7 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
   }
 
   const axisT: AxisTranslators = {
-    governance: tGovernance,
+    civic: tCivic,
     hotIssue: tHotIssue,
     finance: tFinance,
     realEstate: tRealEstate,
@@ -106,25 +112,32 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
           ? tAssets('hint')
           : null;
 
+  /** Tapping a webmail/social tile toggles its AppDetailCard open below the
+   *  grid instead of navigating immediately (owner instruction 2026-09-03:
+   *  "클릭 시 상세 내용과 설명 카드가 토글 형태로 나타나도록"). */
   function renderApp(app: DirectAppShortcut) {
     const tApp = app.family === 'email' ? tEmail : tSocial;
+    const active = expandedApp === app.key;
     return (
-      <a
+      <button
         key={app.key}
-        href={app.url}
-        target="_blank"
-        rel="noopener noreferrer"
+        type="button"
         title={tApp('openAria', { brand: app.brand })}
+        aria-label={tApp('openAria', { brand: app.brand })}
+        aria-expanded={active}
         onMouseEnter={() => playHoverSfx()}
-        style={{ borderColor: `${app.color}44` }}
+        onClick={() => setExpandedApp((prev) => (prev === app.key ? null : app.key))}
+        style={{ borderColor: `${app.color}44`, backgroundColor: active ? `${app.color}14` : undefined }}
         className="flex shrink-0 items-center gap-2.5 border bg-void/50 px-4 py-3 text-left transition-colors hover:bg-void/80"
       >
         <app.icon size={18} style={{ color: app.color }} aria-hidden="true" />
         <span className="whitespace-nowrap text-[15px] font-bold text-white sm:text-base">{app.brand}</span>
-        <ExternalLink size={13} className="text-gray-500" aria-hidden="true" />
-      </a>
+      </button>
     );
   }
+
+  const expandedAppList = activeTab === 'email' ? EMAIL_SHORTCUTS : activeTab === 'social' ? SOCIAL_SHORTCUTS : [];
+  const expandedAppEntry = expandedAppList.find((app) => app.key === expandedApp) ?? null;
 
   return (
     <motion.div
@@ -185,6 +198,17 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
         >
           {activeTab === 'email' && EMAIL_SHORTCUTS.map(renderApp)}
           {activeTab === 'social' && SOCIAL_SHORTCUTS.map(renderApp)}
+          {expandedAppEntry && (
+            <AppDetailCard
+              app={expandedAppEntry}
+              description={(expandedAppEntry.family === 'email' ? tEmail : tSocial)('hint')}
+              openLabel={(expandedAppEntry.family === 'email' ? tEmail : tSocial)('openAria', {
+                brand: expandedAppEntry.brand,
+              })}
+              onHover={() => playHoverSfx()}
+              onOpen={() => setExpandedApp(null)}
+            />
+          )}
           {activeTab === 'assets' &&
             UNITAS_ASSETS.map((asset) => (
               <a

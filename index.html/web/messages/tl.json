@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Sovereign Shortcut Matrix · Governance at Pandaigdigang Hot Issues",
     "shortcutMatrixHint": "I-tap para buksan ang U-AI search result popup",
     "tab": {
-      "governance": "Governance",
       "hotIssue": "Hot Issues",
       "weather": "Live na panahon",
       "email": "Email",
@@ -381,7 +380,8 @@
       "social": "Social",
       "realEstate": "Real Estate",
       "dating": "Dating",
-      "assets": "Assets"
+      "assets": "Assets",
+      "civic": "Sibiko"
     },
     "searchSubmitAria": "Patakbuhin ang paghahanap (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Weather",
         "description": "Ang real-time na atmospheric variable sa buong mundo na direktang humuhubog sa pang-araw-araw na buhay."
+      },
+      "culture": {
+        "title": "Kultura",
+        "description": "Ang minanang pattern sa likod ng bawat sama-samang desisyon."
+      },
+      "society": {
+        "title": "Lipunan",
+        "description": "Ang istruktura kung saan iniaayos ng mga tao ang kanilang buhay."
+      },
+      "expression": {
+        "title": "Ekspresyon",
+        "description": "Ang daluyan na nagpapalit ng intensyon tungo sa nakikitang aksyon."
+      },
+      "strategy": {
+        "title": "Estratehiya",
+        "description": "Ang pagkakasunod-sunod ng mga hakbang tungo sa pangmatagalang bentahe."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "Ang real-time na value curve na iginuhit ng walang-hangganang digital scarcity."
+      },
+      "economy": {
+        "title": "Ekonomiya",
+        "description": "Ang sirkulasyon ng halaga lampas sa artipisyal na kakulangan."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Karera",
         "description": "Ang tibok ng pandaigdigang job market kung saan tumatawid sa hangganan ang paggalaw ng talento at mga senyales sa pag-hire."
+      },
+      "engineering": {
+        "title": "Inhinyeriya",
+        "description": "Ang disiplinang nagpapalit ng ideya tungo sa gumaganang sistema."
+      },
+      "technology": {
+        "title": "Teknolohiya",
+        "description": "Ang lebereyds na inaasahan ng bawat ibang aksis."
+      },
+      "pragma": {
+        "title": "Pragmatismo",
+        "description": "Ang disiplina ng pagpili sa kung ano ang talagang gumagana."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Pabugso-bugsong ulan",
       "thunderstorm": "Bagyong may kulog",
       "hail": "Bagyong may kulog at yelo"
-    }
+    },
+    "stateBadge": "Estado",
+    "countryBadge": "Bansa"
   },
   "ExitGuard": {
     "eyebrow": "Bantay sa paglabas",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Lumabas",
     "exitCancel": "Kanselahin",
     "exitManual": "Hindi pinayagan ng browser na magsara mag-isa ang tab na ito — gamitin ang back button ng device o isara ang tab nang manu-mano."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Wika",
+        "description": "Ang protokol na ginagamit ng bawat soberanong sistema para makipag-ugnayan."
+      },
+      "art": {
+        "title": "Sining",
+        "description": "Ang estetikong layer na nagpapalit ng function tungo sa kahulugan."
+      },
+      "structure": {
+        "title": "Istruktura",
+        "description": "Ang tagapagdalang arkitektura sa ilalim ng bawat sistema."
+      },
+      "law": {
+        "title": "Batas",
+        "description": "Ang maipapatupad na hangganan na nagpapalawak sa tiwala."
+      },
+      "institution": {
+        "title": "Institusyon",
+        "description": "Ang istrukturang nabubuhay nang mas matagal kaysa sa sinumang tagaganap."
+      },
+      "education": {
+        "title": "Edukasyon",
+        "description": "Ang paglipat ng kakayahan sa mga sumunod na henerasyon."
+      },
+      "welfare": {
+        "title": "Kapakanan",
+        "description": "Ang batayang linya na nagpapanatiling makatao sa isang sistema kahit sa malaking sukat."
+      },
+      "security": {
+        "title": "Seguridad",
+        "description": "Ang panananggalang na pumipigil sa soberanya na hiramin."
+      }
+    }
   }
 }

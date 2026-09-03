@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "主権ショートカット・マトリクス · ガバナンスとグローバルホットイシュー",
     "shortcutMatrixHint": "タップしてU-AI検索結果ポップアップを開く",
     "tab": {
-      "governance": "ガバナンス",
       "hotIssue": "ホットイシュー",
       "weather": "リアルタイム天気",
       "email": "メール",
@@ -381,7 +380,8 @@
       "social": "ソーシャル",
       "realEstate": "不動産",
       "dating": "恋愛",
-      "assets": "アセット"
+      "assets": "アセット",
+      "civic": "文明"
     },
     "searchSubmitAria": "検索を実行 (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "天気",
         "description": "日々の生活を直接左右する、世界規模でリアルタイムに変化する大気の変数。"
+      },
+      "culture": {
+        "title": "文化",
+        "description": "あらゆる集団的決定の背後にある継承パターン。"
+      },
+      "society": {
+        "title": "社会",
+        "description": "個人が生活を組織する構造そのもの。"
+      },
+      "expression": {
+        "title": "表現",
+        "description": "意図を可視的な行動に変える回路。"
+      },
+      "strategy": {
+        "title": "戦略",
+        "description": "不可逆的優位に向けた手順の配列。"
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "ビットコイン",
         "description": "国境なきデジタル希少性が描くリアルタイムの価値曲線。"
+      },
+      "economy": {
+        "title": "経済",
+        "description": "人為的な希少性を超えた価値の循環。"
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "キャリア",
         "description": "人材の移動と採用シグナルが国境を越える、世界の雇用市場の鼓動。"
+      },
+      "engineering": {
+        "title": "工学",
+        "description": "アイデアを機能するシステムに変える実行規律。"
+      },
+      "technology": {
+        "title": "技術",
+        "description": "他のすべての軸が依存するレバレッジ。"
+      },
+      "pragma": {
+        "title": "実用",
+        "description": "実際に機能するものだけを選ぶ規律。"
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "にわか雨",
       "thunderstorm": "雷雨",
       "hail": "雹を伴う雷雨"
-    }
+    },
+    "stateBadge": "州",
+    "countryBadge": "国"
   },
   "ExitGuard": {
     "eyebrow": "終了ガード",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "終了",
     "exitCancel": "キャンセル",
     "exitManual": "ブラウザがこのタブの自動クローズを許可しませんでした — 端末の戻るボタンを使うか、タブを手動で閉じてください。"
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "言語",
+        "description": "あらゆる主権システムが通信するプロトコル。"
+      },
+      "art": {
+        "title": "芸術",
+        "description": "機能を意味に変える美的層。"
+      },
+      "structure": {
+        "title": "構造",
+        "description": "あらゆるシステムを支える荷重構造。"
+      },
+      "law": {
+        "title": "法",
+        "description": "信頼を拡張可能にする強制可能な境界線。"
+      },
+      "institution": {
+        "title": "制度",
+        "description": "個々の主体より長く存続する構造。"
+      },
+      "education": {
+        "title": "教育",
+        "description": "世代を超えて伝達される能力。"
+      },
+      "welfare": {
+        "title": "福祉",
+        "description": "大規模でもシステムを人間的に保つ基準線。"
+      },
+      "security": {
+        "title": "安全保障",
+        "description": "主権が借り物にならないよう守る防衛層。"
+      }
+    }
   }
 }

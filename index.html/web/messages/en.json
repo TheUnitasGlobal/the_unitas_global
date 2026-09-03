@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Sovereign Shortcut Matrix · Governance & Global Hot Issues",
     "shortcutMatrixHint": "Tap to open the U-AI search result popup",
     "tab": {
-      "governance": "Governance",
       "hotIssue": "Hot Issues",
       "weather": "Live Weather",
       "email": "Email",
@@ -381,7 +380,8 @@
       "social": "Social",
       "realEstate": "Real Estate",
       "dating": "Dating",
-      "assets": "Assets"
+      "assets": "Assets",
+      "civic": "Civic"
     },
     "searchSubmitAria": "Run search (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Weather",
         "description": "The real-time atmospheric variable spanning the globe that directly shapes daily life."
+      },
+      "culture": {
+        "title": "Culture",
+        "description": "The inherited pattern behind every collective decision."
+      },
+      "society": {
+        "title": "Society",
+        "description": "The structure individuals organize their lives around."
+      },
+      "expression": {
+        "title": "Expression",
+        "description": "The channel that turns intent into visible action."
+      },
+      "strategy": {
+        "title": "Strategy",
+        "description": "The sequencing of moves toward lasting advantage."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "The real-time value curve traced by borderless digital scarcity."
+      },
+      "economy": {
+        "title": "Economy",
+        "description": "The circulation of value beyond artificial scarcity."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Career",
         "description": "The pulse of the global job market where talent movement and hiring signals cross borders."
+      },
+      "engineering": {
+        "title": "Engineering",
+        "description": "The discipline that turns ideas into working systems."
+      },
+      "technology": {
+        "title": "Technology",
+        "description": "The leverage every other axis depends on."
+      },
+      "pragma": {
+        "title": "Pragmatism",
+        "description": "The discipline of choosing what actually works."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Showers",
       "thunderstorm": "Thunderstorm",
       "hail": "Thunderstorm with hail"
-    }
+    },
+    "stateBadge": "State",
+    "countryBadge": "Country"
   },
   "ExitGuard": {
     "eyebrow": "Exit guard",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Exit",
     "exitCancel": "Cancel",
     "exitManual": "Your browser did not allow this tab to close itself — use the device back button or close the tab manually."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Language",
+        "description": "The protocol every sovereign system speaks through."
+      },
+      "art": {
+        "title": "Art",
+        "description": "The aesthetic layer that turns function into meaning."
+      },
+      "structure": {
+        "title": "Structure",
+        "description": "The load-bearing architecture beneath any system."
+      },
+      "law": {
+        "title": "Law",
+        "description": "The enforceable boundary that makes trust scalable."
+      },
+      "institution": {
+        "title": "Institution",
+        "description": "The structure that outlives any single actor."
+      },
+      "education": {
+        "title": "Education",
+        "description": "The transfer of capability across generations."
+      },
+      "welfare": {
+        "title": "Welfare",
+        "description": "The baseline that keeps a system humane."
+      },
+      "security": {
+        "title": "Security",
+        "description": "The defense that keeps sovereignty from being borrowed."
+      }
+    }
   }
 }

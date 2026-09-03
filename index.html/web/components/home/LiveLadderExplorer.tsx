@@ -22,10 +22,10 @@ interface LadderStep {
 
 const CONSTITUTION_KEYS = ['logic', 'future', 'economy', 'security', 'sovereign', 'art'] as const;
 const LENS_KEYS = ['tech', 'economy', 'opinion'] as const;
-// 'governance' is deliberately absent here (owner instruction 2026-09-03):
-// its 16 axes no longer live behind their own tab -- they're folded flat
-// into the expanded vector row below, alongside the constitution/lens words.
-const MATRIX_GROUPS: ShortcutGroup[] = ['hotIssue', 'finance', 'realEstate', 'dating', 'career'];
+// The old standalone "governance" tab is gone (owner instruction
+// 2026-09-03): its 16 axes now live inside hotIssue/finance/career or the
+// new "civic" group, so they already ride along here as ordinary tabs.
+const MATRIX_GROUPS: ShortcutGroup[] = ['hotIssue', 'finance', 'realEstate', 'dating', 'career', 'civic'];
 const MAX_DEPTH = 6;
 const LIVE_DEBOUNCE_MS = 260;
 
@@ -157,8 +157,7 @@ export function LiveLadderExplorer({ query, axisT, onOpenAxis, onRunQuery }: Liv
         )}
       </div>
 
-      {/* Vector 1 -- the shortcut matrix, grouped by family (governance's 16
-          axes excluded from these tabs -- they render flat below instead). */}
+      {/* Vector 1 -- the shortcut matrix, grouped by family. */}
       <div className="mb-3">
         <p className="mb-1.5 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-500">
           <Layers size={11} aria-hidden="true" />
@@ -203,12 +202,11 @@ export function LiveLadderExplorer({ query, axisT, onOpenAxis, onRunQuery }: Liv
         </div>
       </div>
 
-      {/* Vector 2 + 3 -- the expanded flat vector pool: constitution axes,
-          stereoscopic lenses, and the 16 doctrine-derived governance axes
-          (language..strategy, lib/governance.ts), every one a single-word
-          box with no group tabs. Governance axes keep their `axis` payload
-          so the ladder-icon "open this axis" interaction below still works
-          exactly as it did behind the old tab. */}
+      {/* Vector 2 -- the expanded flat vector pool: constitution axes and
+          stereoscopic lenses, every one a single-word box with no group tabs.
+          The old flat 16-item governance dump that used to sit here is gone
+          (owner instruction 2026-09-03) -- those axes now ride the tabbed
+          matrix above like every other group. */}
       <div className="mb-3 flex flex-wrap gap-1.5">
         {CONSTITUTION_KEYS.map((key) => (
           <button
@@ -233,22 +231,6 @@ export function LiveLadderExplorer({ query, axisT, onOpenAxis, onRunQuery }: Liv
             {tUai(`lens.${key}`)}
           </button>
         ))}
-        {HOT_SHORTCUT_MATRIX.filter((axis) => axis.group === 'governance').map((axis) => {
-          const label = axisTitle(axis, axisT);
-          return (
-            <button
-              key={axis.key}
-              type="button"
-              onMouseEnter={() => playHoverSfx()}
-              onClick={() => push({ kind: 'axis', key: `governance:${axis.key}`, label, axis })}
-              style={{ borderColor: `${axis.color}55` }}
-              className={`${chip} bg-void/40 text-gray-200 hover:bg-void/70 hover:text-white`}
-            >
-              <axis.icon size={13} style={{ color: axis.color }} aria-hidden="true" />
-              {label}
-            </button>
-          );
-        })}
       </div>
 
       {/* Vector 4 -- live related keywords for the composed path. */}

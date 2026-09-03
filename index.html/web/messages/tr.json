@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Egemen Kısayol Matrisi · Yönetişim ve Küresel Gündem Konuları",
     "shortcutMatrixHint": "U-AI arama sonucu penceresini açmak için dokunun",
     "tab": {
-      "governance": "Yönetişim",
       "hotIssue": "Gündem",
       "weather": "Canlı hava durumu",
       "email": "E-posta",
@@ -381,7 +380,8 @@
       "social": "Sosyal",
       "realEstate": "Gayrimenkul",
       "dating": "Flört",
-      "assets": "Varlıklar"
+      "assets": "Varlıklar",
+      "civic": "Sivil"
     },
     "searchSubmitAria": "Aramayı çalıştır (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Hava Durumu",
         "description": "Küreyi kaplayan ve günlük yaşamı doğrudan şekillendiren gerçek zamanlı atmosferik değişken."
+      },
+      "culture": {
+        "title": "Kültür",
+        "description": "Her kolektif kararın ardındaki miras kalmış örüntü."
+      },
+      "society": {
+        "title": "Toplum",
+        "description": "Bireylerin hayatlarını etrafında örgütlediği yapı."
+      },
+      "expression": {
+        "title": "İfade",
+        "description": "Niyeti görünür eyleme dönüştüren kanal."
+      },
+      "strategy": {
+        "title": "Strateji",
+        "description": "Kalıcı bir avantaja giden hamlelerin sıralaması."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "Sınırsız dijital kıtlığın çizdiği gerçek zamanlı değer eğrisi."
+      },
+      "economy": {
+        "title": "Ekonomi",
+        "description": "Yapay kıtlığın ötesinde değer dolaşımı."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Kariyer",
         "description": "Yetenek hareketliliğinin ve işe alım sinyallerinin sınırları aştığı küresel iş piyasasının nabzı."
+      },
+      "engineering": {
+        "title": "Mühendislik",
+        "description": "Fikirleri çalışan sistemlere dönüştüren disiplin."
+      },
+      "technology": {
+        "title": "Teknoloji",
+        "description": "Diğer her eksenin bağlı olduğu kaldıraç."
+      },
+      "pragma": {
+        "title": "Pragmatizm",
+        "description": "Gerçekten işe yarayanı seçme disiplini."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Sağanak",
       "thunderstorm": "Gök gürültülü fırtına",
       "hail": "Dolu ile fırtına"
-    }
+    },
+    "stateBadge": "Eyalet",
+    "countryBadge": "Ülke"
   },
   "ExitGuard": {
     "eyebrow": "Çıkış koruması",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Çık",
     "exitCancel": "İptal",
     "exitManual": "Tarayıcı bu sekmenin kendini kapatmasına izin vermedi — cihazın geri düğmesini kullanın veya sekmeyi elle kapatın."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Dil",
+        "description": "Her egemen sistemin iletişim kurduğu protokol."
+      },
+      "art": {
+        "title": "Sanat",
+        "description": "İşlevi anlama dönüştüren estetik katman."
+      },
+      "structure": {
+        "title": "Yapı",
+        "description": "Her sistemin altındaki taşıyıcı mimari."
+      },
+      "law": {
+        "title": "Hukuk",
+        "description": "Güveni ölçeklenebilir kılan uygulanabilir sınır."
+      },
+      "institution": {
+        "title": "Kurum",
+        "description": "Herhangi bir tek aktörden daha uzun yaşayan yapı."
+      },
+      "education": {
+        "title": "Eğitim",
+        "description": "Yeteneğin nesiller arasında aktarımı."
+      },
+      "welfare": {
+        "title": "Refah",
+        "description": "Bir sistemi büyük ölçekte de insani tutan taban çizgi."
+      },
+      "security": {
+        "title": "Güvenlik",
+        "description": "Egemenliğin ödünç alınmasını önleyen savunma katmanı."
+      }
+    }
   }
 }

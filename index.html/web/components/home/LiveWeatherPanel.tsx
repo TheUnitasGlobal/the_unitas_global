@@ -51,6 +51,14 @@ type Condition =
 interface Place {
   name: string;
   country?: string;
+  /** First-order administrative division (US state, etc.) -- kept separate
+   *  from `name` so a state-level result ("Georgia", feature_code ADM1)
+   *  never collides on-screen with the identically-named country. */
+  admin1?: string;
+  /** feature_code === 'ADM1' -- this result IS a state/province, not a city. */
+  isState?: boolean;
+  /** feature_code === 'PCLI' -- this result IS a whole country. */
+  isCountry?: boolean;
   lat: number;
   lon: number;
 }
@@ -87,34 +95,48 @@ interface OpenMeteoResponse {
 }
 
 interface GeocodeResponse {
-  results?: Array<{ name?: string; country?: string; admin1?: string; latitude?: number; longitude?: number }>;
+  results?: Array<{
+    name?: string;
+    country?: string;
+    admin1?: string;
+    /** Open-Meteo/GeoNames feature class -- 'PCLI' = country itself,
+     *  'ADM1' = first-order admin division (US state, etc.). Everything
+     *  else is an ordinary populated place. */
+    feature_code?: string;
+    latitude?: number;
+    longitude?: number;
+  }>;
 }
 
 const STORAGE_KEY = 'unitas.weather.v1';
 const TTL_MS = 10 * 60 * 1000;
 
-/** Locale -> its capital / largest city, so the tab is never empty. */
+/** Locale -> its capital / largest city, so the tab is never empty. Country
+ *  is the full name (not an ISO code) so the "국가 / 도시" title format
+ *  (owner instruction 2026-09-03) reads correctly from first paint --
+ *  the background localize effect below overwrites it with the visitor's
+ *  own-language form shortly after mount, for non-en locales. */
 const DEFAULT_PLACE: Record<string, Place> = {
-  en: { name: 'New York', country: 'US', lat: 40.7128, lon: -74.006 },
-  ko: { name: 'Seoul', country: 'KR', lat: 37.5665, lon: 126.978 },
-  et: { name: 'Tallinn', country: 'EE', lat: 59.437, lon: 24.7536 },
-  ja: { name: 'Tokyo', country: 'JP', lat: 35.6762, lon: 139.6503 },
-  zh: { name: 'Beijing', country: 'CN', lat: 39.9042, lon: 116.4074 },
-  es: { name: 'Madrid', country: 'ES', lat: 40.4168, lon: -3.7038 },
-  km: { name: 'Phnom Penh', country: 'KH', lat: 11.5564, lon: 104.9282 },
-  fr: { name: 'Paris', country: 'FR', lat: 48.8566, lon: 2.3522 },
-  de: { name: 'Berlin', country: 'DE', lat: 52.52, lon: 13.405 },
-  pt: { name: 'Lisbon', country: 'PT', lat: 38.7223, lon: -9.1393 },
-  vi: { name: 'Hanoi', country: 'VN', lat: 21.0278, lon: 105.8342 },
-  id: { name: 'Jakarta', country: 'ID', lat: -6.2088, lon: 106.8456 },
-  ru: { name: 'Moscow', country: 'RU', lat: 55.7558, lon: 37.6173 },
-  hi: { name: 'New Delhi', country: 'IN', lat: 28.6139, lon: 77.209 },
-  it: { name: 'Rome', country: 'IT', lat: 41.9028, lon: 12.4964 },
-  tr: { name: 'Istanbul', country: 'TR', lat: 41.0082, lon: 28.9784 },
-  th: { name: 'Bangkok', country: 'TH', lat: 13.7563, lon: 100.5018 },
-  pl: { name: 'Warsaw', country: 'PL', lat: 52.2297, lon: 21.0122 },
-  nl: { name: 'Amsterdam', country: 'NL', lat: 52.3676, lon: 4.9041 },
-  tl: { name: 'Manila', country: 'PH', lat: 14.5995, lon: 120.9842 },
+  en: { name: 'New York', country: 'United States', lat: 40.7128, lon: -74.006 },
+  ko: { name: 'Seoul', country: 'South Korea', lat: 37.5665, lon: 126.978 },
+  et: { name: 'Tallinn', country: 'Estonia', lat: 59.437, lon: 24.7536 },
+  ja: { name: 'Tokyo', country: 'Japan', lat: 35.6762, lon: 139.6503 },
+  zh: { name: 'Beijing', country: 'China', lat: 39.9042, lon: 116.4074 },
+  es: { name: 'Madrid', country: 'Spain', lat: 40.4168, lon: -3.7038 },
+  km: { name: 'Phnom Penh', country: 'Cambodia', lat: 11.5564, lon: 104.9282 },
+  fr: { name: 'Paris', country: 'France', lat: 48.8566, lon: 2.3522 },
+  de: { name: 'Berlin', country: 'Germany', lat: 52.52, lon: 13.405 },
+  pt: { name: 'Lisbon', country: 'Portugal', lat: 38.7223, lon: -9.1393 },
+  vi: { name: 'Hanoi', country: 'Vietnam', lat: 21.0278, lon: 105.8342 },
+  id: { name: 'Jakarta', country: 'Indonesia', lat: -6.2088, lon: 106.8456 },
+  ru: { name: 'Moscow', country: 'Russia', lat: 55.7558, lon: 37.6173 },
+  hi: { name: 'New Delhi', country: 'India', lat: 28.6139, lon: 77.209 },
+  it: { name: 'Rome', country: 'Italy', lat: 41.9028, lon: 12.4964 },
+  tr: { name: 'Istanbul', country: 'Turkey', lat: 41.0082, lon: 28.9784 },
+  th: { name: 'Bangkok', country: 'Thailand', lat: 13.7563, lon: 100.5018 },
+  pl: { name: 'Warsaw', country: 'Poland', lat: 52.2297, lon: 21.0122 },
+  nl: { name: 'Amsterdam', country: 'Netherlands', lat: 52.3676, lon: 4.9041 },
+  tl: { name: 'Manila', country: 'Philippines', lat: 14.5995, lon: 120.9842 },
 };
 
 const CONDITION_ICON: Record<Condition, LucideIcon> = {
@@ -219,8 +241,15 @@ async function geocodeOpenMeteo(name: string, locale: string, signal: AbortSigna
   return (json.results ?? [])
     .filter((r) => typeof r.latitude === 'number' && typeof r.longitude === 'number' && r.name)
     .map((r) => ({
-      name: r.admin1 && r.admin1 !== r.name ? `${r.name}, ${r.admin1}` : (r.name as string),
+      // Bare name only -- never baked into one string with admin1, so a
+      // state-level "Georgia" (feature_code ADM1) never renders identically
+      // to the country "Georgia" (PCLI): the UI disambiguates them with
+      // admin1 + isState/isCountry instead (owner instruction 2026-09-03).
+      name: r.name as string,
+      admin1: r.admin1 && r.admin1 !== r.name ? r.admin1 : undefined,
       country: r.country,
+      isState: r.feature_code === 'ADM1',
+      isCountry: r.feature_code === 'PCLI',
       lat: r.latitude as number,
       lon: r.longitude as number,
     }));
@@ -279,15 +308,26 @@ async function geocode(name: string, locale: string, signal: AbortSignal, count 
   return geocodeViaWikipedia(name, locale, signal, count);
 }
 
-/** Best-effort reverse label for "my location" (keyless, CORS). */
-async function reverseLabel(lat: number, lon: number, locale: string, signal: AbortSignal): Promise<string | null> {
+interface ReverseLabel {
+  name: string;
+  admin1?: string;
+  country?: string;
+}
+
+/** Best-effort reverse label for "my location" (keyless, CORS). Returns the
+ *  city/state and country as separate fields (not baked into one string) so
+ *  the "국가 / 도시(주)" title format renders identically to a searched
+ *  place (owner instruction 2026-09-03). */
+async function reverseLabel(lat: number, lon: number, locale: string, signal: AbortSignal): Promise<ReverseLabel | null> {
   try {
     const params = new URLSearchParams({ latitude: String(lat), longitude: String(lon), localityLanguage: locale });
     const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?${params.toString()}`, { signal });
     if (!res.ok) return null;
     const json = (await res.json()) as { city?: string; locality?: string; principalSubdivision?: string; countryName?: string };
     const city = json.city || json.locality || json.principalSubdivision;
-    return city ? (json.countryName ? `${city}, ${json.countryName}` : city) : null;
+    if (!city) return null;
+    const admin1 = json.principalSubdivision && json.principalSubdivision !== city ? json.principalSubdivision : undefined;
+    return { name: city, admin1, country: json.countryName };
   } catch {
     return null;
   }
@@ -362,7 +402,11 @@ export function LiveWeatherPanel() {
         .then((list) => {
           const hit = list[0];
           if (!hit || Math.abs(hit.lat - initial.lat) > 1.5 || Math.abs(hit.lon - initial.lon) > 1.5) return;
-          setPlace((p) => (p.lat === initial.lat && p.lon === initial.lon ? { ...p, name: hit.name } : p));
+          setPlace((p) =>
+            p.lat === initial.lat && p.lon === initial.lon
+              ? { ...p, name: hit.name, country: hit.country ?? p.country, admin1: hit.admin1 }
+              : p,
+          );
         })
         .catch(() => {
           // label stays English -- purely cosmetic.
@@ -411,9 +455,14 @@ export function LiveWeatherPanel() {
         const lat = Number(pos.coords.latitude.toFixed(4));
         const lon = Number(pos.coords.longitude.toFixed(4));
         const controller = new AbortController();
-        const label = (await reverseLabel(lat, lon, locale, controller.signal)) ?? t('myLocation');
+        const reverse = await reverseLabel(lat, lon, locale, controller.signal);
         setLocating(false);
-        void load({ name: label, lat, lon }, true);
+        void load(
+          reverse
+            ? { name: reverse.name, admin1: reverse.admin1, country: reverse.country, lat, lon }
+            : { name: t('myLocation'), lat, lon },
+          true,
+        );
       },
       () => {
         setLocating(false);
@@ -437,13 +486,19 @@ export function LiveWeatherPanel() {
 
   return (
     <div className="w-full">
-      {/* Place + controls row */}
+      {/* Place + controls row -- "국가 / 도시(주)" title format (owner
+          instruction 2026-09-03), so a US state result ("Georgia") never
+          reads identically to the country of the same name: the admin1
+          qualifier and the country are both always visible. */}
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <p className="flex min-w-0 items-center gap-1.5 text-[14px] font-bold text-white sm:text-[15px]">
           <MapPin size={14} className="shrink-0 text-accent" aria-hidden="true" />
           <span className="truncate">
+            {place.country && <span className="text-gray-400">{place.country} / </span>}
             {place.name}
-            {place.country ? <span className="text-gray-500"> · {place.country}</span> : null}
+            {place.admin1 && <span className="text-gray-500">({place.admin1})</span>}
+            {place.isState && <span className="ml-1.5 text-gray-600">· {t('stateBadge')}</span>}
+            {place.isCountry && <span className="ml-1.5 text-gray-600">· {t('countryBadge')}</span>}
           </span>
         </p>
         <div className="ml-auto flex items-center gap-1.5">
@@ -510,9 +565,22 @@ export function LiveWeatherPanel() {
                   onClick={() => pickCandidate(p)}
                   className="flex w-full items-center gap-2 px-3 py-2 text-left text-[13px] text-gray-200 transition-colors hover:bg-white/5 hover:text-white"
                 >
-                  <MapPin size={12} className="text-accent" aria-hidden="true" />
-                  {p.name}
-                  {p.country && <span className="text-gray-500">· {p.country}</span>}
+                  <MapPin size={12} className="shrink-0 text-accent" aria-hidden="true" />
+                  <span className="min-w-0 flex-1 truncate">
+                    {p.name}
+                    {p.admin1 && <span className="text-gray-500"> ({p.admin1})</span>}
+                  </span>
+                  {p.country && <span className="shrink-0 text-gray-500">· {p.country}</span>}
+                  {p.isState && (
+                    <span className="shrink-0 border border-amber-400/40 px-1 text-[10px] font-bold uppercase text-amber-300">
+                      {t('stateBadge')}
+                    </span>
+                  )}
+                  {p.isCountry && (
+                    <span className="shrink-0 border border-accent/40 px-1 text-[10px] font-bold uppercase text-accent">
+                      {t('countryBadge')}
+                    </span>
+                  )}
                 </button>
               </li>
             ))}

@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "主权快捷矩阵 · 治理与全球热点",
     "shortcutMatrixHint": "点击以打开U-AI搜索结果弹窗",
     "tab": {
-      "governance": "治理",
       "hotIssue": "热点",
       "weather": "实时天气",
       "email": "邮箱",
@@ -381,7 +380,8 @@
       "social": "社交",
       "realEstate": "房产",
       "dating": "恋爱",
-      "assets": "资产"
+      "assets": "资产",
+      "civic": "文明"
     },
     "searchSubmitAria": "执行搜索 (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "天气",
         "description": "直接影响日常生活、遍及全球的实时大气变量。"
+      },
+      "culture": {
+        "title": "文化",
+        "description": "每一次集体决策背后的遗传模式。"
+      },
+      "society": {
+        "title": "社会",
+        "description": "个体据以组织生活的结构本身。"
+      },
+      "expression": {
+        "title": "表达",
+        "description": "把意图转化为可见行动的通道。"
+      },
+      "strategy": {
+        "title": "战略",
+        "description": "通向不可逆优势的步骤排列。"
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "比特币",
         "description": "无国界数字稀缺性描绘出的实时价值曲线。"
+      },
+      "economy": {
+        "title": "经济",
+        "description": "超越人为稀缺性的价值流通。"
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "职业",
         "description": "人才流动与招聘信号跨越国界、脉动全球的就业市场。"
+      },
+      "engineering": {
+        "title": "工程",
+        "description": "把构想变成可运行系统的实践纪律。"
+      },
+      "technology": {
+        "title": "技术",
+        "description": "其余每个轴心都依赖的杠杆。"
+      },
+      "pragma": {
+        "title": "实用",
+        "description": "只选择真正有效之物的纪律。"
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "阵雨",
       "thunderstorm": "雷暴",
       "hail": "雷暴伴冰雹"
-    }
+    },
+    "stateBadge": "州",
+    "countryBadge": "国家"
   },
   "ExitGuard": {
     "eyebrow": "退出防护",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "退出",
     "exitCancel": "取消",
     "exitManual": "浏览器不允许此标签页自行关闭 — 请使用设备返回键或手动关闭标签页。"
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "语言",
+        "description": "每个主权系统赖以沟通的协议。"
+      },
+      "art": {
+        "title": "艺术",
+        "description": "把功能转化为意义的审美层。"
+      },
+      "structure": {
+        "title": "结构",
+        "description": "支撑任何系统的承重架构。"
+      },
+      "law": {
+        "title": "法律",
+        "description": "让信任得以规模化的可执行边界。"
+      },
+      "institution": {
+        "title": "制度",
+        "description": "比任何单一行动者都更持久的结构。"
+      },
+      "education": {
+        "title": "教育",
+        "description": "跨越世代传递的能力。"
+      },
+      "welfare": {
+        "title": "福祉",
+        "description": "让系统在规模化后仍保持人性的底线。"
+      },
+      "security": {
+        "title": "安全",
+        "description": "防止主权被借用的防御层。"
+      }
+    }
   }
 }

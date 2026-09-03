@@ -372,7 +372,6 @@
     "shortcutMatrixLabel": "Soevereine Snelkoppelingsmatrix · Governance & Wereldwijde Hot Issues",
     "shortcutMatrixHint": "Tik om de U-AI-zoekresultatenpop-up te openen",
     "tab": {
-      "governance": "Governance",
       "hotIssue": "Hot Issues",
       "weather": "Live weer",
       "email": "E-mail",
@@ -381,7 +380,8 @@
       "social": "Social",
       "realEstate": "Vastgoed",
       "dating": "Dating",
-      "assets": "Assets"
+      "assets": "Assets",
+      "civic": "Civiel"
     },
     "searchSubmitAria": "Zoekopdracht uitvoeren (Enter)"
   },
@@ -1024,6 +1024,22 @@
       "weather": {
         "title": "Weer",
         "description": "De wereldwijde realtime atmosferische variabele die het dagelijks leven direct vormgeeft."
+      },
+      "culture": {
+        "title": "Cultuur",
+        "description": "Het overgeërfde patroon achter elke collectieve beslissing."
+      },
+      "society": {
+        "title": "Samenleving",
+        "description": "De structuur waaromheen mensen hun leven organiseren."
+      },
+      "expression": {
+        "title": "Expressie",
+        "description": "Het kanaal dat intentie in zichtbare actie verandert."
+      },
+      "strategy": {
+        "title": "Strategie",
+        "description": "De volgorde van zetten naar een blijvend voordeel."
       }
     }
   },
@@ -1078,6 +1094,10 @@
       "bitcoin": {
         "title": "Bitcoin",
         "description": "De real-time waardecurve getekend door grenzeloze digitale schaarste."
+      },
+      "economy": {
+        "title": "Economie",
+        "description": "De circulatie van waarde voorbij kunstmatige schaarste."
       }
     }
   },
@@ -1086,6 +1106,18 @@
       "career": {
         "title": "Carrière",
         "description": "De pols van de wereldwijde arbeidsmarkt, waar talentbeweging en wervingssignalen grenzen overschrijden."
+      },
+      "engineering": {
+        "title": "Techniek",
+        "description": "De discipline die ideeën in werkende systemen verandert."
+      },
+      "technology": {
+        "title": "Technologie",
+        "description": "De hefboom waarvan elke andere as afhankelijk is."
+      },
+      "pragma": {
+        "title": "Pragmatisme",
+        "description": "De discipline om te kiezen wat echt werkt."
       }
     }
   },
@@ -1188,7 +1220,9 @@
       "showers": "Buien",
       "thunderstorm": "Onweer",
       "hail": "Onweer met hagel"
-    }
+    },
+    "stateBadge": "Staat",
+    "countryBadge": "Land"
   },
   "ExitGuard": {
     "eyebrow": "Afsluitbeveiliging",
@@ -1201,5 +1235,41 @@
     "exitConfirm": "Afsluiten",
     "exitCancel": "Annuleren",
     "exitManual": "Je browser stond dit tabblad niet toe zichzelf te sluiten — gebruik de terugknop van het apparaat of sluit het tabblad handmatig."
+  },
+  "Civic": {
+    "axes": {
+      "language": {
+        "title": "Taal",
+        "description": "Het protocol waarmee elk soeverein systeem communiceert."
+      },
+      "art": {
+        "title": "Kunst",
+        "description": "De esthetische laag die functie in betekenis verandert."
+      },
+      "structure": {
+        "title": "Structuur",
+        "description": "De dragende architectuur onder elk systeem."
+      },
+      "law": {
+        "title": "Recht",
+        "description": "De afdwingbare grens die vertrouwen schaalbaar maakt."
+      },
+      "institution": {
+        "title": "Instituut",
+        "description": "De structuur die elke individuele actor overleeft."
+      },
+      "education": {
+        "title": "Onderwijs",
+        "description": "De overdracht van vaardigheid tussen generaties."
+      },
+      "welfare": {
+        "title": "Welzijn",
+        "description": "De basislijn die een systeem op schaal menselijk houdt."
+      },
+      "security": {
+        "title": "Veiligheid",
+        "description": "De verdedigingslaag die voorkomt dat soevereiniteit wordt geleend."
+      }
+    }
   }
 }
