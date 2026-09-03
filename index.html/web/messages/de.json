@@ -368,7 +368,8 @@
       "realEstate": "Immobilien",
       "dating": "Dating",
       "assets": "Assets"
-    }
+    },
+    "searchSubmitAria": "Suche ausführen (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Engagement-Regeln",
@@ -823,12 +824,7 @@
     "subhead": "Ein dreisekündiger stereoskopischer Blick, ein Schild gegen kommerzielle Verzerrung und dann — auf Abruf — die tiefe Trajektorie. Kein Chat, sondern ein Briefing auf Entscheidungsniveau.",
     "placeholder": "Frag U-AI alles…",
     "submit": "Analysieren",
-    "reportLabel": "U-AI · ANALYSEBERICHT",
     "surfaceScanning": "Scanne drei Perspektiven — technisch, wirtschaftlich, öffentlich…",
-    "directionality": {
-      "divergent": "Divergente Frage",
-      "convergent": "Konvergente Absicht"
-    },
     "lensLabel": "3-Sekunden-Stereoblick",
     "lens": {
       "tech": "Technisch",
@@ -919,7 +915,6 @@
     "insightForging": "Die souveräne Engine schmiedet das 6-Achsen-Redesign — es erscheint hier und bleibt für immer kostenlos.",
     "insightPending": "{hits} / 3 Suchen. Bei der 3. schmiedet die 100-Doktrin-Engine dieses Redesign einmalig — danach ist es für alle für immer kostenlos.",
     "insightFreshBadge": "Gerade geschmiedet · im Genesis-Speicher versiegelt",
-    "insightCachedNote": "Aus dem Genesis-Speicher geliefert · Engine-Kosten 0 $",
     "insightVectorLabel": "Redesign-Vektor · Die blinde Achse",
     "insightAxisReading": "Lesart",
     "insightAxisRedesign": "Redesign"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Antippen, um darunter eine neue Ebene einzubetten",
     "deepLabel": "UNITAS-Tiefenanalyse",
     "deepPending": "{hits} / 3 globale Suchen. Bei der 3. schmiedet die 100-Doktrinen-Engine die 6-Achsen-Tiefenanalyse dieses Schlüsselworts genau einmal – danach für alle kostenlos.",
-    "appLoopLabel": "Direkt-App- & Asset-Schleife",
+    "appLoopLabel": "Schnellzugriff",
     "restoredNote": "Leiter nach dem Sprachwechsel wiederhergestellt – nichts ging verloren.",
     "cachedBadge": "Souveräner Cache · 0 Kosten",
     "freshBadge": "Frisch synthetisiert",

@@ -368,7 +368,8 @@
       "realEstate": "Immobilier",
       "dating": "Rencontres",
       "assets": "Ressources"
-    }
+    },
+    "searchSubmitAria": "Lancer la recherche (Entrée)"
   },
   "EntryModal": {
     "rulesLabel": "Règles d'engagement",
@@ -823,12 +824,7 @@
     "subhead": "Une lecture stéréoscopique de trois secondes, un bouclier de biais commercial, puis — à la demande — la trajectoire profonde. Pas une conversation : une note de niveau décisionnel.",
     "placeholder": "Demandez n’importe quoi à U-AI…",
     "submit": "Analyser",
-    "reportLabel": "U-AI · RAPPORT D’ANALYSE",
     "surfaceScanning": "Analyse de trois perspectives — technique, économique, publique…",
-    "directionality": {
-      "divergent": "Question divergente",
-      "convergent": "Intention convergente"
-    },
     "lensLabel": "Vue stéréoscopique de 3 secondes",
     "lens": {
       "tech": "Technique",
@@ -919,7 +915,6 @@
     "insightForging": "Le moteur souverain forge la refonte à 6 axes — elle apparaîtra ici et restera gratuite pour toujours.",
     "insightPending": "{hits} / 3 recherches. À la 3e, le moteur aux 100 doctrines forge cette refonte une seule fois — ensuite elle est gratuite pour tous, pour toujours.",
     "insightFreshBadge": "Forgé à l'instant · scellé dans la Mémoire Genèse",
-    "insightCachedNote": "Servi depuis la Mémoire Genèse · coût moteur 0 $",
     "insightVectorLabel": "Vecteur de Refonte · L'Axe Aveugle",
     "insightAxisReading": "Lecture",
     "insightAxisRedesign": "Refonte"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Touchez pour imbriquer un nouveau niveau en dessous",
     "deepLabel": "Analyse approfondie UNITAS",
     "deepPending": "{hits} / 3 recherches mondiales. À la 3e, le moteur des 100 doctrines forge une seule fois l’analyse approfondie à 6 axes de ce mot-clé — gratuite pour tous ensuite.",
-    "appLoopLabel": "Boucle directe apps & ressources",
+    "appLoopLabel": "Raccourcis",
     "restoredNote": "Échelle restaurée après le changement de langue — rien n’a été perdu.",
     "cachedBadge": "Cache souverain · coût 0",
     "freshBadge": "Fraîchement synthétisé",

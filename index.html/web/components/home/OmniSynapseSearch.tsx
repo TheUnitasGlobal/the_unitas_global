@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type DragEvent, type FormEvent } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Paperclip, Video, PenTool, X, Image as ImageIcon } from 'lucide-react';
+import { Search, Paperclip, Video, PenTool, X, Image as ImageIcon, CornerDownLeft } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { sceneInteraction } from '@/lib/sceneInteraction';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
@@ -483,7 +483,7 @@ export function OmniSynapseSearch({
             onClick={() => fileInputRef.current?.click()}
             className="shrink-0 text-gray-600 transition-colors hover:text-neon"
           >
-            <Paperclip size={16} aria-hidden="true" />
+            <Paperclip size={20} aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -492,7 +492,7 @@ export function OmniSynapseSearch({
             onClick={() => videoInputRef.current?.click()}
             className="shrink-0 text-gray-600 transition-colors hover:text-neon"
           >
-            <Video size={16} aria-hidden="true" />
+            <Video size={20} aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -501,7 +501,19 @@ export function OmniSynapseSearch({
             onClick={() => setDrawOpen(true)}
             className="shrink-0 text-gray-600 transition-colors hover:text-neon"
           >
-            <PenTool size={16} aria-hidden="true" />
+            <PenTool size={20} aria-hidden="true" />
+          </button>
+          {/* Real keyboard-Enter submit key (same ⏎ symbol as the tower's
+              추가검색 bar), so running the search is a visible control, not
+              only an implicit form submit. */}
+          <button
+            type="submit"
+            title={t('searchSubmitAria')}
+            aria-label={t('searchSubmitAria')}
+            disabled={(!value.trim() && attachments.length === 0) || uai.phase === 'surface-loading'}
+            className="flex shrink-0 items-center justify-center border border-accent/50 p-1.5 text-accent transition-colors hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <CornerDownLeft size={20} aria-hidden="true" />
           </button>
         </div>
 
@@ -553,16 +565,19 @@ export function OmniSynapseSearch({
       </form>
 
       {/* Browse hub -- floats above the page (no layout push) so browsing
-          never reflows or jitters the sections underneath. */}
-      <AnimatePresence>
-        {browsing && (
+          never reflows or jitters the sections underneath. Deliberately NOT
+          inside an AnimatePresence: an exit animation kept a second, dying
+          copy of the popup on screen during rapid focus/typing transitions
+          (the "다중 팝업" bug) -- a plain conditional guarantees exactly one
+          instance ever. left-6/right-6 mirrors the container's px-6, so the
+          popup's edges align pixel-exactly with the search box above. */}
+      {browsing && (
           <motion.div
             initial={{ opacity: 0, y: -10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
             onMouseDown={(e) => e.preventDefault()}
-            className="absolute inset-x-0 top-full z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-sm border border-white/15 bg-white/[0.045] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
+            className="absolute left-6 right-6 top-full z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-sm border border-white/15 bg-white/[0.045] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
           >
             <p className="mb-5 text-[10px] font-bold uppercase tracking-[0.3em] text-accent">
               {t('browseLabel')}
@@ -672,8 +687,7 @@ export function OmniSynapseSearch({
               </div>
             )}
           </motion.div>
-        )}
-      </AnimatePresence>
+      )}
 
       <AnimatePresence>{ouroboros && <HotShortcutMatrixStrip onOpenShortcut={onOpenShortcut} />}</AnimatePresence>
 

@@ -368,7 +368,8 @@
       "realEstate": "Bất động sản",
       "dating": "Hẹn hò",
       "assets": "Tài sản"
-    }
+    },
+    "searchSubmitAria": "Chạy tìm kiếm (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Quy tắc tham gia",
@@ -823,12 +824,7 @@
     "subhead": "Một góc nhìn lập thể ba giây, một lá chắn thiên kiến thương mại, rồi — khi cần — quỹ đạo chuyên sâu. Không phải trò chuyện, mà là bản tóm tắt cấp ra quyết định.",
     "placeholder": "Hỏi U-AI bất cứ điều gì…",
     "submit": "Phân tích",
-    "reportLabel": "U-AI · BÁO CÁO PHÂN TÍCH",
     "surfaceScanning": "Đang quét ba góc nhìn — kỹ thuật, kinh tế, dư luận…",
-    "directionality": {
-      "divergent": "Câu hỏi phân kỳ",
-      "convergent": "Ý định hội tụ"
-    },
     "lensLabel": "Góc nhìn lập thể 3 giây",
     "lens": {
       "tech": "Kỹ thuật",
@@ -919,7 +915,6 @@
     "insightForging": "Động cơ chủ quyền đang rèn bản tái thiết kế 6 trục — nó sẽ hiện ở đây và miễn phí mãi mãi.",
     "insightPending": "{hits} / 3 lượt tìm. Ở lượt thứ 3, động cơ 100 học thuyết rèn bản tái thiết kế này một lần — sau đó miễn phí cho tất cả mọi người, mãi mãi.",
     "insightFreshBadge": "Vừa được rèn · niêm phong vào Genesis Memory",
-    "insightCachedNote": "Cung cấp từ Genesis Memory · chi phí động cơ $0",
     "insightVectorLabel": "Vector Tái thiết kế · Trục Mù",
     "insightAxisReading": "Đọc hiểu",
     "insightAxisRedesign": "Tái thiết kế"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Chạm để lồng một tầng mới bên dưới",
     "deepLabel": "Phân tích chuyên sâu UNITAS",
     "deepPending": "{hits} / 3 lượt tìm kiếm toàn cầu. Ở lượt thứ 3, động cơ 100 học thuyết sẽ rèn phân tích chuyên sâu 6 trục cho từ khóa này đúng một lần — sau đó miễn phí cho mọi người.",
-    "appLoopLabel": "Vòng lặp ứng dụng & tài sản trực tiếp",
+    "appLoopLabel": "Lối tắt",
     "restoredNote": "Thang đã được khôi phục sau khi đổi ngôn ngữ — không mất gì cả.",
     "cachedBadge": "Bộ đệm chủ quyền · chi phí 0",
     "freshBadge": "Vừa được tổng hợp",

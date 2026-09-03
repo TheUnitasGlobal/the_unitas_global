@@ -368,7 +368,8 @@
       "realEstate": "Imóveis",
       "dating": "Relacionamentos",
       "assets": "Recursos"
-    }
+    },
+    "searchSubmitAria": "Executar pesquisa (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Regras de participação",
@@ -823,12 +824,7 @@
     "subhead": "Uma leitura estereoscópica de três segundos, um escudo de viés comercial e, sob demanda, a trajetória profunda. Não é um chat: é um relatório com grau de decisão.",
     "placeholder": "Pergunte qualquer coisa à U-AI…",
     "submit": "Analisar",
-    "reportLabel": "U-AI · RELATÓRIO DE ANÁLISE",
     "surfaceScanning": "Analisando três perspectivas — técnica, econômica, pública…",
-    "directionality": {
-      "divergent": "Pergunta divergente",
-      "convergent": "Intenção convergente"
-    },
     "lensLabel": "Visão estereoscópica de 3 segundos",
     "lens": {
       "tech": "Técnica",
@@ -919,7 +915,6 @@
     "insightForging": "O motor soberano está a forjar o redesenho de 6 eixos — aparecerá aqui e ficará gratuito para sempre.",
     "insightPending": "{hits} / 3 pesquisas. Na 3.ª, o motor das 100 doutrinas forja este redesenho uma única vez — depois é gratuito para todos, para sempre.",
     "insightFreshBadge": "Forjado agora mesmo · selado na Memória Génesis",
-    "insightCachedNote": "Servido a partir da Memória Génesis · custo do motor $0",
     "insightVectorLabel": "Vetor de Redesenho · O Eixo Cego",
     "insightAxisReading": "Leitura",
     "insightAxisRedesign": "Redesenho"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Toque para aninhar um novo nível abaixo",
     "deepLabel": "Análise profunda UNITAS",
     "deepPending": "{hits} / 3 pesquisas globais. Na 3.ª, o motor das 100 doutrinas forja uma única vez a análise profunda de 6 eixos desta palavra-chave — depois é grátis para todos.",
-    "appLoopLabel": "Ciclo direto de apps e recursos",
+    "appLoopLabel": "Atalhos",
     "restoredNote": "Escada restaurada após a mudança de idioma — nada se perdeu.",
     "cachedBadge": "Cache soberano · custo 0",
     "freshBadge": "Recém-sintetizado",

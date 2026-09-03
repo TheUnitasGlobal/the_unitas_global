@@ -368,7 +368,8 @@
       "realEstate": "房产",
       "dating": "恋爱",
       "assets": "资产"
-    }
+    },
+    "searchSubmitAria": "执行搜索 (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "参与规则",
@@ -823,12 +824,7 @@
     "subhead": "三秒立体视角、商业偏见护盾，随后按需展开深层轨迹。这不是聊天，而是决策级简报。",
     "placeholder": "向 U-AI 提问任何问题…",
     "submit": "分析",
-    "reportLabel": "U-AI · 分析报告",
     "surfaceScanning": "正在扫描三种视角 — 技术、经济、舆论…",
-    "directionality": {
-      "divergent": "发散型问题",
-      "convergent": "收敛型意图"
-    },
     "lensLabel": "三秒立体视角",
     "lens": {
       "tech": "技术",
@@ -919,7 +915,6 @@
     "insightForging": "主权引擎正在锻造六轴重设计 — 它将显示在此处并永久免费。",
     "insightPending": "搜索 {hits} / 3 次。第 3 次时，百大超宪法引擎将一次性锻造此重设计 — 此后对所有人永久免费。",
     "insightFreshBadge": "刚刚锻造 · 已封入创世记忆",
-    "insightCachedNote": "由创世记忆提供 · 引擎成本 $0",
     "insightVectorLabel": "重设计向量 · 盲区轴",
     "insightAxisReading": "解读",
     "insightAxisRedesign": "重设计"
@@ -1046,7 +1041,7 @@
     "keywordHint": "点击可在下方嵌套新的层级",
     "deepLabel": "UNITAS 深度分析",
     "deepPending": "全球搜索 {hits} / 3 次。第 3 次时，百条宪章引擎将为该关键词一次性锻造 6 轴深度分析，此后对所有人永久免费。",
-    "appLoopLabel": "直达应用与资产循环",
+    "appLoopLabel": "快捷方式",
     "restoredNote": "语言切换后阶梯已恢复 — 结果未丢失。",
     "cachedBadge": "主权缓存 · 零成本",
     "freshBadge": "刚刚合成",

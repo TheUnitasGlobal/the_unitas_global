@@ -368,7 +368,8 @@
       "realEstate": "Real Estate",
       "dating": "Dating",
       "assets": "Assets"
-    }
+    },
+    "searchSubmitAria": "Run search (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Engagement Rules",
@@ -823,12 +824,7 @@
     "subhead": "A three-second stereoscopic read, a commercial-bias shield, then — on demand — the deep trajectory. Not a chat. A decision-grade brief.",
     "placeholder": "Ask U-AI anything…",
     "submit": "Analyze",
-    "reportLabel": "U-AI · ANALYSIS REPORT",
     "surfaceScanning": "Scanning three perspectives — technical, economic, public…",
-    "directionality": {
-      "divergent": "Divergent question",
-      "convergent": "Convergent intent"
-    },
     "lensLabel": "3-Second Stereoscopic View",
     "lens": {
       "tech": "Technical",
@@ -919,7 +915,6 @@
     "insightForging": "The sovereign engine is forging the 6-axis redesign — it will appear here and stay free forever.",
     "insightPending": "{hits} / 3 searches. On the 3rd, the 100-doctrine engine forges this redesign once — then it is free for everyone, forever.",
     "insightFreshBadge": "Forged just now · sealed into Genesis Memory",
-    "insightCachedNote": "Served from Genesis Memory · engine cost $0",
     "insightVectorLabel": "Redesign Vector · The Blind Axis",
     "insightAxisReading": "Reading",
     "insightAxisRedesign": "Redesign"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Tap to nest a new tier below",
     "deepLabel": "UNITAS deep analysis",
     "deepPending": "{hits} / 3 global searches. On the 3rd, the 100-doctrine engine forges this keyword’s 6-axis deep analysis once — free for everyone after.",
-    "appLoopLabel": "Direct app & asset loop",
+    "appLoopLabel": "Shortcuts",
     "restoredNote": "Ladder restored after the language switch — nothing was lost.",
     "cachedBadge": "Sovereign cache · 0-cost",
     "freshBadge": "Freshly synthesized",

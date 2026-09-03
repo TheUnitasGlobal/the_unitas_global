@@ -368,7 +368,8 @@
       "realEstate": "부동산",
       "dating": "연애",
       "assets": "에셋"
-    }
+    },
+    "searchSubmitAria": "검색 실행 (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "참여 규칙",
@@ -823,12 +824,7 @@
     "subhead": "3초 입체 관점, 상업적 편향 실드, 그리고 필요할 때만 여는 심층 궤적. 대화가 아니라 결단 등급 보고서다.",
     "placeholder": "무엇이든 U-AI에 물어보세요…",
     "submit": "분석",
-    "reportLabel": "U-AI · 분석 보고서",
     "surfaceScanning": "세 관점을 스캔하는 중 — 기술 · 경제 · 여론…",
-    "directionality": {
-      "divergent": "발산형 질문",
-      "convergent": "수렴형 의도"
-    },
     "lensLabel": "3초 입체 관점",
     "lens": {
       "tech": "기술",
@@ -919,7 +915,6 @@
     "insightForging": "소버린 엔진이 6축 재설계를 벼려내는 중 — 여기에 표시되며 영원히 무료로 유지됩니다.",
     "insightPending": "검색 {hits} / 3회. 3회째에 100대 초-헌법 엔진이 이 재설계를 단 한 번 벼려냅니다 — 이후로는 모두에게 영원히 무료입니다.",
     "insightFreshBadge": "방금 벼려냄 · 제네시스 메모리에 봉인",
-    "insightCachedNote": "제네시스 메모리에서 제공 · 엔진 원가 $0",
     "insightVectorLabel": "재설계 벡터 · 사각지대 축",
     "insightAxisReading": "판독",
     "insightAxisRedesign": "재설계"
@@ -1046,7 +1041,7 @@
     "keywordHint": "탭하면 아래에 새 계층이 중첩됩니다",
     "deepLabel": "유니타스 심층 분석",
     "deepPending": "글로벌 검색 {hits} / 3회. 3회째에 100대 헌법 엔진이 이 키워드의 6축 심층 분석을 단 한 번 포징하며, 이후 모두에게 무료로 제공됩니다.",
-    "appLoopLabel": "다이렉트 앱 & 에셋 순환 고리",
+    "appLoopLabel": "바로가기",
     "restoredNote": "언어 전환 후 사다리가 복원되었습니다 — 결과는 유실되지 않았습니다.",
     "cachedBadge": "소버린 캐시 · 비용 0원",
     "freshBadge": "방금 합성됨",

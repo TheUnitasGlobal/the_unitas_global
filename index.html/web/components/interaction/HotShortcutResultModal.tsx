@@ -617,15 +617,9 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
 
       {analysis && (
         <div className="mb-2 flex flex-wrap gap-1.5">
-          <span
-            className="border px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest"
-            style={{ color: tier.color, borderColor: `${tier.color}55` }}
-          >
-            {tUai(`constitution.${analysis.report.topConstitutionAxis}`)}
-          </span>
-          <span className="border border-white/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-            {tUai(`shield.${analysis.report.shield.verdict}`)}
-          </span>
+          {/* The doctrine-axis chip ("예술 · 철학" 등) and the shield-verdict
+              chip ("중립" 등) were deleted wholesale per owner instruction
+              2026-09-02 -- only provenance chips remain. */}
           {analysis.web.sourced && (
             <span className="border border-white/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-gray-400">
               {tUai('webSourcedBadge', { count: analysis.web.sources.length })}
@@ -664,6 +658,33 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
 
       {analysis && (
         <div className="mt-3 space-y-3">
+          {/* UNITAS deep analysis -- the LLM-forged 6-axis sovereign redesign
+              the nightly batch parks in Genesis Memory. Relocated to the very
+              top, ABOVE the global pulse area, and the "제네시스 메모리에서
+              제공 · 엔진 원가 $0" line permanently deleted (owner instruction
+              2026-09-02). */}
+          {report && (
+            <div className="border p-3" style={{ borderColor: `${tier.color}33`, backgroundColor: `${tier.color}0a` }}>
+              <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.3em]" style={{ color: tier.color }}>
+                {tModal('deepLabel')}
+              </p>
+              <div className="space-y-2">
+                <p className="text-[13px] italic leading-relaxed text-gray-100 [text-wrap:balance]">{report.vector}</p>
+                <p className="text-[12px] leading-relaxed text-gray-300">{report.synthesis}</p>
+                <ul className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
+                  {report.axes.map((ax) => (
+                    <li key={ax.axis} className="border border-white/10 p-2">
+                      <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: tier.color }}>
+                        {tUai(`constitution.${ax.axis}`)}
+                      </p>
+                      <p className="mt-1 text-[11px] leading-snug text-gray-300">{ax.redesign}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
           {/* Global pulse gauge */}
           <div>
             <div className="mb-1 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.25em] text-gray-500">
@@ -817,32 +838,6 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
             </div>
           )}
 
-          {/* UNITAS deep analysis -- the LLM-forged 6-axis sovereign redesign
-              the nightly batch parks in Genesis Memory, served at 0원 on every
-              tier that has one. (The queue-waiting notice box was removed per
-              owner cleansing instruction 2026-09-02 -- no report, no box.) */}
-          {report && (
-            <div className="border p-3" style={{ borderColor: `${tier.color}33`, backgroundColor: `${tier.color}0a` }}>
-              <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.3em]" style={{ color: tier.color }}>
-                {tModal('deepLabel')}
-              </p>
-              <div className="space-y-2">
-                <p className="text-[13px] italic leading-relaxed text-gray-100 [text-wrap:balance]">{report.vector}</p>
-                <p className="text-[12px] leading-relaxed text-gray-300">{report.synthesis}</p>
-                <ul className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
-                  {report.axes.map((ax) => (
-                    <li key={ax.axis} className="border border-white/10 p-2">
-                      <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: tier.color }}>
-                        {tUai(`constitution.${ax.axis}`)}
-                      </p>
-                      <p className="mt-1 text-[11px] leading-snug text-gray-300">{ax.redesign}</p>
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-[10px] text-gray-500">{tUai('insightCachedNote')}</p>
-              </div>
-            </div>
-          )}
         </div>
       )}
     </motion.article>

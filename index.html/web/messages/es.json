@@ -368,7 +368,8 @@
       "realEstate": "Inmobiliario",
       "dating": "Citas",
       "assets": "Recursos"
-    }
+    },
+    "searchSubmitAria": "Ejecutar búsqueda (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Reglas de Participación",
@@ -823,12 +824,7 @@
     "subhead": "Una lectura estereoscópica de tres segundos, un escudo de sesgo comercial y, bajo demanda, la trayectoria profunda. No es un chat: es un informe con grado de decisión.",
     "placeholder": "Pregunta lo que sea a U-AI…",
     "submit": "Analizar",
-    "reportLabel": "U-AI · INFORME DE ANÁLISIS",
     "surfaceScanning": "Escaneando tres perspectivas: técnica, económica, pública…",
-    "directionality": {
-      "divergent": "Pregunta divergente",
-      "convergent": "Intención convergente"
-    },
     "lensLabel": "Vista estereoscópica de 3 segundos",
     "lens": {
       "tech": "Técnica",
@@ -919,7 +915,6 @@
     "insightForging": "El motor soberano está forjando el rediseño de 6 ejes: aparecerá aquí y será gratis para siempre.",
     "insightPending": "{hits} / 3 búsquedas. En la 3.ª, el motor de las 100 doctrinas forja este rediseño una sola vez y luego es gratis para todos, para siempre.",
     "insightFreshBadge": "Recién forjado · sellado en la Memoria Génesis",
-    "insightCachedNote": "Servido desde la Memoria Génesis · coste de motor $0",
     "insightVectorLabel": "Vector de Rediseño · El Eje Ciego",
     "insightAxisReading": "Lectura",
     "insightAxisRedesign": "Rediseño"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Toca para anidar un nuevo nivel debajo",
     "deepLabel": "Análisis profundo UNITAS",
     "deepPending": "{hits} / 3 búsquedas globales. En la 3.ª, el motor de las 100 doctrinas forja una sola vez el análisis profundo de 6 ejes de esta palabra clave; después es gratis para todos.",
-    "appLoopLabel": "Bucle directo de apps y recursos",
+    "appLoopLabel": "Accesos directos",
     "restoredNote": "Escalera restaurada tras el cambio de idioma: no se perdió nada.",
     "cachedBadge": "Caché soberana · coste 0",
     "freshBadge": "Recién sintetizado",

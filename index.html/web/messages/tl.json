@@ -368,7 +368,8 @@
       "realEstate": "Real Estate",
       "dating": "Dating",
       "assets": "Assets"
-    }
+    },
+    "searchSubmitAria": "Patakbuhin ang paghahanap (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Mga Panuntunan sa Pakikilahok",
@@ -823,12 +824,7 @@
     "subhead": "Isang tatlong-segundong stereoscopic na pagbasa, isang commercial-bias shield, pagkatapos — kung kailangan — ang malalim na trajectory. Hindi isang chat. Isang decision-grade brief.",
     "placeholder": "Tanungin ang U-AI ng kahit ano…",
     "submit": "Suriin",
-    "reportLabel": "U-AI · ANALYSIS REPORT",
     "surfaceScanning": "Sinusuri ang tatlong perspektiba — technical, economic, public…",
-    "directionality": {
-      "divergent": "Divergent na tanong",
-      "convergent": "Convergent na hangarin"
-    },
     "lensLabel": "3-Segundong Stereoscopic View",
     "lens": {
       "tech": "Technical",
@@ -919,7 +915,6 @@
     "insightForging": "Ginagawa ng sovereign engine ang 6-axis redesign — lilitaw ito rito at mananatiling libre magpakailanman.",
     "insightPending": "{hits} / 3 na paghahanap. Sa ika-3, isang beses bubuuin ng 100-doctrine engine ang redesign na ito — pagkatapos ay libre ito para sa lahat, magpakailanman.",
     "insightFreshBadge": "Kababuo lamang · naka-seal sa Genesis Memory",
-    "insightCachedNote": "Mula sa Genesis Memory · engine cost $0",
     "insightVectorLabel": "Redesign Vector · Ang Blind Axis",
     "insightAxisReading": "Pagbasa",
     "insightAxisRedesign": "Redesign"
@@ -1046,7 +1041,7 @@
     "keywordHint": "I-tap para maglagay ng bagong antas sa ibaba",
     "deepLabel": "Malalim na pagsusuri ng UNITAS",
     "deepPending": "{hits} / 3 pandaigdigang paghahanap. Sa ika-3, minsang huhubugin ng 100-doctrine engine ang 6-axis na malalim na pagsusuri ng keyword na ito — libre na para sa lahat pagkatapos.",
-    "appLoopLabel": "Direktang app at asset loop",
+    "appLoopLabel": "Mga Shortcut",
     "restoredNote": "Naibalik ang hagdan matapos magpalit ng wika — walang nawala.",
     "cachedBadge": "Sovereign cache · 0 gastos",
     "freshBadge": "Bagong na-synthesize",

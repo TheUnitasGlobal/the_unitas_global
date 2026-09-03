@@ -368,7 +368,8 @@
       "realEstate": "Properti",
       "dating": "Kencan",
       "assets": "Aset"
-    }
+    },
+    "searchSubmitAria": "Jalankan pencarian (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Aturan Keterlibatan",
@@ -823,12 +824,7 @@
     "subhead": "Pandangan stereoskopis tiga detik, perisai bias komersial, lalu — sesuai permintaan — lintasan mendalam. Bukan obrolan, melainkan ringkasan tingkat keputusan.",
     "placeholder": "Tanyakan apa saja ke U-AI…",
     "submit": "Analisis",
-    "reportLabel": "U-AI · LAPORAN ANALISIS",
     "surfaceScanning": "Memindai tiga perspektif — teknis, ekonomi, publik…",
-    "directionality": {
-      "divergent": "Pertanyaan divergen",
-      "convergent": "Niat konvergen"
-    },
     "lensLabel": "Pandangan Stereoskopis 3 Detik",
     "lens": {
       "tech": "Teknis",
@@ -919,7 +915,6 @@
     "insightForging": "Mesin berdaulat sedang menempa desain ulang 6 sumbu — akan muncul di sini dan tetap gratis selamanya.",
     "insightPending": "{hits} / 3 pencarian. Pada pencarian ke-3, mesin 100 doktrin menempa desain ulang ini satu kali — setelah itu gratis untuk semua orang, selamanya.",
     "insightFreshBadge": "Baru ditempa · disegel ke Genesis Memory",
-    "insightCachedNote": "Disajikan dari Genesis Memory · biaya mesin $0",
     "insightVectorLabel": "Vektor Desain Ulang · Sumbu Buta",
     "insightAxisReading": "Pembacaan",
     "insightAxisRedesign": "Desain Ulang"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Ketuk untuk menyarangkan tingkat baru di bawah",
     "deepLabel": "Analisis mendalam UNITAS",
     "deepPending": "{hits} / 3 pencarian global. Pada yang ke-3, mesin 100 doktrin menempa analisis mendalam 6 sumbu untuk kata kunci ini sekali saja — setelahnya gratis untuk semua.",
-    "appLoopLabel": "Lingkar aplikasi & aset langsung",
+    "appLoopLabel": "Pintasan",
     "restoredNote": "Tangga dipulihkan setelah ganti bahasa — tidak ada yang hilang.",
     "cachedBadge": "Cache berdaulat · biaya 0",
     "freshBadge": "Baru disintesis",

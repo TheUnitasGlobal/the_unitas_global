@@ -368,7 +368,8 @@
       "realEstate": "不動産",
       "dating": "恋愛",
       "assets": "アセット"
-    }
+    },
+    "searchSubmitAria": "検索を実行 (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "参加ルール",
@@ -823,12 +824,7 @@
     "subhead": "3秒の立体視点、商業バイアスのシールド、そして必要なときだけ開く深層の軌跡。会話ではなく、意思決定グレードのブリーフ。",
     "placeholder": "U-AI に何でも聞いてください…",
     "submit": "分析",
-    "reportLabel": "U-AI · 分析レポート",
     "surfaceScanning": "3つの視点をスキャン中 — 技術・経済・世論…",
-    "directionality": {
-      "divergent": "発散型の問い",
-      "convergent": "収束型の意図"
-    },
     "lensLabel": "3秒の立体視点",
     "lens": {
       "tech": "技術",
@@ -919,7 +915,6 @@
     "insightForging": "ソブリンエンジンが6軸の再設計を鍛造中 — ここに表示され、永久に無料のままです。",
     "insightPending": "検索 {hits} / 3回。3回目で100の超憲法エンジンがこの再設計を一度だけ鍛造します — 以降は全員に永久無料です。",
     "insightFreshBadge": "たった今鍛造 · ジェネシスメモリに封印",
-    "insightCachedNote": "ジェネシスメモリから配信 · エンジン原価 $0",
     "insightVectorLabel": "再設計ベクトル · 盲点の軸",
     "insightAxisReading": "読解",
     "insightAxisRedesign": "再設計"
@@ -1046,7 +1041,7 @@
     "keywordHint": "タップすると下に新しい階層が入れ子になります",
     "deepLabel": "UNITAS 深層分析",
     "deepPending": "グローバル検索 {hits} / 3回。3回目に100ドクトリンエンジンがこのキーワードの6軸深層分析を一度だけ鍛造し、以降は誰でも無料です。",
-    "appLoopLabel": "ダイレクトアプリ & アセットループ",
+    "appLoopLabel": "ショートカット",
     "restoredNote": "言語切替後にラダーを復元しました — 何も失われていません。",
     "cachedBadge": "ソブリンキャッシュ · コスト0",
     "freshBadge": "合成したばかり",

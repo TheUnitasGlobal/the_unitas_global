@@ -368,7 +368,8 @@
       "realEstate": "Kinnisvara",
       "dating": "Kohtingud",
       "assets": "Varad"
-    }
+    },
+    "searchSubmitAria": "Käivita otsing (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Osalemise Reeglid",
@@ -823,12 +824,7 @@
     "subhead": "Kolmesekundiline stereoskoopiline vaade, ärilise kallutatuse kilp ning seejärel nõudmisel sügav trajektoor. See pole vestlus, vaid otsustustasemel ülevaade.",
     "placeholder": "Küsi U-AI-lt ükskõik mida…",
     "submit": "Analüüsi",
-    "reportLabel": "U-AI · ANALÜÜSIARUANNE",
     "surfaceScanning": "Skaneerin kolme vaatenurka — tehniline, majanduslik, avalik…",
-    "directionality": {
-      "divergent": "Hajus küsimus",
-      "convergent": "Koonduv kavatsus"
-    },
     "lensLabel": "3-sekundiline stereoskoopiline vaade",
     "lens": {
       "tech": "Tehniline",
@@ -919,7 +915,6 @@
     "insightForging": "Suveräänne mootor sepistab 6-teljelist ümberkujundust — see ilmub siia ja jääb igaveseks tasuta.",
     "insightPending": "{hits} / 3 otsingut. Kolmandal korral sepistab 100 doktriini mootor selle ümberkujunduse ühe korra — seejärel on see kõigile igavesti tasuta.",
     "insightFreshBadge": "Äsja sepistatud · pitseeritud Genesis-mällu",
-    "insightCachedNote": "Serveeritud Genesis-mälust · mootori kulu $0",
     "insightVectorLabel": "Ümberkujunduse vektor · pime telg",
     "insightAxisReading": "Lugem",
     "insightAxisRedesign": "Ümberkujundus"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Puuduta, et lisada alla uus tasand",
     "deepLabel": "UNITASe süvaanalüüs",
     "deepPending": "{hits} / 3 globaalset otsingut. Kolmandal sepistab 100 doktriini mootor selle märksõna 6-teljelise süvaanalüüsi ühe korra — pärast seda on see kõigile tasuta.",
-    "appLoopLabel": "Otserakenduste ja varade ring",
+    "appLoopLabel": "Otseteed",
     "restoredNote": "Redel taastati pärast keelevahetust — midagi ei läinud kaduma.",
     "cachedBadge": "Suveräänne vahemälu · 0 kulu",
     "freshBadge": "Värskelt sünteesitud",

@@ -368,7 +368,8 @@
       "realEstate": "Nieruchomości",
       "dating": "Randki",
       "assets": "Zasoby"
-    }
+    },
+    "searchSubmitAria": "Uruchom wyszukiwanie (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Zasady uczestnictwa",
@@ -823,12 +824,7 @@
     "subhead": "Trzysekundowy stereoskopowy odczyt, tarcza przed komercyjnym uprzedzeniem, a następnie — na żądanie — głęboka trajektoria. To nie czat. To brief na poziomie decyzyjnym.",
     "placeholder": "Zapytaj U-AI o cokolwiek…",
     "submit": "Analizuj",
-    "reportLabel": "U-AI · RAPORT ANALITYCZNY",
     "surfaceScanning": "Skanowanie trzech perspektyw — technicznej, ekonomicznej, publicznej…",
-    "directionality": {
-      "divergent": "Pytanie rozbieżne",
-      "convergent": "Intencja zbieżna"
-    },
     "lensLabel": "Trzysekundowy widok stereoskopowy",
     "lens": {
       "tech": "Techniczna",
@@ -919,7 +915,6 @@
     "insightForging": "Suwerenny silnik kuje przeprojektowanie na 6 osiach — pojawi się tutaj i pozostanie darmowe na zawsze.",
     "insightPending": "{hits} / 3 wyszukiwań. Przy 3. silnik 100 doktryn wykuje to przeprojektowanie jednorazowo — potem jest darmowe dla wszystkich, na zawsze.",
     "insightFreshBadge": "Wykute przed chwilą · zapieczętowane w Genesis Memory",
-    "insightCachedNote": "Dostarczone z Genesis Memory · koszt silnika 0 zł",
     "insightVectorLabel": "Wektor przeprojektowania · ślepa oś",
     "insightAxisReading": "Odczyt",
     "insightAxisRedesign": "Przeprojektowanie"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Dotknij, aby zagnieździć nowy poziom poniżej",
     "deepLabel": "Głęboka analiza UNITAS",
     "deepPending": "{hits} / 3 wyszukiwań globalnych. Przy 3. silnik 100 doktryn wykuwa raz 6-osiową głęboką analizę tego słowa kluczowego — potem jest darmowa dla wszystkich.",
-    "appLoopLabel": "Bezpośrednia pętla aplikacji i zasobów",
+    "appLoopLabel": "Skróty",
     "restoredNote": "Drabina przywrócona po zmianie języka — nic nie przepadło.",
     "cachedBadge": "Suwerenna pamięć podręczna · koszt 0",
     "freshBadge": "Świeżo zsyntetyzowane",

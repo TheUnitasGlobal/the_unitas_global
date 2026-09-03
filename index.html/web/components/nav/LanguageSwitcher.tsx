@@ -98,10 +98,13 @@ export function LanguageSwitcher() {
 
       {open && menuPos && (
         <ModalPortal>
-          <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} aria-hidden="true" />
+          {/* z-[130]/z-[140]: the DialogTower overlay sits at z-[120], and the
+              menu drops down INTO the tower's area -- anything lower left the
+              20 flags/names buried behind the tower's backdrop. */}
+          <div className="fixed inset-0 z-[130]" onClick={() => setOpen(false)} aria-hidden="true" />
           <ul
             style={{ top: menuPos.top, left: menuPos.left, maxHeight: 'min(60vh, 420px)' }}
-            className="fixed z-50 w-40 overflow-y-auto overscroll-contain bg-quantum/95 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-md"
+            className="fixed z-[140] w-40 overflow-y-auto overscroll-contain bg-quantum/95 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-md"
           >
             {routing.locales.map((loc) => (
               <li key={loc}>

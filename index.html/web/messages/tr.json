@@ -368,7 +368,8 @@
       "realEstate": "Gayrimenkul",
       "dating": "Flört",
       "assets": "Varlıklar"
-    }
+    },
+    "searchSubmitAria": "Aramayı çalıştır (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Katılım Kuralları",
@@ -823,12 +824,7 @@
     "subhead": "Üç saniyelik stereoskopik bir okuma, ticari önyargıya karşı bir kalkan, ardından -- talep üzerine -- derin yörünge. Bir sohbet değil. Karar seviyesinde bir brifing.",
     "placeholder": "U-AI'ye her şeyi sorun…",
     "submit": "Analiz Et",
-    "reportLabel": "U-AI · ANALİZ RAPORU",
     "surfaceScanning": "Üç bakış açısı taranıyor — teknik, ekonomik, kamuoyu…",
-    "directionality": {
-      "divergent": "Iraksak soru",
-      "convergent": "Yakınsak niyet"
-    },
     "lensLabel": "3 Saniyelik Stereoskopik Görünüm",
     "lens": {
       "tech": "Teknik",
@@ -919,7 +915,6 @@
     "insightForging": "Egemen motor 6 eksenli yeniden tasarımı dövüyor — burada görünecek ve sonsuza kadar ücretsiz kalacak.",
     "insightPending": "{hits} / 3 arama. 3.'de, 100-doktrin motoru bu yeniden tasarımı bir kez dövüyor — ardından herkes için sonsuza kadar ücretsiz olur.",
     "insightFreshBadge": "Az önce dövüldü · Genesis Memory'ye mühürlendi",
-    "insightCachedNote": "Genesis Memory'den sunuldu · motor maliyeti 0$",
     "insightVectorLabel": "Yeniden Tasarım Vektörü · Kör Eksen",
     "insightAxisReading": "Okuma",
     "insightAxisRedesign": "Yeniden Tasarım"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Altına yeni bir katman eklemek için dokunun",
     "deepLabel": "UNITAS derin analizi",
     "deepPending": "{hits} / 3 küresel arama. 3.’de 100 doktrin motoru bu anahtar kelimenin 6 eksenli derin analizini yalnızca bir kez döver — sonrası herkese ücretsiz.",
-    "appLoopLabel": "Doğrudan uygulama ve varlık döngüsü",
+    "appLoopLabel": "Kısayollar",
     "restoredNote": "Dil değişiminden sonra merdiven geri yüklendi — hiçbir şey kaybolmadı.",
     "cachedBadge": "Egemen önbellek · 0 maliyet",
     "freshBadge": "Yeni sentezlendi",

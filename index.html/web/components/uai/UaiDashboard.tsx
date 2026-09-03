@@ -141,14 +141,10 @@ export function UaiDashboard({
         </button>
       </div>
 
-      <div className="flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-[0.3em] text-accent">{t('reportLabel')}</p>
-        {surface && (
-          <span className="text-[11px] uppercase tracking-widest text-gray-500">
-            {t(`directionality.${surface.directionality}`)}
-          </span>
-        )}
-      </div>
+      {/* Brand HUD title (English, not localized -- matches the tower's
+          toolbar); the old directionality badge ("수렴형 의도" etc.) was
+          cleansed per owner instruction 2026-09-02. */}
+      <p className="text-xs font-bold uppercase tracking-[0.3em] text-accent">U-AI SEARCH RESULT</p>
 
       {(phase === 'surface-loading' || !surface) && (
         <p className="animate-pulse text-sm text-gray-400">{t('surfaceScanning')}</p>
@@ -215,18 +211,25 @@ export function UaiDashboard({
               {insight ? (
                 compact ? (
                   <div className="space-y-2">
-                    <p className="text-[12px] uppercase tracking-widest text-neon/70">
-                      {insight.cached ? t('insightCachedNote') : t('insightFreshBadge')}
-                    </p>
+                    {/* The "제네시스 메모리에서 제공 · 엔진 원가 $0" cached note
+                        was permanently deleted (owner instruction 2026-09-02);
+                        only the fresh-forge badge remains. */}
+                    {!insight.cached && (
+                      <p className="text-[12px] uppercase tracking-widest text-neon/70">
+                        {t('insightFreshBadge')}
+                      </p>
+                    )}
                     <p className="text-[16px] leading-relaxed text-gray-200 [text-wrap:balance]">
                       {insight.synthesis}
                     </p>
                   </div>
                 ) : (
                   <>
-                    <p className="text-[12px] uppercase tracking-widest text-neon/70">
-                      {insight.cached ? t('insightCachedNote') : t('insightFreshBadge')}
-                    </p>
+                    {!insight.cached && (
+                      <p className="text-[12px] uppercase tracking-widest text-neon/70">
+                        {t('insightFreshBadge')}
+                      </p>
+                    )}
                     <p className="border-l-2 border-accent/50 pl-4 font-serif text-[20px] leading-relaxed text-gray-100 [text-wrap:balance] sm:text-[22px]">
                       {insight.synthesis}
                     </p>

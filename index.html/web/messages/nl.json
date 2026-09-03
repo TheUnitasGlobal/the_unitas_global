@@ -368,7 +368,8 @@
       "realEstate": "Vastgoed",
       "dating": "Dating",
       "assets": "Assets"
-    }
+    },
+    "searchSubmitAria": "Zoekopdracht uitvoeren (Enter)"
   },
   "EntryModal": {
     "rulesLabel": "Spelregels",
@@ -823,12 +824,7 @@
     "subhead": "Een stereoscopische lezing van drie seconden, een schild tegen commerciële vertekening, en dan — op aanvraag — het diepe traject. Geen chat. Een brief op beslissingsniveau.",
     "placeholder": "Vraag U-AI wat dan ook…",
     "submit": "Analyseren",
-    "reportLabel": "U-AI · ANALYSERAPPORT",
     "surfaceScanning": "Drie perspectieven scannen — technisch, economisch, publiek…",
-    "directionality": {
-      "divergent": "Divergente vraag",
-      "convergent": "Convergente intentie"
-    },
     "lensLabel": "Stereoscopisch Beeld van 3 Seconden",
     "lens": {
       "tech": "Technisch",
@@ -919,7 +915,6 @@
     "insightForging": "De soevereine engine smeedt het herontwerp met 6 assen — het verschijnt hier en blijft voor altijd gratis.",
     "insightPending": "{hits} / 3 zoekopdrachten. Bij de 3e smeedt de 100-doctrine-engine dit herontwerp eenmalig — daarna is het voor iedereen voor altijd gratis.",
     "insightFreshBadge": "Zojuist gesmeed · verzegeld in Genesis Memory",
-    "insightCachedNote": "Geleverd vanuit Genesis Memory · engine-kosten $0",
     "insightVectorLabel": "Herontwerpvector · De Blinde As",
     "insightAxisReading": "Lezing",
     "insightAxisRedesign": "Herontwerp"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Tik om hieronder een nieuw niveau te nesten",
     "deepLabel": "UNITAS-diepteanalyse",
     "deepPending": "{hits} / 3 wereldwijde zoekopdrachten. Bij de 3e smeedt de 100-doctrine-engine de 6-assige diepteanalyse van dit trefwoord één keer — daarna gratis voor iedereen.",
-    "appLoopLabel": "Directe app- & assetlus",
+    "appLoopLabel": "Snelkoppelingen",
     "restoredNote": "Ladder hersteld na de taalwissel — niets is verloren gegaan.",
     "cachedBadge": "Soevereine cache · 0 kosten",
     "freshBadge": "Zojuist gesynthetiseerd",

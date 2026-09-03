@@ -368,7 +368,8 @@
       "realEstate": "Immobiliare",
       "dating": "Incontri",
       "assets": "Risorse"
-    }
+    },
+    "searchSubmitAria": "Avvia ricerca (Invio)"
   },
   "EntryModal": {
     "rulesLabel": "Regole di Ingaggio",
@@ -823,12 +824,7 @@
     "subhead": "Una lettura stereoscopica di tre secondi, uno scudo anti-bias commerciale, poi — su richiesta — la traiettoria approfondita. Non è una chat. È un briefing di livello decisionale.",
     "placeholder": "Chiedi qualsiasi cosa a U-AI…",
     "submit": "Analizza",
-    "reportLabel": "U-AI · REPORT DI ANALISI",
     "surfaceScanning": "Scansione di tre prospettive in corso — tecnica, economica, opinione pubblica…",
-    "directionality": {
-      "divergent": "Domanda divergente",
-      "convergent": "Intento convergente"
-    },
     "lensLabel": "Vista Stereoscopica di 3 Secondi",
     "lens": {
       "tech": "Tecnica",
@@ -919,7 +915,6 @@
     "insightForging": "Il motore sovrano sta forgiando la riprogettazione a 6 assi — apparirà qui e resterà gratuita per sempre.",
     "insightPending": "{hits} / 3 ricerche. Alla terza, il motore delle 100 dottrine forgia questa riprogettazione una volta — poi è gratuita per tutti, per sempre.",
     "insightFreshBadge": "Forgiata proprio ora · sigillata in Genesis Memory",
-    "insightCachedNote": "Servita da Genesis Memory · costo motore $0",
     "insightVectorLabel": "Vettore di Riprogettazione · L'Asse Cieco",
     "insightAxisReading": "Lettura",
     "insightAxisRedesign": "Riprogettazione"
@@ -1046,7 +1041,7 @@
     "keywordHint": "Tocca per annidare un nuovo livello sotto",
     "deepLabel": "Analisi profonda UNITAS",
     "deepPending": "{hits} / 3 ricerche globali. Alla 3ª, il motore delle 100 dottrine forgia una sola volta l’analisi profonda a 6 assi di questa parola chiave — poi è gratis per tutti.",
-    "appLoopLabel": "Ciclo diretto app e risorse",
+    "appLoopLabel": "Scorciatoie",
     "restoredNote": "Scala ripristinata dopo il cambio di lingua — nulla è andato perso.",
     "cachedBadge": "Cache sovrana · costo 0",
     "freshBadge": "Appena sintetizzato",
