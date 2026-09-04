@@ -1170,7 +1170,7 @@
     "itn": "新闻动态",
     "views": "{count} 次浏览",
     "refresh": "刷新新闻",
-    "source": "来源: Wikimedia 精选源 · GDELT 全球新闻图谱(65+ 种语言) · Google 新闻 RSS · 每 10–15 分钟更新",
+    "source": "来源: Wikimedia 精选源 · Google 新闻 RSS · Bing 新闻 RSS · 每 10–15 分钟更新",
     "category": {
       "world": "全球实时",
       "politics": "全球政治",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year} 年",
     "magnitude": "规模 {n}/5",
     "emptyState": "输入种子并运行 — 结果即时呈现。",
-    "lineage": "增殖谱系"
+    "lineage": "增殖谱系",
+    "pool": {
+      "ideaHeadline": "第{n}代 · 收敛于{axis}轴的三个零资本创业",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "在{axis}轴上{days}天内启动: 自动化{automation}%、利润×{margin}、可行性{viability}%、蓝海{blueOcean}% — 资本0。",
+      "ideaOracle": "下一个复制对象是创意{n}: 蓝海{blueOcean}%是本代最宽广的。",
+      "fateHeadline": "{horizon}年内实现概率{probability}% · 熵{entropy}/100",
+      "fateTitle": "黑入{axis}轴因果律",
+      "fateBody": "此因果律杠杆通过{axis}轴增加+{delta}点。{status}",
+      "leverApplied": "已应用 — 轨迹已包含它。",
+      "leverPending": "尚未应用 — 下一次黑入将解锁。",
+      "fateOracle": "轨迹从第{firstYear}年的{first}%攀升至第{lastYear}年的{last}%; 曲线的陡峭程度由{axis}杠杆决定。",
+      "twinHeadline": "孪生体{signature} · 第{n}代 · 熵{entropy}/100",
+      "twinTitle": "{axis}共振 {score}",
+      "twinBody": "在此孪生体中{axis}轴以{score}/99共振 — 塑造对象行为方式的特质。",
+      "twinOracle": "由{element}({score})引领的活体数据生命 — 其灵魂数据档案随每一代进化。",
+      "chronoHeadline": "通往{year}年{axis}的十年弧线",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "概率{probability}%、{pattern}模式、规模{magnitude}/5 — 距今{offset}年。",
+      "chronoOracle": "枢纽在{year}年: {axis} {probability}%扭转整条时间线。"
+    }
   }
 }

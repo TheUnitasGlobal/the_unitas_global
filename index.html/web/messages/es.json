@@ -1170,7 +1170,7 @@
     "itn": "En las noticias",
     "views": "{count} vistas",
     "refresh": "Actualizar noticias",
-    "source": "Fuentes: feed destacado de Wikimedia · grafo global de noticias GDELT (65+ idiomas) · RSS de Google News · se actualiza cada 10–15 min",
+    "source": "Fuentes: feed destacado de Wikimedia · RSS de Google News · RSS de Bing News · se actualiza cada 10–15 min",
     "category": {
       "world": "Mundo en vivo",
       "politics": "Política mundial",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Magnitud {n}/5",
     "emptyState": "Escribe una semilla y ejecuta — el resultado aparece al instante.",
-    "lineage": "Linaje de replicación"
+    "lineage": "Linaje de replicación",
+    "pool": {
+      "ideaHeadline": "Generación {n} · tres negocios sin capital que convergen en {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Lanzamiento en {days} días sobre el eje {axis}: automatización {automation}%, margen ×{margin}, viabilidad {viability}%, océano azul {blueOcean}% — capital 0.",
+      "ideaOracle": "Replica la idea {n} a continuación: su océano azul del {blueOcean}% es el más amplio de esta generación.",
+      "fateHeadline": "{probability}% de probabilidad de realización en {horizon} años · entropía {entropy}/100",
+      "fateTitle": "Hackear el eje {axis}",
+      "fateBody": "Esta palanca de causalidad suma +{delta} puntos a través de {axis}. {status}",
+      "leverApplied": "Aplicada — la trayectoria ya la incluye.",
+      "leverPending": "Aún no aplicada — el próximo hackeo la desbloquea.",
+      "fateOracle": "La trayectoria sube del {first}% en el año {firstYear} al {last}% en el año {lastYear}; la palanca {axis} decide la pendiente de la curva.",
+      "twinHeadline": "Gemelo {signature} · generación {n} · entropía {entropy}/100",
+      "twinTitle": "Resonancia {axis} {score}",
+      "twinBody": "El eje {axis} resuena a {score}/99 en este gemelo — el rasgo que moldea cómo actúa el sujeto.",
+      "twinOracle": "Un organismo de datos vivo guiado por {element} ({score}) — su archivo de datos del alma evoluciona con cada generación.",
+      "chronoHeadline": "Un arco de 10 años hacia {axis} en {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Probabilidad {probability}%, patrón {pattern}, magnitud {magnitude}/5 — dentro de {offset} años.",
+      "chronoOracle": "La bisagra es {year}: {axis} al {probability}% hace girar toda la línea temporal."
+    }
   }
 }

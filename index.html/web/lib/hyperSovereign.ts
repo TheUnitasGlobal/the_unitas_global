@@ -118,9 +118,36 @@ function clamp(n: number, lo: number, hi: number): number {
   return Math.max(lo, Math.min(hi, n));
 }
 
-/** Trim + collapse whitespace + lowercase + cap: the cache identity of a seed. */
+/** Trim + collapse whitespace + lowercase + cap: the *display* form of a seed. */
 export function normalizeHyperSeed(seed: string): string {
   return Array.from(seed.trim().replace(/\s+/g, ' ').toLowerCase()).slice(0, MAX_HYPER_SEED).join('');
+}
+
+// Built with the RegExp constructor so the ES2017 compile target never sees
+// the `u`-flag property escapes; every runtime this ships to (Node 18+, all
+// evergreen browsers) supports them natively.
+const NON_WORD_RE = new RegExp('[^\\p{L}\\p{N}\\s]+', 'gu');
+const CJK_CLASS = '\\p{Script=Hangul}\\p{Script=Han}\\p{Script=Hiragana}\\p{Script=Katakana}';
+const CJK_GAP_RE = new RegExp(`([${CJK_CLASS}])\\s+(?=[${CJK_CLASS}])`, 'gu');
+
+/**
+ * The *identity* of a seed for both the deterministic engines and the
+ * genesis_memory cache (owner instruction 2026-09-04 round 7, "유사 키워드
+ * 병합"): one step past normalizeHyperSeed so near-duplicate seeds --
+ * "Coffee-Shop!", "coffee shop", "ＣＯＦＦＥＥ shop", "커피 숍" / "커피숍" --
+ * converge on ONE simulation and ONE cached narration instead of forging a
+ * fresh LLM call each. NFKC folds full-width forms, punctuation / symbols /
+ * emoji are dropped, and spaces between CJK characters (a typing habit, not
+ * meaning) are removed. The display keeps normalizeHyperSeed; every hash
+ * and every engine uses this.
+ */
+export function canonicalHyperSeed(seed: string): string {
+  const folded = normalizeHyperSeed(seed.normalize('NFKC'))
+    .replace(NON_WORD_RE, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(CJK_GAP_RE, '$1');
+  return Array.from(folded).slice(0, MAX_HYPER_SEED).join('');
 }
 
 /** Keyword hints that tilt a seed's constitution profile the way the
@@ -136,10 +163,11 @@ const AXIS_HINTS: Record<ConstitutionAxis, RegExp> = {
 };
 
 function axisProfile(seed: string, salt: string): Array<{ axis: ConstitutionAxis; score: number }> {
-  const rng = mulberry32(hashSeed(`${normalizeHyperSeed(seed)}::${salt}`));
+  const canonical = canonicalHyperSeed(seed);
+  const rng = mulberry32(hashSeed(`${canonical}::${salt}`));
   return CONSTITUTION_AXES.map((axis) => {
     const base = 38 + rng() * 44;
-    const boost = AXIS_HINTS[axis].test(seed) ? 12 + rng() * 10 : 0;
+    const boost = AXIS_HINTS[axis].test(canonical) ? 12 + rng() * 10 : 0;
     return { axis, score: Math.round(clamp(base + boost, 20, 97)) };
   });
 }
@@ -181,7 +209,7 @@ export const IDEA_CHILDREN = 3;
  *  days, higher automation) each generation -- the self-replication reads
  *  as *evolution*, not a reshuffle. */
 export function replicateIdeas(seed: string, parentId: string | null, generation: number, count = IDEA_CHILDREN): BusinessIdea[] {
-  const norm = normalizeHyperSeed(seed);
+  const norm = canonicalHyperSeed(seed);
   const rng = mulberry32(hashSeed(`idea::${norm}::${parentId ?? 'root'}::${generation}`));
   const out: BusinessIdea[] = [];
   const usedAxes = new Set<string>();
@@ -282,7 +310,7 @@ export interface TwinResult {
 }
 
 export function forgeTwin(subject: string, generation: number): TwinResult {
-  const norm = normalizeHyperSeed(subject);
+  const norm = canonicalHyperSeed(subject);
   const gen = Math.max(0, generation);
   const rng = mulberry32(hashSeed(`twin::${norm}::${gen}`));
   const constitution = axisProfile(subject, `twin::${gen}`).map((p) => ({
@@ -319,7 +347,7 @@ export interface ChronoMilestone {
 export const CHRONO_OFFSETS = [1, 2, 3, 5, 10] as const;
 
 export function forgeTimeline(subject: string, variant: number, baseYear: number): ChronoMilestone[] {
-  const norm = normalizeHyperSeed(subject);
+  const norm = canonicalHyperSeed(subject);
   const rng = mulberry32(hashSeed(`chrono::${norm}::${variant}`));
   const usedAxes = new Set<string>();
   return CHRONO_OFFSETS.map((offset, i) => {

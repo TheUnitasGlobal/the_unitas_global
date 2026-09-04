@@ -1170,7 +1170,7 @@
     "itn": "In the news",
     "views": "{count} views",
     "refresh": "Refresh news",
-    "source": "Sources: Wikimedia featured feed · GDELT global news graph (65+ languages) · Google News RSS · refreshed every 10–15 min",
+    "source": "Sources: Wikimedia featured feed · Google News RSS · Bing News RSS · refreshed every 10–15 min",
     "category": {
       "world": "World Live",
       "politics": "World Politics",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Magnitude {n}/5",
     "emptyState": "Type a seed and run — the result appears instantly.",
-    "lineage": "Replication lineage"
+    "lineage": "Replication lineage",
+    "pool": {
+      "ideaHeadline": "Generation {n} · three zero-capital ventures converging on {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Launch in {days} days on the {axis} axis: {automation}% automation, ×{margin} margin, {viability}% viability, {blueOcean}% blue ocean — capital 0.",
+      "ideaOracle": "Replicate idea {n} next: its {blueOcean}% blue ocean is the widest of this generation.",
+      "fateHeadline": "{probability}% probability of realization within {horizon} years · entropy {entropy}/100",
+      "fateTitle": "Hack the {axis} axis",
+      "fateBody": "This causality lever adds +{delta} points through {axis}. {status}",
+      "leverApplied": "Applied — the trajectory already includes it.",
+      "leverPending": "Not yet applied — the next hack unlocks it.",
+      "fateOracle": "The trajectory climbs from {first}% in year {firstYear} to {last}% by year {lastYear}; the {axis} lever decides how steep the curve gets.",
+      "twinHeadline": "Twin {signature} · generation {n} · entropy {entropy}/100",
+      "twinTitle": "{axis} resonance {score}",
+      "twinBody": "The {axis} axis resonates at {score}/99 in this twin — the trait that shapes how the subject acts.",
+      "twinOracle": "A living data organism led by {element} ({score}) — its soul-data archive evolves with every generation.",
+      "chronoHeadline": "A 10-year arc toward {axis} by {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Probability {probability}%, {pattern} pattern, magnitude {magnitude}/5 — {offset} years from now.",
+      "chronoOracle": "The hinge is {year}: {axis} at {probability}% turns the whole timeline."
+    }
   }
 }

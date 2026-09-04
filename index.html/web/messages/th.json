@@ -1170,7 +1170,7 @@
     "itn": "ในข่าว",
     "views": "{count} ครั้ง",
     "refresh": "รีเฟรชข่าว",
-    "source": "แหล่งที่มา: Wikimedia featured feed · กราฟข่าวโลก GDELT (65+ ภาษา) · Google News RSS · อัปเดตทุก 10–15 นาที",
+    "source": "แหล่งที่มา: Wikimedia featured feed · Google News RSS · Bing News RSS · อัปเดตทุก 10–15 นาที",
     "category": {
       "world": "โลกสด",
       "politics": "การเมืองโลก",
@@ -1462,6 +1462,26 @@
     "yearLabel": "ปี {year}",
     "magnitude": "ขนาด {n}/5",
     "emptyState": "พิมพ์เมล็ดพันธุ์แล้วรัน — ผลลัพธ์ปรากฏทันที",
-    "lineage": "สายตระกูลการจำลอง"
+    "lineage": "สายตระกูลการจำลอง",
+    "pool": {
+      "ideaHeadline": "รุ่นที่ {n} · ธุรกิจไร้ทุนสามรายที่มาบรรจบบนแกน {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "เปิดตัวใน {days} วันบนแกน {axis}: อัตโนมัติ {automation}%, มาร์จิ้น ×{margin}, ความเป็นไปได้ {viability}%, บลูโอเชียน {blueOcean}% — ทุน 0",
+      "ideaOracle": "จำลองไอเดีย {n} ต่อไป: บลูโอเชียน {blueOcean}% ของมันกว้างที่สุดในรุ่นนี้",
+      "fateHeadline": "ความน่าจะเป็นที่จะเป็นจริง {probability}% ภายใน {horizon} ปี · เอนโทรปี {entropy}/100",
+      "fateTitle": "แฮ็กแกน {axis}",
+      "fateBody": "คานเหตุปัจจัยนี้เพิ่ม +{delta} คะแนนผ่านแกน {axis} {status}",
+      "leverApplied": "ใช้แล้ว — เส้นทางรวมไว้แล้ว",
+      "leverPending": "ยังไม่ได้ใช้ — การแฮ็กครั้งถัดไปจะปลดล็อก",
+      "fateOracle": "เส้นทางไต่จาก {first}% ในปีที่ {firstYear} สู่ {last}% ภายในปีที่ {lastYear} คาน {axis} เป็นตัวกำหนดความชันของเส้นโค้ง",
+      "twinHeadline": "ฝาแฝด {signature} · รุ่นที่ {n} · เอนโทรปี {entropy}/100",
+      "twinTitle": "การสั่นพ้อง {axis} {score}",
+      "twinBody": "แกน {axis} สั่นพ้องที่ {score}/99 ในฝาแฝดนี้ — ลักษณะที่หล่อหลอมวิธีที่ตัวแบบกระทำ",
+      "twinOracle": "สิ่งมีชีวิตข้อมูลที่นำโดย {element} ({score}) — คลังข้อมูลจิตวิญญาณของมันวิวัฒน์ทุกรุ่น",
+      "chronoHeadline": "ส่วนโค้ง 10 ปีสู่ {axis} ภายในปี {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "ความน่าจะเป็น {probability}%, รูปแบบ {pattern}, ขนาด {magnitude}/5 — อีก {offset} ปีจากนี้",
+      "chronoOracle": "บานพับคือปี {year}: {axis} ที่ {probability}% พลิกทั้งไทม์ไลน์"
+    }
   }
 }

@@ -1170,7 +1170,7 @@
     "itn": "In het nieuws",
     "views": "{count} weergaven",
     "refresh": "Nieuws vernieuwen",
-    "source": "Bronnen: Wikimedia featured feed · GDELT wereldwijde nieuwsgraaf (65+ talen) · Google Nieuws RSS · elke 10–15 min vernieuwd",
+    "source": "Bronnen: Wikimedia featured feed · Google Nieuws RSS · Bing Nieuws RSS · elke 10–15 min vernieuwd",
     "category": {
       "world": "Wereld live",
       "politics": "Wereldpolitiek",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Omvang {n}/5",
     "emptyState": "Typ een zaad en voer uit — het resultaat verschijnt meteen.",
-    "lineage": "Replicatiestamboom"
+    "lineage": "Replicatiestamboom",
+    "pool": {
+      "ideaHeadline": "Generatie {n} · drie ventures zonder kapitaal die samenkomen op {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Lancering in {days} dagen op de as {axis}: automatisering {automation}%, marge ×{margin}, haalbaarheid {viability}%, blauwe oceaan {blueOcean}% — kapitaal 0.",
+      "ideaOracle": "Repliceer hierna idee {n}: zijn blauwe oceaan van {blueOcean}% is de breedste van deze generatie.",
+      "fateHeadline": "{probability}% kans op realisatie binnen {horizon} jaar · entropie {entropy}/100",
+      "fateTitle": "Hack de as {axis}",
+      "fateBody": "Deze causaliteitshefboom voegt +{delta} punten toe via {axis}. {status}",
+      "leverApplied": "Toegepast — het traject bevat hem al.",
+      "leverPending": "Nog niet toegepast — de volgende hack ontgrendelt hem.",
+      "fateOracle": "Het traject stijgt van {first}% in jaar {firstYear} naar {last}% tegen jaar {lastYear}; de hefboom {axis} bepaalt hoe steil de curve wordt.",
+      "twinHeadline": "Tweeling {signature} · generatie {n} · entropie {entropy}/100",
+      "twinTitle": "{axis}-resonantie {score}",
+      "twinBody": "De as {axis} resoneert op {score}/99 in deze tweeling — de eigenschap die bepaalt hoe het subject handelt.",
+      "twinOracle": "Een levend data-organisme geleid door {element} ({score}) — zijn zieldata-archief evolueert met elke generatie.",
+      "chronoHeadline": "Een boog van 10 jaar richting {axis} tegen {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Kans {probability}%, patroon {pattern}, magnitude {magnitude}/5 — over {offset} jaar.",
+      "chronoOracle": "Het scharnier is {year}: {axis} op {probability}% draait de hele tijdlijn."
+    }
   }
 }

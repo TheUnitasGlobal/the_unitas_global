@@ -1170,7 +1170,7 @@
     "itn": "Tin nổi bật",
     "views": "{count} lượt xem",
     "refresh": "Làm mới tin tức",
-    "source": "Nguồn: Wikimedia featured feed · đồ thị tin tức toàn cầu GDELT (65+ ngôn ngữ) · Google News RSS · cập nhật mỗi 10–15 phút",
+    "source": "Nguồn: Wikimedia featured feed · Google News RSS · Bing News RSS · cập nhật mỗi 10–15 phút",
     "category": {
       "world": "Thế giới trực tiếp",
       "politics": "Chính trị thế giới",
@@ -1462,6 +1462,26 @@
     "yearLabel": "Năm {year}",
     "magnitude": "Quy mô {n}/5",
     "emptyState": "Nhập hạt giống và chạy — kết quả hiện ngay.",
-    "lineage": "Phả hệ nhân bản"
+    "lineage": "Phả hệ nhân bản",
+    "pool": {
+      "ideaHeadline": "Thế hệ {n} · ba doanh nghiệp không vốn hội tụ về trục {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Ra mắt trong {days} ngày trên trục {axis}: tự động hóa {automation}%, biên lợi nhuận ×{margin}, khả thi {viability}%, đại dương xanh {blueOcean}% — vốn 0.",
+      "ideaOracle": "Nhân bản ý tưởng {n} tiếp theo: đại dương xanh {blueOcean}% của nó rộng nhất thế hệ này.",
+      "fateHeadline": "Xác suất hiện thực hóa {probability}% trong {horizon} năm · entropy {entropy}/100",
+      "fateTitle": "Hack trục {axis}",
+      "fateBody": "Đòn bẩy nhân quả này cộng thêm +{delta} điểm qua trục {axis}. {status}",
+      "leverApplied": "Đã áp dụng — quỹ đạo đã bao gồm nó.",
+      "leverPending": "Chưa áp dụng — lần hack tiếp theo sẽ mở khóa.",
+      "fateOracle": "Quỹ đạo leo từ {first}% ở năm {firstYear} lên {last}% vào năm {lastYear}; đòn bẩy {axis} quyết định độ dốc của đường cong.",
+      "twinHeadline": "Bản sao {signature} · thế hệ {n} · entropy {entropy}/100",
+      "twinTitle": "Cộng hưởng {axis} {score}",
+      "twinBody": "Trục {axis} cộng hưởng ở mức {score}/99 trong bản sao này — đặc tính định hình cách chủ thể hành động.",
+      "twinOracle": "Một sinh thể dữ liệu sống được dẫn dắt bởi {element} ({score}) — kho lưu trữ dữ liệu linh hồn của nó tiến hóa qua từng thế hệ.",
+      "chronoHeadline": "Cung 10 năm hướng tới {axis} vào {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Xác suất {probability}%, mô hình {pattern}, quy mô {magnitude}/5 — {offset} năm kể từ bây giờ.",
+      "chronoOracle": "Bản lề là năm {year}: {axis} ở mức {probability}% xoay chuyển toàn bộ dòng thời gian."
+    }
   }
 }

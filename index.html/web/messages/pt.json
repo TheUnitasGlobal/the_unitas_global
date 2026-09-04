@@ -1170,7 +1170,7 @@
     "itn": "Nas notícias",
     "views": "{count} visualizações",
     "refresh": "Atualizar notícias",
-    "source": "Fontes: feed em destaque da Wikimedia · grafo global de notícias GDELT (65+ idiomas) · RSS do Google Notícias · atualizado a cada 10–15 min",
+    "source": "Fontes: feed em destaque da Wikimedia · RSS do Google Notícias · RSS do Bing Notícias · atualizado a cada 10–15 min",
     "category": {
       "world": "Mundo ao vivo",
       "politics": "Política mundial",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Magnitude {n}/5",
     "emptyState": "Digite uma semente e execute — o resultado aparece na hora.",
-    "lineage": "Linhagem de replicação"
+    "lineage": "Linhagem de replicação",
+    "pool": {
+      "ideaHeadline": "Geração {n} · três negócios sem capital convergindo em {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Lançamento em {days} dias no eixo {axis}: automação {automation}%, margem ×{margin}, viabilidade {viability}%, oceano azul {blueOcean}% — capital 0.",
+      "ideaOracle": "Replique a ideia {n} em seguida: seu oceano azul de {blueOcean}% é o mais amplo desta geração.",
+      "fateHeadline": "{probability}% de probabilidade de realização em {horizon} anos · entropia {entropy}/100",
+      "fateTitle": "Hackear o eixo {axis}",
+      "fateBody": "Esta alavanca de causalidade adiciona +{delta} pontos via {axis}. {status}",
+      "leverApplied": "Aplicada — a trajetória já a inclui.",
+      "leverPending": "Ainda não aplicada — o próximo hack a desbloqueia.",
+      "fateOracle": "A trajetória sobe de {first}% no ano {firstYear} para {last}% no ano {lastYear}; a alavanca {axis} decide a inclinação da curva.",
+      "twinHeadline": "Gêmeo {signature} · geração {n} · entropia {entropy}/100",
+      "twinTitle": "Ressonância {axis} {score}",
+      "twinBody": "O eixo {axis} ressoa a {score}/99 neste gêmeo — o traço que molda como o sujeito age.",
+      "twinOracle": "Um organismo de dados vivo guiado por {element} ({score}) — seu arquivo de dados da alma evolui a cada geração.",
+      "chronoHeadline": "Um arco de 10 anos rumo a {axis} até {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Probabilidade {probability}%, padrão {pattern}, magnitude {magnitude}/5 — daqui a {offset} anos.",
+      "chronoOracle": "A dobradiça é {year}: {axis} a {probability}% vira toda a linha do tempo."
+    }
   }
 }

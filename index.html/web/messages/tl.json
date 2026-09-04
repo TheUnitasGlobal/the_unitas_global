@@ -1170,7 +1170,7 @@
     "itn": "Sa balita",
     "views": "{count} view",
     "refresh": "I-refresh ang balita",
-    "source": "Pinagmulan: Wikimedia featured feed · GDELT global news graph (65+ wika) · Google News RSS · ina-update tuwing 10–15 min",
+    "source": "Pinagmulan: Wikimedia featured feed · Google News RSS · Bing News RSS · ina-update tuwing 10–15 min",
     "category": {
       "world": "Mundo live",
       "politics": "Pulitika ng mundo",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Laki {n}/5",
     "emptyState": "Mag-type ng seed at patakbuhin — agad lalabas ang resulta.",
-    "lineage": "Lineage ng replication"
+    "lineage": "Lineage ng replication",
+    "pool": {
+      "ideaHeadline": "Henerasyon {n} · tatlong negosyong walang kapital na nagtatagpo sa {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Ilunsad sa loob ng {days} araw sa axis na {axis}: automation {automation}%, margin ×{margin}, viability {viability}%, blue ocean {blueOcean}% — kapital 0.",
+      "ideaOracle": "Sunod na i-replicate ang ideya {n}: ang {blueOcean}% blue ocean nito ang pinakamalawak sa henerasyong ito.",
+      "fateHeadline": "{probability}% na posibilidad ng pagkakatupad sa loob ng {horizon} taon · entropy {entropy}/100",
+      "fateTitle": "I-hack ang axis na {axis}",
+      "fateBody": "Ang causality lever na ito ay nagdaragdag ng +{delta} puntos sa pamamagitan ng {axis}. {status}",
+      "leverApplied": "Nailapat na — kasama na ito sa trajectory.",
+      "leverPending": "Hindi pa nailalapat — ang susunod na hack ang magbubukas nito.",
+      "fateOracle": "Umaakyat ang trajectory mula {first}% sa taon {firstYear} hanggang {last}% pagsapit ng taon {lastYear}; ang lever na {axis} ang nagpapasya kung gaano katarik ang kurba.",
+      "twinHeadline": "Kambal {signature} · henerasyon {n} · entropy {entropy}/100",
+      "twinTitle": "Resonance ng {axis} {score}",
+      "twinBody": "Ang axis na {axis} ay nagre-resonate sa {score}/99 sa kambal na ito — ang katangiang humuhubog kung paano kumikilos ang paksa.",
+      "twinOracle": "Isang buhay na organismong data na pinangungunahan ng {element} ({score}) — umuusbong ang soul-data archive nito sa bawat henerasyon.",
+      "chronoHeadline": "Isang 10-taong arko patungo sa {axis} pagsapit ng {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Posibilidad {probability}%, pattern na {pattern}, magnitude {magnitude}/5 — {offset} taon mula ngayon.",
+      "chronoOracle": "Ang bisagra ay {year}: ang {axis} sa {probability}% ang umiikot sa buong timeline."
+    }
   }
 }

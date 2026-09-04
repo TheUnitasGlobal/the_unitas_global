@@ -1170,7 +1170,7 @@
     "itn": "Nelle notizie",
     "views": "{count} visualizzazioni",
     "refresh": "Aggiorna notizie",
-    "source": "Fonti: feed in evidenza Wikimedia · grafo globale delle notizie GDELT (65+ lingue) · RSS Google News · aggiornato ogni 10–15 min",
+    "source": "Fonti: feed in evidenza Wikimedia · RSS Google News · RSS Bing News · aggiornato ogni 10–15 min",
     "category": {
       "world": "Mondo in diretta",
       "politics": "Politica mondiale",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Portata {n}/5",
     "emptyState": "Scrivi un seme ed esegui — il risultato appare all’istante.",
-    "lineage": "Genealogia della replicazione"
+    "lineage": "Genealogia della replicazione",
+    "pool": {
+      "ideaHeadline": "Generazione {n} · tre imprese a capitale zero che convergono su {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Lancio in {days} giorni sull'asse {axis}: automazione {automation}%, margine ×{margin}, fattibilità {viability}%, oceano blu {blueOcean}% — capitale 0.",
+      "ideaOracle": "Replica poi l'idea {n}: il suo oceano blu del {blueOcean}% è il più ampio di questa generazione.",
+      "fateHeadline": "{probability}% di probabilità di realizzazione entro {horizon} anni · entropia {entropy}/100",
+      "fateTitle": "Hackerare l'asse {axis}",
+      "fateBody": "Questa leva di causalità aggiunge +{delta} punti tramite {axis}. {status}",
+      "leverApplied": "Applicata — la traiettoria la include già.",
+      "leverPending": "Non ancora applicata — il prossimo hack la sblocca.",
+      "fateOracle": "La traiettoria sale dal {first}% nell'anno {firstYear} al {last}% entro l'anno {lastYear}; la leva {axis} decide la pendenza della curva.",
+      "twinHeadline": "Gemello {signature} · generazione {n} · entropia {entropy}/100",
+      "twinTitle": "Risonanza {axis} {score}",
+      "twinBody": "L'asse {axis} risuona a {score}/99 in questo gemello — il tratto che plasma il modo di agire del soggetto.",
+      "twinOracle": "Un organismo di dati vivente guidato da {element} ({score}) — il suo archivio di dati dell'anima evolve a ogni generazione.",
+      "chronoHeadline": "Un arco di 10 anni verso {axis} entro il {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Probabilità {probability}%, schema {pattern}, magnitudo {magnitude}/5 — tra {offset} anni.",
+      "chronoOracle": "Il cardine è il {year}: {axis} al {probability}% fa girare l'intera linea temporale."
+    }
   }
 }

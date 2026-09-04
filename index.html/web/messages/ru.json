@@ -1170,7 +1170,7 @@
     "itn": "В новостях",
     "views": "{count} просмотров",
     "refresh": "Обновить новости",
-    "source": "Источники: Wikimedia featured feed · глобальный граф новостей GDELT (65+ языков) · RSS Google Новостей · обновление каждые 10–15 мин",
+    "source": "Источники: Wikimedia featured feed · RSS Google Новостей · RSS Bing Новостей · обновление каждые 10–15 мин",
     "category": {
       "world": "Мир в прямом эфире",
       "politics": "Мировая политика",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Масштаб {n}/5",
     "emptyState": "Введите семя и запустите — результат появится мгновенно.",
-    "lineage": "Родословная воспроизводства"
+    "lineage": "Родословная воспроизводства",
+    "pool": {
+      "ideaHeadline": "Поколение {n} · три бизнеса без капитала, сходящиеся к оси {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Запуск за {days} дней на оси {axis}: автоматизация {automation}%, маржа ×{margin}, жизнеспособность {viability}%, голубой океан {blueOcean}% — капитал 0.",
+      "ideaOracle": "Следующей реплицируйте идею {n}: её голубой океан {blueOcean}% — самый широкий в этом поколении.",
+      "fateHeadline": "Вероятность реализации {probability}% в течение {horizon} лет · энтропия {entropy}/100",
+      "fateTitle": "Взломать ось {axis}",
+      "fateBody": "Этот рычаг причинности добавляет +{delta} пунктов через {axis}. {status}",
+      "leverApplied": "Применён — траектория уже учитывает его.",
+      "leverPending": "Ещё не применён — следующий взлом откроет его.",
+      "fateOracle": "Траектория поднимается с {first}% в год {firstYear} до {last}% к году {lastYear}; крутизну кривой определяет рычаг {axis}.",
+      "twinHeadline": "Двойник {signature} · поколение {n} · энтропия {entropy}/100",
+      "twinTitle": "Резонанс {axis} {score}",
+      "twinBody": "Ось {axis} резонирует на уровне {score}/99 в этом двойнике — черта, формирующая поведение субъекта.",
+      "twinOracle": "Живой организм данных, ведомый стихией {element} ({score}) — его архив данных души эволюционирует с каждым поколением.",
+      "chronoHeadline": "10-летняя дуга к {axis} к {year} году",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Вероятность {probability}%, паттерн {pattern}, масштаб {magnitude}/5 — через {offset} лет.",
+      "chronoOracle": "Шарнир — {year} год: {axis} на {probability}% разворачивает всю временную линию."
+    }
   }
 }

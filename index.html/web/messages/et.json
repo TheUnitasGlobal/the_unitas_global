@@ -1170,7 +1170,7 @@
     "itn": "Uudistes",
     "views": "{count} vaatamist",
     "refresh": "Värskenda uudiseid",
-    "source": "Allikad: Wikimedia esiletõstetud voog · GDELT globaalne uudistegraaf (65+ keelt) · Google Newsi RSS · uuendatakse iga 10–15 min",
+    "source": "Allikad: Wikimedia esiletõstetud voog · Google Newsi RSS · Bing Newsi RSS · uuendatakse iga 10–15 min",
     "category": {
       "world": "Maailm otse",
       "politics": "Maailma poliitika",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Suurus {n}/5",
     "emptyState": "Sisesta seeme ja käivita — tulemus ilmub kohe.",
-    "lineage": "Paljunemise sugupuu"
+    "lineage": "Paljunemise sugupuu",
+    "pool": {
+      "ideaHeadline": "Põlvkond {n} · kolm nullkapitaliga ettevõtet, mis koonduvad teljele {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Käivitus {days} päevaga teljel {axis}: automatiseerimine {automation}%, marginaal ×{margin}, elujõulisus {viability}%, sinine ookean {blueOcean}% — kapital 0.",
+      "ideaOracle": "Paljunda järgmisena ideed {n}: selle {blueOcean}% sinine ookean on selle põlvkonna laiim.",
+      "fateHeadline": "{probability}% teostumise tõenäosus {horizon} aasta jooksul · entroopia {entropy}/100",
+      "fateTitle": "Häki telge {axis}",
+      "fateBody": "See põhjuslikkuse hoob lisab +{delta} punkti telje {axis} kaudu. {status}",
+      "leverApplied": "Rakendatud — trajektoor sisaldab seda juba.",
+      "leverPending": "Veel rakendamata — järgmine häkk avab selle.",
+      "fateOracle": "Trajektoor tõuseb {first}%-lt aastal {firstYear} {last}%-ni aastaks {lastYear}; kõvera järskuse otsustab hoob {axis}.",
+      "twinHeadline": "Kaksik {signature} · põlvkond {n} · entroopia {entropy}/100",
+      "twinTitle": "{axis} resonants {score}",
+      "twinBody": "Telg {axis} resoneerib selles kaksikus tasemel {score}/99 — omadus, mis kujundab subjekti tegutsemist.",
+      "twinOracle": "Elav andmeorganism, mida juhib {element} ({score}) — tema hingeandmete arhiiv areneb iga põlvkonnaga.",
+      "chronoHeadline": "10-aastane kaar telje {axis} suunas aastaks {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Tõenäosus {probability}%, muster {pattern}, ulatus {magnitude}/5 — {offset} aasta pärast.",
+      "chronoOracle": "Hing on aasta {year}: {axis} {probability}% pöörab kogu ajajoone."
+    }
   }
 }

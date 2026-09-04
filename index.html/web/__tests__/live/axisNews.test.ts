@@ -1,18 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import {
   AXIS_NEWS_MAX_PAGE,
+  axisTerm,
+  axisWindow,
   bingNewsUrl,
   decodeEntities,
-  foldGdelt,
   foldGoogleNews,
-  gdeltDateToIso,
-  gdeltPlan,
-  gdeltQuery,
-  gdeltUrl,
-  gdeltWindow,
   googleNewsGlobalUrl,
   googleNewsUrl,
-  isGdeltRateLimited,
+  googleSearchQuery,
   mergeAxisWires,
   parseRss,
 } from '@/lib/live/axisNews';
@@ -38,57 +34,29 @@ describe('hotNews categories', () => {
   });
 });
 
-describe('GDELT query + window', () => {
-  it('parenthesises OR groups and appends sourcelang', () => {
-    expect(gdeltQuery('economy', 'korean')).toBe('(economy OR inflation OR "central bank" OR "stock market" OR tariff OR GDP) sourcelang:korean');
-    expect(gdeltQuery('economy', null)).toBe('(economy OR inflation OR "central bank" OR "stock market" OR tariff OR GDP)');
+describe('axis terms + archive windows', () => {
+  it('rotates one plain term per page, never an OR-group', () => {
+    expect(axisTerm('economy', 0)).toBe('economy');
+    expect(axisTerm('economy', 2)).toBe('central bank');
+    expect(axisTerm('economy', 6)).toBe('economy');
+    expect(axisTerm('law', 1)).not.toContain(' OR ');
   });
 
-  it('pages back through 24h windows', () => {
+  it('windows search pages past the first term cycle, one week further back per cycle', () => {
     const now = new Date('2026-09-04T12:00:00Z');
-    expect(gdeltWindow(0, now)).toEqual({ start: '20260903120000', end: '20260904120000' });
-    expect(gdeltWindow(2, now)).toEqual({ start: '20260901120000', end: '20260902120000' });
-    const url = new URL(gdeltUrl('law', 'thai', 1, now));
-    expect(url.searchParams.get('mode')).toBe('ArtList');
-    expect(url.searchParams.get('startdatetime')).toBe('20260902120000');
-    expect(url.searchParams.get('query')).toContain('sourcelang:thai');
+    expect(axisWindow('economy', 0, now)).toBeNull();
+    expect(axisWindow('economy', 5, now)).toBeNull();
+    expect(axisWindow('economy', 6, now)).toEqual({ after: '2026-08-25', before: '2026-09-01' });
+    expect(axisWindow('economy', 12, now)).toEqual({ after: '2026-08-18', before: '2026-08-25' });
+    expect(googleSearchQuery('economy', 1, now)).toBe('inflation');
+    expect(googleSearchQuery('economy', 7, now)).toBe('inflation after:2026-08-25 before:2026-09-01');
     expect(AXIS_NEWS_MAX_PAGE).toBeGreaterThan(5);
-  });
-
-  it('alternates own-language and worldwide passes per page, one call each', () => {
-    expect(gdeltPlan('ko', 0)).toEqual({ sourceLang: 'korean', window: 0 });
-    expect(gdeltPlan('ko', 1)).toEqual({ sourceLang: null, window: 0 });
-    expect(gdeltPlan('ko', 2)).toEqual({ sourceLang: 'korean', window: 1 });
-    expect(gdeltPlan('en', 3)).toEqual({ sourceLang: null, window: 3 });
-  });
-
-  it('recognises the plain-text rate-limit answer', () => {
-    expect(isGdeltRateLimited(429, '')).toBe(true);
-    expect(isGdeltRateLimited(200, 'Please limit requests to one every 5 seconds')).toBe(true);
-    expect(isGdeltRateLimited(200, '{"articles":[]}')).toBe(false);
-  });
-
-  it('converts seendate stamps to ISO', () => {
-    expect(gdeltDateToIso('20260904T101500Z')).toBe('2026-09-04T10:15:00Z');
-    expect(gdeltDateToIso('garbage')).toBeUndefined();
-  });
-
-  it('folds articles, skipping bad urls and duplicate titles', () => {
-    const items = foldGdelt(
-      [
-        { title: 'Court rules on tariff case', url: 'https://a.example/1', seendate: '20260904T101500Z', domain: 'a.example', language: 'English' },
-        { title: 'Court rules on tariff case', url: 'https://b.example/2' },
-        { title: 'No url', url: 'ftp://nope' },
-      ],
-      'law',
-    );
-    expect(items).toHaveLength(1);
-    expect(items[0]).toMatchObject({ source: 'live', category: 'law', domain: 'a.example', lang: 'English', publishedAt: '2026-09-04T10:15:00Z' });
   });
 });
 
 describe('Google News RSS', () => {
   it('builds topic boards for mapped axes and search feeds otherwise', () => {
+    const now = new Date('2026-09-04T12:00:00Z');
     const board = new URL(googleNewsUrl('economy', 'ko'));
     expect(board.pathname).toContain('/topic/BUSINESS');
     expect(board.searchParams.get('ceid')).toBe('KR:ko');
@@ -100,7 +68,8 @@ describe('Google News RSS', () => {
     expect(search.searchParams.get('hl')).toBe('ja');
     expect(new URL(googleNewsUrl('economy', 'ko', 1)).searchParams.get('q')).toBe('inflation');
     expect(new URL(googleNewsUrl('economy', 'ko', 2)).searchParams.get('q')).toBe('central bank');
-    expect(new URL(googleNewsUrl('economy', 'ko', 6)).searchParams.get('q')).toBe('economy');
+    // second cycle: same term, one archive week back
+    expect(new URL(googleNewsUrl('economy', 'ko', 6, now)).searchParams.get('q')).toBe('economy after:2026-08-25 before:2026-09-01');
   });
 
   it('builds Bing market + global legs and folds News:Source', () => {
@@ -150,12 +119,13 @@ describe('Google News RSS', () => {
 
 describe('mergeAxisWires', () => {
   const mk = (title: string): HotNewsItem => ({ id: title, title, summary: '', url: 'https://x/' + title, category: 'world', source: 'live' });
-  it('round-robins local / board / global and de-dupes', () => {
-    const merged = mergeAxisWires([mk('L1'), mk('L2')], [mk('G1'), mk('L1')], [mk('B1')], 10);
+  it('round-robins the wires in the order given and de-dupes', () => {
+    const merged = mergeAxisWires([[mk('L1'), mk('L2')], [mk('B1')], [mk('G1'), mk('L1')]], 10);
     expect(merged.map((i) => i.title)).toEqual(['L1', 'B1', 'G1', 'L2']);
   });
-  it('honours the cap', () => {
-    const merged = mergeAxisWires([mk('a'), mk('b'), mk('c')], [mk('d'), mk('e')], [], 3);
+  it('honours the cap and tolerates empty wires', () => {
+    const merged = mergeAxisWires([[mk('a'), mk('b'), mk('c')], [], [mk('d'), mk('e')]], 3);
     expect(merged).toHaveLength(3);
+    expect(mergeAxisWires([])).toEqual([]);
   });
 });

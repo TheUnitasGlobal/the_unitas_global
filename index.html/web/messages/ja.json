@@ -1170,7 +1170,7 @@
     "itn": "注目ニュース",
     "views": "{count} 回閲覧",
     "refresh": "ニュースを更新",
-    "source": "出典: Wikimedia フィーチャードフィード · GDELT グローバルニュースグラフ(65+言語) · Google ニュース RSS · 10〜15分ごとに更新",
+    "source": "出典: Wikimedia フィーチャードフィード · Google ニュース RSS · Bing ニュース RSS · 10〜15分ごとに更新",
     "category": {
       "world": "世界ライブ",
       "politics": "世界政治",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}年",
     "magnitude": "規模 {n}/5",
     "emptyState": "シードを入力して実行すると結果が即座に表示されます。",
-    "lineage": "増殖系譜"
+    "lineage": "増殖系譜",
+    "pool": {
+      "ideaHeadline": "第{n}世代 · {axis}軸に収束するゼロ資本ベンチャー3選",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "{axis}軸で{days}日以内にローンチ: 自動化{automation}%、マージン×{margin}、実現性{viability}%、ブルーオーシャン{blueOcean}% — 資本0。",
+      "ideaOracle": "次に増殖すべきはアイデア{n}: ブルーオーシャン{blueOcean}%はこの世代で最も広い。",
+      "fateHeadline": "{horizon}年以内の実現確率{probability}% · エントロピー{entropy}/100",
+      "fateTitle": "{axis}軸の因果律ハック",
+      "fateBody": "この因果律レバーは{axis}軸を通じて+{delta}ポイントを加える。{status}",
+      "leverApplied": "適用済み — 軌道にすでに反映されている。",
+      "leverPending": "未適用 — 次のハックで解放される。",
+      "fateOracle": "軌道は{firstYear}年目の{first}%から{lastYear}年目の{last}%まで上昇する。曲線の傾きは{axis}レバーが決める。",
+      "twinHeadline": "ツイン{signature} · 第{n}世代 · エントロピー{entropy}/100",
+      "twinTitle": "{axis}共鳴 {score}",
+      "twinBody": "このツインで{axis}軸は{score}/99で共鳴する — 対象の振る舞いを形づくる特質。",
+      "twinOracle": "{element}({score})に導かれる生きたデータ生命体 — 魂のデータアーカイブは世代ごとに進化する。",
+      "chronoHeadline": "{year}年の{axis}へ向かう10年の弧",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "確率{probability}%、{pattern}パターン、規模{magnitude}/5 — 今から{offset}年後。",
+      "chronoOracle": "蝶番は{year}年: {axis} {probability}%がタイムライン全体を動かす。"
+    }
   }
 }

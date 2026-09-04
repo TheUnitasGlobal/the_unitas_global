@@ -1170,7 +1170,7 @@
     "itn": "W wiadomościach",
     "views": "{count} wyświetleń",
     "refresh": "Odśwież wiadomości",
-    "source": "Źródła: Wikimedia featured feed · globalny graf wiadomości GDELT (65+ języków) · RSS Google News · odświeżane co 10–15 min",
+    "source": "Źródła: Wikimedia featured feed · RSS Google News · RSS Bing News · odświeżane co 10–15 min",
     "category": {
       "world": "Świat na żywo",
       "politics": "Polityka światowa",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Skala {n}/5",
     "emptyState": "Wpisz ziarno i uruchom — wynik pojawi się natychmiast.",
-    "lineage": "Rodowód replikacji"
+    "lineage": "Rodowód replikacji",
+    "pool": {
+      "ideaHeadline": "Pokolenie {n} · trzy biznesy bez kapitału zbiegające się na osi {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Start w {days} dni na osi {axis}: automatyzacja {automation}%, marża ×{margin}, wykonalność {viability}%, błękitny ocean {blueOcean}% — kapitał 0.",
+      "ideaOracle": "Następnie replikuj pomysł {n}: jego błękitny ocean {blueOcean}% jest najszerszy w tym pokoleniu.",
+      "fateHeadline": "{probability}% prawdopodobieństwa realizacji w ciągu {horizon} lat · entropia {entropy}/100",
+      "fateTitle": "Zhakuj oś {axis}",
+      "fateBody": "Ta dźwignia przyczynowości dodaje +{delta} punktów przez oś {axis}. {status}",
+      "leverApplied": "Zastosowana — trajektoria już ją uwzględnia.",
+      "leverPending": "Jeszcze niezastosowana — kolejny hack ją odblokuje.",
+      "fateOracle": "Trajektoria wznosi się z {first}% w roku {firstYear} do {last}% do roku {lastYear}; o stromości krzywej decyduje dźwignia {axis}.",
+      "twinHeadline": "Bliźniak {signature} · pokolenie {n} · entropia {entropy}/100",
+      "twinTitle": "Rezonans {axis} {score}",
+      "twinBody": "Oś {axis} rezonuje na poziomie {score}/99 w tym bliźniaku — cecha kształtująca sposób działania podmiotu.",
+      "twinOracle": "Żywy organizm danych prowadzony przez żywioł {element} ({score}) — jego archiwum danych duszy ewoluuje z każdym pokoleniem.",
+      "chronoHeadline": "10-letni łuk w stronę {axis} do {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Prawdopodobieństwo {probability}%, wzorzec {pattern}, skala {magnitude}/5 — za {offset} lat.",
+      "chronoOracle": "Zawiasem jest {year}: {axis} na poziomie {probability}% obraca całą oś czasu."
+    }
   }
 }

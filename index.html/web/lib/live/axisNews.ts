@@ -5,39 +5,38 @@ import { stripControl } from '@/lib/uai/webSynthesisCore';
  * Pure maths for the per-axis live wire (owner instruction 2026-09-04 round
  * 6: "클릭 시 16대 축에 해당하는 방대하고 다양한 글로벌 실시간 정보가
  * 끊임없이 호출"). Isomorphic + fetch-free so the route stays thin and this
- * folds under vitest. Two keyless, 0원 sources:
+ * folds under vitest. Two keyless, 0원 RSS wires, four legs:
  *
- * - GDELT DOC 2.0 (api.gdeltproject.org): the global news graph -- monitors
- *   print/broadcast/web news in 65+ languages, machine-translated so one
- *   English keyword query matches worldwide coverage; `sourcelang:` narrows
- *   a second pass to the visitor's own language. Supports arbitrary
- *   date windows, which is what makes the feed *endless*: page N is the
- *   24h window N days back (AXIS_NEWS_MAX_PAGE caps the archive walk).
  * - Google News RSS: per-edition topic boards (localized by hl/gl/ceid) and
- *   keyword search -- adds mainstream-outlet breadth for page 0 only.
+ *   keyword search for the locale's own edition, plus the en-US edition as
+ *   the worldwide leg. Search pages past the first term cycle carry an
+ *   `after:`/`before:` week window so the archive walk stays endless.
+ * - Bing News RSS: the locale's market plus the en-US market -- no
+ *   documented rate limit, direct article links, `News:Source` outlet.
+ *
+ * GDELT was removed on 2026-09-04 (owner instruction): its one-request-per-
+ * 5s-per-IP limiter kept parking Vercel's shared egress in a penalty box, so
+ * the leg mostly contributed a 5s pacing wait and nothing else -- a
+ * Micro-Burn violation. Every remaining wire is stateless and parallel.
  *
  * Fail-open everywhere: a source that errors, times out or rejects a query
  * simply contributes nothing; the route still answers with what it got.
- *
- * GDELT rate limit (verified live 2026-09-04): ONE request per 5 seconds
- * per IP, answered with a plain-text 429 otherwise -- and a violation parks
- * the IP in a penalty box for a while. So the route makes exactly one GDELT
- * call per request, spaced by GDELT_MIN_INTERVAL_MS per function instance,
- * and alternates the own-language and worldwide passes across pages
- * (gdeltPlan) instead of firing both at once. Google News, which has no such
- * limit, carries every page on its own (a different keyword per page), so
- * paging stays endless even while GDELT is throttled.
  */
 
 export const AXIS_NEWS_MAX_PAGE = 13;
 export const AXIS_NEWS_PAGE_CAP = 40;
-export const GDELT_MIN_INTERVAL_MS = 5200;
 const MAX_SUMMARY = 200;
+const DAY_MS = 24 * 60 * 60 * 1000;
+/** Width of one archive window (days) for search pages past the first cycle. */
+export const AXIS_NEWS_WINDOW_DAYS = 7;
+/** The first window starts this many days back so it barely overlaps the
+ *  freshest (unwindowed) cycle. */
+const AXIS_NEWS_WINDOW_LAG_DAYS = 3;
 
-/** English keyword groups per axis -- GDELT matches these against its
- *  machine-translated index, so the same query surfaces Korean, Thai or
- *  Estonian coverage when paired with `sourcelang:`. Multi-word terms must
- *  be quoted and OR-groups parenthesized per the DOC API grammar. */
+/** English keyword groups per axis -- one term per page is sent to every RSS
+ *  wire (Google's non-English editions answer OR-groups with an empty feed,
+ *  Bing ignores them), so the list length is the length of one paging
+ *  cycle. Quotes are stripped before use. */
 export const AXIS_NEWS_QUERY: Record<HotNewsCategory, string[]> = {
   world: ['international', '"United Nations"', 'global', 'summit', 'worldwide'],
   politics: ['election', 'president', 'parliament', '"prime minister"', 'government', 'minister'],
@@ -60,32 +59,6 @@ export const AXIS_NEWS_QUERY: Record<HotNewsCategory, string[]> = {
   security: ['military', 'missile', 'ceasefire', 'cyberattack', 'defense', 'terrorism', 'sanctions'],
   strategy: ['strategy', 'alliance', 'diplomacy', 'treaty', 'negotiation', 'geopolitics', 'summit'],
   disaster: ['earthquake', 'typhoon', 'hurricane', 'wildfire', 'flood', 'tsunami', 'eruption'],
-};
-
-/** GDELT `sourcelang:` names per UNITAS locale (null = no own-language pass;
- *  the global pass still runs). Unsupported names make GDELT answer with a
- *  plain-text error, which the fold treats as an empty result. */
-export const GDELT_SOURCE_LANG: Record<string, string | null> = {
-  en: null,
-  ko: 'korean',
-  et: 'estonian',
-  ja: 'japanese',
-  zh: 'chinese',
-  es: 'spanish',
-  km: 'khmer',
-  fr: 'french',
-  de: 'german',
-  pt: 'portuguese',
-  vi: 'vietnamese',
-  id: 'indonesian',
-  ru: 'russian',
-  hi: 'hindi',
-  it: 'italian',
-  tr: 'turkish',
-  th: 'thai',
-  pl: 'polish',
-  nl: 'dutch',
-  tl: 'tagalog',
 };
 
 /** Google News edition per locale (hl / gl). Locales without an edition
@@ -113,7 +86,7 @@ export const GOOGLE_NEWS_EDITION: Record<string, { hl: string; gl: string }> = {
   tl: { hl: 'en-PH', gl: 'PH' },
 };
 
-/** Bing News market (cc / setlang) per locale -- the third, independent
+/** Bing News market (cc / setlang) per locale -- the second, independent
  *  keyword wire. Bing has its own edition list; locales without one use the
  *  en-US market. */
 export const BING_NEWS_MARKET: Record<string, { cc: string; setlang: string }> = {
@@ -154,90 +127,6 @@ export const GOOGLE_NEWS_TOPIC: Partial<Record<HotNewsCategory, string>> = {
   welfare: 'HEALTH',
 };
 
-export function gdeltQuery(axis: HotNewsCategory, sourceLang: string | null): string {
-  const terms = AXIS_NEWS_QUERY[axis];
-  const group = terms.length > 1 ? `(${terms.join(' OR ')})` : terms[0];
-  return sourceLang ? `${group} sourcelang:${sourceLang}` : group;
-}
-
-function gdeltStamp(d: Date): string {
-  const p = (n: number) => String(n).padStart(2, '0');
-  return `${d.getUTCFullYear()}${p(d.getUTCMonth() + 1)}${p(d.getUTCDate())}${p(d.getUTCHours())}${p(d.getUTCMinutes())}${p(d.getUTCSeconds())}`;
-}
-
-/** Page N = the 24h window ending N days ago (page 0 = the last 24h). */
-export function gdeltWindow(page: number, now = new Date()): { start: string; end: string } {
-  const end = new Date(now.getTime() - page * 24 * 60 * 60 * 1000);
-  const start = new Date(end.getTime() - 24 * 60 * 60 * 1000);
-  return { start: gdeltStamp(start), end: gdeltStamp(end) };
-}
-
-/**
- * Which single GDELT pass a page gets. Locales with an own-language wire
- * alternate: even pages = own language, odd pages = worldwide, both walking
- * the same 24h window every two pages; English (no own-language pass) walks
- * one worldwide window per page.
- */
-export function gdeltPlan(locale: string, page: number): { sourceLang: string | null; window: number } {
-  const lang = GDELT_SOURCE_LANG[locale] ?? null;
-  if (!lang) return { sourceLang: null, window: page };
-  return page % 2 === 0 ? { sourceLang: lang, window: page / 2 } : { sourceLang: null, window: (page - 1) / 2 };
-}
-
-/** Plain-text 429 body GDELT returns when the 5s spacing is violated. */
-export function isGdeltRateLimited(status: number, body: string): boolean {
-  return status === 429 || /limit requests to one every/i.test(body);
-}
-
-export function gdeltUrl(axis: HotNewsCategory, sourceLang: string | null, page: number, now = new Date()): string {
-  const { start, end } = gdeltWindow(page, now);
-  const params = new URLSearchParams({
-    query: gdeltQuery(axis, sourceLang),
-    mode: 'ArtList',
-    format: 'json',
-    maxrecords: '50',
-    sort: 'DateDesc',
-    startdatetime: start,
-    enddatetime: end,
-  });
-  return `https://api.gdeltproject.org/api/v2/doc/doc?${params.toString()}`;
-}
-
-/**
- * Google News feed for one page of one axis. Page 0 = the localized topic
- * board where one exists; otherwise a keyword search on the page's rotated
- * term (axisTerm), so every page pulls a genuinely different slice of the
- * outlet universe -- the endless-paging guarantee that does not depend on
- * GDELT's rate budget.
- */
-export function googleNewsUrl(axis: HotNewsCategory, locale: string, page = 0): string {
-  const edition = GOOGLE_NEWS_EDITION[locale] ?? GOOGLE_NEWS_EDITION.en;
-  const ceid = `${edition.gl}:${edition.hl.split('-')[0]}`;
-  const topic = GOOGLE_NEWS_TOPIC[axis];
-  const params = new URLSearchParams({ hl: edition.hl, gl: edition.gl, ceid });
-  if (page === 0 && topic) {
-    return `https://news.google.com/rss/headlines/section/topic/${topic}?${params.toString()}`;
-  }
-  params.set('q', axisTerm(axis, page));
-  return `https://news.google.com/rss/search?${params.toString()}`;
-}
-
-/**
- * The worldwide (en-US edition) keyword search for the same axis/page --
- * fetched alongside the locale's own edition on every request. Verified
- * live 2026-09-04: from Vercel's US egress, a non-English edition answers
- * an English keyword search with an empty feed (locally, from a Korean IP,
- * the same URL returns 100 items), so without this leg every non-topic
- * axis would be blank for non-English visitors whenever GDELT is
- * throttled. Null when the locale's edition already *is* en-US.
- */
-export function googleNewsGlobalUrl(axis: HotNewsCategory, locale: string, page = 0): string | null {
-  const edition = GOOGLE_NEWS_EDITION[locale] ?? GOOGLE_NEWS_EDITION.en;
-  if (edition.hl === GOOGLE_NEWS_EDITION.en.hl && edition.gl === GOOGLE_NEWS_EDITION.en.gl) return null;
-  const params = new URLSearchParams({ hl: 'en-US', gl: 'US', ceid: 'US:en', q: axisTerm(axis, page) });
-  return `https://news.google.com/rss/search?${params.toString()}`;
-}
-
 /**
  * The page's keyword for every RSS wire: exactly ONE plain term, rotated
  * per page so each page is a new slice of the outlet universe. Verified
@@ -251,12 +140,73 @@ export function axisTerm(axis: HotNewsCategory, page: number): string {
   return terms[page % terms.length];
 }
 
+function isoDay(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+
+/**
+ * Archive window for a search page. The first cycle through an axis's terms
+ * (page < term count) is unwindowed -- the freshest coverage. Every later
+ * cycle walks one AXIS_NEWS_WINDOW_DAYS-wide window further back, so the
+ * same term on cycle 2 pulls a different week of the outlet universe than
+ * it did on cycle 1. Null for the first cycle.
+ */
+export function axisWindow(axis: HotNewsCategory, page: number, now = new Date()): { after: string; before: string } | null {
+  const cycle = Math.floor(page / AXIS_NEWS_QUERY[axis].length);
+  if (cycle <= 0) return null;
+  const before = new Date(now.getTime() - (AXIS_NEWS_WINDOW_LAG_DAYS + (cycle - 1) * AXIS_NEWS_WINDOW_DAYS) * DAY_MS);
+  const after = new Date(before.getTime() - AXIS_NEWS_WINDOW_DAYS * DAY_MS);
+  return { after: isoDay(after), before: isoDay(before) };
+}
+
+/** Google search query for a page: the rotated term plus, past the first
+ *  cycle, Google News' `after:`/`before:` day operators. */
+export function googleSearchQuery(axis: HotNewsCategory, page: number, now = new Date()): string {
+  const term = axisTerm(axis, page);
+  const window = axisWindow(axis, page, now);
+  return window ? `${term} after:${window.after} before:${window.before}` : term;
+}
+
+/**
+ * Google News feed for one page of one axis. Page 0 = the localized topic
+ * board where one exists; otherwise a keyword search on the page's rotated
+ * term (and archive window), so every page pulls a genuinely different
+ * slice of the outlet universe -- the endless-paging guarantee.
+ */
+export function googleNewsUrl(axis: HotNewsCategory, locale: string, page = 0, now = new Date()): string {
+  const edition = GOOGLE_NEWS_EDITION[locale] ?? GOOGLE_NEWS_EDITION.en;
+  const ceid = `${edition.gl}:${edition.hl.split('-')[0]}`;
+  const topic = GOOGLE_NEWS_TOPIC[axis];
+  const params = new URLSearchParams({ hl: edition.hl, gl: edition.gl, ceid });
+  if (page === 0 && topic) {
+    return `https://news.google.com/rss/headlines/section/topic/${topic}?${params.toString()}`;
+  }
+  params.set('q', googleSearchQuery(axis, page, now));
+  return `https://news.google.com/rss/search?${params.toString()}`;
+}
+
+/**
+ * The worldwide (en-US edition) keyword search for the same axis/page --
+ * fetched alongside the locale's own edition on every request. Verified
+ * live 2026-09-04: from Vercel's US egress, a non-English edition answers
+ * an English keyword search with an empty feed (locally, from a Korean IP,
+ * the same URL returns 100 items), so without this leg every non-topic
+ * axis would be blank for non-English visitors. Null when the locale's
+ * edition already *is* en-US.
+ */
+export function googleNewsGlobalUrl(axis: HotNewsCategory, locale: string, page = 0, now = new Date()): string | null {
+  const edition = GOOGLE_NEWS_EDITION[locale] ?? GOOGLE_NEWS_EDITION.en;
+  if (edition.hl === GOOGLE_NEWS_EDITION.en.hl && edition.gl === GOOGLE_NEWS_EDITION.en.gl) return null;
+  const params = new URLSearchParams({ hl: 'en-US', gl: 'US', ceid: 'US:en', q: googleSearchQuery(axis, page, now) });
+  return `https://news.google.com/rss/search?${params.toString()}`;
+}
+
 /**
  * Bing News RSS keyword search -- keyless, no documented rate limit,
- * per-market localized, direct article links. Third leg beside GDELT and
- * Google so that a throttle on any one wire (Google intermittently answers
- * datacenter egress with an empty search feed; GDELT enforces 1 req / 5s)
- * never blanks an axis. `global` = the en-US market for non-US locales.
+ * per-market localized, direct article links. Independent of Google so a
+ * throttle on either wire (Google intermittently answers datacenter egress
+ * with an empty search feed) never blanks an axis. `global` = the en-US
+ * market for non-US locales.
  */
 export function bingNewsUrl(axis: HotNewsCategory, locale: string, page = 0, global = false): string | null {
   const market = global ? BING_NEWS_MARKET.en : (BING_NEWS_MARKET[locale] ?? BING_NEWS_MARKET.en);
@@ -269,54 +219,6 @@ export function bingNewsUrl(axis: HotNewsCategory, locale: string, page = 0, glo
     qft: 'sortbydate="1"',
   });
   return `https://www.bing.com/news/search?${params.toString()}`;
-}
-
-/** The GDELT ArtList JSON shape (only the parts folded here). */
-export interface GdeltArticle {
-  url?: string;
-  title?: string;
-  seendate?: string;
-  domain?: string;
-  language?: string;
-  sourcecountry?: string;
-  socialimage?: string;
-}
-
-/** "20260904T101500Z" -> ISO 8601. */
-export function gdeltDateToIso(seendate: string | undefined): string | undefined {
-  if (!seendate) return undefined;
-  const m = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/.exec(seendate);
-  if (!m) return undefined;
-  return `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z`;
-}
-
-/** Fold a GDELT ArtList payload into live wire items for one axis. Title
- *  language is whatever the outlet wrote in -- the wire does not translate
- *  headlines, it only *matches* across languages. */
-export function foldGdelt(articles: GdeltArticle[], axis: HotNewsCategory): HotNewsItem[] {
-  const items: HotNewsItem[] = [];
-  const seen = new Set<string>();
-  for (const a of articles) {
-    const title = clipText(stripControl(a.title ?? ''), 160);
-    const url = a.url ?? '';
-    if (!title || !/^https?:\/\//.test(url)) continue;
-    const key = normTitle(title);
-    if (seen.has(key)) continue;
-    seen.add(key);
-    items.push({
-      id: `live:gdelt:${key}`,
-      title,
-      summary: '',
-      url,
-      category: axis,
-      source: 'live',
-      thumbnail: a.socialimage || undefined,
-      domain: a.domain || undefined,
-      publishedAt: gdeltDateToIso(a.seendate),
-      lang: a.language || undefined,
-    });
-  }
-  return items;
 }
 
 const ENTITY: Record<string, string> = {
@@ -361,7 +263,7 @@ export interface RssItem {
 }
 
 /** Minimal RSS 2.0 item parser -- regex-driven on purpose (no XML dependency
- *  in the edge bundle; Google's feed is machine-generated and regular). */
+ *  in the edge bundle; both feeds are machine-generated and regular). */
 export function parseRss(xml: string): RssItem[] {
   const out: RssItem[] = [];
   const re = /<item(?:\s[^>]*)?>([\s\S]*?)<\/item>/gi;
@@ -436,24 +338,19 @@ export function foldGoogleNews(
 }
 
 /**
- * Interleave the own-language wire, the worldwide wire and the mainstream
- * board so no single source dominates the top of the list; de-dupe by
- * title; cap. Items whose text clearly belongs to a sharper axis than the
- * one requested are kept (they matched the axis query) but nothing is
- * re-labelled -- the chip the visitor tapped is the truth of this list.
+ * Interleave the wires round-robin in the order given (own-language legs
+ * first, worldwide legs after) so no single source dominates the top of
+ * the list; de-dupe by title; cap. Items whose text clearly belongs to a
+ * sharper axis than the one requested are kept (they matched the axis
+ * query) but nothing is re-labelled -- the chip the visitor tapped is the
+ * truth of this list.
  */
-export function mergeAxisWires(
-  local: HotNewsItem[],
-  global: HotNewsItem[],
-  board: HotNewsItem[],
-  cap = AXIS_NEWS_PAGE_CAP,
-  extra: HotNewsItem[] = [],
-): HotNewsItem[] {
+export function mergeAxisWires(wires: HotNewsItem[][], cap = AXIS_NEWS_PAGE_CAP): HotNewsItem[] {
   const seen = new Set<string>();
   const out: HotNewsItem[] = [];
-  const max = Math.max(local.length, global.length, board.length, extra.length);
+  const max = wires.reduce((m, list) => Math.max(m, list.length), 0);
   for (let i = 0; i < max && out.length < cap; i++) {
-    for (const list of [local, board, global, extra]) {
+    for (const list of wires) {
       const item = list[i];
       if (!item) continue;
       const key = normTitle(item.title);

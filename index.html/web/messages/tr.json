@@ -1170,7 +1170,7 @@
     "itn": "Haberlerde",
     "views": "{count} görüntülenme",
     "refresh": "Haberleri yenile",
-    "source": "Kaynaklar: Wikimedia öne çıkan akış · GDELT küresel haber grafiği (65+ dil) · Google Haberler RSS · her 10–15 dakikada güncellenir",
+    "source": "Kaynaklar: Wikimedia öne çıkan akış · Google Haberler RSS · Bing Haberler RSS · her 10–15 dakikada güncellenir",
     "category": {
       "world": "Dünya canlı",
       "politics": "Dünya siyaseti",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Büyüklük {n}/5",
     "emptyState": "Tohum yazıp çalıştırın — sonuç anında görünür.",
-    "lineage": "Çoğaltma soyağacı"
+    "lineage": "Çoğaltma soyağacı",
+    "pool": {
+      "ideaHeadline": "Nesil {n} · {axis} ekseninde birleşen üç sıfır sermayeli girişim",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "{axis} ekseninde {days} günde lansman: otomasyon %{automation}, marj ×{margin}, uygulanabilirlik %{viability}, mavi okyanus %{blueOcean} — sermaye 0.",
+      "ideaOracle": "Sıradaki çoğaltma fikir {n}: %{blueOcean} mavi okyanusu bu neslin en genişi.",
+      "fateHeadline": "{horizon} yıl içinde gerçekleşme olasılığı %{probability} · entropi {entropy}/100",
+      "fateTitle": "{axis} eksenini hackle",
+      "fateBody": "Bu nedensellik kaldıracı {axis} üzerinden +{delta} puan ekler. {status}",
+      "leverApplied": "Uygulandı — yörünge bunu zaten içeriyor.",
+      "leverPending": "Henüz uygulanmadı — bir sonraki hack bunu açar.",
+      "fateOracle": "Yörünge {firstYear}. yılda %{first} seviyesinden {lastYear}. yılda %{last} seviyesine tırmanır; eğrinin dikliğine {axis} kaldıracı karar verir.",
+      "twinHeadline": "İkiz {signature} · nesil {n} · entropi {entropy}/100",
+      "twinTitle": "{axis} rezonansı {score}",
+      "twinBody": "{axis} ekseni bu ikizde {score}/99 seviyesinde rezonans yapar — öznenin nasıl davrandığını şekillendiren özellik.",
+      "twinOracle": "{element} ({score}) tarafından yönlendirilen canlı bir veri organizması — ruh veri arşivi her nesilde evrilir.",
+      "chronoHeadline": "{year} yılına kadar {axis} yönünde 10 yıllık bir yay",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Olasılık %{probability}, {pattern} deseni, büyüklük {magnitude}/5 — bugünden {offset} yıl sonra.",
+      "chronoOracle": "Menteşe {year}: %{probability} ile {axis} tüm zaman çizgisini çevirir."
+    }
   }
 }

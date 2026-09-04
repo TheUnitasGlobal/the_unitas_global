@@ -46,8 +46,8 @@ export interface HotNewsItem {
   url: string;
   category: HotNewsCategory;
   /** 'itn' = In the news story, 'trending' = most-read article,
-   *  'live' = a live worldwide wire hit (GDELT / Google News) fetched on
-   *  demand for one axis. */
+   *  'live' = a live worldwide wire hit (Google News / Bing News RSS)
+   *  fetched on demand for one axis. */
   source: 'itn' | 'trending' | 'live';
   thumbnail?: string;
   views?: number;

@@ -1170,7 +1170,7 @@
     "itn": "In den Nachrichten",
     "views": "{count} Aufrufe",
     "refresh": "Nachrichten aktualisieren",
-    "source": "Quellen: Wikimedia Featured Feed · GDELT globaler Nachrichtengraph (65+ Sprachen) · Google News RSS · alle 10–15 Min. aktualisiert",
+    "source": "Quellen: Wikimedia Featured Feed · Google News RSS · Bing News RSS · alle 10–15 Min. aktualisiert",
     "category": {
       "world": "Welt live",
       "politics": "Weltpolitik",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Größe {n}/5",
     "emptyState": "Seed eingeben und ausführen — das Ergebnis erscheint sofort.",
-    "lineage": "Replikationslinie"
+    "lineage": "Replikationslinie",
+    "pool": {
+      "ideaHeadline": "Generation {n} · drei Null-Kapital-Ventures, die auf {axis} zulaufen",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Start in {days} Tagen auf der Achse {axis}: Automatisierung {automation} %, Marge ×{margin}, Tragfähigkeit {viability} %, Blue Ocean {blueOcean} % — Kapital 0.",
+      "ideaOracle": "Repliziere als Nächstes Idee {n}: ihr Blue Ocean von {blueOcean} % ist der weiteste dieser Generation.",
+      "fateHeadline": "{probability} % Realisierungswahrscheinlichkeit innerhalb von {horizon} Jahren · Entropie {entropy}/100",
+      "fateTitle": "Achse {axis} hacken",
+      "fateBody": "Dieser Kausalitätshebel bringt +{delta} Punkte über {axis}. {status}",
+      "leverApplied": "Angewendet — die Trajektorie enthält ihn bereits.",
+      "leverPending": "Noch nicht angewendet — der nächste Hack schaltet ihn frei.",
+      "fateOracle": "Die Trajektorie steigt von {first} % in Jahr {firstYear} auf {last} % in Jahr {lastYear}; der Hebel {axis} bestimmt, wie steil die Kurve wird.",
+      "twinHeadline": "Zwilling {signature} · Generation {n} · Entropie {entropy}/100",
+      "twinTitle": "{axis}-Resonanz {score}",
+      "twinBody": "Die Achse {axis} resoniert in diesem Zwilling mit {score}/99 — das Merkmal, das prägt, wie das Subjekt handelt.",
+      "twinOracle": "Ein lebender Datenorganismus, geführt von {element} ({score}) — sein Seelen-Datenarchiv entwickelt sich mit jeder Generation weiter.",
+      "chronoHeadline": "Ein 10-Jahres-Bogen in Richtung {axis} bis {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Wahrscheinlichkeit {probability} %, Muster {pattern}, Magnitude {magnitude}/5 — in {offset} Jahren.",
+      "chronoOracle": "Das Scharnier ist {year}: {axis} bei {probability} % wendet die gesamte Zeitlinie."
+    }
   }
 }

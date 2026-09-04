@@ -1170,7 +1170,7 @@
     "itn": "ក្នុងព័ត៌មាន",
     "views": "មើល {count} ដង",
     "refresh": "ធ្វើបច្ចុប្បន្នភាពព័ត៌មាន",
-    "source": "ប្រភព: Wikimedia featured feed · GDELT global news graph (65+ ភាសា) · Google News RSS · ធ្វើបច្ចុប្បន្នភាពរៀងរាល់ 10–15 នាទី",
+    "source": "ប្រភព: Wikimedia featured feed · Google News RSS · Bing News RSS · ធ្វើបច្ចុប្បន្នភាពរៀងរាល់ 10–15 នាទី",
     "category": {
       "world": "ពិភពលោកផ្ទាល់",
       "politics": "នយោបាយពិភពលោក",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "ទំហំ {n}/5",
     "emptyState": "វាយគ្រាប់ពូជ រួចដំណើរការ — លទ្ធផលបង្ហាញភ្លាមៗ។",
-    "lineage": "ពូជពង្សនៃការបង្កើត"
+    "lineage": "ពូជពង្សនៃការបង្កើត",
+    "pool": {
+      "ideaHeadline": "ជំនាន់ {n} · អាជីវកម្មគ្មានដើមទុនបីដែលរួមចូលលើអ័ក្ស {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "បើកដំណើរការក្នុង {days} ថ្ងៃលើអ័ក្ស {axis}: ស្វ័យប្រវត្តិកម្ម {automation}%, ប្រាក់ចំណេញ ×{margin}, លទ្ធភាព {viability}%, មហាសមុទ្រខៀវ {blueOcean}% — ដើមទុន 0។",
+      "ideaOracle": "ចម្លងគំនិត {n} បន្ទាប់: មហាសមុទ្រខៀវ {blueOcean}% របស់វាធំទូលាយបំផុតក្នុងជំនាន់នេះ។",
+      "fateHeadline": "ប្រូបាប៊ីលីតេនៃការសម្រេច {probability}% ក្នុងរយៈពេល {horizon} ឆ្នាំ · អង់ត្រូពី {entropy}/100",
+      "fateTitle": "លួចបំបែកអ័ក្ស {axis}",
+      "fateBody": "ដងថ្លឹងហេតុផលនេះបន្ថែម +{delta} ពិន្ទុតាមរយៈ {axis}។ {status}",
+      "leverApplied": "បានអនុវត្ត — គន្លងរួមបញ្ចូលវារួចហើយ។",
+      "leverPending": "មិនទាន់អនុវត្ត — ការលួចបំបែកបន្ទាប់នឹងដោះសោវា។",
+      "fateOracle": "គន្លងឡើងពី {first}% ក្នុងឆ្នាំ {firstYear} ដល់ {last}% ត្រឹមឆ្នាំ {lastYear}; ដងថ្លឹង {axis} កំណត់ភាពចោតនៃខ្សែកោង។",
+      "twinHeadline": "ភ្លោះ {signature} · ជំនាន់ {n} · អង់ត្រូពី {entropy}/100",
+      "twinTitle": "ការឆ្លើយតប {axis} {score}",
+      "twinBody": "អ័ក្ស {axis} ឆ្លើយតបនៅ {score}/99 ក្នុងភ្លោះនេះ — លក្ខណៈដែលកំណត់របៀបដែលប្រធានបទធ្វើសកម្មភាព។",
+      "twinOracle": "សារពាង្គកាយទិន្នន័យរស់ដឹកនាំដោយ {element} ({score}) — បណ្ណសារទិន្នន័យព្រលឹងរបស់វាវិវត្តគ្រប់ជំនាន់។",
+      "chronoHeadline": "ធ្នូ 10 ឆ្នាំឆ្ពោះទៅ {axis} ត្រឹមឆ្នាំ {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "ប្រូបាប៊ីលីតេ {probability}%, លំនាំ {pattern}, ទំហំ {magnitude}/5 — {offset} ឆ្នាំពីពេលនេះ។",
+      "chronoOracle": "ត្រចៀកទ្វារគឺឆ្នាំ {year}: {axis} នៅ {probability}% បង្វិលបន្ទាត់ពេលវេលាទាំងមូល។"
+    }
   }
 }

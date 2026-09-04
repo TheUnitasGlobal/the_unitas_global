@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { LOCALE_NAME } from './deepInsight';
-import { hyperItemCount, normalizeHyperSeed, type HyperEngineKey } from '../hyperSovereign';
+import { canonicalHyperSeed, hyperItemCount, normalizeHyperSeed, type HyperEngineKey } from '../hyperSovereign';
 
 /**
  * Server half of the Hyper-Sovereign Shortcuts' U-AI oracle (owner
@@ -19,6 +19,11 @@ import { hyperItemCount, normalizeHyperSeed, type HyperEngineKey } from '../hype
 
 export const HYPER_REPORT_VERSION = 'hs-v1';
 export const HYPER_REPORT_MAX_TOKENS = 1400;
+/** `model` of a report served from the pre-warmed sovereign pool
+ *  (lib/uai/hyperPool.ts) instead of the LLM -- never written to
+ *  genesis_memory, so the real narration still forges once the daily cap or
+ *  provider outage clears. */
+export const HYPER_POOL_MODEL = 'sovereign-pool';
 
 export interface HyperReportItem {
   title: string;
@@ -34,6 +39,10 @@ export interface HyperReport {
   oracle: string;
   model: string;
   cached: boolean;
+  /** True when served from the deterministic pre-warmed pool (daily cap /
+   *  provider outage fail-safe). The client re-asks after a short TTL so
+   *  the LLM narration replaces it as soon as forging is possible again. */
+  pooled?: boolean;
 }
 
 export interface HyperReportApiResponse {
@@ -41,9 +50,12 @@ export interface HyperReportApiResponse {
   report: HyperReport | null;
 }
 
+/** Keyed on the *canonical* seed so near-duplicate seeds share one row
+ *  (유사 키워드 병합) -- the engines hash the same canonical form, so the
+ *  cached words always describe the numbers on screen. */
 export function hyperReportHash(locale: string, engine: HyperEngineKey, seed: string, variant: string): string {
   return createHash('sha256')
-    .update(`${HYPER_REPORT_VERSION}::${locale}::${engine}::${normalizeHyperSeed(seed)}::${variant}`)
+    .update(`${HYPER_REPORT_VERSION}::${locale}::${engine}::${canonicalHyperSeed(seed)}::${variant}`)
     .digest('hex');
 }
 

@@ -62,9 +62,9 @@ function relativeTime(iso: string | undefined, locale: string): string | null {
  * spec as the two ranking widgets directly above, so the three rows read as
  * one system. "전체" shows the Wikimedia featured feed; tapping an axis
  * keeps that feed's own matches on top and then streams the worldwide live
- * wire for the axis beneath (GET /api/live/axis-news: GDELT own-language +
- * worldwide passes and the Google News board), paged back through the
- * archive endlessly via "더 불러오기". 0원 throughout.
+ * wire for the axis beneath (GET /api/live/axis-news: the locale's Google
+ * News board/search + Bing News market, then the en-US legs of both), paged
+ * back through the archive endlessly via "더 불러오기". 0원 throughout.
  */
 export function HotIssueNewsList() {
   const t = useTranslations('HotNews');

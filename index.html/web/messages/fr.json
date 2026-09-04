@@ -1170,7 +1170,7 @@
     "itn": "Dans l’actualité",
     "views": "{count} vues",
     "refresh": "Actualiser les actualités",
-    "source": "Sources : flux vedette Wikimedia · graphe mondial GDELT (65+ langues) · RSS Google Actualités · mise à jour toutes les 10–15 min",
+    "source": "Sources : flux vedette Wikimedia · RSS Google Actualités · RSS Bing Actualités · mise à jour toutes les 10–15 min",
     "category": {
       "world": "Monde en direct",
       "politics": "Politique mondiale",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Ampleur {n}/5",
     "emptyState": "Saisissez une graine et lancez — le résultat apparaît instantanément.",
-    "lineage": "Lignée de réplication"
+    "lineage": "Lignée de réplication",
+    "pool": {
+      "ideaHeadline": "Génération {n} · trois entreprises sans capital convergeant vers {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Lancement en {days} jours sur l'axe {axis} : automatisation {automation} %, marge ×{margin}, viabilité {viability} %, océan bleu {blueOcean} % — capital 0.",
+      "ideaOracle": "Réplique ensuite l'idée {n} : son océan bleu de {blueOcean} % est le plus vaste de cette génération.",
+      "fateHeadline": "{probability} % de probabilité de réalisation sous {horizon} ans · entropie {entropy}/100",
+      "fateTitle": "Hacker l'axe {axis}",
+      "fateBody": "Ce levier de causalité ajoute +{delta} points via {axis}. {status}",
+      "leverApplied": "Appliqué — la trajectoire l'intègre déjà.",
+      "leverPending": "Pas encore appliqué — le prochain hack le débloque.",
+      "fateOracle": "La trajectoire grimpe de {first} % en année {firstYear} à {last} % en année {lastYear} ; le levier {axis} décide de la pente de la courbe.",
+      "twinHeadline": "Jumeau {signature} · génération {n} · entropie {entropy}/100",
+      "twinTitle": "Résonance {axis} {score}",
+      "twinBody": "L'axe {axis} résonne à {score}/99 dans ce jumeau — le trait qui façonne la manière d'agir du sujet.",
+      "twinOracle": "Un organisme de données vivant guidé par {element} ({score}) — son archive de données d'âme évolue à chaque génération.",
+      "chronoHeadline": "Un arc de 10 ans vers {axis} d'ici {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Probabilité {probability} %, motif {pattern}, magnitude {magnitude}/5 — dans {offset} ans.",
+      "chronoOracle": "La charnière est {year} : {axis} à {probability} % fait basculer toute la chronologie."
+    }
   }
 }

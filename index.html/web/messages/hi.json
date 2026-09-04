@@ -1170,7 +1170,7 @@
     "itn": "समाचारों में",
     "views": "{count} बार देखा गया",
     "refresh": "समाचार ताज़ा करें",
-    "source": "स्रोत: Wikimedia फ़ीचर्ड फ़ीड · GDELT वैश्विक समाचार ग्राफ़ (65+ भाषाएँ) · Google News RSS · हर 10–15 मिनट में अपडेट",
+    "source": "स्रोत: Wikimedia फ़ीचर्ड फ़ीड · Google News RSS · Bing News RSS · हर 10–15 मिनट में अपडेट",
     "category": {
       "world": "विश्व लाइव",
       "politics": "विश्व राजनीति",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "परिमाण {n}/5",
     "emptyState": "बीज लिखें और चलाएँ — परिणाम तुरंत दिखेगा।",
-    "lineage": "प्रतिकृति वंशावली"
+    "lineage": "प्रतिकृति वंशावली",
+    "pool": {
+      "ideaHeadline": "पीढ़ी {n} · {axis} अक्ष पर एकत्रित होते तीन शून्य-पूंजी उद्यम",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "{axis} अक्ष पर {days} दिनों में लॉन्च: स्वचालन {automation}%, मार्जिन ×{margin}, व्यवहार्यता {viability}%, ब्लू ओशन {blueOcean}% — पूंजी 0।",
+      "ideaOracle": "अगला विचार {n} दोहराएँ: इसका {blueOcean}% ब्लू ओशन इस पीढ़ी में सबसे विस्तृत है।",
+      "fateHeadline": "{horizon} वर्षों में साकार होने की संभावना {probability}% · एन्ट्रॉपी {entropy}/100",
+      "fateTitle": "{axis} अक्ष को हैक करें",
+      "fateBody": "यह कार्य-कारण लीवर {axis} के माध्यम से +{delta} अंक जोड़ता है। {status}",
+      "leverApplied": "लागू — प्रक्षेपवक्र में यह पहले से शामिल है।",
+      "leverPending": "अभी लागू नहीं — अगला हैक इसे अनलॉक करेगा।",
+      "fateOracle": "प्रक्षेपवक्र वर्ष {firstYear} में {first}% से वर्ष {lastYear} तक {last}% तक चढ़ता है; वक्र की ढलान {axis} लीवर तय करता है।",
+      "twinHeadline": "ट्विन {signature} · पीढ़ी {n} · एन्ट्रॉपी {entropy}/100",
+      "twinTitle": "{axis} अनुनाद {score}",
+      "twinBody": "इस ट्विन में {axis} अक्ष {score}/99 पर अनुनाद करता है — वह गुण जो विषय के कार्य करने के ढंग को गढ़ता है।",
+      "twinOracle": "{element} ({score}) के नेतृत्व में एक जीवित डेटा जीव — इसका आत्मा-डेटा संग्रह हर पीढ़ी के साथ विकसित होता है।",
+      "chronoHeadline": "{year} तक {axis} की ओर 10 वर्षों की चाप",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "संभावना {probability}%, {pattern} पैटर्न, परिमाण {magnitude}/5 — अब से {offset} वर्ष बाद।",
+      "chronoOracle": "धुरी है {year}: {probability}% पर {axis} पूरी समयरेखा को मोड़ देता है।"
+    }
   }
 }

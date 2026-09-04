@@ -1170,7 +1170,7 @@
     "itn": "Dalam berita",
     "views": "{count} tayangan",
     "refresh": "Segarkan berita",
-    "source": "Sumber: Wikimedia featured feed · graf berita global GDELT (65+ bahasa) · Google News RSS · diperbarui tiap 10–15 menit",
+    "source": "Sumber: Wikimedia featured feed · Google News RSS · Bing News RSS · diperbarui tiap 10–15 menit",
     "category": {
       "world": "Dunia langsung",
       "politics": "Politik dunia",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}",
     "magnitude": "Magnitudo {n}/5",
     "emptyState": "Ketik benih dan jalankan — hasil muncul seketika.",
-    "lineage": "Silsilah replikasi"
+    "lineage": "Silsilah replikasi",
+    "pool": {
+      "ideaHeadline": "Generasi {n} · tiga usaha tanpa modal yang berkonvergensi pada {axis}",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "Luncurkan dalam {days} hari pada sumbu {axis}: otomatisasi {automation}%, margin ×{margin}, kelayakan {viability}%, samudra biru {blueOcean}% — modal 0.",
+      "ideaOracle": "Replikasi ide {n} berikutnya: samudra biru {blueOcean}%-nya adalah yang terluas di generasi ini.",
+      "fateHeadline": "Probabilitas terwujud {probability}% dalam {horizon} tahun · entropi {entropy}/100",
+      "fateTitle": "Retas sumbu {axis}",
+      "fateBody": "Tuas kausalitas ini menambah +{delta} poin melalui {axis}. {status}",
+      "leverApplied": "Diterapkan — lintasan sudah memuatnya.",
+      "leverPending": "Belum diterapkan — peretasan berikutnya membukanya.",
+      "fateOracle": "Lintasan naik dari {first}% di tahun {firstYear} ke {last}% pada tahun {lastYear}; tuas {axis} menentukan seberapa curam kurvanya.",
+      "twinHeadline": "Kembaran {signature} · generasi {n} · entropi {entropy}/100",
+      "twinTitle": "Resonansi {axis} {score}",
+      "twinBody": "Sumbu {axis} beresonansi pada {score}/99 dalam kembaran ini — sifat yang membentuk cara subjek bertindak.",
+      "twinOracle": "Organisme data hidup yang dipimpin {element} ({score}) — arsip data jiwanya berevolusi di setiap generasi.",
+      "chronoHeadline": "Busur 10 tahun menuju {axis} pada {year}",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "Probabilitas {probability}%, pola {pattern}, magnitudo {magnitude}/5 — {offset} tahun dari sekarang.",
+      "chronoOracle": "Engselnya adalah {year}: {axis} pada {probability}% memutar seluruh lini masa."
+    }
   }
 }

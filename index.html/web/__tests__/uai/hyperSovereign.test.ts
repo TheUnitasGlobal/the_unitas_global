@@ -4,6 +4,7 @@ import {
   HYPER_ENGINES,
   IDEA_CHILDREN,
   buildHyperSkeleton,
+  canonicalHyperSeed,
   computeFate,
   forgeTimeline,
   forgeTwin,
@@ -23,6 +24,17 @@ describe('hyperSovereign engines', () => {
   it('normalizes seeds (case, whitespace, cap)', () => {
     expect(normalizeHyperSeed('  Coffee   Shop ')).toBe('coffee shop');
     expect(normalizeHyperSeed('x'.repeat(200))).toHaveLength(80);
+  });
+
+  it('canonicalises near-duplicate seeds onto one engine + cache identity', () => {
+    expect(canonicalHyperSeed('Coffee-Shop!!')).toBe('coffee shop');
+    expect(canonicalHyperSeed('커피 숍')).toBe('커피숍');
+    expect(canonicalHyperSeed('서울 강남 카페')).toBe('서울강남카페');
+    expect(canonicalHyperSeed('ＡＩ　카페')).toBe('ai 카페');
+    expect(canonicalHyperSeed('🚀 launch $10k / month')).toBe('launch 10k month');
+    expect(replicateIdeas('coffee shop', null, 0)).toEqual(replicateIdeas('Coffee, shop!', null, 0));
+    expect(forgeTwin('커피 숍', 0).signature).toBe(forgeTwin('커피숍', 0).signature);
+    expect(computeFate('launch an AI coin business', 3, [])).toEqual(computeFate('Launch an AI-coin business!!', 3, []));
   });
 
   it('replicates ideas deterministically, three distinct axes per generation, zero capital', () => {

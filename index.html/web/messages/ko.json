@@ -1170,7 +1170,7 @@
     "itn": "주요 뉴스",
     "views": "조회 {count}회",
     "refresh": "뉴스 새로고침",
-    "source": "출처: Wikimedia 피처드 피드 · GDELT 글로벌 뉴스 그래프(65개+ 언어) · Google 뉴스 RSS · 10~15분마다 갱신",
+    "source": "출처: Wikimedia 피처드 피드 · Google 뉴스 RSS · Bing 뉴스 RSS · 10~15분마다 갱신",
     "category": {
       "world": "세계실시간",
       "politics": "세계정치",
@@ -1462,6 +1462,26 @@
     "yearLabel": "{year}년",
     "magnitude": "규모 {n}/5",
     "emptyState": "씨앗을 입력하고 실행하면 결과가 즉시 나타납니다.",
-    "lineage": "증식 계보"
+    "lineage": "증식 계보",
+    "pool": {
+      "ideaHeadline": "{n}세대 · {axis} 축으로 수렴하는 무자본 벤처 3선",
+      "ideaTitle": "{pattern} × {module}",
+      "ideaBody": "{axis} 축에서 {days}일 내 런칭: 자동화 {automation}%, 마진 ×{margin}, 실현성 {viability}%, 블루오션 {blueOcean}% — 자본 0.",
+      "ideaOracle": "다음 증식 대상은 아이디어 {n}: 블루오션 {blueOcean}%로 이번 세대에서 가장 넓다.",
+      "fateHeadline": "{horizon}년 내 실현 확률 {probability}% · 엔트로피 {entropy}/100",
+      "fateTitle": "{axis} 축 인과율 해킹",
+      "fateBody": "이 인과율 레버는 {axis} 축을 통해 +{delta}포인트를 더한다. {status}",
+      "leverApplied": "적용 완료 — 궤적에 이미 반영되어 있다.",
+      "leverPending": "미적용 — 다음 해킹에서 해제된다.",
+      "fateOracle": "궤적은 {firstYear}년차 {first}%에서 {lastYear}년차 {last}%까지 상승한다. 곡선의 기울기는 {axis} 레버가 결정한다.",
+      "twinHeadline": "트윈 {signature} · {n}세대 · 엔트로피 {entropy}/100",
+      "twinTitle": "{axis} 공명 {score}",
+      "twinBody": "이 트윈에서 {axis} 축은 {score}/99로 공명한다 — 대상의 행동 방식을 빚는 특질이다.",
+      "twinOracle": "{element}({score})이 이끄는 살아 있는 데이터 생명체 — 영혼 데이터 아카이브는 세대마다 진화한다.",
+      "chronoHeadline": "{year}년 {axis}을(를) 향한 10년의 궤적",
+      "chronoTitle": "{year} · {axis}",
+      "chronoBody": "확률 {probability}%, {pattern} 패턴, 규모 {magnitude}/5 — 지금부터 {offset}년 후.",
+      "chronoOracle": "경첩은 {year}년: {axis} {probability}%가 타임라인 전체를 돌린다."
+    }
   }
 }
