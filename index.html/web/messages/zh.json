@@ -1162,7 +1162,7 @@
     "openAria": "打开 {brand}"
   },
   "HotNews": {
-    "label": "实时热点新闻",
+    "label": "实时新闻",
     "loading": "正在加载新闻…",
     "empty": "目前没有实时新闻 — 请稍后再试。",
     "all": "全部",

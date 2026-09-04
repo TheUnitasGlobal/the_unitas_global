@@ -268,12 +268,13 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
           when that tab was removed above -- rather than deleting them, they
           now render permanently below every tab's content instead of only
           inside one (owner instruction 2026-09-04 round 2). Stack order
-          unchanged: live news feed leads, "실시간 핫이슈 랭킹" follows, the
-          cross-module "실시간 유니타스 랭킹" leaderboard closes it out. */}
+          reversed (owner instruction 2026-09-04 round 5): both ranking
+          modules ("실시간 세계 랭킹", "실시간 유니타스 랭킹") now lead, the
+          renamed "실시간 뉴스" feed closes it out. */}
       <div className="mt-5 flex flex-col gap-4 px-4 sm:px-6">
-        <HotIssueNewsList />
         <GlobalThemeRankings />
         <UnitasModuleRankings />
+        <HotIssueNewsList />
       </div>
       </div>
     </motion.div>

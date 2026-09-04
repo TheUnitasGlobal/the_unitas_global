@@ -1162,7 +1162,7 @@
     "openAria": "Apri {brand}"
   },
   "HotNews": {
-    "label": "Notizie calde live",
+    "label": "Notizie in Diretta",
     "loading": "Caricamento notizie…",
     "empty": "Nessuna notizia live al momento — riprova tra poco.",
     "all": "Tutte",

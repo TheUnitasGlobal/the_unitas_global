@@ -1162,7 +1162,7 @@
     "openAria": "Open {brand}"
   },
   "HotNews": {
-    "label": "Live Hot-Issue News",
+    "label": "Live News",
     "loading": "Loading live news…",
     "empty": "No live news right now — try again shortly.",
     "all": "All",
