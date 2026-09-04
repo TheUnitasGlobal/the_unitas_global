@@ -54,10 +54,11 @@ function isTabKey(value: string | null): value is TabKey {
  * Real Estate, Dating, Career, Assets) instead of one flat infinite marquee --
  * switching tabs swaps the chip grid below rather than auto-scrolling it, so
  * every tile stays a stable click target. Axis tiles open
- * HotShortcutResultModal's chained U-AI popup; Social/Email tiles are direct
- * one-click launchers out to that app's own page in a new tab; Asset tiles
- * are one-click same-origin downloads -- fundamentally different actions, so
- * neither ever calls onOpenShortcut.
+ * HotShortcutResultModal's chained U-AI popup; Social/Email tiles toggle an
+ * inline AppDetailCard (brand blurb + explicit "go to link" button) via
+ * local state instead, same interaction shape as onOpenShortcut but scoped
+ * to this strip; Asset tiles are one-click same-origin downloads -- so
+ * neither Social/Email nor Asset tiles ever call onOpenShortcut.
  */
 export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStripProps) {
   const t = useTranslations('OmniSynapse');
