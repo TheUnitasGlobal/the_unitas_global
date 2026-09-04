@@ -380,7 +380,6 @@
       "social": "Social",
       "realEstate": "Imóveis",
       "dating": "Relacionamentos",
-      "assets": "Recursos",
       "civic": "Cívico"
     },
     "searchSubmitAria": "Executar pesquisa (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "Acesso com um clique às principais apps de redes sociais do mundo.",
     "openAria": "Abrir {brand}"
   },
-  "Assets": {
-    "hint": "Download com um clique dos recursos oficiais da UNITAS.",
-    "downloadAria": "Transferir {name}",
-    "items": {
-      "mark": "Marca (SVG)",
-      "icon": "Ícone da app (512px)",
-      "manifest": "Manifesto da web app",
-      "ownership": "Manifesto de propriedade"
-    }
-  },
   "HotNews": {
     "label": "Notícias quentes em direto",
     "loading": "A carregar notícias…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Segurança",
         "description": "A camada defensiva que impede a soberania de ser emprestada."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Rankings Temáticos Globais",
+    "hint": "Toque num tema para ver o top 10 — carregue mais para aprofundar.",
+    "loadMore": "Mostrar mais (até a posição {count})",
+    "collapseAria": "Fechar",
+    "collectingMore": "Mais posições estão a ser reunidas — volte em breve.",
+    "snapshot": "Valores instantâneos — podem mudar ao longo do tempo.",
+    "themes": {
+      "heritage": {
+        "title": "Potências do Patrimônio Mundial da UNESCO",
+        "description": "Países com mais locais inscritos como Patrimônio Mundial."
+      },
+      "gdp": {
+        "title": "Referência do PIB Global",
+        "description": "As maiores economias do mundo por PIB nominal."
+      },
+      "records": {
+        "title": "Grandes Marcos da História da Humanidade",
+        "description": "Momentos decisivos que moldaram a civilização, em ordem cronológica."
+      },
+      "mountains": {
+        "title": "Os Picos Mais Altos do Mundo",
+        "description": "As montanhas mais altas da Terra, por altitude."
+      },
+      "rivers": {
+        "title": "Os Rios Mais Longos do Mundo",
+        "description": "Os rios mais longos da Terra, por comprimento total."
+      },
+      "buildings": {
+        "title": "Os Edifícios Mais Altos do Mundo",
+        "description": "Os arranha-céus concluídos mais altos da Terra."
+      },
+      "population": {
+        "title": "Os Países Mais Populosos",
+        "description": "Países ordenados por população total."
+      },
+      "filmBoxOffice": {
+        "title": "Campeões de Bilheteria de Todos os Tempos",
+        "description": "Os filmes de maior bilheteria do mundo, sem ajuste pela inflação."
       }
     }
   }

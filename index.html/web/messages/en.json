@@ -380,7 +380,6 @@
       "social": "Social",
       "realEstate": "Real Estate",
       "dating": "Dating",
-      "assets": "Assets",
       "civic": "Civic"
     },
     "searchSubmitAria": "Run search (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "One-click access to the world’s major social media apps.",
     "openAria": "Open {brand}"
   },
-  "Assets": {
-    "hint": "One-click download of official UNITAS assets.",
-    "downloadAria": "Download {name}",
-    "items": {
-      "mark": "Brand mark (SVG)",
-      "icon": "App icon (512px)",
-      "manifest": "Web app manifest",
-      "ownership": "Ownership manifest"
-    }
-  },
   "HotNews": {
     "label": "Live Hot-Issue News",
     "loading": "Loading live news…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Security",
         "description": "The defense that keeps sovereignty from being borrowed."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Global Theme Rankings",
+    "hint": "Tap a theme to reveal its top 10 — then load more to go deeper.",
+    "loadMore": "Show more (up to #{count})",
+    "collapseAria": "Close",
+    "collectingMore": "More ranks are being compiled — check back soon.",
+    "snapshot": "Snapshot figures — may shift over time.",
+    "themes": {
+      "heritage": {
+        "title": "UNESCO World Heritage Powerhouses",
+        "description": "Countries with the most inscribed World Heritage sites."
+      },
+      "gdp": {
+        "title": "Global GDP Benchmark",
+        "description": "The world's largest economies by nominal GDP."
+      },
+      "records": {
+        "title": "Great Milestones of Human History",
+        "description": "Landmark moments that shaped civilization, in chronological order."
+      },
+      "mountains": {
+        "title": "World's Highest Peaks",
+        "description": "The tallest mountains on Earth, ranked by elevation."
+      },
+      "rivers": {
+        "title": "World's Longest Rivers",
+        "description": "The longest rivers on Earth, ranked by total length."
+      },
+      "buildings": {
+        "title": "World's Tallest Buildings",
+        "description": "The tallest completed skyscrapers on Earth."
+      },
+      "population": {
+        "title": "Most Populous Countries",
+        "description": "Countries ranked by total population."
+      },
+      "filmBoxOffice": {
+        "title": "All-Time Box Office Champions",
+        "description": "The highest-grossing films worldwide, unadjusted for inflation."
       }
     }
   }

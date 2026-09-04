@@ -380,7 +380,6 @@
       "social": "Sotsiaal",
       "realEstate": "Kinnisvara",
       "dating": "Kohtingud",
-      "assets": "Varad",
       "civic": "Tsiviil"
     },
     "searchSubmitAria": "Käivita otsing (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "Ühe klõpsuga ligipääs maailma peamistele sotsiaalmeedia rakendustele.",
     "openAria": "Ava {brand}"
   },
-  "Assets": {
-    "hint": "UNITASe ametlike varade allalaadimine ühe klõpsuga.",
-    "downloadAria": "Laadi alla {name}",
-    "items": {
-      "mark": "Brändimärk (SVG)",
-      "icon": "Rakenduse ikoon (512px)",
-      "manifest": "Veebirakenduse manifest",
-      "ownership": "Omandimanifest"
-    }
-  },
   "HotNews": {
     "label": "Kuumad uudised reaalajas",
     "loading": "Laen uudiseid…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Julgeolek",
         "description": "Kaitsekiht, mis hoiab suveräänsust laenamatuna."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Globaalsed teemapõhised edetabelid",
+    "hint": "Puuduta teemat, et näha selle esikümmet — laadi rohkem, et süveneda.",
+    "loadMore": "Näita rohkem (kuni kohani {count})",
+    "collapseAria": "Sulge",
+    "collectingMore": "Rohkem kohti lisandub varsti.",
+    "snapshot": "Hetkeseisu näitajad — võivad ajas muutuda.",
+    "themes": {
+      "heritage": {
+        "title": "UNESCO maailmapärandi liidrid",
+        "description": "Riigid, kellel on enim UNESCO maailmapärandi objekte."
+      },
+      "gdp": {
+        "title": "Globaalne SKT võrdlusalus",
+        "description": "Maailma suurimad majandused nominaalse SKT järgi."
+      },
+      "records": {
+        "title": "Inimkonna suured verstapostid",
+        "description": "Tsivilisatsiooni kujundanud sündmused kronoloogilises järjekorras."
+      },
+      "mountains": {
+        "title": "Maailma kõrgeimad tipud",
+        "description": "Maailma kõrgeimad mäed kõrguse järgi."
+      },
+      "rivers": {
+        "title": "Maailma pikimad jõed",
+        "description": "Maailma pikimad jõed kogupikkuse järgi."
+      },
+      "buildings": {
+        "title": "Maailma kõrgeimad hooned",
+        "description": "Maailma kõrgeimad valminud pilvelõhkujad."
+      },
+      "population": {
+        "title": "Rahvaarvult suurimad riigid",
+        "description": "Riigid järjestatud rahvaarvu järgi."
+      },
+      "filmBoxOffice": {
+        "title": "Kõigi aegade kassahitid",
+        "description": "Maailma tulusaimad filmid, inflatsiooniga korrigeerimata."
       }
     }
   }

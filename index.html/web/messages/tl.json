@@ -380,7 +380,6 @@
       "social": "Social",
       "realEstate": "Real Estate",
       "dating": "Dating",
-      "assets": "Assets",
       "civic": "Sibiko"
     },
     "searchSubmitAria": "Patakbuhin ang paghahanap (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "Isang click na access sa mga pangunahing social media app ng mundo.",
     "openAria": "Buksan ang {brand}"
   },
-  "Assets": {
-    "hint": "Isang click na download ng mga opisyal na asset ng UNITAS.",
-    "downloadAria": "I-download ang {name}",
-    "items": {
-      "mark": "Brand mark (SVG)",
-      "icon": "App icon (512px)",
-      "manifest": "Web app manifest",
-      "ownership": "Ownership manifest"
-    }
-  },
   "HotNews": {
     "label": "Live na mainit na balita",
     "loading": "Nilo-load ang balita…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Seguridad",
         "description": "Ang panananggalang na pumipigil sa soberanya na hiramin."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Pandaigdigang Ranggo ng mga Tema",
+    "hint": "I-tap ang isang tema para makita ang top 10 nito — mag-load pa para lumalim.",
+    "loadMore": "Magpakita pa (hanggang ranggo {count})",
+    "collapseAria": "Isara",
+    "collectingMore": "May inihahandang karagdagang ranggo — bumalik-balik.",
+    "snapshot": "Snapshot na datos — maaaring magbago sa paglipas ng panahon.",
+    "themes": {
+      "heritage": {
+        "title": "Mga Bansang May Pinakamaraming UNESCO World Heritage Site",
+        "description": "Ranggo ng mga bansang may pinakamaraming nakatalang World Heritage Site."
+      },
+      "gdp": {
+        "title": "Pandaigdigang GDP Benchmark",
+        "description": "Ang pinakamalaking ekonomiya sa mundo batay sa nominal na GDP."
+      },
+      "records": {
+        "title": "Mga Dakilang Milestone ng Kasaysayan ng Sangkatauhan",
+        "description": "Mahahalagang pangyayaring humubog sa sibilisasyon, ayon sa pagkakasunod-sunod ng panahon."
+      },
+      "mountains": {
+        "title": "Pinakamataas na Bundok sa Mundo",
+        "description": "Ang pinakamataas na bundok sa Daigdig, base sa taas."
+      },
+      "rivers": {
+        "title": "Pinakamahabang Ilog sa Mundo",
+        "description": "Ang pinakamahabang ilog sa Daigdig, base sa kabuuang haba."
+      },
+      "buildings": {
+        "title": "Pinakamataas na Gusali sa Mundo",
+        "description": "Ang pinakamataas nang natapos na gusali sa Daigdig."
+      },
+      "population": {
+        "title": "Mga Bansang May Pinakamaraming Populasyon",
+        "description": "Mga bansa base sa kabuuang populasyon."
+      },
+      "filmBoxOffice": {
+        "title": "Pinakamatagumpay na Pelikula sa Kasaysayan",
+        "description": "Ang mga pelikulang may pinakamataas na kita sa buong mundo, hindi in-adjust sa implasyon."
       }
     }
   }

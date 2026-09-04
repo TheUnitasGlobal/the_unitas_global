@@ -380,7 +380,6 @@
       "social": "ソーシャル",
       "realEstate": "不動産",
       "dating": "恋愛",
-      "assets": "アセット",
       "civic": "文明"
     },
     "searchSubmitAria": "検索を実行 (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "世界の主要ソーシャルメディアアプリにワンクリックでアクセス。",
     "openAria": "{brand}を開く"
   },
-  "Assets": {
-    "hint": "UNITAS公式アセットをワンクリックでダウンロード。",
-    "downloadAria": "{name}をダウンロード",
-    "items": {
-      "mark": "ブランドマーク (SVG)",
-      "icon": "アプリアイコン (512px)",
-      "manifest": "ウェブアプリマニフェスト",
-      "ownership": "所有権マニフェスト"
-    }
-  },
   "HotNews": {
     "label": "リアルタイム・ホットニュース",
     "loading": "ニュースを読み込み中…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "安全保障",
         "description": "主権が借り物にならないよう守る防衛層。"
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "グローバル・テーマ別ランキング",
+    "hint": "テーマをタップすると上位10位が表示されます — もっと見るでさらに深掘りできます。",
+    "loadMore": "{count}位までもっと見る",
+    "collapseAria": "閉じる",
+    "collectingMore": "さらなる順位は準備中です。",
+    "snapshot": "スナップショットの数値であり、時期により変動する場合があります。",
+    "themes": {
+      "heritage": {
+        "title": "世界遺産保有数ランキング",
+        "description": "世界遺産の登録件数が最も多い国のランキング。"
+      },
+      "gdp": {
+        "title": "世界のGDPベンチマーク",
+        "description": "名目GDPで見た世界最大の経済大国ランキング。"
+      },
+      "records": {
+        "title": "人類史上の偉大な記録",
+        "description": "文明を形作った歴史的な節目を時系列で紹介。"
+      },
+      "mountains": {
+        "title": "世界最高峰ランキング",
+        "description": "標高で見た世界で最も高い山のランキング。"
+      },
+      "rivers": {
+        "title": "世界最長の河川ランキング",
+        "description": "総延長で見た世界で最も長い川のランキング。"
+      },
+      "buildings": {
+        "title": "世界の超高層ビルランキング",
+        "description": "完成済みの世界で最も高い高層ビルのランキング。"
+      },
+      "population": {
+        "title": "世界の人口大国ランキング",
+        "description": "総人口で見た国別ランキング。"
+      },
+      "filmBoxOffice": {
+        "title": "歴代興行収入ランキング",
+        "description": "物価調整なしの、世界興行収入トップ映画ランキング。"
       }
     }
   }

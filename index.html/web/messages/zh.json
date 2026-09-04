@@ -380,7 +380,6 @@
       "social": "社交",
       "realEstate": "房产",
       "dating": "恋爱",
-      "assets": "资产",
       "civic": "文明"
     },
     "searchSubmitAria": "执行搜索 (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "一键直达全球主流社交媒体应用。",
     "openAria": "打开 {brand}"
   },
-  "Assets": {
-    "hint": "一键下载 UNITAS 官方资产。",
-    "downloadAria": "下载 {name}",
-    "items": {
-      "mark": "品牌标志 (SVG)",
-      "icon": "应用图标 (512px)",
-      "manifest": "Web 应用清单",
-      "ownership": "所有权清单"
-    }
-  },
   "HotNews": {
     "label": "实时热点新闻",
     "loading": "正在加载新闻…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "安全",
         "description": "防止主权被借用的防御层。"
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "全球主题排行榜",
+    "hint": "点击主题查看前10名——点击加载更多以深入探索。",
+    "loadMore": "查看更多（至第{count}名）",
+    "collapseAria": "关闭",
+    "collectingMore": "更多排名正在整理中，敬请期待。",
+    "snapshot": "数据为快照数值，可能随时间变化。",
+    "themes": {
+      "heritage": {
+        "title": "世界遗产大国排行榜",
+        "description": "拥有最多世界遗产项目的国家排名。"
+      },
+      "gdp": {
+        "title": "全球GDP基准排行榜",
+        "description": "按名义GDP计算的全球最大经济体排名。"
+      },
+      "records": {
+        "title": "人类历史伟大里程碑",
+        "description": "按时间顺序呈现塑造文明的重大历史时刻。"
+      },
+      "mountains": {
+        "title": "世界最高峰排行榜",
+        "description": "按海拔高度排列的世界最高山峰。"
+      },
+      "rivers": {
+        "title": "世界最长河流排行榜",
+        "description": "按总长度排列的世界最长河流。"
+      },
+      "buildings": {
+        "title": "世界最高建筑排行榜",
+        "description": "已建成的世界最高摩天大楼排名。"
+      },
+      "population": {
+        "title": "世界人口大国排行榜",
+        "description": "按总人口排列的国家排名。"
+      },
+      "filmBoxOffice": {
+        "title": "史上票房冠军排行榜",
+        "description": "未经通胀调整的全球票房最高电影排名。"
       }
     }
   }

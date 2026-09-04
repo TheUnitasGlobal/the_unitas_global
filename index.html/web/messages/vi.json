@@ -380,7 +380,6 @@
       "social": "Mạng xã hội",
       "realEstate": "Bất động sản",
       "dating": "Hẹn hò",
-      "assets": "Tài sản",
       "civic": "Dân sự"
     },
     "searchSubmitAria": "Chạy tìm kiếm (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "Truy cập một chạm tới các ứng dụng mạng xã hội lớn trên thế giới.",
     "openAria": "Mở {brand}"
   },
-  "Assets": {
-    "hint": "Tải tài sản chính thức của UNITAS chỉ với một chạm.",
-    "downloadAria": "Tải xuống {name}",
-    "items": {
-      "mark": "Biểu tượng thương hiệu (SVG)",
-      "icon": "Biểu tượng ứng dụng (512px)",
-      "manifest": "Manifest ứng dụng web",
-      "ownership": "Manifest quyền sở hữu"
-    }
-  },
   "HotNews": {
     "label": "Tin nóng trực tiếp",
     "loading": "Đang tải tin tức…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "An ninh",
         "description": "Lớp phòng vệ giữ cho chủ quyền không bị vay mượn."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Bảng Xếp Hạng Chủ Đề Toàn Cầu",
+    "hint": "Chạm vào một chủ đề để xem top 10 — tải thêm để khám phá sâu hơn.",
+    "loadMore": "Xem thêm (đến hạng {count})",
+    "collapseAria": "Đóng",
+    "collectingMore": "Các hạng khác đang được tổng hợp — hãy quay lại sau.",
+    "snapshot": "Số liệu tại một thời điểm — có thể thay đổi theo thời gian.",
+    "themes": {
+      "heritage": {
+        "title": "Các Quốc Gia Dẫn Đầu Về Di Sản Thế Giới UNESCO",
+        "description": "Xếp hạng các quốc gia có nhiều di sản thế giới được công nhận nhất."
+      },
+      "gdp": {
+        "title": "Chuẩn Mực GDP Toàn Cầu",
+        "description": "Các nền kinh tế lớn nhất thế giới theo GDP danh nghĩa."
+      },
+      "records": {
+        "title": "Những Cột Mốc Vĩ Đại Của Lịch Sử Nhân Loại",
+        "description": "Những khoảnh khắc định hình nền văn minh, theo trình tự thời gian."
+      },
+      "mountains": {
+        "title": "Những Đỉnh Núi Cao Nhất Thế Giới",
+        "description": "Những ngọn núi cao nhất Trái Đất, xếp theo độ cao."
+      },
+      "rivers": {
+        "title": "Những Con Sông Dài Nhất Thế Giới",
+        "description": "Những con sông dài nhất Trái Đất, xếp theo tổng chiều dài."
+      },
+      "buildings": {
+        "title": "Những Tòa Nhà Cao Nhất Thế Giới",
+        "description": "Những tòa nhà chọc trời đã hoàn thành cao nhất Trái Đất."
+      },
+      "population": {
+        "title": "Những Quốc Gia Đông Dân Nhất",
+        "description": "Các quốc gia xếp theo tổng dân số."
+      },
+      "filmBoxOffice": {
+        "title": "Những Bộ Phim Ăn Khách Nhất Mọi Thời Đại",
+        "description": "Những bộ phim có doanh thu cao nhất toàn cầu, chưa điều chỉnh theo lạm phát."
       }
     }
   }

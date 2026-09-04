@@ -380,7 +380,6 @@
       "social": "Social",
       "realEstate": "Vastgoed",
       "dating": "Dating",
-      "assets": "Assets",
       "civic": "Civiel"
     },
     "searchSubmitAria": "Zoekopdracht uitvoeren (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "Met één klik naar de grootste socialemedia-apps ter wereld.",
     "openAria": "{brand} openen"
   },
-  "Assets": {
-    "hint": "Officiële UNITAS-assets met één klik downloaden.",
-    "downloadAria": "{name} downloaden",
-    "items": {
-      "mark": "Merkteken (SVG)",
-      "icon": "App-icoon (512px)",
-      "manifest": "Web-app-manifest",
-      "ownership": "Eigendomsmanifest"
-    }
-  },
   "HotNews": {
     "label": "Live hot nieuws",
     "loading": "Nieuws laden…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Veiligheid",
         "description": "De verdedigingslaag die voorkomt dat soevereiniteit wordt geleend."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Wereldwijde Themaranglijsten",
+    "hint": "Tik op een thema voor de top 10 — laad meer om dieper te graven.",
+    "loadMore": "Meer tonen (tot plek {count})",
+    "collapseAria": "Sluiten",
+    "collectingMore": "Meer posities worden verzameld — kom binnenkort terug.",
+    "snapshot": "Momentopname-cijfers — kunnen na verloop van tijd veranderen.",
+    "themes": {
+      "heritage": {
+        "title": "UNESCO-Werelderfgoed Kopstukken",
+        "description": "Landen met de meeste ingeschreven Werelderfgoedsites."
+      },
+      "gdp": {
+        "title": "Wereldwijde BBP-Benchmark",
+        "description": "De grootste economieën ter wereld naar nominaal BBP."
+      },
+      "records": {
+        "title": "Grote Mijlpalen van de Menselijke Geschiedenis",
+        "description": "Baanbrekende momenten die de beschaving vormden, in chronologische volgorde."
+      },
+      "mountains": {
+        "title": "Hoogste Bergtoppen ter Wereld",
+        "description": "De hoogste bergen op aarde, gerangschikt naar hoogte."
+      },
+      "rivers": {
+        "title": "Langste Rivieren ter Wereld",
+        "description": "De langste rivieren op aarde, gerangschikt naar totale lengte."
+      },
+      "buildings": {
+        "title": "Hoogste Gebouwen ter Wereld",
+        "description": "De hoogste voltooide wolkenkrabbers op aarde."
+      },
+      "population": {
+        "title": "Landen met de Meeste Inwoners",
+        "description": "Landen gerangschikt naar totale bevolking."
+      },
+      "filmBoxOffice": {
+        "title": "Kaskrakers Aller Tijden",
+        "description": "De best verdienende films wereldwijd, niet gecorrigeerd voor inflatie."
       }
     }
   }

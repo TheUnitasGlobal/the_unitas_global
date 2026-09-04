@@ -380,7 +380,6 @@
       "social": "Social",
       "realEstate": "Immobilien",
       "dating": "Dating",
-      "assets": "Assets",
       "civic": "Zivil"
     },
     "searchSubmitAria": "Suche ausführen (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "Mit einem Klick zu den wichtigsten Social-Media-Apps der Welt.",
     "openAria": "{brand} öffnen"
   },
-  "Assets": {
-    "hint": "Offizielle UNITAS-Assets mit einem Klick herunterladen.",
-    "downloadAria": "{name} herunterladen",
-    "items": {
-      "mark": "Markenzeichen (SVG)",
-      "icon": "App-Icon (512px)",
-      "manifest": "Web-App-Manifest",
-      "ownership": "Eigentumsmanifest"
-    }
-  },
   "HotNews": {
     "label": "Aktuelle Top-Nachrichten",
     "loading": "Nachrichten werden geladen…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Sicherheit",
         "description": "Die Verteidigungsebene, die Souveränität vor Verleih schützt."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Globale Themen-Ranglisten",
+    "hint": "Tippe auf ein Thema, um die Top 10 zu sehen — lade mehr, um tiefer einzutauchen.",
+    "loadMore": "Mehr anzeigen (bis Platz {count})",
+    "collapseAria": "Schließen",
+    "collectingMore": "Weitere Plätze werden zusammengestellt — schau bald wieder vorbei.",
+    "snapshot": "Momentaufnahme-Werte — können sich im Laufe der Zeit ändern.",
+    "themes": {
+      "heritage": {
+        "title": "UNESCO-Welterbe-Spitzenreiter",
+        "description": "Länder mit den meisten eingetragenen Welterbestätten."
+      },
+      "gdp": {
+        "title": "Globaler BIP-Vergleich",
+        "description": "Die größten Volkswirtschaften der Welt nach nominalem BIP."
+      },
+      "records": {
+        "title": "Große Meilensteine der Menschheitsgeschichte",
+        "description": "Wegweisende Momente der Zivilisation in chronologischer Reihenfolge."
+      },
+      "mountains": {
+        "title": "Die höchsten Gipfel der Welt",
+        "description": "Die höchsten Berge der Erde nach Höhe."
+      },
+      "rivers": {
+        "title": "Die längsten Flüsse der Welt",
+        "description": "Die längsten Flüsse der Erde nach Gesamtlänge."
+      },
+      "buildings": {
+        "title": "Die höchsten Gebäude der Welt",
+        "description": "Die höchsten fertiggestellten Wolkenkratzer der Erde."
+      },
+      "population": {
+        "title": "Die bevölkerungsreichsten Länder",
+        "description": "Länder geordnet nach Gesamtbevölkerung."
+      },
+      "filmBoxOffice": {
+        "title": "Die erfolgreichsten Filme aller Zeiten",
+        "description": "Die weltweit einspielstärksten Filme, nicht inflationsbereinigt."
       }
     }
   }

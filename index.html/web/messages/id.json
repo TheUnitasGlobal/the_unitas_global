@@ -380,7 +380,6 @@
       "social": "Sosial",
       "realEstate": "Properti",
       "dating": "Kencan",
-      "assets": "Aset",
       "civic": "Sipil"
     },
     "searchSubmitAria": "Jalankan pencarian (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "Akses satu klik ke aplikasi media sosial utama dunia.",
     "openAria": "Buka {brand}"
   },
-  "Assets": {
-    "hint": "Unduh aset resmi UNITAS dengan satu klik.",
-    "downloadAria": "Unduh {name}",
-    "items": {
-      "mark": "Tanda merek (SVG)",
-      "icon": "Ikon aplikasi (512px)",
-      "manifest": "Manifes aplikasi web",
-      "ownership": "Manifes kepemilikan"
-    }
-  },
   "HotNews": {
     "label": "Berita hangat langsung",
     "loading": "Memuat berita…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Keamanan",
         "description": "Lapisan pertahanan yang menjaga kedaulatan agar tidak dipinjam."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Peringkat Tema Global",
+    "hint": "Ketuk tema untuk melihat 10 teratas — muat lebih banyak untuk menjelajah lebih dalam.",
+    "loadMore": "Tampilkan lebih (hingga peringkat {count})",
+    "collapseAria": "Tutup",
+    "collectingMore": "Peringkat lainnya sedang disusun — kunjungi lagi nanti.",
+    "snapshot": "Angka snapshot — dapat berubah seiring waktu.",
+    "themes": {
+      "heritage": {
+        "title": "Negara dengan Situs Warisan Dunia UNESCO Terbanyak",
+        "description": "Negara dengan jumlah situs Warisan Dunia terdaftar terbanyak."
+      },
+      "gdp": {
+        "title": "Tolok Ukur PDB Global",
+        "description": "Ekonomi terbesar dunia berdasarkan PDB nominal."
+      },
+      "records": {
+        "title": "Tonggak Sejarah Besar Umat Manusia",
+        "description": "Momen penting yang membentuk peradaban, secara kronologis."
+      },
+      "mountains": {
+        "title": "Puncak Tertinggi di Dunia",
+        "description": "Gunung tertinggi di Bumi berdasarkan ketinggian."
+      },
+      "rivers": {
+        "title": "Sungai Terpanjang di Dunia",
+        "description": "Sungai terpanjang di Bumi berdasarkan total panjang."
+      },
+      "buildings": {
+        "title": "Gedung Tertinggi di Dunia",
+        "description": "Pencakar langit tertinggi yang telah selesai dibangun di Bumi."
+      },
+      "population": {
+        "title": "Negara dengan Populasi Terbanyak",
+        "description": "Negara berdasarkan jumlah populasi total."
+      },
+      "filmBoxOffice": {
+        "title": "Juara Box Office Sepanjang Masa",
+        "description": "Film dengan pendapatan tertinggi di dunia, tanpa penyesuaian inflasi."
       }
     }
   }

@@ -380,7 +380,6 @@
       "social": "Social",
       "realEstate": "Immobilier",
       "dating": "Rencontres",
-      "assets": "Ressources",
       "civic": "Civil"
     },
     "searchSubmitAria": "Lancer la recherche (Entrée)"
@@ -1161,16 +1160,6 @@
     "hint": "Accès en un clic aux grandes applications de réseaux sociaux du monde.",
     "openAria": "Ouvrir {brand}"
   },
-  "Assets": {
-    "hint": "Téléchargement en un clic des ressources officielles UNITAS.",
-    "downloadAria": "Télécharger {name}",
-    "items": {
-      "mark": "Marque (SVG)",
-      "icon": "Icône de l’app (512px)",
-      "manifest": "Manifeste de l’app web",
-      "ownership": "Manifeste de propriété"
-    }
-  },
   "HotNews": {
     "label": "Actualités chaudes en direct",
     "loading": "Chargement des actualités…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Sécurité",
         "description": "La couche défensive qui empêche la souveraineté d'être empruntée."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Classements Thématiques Mondiaux",
+    "hint": "Touchez un thème pour voir son top 10 — chargez-en plus pour aller plus loin.",
+    "loadMore": "Voir plus (jusqu'au rang {count})",
+    "collapseAria": "Fermer",
+    "collectingMore": "D’autres classements sont en préparation — revenez bientôt.",
+    "snapshot": "Chiffres instantanés — susceptibles d’évoluer dans le temps.",
+    "themes": {
+      "heritage": {
+        "title": "Champions du Patrimoine Mondial UNESCO",
+        "description": "Les pays comptant le plus de sites inscrits au patrimoine mondial."
+      },
+      "gdp": {
+        "title": "Référence du PIB Mondial",
+        "description": "Les plus grandes économies du monde par PIB nominal."
+      },
+      "records": {
+        "title": "Grands Jalons de l'Histoire Humaine",
+        "description": "Les moments clés qui ont façonné la civilisation, par ordre chronologique."
+      },
+      "mountains": {
+        "title": "Les Plus Hauts Sommets du Monde",
+        "description": "Les montagnes les plus hautes de la Terre, par altitude."
+      },
+      "rivers": {
+        "title": "Les Plus Longs Fleuves du Monde",
+        "description": "Les fleuves les plus longs de la Terre, par longueur totale."
+      },
+      "buildings": {
+        "title": "Les Plus Hauts Bâtiments du Monde",
+        "description": "Les plus hauts gratte-ciel achevés sur Terre."
+      },
+      "population": {
+        "title": "Les Pays les Plus Peuplés",
+        "description": "Les pays classés par population totale."
+      },
+      "filmBoxOffice": {
+        "title": "Champions du Box-Office de Tous les Temps",
+        "description": "Les films les plus rentables au monde, non ajustés à l’inflation."
       }
     }
   }

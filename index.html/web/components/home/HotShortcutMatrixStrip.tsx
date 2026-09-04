@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Download, LayoutGrid } from 'lucide-react';
+import { LayoutGrid } from 'lucide-react';
 import {
   itemsInGroup,
   axisTitle,
@@ -12,22 +12,25 @@ import {
   type ShortcutGroup,
 } from '@/lib/hotIssues';
 import { EMAIL_SHORTCUTS, SOCIAL_SHORTCUTS, type DirectAppShortcut } from '@/lib/appShortcuts';
-import { UNITAS_ASSETS } from '@/lib/unitasAssets';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { HotIssueNewsList } from '@/components/home/HotIssueNewsList';
 import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
+import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
 import { AppDetailCard } from '@/components/interaction/AppDetailCard';
 
 interface HotShortcutMatrixStripProps {
   onOpenShortcut: (axis: HotShortcutAxis) => void;
 }
 
-type TabKey = ShortcutGroup | 'weather' | 'social' | 'email' | 'assets';
+type TabKey = ShortcutGroup | 'weather' | 'social' | 'email';
 
 /** 실시간 날씨 sits right beside 핫이슈 (owner instruction 2026-09-03). The
  *  old standalone "governance" tab was retired the same day -- its 16 axes
  *  now live folded into hotIssue/finance/career or the new "civic" tab (see
- *  lib/hotIssues.ts). 핫이슈 is the default landing tab. */
+ *  lib/hotIssues.ts). The trailing "에셋" (asset-download) tab was removed
+ *  entirely (owner instruction 2026-09-04: "가장 오른쪽 에셋 박스 일괄 삭제")
+ *  -- lib/unitasAssets.ts no longer exists. 핫이슈 is the default landing
+ *  tab. */
 const TABS: TabKey[] = [
   'hotIssue',
   'weather',
@@ -38,7 +41,6 @@ const TABS: TabKey[] = [
   'dating',
   'career',
   'civic',
-  'assets',
 ];
 
 /** The active tab survives a locale remount (see HomeContent's storage keys). */
@@ -51,14 +53,16 @@ function isTabKey(value: string | null): value is TabKey {
 /**
  * "The Living Knowledge Ouroboros", expanded into a themed tab architecture:
  * visibly-grouped banners (Governance, Hot Issues, Social, Email, Finance,
- * Real Estate, Dating, Career, Assets) instead of one flat infinite marquee --
+ * Real Estate, Dating, Career) instead of one flat infinite marquee --
  * switching tabs swaps the chip grid below rather than auto-scrolling it, so
  * every tile stays a stable click target. Axis tiles open
  * HotShortcutResultModal's chained U-AI popup; Social/Email tiles toggle an
  * inline AppDetailCard (brand blurb + explicit "go to link" button) via
  * local state instead, same interaction shape as onOpenShortcut but scoped
- * to this strip; Asset tiles are one-click same-origin downloads -- so
- * neither Social/Email nor Asset tiles ever call onOpenShortcut.
+ * to this strip -- so Social/Email tiles never call onOpenShortcut. The
+ * 핫이슈 group's own sub-shortcuts render as plain text pills (identical
+ * design to the tab strip above) rather than this icon-card shape, per
+ * owner instruction 2026-09-04.
  */
 export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStripProps) {
   const t = useTranslations('OmniSynapse');
@@ -70,7 +74,6 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
   const tCareer = useTranslations('Career');
   const tEmail = useTranslations('Email');
   const tSocial = useTranslations('Social');
-  const tAssets = useTranslations('Assets');
   const { playHoverSfx } = useSpatialAudio();
 
   const [activeTab, setActiveTab] = useState<TabKey>('hotIssue');
@@ -104,14 +107,7 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
     career: tCareer,
   };
 
-  const hint =
-    activeTab === 'email'
-      ? tEmail('hint')
-      : activeTab === 'social'
-        ? tSocial('hint')
-        : activeTab === 'assets'
-          ? tAssets('hint')
-          : null;
+  const hint = activeTab === 'email' ? tEmail('hint') : activeTab === 'social' ? tSocial('hint') : null;
 
   /** Tapping a webmail/social tile toggles its AppDetailCard open below the
    *  grid instead of navigating immediately (owner instruction 2026-09-03:
@@ -210,27 +206,11 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
               onOpen={() => setExpandedApp(null)}
             />
           )}
-          {activeTab === 'assets' &&
-            UNITAS_ASSETS.map((asset) => (
-              <a
-                key={asset.key}
-                href={asset.href}
-                download={asset.fileName}
-                title={tAssets('downloadAria', { name: tAssets(`items.${asset.key}`) })}
-                onMouseEnter={() => playHoverSfx()}
-                style={{ borderColor: `${asset.color}44` }}
-                className="flex shrink-0 items-center gap-2.5 border bg-void/50 px-4 py-3 text-left transition-colors hover:bg-void/80"
-              >
-                <asset.icon size={18} style={{ color: asset.color }} aria-hidden="true" />
-                <span className="whitespace-nowrap text-[15px] font-bold text-white sm:text-base">{tAssets(`items.${asset.key}`)}</span>
-                <Download size={13} className="text-gray-500" aria-hidden="true" />
-              </a>
-            ))}
           {activeTab === 'weather' && <LiveWeatherPanel />}
           {activeTab !== 'email' &&
             activeTab !== 'social' &&
-            activeTab !== 'assets' &&
             activeTab !== 'weather' &&
+            activeTab !== 'hotIssue' &&
             itemsInGroup(activeTab).map((axis) => (
               <button
                 key={axis.key}
@@ -245,9 +225,31 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
                 <span className="whitespace-nowrap text-[15px] font-bold text-white sm:text-base">{axisTitle(axis, axisT)}</span>
               </button>
             ))}
-          {/* 핫이슈: the four axis tiles stay exactly as they were; the live
-              category-wise news list (1–2 line summaries) lands beneath them. */}
-          {activeTab === 'hotIssue' && <HotIssueNewsList />}
+          {/* 핫이슈: sub-shortcuts (게임/스포츠/영화/문화/사회/표현/전략) render as the
+              exact same text-pill design as the main tab strip above -- not
+              the icon-card shape every other group uses (owner instruction
+              2026-09-04: "상단 메인 숏컷 박스와 정확히 동일한 디자인"). The theme
+              ranking widget and the live news list follow beneath them. */}
+          {activeTab === 'hotIssue' && (
+            <div className="flex w-full flex-col gap-4">
+              <div className="flex flex-wrap gap-2">
+                {itemsInGroup('hotIssue').map((axis) => (
+                  <button
+                    key={axis.key}
+                    type="button"
+                    title={t('shortcutMatrixHint')}
+                    onMouseEnter={() => playHoverSfx()}
+                    onClick={() => onOpenShortcut(axis)}
+                    className="border border-white/15 px-3 py-2 text-[13px] font-bold uppercase tracking-widest text-gray-400 transition-colors hover:border-white/30 hover:text-white sm:px-4 sm:text-[15px]"
+                  >
+                    {axisTitle(axis, axisT)}
+                  </button>
+                ))}
+              </div>
+              <GlobalThemeRankings />
+              <HotIssueNewsList />
+            </div>
+          )}
         </motion.div>
       </AnimatePresence>
       </div>

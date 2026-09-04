@@ -380,7 +380,6 @@
       "social": "Sosyal",
       "realEstate": "Gayrimenkul",
       "dating": "Flört",
-      "assets": "Varlıklar",
       "civic": "Sivil"
     },
     "searchSubmitAria": "Aramayı çalıştır (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "Dünyanın önde gelen sosyal medya uygulamalarına tek tıkla erişim.",
     "openAria": "{brand} aç"
   },
-  "Assets": {
-    "hint": "Resmi UNITAS varlıklarını tek tıkla indirin.",
-    "downloadAria": "{name} indir",
-    "items": {
-      "mark": "Marka işareti (SVG)",
-      "icon": "Uygulama simgesi (512px)",
-      "manifest": "Web uygulaması manifestosu",
-      "ownership": "Mülkiyet manifestosu"
-    }
-  },
   "HotNews": {
     "label": "Canlı sıcak gündem",
     "loading": "Haberler yükleniyor…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Güvenlik",
         "description": "Egemenliğin ödünç alınmasını önleyen savunma katmanı."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Küresel Tema Sıralamaları",
+    "hint": "İlk 10'u görmek için bir temaya dokunun — daha derine inmek için daha fazla yükleyin.",
+    "loadMore": "Daha fazla göster ({count}. sıraya kadar)",
+    "collapseAria": "Kapat",
+    "collectingMore": "Daha fazla sıralama hazırlanıyor — yakında tekrar kontrol edin.",
+    "snapshot": "Anlık veriler — zamanla değişebilir.",
+    "themes": {
+      "heritage": {
+        "title": "UNESCO Dünya Mirası Devleri",
+        "description": "En fazla tescilli Dünya Mirası alanına sahip ülkeler."
+      },
+      "gdp": {
+        "title": "Küresel GSYİH Kıyaslaması",
+        "description": "Nominal GSYİH'ye göre dünyanın en büyük ekonomileri."
+      },
+      "records": {
+        "title": "İnsanlık Tarihinin Büyük Dönüm Noktaları",
+        "description": "Medeniyeti şekillendiren önemli anlar, kronolojik sırayla."
+      },
+      "mountains": {
+        "title": "Dünyanın En Yüksek Zirveleri",
+        "description": "Yüksekliğe göre dünyanın en yüksek dağları."
+      },
+      "rivers": {
+        "title": "Dünyanın En Uzun Nehirleri",
+        "description": "Toplam uzunluğa göre dünyanın en uzun nehirleri."
+      },
+      "buildings": {
+        "title": "Dünyanın En Yüksek Binaları",
+        "description": "Tamamlanmış dünyanın en yüksek gökdelenleri."
+      },
+      "population": {
+        "title": "Nüfusu En Kalabalık Ülkeler",
+        "description": "Toplam nüfusa göre sıralanan ülkeler."
+      },
+      "filmBoxOffice": {
+        "title": "Tüm Zamanların Gişe Rekortmenleri",
+        "description": "Enflasyona göre düzeltilmemiş, dünya çapında en çok hasılat yapan filmler."
       }
     }
   }

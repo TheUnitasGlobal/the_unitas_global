@@ -380,7 +380,6 @@
       "social": "Social",
       "realEstate": "Immobiliare",
       "dating": "Incontri",
-      "assets": "Risorse",
       "civic": "Civile"
     },
     "searchSubmitAria": "Avvia ricerca (Invio)"
@@ -1161,16 +1160,6 @@
     "hint": "Accesso con un clic alle principali app social del mondo.",
     "openAria": "Apri {brand}"
   },
-  "Assets": {
-    "hint": "Download con un clic delle risorse ufficiali UNITAS.",
-    "downloadAria": "Scarica {name}",
-    "items": {
-      "mark": "Marchio (SVG)",
-      "icon": "Icona dell’app (512px)",
-      "manifest": "Manifest della web app",
-      "ownership": "Manifest di proprietà"
-    }
-  },
   "HotNews": {
     "label": "Notizie calde live",
     "loading": "Caricamento notizie…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Sicurezza",
         "description": "Lo strato difensivo che impedisce alla sovranità di essere prestata."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Classifiche Tematiche Globali",
+    "hint": "Tocca un tema per vedere la top 10 — carica altro per approfondire.",
+    "loadMore": "Mostra altro (fino alla posizione {count})",
+    "collapseAria": "Chiudi",
+    "collectingMore": "Altre posizioni sono in fase di raccolta — torna presto.",
+    "snapshot": "Dati istantanei — possono cambiare nel tempo.",
+    "themes": {
+      "heritage": {
+        "title": "Potenze del Patrimonio Mondiale UNESCO",
+        "description": "I paesi con più siti iscritti al Patrimonio Mondiale."
+      },
+      "gdp": {
+        "title": "Benchmark del PIL Globale",
+        "description": "Le maggiori economie del mondo per PIL nominale."
+      },
+      "records": {
+        "title": "Grandi Traguardi della Storia Umana",
+        "description": "I momenti chiave che hanno plasmato la civiltà, in ordine cronologico."
+      },
+      "mountains": {
+        "title": "Le Vette Più Alte del Mondo",
+        "description": "Le montagne più alte della Terra, per altitudine."
+      },
+      "rivers": {
+        "title": "I Fiumi Più Lunghi del Mondo",
+        "description": "I fiumi più lunghi della Terra, per lunghezza totale."
+      },
+      "buildings": {
+        "title": "Gli Edifici Più Alti del Mondo",
+        "description": "I grattacieli completati più alti della Terra."
+      },
+      "population": {
+        "title": "I Paesi Più Popolosi",
+        "description": "I paesi classificati per popolazione totale."
+      },
+      "filmBoxOffice": {
+        "title": "I Campioni d'Incasso di Sempre",
+        "description": "I film con maggiori incassi al mondo, non rettificati per l’inflazione."
       }
     }
   }

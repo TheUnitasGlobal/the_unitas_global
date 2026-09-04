@@ -2,7 +2,6 @@ import {
   Gamepad2,
   Trophy,
   Film,
-  CloudSun,
   Coins,
   LineChart,
   Bitcoin,
@@ -75,11 +74,13 @@ function fromGovernance(key: string, group: ShortcutGroup): HotShortcutAxis {
 }
 
 export const HOT_ISSUE_AXES: HotShortcutAxis[] = [
+  // "weather" was folded out (owner instruction 2026-09-04): it now lives
+  // only as its own main tab (HotShortcutMatrixStrip TABS), so this list no
+  // longer duplicates it as a sub-shortcut.
   ...buildGroup('hotIssue', [
     { key: 'game', icon: Gamepad2, color: '#e879f9', glow: '#f5d0fe' },
     { key: 'sports', icon: Trophy, color: '#fb923c', glow: '#fed7aa' },
     { key: 'movie', icon: Film, color: '#facc15', glow: '#fde047' },
-    { key: 'weather', icon: CloudSun, color: '#38bdf8', glow: '#7dd3fc' },
   ]),
   // 유저 참여를 유도하는 확장 숏컷 (owner instruction 2026-09-03): folded in
   // from the retired governance tab rather than invented from scratch, so
@@ -136,10 +137,9 @@ export const CIVIC_AXES: HotShortcutAxis[] = [
 /**
  * The full "다차원 숏컷 매트릭스" (multi-dimensional shortcut matrix): every
  * U-AI-popup-driven group in one flat list. Direct-app launchers (email +
- * social, lib/appShortcuts.ts) and asset downloads (lib/unitasAssets.ts) are
- * deliberately NOT folded in here -- they open external apps / files directly
- * rather than HotShortcutResultModal's chained U-AI popup, so they stay their
- * own types.
+ * social, lib/appShortcuts.ts) are deliberately NOT folded in here -- they
+ * open external apps directly rather than HotShortcutResultModal's chained
+ * U-AI popup, so they stay their own type.
  */
 export const HOT_SHORTCUT_MATRIX: HotShortcutAxis[] = [
   ...CIVIC_AXES,

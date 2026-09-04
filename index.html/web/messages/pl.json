@@ -380,7 +380,6 @@
       "social": "Social",
       "realEstate": "Nieruchomości",
       "dating": "Randki",
-      "assets": "Zasoby",
       "civic": "Cywilny"
     },
     "searchSubmitAria": "Uruchom wyszukiwanie (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "Dostęp jednym kliknięciem do największych aplikacji społecznościowych świata.",
     "openAria": "Otwórz {brand}"
   },
-  "Assets": {
-    "hint": "Pobieranie oficjalnych zasobów UNITAS jednym kliknięciem.",
-    "downloadAria": "Pobierz {name}",
-    "items": {
-      "mark": "Znak marki (SVG)",
-      "icon": "Ikona aplikacji (512px)",
-      "manifest": "Manifest aplikacji webowej",
-      "ownership": "Manifest własności"
-    }
-  },
   "HotNews": {
     "label": "Gorące wiadomości na żywo",
     "loading": "Ładowanie wiadomości…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "Bezpieczeństwo",
         "description": "Warstwa obronna chroniąca suwerenność przed pożyczaniem."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "Globalne Rankingi Tematyczne",
+    "hint": "Dotknij tematu, aby zobaczyć jego top 10 — wczytaj więcej, aby zgłębić temat.",
+    "loadMore": "Pokaż więcej (do miejsca {count})",
+    "collapseAria": "Zamknij",
+    "collectingMore": "Kolejne miejsca są w przygotowaniu — zajrzyj wkrótce ponownie.",
+    "snapshot": "Dane migawkowe — mogą się zmieniać w czasie.",
+    "themes": {
+      "heritage": {
+        "title": "Potęgi Światowego Dziedzictwa UNESCO",
+        "description": "Kraje z największą liczbą wpisanych obiektów światowego dziedzictwa."
+      },
+      "gdp": {
+        "title": "Globalny Benchmark PKB",
+        "description": "Największe gospodarki świata według nominalnego PKB."
+      },
+      "records": {
+        "title": "Wielkie Kamienie Milowe Historii Ludzkości",
+        "description": "Przełomowe momenty, które ukształtowały cywilizację, w porządku chronologicznym."
+      },
+      "mountains": {
+        "title": "Najwyższe Szczyty Świata",
+        "description": "Najwyższe góry na Ziemi, uszeregowane według wysokości."
+      },
+      "rivers": {
+        "title": "Najdłuższe Rzeki Świata",
+        "description": "Najdłuższe rzeki na Ziemi, uszeregowane według całkowitej długości."
+      },
+      "buildings": {
+        "title": "Najwyższe Budynki Świata",
+        "description": "Najwyższe ukończone wieżowce na Ziemi."
+      },
+      "population": {
+        "title": "Kraje o Największej Liczbie Ludności",
+        "description": "Kraje uszeregowane według całkowitej liczby ludności."
+      },
+      "filmBoxOffice": {
+        "title": "Rekordziści Box Office Wszech Czasów",
+        "description": "Filmy o najwyższych wpływach na świecie, bez korekty o inflację."
       }
     }
   }

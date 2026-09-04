@@ -380,7 +380,6 @@
       "social": "소셜",
       "realEstate": "부동산",
       "dating": "연애",
-      "assets": "에셋",
       "civic": "문명"
     },
     "searchSubmitAria": "검색 실행 (Enter)"
@@ -1161,16 +1160,6 @@
     "hint": "전 세계 주요 소셜미디어 앱에 원클릭으로 즉시 접속합니다.",
     "openAria": "{brand} 열기"
   },
-  "Assets": {
-    "hint": "유니타스 공식 에셋을 원클릭으로 다운로드합니다.",
-    "downloadAria": "{name} 다운로드",
-    "items": {
-      "mark": "브랜드 마크 (SVG)",
-      "icon": "앱 아이콘 (512px)",
-      "manifest": "웹 앱 매니페스트",
-      "ownership": "소유권 매니페스트"
-    }
-  },
   "HotNews": {
     "label": "실시간 핫이슈 뉴스",
     "loading": "실시간 뉴스 불러오는 중…",
@@ -1269,6 +1258,48 @@
       "security": {
         "title": "안보",
         "description": "주권이 대여되지 않도록 지키는 방어 층위."
+      }
+    }
+  },
+  "GlobalRankings": {
+    "label": "글로벌 테마 랭킹",
+    "hint": "테마를 선택하면 1위부터 순위를 확인할 수 있습니다 — 더보기로 더 깊이 탐색하세요.",
+    "loadMore": "{count}위까지 더보기",
+    "collapseAria": "닫기",
+    "collectingMore": "추가 순위는 계속 업데이트됩니다.",
+    "snapshot": "스냅샷 기준 수치이며 시점에 따라 달라질 수 있습니다.",
+    "themes": {
+      "heritage": {
+        "title": "유네스코 세계유산 최다 보유국",
+        "description": "세계유산 등재 건수가 가장 많은 국가 순위."
+      },
+      "gdp": {
+        "title": "글로벌 경제 벤치마크",
+        "description": "명목 GDP 기준 세계 최대 경제 대국 순위."
+      },
+      "records": {
+        "title": "인류 역사상 위대한 기록",
+        "description": "문명을 바꾼 역사적 이정표를 시대순으로 정리했습니다."
+      },
+      "mountains": {
+        "title": "세계 최고봉 순위",
+        "description": "해발 고도 기준 세계에서 가장 높은 산 순위."
+      },
+      "rivers": {
+        "title": "세계 최장 하천 순위",
+        "description": "총 길이 기준 세계에서 가장 긴 강 순위."
+      },
+      "buildings": {
+        "title": "세계 최고층 빌딩 순위",
+        "description": "완공 기준 세계에서 가장 높은 마천루 순위."
+      },
+      "population": {
+        "title": "세계 인구 대국 순위",
+        "description": "총인구 기준 국가 순위."
+      },
+      "filmBoxOffice": {
+        "title": "역대 최고 흥행 영화 순위",
+        "description": "물가 미보정 기준, 전 세계 누적 수익 최고 영화 순위."
       }
     }
   }
