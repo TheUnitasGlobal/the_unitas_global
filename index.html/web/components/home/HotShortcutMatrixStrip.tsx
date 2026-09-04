@@ -154,8 +154,8 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
       {/* Strip title -- brand HUD label (English-branded like "U-AI SEARCH
           RESULT"), aligned to the same horizontal gutter as every row below
           (owner instruction 2026-09-02). */}
-      <p className="mb-3 flex items-center gap-2 px-4 text-[13px] font-bold uppercase tracking-[0.3em] text-accent sm:px-6">
-        <LayoutGrid size={14} aria-hidden="true" />
+      <p className="mb-3 flex items-center gap-2 px-4 text-[16px] font-bold uppercase tracking-[0.3em] text-accent sm:px-6 sm:text-[18px]">
+        <LayoutGrid size={18} aria-hidden="true" />
         {t('shortcutsStripLabel')}
       </p>
       {/* Themed tab banner row -- "실시간 날씨" stays pinned as a fixed lead

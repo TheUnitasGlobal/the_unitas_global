@@ -51,8 +51,8 @@ export function UnitasModuleRankings() {
 
   return (
     <div className="mt-2 w-full border-t border-white/10 pt-4">
-      <p className="mb-2 flex items-center gap-1.5 text-[13px] font-bold uppercase tracking-[0.3em] text-accent">
-        <UsersRound size={14} aria-hidden="true" />
+      <p className="mb-2 flex items-center gap-1.5 text-[16px] font-bold uppercase tracking-[0.3em] text-accent sm:text-[18px]">
+        <UsersRound size={18} aria-hidden="true" />
         {t('label')}
       </p>
 
@@ -65,7 +65,7 @@ export function UnitasModuleRankings() {
               aria-expanded={activeModule?.key === module.key}
               onMouseEnter={() => playHoverSfx()}
               onClick={() => openModule(module)}
-              className={`border px-3 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors sm:text-[13px] ${
+              className={`border px-3 py-2 text-[13px] font-bold uppercase tracking-widest transition-colors sm:text-[15px] ${
                 activeModule?.key === module.key
                   ? 'border-accent bg-accent/15 text-accent'
                   : 'border-white/15 text-gray-400 hover:border-white/30 hover:text-white'
@@ -104,8 +104,6 @@ export function UnitasModuleRankings() {
           </ol>
         </div>
       )}
-
-      <p className="mt-3 text-[10px] text-gray-500">{t('disclaimer')}</p>
 
       <Modal open={profile !== null} onClose={() => setProfile(null)} labelledBy="unitas-ranking-profile-title">
         {profile && (

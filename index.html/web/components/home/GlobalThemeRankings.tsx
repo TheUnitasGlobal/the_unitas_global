@@ -79,8 +79,8 @@ export function GlobalThemeRankings() {
 
   return (
     <div className="mb-4 w-full">
-      <p className="mb-3 flex items-center gap-1.5 text-[13px] font-bold uppercase tracking-[0.3em] text-accent">
-        <Globe2 size={14} aria-hidden="true" />
+      <p className="mb-3 flex items-center gap-1.5 text-[16px] font-bold uppercase tracking-[0.3em] text-accent sm:text-[18px]">
+        <Globe2 size={18} aria-hidden="true" />
         {t('label')}
       </p>
 
@@ -95,11 +95,16 @@ export function GlobalThemeRankings() {
                 aria-expanded={active}
                 onMouseEnter={() => playHoverSfx()}
                 onClick={() => openTheme(theme.key)}
-                style={{ borderColor: `${theme.color}44`, backgroundColor: active ? `${theme.color}14` : undefined }}
-                className="flex shrink-0 items-center gap-2.5 border bg-void/50 px-4 py-3 text-left transition-colors hover:bg-void/80"
+                style={{
+                  borderColor: active ? theme.color : `${theme.color}44`,
+                  backgroundColor: active ? `${theme.color}14` : undefined,
+                }}
+                className={`flex shrink-0 items-center gap-2.5 border px-4 py-3 text-left transition-colors hover:border-white/30 ${
+                  active ? 'text-white' : 'text-gray-400 hover:text-white'
+                }`}
               >
                 <theme.icon size={18} style={{ color: theme.color }} aria-hidden="true" />
-                <span className="whitespace-nowrap text-[15px] font-bold text-white sm:text-base">
+                <span className="whitespace-nowrap text-[13px] font-bold uppercase tracking-widest sm:text-[15px]">
                   {t(`themes.${theme.key}.title`)}
                 </span>
               </button>

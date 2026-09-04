@@ -111,8 +111,8 @@ export function HotIssueNewsList() {
   return (
     <div className="mt-4 w-full border-t border-white/10 pt-4">
       <div className="mb-3 flex flex-wrap items-center gap-2">
-        <p className="flex items-center gap-1.5 text-[13px] font-bold uppercase tracking-[0.3em] text-accent">
-          <Newspaper size={14} aria-hidden="true" />
+        <p className="flex items-center gap-1.5 text-[16px] font-bold uppercase tracking-[0.3em] text-accent sm:text-[18px]">
+          <Newspaper size={18} aria-hidden="true" />
           {t('label')}
           {data?.date && <span className="normal-case tracking-normal text-gray-500">· {data.date}</span>}
         </p>
