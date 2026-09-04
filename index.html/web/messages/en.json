@@ -1171,15 +1171,15 @@
     "refresh": "Refresh news",
     "source": "Source: Wikimedia featured feed · neutral summaries · updates every 15 min",
     "category": {
-      "world": "World",
-      "politics": "Politics",
-      "economy": "Economy",
-      "science": "Science",
-      "sports": "Sports",
-      "culture": "Culture",
-      "disaster": "Disaster",
-      "conflict": "Conflict",
-      "health": "Health"
+      "world": "World Live",
+      "politics": "World Politics",
+      "economy": "World Economy",
+      "science": "World Science",
+      "sports": "World Sports",
+      "culture": "World Culture",
+      "disaster": "World Disasters",
+      "conflict": "World Conflicts",
+      "health": "World Health"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "The most legendary individual human feats and records ever verified."
       }
     },
-    "entryDetailAria": "View detail for {name}"
+    "entryDetailAria": "View detail for {name}",
+    "detailLoading": "Loading deeper insight…",
+    "detailBackgroundLabel": "Background",
+    "detailKeyFactsLabel": "Key Facts",
+    "detailSignificanceLabel": "Significance"
   },
   "UnitasRankings": {
     "label": "Real-Time Unitas Rankings",

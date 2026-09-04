@@ -1171,15 +1171,15 @@
     "refresh": "Actualiser les actualités",
     "source": "Source : flux à la une de Wikimedia · résumés neutres · mise à jour toutes les 15 min",
     "category": {
-      "world": "Monde",
-      "politics": "Politique",
-      "economy": "Économie",
-      "science": "Science",
-      "sports": "Sport",
-      "culture": "Culture",
-      "disaster": "Catastrophes",
-      "conflict": "Conflits",
-      "health": "Santé"
+      "world": "Monde en Direct",
+      "politics": "Politique Mondiale",
+      "economy": "Économie Mondiale",
+      "science": "Science Mondiale",
+      "sports": "Sport Mondial",
+      "culture": "Culture Mondiale",
+      "disaster": "Catastrophes Mondiales",
+      "conflict": "Conflits Mondiaux",
+      "health": "Santé Mondiale"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Les exploits et records humains individuels les plus légendaires jamais vérifiés."
       }
     },
-    "entryDetailAria": "Voir le détail de {name}"
+    "entryDetailAria": "Voir le détail de {name}",
+    "detailLoading": "Chargement d'informations approfondies…",
+    "detailBackgroundLabel": "Contexte",
+    "detailKeyFactsLabel": "Faits Clés",
+    "detailSignificanceLabel": "Importance"
   },
   "UnitasRankings": {
     "label": "Classement Unitas en temps réel",

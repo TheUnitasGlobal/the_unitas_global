@@ -1171,15 +1171,15 @@
     "refresh": "समाचार ताज़ा करें",
     "source": "स्रोत: Wikimedia फ़ीचर्ड फ़ीड · तटस्थ सारांश · हर 15 मिनट में अपडेट",
     "category": {
-      "world": "विश्व",
-      "politics": "राजनीति",
-      "economy": "अर्थव्यवस्था",
-      "science": "विज्ञान",
-      "sports": "खेल",
-      "culture": "संस्कृति",
-      "disaster": "आपदा",
-      "conflict": "संघर्ष",
-      "health": "स्वास्थ्य"
+      "world": "विश्व लाइव",
+      "politics": "विश्व राजनीति",
+      "economy": "विश्व अर्थव्यवस्था",
+      "science": "विश्व विज्ञान",
+      "sports": "विश्व खेल",
+      "culture": "विश्व संस्कृति",
+      "disaster": "विश्व आपदा",
+      "conflict": "विश्व संघर्ष",
+      "health": "विश्व स्वास्थ्य"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "अब तक सत्यापित सबसे महान व्यक्तिगत मानव उपलब्धियां और रिकॉर्ड।"
       }
     },
-    "entryDetailAria": "{name} का विवरण देखें"
+    "entryDetailAria": "{name} का विवरण देखें",
+    "detailLoading": "गहन जानकारी लोड हो रही है…",
+    "detailBackgroundLabel": "पृष्ठभूमि",
+    "detailKeyFactsLabel": "मुख्य तथ्य",
+    "detailSignificanceLabel": "महत्व"
   },
   "UnitasRankings": {
     "label": "रियल-टाइम यूनिटास रैंकिंग",

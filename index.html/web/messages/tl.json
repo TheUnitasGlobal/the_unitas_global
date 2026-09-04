@@ -1171,15 +1171,15 @@
     "refresh": "I-refresh ang balita",
     "source": "Pinagmulan: Wikimedia featured feed · neutral na buod · nag-a-update kada 15 min",
     "category": {
-      "world": "Mundo",
-      "politics": "Politika",
-      "economy": "Ekonomiya",
-      "science": "Agham",
-      "sports": "Isports",
-      "culture": "Kultura",
-      "disaster": "Sakuna",
-      "conflict": "Tunggalian",
-      "health": "Kalusugan"
+      "world": "Mundo Live",
+      "politics": "Pulitika ng Mundo",
+      "economy": "Ekonomiya ng Mundo",
+      "science": "Agham ng Mundo",
+      "sports": "Sports ng Mundo",
+      "culture": "Kultura ng Mundo",
+      "disaster": "Sakuna sa Mundo",
+      "conflict": "Salungatan sa Mundo",
+      "health": "Kalusugan ng Mundo"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Ang pinaka-alamat na indibidwal na tagumpay at rekord ng tao na napatunayan."
       }
     },
-    "entryDetailAria": "Tingnan ang detalye ng {name}"
+    "entryDetailAria": "Tingnan ang detalye ng {name}",
+    "detailLoading": "Nilo-load ang mas malalim na impormasyon…",
+    "detailBackgroundLabel": "Background",
+    "detailKeyFactsLabel": "Mahahalagang Katotohanan",
+    "detailSignificanceLabel": "Kahalagahan"
   },
   "UnitasRankings": {
     "label": "Real-Time na Ranggo ng Unitas",

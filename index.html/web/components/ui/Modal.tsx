@@ -10,8 +10,9 @@ interface ModalProps {
   onClose: () => void;
   children: ReactNode;
   labelledBy?: string;
-  /** Widen the panel for feature-dense dialogs (wallet/charge). Default: 'md'. */
-  size?: 'md' | 'lg';
+  /** Widen the panel for feature-dense dialogs (wallet/charge) or long-form
+   *  encyclopedic content ('xl' -- ranking detail popups). Default: 'md'. */
+  size?: 'md' | 'lg' | 'xl';
 }
 
 /** Shared overlay/dialog shell used by the wallet, quest, and inquiry modals. */
@@ -45,7 +46,7 @@ export function Modal({ open, onClose, children, labelledBy, size = 'md' }: Moda
             >
               <motion.div
                 className={`glow-box relative w-full ${
-                  size === 'lg' ? 'max-w-lg' : 'max-w-md'
+                  size === 'xl' ? 'max-w-2xl' : size === 'lg' ? 'max-w-lg' : 'max-w-md'
                 } bg-quantum p-6 sm:p-8`}
                 initial={{ opacity: 0, scale: 0.95, y: 12 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}

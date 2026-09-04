@@ -1171,15 +1171,15 @@
     "refresh": "Värskenda uudiseid",
     "source": "Allikas: Wikimedia esiletõstetud voog · neutraalsed kokkuvõtted · uueneb iga 15 min",
     "category": {
-      "world": "Maailm",
-      "politics": "Poliitika",
-      "economy": "Majandus",
-      "science": "Teadus",
-      "sports": "Sport",
-      "culture": "Kultuur",
-      "disaster": "Katastroof",
-      "conflict": "Konflikt",
-      "health": "Tervis"
+      "world": "Maailm Otse",
+      "politics": "Maailma Poliitika",
+      "economy": "Maailma Majandus",
+      "science": "Maailma Teadus",
+      "sports": "Maailma Sport",
+      "culture": "Maailma Kultuur",
+      "disaster": "Maailma Katastroofid",
+      "conflict": "Maailma Konfliktid",
+      "health": "Maailma Tervis"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Kõigi aegade legendaarseimad kinnitatud individuaalsed inimsaavutused ja rekordid."
       }
     },
-    "entryDetailAria": "Vaata {name} üksikasju"
+    "entryDetailAria": "Vaata {name} üksikasju",
+    "detailLoading": "Süvateabe laadimine…",
+    "detailBackgroundLabel": "Taust",
+    "detailKeyFactsLabel": "Peamised Faktid",
+    "detailSignificanceLabel": "Tähtsus"
   },
   "UnitasRankings": {
     "label": "Reaalajas Unitase Edetabel",

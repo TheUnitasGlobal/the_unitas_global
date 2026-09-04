@@ -1171,15 +1171,15 @@
     "refresh": "Nieuws vernieuwen",
     "source": "Bron: Wikimedia featured feed · neutrale samenvattingen · elke 15 min bijgewerkt",
     "category": {
-      "world": "Wereld",
-      "politics": "Politiek",
-      "economy": "Economie",
-      "science": "Wetenschap",
-      "sports": "Sport",
-      "culture": "Cultuur",
-      "disaster": "Rampen",
-      "conflict": "Conflicten",
-      "health": "Gezondheid"
+      "world": "Wereld Live",
+      "politics": "Wereldpolitiek",
+      "economy": "Wereldeconomie",
+      "science": "Wereldwetenschap",
+      "sports": "Wereldsport",
+      "culture": "Wereldcultuur",
+      "disaster": "Wereldrampen",
+      "conflict": "Wereldconflicten",
+      "health": "Wereldgezondheid"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "De meest legendarische individuele menselijke prestaties en records ooit geverifieerd."
       }
     },
-    "entryDetailAria": "Bekijk details van {name}"
+    "entryDetailAria": "Bekijk details van {name}",
+    "detailLoading": "Diepgaande inzichten laden…",
+    "detailBackgroundLabel": "Achtergrond",
+    "detailKeyFactsLabel": "Belangrijke Feiten",
+    "detailSignificanceLabel": "Betekenis"
   },
   "UnitasRankings": {
     "label": "Realtime Unitas-ranglijst",

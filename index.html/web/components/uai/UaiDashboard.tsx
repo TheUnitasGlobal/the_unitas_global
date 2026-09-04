@@ -145,7 +145,7 @@ export function UaiDashboard({
       {/* Brand HUD title (English, not localized -- matches the tower's
           toolbar); the old directionality badge ("수렴형 의도" etc.) was
           cleansed per owner instruction 2026-09-02. */}
-      <p className="text-xs font-bold uppercase tracking-[0.3em] text-accent">U-AI SEARCH RESULT</p>
+      <p className="text-[14px] font-bold uppercase tracking-[0.3em] text-accent">U-AI SEARCH RESULT</p>
 
       {(phase === 'surface-loading' || !surface) && (
         <p className="animate-pulse text-sm text-gray-400">{t('surfaceScanning')}</p>
@@ -205,7 +205,7 @@ export function UaiDashboard({
 
           {(insight || insightForging || trendHits > 0) && (
             <section className={`space-y-4 border-y border-accent/20 py-6 ${split ? 'order-2' : ''}`}>
-              <p className="flex items-center gap-2 text-[14px] font-bold uppercase tracking-[0.25em] text-accent">
+              <p className="flex items-center gap-2 text-[16px] font-bold uppercase tracking-[0.25em] text-accent">
                 <Wand2 size={15} aria-hidden="true" /> {t('insightLabel')}
               </p>
 
@@ -259,10 +259,10 @@ export function UaiDashboard({
                       ))}
                     </div>
                     <div className="border border-accent/30 bg-black/30 p-4">
-                      <p className="mb-1.5 text-[13px] font-bold uppercase tracking-[0.3em] text-accent">
+                      <p className="mb-1.5 text-[15px] font-bold uppercase tracking-[0.3em] text-accent">
                         {t('insightVectorLabel')}
                       </p>
-                      <p className="text-[16px] italic leading-relaxed text-gray-100 [text-wrap:balance]">
+                      <p className="text-[17px] italic leading-relaxed text-gray-100 [text-wrap:balance]">
                         {insight.vector}
                       </p>
                     </div>
@@ -440,10 +440,10 @@ export function UaiDashboard({
 
           {/* Phase 2-4 gate */}
           <section ref={deepGateRef} className={`border-t border-white/10 pt-5 ${split ? 'order-2' : ''}`}>
-            <p className="mb-1 flex items-center gap-1.5 text-[14px] font-bold uppercase tracking-[0.25em] text-accent">
+            <p className="mb-1 flex items-center gap-1.5 text-[16px] font-bold uppercase tracking-[0.25em] text-accent">
               <Sparkles size={13} aria-hidden="true" /> {t('deepLabel')}
             </p>
-            <p className="mb-3 text-[12px] text-gray-500">{t('deepHint')}</p>
+            <p className="mb-3 text-[14px] text-gray-500">{t('deepHint')}</p>
 
             {error && <p className="mb-3 text-[13px] font-bold text-red-400">{t(`err.${error}`)}</p>}
 
@@ -494,10 +494,10 @@ export function UaiDashboard({
                     {deep.chronos.map((point) => (
                       <li key={point.horizon} className="relative">
                         <span className="absolute -left-[23px] top-1 h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
-                        <p className="text-[13px] font-bold uppercase tracking-widest text-accent">
+                        <p className="text-[15px] font-bold uppercase tracking-widest text-accent">
                           {t(`chronos.${point.horizon}`)}
                         </p>
-                        <p className="mt-1 text-[15px] leading-relaxed text-gray-300">{point.text}</p>
+                        <p className="mt-1 text-[16px] leading-relaxed text-gray-300">{point.text}</p>
                       </li>
                     ))}
                   </ol>
@@ -546,8 +546,8 @@ export function UaiDashboard({
 
                 {/* The VOID */}
                 <section className="border border-accent/25 bg-black/30 p-4">
-                  <p className="mb-2 text-[13px] font-bold uppercase tracking-[0.3em] text-accent">{t('voidLabel')}</p>
-                  <p className="text-[18px] italic leading-relaxed text-gray-200 [text-wrap:balance]">{deep.voidInsight}</p>
+                  <p className="mb-2 text-[15px] font-bold uppercase tracking-[0.3em] text-accent">{t('voidLabel')}</p>
+                  <p className="text-[19px] italic leading-relaxed text-gray-200 [text-wrap:balance]">{deep.voidInsight}</p>
                 </section>
 
                 {/* Efficiency path */}

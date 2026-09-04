@@ -1171,15 +1171,15 @@
     "refresh": "Odśwież wiadomości",
     "source": "Źródło: kanał wyróżnionych Wikimedia · neutralne streszczenia · aktualizacja co 15 min",
     "category": {
-      "world": "Świat",
-      "politics": "Polityka",
-      "economy": "Gospodarka",
-      "science": "Nauka",
-      "sports": "Sport",
-      "culture": "Kultura",
-      "disaster": "Katastrofy",
-      "conflict": "Konflikty",
-      "health": "Zdrowie"
+      "world": "Świat Na Żywo",
+      "politics": "Polityka Światowa",
+      "economy": "Gospodarka Światowa",
+      "science": "Nauka Światowa",
+      "sports": "Sport Światowy",
+      "culture": "Kultura Światowa",
+      "disaster": "Katastrofy Światowe",
+      "conflict": "Konflikty Światowe",
+      "health": "Zdrowie Światowe"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Najbardziej legendarne, zweryfikowane indywidualne osiągnięcia i rekordy ludzkości."
       }
     },
-    "entryDetailAria": "Zobacz szczegóły {name}"
+    "entryDetailAria": "Zobacz szczegóły {name}",
+    "detailLoading": "Ładowanie pogłębionych informacji…",
+    "detailBackgroundLabel": "Tło",
+    "detailKeyFactsLabel": "Kluczowe Fakty",
+    "detailSignificanceLabel": "Znaczenie"
   },
   "UnitasRankings": {
     "label": "Ranking Unitas na żywo",

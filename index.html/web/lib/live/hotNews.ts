@@ -165,3 +165,50 @@ export function foldFeed(feed: FeaturedFeed, lang: string): HotNewsItem[] {
   return items;
 }
 
+/** Case/whitespace-insensitive identity for de-duping across two folded
+ *  feeds (same story picked up by both the local-language and English
+ *  boards on a slow news day). */
+function normTitle(title: string): string {
+  return title.trim().toLowerCase();
+}
+
+/**
+ * Interleave two already-folded feeds (local-language + English) into one
+ * diversified list, ITN stories first then trending, alternating source so
+ * neither language dominates the top of the grid. De-dupes by title.
+ *
+ * This is the fix for single-language editorial bias (owner instruction
+ * 2026-09-04: a locale's own-language "In the news" board tends to skew
+ * toward that country's domestic stories -- merging in the English board's
+ * global ITN picks broadens every locale toward genuinely worldwide
+ * coverage, not just a same-language fallback used only when the local
+ * board is empty).
+ */
+export function mergeNewsFeeds(local: HotNewsItem[], global: HotNewsItem[], capTotal = 24): HotNewsItem[] {
+  const localItn = local.filter((i) => i.source === 'itn');
+  const globalItn = global.filter((i) => i.source === 'itn');
+  const localTrend = local.filter((i) => i.source === 'trending');
+  const globalTrend = global.filter((i) => i.source === 'trending');
+
+  function interleave(a: HotNewsItem[], b: HotNewsItem[]): HotNewsItem[] {
+    const out: HotNewsItem[] = [];
+    const max = Math.max(a.length, b.length);
+    for (let i = 0; i < max; i++) {
+      if (a[i]) out.push(a[i]);
+      if (b[i]) out.push(b[i]);
+    }
+    return out;
+  }
+
+  const seen = new Set<string>();
+  const merged: HotNewsItem[] = [];
+  for (const item of [...interleave(localItn, globalItn), ...interleave(localTrend, globalTrend)]) {
+    const key = normTitle(item.title);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    merged.push(item);
+    if (merged.length >= capTotal) break;
+  }
+  return merged;
+}
+

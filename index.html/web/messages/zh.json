@@ -1171,15 +1171,15 @@
     "refresh": "刷新新闻",
     "source": "来源：Wikimedia 精选源 · 中立摘要 · 每 15 分钟更新",
     "category": {
-      "world": "国际",
-      "politics": "政治",
-      "economy": "经济",
-      "science": "科学",
-      "sports": "体育",
-      "culture": "文化",
-      "disaster": "灾害",
-      "conflict": "冲突",
-      "health": "健康"
+      "world": "全球实时",
+      "politics": "全球政治",
+      "economy": "全球经济",
+      "science": "全球科技",
+      "sports": "全球体育",
+      "culture": "全球文化",
+      "disaster": "全球灾难",
+      "conflict": "全球冲突",
+      "health": "全球健康"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "有史以来经过验证的最传奇的个人纪录与成就。"
       }
     },
-    "entryDetailAria": "查看{name}的详情"
+    "entryDetailAria": "查看{name}的详情",
+    "detailLoading": "正在加载深度信息…",
+    "detailBackgroundLabel": "背景",
+    "detailKeyFactsLabel": "关键事实",
+    "detailSignificanceLabel": "意义"
   },
   "UnitasRankings": {
     "label": "实时Unitas排行榜",

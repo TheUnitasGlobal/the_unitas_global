@@ -1171,15 +1171,15 @@
     "refresh": "รีเฟรชข่าว",
     "source": "ที่มา: ฟีดแนะนำของ Wikimedia · สรุปอย่างเป็นกลาง · อัปเดตทุก 15 นาที",
     "category": {
-      "world": "โลก",
-      "politics": "การเมือง",
-      "economy": "เศรษฐกิจ",
-      "science": "วิทยาศาสตร์",
-      "sports": "กีฬา",
-      "culture": "วัฒนธรรม",
-      "disaster": "ภัยพิบัติ",
-      "conflict": "ความขัดแย้ง",
-      "health": "สุขภาพ"
+      "world": "โลกเรียลไทม์",
+      "politics": "การเมืองโลก",
+      "economy": "เศรษฐกิจโลก",
+      "science": "วิทยาศาสตร์โลก",
+      "sports": "กีฬาโลก",
+      "culture": "วัฒนธรรมโลก",
+      "disaster": "ภัยพิบัติโลก",
+      "conflict": "ความขัดแย้งโลก",
+      "health": "สุขภาพโลก"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "ความสำเร็จและสถิติส่วนบุคคลของมนุษย์ที่ยิ่งใหญ่ที่สุดเท่าที่เคยได้รับการยืนยัน"
       }
     },
-    "entryDetailAria": "ดูรายละเอียดของ {name}"
+    "entryDetailAria": "ดูรายละเอียดของ {name}",
+    "detailLoading": "กำลังโหลดข้อมูลเชิงลึก…",
+    "detailBackgroundLabel": "ภูมิหลัง",
+    "detailKeyFactsLabel": "ข้อเท็จจริงสำคัญ",
+    "detailSignificanceLabel": "ความสำคัญ"
   },
   "UnitasRankings": {
     "label": "อันดับ Unitas แบบเรียลไทม์",

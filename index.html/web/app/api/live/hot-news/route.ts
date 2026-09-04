@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { routing } from '@/i18n/routing';
 import { WIKI_LANG } from '@/lib/uai/webSynthesisCore';
-import { foldFeed, ymd, type FeaturedFeed, type HotNewsItem, type HotNewsResponse } from '@/lib/live/hotNews';
+import { foldFeed, mergeNewsFeeds, ymd, type FeaturedFeed, type HotNewsItem, type HotNewsResponse } from '@/lib/live/hotNews';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -28,6 +28,19 @@ async function fetchFeed(lang: string, date: Date, signal: AbortSignal): Promise
   }
 }
 
+/** First non-null feed across a set of candidate dates, newest first. */
+async function fetchFirstAvailable(
+  lang: string,
+  dates: Date[],
+  signal: AbortSignal,
+): Promise<{ feed: FeaturedFeed; date: string } | null> {
+  for (const date of dates) {
+    const feed = await fetchFeed(lang, date, signal);
+    if (feed) return { feed, date: ymd(date).iso };
+  }
+  return null;
+}
+
 /**
  * GET /api/live/hot-news?locale=ko
  *
@@ -35,10 +48,17 @@ async function fetchFeed(lang: string, date: Date, signal: AbortSignal): Promise
  * search bar's 핫이슈 tab (owner instruction 2026-09-03). Source: the
  * Wikimedia Foundation's keyless "featured feed" -- the day's "In the news"
  * stories (each already a one-paragraph neutral summary with links to the
- * subject articles) plus the most-read articles as a trending list -- in the
- * visitor's own language, falling back to English when the local wiki runs
- * no ITN board. No API key, no provider contract, 0원; CDN-cached 15 min so
- * the upstream sees at most a handful of requests an hour per locale.
+ * subject articles) plus the most-read articles as a trending list.
+ *
+ * Worldwide coverage (owner instruction 2026-09-04): a locale's own-language
+ * ITN board tends to skew toward that country's domestic stories, so every
+ * non-English locale ALWAYS merges its local board with the English board's
+ * global picks (mergeNewsFeeds, interleaved + de-duped) rather than only
+ * falling back to English when the local board is empty -- this is what
+ * keeps a Korean, Thai, or Estonian visitor seeing broad international
+ * coverage, not just locally-curated news. No API key, no provider contract,
+ * 0원; CDN-cached 15 min so the upstream sees at most a handful of requests
+ * an hour per locale.
  */
 
 export async function GET(request: Request) {
@@ -56,31 +76,17 @@ export async function GET(request: Request) {
   let usedLang = lang;
   let usedDate = ymd(today).iso;
   try {
-    // Today's board on the local wiki; if it has no ITN stories, yesterday's;
-    // then the English board (many wikis run no "In the news" section at all).
-    const attempts: Array<[string, Date]> = [
-      [lang, today],
-      [lang, yesterday],
-      ...(lang !== 'en' ? ([['en', today], ['en', yesterday]] as Array<[string, Date]>) : []),
-    ];
-    for (const [tryLang, tryDate] of attempts) {
-      const feed = await fetchFeed(tryLang, tryDate, controller.signal);
-      if (!feed) continue;
-      const folded = foldFeed(feed, tryLang);
-      const hasNews = folded.some((i) => i.source === 'itn');
-      if (hasNews || (tryLang === 'en' && folded.length > 0)) {
-        items = folded;
-        usedLang = tryLang;
-        usedDate = ymd(tryDate).iso;
-        break;
-      }
-      // Keep a trending-only local board as a floor while we look for news.
-      if (items.length === 0 && folded.length > 0) {
-        items = folded;
-        usedLang = tryLang;
-        usedDate = ymd(tryDate).iso;
-      }
-    }
+    const [localFeed, globalFeed] = await Promise.all([
+      fetchFirstAvailable(lang, [today, yesterday], controller.signal),
+      lang === 'en' ? Promise.resolve(null) : fetchFirstAvailable('en', [today, yesterday], controller.signal),
+    ]);
+    const localItems = localFeed ? foldFeed(localFeed.feed, lang) : [];
+    const globalItems = globalFeed ? foldFeed(globalFeed.feed, 'en') : [];
+    items = lang === 'en' ? localItems : mergeNewsFeeds(localItems, globalItems);
+
+    if (localFeed) usedDate = localFeed.date;
+    else if (globalFeed) usedDate = globalFeed.date;
+    if (localItems.length === 0 && globalItems.length > 0) usedLang = 'en';
   } finally {
     clearTimeout(timer);
   }

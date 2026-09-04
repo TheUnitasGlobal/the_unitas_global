@@ -1171,15 +1171,15 @@
     "refresh": "뉴스 새로고침",
     "source": "출처: Wikimedia 피처드 피드 · 중립 요약 · 15분마다 갱신",
     "category": {
-      "world": "세계",
-      "politics": "정치",
-      "economy": "경제",
-      "science": "과학",
-      "sports": "스포츠",
-      "culture": "문화",
-      "disaster": "재난",
-      "conflict": "분쟁",
-      "health": "보건"
+      "world": "세계실시간",
+      "politics": "세계정치",
+      "economy": "세계경제",
+      "science": "세계과학",
+      "sports": "세계스포츠",
+      "culture": "세계문화",
+      "disaster": "세계재난",
+      "conflict": "세계분쟁",
+      "health": "세계보건"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "공식 검증된 역대 개인 인류 기록 중 가장 전설적인 기록들."
       }
     },
-    "entryDetailAria": "{name} 상세 보기"
+    "entryDetailAria": "{name} 상세 보기",
+    "detailLoading": "심층 정보를 불러오는 중…",
+    "detailBackgroundLabel": "배경",
+    "detailKeyFactsLabel": "핵심 사실",
+    "detailSignificanceLabel": "의의"
   },
   "UnitasRankings": {
     "label": "실시간 유니타스 랭킹",

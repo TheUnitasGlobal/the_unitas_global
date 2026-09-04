@@ -1171,15 +1171,15 @@
     "refresh": "Обновить новости",
     "source": "Источник: избранная лента Wikimedia · нейтральные сводки · обновление каждые 15 мин",
     "category": {
-      "world": "Мир",
-      "politics": "Политика",
-      "economy": "Экономика",
-      "science": "Наука",
-      "sports": "Спорт",
-      "culture": "Культура",
-      "disaster": "Катастрофы",
-      "conflict": "Конфликты",
-      "health": "Здоровье"
+      "world": "Мир в реальном времени",
+      "politics": "Мировая политика",
+      "economy": "Мировая экономика",
+      "science": "Мировая наука",
+      "sports": "Мировой спорт",
+      "culture": "Мировая культура",
+      "disaster": "Мировые катастрофы",
+      "conflict": "Мировые конфликты",
+      "health": "Мировое здравоохранение"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Самые легендарные подтверждённые индивидуальные достижения и рекорды людей."
       }
     },
-    "entryDetailAria": "Подробнее о {name}"
+    "entryDetailAria": "Подробнее о {name}",
+    "detailLoading": "Загрузка подробной информации…",
+    "detailBackgroundLabel": "Предыстория",
+    "detailKeyFactsLabel": "Ключевые Факты",
+    "detailSignificanceLabel": "Значение"
   },
   "UnitasRankings": {
     "label": "Рейтинг Unitas в реальном времени",

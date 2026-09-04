@@ -111,8 +111,8 @@ export function HotIssueNewsList() {
   return (
     <div className="mt-4 w-full border-t border-white/10 pt-4">
       <div className="mb-3 flex flex-wrap items-center gap-2">
-        <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-accent">
-          <Newspaper size={12} aria-hidden="true" />
+        <p className="flex items-center gap-1.5 text-[13px] font-bold uppercase tracking-[0.3em] text-accent">
+          <Newspaper size={14} aria-hidden="true" />
           {t('label')}
           {data?.date && <span className="normal-case tracking-normal text-gray-500">· {data.date}</span>}
         </p>
@@ -157,7 +157,7 @@ export function HotIssueNewsList() {
       {!loading && failed && items.length === 0 && <p className="py-4 text-[13px] text-gray-500">{t('empty')}</p>}
       {visible.length > 0 && <ul className="grid grid-cols-1 gap-1.5 lg:grid-cols-2">{visible.map(renderItem)}</ul>}
       {items.length > 0 && (
-        <p className="mt-2 text-[10px] text-gray-500">{t('source')}</p>
+        <p className="mt-2 text-[14px] font-medium text-gray-400">{t('source')}</p>
       )}
     </div>
   );

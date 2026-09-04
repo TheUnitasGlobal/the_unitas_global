@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { ChevronDown, Globe2, X } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
+import { ChevronDown, Globe2, Loader2, X } from 'lucide-react';
 import {
+  ENTRY_DETAIL_MAX_RANK,
   GLOBAL_RANKING_THEMES,
   LOAD_MORE_TIERS,
   type GlobalRankingEntry,
@@ -12,12 +13,7 @@ import {
 } from '@/lib/globalRankings';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
-
-/** Rank cutoff for the entry-detail popup (owner instruction 2026-09-04 round
- *  2: "상위 1~20위 항목 선택 시 ... 상세 내용과 설명"). Every theme curates a
- *  `detail` one-liner for exactly this range (see lib/globalRankings.ts) --
- *  rows past it stay display-only, matching the curated data's own cutoff. */
-const ENTRY_DETAIL_MAX_RANK = 20;
+import { useRankingDetail } from '@/lib/uai/rankingDetailClient';
 
 /**
  * 핫이슈 탭의 "하이브리드 테마 랭킹 위젯" (owner instruction 2026-09-04, deepened
@@ -30,6 +26,7 @@ const ENTRY_DETAIL_MAX_RANK = 20;
  */
 export function GlobalThemeRankings() {
   const t = useTranslations('GlobalRankings');
+  const locale = useLocale();
   const { playHoverSfx } = useSpatialAudio();
   const [expandedKey, setExpandedKey] = useState<GlobalRankingThemeKey | null>(null);
   const [visibleTiers, setVisibleTiers] = useState<Record<string, number>>({});
@@ -41,6 +38,11 @@ export function GlobalThemeRankings() {
    *  first mount) so that transition never triggers an unwanted scroll. */
   const revealBoundaryRef = useRef<number | null>(null);
   const [detail, setDetail] = useState<{ entry: GlobalRankingEntry; theme: GlobalRankingTheme } | null>(null);
+  const { report: detailReport, loading: detailLoading } = useRankingDetail(
+    detail?.theme.key ?? null,
+    detail?.entry.rank ?? null,
+    locale,
+  );
 
   const expandedTheme = GLOBAL_RANKING_THEMES.find((theme) => theme.key === expandedKey) ?? null;
   const visibleTier = expandedKey ? (visibleTiers[expandedKey] ?? LOAD_MORE_TIERS[0]) : LOAD_MORE_TIERS[0];
@@ -76,11 +78,10 @@ export function GlobalThemeRankings() {
 
   return (
     <div className="mb-4 w-full">
-      <p className="mb-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-accent">
-        <Globe2 size={12} aria-hidden="true" />
+      <p className="mb-3 flex items-center gap-1.5 text-[13px] font-bold uppercase tracking-[0.3em] text-accent">
+        <Globe2 size={14} aria-hidden="true" />
         {t('label')}
       </p>
-      <p className="mb-3 text-[12px] text-gray-400">{t('hint')}</p>
 
       <div className="flex flex-wrap gap-2.5 sm:gap-3">
         {GLOBAL_RANKING_THEMES.map((theme) => {
@@ -191,9 +192,9 @@ export function GlobalThemeRankings() {
         </div>
       )}
 
-      <Modal open={detail !== null} onClose={() => setDetail(null)} labelledBy="global-ranking-detail-title">
+      <Modal open={detail !== null} onClose={() => setDetail(null)} labelledBy="global-ranking-detail-title" size="xl">
         {detail && (
-          <div className="space-y-4">
+          <div className="space-y-5">
             <div className="flex items-start gap-3">
               <span
                 className="flex h-9 w-9 shrink-0 items-center justify-center border text-[14px] font-bold"
@@ -202,13 +203,58 @@ export function GlobalThemeRankings() {
                 {detail.entry.rank}
               </span>
               <div className="min-w-0 flex-1">
-                <p id="global-ranking-detail-title" className="text-[17px] font-bold text-white">
-                  {detail.entry.name}
+                <p id="global-ranking-detail-title" className="text-[19px] font-bold text-white">
+                  {detailReport?.localizedName ?? detail.entry.name}
                 </p>
-                <p className="mt-0.5 text-[12px] text-gray-500">{detail.entry.note}</p>
+                <p className="mt-0.5 text-[13px] text-gray-500">{detailReport?.localizedNote ?? detail.entry.note}</p>
               </div>
             </div>
-            <p className="text-[14px] leading-relaxed text-gray-300">{detail.entry.detail ?? detail.entry.note}</p>
+
+            <p className="text-[15px] leading-relaxed text-gray-200">
+              {detailReport?.overview ?? detail.entry.detail ?? detail.entry.note}
+            </p>
+
+            {detailLoading && !detailReport && (
+              <p className="flex items-center gap-2 text-[12px] text-gray-500">
+                <Loader2 size={13} className="animate-spin text-accent" aria-hidden="true" />
+                {t('detailLoading')}
+              </p>
+            )}
+
+            {detailReport && (
+              <>
+                <div>
+                  <p className="mb-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+                    {t('detailBackgroundLabel')}
+                  </p>
+                  <p className="text-[14px] leading-relaxed text-gray-300">{detailReport.background}</p>
+                </div>
+
+                {detailReport.keyFacts.length > 0 && (
+                  <div>
+                    <p className="mb-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+                      {t('detailKeyFactsLabel')}
+                    </p>
+                    <ul className="space-y-1.5">
+                      {detailReport.keyFacts.map((fact, i) => (
+                        <li key={i} className="flex gap-2 text-[14px] leading-relaxed text-gray-300">
+                          <span className="mt-0.5 shrink-0 text-accent" aria-hidden="true">•</span>
+                          <span>{fact}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                <div className="border-l-2 border-accent/40 pl-3">
+                  <p className="mb-1 text-[12px] font-bold uppercase tracking-widest text-accent">
+                    {t('detailSignificanceLabel')}
+                  </p>
+                  <p className="text-[14px] italic leading-relaxed text-gray-300">{detailReport.significance}</p>
+                </div>
+              </>
+            )}
+
             <p className="text-[10px] uppercase tracking-widest text-gray-600">
               {t(`themes.${detail.theme.key}.title`)}
             </p>

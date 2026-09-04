@@ -1171,15 +1171,15 @@
     "refresh": "Aggiorna notizie",
     "source": "Fonte: feed in evidenza di Wikimedia · sintesi neutrali · aggiornamento ogni 15 min",
     "category": {
-      "world": "Mondo",
-      "politics": "Politica",
-      "economy": "Economia",
-      "science": "Scienza",
-      "sports": "Sport",
-      "culture": "Cultura",
-      "disaster": "Disastri",
-      "conflict": "Conflitti",
-      "health": "Salute"
+      "world": "Mondo in Diretta",
+      "politics": "Politica Mondiale",
+      "economy": "Economia Mondiale",
+      "science": "Scienza Mondiale",
+      "sports": "Sport Mondiale",
+      "culture": "Cultura Mondiale",
+      "disaster": "Disastri Mondiali",
+      "conflict": "Conflitti Mondiali",
+      "health": "Salute Mondiale"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Le imprese e i record umani individuali più leggendari mai verificati."
       }
     },
-    "entryDetailAria": "Vedi dettagli di {name}"
+    "entryDetailAria": "Vedi dettagli di {name}",
+    "detailLoading": "Caricamento approfondimenti…",
+    "detailBackgroundLabel": "Contesto",
+    "detailKeyFactsLabel": "Fatti Chiave",
+    "detailSignificanceLabel": "Importanza"
   },
   "UnitasRankings": {
     "label": "Classifica Unitas in tempo reale",

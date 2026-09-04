@@ -83,6 +83,14 @@ export interface GlobalRankingTheme {
  *  through -- capped per-theme at `entries.length` (see GlobalThemeRankings). */
 export const LOAD_MORE_TIERS = [10, 50, 100] as const;
 
+/** Rank cutoff for the entry-detail popup (owner instruction 2026-09-04:
+ *  "상위 1~20위 항목 선택 시 ... 상세 내용과 설명"). Every theme curates a
+ *  `detail` one-liner for exactly this range, and it is the same cutoff the
+ *  server-side encyclopedic ranking-detail route (lib/uai/rankingDetail.ts)
+ *  enforces -- rows past it stay display-only. Shared here so the client
+ *  (GlobalThemeRankings) and the API route can never drift apart. */
+export const ENTRY_DETAIL_MAX_RANK = 20;
+
 export const GLOBAL_RANKING_THEMES: GlobalRankingTheme[] = [
   {
     key: 'heritage',

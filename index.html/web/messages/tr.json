@@ -1171,15 +1171,15 @@
     "refresh": "Haberleri yenile",
     "source": "Kaynak: Wikimedia öne çıkan akışı · tarafsız özetler · her 15 dakikada güncellenir",
     "category": {
-      "world": "Dünya",
-      "politics": "Siyaset",
-      "economy": "Ekonomi",
-      "science": "Bilim",
-      "sports": "Spor",
-      "culture": "Kültür",
-      "disaster": "Afet",
-      "conflict": "Çatışma",
-      "health": "Sağlık"
+      "world": "Dünya Canlı",
+      "politics": "Dünya Siyaseti",
+      "economy": "Dünya Ekonomisi",
+      "science": "Dünya Bilimi",
+      "sports": "Dünya Sporu",
+      "culture": "Dünya Kültürü",
+      "disaster": "Dünya Afetleri",
+      "conflict": "Dünya Çatışmaları",
+      "health": "Dünya Sağlığı"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Şimdiye kadar doğrulanmış en efsanevi bireysel insan başarıları ve rekorları."
       }
     },
-    "entryDetailAria": "{name} için ayrıntıları görüntüle"
+    "entryDetailAria": "{name} için ayrıntıları görüntüle",
+    "detailLoading": "Derinlemesine bilgi yükleniyor…",
+    "detailBackgroundLabel": "Arka Plan",
+    "detailKeyFactsLabel": "Önemli Gerçekler",
+    "detailSignificanceLabel": "Önem"
   },
   "UnitasRankings": {
     "label": "Gerçek Zamanlı Unitas Sıralaması",

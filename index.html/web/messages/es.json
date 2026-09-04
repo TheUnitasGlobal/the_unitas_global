@@ -1171,15 +1171,15 @@
     "refresh": "Actualizar noticias",
     "source": "Fuente: feed destacado de Wikimedia · resúmenes neutrales · se actualiza cada 15 min",
     "category": {
-      "world": "Mundo",
-      "politics": "Política",
-      "economy": "Economía",
-      "science": "Ciencia",
-      "sports": "Deportes",
-      "culture": "Cultura",
-      "disaster": "Desastres",
-      "conflict": "Conflictos",
-      "health": "Salud"
+      "world": "Mundo en Vivo",
+      "politics": "Política Mundial",
+      "economy": "Economía Mundial",
+      "science": "Ciencia Mundial",
+      "sports": "Deportes Mundiales",
+      "culture": "Cultura Mundial",
+      "disaster": "Desastres Mundiales",
+      "conflict": "Conflictos Mundiales",
+      "health": "Salud Mundial"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Las hazañas y récords humanos individuales más legendarios jamás verificados."
       }
     },
-    "entryDetailAria": "Ver detalle de {name}"
+    "entryDetailAria": "Ver detalle de {name}",
+    "detailLoading": "Cargando información más profunda…",
+    "detailBackgroundLabel": "Antecedentes",
+    "detailKeyFactsLabel": "Datos Clave",
+    "detailSignificanceLabel": "Importancia"
   },
   "UnitasRankings": {
     "label": "Ranking Unitas en Tiempo Real",

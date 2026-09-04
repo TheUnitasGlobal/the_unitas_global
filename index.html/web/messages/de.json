@@ -1171,15 +1171,15 @@
     "refresh": "Nachrichten aktualisieren",
     "source": "Quelle: Wikimedia-Featured-Feed · neutrale Zusammenfassungen · Aktualisierung alle 15 Min.",
     "category": {
-      "world": "Welt",
-      "politics": "Politik",
-      "economy": "Wirtschaft",
-      "science": "Wissenschaft",
-      "sports": "Sport",
-      "culture": "Kultur",
-      "disaster": "Katastrophen",
-      "conflict": "Konflikte",
-      "health": "Gesundheit"
+      "world": "Welt Live",
+      "politics": "Weltpolitik",
+      "economy": "Weltwirtschaft",
+      "science": "Weltwissenschaft",
+      "sports": "Weltsport",
+      "culture": "Weltkultur",
+      "disaster": "Weltkatastrophen",
+      "conflict": "Weltkonflikte",
+      "health": "Weltgesundheit"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Die legendärsten je verifizierten individuellen menschlichen Leistungen und Rekorde."
       }
     },
-    "entryDetailAria": "Details zu {name} anzeigen"
+    "entryDetailAria": "Details zu {name} anzeigen",
+    "detailLoading": "Tiefere Einblicke werden geladen…",
+    "detailBackgroundLabel": "Hintergrund",
+    "detailKeyFactsLabel": "Wichtige Fakten",
+    "detailSignificanceLabel": "Bedeutung"
   },
   "UnitasRankings": {
     "label": "Echtzeit-Unitas-Rangliste",

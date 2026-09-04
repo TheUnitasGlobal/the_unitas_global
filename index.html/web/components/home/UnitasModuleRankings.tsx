@@ -50,8 +50,8 @@ export function UnitasModuleRankings() {
 
   return (
     <div className="mt-2 w-full border-t border-white/10 pt-4">
-      <p className="mb-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-accent">
-        <UsersRound size={12} aria-hidden="true" />
+      <p className="mb-2 flex items-center gap-1.5 text-[13px] font-bold uppercase tracking-[0.3em] text-accent">
+        <UsersRound size={14} aria-hidden="true" />
         {t('label')}
       </p>
       <p className="mb-3 text-[12px] text-gray-400">{t('hint')}</p>

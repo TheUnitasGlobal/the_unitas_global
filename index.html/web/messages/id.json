@@ -1171,15 +1171,15 @@
     "refresh": "Segarkan berita",
     "source": "Sumber: feed unggulan Wikimedia · ringkasan netral · diperbarui tiap 15 menit",
     "category": {
-      "world": "Dunia",
-      "politics": "Politik",
-      "economy": "Ekonomi",
-      "science": "Sains",
-      "sports": "Olahraga",
-      "culture": "Budaya",
-      "disaster": "Bencana",
-      "conflict": "Konflik",
-      "health": "Kesehatan"
+      "world": "Dunia Langsung",
+      "politics": "Politik Dunia",
+      "economy": "Ekonomi Dunia",
+      "science": "Sains Dunia",
+      "sports": "Olahraga Dunia",
+      "culture": "Budaya Dunia",
+      "disaster": "Bencana Dunia",
+      "conflict": "Konflik Dunia",
+      "health": "Kesehatan Dunia"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Prestasi dan rekor individu manusia paling legendaris yang pernah diverifikasi."
       }
     },
-    "entryDetailAria": "Lihat detail {name}"
+    "entryDetailAria": "Lihat detail {name}",
+    "detailLoading": "Memuat wawasan mendalam…",
+    "detailBackgroundLabel": "Latar Belakang",
+    "detailKeyFactsLabel": "Fakta Utama",
+    "detailSignificanceLabel": "Signifikansi"
   },
   "UnitasRankings": {
     "label": "Peringkat Unitas Real-Time",

@@ -1171,15 +1171,15 @@
     "refresh": "Làm mới tin tức",
     "source": "Nguồn: nguồn tin nổi bật Wikimedia · tóm tắt trung lập · cập nhật mỗi 15 phút",
     "category": {
-      "world": "Thế giới",
-      "politics": "Chính trị",
-      "economy": "Kinh tế",
-      "science": "Khoa học",
-      "sports": "Thể thao",
-      "culture": "Văn hóa",
-      "disaster": "Thiên tai",
-      "conflict": "Xung đột",
-      "health": "Sức khỏe"
+      "world": "Thế Giới Trực Tiếp",
+      "politics": "Chính Trị Thế Giới",
+      "economy": "Kinh Tế Thế Giới",
+      "science": "Khoa Học Thế Giới",
+      "sports": "Thể Thao Thế Giới",
+      "culture": "Văn Hóa Thế Giới",
+      "disaster": "Thảm Họa Thế Giới",
+      "conflict": "Xung Đột Thế Giới",
+      "health": "Y Tế Thế Giới"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "Những thành tích và kỷ lục cá nhân con người huyền thoại nhất từng được xác minh."
       }
     },
-    "entryDetailAria": "Xem chi tiết về {name}"
+    "entryDetailAria": "Xem chi tiết về {name}",
+    "detailLoading": "Đang tải thông tin chuyên sâu…",
+    "detailBackgroundLabel": "Bối Cảnh",
+    "detailKeyFactsLabel": "Sự Thật Chính",
+    "detailSignificanceLabel": "Ý Nghĩa"
   },
   "UnitasRankings": {
     "label": "Bảng Xếp Hạng Unitas Thời Gian Thực",

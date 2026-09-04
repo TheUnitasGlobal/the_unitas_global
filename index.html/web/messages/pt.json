@@ -1171,15 +1171,15 @@
     "refresh": "Atualizar notícias",
     "source": "Fonte: feed em destaque da Wikimedia · resumos neutros · atualiza a cada 15 min",
     "category": {
-      "world": "Mundo",
-      "politics": "Política",
-      "economy": "Economia",
-      "science": "Ciência",
-      "sports": "Desporto",
-      "culture": "Cultura",
-      "disaster": "Desastres",
-      "conflict": "Conflitos",
-      "health": "Saúde"
+      "world": "Mundo ao Vivo",
+      "politics": "Política Mundial",
+      "economy": "Economia Mundial",
+      "science": "Ciência Mundial",
+      "sports": "Esportes Mundiais",
+      "culture": "Cultura Mundial",
+      "disaster": "Desastres Mundiais",
+      "conflict": "Conflitos Mundiais",
+      "health": "Saúde Mundial"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "As façanhas e recordes humanos individuais mais lendários já verificados."
       }
     },
-    "entryDetailAria": "Ver detalhes de {name}"
+    "entryDetailAria": "Ver detalhes de {name}",
+    "detailLoading": "Carregando informações aprofundadas…",
+    "detailBackgroundLabel": "Histórico",
+    "detailKeyFactsLabel": "Fatos-Chave",
+    "detailSignificanceLabel": "Importância"
   },
   "UnitasRankings": {
     "label": "Ranking Unitas em Tempo Real",

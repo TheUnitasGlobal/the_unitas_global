@@ -1171,15 +1171,15 @@
     "refresh": "ニュースを更新",
     "source": "出典: Wikimedia 特集フィード · 中立的な要約 · 15分ごとに更新",
     "category": {
-      "world": "世界",
-      "politics": "政治",
-      "economy": "経済",
-      "science": "科学",
-      "sports": "スポーツ",
-      "culture": "文化",
-      "disaster": "災害",
-      "conflict": "紛争",
-      "health": "健康"
+      "world": "世界速報",
+      "politics": "世界政治",
+      "economy": "世界経済",
+      "science": "世界科学",
+      "sports": "世界スポーツ",
+      "culture": "世界文化",
+      "disaster": "世界災害",
+      "conflict": "世界紛争",
+      "health": "世界保健"
     }
   },
   "Weather": {
@@ -1318,7 +1318,11 @@
         "description": "これまでに検証された、最も伝説的な個人の記録・偉業。"
       }
     },
-    "entryDetailAria": "{name}の詳細を見る"
+    "entryDetailAria": "{name}の詳細を見る",
+    "detailLoading": "詳細情報を読み込み中…",
+    "detailBackgroundLabel": "背景",
+    "detailKeyFactsLabel": "主な事実",
+    "detailSignificanceLabel": "意義"
   },
   "UnitasRankings": {
     "label": "リアルタイム・ユニタスランキング",
