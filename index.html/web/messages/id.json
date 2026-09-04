@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Peringkat Tema Global",
+    "label": "Peringkat Isu Hangat Langsung",
     "hint": "Ketuk tema untuk melihat 10 teratas — muat lebih banyak untuk menjelajah lebih dalam.",
     "loadMoreRange": "Lihat peringkat {from}-{to}",
     "collapseAria": "Tutup",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "Juara Box Office Sepanjang Masa",
         "description": "Film dengan pendapatan tertinggi di dunia, tanpa penyesuaian inflasi."
+      },
+      "youtubeViews": {
+        "title": "Video YouTube Paling Banyak Ditonton",
+        "description": "Video paling banyak ditonton dalam sejarah YouTube, berdasarkan jumlah tayangan."
+      },
+      "esportsEarnings": {
+        "title": "Hadiah Esports & Gaming",
+        "description": "Judul esports terbesar berdasarkan total hadiah kompetitif sepanjang masa."
+      },
+      "albumSales": {
+        "title": "Album Terlaris Sepanjang Masa",
+        "description": "Album musik terlaris dalam sejarah, berdasarkan perkiraan unit terjual."
+      },
+      "humanRecords": {
+        "title": "Rekor Manusia Legendaris",
+        "description": "Prestasi dan rekor individu manusia paling legendaris yang pernah diverifikasi."
       }
+    },
+    "entryDetailAria": "Lihat detail {name}"
+  },
+  "UnitasRankings": {
+    "label": "Peringkat Unitas Real-Time",
+    "hint": "Papan peringkat aktivitas agregat dan pseudonim di seluruh modul UNITAS — ketuk sebuah modul, lalu peringkat, untuk melihat profil kontributor.",
+    "disclaimer": "Indeks aktivitas agregat simulasi menggunakan nama samaran — bukan data pribadi nyata.",
+    "viewProfileAria": "Lihat profil {handle}",
+    "tier": {
+      "sovereign": "Sovereign",
+      "platinum": "Platinum",
+      "gold": "Emas"
+    },
+    "profile": {
+      "moduleLabel": "Modul",
+      "rankLabel": "Peringkat Global",
+      "scoreLabel": "Indeks Kontribusi"
+    },
+    "bio": {
+      "0": "Operator Genesis Cohort dengan aktivitas paling konsisten di dalam {module} pada siklus ini.",
+      "1": "Naik peringkat {module} melalui keterlibatan harian yang konsisten, bukan satu skor tinggi.",
+      "2": "Salah satu pengguna paling awal {module}, masih aktif di puncak peringkatnya.",
+      "3": "Dikenal di komunitas {module} karena pola kontribusi yang konsisten dan stabil.",
+      "4": "Operator lintas modul yang indeks aktivitas {module}-nya bertahan di level teratas selama beberapa siklus.",
+      "5": "Diakui dalam {module} karena keterlibatan berkelanjutan yang jauh di atas indeks aktivitas median modul."
     }
   }
 }

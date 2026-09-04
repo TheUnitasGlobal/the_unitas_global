@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Global Theme Rankings",
+    "label": "Live Hot-Issue Rankings",
     "hint": "Tap a theme to reveal its top 10 — then load more to go deeper.",
     "loadMoreRange": "Show ranks {from}-{to}",
     "collapseAria": "Close",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "All-Time Box Office Champions",
         "description": "The highest-grossing films worldwide, unadjusted for inflation."
+      },
+      "youtubeViews": {
+        "title": "Most-Viewed YouTube Videos",
+        "description": "The most-watched videos in YouTube history, by view count."
+      },
+      "esportsEarnings": {
+        "title": "Esports & Gaming Prize Money",
+        "description": "The biggest esports titles ranked by all-time competitive prize money."
+      },
+      "albumSales": {
+        "title": "All-Time Best-Selling Albums",
+        "description": "The best-selling music albums in history, by estimated units sold."
+      },
+      "humanRecords": {
+        "title": "Legendary Human Records",
+        "description": "The most legendary individual human feats and records ever verified."
       }
+    },
+    "entryDetailAria": "View detail for {name}"
+  },
+  "UnitasRankings": {
+    "label": "Real-Time Unitas Rankings",
+    "hint": "A pseudonymous, aggregate activity leaderboard across every UNITAS module — tap a module, then a rank, to see a contributor's profile.",
+    "disclaimer": "Simulated aggregate activity index using pseudonymous handles — not real personal data.",
+    "viewProfileAria": "View profile for {handle}",
+    "tier": {
+      "sovereign": "Sovereign",
+      "platinum": "Platinum",
+      "gold": "Gold"
+    },
+    "profile": {
+      "moduleLabel": "Module",
+      "rankLabel": "Global Rank",
+      "scoreLabel": "Contribution Index"
+    },
+    "bio": {
+      "0": "A Genesis Cohort operator who has logged the most sustained activity inside {module} this cycle.",
+      "1": "Climbed the {module} leaderboard through consistent daily engagement rather than one high score.",
+      "2": "One of the earliest adopters of {module}, still active at the top of its rankings.",
+      "3": "Known across the {module} community for high-consistency, low-noise contribution patterns.",
+      "4": "A cross-module operator whose {module} activity index has held a top-tier position for multiple cycles.",
+      "5": "Recognized within {module} for sustained engagement well above the module's median activity index."
     }
   }
 }

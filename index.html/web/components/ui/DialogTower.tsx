@@ -167,7 +167,7 @@ export function DialogTower({
                 <p
                   id={titleId}
                   title={title}
-                  className="flex min-w-0 items-center gap-2 text-[11px] font-bold uppercase tracking-[0.3em]"
+                  className="flex min-w-0 items-center gap-2 text-[13px] font-bold uppercase tracking-[0.3em]"
                   style={{ color: accent, textShadow: `0 0 16px ${accentGlow}55` }}
                 >
                   <Sparkles size={13} className="shrink-0" aria-hidden="true" />

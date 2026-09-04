@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Classements Thématiques Mondiaux",
+    "label": "Classement en direct des sujets tendance",
     "hint": "Touchez un thème pour voir son top 10 — chargez-en plus pour aller plus loin.",
     "loadMoreRange": "Voir les rangs {from} à {to}",
     "collapseAria": "Fermer",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "Champions du Box-Office de Tous les Temps",
         "description": "Les films les plus rentables au monde, non ajustés à l’inflation."
+      },
+      "youtubeViews": {
+        "title": "Vidéos YouTube les plus vues",
+        "description": "Les vidéos les plus regardées de l’histoire de YouTube, par nombre de vues."
+      },
+      "esportsEarnings": {
+        "title": "Gains en esport et jeux vidéo",
+        "description": "Les plus grands titres esport classés par gains cumulés en compétition."
+      },
+      "albumSales": {
+        "title": "Albums les plus vendus de tous les temps",
+        "description": "Les albums musicaux les plus vendus de l’histoire, par ventes estimées."
+      },
+      "humanRecords": {
+        "title": "Records humains légendaires",
+        "description": "Les exploits et records humains individuels les plus légendaires jamais vérifiés."
       }
+    },
+    "entryDetailAria": "Voir le détail de {name}"
+  },
+  "UnitasRankings": {
+    "label": "Classement Unitas en temps réel",
+    "hint": "Un classement d’activité agrégé et pseudonyme dans tous les modules UNITAS — touchez un module puis un rang pour voir le profil d’un contributeur.",
+    "disclaimer": "Indice d’activité agrégé simulé utilisant des pseudonymes — pas de données personnelles réelles.",
+    "viewProfileAria": "Voir le profil de {handle}",
+    "tier": {
+      "sovereign": "Souverain",
+      "platinum": "Platine",
+      "gold": "Or"
+    },
+    "profile": {
+      "moduleLabel": "Module",
+      "rankLabel": "Rang mondial",
+      "scoreLabel": "Indice de contribution"
+    },
+    "bio": {
+      "0": "Un opérateur de la Cohorte Genesis affichant l’activité la plus soutenue dans {module} ce cycle.",
+      "1": "A grimpé le classement {module} grâce à un engagement quotidien constant plutôt qu’un seul score élevé.",
+      "2": "L’un des tout premiers adoptants de {module}, toujours actif au sommet de son classement.",
+      "3": "Reconnu dans la communauté {module} pour des contributions constantes et stables.",
+      "4": "Un opérateur multi-modules dont l’indice d’activité {module} est resté au plus haut niveau sur plusieurs cycles.",
+      "5": "Reconnu au sein de {module} pour un engagement soutenu bien au-dessus de l’indice d’activité médian du module."
     }
   }
 }

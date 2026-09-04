@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Pandaigdigang Ranggo ng mga Tema",
+    "label": "Live na Ranggo ng Mainit na Isyu",
     "hint": "I-tap ang isang tema para makita ang top 10 nito — mag-load pa para lumalim.",
     "loadMoreRange": "Tingnan ang ranggo {from}-{to}",
     "collapseAria": "Isara",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "Pinakamatagumpay na Pelikula sa Kasaysayan",
         "description": "Ang mga pelikulang may pinakamataas na kita sa buong mundo, hindi in-adjust sa implasyon."
+      },
+      "youtubeViews": {
+        "title": "Pinakamaraming Panoorin na YouTube Videos",
+        "description": "Ang mga pinakamaraming napanood na video sa kasaysayan ng YouTube, batay sa bilang ng panonood."
+      },
+      "esportsEarnings": {
+        "title": "Premyong Pera sa Esports at Gaming",
+        "description": "Ang pinakamalalaking esports titles ayon sa kabuuang premyong pera sa kompetisyon."
+      },
+      "albumSales": {
+        "title": "Pinakamabentang mga Album sa Lahat ng Panahon",
+        "description": "Ang pinakamabentang musical albums sa kasaysayan, batay sa tinatayang bilang ng naibenta."
+      },
+      "humanRecords": {
+        "title": "Alamat na mga Rekord ng Tao",
+        "description": "Ang pinaka-alamat na indibidwal na tagumpay at rekord ng tao na napatunayan."
       }
+    },
+    "entryDetailAria": "Tingnan ang detalye ng {name}"
+  },
+  "UnitasRankings": {
+    "label": "Real-Time na Ranggo ng Unitas",
+    "hint": "Isang pseudonymous at pinagsamang leaderboard ng aktibidad sa lahat ng module ng UNITAS — pindutin ang isang module, pagkatapos ang isang ranggo, para makita ang profile ng isang kontribyutor.",
+    "disclaimer": "Ginayang pinagsamang activity index gamit ang mga pseudonymous handle — hindi tunay na personal na datos.",
+    "viewProfileAria": "Tingnan ang profile ni {handle}",
+    "tier": {
+      "sovereign": "Sovereign",
+      "platinum": "Platinum",
+      "gold": "Ginto"
+    },
+    "profile": {
+      "moduleLabel": "Module",
+      "rankLabel": "Global na Ranggo",
+      "scoreLabel": "Indeks ng Kontribusyon"
+    },
+    "bio": {
+      "0": "Isang Genesis Cohort operator na may pinaka-tuluy-tuloy na aktibidad sa loob ng {module} sa cycle na ito.",
+      "1": "Umakyat sa ranggo ng {module} sa pamamagitan ng pare-parehong pang-araw-araw na partisipasyon sa halip na iisang mataas na iskor.",
+      "2": "Isa sa mga unang gumamit ng {module}, aktibo pa rin sa tuktok ng ranggo nito.",
+      "3": "Kilala sa komunidad ng {module} dahil sa pare-pareho at matatag na pattern ng kontribusyon.",
+      "4": "Isang cross-module operator na ang activity index sa {module} ay nanatili sa pinakamataas na antas sa maraming cycle.",
+      "5": "Kinikilala sa loob ng {module} dahil sa tuluy-tuloy na partisipasyon na higit sa median activity index ng module."
     }
   }
 }

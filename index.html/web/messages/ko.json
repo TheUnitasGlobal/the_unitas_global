@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "글로벌 테마 랭킹",
+    "label": "실시간 핫이슈 랭킹",
     "hint": "테마를 선택하면 1위부터 순위를 확인할 수 있습니다 — 더보기로 더 깊이 탐색하세요.",
     "loadMoreRange": "{from}~{to}위 보기",
     "collapseAria": "닫기",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "역대 최고 흥행 영화 순위",
         "description": "물가 미보정 기준, 전 세계 누적 수익 최고 영화 순위."
+      },
+      "youtubeViews": {
+        "title": "유튜브 최다 조회수 영상",
+        "description": "역대 유튜브 조회수 기준 최다 시청 영상 순위."
+      },
+      "esportsEarnings": {
+        "title": "e스포츠·게임 상금 랭킹",
+        "description": "역대 누적 상금 기준 최대 규모 e스포츠 종목 순위."
+      },
+      "albumSales": {
+        "title": "역대 최다 판매 음반",
+        "description": "추정 판매량 기준 역대 최다 판매 음반 순위."
+      },
+      "humanRecords": {
+        "title": "인류 최고 기록",
+        "description": "공식 검증된 역대 개인 인류 기록 중 가장 전설적인 기록들."
       }
+    },
+    "entryDetailAria": "{name} 상세 보기"
+  },
+  "UnitasRankings": {
+    "label": "실시간 유니타스 랭킹",
+    "hint": "전 유니타스 모듈의 익명 활동 지수 순위표입니다 — 모듈을 선택한 뒤 순위를 탭하면 참여자 프로필을 볼 수 있습니다.",
+    "disclaimer": "익명 핸들을 사용한 시뮬레이션 집계 활동 지수이며, 실제 개인정보가 아닙니다.",
+    "viewProfileAria": "{handle} 프로필 보기",
+    "tier": {
+      "sovereign": "소버린",
+      "platinum": "플래티넘",
+      "gold": "골드"
+    },
+    "profile": {
+      "moduleLabel": "모듈",
+      "rankLabel": "글로벌 순위",
+      "scoreLabel": "기여 지수"
+    },
+    "bio": {
+      "0": "이번 주기 {module} 내에서 가장 지속적인 활동을 기록한 제네시스 코호트 운영자입니다.",
+      "1": "단발성 고득점이 아닌 꾸준한 일일 활동으로 {module} 랭킹을 끌어올렸습니다.",
+      "2": "{module}의 초기 채택자 중 한 명으로, 여전히 랭킹 상위권에서 활동 중입니다.",
+      "3": "{module} 커뮤니티 내에서 일관되고 안정적인 기여 패턴으로 알려져 있습니다.",
+      "4": "여러 주기 동안 {module} 활동 지수 최상위권을 유지해온 크로스 모듈 운영자입니다.",
+      "5": "{module} 내 평균 활동 지수를 크게 웃도는 지속적 참여로 인정받고 있습니다."
     }
   }
 }

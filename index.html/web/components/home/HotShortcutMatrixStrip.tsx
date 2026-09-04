@@ -16,6 +16,7 @@ import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { HotIssueNewsList } from '@/components/home/HotIssueNewsList';
 import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
 import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
+import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
 import { AppDetailCard } from '@/components/interaction/AppDetailCard';
 
 interface HotShortcutMatrixStripProps {
@@ -228,8 +229,12 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
           {/* 핫이슈: sub-shortcuts (게임/스포츠/영화/문화/사회/표현/전략) render as the
               exact same text-pill design as the main tab strip above -- not
               the icon-card shape every other group uses (owner instruction
-              2026-09-04: "상단 메인 숏컷 박스와 정확히 동일한 디자인"). The theme
-              ranking widget and the live news list follow beneath them. */}
+              2026-09-04: "상단 메인 숏컷 박스와 정확히 동일한 디자인"). Owner
+              instruction 2026-09-04 (round 2) reordered the stack: the live
+              news feed now leads, "실시간 핫이슈 랭킹" (renamed from "글로벌
+              테마 랭킹") follows it, and the new cross-module "실시간 유니타스
+              랭킹" leaderboard closes out the tab at the very bottom of the
+              page. */}
           {activeTab === 'hotIssue' && (
             <div className="flex w-full flex-col gap-4">
               <div className="flex flex-wrap gap-2">
@@ -246,8 +251,9 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
                   </button>
                 ))}
               </div>
-              <GlobalThemeRankings />
               <HotIssueNewsList />
+              <GlobalThemeRankings />
+              <UnitasModuleRankings />
             </div>
           )}
         </motion.div>

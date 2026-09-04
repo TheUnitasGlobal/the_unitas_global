@@ -3,8 +3,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronDown, Globe2, X } from 'lucide-react';
-import { GLOBAL_RANKING_THEMES, LOAD_MORE_TIERS, type GlobalRankingThemeKey } from '@/lib/globalRankings';
+import {
+  GLOBAL_RANKING_THEMES,
+  LOAD_MORE_TIERS,
+  type GlobalRankingEntry,
+  type GlobalRankingTheme,
+  type GlobalRankingThemeKey,
+} from '@/lib/globalRankings';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { Modal } from '@/components/ui/Modal';
+
+/** Rank cutoff for the entry-detail popup (owner instruction 2026-09-04 round
+ *  2: "상위 1~20위 항목 선택 시 ... 상세 내용과 설명"). Every theme curates a
+ *  `detail` one-liner for exactly this range (see lib/globalRankings.ts) --
+ *  rows past it stay display-only, matching the curated data's own cutoff. */
+const ENTRY_DETAIL_MAX_RANK = 20;
 
 /**
  * 핫이슈 탭의 "하이브리드 테마 랭킹 위젯" (owner instruction 2026-09-04, deepened
@@ -27,6 +40,7 @@ export function GlobalThemeRankings() {
    *  list. Null means "no reveal pending" (theme just opened/switched, or
    *  first mount) so that transition never triggers an unwanted scroll. */
   const revealBoundaryRef = useRef<number | null>(null);
+  const [detail, setDetail] = useState<{ entry: GlobalRankingEntry; theme: GlobalRankingTheme } | null>(null);
 
   const expandedTheme = GLOBAL_RANKING_THEMES.find((theme) => theme.key === expandedKey) ?? null;
   const visibleTier = expandedKey ? (visibleTiers[expandedKey] ?? LOAD_MORE_TIERS[0]) : LOAD_MORE_TIERS[0];
@@ -120,22 +134,42 @@ export function GlobalThemeRankings() {
             ref={listRef}
             className="grid max-h-[22rem] grid-cols-1 gap-1.5 overflow-y-auto overscroll-contain scroll-smooth pr-1 sm:grid-cols-2"
           >
-            {shownEntries.map((entry) => (
-              <li
-                key={entry.rank}
-                data-rank={entry.rank}
-                className="flex items-center gap-3 border border-white/10 bg-void/50 px-3 py-2 text-[13px]"
-              >
-                <span
-                  className="flex h-6 w-6 shrink-0 items-center justify-center border text-[11px] font-bold"
-                  style={{ borderColor: `${expandedTheme.color}55`, color: expandedTheme.color }}
+            {shownEntries.map((entry) => {
+              const clickable = entry.rank <= ENTRY_DETAIL_MAX_RANK;
+              return (
+                <li
+                  key={entry.rank}
+                  data-rank={entry.rank}
+                  role={clickable ? 'button' : undefined}
+                  tabIndex={clickable ? 0 : undefined}
+                  onMouseEnter={clickable ? () => playHoverSfx() : undefined}
+                  onClick={clickable ? () => setDetail({ entry, theme: expandedTheme }) : undefined}
+                  onKeyDown={
+                    clickable
+                      ? (e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setDetail({ entry, theme: expandedTheme });
+                          }
+                        }
+                      : undefined
+                  }
+                  aria-label={clickable ? t('entryDetailAria', { name: entry.name }) : undefined}
+                  className={`flex items-center gap-3 border border-white/10 bg-void/50 px-3 py-2 text-[13px] ${
+                    clickable ? 'cursor-pointer transition-colors hover:border-white/25 hover:bg-void/80' : ''
+                  }`}
                 >
-                  {entry.rank}
-                </span>
-                <span className="min-w-0 flex-1 truncate font-bold text-white">{entry.name}</span>
-                <span className="shrink-0 text-[11px] text-gray-500">{entry.note}</span>
-              </li>
-            ))}
+                  <span
+                    className="flex h-6 w-6 shrink-0 items-center justify-center border text-[11px] font-bold"
+                    style={{ borderColor: `${expandedTheme.color}55`, color: expandedTheme.color }}
+                  >
+                    {entry.rank}
+                  </span>
+                  <span className="min-w-0 flex-1 truncate font-bold text-white">{entry.name}</span>
+                  <span className="shrink-0 text-[11px] text-gray-500">{entry.note}</span>
+                </li>
+              );
+            })}
           </ol>
 
           <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -156,6 +190,31 @@ export function GlobalThemeRankings() {
           </div>
         </div>
       )}
+
+      <Modal open={detail !== null} onClose={() => setDetail(null)} labelledBy="global-ranking-detail-title">
+        {detail && (
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <span
+                className="flex h-9 w-9 shrink-0 items-center justify-center border text-[14px] font-bold"
+                style={{ borderColor: `${detail.theme.color}55`, color: detail.theme.color }}
+              >
+                {detail.entry.rank}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p id="global-ranking-detail-title" className="text-[17px] font-bold text-white">
+                  {detail.entry.name}
+                </p>
+                <p className="mt-0.5 text-[12px] text-gray-500">{detail.entry.note}</p>
+              </div>
+            </div>
+            <p className="text-[14px] leading-relaxed text-gray-300">{detail.entry.detail ?? detail.entry.note}</p>
+            <p className="text-[10px] uppercase tracking-widest text-gray-600">
+              {t(`themes.${detail.theme.key}.title`)}
+            </p>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

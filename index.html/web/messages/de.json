@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Globale Themen-Ranglisten",
+    "label": "Live-Rangliste der Top-Themen",
     "hint": "Tippe auf ein Thema, um die Top 10 zu sehen — lade mehr, um tiefer einzutauchen.",
     "loadMoreRange": "Plätze {from}-{to} anzeigen",
     "collapseAria": "Schließen",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "Die erfolgreichsten Filme aller Zeiten",
         "description": "Die weltweit einspielstärksten Filme, nicht inflationsbereinigt."
+      },
+      "youtubeViews": {
+        "title": "Meistgesehene YouTube-Videos",
+        "description": "Die meistgesehenen Videos der YouTube-Geschichte nach Aufrufen."
+      },
+      "esportsEarnings": {
+        "title": "E-Sport- & Gaming-Preisgelder",
+        "description": "Die größten E-Sport-Titel nach bisherigem Gesamtpreisgeld."
+      },
+      "albumSales": {
+        "title": "Meistverkaufte Alben aller Zeiten",
+        "description": "Die meistverkauften Musikalben der Geschichte nach geschätzten Verkaufszahlen."
+      },
+      "humanRecords": {
+        "title": "Legendäre menschliche Rekorde",
+        "description": "Die legendärsten je verifizierten individuellen menschlichen Leistungen und Rekorde."
       }
+    },
+    "entryDetailAria": "Details zu {name} anzeigen"
+  },
+  "UnitasRankings": {
+    "label": "Echtzeit-Unitas-Rangliste",
+    "hint": "Eine pseudonyme, aggregierte Aktivitäts-Rangliste über alle UNITAS-Module — Modul und dann einen Rang antippen, um ein Profil zu sehen.",
+    "disclaimer": "Simulierter aggregierter Aktivitätsindex mit pseudonymen Kennungen — keine echten personenbezogenen Daten.",
+    "viewProfileAria": "Profil von {handle} anzeigen",
+    "tier": {
+      "sovereign": "Souverän",
+      "platinum": "Platin",
+      "gold": "Gold"
+    },
+    "profile": {
+      "moduleLabel": "Modul",
+      "rankLabel": "Globaler Rang",
+      "scoreLabel": "Beitragsindex"
+    },
+    "bio": {
+      "0": "Ein Genesis-Cohort-Betreiber mit der nachhaltigsten Aktivität in {module} in diesem Zyklus.",
+      "1": "Erklomm die {module}-Rangliste durch beständiges tägliches Engagement statt eines einzelnen Highscores.",
+      "2": "Einer der frühesten Nutzer von {module}, weiterhin an der Spitze der Rangliste aktiv.",
+      "3": "Bekannt in der {module}-Community für konsistente, störungsarme Beitragsmuster.",
+      "4": "Ein modulübergreifender Betreiber, dessen {module}-Aktivitätsindex mehrere Zyklen lang eine Spitzenposition hielt.",
+      "5": "Anerkannt innerhalb von {module} für nachhaltiges Engagement deutlich über dem Median-Aktivitätsindex des Moduls."
     }
   }
 }

@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "全球主题排行榜",
+    "label": "实时热点话题排行榜",
     "hint": "点击主题查看前10名——点击加载更多以深入探索。",
     "loadMoreRange": "查看第{from}-{to}名",
     "collapseAria": "关闭",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "史上票房冠军排行榜",
         "description": "未经通胀调整的全球票房最高电影排名。"
+      },
+      "youtubeViews": {
+        "title": "YouTube最多观看视频",
+        "description": "按观看次数排列的YouTube历史上观看量最高的视频。"
+      },
+      "esportsEarnings": {
+        "title": "电子竞技与游戏奖金排行",
+        "description": "按历史累计奖金排列的最大电竞项目。"
+      },
+      "albumSales": {
+        "title": "历史最畅销专辑",
+        "description": "按估计销量排列的历史最畅销音乐专辑。"
+      },
+      "humanRecords": {
+        "title": "传奇人类纪录",
+        "description": "有史以来经过验证的最传奇的个人纪录与成就。"
       }
+    },
+    "entryDetailAria": "查看{name}的详情"
+  },
+  "UnitasRankings": {
+    "label": "实时Unitas排行榜",
+    "hint": "跨所有UNITAS模块的匿名综合活跃度排行榜——点击模块,再点击名次,即可查看贡献者档案。",
+    "disclaimer": "使用匿名昵称的模拟综合活跃度指数,并非真实个人数据。",
+    "viewProfileAria": "查看{handle}的档案",
+    "tier": {
+      "sovereign": "至尊",
+      "platinum": "白金",
+      "gold": "黄金"
+    },
+    "profile": {
+      "moduleLabel": "模块",
+      "rankLabel": "全球排名",
+      "scoreLabel": "贡献指数"
+    },
+    "bio": {
+      "0": "本周期内在{module}中活跃度最持久的创世群组运营者。",
+      "1": "凭借持续的日常参与而非单次高分登上{module}排行榜。",
+      "2": "{module}最早期的采用者之一,至今仍活跃在排行榜前列。",
+      "3": "在{module}社区中以稳定、持续的贡献模式著称。",
+      "4": "跨模块运营者,其{module}活跃度指数已连续多个周期保持顶级水平。",
+      "5": "因在{module}中的持续参与远高于模块中位活跃度指数而获得认可。"
     }
   }
 }

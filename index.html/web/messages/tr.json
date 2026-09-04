@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Küresel Tema Sıralamaları",
+    "label": "Canlı Gündem Sıralaması",
     "hint": "İlk 10'u görmek için bir temaya dokunun — daha derine inmek için daha fazla yükleyin.",
     "loadMoreRange": "{from}-{to}. sıraları göster",
     "collapseAria": "Kapat",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "Tüm Zamanların Gişe Rekortmenleri",
         "description": "Enflasyona göre düzeltilmemiş, dünya çapında en çok hasılat yapan filmler."
+      },
+      "youtubeViews": {
+        "title": "En Çok İzlenen YouTube Videoları",
+        "description": "İzlenme sayısına göre YouTube tarihinin en çok izlenen videoları."
+      },
+      "esportsEarnings": {
+        "title": "E-spor ve Oyun Ödül Parası",
+        "description": "Tüm zamanların en yüksek toplam yarışma ödül parasına göre en büyük e-spor unvanları."
+      },
+      "albumSales": {
+        "title": "Tüm Zamanların En Çok Satan Albümleri",
+        "description": "Tahmini satış rakamlarına göre tarihin en çok satan müzik albümleri."
+      },
+      "humanRecords": {
+        "title": "Efsanevi İnsan Rekorları",
+        "description": "Şimdiye kadar doğrulanmış en efsanevi bireysel insan başarıları ve rekorları."
       }
+    },
+    "entryDetailAria": "{name} için ayrıntıları görüntüle"
+  },
+  "UnitasRankings": {
+    "label": "Gerçek Zamanlı Unitas Sıralaması",
+    "hint": "Tüm UNITAS modüllerinde takma adla toplu bir aktivite lider tablosu — bir katılımcının profilini görmek için bir modüle, ardından bir sıraya dokunun.",
+    "disclaimer": "Takma adlar kullanılarak simüle edilmiş toplu aktivite endeksi — gerçek kişisel veri değildir.",
+    "viewProfileAria": "{handle} profilini görüntüle",
+    "tier": {
+      "sovereign": "Sovereign",
+      "platinum": "Platin",
+      "gold": "Altın"
+    },
+    "profile": {
+      "moduleLabel": "Modül",
+      "rankLabel": "Küresel Sıralama",
+      "scoreLabel": "Katkı Endeksi"
+    },
+    "bio": {
+      "0": "Bu döngüde {module} içinde en sürekli aktiviteyi kaydeden bir Genesis Cohort operatörü.",
+      "1": "{module} sıralamasında tek bir yüksek skor yerine tutarlı günlük katılımla yükseldi.",
+      "2": "{module}'ü ilk benimseyenlerden biri, hâlâ sıralamanın zirvesinde aktif.",
+      "3": "{module} topluluğunda tutarlı, düşük dalgalanmalı katkı örüntüleriyle tanınıyor.",
+      "4": "{module} aktivite endeksi birçok döngü boyunca en üst seviyede kalan çapraz modül operatörü.",
+      "5": "{module} içinde, modülün medyan aktivite endeksinin oldukça üzerinde sürekli katılımla tanınıyor."
     }
   }
 }

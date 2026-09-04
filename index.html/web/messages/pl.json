@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Globalne Rankingi Tematyczne",
+    "label": "Ranking Gorących Tematów na Żywo",
     "hint": "Dotknij tematu, aby zobaczyć jego top 10 — wczytaj więcej, aby zgłębić temat.",
     "loadMoreRange": "Pokaż miejsca {from}-{to}",
     "collapseAria": "Zamknij",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "Rekordziści Box Office Wszech Czasów",
         "description": "Filmy o najwyższych wpływach na świecie, bez korekty o inflację."
+      },
+      "youtubeViews": {
+        "title": "Najczęściej oglądane filmy YouTube",
+        "description": "Najczęściej oglądane filmy w historii YouTube, według liczby wyświetleń."
+      },
+      "esportsEarnings": {
+        "title": "Pula nagród w esporcie i grach",
+        "description": "Największe tytuły esportowe według łącznej puli nagród wszech czasów."
+      },
+      "albumSales": {
+        "title": "Najlepiej sprzedające się albumy wszech czasów",
+        "description": "Najlepiej sprzedające się albumy muzyczne w historii, według szacunkowej sprzedaży."
+      },
+      "humanRecords": {
+        "title": "Legendarne ludzkie rekordy",
+        "description": "Najbardziej legendarne, zweryfikowane indywidualne osiągnięcia i rekordy ludzkości."
       }
+    },
+    "entryDetailAria": "Zobacz szczegóły {name}"
+  },
+  "UnitasRankings": {
+    "label": "Ranking Unitas na żywo",
+    "hint": "Pseudonimowy, zbiorczy ranking aktywności we wszystkich modułach UNITAS — dotknij modułu, a następnie pozycji, aby zobaczyć profil uczestnika.",
+    "disclaimer": "Symulowany zbiorczy wskaźnik aktywności z użyciem pseudonimów — to nie są prawdziwe dane osobowe.",
+    "viewProfileAria": "Zobacz profil {handle}",
+    "tier": {
+      "sovereign": "Sovereign",
+      "platinum": "Platyna",
+      "gold": "Złoto"
+    },
+    "profile": {
+      "moduleLabel": "Moduł",
+      "rankLabel": "Ranking globalny",
+      "scoreLabel": "Wskaźnik wkładu"
+    },
+    "bio": {
+      "0": "Operator Genesis Cohort z najbardziej trwałą aktywnością w {module} w tym cyklu.",
+      "1": "Wspiął się w rankingu {module} dzięki stałemu, codziennemu zaangażowaniu, a nie jednorazowemu wysokiemu wynikowi.",
+      "2": "Jeden z pierwszych użytkowników {module}, wciąż aktywny na szczycie rankingu.",
+      "3": "Znany w społeczności {module} za spójne, stabilne wzorce wkładu.",
+      "4": "Operator działający w wielu modułach, którego wskaźnik aktywności w {module} utrzymuje się na najwyższym poziomie przez wiele cykli.",
+      "5": "Doceniany w {module} za trwałe zaangażowanie znacznie powyżej mediany wskaźnika aktywności modułu."
     }
   }
 }

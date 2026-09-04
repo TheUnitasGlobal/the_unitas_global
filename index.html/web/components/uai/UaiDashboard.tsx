@@ -11,6 +11,7 @@ import {
   type SurfaceReport,
 } from '@/lib/uai/types';
 import type { UaiError, UaiPhase } from '@/lib/uai/useUai';
+import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
 
 interface UaiDashboardProps {
   phase: UaiPhase;
@@ -155,7 +156,7 @@ export function UaiDashboard({
           {/* Phase 1 -- live web synthesis provenance (or local-fallback flag).
               Compact home embed shows the one-line badge only. */}
           <section className="space-y-2">
-            <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-gray-500">
+            <p className="flex items-center gap-1.5 text-[14px] font-bold uppercase tracking-widest text-gray-500">
               <Globe size={13} aria-hidden="true" /> {t('webSourcesLabel')}
             </p>
             <p className="text-[12px] text-gray-500">{t('webBlendNote')}</p>
@@ -204,7 +205,7 @@ export function UaiDashboard({
 
           {(insight || insightForging || trendHits > 0) && (
             <section className={`space-y-4 border-y border-accent/20 py-6 ${split ? 'order-2' : ''}`}>
-              <p className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.25em] text-accent">
+              <p className="flex items-center gap-2 text-[14px] font-bold uppercase tracking-[0.25em] text-accent">
                 <Wand2 size={15} aria-hidden="true" /> {t('insightLabel')}
               </p>
 
@@ -241,7 +242,7 @@ export function UaiDashboard({
                           style={{ borderTopColor: AXIS_COLOR[ax.axis], borderTopWidth: 2 }}
                         >
                           <p
-                            className="text-[12px] font-bold uppercase tracking-widest"
+                            className="text-[14px] font-bold uppercase tracking-widest"
                             style={{ color: AXIS_COLOR[ax.axis] }}
                           >
                             {t(`constitution.${ax.axis}`)}
@@ -258,7 +259,7 @@ export function UaiDashboard({
                       ))}
                     </div>
                     <div className="border border-accent/30 bg-black/30 p-4">
-                      <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
+                      <p className="mb-1.5 text-[13px] font-bold uppercase tracking-[0.3em] text-accent">
                         {t('insightVectorLabel')}
                       </p>
                       <p className="text-[16px] italic leading-relaxed text-gray-100 [text-wrap:balance]">
@@ -280,7 +281,7 @@ export function UaiDashboard({
 
           {/* Phase 1 -- 3-second triple lens */}
           <section className="space-y-3">
-            <p className="text-[12px] font-bold uppercase tracking-widest text-gray-500">{t('lensLabel')}</p>
+            <p className="text-[14px] font-bold uppercase tracking-widest text-gray-500">{t('lensLabel')}</p>
             {surface.lenses.map((lens) => (
               <div key={lens.key} className="grid grid-cols-[96px_1fr_auto] items-center gap-3">
                 <span className="text-[14px] font-medium text-gray-300">{t(`lens.${lens.key}`)}</span>
@@ -293,7 +294,7 @@ export function UaiDashboard({
           {/* Phase 1 -- 71-doctrine deconstruction (constitution axes) */}
           {!compact && (
             <section className={`space-y-3 ${split ? 'order-2' : ''}`}>
-              <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-gray-500">
+              <p className="flex items-center gap-1.5 text-[14px] font-bold uppercase tracking-widest text-gray-500">
                 <Layers size={13} aria-hidden="true" /> {t('constitutionLabel')}
               </p>
               {surface.constitution.map((c) => (
@@ -312,11 +313,11 @@ export function UaiDashboard({
           {/* Phase 1 -- commercial-bias shield gauge */}
           <section className="space-y-2">
             <div className="flex items-center justify-between">
-              <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-gray-500">
+              <p className="flex items-center gap-1.5 text-[14px] font-bold uppercase tracking-widest text-gray-500">
                 <ShieldHalf size={13} aria-hidden="true" /> {t('shieldLabel')}
               </p>
               <span
-                className="border px-2 py-0.5 text-[11px] font-bold uppercase tracking-widest"
+                className="border px-2 py-0.5 text-[13px] font-bold uppercase tracking-widest"
                 style={{ color: SHIELD_COLOR[surface.shield.verdict], borderColor: `${SHIELD_COLOR[surface.shield.verdict]}66` }}
               >
                 {t(`shield.${surface.shield.verdict}`)}
@@ -327,7 +328,7 @@ export function UaiDashboard({
 
           {/* Phase 1 -- 3-step action checklist */}
           <section className="space-y-2">
-            <p className="text-[12px] font-bold uppercase tracking-widest text-gray-500">{t('checklistLabel')}</p>
+            <p className="text-[14px] font-bold uppercase tracking-widest text-gray-500">{t('checklistLabel')}</p>
             <ul className="space-y-2">
               {(t.raw(`checklist.${surface.checklistArchetype}`) as string[]).map((step, i) => (
                 <li key={i}>
@@ -357,7 +358,7 @@ export function UaiDashboard({
               report, on the full page it re-runs the free search in place. */}
           {(onRunQuery || fullReportHref) && followups.length > 0 && (
             <section className="space-y-2.5 border-t border-white/10 pt-5">
-              <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-gray-500">
+              <p className="flex items-center gap-1.5 text-[14px] font-bold uppercase tracking-widest text-gray-500">
                 <Search size={13} aria-hidden="true" /> {t('followupLabel')}
               </p>
               <p className="text-[12px] text-gray-500">{t('followupHint')}</p>
@@ -391,7 +392,7 @@ export function UaiDashboard({
           {/* Phase 1 -- 71-doctrine redesign vectors (blind-spot axis) */}
           {!compact && (
             <section className={`space-y-2 ${split ? 'order-2' : ''}`}>
-              <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-gray-500">
+              <p className="flex items-center gap-1.5 text-[14px] font-bold uppercase tracking-widest text-gray-500">
                 <Wand2 size={13} aria-hidden="true" /> {t('redesignLabel')}
               </p>
               <ol className="space-y-2">
@@ -415,7 +416,7 @@ export function UaiDashboard({
               className="flex w-full items-center justify-between"
               aria-expanded={swarmOpen}
             >
-              <span className="text-[12px] font-bold uppercase tracking-widest text-gray-500">{t('swarmLabel')}</span>
+              <span className="text-[14px] font-bold uppercase tracking-widest text-gray-500">{t('swarmLabel')}</span>
               <span className="text-accent">{swarmOpen || !compact ? '' : '+'}</span>
             </button>
             <div className="space-y-2">
@@ -439,7 +440,7 @@ export function UaiDashboard({
 
           {/* Phase 2-4 gate */}
           <section ref={deepGateRef} className={`border-t border-white/10 pt-5 ${split ? 'order-2' : ''}`}>
-            <p className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.25em] text-accent">
+            <p className="mb-1 flex items-center gap-1.5 text-[14px] font-bold uppercase tracking-[0.25em] text-accent">
               <Sparkles size={13} aria-hidden="true" /> {t('deepLabel')}
             </p>
             <p className="mb-3 text-[12px] text-gray-500">{t('deepHint')}</p>
@@ -453,7 +454,7 @@ export function UaiDashboard({
                     type="button"
                     onClick={onRunDeep}
                     disabled={!canDeep}
-                    className="flex w-full items-center justify-center gap-2 border border-accent bg-accent/10 py-3 text-[12px] font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex w-full items-center justify-center gap-2 border border-accent bg-accent/10 py-3 text-[14px] font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {!hasSession && <Lock size={13} aria-hidden="true" />}
                     {hasSession ? t('deepCta', { cost: UAI_DEEP_INSIGHT_COST }) : t('err.signin')}
@@ -466,7 +467,7 @@ export function UaiDashboard({
                 {compact && fullReportHref && (
                   <a
                     href={fullReportHref}
-                    className="mt-2 block w-full border border-white/15 py-2.5 text-center text-[12px] font-bold uppercase tracking-widest text-gray-300 transition-colors hover:border-accent hover:text-accent"
+                    className="mt-2 block w-full border border-white/15 py-2.5 text-center text-[14px] font-bold uppercase tracking-widest text-gray-300 transition-colors hover:border-accent hover:text-accent"
                   >
                     {t('openFullReport')}
                   </a>
@@ -488,12 +489,12 @@ export function UaiDashboard({
               >
                 {/* Chronos */}
                 <section>
-                  <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-gray-500">{t('chronosLabel')}</p>
+                  <p className="mb-3 text-[13px] font-bold uppercase tracking-widest text-gray-500">{t('chronosLabel')}</p>
                   <ol className="relative space-y-4 border-l border-white/15 pl-5">
                     {deep.chronos.map((point) => (
                       <li key={point.horizon} className="relative">
                         <span className="absolute -left-[23px] top-1 h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
-                        <p className="text-[11px] font-bold uppercase tracking-widest text-accent">
+                        <p className="text-[13px] font-bold uppercase tracking-widest text-accent">
                           {t(`chronos.${point.horizon}`)}
                         </p>
                         <p className="mt-1 text-[15px] leading-relaxed text-gray-300">{point.text}</p>
@@ -504,7 +505,7 @@ export function UaiDashboard({
 
                 {/* Binary verdict */}
                 <section className="border border-white/10 bg-void/50 p-4">
-                  <p className="mb-3 text-[11px] font-bold uppercase tracking-widest text-gray-500">{t('binaryLabel')}</p>
+                  <p className="mb-3 text-[13px] font-bold uppercase tracking-widest text-gray-500">{t('binaryLabel')}</p>
                   <div className="mb-3 grid grid-cols-2 gap-2">
                     {(['A', 'B'] as const).map((opt) => {
                       const picked = deep.binary.pick === opt;
@@ -533,7 +534,7 @@ export function UaiDashboard({
 
                 {/* Red pen */}
                 <section>
-                  <p className="mb-2 text-[11px] font-bold uppercase tracking-widest text-gray-500">{t('redPenLabel')}</p>
+                  <p className="mb-2 text-[13px] font-bold uppercase tracking-widest text-gray-500">{t('redPenLabel')}</p>
                   <ul className="space-y-2">
                     {deep.redPen.map((line, i) => (
                       <li key={i} className="border-l-2 border-red-400/60 pl-3 text-[15px] leading-relaxed text-gray-300">
@@ -545,13 +546,13 @@ export function UaiDashboard({
 
                 {/* The VOID */}
                 <section className="border border-accent/25 bg-black/30 p-4">
-                  <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">{t('voidLabel')}</p>
+                  <p className="mb-2 text-[13px] font-bold uppercase tracking-[0.3em] text-accent">{t('voidLabel')}</p>
                   <p className="text-[18px] italic leading-relaxed text-gray-200 [text-wrap:balance]">{deep.voidInsight}</p>
                 </section>
 
                 {/* Efficiency path */}
                 <section>
-                  <p className="mb-2 text-[11px] font-bold uppercase tracking-widest text-gray-500">{t('pathLabel')}</p>
+                  <p className="mb-2 text-[13px] font-bold uppercase tracking-widest text-gray-500">{t('pathLabel')}</p>
                   <ol className="space-y-2">
                     {deep.efficiencyPath.map((step, i) => (
                       <li key={i} className="flex gap-2.5 text-[15px] leading-snug text-gray-300">
@@ -569,6 +570,16 @@ export function UaiDashboard({
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* "실시간 유니타스 랭킹" -- mounted here (팝업) and again at the home
+              page's bottom (페이지 최하단), per owner instruction 2026-09-04
+              round 2. Skipped in the compact home-embed card so that smaller
+              surface doesn't inherit a full cross-module leaderboard. */}
+          {!compact && (
+            <div className={split ? 'order-2' : ''}>
+              <UnitasModuleRankings />
+            </div>
+          )}
         </>
       )}
     </div>

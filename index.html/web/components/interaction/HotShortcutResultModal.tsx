@@ -620,7 +620,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
           snippet (real online text) once the engine pass lands. */}
       <div className="border-l-2 pl-3" style={{ borderColor: `${tier.color}88` }}>
         {isNested ? (
-          <p className="text-[11px] uppercase tracking-widest text-gray-500">
+          <p className="text-[13px] uppercase tracking-widest text-gray-500">
             {tModal('nestedFrom', { parent: tier.description })}
           </p>
         ) : (
@@ -644,7 +644,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
               2026-09-02). */}
           {report && (
             <div className="border p-3" style={{ borderColor: `${tier.color}33`, backgroundColor: `${tier.color}0a` }}>
-              <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.3em]" style={{ color: tier.color }}>
+              <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.3em]" style={{ color: tier.color }}>
                 {tModal('deepLabel')}
               </p>
               <div className="space-y-2">
@@ -653,7 +653,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
                 <ul className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
                   {report.axes.map((ax) => (
                     <li key={ax.axis} className="border border-white/10 p-2">
-                      <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: tier.color }}>
+                      <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: tier.color }}>
                         {tUai(`constitution.${ax.axis}`)}
                       </p>
                       <p className="mt-1 text-[11px] leading-snug text-gray-300">{ax.redesign}</p>
@@ -666,7 +666,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
 
           {/* Global pulse gauge */}
           <div>
-            <div className="mb-1 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.25em] text-gray-500">
+            <div className="mb-1 flex items-center justify-between text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500">
               <span className="flex items-center gap-1.5">
                 <Activity size={10} aria-hidden="true" />
                 {tModal('pulseLabel')}
@@ -692,7 +692,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
           {/* PRIMARY live trend feed -- real titles + URLs from the open web,
               directly tied to this tier's main description. */}
           <div>
-            <p className="mb-1 text-[9px] font-bold uppercase tracking-[0.25em] text-gray-500">{tModal('feedLabel')}</p>
+            <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500">{tModal('feedLabel')}</p>
             {analysis.web.sources.length > 0 ? (
               <ul className="space-y-1">
                 {analysis.web.sources.slice(0, 5).map((source) => (
@@ -724,7 +724,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
               every scored doctrine axis (each angle nests a new tier), plus
               any live sources beyond the primary five. */}
           <div>
-            <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.25em] text-gray-500">
+            <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500">
               {tModal('multiFeedLabel')}
             </p>
             <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
@@ -779,7 +779,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
               tier beneath, so the ladder invites endless clicking. */}
           {(analysis.keywords.length > 0 || extraChips.length > 0) && (
             <div>
-              <p className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.25em] text-gray-500">
+              <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500">
                 {tModal('keywordsLabel')}
               </p>
               <div className="flex flex-wrap gap-1.5">

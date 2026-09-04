@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Wereldwijde Themaranglijsten",
+    "label": "Live Hot-Issue Ranglijst",
     "hint": "Tik op een thema voor de top 10 — laad meer om dieper te graven.",
     "loadMoreRange": "Toon plek {from}-{to}",
     "collapseAria": "Sluiten",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "Kaskrakers Aller Tijden",
         "description": "De best verdienende films wereldwijd, niet gecorrigeerd voor inflatie."
+      },
+      "youtubeViews": {
+        "title": "Meest bekeken YouTube-video's",
+        "description": "De meest bekeken video's in de geschiedenis van YouTube, op basis van weergaven."
+      },
+      "esportsEarnings": {
+        "title": "Esports- en gamingprijzengeld",
+        "description": "De grootste esporttitels gerangschikt op totaal gewonnen prijzengeld."
+      },
+      "albumSales": {
+        "title": "Bestverkochte albums aller tijden",
+        "description": "De bestverkochte muziekalbums uit de geschiedenis, op geschat aantal verkochte exemplaren."
+      },
+      "humanRecords": {
+        "title": "Legendarische menselijke records",
+        "description": "De meest legendarische individuele menselijke prestaties en records ooit geverifieerd."
       }
+    },
+    "entryDetailAria": "Bekijk details van {name}"
+  },
+  "UnitasRankings": {
+    "label": "Realtime Unitas-ranglijst",
+    "hint": "Een pseudonieme, geaggregeerde activiteitenranglijst over alle UNITAS-modules — tik op een module en vervolgens op een positie om een profiel te bekijken.",
+    "disclaimer": "Gesimuleerde geaggregeerde activiteitenindex met pseudonieme namen — geen echte persoonsgegevens.",
+    "viewProfileAria": "Bekijk profiel van {handle}",
+    "tier": {
+      "sovereign": "Sovereign",
+      "platinum": "Platina",
+      "gold": "Goud"
+    },
+    "profile": {
+      "moduleLabel": "Module",
+      "rankLabel": "Wereldwijde positie",
+      "scoreLabel": "Bijdrage-index"
+    },
+    "bio": {
+      "0": "Een Genesis Cohort-operator met de meest aanhoudende activiteit binnen {module} deze cyclus.",
+      "1": "Klom op de {module}-ranglijst door consistente dagelijkse betrokkenheid in plaats van één hoge score.",
+      "2": "Een van de vroegste gebruikers van {module}, nog steeds actief aan de top van de ranglijst.",
+      "3": "Bekend binnen de {module}-community om consistente, stabiele bijdragepatronen.",
+      "4": "Een module-overschrijdende operator wiens {module}-activiteitenindex meerdere cycli lang topniveau heeft behouden.",
+      "5": "Erkend binnen {module} voor aanhoudende betrokkenheid ruim boven de mediane activiteitenindex van de module."
     }
   }
 }

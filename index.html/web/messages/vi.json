@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Bảng Xếp Hạng Chủ Đề Toàn Cầu",
+    "label": "Bảng Xếp Hạng Chủ Đề Nóng Trực Tiếp",
     "hint": "Chạm vào một chủ đề để xem top 10 — tải thêm để khám phá sâu hơn.",
     "loadMoreRange": "Xem hạng {from}-{to}",
     "collapseAria": "Đóng",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "Những Bộ Phim Ăn Khách Nhất Mọi Thời Đại",
         "description": "Những bộ phim có doanh thu cao nhất toàn cầu, chưa điều chỉnh theo lạm phát."
+      },
+      "youtubeViews": {
+        "title": "Video YouTube Được Xem Nhiều Nhất",
+        "description": "Những video được xem nhiều nhất trong lịch sử YouTube, theo số lượt xem."
+      },
+      "esportsEarnings": {
+        "title": "Tiền Thưởng Esports & Game",
+        "description": "Các tựa game esports lớn nhất xếp hạng theo tổng tiền thưởng thi đấu mọi thời đại."
+      },
+      "albumSales": {
+        "title": "Album Bán Chạy Nhất Mọi Thời Đại",
+        "description": "Những album âm nhạc bán chạy nhất trong lịch sử, theo số lượng bán ước tính."
+      },
+      "humanRecords": {
+        "title": "Kỷ Lục Con Người Huyền Thoại",
+        "description": "Những thành tích và kỷ lục cá nhân con người huyền thoại nhất từng được xác minh."
       }
+    },
+    "entryDetailAria": "Xem chi tiết về {name}"
+  },
+  "UnitasRankings": {
+    "label": "Bảng Xếp Hạng Unitas Thời Gian Thực",
+    "hint": "Bảng xếp hạng hoạt động tổng hợp, ẩn danh trên mọi module UNITAS — chạm vào một module, sau đó chạm vào một thứ hạng để xem hồ sơ người đóng góp.",
+    "disclaimer": "Chỉ số hoạt động tổng hợp mô phỏng sử dụng bí danh — không phải dữ liệu cá nhân thực.",
+    "viewProfileAria": "Xem hồ sơ của {handle}",
+    "tier": {
+      "sovereign": "Sovereign",
+      "platinum": "Bạch Kim",
+      "gold": "Vàng"
+    },
+    "profile": {
+      "moduleLabel": "Module",
+      "rankLabel": "Thứ Hạng Toàn Cầu",
+      "scoreLabel": "Chỉ Số Đóng Góp"
+    },
+    "bio": {
+      "0": "Một nhà vận hành Genesis Cohort có hoạt động bền bỉ nhất trong {module} ở chu kỳ này.",
+      "1": "Leo lên bảng xếp hạng {module} nhờ sự tham gia hàng ngày đều đặn thay vì một điểm số cao duy nhất.",
+      "2": "Một trong những người dùng {module} sớm nhất, vẫn hoạt động ở vị trí dẫn đầu bảng xếp hạng.",
+      "3": "Được biết đến trong cộng đồng {module} nhờ mô hình đóng góp ổn định, nhất quán.",
+      "4": "Một nhà vận hành đa module có chỉ số hoạt động {module} duy trì ở nhóm hàng đầu qua nhiều chu kỳ.",
+      "5": "Được ghi nhận trong {module} vì sự tham gia bền bỉ vượt xa chỉ số hoạt động trung vị của module."
     }
   }
 }

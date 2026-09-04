@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Globaalsed teemapõhised edetabelid",
+    "label": "Otsepilt: Kuumade Teemade Edetabel",
     "hint": "Puuduta teemat, et näha selle esikümmet — laadi rohkem, et süveneda.",
     "loadMoreRange": "Näita kohti {from}-{to}",
     "collapseAria": "Sulge",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "Kõigi aegade kassahitid",
         "description": "Maailma tulusaimad filmid, inflatsiooniga korrigeerimata."
+      },
+      "youtubeViews": {
+        "title": "Enim vaadatud YouTube'i videod",
+        "description": "YouTube'i ajaloo enim vaadatud videod vaatamiste arvu järgi."
+      },
+      "esportsEarnings": {
+        "title": "E-spordi ja mängude auhinnarahad",
+        "description": "Suurimad e-spordialad kogu aegade auhinnaraha järgi."
+      },
+      "albumSales": {
+        "title": "Kõigi aegade enim müüdud albumid",
+        "description": "Ajaloo enim müüdud muusikaalbumid hinnangulise müügi järgi."
+      },
+      "humanRecords": {
+        "title": "Legendaarsed inimrekordid",
+        "description": "Kõigi aegade legendaarseimad kinnitatud individuaalsed inimsaavutused ja rekordid."
       }
+    },
+    "entryDetailAria": "Vaata {name} üksikasju"
+  },
+  "UnitasRankings": {
+    "label": "Reaalajas Unitase Edetabel",
+    "hint": "Pseudonüümne, koondatud aktiivsuse edetabel kõigi UNITASE moodulite lõikes — puuduta moodulit ja seejärel kohta, et näha osaleja profiili.",
+    "disclaimer": "Simuleeritud koondatud aktiivsusindeks pseudonüümsete kasutajanimedega — mitte päris isikuandmed.",
+    "viewProfileAria": "Vaata kasutaja {handle} profiili",
+    "tier": {
+      "sovereign": "Suveräänne",
+      "platinum": "Plaatina",
+      "gold": "Kuld"
+    },
+    "profile": {
+      "moduleLabel": "Moodul",
+      "rankLabel": "Globaalne koht",
+      "scoreLabel": "Panuseindeks"
+    },
+    "bio": {
+      "0": "Genesis Cohorti operaator, kellel on selles tsüklis {module} sees kõige püsivam aktiivsus.",
+      "1": "Tõusis {module} edetabelis püsiva igapäevase tegevuse, mitte ühe suure tulemuse abil.",
+      "2": "Üks {module} varasemaid kasutajaid, endiselt aktiivne edetabeli tipus.",
+      "3": "Tuntud {module} kogukonnas stabiilse ja järjepideva panuse poolest.",
+      "4": "Mitme mooduli operaator, kelle {module} aktiivsusindeks on püsinud tipptasemel mitme tsükli jooksul.",
+      "5": "Tunnustatud {module}s püsiva tegevuse eest, mis ületab mooduli keskmist aktiivsusindeksit selgelt."
     }
   }
 }

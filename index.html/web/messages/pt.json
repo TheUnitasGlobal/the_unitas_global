@@ -1262,7 +1262,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Rankings Temáticos Globais",
+    "label": "Ranking de Temas em Alta ao Vivo",
     "hint": "Toque num tema para ver o top 10 — carregue mais para aprofundar.",
     "loadMoreRange": "Ver posições {from}-{to}",
     "collapseAria": "Fechar",
@@ -1300,7 +1300,48 @@
       "filmBoxOffice": {
         "title": "Campeões de Bilheteria de Todos os Tempos",
         "description": "Os filmes de maior bilheteria do mundo, sem ajuste pela inflação."
+      },
+      "youtubeViews": {
+        "title": "Vídeos Mais Vistos do YouTube",
+        "description": "Os vídeos mais assistidos da história do YouTube, por número de visualizações."
+      },
+      "esportsEarnings": {
+        "title": "Premiações de Esports e Games",
+        "description": "Os maiores títulos de esports classificados pelo prêmio acumulado histórico."
+      },
+      "albumSales": {
+        "title": "Álbuns Mais Vendidos de Todos os Tempos",
+        "description": "Os álbuns musicais mais vendidos da história, por unidades estimadas."
+      },
+      "humanRecords": {
+        "title": "Recordes Humanos Lendários",
+        "description": "As façanhas e recordes humanos individuais mais lendários já verificados."
       }
+    },
+    "entryDetailAria": "Ver detalhes de {name}"
+  },
+  "UnitasRankings": {
+    "label": "Ranking Unitas em Tempo Real",
+    "hint": "Um placar de atividade agregado e pseudônimo em todos os módulos UNITAS — toque em um módulo e depois em uma posição para ver o perfil de um colaborador.",
+    "disclaimer": "Índice de atividade agregado simulado usando identificadores pseudônimos — não são dados pessoais reais.",
+    "viewProfileAria": "Ver perfil de {handle}",
+    "tier": {
+      "sovereign": "Soberano",
+      "platinum": "Platina",
+      "gold": "Ouro"
+    },
+    "profile": {
+      "moduleLabel": "Módulo",
+      "rankLabel": "Ranking Global",
+      "scoreLabel": "Índice de Contribuição"
+    },
+    "bio": {
+      "0": "Um operador da Coorte Genesis com a atividade mais sustentada dentro de {module} neste ciclo.",
+      "1": "Subiu no ranking de {module} por meio de engajamento diário consistente, em vez de uma única pontuação alta.",
+      "2": "Um dos primeiros a adotar {module}, ainda ativo no topo do ranking.",
+      "3": "Reconhecido na comunidade {module} por padrões de contribuição consistentes e estáveis.",
+      "4": "Um operador multimódulo cujo índice de atividade em {module} manteve posição de destaque por vários ciclos.",
+      "5": "Reconhecido dentro de {module} por engajamento sustentado bem acima do índice de atividade mediano do módulo."
     }
   }
 }
