@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "Zapytaj U-AI o cokolwiek...",
+    "shortcutsStripLabel": "Skróty na Żywo",
     "browseLabel": "ODKRYJ PLATFORMĘ",
     "metricsLabel": "Metryki systemu",
     "liveKeywordsLabel": "Aktualne słowa kluczowe",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Ranking Gorących Tematów na Żywo",
+    "label": "Światowy Ranking na Żywo",
     "hint": "Dotknij tematu, aby zobaczyć jego top 10 — wczytaj więcej, aby zgłębić temat.",
     "loadMoreRange": "Pokaż miejsca {from}-{to}",
     "collapseAria": "Zamknij",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Ranking Unitas na żywo",
-    "hint": "Pseudonimowy, zbiorczy ranking aktywności we wszystkich modułach UNITAS — dotknij modułu, a następnie pozycji, aby zobaczyć profil uczestnika.",
     "disclaimer": "Symulowany zbiorczy wskaźnik aktywności z użyciem pseudonimów — to nie są prawdziwe dane osobowe.",
     "viewProfileAria": "Zobacz profil {handle}",
     "tier": {

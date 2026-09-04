@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "Ask U-AI anything...",
+    "shortcutsStripLabel": "Live Shortcuts",
     "browseLabel": "EXPLORE THE PLATFORM",
     "metricsLabel": "System Metrics",
     "liveKeywordsLabel": "Live Search Keywords",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Live Hot-Issue Rankings",
+    "label": "Live World Rankings",
     "hint": "Tap a theme to reveal its top 10 — then load more to go deeper.",
     "loadMoreRange": "Show ranks {from}-{to}",
     "collapseAria": "Close",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Real-Time Unitas Rankings",
-    "hint": "A pseudonymous, aggregate activity leaderboard across every UNITAS module — tap a module, then a rank, to see a contributor's profile.",
     "disclaimer": "Simulated aggregate activity index using pseudonymous handles — not real personal data.",
     "viewProfileAria": "View profile for {handle}",
     "tier": {

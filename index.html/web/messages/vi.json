@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "Hỏi U-AI bất cứ điều gì…",
+    "shortcutsStripLabel": "Lối Tắt Trực Tiếp",
     "browseLabel": "KHÁM PHÁ NỀN TẢNG",
     "metricsLabel": "Chỉ số hệ thống",
     "liveKeywordsLabel": "Từ khóa tìm kiếm trực tiếp",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Bảng Xếp Hạng Chủ Đề Nóng Trực Tiếp",
+    "label": "Bảng Xếp Hạng Thế Giới Trực Tiếp",
     "hint": "Chạm vào một chủ đề để xem top 10 — tải thêm để khám phá sâu hơn.",
     "loadMoreRange": "Xem hạng {from}-{to}",
     "collapseAria": "Đóng",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Bảng Xếp Hạng Unitas Thời Gian Thực",
-    "hint": "Bảng xếp hạng hoạt động tổng hợp, ẩn danh trên mọi module UNITAS — chạm vào một module, sau đó chạm vào một thứ hạng để xem hồ sơ người đóng góp.",
     "disclaimer": "Chỉ số hoạt động tổng hợp mô phỏng sử dụng bí danh — không phải dữ liệu cá nhân thực.",
     "viewProfileAria": "Xem hồ sơ của {handle}",
     "tier": {

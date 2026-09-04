@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "U-AIに何でも尋ねてください...",
+    "shortcutsStripLabel": "リアルタイムショートカット",
     "browseLabel": "プラットフォームを探索",
     "metricsLabel": "システムメトリクス",
     "liveKeywordsLabel": "リアルタイム検索キーワード",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "リアルタイム注目ランキング",
+    "label": "リアルタイム世界ランキング",
     "hint": "テーマをタップすると上位10位が表示されます — もっと見るでさらに深掘りできます。",
     "loadMoreRange": "{from}〜{to}位を見る",
     "collapseAria": "閉じる",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "リアルタイム・ユニタスランキング",
-    "hint": "全UNITASモジュールを横断した、匿名の活動集計リーダーボードです — モジュールを選び、順位をタップすると参加者プロフィールが表示されます。",
     "disclaimer": "匿名ハンドルを用いたシミュレーション上の集計活動指数であり、実在の個人データではありません。",
     "viewProfileAria": "{handle}のプロフィールを見る",
     "tier": {

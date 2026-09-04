@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "Chiedi qualsiasi cosa a U-AI...",
+    "shortcutsStripLabel": "Scorciatoie Live",
     "browseLabel": "ESPLORA LA PIATTAFORMA",
     "metricsLabel": "Metriche di Sistema",
     "liveKeywordsLabel": "Parole chiave di ricerca in tempo reale",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Classifica in Diretta dei Temi Caldi",
+    "label": "Classifica Mondiale in Diretta",
     "hint": "Tocca un tema per vedere la top 10 — carica altro per approfondire.",
     "loadMoreRange": "Mostra le posizioni {from}-{to}",
     "collapseAria": "Chiudi",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Classifica Unitas in tempo reale",
-    "hint": "Una classifica pseudonima e aggregata dell’attività in tutti i moduli UNITAS — tocca un modulo, poi una posizione, per vedere il profilo di un collaboratore.",
     "disclaimer": "Indice di attività aggregato simulato con pseudonimi — non sono dati personali reali.",
     "viewProfileAria": "Vedi il profilo di {handle}",
     "tier": {

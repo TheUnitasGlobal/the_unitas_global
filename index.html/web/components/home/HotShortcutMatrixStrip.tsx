@@ -13,6 +13,7 @@ import {
 } from '@/lib/hotIssues';
 import { EMAIL_SHORTCUTS, SOCIAL_SHORTCUTS, type DirectAppShortcut } from '@/lib/appShortcuts';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 import { HotIssueNewsList } from '@/components/home/HotIssueNewsList';
 import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
 import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
@@ -155,50 +156,70 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
           (owner instruction 2026-09-02). */}
       <p className="mb-3 flex items-center gap-2 px-4 text-[13px] font-bold uppercase tracking-[0.3em] text-accent sm:px-6">
         <LayoutGrid size={14} aria-hidden="true" />
-        U-AI Shortcuts
+        {t('shortcutsStripLabel')}
       </p>
-      {/* Themed tab banner row -- "가시적 그룹핑" (visible grouping). The former
-          핫이슈 tab's sub-shortcuts (게임/스포츠/영화/문화/사회/표현/전략) are
-          inlined right after 실시간 날씨 here instead of living behind their
-          own tab -- each opens onOpenShortcut's chained popup directly, same
-          as any other axis tile, rather than switching activeTab (owner
-          instruction 2026-09-04 round 2). */}
-      <div className="mb-4 flex flex-wrap gap-2 px-4 sm:px-6" role="tablist">
-        {TABS.flatMap((tab) => {
-          const tabButton = (
-            <button
-              key={tab}
-              type="button"
-              role="tab"
-              aria-selected={activeTab === tab}
-              onMouseEnter={() => playHoverSfx()}
-              onClick={() => selectTab(tab)}
-              className={`border px-3 py-2 text-[13px] font-bold uppercase tracking-widest transition-colors sm:px-4 sm:text-[15px] ${
-                activeTab === tab
-                  ? 'border-accent bg-accent/15 text-accent'
-                  : 'border-white/15 text-gray-400 hover:border-white/30 hover:text-white'
-              }`}
-            >
-              {t(`tab.${tab}`)}
-            </button>
-          );
-          if (tab !== 'weather') return [tabButton];
-          const subShortcuts = itemsInGroup('hotIssue').map((axis) => (
-            <button
-              key={axis.key}
-              type="button"
-              title={t('shortcutMatrixHint')}
-              onMouseEnter={() => playHoverSfx()}
-              onClick={() => onOpenShortcut(axis)}
-              style={{ borderColor: `${axis.color}44` }}
-              className="flex items-center gap-1.5 border px-3 py-2 text-[13px] font-bold uppercase tracking-widest text-gray-400 transition-colors hover:border-white/30 hover:text-white sm:px-4 sm:text-[15px]"
-            >
-              <axis.icon size={14} style={{ color: axis.color }} aria-hidden="true" />
-              {axisTitle(axis, axisT)}
-            </button>
-          ));
-          return [tabButton, ...subShortcuts];
-        })}
+      {/* Themed tab banner row -- "실시간 날씨" stays pinned as a fixed lead
+          tile; every other tab button plus the former 핫이슈 tab's inlined
+          sub-shortcuts (게임/스포츠/영화/문화/사회/표현/전략, each opening
+          onOpenShortcut's chained popup directly rather than switching
+          activeTab) now ride a single-row, drag/swipe-able auto-drifting
+          carousel beside it instead of wrapping across lines (owner
+          instruction 2026-09-04 round 4: "1행 회전형 정렬"). */}
+      <div className="mb-4 flex items-center gap-2 px-4 sm:px-6" role="tablist">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === 'weather'}
+          onMouseEnter={() => playHoverSfx()}
+          onClick={() => selectTab('weather')}
+          className={`shrink-0 border px-3 py-2 text-[13px] font-bold uppercase tracking-widest transition-colors sm:px-4 sm:text-[15px] ${
+            activeTab === 'weather'
+              ? 'border-accent bg-accent/15 text-accent'
+              : 'border-white/15 text-gray-400 hover:border-white/30 hover:text-white'
+          }`}
+        >
+          {t('tab.weather')}
+        </button>
+        <DraggableCarouselRow
+          className="min-w-0 flex-1"
+          items={[
+            ...itemsInGroup('hotIssue').map((axis) => ({
+              id: `sub-${axis.key}`,
+              render: () => (
+                <button
+                  type="button"
+                  title={t('shortcutMatrixHint')}
+                  onMouseEnter={() => playHoverSfx()}
+                  onClick={() => onOpenShortcut(axis)}
+                  style={{ borderColor: `${axis.color}44` }}
+                  className="flex items-center gap-1.5 border px-3 py-2 text-[13px] font-bold uppercase tracking-widest text-gray-400 transition-colors hover:border-white/30 hover:text-white sm:px-4 sm:text-[15px]"
+                >
+                  <axis.icon size={14} style={{ color: axis.color }} aria-hidden="true" />
+                  {axisTitle(axis, axisT)}
+                </button>
+              ),
+            })),
+            ...TABS.filter((tab) => tab !== 'weather').map((tab) => ({
+              id: `tab-${tab}`,
+              render: () => (
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === tab}
+                  onMouseEnter={() => playHoverSfx()}
+                  onClick={() => selectTab(tab)}
+                  className={`border px-3 py-2 text-[13px] font-bold uppercase tracking-widest transition-colors sm:px-4 sm:text-[15px] ${
+                    activeTab === tab
+                      ? 'border-accent bg-accent/15 text-accent'
+                      : 'border-white/15 text-gray-400 hover:border-white/30 hover:text-white'
+                  }`}
+                >
+                  {t(`tab.${tab}`)}
+                </button>
+              ),
+            })),
+          ]}
+        />
       </div>
 
       <AnimatePresence mode="wait">

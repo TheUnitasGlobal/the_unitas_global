@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "Vraag U-AI wat dan ook...",
+    "shortcutsStripLabel": "Live Snelkoppelingen",
     "browseLabel": "VERKEN HET PLATFORM",
     "metricsLabel": "Systeemstatistieken",
     "liveKeywordsLabel": "Live zoekwoorden",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Live Hot-Issue Ranglijst",
+    "label": "Live Wereldranglijst",
     "hint": "Tik op een thema voor de top 10 — laad meer om dieper te graven.",
     "loadMoreRange": "Toon plek {from}-{to}",
     "collapseAria": "Sluiten",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Realtime Unitas-ranglijst",
-    "hint": "Een pseudonieme, geaggregeerde activiteitenranglijst over alle UNITAS-modules — tik op een module en vervolgens op een positie om een profiel te bekijken.",
     "disclaimer": "Gesimuleerde geaggregeerde activiteitenindex met pseudonieme namen — geen echte persoonsgegevens.",
     "viewProfileAria": "Bekijk profiel van {handle}",
     "tier": {

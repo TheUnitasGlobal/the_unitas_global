@@ -13,6 +13,7 @@ import {
 } from '@/lib/globalRankings';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
+import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 import { useRankingDetail } from '@/lib/uai/rankingDetailClient';
 
 /**
@@ -83,27 +84,29 @@ export function GlobalThemeRankings() {
         {t('label')}
       </p>
 
-      <div className="flex flex-wrap gap-2.5 sm:gap-3">
-        {GLOBAL_RANKING_THEMES.map((theme) => {
-          const active = expandedKey === theme.key;
-          return (
-            <button
-              key={theme.key}
-              type="button"
-              aria-expanded={active}
-              onMouseEnter={() => playHoverSfx()}
-              onClick={() => openTheme(theme.key)}
-              style={{ borderColor: `${theme.color}44`, backgroundColor: active ? `${theme.color}14` : undefined }}
-              className="flex shrink-0 items-center gap-2.5 border bg-void/50 px-4 py-3 text-left transition-colors hover:bg-void/80"
-            >
-              <theme.icon size={18} style={{ color: theme.color }} aria-hidden="true" />
-              <span className="whitespace-nowrap text-[15px] font-bold text-white sm:text-base">
-                {t(`themes.${theme.key}.title`)}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+      <DraggableCarouselRow
+        items={GLOBAL_RANKING_THEMES.map((theme) => ({
+          id: theme.key,
+          render: () => {
+            const active = expandedKey === theme.key;
+            return (
+              <button
+                type="button"
+                aria-expanded={active}
+                onMouseEnter={() => playHoverSfx()}
+                onClick={() => openTheme(theme.key)}
+                style={{ borderColor: `${theme.color}44`, backgroundColor: active ? `${theme.color}14` : undefined }}
+                className="flex shrink-0 items-center gap-2.5 border bg-void/50 px-4 py-3 text-left transition-colors hover:bg-void/80"
+              >
+                <theme.icon size={18} style={{ color: theme.color }} aria-hidden="true" />
+                <span className="whitespace-nowrap text-[15px] font-bold text-white sm:text-base">
+                  {t(`themes.${theme.key}.title`)}
+                </span>
+              </button>
+            );
+          },
+        }))}
+      />
 
       {expandedTheme && (
         <div className="mt-3 border border-white/10 bg-void/40 p-4">

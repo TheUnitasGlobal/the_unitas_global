@@ -545,7 +545,7 @@ export function OmniSynapseSearch({
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          className={`flex items-center gap-3 border bg-white/[0.04] px-6 py-5 backdrop-blur-2xl transition-all duration-300 ${
+          className={`flex items-center gap-1.5 border bg-white/[0.04] px-3 py-4 backdrop-blur-2xl transition-all duration-300 sm:gap-3 sm:px-6 sm:py-5 ${
             dragActive ? 'border-neon' : focused ? 'border-accent' : 'border-white/15'
           }`}
           style={
@@ -556,14 +556,21 @@ export function OmniSynapseSearch({
                 : undefined
           }
         >
-          <Search size={20} className="shrink-0 text-accent" aria-hidden="true" />
+          <Search size={20} className="h-4 w-4 shrink-0 text-accent sm:h-5 sm:w-5" aria-hidden="true" />
           <input
             type="text"
             value={value}
             onChange={handleChange}
             onFocus={handleFocus}
             placeholder={dragActive ? t('dropZoneHint') : t('placeholder')}
-            className="w-full bg-transparent text-[19px] text-white placeholder:text-gray-400 focus:outline-none"
+            // Continuous viewport-width scaling (not a discrete breakpoint)
+            // so every locale's placeholder -- some nearly twice ko's length
+            // (owner instruction 2026-09-04 round 4: no clipping on any
+            // device) -- always fits the shrinking box with no cliff-edge
+            // width where one language just barely overflows; caps at the
+            // original 19px from 640px (sm) up, unchanged from before.
+            style={{ fontSize: 'clamp(10px, 1px + 2.8125vw, 19px)' }}
+            className="w-full min-w-0 bg-transparent text-white placeholder:text-gray-400 focus:outline-none"
           />
           <input
             ref={fileInputRef}
@@ -588,7 +595,7 @@ export function OmniSynapseSearch({
             onClick={() => fileInputRef.current?.click()}
             className="shrink-0 text-gray-600 transition-colors hover:text-neon"
           >
-            <Paperclip size={20} aria-hidden="true" />
+            <Paperclip size={20} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -597,7 +604,7 @@ export function OmniSynapseSearch({
             onClick={() => videoInputRef.current?.click()}
             className="shrink-0 text-gray-600 transition-colors hover:text-neon"
           >
-            <Video size={20} aria-hidden="true" />
+            <Video size={20} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -606,7 +613,7 @@ export function OmniSynapseSearch({
             onClick={() => setDrawOpen(true)}
             className="shrink-0 text-gray-600 transition-colors hover:text-neon"
           >
-            <PenTool size={20} aria-hidden="true" />
+            <PenTool size={20} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </button>
           {/* Real keyboard-Enter submit key (same ⏎ symbol as the tower's
               추가검색 bar), so running the search is a visible control, not
@@ -616,9 +623,9 @@ export function OmniSynapseSearch({
             title={t('searchSubmitAria')}
             aria-label={t('searchSubmitAria')}
             disabled={(!value.trim() && attachments.length === 0) || uai.phase === 'surface-loading'}
-            className="flex shrink-0 items-center justify-center border border-accent/50 p-1.5 text-accent transition-colors hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex shrink-0 items-center justify-center border border-accent/50 p-1 text-accent transition-colors hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-40 sm:p-1.5"
           >
-            <CornerDownLeft size={20} aria-hidden="true" />
+            <CornerDownLeft size={20} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </button>
         </div>
 

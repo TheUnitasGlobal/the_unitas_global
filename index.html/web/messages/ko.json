@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "U-AI에게 무엇이든 물어보세요...",
+    "shortcutsStripLabel": "실시간 숏컷",
     "browseLabel": "플랫폼 탐색",
     "metricsLabel": "시스템 메트릭스",
     "liveKeywordsLabel": "실시간 검색 키워드",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "실시간 핫이슈 랭킹",
+    "label": "실시간 세계 랭킹",
     "hint": "테마를 선택하면 1위부터 순위를 확인할 수 있습니다 — 더보기로 더 깊이 탐색하세요.",
     "loadMoreRange": "{from}~{to}위 보기",
     "collapseAria": "닫기",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "실시간 유니타스 랭킹",
-    "hint": "전 유니타스 모듈의 익명 활동 지수 순위표입니다 — 모듈을 선택한 뒤 순위를 탭하면 참여자 프로필을 볼 수 있습니다.",
     "disclaimer": "익명 핸들을 사용한 시뮬레이션 집계 활동 지수이며, 실제 개인정보가 아닙니다.",
     "viewProfileAria": "{handle} 프로필 보기",
     "tier": {

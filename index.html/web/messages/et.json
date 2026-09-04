@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "Küsi U-AI-lt ükskõik mida...",
+    "shortcutsStripLabel": "Otsepilt: Otseteed",
     "browseLabel": "AVASTA PLATVORMI",
     "metricsLabel": "Süsteemi Mõõdikud",
     "liveKeywordsLabel": "Reaalajas otsingusõnad",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Otsepilt: Kuumade Teemade Edetabel",
+    "label": "Otsepilt: Maailma Edetabel",
     "hint": "Puuduta teemat, et näha selle esikümmet — laadi rohkem, et süveneda.",
     "loadMoreRange": "Näita kohti {from}-{to}",
     "collapseAria": "Sulge",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Reaalajas Unitase Edetabel",
-    "hint": "Pseudonüümne, koondatud aktiivsuse edetabel kõigi UNITASE moodulite lõikes — puuduta moodulit ja seejärel kohta, et näha osaleja profiili.",
     "disclaimer": "Simuleeritud koondatud aktiivsusindeks pseudonüümsete kasutajanimedega — mitte päris isikuandmed.",
     "viewProfileAria": "Vaata kasutaja {handle} profiili",
     "tier": {

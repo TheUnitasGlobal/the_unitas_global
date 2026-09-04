@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "Fragen Sie U-AI alles …",
+    "shortcutsStripLabel": "Live-Shortcuts",
     "browseLabel": "DIE PLATTFORM ERKUNDEN",
     "metricsLabel": "Systemmetriken",
     "liveKeywordsLabel": "Live-Suchbegriffe",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Live-Rangliste der Top-Themen",
+    "label": "Live-Weltrangliste",
     "hint": "Tippe auf ein Thema, um die Top 10 zu sehen — lade mehr, um tiefer einzutauchen.",
     "loadMoreRange": "Plätze {from}-{to} anzeigen",
     "collapseAria": "Schließen",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Echtzeit-Unitas-Rangliste",
-    "hint": "Eine pseudonyme, aggregierte Aktivitäts-Rangliste über alle UNITAS-Module — Modul und dann einen Rang antippen, um ein Profil zu sehen.",
     "disclaimer": "Simulierter aggregierter Aktivitätsindex mit pseudonymen Kennungen — keine echten personenbezogenen Daten.",
     "viewProfileAria": "Profil von {handle} anzeigen",
     "tier": {

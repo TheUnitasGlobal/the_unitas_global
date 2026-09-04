@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "Tanya apa saja kepada U-AI…",
+    "shortcutsStripLabel": "Pintasan Langsung",
     "browseLabel": "JELAJAHI PLATFORM",
     "metricsLabel": "Metrik Sistem",
     "liveKeywordsLabel": "Kata Kunci Pencarian Langsung",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Peringkat Isu Hangat Langsung",
+    "label": "Peringkat Dunia Langsung",
     "hint": "Ketuk tema untuk melihat 10 teratas — muat lebih banyak untuk menjelajah lebih dalam.",
     "loadMoreRange": "Lihat peringkat {from}-{to}",
     "collapseAria": "Tutup",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Peringkat Unitas Real-Time",
-    "hint": "Papan peringkat aktivitas agregat dan pseudonim di seluruh modul UNITAS — ketuk sebuah modul, lalu peringkat, untuk melihat profil kontributor.",
     "disclaimer": "Indeks aktivitas agregat simulasi menggunakan nama samaran — bukan data pribadi nyata.",
     "viewProfileAria": "Lihat profil {handle}",
     "tier": {

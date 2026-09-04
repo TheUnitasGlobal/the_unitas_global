@@ -13,6 +13,7 @@ import {
 } from '@/lib/unitasRankings';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
+import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 
 const TIER_COLOR: Record<UnitasRankingTier, string> = {
   sovereign: '#d4af37',
@@ -54,26 +55,27 @@ export function UnitasModuleRankings() {
         <UsersRound size={14} aria-hidden="true" />
         {t('label')}
       </p>
-      <p className="mb-3 text-[12px] text-gray-400">{t('hint')}</p>
 
-      <div className="flex flex-wrap gap-2">
-        {MODULE_REGISTRY.map((module) => (
-          <button
-            key={module.key}
-            type="button"
-            aria-expanded={activeModule?.key === module.key}
-            onMouseEnter={() => playHoverSfx()}
-            onClick={() => openModule(module)}
-            className={`border px-3 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors sm:text-[13px] ${
-              activeModule?.key === module.key
-                ? 'border-accent bg-accent/15 text-accent'
-                : 'border-white/15 text-gray-400 hover:border-white/30 hover:text-white'
-            }`}
-          >
-            {titleFor(module)}
-          </button>
-        ))}
-      </div>
+      <DraggableCarouselRow
+        items={MODULE_REGISTRY.map((module) => ({
+          id: module.key,
+          render: () => (
+            <button
+              type="button"
+              aria-expanded={activeModule?.key === module.key}
+              onMouseEnter={() => playHoverSfx()}
+              onClick={() => openModule(module)}
+              className={`border px-3 py-2 text-[12px] font-bold uppercase tracking-widest transition-colors sm:text-[13px] ${
+                activeModule?.key === module.key
+                  ? 'border-accent bg-accent/15 text-accent'
+                  : 'border-white/15 text-gray-400 hover:border-white/30 hover:text-white'
+              }`}
+            >
+              {titleFor(module)}
+            </button>
+          ),
+        }))}
+      />
 
       {activeModule && (
         <div className="mt-3 border border-white/10 bg-void/40 p-4">

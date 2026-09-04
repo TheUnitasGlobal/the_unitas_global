@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "Pergunte qualquer coisa à U-AI…",
+    "shortcutsStripLabel": "Atalhos ao Vivo",
     "browseLabel": "EXPLORAR A PLATAFORMA",
     "metricsLabel": "Métricas do sistema",
     "liveKeywordsLabel": "Palavras-chave de pesquisa em tempo real",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Ranking de Temas em Alta ao Vivo",
+    "label": "Ranking Mundial ao Vivo",
     "hint": "Toque num tema para ver o top 10 — carregue mais para aprofundar.",
     "loadMoreRange": "Ver posições {from}-{to}",
     "collapseAria": "Fechar",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Ranking Unitas em Tempo Real",
-    "hint": "Um placar de atividade agregado e pseudônimo em todos os módulos UNITAS — toque em um módulo e depois em uma posição para ver o perfil de um colaborador.",
     "disclaimer": "Índice de atividade agregado simulado usando identificadores pseudônimos — não são dados pessoais reais.",
     "viewProfileAria": "Ver perfil de {handle}",
     "tier": {

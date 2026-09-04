@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "向 U-AI 提出任何问题...",
+    "shortcutsStripLabel": "实时快捷方式",
     "browseLabel": "探索平台",
     "metricsLabel": "系统指标",
     "liveKeywordsLabel": "实时搜索关键词",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "实时热点话题排行榜",
+    "label": "实时世界排行榜",
     "hint": "点击主题查看前10名——点击加载更多以深入探索。",
     "loadMoreRange": "查看第{from}-{to}名",
     "collapseAria": "关闭",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "实时Unitas排行榜",
-    "hint": "跨所有UNITAS模块的匿名综合活跃度排行榜——点击模块,再点击名次,即可查看贡献者档案。",
     "disclaimer": "使用匿名昵称的模拟综合活跃度指数,并非真实个人数据。",
     "viewProfileAria": "查看{handle}的档案",
     "tier": {

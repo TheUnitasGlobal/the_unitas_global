@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "U-AI'ye her şeyi sorun...",
+    "shortcutsStripLabel": "Canlı Kısayollar",
     "browseLabel": "PLATFORMU KEŞFEDİN",
     "metricsLabel": "Sistem Metrikleri",
     "liveKeywordsLabel": "Canlı Arama Anahtar Kelimeleri",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Canlı Gündem Sıralaması",
+    "label": "Canlı Dünya Sıralaması",
     "hint": "İlk 10'u görmek için bir temaya dokunun — daha derine inmek için daha fazla yükleyin.",
     "loadMoreRange": "{from}-{to}. sıraları göster",
     "collapseAria": "Kapat",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Gerçek Zamanlı Unitas Sıralaması",
-    "hint": "Tüm UNITAS modüllerinde takma adla toplu bir aktivite lider tablosu — bir katılımcının profilini görmek için bir modüle, ardından bir sıraya dokunun.",
     "disclaimer": "Takma adlar kullanılarak simüle edilmiş toplu aktivite endeksi — gerçek kişisel veri değildir.",
     "viewProfileAria": "{handle} profilini görüntüle",
     "tier": {

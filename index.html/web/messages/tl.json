@@ -321,6 +321,7 @@
   },
   "OmniSynapse": {
     "placeholder": "Tanungin ang U-AI ng kahit ano...",
+    "shortcutsStripLabel": "Live na Shortcut",
     "browseLabel": "SALIKSIKIN ANG PLATFORM",
     "metricsLabel": "System Metrics",
     "liveKeywordsLabel": "Live na Search Keywords",
@@ -1262,7 +1263,7 @@
     }
   },
   "GlobalRankings": {
-    "label": "Live na Ranggo ng Mainit na Isyu",
+    "label": "Live na Pandaigdigang Ranggo",
     "hint": "I-tap ang isang tema para makita ang top 10 nito — mag-load pa para lumalim.",
     "loadMoreRange": "Tingnan ang ranggo {from}-{to}",
     "collapseAria": "Isara",
@@ -1326,7 +1327,6 @@
   },
   "UnitasRankings": {
     "label": "Real-Time na Ranggo ng Unitas",
-    "hint": "Isang pseudonymous at pinagsamang leaderboard ng aktibidad sa lahat ng module ng UNITAS — pindutin ang isang module, pagkatapos ang isang ranggo, para makita ang profile ng isang kontribyutor.",
     "disclaimer": "Ginayang pinagsamang activity index gamit ang mga pseudonymous handle — hindi tunay na personal na datos.",
     "viewProfileAria": "Tingnan ang profile ni {handle}",
     "tier": {

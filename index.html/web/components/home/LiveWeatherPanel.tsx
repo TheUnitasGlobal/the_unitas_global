@@ -308,6 +308,17 @@ async function geocode(name: string, locale: string, signal: AbortSignal, count 
   return geocodeViaWikipedia(name, locale, signal, count);
 }
 
+/** Squared-distance nearest pick -- used to disambiguate when a reverse-label
+ *  city name resolves to more than one same-named place worldwide. */
+function nearestPlace(candidates: Place[], lat: number, lon: number): Place | null {
+  if (candidates.length === 0) return null;
+  return candidates.reduce((best, c) => {
+    const d = (c.lat - lat) ** 2 + (c.lon - lon) ** 2;
+    const bd = (best.lat - lat) ** 2 + (best.lon - lon) ** 2;
+    return d < bd ? c : best;
+  });
+}
+
 interface ReverseLabel {
   name: string;
   admin1?: string;
@@ -457,12 +468,32 @@ export function LiveWeatherPanel() {
         const controller = new AbortController();
         const reverse = await reverseLabel(lat, lon, locale, controller.signal);
         setLocating(false);
-        void load(
-          reverse
-            ? { name: reverse.name, admin1: reverse.admin1, country: reverse.country, lat, lon }
-            : { name: t('myLocation'), lat, lon },
-          true,
-        );
+
+        if (reverse) {
+          // Re-resolve the reverse-geocoded name through the SAME forward
+          // geocoding pipeline the manual city search box uses (Open-Meteo
+          // gazetteer + Wikipedia fallback) instead of trusting
+          // BigDataCloud's own admin-level naming as-is -- this is the only
+          // way "내 위치" and a typed search of that exact city are
+          // guaranteed to land on identical name/admin1/country/isState/
+          // isCountry fields (owner instruction 2026-09-04 round 4). GPS
+          // coordinates stay authoritative for the forecast fetch; only the
+          // display fields come from the re-resolved record.
+          try {
+            const resolved = await geocode(reverse.name, locale, controller.signal, 5);
+            const best = nearestPlace(resolved, lat, lon);
+            if (best) {
+              void load({ ...best, lat, lon }, true);
+              return;
+            }
+          } catch {
+            // fall through to the raw reverse label below
+          }
+          void load({ name: reverse.name, admin1: reverse.admin1, country: reverse.country, lat, lon }, true);
+          return;
+        }
+
+        void load({ name: t('myLocation'), lat, lon }, true);
       },
       () => {
         setLocating(false);
