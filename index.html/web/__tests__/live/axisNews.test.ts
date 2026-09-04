@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   AXIS_NEWS_MAX_PAGE,
+  bingNewsUrl,
   decodeEntities,
   foldGdelt,
   foldGoogleNews,
@@ -9,6 +10,7 @@ import {
   gdeltQuery,
   gdeltUrl,
   gdeltWindow,
+  googleNewsGlobalUrl,
   googleNewsUrl,
   isGdeltRateLimited,
   mergeAxisWires,
@@ -98,6 +100,29 @@ describe('Google News RSS', () => {
     expect(new URL(googleNewsUrl('economy', 'ko', 1)).searchParams.get('q')).toBe('economy');
     expect(new URL(googleNewsUrl('economy', 'ko', 2)).searchParams.get('q')).toBe('inflation');
     expect(new URL(googleNewsUrl('economy', 'ko', 7)).searchParams.get('q')).toBe('economy');
+  });
+
+  it('builds Bing market + global legs and folds News:Source', () => {
+    const local = new URL(bingNewsUrl('law', 'ko', 0) ?? '');
+    expect(local.searchParams.get('format')).toBe('rss');
+    expect(local.searchParams.get('cc')).toBe('KR');
+    expect(local.searchParams.get('q')).toBe('court');
+    expect(new URL(bingNewsUrl('law', 'ko', 1) ?? '').searchParams.get('q')).toBe('lawsuit');
+    expect(new URL(bingNewsUrl('law', 'ko', 1, true) ?? '').searchParams.get('setlang')).toBe('en-US');
+    expect(bingNewsUrl('law', 'en', 0, true)).toBeNull();
+    const parsed = parseRss('<rss><channel><item><title>Bing story</title><link>https://outlet.example/a</link><News:Source>Outlet</News:Source></item></channel></rss>');
+    expect(parsed[0].sourceName).toBe('Outlet');
+    const folded = foldGoogleNews(parsed, 'law', 'ko', 'bing');
+    expect(folded[0].id.startsWith('live:bing:')).toBe(true);
+    expect(folded[0].domain).toBe('Outlet');
+  });
+
+  it('adds the en-US worldwide search leg for every non-US edition', () => {
+    expect(googleNewsGlobalUrl('law', 'en')).toBeNull();
+    expect(googleNewsGlobalUrl('law', 'et')).toBeNull(); // Estonian falls back to the en-US edition already
+    const ko = new URL(googleNewsGlobalUrl('law', 'ko', 2) ?? '');
+    expect(ko.searchParams.get('ceid')).toBe('US:en');
+    expect(ko.searchParams.get('q')).toBe('lawsuit');
   });
 
   it('parses items, strips outlet suffixes and decodes entities', () => {

@@ -113,6 +113,32 @@ export const GOOGLE_NEWS_EDITION: Record<string, { hl: string; gl: string }> = {
   tl: { hl: 'en-PH', gl: 'PH' },
 };
 
+/** Bing News market (cc / setlang) per locale -- the third, independent
+ *  keyword wire. Bing has its own edition list; locales without one use the
+ *  en-US market. */
+export const BING_NEWS_MARKET: Record<string, { cc: string; setlang: string }> = {
+  en: { cc: 'US', setlang: 'en-US' },
+  ko: { cc: 'KR', setlang: 'ko' },
+  et: { cc: 'US', setlang: 'en-US' },
+  ja: { cc: 'JP', setlang: 'ja' },
+  zh: { cc: 'CN', setlang: 'zh-hans' },
+  es: { cc: 'ES', setlang: 'es' },
+  km: { cc: 'US', setlang: 'en-US' },
+  fr: { cc: 'FR', setlang: 'fr' },
+  de: { cc: 'DE', setlang: 'de' },
+  pt: { cc: 'BR', setlang: 'pt-br' },
+  vi: { cc: 'VN', setlang: 'vi' },
+  id: { cc: 'ID', setlang: 'id' },
+  ru: { cc: 'RU', setlang: 'ru' },
+  hi: { cc: 'IN', setlang: 'hi' },
+  it: { cc: 'IT', setlang: 'it' },
+  tr: { cc: 'TR', setlang: 'tr' },
+  th: { cc: 'TH', setlang: 'th' },
+  pl: { cc: 'PL', setlang: 'pl' },
+  nl: { cc: 'NL', setlang: 'nl' },
+  tl: { cc: 'PH', setlang: 'en-US' },
+};
+
 /** Google News topic board per axis where one exists; the rest use the
  *  keyword search feed instead. */
 export const GOOGLE_NEWS_TOPIC: Partial<Record<HotNewsCategory, string>> = {
@@ -197,6 +223,54 @@ export function googleNewsUrl(axis: HotNewsCategory, locale: string, page = 0): 
   const q = page === 0 ? terms.slice(0, 5).join(' OR ') : terms[(page - 1) % terms.length];
   params.set('q', q);
   return `https://news.google.com/rss/search?${params.toString()}`;
+}
+
+/**
+ * The worldwide (en-US edition) keyword search for the same axis/page --
+ * fetched alongside the locale's own edition on every request. Verified
+ * live 2026-09-04: from Vercel's US egress, a non-English edition answers
+ * an English keyword search with an empty feed (locally, from a Korean IP,
+ * the same URL returns 100 items), so without this leg every non-topic
+ * axis would be blank for non-English visitors whenever GDELT is
+ * throttled. Null when the locale's edition already *is* en-US.
+ */
+export function googleNewsGlobalUrl(axis: HotNewsCategory, locale: string, page = 0): string | null {
+  const edition = GOOGLE_NEWS_EDITION[locale] ?? GOOGLE_NEWS_EDITION.en;
+  if (edition.hl === GOOGLE_NEWS_EDITION.en.hl && edition.gl === GOOGLE_NEWS_EDITION.en.gl) return null;
+  const terms = AXIS_NEWS_QUERY[axis].map((t) => t.replace(/"/g, ''));
+  const q = page === 0 ? terms.slice(0, 5).join(' OR ') : terms[(page - 1) % terms.length];
+  const params = new URLSearchParams({ hl: 'en-US', gl: 'US', ceid: 'US:en', q });
+  return `https://news.google.com/rss/search?${params.toString()}`;
+}
+
+/** The page's keyword slice shared by every keyword wire: the full OR
+ *  group on page 0, then one term per page so each page is a new slice. */
+export function axisTerms(axis: HotNewsCategory, page: number): string {
+  const terms = AXIS_NEWS_QUERY[axis].map((t) => t.replace(/"/g, ''));
+  return page === 0 ? terms.slice(0, 5).join(' OR ') : terms[(page - 1) % terms.length];
+}
+
+/**
+ * Bing News RSS keyword search -- keyless, no documented rate limit,
+ * per-market localized, direct article links. Third leg beside GDELT and
+ * Google so that a throttle on any one wire (Google intermittently answers
+ * datacenter egress with an empty search feed; GDELT enforces 1 req / 5s)
+ * never blanks an axis. `global` = the en-US market for non-US locales.
+ */
+export function bingNewsUrl(axis: HotNewsCategory, locale: string, page = 0, global = false): string | null {
+  const market = global ? BING_NEWS_MARKET.en : (BING_NEWS_MARKET[locale] ?? BING_NEWS_MARKET.en);
+  if (global && (BING_NEWS_MARKET[locale] ?? BING_NEWS_MARKET.en).setlang === BING_NEWS_MARKET.en.setlang) return null;
+  // Bing's news RSS ignores OR-groups (verified live: an OR query returns
+  // an empty feed), so every page runs one plain term, rotated per page.
+  const terms = AXIS_NEWS_QUERY[axis].map((t) => t.replace(/"/g, ''));
+  const params = new URLSearchParams({
+    q: terms[page % terms.length],
+    format: 'rss',
+    cc: market.cc,
+    setlang: market.setlang,
+    qft: 'sortbydate="1"',
+  });
+  return `https://www.bing.com/news/search?${params.toString()}`;
 }
 
 /** The GDELT ArtList JSON shape (only the parts folded here). */
@@ -300,12 +374,14 @@ export function parseRss(xml: string): RssItem[] {
     const link = tag(block, 'link') || (/<guid[^>]*>([\s\S]*?)<\/guid>/i.exec(block)?.[1] ?? '').trim();
     if (!title || !link) continue;
     const sourceMatch = /<source(?:\s+url="([^"]*)")?[^>]*>([\s\S]*?)<\/source>/i.exec(block);
+    // Bing carries the outlet as <News:Source> instead of RSS <source>.
+    const bingSource = tag(block, 'News:Source');
     out.push({
       title,
       link,
       pubDate: tag(block, 'pubDate') || undefined,
       description: tag(block, 'description') || undefined,
-      sourceName: sourceMatch ? decodeEntities(stripCdata(sourceMatch[2]).trim()) : undefined,
+      sourceName: sourceMatch ? decodeEntities(stripCdata(sourceMatch[2]).trim()) : bingSource || undefined,
       sourceUrl: sourceMatch?.[1] ? decodeEntities(sourceMatch[1]) : undefined,
     });
   }
@@ -328,7 +404,12 @@ function trimOutletSuffix(title: string, outlet: string | undefined): string {
   return title.endsWith(suffix) ? title.slice(0, -suffix.length).trim() : title;
 }
 
-export function foldGoogleNews(items: RssItem[], axis: HotNewsCategory, lang: string): HotNewsItem[] {
+export function foldGoogleNews(
+  items: RssItem[],
+  axis: HotNewsCategory,
+  lang: string,
+  wire: 'gnews' | 'bing' = 'gnews',
+): HotNewsItem[] {
   const out: HotNewsItem[] = [];
   const seen = new Set<string>();
   for (const it of items) {
@@ -340,7 +421,7 @@ export function foldGoogleNews(items: RssItem[], axis: HotNewsCategory, lang: st
     const description = it.description ? clipText(stripControl(stripTags(decodeEntities(it.description))), MAX_SUMMARY) : '';
     const publishedAt = it.pubDate ? new Date(it.pubDate) : null;
     out.push({
-      id: `live:gnews:${key}`,
+      id: `live:${wire}:${key}`,
       title,
       // Google's description is usually just the headline again -- drop it
       // when it adds nothing over the title.
@@ -348,7 +429,7 @@ export function foldGoogleNews(items: RssItem[], axis: HotNewsCategory, lang: st
       url: it.link,
       category: axis,
       source: 'live',
-      domain: domainOf(it.sourceUrl) ?? it.sourceName,
+      domain: domainOf(it.sourceUrl) ?? it.sourceName ?? (wire === 'bing' ? domainOf(it.link) : undefined),
       publishedAt: publishedAt && !Number.isNaN(publishedAt.getTime()) ? publishedAt.toISOString() : undefined,
       lang,
     });
@@ -368,12 +449,13 @@ export function mergeAxisWires(
   global: HotNewsItem[],
   board: HotNewsItem[],
   cap = AXIS_NEWS_PAGE_CAP,
+  extra: HotNewsItem[] = [],
 ): HotNewsItem[] {
   const seen = new Set<string>();
   const out: HotNewsItem[] = [];
-  const max = Math.max(local.length, global.length, board.length);
+  const max = Math.max(local.length, global.length, board.length, extra.length);
   for (let i = 0; i < max && out.length < cap; i++) {
-    for (const list of [local, board, global]) {
+    for (const list of [local, board, global, extra]) {
       const item = list[i];
       if (!item) continue;
       const key = normTitle(item.title);
