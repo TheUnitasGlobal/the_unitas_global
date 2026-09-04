@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "Classifiche Tematiche Globali",
     "hint": "Tocca un tema per vedere la top 10 — carica altro per approfondire.",
-    "loadMore": "Mostra altro (fino alla posizione {count})",
+    "loadMoreRange": "Mostra le posizioni {from}-{to}",
     "collapseAria": "Chiudi",
     "collectingMore": "Altre posizioni sono in fase di raccolta — torna presto.",
     "snapshot": "Dati istantanei — possono cambiare nel tempo.",

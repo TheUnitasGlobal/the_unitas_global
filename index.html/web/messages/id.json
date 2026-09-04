@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "Peringkat Tema Global",
     "hint": "Ketuk tema untuk melihat 10 teratas — muat lebih banyak untuk menjelajah lebih dalam.",
-    "loadMore": "Tampilkan lebih (hingga peringkat {count})",
+    "loadMoreRange": "Lihat peringkat {from}-{to}",
     "collapseAria": "Tutup",
     "collectingMore": "Peringkat lainnya sedang disusun — kunjungi lagi nanti.",
     "snapshot": "Angka snapshot — dapat berubah seiring waktu.",

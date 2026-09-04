@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "Global Theme Rankings",
     "hint": "Tap a theme to reveal its top 10 — then load more to go deeper.",
-    "loadMore": "Show more (up to #{count})",
+    "loadMoreRange": "Show ranks {from}-{to}",
     "collapseAria": "Close",
     "collectingMore": "More ranks are being compiled — check back soon.",
     "snapshot": "Snapshot figures — may shift over time.",

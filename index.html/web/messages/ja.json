@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "グローバル・テーマ別ランキング",
     "hint": "テーマをタップすると上位10位が表示されます — もっと見るでさらに深掘りできます。",
-    "loadMore": "{count}位までもっと見る",
+    "loadMoreRange": "{from}〜{to}位を見る",
     "collapseAria": "閉じる",
     "collectingMore": "さらなる順位は準備中です。",
     "snapshot": "スナップショットの数値であり、時期により変動する場合があります。",

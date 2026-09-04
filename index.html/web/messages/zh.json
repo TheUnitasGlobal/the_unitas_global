@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "全球主题排行榜",
     "hint": "点击主题查看前10名——点击加载更多以深入探索。",
-    "loadMore": "查看更多（至第{count}名）",
+    "loadMoreRange": "查看第{from}-{to}名",
     "collapseAria": "关闭",
     "collectingMore": "更多排名正在整理中，敬请期待。",
     "snapshot": "数据为快照数值，可能随时间变化。",

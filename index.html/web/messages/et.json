@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "Globaalsed teemapõhised edetabelid",
     "hint": "Puuduta teemat, et näha selle esikümmet — laadi rohkem, et süveneda.",
-    "loadMore": "Näita rohkem (kuni kohani {count})",
+    "loadMoreRange": "Näita kohti {from}-{to}",
     "collapseAria": "Sulge",
     "collectingMore": "Rohkem kohti lisandub varsti.",
     "snapshot": "Hetkeseisu näitajad — võivad ajas muutuda.",

@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "Wereldwijde Themaranglijsten",
     "hint": "Tik op een thema voor de top 10 — laad meer om dieper te graven.",
-    "loadMore": "Meer tonen (tot plek {count})",
+    "loadMoreRange": "Toon plek {from}-{to}",
     "collapseAria": "Sluiten",
     "collectingMore": "Meer posities worden verzameld — kom binnenkort terug.",
     "snapshot": "Momentopname-cijfers — kunnen na verloop van tijd veranderen.",

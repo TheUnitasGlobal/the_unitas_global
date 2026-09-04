@@ -1,42 +1,62 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronDown, Globe2, X } from 'lucide-react';
 import { GLOBAL_RANKING_THEMES, LOAD_MORE_TIERS, type GlobalRankingThemeKey } from '@/lib/globalRankings';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 
 /**
- * 핫이슈 탭의 "하이브리드 테마 랭킹 위젯" (owner instruction 2026-09-04): a row
- * of global theme chips (UNESCO heritage, GDP benchmark, human-history
- * milestones, ...) sitting directly above HotIssueNewsList's live feed.
- * Tapping a chip expands its top-10 countdown inline; "더보기" widens the
- * visible window through LOAD_MORE_TIERS until the curated dataset runs out,
- * at which point the panel says so plainly rather than padding with
- * unsourced filler ranks (see lib/globalRankings.ts banner).
+ * 핫이슈 탭의 "하이브리드 테마 랭킹 위젯" (owner instruction 2026-09-04, deepened
+ * same day): a row of global theme chips (UNESCO heritage, GDP benchmark,
+ * human-history milestones, ...) sitting directly above HotIssueNewsList's
+ * live feed. Tapping a chip expands its top-10 countdown inline; "11~50위
+ * 보기" / "51~100위 보기" step through LOAD_MORE_TIERS until the curated
+ * dataset runs out, at which point the panel says so plainly rather than
+ * padding with unsourced filler ranks (see lib/globalRankings.ts banner).
  */
 export function GlobalThemeRankings() {
   const t = useTranslations('GlobalRankings');
   const { playHoverSfx } = useSpatialAudio();
   const [expandedKey, setExpandedKey] = useState<GlobalRankingThemeKey | null>(null);
   const [visibleTiers, setVisibleTiers] = useState<Record<string, number>>({});
+  const listRef = useRef<HTMLOListElement>(null);
+  /** Rank the list was cut off at *before* the last "더 보기" click -- lets the
+   *  effect below carry the viewer into the freshly-revealed rows instead of
+   *  leaving them to hunt for rank 11 at the bottom of a now much-longer
+   *  list. Null means "no reveal pending" (theme just opened/switched, or
+   *  first mount) so that transition never triggers an unwanted scroll. */
+  const revealBoundaryRef = useRef<number | null>(null);
 
   const expandedTheme = GLOBAL_RANKING_THEMES.find((theme) => theme.key === expandedKey) ?? null;
   const visibleTier = expandedKey ? (visibleTiers[expandedKey] ?? LOAD_MORE_TIERS[0]) : LOAD_MORE_TIERS[0];
 
-  function toggleTheme(key: GlobalRankingThemeKey) {
+  function openTheme(key: GlobalRankingThemeKey) {
+    revealBoundaryRef.current = null;
     setExpandedKey((prev) => (prev === key ? null : key));
   }
 
   function loadMore() {
     if (!expandedTheme) return;
     const nextTier = LOAD_MORE_TIERS.find((tier) => tier > visibleTier) ?? expandedTheme.entries.length;
+    revealBoundaryRef.current = visibleTier;
     setVisibleTiers((prev) => ({ ...prev, [expandedTheme.key]: Math.min(nextTier, expandedTheme.entries.length) }));
   }
 
+  // Smoothly carries the viewer to the first newly-revealed rank rather than
+  // leaving the reveal to happen off-screen at the bottom of a now much
+  // taller list (owner instruction 2026-09-04: "가림 현상 없이 부드럽게 조회").
+  useEffect(() => {
+    const boundary = revealBoundaryRef.current;
+    revealBoundaryRef.current = null;
+    if (boundary === null || !listRef.current) return;
+    const target = listRef.current.querySelector(`[data-rank="${boundary + 1}"]`);
+    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [visibleTier]);
+
   const shownEntries = expandedTheme ? expandedTheme.entries.slice(0, visibleTier) : [];
   const hasMoreData = expandedTheme ? visibleTier < expandedTheme.entries.length : false;
-  const nextCount = expandedTheme
+  const nextTierCap = expandedTheme
     ? Math.min(LOAD_MORE_TIERS.find((tier) => tier > visibleTier) ?? expandedTheme.entries.length, expandedTheme.entries.length)
     : 0;
 
@@ -57,7 +77,7 @@ export function GlobalThemeRankings() {
               type="button"
               aria-expanded={active}
               onMouseEnter={() => playHoverSfx()}
-              onClick={() => toggleTheme(theme.key)}
+              onClick={() => openTheme(theme.key)}
               style={{ borderColor: `${theme.color}44`, backgroundColor: active ? `${theme.color}14` : undefined }}
               className="flex shrink-0 items-center gap-2.5 border bg-void/50 px-4 py-3 text-left transition-colors hover:bg-void/80"
             >
@@ -90,10 +110,20 @@ export function GlobalThemeRankings() {
             </button>
           </div>
 
-          <ol className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+          {/* Capped-height, self-scrolling list (rather than letting 50-100
+              rows grow the whole 70vh browse-hub panel taller and bury the
+              load-more control or the sections below it -- owner instruction
+              2026-09-04: "가림 현상 없이"). scroll-smooth pairs with the
+              boundary-tracking effect above so paging in more ranks reads as
+              one continuous glide, not a jump-cut. */}
+          <ol
+            ref={listRef}
+            className="grid max-h-[22rem] grid-cols-1 gap-1.5 overflow-y-auto overscroll-contain scroll-smooth pr-1 sm:grid-cols-2"
+          >
             {shownEntries.map((entry) => (
               <li
                 key={entry.rank}
+                data-rank={entry.rank}
                 className="flex items-center gap-3 border border-white/10 bg-void/50 px-3 py-2 text-[13px]"
               >
                 <span
@@ -117,7 +147,7 @@ export function GlobalThemeRankings() {
                 className="flex items-center gap-1.5 border border-accent/40 px-3 py-1.5 text-[12px] font-bold uppercase tracking-widest text-accent transition-colors hover:bg-accent/10"
               >
                 <ChevronDown size={13} aria-hidden="true" />
-                {t('loadMore', { count: nextCount })}
+                {t('loadMoreRange', { from: visibleTier + 1, to: nextTierCap })}
               </button>
             ) : (
               <p className="text-[11px] text-gray-500">{t('collectingMore')}</p>

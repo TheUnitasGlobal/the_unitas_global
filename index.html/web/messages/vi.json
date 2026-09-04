@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "Bảng Xếp Hạng Chủ Đề Toàn Cầu",
     "hint": "Chạm vào một chủ đề để xem top 10 — tải thêm để khám phá sâu hơn.",
-    "loadMore": "Xem thêm (đến hạng {count})",
+    "loadMoreRange": "Xem hạng {from}-{to}",
     "collapseAria": "Đóng",
     "collectingMore": "Các hạng khác đang được tổng hợp — hãy quay lại sau.",
     "snapshot": "Số liệu tại một thời điểm — có thể thay đổi theo thời gian.",

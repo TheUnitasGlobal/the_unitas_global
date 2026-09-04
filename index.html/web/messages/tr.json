@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "Küresel Tema Sıralamaları",
     "hint": "İlk 10'u görmek için bir temaya dokunun — daha derine inmek için daha fazla yükleyin.",
-    "loadMore": "Daha fazla göster ({count}. sıraya kadar)",
+    "loadMoreRange": "{from}-{to}. sıraları göster",
     "collapseAria": "Kapat",
     "collectingMore": "Daha fazla sıralama hazırlanıyor — yakında tekrar kontrol edin.",
     "snapshot": "Anlık veriler — zamanla değişebilir.",

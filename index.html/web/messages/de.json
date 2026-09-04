@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "Globale Themen-Ranglisten",
     "hint": "Tippe auf ein Thema, um die Top 10 zu sehen — lade mehr, um tiefer einzutauchen.",
-    "loadMore": "Mehr anzeigen (bis Platz {count})",
+    "loadMoreRange": "Plätze {from}-{to} anzeigen",
     "collapseAria": "Schließen",
     "collectingMore": "Weitere Plätze werden zusammengestellt — schau bald wieder vorbei.",
     "snapshot": "Momentaufnahme-Werte — können sich im Laufe der Zeit ändern.",

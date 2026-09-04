@@ -1264,7 +1264,7 @@
   "GlobalRankings": {
     "label": "Pandaigdigang Ranggo ng mga Tema",
     "hint": "I-tap ang isang tema para makita ang top 10 nito — mag-load pa para lumalim.",
-    "loadMore": "Magpakita pa (hanggang ranggo {count})",
+    "loadMoreRange": "Tingnan ang ranggo {from}-{to}",
     "collapseAria": "Isara",
     "collectingMore": "May inihahandang karagdagang ranggo — bumalik-balik.",
     "snapshot": "Snapshot na datos — maaaring magbago sa paglipas ng panahon.",
