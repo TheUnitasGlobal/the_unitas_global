@@ -19,8 +19,8 @@ interface AppLoopRowProps {
  * content in every U-AI DialogTower -- HotShortcutResultModal's knowledge
  * ladder AND OmniSynapseSearch's live-search result tower -- so it never
  * scrolls out of view. Tapping a tile toggles AppDetailCard open beneath the
- * row instead of navigating immediately (owner instruction 2026-09-03:
- * "클릭 시 상세 내용과 설명 카드가 토글 형태로 나타나도록").
+ * row instead of navigating immediately, matching every other U-AI shortcut's
+ * click-opens-detail interaction shape (owner instruction 2026-09-04).
  */
 export function AppLoopRow({ accent, label, onHover }: AppLoopRowProps) {
   const tEmail = useTranslations('Email');
@@ -63,7 +63,6 @@ export function AppLoopRow({ accent, label, onHover }: AppLoopRowProps) {
           <AppDetailCard
             key={expanded.key}
             app={expanded}
-            description={(expanded.family === 'email' ? tEmail : tSocial)('hint')}
             openLabel={(expanded.family === 'email' ? tEmail : tSocial)('openAria', { brand: expanded.brand })}
             onHover={onHover}
             onOpen={() => setExpandedKey(null)}
