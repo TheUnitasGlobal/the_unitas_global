@@ -205,10 +205,10 @@ export function gdeltUrl(axis: HotNewsCategory, sourceLang: string | null, page:
 
 /**
  * Google News feed for one page of one axis. Page 0 = the localized topic
- * board where one exists (else the full keyword search); page N ≥ 1 = a
- * keyword search on the axis's N-th term, so every page pulls a genuinely
- * different slice of the outlet universe -- the endless-paging guarantee
- * that does not depend on GDELT's rate budget.
+ * board where one exists; otherwise a keyword search on the page's rotated
+ * term (axisTerm), so every page pulls a genuinely different slice of the
+ * outlet universe -- the endless-paging guarantee that does not depend on
+ * GDELT's rate budget.
  */
 export function googleNewsUrl(axis: HotNewsCategory, locale: string, page = 0): string {
   const edition = GOOGLE_NEWS_EDITION[locale] ?? GOOGLE_NEWS_EDITION.en;
@@ -218,10 +218,7 @@ export function googleNewsUrl(axis: HotNewsCategory, locale: string, page = 0): 
   if (page === 0 && topic) {
     return `https://news.google.com/rss/headlines/section/topic/${topic}?${params.toString()}`;
   }
-  const terms = AXIS_NEWS_QUERY[axis].map((t) => t.replace(/"/g, ''));
-  // Keyword search: unquoted English terms; Google's own OR grammar.
-  const q = page === 0 ? terms.slice(0, 5).join(' OR ') : terms[(page - 1) % terms.length];
-  params.set('q', q);
+  params.set('q', axisTerm(axis, page));
   return `https://news.google.com/rss/search?${params.toString()}`;
 }
 
@@ -237,17 +234,21 @@ export function googleNewsUrl(axis: HotNewsCategory, locale: string, page = 0): 
 export function googleNewsGlobalUrl(axis: HotNewsCategory, locale: string, page = 0): string | null {
   const edition = GOOGLE_NEWS_EDITION[locale] ?? GOOGLE_NEWS_EDITION.en;
   if (edition.hl === GOOGLE_NEWS_EDITION.en.hl && edition.gl === GOOGLE_NEWS_EDITION.en.gl) return null;
-  const terms = AXIS_NEWS_QUERY[axis].map((t) => t.replace(/"/g, ''));
-  const q = page === 0 ? terms.slice(0, 5).join(' OR ') : terms[(page - 1) % terms.length];
-  const params = new URLSearchParams({ hl: 'en-US', gl: 'US', ceid: 'US:en', q });
+  const params = new URLSearchParams({ hl: 'en-US', gl: 'US', ceid: 'US:en', q: axisTerm(axis, page) });
   return `https://news.google.com/rss/search?${params.toString()}`;
 }
 
-/** The page's keyword slice shared by every keyword wire: the full OR
- *  group on page 0, then one term per page so each page is a new slice. */
-export function axisTerms(axis: HotNewsCategory, page: number): string {
+/**
+ * The page's keyword for every RSS wire: exactly ONE plain term, rotated
+ * per page so each page is a new slice of the outlet universe. Verified
+ * live 2026-09-04 from Vercel: Google's non-English editions (ko, th, …)
+ * answer an `a OR b OR c` query with an empty feed while the single term
+ * `court` returns 100 items, and Bing's news RSS ignores OR-groups
+ * entirely -- so no keyword wire ever sends an OR-group.
+ */
+export function axisTerm(axis: HotNewsCategory, page: number): string {
   const terms = AXIS_NEWS_QUERY[axis].map((t) => t.replace(/"/g, ''));
-  return page === 0 ? terms.slice(0, 5).join(' OR ') : terms[(page - 1) % terms.length];
+  return terms[page % terms.length];
 }
 
 /**
@@ -260,11 +261,8 @@ export function axisTerms(axis: HotNewsCategory, page: number): string {
 export function bingNewsUrl(axis: HotNewsCategory, locale: string, page = 0, global = false): string | null {
   const market = global ? BING_NEWS_MARKET.en : (BING_NEWS_MARKET[locale] ?? BING_NEWS_MARKET.en);
   if (global && (BING_NEWS_MARKET[locale] ?? BING_NEWS_MARKET.en).setlang === BING_NEWS_MARKET.en.setlang) return null;
-  // Bing's news RSS ignores OR-groups (verified live: an OR query returns
-  // an empty feed), so every page runs one plain term, rotated per page.
-  const terms = AXIS_NEWS_QUERY[axis].map((t) => t.replace(/"/g, ''));
   const params = new URLSearchParams({
-    q: terms[page % terms.length],
+    q: axisTerm(axis, page),
     format: 'rss',
     cc: market.cc,
     setlang: market.setlang,

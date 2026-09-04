@@ -94,12 +94,13 @@ describe('Google News RSS', () => {
     expect(board.searchParams.get('ceid')).toBe('KR:ko');
     const search = new URL(googleNewsUrl('law', 'ja'));
     expect(search.pathname).toBe('/rss/search');
-    expect(search.searchParams.get('q')).toContain('court OR lawsuit');
+    // one plain term per page, never an OR-group (non-English editions
+    // answer OR-groups with an empty feed)
+    expect(search.searchParams.get('q')).toBe('court');
     expect(search.searchParams.get('hl')).toBe('ja');
-    // later pages rotate through single terms so every page is a new slice
-    expect(new URL(googleNewsUrl('economy', 'ko', 1)).searchParams.get('q')).toBe('economy');
-    expect(new URL(googleNewsUrl('economy', 'ko', 2)).searchParams.get('q')).toBe('inflation');
-    expect(new URL(googleNewsUrl('economy', 'ko', 7)).searchParams.get('q')).toBe('economy');
+    expect(new URL(googleNewsUrl('economy', 'ko', 1)).searchParams.get('q')).toBe('inflation');
+    expect(new URL(googleNewsUrl('economy', 'ko', 2)).searchParams.get('q')).toBe('central bank');
+    expect(new URL(googleNewsUrl('economy', 'ko', 6)).searchParams.get('q')).toBe('economy');
   });
 
   it('builds Bing market + global legs and folds News:Source', () => {
@@ -122,7 +123,7 @@ describe('Google News RSS', () => {
     expect(googleNewsGlobalUrl('law', 'et')).toBeNull(); // Estonian falls back to the en-US edition already
     const ko = new URL(googleNewsGlobalUrl('law', 'ko', 2) ?? '');
     expect(ko.searchParams.get('ceid')).toBe('US:en');
-    expect(ko.searchParams.get('q')).toBe('lawsuit');
+    expect(ko.searchParams.get('q')).toBe('verdict');
   });
 
   it('parses items, strips outlet suffixes and decodes entities', () => {

@@ -78,9 +78,17 @@ async function fetchGdelt(url: string, signal: AbortSignal, stat: LegStat): Prom
       return [];
     }
   } catch (err) {
-    stat.note = err instanceof Error ? err.name : 'error';
+    stat.note = describeFetchError(err);
     return [];
   }
+}
+
+/** "TypeError" alone hides whether the wire refused the connection, reset
+ *  it or failed DNS -- surface undici's cause for the debug readout. */
+function describeFetchError(err: unknown): string {
+  if (!(err instanceof Error)) return 'error';
+  const cause = (err as Error & { cause?: { code?: string; message?: string } }).cause;
+  return cause?.code ? `${err.name}:${cause.code}` : cause?.message ? `${err.name}:${cause.message.slice(0, 60)}` : err.name;
 }
 
 async function fetchRss(url: string | null, signal: AbortSignal, stat: LegStat): Promise<string> {
@@ -100,7 +108,7 @@ async function fetchRss(url: string | null, signal: AbortSignal, stat: LegStat):
     if (!/<item[\s>]/i.test(text)) stat.note = `no-items:${(res.headers.get('content-type') ?? '').split(';')[0]}`;
     return text;
   } catch (err) {
-    stat.note = err instanceof Error ? err.name : 'error';
+    stat.note = describeFetchError(err);
     return '';
   }
 }
