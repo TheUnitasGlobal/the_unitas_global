@@ -1170,18 +1170,35 @@
     "itn": "Dalam berita",
     "views": "{count} tayangan",
     "refresh": "Segarkan berita",
-    "source": "Sumber: feed unggulan Wikimedia · ringkasan netral · diperbarui tiap 15 menit",
+    "source": "Sumber: Wikimedia featured feed · graf berita global GDELT (65+ bahasa) · Google News RSS · diperbarui tiap 10–15 menit",
     "category": {
-      "world": "Dunia Langsung",
-      "politics": "Politik Dunia",
-      "economy": "Ekonomi Dunia",
-      "science": "Sains Dunia",
-      "sports": "Olahraga Dunia",
-      "culture": "Budaya Dunia",
-      "disaster": "Bencana Dunia",
-      "conflict": "Konflik Dunia",
-      "health": "Kesehatan Dunia"
-    }
+      "world": "Dunia langsung",
+      "politics": "Politik dunia",
+      "economy": "Ekonomi dunia",
+      "science": "Sains dunia",
+      "technology": "Teknologi dunia",
+      "engineering": "Rekayasa dunia",
+      "sports": "Olahraga dunia",
+      "culture": "Budaya dunia",
+      "art": "Seni dunia",
+      "expression": "Ekspresi dunia",
+      "language": "Bahasa dunia",
+      "society": "Masyarakat dunia",
+      "structure": "Struktur dunia",
+      "pragma": "Pragmatik dunia",
+      "law": "Hukum dunia",
+      "institution": "Institusi dunia",
+      "education": "Pendidikan dunia",
+      "welfare": "Kesejahteraan · Kesehatan",
+      "security": "Keamanan · Konflik",
+      "strategy": "Strategi dunia",
+      "disaster": "Bencana dunia"
+    },
+    "live": "Kawat langsung",
+    "loadMore": "Muat lebih banyak {axis}",
+    "axisLoading": "Memanggil kawat langsung global untuk {axis}…",
+    "axisEmpty": "Kawat langsung sumbu ini tidak dapat dijangkau sekarang — coba lagi sebentar.",
+    "endOfFeed": "Akhir arsip dua minggu — segarkan agar berita terbaru mengalir lagi."
   },
   "Weather": {
     "myLocation": "Lokasi saya",
@@ -1347,5 +1364,104 @@
       "4": "Operator lintas modul yang indeks aktivitas {module}-nya bertahan di level teratas selama beberapa siklus.",
       "5": "Diakui dalam {module} karena keterlibatan berkelanjutan yang jauh di atas indeks aktivitas median modul."
     }
+  },
+  "HyperSovereign": {
+    "label": "Pintasan hiper-berdaulat",
+    "hint": "Ketuk untuk membuka mesin kognitif hiper-berdaulat",
+    "switchEngine": "Ganti mesin",
+    "engines": {
+      "ideaReplicator": {
+        "title": "Replikasi diri bisnis",
+        "description": "Agen AI mereplikasi sendiri ide pabrik satu orang tanpa modal, generasi demi generasi.",
+        "cta": "Mulai replikasi"
+      },
+      "fateEngine": {
+        "title": "Mesin probabilitas takdir",
+        "description": "Menghitung probabilitas tujuanmu terwujud dengan Monte Carlo konstitusi 6 sumbu — lalu meretas kausalitas.",
+        "cta": "Hitung takdir"
+      },
+      "omniTwin": {
+        "title": "Kembar semesta",
+        "description": "Mengkloning apa pun menjadi kembar data dengan U-Signature dan spektrum resonansi.",
+        "cta": "Tempa kembar"
+      },
+      "chronoForge": {
+        "title": "Garis waktu kausalitas",
+        "description": "Menempa tonggak masa depan 1·2·3·5·10 tahun, masing-masing dengan probabilitasnya.",
+        "cta": "Tempa garis waktu"
+      },
+      "marginInfinity": {
+        "title": "Simulator margin ∞",
+        "description": "Mensimulasikan biaya marginal nol dan margin tak terbatas secara langsung dengan micro-burn dan cache cerdas.",
+        "cta": "Simulasikan"
+      }
+    },
+    "seedPlaceholder": "Ketik kata kunci benih (mis. kopi, kota, bakat)…",
+    "goalPlaceholder": "Ketik tujuan (mis. pendapatan otomatis Rp150 juta/bulan dalam setahun)…",
+    "subjectPlaceholder": "Ketik subjek (mis. namamu, kota, merek)…",
+    "replicate": "Replikasi",
+    "rerun": "Hitung ulang",
+    "hack": "Retas kausalitas",
+    "hacked": "Retasan diterapkan",
+    "evolve": "Evolusikan kembar",
+    "forge": "Tempa ulang",
+    "generation": "Generasi {n}",
+    "probability": "Probabilitas terwujud",
+    "horizon": "Horizon waktu",
+    "yearsShort": "{n} thn",
+    "levers": "Tuas kausalitas",
+    "trajectory": "Lintasan probabilitas",
+    "entropy": "Entropi",
+    "signature": "U-Signature",
+    "resonance": "Resonansi 16 sumbu",
+    "constitution": "Spektrum konstitusi 6 sumbu",
+    "elements": "Dinamika elemen",
+    "metrics": {
+      "capital": "Modal dibutuhkan",
+      "launchDays": "Peluncuran (hari)",
+      "automation": "Otomatisasi",
+      "margin": "Margin",
+      "viability": "Kelayakan",
+      "blueOcean": "Samudra biru"
+    },
+    "capitalZero": "0 · tanpa modal",
+    "patterns": {
+      "agentRental": "Sewa agen",
+      "dataTwin": "Langganan kembar data",
+      "microBurnSaaS": "SaaS micro-burn",
+      "autonomousMarketplace": "Pasar otonom",
+      "sovereignAcademy": "Akademi berdaulat",
+      "predictiveOracle": "Orakel prediktif",
+      "cachedIntelligence": "Kecerdasan ter-cache",
+      "nomadFactory": "Pabrik nomaden"
+    },
+    "element": {
+      "earth": "Tanah",
+      "water": "Air",
+      "fire": "Api",
+      "wind": "Angin",
+      "lightning": "Petir"
+    },
+    "oracleLabel": "Orakel U-AI",
+    "oracleLoading": "Orakel U-AI sedang menempa narasi…",
+    "oracleUnavailable": "Narasi orakel dapat dicoba lagi sebentar — hasil perhitungan di atas sudah final.",
+    "disclaimer": "Probabilitas dan angka adalah simulasi deterministik berbasis konstitusi 100 doktrin, bukan saran investasi atau hukum.",
+    "sliders": {
+      "price": "Harga per panggilan (U-COIN)",
+      "burn": "Biaya micro-burn per panggilan tanpa cache (U-COIN)",
+      "cacheHit": "Tingkat hit cache cerdas",
+      "calls": "Panggilan per hari"
+    },
+    "revenue": "Pendapatan harian",
+    "cost": "Biaya harian",
+    "margin": "Margin",
+    "marginInfinite": "∞ (tak terbatas)",
+    "marginalCost": "Biaya marginal",
+    "marginCurve": "Kurva margin per tingkat hit cache",
+    "milestone": "Tonggak",
+    "yearLabel": "{year}",
+    "magnitude": "Magnitudo {n}/5",
+    "emptyState": "Ketik benih dan jalankan — hasil muncul seketika.",
+    "lineage": "Silsilah replikasi"
   }
 }

@@ -1170,18 +1170,35 @@
     "itn": "Uudistes",
     "views": "{count} vaatamist",
     "refresh": "Värskenda uudiseid",
-    "source": "Allikas: Wikimedia esiletõstetud voog · neutraalsed kokkuvõtted · uueneb iga 15 min",
+    "source": "Allikad: Wikimedia esiletõstetud voog · GDELT globaalne uudistegraaf (65+ keelt) · Google Newsi RSS · uuendatakse iga 10–15 min",
     "category": {
-      "world": "Maailm Otse",
-      "politics": "Maailma Poliitika",
-      "economy": "Maailma Majandus",
-      "science": "Maailma Teadus",
-      "sports": "Maailma Sport",
-      "culture": "Maailma Kultuur",
-      "disaster": "Maailma Katastroofid",
-      "conflict": "Maailma Konfliktid",
-      "health": "Maailma Tervis"
-    }
+      "world": "Maailm otse",
+      "politics": "Maailma poliitika",
+      "economy": "Maailma majandus",
+      "science": "Maailma teadus",
+      "technology": "Maailma tehnoloogia",
+      "engineering": "Maailma inseneeria",
+      "sports": "Maailma sport",
+      "culture": "Maailma kultuur",
+      "art": "Maailma kunst",
+      "expression": "Maailma väljendus",
+      "language": "Maailma keel",
+      "society": "Maailma ühiskond",
+      "structure": "Maailma struktuur",
+      "pragma": "Maailma praktika",
+      "law": "Maailma õigus",
+      "institution": "Maailma institutsioonid",
+      "education": "Maailma haridus",
+      "welfare": "Maailma heaolu · tervis",
+      "security": "Maailma julgeolek · konfliktid",
+      "strategy": "Maailma strateegia",
+      "disaster": "Maailma katastroofid"
+    },
+    "live": "Otseliin",
+    "loadMore": "Laadi veel: {axis}",
+    "axisLoading": "Kutsun {axis} ülemaailmset otseliini…",
+    "axisEmpty": "Selle telje otseliin pole praegu kättesaadav — proovi varsti uuesti.",
+    "endOfFeed": "Kahenädalase arhiivi lõpp — värskenda, et uusimad lood taas voolaksid."
   },
   "Weather": {
     "myLocation": "Minu asukoht",
@@ -1347,5 +1364,104 @@
       "4": "Mitme mooduli operaator, kelle {module} aktiivsusindeks on püsinud tipptasemel mitme tsükli jooksul.",
       "5": "Tunnustatud {module}s püsiva tegevuse eest, mis ületab mooduli keskmist aktiivsusindeksit selgelt."
     }
+  },
+  "HyperSovereign": {
+    "label": "Hüpersuveräänsed otseteed",
+    "hint": "Puuduta, et avada hüpersuveräänne kognitiivne mootor",
+    "switchEngine": "Vaheta mootorit",
+    "engines": {
+      "ideaReplicator": {
+        "title": "Äri isepaljunemine",
+        "description": "AI-agendid paljundavad nullkapitaliga ühe inimese tehaseideid põlvkond põlvkonna järel.",
+        "cta": "Alusta paljundamist"
+      },
+      "fateEngine": {
+        "title": "Saatuse tõenäosusmootor",
+        "description": "Arvutab 6-teljelise põhiseaduse Monte Carloga sinu eesmärgi täitumise tõenäosuse — ja häkib põhjuslikkust.",
+        "cta": "Arvuta saatus"
+      },
+      "omniTwin": {
+        "title": "Kõiksuse kaksik",
+        "description": "Kloonib mida tahes andmekaksikuks koos U-Signature’i ja resonantsspektriga.",
+        "cta": "Loo kaksik"
+      },
+      "chronoForge": {
+        "title": "Põhjuslikkuse ajajoon",
+        "description": "Sepistab 1·2·3·5·10 aasta tulevikuverstapostid koos tõenäosusega.",
+        "cta": "Sepista ajajoon"
+      },
+      "marginInfinity": {
+        "title": "Marginaal ∞ simulaator",
+        "description": "Simuleerib reaalajas nullpiirkulu ja lõpmatut marginaali mikropõletuse ja intelligentse vahemäluga.",
+        "cta": "Simuleeri"
+      }
+    },
+    "seedPlaceholder": "Sisesta seemnesõna (nt kohv, linn, anne)…",
+    "goalPlaceholder": "Sisesta eesmärk (nt aastaga 10 000 € automaatset tulu kuus)…",
+    "subjectPlaceholder": "Sisesta subjekt (nt sinu nimi, linn, bränd)…",
+    "replicate": "Paljunda",
+    "rerun": "Arvuta uuesti",
+    "hack": "Häki põhjuslikkust",
+    "hacked": "Häkk rakendatud",
+    "evolve": "Arenda kaksikut",
+    "forge": "Sepista uuesti",
+    "generation": "{n}. põlvkond",
+    "probability": "Teostumise tõenäosus",
+    "horizon": "Ajahorisont",
+    "yearsShort": "{n} a",
+    "levers": "Põhjuslikkuse hoovad",
+    "trajectory": "Tõenäosuse trajektoor",
+    "entropy": "Entroopia",
+    "signature": "U-Signature",
+    "resonance": "16 telje resonants",
+    "constitution": "6 telje põhiseaduse spekter",
+    "elements": "Elementide dünaamika",
+    "metrics": {
+      "capital": "Vajalik kapital",
+      "launchDays": "Käivitus (päeva)",
+      "automation": "Automatiseeritus",
+      "margin": "Marginaal",
+      "viability": "Teostatavus",
+      "blueOcean": "Sinine ookean"
+    },
+    "capitalZero": "0 · nullkapital",
+    "patterns": {
+      "agentRental": "Agendi rent",
+      "dataTwin": "Andmekaksiku tellimus",
+      "microBurnSaaS": "Mikropõletus-SaaS",
+      "autonomousMarketplace": "Autonoomne turg",
+      "sovereignAcademy": "Suveräänne akadeemia",
+      "predictiveOracle": "Ennustav oraakel",
+      "cachedIntelligence": "Vahemäluintelligents",
+      "nomadFactory": "Nomaaditehas"
+    },
+    "element": {
+      "earth": "Maa",
+      "water": "Vesi",
+      "fire": "Tuli",
+      "wind": "Tuul",
+      "lightning": "Välk"
+    },
+    "oracleLabel": "U-AI oraakel",
+    "oracleLoading": "U-AI oraakel sepistab narratiivi…",
+    "oracleUnavailable": "Oraakli narratiivi saab varsti uuesti proovida — ülalolev arvutustulemus on juba lõplik.",
+    "disclaimer": "Tõenäosused ja arvud on 100 doktriini põhiseadusel põhinev deterministlik simulatsioon, mitte investeerimis- ega õigusnõu.",
+    "sliders": {
+      "price": "Hind kõne kohta (U-COIN)",
+      "burn": "Mikropõletuse kulu vahemäluta kõne kohta (U-COIN)",
+      "cacheHit": "Intelligentse vahemälu tabamus",
+      "calls": "Kõnesid päevas"
+    },
+    "revenue": "Päevatulu",
+    "cost": "Päevakulu",
+    "margin": "Marginaal",
+    "marginInfinite": "∞ (lõpmatu)",
+    "marginalCost": "Piirkulu",
+    "marginCurve": "Marginaalikõver vahemälu tabamuse järgi",
+    "milestone": "Verstapostid",
+    "yearLabel": "{year}",
+    "magnitude": "Suurus {n}/5",
+    "emptyState": "Sisesta seeme ja käivita — tulemus ilmub kohe.",
+    "lineage": "Paljunemise sugupuu"
   }
 }

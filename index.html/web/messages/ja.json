@@ -1170,18 +1170,35 @@
     "itn": "注目ニュース",
     "views": "{count} 回閲覧",
     "refresh": "ニュースを更新",
-    "source": "出典: Wikimedia 特集フィード · 中立的な要約 · 15分ごとに更新",
+    "source": "出典: Wikimedia フィーチャードフィード · GDELT グローバルニュースグラフ(65+言語) · Google ニュース RSS · 10〜15分ごとに更新",
     "category": {
-      "world": "世界速報",
+      "world": "世界ライブ",
       "politics": "世界政治",
       "economy": "世界経済",
       "science": "世界科学",
+      "technology": "世界技術",
+      "engineering": "世界工学",
       "sports": "世界スポーツ",
       "culture": "世界文化",
-      "disaster": "世界災害",
-      "conflict": "世界紛争",
-      "health": "世界保健"
-    }
+      "art": "世界芸術",
+      "expression": "世界表現",
+      "language": "世界言語",
+      "society": "世界社会",
+      "structure": "世界構造",
+      "pragma": "世界実用",
+      "law": "世界法律",
+      "institution": "世界制度",
+      "education": "世界教育",
+      "welfare": "世界福祉·保健",
+      "security": "世界安全保障·紛争",
+      "strategy": "世界戦略",
+      "disaster": "世界災害"
+    },
+    "live": "ライブワイヤー",
+    "loadMore": "{axis}をもっと読み込む",
+    "axisLoading": "{axis}の世界ライブ情報を呼び出し中…",
+    "axisEmpty": "この軸のライブ情報は現在取得できません — しばらくしてから再試行してください。",
+    "endOfFeed": "2週間アーカイブの終端 — 更新すると最新情報が再び流れます。"
   },
   "Weather": {
     "myLocation": "現在地",
@@ -1347,5 +1364,104 @@
       "4": "{module}の活動指数が複数サイクルにわたりトップ層を維持しているクロスモジュール運営者。",
       "5": "{module}内でモジュールの中央値を大きく上回る持続的な参加が認められている。"
     }
+  },
+  "HyperSovereign": {
+    "label": "ハイパー主権ショートカット",
+    "hint": "タップでハイパー主権認知エンジンのポップアップを開く",
+    "switchEngine": "エンジン切替",
+    "engines": {
+      "ideaReplicator": {
+        "title": "ビジネス自己増殖",
+        "description": "AIエージェントが無資本・1人ファクトリーのアイデアを世代を重ねて自己増殖させます。",
+        "cta": "増殖開始"
+      },
+      "fateEngine": {
+        "title": "運命確率演算",
+        "description": "6軸憲法モンテカルロで目標の実現確率を演算し、因果律をハッキングします。",
+        "cta": "運命を演算"
+      },
+      "omniTwin": {
+        "title": "森羅万象ツイン",
+        "description": "あらゆるものをデータツインとして複製し、U-Signatureと共鳴スペクトルを生成します。",
+        "cta": "ツイン生成"
+      },
+      "chronoForge": {
+        "title": "因果律タイムライン",
+        "description": "1·2·3·5·10年の未来マイルストーンを確率と共に鍛造します。",
+        "cta": "タイムライン鍛造"
+      },
+      "marginInfinity": {
+        "title": "マージン∞シミュレーター",
+        "description": "マイクロバーンと超知能キャッシングで限界費用0・マージン無限大をリアルタイムにシミュレートします。",
+        "cta": "シミュレーション"
+      }
+    },
+    "seedPlaceholder": "シードキーワードを入力（例: コーヒー、都市、才能）…",
+    "goalPlaceholder": "目標を入力（例: 1年以内に月100万円の自動収益）…",
+    "subjectPlaceholder": "対象を入力（例: 自分の名前、都市、ブランド）…",
+    "replicate": "増殖",
+    "rerun": "再演算",
+    "hack": "因果律ハック",
+    "hacked": "ハック適用済み",
+    "evolve": "ツイン進化",
+    "forge": "再鍛造",
+    "generation": "第{n}世代",
+    "probability": "実現確率",
+    "horizon": "時間地平",
+    "yearsShort": "{n}年",
+    "levers": "因果律レバー",
+    "trajectory": "確率軌跡",
+    "entropy": "エントロピー",
+    "signature": "U-Signature",
+    "resonance": "16軸共鳴",
+    "constitution": "6軸憲法スペクトル",
+    "elements": "元素力学",
+    "metrics": {
+      "capital": "必要資本",
+      "launchDays": "ローンチ（日）",
+      "automation": "自動化",
+      "margin": "マージン",
+      "viability": "実現性",
+      "blueOcean": "ブルーオーシャン"
+    },
+    "capitalZero": "0円 · 無資本",
+    "patterns": {
+      "agentRental": "エージェント貸与",
+      "dataTwin": "データツイン購読",
+      "microBurnSaaS": "マイクロバーンSaaS",
+      "autonomousMarketplace": "自律マーケットプレイス",
+      "sovereignAcademy": "主権アカデミー",
+      "predictiveOracle": "予測オラクル",
+      "cachedIntelligence": "キャッシュド・インテリジェンス",
+      "nomadFactory": "ノマドファクトリー"
+    },
+    "element": {
+      "earth": "地",
+      "water": "水",
+      "fire": "火",
+      "wind": "風",
+      "lightning": "雷"
+    },
+    "oracleLabel": "U-AIオラクル",
+    "oracleLoading": "U-AIオラクルが物語を鍛造中…",
+    "oracleUnavailable": "オラクルの物語は後で再試行できます — 上の演算結果はすでに確定しています。",
+    "disclaimer": "確率と数値は100大超憲法に基づく決定論的シミュレーションであり、投資・法律の助言ではありません。",
+    "sliders": {
+      "price": "呼び出し単価（U-COIN）",
+      "burn": "非キャッシュ呼び出しあたりのマイクロバーン原価（U-COIN）",
+      "cacheHit": "超知能キャッシュ命中率",
+      "calls": "1日の呼び出し数"
+    },
+    "revenue": "日次収益",
+    "cost": "日次原価",
+    "margin": "マージン率",
+    "marginInfinite": "∞（無限大）",
+    "marginalCost": "実質限界費用",
+    "marginCurve": "キャッシュ命中率別マージン曲線",
+    "milestone": "マイルストーン",
+    "yearLabel": "{year}年",
+    "magnitude": "規模 {n}/5",
+    "emptyState": "シードを入力して実行すると結果が即座に表示されます。",
+    "lineage": "増殖系譜"
   }
 }

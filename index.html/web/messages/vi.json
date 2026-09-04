@@ -1170,18 +1170,35 @@
     "itn": "Tin nổi bật",
     "views": "{count} lượt xem",
     "refresh": "Làm mới tin tức",
-    "source": "Nguồn: nguồn tin nổi bật Wikimedia · tóm tắt trung lập · cập nhật mỗi 15 phút",
+    "source": "Nguồn: Wikimedia featured feed · đồ thị tin tức toàn cầu GDELT (65+ ngôn ngữ) · Google News RSS · cập nhật mỗi 10–15 phút",
     "category": {
-      "world": "Thế Giới Trực Tiếp",
-      "politics": "Chính Trị Thế Giới",
-      "economy": "Kinh Tế Thế Giới",
-      "science": "Khoa Học Thế Giới",
-      "sports": "Thể Thao Thế Giới",
-      "culture": "Văn Hóa Thế Giới",
-      "disaster": "Thảm Họa Thế Giới",
-      "conflict": "Xung Đột Thế Giới",
-      "health": "Y Tế Thế Giới"
-    }
+      "world": "Thế giới trực tiếp",
+      "politics": "Chính trị thế giới",
+      "economy": "Kinh tế thế giới",
+      "science": "Khoa học thế giới",
+      "technology": "Công nghệ thế giới",
+      "engineering": "Kỹ thuật thế giới",
+      "sports": "Thể thao thế giới",
+      "culture": "Văn hóa thế giới",
+      "art": "Nghệ thuật thế giới",
+      "expression": "Biểu đạt thế giới",
+      "language": "Ngôn ngữ thế giới",
+      "society": "Xã hội thế giới",
+      "structure": "Cấu trúc thế giới",
+      "pragma": "Thực dụng thế giới",
+      "law": "Pháp luật thế giới",
+      "institution": "Thể chế thế giới",
+      "education": "Giáo dục thế giới",
+      "welfare": "Phúc lợi · Y tế",
+      "security": "An ninh · Xung đột",
+      "strategy": "Chiến lược thế giới",
+      "disaster": "Thảm họa thế giới"
+    },
+    "live": "Dòng tin trực tiếp",
+    "loadMore": "Tải thêm {axis}",
+    "axisLoading": "Đang gọi dòng tin trực tiếp toàn cầu cho {axis}…",
+    "axisEmpty": "Hiện không thể lấy dòng tin trực tiếp của trục này — vui lòng thử lại sau.",
+    "endOfFeed": "Hết kho lưu trữ hai tuần — làm mới để tin mới nhất chảy lại."
   },
   "Weather": {
     "myLocation": "Vị trí của tôi",
@@ -1347,5 +1364,104 @@
       "4": "Một nhà vận hành đa module có chỉ số hoạt động {module} duy trì ở nhóm hàng đầu qua nhiều chu kỳ.",
       "5": "Được ghi nhận trong {module} vì sự tham gia bền bỉ vượt xa chỉ số hoạt động trung vị của module."
     }
+  },
+  "HyperSovereign": {
+    "label": "Lối tắt siêu chủ quyền",
+    "hint": "Chạm để mở động cơ nhận thức siêu chủ quyền",
+    "switchEngine": "Đổi động cơ",
+    "engines": {
+      "ideaReplicator": {
+        "title": "Tự nhân bản kinh doanh",
+        "description": "Các tác nhân AI tự nhân bản ý tưởng nhà máy một người, không vốn, qua từng thế hệ.",
+        "cta": "Bắt đầu nhân bản"
+      },
+      "fateEngine": {
+        "title": "Động cơ xác suất định mệnh",
+        "description": "Tính xác suất mục tiêu thành hiện thực bằng Monte Carlo hiến pháp 6 trục — rồi hack nhân quả.",
+        "cta": "Tính định mệnh"
+      },
+      "omniTwin": {
+        "title": "Song sinh vạn vật",
+        "description": "Nhân bản bất cứ thứ gì thành song sinh dữ liệu với U-Signature và phổ cộng hưởng.",
+        "cta": "Tạo song sinh"
+      },
+      "chronoForge": {
+        "title": "Dòng thời gian nhân quả",
+        "description": "Rèn các cột mốc tương lai 1·2·3·5·10 năm, mỗi mốc kèm xác suất.",
+        "cta": "Rèn dòng thời gian"
+      },
+      "marginInfinity": {
+        "title": "Mô phỏng biên lợi nhuận ∞",
+        "description": "Mô phỏng trực tiếp chi phí biên bằng 0 và biên lợi nhuận vô hạn bằng micro-burn và bộ nhớ đệm thông minh.",
+        "cta": "Mô phỏng"
+      }
+    },
+    "seedPlaceholder": "Nhập từ khóa hạt giống (vd: cà phê, thành phố, tài năng)…",
+    "goalPlaceholder": "Nhập mục tiêu (vd: thu nhập tự động 200 triệu/tháng trong một năm)…",
+    "subjectPlaceholder": "Nhập đối tượng (vd: tên bạn, thành phố, thương hiệu)…",
+    "replicate": "Nhân bản",
+    "rerun": "Tính lại",
+    "hack": "Hack nhân quả",
+    "hacked": "Đã áp dụng",
+    "evolve": "Tiến hóa song sinh",
+    "forge": "Rèn lại",
+    "generation": "Thế hệ {n}",
+    "probability": "Xác suất thành hiện thực",
+    "horizon": "Chân trời thời gian",
+    "yearsShort": "{n} năm",
+    "levers": "Đòn bẩy nhân quả",
+    "trajectory": "Quỹ đạo xác suất",
+    "entropy": "Entropy",
+    "signature": "U-Signature",
+    "resonance": "Cộng hưởng 16 trục",
+    "constitution": "Phổ hiến pháp 6 trục",
+    "elements": "Động lực nguyên tố",
+    "metrics": {
+      "capital": "Vốn cần",
+      "launchDays": "Ra mắt (ngày)",
+      "automation": "Tự động hóa",
+      "margin": "Biên lợi nhuận",
+      "viability": "Khả thi",
+      "blueOcean": "Đại dương xanh"
+    },
+    "capitalZero": "0 · không vốn",
+    "patterns": {
+      "agentRental": "Cho thuê tác nhân",
+      "dataTwin": "Thuê bao song sinh dữ liệu",
+      "microBurnSaaS": "SaaS micro-burn",
+      "autonomousMarketplace": "Chợ tự trị",
+      "sovereignAcademy": "Học viện chủ quyền",
+      "predictiveOracle": "Tiên tri dự đoán",
+      "cachedIntelligence": "Trí tuệ đệm",
+      "nomadFactory": "Nhà máy du mục"
+    },
+    "element": {
+      "earth": "Đất",
+      "water": "Nước",
+      "fire": "Lửa",
+      "wind": "Gió",
+      "lightning": "Sét"
+    },
+    "oracleLabel": "Tiên tri U-AI",
+    "oracleLoading": "Tiên tri U-AI đang rèn câu chuyện…",
+    "oracleUnavailable": "Câu chuyện tiên tri có thể thử lại sau — kết quả tính toán ở trên đã là cuối cùng.",
+    "disclaimer": "Xác suất và số liệu là mô phỏng tất định dựa trên hiến pháp 100 học thuyết, không phải lời khuyên đầu tư hay pháp lý.",
+    "sliders": {
+      "price": "Giá mỗi lượt gọi (U-COIN)",
+      "burn": "Chi phí micro-burn mỗi lượt gọi không đệm (U-COIN)",
+      "cacheHit": "Tỷ lệ trúng bộ nhớ đệm thông minh",
+      "calls": "Lượt gọi mỗi ngày"
+    },
+    "revenue": "Doanh thu ngày",
+    "cost": "Chi phí ngày",
+    "margin": "Biên lợi nhuận",
+    "marginInfinite": "∞ (vô hạn)",
+    "marginalCost": "Chi phí biên",
+    "marginCurve": "Đường biên lợi nhuận theo tỷ lệ trúng đệm",
+    "milestone": "Cột mốc",
+    "yearLabel": "Năm {year}",
+    "magnitude": "Quy mô {n}/5",
+    "emptyState": "Nhập hạt giống và chạy — kết quả hiện ngay.",
+    "lineage": "Phả hệ nhân bản"
   }
 }

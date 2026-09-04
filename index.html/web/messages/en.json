@@ -1170,18 +1170,35 @@
     "itn": "In the news",
     "views": "{count} views",
     "refresh": "Refresh news",
-    "source": "Source: Wikimedia featured feed · neutral summaries · updates every 15 min",
+    "source": "Sources: Wikimedia featured feed · GDELT global news graph (65+ languages) · Google News RSS · refreshed every 10–15 min",
     "category": {
       "world": "World Live",
       "politics": "World Politics",
       "economy": "World Economy",
       "science": "World Science",
+      "technology": "World Technology",
+      "engineering": "World Engineering",
       "sports": "World Sports",
       "culture": "World Culture",
-      "disaster": "World Disasters",
-      "conflict": "World Conflicts",
-      "health": "World Health"
-    }
+      "art": "World Art",
+      "expression": "World Expression",
+      "language": "World Language",
+      "society": "World Society",
+      "structure": "World Structure",
+      "pragma": "World Pragma",
+      "law": "World Law",
+      "institution": "World Institutions",
+      "education": "World Education",
+      "welfare": "World Welfare · Health",
+      "security": "World Security · Conflict",
+      "strategy": "World Strategy",
+      "disaster": "World Disasters"
+    },
+    "live": "Live wire",
+    "loadMore": "Load more {axis}",
+    "axisLoading": "Calling the worldwide live wire for {axis}…",
+    "axisEmpty": "The live wire for this axis is unreachable right now — try again shortly.",
+    "endOfFeed": "End of the two-week archive — refresh to let the newest stories flow again."
   },
   "Weather": {
     "myLocation": "My location",
@@ -1347,5 +1364,104 @@
       "4": "A cross-module operator whose {module} activity index has held a top-tier position for multiple cycles.",
       "5": "Recognized within {module} for sustained engagement well above the module's median activity index."
     }
+  },
+  "HyperSovereign": {
+    "label": "Hyper-Sovereign Shortcuts",
+    "hint": "Tap to open a hyper-sovereign cognitive engine",
+    "switchEngine": "Switch engine",
+    "engines": {
+      "ideaReplicator": {
+        "title": "Business Self-Replication",
+        "description": "AI agents self-replicate zero-capital, one-person factory ideas generation after generation.",
+        "cta": "Start replicating"
+      },
+      "fateEngine": {
+        "title": "Fate Probability Engine",
+        "description": "Computes the probability your goal comes true with a 6-axis constitution Monte Carlo — then hacks the causality.",
+        "cta": "Compute fate"
+      },
+      "omniTwin": {
+        "title": "Omniverse Twin",
+        "description": "Clones anything into a data twin with a U-Signature and a resonance spectrum.",
+        "cta": "Forge twin"
+      },
+      "chronoForge": {
+        "title": "Causality Timeline",
+        "description": "Forges 1·2·3·5·10-year future milestones, each with its probability.",
+        "cta": "Forge timeline"
+      },
+      "marginInfinity": {
+        "title": "Margin ∞ Simulator",
+        "description": "Simulates zero marginal cost and infinite margin live with micro-burn and intelligent caching.",
+        "cta": "Simulate"
+      }
+    },
+    "seedPlaceholder": "Type a seed keyword (e.g. coffee, a city, a talent)…",
+    "goalPlaceholder": "Type a goal (e.g. automated income of $10k a month within a year)…",
+    "subjectPlaceholder": "Type a subject (e.g. your name, a city, a brand)…",
+    "replicate": "Replicate",
+    "rerun": "Recompute",
+    "hack": "Hack causality",
+    "hacked": "Hack applied",
+    "evolve": "Evolve twin",
+    "forge": "Re-forge",
+    "generation": "Generation {n}",
+    "probability": "Probability of realization",
+    "horizon": "Time horizon",
+    "yearsShort": "{n} yr",
+    "levers": "Causality levers",
+    "trajectory": "Probability trajectory",
+    "entropy": "Entropy",
+    "signature": "U-Signature",
+    "resonance": "16-axis resonance",
+    "constitution": "6-axis constitution spectrum",
+    "elements": "Elemental dynamics",
+    "metrics": {
+      "capital": "Capital needed",
+      "launchDays": "Launch (days)",
+      "automation": "Automation",
+      "margin": "Margin",
+      "viability": "Viability",
+      "blueOcean": "Blue ocean"
+    },
+    "capitalZero": "0 · zero capital",
+    "patterns": {
+      "agentRental": "Agent rental",
+      "dataTwin": "Data-twin subscription",
+      "microBurnSaaS": "Micro-burn SaaS",
+      "autonomousMarketplace": "Autonomous marketplace",
+      "sovereignAcademy": "Sovereign academy",
+      "predictiveOracle": "Predictive oracle",
+      "cachedIntelligence": "Cached intelligence",
+      "nomadFactory": "Nomad factory"
+    },
+    "element": {
+      "earth": "Earth",
+      "water": "Water",
+      "fire": "Fire",
+      "wind": "Wind",
+      "lightning": "Lightning"
+    },
+    "oracleLabel": "U-AI Oracle",
+    "oracleLoading": "The U-AI oracle is forging the narrative…",
+    "oracleUnavailable": "The oracle narrative can be retried shortly — the computed result above is already final.",
+    "disclaimer": "Probabilities and figures are a deterministic simulation grounded in the 100-doctrine constitution, not investment or legal advice.",
+    "sliders": {
+      "price": "Price per call (U-COIN)",
+      "burn": "Micro-burn cost per uncached call (U-COIN)",
+      "cacheHit": "Intelligent cache hit rate",
+      "calls": "Calls per day"
+    },
+    "revenue": "Daily revenue",
+    "cost": "Daily cost",
+    "margin": "Margin",
+    "marginInfinite": "∞ (infinite)",
+    "marginalCost": "Marginal cost",
+    "marginCurve": "Margin curve by cache hit rate",
+    "milestone": "Milestones",
+    "yearLabel": "{year}",
+    "magnitude": "Magnitude {n}/5",
+    "emptyState": "Type a seed and run — the result appears instantly.",
+    "lineage": "Replication lineage"
   }
 }

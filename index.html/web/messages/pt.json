@@ -1170,18 +1170,35 @@
     "itn": "Nas notícias",
     "views": "{count} visualizações",
     "refresh": "Atualizar notícias",
-    "source": "Fonte: feed em destaque da Wikimedia · resumos neutros · atualiza a cada 15 min",
+    "source": "Fontes: feed em destaque da Wikimedia · grafo global de notícias GDELT (65+ idiomas) · RSS do Google Notícias · atualizado a cada 10–15 min",
     "category": {
-      "world": "Mundo ao Vivo",
-      "politics": "Política Mundial",
-      "economy": "Economia Mundial",
-      "science": "Ciência Mundial",
-      "sports": "Esportes Mundiais",
-      "culture": "Cultura Mundial",
-      "disaster": "Desastres Mundiais",
-      "conflict": "Conflitos Mundiais",
-      "health": "Saúde Mundial"
-    }
+      "world": "Mundo ao vivo",
+      "politics": "Política mundial",
+      "economy": "Economia mundial",
+      "science": "Ciência mundial",
+      "technology": "Tecnologia mundial",
+      "engineering": "Engenharia mundial",
+      "sports": "Esportes mundiais",
+      "culture": "Cultura mundial",
+      "art": "Arte mundial",
+      "expression": "Expressão mundial",
+      "language": "Língua mundial",
+      "society": "Sociedade mundial",
+      "structure": "Estrutura mundial",
+      "pragma": "Pragmática mundial",
+      "law": "Direito mundial",
+      "institution": "Instituições mundiais",
+      "education": "Educação mundial",
+      "welfare": "Bem-estar · Saúde",
+      "security": "Segurança · Conflitos",
+      "strategy": "Estratégia mundial",
+      "disaster": "Desastres mundiais"
+    },
+    "live": "Fio ao vivo",
+    "loadMore": "Carregar mais de {axis}",
+    "axisLoading": "Chamando o fio mundial ao vivo de {axis}…",
+    "axisEmpty": "O fio ao vivo deste eixo está indisponível agora — tente novamente em breve.",
+    "endOfFeed": "Fim do arquivo de duas semanas — atualize para que as notícias mais recentes voltem a fluir."
   },
   "Weather": {
     "myLocation": "A minha localização",
@@ -1347,5 +1364,104 @@
       "4": "Um operador multimódulo cujo índice de atividade em {module} manteve posição de destaque por vários ciclos.",
       "5": "Reconhecido dentro de {module} por engajamento sustentado bem acima do índice de atividade mediano do módulo."
     }
+  },
+  "HyperSovereign": {
+    "label": "Atalhos hipersoberanos",
+    "hint": "Toque para abrir um motor cognitivo hipersoberano",
+    "switchEngine": "Trocar motor",
+    "engines": {
+      "ideaReplicator": {
+        "title": "Autorreplicação de negócios",
+        "description": "Agentes de IA autorreplicam ideias de fábrica de uma pessoa sem capital, geração após geração.",
+        "cta": "Começar a replicar"
+      },
+      "fateEngine": {
+        "title": "Motor de probabilidade do destino",
+        "description": "Calcula a probabilidade de a sua meta se realizar com um Monte Carlo constitucional de 6 eixos — e hackeia a causalidade.",
+        "cta": "Calcular destino"
+      },
+      "omniTwin": {
+        "title": "Gêmeo do omniverso",
+        "description": "Clona qualquer coisa em um gêmeo de dados com U-Signature e espectro de ressonância.",
+        "cta": "Forjar gêmeo"
+      },
+      "chronoForge": {
+        "title": "Linha do tempo causal",
+        "description": "Forja marcos futuros de 1·2·3·5·10 anos, cada um com sua probabilidade.",
+        "cta": "Forjar linha do tempo"
+      },
+      "marginInfinity": {
+        "title": "Simulador de margem ∞",
+        "description": "Simula ao vivo custo marginal zero e margem infinita com micro-burn e cache inteligente.",
+        "cta": "Simular"
+      }
+    },
+    "seedPlaceholder": "Digite uma semente (ex.: café, uma cidade, um talento)…",
+    "goalPlaceholder": "Digite uma meta (ex.: renda automática de R$ 50 mil por mês em um ano)…",
+    "subjectPlaceholder": "Digite um assunto (ex.: seu nome, uma cidade, uma marca)…",
+    "replicate": "Replicar",
+    "rerun": "Recalcular",
+    "hack": "Hackear causalidade",
+    "hacked": "Hack aplicado",
+    "evolve": "Evoluir gêmeo",
+    "forge": "Reforjar",
+    "generation": "Geração {n}",
+    "probability": "Probabilidade de realização",
+    "horizon": "Horizonte temporal",
+    "yearsShort": "{n} a",
+    "levers": "Alavancas causais",
+    "trajectory": "Trajetória de probabilidade",
+    "entropy": "Entropia",
+    "signature": "U-Signature",
+    "resonance": "Ressonância de 16 eixos",
+    "constitution": "Espectro constitucional de 6 eixos",
+    "elements": "Dinâmica elemental",
+    "metrics": {
+      "capital": "Capital necessário",
+      "launchDays": "Lançamento (dias)",
+      "automation": "Automação",
+      "margin": "Margem",
+      "viability": "Viabilidade",
+      "blueOcean": "Oceano azul"
+    },
+    "capitalZero": "0 · sem capital",
+    "patterns": {
+      "agentRental": "Aluguel de agentes",
+      "dataTwin": "Assinatura de gêmeo de dados",
+      "microBurnSaaS": "SaaS micro-burn",
+      "autonomousMarketplace": "Marketplace autônomo",
+      "sovereignAcademy": "Academia soberana",
+      "predictiveOracle": "Oráculo preditivo",
+      "cachedIntelligence": "Inteligência em cache",
+      "nomadFactory": "Fábrica nômade"
+    },
+    "element": {
+      "earth": "Terra",
+      "water": "Água",
+      "fire": "Fogo",
+      "wind": "Vento",
+      "lightning": "Raio"
+    },
+    "oracleLabel": "Oráculo U-AI",
+    "oracleLoading": "O oráculo U-AI está forjando a narrativa…",
+    "oracleUnavailable": "A narrativa do oráculo pode ser tentada novamente em breve — o resultado calculado acima já é definitivo.",
+    "disclaimer": "Probabilidades e números são uma simulação determinística baseada na constituição de 100 doutrinas, não aconselhamento de investimento ou jurídico.",
+    "sliders": {
+      "price": "Preço por chamada (U-COIN)",
+      "burn": "Custo micro-burn por chamada sem cache (U-COIN)",
+      "cacheHit": "Taxa de acerto do cache inteligente",
+      "calls": "Chamadas por dia"
+    },
+    "revenue": "Receita diária",
+    "cost": "Custo diário",
+    "margin": "Margem",
+    "marginInfinite": "∞ (infinita)",
+    "marginalCost": "Custo marginal",
+    "marginCurve": "Curva de margem por acerto de cache",
+    "milestone": "Marcos",
+    "yearLabel": "{year}",
+    "magnitude": "Magnitude {n}/5",
+    "emptyState": "Digite uma semente e execute — o resultado aparece na hora.",
+    "lineage": "Linhagem de replicação"
   }
 }

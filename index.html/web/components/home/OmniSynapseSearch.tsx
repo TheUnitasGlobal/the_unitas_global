@@ -31,6 +31,7 @@ import { useUai } from '@/lib/uai/useUai';
 import { UaiDashboard } from '@/components/uai/UaiDashboard';
 import { CanvasDrawInput } from '@/components/interaction/CanvasDrawInput';
 import { HotShortcutMatrixStrip } from '@/components/home/HotShortcutMatrixStrip';
+import type { HyperEngineKey } from '@/lib/hyperSovereign';
 import { LiveLadderExplorer } from '@/components/home/LiveLadderExplorer';
 import { DialogTower } from '@/components/ui/DialogTower';
 import { AppLoopRow } from '@/components/interaction/AppLoopRow';
@@ -50,6 +51,9 @@ interface OmniSynapseSearchProps {
       multi-dimensional matrix) open HomeContent's HotShortcutResultModal --
       distinct from Section 4's pure 16-axis GovernanceLadderModal. */
   onOpenShortcut: (axis: HotShortcutAxis) => void;
+  /** Hyper-Sovereign engine tiles (HyperSovereignShortcuts inside the strip)
+      open HomeContent's HyperSovereignTower -- lifted like onOpenShortcut. */
+  onOpenHyperEngine: (engine: HyperEngineKey) => void;
   /** True while the search bar is focused on an empty query -- HomeContent
       uses this to sink (Focus Isolation) Sections 1-3 behind the ladder. */
   onOuroborosChange?: (active: boolean) => void;
@@ -106,6 +110,7 @@ export function OmniSynapseSearch({
   uai,
   onSelectEcosystem,
   onOpenShortcut,
+  onOpenHyperEngine,
   onOuroborosChange,
 }: OmniSynapseSearchProps) {
   const t = useTranslations('OmniSynapse');
@@ -798,12 +803,14 @@ export function OmniSynapseSearch({
             {/* Section 3 -- the shortcut matrix strip, exactly as before:
                 governance through the app/asset launchers, untouched. */}
             <section>
-              <HotShortcutMatrixStrip onOpenShortcut={onOpenShortcut} />
+              <HotShortcutMatrixStrip onOpenShortcut={onOpenShortcut} onOpenHyperEngine={onOpenHyperEngine} />
             </section>
           </motion.div>
       )}
 
-      <AnimatePresence>{ouroboros && <HotShortcutMatrixStrip onOpenShortcut={onOpenShortcut} />}</AnimatePresence>
+      <AnimatePresence>
+        {ouroboros && <HotShortcutMatrixStrip onOpenShortcut={onOpenShortcut} onOpenHyperEngine={onOpenHyperEngine} />}
+      </AnimatePresence>
 
       <CanvasDrawInput open={drawOpen} onClose={() => setDrawOpen(false)} onAttach={handleCanvasAttach} />
 

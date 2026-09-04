@@ -1170,18 +1170,35 @@
     "itn": "Sa balita",
     "views": "{count} view",
     "refresh": "I-refresh ang balita",
-    "source": "Pinagmulan: Wikimedia featured feed · neutral na buod · nag-a-update kada 15 min",
+    "source": "Pinagmulan: Wikimedia featured feed · GDELT global news graph (65+ wika) · Google News RSS · ina-update tuwing 10–15 min",
     "category": {
-      "world": "Mundo Live",
-      "politics": "Pulitika ng Mundo",
-      "economy": "Ekonomiya ng Mundo",
-      "science": "Agham ng Mundo",
-      "sports": "Sports ng Mundo",
-      "culture": "Kultura ng Mundo",
-      "disaster": "Sakuna sa Mundo",
-      "conflict": "Salungatan sa Mundo",
-      "health": "Kalusugan ng Mundo"
-    }
+      "world": "Mundo live",
+      "politics": "Pulitika ng mundo",
+      "economy": "Ekonomiya ng mundo",
+      "science": "Agham ng mundo",
+      "technology": "Teknolohiya ng mundo",
+      "engineering": "Inhinyeriya ng mundo",
+      "sports": "Sports ng mundo",
+      "culture": "Kultura ng mundo",
+      "art": "Sining ng mundo",
+      "expression": "Pagpapahayag ng mundo",
+      "language": "Wika ng mundo",
+      "society": "Lipunan ng mundo",
+      "structure": "Estruktura ng mundo",
+      "pragma": "Praktikal ng mundo",
+      "law": "Batas ng mundo",
+      "institution": "Institusyon ng mundo",
+      "education": "Edukasyon ng mundo",
+      "welfare": "Kapakanan · Kalusugan",
+      "security": "Seguridad · Salungatan",
+      "strategy": "Estratehiya ng mundo",
+      "disaster": "Sakuna ng mundo"
+    },
+    "live": "Live wire",
+    "loadMore": "Mag-load pa ng {axis}",
+    "axisLoading": "Tinatawag ang pandaigdigang live wire para sa {axis}…",
+    "axisEmpty": "Hindi maabot ngayon ang live wire ng axis na ito — subukan muli maya-maya.",
+    "endOfFeed": "Dulo ng dalawang-linggong archive — i-refresh para dumaloy muli ang pinakabagong balita."
   },
   "Weather": {
     "myLocation": "Aking lokasyon",
@@ -1347,5 +1364,104 @@
       "4": "Isang cross-module operator na ang activity index sa {module} ay nanatili sa pinakamataas na antas sa maraming cycle.",
       "5": "Kinikilala sa loob ng {module} dahil sa tuluy-tuloy na partisipasyon na higit sa median activity index ng module."
     }
+  },
+  "HyperSovereign": {
+    "label": "Hyper-Sovereign na mga shortcut",
+    "hint": "I-tap para buksan ang hyper-sovereign cognitive engine",
+    "switchEngine": "Magpalit ng engine",
+    "engines": {
+      "ideaReplicator": {
+        "title": "Self-replication ng negosyo",
+        "description": "Ang mga AI agent ay nagre-replicate ng mga ideya ng one-person factory na walang kapital, henerasyon-henerasyon.",
+        "cta": "Simulan ang replication"
+      },
+      "fateEngine": {
+        "title": "Fate probability engine",
+        "description": "Kinukuwenta ang probabilidad na matupad ang layunin mo gamit ang 6-axis constitution Monte Carlo — pagkatapos ay hina-hack ang causality.",
+        "cta": "Kuwentahin ang kapalaran"
+      },
+      "omniTwin": {
+        "title": "Omniverse twin",
+        "description": "Kino-clone ang kahit ano bilang data twin na may U-Signature at resonance spectrum.",
+        "cta": "Bumuo ng twin"
+      },
+      "chronoForge": {
+        "title": "Causality timeline",
+        "description": "Bumubuo ng mga milestone sa hinaharap sa 1·2·3·5·10 taon, bawat isa may probabilidad.",
+        "cta": "Bumuo ng timeline"
+      },
+      "marginInfinity": {
+        "title": "Margin ∞ simulator",
+        "description": "Sinisimula nang live ang zero marginal cost at walang-hanggang margin gamit ang micro-burn at intelligent caching.",
+        "cta": "I-simulate"
+      }
+    },
+    "seedPlaceholder": "Mag-type ng seed keyword (hal. kape, lungsod, talento)…",
+    "goalPlaceholder": "Mag-type ng layunin (hal. ₱500k/buwan na automated na kita sa loob ng isang taon)…",
+    "subjectPlaceholder": "Mag-type ng paksa (hal. pangalan mo, lungsod, brand)…",
+    "replicate": "I-replicate",
+    "rerun": "Kuwentahin muli",
+    "hack": "I-hack ang causality",
+    "hacked": "Naka-apply ang hack",
+    "evolve": "Paunlarin ang twin",
+    "forge": "Buuin muli",
+    "generation": "Henerasyon {n}",
+    "probability": "Probabilidad ng pagkatupad",
+    "horizon": "Time horizon",
+    "yearsShort": "{n} taon",
+    "levers": "Mga causality lever",
+    "trajectory": "Trajectory ng probabilidad",
+    "entropy": "Entropy",
+    "signature": "U-Signature",
+    "resonance": "16-axis resonance",
+    "constitution": "6-axis constitution spectrum",
+    "elements": "Elemental dynamics",
+    "metrics": {
+      "capital": "Kailangang kapital",
+      "launchDays": "Launch (araw)",
+      "automation": "Automation",
+      "margin": "Margin",
+      "viability": "Viability",
+      "blueOcean": "Blue ocean"
+    },
+    "capitalZero": "0 · walang kapital",
+    "patterns": {
+      "agentRental": "Pagrenta ng agent",
+      "dataTwin": "Subscription sa data twin",
+      "microBurnSaaS": "Micro-burn SaaS",
+      "autonomousMarketplace": "Autonomous marketplace",
+      "sovereignAcademy": "Sovereign academy",
+      "predictiveOracle": "Predictive oracle",
+      "cachedIntelligence": "Cached intelligence",
+      "nomadFactory": "Nomad factory"
+    },
+    "element": {
+      "earth": "Lupa",
+      "water": "Tubig",
+      "fire": "Apoy",
+      "wind": "Hangin",
+      "lightning": "Kidlat"
+    },
+    "oracleLabel": "U-AI Oracle",
+    "oracleLoading": "Binubuo ng U-AI oracle ang salaysay…",
+    "oracleUnavailable": "Maaaring subukang muli ang salaysay ng oracle maya-maya — pinal na ang kinuwentang resulta sa itaas.",
+    "disclaimer": "Ang mga probabilidad at numero ay deterministic na simulation batay sa 100-doctrine constitution, hindi payo sa pamumuhunan o legal.",
+    "sliders": {
+      "price": "Presyo bawat tawag (U-COIN)",
+      "burn": "Micro-burn cost bawat uncached na tawag (U-COIN)",
+      "cacheHit": "Hit rate ng intelligent cache",
+      "calls": "Mga tawag bawat araw"
+    },
+    "revenue": "Kita bawat araw",
+    "cost": "Gastos bawat araw",
+    "margin": "Margin",
+    "marginInfinite": "∞ (walang hanggan)",
+    "marginalCost": "Marginal cost",
+    "marginCurve": "Margin curve ayon sa cache hit rate",
+    "milestone": "Mga milestone",
+    "yearLabel": "{year}",
+    "magnitude": "Laki {n}/5",
+    "emptyState": "Mag-type ng seed at patakbuhin — agad lalabas ang resulta.",
+    "lineage": "Lineage ng replication"
   }
 }

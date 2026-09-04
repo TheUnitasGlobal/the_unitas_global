@@ -1170,18 +1170,35 @@
     "itn": "주요 뉴스",
     "views": "조회 {count}회",
     "refresh": "뉴스 새로고침",
-    "source": "출처: Wikimedia 피처드 피드 · 중립 요약 · 15분마다 갱신",
+    "source": "출처: Wikimedia 피처드 피드 · GDELT 글로벌 뉴스 그래프(65개+ 언어) · Google 뉴스 RSS · 10~15분마다 갱신",
     "category": {
       "world": "세계실시간",
       "politics": "세계정치",
       "economy": "세계경제",
       "science": "세계과학",
+      "technology": "세계기술",
+      "engineering": "세계공학",
       "sports": "세계스포츠",
       "culture": "세계문화",
-      "disaster": "세계재난",
-      "conflict": "세계분쟁",
-      "health": "세계보건"
-    }
+      "art": "세계예술",
+      "expression": "세계표현",
+      "language": "세계언어",
+      "society": "세계사회",
+      "structure": "세계구조",
+      "pragma": "세계실용",
+      "law": "세계법률",
+      "institution": "세계제도",
+      "education": "세계교육",
+      "welfare": "세계복지·보건",
+      "security": "세계안보·분쟁",
+      "strategy": "세계전략",
+      "disaster": "세계재난"
+    },
+    "live": "실시간 웹",
+    "loadMore": "{axis} 더 불러오기",
+    "axisLoading": "{axis} 글로벌 실시간 정보를 호출하는 중…",
+    "axisEmpty": "이 축의 실시간 정보를 지금은 가져올 수 없습니다 — 잠시 후 다시 시도하세요.",
+    "endOfFeed": "최근 2주 아카이브의 끝 — 새로고침하면 최신 정보가 다시 흐릅니다."
   },
   "Weather": {
     "myLocation": "내 위치",
@@ -1347,5 +1364,104 @@
       "4": "여러 주기 동안 {module} 활동 지수 최상위권을 유지해온 크로스 모듈 운영자입니다.",
       "5": "{module} 내 평균 활동 지수를 크게 웃도는 지속적 참여로 인정받고 있습니다."
     }
+  },
+  "HyperSovereign": {
+    "label": "초소버린 숏컷",
+    "hint": "탭하면 초지능 소버린 엔진 팝업이 열립니다",
+    "switchEngine": "엔진 전환",
+    "engines": {
+      "ideaReplicator": {
+        "title": "비즈니스 자가증식",
+        "description": "무자본 1인 팩토리 아이디어를 AI 에이전트가 세대를 거듭하며 자가 증식시킵니다.",
+        "cta": "증식 시작"
+      },
+      "fateEngine": {
+        "title": "운명 확률 연산",
+        "description": "목표의 실현 확률을 6축 헌법 몬테카를로로 연산하고, 인과율을 해킹합니다.",
+        "cta": "운명 연산"
+      },
+      "omniTwin": {
+        "title": "삼라만상 트윈",
+        "description": "무엇이든 데이터 트윈으로 복제해 U-Signature와 공명 스펙트럼을 생성합니다.",
+        "cta": "트윈 생성"
+      },
+      "chronoForge": {
+        "title": "인과율 타임라인",
+        "description": "1·2·3·5·10년의 미래 이정표를 확률과 함께 단조합니다.",
+        "cta": "타임라인 단조"
+      },
+      "marginInfinity": {
+        "title": "마진 ∞ 시뮬레이터",
+        "description": "마이크로번과 초지능 캐싱으로 한계비용 0원·마진 무한대를 실시간 시뮬레이션합니다.",
+        "cta": "시뮬레이션"
+      }
+    },
+    "seedPlaceholder": "씨앗 키워드를 입력하세요 (예: 커피, 도시, 재능)…",
+    "goalPlaceholder": "목표를 입력하세요 (예: 1년 안에 월 1,000만 원 자동 수익)…",
+    "subjectPlaceholder": "대상을 입력하세요 (예: 내 이름, 도시, 브랜드)…",
+    "replicate": "증식",
+    "rerun": "재연산",
+    "hack": "인과율 해킹",
+    "hacked": "해킹 적용됨",
+    "evolve": "트윈 진화",
+    "forge": "재단조",
+    "generation": "{n}세대",
+    "probability": "실현 확률",
+    "horizon": "시간 지평",
+    "yearsShort": "{n}년",
+    "levers": "인과율 레버",
+    "trajectory": "확률 궤적",
+    "entropy": "엔트로피",
+    "signature": "U-Signature",
+    "resonance": "16축 공명",
+    "constitution": "6축 헌법 스펙트럼",
+    "elements": "원소 역학",
+    "metrics": {
+      "capital": "필요 자본",
+      "launchDays": "런칭(일)",
+      "automation": "자동화",
+      "margin": "마진",
+      "viability": "실현성",
+      "blueOcean": "블루오션"
+    },
+    "capitalZero": "0원 · 무자본",
+    "patterns": {
+      "agentRental": "에이전트 임대",
+      "dataTwin": "데이터 트윈 구독",
+      "microBurnSaaS": "마이크로번 SaaS",
+      "autonomousMarketplace": "자율 마켓플레이스",
+      "sovereignAcademy": "소버린 아카데미",
+      "predictiveOracle": "예측 오라클",
+      "cachedIntelligence": "캐시드 인텔리전스",
+      "nomadFactory": "노마드 팩토리"
+    },
+    "element": {
+      "earth": "땅",
+      "water": "물",
+      "fire": "불",
+      "wind": "바람",
+      "lightning": "번개"
+    },
+    "oracleLabel": "U-AI 오라클",
+    "oracleLoading": "U-AI 오라클이 서사를 단조하는 중…",
+    "oracleUnavailable": "오라클 서사는 잠시 후 다시 시도할 수 있습니다 — 위의 연산 결과는 이미 확정되었습니다.",
+    "disclaimer": "확률과 수치는 100대 초-헌법에 기반한 결정론적 시뮬레이션이며 투자·법률 조언이 아닙니다.",
+    "sliders": {
+      "price": "호출당 가격 (U-COIN)",
+      "burn": "비캐시 호출당 마이크로번 원가 (U-COIN)",
+      "cacheHit": "초지능 캐시 적중률",
+      "calls": "일일 호출 수"
+    },
+    "revenue": "일일 수익",
+    "cost": "일일 원가",
+    "margin": "마진율",
+    "marginInfinite": "∞ (무한대)",
+    "marginalCost": "실질 한계비용",
+    "marginCurve": "캐시 적중률별 마진 곡선",
+    "milestone": "이정표",
+    "yearLabel": "{year}년",
+    "magnitude": "규모 {n}/5",
+    "emptyState": "씨앗을 입력하고 실행하면 결과가 즉시 나타납니다.",
+    "lineage": "증식 계보"
   }
 }

@@ -13,6 +13,7 @@ import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModa
 import { ModuleQuestModal } from '@/components/interaction/ModuleQuestModal';
 import { GovernanceLadderModal } from '@/components/interaction/GovernanceLadderModal';
 import { HotShortcutResultModal } from '@/components/interaction/HotShortcutResultModal';
+import { HyperSovereignTower } from '@/components/interaction/HyperSovereignTower';
 import { ExitGuard } from '@/components/interaction/ExitGuard';
 import { Footer } from '@/components/layout/Footer';
 import { useShockwave } from '@/components/effects/Shockwave';
@@ -21,6 +22,7 @@ import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
 import { GOVERNANCE_AXES, type GovernanceAxis } from '@/lib/governance';
 import { HOT_SHORTCUT_MATRIX, findShortcutAxis, type HotShortcutAxis } from '@/lib/hotIssues';
+import { isHyperEngineKey, type HyperEngineKey } from '@/lib/hyperSovereign';
 
 /** Restores which governance axis was open across a next-intl locale switch
  *  (which remounts the client tree) -- The Living Knowledge Ouroboros's
@@ -32,6 +34,9 @@ const AXIS_STORAGE_KEY = 'unitas.ouroboros.axis.v1';
  *  16-axis grid -- kept as a separate key/state so the two popups never
  *  fight over which axis shape they're holding across a locale remount. */
 const SHORTCUT_STORAGE_KEY = 'unitas.ouroboros.shortcut.v1';
+/** Which Hyper-Sovereign engine tower was open (owner instruction
+ *  2026-09-04 round 6) -- its seed lives under the tower's own key. */
+const HYPER_STORAGE_KEY = 'unitas.hyper.engine.v1';
 
 export function HomeContent() {
   const tHome = useTranslations('Home');
@@ -44,6 +49,11 @@ export function HomeContent() {
   const [activeModule, setActiveModule] = useState<B2CModule | null>(null);
   const [activeAxis, setActiveAxis] = useState<GovernanceAxis | null>(null);
   const [activeShortcut, setActiveShortcut] = useState<HotShortcutAxis | null>(null);
+  /** Which Hyper-Sovereign engine tower is open (owner instruction
+   *  2026-09-04 round 6) -- lifted here, beside activeShortcut, for the same
+   *  reason: the strip that hosts the tiles unmounts when the search hub
+   *  blurs, and the tower must outlive it. */
+  const [activeHyperEngine, setActiveHyperEngine] = useState<HyperEngineKey | null>(null);
   /** Focus Isolation: true while OmniSynapseSearch is focused on an empty
       query ("ouroboros" mode) -- sinks Sections 1-3 behind the search bar's
       multi-dimensional shortcut marquee (governance + hot-issue) instead of
@@ -101,6 +111,24 @@ export function HomeContent() {
     }
   }, [activeShortcut]);
 
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(HYPER_STORAGE_KEY);
+      if (saved && isHyperEngineKey(saved)) setActiveHyperEngine(saved);
+    } catch {
+      // non-fatal, see above.
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      if (activeHyperEngine) sessionStorage.setItem(HYPER_STORAGE_KEY, activeHyperEngine);
+      else sessionStorage.removeItem(HYPER_STORAGE_KEY);
+    } catch {
+      // non-fatal, see above.
+    }
+  }, [activeHyperEngine]);
+
   // Single U-AI session for the whole home page: the search bar drives it.
   // The ecosystem / module / protocol walls below are ALWAYS mounted on the
   // bare home screen (restored, owner instruction 2026-08-30) -- when a U-AI
@@ -126,6 +154,7 @@ export function HomeContent() {
         uai={uai}
         onSelectEcosystem={setActiveEcosystem}
         onOpenShortcut={setActiveShortcut}
+        onOpenHyperEngine={setActiveHyperEngine}
         onOuroborosChange={setIsOuroboros}
       />
 
@@ -259,6 +288,11 @@ export function HomeContent() {
       <ModuleQuestModal module={activeModule} onClose={() => setActiveModule(null)} />
       <GovernanceLadderModal axis={activeAxis} onClose={() => setActiveAxis(null)} />
       <HotShortcutResultModal shortcut={activeShortcut} onClose={() => setActiveShortcut(null)} />
+      <HyperSovereignTower
+        engine={activeHyperEngine}
+        onClose={() => setActiveHyperEngine(null)}
+        onSwitch={setActiveHyperEngine}
+      />
     </main>
     <Footer />
     </Fragment>

@@ -1170,18 +1170,35 @@
     "itn": "In het nieuws",
     "views": "{count} weergaven",
     "refresh": "Nieuws vernieuwen",
-    "source": "Bron: Wikimedia featured feed · neutrale samenvattingen · elke 15 min bijgewerkt",
+    "source": "Bronnen: Wikimedia featured feed · GDELT wereldwijde nieuwsgraaf (65+ talen) · Google Nieuws RSS · elke 10–15 min vernieuwd",
     "category": {
-      "world": "Wereld Live",
+      "world": "Wereld live",
       "politics": "Wereldpolitiek",
       "economy": "Wereldeconomie",
       "science": "Wereldwetenschap",
+      "technology": "Wereldtechnologie",
+      "engineering": "Wereldtechniek",
       "sports": "Wereldsport",
       "culture": "Wereldcultuur",
-      "disaster": "Wereldrampen",
-      "conflict": "Wereldconflicten",
-      "health": "Wereldgezondheid"
-    }
+      "art": "Wereldkunst",
+      "expression": "Wereldexpressie",
+      "language": "Wereldtaal",
+      "society": "Wereldsamenleving",
+      "structure": "Wereldstructuur",
+      "pragma": "Wereldpragmatiek",
+      "law": "Wereldrecht",
+      "institution": "Wereldinstituties",
+      "education": "Wereldonderwijs",
+      "welfare": "Welzijn · Gezondheid",
+      "security": "Veiligheid · Conflicten",
+      "strategy": "Wereldstrategie",
+      "disaster": "Wereldrampen"
+    },
+    "live": "Live-feed",
+    "loadMore": "Meer laden: {axis}",
+    "axisLoading": "Wereldwijde live-feed voor {axis} wordt opgehaald…",
+    "axisEmpty": "De live-feed van deze as is nu niet bereikbaar — probeer het zo opnieuw.",
+    "endOfFeed": "Einde van het tweewekelijkse archief — vernieuw om het nieuwste nieuws weer te laten stromen."
   },
   "Weather": {
     "myLocation": "Mijn locatie",
@@ -1347,5 +1364,104 @@
       "4": "Een module-overschrijdende operator wiens {module}-activiteitenindex meerdere cycli lang topniveau heeft behouden.",
       "5": "Erkend binnen {module} voor aanhoudende betrokkenheid ruim boven de mediane activiteitenindex van de module."
     }
+  },
+  "HyperSovereign": {
+    "label": "Hyper-soevereine snelkoppelingen",
+    "hint": "Tik om een hyper-soevereine cognitieve engine te openen",
+    "switchEngine": "Engine wisselen",
+    "engines": {
+      "ideaReplicator": {
+        "title": "Zelfreplicatie van business",
+        "description": "AI-agenten repliceren kapitaalvrije eenpersoonsfabriek-ideeën generatie na generatie zelf.",
+        "cta": "Start replicatie"
+      },
+      "fateEngine": {
+        "title": "Lotsprobabiliteitsengine",
+        "description": "Berekent met een 6-assige grondwet-Monte-Carlo hoe waarschijnlijk je doel uitkomt — en hackt de causaliteit.",
+        "cta": "Bereken lot"
+      },
+      "omniTwin": {
+        "title": "Omniversum-tweeling",
+        "description": "Kloont alles tot een datatweeling met U-Signature en resonantiespectrum.",
+        "cta": "Smeed tweeling"
+      },
+      "chronoForge": {
+        "title": "Causaliteitstijdlijn",
+        "description": "Smeedt toekomstmijlpalen op 1·2·3·5·10 jaar, elk met een waarschijnlijkheid.",
+        "cta": "Smeed tijdlijn"
+      },
+      "marginInfinity": {
+        "title": "Marge ∞ simulator",
+        "description": "Simuleert live nul marginale kosten en oneindige marge met micro-burn en intelligente caching.",
+        "cta": "Simuleer"
+      }
+    },
+    "seedPlaceholder": "Typ een zaadwoord (bv. koffie, een stad, een talent)…",
+    "goalPlaceholder": "Typ een doel (bv. € 10.000 geautomatiseerd maandinkomen binnen een jaar)…",
+    "subjectPlaceholder": "Typ een onderwerp (bv. je naam, een stad, een merk)…",
+    "replicate": "Repliceer",
+    "rerun": "Herbereken",
+    "hack": "Hack causaliteit",
+    "hacked": "Hack toegepast",
+    "evolve": "Evolueer tweeling",
+    "forge": "Hersmeed",
+    "generation": "Generatie {n}",
+    "probability": "Kans op realisatie",
+    "horizon": "Tijdshorizon",
+    "yearsShort": "{n} jr",
+    "levers": "Causaliteitshefbomen",
+    "trajectory": "Waarschijnlijkheidstraject",
+    "entropy": "Entropie",
+    "signature": "U-Signature",
+    "resonance": "16-assige resonantie",
+    "constitution": "6-assig grondwetspectrum",
+    "elements": "Elementdynamiek",
+    "metrics": {
+      "capital": "Benodigd kapitaal",
+      "launchDays": "Lancering (dagen)",
+      "automation": "Automatisering",
+      "margin": "Marge",
+      "viability": "Haalbaarheid",
+      "blueOcean": "Blauwe oceaan"
+    },
+    "capitalZero": "0 · kapitaalvrij",
+    "patterns": {
+      "agentRental": "Agentverhuur",
+      "dataTwin": "Datatweeling-abonnement",
+      "microBurnSaaS": "Micro-burn SaaS",
+      "autonomousMarketplace": "Autonome marktplaats",
+      "sovereignAcademy": "Soevereine academie",
+      "predictiveOracle": "Voorspellend orakel",
+      "cachedIntelligence": "Gecachte intelligentie",
+      "nomadFactory": "Nomadenfabriek"
+    },
+    "element": {
+      "earth": "Aarde",
+      "water": "Water",
+      "fire": "Vuur",
+      "wind": "Wind",
+      "lightning": "Bliksem"
+    },
+    "oracleLabel": "U-AI-orakel",
+    "oracleLoading": "Het U-AI-orakel smeedt het verhaal…",
+    "oracleUnavailable": "Het orakelverhaal kan zo opnieuw geprobeerd worden — het berekende resultaat hierboven is al definitief.",
+    "disclaimer": "Kansen en cijfers zijn een deterministische simulatie op basis van de 100-doctrinegrondwet, geen beleggings- of juridisch advies.",
+    "sliders": {
+      "price": "Prijs per aanroep (U-COIN)",
+      "burn": "Micro-burn-kosten per niet-gecachte aanroep (U-COIN)",
+      "cacheHit": "Trefkans intelligente cache",
+      "calls": "Aanroepen per dag"
+    },
+    "revenue": "Dagomzet",
+    "cost": "Dagkosten",
+    "margin": "Marge",
+    "marginInfinite": "∞ (oneindig)",
+    "marginalCost": "Marginale kosten",
+    "marginCurve": "Margecurve per cache-trefkans",
+    "milestone": "Mijlpalen",
+    "yearLabel": "{year}",
+    "magnitude": "Omvang {n}/5",
+    "emptyState": "Typ een zaad en voer uit — het resultaat verschijnt meteen.",
+    "lineage": "Replicatiestamboom"
   }
 }

@@ -1170,18 +1170,35 @@
     "itn": "Nelle notizie",
     "views": "{count} visualizzazioni",
     "refresh": "Aggiorna notizie",
-    "source": "Fonte: feed in evidenza di Wikimedia · sintesi neutrali · aggiornamento ogni 15 min",
+    "source": "Fonti: feed in evidenza Wikimedia · grafo globale delle notizie GDELT (65+ lingue) · RSS Google News · aggiornato ogni 10–15 min",
     "category": {
-      "world": "Mondo in Diretta",
-      "politics": "Politica Mondiale",
-      "economy": "Economia Mondiale",
-      "science": "Scienza Mondiale",
-      "sports": "Sport Mondiale",
-      "culture": "Cultura Mondiale",
-      "disaster": "Disastri Mondiali",
-      "conflict": "Conflitti Mondiali",
-      "health": "Salute Mondiale"
-    }
+      "world": "Mondo in diretta",
+      "politics": "Politica mondiale",
+      "economy": "Economia mondiale",
+      "science": "Scienza mondiale",
+      "technology": "Tecnologia mondiale",
+      "engineering": "Ingegneria mondiale",
+      "sports": "Sport mondiale",
+      "culture": "Cultura mondiale",
+      "art": "Arte mondiale",
+      "expression": "Espressione mondiale",
+      "language": "Lingua mondiale",
+      "society": "Società mondiale",
+      "structure": "Struttura mondiale",
+      "pragma": "Pragmatica mondiale",
+      "law": "Diritto mondiale",
+      "institution": "Istituzioni mondiali",
+      "education": "Istruzione mondiale",
+      "welfare": "Welfare · Salute",
+      "security": "Sicurezza · Conflitti",
+      "strategy": "Strategia mondiale",
+      "disaster": "Disastri mondiali"
+    },
+    "live": "Filo in diretta",
+    "loadMore": "Carica altro: {axis}",
+    "axisLoading": "Chiamata al filo mondiale in diretta per {axis}…",
+    "axisEmpty": "Il filo in diretta di questo asse non è raggiungibile ora — riprova tra poco.",
+    "endOfFeed": "Fine dell’archivio di due settimane — aggiorna per far scorrere di nuovo le ultime notizie."
   },
   "Weather": {
     "myLocation": "La mia posizione",
@@ -1347,5 +1364,104 @@
       "4": "Un operatore multi-modulo il cui indice di attività in {module} si è mantenuto ai vertici per più cicli.",
       "5": "Riconosciuto all’interno di {module} per un impegno costante ben superiore all’indice di attività mediano del modulo."
     }
+  },
+  "HyperSovereign": {
+    "label": "Scorciatoie ipersovrane",
+    "hint": "Tocca per aprire un motore cognitivo ipersovrano",
+    "switchEngine": "Cambia motore",
+    "engines": {
+      "ideaReplicator": {
+        "title": "Autoreplicazione del business",
+        "description": "Agenti IA autoreplicano idee di fabbrica unipersonale a capitale zero, generazione dopo generazione.",
+        "cta": "Avvia replicazione"
+      },
+      "fateEngine": {
+        "title": "Motore di probabilità del destino",
+        "description": "Calcola la probabilità che il tuo obiettivo si avveri con un Monte Carlo costituzionale a 6 assi — e hackera la causalità.",
+        "cta": "Calcola il destino"
+      },
+      "omniTwin": {
+        "title": "Gemello dell’omniverso",
+        "description": "Clona qualsiasi cosa in un gemello di dati con U-Signature e spettro di risonanza.",
+        "cta": "Forgia gemello"
+      },
+      "chronoForge": {
+        "title": "Linea temporale causale",
+        "description": "Forgia traguardi futuri a 1·2·3·5·10 anni, ciascuno con la sua probabilità.",
+        "cta": "Forgia linea temporale"
+      },
+      "marginInfinity": {
+        "title": "Simulatore di margine ∞",
+        "description": "Simula in tempo reale costo marginale zero e margine infinito con micro-burn e cache intelligente.",
+        "cta": "Simula"
+      }
+    },
+    "seedPlaceholder": "Scrivi un seme (es. caffè, una città, un talento)…",
+    "goalPlaceholder": "Scrivi un obiettivo (es. 10.000 € al mese di reddito automatico entro un anno)…",
+    "subjectPlaceholder": "Scrivi un soggetto (es. il tuo nome, una città, un brand)…",
+    "replicate": "Replica",
+    "rerun": "Ricalcola",
+    "hack": "Hackera la causalità",
+    "hacked": "Hack applicato",
+    "evolve": "Evolvi gemello",
+    "forge": "Riforgia",
+    "generation": "Generazione {n}",
+    "probability": "Probabilità di realizzazione",
+    "horizon": "Orizzonte temporale",
+    "yearsShort": "{n} anni",
+    "levers": "Leve causali",
+    "trajectory": "Traiettoria di probabilità",
+    "entropy": "Entropia",
+    "signature": "U-Signature",
+    "resonance": "Risonanza a 16 assi",
+    "constitution": "Spettro costituzionale a 6 assi",
+    "elements": "Dinamica elementale",
+    "metrics": {
+      "capital": "Capitale necessario",
+      "launchDays": "Lancio (giorni)",
+      "automation": "Automazione",
+      "margin": "Margine",
+      "viability": "Fattibilità",
+      "blueOcean": "Oceano blu"
+    },
+    "capitalZero": "0 · capitale zero",
+    "patterns": {
+      "agentRental": "Noleggio agenti",
+      "dataTwin": "Abbonamento gemello di dati",
+      "microBurnSaaS": "SaaS micro-burn",
+      "autonomousMarketplace": "Marketplace autonomo",
+      "sovereignAcademy": "Accademia sovrana",
+      "predictiveOracle": "Oracolo predittivo",
+      "cachedIntelligence": "Intelligenza in cache",
+      "nomadFactory": "Fabbrica nomade"
+    },
+    "element": {
+      "earth": "Terra",
+      "water": "Acqua",
+      "fire": "Fuoco",
+      "wind": "Vento",
+      "lightning": "Fulmine"
+    },
+    "oracleLabel": "Oracolo U-AI",
+    "oracleLoading": "L’oracolo U-AI sta forgiando la narrazione…",
+    "oracleUnavailable": "La narrazione dell’oracolo potrà essere ritentata a breve — il risultato calcolato sopra è già definitivo.",
+    "disclaimer": "Probabilità e cifre sono una simulazione deterministica fondata sulla costituzione delle 100 dottrine, non consulenza finanziaria o legale.",
+    "sliders": {
+      "price": "Prezzo per chiamata (U-COIN)",
+      "burn": "Costo micro-burn per chiamata non in cache (U-COIN)",
+      "cacheHit": "Tasso di hit della cache intelligente",
+      "calls": "Chiamate al giorno"
+    },
+    "revenue": "Ricavo giornaliero",
+    "cost": "Costo giornaliero",
+    "margin": "Margine",
+    "marginInfinite": "∞ (infinito)",
+    "marginalCost": "Costo marginale",
+    "marginCurve": "Curva del margine per tasso di cache",
+    "milestone": "Traguardi",
+    "yearLabel": "{year}",
+    "magnitude": "Portata {n}/5",
+    "emptyState": "Scrivi un seme ed esegui — il risultato appare all’istante.",
+    "lineage": "Genealogia della replicazione"
   }
 }

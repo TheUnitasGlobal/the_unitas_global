@@ -1170,18 +1170,35 @@
     "itn": "W wiadomościach",
     "views": "{count} wyświetleń",
     "refresh": "Odśwież wiadomości",
-    "source": "Źródło: kanał wyróżnionych Wikimedia · neutralne streszczenia · aktualizacja co 15 min",
+    "source": "Źródła: Wikimedia featured feed · globalny graf wiadomości GDELT (65+ języków) · RSS Google News · odświeżane co 10–15 min",
     "category": {
-      "world": "Świat Na Żywo",
-      "politics": "Polityka Światowa",
-      "economy": "Gospodarka Światowa",
-      "science": "Nauka Światowa",
-      "sports": "Sport Światowy",
-      "culture": "Kultura Światowa",
-      "disaster": "Katastrofy Światowe",
-      "conflict": "Konflikty Światowe",
-      "health": "Zdrowie Światowe"
-    }
+      "world": "Świat na żywo",
+      "politics": "Polityka światowa",
+      "economy": "Gospodarka światowa",
+      "science": "Nauka światowa",
+      "technology": "Technologia światowa",
+      "engineering": "Inżynieria światowa",
+      "sports": "Sport światowy",
+      "culture": "Kultura światowa",
+      "art": "Sztuka światowa",
+      "expression": "Ekspresja światowa",
+      "language": "Język światowy",
+      "society": "Społeczeństwo światowe",
+      "structure": "Struktura światowa",
+      "pragma": "Pragmatyka światowa",
+      "law": "Prawo światowe",
+      "institution": "Instytucje światowe",
+      "education": "Edukacja światowa",
+      "welfare": "Dobrobyt · Zdrowie",
+      "security": "Bezpieczeństwo · Konflikty",
+      "strategy": "Strategia światowa",
+      "disaster": "Katastrofy światowe"
+    },
+    "live": "Serwis na żywo",
+    "loadMore": "Wczytaj więcej: {axis}",
+    "axisLoading": "Wywołuję światowy serwis na żywo dla {axis}…",
+    "axisEmpty": "Serwis na żywo tej osi jest teraz niedostępny — spróbuj ponownie za chwilę.",
+    "endOfFeed": "Koniec dwutygodniowego archiwum — odśwież, aby najnowsze wiadomości znów popłynęły."
   },
   "Weather": {
     "myLocation": "Moja lokalizacja",
@@ -1347,5 +1364,104 @@
       "4": "Operator działający w wielu modułach, którego wskaźnik aktywności w {module} utrzymuje się na najwyższym poziomie przez wiele cykli.",
       "5": "Doceniany w {module} za trwałe zaangażowanie znacznie powyżej mediany wskaźnika aktywności modułu."
     }
+  },
+  "HyperSovereign": {
+    "label": "Skróty hipersuwerenne",
+    "hint": "Dotknij, aby otworzyć hipersuwerenny silnik poznawczy",
+    "switchEngine": "Zmień silnik",
+    "engines": {
+      "ideaReplicator": {
+        "title": "Samoreplikacja biznesu",
+        "description": "Agenci AI samoreplikują pomysły na jednoosobową fabrykę bez kapitału, pokolenie po pokoleniu.",
+        "cta": "Rozpocznij replikację"
+      },
+      "fateEngine": {
+        "title": "Silnik prawdopodobieństwa losu",
+        "description": "Oblicza prawdopodobieństwo spełnienia celu 6-osiowym konstytucyjnym Monte Carlo — a potem hakuje przyczynowość.",
+        "cta": "Oblicz los"
+      },
+      "omniTwin": {
+        "title": "Bliźniak wszechświata",
+        "description": "Klonuje cokolwiek w bliźniaka danych z U-Signature i widmem rezonansu.",
+        "cta": "Wykuj bliźniaka"
+      },
+      "chronoForge": {
+        "title": "Oś czasu przyczynowości",
+        "description": "Wykuwa kamienie milowe przyszłości na 1·2·3·5·10 lat, każdy z prawdopodobieństwem.",
+        "cta": "Wykuj oś czasu"
+      },
+      "marginInfinity": {
+        "title": "Symulator marży ∞",
+        "description": "Symuluje na żywo zerowy koszt krańcowy i nieskończoną marżę dzięki micro-burn i inteligentnemu cache.",
+        "cta": "Symuluj"
+      }
+    },
+    "seedPlaceholder": "Wpisz słowo-ziarno (np. kawa, miasto, talent)…",
+    "goalPlaceholder": "Wpisz cel (np. 40 000 zł miesięcznie zautomatyzowanego dochodu w rok)…",
+    "subjectPlaceholder": "Wpisz podmiot (np. twoje imię, miasto, marka)…",
+    "replicate": "Replikuj",
+    "rerun": "Przelicz",
+    "hack": "Zhakuj przyczynowość",
+    "hacked": "Hack zastosowany",
+    "evolve": "Ewoluuj bliźniaka",
+    "forge": "Przekuj",
+    "generation": "Pokolenie {n}",
+    "probability": "Prawdopodobieństwo realizacji",
+    "horizon": "Horyzont czasowy",
+    "yearsShort": "{n} l.",
+    "levers": "Dźwignie przyczynowości",
+    "trajectory": "Trajektoria prawdopodobieństwa",
+    "entropy": "Entropia",
+    "signature": "U-Signature",
+    "resonance": "Rezonans 16 osi",
+    "constitution": "Widmo konstytucji 6 osi",
+    "elements": "Dynamika żywiołów",
+    "metrics": {
+      "capital": "Potrzebny kapitał",
+      "launchDays": "Start (dni)",
+      "automation": "Automatyzacja",
+      "margin": "Marża",
+      "viability": "Wykonalność",
+      "blueOcean": "Błękitny ocean"
+    },
+    "capitalZero": "0 · bez kapitału",
+    "patterns": {
+      "agentRental": "Wynajem agentów",
+      "dataTwin": "Subskrypcja bliźniaka danych",
+      "microBurnSaaS": "SaaS micro-burn",
+      "autonomousMarketplace": "Autonomiczny marketplace",
+      "sovereignAcademy": "Suwerenna akademia",
+      "predictiveOracle": "Wyrocznia predykcyjna",
+      "cachedIntelligence": "Inteligencja z cache",
+      "nomadFactory": "Fabryka nomady"
+    },
+    "element": {
+      "earth": "Ziemia",
+      "water": "Woda",
+      "fire": "Ogień",
+      "wind": "Wiatr",
+      "lightning": "Piorun"
+    },
+    "oracleLabel": "Wyrocznia U-AI",
+    "oracleLoading": "Wyrocznia U-AI wykuwa narrację…",
+    "oracleUnavailable": "Narrację wyroczni można ponowić za chwilę — obliczony wynik powyżej jest już ostateczny.",
+    "disclaimer": "Prawdopodobieństwa i liczby to deterministyczna symulacja oparta na konstytucji 100 doktryn, a nie porada inwestycyjna czy prawna.",
+    "sliders": {
+      "price": "Cena za wywołanie (U-COIN)",
+      "burn": "Koszt micro-burn za wywołanie bez cache (U-COIN)",
+      "cacheHit": "Trafność inteligentnego cache",
+      "calls": "Wywołań dziennie"
+    },
+    "revenue": "Dzienny przychód",
+    "cost": "Dzienny koszt",
+    "margin": "Marża",
+    "marginInfinite": "∞ (nieskończona)",
+    "marginalCost": "Koszt krańcowy",
+    "marginCurve": "Krzywa marży według trafności cache",
+    "milestone": "Kamienie milowe",
+    "yearLabel": "{year}",
+    "magnitude": "Skala {n}/5",
+    "emptyState": "Wpisz ziarno i uruchom — wynik pojawi się natychmiast.",
+    "lineage": "Rodowód replikacji"
   }
 }

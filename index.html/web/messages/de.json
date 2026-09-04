@@ -1170,18 +1170,35 @@
     "itn": "In den Nachrichten",
     "views": "{count} Aufrufe",
     "refresh": "Nachrichten aktualisieren",
-    "source": "Quelle: Wikimedia-Featured-Feed · neutrale Zusammenfassungen · Aktualisierung alle 15 Min.",
+    "source": "Quellen: Wikimedia Featured Feed · GDELT globaler Nachrichtengraph (65+ Sprachen) · Google News RSS · alle 10–15 Min. aktualisiert",
     "category": {
-      "world": "Welt Live",
+      "world": "Welt live",
       "politics": "Weltpolitik",
       "economy": "Weltwirtschaft",
       "science": "Weltwissenschaft",
+      "technology": "Welttechnologie",
+      "engineering": "Weltingenieurwesen",
       "sports": "Weltsport",
       "culture": "Weltkultur",
-      "disaster": "Weltkatastrophen",
-      "conflict": "Weltkonflikte",
-      "health": "Weltgesundheit"
-    }
+      "art": "Weltkunst",
+      "expression": "Weltausdruck",
+      "language": "Weltsprache",
+      "society": "Weltgesellschaft",
+      "structure": "Weltstruktur",
+      "pragma": "Weltpragmatik",
+      "law": "Weltrecht",
+      "institution": "Weltinstitutionen",
+      "education": "Weltbildung",
+      "welfare": "Wohlfahrt · Gesundheit",
+      "security": "Sicherheit · Konflikte",
+      "strategy": "Weltstrategie",
+      "disaster": "Weltkatastrophen"
+    },
+    "live": "Live-Ticker",
+    "loadMore": "Mehr laden: {axis}",
+    "axisLoading": "Weltweiter Live-Ticker für {axis} wird abgerufen…",
+    "axisEmpty": "Der Live-Ticker dieser Achse ist gerade nicht erreichbar — bitte gleich erneut versuchen.",
+    "endOfFeed": "Ende des Zwei-Wochen-Archivs — aktualisieren, damit die neuesten Meldungen wieder fließen."
   },
   "Weather": {
     "myLocation": "Mein Standort",
@@ -1347,5 +1364,104 @@
       "4": "Ein modulübergreifender Betreiber, dessen {module}-Aktivitätsindex mehrere Zyklen lang eine Spitzenposition hielt.",
       "5": "Anerkannt innerhalb von {module} für nachhaltiges Engagement deutlich über dem Median-Aktivitätsindex des Moduls."
     }
+  },
+  "HyperSovereign": {
+    "label": "Hyper-souveräne Shortcuts",
+    "hint": "Tippen, um eine hyper-souveräne Kognitions-Engine zu öffnen",
+    "switchEngine": "Engine wechseln",
+    "engines": {
+      "ideaReplicator": {
+        "title": "Business-Selbstreplikation",
+        "description": "KI-Agenten replizieren kapitalfreie Ein-Personen-Fabrik-Ideen Generation für Generation selbst.",
+        "cta": "Replikation starten"
+      },
+      "fateEngine": {
+        "title": "Schicksals-Wahrscheinlichkeits-Engine",
+        "description": "Berechnet per 6-Achsen-Verfassungs-Monte-Carlo, wie wahrscheinlich dein Ziel wird — und hackt die Kausalität.",
+        "cta": "Schicksal berechnen"
+      },
+      "omniTwin": {
+        "title": "Omniversum-Zwilling",
+        "description": "Klont alles zu einem Datenzwilling mit U-Signature und Resonanzspektrum.",
+        "cta": "Zwilling schmieden"
+      },
+      "chronoForge": {
+        "title": "Kausalitäts-Zeitlinie",
+        "description": "Schmiedet Zukunfts-Meilensteine für 1·2·3·5·10 Jahre, jeder mit Wahrscheinlichkeit.",
+        "cta": "Zeitlinie schmieden"
+      },
+      "marginInfinity": {
+        "title": "Margen-∞-Simulator",
+        "description": "Simuliert live Grenzkosten null und unendliche Marge mit Micro-Burn und intelligentem Caching.",
+        "cta": "Simulieren"
+      }
+    },
+    "seedPlaceholder": "Seed-Stichwort eingeben (z. B. Kaffee, eine Stadt, ein Talent)…",
+    "goalPlaceholder": "Ziel eingeben (z. B. 10.000 € automatisiertes Monatseinkommen in einem Jahr)…",
+    "subjectPlaceholder": "Subjekt eingeben (z. B. dein Name, eine Stadt, eine Marke)…",
+    "replicate": "Replizieren",
+    "rerun": "Neu berechnen",
+    "hack": "Kausalität hacken",
+    "hacked": "Hack aktiv",
+    "evolve": "Zwilling entwickeln",
+    "forge": "Neu schmieden",
+    "generation": "Generation {n}",
+    "probability": "Realisierungswahrscheinlichkeit",
+    "horizon": "Zeithorizont",
+    "yearsShort": "{n} J.",
+    "levers": "Kausalitätshebel",
+    "trajectory": "Wahrscheinlichkeitsverlauf",
+    "entropy": "Entropie",
+    "signature": "U-Signature",
+    "resonance": "16-Achsen-Resonanz",
+    "constitution": "6-Achsen-Verfassungsspektrum",
+    "elements": "Elementardynamik",
+    "metrics": {
+      "capital": "Benötigtes Kapital",
+      "launchDays": "Launch (Tage)",
+      "automation": "Automatisierung",
+      "margin": "Marge",
+      "viability": "Machbarkeit",
+      "blueOcean": "Blue Ocean"
+    },
+    "capitalZero": "0 · kapitalfrei",
+    "patterns": {
+      "agentRental": "Agenten-Vermietung",
+      "dataTwin": "Datenzwilling-Abo",
+      "microBurnSaaS": "Micro-Burn-SaaS",
+      "autonomousMarketplace": "Autonomer Marktplatz",
+      "sovereignAcademy": "Souveräne Akademie",
+      "predictiveOracle": "Prädiktives Orakel",
+      "cachedIntelligence": "Gecachte Intelligenz",
+      "nomadFactory": "Nomaden-Fabrik"
+    },
+    "element": {
+      "earth": "Erde",
+      "water": "Wasser",
+      "fire": "Feuer",
+      "wind": "Wind",
+      "lightning": "Blitz"
+    },
+    "oracleLabel": "U-AI-Orakel",
+    "oracleLoading": "Das U-AI-Orakel schmiedet die Erzählung…",
+    "oracleUnavailable": "Die Orakel-Erzählung kann gleich erneut versucht werden — das berechnete Ergebnis oben ist bereits endgültig.",
+    "disclaimer": "Wahrscheinlichkeiten und Zahlen sind eine deterministische Simulation auf Basis der 100-Doktrinen-Verfassung, keine Anlage- oder Rechtsberatung.",
+    "sliders": {
+      "price": "Preis pro Aufruf (U-COIN)",
+      "burn": "Micro-Burn-Kosten pro ungecachtem Aufruf (U-COIN)",
+      "cacheHit": "Trefferquote des intelligenten Caches",
+      "calls": "Aufrufe pro Tag"
+    },
+    "revenue": "Tagesumsatz",
+    "cost": "Tageskosten",
+    "margin": "Marge",
+    "marginInfinite": "∞ (unendlich)",
+    "marginalCost": "Grenzkosten",
+    "marginCurve": "Margenkurve nach Cache-Trefferquote",
+    "milestone": "Meilensteine",
+    "yearLabel": "{year}",
+    "magnitude": "Größe {n}/5",
+    "emptyState": "Seed eingeben und ausführen — das Ergebnis erscheint sofort.",
+    "lineage": "Replikationslinie"
   }
 }

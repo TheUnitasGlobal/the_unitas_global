@@ -1170,18 +1170,35 @@
     "itn": "新闻动态",
     "views": "{count} 次浏览",
     "refresh": "刷新新闻",
-    "source": "来源：Wikimedia 精选源 · 中立摘要 · 每 15 分钟更新",
+    "source": "来源: Wikimedia 精选源 · GDELT 全球新闻图谱(65+ 种语言) · Google 新闻 RSS · 每 10–15 分钟更新",
     "category": {
       "world": "全球实时",
       "politics": "全球政治",
       "economy": "全球经济",
-      "science": "全球科技",
+      "science": "全球科学",
+      "technology": "全球技术",
+      "engineering": "全球工程",
       "sports": "全球体育",
       "culture": "全球文化",
-      "disaster": "全球灾难",
-      "conflict": "全球冲突",
-      "health": "全球健康"
-    }
+      "art": "全球艺术",
+      "expression": "全球表达",
+      "language": "全球语言",
+      "society": "全球社会",
+      "structure": "全球结构",
+      "pragma": "全球实用",
+      "law": "全球法律",
+      "institution": "全球制度",
+      "education": "全球教育",
+      "welfare": "全球福利·健康",
+      "security": "全球安全·冲突",
+      "strategy": "全球战略",
+      "disaster": "全球灾害"
+    },
+    "live": "实时线报",
+    "loadMore": "加载更多{axis}",
+    "axisLoading": "正在调用{axis}的全球实时信息…",
+    "axisEmpty": "当前无法获取该维度的实时信息 — 请稍后重试。",
+    "endOfFeed": "两周归档已到末尾 — 刷新即可让最新资讯重新流入。"
   },
   "Weather": {
     "myLocation": "我的位置",
@@ -1347,5 +1364,104 @@
       "4": "跨模块运营者,其{module}活跃度指数已连续多个周期保持顶级水平。",
       "5": "因在{module}中的持续参与远高于模块中位活跃度指数而获得认可。"
     }
+  },
+  "HyperSovereign": {
+    "label": "超主权快捷方式",
+    "hint": "点按打开超主权认知引擎弹窗",
+    "switchEngine": "切换引擎",
+    "engines": {
+      "ideaReplicator": {
+        "title": "商业自我增殖",
+        "description": "AI 代理让零资本、一人工厂的创意一代代自我增殖。",
+        "cta": "开始增殖"
+      },
+      "fateEngine": {
+        "title": "命运概率运算",
+        "description": "用六轴宪法蒙特卡洛计算目标实现概率，并黑入因果律。",
+        "cta": "运算命运"
+      },
+      "omniTwin": {
+        "title": "森罗万象孪生",
+        "description": "把任何事物克隆为数据孪生，生成 U-Signature 与共振谱。",
+        "cta": "生成孪生"
+      },
+      "chronoForge": {
+        "title": "因果律时间线",
+        "description": "锻造 1·2·3·5·10 年的未来里程碑，并附带概率。",
+        "cta": "锻造时间线"
+      },
+      "marginInfinity": {
+        "title": "利润 ∞ 模拟器",
+        "description": "以微燃烧与超智能缓存实时模拟零边际成本、无限利润。",
+        "cta": "模拟"
+      }
+    },
+    "seedPlaceholder": "输入种子关键词（如：咖啡、城市、才能）…",
+    "goalPlaceholder": "输入目标（如：一年内实现每月 5 万元自动收入）…",
+    "subjectPlaceholder": "输入对象（如：你的名字、城市、品牌）…",
+    "replicate": "增殖",
+    "rerun": "重新运算",
+    "hack": "黑入因果律",
+    "hacked": "已应用",
+    "evolve": "孪生进化",
+    "forge": "重新锻造",
+    "generation": "第 {n} 代",
+    "probability": "实现概率",
+    "horizon": "时间视界",
+    "yearsShort": "{n} 年",
+    "levers": "因果律杠杆",
+    "trajectory": "概率轨迹",
+    "entropy": "熵",
+    "signature": "U-Signature",
+    "resonance": "16 轴共振",
+    "constitution": "6 轴宪法谱",
+    "elements": "元素动力学",
+    "metrics": {
+      "capital": "所需资本",
+      "launchDays": "上线（天）",
+      "automation": "自动化",
+      "margin": "利润",
+      "viability": "可行性",
+      "blueOcean": "蓝海"
+    },
+    "capitalZero": "0 元 · 零资本",
+    "patterns": {
+      "agentRental": "代理租赁",
+      "dataTwin": "数据孪生订阅",
+      "microBurnSaaS": "微燃烧 SaaS",
+      "autonomousMarketplace": "自主市场",
+      "sovereignAcademy": "主权学院",
+      "predictiveOracle": "预测神谕",
+      "cachedIntelligence": "缓存智能",
+      "nomadFactory": "游牧工厂"
+    },
+    "element": {
+      "earth": "地",
+      "water": "水",
+      "fire": "火",
+      "wind": "风",
+      "lightning": "雷"
+    },
+    "oracleLabel": "U-AI 神谕",
+    "oracleLoading": "U-AI 神谕正在锻造叙事…",
+    "oracleUnavailable": "神谕叙事稍后可重试 — 上方运算结果已确定。",
+    "disclaimer": "概率与数值是基于百大超宪法的确定性模拟，并非投资或法律建议。",
+    "sliders": {
+      "price": "每次调用价格（U-COIN）",
+      "burn": "每次未缓存调用的微燃烧成本（U-COIN）",
+      "cacheHit": "超智能缓存命中率",
+      "calls": "每日调用次数"
+    },
+    "revenue": "日收入",
+    "cost": "日成本",
+    "margin": "利润率",
+    "marginInfinite": "∞（无限）",
+    "marginalCost": "实际边际成本",
+    "marginCurve": "按缓存命中率的利润曲线",
+    "milestone": "里程碑",
+    "yearLabel": "{year} 年",
+    "magnitude": "规模 {n}/5",
+    "emptyState": "输入种子并运行 — 结果即时呈现。",
+    "lineage": "增殖谱系"
   }
 }

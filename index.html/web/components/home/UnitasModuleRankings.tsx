@@ -65,7 +65,7 @@ export function UnitasModuleRankings() {
               aria-expanded={activeModule?.key === module.key}
               onMouseEnter={() => playHoverSfx()}
               onClick={() => openModule(module)}
-              className={`border px-3 py-2 text-[13px] font-bold uppercase tracking-widest transition-colors sm:text-[15px] ${
+              className={`whitespace-nowrap border px-4 py-3 text-[13px] font-bold uppercase tracking-widest transition-colors sm:text-[15px] ${
                 activeModule?.key === module.key
                   ? 'border-accent bg-accent/15 text-accent'
                   : 'border-white/15 text-gray-400 hover:border-white/30 hover:text-white'

@@ -1170,18 +1170,35 @@
     "itn": "Haberlerde",
     "views": "{count} görüntülenme",
     "refresh": "Haberleri yenile",
-    "source": "Kaynak: Wikimedia öne çıkan akışı · tarafsız özetler · her 15 dakikada güncellenir",
+    "source": "Kaynaklar: Wikimedia öne çıkan akış · GDELT küresel haber grafiği (65+ dil) · Google Haberler RSS · her 10–15 dakikada güncellenir",
     "category": {
-      "world": "Dünya Canlı",
-      "politics": "Dünya Siyaseti",
-      "economy": "Dünya Ekonomisi",
-      "science": "Dünya Bilimi",
-      "sports": "Dünya Sporu",
-      "culture": "Dünya Kültürü",
-      "disaster": "Dünya Afetleri",
-      "conflict": "Dünya Çatışmaları",
-      "health": "Dünya Sağlığı"
-    }
+      "world": "Dünya canlı",
+      "politics": "Dünya siyaseti",
+      "economy": "Dünya ekonomisi",
+      "science": "Dünya bilimi",
+      "technology": "Dünya teknolojisi",
+      "engineering": "Dünya mühendisliği",
+      "sports": "Dünya sporu",
+      "culture": "Dünya kültürü",
+      "art": "Dünya sanatı",
+      "expression": "Dünya ifadesi",
+      "language": "Dünya dili",
+      "society": "Dünya toplumu",
+      "structure": "Dünya yapısı",
+      "pragma": "Dünya pratiği",
+      "law": "Dünya hukuku",
+      "institution": "Dünya kurumları",
+      "education": "Dünya eğitimi",
+      "welfare": "Refah · Sağlık",
+      "security": "Güvenlik · Çatışma",
+      "strategy": "Dünya stratejisi",
+      "disaster": "Dünya afetleri"
+    },
+    "live": "Canlı hat",
+    "loadMore": "Daha fazla {axis} yükle",
+    "axisLoading": "{axis} için dünya çapında canlı hat çağrılıyor…",
+    "axisEmpty": "Bu eksenin canlı hattına şu anda ulaşılamıyor — kısa süre sonra tekrar deneyin.",
+    "endOfFeed": "İki haftalık arşivin sonu — en yeni haberlerin yeniden akması için yenileyin."
   },
   "Weather": {
     "myLocation": "Konumum",
@@ -1347,5 +1364,104 @@
       "4": "{module} aktivite endeksi birçok döngü boyunca en üst seviyede kalan çapraz modül operatörü.",
       "5": "{module} içinde, modülün medyan aktivite endeksinin oldukça üzerinde sürekli katılımla tanınıyor."
     }
+  },
+  "HyperSovereign": {
+    "label": "Hiper-egemen kısayollar",
+    "hint": "Hiper-egemen bilişsel motoru açmak için dokunun",
+    "switchEngine": "Motor değiştir",
+    "engines": {
+      "ideaReplicator": {
+        "title": "İş kendini çoğaltma",
+        "description": "Yapay zekâ ajanları sıfır sermayeli tek kişilik fabrika fikirlerini nesilden nesile kendileri çoğaltır.",
+        "cta": "Çoğaltmaya başla"
+      },
+      "fateEngine": {
+        "title": "Kader olasılık motoru",
+        "description": "Hedefinizin gerçekleşme olasılığını 6 eksenli anayasa Monte Carlo’suyla hesaplar — sonra nedenselliği hackler.",
+        "cta": "Kaderi hesapla"
+      },
+      "omniTwin": {
+        "title": "Evren ikizi",
+        "description": "Her şeyi U-Signature ve rezonans spektrumu olan bir veri ikizine klonlar.",
+        "cta": "İkiz oluştur"
+      },
+      "chronoForge": {
+        "title": "Nedensellik zaman çizelgesi",
+        "description": "1·2·3·5·10 yıllık gelecek kilometre taşlarını olasılıklarıyla döver.",
+        "cta": "Zaman çizelgesi döv"
+      },
+      "marginInfinity": {
+        "title": "Marj ∞ simülatörü",
+        "description": "Mikro-yakım ve akıllı önbellekle sıfır marjinal maliyet ve sonsuz marjı canlı simüle eder.",
+        "cta": "Simüle et"
+      }
+    },
+    "seedPlaceholder": "Tohum anahtar kelime yazın (örn. kahve, bir şehir, bir yetenek)…",
+    "goalPlaceholder": "Hedef yazın (örn. bir yıl içinde ayda 300.000 ₺ otomatik gelir)…",
+    "subjectPlaceholder": "Konu yazın (örn. adınız, bir şehir, bir marka)…",
+    "replicate": "Çoğalt",
+    "rerun": "Yeniden hesapla",
+    "hack": "Nedenselliği hackle",
+    "hacked": "Hack uygulandı",
+    "evolve": "İkizi evrimleştir",
+    "forge": "Yeniden döv",
+    "generation": "{n}. nesil",
+    "probability": "Gerçekleşme olasılığı",
+    "horizon": "Zaman ufku",
+    "yearsShort": "{n} yıl",
+    "levers": "Nedensellik kaldıraçları",
+    "trajectory": "Olasılık yörüngesi",
+    "entropy": "Entropi",
+    "signature": "U-Signature",
+    "resonance": "16 eksenli rezonans",
+    "constitution": "6 eksenli anayasa spektrumu",
+    "elements": "Element dinamiği",
+    "metrics": {
+      "capital": "Gereken sermaye",
+      "launchDays": "Lansman (gün)",
+      "automation": "Otomasyon",
+      "margin": "Marj",
+      "viability": "Uygulanabilirlik",
+      "blueOcean": "Mavi okyanus"
+    },
+    "capitalZero": "0 · sıfır sermaye",
+    "patterns": {
+      "agentRental": "Ajan kiralama",
+      "dataTwin": "Veri ikizi aboneliği",
+      "microBurnSaaS": "Mikro-yakım SaaS",
+      "autonomousMarketplace": "Otonom pazar yeri",
+      "sovereignAcademy": "Egemen akademi",
+      "predictiveOracle": "Öngörücü kâhin",
+      "cachedIntelligence": "Önbellekli zekâ",
+      "nomadFactory": "Göçebe fabrika"
+    },
+    "element": {
+      "earth": "Toprak",
+      "water": "Su",
+      "fire": "Ateş",
+      "wind": "Rüzgâr",
+      "lightning": "Yıldırım"
+    },
+    "oracleLabel": "U-AI kâhini",
+    "oracleLoading": "U-AI kâhini anlatıyı dövüyor…",
+    "oracleUnavailable": "Kâhin anlatısı kısa süre sonra yeniden denenebilir — yukarıdaki hesaplanan sonuç zaten kesindir.",
+    "disclaimer": "Olasılıklar ve rakamlar 100 doktrinli anayasaya dayalı deterministik bir simülasyondur; yatırım veya hukuk tavsiyesi değildir.",
+    "sliders": {
+      "price": "Çağrı başına fiyat (U-COIN)",
+      "burn": "Önbelleksiz çağrı başına mikro-yakım maliyeti (U-COIN)",
+      "cacheHit": "Akıllı önbellek isabet oranı",
+      "calls": "Günlük çağrı"
+    },
+    "revenue": "Günlük gelir",
+    "cost": "Günlük maliyet",
+    "margin": "Marj",
+    "marginInfinite": "∞ (sonsuz)",
+    "marginalCost": "Marjinal maliyet",
+    "marginCurve": "Önbellek isabet oranına göre marj eğrisi",
+    "milestone": "Kilometre taşları",
+    "yearLabel": "{year}",
+    "magnitude": "Büyüklük {n}/5",
+    "emptyState": "Tohum yazıp çalıştırın — sonuç anında görünür.",
+    "lineage": "Çoğaltma soyağacı"
   }
 }
