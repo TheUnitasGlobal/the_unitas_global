@@ -1332,7 +1332,7 @@
     "logoutBody": "Oled lahkumas UNITASest. Logi sellest seadmest esmalt välja või jätka seansiga väljumise juurde.",
     "logoutConfirm": "Logi välja",
     "logoutSkip": "Jää sisselogituks",
-    "exitTitle": "Kas väljud UNITASest?",
+    "exitTitle": "Kas logid välja ja väljud UNITASest?",
     "exitBody": "Sait suletakse ainult siin kinnitades. Tühista, et jääda täpselt sinna, kus olid.",
     "exitConfirm": "Välju",
     "exitCancel": "Tühista",

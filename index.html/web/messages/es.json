@@ -1332,7 +1332,7 @@
     "logoutBody": "Estás a punto de salir de UNITAS. Cierra sesión en este dispositivo primero o mantén tu sesión y continúa hacia la salida.",
     "logoutConfirm": "Cerrar sesión",
     "logoutSkip": "Seguir conectado",
-    "exitTitle": "¿Salir de UNITAS?",
+    "exitTitle": "¿Cerrar sesión y salir de UNITAS?",
     "exitBody": "El sitio solo se cierra cuando lo confirmas aquí. Cancela para quedarte exactamente donde estabas.",
     "exitConfirm": "Salir",
     "exitCancel": "Cancelar",

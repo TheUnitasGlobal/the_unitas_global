@@ -1332,7 +1332,7 @@
     "logoutBody": "Bạn sắp rời UNITAS. Hãy đăng xuất khỏi thiết bị này trước, hoặc giữ phiên và tiếp tục thoát.",
     "logoutConfirm": "Đăng xuất",
     "logoutSkip": "Giữ đăng nhập",
-    "exitTitle": "Thoát UNITAS?",
+    "exitTitle": "Đăng xuất và thoát UNITAS?",
     "exitBody": "Trang chỉ đóng khi bạn xác nhận tại đây. Hủy để ở lại đúng nơi bạn đang xem.",
     "exitConfirm": "Thoát",
     "exitCancel": "Hủy",

@@ -43,9 +43,9 @@
     <polygon points="295,215 250,245 250,215 275,200" fill="#4D3300" />
     <polygon points="225,160 250,145 275,160 275,200 250,215 225,200" fill="url(#deepVoid)" />
 
-    <polygon points="250,165 265,195 235,195" fill="url(#triBg)" stroke="#00FFFF" stroke-width="2.5" filter="url(#extremeGlow)" />
-    <polygon points="250,165 265,195 235,195" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-dasharray="8,12,15,6" filter="url(#sparkFilter)" />
-    <polygon points="250,165 265,195 235,195" fill="none" stroke="#7FFFD4" stroke-width="3" stroke-dasharray="4,25,10,18" filter="url(#extremeGlow)" />
+    <polygon points="250,154 278,206 222,206" fill="url(#triBg)" stroke="#00FFFF" stroke-width="2.5" filter="url(#extremeGlow)" />
+    <polygon points="250,154 278,206 222,206" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-dasharray="8,12,15,6" filter="url(#sparkFilter)" />
+    <polygon points="250,154 278,206 222,206" fill="none" stroke="#7FFFD4" stroke-width="3" stroke-dasharray="4,25,10,18" filter="url(#extremeGlow)" />
 
     <polygon points="250,157 270,168.5 270,191.5 250,203 230,191.5 230,168.5" fill="none" stroke="#7FFFD4" stroke-width="1.5" opacity="0.85" stroke-dasharray="4,2" />
 

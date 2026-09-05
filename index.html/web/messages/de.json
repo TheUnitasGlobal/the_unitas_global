@@ -1332,7 +1332,7 @@
     "logoutBody": "Du bist dabei, UNITAS zu verlassen. Melde dich zuerst auf diesem Gerät ab oder behalte deine Sitzung und fahre mit dem Beenden fort.",
     "logoutConfirm": "Abmelden",
     "logoutSkip": "Angemeldet bleiben",
-    "exitTitle": "UNITAS beenden?",
+    "exitTitle": "Abmelden und UNITAS beenden?",
     "exitBody": "Die Seite wird nur geschlossen, wenn du hier bestätigst. Abbrechen lässt dich genau dort, wo du warst.",
     "exitConfirm": "Beenden",
     "exitCancel": "Abbrechen",

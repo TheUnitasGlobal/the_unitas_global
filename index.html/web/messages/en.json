@@ -1332,7 +1332,7 @@
     "logoutBody": "You are about to leave UNITAS. Log out of this device first, or keep your session and continue to exit.",
     "logoutConfirm": "Log out",
     "logoutSkip": "Stay signed in",
-    "exitTitle": "Exit UNITAS?",
+    "exitTitle": "Log out and exit UNITAS?",
     "exitBody": "The site only closes when you confirm here. Cancel to stay exactly where you were.",
     "exitConfirm": "Exit",
     "exitCancel": "Cancel",

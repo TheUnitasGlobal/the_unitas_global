@@ -1332,7 +1332,7 @@
     "logoutBody": "Je staat op het punt UNITAS te verlaten. Log eerst uit op dit apparaat, of behoud je sessie en ga door naar afsluiten.",
     "logoutConfirm": "Uitloggen",
     "logoutSkip": "Ingelogd blijven",
-    "exitTitle": "UNITAS afsluiten?",
+    "exitTitle": "Afmelden en UNITAS afsluiten?",
     "exitBody": "De site sluit alleen als je hier bevestigt. Annuleer om precies te blijven waar je was.",
     "exitConfirm": "Afsluiten",
     "exitCancel": "Annuleren",

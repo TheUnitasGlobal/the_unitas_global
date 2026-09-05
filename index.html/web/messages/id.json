@@ -1332,7 +1332,7 @@
     "logoutBody": "Anda akan meninggalkan UNITAS. Keluar dari akun di perangkat ini dulu, atau pertahankan sesi dan lanjutkan untuk keluar.",
     "logoutConfirm": "Keluar akun",
     "logoutSkip": "Tetap masuk",
-    "exitTitle": "Keluar dari UNITAS?",
+    "exitTitle": "Keluar akun dan keluar dari UNITAS?",
     "exitBody": "Situs hanya ditutup jika Anda mengonfirmasi di sini. Batalkan untuk tetap di tempat semula.",
     "exitConfirm": "Keluar",
     "exitCancel": "Batal",

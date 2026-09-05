@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { Volume2, VolumeX } from 'lucide-react';
+import { Volume2, VolumeX, X } from 'lucide-react';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
@@ -881,6 +881,28 @@ export function ComingSoonCinema() {
                     style={{ transform: 'scaleX(0)' }}
                   />
                 </div>
+
+                {/* Owner instruction 2026-09-05, round 3: a globally-recognized
+                    top-right close/skip 'X' -- the same gold-accent-bordered
+                    icon-button treatment as PwaInstallHost's sheet close --
+                    alongside the existing bottom-right "건너뛰기" text control
+                    (kept as-is; this is an additional, more universally
+                    intuitive affordance, not a replacement). Calls the exact
+                    same `skip()` as that control: it advances straight to the
+                    sealed "COMING SOON" screen, never past it -- the
+                    fail-closed public/founder boundary below is untouched.
+                    Stacked BELOW the GlobalLanguagePicker (which pins the
+                    same top-right corner in every phase, see `right-4 top-4`
+                    below) instead of sharing its exact spot, so the two
+                    controls never overlap. */}
+                <button
+                  type="button"
+                  onClick={skip}
+                  aria-label={t('skip')}
+                  className="absolute right-4 top-16 z-20 flex h-8 w-8 items-center justify-center border border-accent/50 bg-void/40 text-accent backdrop-blur-sm transition-colors hover:border-accent hover:bg-void/60 sm:right-6 sm:top-20"
+                >
+                  <X size={16} aria-hidden="true" />
+                </button>
 
                 {/* 5-segment scroll indicator dots -- permanently fixed (lives
                     inside the curtain's `fixed inset-0` ancestor, so it never

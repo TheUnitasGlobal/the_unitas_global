@@ -17,15 +17,24 @@ const LEAVE_SETTLE_MS = 450;
 
 type Step = 'logout' | 'exit';
 
+function isStandaloneMode(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return (
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (navigator as Navigator & { standalone?: boolean }).standalone === true
+    );
+  } catch {
+    return false;
+  }
+}
+
 function shouldArm(): boolean {
   if (typeof window === 'undefined') return false;
   try {
     const coarse = window.matchMedia('(pointer: coarse)').matches;
-    const standalone =
-      window.matchMedia('(display-mode: standalone)').matches ||
-      (navigator as Navigator & { standalone?: boolean }).standalone === true;
     const narrow = window.innerWidth <= 1024;
-    return coarse || standalone || narrow;
+    return coarse || isStandaloneMode() || narrow;
   } catch {
     return false;
   }
@@ -124,12 +133,26 @@ export function ExitGuard() {
       // Installed PWA / script-opened tab: a real close is permitted.
       window.close();
     } catch {
-      // ignored -- fall through to history
+      // ignored -- fall through below
     }
     try {
-      // Sentinel + real entry: two steps back leaves the site for the page
-      // (or launcher) the visitor came from.
-      window.history.go(-2);
+      if (isStandaloneMode()) {
+        // Owner instruction 2026-09-05 (round 2): `history.go(-2)` is a dead
+        // end for a freshly-launched installed PWA -- armSentinel() only
+        // ever pushes ONE synthetic entry on top of the app's single real
+        // entry, so by the time the visitor has backed onto that real entry
+        // and confirmed exit here, there are no 2 entries left to go back
+        // through and nothing happens (the app just sits there). No web API
+        // can force-quit an installed PWA/TWA process, so the closest
+        // honest equivalent is leaving the app's visible content -- replace
+        // the document instead of trying to travel past history it doesn't
+        // have.
+        window.location.replace('about:blank');
+      } else {
+        // Sentinel + real entry: two steps back leaves the site for the page
+        // (or launcher) the visitor came from.
+        window.history.go(-2);
+      }
     } catch {
       // ignored
     }

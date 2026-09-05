@@ -28,16 +28,19 @@ interface MasterMarkLogoProps {
  * instruction 2026-09-05, item 1) so the SAME animated mark -- gold hexagon
  * frame perfectly fixed, with the lightning triangle, the centered dashed
  * hexagon and the center bar each spinning independently inside it, and the
- * hologram globe held perfectly still at dead center (owner instruction
- * 2026-09-05, round 2: the globe's spin was scrapped, only its in-place
- * pulse remains) -- renders in all three places the owner named: the intro
- * splash (CinematicIntroSplash), the nav-bar small logo (NavBar), and the
- * Coming-Soon ad page's install CTA (CinemaAppDownload). All three share
- * `app/splash.css`'s `.sp-*` animation classes, loaded globally from
- * app/layout.tsx, so no per-caller stylesheet wiring is needed. The
- * lightning-triangle points are bounding-box symmetric around (250, 180) --
- * the same fixed center the globe/dot-hex/bolt already share -- and sized so
- * its rotation sweep can't cross into the gold frame (round 2 fix).
+ * hologram globe held perfectly still at dead center with no animation at
+ * all (owner instruction 2026-09-05, round 3: the globe's round-2 in-place
+ * pulse was dropped too, so it is now fully static) -- renders in all three
+ * places the owner named: the intro splash (CinematicIntroSplash), the
+ * nav-bar small logo (NavBar), and the Coming-Soon ad page's install CTA
+ * (CinemaAppDownload). All three share `app/splash.css`'s `.sp-*` animation
+ * classes, loaded globally from app/layout.tsx, so no per-caller stylesheet
+ * wiring is needed. The lightning-triangle points are bounding-box
+ * symmetric around (250, 180) -- the same fixed center the globe/dot-hex/
+ * bolt already share, so the spin never wobbles -- and restored to their
+ * original large scale (round 3) so the triangle sweeps through and fills
+ * the gold frame as it turns, a deliberate grand/majestic look rather than
+ * the smaller, frame-clearing size round 2 had used.
  */
 export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMarkLogoProps) {
   const hero = variant === 'hero';
@@ -109,7 +112,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
         {/* lightning triangle -- spins independently inside the fixed frame */}
         <g className="sp-tri-spin">
           <polygon
-            points="250,165 265,195 235,195"
+            points="250,154 278,206 222,206"
             fill="url(#sp-triBg)"
             stroke="#00FFFF"
             strokeWidth={hero ? 2.5 : 3}
@@ -119,7 +122,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
             <>
               <polygon
                 className="sp-tri-spark"
-                points="250,165 265,195 235,195"
+                points="250,154 278,206 222,206"
                 fill="none"
                 stroke="#FFFFFF"
                 strokeWidth="1.8"
@@ -128,7 +131,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
               />
               <polygon
                 className="sp-tri-arc"
-                points="250,165 265,195 235,195"
+                points="250,154 278,206 222,206"
                 fill="none"
                 stroke="#7FFFD4"
                 strokeWidth="3"
@@ -137,7 +140,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
               />
             </>
           ) : (
-            <polygon points="250,165 265,195 235,195" fill="none" stroke="#7FFFD4" strokeWidth="1.4" />
+            <polygon points="250,154 278,206 222,206" fill="none" stroke="#7FFFD4" strokeWidth="1.4" />
           )}
         </g>
 

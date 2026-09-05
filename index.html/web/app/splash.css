@@ -167,13 +167,15 @@ html[data-splash='off'] .sp-root {
 /* lightning triangle: spins independently inside the fixed hex frame,
    opposite direction and slower than the dot-hexagon for visual separation.
    Owner instruction 2026-09-05 (round 2): the triangle's own points
-   (250,165)/(265,195)/(235,195) in MasterMarkLogo.tsx are now bounding-box
+   (250,154)/(278,206)/(222,206) in MasterMarkLogo.tsx are bounding-box
    symmetric around (250, 180) -- the same point the globe/dot-hex/bolt
-   already rotate on -- so `transform-origin: center` (fill-box) resolves to
-   exactly (250, 180), not the old off-center (250, 172). The triangle was
-   also shrunk (circumradius ~21) so its rotation sweep stays inside the
-   inner hex void's tightest wall (25 units from center at the two vertical
-   facets) instead of clipping into the gold frame. */
+   rotate on -- so `transform-origin: center` (fill-box) resolves to exactly
+   (250, 180), not the old off-center (250, 172), so the spin itself never
+   wobbles. Round 3 restored the triangle to its original large scale
+   (circumradius ~38, unchanged from the pre-fix artwork) per owner
+   instruction: it is now meant to sweep through and fill the gold frame
+   as it turns -- a deliberate grand/majestic look, not a bug -- rather
+   than staying safely inside the inner hex void as round 2 had it. */
 .sp-tri-spin {
   transform-box: fill-box;
   transform-origin: center;
@@ -231,25 +233,14 @@ html[data-splash='off'] .sp-root {
     opacity: 1;
   }
 }
-/* hologram globe: FIXED at dead center (250, 180) -- no rotation. Owner
-   instruction 2026-09-05 (round 2): the globe's spin was scrapped entirely;
-   only the in-place pulse (scale + opacity) remains, anchored on its own
-   fill-box center so it never drifts off (250, 180). */
+/* hologram globe: FULLY STATIC at dead center (250, 180) -- owner
+   instruction 2026-09-05 (round 3): no rotation, no pulse, no scale, no
+   opacity animation at all. The round-2 fix already dropped the spin but
+   kept an in-place scale/opacity pulse; that pulse is now dropped too so
+   the globe renders as a perfectly fixed, motionless hologram sphere. */
 .sp-globe {
   transform-box: fill-box;
   transform-origin: center;
-  animation: sp-globe-pulse 2.4s ease-in-out infinite;
-}
-@keyframes sp-globe-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.92;
-  }
-  50% {
-    transform: scale(1.16);
-    opacity: 1;
-  }
 }
 .sp-facet-shine {
   opacity: 0;
@@ -355,7 +346,6 @@ html[data-splash='off'] .sp-root {
   .sp-tri-arc,
   .sp-bolt,
   .sp-bolt-spin,
-  .sp-globe,
   .sp-facet-shine,
   .sp-flash,
   .sp-bloom {

@@ -48,7 +48,7 @@ export default async function Image() {
             <polygon points="250,245 205,215 225,200 250,215" fill="#704D07" />
             <polygon points="295,215 250,245 250,215 275,200" fill="#4D3300" />
             <polygon points="225,160 250,145 275,160 275,200 250,215 225,200" fill="#011616" />
-            <polygon points="250,165 265,195 235,195" fill="#001616" stroke="#00FFFF" strokeWidth="2.5" />
+            <polygon points="250,154 278,206 222,206" fill="#001616" stroke="#00FFFF" strokeWidth="2.5" />
             <circle cx="250" cy="180" r="12.5" fill="#00e5e5" opacity="0.85" />
             <circle cx="250" cy="180" r="12.5" fill="none" stroke="#ffffff" strokeWidth="0.7" opacity="0.6" />
           </g>

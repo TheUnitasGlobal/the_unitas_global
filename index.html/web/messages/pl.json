@@ -1332,7 +1332,7 @@
     "logoutBody": "Zamierzasz opuścić UNITAS. Najpierw wyloguj się na tym urządzeniu lub zachowaj sesję i przejdź do wyjścia.",
     "logoutConfirm": "Wyloguj",
     "logoutSkip": "Pozostań zalogowany",
-    "exitTitle": "Opuścić UNITAS?",
+    "exitTitle": "Wylogować się i opuścić UNITAS?",
     "exitBody": "Strona zamknie się tylko po potwierdzeniu tutaj. Anuluj, aby zostać dokładnie tam, gdzie byłeś.",
     "exitConfirm": "Wyjdź",
     "exitCancel": "Anuluj",

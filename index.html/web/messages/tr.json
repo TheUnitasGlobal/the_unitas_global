@@ -1332,7 +1332,7 @@
     "logoutBody": "UNITAS’tan ayrılmak üzeresiniz. Önce bu cihazda oturumu kapatın veya oturumu koruyup çıkışa devam edin.",
     "logoutConfirm": "Oturumu kapat",
     "logoutSkip": "Oturumda kal",
-    "exitTitle": "UNITAS’tan çıkılsın mı?",
+    "exitTitle": "Oturum kapatılıp UNITAS’tan çıkılsın mı?",
     "exitBody": "Site yalnızca burada onayladığınızda kapanır. İptal ederseniz tam olduğunuz yerde kalırsınız.",
     "exitConfirm": "Çık",
     "exitCancel": "İptal",
