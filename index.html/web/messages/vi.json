@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "Hệ sinh thái mô-đun UNITAS · liên kết với tìm kiếm của bạn"
   },
+  "LockIn": {
+    "title": "Hệ sinh thái khóa chân",
+    "subtitle": "Tám mô-đun chủ quyền giữ mọi hành trình bên trong UNITAS — mở và kích hoạt từng mô-đun để hoàn tất khóa chân của bạn.",
+    "hint": "Mở mô-đun khóa chân này",
+    "eyebrow": "MÔ-ĐUN KHÓA CHÂN {index} / {total}",
+    "progress": "Đã kích hoạt {active} / {total}",
+    "complete": "Khóa chân hoàn tất — cả tám mô-đun đã hoạt động trên thiết bị này.",
+    "activate": "Kích hoạt mô-đun",
+    "deactivate": "Hủy kích hoạt",
+    "activeBadge": "Đang hoạt động",
+    "pillarsLabel": "Trụ cột cốt lõi",
+    "doctrineLabel": "Học thuyết",
+    "prev": "Mô-đun trước",
+    "next": "Mô-đun tiếp theo",
+    "modules": {
+      "nexus": {
+        "tagline": "Một danh tính, mọi mô-đun",
+        "description": "NEXUS gắn kết U-Signature, ví, bộ nhớ và mọi mô-đun của bạn thành một đồ thị chủ quyền duy nhất — càng dùng nhiều nó càng nhớ nhiều, và không bao giờ phải nhập lại bất cứ điều gì.",
+        "p1": "Một lần đăng nhập chủ quyền cho toàn bộ 19 mô-đun UNITAS",
+        "p2": "Bộ nhớ liên mô-đun theo bạn từ engine này sang engine khác",
+        "p3": "Đồ thị danh tính di động thuộc về bạn, không phải nền tảng",
+        "doctrine": "Siêu kết nối · Siêu tích hợp · Siêu đồng bộ"
+      },
+      "aegis": {
+        "tagline": "Tấm khiên không bao giờ ngủ",
+        "description": "AEGIS bao bọc tài khoản, ví và dữ liệu của bạn trong lớp phòng thủ zero-trust — mọi phiên, khóa và giao dịch coin đều được xác minh trước khi diễn ra, nên rời đi là bước đi duy nhất không an toàn.",
+        "p1": "Phiên và lưu ký khóa zero-trust trên mọi yêu cầu",
+        "p2": "Giám sát bất thường thời gian thực trên ví và sổ cái",
+        "p3": "Fail-closed từ thiết kế: không gì chưa xác minh được thực thi",
+        "doctrine": "Siêu phòng thủ · Siêu chống hacker · Siêu phòng thủ mạng"
+      },
+      "uTwin": {
+        "tagline": "Bản sao dữ liệu tiến hóa của bạn",
+        "description": "U-TWIN biến mọi việc bạn làm thành một sinh thể dữ liệu sống — kho lưu trữ U-Signature ngày càng sắc bén qua mỗi tìm kiếm, quyết định và kết quả, và không thể tồn tại ở bất kỳ nơi nào khác.",
+        "p1": "Kho dữ liệu linh hồn tích lũy kép qua mỗi tương tác",
+        "p2": "Hồ sơ cộng hưởng trên sáu trục hiến pháp",
+        "p3": "So sánh giữa các bản sao và theo dõi tiến hóa",
+        "doctrine": "Siêu sinh tạo · Siêu thích ứng · Siêu bất tử"
+      },
+      "infinity": {
+        "tagline": "Biên lợi nhuận ∞ nhờ bộ nhớ đệm thông minh",
+        "description": "INFINITY là động cơ kinh tế bên dưới UNITAS: mọi câu trả lời đã tính một lần được lưu đệm và tái sử dụng với chi phí biên bằng không, nên hệ sinh thái càng rẻ với bạn khi bạn ở lại càng lâu.",
+        "p1": "Giá micro-burn giảm dần khi bộ đệm nóng lên",
+        "p2": "Mọi tầng đã tổng hợp được phục vụ lại toàn cầu với chi phí bằng không",
+        "p3": "Kỹ năng và dữ liệu tích lũy không bao giờ hết hạn",
+        "doctrine": "Siêu biên lợi tuyệt đối · Siêu bộ đệm thông minh · Siêu tiết kiệm"
+      },
+      "panopticon": {
+        "tagline": "Nhìn cả thế giới trên một màn hình",
+        "description": "PANOPTICON hợp nhất bảng xếp hạng thế giới trực tiếp, tin tức 21 trục, thời tiết và xu hướng tìm kiếm thành một đài quan sát thời gian thực duy nhất — màn hình thay thế mọi tab khác.",
+        "p1": "Bảng xếp hạng thế giới và UNITAS trực tiếp, cập nhật suốt ngày đêm",
+        "p2": "Tin tức toàn cầu 21 trục bằng ngôn ngữ của bạn",
+        "p3": "Thời tiết, xu hướng và tín hiệu cho đúng khu vực của bạn",
+        "doctrine": "Siêu thấu hiểu · Siêu tổng hợp web thời gian thực · Siêu minh bạch"
+      },
+      "oracle": {
+        "tagline": "Xác suất trước khi nó xảy ra",
+        "description": "ORACLE chạy mô phỏng tất định trên phép tính nhân quả — thị trường, dự án, mục tiêu — và trả về xác suất cùng các đòn bẩy làm chúng dịch chuyển. Là mô phỏng, không bao giờ là lời khuyên.",
+        "p1": "Monte Carlo hiến pháp sáu trục cho bất kỳ mục tiêu nào",
+        "p2": "Số đọc xác suất thị trường, crypto và xu hướng",
+        "p3": "Đòn bẩy nhân quả xếp theo mức tác động",
+        "doctrine": "Siêu dự báo tương lai · Siêu dự báo chứng khoán · Siêu phân tích bitcoin"
+      },
+      "syndicateX": {
+        "tagline": "Thuê nhà máy, gia nhập mạng lưới",
+        "description": "SYNDICATE-X là nơi dân du mục và doanh nghiệp nhỏ thuê nhà máy tác tử tự trị của nhau — một chợ liên minh mà giá trị tăng lên với mỗi thành viên gia nhập.",
+        "p1": "Chợ cho thuê nhà máy tác tử khởi đầu với vốn bằng không",
+        "p2": "Đồ thị liên minh làm lộ diện đối tác và nhà cung cấp",
+        "p3": "Hiệu ứng mạng tích lũy kép cho mọi thành viên",
+        "doctrine": "Siêu phi tập trung · Siêu mở rộng · Siêu thực thi một người"
+      },
+      "fateMatrix": {
+        "tagline": "Hack nhân quả của mục tiêu bạn",
+        "description": "FATE-MATRIX trải mục tiêu của bạn thành lưới xác suất trên hiến pháp 100 học thuyết và để bạn kéo từng đòn bẩy nhân quả cho đến khi con đường tới nó trở thành tất yếu.",
+        "p1": "Lưới mục tiêu→xác suất trên sáu trục",
+        "p2": "Hack nhân quả với quỹ đạo trước/sau",
+        "p3": "Rèn cột mốc 1·2·3·5·10 năm",
+        "doctrine": "Siêu hướng tương lai · Siêu lượng tử · Siêu tối thượng"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "Tái thiết kế"
   },
   "Governance": {
-    "title": "Ma Trận Quản Trị Văn Minh",
-    "subtitle": "Chọn một trong 16 trục chủ quyền nâng đỡ mọi quyết định của UNITAS để bắt đầu bậc thang.",
-    "badge": "TRỤC QUẢN TRỊ CHỦ QUYỀN",
     "prev": "Trước",
     "next": "Tiếp theo",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "Dông kèm mưa đá"
     },
     "stateBadge": "Bang",
-    "countryBadge": "Quốc gia"
+    "countryBadge": "Quốc gia",
+    "pickRegion": "Có nhiều địa điểm cùng tên — hãy chọn khu vực của bạn",
+    "approx": "ước tính theo mạng",
+    "dismiss": "Đóng",
+    "detecting": "Đang xác định…"
   },
   "ExitGuard": {
     "eyebrow": "Bảo vệ thoát",
@@ -1363,125 +1445,6 @@
       "3": "Được biết đến trong cộng đồng {module} nhờ mô hình đóng góp ổn định, nhất quán.",
       "4": "Một nhà vận hành đa module có chỉ số hoạt động {module} duy trì ở nhóm hàng đầu qua nhiều chu kỳ.",
       "5": "Được ghi nhận trong {module} vì sự tham gia bền bỉ vượt xa chỉ số hoạt động trung vị của module."
-    }
-  },
-  "HyperSovereign": {
-    "label": "Lối tắt siêu chủ quyền",
-    "hint": "Chạm để mở động cơ nhận thức siêu chủ quyền",
-    "switchEngine": "Đổi động cơ",
-    "engines": {
-      "ideaReplicator": {
-        "title": "Tự nhân bản kinh doanh",
-        "description": "Các tác nhân AI tự nhân bản ý tưởng nhà máy một người, không vốn, qua từng thế hệ.",
-        "cta": "Bắt đầu nhân bản"
-      },
-      "fateEngine": {
-        "title": "Động cơ xác suất định mệnh",
-        "description": "Tính xác suất mục tiêu thành hiện thực bằng Monte Carlo hiến pháp 6 trục — rồi hack nhân quả.",
-        "cta": "Tính định mệnh"
-      },
-      "omniTwin": {
-        "title": "Song sinh vạn vật",
-        "description": "Nhân bản bất cứ thứ gì thành song sinh dữ liệu với U-Signature và phổ cộng hưởng.",
-        "cta": "Tạo song sinh"
-      },
-      "chronoForge": {
-        "title": "Dòng thời gian nhân quả",
-        "description": "Rèn các cột mốc tương lai 1·2·3·5·10 năm, mỗi mốc kèm xác suất.",
-        "cta": "Rèn dòng thời gian"
-      },
-      "marginInfinity": {
-        "title": "Mô phỏng biên lợi nhuận ∞",
-        "description": "Mô phỏng trực tiếp chi phí biên bằng 0 và biên lợi nhuận vô hạn bằng micro-burn và bộ nhớ đệm thông minh.",
-        "cta": "Mô phỏng"
-      }
-    },
-    "seedPlaceholder": "Nhập từ khóa hạt giống (vd: cà phê, thành phố, tài năng)…",
-    "goalPlaceholder": "Nhập mục tiêu (vd: thu nhập tự động 200 triệu/tháng trong một năm)…",
-    "subjectPlaceholder": "Nhập đối tượng (vd: tên bạn, thành phố, thương hiệu)…",
-    "replicate": "Nhân bản",
-    "rerun": "Tính lại",
-    "hack": "Hack nhân quả",
-    "hacked": "Đã áp dụng",
-    "evolve": "Tiến hóa song sinh",
-    "forge": "Rèn lại",
-    "generation": "Thế hệ {n}",
-    "probability": "Xác suất thành hiện thực",
-    "horizon": "Chân trời thời gian",
-    "yearsShort": "{n} năm",
-    "levers": "Đòn bẩy nhân quả",
-    "trajectory": "Quỹ đạo xác suất",
-    "entropy": "Entropy",
-    "signature": "U-Signature",
-    "resonance": "Cộng hưởng 16 trục",
-    "constitution": "Phổ hiến pháp 6 trục",
-    "elements": "Động lực nguyên tố",
-    "metrics": {
-      "capital": "Vốn cần",
-      "launchDays": "Ra mắt (ngày)",
-      "automation": "Tự động hóa",
-      "margin": "Biên lợi nhuận",
-      "viability": "Khả thi",
-      "blueOcean": "Đại dương xanh"
-    },
-    "capitalZero": "0 · không vốn",
-    "patterns": {
-      "agentRental": "Cho thuê tác nhân",
-      "dataTwin": "Thuê bao song sinh dữ liệu",
-      "microBurnSaaS": "SaaS micro-burn",
-      "autonomousMarketplace": "Chợ tự trị",
-      "sovereignAcademy": "Học viện chủ quyền",
-      "predictiveOracle": "Tiên tri dự đoán",
-      "cachedIntelligence": "Trí tuệ đệm",
-      "nomadFactory": "Nhà máy du mục"
-    },
-    "element": {
-      "earth": "Đất",
-      "water": "Nước",
-      "fire": "Lửa",
-      "wind": "Gió",
-      "lightning": "Sét"
-    },
-    "oracleLabel": "Tiên tri U-AI",
-    "oracleLoading": "Tiên tri U-AI đang rèn câu chuyện…",
-    "oracleUnavailable": "Câu chuyện tiên tri có thể thử lại sau — kết quả tính toán ở trên đã là cuối cùng.",
-    "disclaimer": "Xác suất và số liệu là mô phỏng tất định dựa trên hiến pháp 100 học thuyết, không phải lời khuyên đầu tư hay pháp lý.",
-    "sliders": {
-      "price": "Giá mỗi lượt gọi (U-COIN)",
-      "burn": "Chi phí micro-burn mỗi lượt gọi không đệm (U-COIN)",
-      "cacheHit": "Tỷ lệ trúng bộ nhớ đệm thông minh",
-      "calls": "Lượt gọi mỗi ngày"
-    },
-    "revenue": "Doanh thu ngày",
-    "cost": "Chi phí ngày",
-    "margin": "Biên lợi nhuận",
-    "marginInfinite": "∞ (vô hạn)",
-    "marginalCost": "Chi phí biên",
-    "marginCurve": "Đường biên lợi nhuận theo tỷ lệ trúng đệm",
-    "milestone": "Cột mốc",
-    "yearLabel": "Năm {year}",
-    "magnitude": "Quy mô {n}/5",
-    "emptyState": "Nhập hạt giống và chạy — kết quả hiện ngay.",
-    "lineage": "Phả hệ nhân bản",
-    "pool": {
-      "ideaHeadline": "Thế hệ {n} · ba doanh nghiệp không vốn hội tụ về trục {axis}",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "Ra mắt trong {days} ngày trên trục {axis}: tự động hóa {automation}%, biên lợi nhuận ×{margin}, khả thi {viability}%, đại dương xanh {blueOcean}% — vốn 0.",
-      "ideaOracle": "Nhân bản ý tưởng {n} tiếp theo: đại dương xanh {blueOcean}% của nó rộng nhất thế hệ này.",
-      "fateHeadline": "Xác suất hiện thực hóa {probability}% trong {horizon} năm · entropy {entropy}/100",
-      "fateTitle": "Hack trục {axis}",
-      "fateBody": "Đòn bẩy nhân quả này cộng thêm +{delta} điểm qua trục {axis}. {status}",
-      "leverApplied": "Đã áp dụng — quỹ đạo đã bao gồm nó.",
-      "leverPending": "Chưa áp dụng — lần hack tiếp theo sẽ mở khóa.",
-      "fateOracle": "Quỹ đạo leo từ {first}% ở năm {firstYear} lên {last}% vào năm {lastYear}; đòn bẩy {axis} quyết định độ dốc của đường cong.",
-      "twinHeadline": "Bản sao {signature} · thế hệ {n} · entropy {entropy}/100",
-      "twinTitle": "Cộng hưởng {axis} {score}",
-      "twinBody": "Trục {axis} cộng hưởng ở mức {score}/99 trong bản sao này — đặc tính định hình cách chủ thể hành động.",
-      "twinOracle": "Một sinh thể dữ liệu sống được dẫn dắt bởi {element} ({score}) — kho lưu trữ dữ liệu linh hồn của nó tiến hóa qua từng thế hệ.",
-      "chronoHeadline": "Cung 10 năm hướng tới {axis} vào {year}",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "Xác suất {probability}%, mô hình {pattern}, quy mô {magnitude}/5 — {offset} năm kể từ bây giờ.",
-      "chronoOracle": "Bản lề là năm {year}: {axis} ở mức {probability}% xoay chuyển toàn bộ dòng thời gian."
     }
   }
 }

@@ -8,84 +8,56 @@ import { OmniSynapseSearch } from './OmniSynapseSearch';
 import { EcosystemCard } from '@/components/cards/EcosystemCard';
 import { LiveServiceCard } from '@/components/cards/LiveServiceCard';
 import { B2BProtocolCard } from '@/components/cards/B2BProtocolCard';
-import { GovernanceCard } from '@/components/cards/GovernanceCard';
+import { LockInModuleCarousel } from '@/components/home/LockInModuleCarousel';
 import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModal';
 import { ModuleQuestModal } from '@/components/interaction/ModuleQuestModal';
-import { GovernanceLadderModal } from '@/components/interaction/GovernanceLadderModal';
 import { HotShortcutResultModal } from '@/components/interaction/HotShortcutResultModal';
-import { HyperSovereignTower } from '@/components/interaction/HyperSovereignTower';
+import { LockInModuleModal } from '@/components/interaction/LockInModuleModal';
 import { ExitGuard } from '@/components/interaction/ExitGuard';
 import { Footer } from '@/components/layout/Footer';
 import { useShockwave } from '@/components/effects/Shockwave';
 import { useUai } from '@/lib/uai/useUai';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { B2C_MODULES, B2B_PROTOCOLS, type B2CModule } from '@/lib/modules';
-import { GOVERNANCE_AXES, type GovernanceAxis } from '@/lib/governance';
 import { HOT_SHORTCUT_MATRIX, findShortcutAxis, type HotShortcutAxis } from '@/lib/hotIssues';
-import { isHyperEngineKey, type HyperEngineKey } from '@/lib/hyperSovereign';
+import {
+  isLockInModuleKey,
+  lockInModule,
+  readActiveLockIns,
+  toggleLockIn,
+  writeActiveLockIns,
+  type LockInModule,
+  type LockInModuleKey,
+} from '@/lib/lockInModules';
 
-/** Restores which governance axis was open across a next-intl locale switch
+/** Restores which shortcut popup was open across a next-intl locale switch
  *  (which remounts the client tree) -- The Living Knowledge Ouroboros's
  *  "keep results synced" requirement, scoped to *what was open*, not a
- *  re-fetch of any coin-costing report. */
-const AXIS_STORAGE_KEY = 'unitas.ouroboros.axis.v1';
-/** Same idea as AXIS_STORAGE_KEY, scoped to the search bar's expanded
- *  shortcut matrix (governance + hot-issue) rather than Section 4's pure
- *  16-axis grid -- kept as a separate key/state so the two popups never
- *  fight over which axis shape they're holding across a locale remount. */
+ *  re-fetch of any coin-costing report. Stored as `${group}:${key}`. */
 const SHORTCUT_STORAGE_KEY = 'unitas.ouroboros.shortcut.v1';
-/** Which Hyper-Sovereign engine tower was open (owner instruction
- *  2026-09-04 round 6) -- its seed lives under the tower's own key. */
-const HYPER_STORAGE_KEY = 'unitas.hyper.engine.v1';
+/** Which lock-in module popup was open (owner instruction 2026-09-04
+ *  round 8) -- same locale-remount survival, its own key. */
+const LOCK_IN_OPEN_KEY = 'unitas.lockin.open.v1';
 
 export function HomeContent() {
   const tHome = useTranslations('Home');
   const tCognitive = useTranslations('Cognitive');
   const tB2c = useTranslations('B2C');
   const tB2b = useTranslations('B2B');
-  const tGovernance = useTranslations('Governance');
 
   const [activeEcosystem, setActiveEcosystem] = useState<EcosystemTheme | null>(null);
   const [activeModule, setActiveModule] = useState<B2CModule | null>(null);
-  const [activeAxis, setActiveAxis] = useState<GovernanceAxis | null>(null);
   const [activeShortcut, setActiveShortcut] = useState<HotShortcutAxis | null>(null);
-  /** Which Hyper-Sovereign engine tower is open (owner instruction
-   *  2026-09-04 round 6) -- lifted here, beside activeShortcut, for the same
-   *  reason: the strip that hosts the tiles unmounts when the search hub
-   *  blurs, and the tower must outlive it. */
-  const [activeHyperEngine, setActiveHyperEngine] = useState<HyperEngineKey | null>(null);
+  /** The lock-in module popup that is open, and the device-local set of
+   *  activated lock-in modules (localStorage, see lib/lockInModules.ts). */
+  const [activeLockIn, setActiveLockIn] = useState<LockInModule | null>(null);
+  const [lockedIn, setLockedIn] = useState<LockInModuleKey[]>([]);
   /** Focus Isolation: true while OmniSynapseSearch is focused on an empty
-      query ("ouroboros" mode) -- sinks Sections 1-3 behind the search bar's
-      multi-dimensional shortcut marquee (governance + hot-issue) instead of
-      the usual browse hub. */
+      query ("ouroboros" mode) -- sinks the catalog sections behind the
+      search bar's multi-dimensional shortcut marquee instead of the usual
+      browse hub. */
   const [isOuroboros, setIsOuroboros] = useState(false);
   const { trigger: triggerShockwave, element: shockwaveElement } = useShockwave();
-
-  // Restore the governance axis that was open before a locale switch
-  // remounted this tree (next-intl's router.replace re-navigates the whole
-  // client tree on a locale change -- see HotShortcutMatrixStrip/
-  // OmniSynapseSearch for the matching query-text persistence).
-  useEffect(() => {
-    try {
-      const savedKey = sessionStorage.getItem(AXIS_STORAGE_KEY);
-      if (savedKey) {
-        const found = GOVERNANCE_AXES.find((a) => a.key === savedKey);
-        if (found) setActiveAxis(found);
-      }
-    } catch {
-      // sessionStorage unavailable -- restoring the open axis is a nicety,
-      // not a requirement.
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      if (activeAxis) sessionStorage.setItem(AXIS_STORAGE_KEY, activeAxis.key);
-      else sessionStorage.removeItem(AXIS_STORAGE_KEY);
-    } catch {
-      // non-fatal, see above.
-    }
-  }, [activeAxis]);
 
   useEffect(() => {
     try {
@@ -98,7 +70,8 @@ export function HomeContent() {
         if (found) setActiveShortcut(found);
       }
     } catch {
-      // non-fatal, see above.
+      // sessionStorage unavailable -- restoring the open popup is a nicety,
+      // not a requirement.
     }
   }, []);
 
@@ -112,9 +85,10 @@ export function HomeContent() {
   }, [activeShortcut]);
 
   useEffect(() => {
+    setLockedIn(readActiveLockIns());
     try {
-      const saved = sessionStorage.getItem(HYPER_STORAGE_KEY);
-      if (saved && isHyperEngineKey(saved)) setActiveHyperEngine(saved);
+      const saved = sessionStorage.getItem(LOCK_IN_OPEN_KEY);
+      if (isLockInModuleKey(saved)) setActiveLockIn(lockInModule(saved));
     } catch {
       // non-fatal, see above.
     }
@@ -122,12 +96,20 @@ export function HomeContent() {
 
   useEffect(() => {
     try {
-      if (activeHyperEngine) sessionStorage.setItem(HYPER_STORAGE_KEY, activeHyperEngine);
-      else sessionStorage.removeItem(HYPER_STORAGE_KEY);
+      if (activeLockIn) sessionStorage.setItem(LOCK_IN_OPEN_KEY, activeLockIn.key);
+      else sessionStorage.removeItem(LOCK_IN_OPEN_KEY);
     } catch {
       // non-fatal, see above.
     }
-  }, [activeHyperEngine]);
+  }, [activeLockIn]);
+
+  function handleToggleLockIn(module: LockInModule) {
+    setLockedIn((prev) => {
+      const next = toggleLockIn(prev, module.key);
+      writeActiveLockIns(next);
+      return next;
+    });
+  }
 
   // Single U-AI session for the whole home page: the search bar drives it.
   // The ecosystem / module / protocol walls below are ALWAYS mounted on the
@@ -154,7 +136,6 @@ export function HomeContent() {
         uai={uai}
         onSelectEcosystem={setActiveEcosystem}
         onOpenShortcut={setActiveShortcut}
-        onOpenHyperEngine={setActiveHyperEngine}
         onOuroborosChange={setIsOuroboros}
       />
 
@@ -176,12 +157,12 @@ export function HomeContent() {
         </div>
       )}
 
-      {/* Focus Isolation (The Living Knowledge Ouroboros): Sections 1-3 sink
+      {/* Focus Isolation (The Living Knowledge Ouroboros): the catalog sinks
           -- dim/blur/settle back -- while the search bar is focused on an
-          empty query and showing the Governance shortcut marquee instead.
-          Section 4 (Governance) is excluded on purpose: it sits directly
-          below the marquee it mirrors, so keeping it at full opacity reads
-          as one continuous surface rather than a second sunken block. */}
+          empty query and showing the shortcut marquee instead. The page
+          ends with Section 3: the former Section 4 (16-axis "지성문명
+          거버넌스 매트릭스" grid) was purged on the founder's instruction
+          (2026-09-04 round 8) and must stay purged. */}
       <motion.div
         animate={
           isOuroboros
@@ -236,7 +217,15 @@ export function HomeContent() {
         </div>
       </section>
 
-      {/* Section 3 -- Enterprise Protocols */}
+      {/* Lock-in Ecosystem -- the 8 lock-in modules [NEXUS, AEGIS, U-TWIN,
+          INFINITY, PANOPTICON, ORACLE, SYNDICATE-X, FATE-MATRIX] as one
+          single-row rotating carousel, pinned DIRECTLY ABOVE the core 3
+          enterprise modules (owner instruction 2026-09-04 round 8). Keep
+          this block between Section 2 and Section 3; nothing may be
+          inserted between it and Section 3 below. */}
+      <LockInModuleCarousel active={lockedIn} onOpen={setActiveLockIn} />
+
+      {/* Section 3 -- Enterprise Protocols (the core 3 modules) */}
       <section id="b2b" className="mx-auto mt-8 max-w-7xl border-t border-accent/10 px-6 py-16">
         <div className="mb-10 text-center">
           <h2 className="mb-3 font-serif text-2xl font-bold text-accent/80 md:text-3xl">
@@ -258,40 +247,15 @@ export function HomeContent() {
       </section>
       </motion.div>
 
-      {/* Section 4 -- 16-Axis Governance Matrix (CLAUDE.md §3.3, first UI
-          rendering of the doctrine's "지성 문명 및 사회 거버넌스" list). Free,
-          not coin-gated -- a reference/doctrine surface, not a product. */}
-      <section id="governance" className="mx-auto mt-8 max-w-7xl border-t border-white/10 px-6 py-16">
-        <div className="mb-10 text-center">
-          <h2 className="glow-text mb-3 font-serif text-2xl font-bold text-accent md:text-3xl">
-            {tGovernance('title')}
-          </h2>
-          <p className="mx-auto max-w-2xl text-[16px] text-gray-400 sm:text-[17px] md:text-[19px]">
-            {tGovernance('subtitle')}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4">
-          {GOVERNANCE_AXES.map((axis, index) => (
-            <GovernanceCard
-              key={axis.key}
-              axis={axis}
-              index={index}
-              total={GOVERNANCE_AXES.length}
-              onOpen={setActiveAxis}
-            />
-          ))}
-        </div>
-      </section>
-
       <EcosystemEntryModal ecosystem={activeEcosystem} onClose={() => setActiveEcosystem(null)} />
       <ModuleQuestModal module={activeModule} onClose={() => setActiveModule(null)} />
-      <GovernanceLadderModal axis={activeAxis} onClose={() => setActiveAxis(null)} />
       <HotShortcutResultModal shortcut={activeShortcut} onClose={() => setActiveShortcut(null)} />
-      <HyperSovereignTower
-        engine={activeHyperEngine}
-        onClose={() => setActiveHyperEngine(null)}
-        onSwitch={setActiveHyperEngine}
+      <LockInModuleModal
+        module={activeLockIn}
+        active={activeLockIn !== null && lockedIn.includes(activeLockIn.key)}
+        onToggleActive={handleToggleLockIn}
+        onStep={setActiveLockIn}
+        onClose={() => setActiveLockIn(null)}
       />
     </main>
     <Footer />

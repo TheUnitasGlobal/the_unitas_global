@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "UNITAS module ecosystem · linked to your search"
   },
+  "LockIn": {
+    "title": "Lock-in Ecosystem",
+    "subtitle": "Eight sovereign modules that keep every journey inside UNITAS — open each one and activate it to complete your lock-in.",
+    "hint": "Open this lock-in module",
+    "eyebrow": "LOCK-IN MODULE {index} / {total}",
+    "progress": "{active} / {total} activated",
+    "complete": "Lock-in complete — all eight modules are active on this device.",
+    "activate": "Activate module",
+    "deactivate": "Deactivate",
+    "activeBadge": "Active",
+    "pillarsLabel": "Core pillars",
+    "doctrineLabel": "Doctrine",
+    "prev": "Previous module",
+    "next": "Next module",
+    "modules": {
+      "nexus": {
+        "tagline": "One identity, every module",
+        "description": "NEXUS binds your U-Signature, wallet, memory and every module into a single sovereign graph — the more you use, the more it remembers, and nothing ever has to be re-entered.",
+        "p1": "Single sovereign sign-in across all 19 UNITAS modules",
+        "p2": "Cross-module memory that follows you between engines",
+        "p3": "A portable identity graph you own, not the platform",
+        "doctrine": "Hyper-connected · Hyper-integrated · Hyper-synchronized"
+      },
+      "aegis": {
+        "tagline": "The shield that never sleeps",
+        "description": "AEGIS wraps your account, wallet and data in a zero-trust defence layer — every session, key and coin movement is verified before it happens, so leaving is the only unsafe move.",
+        "p1": "Zero-trust session and key custody on every request",
+        "p2": "Real-time anomaly watch on wallet and ledger activity",
+        "p3": "Fail-closed by design: nothing unverified ever executes",
+        "doctrine": "Hyper-defensive · Hyper-hacker-proof · Hyper-cyber-defensive"
+      },
+      "uTwin": {
+        "tagline": "Your evolving data twin",
+        "description": "U-TWIN turns everything you do into a living data organism — a U-Signature archive that grows sharper with every search, decision and result, and can exist nowhere else.",
+        "p1": "Soul-data archive that compounds with every interaction",
+        "p2": "Resonance profile across the six constitution axes",
+        "p3": "Twin-to-twin comparison and evolution tracking",
+        "doctrine": "Hyper-generative · Hyper-adaptive · Hyper-immortal"
+      },
+      "infinity": {
+        "tagline": "Margin ∞ through intelligent caching",
+        "description": "INFINITY is the economic engine beneath UNITAS: every answer once computed is cached and re-used at zero marginal cost, so the ecosystem gets cheaper for you the longer you stay.",
+        "p1": "Micro-burn pricing that falls as the cache warms",
+        "p2": "Every synthesized tier re-served worldwide at zero cost",
+        "p3": "Accumulated skills and data that never expire",
+        "doctrine": "Hyper-absolute-margin · Hyper-intelligent-caching · Hyper-frugal"
+      },
+      "panopticon": {
+        "tagline": "See the whole world on one screen",
+        "description": "PANOPTICON fuses live world rankings, 21-axis news, weather and search trends into a single real-time observatory — the one screen that replaces every other tab.",
+        "p1": "Live world and UNITAS rankings refreshed around the clock",
+        "p2": "21-axis global news in your own language",
+        "p3": "Weather, trends and signals for your exact region",
+        "doctrine": "Hyper-insightful · Hyper-real-time-web-synthesis · Hyper-transparent"
+      },
+      "oracle": {
+        "tagline": "Probability before it happens",
+        "description": "ORACLE runs deterministic simulations on the causality calculus — markets, projects, goals — and hands back probabilities with the levers that move them. A simulation, never advice.",
+        "p1": "Six-axis constitution Monte Carlo on any goal",
+        "p2": "Market, crypto and trend probability readouts",
+        "p3": "Causality levers ranked by impact",
+        "doctrine": "Hyper-future-predictive · Hyper-stock-predictive · Hyper-bitcoin-analytic"
+      },
+      "syndicateX": {
+        "tagline": "Rent the factory, join the network",
+        "description": "SYNDICATE-X is where nomads and small businesses rent autonomous agent factories from each other — a coalition marketplace whose value grows with every member who joins.",
+        "p1": "Agent-factory rental marketplace with zero capital to start",
+        "p2": "Coalition graphs that surface partners and vendors",
+        "p3": "Network effects that compound for every member",
+        "doctrine": "Hyper-decentralized · Hyper-scalable · Hyper-one-person-execution"
+      },
+      "fateMatrix": {
+        "tagline": "Hack the causality of your goal",
+        "description": "FATE-MATRIX lays your goal out as a probability lattice across the 100-doctrine constitution and lets you pull each causal lever until the path to it becomes inevitable.",
+        "p1": "Goal-to-probability lattice across the six axes",
+        "p2": "Causality hacks with before/after trajectories",
+        "p3": "1·2·3·5·10-year milestone forging",
+        "doctrine": "Hyper-future-oriented · Hyper-quantum · Hyper-ultimate"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "Redesign"
   },
   "Governance": {
-    "title": "Civilizational Governance Matrix",
-    "subtitle": "16 sovereign axes underwriting every UNITAS decision — select one to enter the ladder.",
-    "badge": "SOVEREIGN GOVERNANCE AXIS",
     "prev": "Prev",
     "next": "Next",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "Thunderstorm with hail"
     },
     "stateBadge": "State",
-    "countryBadge": "Country"
+    "countryBadge": "Country",
+    "pickRegion": "Several places share this name — pick yours",
+    "approx": "network estimate",
+    "dismiss": "Dismiss",
+    "detecting": "Detecting…"
   },
   "ExitGuard": {
     "eyebrow": "Exit guard",
@@ -1363,125 +1445,6 @@
       "3": "Known across the {module} community for high-consistency, low-noise contribution patterns.",
       "4": "A cross-module operator whose {module} activity index has held a top-tier position for multiple cycles.",
       "5": "Recognized within {module} for sustained engagement well above the module's median activity index."
-    }
-  },
-  "HyperSovereign": {
-    "label": "Hyper-Sovereign Shortcuts",
-    "hint": "Tap to open a hyper-sovereign cognitive engine",
-    "switchEngine": "Switch engine",
-    "engines": {
-      "ideaReplicator": {
-        "title": "Business Self-Replication",
-        "description": "AI agents self-replicate zero-capital, one-person factory ideas generation after generation.",
-        "cta": "Start replicating"
-      },
-      "fateEngine": {
-        "title": "Fate Probability Engine",
-        "description": "Computes the probability your goal comes true with a 6-axis constitution Monte Carlo — then hacks the causality.",
-        "cta": "Compute fate"
-      },
-      "omniTwin": {
-        "title": "Omniverse Twin",
-        "description": "Clones anything into a data twin with a U-Signature and a resonance spectrum.",
-        "cta": "Forge twin"
-      },
-      "chronoForge": {
-        "title": "Causality Timeline",
-        "description": "Forges 1·2·3·5·10-year future milestones, each with its probability.",
-        "cta": "Forge timeline"
-      },
-      "marginInfinity": {
-        "title": "Margin ∞ Simulator",
-        "description": "Simulates zero marginal cost and infinite margin live with micro-burn and intelligent caching.",
-        "cta": "Simulate"
-      }
-    },
-    "seedPlaceholder": "Type a seed keyword (e.g. coffee, a city, a talent)…",
-    "goalPlaceholder": "Type a goal (e.g. automated income of $10k a month within a year)…",
-    "subjectPlaceholder": "Type a subject (e.g. your name, a city, a brand)…",
-    "replicate": "Replicate",
-    "rerun": "Recompute",
-    "hack": "Hack causality",
-    "hacked": "Hack applied",
-    "evolve": "Evolve twin",
-    "forge": "Re-forge",
-    "generation": "Generation {n}",
-    "probability": "Probability of realization",
-    "horizon": "Time horizon",
-    "yearsShort": "{n} yr",
-    "levers": "Causality levers",
-    "trajectory": "Probability trajectory",
-    "entropy": "Entropy",
-    "signature": "U-Signature",
-    "resonance": "16-axis resonance",
-    "constitution": "6-axis constitution spectrum",
-    "elements": "Elemental dynamics",
-    "metrics": {
-      "capital": "Capital needed",
-      "launchDays": "Launch (days)",
-      "automation": "Automation",
-      "margin": "Margin",
-      "viability": "Viability",
-      "blueOcean": "Blue ocean"
-    },
-    "capitalZero": "0 · zero capital",
-    "patterns": {
-      "agentRental": "Agent rental",
-      "dataTwin": "Data-twin subscription",
-      "microBurnSaaS": "Micro-burn SaaS",
-      "autonomousMarketplace": "Autonomous marketplace",
-      "sovereignAcademy": "Sovereign academy",
-      "predictiveOracle": "Predictive oracle",
-      "cachedIntelligence": "Cached intelligence",
-      "nomadFactory": "Nomad factory"
-    },
-    "element": {
-      "earth": "Earth",
-      "water": "Water",
-      "fire": "Fire",
-      "wind": "Wind",
-      "lightning": "Lightning"
-    },
-    "oracleLabel": "U-AI Oracle",
-    "oracleLoading": "The U-AI oracle is forging the narrative…",
-    "oracleUnavailable": "The oracle narrative can be retried shortly — the computed result above is already final.",
-    "disclaimer": "Probabilities and figures are a deterministic simulation grounded in the 100-doctrine constitution, not investment or legal advice.",
-    "sliders": {
-      "price": "Price per call (U-COIN)",
-      "burn": "Micro-burn cost per uncached call (U-COIN)",
-      "cacheHit": "Intelligent cache hit rate",
-      "calls": "Calls per day"
-    },
-    "revenue": "Daily revenue",
-    "cost": "Daily cost",
-    "margin": "Margin",
-    "marginInfinite": "∞ (infinite)",
-    "marginalCost": "Marginal cost",
-    "marginCurve": "Margin curve by cache hit rate",
-    "milestone": "Milestones",
-    "yearLabel": "{year}",
-    "magnitude": "Magnitude {n}/5",
-    "emptyState": "Type a seed and run — the result appears instantly.",
-    "lineage": "Replication lineage",
-    "pool": {
-      "ideaHeadline": "Generation {n} · three zero-capital ventures converging on {axis}",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "Launch in {days} days on the {axis} axis: {automation}% automation, ×{margin} margin, {viability}% viability, {blueOcean}% blue ocean — capital 0.",
-      "ideaOracle": "Replicate idea {n} next: its {blueOcean}% blue ocean is the widest of this generation.",
-      "fateHeadline": "{probability}% probability of realization within {horizon} years · entropy {entropy}/100",
-      "fateTitle": "Hack the {axis} axis",
-      "fateBody": "This causality lever adds +{delta} points through {axis}. {status}",
-      "leverApplied": "Applied — the trajectory already includes it.",
-      "leverPending": "Not yet applied — the next hack unlocks it.",
-      "fateOracle": "The trajectory climbs from {first}% in year {firstYear} to {last}% by year {lastYear}; the {axis} lever decides how steep the curve gets.",
-      "twinHeadline": "Twin {signature} · generation {n} · entropy {entropy}/100",
-      "twinTitle": "{axis} resonance {score}",
-      "twinBody": "The {axis} axis resonates at {score}/99 in this twin — the trait that shapes how the subject acts.",
-      "twinOracle": "A living data organism led by {element} ({score}) — its soul-data archive evolves with every generation.",
-      "chronoHeadline": "A 10-year arc toward {axis} by {year}",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "Probability {probability}%, {pattern} pattern, magnitude {magnitude}/5 — {offset} years from now.",
-      "chronoOracle": "The hinge is {year}: {axis} at {probability}% turns the whole timeline."
     }
   }
 }

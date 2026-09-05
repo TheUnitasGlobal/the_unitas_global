@@ -18,16 +18,10 @@ import { HotIssueNewsList } from '@/components/home/HotIssueNewsList';
 import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
 import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
-import { HyperSovereignShortcuts } from '@/components/home/HyperSovereignShortcuts';
 import { AppDetailCard } from '@/components/interaction/AppDetailCard';
-import type { HyperEngineKey } from '@/lib/hyperSovereign';
 
 interface HotShortcutMatrixStripProps {
   onOpenShortcut: (axis: HotShortcutAxis) => void;
-  /** Hyper-Sovereign engine tiles open HomeContent's HyperSovereignTower
-   *  (owner instruction 2026-09-04 round 6) -- lifted for the same reason
-   *  onOpenShortcut is: this strip unmounts when the search hub blurs. */
-  onOpenHyperEngine: (engine: HyperEngineKey) => void;
 }
 
 type TabKey = ShortcutGroup | 'weather' | 'social' | 'email';
@@ -69,7 +63,7 @@ function isTabKey(value: string | null): value is TabKey {
  * lost their tab home along with it and now render permanently below every
  * tab's content instead of only inside one.
  */
-export function HotShortcutMatrixStrip({ onOpenShortcut, onOpenHyperEngine }: HotShortcutMatrixStripProps) {
+export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStripProps) {
   const t = useTranslations('OmniSynapse');
   const tCivic = useTranslations('Civic');
   const tHotIssue = useTranslations('HotIssue');
@@ -270,11 +264,10 @@ export function HotShortcutMatrixStrip({ onOpenShortcut, onOpenHyperEngine }: Ho
         </motion.div>
       </AnimatePresence>
 
-      {/* 차세대 초소버린 숏컷 (owner instruction 2026-09-04 round 6): the
-          five cognitive-engine tiles ride in parallel directly beneath the
-          classic tab strip above -- which is preserved untouched until the
-          founder's final confirmation -- and above the ranking/news rows. */}
-      <HyperSovereignShortcuts onOpenEngine={onOpenHyperEngine} />
+      {/* The short-lived "초소버린 숏컷" engine row that rode here (2026-09-04
+          round 6) was purged in full -- UI, oracle route, pool, messages --
+          on the founder's instruction (2026-09-04 round 8). Nothing sits
+          between the tab content above and the ranking/news rows below. */}
 
       {/* The former 핫이슈 tab's live news feed + rankings lost their tab home
           when that tab was removed above -- rather than deleting them, they

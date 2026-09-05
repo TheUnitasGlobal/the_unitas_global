@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "与搜索结果联动的 UNITAS 模块生态"
   },
+  "LockIn": {
+    "title": "锁定生态系统",
+    "subtitle": "八大主权模块，让每一段旅程都留在 UNITAS 之内 — 逐一打开并激活，即可完成锁定。",
+    "hint": "打开此锁定模块",
+    "eyebrow": "锁定模块 {index} / {total}",
+    "progress": "已激活 {active} / {total}",
+    "complete": "锁定完成 — 八大模块已在此设备上全部激活。",
+    "activate": "激活模块",
+    "deactivate": "停用",
+    "activeBadge": "已激活",
+    "pillarsLabel": "核心支柱",
+    "doctrineLabel": "信条",
+    "prev": "上一模块",
+    "next": "下一模块",
+    "modules": {
+      "nexus": {
+        "tagline": "一个身份，所有模块",
+        "description": "NEXUS 将您的 U-Signature、钱包、记忆与所有模块绑定为单一主权图谱 — 用得越多记得越多，任何信息都无需重复输入。",
+        "p1": "贯穿全部 19 个 UNITAS 模块的单一主权登录",
+        "p2": "在各引擎之间跟随您的跨模块记忆",
+        "p3": "由您而非平台拥有的可携带身份图谱",
+        "doctrine": "超连接 · 超整合 · 超同步"
+      },
+      "aegis": {
+        "tagline": "永不休眠的护盾",
+        "description": "AEGIS 以零信任防御层包裹您的账户、钱包与数据 — 每一次会话、密钥与代币流动都在发生前得到验证，离开成为唯一不安全的选择。",
+        "p1": "每次请求均执行零信任会话与密钥托管",
+        "p2": "钱包与账本活动的实时异常监控",
+        "p3": "设计即失效关闭：未经验证的操作绝不执行",
+        "doctrine": "超防御 · 超防黑客 · 超网络防御"
+      },
+      "uTwin": {
+        "tagline": "不断进化的数据孪生",
+        "description": "U-TWIN 将您的一切行为转化为活的数据有机体 — 随每一次搜索、决策与结果而愈加敏锐的 U-Signature 档案，且无法存在于任何其他地方。",
+        "p1": "随每次互动复利累积的灵魂数据档案",
+        "p2": "跨六大宪章轴的共鸣画像",
+        "p3": "孪生之间的对比与进化追踪",
+        "doctrine": "超生成 · 超适应 · 超不朽"
+      },
+      "infinity": {
+        "tagline": "智能缓存带来利润 ∞",
+        "description": "INFINITY 是 UNITAS 底层的经济引擎：任何计算过一次的答案都会被缓存并以零边际成本重复使用，您停留越久，生态系统对您越便宜。",
+        "p1": "随缓存升温而下降的微燃烧定价",
+        "p2": "每一个已合成的层级以零成本向全球重复提供",
+        "p3": "永不过期的累积技能与数据",
+        "doctrine": "超绝对利润 · 超智能缓存 · 超节约"
+      },
+      "panopticon": {
+        "tagline": "一屏尽览全世界",
+        "description": "PANOPTICON 将实时世界排名、21 轴新闻、天气与搜索趋势融合为单一实时观测站 — 一个取代其他所有标签页的屏幕。",
+        "p1": "全天候刷新的实时世界与 UNITAS 排名",
+        "p2": "以您的语言阅读 21 轴全球新闻",
+        "p3": "您所在精确地区的天气、趋势与信号",
+        "doctrine": "超洞察 · 超实时网络合成 · 超透明"
+      },
+      "oracle": {
+        "tagline": "在发生之前看到概率",
+        "description": "ORACLE 在因果律运算之上对市场、项目与目标进行确定性模拟，返回概率以及推动它们的杠杆。这是模拟，绝非建议。",
+        "p1": "对任何目标进行六轴宪章蒙特卡洛模拟",
+        "p2": "市场、加密货币与趋势的概率读数",
+        "p3": "按影响力排序的因果杠杆",
+        "doctrine": "超未来预测 · 超股票预测 · 超比特币分析"
+      },
+      "syndicateX": {
+        "tagline": "租用工厂，加入网络",
+        "description": "SYNDICATE-X 是数字游民与小微企业互相租用自主智能体工厂的地方 — 每一位新成员加入都会让价值增长的联盟市场。",
+        "p1": "零资本起步的智能体工厂租赁市场",
+        "p2": "揭示合作伙伴与供应商的联盟图谱",
+        "p3": "为每位成员复利增长的网络效应",
+        "doctrine": "超去中心化 · 超可扩展 · 超一人执行"
+      },
+      "fateMatrix": {
+        "tagline": "黑入目标的因果律",
+        "description": "FATE-MATRIX 将您的目标铺展为百大超宪章上的概率格栅，让您逐一拉动每根因果杠杆，直至通往目标的道路成为必然。",
+        "p1": "横跨六轴的目标→概率格栅",
+        "p2": "可见前后轨迹的因果律黑入",
+        "p3": "1·2·3·5·10 年里程碑锻造",
+        "doctrine": "超面向未来 · 超量子 · 超终极"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "重设计"
   },
   "Governance": {
-    "title": "文明治理矩阵",
-    "subtitle": "支撑UNITAS每一项决策的16个主权轴心——选择其一,开启阶梯式浏览。",
-    "badge": "主权治理轴心",
     "prev": "上一个",
     "next": "下一个",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "雷暴伴冰雹"
     },
     "stateBadge": "州",
-    "countryBadge": "国家"
+    "countryBadge": "国家",
+    "pickRegion": "有多个同名地点 — 请选择您所在的地区",
+    "approx": "网络估算",
+    "dismiss": "关闭",
+    "detecting": "检测中…"
   },
   "ExitGuard": {
     "eyebrow": "退出防护",
@@ -1363,125 +1445,6 @@
       "3": "在{module}社区中以稳定、持续的贡献模式著称。",
       "4": "跨模块运营者,其{module}活跃度指数已连续多个周期保持顶级水平。",
       "5": "因在{module}中的持续参与远高于模块中位活跃度指数而获得认可。"
-    }
-  },
-  "HyperSovereign": {
-    "label": "超主权快捷方式",
-    "hint": "点按打开超主权认知引擎弹窗",
-    "switchEngine": "切换引擎",
-    "engines": {
-      "ideaReplicator": {
-        "title": "商业自我增殖",
-        "description": "AI 代理让零资本、一人工厂的创意一代代自我增殖。",
-        "cta": "开始增殖"
-      },
-      "fateEngine": {
-        "title": "命运概率运算",
-        "description": "用六轴宪法蒙特卡洛计算目标实现概率，并黑入因果律。",
-        "cta": "运算命运"
-      },
-      "omniTwin": {
-        "title": "森罗万象孪生",
-        "description": "把任何事物克隆为数据孪生，生成 U-Signature 与共振谱。",
-        "cta": "生成孪生"
-      },
-      "chronoForge": {
-        "title": "因果律时间线",
-        "description": "锻造 1·2·3·5·10 年的未来里程碑，并附带概率。",
-        "cta": "锻造时间线"
-      },
-      "marginInfinity": {
-        "title": "利润 ∞ 模拟器",
-        "description": "以微燃烧与超智能缓存实时模拟零边际成本、无限利润。",
-        "cta": "模拟"
-      }
-    },
-    "seedPlaceholder": "输入种子关键词（如：咖啡、城市、才能）…",
-    "goalPlaceholder": "输入目标（如：一年内实现每月 5 万元自动收入）…",
-    "subjectPlaceholder": "输入对象（如：你的名字、城市、品牌）…",
-    "replicate": "增殖",
-    "rerun": "重新运算",
-    "hack": "黑入因果律",
-    "hacked": "已应用",
-    "evolve": "孪生进化",
-    "forge": "重新锻造",
-    "generation": "第 {n} 代",
-    "probability": "实现概率",
-    "horizon": "时间视界",
-    "yearsShort": "{n} 年",
-    "levers": "因果律杠杆",
-    "trajectory": "概率轨迹",
-    "entropy": "熵",
-    "signature": "U-Signature",
-    "resonance": "16 轴共振",
-    "constitution": "6 轴宪法谱",
-    "elements": "元素动力学",
-    "metrics": {
-      "capital": "所需资本",
-      "launchDays": "上线（天）",
-      "automation": "自动化",
-      "margin": "利润",
-      "viability": "可行性",
-      "blueOcean": "蓝海"
-    },
-    "capitalZero": "0 元 · 零资本",
-    "patterns": {
-      "agentRental": "代理租赁",
-      "dataTwin": "数据孪生订阅",
-      "microBurnSaaS": "微燃烧 SaaS",
-      "autonomousMarketplace": "自主市场",
-      "sovereignAcademy": "主权学院",
-      "predictiveOracle": "预测神谕",
-      "cachedIntelligence": "缓存智能",
-      "nomadFactory": "游牧工厂"
-    },
-    "element": {
-      "earth": "地",
-      "water": "水",
-      "fire": "火",
-      "wind": "风",
-      "lightning": "雷"
-    },
-    "oracleLabel": "U-AI 神谕",
-    "oracleLoading": "U-AI 神谕正在锻造叙事…",
-    "oracleUnavailable": "神谕叙事稍后可重试 — 上方运算结果已确定。",
-    "disclaimer": "概率与数值是基于百大超宪法的确定性模拟，并非投资或法律建议。",
-    "sliders": {
-      "price": "每次调用价格（U-COIN）",
-      "burn": "每次未缓存调用的微燃烧成本（U-COIN）",
-      "cacheHit": "超智能缓存命中率",
-      "calls": "每日调用次数"
-    },
-    "revenue": "日收入",
-    "cost": "日成本",
-    "margin": "利润率",
-    "marginInfinite": "∞（无限）",
-    "marginalCost": "实际边际成本",
-    "marginCurve": "按缓存命中率的利润曲线",
-    "milestone": "里程碑",
-    "yearLabel": "{year} 年",
-    "magnitude": "规模 {n}/5",
-    "emptyState": "输入种子并运行 — 结果即时呈现。",
-    "lineage": "增殖谱系",
-    "pool": {
-      "ideaHeadline": "第{n}代 · 收敛于{axis}轴的三个零资本创业",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "在{axis}轴上{days}天内启动: 自动化{automation}%、利润×{margin}、可行性{viability}%、蓝海{blueOcean}% — 资本0。",
-      "ideaOracle": "下一个复制对象是创意{n}: 蓝海{blueOcean}%是本代最宽广的。",
-      "fateHeadline": "{horizon}年内实现概率{probability}% · 熵{entropy}/100",
-      "fateTitle": "黑入{axis}轴因果律",
-      "fateBody": "此因果律杠杆通过{axis}轴增加+{delta}点。{status}",
-      "leverApplied": "已应用 — 轨迹已包含它。",
-      "leverPending": "尚未应用 — 下一次黑入将解锁。",
-      "fateOracle": "轨迹从第{firstYear}年的{first}%攀升至第{lastYear}年的{last}%; 曲线的陡峭程度由{axis}杠杆决定。",
-      "twinHeadline": "孪生体{signature} · 第{n}代 · 熵{entropy}/100",
-      "twinTitle": "{axis}共振 {score}",
-      "twinBody": "在此孪生体中{axis}轴以{score}/99共振 — 塑造对象行为方式的特质。",
-      "twinOracle": "由{element}({score})引领的活体数据生命 — 其灵魂数据档案随每一代进化。",
-      "chronoHeadline": "通往{year}年{axis}的十年弧线",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "概率{probability}%、{pattern}模式、规模{magnitude}/5 — 距今{offset}年。",
-      "chronoOracle": "枢纽在{year}年: {axis} {probability}%扭转整条时间线。"
     }
   }
 }

@@ -21,18 +21,49 @@ import {
   Sun,
   Thermometer,
   Wind,
+  X,
   type LucideIcon,
 } from 'lucide-react';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
+import {
+  GEOCODE_COUNT,
+  GPS_MATCH_KM,
+  IP_MATCH_KM,
+  MAX_CANDIDATES,
+  WIKI_MATCH_KM,
+  isLatinQuery,
+  mergePlaces,
+  nameVariants,
+  nearestWithin,
+  rankPlaces,
+  sameCountry,
+  stripEnglishTitle,
+  type GeoPlace,
+} from '@/lib/live/geoMatch';
 
 /**
  * "실시간 날씨" tab (owner instruction 2026-09-03): live current conditions
  * + a 5-day outlook for a city, from Open-Meteo (keyless, CORS `*`, 0원).
- * Opens on the visitor's locale capital, offers one-tap "my location"
- * (browser geolocation, reverse-labelled best-effort) and a city search
- * (Open-Meteo geocoding, localized names). Last place + payload sit in
- * localStorage for 10 minutes so flicking tabs never refetches.
+ *
+ * Global geo-matching (owner instruction 2026-09-04 round 8 -- every
+ * visitor worldwide must land on their REAL region, country / state / city,
+ * and same-named cities must split cleanly, e.g. LaGrange GA vs KY):
+ *  - First paint: the last place looked at; with no history, the locale
+ *    capital renders instantly while a keyless network-address lookup
+ *    (GeoJS → ipwho.is) resolves the visitor's own region in the background
+ *    and swaps it in, flagged as an estimate.
+ *  - "내 위치": browser Geolocation → (denied / unavailable) network-address
+ *    fallback → reverse geocode (country / state / city, in English for the
+ *    gazetteer AND in the visitor's language for display) → re-resolved
+ *    through the SAME forward pipeline the search box uses, restricted to
+ *    the reverse-geocoded country and snapped to the nearest record.
+ *  - City search: fans out over spelling variants ("LaGrange" / "La
+ *    Grange"), 20 rows each, merged by GeoNames id, re-ranked exact-match →
+ *    population -- so LaGrange, Georgia leads and every same-named sibling
+ *    is listed with its own state + country. Non-Latin queries (라그레인지)
+ *    bridge through the locale's Wikipedia search → English titles → the
+ *    same gazetteer pipeline. Pure helpers live in lib/live/geoMatch.ts.
  */
 
 type Condition =
@@ -48,20 +79,7 @@ type Condition =
   | 'thunderstorm'
   | 'hail';
 
-interface Place {
-  name: string;
-  country?: string;
-  /** First-order administrative division (US state, etc.) -- kept separate
-   *  from `name` so a state-level result ("Georgia", feature_code ADM1)
-   *  never collides on-screen with the identically-named country. */
-  admin1?: string;
-  /** feature_code === 'ADM1' -- this result IS a state/province, not a city. */
-  isState?: boolean;
-  /** feature_code === 'PCLI' -- this result IS a whole country. */
-  isCountry?: boolean;
-  lat: number;
-  lon: number;
-}
+type Place = GeoPlace;
 
 interface Forecast {
   current: {
@@ -96,13 +114,16 @@ interface OpenMeteoResponse {
 
 interface GeocodeResponse {
   results?: Array<{
+    id?: number;
     name?: string;
     country?: string;
+    country_code?: string;
     admin1?: string;
     /** Open-Meteo/GeoNames feature class -- 'PCLI' = country itself,
      *  'ADM1' = first-order admin division (US state, etc.). Everything
      *  else is an ordinary populated place. */
     feature_code?: string;
+    population?: number;
     latitude?: number;
     longitude?: number;
   }>;
@@ -117,26 +138,26 @@ const TTL_MS = 10 * 60 * 1000;
  *  the background localize effect below overwrites it with the visitor's
  *  own-language form shortly after mount, for non-en locales. */
 const DEFAULT_PLACE: Record<string, Place> = {
-  en: { name: 'New York', country: 'United States', lat: 40.7128, lon: -74.006 },
-  ko: { name: 'Seoul', country: 'South Korea', lat: 37.5665, lon: 126.978 },
-  et: { name: 'Tallinn', country: 'Estonia', lat: 59.437, lon: 24.7536 },
-  ja: { name: 'Tokyo', country: 'Japan', lat: 35.6762, lon: 139.6503 },
-  zh: { name: 'Beijing', country: 'China', lat: 39.9042, lon: 116.4074 },
-  es: { name: 'Madrid', country: 'Spain', lat: 40.4168, lon: -3.7038 },
-  km: { name: 'Phnom Penh', country: 'Cambodia', lat: 11.5564, lon: 104.9282 },
-  fr: { name: 'Paris', country: 'France', lat: 48.8566, lon: 2.3522 },
-  de: { name: 'Berlin', country: 'Germany', lat: 52.52, lon: 13.405 },
-  pt: { name: 'Lisbon', country: 'Portugal', lat: 38.7223, lon: -9.1393 },
-  vi: { name: 'Hanoi', country: 'Vietnam', lat: 21.0278, lon: 105.8342 },
-  id: { name: 'Jakarta', country: 'Indonesia', lat: -6.2088, lon: 106.8456 },
-  ru: { name: 'Moscow', country: 'Russia', lat: 55.7558, lon: 37.6173 },
-  hi: { name: 'New Delhi', country: 'India', lat: 28.6139, lon: 77.209 },
-  it: { name: 'Rome', country: 'Italy', lat: 41.9028, lon: 12.4964 },
-  tr: { name: 'Istanbul', country: 'Turkey', lat: 41.0082, lon: 28.9784 },
-  th: { name: 'Bangkok', country: 'Thailand', lat: 13.7563, lon: 100.5018 },
-  pl: { name: 'Warsaw', country: 'Poland', lat: 52.2297, lon: 21.0122 },
-  nl: { name: 'Amsterdam', country: 'Netherlands', lat: 52.3676, lon: 4.9041 },
-  tl: { name: 'Manila', country: 'Philippines', lat: 14.5995, lon: 120.9842 },
+  en: { name: 'New York', country: 'United States', countryCode: 'US', lat: 40.7128, lon: -74.006 },
+  ko: { name: 'Seoul', country: 'South Korea', countryCode: 'KR', lat: 37.5665, lon: 126.978 },
+  et: { name: 'Tallinn', country: 'Estonia', countryCode: 'EE', lat: 59.437, lon: 24.7536 },
+  ja: { name: 'Tokyo', country: 'Japan', countryCode: 'JP', lat: 35.6762, lon: 139.6503 },
+  zh: { name: 'Beijing', country: 'China', countryCode: 'CN', lat: 39.9042, lon: 116.4074 },
+  es: { name: 'Madrid', country: 'Spain', countryCode: 'ES', lat: 40.4168, lon: -3.7038 },
+  km: { name: 'Phnom Penh', country: 'Cambodia', countryCode: 'KH', lat: 11.5564, lon: 104.9282 },
+  fr: { name: 'Paris', country: 'France', countryCode: 'FR', lat: 48.8566, lon: 2.3522 },
+  de: { name: 'Berlin', country: 'Germany', countryCode: 'DE', lat: 52.52, lon: 13.405 },
+  pt: { name: 'Lisbon', country: 'Portugal', countryCode: 'PT', lat: 38.7223, lon: -9.1393 },
+  vi: { name: 'Hanoi', country: 'Vietnam', countryCode: 'VN', lat: 21.0278, lon: 105.8342 },
+  id: { name: 'Jakarta', country: 'Indonesia', countryCode: 'ID', lat: -6.2088, lon: 106.8456 },
+  ru: { name: 'Moscow', country: 'Russia', countryCode: 'RU', lat: 55.7558, lon: 37.6173 },
+  hi: { name: 'New Delhi', country: 'India', countryCode: 'IN', lat: 28.6139, lon: 77.209 },
+  it: { name: 'Rome', country: 'Italy', countryCode: 'IT', lat: 41.9028, lon: 12.4964 },
+  tr: { name: 'Istanbul', country: 'Turkey', countryCode: 'TR', lat: 41.0082, lon: 28.9784 },
+  th: { name: 'Bangkok', country: 'Thailand', countryCode: 'TH', lat: 13.7563, lon: 100.5018 },
+  pl: { name: 'Warsaw', country: 'Poland', countryCode: 'PL', lat: 52.2297, lon: 21.0122 },
+  nl: { name: 'Amsterdam', country: 'Netherlands', countryCode: 'NL', lat: 52.3676, lon: 4.9041 },
+  tl: { name: 'Manila', country: 'Philippines', countryCode: 'PH', lat: 14.5995, lon: 120.9842 },
 };
 
 const CONDITION_ICON: Record<Condition, LucideIcon> = {
@@ -190,6 +211,20 @@ function writeCache(place: Place, forecast: Forecast) {
   }
 }
 
+/** A child signal that aborts on its own deadline OR when the parent does. */
+function withTimeout(parent: AbortSignal, ms: number): AbortSignal {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  const onParent = () => {
+    clearTimeout(timer);
+    controller.abort();
+  };
+  if (parent.aborted) onParent();
+  else parent.addEventListener('abort', onParent, { once: true });
+  controller.signal.addEventListener('abort', () => clearTimeout(timer), { once: true });
+  return controller.signal;
+}
+
 async function fetchForecast(place: Place, signal: AbortSignal): Promise<Forecast> {
   const params = new URLSearchParams({
     latitude: String(place.lat),
@@ -224,15 +259,9 @@ async function fetchForecast(place: Place, signal: AbortSignal): Promise<Forecas
   };
 }
 
-interface WikiCoordResponse {
-  query?: {
-    pages?: Array<{
-      title?: string;
-      langlinks?: Array<{ title?: string }>;
-      coordinates?: Array<{ lat?: number; lon?: number; primary?: boolean }>;
-    }>;
-  };
-}
+/* ------------------------------------------------------------------ */
+/* Forward geocoding                                                    */
+/* ------------------------------------------------------------------ */
 
 async function geocodeOpenMeteo(name: string, locale: string, signal: AbortSignal, count: number): Promise<Place[]> {
   const params = new URLSearchParams({ name, count: String(count), language: locale, format: 'json' });
@@ -241,6 +270,7 @@ async function geocodeOpenMeteo(name: string, locale: string, signal: AbortSigna
   return (json.results ?? [])
     .filter((r) => typeof r.latitude === 'number' && typeof r.longitude === 'number' && r.name)
     .map((r) => ({
+      id: r.id,
       // Bare name only -- never baked into one string with admin1, so a
       // state-level "Georgia" (feature_code ADM1) never renders identically
       // to the country "Georgia" (PCLI): the UI disambiguates them with
@@ -248,29 +278,96 @@ async function geocodeOpenMeteo(name: string, locale: string, signal: AbortSigna
       name: r.name as string,
       admin1: r.admin1 && r.admin1 !== r.name ? r.admin1 : undefined,
       country: r.country,
+      countryCode: r.country_code?.toUpperCase(),
       isState: r.feature_code === 'ADM1',
       isCountry: r.feature_code === 'PCLI',
+      population: typeof r.population === 'number' ? r.population : undefined,
       lat: r.latitude as number,
       lon: r.longitude as number,
     }));
 }
 
+/** Every spelling variant, GEOCODE_COUNT rows each, merged by GeoNames id
+ *  and re-ranked (exact match → population) -- the fix for LaGrange, GA
+ *  never surfacing under `count=5` (see lib/live/geoMatch.ts header). */
+async function geocodeLatin(name: string, locale: string, signal: AbortSignal): Promise<Place[]> {
+  const variants = nameVariants(name);
+  const lists = await Promise.all(
+    variants.map((v) => geocodeOpenMeteo(v, locale, signal, GEOCODE_COUNT).catch(() => [] as Place[])),
+  );
+  return rankPlaces(mergePlaces(lists), name);
+}
+
+interface WikiSearchResponse {
+  query?: {
+    pages?: Array<{
+      title?: string;
+      langlinks?: Array<{ title?: string }>;
+      coordinates?: Array<{ lat?: number; lon?: number; primary?: boolean }>;
+      pageprops?: { wikibase_item?: string };
+    }>;
+  };
+}
+
+interface WikidataClaimsResponse {
+  claims?: {
+    P625?: Array<{ mainsnak?: { datavalue?: { value?: { latitude?: number; longitude?: number } } } }>;
+  };
+}
+
+interface WikiGeoPage {
+  title: string;
+  en?: string;
+  lat: number;
+  lon: number;
+}
+
+/** Wikidata P625 (coordinate location) for one item -- keyless, CORS
+ *  (`origin=*`), ~300 bytes. A missing P625 means the item is not a place. */
+async function wikidataCoordinate(qid: string, signal: AbortSignal): Promise<{ lat: number; lon: number } | null> {
+  try {
+    const params = new URLSearchParams({ action: 'wbgetclaims', entity: qid, property: 'P625', format: 'json', origin: '*' });
+    const res = await fetch(`https://www.wikidata.org/w/api.php?${params.toString()}`, { signal: withTimeout(signal, 5000) });
+    if (!res.ok) return null;
+    const json = (await res.json()) as WikidataClaimsResponse;
+    const v = json.claims?.P625?.[0]?.mainsnak?.datavalue?.value;
+    return typeof v?.latitude === 'number' && typeof v?.longitude === 'number' ? { lat: v.latitude, lon: v.longitude } : null;
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Open-Meteo's gazetteer only indexes Latin-script names ('Seoul' resolves,
- * '서울' / '東京' return nothing), so a native-script query falls through to
- * the locale's own Wikipedia: the article's English interlanguage title is
- * re-geocoded (→ proper city record, localized label), and failing that the
- * article's own primary coordinate is the city.
+ * '서울' / '라그레인지' return nothing), so a native-script query bridges
+ * through the locale's own Wikipedia SEARCH (not an exact title -- "라그레인지"
+ * alone is a disambiguation page, while the search returns "라그레인지
+ * (조지아주)" / "(켄터키주)" / "(텍사스주)" / "(일리노이주)"). Measured
+ * 2026-09-04: those ko stub articles carry an English interlanguage link
+ * and a Wikidata item but NO local coordinate tag, and `lllimit` / `colimit`
+ * cap the whole batch (not per page) -- so both are `max`, and any hit
+ * without its own coordinate is completed from Wikidata P625. A hit whose
+ * item has no P625 (a person, a chip, the disambiguation page itself) is
+ * not a place and drops out. Every geo hit's English title is stripped to
+ * its bare name, the unique spellings are geocoded once through the same
+ * variant pipeline, and each article snaps to the gazetteer record nearest
+ * its coordinate -- yielding proper localized city / state / country rows.
+ * An article with no gazetteer twin still lands as its own coordinate +
+ * native title.
  */
-async function geocodeViaWikipedia(name: string, locale: string, signal: AbortSignal, count: number): Promise<Place[]> {
+async function geocodeViaWikipedia(name: string, locale: string, signal: AbortSignal): Promise<Place[]> {
   const params = new URLSearchParams({
     action: 'query',
-    prop: 'coordinates|langlinks',
+    generator: 'search',
+    gsrsearch: name,
+    gsrlimit: '8',
+    gsrnamespace: '0',
+    prop: 'coordinates|langlinks|pageprops',
     lllang: 'en',
-    lllimit: '1',
+    lllimit: 'max',
     coprimary: 'all',
-    colimit: '5',
-    titles: name,
+    colimit: 'max',
+    ppprop: 'wikibase_item',
     redirects: '1',
     format: 'json',
     formatversion: '2',
@@ -278,71 +375,175 @@ async function geocodeViaWikipedia(name: string, locale: string, signal: AbortSi
   });
   const res = await fetch(`https://${wikiLangFor(locale)}.wikipedia.org/w/api.php?${params.toString()}`, { signal });
   if (!res.ok) return [];
-  const json = (await res.json()) as WikiCoordResponse;
-  const page = json.query?.pages?.[0];
-  if (!page?.title) return [];
+  const json = (await res.json()) as WikiSearchResponse;
+  const resolved = await Promise.all(
+    (json.query?.pages ?? []).map(async (p): Promise<WikiGeoPage | null> => {
+      if (!p.title) return null;
+      const coords = p.coordinates ?? [];
+      const primary = coords.find((c) => c.primary) ?? coords[0];
+      const en = p.langlinks?.[0]?.title;
+      if (primary && typeof primary.lat === 'number' && typeof primary.lon === 'number') {
+        return { title: p.title, en, lat: primary.lat, lon: primary.lon };
+      }
+      const qid = p.pageprops?.wikibase_item;
+      if (!qid) return null;
+      const fromWikidata = await wikidataCoordinate(qid, signal);
+      return fromWikidata ? { title: p.title, en, lat: fromWikidata.lat, lon: fromWikidata.lon } : null;
+    }),
+  );
+  const pages = resolved.filter((p): p is WikiGeoPage => p !== null);
+  if (pages.length === 0) return [];
 
-  const en = page.langlinks?.[0]?.title;
-  if (en) {
-    // 'Tokyo Proper' / 'Paris (city)' -> also try the bare place name.
-    const variants = Array.from(
-      new Set([en, en.replace(/\s*\(.*\)\s*$/, ''), en.replace(/\s+(Proper|City|Metropolis|Municipality)\s*$/i, '')]),
-    ).filter(Boolean);
-    for (const v of variants) {
-      const hit = await geocodeOpenMeteo(v, locale, signal, count);
-      if (hit.length > 0) return hit;
+  const spellings = new Set<string>();
+  for (const p of pages) {
+    if (!p.en) continue;
+    for (const v of nameVariants(stripEnglishTitle(p.en))) {
+      if (spellings.size < 4) spellings.add(v);
     }
   }
+  const lists = await Promise.all(
+    Array.from(spellings).map((v) => geocodeOpenMeteo(v, locale, signal, GEOCODE_COUNT).catch(() => [] as Place[])),
+  );
+  const pool = mergePlaces(lists);
 
-  const coords = page.coordinates ?? [];
-  const primary = coords.find((c) => c.primary) ?? coords[0];
-  if (primary && typeof primary.lat === 'number' && typeof primary.lon === 'number') {
-    return [{ name: page.title, lat: primary.lat, lon: primary.lon }];
-  }
-  return [];
+  return mergePlaces([
+    pages.map((p) => nearestWithin(pool, p.lat, p.lon, WIKI_MATCH_KM) ?? { name: p.title, lat: p.lat, lon: p.lon }),
+  ]);
 }
 
-async function geocode(name: string, locale: string, signal: AbortSignal, count = 5): Promise<Place[]> {
-  const places = await geocodeOpenMeteo(name, locale, signal, count);
-  if (places.length > 0 || /^[\x00-\x7F]*$/.test(name)) return places;
-  return geocodeViaWikipedia(name, locale, signal, count);
+async function geocode(name: string, locale: string, signal: AbortSignal): Promise<Place[]> {
+  if (isLatinQuery(name)) return geocodeLatin(name, locale, signal);
+  // Some non-Latin alternate names do resolve directly (Cyrillic etc.) --
+  // try the gazetteer first, bridge through Wikipedia only on a miss.
+  const direct = await geocodeOpenMeteo(name, locale, signal, GEOCODE_COUNT).catch(() => [] as Place[]);
+  if (direct.length > 0) return rankPlaces(direct, name);
+  return geocodeViaWikipedia(name, locale, signal);
 }
 
-/** Squared-distance nearest pick -- used to disambiguate when a reverse-label
- *  city name resolves to more than one same-named place worldwide. */
-function nearestPlace(candidates: Place[], lat: number, lon: number): Place | null {
-  if (candidates.length === 0) return null;
-  return candidates.reduce((best, c) => {
-    const d = (c.lat - lat) ** 2 + (c.lon - lon) ** 2;
-    const bd = (best.lat - lat) ** 2 + (best.lon - lon) ** 2;
-    return d < bd ? c : best;
-  });
-}
+/* ------------------------------------------------------------------ */
+/* Reverse geocoding + network-address positioning                     */
+/* ------------------------------------------------------------------ */
 
 interface ReverseLabel {
   name: string;
   admin1?: string;
   country?: string;
+  countryCode?: string;
 }
 
-/** Best-effort reverse label for "my location" (keyless, CORS). Returns the
- *  city/state and country as separate fields (not baked into one string) so
- *  the "국가 / 도시(주)" title format renders identically to a searched
- *  place (owner instruction 2026-09-03). */
-async function reverseLabel(lat: number, lon: number, locale: string, signal: AbortSignal): Promise<ReverseLabel | null> {
+/** Best-effort reverse label (keyless, CORS). City / state / country come
+ *  back as separate fields (never baked into one string) so the "국가 /
+ *  도시(주)" title format renders identically to a searched place. */
+async function reverseLabel(lat: number, lon: number, lang: string, signal: AbortSignal): Promise<ReverseLabel | null> {
   try {
-    const params = new URLSearchParams({ latitude: String(lat), longitude: String(lon), localityLanguage: locale });
-    const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?${params.toString()}`, { signal });
+    const params = new URLSearchParams({ latitude: String(lat), longitude: String(lon), localityLanguage: lang });
+    const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?${params.toString()}`, {
+      signal: withTimeout(signal, 6000),
+    });
     if (!res.ok) return null;
-    const json = (await res.json()) as { city?: string; locality?: string; principalSubdivision?: string; countryName?: string };
+    const json = (await res.json()) as {
+      city?: string;
+      locality?: string;
+      principalSubdivision?: string;
+      countryName?: string;
+      countryCode?: string;
+    };
     const city = json.city || json.locality || json.principalSubdivision;
     if (!city) return null;
     const admin1 = json.principalSubdivision && json.principalSubdivision !== city ? json.principalSubdivision : undefined;
-    return { name: city, admin1, country: json.countryName };
+    return { name: city, admin1, country: json.countryName, countryCode: json.countryCode?.toUpperCase() };
   } catch {
     return null;
   }
 }
+
+interface IpFix {
+  lat: number;
+  lon: number;
+}
+
+/** Keyless, CORS-enabled network-address position: GeoJS first, ipwho.is
+ *  as the fallback. City-centroid accuracy at best -- always flagged
+ *  `approx` downstream. */
+async function ipPosition(signal: AbortSignal): Promise<IpFix | null> {
+  try {
+    const res = await fetch('https://get.geojs.io/v1/ip/geo.json', { signal: withTimeout(signal, 4000) });
+    if (res.ok) {
+      const json = (await res.json()) as { latitude?: string | number; longitude?: string | number };
+      const lat = Number(json.latitude);
+      const lon = Number(json.longitude);
+      if (Number.isFinite(lat) && Number.isFinite(lon) && (lat !== 0 || lon !== 0)) return { lat, lon };
+    }
+  } catch {
+    // fall through to the second provider
+  }
+  try {
+    const res = await fetch('https://ipwho.is/', { signal: withTimeout(signal, 4000) });
+    if (res.ok) {
+      const json = (await res.json()) as { success?: boolean; latitude?: number; longitude?: number };
+      if (json.success !== false && typeof json.latitude === 'number' && typeof json.longitude === 'number') {
+        return { lat: json.latitude, lon: json.longitude };
+      }
+    }
+  } catch {
+    // both providers unreachable
+  }
+  return null;
+}
+
+function browserPosition(): Promise<IpFix> {
+  return new Promise((resolve, reject) => {
+    if (typeof navigator === 'undefined' || !('geolocation' in navigator)) {
+      reject(new Error('unsupported'));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => resolve({ lat: Number(pos.coords.latitude.toFixed(4)), lon: Number(pos.coords.longitude.toFixed(4)) }),
+      (err) => reject(err),
+      { enableHighAccuracy: false, timeout: 8000, maximumAge: 5 * 60 * 1000 },
+    );
+  });
+}
+
+/**
+ * Coordinates → the visitor's real place record. Reverse-geocodes in
+ * English (what the gazetteer is keyed on) AND in the visitor's language
+ * (display fallback), re-resolves the English city through the SAME
+ * forward pipeline the search box uses, keeps only candidates inside the
+ * reverse-geocoded country and snaps to the nearest one -- so a fix in
+ * LaGrange, GA lands on "미국 / LaGrange (조지아)" and never on Kentucky.
+ * The fix's own coordinates stay authoritative for the forecast.
+ */
+async function resolveCoords(
+  lat: number,
+  lon: number,
+  locale: string,
+  signal: AbortSignal,
+  approx: boolean,
+  fallbackName: string,
+): Promise<Place> {
+  const [local, english] = await Promise.all([
+    reverseLabel(lat, lon, locale, signal),
+    locale === 'en' ? Promise.resolve<ReverseLabel | null>(null) : reverseLabel(lat, lon, 'en', signal),
+  ]);
+  const keyed = english ?? local;
+  if (keyed?.name) {
+    try {
+      const candidates = sameCountry(await geocodeLatin(keyed.name, locale, signal), keyed.countryCode);
+      const best = nearestWithin(candidates, lat, lon, approx ? IP_MATCH_KM : GPS_MATCH_KM);
+      if (best) return { ...best, lat, lon, approx };
+    } catch {
+      // fall through to the raw reverse label below
+    }
+  }
+  const label = local ?? english;
+  if (label) {
+    return { name: label.name, admin1: label.admin1, country: label.country, countryCode: label.countryCode, lat, lon, approx };
+  }
+  return { name: fallbackName, lat, lon, approx };
+}
+
+/* ------------------------------------------------------------------ */
 
 export function LiveWeatherPanel() {
   const t = useTranslations('Weather');
@@ -359,6 +560,10 @@ export function LiveWeatherPanel() {
   const [searching, setSearching] = useState(false);
   const [locating, setLocating] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+  const locateAbortRef = useRef<AbortController | null>(null);
+  /** Once the visitor searched or located explicitly, the background
+   *  network-address auto-detect must never override their choice. */
+  const interactedRef = useRef(false);
 
   const load = useCallback(
     async (target: Place, force = false) => {
@@ -398,34 +603,47 @@ export function LiveWeatherPanel() {
     [t],
   );
 
-  // First paint: the last place the visitor looked at (if still fresh), else
-  // the locale capital.
+  // First paint: the last place the visitor looked at, else the locale
+  // capital immediately -- and, with no history at all, the visitor's own
+  // region from their network address swapped in as soon as it resolves.
   useEffect(() => {
     const cached = readCache();
     const initial = cached?.place ?? DEFAULT_PLACE[locale] ?? DEFAULT_PLACE.en;
     setPlace(initial);
     void load(initial);
-    // Localize the capital's label ('Seoul' -> '서울특별시') in the background;
-    // coordinates stay the hard-coded ones, so a gazetteer miss changes nothing.
-    const labelController = new AbortController();
-    if (!cached && locale !== 'en') {
-      geocode(initial.name, locale, labelController.signal, 1)
-        .then((list) => {
-          const hit = list[0];
-          if (!hit || Math.abs(hit.lat - initial.lat) > 1.5 || Math.abs(hit.lon - initial.lon) > 1.5) return;
-          setPlace((p) =>
-            p.lat === initial.lat && p.lon === initial.lon
-              ? { ...p, name: hit.name, country: hit.country ?? p.country, admin1: hit.admin1 }
-              : p,
-          );
-        })
-        .catch(() => {
-          // label stays English -- purely cosmetic.
-        });
+    const background = new AbortController();
+    if (!cached) {
+      void (async () => {
+        const fix = await ipPosition(background.signal);
+        if (!fix || background.signal.aborted || interactedRef.current) return;
+        const resolved = await resolveCoords(fix.lat, fix.lon, locale, background.signal, true, t('myLocation'));
+        if (background.signal.aborted || interactedRef.current) return;
+        void load(resolved, true);
+      })();
+      // Localize the capital's label ('Seoul' -> '서울특별시') in the
+      // background; coordinates stay the hard-coded ones, so a gazetteer
+      // miss changes nothing -- and the guard below leaves an already
+      // auto-detected region untouched.
+      if (locale !== 'en') {
+        geocodeOpenMeteo(initial.name, locale, background.signal, 1)
+          .then((list) => {
+            const hit = list[0];
+            if (!hit || Math.abs(hit.lat - initial.lat) > 1.5 || Math.abs(hit.lon - initial.lon) > 1.5) return;
+            setPlace((p) =>
+              p.lat === initial.lat && p.lon === initial.lon
+                ? { ...p, name: hit.name, country: hit.country ?? p.country, admin1: hit.admin1 }
+                : p,
+            );
+          })
+          .catch(() => {
+            // label stays English -- purely cosmetic.
+          });
+      }
     }
     return () => {
       abortRef.current?.abort();
-      labelController.abort();
+      locateAbortRef.current?.abort();
+      background.abort();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -433,14 +651,21 @@ export function LiveWeatherPanel() {
   async function runCitySearch() {
     const q = cityQuery.trim();
     if (!q) return;
+    interactedRef.current = true;
     setSearching(true);
+    setError(null);
     setCandidates([]);
     const controller = new AbortController();
     try {
       const list = await geocode(q, locale, controller.signal);
-      setCandidates(list);
-      if (list.length === 1) void load(list[0], true);
-      if (list.length === 0) setError(t('noCity'));
+      if (list.length === 0) {
+        setError(t('noCity'));
+        return;
+      }
+      // The top-ranked match loads at once; every same-named sibling stays
+      // listed (own state + country) so the visitor can switch in one tap.
+      void load(list[0], true);
+      setCandidates(list.length > 1 ? list.slice(0, MAX_CANDIDATES) : []);
     } catch {
       setError(t('error'));
     } finally {
@@ -449,58 +674,38 @@ export function LiveWeatherPanel() {
   }
 
   function pickCandidate(p: Place) {
+    interactedRef.current = true;
     setCandidates([]);
     setCityQuery('');
     void load(p, true);
   }
 
-  function locateMe() {
-    if (!('geolocation' in navigator)) {
+  async function locateMe() {
+    interactedRef.current = true;
+    locateAbortRef.current?.abort();
+    const controller = new AbortController();
+    locateAbortRef.current = controller;
+    setLocating(true);
+    setError(null);
+    setCandidates([]);
+
+    let fix: (IpFix & { approx: boolean }) | null = await browserPosition()
+      .then((p) => ({ ...p, approx: false }))
+      .catch(() => null);
+    if (!fix && !controller.signal.aborted) {
+      const ip = await ipPosition(controller.signal);
+      if (ip) fix = { ...ip, approx: true };
+    }
+    if (controller.signal.aborted) return;
+    if (!fix) {
+      setLocating(false);
       setError(t('locationDenied'));
       return;
     }
-    setLocating(true);
-    setError(null);
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const lat = Number(pos.coords.latitude.toFixed(4));
-        const lon = Number(pos.coords.longitude.toFixed(4));
-        const controller = new AbortController();
-        const reverse = await reverseLabel(lat, lon, locale, controller.signal);
-        setLocating(false);
-
-        if (reverse) {
-          // Re-resolve the reverse-geocoded name through the SAME forward
-          // geocoding pipeline the manual city search box uses (Open-Meteo
-          // gazetteer + Wikipedia fallback) instead of trusting
-          // BigDataCloud's own admin-level naming as-is -- this is the only
-          // way "내 위치" and a typed search of that exact city are
-          // guaranteed to land on identical name/admin1/country/isState/
-          // isCountry fields (owner instruction 2026-09-04 round 4). GPS
-          // coordinates stay authoritative for the forecast fetch; only the
-          // display fields come from the re-resolved record.
-          try {
-            const resolved = await geocode(reverse.name, locale, controller.signal, 5);
-            const best = nearestPlace(resolved, lat, lon);
-            if (best) {
-              void load({ ...best, lat, lon }, true);
-              return;
-            }
-          } catch {
-            // fall through to the raw reverse label below
-          }
-          void load({ name: reverse.name, admin1: reverse.admin1, country: reverse.country, lat, lon }, true);
-          return;
-        }
-
-        void load({ name: t('myLocation'), lat, lon }, true);
-      },
-      () => {
-        setLocating(false);
-        setError(t('locationDenied'));
-      },
-      { enableHighAccuracy: false, timeout: 8000, maximumAge: 5 * 60 * 1000 },
-    );
+    const resolved = await resolveCoords(fix.lat, fix.lon, locale, controller.signal, fix.approx, t('myLocation'));
+    if (controller.signal.aborted) return;
+    setLocating(false);
+    void load(resolved, true);
   }
 
   function onCityKeyDown(e: KeyboardEvent<HTMLInputElement>) {
@@ -530,20 +735,21 @@ export function LiveWeatherPanel() {
             {place.admin1 && <span className="text-gray-500">({place.admin1})</span>}
             {place.isState && <span className="ml-1.5 text-gray-600">· {t('stateBadge')}</span>}
             {place.isCountry && <span className="ml-1.5 text-gray-600">· {t('countryBadge')}</span>}
+            {place.approx && <span className="ml-1.5 text-gray-600">· ≈ {t('approx')}</span>}
           </span>
         </p>
         <div className="ml-auto flex items-center gap-1.5">
           <button
             type="button"
             onMouseEnter={() => playHoverSfx()}
-            onClick={locateMe}
+            onClick={() => void locateMe()}
             disabled={locating}
             title={t('myLocation')}
             aria-label={t('myLocation')}
             className="flex h-8 items-center gap-1.5 border border-accent/40 px-2.5 text-[11px] font-bold uppercase tracking-widest text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
           >
             {locating ? <Loader2 size={12} className="animate-spin" aria-hidden="true" /> : <LocateFixed size={12} aria-hidden="true" />}
-            <span className="hidden sm:inline">{t('myLocation')}</span>
+            <span className="hidden sm:inline">{locating ? t('detecting') : t('myLocation')}</span>
           </button>
           <button
             type="button"
@@ -587,35 +793,52 @@ export function LiveWeatherPanel() {
           </button>
         </div>
         {candidates.length > 1 && (
-          <ul className="absolute left-0 right-0 top-full z-10 mt-1 border border-white/15 bg-quantum shadow-xl">
-            {candidates.map((p) => (
-              <li key={`${p.lat},${p.lon}`}>
-                <button
-                  type="button"
-                  onMouseEnter={() => playHoverSfx()}
-                  onClick={() => pickCandidate(p)}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-left text-[13px] text-gray-200 transition-colors hover:bg-white/5 hover:text-white"
-                >
-                  <MapPin size={12} className="shrink-0 text-accent" aria-hidden="true" />
-                  <span className="min-w-0 flex-1 truncate">
-                    {p.name}
-                    {p.admin1 && <span className="text-gray-500"> ({p.admin1})</span>}
-                  </span>
-                  {p.country && <span className="shrink-0 text-gray-500">· {p.country}</span>}
-                  {p.isState && (
-                    <span className="shrink-0 border border-amber-400/40 px-1 text-[10px] font-bold uppercase text-amber-300">
-                      {t('stateBadge')}
+          <div className="absolute left-0 right-0 top-full z-10 mt-1 border border-white/15 bg-quantum shadow-xl">
+            <div className="flex items-center gap-2 border-b border-white/10 px-3 py-2">
+              <p className="min-w-0 flex-1 truncate text-[11px] font-bold uppercase tracking-widest text-accent/80">
+                {t('pickRegion')}
+              </p>
+              <button
+                type="button"
+                onMouseEnter={() => playHoverSfx()}
+                onClick={() => setCandidates([])}
+                aria-label={t('dismiss')}
+                title={t('dismiss')}
+                className="flex h-6 w-6 shrink-0 items-center justify-center border border-white/15 text-gray-400 transition-colors hover:border-accent/50 hover:text-accent"
+              >
+                <X size={12} aria-hidden="true" />
+              </button>
+            </div>
+            <ul className="max-h-72 overflow-y-auto">
+              {candidates.map((p) => (
+                <li key={p.id ?? `${p.lat},${p.lon}`}>
+                  <button
+                    type="button"
+                    onMouseEnter={() => playHoverSfx()}
+                    onClick={() => pickCandidate(p)}
+                    className="flex w-full items-center gap-2 px-3 py-2 text-left text-[13px] text-gray-200 transition-colors hover:bg-white/5 hover:text-white"
+                  >
+                    <MapPin size={12} className="shrink-0 text-accent" aria-hidden="true" />
+                    <span className="min-w-0 flex-1 truncate">
+                      {p.name}
+                      {p.admin1 && <span className="text-gray-500"> ({p.admin1})</span>}
                     </span>
-                  )}
-                  {p.isCountry && (
-                    <span className="shrink-0 border border-accent/40 px-1 text-[10px] font-bold uppercase text-accent">
-                      {t('countryBadge')}
-                    </span>
-                  )}
-                </button>
-              </li>
-            ))}
-          </ul>
+                    {p.country && <span className="shrink-0 text-gray-500">· {p.country}</span>}
+                    {p.isState && (
+                      <span className="shrink-0 border border-amber-400/40 px-1 text-[10px] font-bold uppercase text-amber-300">
+                        {t('stateBadge')}
+                      </span>
+                    )}
+                    {p.isCountry && (
+                      <span className="shrink-0 border border-accent/40 px-1 text-[10px] font-bold uppercase text-accent">
+                        {t('countryBadge')}
+                      </span>
+                    )}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
 

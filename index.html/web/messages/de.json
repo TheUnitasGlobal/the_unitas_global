@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "UNITAS-Modul-Ökosystem · mit Ihrer Suche verknüpft"
   },
+  "LockIn": {
+    "title": "Lock-in-Ökosystem",
+    "subtitle": "Acht souveräne Module, die jede Reise innerhalb von UNITAS halten — öffnen und aktivieren Sie jedes einzelne, um Ihren Lock-in zu vollenden.",
+    "hint": "Dieses Lock-in-Modul öffnen",
+    "eyebrow": "LOCK-IN-MODUL {index} / {total}",
+    "progress": "{active} / {total} aktiviert",
+    "complete": "Lock-in vollständig — alle acht Module sind auf diesem Gerät aktiv.",
+    "activate": "Modul aktivieren",
+    "deactivate": "Deaktivieren",
+    "activeBadge": "Aktiv",
+    "pillarsLabel": "Kernsäulen",
+    "doctrineLabel": "Doktrin",
+    "prev": "Vorheriges Modul",
+    "next": "Nächstes Modul",
+    "modules": {
+      "nexus": {
+        "tagline": "Eine Identität, jedes Modul",
+        "description": "NEXUS bindet Ihre U-Signature, Ihr Wallet, Ihr Gedächtnis und jedes Modul in einen einzigen souveränen Graphen — je mehr Sie ihn nutzen, desto mehr merkt er sich, und nichts muss je erneut eingegeben werden.",
+        "p1": "Eine souveräne Anmeldung für alle 19 UNITAS-Module",
+        "p2": "Modulübergreifendes Gedächtnis, das Ihnen von Engine zu Engine folgt",
+        "p3": "Ein portabler Identitätsgraph, der Ihnen gehört, nicht der Plattform",
+        "doctrine": "Hypervernetzt · Hyperintegriert · Hypersynchronisiert"
+      },
+      "aegis": {
+        "tagline": "Der Schild, der niemals schläft",
+        "description": "AEGIS hüllt Konto, Wallet und Daten in eine Zero-Trust-Verteidigungsschicht — jede Sitzung, jeder Schlüssel und jede Coin-Bewegung wird geprüft, bevor sie geschieht, sodass Weggehen der einzig unsichere Schritt ist.",
+        "p1": "Zero-Trust-Sitzungen und Schlüsselverwahrung bei jeder Anfrage",
+        "p2": "Echtzeit-Anomalieüberwachung von Wallet- und Ledger-Aktivität",
+        "p3": "Fail-closed by design: Nichts Ungeprüftes wird je ausgeführt",
+        "doctrine": "Hyperdefensiv · Hyperhackersicher · Hypercyberdefensiv"
+      },
+      "uTwin": {
+        "tagline": "Ihr sich entwickelnder Datenzwilling",
+        "description": "U-TWIN verwandelt alles, was Sie tun, in einen lebenden Datenorganismus — ein U-Signature-Archiv, das mit jeder Suche, Entscheidung und jedem Ergebnis schärfer wird und nirgendwo sonst existieren kann.",
+        "p1": "Seelendaten-Archiv, das sich mit jeder Interaktion verzinst",
+        "p2": "Resonanzprofil über die sechs Verfassungsachsen",
+        "p3": "Zwilling-zu-Zwilling-Vergleich und Evolutionsverfolgung",
+        "doctrine": "Hypergenerativ · Hyperadaptiv · Hyperunsterblich"
+      },
+      "infinity": {
+        "tagline": "Marge ∞ durch intelligentes Caching",
+        "description": "INFINITY ist der Wirtschaftsmotor unter UNITAS: Jede einmal berechnete Antwort wird gecacht und zu Grenzkosten von null wiederverwendet, sodass das Ökosystem für Sie günstiger wird, je länger Sie bleiben.",
+        "p1": "Micro-Burn-Preise, die sinken, während der Cache warm wird",
+        "p2": "Jede synthetisierte Stufe wird weltweit kostenlos erneut ausgeliefert",
+        "p3": "Angesammelte Fähigkeiten und Daten, die nie verfallen",
+        "doctrine": "Hyperabsolute Marge · Hyperintelligentes Caching · Hypersparsam"
+      },
+      "panopticon": {
+        "tagline": "Die ganze Welt auf einem Bildschirm",
+        "description": "PANOPTICON verschmilzt Live-Weltranglisten, 21-Achsen-Nachrichten, Wetter und Suchtrends zu einem einzigen Echtzeit-Observatorium — dem einen Bildschirm, der jeden anderen Tab ersetzt.",
+        "p1": "Live-Welt- und UNITAS-Ranglisten, rund um die Uhr aktualisiert",
+        "p2": "21-Achsen-Weltnachrichten in Ihrer eigenen Sprache",
+        "p3": "Wetter, Trends und Signale für Ihre exakte Region",
+        "doctrine": "Hypereinsichtig · Hyperechtzeit-Websynthese · Hypertransparent"
+      },
+      "oracle": {
+        "tagline": "Wahrscheinlichkeit, bevor es geschieht",
+        "description": "ORACLE führt deterministische Simulationen auf dem Kausalitätskalkül aus — Märkte, Projekte, Ziele — und liefert Wahrscheinlichkeiten samt der Hebel, die sie bewegen. Eine Simulation, niemals ein Rat.",
+        "p1": "Sechsachsiges Verfassungs-Monte-Carlo für jedes Ziel",
+        "p2": "Wahrscheinlichkeitsanzeigen für Markt, Krypto und Trends",
+        "p3": "Nach Wirkung geordnete Kausalitätshebel",
+        "doctrine": "Hyperzukunftsprädiktiv · Hyperaktienprädiktiv · Hyperbitcoin-analytisch"
+      },
+      "syndicateX": {
+        "tagline": "Fabrik mieten, Netzwerk beitreten",
+        "description": "SYNDICATE-X ist der Ort, an dem Nomaden und Kleinunternehmen einander autonome Agentenfabriken vermieten — ein Koalitionsmarktplatz, dessen Wert mit jedem beitretenden Mitglied wächst.",
+        "p1": "Mietmarktplatz für Agentenfabriken ohne Startkapital",
+        "p2": "Koalitionsgraphen, die Partner und Lieferanten sichtbar machen",
+        "p3": "Netzwerkeffekte, die sich für jedes Mitglied verzinsen",
+        "doctrine": "Hyperdezentral · Hyperskalierbar · Hyper-Einpersonen-Ausführung"
+      },
+      "fateMatrix": {
+        "tagline": "Hacken Sie die Kausalität Ihres Ziels",
+        "description": "FATE-MATRIX legt Ihr Ziel als Wahrscheinlichkeitsgitter über die 100-Doktrinen-Verfassung und lässt Sie jeden kausalen Hebel ziehen, bis der Weg dorthin unausweichlich wird.",
+        "p1": "Ziel→Wahrscheinlichkeits-Gitter über die sechs Achsen",
+        "p2": "Kausalitäts-Hacks mit Vorher/Nachher-Trajektorien",
+        "p3": "Meilenstein-Schmiede für 1·2·3·5·10 Jahre",
+        "doctrine": "Hyperzukunftsorientiert · Hyperquanten · Hyperultimativ"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "Redesign"
   },
   "Governance": {
-    "title": "Zivilisatorische Governance-Matrix",
-    "subtitle": "Wähle eine von 16 souveränen Achsen, die jede UNITAS-Entscheidung tragen, um die Leiter zu starten.",
-    "badge": "SOUVERÄNE GOVERNANCE-ACHSE",
     "prev": "Zurück",
     "next": "Weiter",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "Gewitter mit Hagel"
     },
     "stateBadge": "Bundesstaat",
-    "countryBadge": "Land"
+    "countryBadge": "Land",
+    "pickRegion": "Mehrere Orte tragen diesen Namen — wählen Sie Ihren",
+    "approx": "Netzwerkschätzung",
+    "dismiss": "Schließen",
+    "detecting": "Erkenne…"
   },
   "ExitGuard": {
     "eyebrow": "Ausgangsschutz",
@@ -1363,125 +1445,6 @@
       "3": "Bekannt in der {module}-Community für konsistente, störungsarme Beitragsmuster.",
       "4": "Ein modulübergreifender Betreiber, dessen {module}-Aktivitätsindex mehrere Zyklen lang eine Spitzenposition hielt.",
       "5": "Anerkannt innerhalb von {module} für nachhaltiges Engagement deutlich über dem Median-Aktivitätsindex des Moduls."
-    }
-  },
-  "HyperSovereign": {
-    "label": "Hyper-souveräne Shortcuts",
-    "hint": "Tippen, um eine hyper-souveräne Kognitions-Engine zu öffnen",
-    "switchEngine": "Engine wechseln",
-    "engines": {
-      "ideaReplicator": {
-        "title": "Business-Selbstreplikation",
-        "description": "KI-Agenten replizieren kapitalfreie Ein-Personen-Fabrik-Ideen Generation für Generation selbst.",
-        "cta": "Replikation starten"
-      },
-      "fateEngine": {
-        "title": "Schicksals-Wahrscheinlichkeits-Engine",
-        "description": "Berechnet per 6-Achsen-Verfassungs-Monte-Carlo, wie wahrscheinlich dein Ziel wird — und hackt die Kausalität.",
-        "cta": "Schicksal berechnen"
-      },
-      "omniTwin": {
-        "title": "Omniversum-Zwilling",
-        "description": "Klont alles zu einem Datenzwilling mit U-Signature und Resonanzspektrum.",
-        "cta": "Zwilling schmieden"
-      },
-      "chronoForge": {
-        "title": "Kausalitäts-Zeitlinie",
-        "description": "Schmiedet Zukunfts-Meilensteine für 1·2·3·5·10 Jahre, jeder mit Wahrscheinlichkeit.",
-        "cta": "Zeitlinie schmieden"
-      },
-      "marginInfinity": {
-        "title": "Margen-∞-Simulator",
-        "description": "Simuliert live Grenzkosten null und unendliche Marge mit Micro-Burn und intelligentem Caching.",
-        "cta": "Simulieren"
-      }
-    },
-    "seedPlaceholder": "Seed-Stichwort eingeben (z. B. Kaffee, eine Stadt, ein Talent)…",
-    "goalPlaceholder": "Ziel eingeben (z. B. 10.000 € automatisiertes Monatseinkommen in einem Jahr)…",
-    "subjectPlaceholder": "Subjekt eingeben (z. B. dein Name, eine Stadt, eine Marke)…",
-    "replicate": "Replizieren",
-    "rerun": "Neu berechnen",
-    "hack": "Kausalität hacken",
-    "hacked": "Hack aktiv",
-    "evolve": "Zwilling entwickeln",
-    "forge": "Neu schmieden",
-    "generation": "Generation {n}",
-    "probability": "Realisierungswahrscheinlichkeit",
-    "horizon": "Zeithorizont",
-    "yearsShort": "{n} J.",
-    "levers": "Kausalitätshebel",
-    "trajectory": "Wahrscheinlichkeitsverlauf",
-    "entropy": "Entropie",
-    "signature": "U-Signature",
-    "resonance": "16-Achsen-Resonanz",
-    "constitution": "6-Achsen-Verfassungsspektrum",
-    "elements": "Elementardynamik",
-    "metrics": {
-      "capital": "Benötigtes Kapital",
-      "launchDays": "Launch (Tage)",
-      "automation": "Automatisierung",
-      "margin": "Marge",
-      "viability": "Machbarkeit",
-      "blueOcean": "Blue Ocean"
-    },
-    "capitalZero": "0 · kapitalfrei",
-    "patterns": {
-      "agentRental": "Agenten-Vermietung",
-      "dataTwin": "Datenzwilling-Abo",
-      "microBurnSaaS": "Micro-Burn-SaaS",
-      "autonomousMarketplace": "Autonomer Marktplatz",
-      "sovereignAcademy": "Souveräne Akademie",
-      "predictiveOracle": "Prädiktives Orakel",
-      "cachedIntelligence": "Gecachte Intelligenz",
-      "nomadFactory": "Nomaden-Fabrik"
-    },
-    "element": {
-      "earth": "Erde",
-      "water": "Wasser",
-      "fire": "Feuer",
-      "wind": "Wind",
-      "lightning": "Blitz"
-    },
-    "oracleLabel": "U-AI-Orakel",
-    "oracleLoading": "Das U-AI-Orakel schmiedet die Erzählung…",
-    "oracleUnavailable": "Die Orakel-Erzählung kann gleich erneut versucht werden — das berechnete Ergebnis oben ist bereits endgültig.",
-    "disclaimer": "Wahrscheinlichkeiten und Zahlen sind eine deterministische Simulation auf Basis der 100-Doktrinen-Verfassung, keine Anlage- oder Rechtsberatung.",
-    "sliders": {
-      "price": "Preis pro Aufruf (U-COIN)",
-      "burn": "Micro-Burn-Kosten pro ungecachtem Aufruf (U-COIN)",
-      "cacheHit": "Trefferquote des intelligenten Caches",
-      "calls": "Aufrufe pro Tag"
-    },
-    "revenue": "Tagesumsatz",
-    "cost": "Tageskosten",
-    "margin": "Marge",
-    "marginInfinite": "∞ (unendlich)",
-    "marginalCost": "Grenzkosten",
-    "marginCurve": "Margenkurve nach Cache-Trefferquote",
-    "milestone": "Meilensteine",
-    "yearLabel": "{year}",
-    "magnitude": "Größe {n}/5",
-    "emptyState": "Seed eingeben und ausführen — das Ergebnis erscheint sofort.",
-    "lineage": "Replikationslinie",
-    "pool": {
-      "ideaHeadline": "Generation {n} · drei Null-Kapital-Ventures, die auf {axis} zulaufen",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "Start in {days} Tagen auf der Achse {axis}: Automatisierung {automation} %, Marge ×{margin}, Tragfähigkeit {viability} %, Blue Ocean {blueOcean} % — Kapital 0.",
-      "ideaOracle": "Repliziere als Nächstes Idee {n}: ihr Blue Ocean von {blueOcean} % ist der weiteste dieser Generation.",
-      "fateHeadline": "{probability} % Realisierungswahrscheinlichkeit innerhalb von {horizon} Jahren · Entropie {entropy}/100",
-      "fateTitle": "Achse {axis} hacken",
-      "fateBody": "Dieser Kausalitätshebel bringt +{delta} Punkte über {axis}. {status}",
-      "leverApplied": "Angewendet — die Trajektorie enthält ihn bereits.",
-      "leverPending": "Noch nicht angewendet — der nächste Hack schaltet ihn frei.",
-      "fateOracle": "Die Trajektorie steigt von {first} % in Jahr {firstYear} auf {last} % in Jahr {lastYear}; der Hebel {axis} bestimmt, wie steil die Kurve wird.",
-      "twinHeadline": "Zwilling {signature} · Generation {n} · Entropie {entropy}/100",
-      "twinTitle": "{axis}-Resonanz {score}",
-      "twinBody": "Die Achse {axis} resoniert in diesem Zwilling mit {score}/99 — das Merkmal, das prägt, wie das Subjekt handelt.",
-      "twinOracle": "Ein lebender Datenorganismus, geführt von {element} ({score}) — sein Seelen-Datenarchiv entwickelt sich mit jeder Generation weiter.",
-      "chronoHeadline": "Ein 10-Jahres-Bogen in Richtung {axis} bis {year}",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "Wahrscheinlichkeit {probability} %, Muster {pattern}, Magnitude {magnitude}/5 — in {offset} Jahren.",
-      "chronoOracle": "Das Scharnier ist {year}: {axis} bei {probability} % wendet die gesamte Zeitlinie."
     }
   }
 }

@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "Ekosistem modul UNITAS · terhubung dengan pencarian Anda"
   },
+  "LockIn": {
+    "title": "Ekosistem Lock-in",
+    "subtitle": "Delapan modul berdaulat yang menjaga setiap perjalanan tetap di dalam UNITAS — buka dan aktifkan masing-masing untuk menuntaskan lock-in Anda.",
+    "hint": "Buka modul lock-in ini",
+    "eyebrow": "MODUL LOCK-IN {index} / {total}",
+    "progress": "{active} / {total} diaktifkan",
+    "complete": "Lock-in selesai — kedelapan modul aktif di perangkat ini.",
+    "activate": "Aktifkan modul",
+    "deactivate": "Nonaktifkan",
+    "activeBadge": "Aktif",
+    "pillarsLabel": "Pilar inti",
+    "doctrineLabel": "Doktrin",
+    "prev": "Modul sebelumnya",
+    "next": "Modul berikutnya",
+    "modules": {
+      "nexus": {
+        "tagline": "Satu identitas, semua modul",
+        "description": "NEXUS mengikat U-Signature, dompet, memori, dan setiap modul Anda ke dalam satu graf berdaulat — semakin sering dipakai semakin banyak yang diingat, dan tidak ada yang perlu dimasukkan ulang.",
+        "p1": "Satu login berdaulat untuk seluruh 19 modul UNITAS",
+        "p2": "Memori lintas modul yang mengikuti Anda dari mesin ke mesin",
+        "p3": "Graf identitas portabel milik Anda, bukan milik platform",
+        "doctrine": "Hiper-terhubung · Hiper-terintegrasi · Hiper-tersinkronisasi"
+      },
+      "aegis": {
+        "tagline": "Perisai yang tak pernah tidur",
+        "description": "AEGIS membungkus akun, dompet, dan data Anda dalam lapisan pertahanan zero-trust — setiap sesi, kunci, dan pergerakan koin diverifikasi sebelum terjadi, sehingga pergi adalah satu-satunya langkah yang tidak aman.",
+        "p1": "Sesi zero-trust dan kustodi kunci pada setiap permintaan",
+        "p2": "Pengawasan anomali real-time pada aktivitas dompet dan buku besar",
+        "p3": "Fail-closed sejak desain: tidak ada yang belum terverifikasi pernah dieksekusi",
+        "doctrine": "Hiper-defensif · Hiper-antiperetas · Hiper-pertahanan siber"
+      },
+      "uTwin": {
+        "tagline": "Kembaran data Anda yang terus berevolusi",
+        "description": "U-TWIN mengubah semua yang Anda lakukan menjadi organisme data hidup — arsip U-Signature yang makin tajam di setiap pencarian, keputusan, dan hasil, dan tidak bisa ada di tempat lain.",
+        "p1": "Arsip data jiwa yang berbunga majemuk di setiap interaksi",
+        "p2": "Profil resonansi di enam sumbu konstitusi",
+        "p3": "Perbandingan antar-kembaran dan pelacakan evolusi",
+        "doctrine": "Hiper-generatif · Hiper-adaptif · Hiper-abadi"
+      },
+      "infinity": {
+        "tagline": "Margin ∞ lewat cache cerdas",
+        "description": "INFINITY adalah mesin ekonomi di bawah UNITAS: setiap jawaban yang pernah dihitung disimpan di cache dan dipakai ulang dengan biaya marginal nol, sehingga ekosistem makin murah bagi Anda semakin lama Anda tinggal.",
+        "p1": "Harga micro-burn yang turun saat cache memanas",
+        "p2": "Setiap tingkat yang tersintesis disajikan ulang ke seluruh dunia tanpa biaya",
+        "p3": "Keterampilan dan data terakumulasi yang tak pernah kedaluwarsa",
+        "doctrine": "Hiper-margin absolut · Hiper-cache cerdas · Hiper-hemat"
+      },
+      "panopticon": {
+        "tagline": "Lihat seluruh dunia di satu layar",
+        "description": "PANOPTICON meleburkan peringkat dunia langsung, berita 21 sumbu, cuaca, dan tren pencarian ke dalam satu observatorium real-time — satu layar yang menggantikan semua tab lain.",
+        "p1": "Peringkat dunia dan UNITAS langsung, diperbarui sepanjang waktu",
+        "p2": "Berita global 21 sumbu dalam bahasa Anda sendiri",
+        "p3": "Cuaca, tren, dan sinyal untuk wilayah persis Anda",
+        "doctrine": "Hiper-berwawasan · Hiper-sintesis web real-time · Hiper-transparan"
+      },
+      "oracle": {
+        "tagline": "Probabilitas sebelum terjadi",
+        "description": "ORACLE menjalankan simulasi deterministik di atas kalkulus kausalitas — pasar, proyek, tujuan — dan mengembalikan probabilitas beserta tuas yang menggerakkannya. Simulasi, bukan nasihat.",
+        "p1": "Monte Carlo konstitusi enam sumbu untuk tujuan apa pun",
+        "p2": "Pembacaan probabilitas pasar, kripto, dan tren",
+        "p3": "Tuas kausalitas yang diurutkan berdasarkan dampak",
+        "doctrine": "Hiper-prediktif masa depan · Hiper-prediktif saham · Hiper-analitik bitcoin"
+      },
+      "syndicateX": {
+        "tagline": "Sewa pabriknya, gabung jaringannya",
+        "description": "SYNDICATE-X adalah tempat para nomaden dan usaha kecil saling menyewakan pabrik agen otonom — pasar koalisi yang nilainya tumbuh dengan setiap anggota yang bergabung.",
+        "p1": "Pasar sewa pabrik agen tanpa modal awal",
+        "p2": "Graf koalisi yang memunculkan mitra dan vendor",
+        "p3": "Efek jaringan yang berbunga majemuk bagi setiap anggota",
+        "doctrine": "Hiper-terdesentralisasi · Hiper-skalabel · Hiper-eksekusi satu orang"
+      },
+      "fateMatrix": {
+        "tagline": "Retas kausalitas tujuan Anda",
+        "description": "FATE-MATRIX membentangkan tujuan Anda sebagai kisi probabilitas di atas konstitusi 100 doktrin dan membiarkan Anda menarik setiap tuas kausal hingga jalan menuju tujuan itu menjadi tak terelakkan.",
+        "p1": "Kisi tujuan→probabilitas di enam sumbu",
+        "p2": "Peretasan kausalitas dengan lintasan sebelum/sesudah",
+        "p3": "Penempaan tonggak 1·2·3·5·10 tahun",
+        "doctrine": "Hiper-berorientasi masa depan · Hiper-kuantum · Hiper-pamungkas"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "Desain Ulang"
   },
   "Governance": {
-    "title": "Matriks Tata Kelola Peradaban",
-    "subtitle": "Pilih salah satu dari 16 sumbu berdaulat yang menopang setiap keputusan UNITAS untuk memulai tangga.",
-    "badge": "SUMBU TATA KELOLA BERDAULAT",
     "prev": "Sebelumnya",
     "next": "Berikutnya",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "Badai petir dengan hujan es"
     },
     "stateBadge": "Negara Bagian",
-    "countryBadge": "Negara"
+    "countryBadge": "Negara",
+    "pickRegion": "Beberapa tempat memiliki nama ini — pilih wilayah Anda",
+    "approx": "perkiraan jaringan",
+    "dismiss": "Tutup",
+    "detecting": "Mendeteksi…"
   },
   "ExitGuard": {
     "eyebrow": "Penjaga keluar",
@@ -1363,125 +1445,6 @@
       "3": "Dikenal di komunitas {module} karena pola kontribusi yang konsisten dan stabil.",
       "4": "Operator lintas modul yang indeks aktivitas {module}-nya bertahan di level teratas selama beberapa siklus.",
       "5": "Diakui dalam {module} karena keterlibatan berkelanjutan yang jauh di atas indeks aktivitas median modul."
-    }
-  },
-  "HyperSovereign": {
-    "label": "Pintasan hiper-berdaulat",
-    "hint": "Ketuk untuk membuka mesin kognitif hiper-berdaulat",
-    "switchEngine": "Ganti mesin",
-    "engines": {
-      "ideaReplicator": {
-        "title": "Replikasi diri bisnis",
-        "description": "Agen AI mereplikasi sendiri ide pabrik satu orang tanpa modal, generasi demi generasi.",
-        "cta": "Mulai replikasi"
-      },
-      "fateEngine": {
-        "title": "Mesin probabilitas takdir",
-        "description": "Menghitung probabilitas tujuanmu terwujud dengan Monte Carlo konstitusi 6 sumbu — lalu meretas kausalitas.",
-        "cta": "Hitung takdir"
-      },
-      "omniTwin": {
-        "title": "Kembar semesta",
-        "description": "Mengkloning apa pun menjadi kembar data dengan U-Signature dan spektrum resonansi.",
-        "cta": "Tempa kembar"
-      },
-      "chronoForge": {
-        "title": "Garis waktu kausalitas",
-        "description": "Menempa tonggak masa depan 1·2·3·5·10 tahun, masing-masing dengan probabilitasnya.",
-        "cta": "Tempa garis waktu"
-      },
-      "marginInfinity": {
-        "title": "Simulator margin ∞",
-        "description": "Mensimulasikan biaya marginal nol dan margin tak terbatas secara langsung dengan micro-burn dan cache cerdas.",
-        "cta": "Simulasikan"
-      }
-    },
-    "seedPlaceholder": "Ketik kata kunci benih (mis. kopi, kota, bakat)…",
-    "goalPlaceholder": "Ketik tujuan (mis. pendapatan otomatis Rp150 juta/bulan dalam setahun)…",
-    "subjectPlaceholder": "Ketik subjek (mis. namamu, kota, merek)…",
-    "replicate": "Replikasi",
-    "rerun": "Hitung ulang",
-    "hack": "Retas kausalitas",
-    "hacked": "Retasan diterapkan",
-    "evolve": "Evolusikan kembar",
-    "forge": "Tempa ulang",
-    "generation": "Generasi {n}",
-    "probability": "Probabilitas terwujud",
-    "horizon": "Horizon waktu",
-    "yearsShort": "{n} thn",
-    "levers": "Tuas kausalitas",
-    "trajectory": "Lintasan probabilitas",
-    "entropy": "Entropi",
-    "signature": "U-Signature",
-    "resonance": "Resonansi 16 sumbu",
-    "constitution": "Spektrum konstitusi 6 sumbu",
-    "elements": "Dinamika elemen",
-    "metrics": {
-      "capital": "Modal dibutuhkan",
-      "launchDays": "Peluncuran (hari)",
-      "automation": "Otomatisasi",
-      "margin": "Margin",
-      "viability": "Kelayakan",
-      "blueOcean": "Samudra biru"
-    },
-    "capitalZero": "0 · tanpa modal",
-    "patterns": {
-      "agentRental": "Sewa agen",
-      "dataTwin": "Langganan kembar data",
-      "microBurnSaaS": "SaaS micro-burn",
-      "autonomousMarketplace": "Pasar otonom",
-      "sovereignAcademy": "Akademi berdaulat",
-      "predictiveOracle": "Orakel prediktif",
-      "cachedIntelligence": "Kecerdasan ter-cache",
-      "nomadFactory": "Pabrik nomaden"
-    },
-    "element": {
-      "earth": "Tanah",
-      "water": "Air",
-      "fire": "Api",
-      "wind": "Angin",
-      "lightning": "Petir"
-    },
-    "oracleLabel": "Orakel U-AI",
-    "oracleLoading": "Orakel U-AI sedang menempa narasi…",
-    "oracleUnavailable": "Narasi orakel dapat dicoba lagi sebentar — hasil perhitungan di atas sudah final.",
-    "disclaimer": "Probabilitas dan angka adalah simulasi deterministik berbasis konstitusi 100 doktrin, bukan saran investasi atau hukum.",
-    "sliders": {
-      "price": "Harga per panggilan (U-COIN)",
-      "burn": "Biaya micro-burn per panggilan tanpa cache (U-COIN)",
-      "cacheHit": "Tingkat hit cache cerdas",
-      "calls": "Panggilan per hari"
-    },
-    "revenue": "Pendapatan harian",
-    "cost": "Biaya harian",
-    "margin": "Margin",
-    "marginInfinite": "∞ (tak terbatas)",
-    "marginalCost": "Biaya marginal",
-    "marginCurve": "Kurva margin per tingkat hit cache",
-    "milestone": "Tonggak",
-    "yearLabel": "{year}",
-    "magnitude": "Magnitudo {n}/5",
-    "emptyState": "Ketik benih dan jalankan — hasil muncul seketika.",
-    "lineage": "Silsilah replikasi",
-    "pool": {
-      "ideaHeadline": "Generasi {n} · tiga usaha tanpa modal yang berkonvergensi pada {axis}",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "Luncurkan dalam {days} hari pada sumbu {axis}: otomatisasi {automation}%, margin ×{margin}, kelayakan {viability}%, samudra biru {blueOcean}% — modal 0.",
-      "ideaOracle": "Replikasi ide {n} berikutnya: samudra biru {blueOcean}%-nya adalah yang terluas di generasi ini.",
-      "fateHeadline": "Probabilitas terwujud {probability}% dalam {horizon} tahun · entropi {entropy}/100",
-      "fateTitle": "Retas sumbu {axis}",
-      "fateBody": "Tuas kausalitas ini menambah +{delta} poin melalui {axis}. {status}",
-      "leverApplied": "Diterapkan — lintasan sudah memuatnya.",
-      "leverPending": "Belum diterapkan — peretasan berikutnya membukanya.",
-      "fateOracle": "Lintasan naik dari {first}% di tahun {firstYear} ke {last}% pada tahun {lastYear}; tuas {axis} menentukan seberapa curam kurvanya.",
-      "twinHeadline": "Kembaran {signature} · generasi {n} · entropi {entropy}/100",
-      "twinTitle": "Resonansi {axis} {score}",
-      "twinBody": "Sumbu {axis} beresonansi pada {score}/99 dalam kembaran ini — sifat yang membentuk cara subjek bertindak.",
-      "twinOracle": "Organisme data hidup yang dipimpin {element} ({score}) — arsip data jiwanya berevolusi di setiap generasi.",
-      "chronoHeadline": "Busur 10 tahun menuju {axis} pada {year}",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "Probabilitas {probability}%, pola {pattern}, magnitudo {magnitude}/5 — {offset} tahun dari sekarang.",
-      "chronoOracle": "Engselnya adalah {year}: {axis} pada {probability}% memutar seluruh lini masa."
     }
   }
 }

@@ -22,7 +22,7 @@ import {
 // axes from CLAUDE.md §3.3: 언어,문화,사회,구조,예술,표현,실용,경제,공학,기술,
 // 법,제도,교육,복지,안보,전략. Doctrine-only until now (prose in CLAUDE.md, no
 // UI) -- this is the first shortcut-matrix rendering of it. Navigated as a
-// single "ladder" (see GovernanceLadderModal) rather than 16 separate modals,
+// single "ladder" (HotShortcutResultModal's chained popup) rather than 16 separate modals,
 // per lib/uiGate.ts's one-surface-at-a-time design.
 
 export interface GovernanceAxis {

@@ -404,19 +404,6 @@ body {
   50% { opacity: 0.7; filter: blur(8px) saturate(1.35); }
 }
 
-/* The Living Knowledge Ouroboros -- 16-axis governance shortcut marquee under
-   the search bar. Track holds the 16 axes duplicated twice back-to-back;
-   scrolling exactly -50% loops seamlessly back to an identical frame. */
-.governance-ladder-track {
-  animation: governance-ladder-scroll 34s linear infinite;
-}
-.governance-ladder-track:hover {
-  animation-play-state: paused;
-}
-@keyframes governance-ladder-scroll {
-  to { transform: translateX(-50%); }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .cs-awaken,
   .cs-core,
@@ -426,5 +413,4 @@ body {
   .cs-stage-in { opacity: 1; }
   .cs-replay-aurora::before,
   .cs-skip-aurora::before { animation: none; }
-  .governance-ladder-track { animation: none; }
 }

@@ -26,9 +26,10 @@ import { GOVERNANCE_AXES, type GovernanceAxis } from './governance';
 // matrix -- its 16 doctrine-derived axes (lib/governance.ts, CLAUDE.md §3.3)
 // now live folded into the groups above (finance/career/hotIssue) or, for
 // the eight that didn't fit an existing box, the new dedicated "civic" box.
-// Section 4's standalone 16-axis Governance Matrix wall (HomeContent,
-// GovernanceCard/GovernanceLadderModal) is untouched -- it reads
-// GOVERNANCE_AXES directly and isn't part of this shortcut-popup matrix.
+// The standalone 16-axis Governance Matrix wall that used to close the home
+// page (Section 4: GovernanceCard grid + GovernanceLadderModal) was purged
+// on the founder's instruction (2026-09-04 round 8) -- lib/governance.ts
+// survives purely as the icon/color/messageKey source these groups fold.
 // Each group lives in its own message namespace (`HotIssue`, `Finance`,
 // `RealEstate`, `Dating`, `Career`, `Civic`) while sharing this one shape so
 // HotShortcutMatrixStrip and HotShortcutResultModal can render every group

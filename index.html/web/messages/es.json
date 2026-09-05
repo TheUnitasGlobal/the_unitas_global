@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "Ecosistema de módulos UNITAS · vinculado a tu búsqueda"
   },
+  "LockIn": {
+    "title": "Ecosistema de fidelización",
+    "subtitle": "Ocho módulos soberanos que mantienen cada recorrido dentro de UNITAS — abre y activa cada uno para completar tu fidelización.",
+    "hint": "Abrir este módulo de fidelización",
+    "eyebrow": "MÓDULO DE FIDELIZACIÓN {index} / {total}",
+    "progress": "{active} / {total} activados",
+    "complete": "Fidelización completa — los ocho módulos están activos en este dispositivo.",
+    "activate": "Activar módulo",
+    "deactivate": "Desactivar",
+    "activeBadge": "Activo",
+    "pillarsLabel": "Pilares clave",
+    "doctrineLabel": "Doctrina",
+    "prev": "Módulo anterior",
+    "next": "Módulo siguiente",
+    "modules": {
+      "nexus": {
+        "tagline": "Una identidad, todos los módulos",
+        "description": "NEXUS enlaza tu U-Signature, tu billetera, tu memoria y cada módulo en un único grafo soberano — cuanto más lo usas, más recuerda, y nunca hay que volver a introducir nada.",
+        "p1": "Un solo acceso soberano a los 19 módulos de UNITAS",
+        "p2": "Memoria entre módulos que te sigue de un motor a otro",
+        "p3": "Un grafo de identidad portátil que es tuyo, no de la plataforma",
+        "doctrine": "Hiperconectado · Hiperintegrado · Hipersincronizado"
+      },
+      "aegis": {
+        "tagline": "El escudo que nunca duerme",
+        "description": "AEGIS envuelve tu cuenta, tu billetera y tus datos en una capa de defensa de confianza cero — cada sesión, clave y movimiento de monedas se verifica antes de ocurrir, así que irse es el único movimiento inseguro.",
+        "p1": "Sesiones y custodia de claves de confianza cero en cada petición",
+        "p2": "Vigilancia de anomalías en tiempo real sobre billetera y libro mayor",
+        "p3": "Fail-closed por diseño: nada sin verificar se ejecuta jamás",
+        "doctrine": "Hiperdefensivo · Hiperantihacker · Hiperciberdefensivo"
+      },
+      "uTwin": {
+        "tagline": "Tu gemelo de datos en evolución",
+        "description": "U-TWIN convierte todo lo que haces en un organismo de datos vivo — un archivo U-Signature que se afina con cada búsqueda, decisión y resultado, y que no puede existir en ningún otro lugar.",
+        "p1": "Archivo de datos del alma que se capitaliza con cada interacción",
+        "p2": "Perfil de resonancia sobre los seis ejes de la constitución",
+        "p3": "Comparación entre gemelos y seguimiento de la evolución",
+        "doctrine": "Hipergenerativo · Hiperadaptativo · Hiperinmortal"
+      },
+      "infinity": {
+        "tagline": "Margen ∞ mediante caché inteligente",
+        "description": "INFINITY es el motor económico bajo UNITAS: cada respuesta calculada una vez se guarda en caché y se reutiliza a coste marginal cero, así que el ecosistema se abarata cuanto más tiempo te quedas.",
+        "p1": "Precios de microquema que bajan a medida que la caché se calienta",
+        "p2": "Cada nivel sintetizado se vuelve a servir en todo el mundo a coste cero",
+        "p3": "Habilidades y datos acumulados que nunca caducan",
+        "doctrine": "Hipermargen absoluto · Hipercaché inteligente · Hiperfrugal"
+      },
+      "panopticon": {
+        "tagline": "Ve el mundo entero en una pantalla",
+        "description": "PANOPTICON fusiona rankings mundiales en vivo, noticias de 21 ejes, el tiempo y las tendencias de búsqueda en un único observatorio en tiempo real — la pantalla que reemplaza a todas las demás pestañas.",
+        "p1": "Rankings mundiales y de UNITAS en vivo, actualizados sin pausa",
+        "p2": "Noticias globales de 21 ejes en tu propio idioma",
+        "p3": "Tiempo, tendencias y señales de tu región exacta",
+        "doctrine": "Hiperperspicaz · Hipersíntesis web en tiempo real · Hipertransparente"
+      },
+      "oracle": {
+        "tagline": "La probabilidad antes de que ocurra",
+        "description": "ORACLE ejecuta simulaciones deterministas sobre el cálculo de causalidad — mercados, proyectos, metas — y devuelve probabilidades con las palancas que las mueven. Una simulación, nunca un consejo.",
+        "p1": "Montecarlo de constitución de seis ejes sobre cualquier meta",
+        "p2": "Lecturas de probabilidad de mercado, cripto y tendencias",
+        "p3": "Palancas de causalidad ordenadas por impacto",
+        "doctrine": "Hiperpredictivo del futuro · Hiperpredictivo bursátil · Hiperanalítico de bitcoin"
+      },
+      "syndicateX": {
+        "tagline": "Alquila la fábrica, únete a la red",
+        "description": "SYNDICATE-X es donde nómadas y pequeños negocios se alquilan entre sí fábricas de agentes autónomos — un mercado de coalición cuyo valor crece con cada miembro que se une.",
+        "p1": "Mercado de alquiler de fábricas de agentes sin capital inicial",
+        "p2": "Grafos de coalición que revelan socios y proveedores",
+        "p3": "Efectos de red que se capitalizan para cada miembro",
+        "doctrine": "Hiperdescentralizado · Hiperescalable · Hiperejecución unipersonal"
+      },
+      "fateMatrix": {
+        "tagline": "Hackea la causalidad de tu meta",
+        "description": "FATE-MATRIX despliega tu meta como una retícula de probabilidad sobre la constitución de 100 doctrinas y te deja accionar cada palanca causal hasta que el camino hacia ella sea inevitable.",
+        "p1": "Retícula meta→probabilidad sobre los seis ejes",
+        "p2": "Hackeos de causalidad con trayectorias antes/después",
+        "p3": "Forja de hitos a 1·2·3·5·10 años",
+        "doctrine": "Hiperorientado al futuro · Hipercuántico · Hiperdefinitivo"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "Rediseño"
   },
   "Governance": {
-    "title": "Matriz de Gobernanza Civilizatoria",
-    "subtitle": "16 ejes soberanos que sustentan cada decisión de UNITAS — elige uno para iniciar la escalera.",
-    "badge": "EJE DE GOBERNANZA SOBERANA",
     "prev": "Anterior",
     "next": "Siguiente",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "Tormenta con granizo"
     },
     "stateBadge": "Estado",
-    "countryBadge": "País"
+    "countryBadge": "País",
+    "pickRegion": "Varios lugares comparten este nombre — elige el tuyo",
+    "approx": "estimación de red",
+    "dismiss": "Cerrar",
+    "detecting": "Detectando…"
   },
   "ExitGuard": {
     "eyebrow": "Guardia de salida",
@@ -1363,125 +1445,6 @@
       "3": "Reconocido en la comunidad de {module} por patrones de contribución consistentes y estables.",
       "4": "Un operador multimódulo cuyo índice de actividad en {module} se ha mantenido en el nivel superior durante varios ciclos.",
       "5": "Reconocido dentro de {module} por una participación sostenida muy por encima del índice de actividad medio del módulo."
-    }
-  },
-  "HyperSovereign": {
-    "label": "Atajos hipersoberanos",
-    "hint": "Toca para abrir un motor cognitivo hipersoberano",
-    "switchEngine": "Cambiar motor",
-    "engines": {
-      "ideaReplicator": {
-        "title": "Autorreplicación de negocios",
-        "description": "Agentes de IA autorreplican ideas de fábrica unipersonal sin capital, generación tras generación.",
-        "cta": "Empezar a replicar"
-      },
-      "fateEngine": {
-        "title": "Motor de probabilidad del destino",
-        "description": "Calcula la probabilidad de cumplir tu meta con un Monte Carlo constitucional de 6 ejes — y hackea la causalidad.",
-        "cta": "Calcular destino"
-      },
-      "omniTwin": {
-        "title": "Gemelo del omniverso",
-        "description": "Clona cualquier cosa en un gemelo de datos con U-Signature y espectro de resonancia.",
-        "cta": "Forjar gemelo"
-      },
-      "chronoForge": {
-        "title": "Línea temporal causal",
-        "description": "Forja hitos futuros a 1·2·3·5·10 años, cada uno con su probabilidad.",
-        "cta": "Forjar línea temporal"
-      },
-      "marginInfinity": {
-        "title": "Simulador de margen ∞",
-        "description": "Simula en vivo coste marginal cero y margen infinito con micro-quema y caché inteligente.",
-        "cta": "Simular"
-      }
-    },
-    "seedPlaceholder": "Escribe una semilla (p. ej. café, una ciudad, un talento)…",
-    "goalPlaceholder": "Escribe una meta (p. ej. ingresos automáticos de 10 000 € al mes en un año)…",
-    "subjectPlaceholder": "Escribe un sujeto (p. ej. tu nombre, una ciudad, una marca)…",
-    "replicate": "Replicar",
-    "rerun": "Recalcular",
-    "hack": "Hackear causalidad",
-    "hacked": "Hack aplicado",
-    "evolve": "Evolucionar gemelo",
-    "forge": "Reforjar",
-    "generation": "Generación {n}",
-    "probability": "Probabilidad de realización",
-    "horizon": "Horizonte temporal",
-    "yearsShort": "{n} a",
-    "levers": "Palancas causales",
-    "trajectory": "Trayectoria de probabilidad",
-    "entropy": "Entropía",
-    "signature": "U-Signature",
-    "resonance": "Resonancia de 16 ejes",
-    "constitution": "Espectro constitucional de 6 ejes",
-    "elements": "Dinámica elemental",
-    "metrics": {
-      "capital": "Capital necesario",
-      "launchDays": "Lanzamiento (días)",
-      "automation": "Automatización",
-      "margin": "Margen",
-      "viability": "Viabilidad",
-      "blueOcean": "Océano azul"
-    },
-    "capitalZero": "0 · sin capital",
-    "patterns": {
-      "agentRental": "Alquiler de agentes",
-      "dataTwin": "Suscripción a gemelo de datos",
-      "microBurnSaaS": "SaaS de micro-quema",
-      "autonomousMarketplace": "Mercado autónomo",
-      "sovereignAcademy": "Academia soberana",
-      "predictiveOracle": "Oráculo predictivo",
-      "cachedIntelligence": "Inteligencia en caché",
-      "nomadFactory": "Fábrica nómada"
-    },
-    "element": {
-      "earth": "Tierra",
-      "water": "Agua",
-      "fire": "Fuego",
-      "wind": "Viento",
-      "lightning": "Rayo"
-    },
-    "oracleLabel": "Oráculo U-AI",
-    "oracleLoading": "El oráculo U-AI está forjando la narrativa…",
-    "oracleUnavailable": "La narrativa del oráculo se puede reintentar en breve — el resultado calculado arriba ya es definitivo.",
-    "disclaimer": "Las probabilidades y cifras son una simulación determinista basada en la constitución de 100 doctrinas, no asesoramiento de inversión ni legal.",
-    "sliders": {
-      "price": "Precio por llamada (U-COIN)",
-      "burn": "Coste de micro-quema por llamada sin caché (U-COIN)",
-      "cacheHit": "Tasa de acierto de la caché inteligente",
-      "calls": "Llamadas por día"
-    },
-    "revenue": "Ingresos diarios",
-    "cost": "Coste diario",
-    "margin": "Margen",
-    "marginInfinite": "∞ (infinito)",
-    "marginalCost": "Coste marginal",
-    "marginCurve": "Curva de margen por acierto de caché",
-    "milestone": "Hitos",
-    "yearLabel": "{year}",
-    "magnitude": "Magnitud {n}/5",
-    "emptyState": "Escribe una semilla y ejecuta — el resultado aparece al instante.",
-    "lineage": "Linaje de replicación",
-    "pool": {
-      "ideaHeadline": "Generación {n} · tres negocios sin capital que convergen en {axis}",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "Lanzamiento en {days} días sobre el eje {axis}: automatización {automation}%, margen ×{margin}, viabilidad {viability}%, océano azul {blueOcean}% — capital 0.",
-      "ideaOracle": "Replica la idea {n} a continuación: su océano azul del {blueOcean}% es el más amplio de esta generación.",
-      "fateHeadline": "{probability}% de probabilidad de realización en {horizon} años · entropía {entropy}/100",
-      "fateTitle": "Hackear el eje {axis}",
-      "fateBody": "Esta palanca de causalidad suma +{delta} puntos a través de {axis}. {status}",
-      "leverApplied": "Aplicada — la trayectoria ya la incluye.",
-      "leverPending": "Aún no aplicada — el próximo hackeo la desbloquea.",
-      "fateOracle": "La trayectoria sube del {first}% en el año {firstYear} al {last}% en el año {lastYear}; la palanca {axis} decide la pendiente de la curva.",
-      "twinHeadline": "Gemelo {signature} · generación {n} · entropía {entropy}/100",
-      "twinTitle": "Resonancia {axis} {score}",
-      "twinBody": "El eje {axis} resuena a {score}/99 en este gemelo — el rasgo que moldea cómo actúa el sujeto.",
-      "twinOracle": "Un organismo de datos vivo guiado por {element} ({score}) — su archivo de datos del alma evoluciona con cada generación.",
-      "chronoHeadline": "Un arco de 10 años hacia {axis} en {year}",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "Probabilidad {probability}%, patrón {pattern}, magnitud {magnitude}/5 — dentro de {offset} años.",
-      "chronoOracle": "La bisagra es {year}: {axis} al {probability}% hace girar toda la línea temporal."
     }
   }
 }

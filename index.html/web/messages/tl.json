@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "UNITAS module ecosystem · naka-link sa iyong paghahanap"
   },
+  "LockIn": {
+    "title": "Lock-in Ecosystem",
+    "subtitle": "Walong soberanong module na nagpapanatili ng bawat paglalakbay sa loob ng UNITAS — buksan at i-activate ang bawat isa upang makumpleto ang iyong lock-in.",
+    "hint": "Buksan ang lock-in module na ito",
+    "eyebrow": "LOCK-IN MODULE {index} / {total}",
+    "progress": "{active} / {total} na-activate",
+    "complete": "Kumpleto na ang lock-in — aktibo ang lahat ng walong module sa device na ito.",
+    "activate": "I-activate ang module",
+    "deactivate": "I-deactivate",
+    "activeBadge": "Aktibo",
+    "pillarsLabel": "Pangunahing haligi",
+    "doctrineLabel": "Doktrina",
+    "prev": "Nakaraang module",
+    "next": "Susunod na module",
+    "modules": {
+      "nexus": {
+        "tagline": "Isang pagkakakilanlan, bawat module",
+        "description": "Iniuugnay ng NEXUS ang iyong U-Signature, wallet, memorya at bawat module sa iisang soberanong graph — habang mas ginagamit mo, mas marami itong naaalala, at wala nang kailangang ilagay muli.",
+        "p1": "Iisang soberanong pag-sign-in sa lahat ng 19 UNITAS module",
+        "p2": "Cross-module na memoryang sumusunod sa iyo sa bawat engine",
+        "p3": "Portable na identity graph na pag-aari mo, hindi ng platform",
+        "doctrine": "Hyper-konektado · Hyper-integrado · Hyper-naka-sync"
+      },
+      "aegis": {
+        "tagline": "Ang kalasag na hindi natutulog",
+        "description": "Binabalot ng AEGIS ang iyong account, wallet at data sa isang zero-trust na layer ng depensa — bawat session, susi at galaw ng coin ay bineberipika bago mangyari, kaya ang pag-alis lang ang tanging hindi ligtas na hakbang.",
+        "p1": "Zero-trust na session at pag-iingat ng susi sa bawat request",
+        "p2": "Real-time na pagbabantay sa anomalya ng wallet at ledger",
+        "p3": "Fail-closed mula sa disenyo: walang hindi beripikadong tatakbo kailanman",
+        "doctrine": "Hyper-depensibo · Hyper-hacker-proof · Hyper-cyber-depensibo"
+      },
+      "uTwin": {
+        "tagline": "Ang iyong umuunlad na data twin",
+        "description": "Ginagawa ng U-TWIN ang lahat ng iyong ginagawa bilang isang buhay na organismo ng data — isang U-Signature archive na tumatalas sa bawat paghahanap, desisyon at resulta, at hindi maaaring umiral saanman.",
+        "p1": "Archive ng soul-data na lumalago sa bawat interaksyon",
+        "p2": "Resonance profile sa anim na axis ng konstitusyon",
+        "p3": "Paghahambing ng twin-sa-twin at pagsubaybay sa ebolusyon",
+        "doctrine": "Hyper-generative · Hyper-adaptive · Hyper-imortal"
+      },
+      "infinity": {
+        "tagline": "Margin ∞ sa pamamagitan ng matalinong caching",
+        "description": "Ang INFINITY ang makinang pang-ekonomiya sa ilalim ng UNITAS: bawat sagot na minsang nakalkula ay ini-cache at ginagamit muli sa zero marginal cost, kaya lalong mumurahin ang ecosystem para sa iyo habang mas matagal kang nananatili.",
+        "p1": "Micro-burn na presyong bumababa habang umiinit ang cache",
+        "p2": "Bawat na-synthesize na tier ay muling inihahain sa buong mundo nang walang gastos",
+        "p3": "Naipong kasanayan at data na hindi kailanman nag-e-expire",
+        "doctrine": "Hyper-absolute-margin · Hyper-matalinong-caching · Hyper-matipid"
+      },
+      "panopticon": {
+        "tagline": "Makita ang buong mundo sa iisang screen",
+        "description": "Pinagsasama ng PANOPTICON ang live na world rankings, 21-axis na balita, panahon at search trends sa iisang real-time na obserbatoryo — ang iisang screen na pumapalit sa bawat ibang tab.",
+        "p1": "Live na world at UNITAS rankings na nire-refresh buong araw",
+        "p2": "21-axis na pandaigdigang balita sa sarili mong wika",
+        "p3": "Panahon, trends at signal para sa eksaktong rehiyon mo",
+        "doctrine": "Hyper-mapanuri · Hyper-real-time-web-synthesis · Hyper-transparente"
+      },
+      "oracle": {
+        "tagline": "Probabilidad bago pa mangyari",
+        "description": "Nagpapatakbo ang ORACLE ng deterministikong simulasyon sa causality calculus — mga merkado, proyekto, layunin — at nagbabalik ng probabilidad kasama ang mga lever na nagpapagalaw dito. Isang simulasyon, hindi kailanman payo.",
+        "p1": "Anim-na-axis na constitution Monte Carlo sa anumang layunin",
+        "p2": "Pagbasa ng probabilidad ng merkado, crypto at trends",
+        "p3": "Mga causality lever na niraranggo ayon sa epekto",
+        "doctrine": "Hyper-hula-sa-hinaharap · Hyper-hula-sa-stock · Hyper-analitiko-sa-bitcoin"
+      },
+      "syndicateX": {
+        "tagline": "Rentahan ang pabrika, sumali sa network",
+        "description": "Ang SYNDICATE-X ang lugar kung saan nagrerentahan ang mga nomad at maliliit na negosyo ng autonomous na agent factory — isang coalition marketplace na lumalaki ang halaga sa bawat miyembrong sumasali.",
+        "p1": "Rental marketplace ng agent factory na zero capital ang simula",
+        "p2": "Coalition graphs na naglalantad ng mga partner at vendor",
+        "p3": "Network effects na lumalago para sa bawat miyembro",
+        "doctrine": "Hyper-desentralisado · Hyper-scalable · Hyper-isang-taong-pagpapatupad"
+      },
+      "fateMatrix": {
+        "tagline": "I-hack ang causality ng iyong layunin",
+        "description": "Inilalatag ng FATE-MATRIX ang iyong layunin bilang isang probability lattice sa 100-doktrinang konstitusyon at hinahayaan kang hilahin ang bawat causal lever hanggang maging hindi maiiwasan ang daan patungo rito.",
+        "p1": "Lattice ng layunin→probabilidad sa anim na axis",
+        "p2": "Causality hacks na may before/after na trajectory",
+        "p3": "Pagpapanday ng milestone sa 1·2·3·5·10 taon",
+        "doctrine": "Hyper-nakatuon-sa-hinaharap · Hyper-quantum · Hyper-sukdulan"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "Redesign"
   },
   "Governance": {
-    "title": "Matrix ng Pamamahalang Sibilisasyon",
-    "subtitle": "Pumili ng isa sa 16 soberanong aksis na sumusuporta sa bawat desisyon ng UNITAS para simulan ang hagdan.",
-    "badge": "AKSIS NG SOBERANONG PAMAMAHALA",
     "prev": "Nakaraan",
     "next": "Susunod",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "Bagyong may kulog at yelo"
     },
     "stateBadge": "Estado",
-    "countryBadge": "Bansa"
+    "countryBadge": "Bansa",
+    "pickRegion": "Maraming lugar ang may ganitong pangalan — piliin ang iyo",
+    "approx": "tantiya mula sa network",
+    "dismiss": "Isara",
+    "detecting": "Tinutukoy…"
   },
   "ExitGuard": {
     "eyebrow": "Bantay sa paglabas",
@@ -1363,125 +1445,6 @@
       "3": "Kilala sa komunidad ng {module} dahil sa pare-pareho at matatag na pattern ng kontribusyon.",
       "4": "Isang cross-module operator na ang activity index sa {module} ay nanatili sa pinakamataas na antas sa maraming cycle.",
       "5": "Kinikilala sa loob ng {module} dahil sa tuluy-tuloy na partisipasyon na higit sa median activity index ng module."
-    }
-  },
-  "HyperSovereign": {
-    "label": "Hyper-Sovereign na mga shortcut",
-    "hint": "I-tap para buksan ang hyper-sovereign cognitive engine",
-    "switchEngine": "Magpalit ng engine",
-    "engines": {
-      "ideaReplicator": {
-        "title": "Self-replication ng negosyo",
-        "description": "Ang mga AI agent ay nagre-replicate ng mga ideya ng one-person factory na walang kapital, henerasyon-henerasyon.",
-        "cta": "Simulan ang replication"
-      },
-      "fateEngine": {
-        "title": "Fate probability engine",
-        "description": "Kinukuwenta ang probabilidad na matupad ang layunin mo gamit ang 6-axis constitution Monte Carlo — pagkatapos ay hina-hack ang causality.",
-        "cta": "Kuwentahin ang kapalaran"
-      },
-      "omniTwin": {
-        "title": "Omniverse twin",
-        "description": "Kino-clone ang kahit ano bilang data twin na may U-Signature at resonance spectrum.",
-        "cta": "Bumuo ng twin"
-      },
-      "chronoForge": {
-        "title": "Causality timeline",
-        "description": "Bumubuo ng mga milestone sa hinaharap sa 1·2·3·5·10 taon, bawat isa may probabilidad.",
-        "cta": "Bumuo ng timeline"
-      },
-      "marginInfinity": {
-        "title": "Margin ∞ simulator",
-        "description": "Sinisimula nang live ang zero marginal cost at walang-hanggang margin gamit ang micro-burn at intelligent caching.",
-        "cta": "I-simulate"
-      }
-    },
-    "seedPlaceholder": "Mag-type ng seed keyword (hal. kape, lungsod, talento)…",
-    "goalPlaceholder": "Mag-type ng layunin (hal. ₱500k/buwan na automated na kita sa loob ng isang taon)…",
-    "subjectPlaceholder": "Mag-type ng paksa (hal. pangalan mo, lungsod, brand)…",
-    "replicate": "I-replicate",
-    "rerun": "Kuwentahin muli",
-    "hack": "I-hack ang causality",
-    "hacked": "Naka-apply ang hack",
-    "evolve": "Paunlarin ang twin",
-    "forge": "Buuin muli",
-    "generation": "Henerasyon {n}",
-    "probability": "Probabilidad ng pagkatupad",
-    "horizon": "Time horizon",
-    "yearsShort": "{n} taon",
-    "levers": "Mga causality lever",
-    "trajectory": "Trajectory ng probabilidad",
-    "entropy": "Entropy",
-    "signature": "U-Signature",
-    "resonance": "16-axis resonance",
-    "constitution": "6-axis constitution spectrum",
-    "elements": "Elemental dynamics",
-    "metrics": {
-      "capital": "Kailangang kapital",
-      "launchDays": "Launch (araw)",
-      "automation": "Automation",
-      "margin": "Margin",
-      "viability": "Viability",
-      "blueOcean": "Blue ocean"
-    },
-    "capitalZero": "0 · walang kapital",
-    "patterns": {
-      "agentRental": "Pagrenta ng agent",
-      "dataTwin": "Subscription sa data twin",
-      "microBurnSaaS": "Micro-burn SaaS",
-      "autonomousMarketplace": "Autonomous marketplace",
-      "sovereignAcademy": "Sovereign academy",
-      "predictiveOracle": "Predictive oracle",
-      "cachedIntelligence": "Cached intelligence",
-      "nomadFactory": "Nomad factory"
-    },
-    "element": {
-      "earth": "Lupa",
-      "water": "Tubig",
-      "fire": "Apoy",
-      "wind": "Hangin",
-      "lightning": "Kidlat"
-    },
-    "oracleLabel": "U-AI Oracle",
-    "oracleLoading": "Binubuo ng U-AI oracle ang salaysay…",
-    "oracleUnavailable": "Maaaring subukang muli ang salaysay ng oracle maya-maya — pinal na ang kinuwentang resulta sa itaas.",
-    "disclaimer": "Ang mga probabilidad at numero ay deterministic na simulation batay sa 100-doctrine constitution, hindi payo sa pamumuhunan o legal.",
-    "sliders": {
-      "price": "Presyo bawat tawag (U-COIN)",
-      "burn": "Micro-burn cost bawat uncached na tawag (U-COIN)",
-      "cacheHit": "Hit rate ng intelligent cache",
-      "calls": "Mga tawag bawat araw"
-    },
-    "revenue": "Kita bawat araw",
-    "cost": "Gastos bawat araw",
-    "margin": "Margin",
-    "marginInfinite": "∞ (walang hanggan)",
-    "marginalCost": "Marginal cost",
-    "marginCurve": "Margin curve ayon sa cache hit rate",
-    "milestone": "Mga milestone",
-    "yearLabel": "{year}",
-    "magnitude": "Laki {n}/5",
-    "emptyState": "Mag-type ng seed at patakbuhin — agad lalabas ang resulta.",
-    "lineage": "Lineage ng replication",
-    "pool": {
-      "ideaHeadline": "Henerasyon {n} · tatlong negosyong walang kapital na nagtatagpo sa {axis}",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "Ilunsad sa loob ng {days} araw sa axis na {axis}: automation {automation}%, margin ×{margin}, viability {viability}%, blue ocean {blueOcean}% — kapital 0.",
-      "ideaOracle": "Sunod na i-replicate ang ideya {n}: ang {blueOcean}% blue ocean nito ang pinakamalawak sa henerasyong ito.",
-      "fateHeadline": "{probability}% na posibilidad ng pagkakatupad sa loob ng {horizon} taon · entropy {entropy}/100",
-      "fateTitle": "I-hack ang axis na {axis}",
-      "fateBody": "Ang causality lever na ito ay nagdaragdag ng +{delta} puntos sa pamamagitan ng {axis}. {status}",
-      "leverApplied": "Nailapat na — kasama na ito sa trajectory.",
-      "leverPending": "Hindi pa nailalapat — ang susunod na hack ang magbubukas nito.",
-      "fateOracle": "Umaakyat ang trajectory mula {first}% sa taon {firstYear} hanggang {last}% pagsapit ng taon {lastYear}; ang lever na {axis} ang nagpapasya kung gaano katarik ang kurba.",
-      "twinHeadline": "Kambal {signature} · henerasyon {n} · entropy {entropy}/100",
-      "twinTitle": "Resonance ng {axis} {score}",
-      "twinBody": "Ang axis na {axis} ay nagre-resonate sa {score}/99 sa kambal na ito — ang katangiang humuhubog kung paano kumikilos ang paksa.",
-      "twinOracle": "Isang buhay na organismong data na pinangungunahan ng {element} ({score}) — umuusbong ang soul-data archive nito sa bawat henerasyon.",
-      "chronoHeadline": "Isang 10-taong arko patungo sa {axis} pagsapit ng {year}",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "Posibilidad {probability}%, pattern na {pattern}, magnitude {magnitude}/5 — {offset} taon mula ngayon.",
-      "chronoOracle": "Ang bisagra ay {year}: ang {axis} sa {probability}% ang umiikot sa buong timeline."
     }
   }
 }

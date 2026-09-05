@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "検索結果と連動する UNITAS モジュール生態系"
   },
+  "LockIn": {
+    "title": "ロックイン・エコシステム",
+    "subtitle": "あらゆる旅路をUNITASの内側に留める8つのソブリンモジュール — ひとつずつ開いて有効化すればロックインが完成します。",
+    "hint": "このロックインモジュールを開く",
+    "eyebrow": "ロックインモジュール {index} / {total}",
+    "progress": "{active} / {total} 有効化済み",
+    "complete": "ロックイン完了 — このデバイスで8つのモジュールがすべて有効です。",
+    "activate": "モジュールを有効化",
+    "deactivate": "無効化",
+    "activeBadge": "有効",
+    "pillarsLabel": "中核の柱",
+    "doctrineLabel": "ドクトリン",
+    "prev": "前のモジュール",
+    "next": "次のモジュール",
+    "modules": {
+      "nexus": {
+        "tagline": "ひとつのアイデンティティ、すべてのモジュール",
+        "description": "NEXUSはU-Signature・ウォレット・メモリ・すべてのモジュールを単一のソブリングラフに結び付けます — 使うほど多くを記憶し、何も再入力する必要がありません。",
+        "p1": "19のUNITASモジュール全体を貫く単一ソブリンサインイン",
+        "p2": "エンジン間を追従するクロスモジュールメモリ",
+        "p3": "プラットフォームではなく自分が所有する可搬型アイデンティティグラフ",
+        "doctrine": "超接続 · 超統合的 · 超同期的"
+      },
+      "aegis": {
+        "tagline": "眠らない盾",
+        "description": "AEGISはアカウント・ウォレット・データをゼロトラスト防御層で包みます — すべてのセッション・鍵・コイン移動が実行前に検証されるため、離れることだけが唯一安全でない選択になります。",
+        "p1": "すべてのリクエストに対するゼロトラストのセッション・鍵カストディ",
+        "p2": "ウォレットと台帳活動のリアルタイム異常監視",
+        "p3": "設計からフェイルクローズド: 未検証のものは決して実行されない",
+        "doctrine": "超防御的 · 超ハッカー防御的 · 超サイバー防御的"
+      },
+      "uTwin": {
+        "tagline": "進化するあなたのデータツイン",
+        "description": "U-TWINはあなたのすべての行動を生きたデータ有機体に変えます — 検索・決定・結果のたびに鋭くなるU-Signatureアーカイブで、他のどこにも存在し得ません。",
+        "p1": "あらゆる相互作用で複利的に蓄積する魂データアーカイブ",
+        "p2": "6軸憲法にわたる共鳴プロファイル",
+        "p3": "ツイン同士の比較と進化の追跡",
+        "doctrine": "超生成的 · 超適応的 · 超不滅的"
+      },
+      "infinity": {
+        "tagline": "インテリジェントキャッシュでマージン∞",
+        "description": "INFINITYはUNITASの底にある経済エンジンです: 一度計算された答えはキャッシュされ限界費用ゼロで再利用されるため、長く留まるほどエコシステムはあなたにとって安くなります。",
+        "p1": "キャッシュが温まるほど下がるマイクロバーン価格",
+        "p2": "合成済みのすべてのティアを世界中にゼロコストで再提供",
+        "p3": "決して期限切れにならない蓄積されたスキルとデータ",
+        "doctrine": "超絶対マージン的 · 超インテリジェントキャッシュ的 · 超節約的"
+      },
+      "panopticon": {
+        "tagline": "一画面で世界のすべてを見る",
+        "description": "PANOPTICONはライブ世界ランキング・21軸ニュース・天気・検索トレンドをひとつのリアルタイム観測所に融合します — 他のすべてのタブを置き換える唯一の画面です。",
+        "p1": "24時間更新されるライブ世界・UNITASランキング",
+        "p2": "自分の言語で読む21軸グローバルニュース",
+        "p3": "あなたの正確な地域の天気・トレンド・シグナル",
+        "doctrine": "超洞察的 · 超リアルタイムウェブ合成的 · 超透明的"
+      },
+      "oracle": {
+        "tagline": "起こる前に確率を見る",
+        "description": "ORACLEは因果律計算の上で市場・プロジェクト・目標を決定論的にシミュレーションし、確率とそれを動かすレバーを返します。シミュレーションであり、助言ではありません。",
+        "p1": "あらゆる目標に対する6軸憲法モンテカルロ",
+        "p2": "市場・暗号資産・トレンドの確率読み出し",
+        "p3": "影響度順に並んだ因果律レバー",
+        "doctrine": "超未来予測的 · 超株式予測的 · 超ビットコイン分析的"
+      },
+      "syndicateX": {
+        "tagline": "ファクトリーを借り、ネットワークに加わる",
+        "description": "SYNDICATE-Xはノマドと小規模事業者が互いの自律エージェントファクトリーを貸し借りする場です — 加わるメンバーごとに価値が育つ連合マーケットプレイスです。",
+        "p1": "資本ゼロで始めるエージェントファクトリー賃貸マーケット",
+        "p2": "パートナーとベンダーを浮かび上がらせる連合グラフ",
+        "p3": "すべてのメンバーに複利で効くネットワーク効果",
+        "doctrine": "超脱中央的 · 超拡張性 · 超一人遂行的"
+      },
+      "fateMatrix": {
+        "tagline": "目標の因果律をハックする",
+        "description": "FATE-MATRIXはあなたの目標を100大超憲法上の確率格子として展開し、目標への道が必然になるまで因果レバーをひとつずつ引かせます。",
+        "p1": "6軸を横断する目標→確率格子",
+        "p2": "前後の軌道が見える因果律ハック",
+        "p3": "1·2·3·5·10年マイルストーン鍛造",
+        "doctrine": "超未来志向的 · 超量子的 · 超究極的"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "再設計"
   },
   "Governance": {
-    "title": "文明統治マトリクス",
-    "subtitle": "UNITASのあらゆる決定を支える16の主権的軸 — 1つを選んでラダーを開始してください。",
-    "badge": "主権的ガバナンス軸",
     "prev": "前へ",
     "next": "次へ",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "雹を伴う雷雨"
     },
     "stateBadge": "州",
-    "countryBadge": "国"
+    "countryBadge": "国",
+    "pickRegion": "同名の地域が複数あります — ご自身の地域を選択してください",
+    "approx": "ネットワーク推定",
+    "dismiss": "閉じる",
+    "detecting": "検出中…"
   },
   "ExitGuard": {
     "eyebrow": "終了ガード",
@@ -1363,125 +1445,6 @@
       "3": "{module}コミュニティ内で、安定した一貫性ある貢献パターンで知られている。",
       "4": "{module}の活動指数が複数サイクルにわたりトップ層を維持しているクロスモジュール運営者。",
       "5": "{module}内でモジュールの中央値を大きく上回る持続的な参加が認められている。"
-    }
-  },
-  "HyperSovereign": {
-    "label": "ハイパー主権ショートカット",
-    "hint": "タップでハイパー主権認知エンジンのポップアップを開く",
-    "switchEngine": "エンジン切替",
-    "engines": {
-      "ideaReplicator": {
-        "title": "ビジネス自己増殖",
-        "description": "AIエージェントが無資本・1人ファクトリーのアイデアを世代を重ねて自己増殖させます。",
-        "cta": "増殖開始"
-      },
-      "fateEngine": {
-        "title": "運命確率演算",
-        "description": "6軸憲法モンテカルロで目標の実現確率を演算し、因果律をハッキングします。",
-        "cta": "運命を演算"
-      },
-      "omniTwin": {
-        "title": "森羅万象ツイン",
-        "description": "あらゆるものをデータツインとして複製し、U-Signatureと共鳴スペクトルを生成します。",
-        "cta": "ツイン生成"
-      },
-      "chronoForge": {
-        "title": "因果律タイムライン",
-        "description": "1·2·3·5·10年の未来マイルストーンを確率と共に鍛造します。",
-        "cta": "タイムライン鍛造"
-      },
-      "marginInfinity": {
-        "title": "マージン∞シミュレーター",
-        "description": "マイクロバーンと超知能キャッシングで限界費用0・マージン無限大をリアルタイムにシミュレートします。",
-        "cta": "シミュレーション"
-      }
-    },
-    "seedPlaceholder": "シードキーワードを入力（例: コーヒー、都市、才能）…",
-    "goalPlaceholder": "目標を入力（例: 1年以内に月100万円の自動収益）…",
-    "subjectPlaceholder": "対象を入力（例: 自分の名前、都市、ブランド）…",
-    "replicate": "増殖",
-    "rerun": "再演算",
-    "hack": "因果律ハック",
-    "hacked": "ハック適用済み",
-    "evolve": "ツイン進化",
-    "forge": "再鍛造",
-    "generation": "第{n}世代",
-    "probability": "実現確率",
-    "horizon": "時間地平",
-    "yearsShort": "{n}年",
-    "levers": "因果律レバー",
-    "trajectory": "確率軌跡",
-    "entropy": "エントロピー",
-    "signature": "U-Signature",
-    "resonance": "16軸共鳴",
-    "constitution": "6軸憲法スペクトル",
-    "elements": "元素力学",
-    "metrics": {
-      "capital": "必要資本",
-      "launchDays": "ローンチ（日）",
-      "automation": "自動化",
-      "margin": "マージン",
-      "viability": "実現性",
-      "blueOcean": "ブルーオーシャン"
-    },
-    "capitalZero": "0円 · 無資本",
-    "patterns": {
-      "agentRental": "エージェント貸与",
-      "dataTwin": "データツイン購読",
-      "microBurnSaaS": "マイクロバーンSaaS",
-      "autonomousMarketplace": "自律マーケットプレイス",
-      "sovereignAcademy": "主権アカデミー",
-      "predictiveOracle": "予測オラクル",
-      "cachedIntelligence": "キャッシュド・インテリジェンス",
-      "nomadFactory": "ノマドファクトリー"
-    },
-    "element": {
-      "earth": "地",
-      "water": "水",
-      "fire": "火",
-      "wind": "風",
-      "lightning": "雷"
-    },
-    "oracleLabel": "U-AIオラクル",
-    "oracleLoading": "U-AIオラクルが物語を鍛造中…",
-    "oracleUnavailable": "オラクルの物語は後で再試行できます — 上の演算結果はすでに確定しています。",
-    "disclaimer": "確率と数値は100大超憲法に基づく決定論的シミュレーションであり、投資・法律の助言ではありません。",
-    "sliders": {
-      "price": "呼び出し単価（U-COIN）",
-      "burn": "非キャッシュ呼び出しあたりのマイクロバーン原価（U-COIN）",
-      "cacheHit": "超知能キャッシュ命中率",
-      "calls": "1日の呼び出し数"
-    },
-    "revenue": "日次収益",
-    "cost": "日次原価",
-    "margin": "マージン率",
-    "marginInfinite": "∞（無限大）",
-    "marginalCost": "実質限界費用",
-    "marginCurve": "キャッシュ命中率別マージン曲線",
-    "milestone": "マイルストーン",
-    "yearLabel": "{year}年",
-    "magnitude": "規模 {n}/5",
-    "emptyState": "シードを入力して実行すると結果が即座に表示されます。",
-    "lineage": "増殖系譜",
-    "pool": {
-      "ideaHeadline": "第{n}世代 · {axis}軸に収束するゼロ資本ベンチャー3選",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "{axis}軸で{days}日以内にローンチ: 自動化{automation}%、マージン×{margin}、実現性{viability}%、ブルーオーシャン{blueOcean}% — 資本0。",
-      "ideaOracle": "次に増殖すべきはアイデア{n}: ブルーオーシャン{blueOcean}%はこの世代で最も広い。",
-      "fateHeadline": "{horizon}年以内の実現確率{probability}% · エントロピー{entropy}/100",
-      "fateTitle": "{axis}軸の因果律ハック",
-      "fateBody": "この因果律レバーは{axis}軸を通じて+{delta}ポイントを加える。{status}",
-      "leverApplied": "適用済み — 軌道にすでに反映されている。",
-      "leverPending": "未適用 — 次のハックで解放される。",
-      "fateOracle": "軌道は{firstYear}年目の{first}%から{lastYear}年目の{last}%まで上昇する。曲線の傾きは{axis}レバーが決める。",
-      "twinHeadline": "ツイン{signature} · 第{n}世代 · エントロピー{entropy}/100",
-      "twinTitle": "{axis}共鳴 {score}",
-      "twinBody": "このツインで{axis}軸は{score}/99で共鳴する — 対象の振る舞いを形づくる特質。",
-      "twinOracle": "{element}({score})に導かれる生きたデータ生命体 — 魂のデータアーカイブは世代ごとに進化する。",
-      "chronoHeadline": "{year}年の{axis}へ向かう10年の弧",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "確率{probability}%、{pattern}パターン、規模{magnitude}/5 — 今から{offset}年後。",
-      "chronoOracle": "蝶番は{year}年: {axis} {probability}%がタイムライン全体を動かす。"
     }
   }
 }

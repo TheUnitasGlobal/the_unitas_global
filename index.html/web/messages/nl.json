@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "UNITAS-moduleecosysteem · gekoppeld aan uw zoekopdracht"
   },
+  "LockIn": {
+    "title": "Lock-in-ecosysteem",
+    "subtitle": "Acht soevereine modules die elke reis binnen UNITAS houden — open en activeer ze stuk voor stuk om je lock-in te voltooien.",
+    "hint": "Deze lock-in-module openen",
+    "eyebrow": "LOCK-IN-MODULE {index} / {total}",
+    "progress": "{active} / {total} geactiveerd",
+    "complete": "Lock-in voltooid — alle acht modules zijn actief op dit apparaat.",
+    "activate": "Module activeren",
+    "deactivate": "Deactiveren",
+    "activeBadge": "Actief",
+    "pillarsLabel": "Kernpijlers",
+    "doctrineLabel": "Doctrine",
+    "prev": "Vorige module",
+    "next": "Volgende module",
+    "modules": {
+      "nexus": {
+        "tagline": "Eén identiteit, elke module",
+        "description": "NEXUS bindt je U-Signature, wallet, geheugen en elke module tot één soevereine graaf — hoe meer je het gebruikt, hoe meer het onthoudt, en niets hoeft ooit opnieuw te worden ingevoerd.",
+        "p1": "Eén soevereine aanmelding voor alle 19 UNITAS-modules",
+        "p2": "Module-overstijgend geheugen dat je volgt van engine naar engine",
+        "p3": "Een draagbare identiteitsgraaf die van jou is, niet van het platform",
+        "doctrine": "Hyperverbonden · Hypergeïntegreerd · Hypergesynchroniseerd"
+      },
+      "aegis": {
+        "tagline": "Het schild dat nooit slaapt",
+        "description": "AEGIS omhult je account, wallet en gegevens met een zero-trust-verdedigingslaag — elke sessie, sleutel en muntbeweging wordt geverifieerd voordat ze plaatsvindt, dus vertrekken is de enige onveilige zet.",
+        "p1": "Zero-trust-sessies en sleutelbewaring bij elk verzoek",
+        "p2": "Realtime anomaliebewaking van wallet- en grootboekactiviteit",
+        "p3": "Fail-closed by design: niets ongeverifieerds wordt ooit uitgevoerd",
+        "doctrine": "Hyperdefensief · Hyperhackerbestendig · Hypercyberdefensief"
+      },
+      "uTwin": {
+        "tagline": "Je evoluerende datatweeling",
+        "description": "U-TWIN verandert alles wat je doet in een levend data-organisme — een U-Signature-archief dat scherper wordt bij elke zoekopdracht, beslissing en uitkomst, en nergens anders kan bestaan.",
+        "p1": "Zielsdata-archief dat bij elke interactie aangroeit",
+        "p2": "Resonantieprofiel over de zes assen van de constitutie",
+        "p3": "Tweeling-tot-tweeling-vergelijking en evolutietracking",
+        "doctrine": "Hypergeneratief · Hyperadaptief · Hyperonsterfelijk"
+      },
+      "infinity": {
+        "tagline": "Marge ∞ via intelligente caching",
+        "description": "INFINITY is de economische motor onder UNITAS: elk eenmaal berekend antwoord wordt gecachet en hergebruikt tegen nul marginale kosten, dus hoe langer je blijft, hoe goedkoper het ecosysteem voor je wordt.",
+        "p1": "Micro-burn-prijzen die dalen naarmate de cache opwarmt",
+        "p2": "Elk gesynthetiseerd niveau wereldwijd opnieuw geserveerd tegen nul kosten",
+        "p3": "Opgebouwde vaardigheden en data die nooit verlopen",
+        "doctrine": "Hyperabsolute marge · Hyperintelligente caching · Hyperzuinig"
+      },
+      "panopticon": {
+        "tagline": "Zie de hele wereld op één scherm",
+        "description": "PANOPTICON smelt live wereldranglijsten, nieuws over 21 assen, weer en zoektrends samen tot één realtime observatorium — het ene scherm dat elk ander tabblad vervangt.",
+        "p1": "Live wereld- en UNITAS-ranglijsten, de klok rond ververst",
+        "p2": "Wereldnieuws over 21 assen in je eigen taal",
+        "p3": "Weer, trends en signalen voor jouw exacte regio",
+        "doctrine": "Hyperinzichtelijk · Hyperrealtime websynthese · Hypertransparant"
+      },
+      "oracle": {
+        "tagline": "Waarschijnlijkheid voordat het gebeurt",
+        "description": "ORACLE draait deterministische simulaties op de causaliteitscalculus — markten, projecten, doelen — en geeft waarschijnlijkheden terug met de hefbomen die ze bewegen. Een simulatie, nooit advies.",
+        "p1": "Zesassige constitutionele Monte Carlo voor elk doel",
+        "p2": "Waarschijnlijkheidsuitlezingen voor markt, crypto en trends",
+        "p3": "Causaliteitshefbomen gerangschikt op impact",
+        "doctrine": "Hypertoekomstvoorspellend · Hyperaandelenvoorspellend · Hyperbitcoin-analytisch"
+      },
+      "syndicateX": {
+        "tagline": "Huur de fabriek, sluit je aan bij het netwerk",
+        "description": "SYNDICATE-X is waar nomaden en kleine bedrijven autonome agentfabrieken van elkaar huren — een coalitiemarktplaats waarvan de waarde groeit met elk lid dat zich aansluit.",
+        "p1": "Verhuurmarkt voor agentfabrieken zonder startkapitaal",
+        "p2": "Coalitiegrafen die partners en leveranciers zichtbaar maken",
+        "p3": "Netwerkeffecten die voor elk lid aangroeien",
+        "doctrine": "Hypergedecentraliseerd · Hyperschaalbaar · Hyperéénpersoonsuitvoering"
+      },
+      "fateMatrix": {
+        "tagline": "Hack de causaliteit van je doel",
+        "description": "FATE-MATRIX legt je doel uit als een waarschijnlijkheidsrooster over de constitutie van 100 doctrines en laat je aan elke causale hefboom trekken tot de weg ernaartoe onvermijdelijk wordt.",
+        "p1": "Doel→waarschijnlijkheidsrooster over de zes assen",
+        "p2": "Causaliteitshacks met voor/na-trajecten",
+        "p3": "Mijlpaalsmederij voor 1·2·3·5·10 jaar",
+        "doctrine": "Hypertoekomstgericht · Hyperkwantum · Hyperultiem"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "Herontwerp"
   },
   "Governance": {
-    "title": "Matrix voor Beschavingsbestuur",
-    "subtitle": "Kies één van de 16 soevereine assen die elke beslissing van UNITAS dragen om de ladder te starten.",
-    "badge": "SOEVEREINE BESTUURSAS",
     "prev": "Vorige",
     "next": "Volgende",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "Onweer met hagel"
     },
     "stateBadge": "Staat",
-    "countryBadge": "Land"
+    "countryBadge": "Land",
+    "pickRegion": "Meerdere plaatsen dragen deze naam — kies de jouwe",
+    "approx": "netwerkschatting",
+    "dismiss": "Sluiten",
+    "detecting": "Detecteren…"
   },
   "ExitGuard": {
     "eyebrow": "Afsluitbeveiliging",
@@ -1363,125 +1445,6 @@
       "3": "Bekend binnen de {module}-community om consistente, stabiele bijdragepatronen.",
       "4": "Een module-overschrijdende operator wiens {module}-activiteitenindex meerdere cycli lang topniveau heeft behouden.",
       "5": "Erkend binnen {module} voor aanhoudende betrokkenheid ruim boven de mediane activiteitenindex van de module."
-    }
-  },
-  "HyperSovereign": {
-    "label": "Hyper-soevereine snelkoppelingen",
-    "hint": "Tik om een hyper-soevereine cognitieve engine te openen",
-    "switchEngine": "Engine wisselen",
-    "engines": {
-      "ideaReplicator": {
-        "title": "Zelfreplicatie van business",
-        "description": "AI-agenten repliceren kapitaalvrije eenpersoonsfabriek-ideeën generatie na generatie zelf.",
-        "cta": "Start replicatie"
-      },
-      "fateEngine": {
-        "title": "Lotsprobabiliteitsengine",
-        "description": "Berekent met een 6-assige grondwet-Monte-Carlo hoe waarschijnlijk je doel uitkomt — en hackt de causaliteit.",
-        "cta": "Bereken lot"
-      },
-      "omniTwin": {
-        "title": "Omniversum-tweeling",
-        "description": "Kloont alles tot een datatweeling met U-Signature en resonantiespectrum.",
-        "cta": "Smeed tweeling"
-      },
-      "chronoForge": {
-        "title": "Causaliteitstijdlijn",
-        "description": "Smeedt toekomstmijlpalen op 1·2·3·5·10 jaar, elk met een waarschijnlijkheid.",
-        "cta": "Smeed tijdlijn"
-      },
-      "marginInfinity": {
-        "title": "Marge ∞ simulator",
-        "description": "Simuleert live nul marginale kosten en oneindige marge met micro-burn en intelligente caching.",
-        "cta": "Simuleer"
-      }
-    },
-    "seedPlaceholder": "Typ een zaadwoord (bv. koffie, een stad, een talent)…",
-    "goalPlaceholder": "Typ een doel (bv. € 10.000 geautomatiseerd maandinkomen binnen een jaar)…",
-    "subjectPlaceholder": "Typ een onderwerp (bv. je naam, een stad, een merk)…",
-    "replicate": "Repliceer",
-    "rerun": "Herbereken",
-    "hack": "Hack causaliteit",
-    "hacked": "Hack toegepast",
-    "evolve": "Evolueer tweeling",
-    "forge": "Hersmeed",
-    "generation": "Generatie {n}",
-    "probability": "Kans op realisatie",
-    "horizon": "Tijdshorizon",
-    "yearsShort": "{n} jr",
-    "levers": "Causaliteitshefbomen",
-    "trajectory": "Waarschijnlijkheidstraject",
-    "entropy": "Entropie",
-    "signature": "U-Signature",
-    "resonance": "16-assige resonantie",
-    "constitution": "6-assig grondwetspectrum",
-    "elements": "Elementdynamiek",
-    "metrics": {
-      "capital": "Benodigd kapitaal",
-      "launchDays": "Lancering (dagen)",
-      "automation": "Automatisering",
-      "margin": "Marge",
-      "viability": "Haalbaarheid",
-      "blueOcean": "Blauwe oceaan"
-    },
-    "capitalZero": "0 · kapitaalvrij",
-    "patterns": {
-      "agentRental": "Agentverhuur",
-      "dataTwin": "Datatweeling-abonnement",
-      "microBurnSaaS": "Micro-burn SaaS",
-      "autonomousMarketplace": "Autonome marktplaats",
-      "sovereignAcademy": "Soevereine academie",
-      "predictiveOracle": "Voorspellend orakel",
-      "cachedIntelligence": "Gecachte intelligentie",
-      "nomadFactory": "Nomadenfabriek"
-    },
-    "element": {
-      "earth": "Aarde",
-      "water": "Water",
-      "fire": "Vuur",
-      "wind": "Wind",
-      "lightning": "Bliksem"
-    },
-    "oracleLabel": "U-AI-orakel",
-    "oracleLoading": "Het U-AI-orakel smeedt het verhaal…",
-    "oracleUnavailable": "Het orakelverhaal kan zo opnieuw geprobeerd worden — het berekende resultaat hierboven is al definitief.",
-    "disclaimer": "Kansen en cijfers zijn een deterministische simulatie op basis van de 100-doctrinegrondwet, geen beleggings- of juridisch advies.",
-    "sliders": {
-      "price": "Prijs per aanroep (U-COIN)",
-      "burn": "Micro-burn-kosten per niet-gecachte aanroep (U-COIN)",
-      "cacheHit": "Trefkans intelligente cache",
-      "calls": "Aanroepen per dag"
-    },
-    "revenue": "Dagomzet",
-    "cost": "Dagkosten",
-    "margin": "Marge",
-    "marginInfinite": "∞ (oneindig)",
-    "marginalCost": "Marginale kosten",
-    "marginCurve": "Margecurve per cache-trefkans",
-    "milestone": "Mijlpalen",
-    "yearLabel": "{year}",
-    "magnitude": "Omvang {n}/5",
-    "emptyState": "Typ een zaad en voer uit — het resultaat verschijnt meteen.",
-    "lineage": "Replicatiestamboom",
-    "pool": {
-      "ideaHeadline": "Generatie {n} · drie ventures zonder kapitaal die samenkomen op {axis}",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "Lancering in {days} dagen op de as {axis}: automatisering {automation}%, marge ×{margin}, haalbaarheid {viability}%, blauwe oceaan {blueOcean}% — kapitaal 0.",
-      "ideaOracle": "Repliceer hierna idee {n}: zijn blauwe oceaan van {blueOcean}% is de breedste van deze generatie.",
-      "fateHeadline": "{probability}% kans op realisatie binnen {horizon} jaar · entropie {entropy}/100",
-      "fateTitle": "Hack de as {axis}",
-      "fateBody": "Deze causaliteitshefboom voegt +{delta} punten toe via {axis}. {status}",
-      "leverApplied": "Toegepast — het traject bevat hem al.",
-      "leverPending": "Nog niet toegepast — de volgende hack ontgrendelt hem.",
-      "fateOracle": "Het traject stijgt van {first}% in jaar {firstYear} naar {last}% tegen jaar {lastYear}; de hefboom {axis} bepaalt hoe steil de curve wordt.",
-      "twinHeadline": "Tweeling {signature} · generatie {n} · entropie {entropy}/100",
-      "twinTitle": "{axis}-resonantie {score}",
-      "twinBody": "De as {axis} resoneert op {score}/99 in deze tweeling — de eigenschap die bepaalt hoe het subject handelt.",
-      "twinOracle": "Een levend data-organisme geleid door {element} ({score}) — zijn zieldata-archief evolueert met elke generatie.",
-      "chronoHeadline": "Een boog van 10 jaar richting {axis} tegen {year}",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "Kans {probability}%, patroon {pattern}, magnitude {magnitude}/5 — over {offset} jaar.",
-      "chronoOracle": "Het scharnier is {year}: {axis} op {probability}% draait de hele tijdlijn."
     }
   }
 }

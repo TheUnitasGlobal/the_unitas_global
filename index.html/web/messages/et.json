@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "UNITASe moodulite ökosüsteem · seotud sinu otsinguga"
   },
+  "LockIn": {
+    "title": "Lukustusökosüsteem",
+    "subtitle": "Kaheksa suveräänset moodulit, mis hoiavad iga teekonna UNITASe sees — ava ja aktiveeri igaüks, et lukustus lõpule viia.",
+    "hint": "Ava see lukustusmoodul",
+    "eyebrow": "LUKUSTUSMOODUL {index} / {total}",
+    "progress": "{active} / {total} aktiveeritud",
+    "complete": "Lukustus valmis — kõik kaheksa moodulit on selles seadmes aktiivsed.",
+    "activate": "Aktiveeri moodul",
+    "deactivate": "Deaktiveeri",
+    "activeBadge": "Aktiivne",
+    "pillarsLabel": "Tugisambad",
+    "doctrineLabel": "Doktriin",
+    "prev": "Eelmine moodul",
+    "next": "Järgmine moodul",
+    "modules": {
+      "nexus": {
+        "tagline": "Üks identiteet, iga moodul",
+        "description": "NEXUS seob sinu U-Signature’i, rahakoti, mälu ja iga mooduli üheks suveräänseks graafiks — mida rohkem kasutad, seda rohkem see mäletab, ja midagi ei pea kunagi uuesti sisestama.",
+        "p1": "Üks suveräänne sisselogimine kõigi 19 UNITASe mooduli jaoks",
+        "p2": "Moodulitevaheline mälu, mis järgneb sulle mootorist mootorisse",
+        "p3": "Kaasaskantav identiteedigraaf, mis kuulub sulle, mitte platvormile",
+        "doctrine": "Hüperühendatud · Hüperintegreeritud · Hüpersünkroniseeritud"
+      },
+      "aegis": {
+        "tagline": "Kilp, mis kunagi ei maga",
+        "description": "AEGIS mähib sinu konto, rahakoti ja andmed nullusaldusega kaitsekihti — iga seanss, võti ja mündiliigutus kontrollitakse enne toimumist, nii et lahkumine on ainus ebaturvaline samm.",
+        "p1": "Nullusaldusega seansi- ja võtmehaldus igal päringul",
+        "p2": "Rahakoti ja pearaamatu tegevuse reaalajas anomaaliavalve",
+        "p3": "Fail-closed disainilt: miski kontrollimata ei käivitu kunagi",
+        "doctrine": "Hüperkaitsev · Hüperhäkkerikindel · Hüperküberkaitsev"
+      },
+      "uTwin": {
+        "tagline": "Sinu arenev andmekaksik",
+        "description": "U-TWIN muudab kõik, mida teed, elavaks andmeorganismiks — U-Signature’i arhiiviks, mis muutub iga otsingu, otsuse ja tulemusega teravamaks ega saa eksisteerida kusagil mujal.",
+        "p1": "Hingeandmete arhiiv, mis kasvab iga suhtlusega",
+        "p2": "Resonantsiprofiil üle kuue põhiseaduse telje",
+        "p3": "Kaksikute võrdlus ja arengu jälgimine",
+        "doctrine": "Hüpergeneratiivne · Hüperkohanduv · Hüpersurematu"
+      },
+      "infinity": {
+        "tagline": "Marginaal ∞ nutika vahemälu abil",
+        "description": "INFINITY on UNITASe all olev majandusmootor: iga kord arvutatud vastus salvestatakse vahemällu ja taaskasutatakse nullpiirkuluga, nii et ökosüsteem muutub sulle seda odavamaks, mida kauem jääd.",
+        "p1": "Mikropõletuse hinnad, mis langevad vahemälu soojenedes",
+        "p2": "Iga sünteesitud aste serveeritakse üle maailma uuesti nullkuluga",
+        "p3": "Kogunenud oskused ja andmed, mis ei aegu kunagi",
+        "doctrine": "Hüperabsoluutne marginaal · Hüpernutikas vahemälu · Hüpersäästlik"
+      },
+      "panopticon": {
+        "tagline": "Näe kogu maailma ühel ekraanil",
+        "description": "PANOPTICON sulatab reaalajas maailmaedetabelid, 21-teljelised uudised, ilma ja otsingutrendid üheks reaalajas vaatluskeskuseks — ekraaniks, mis asendab kõik teised vahekaardid.",
+        "p1": "Ööpäevaringselt uuenevad maailma ja UNITASe edetabelid",
+        "p2": "21-teljelised globaalsed uudised sinu emakeeles",
+        "p3": "Ilm, trendid ja signaalid sinu täpses piirkonnas",
+        "doctrine": "Hüpertaipav · Hüperreaalajas veebisüntees · Hüperläbipaistev"
+      },
+      "oracle": {
+        "tagline": "Tõenäosus enne, kui see juhtub",
+        "description": "ORACLE käivitab põhjuslikkuse arvutusel deterministlikke simulatsioone — turud, projektid, eesmärgid — ja tagastab tõenäosused koos neid liigutavate hoobadega. Simulatsioon, mitte kunagi nõuanne.",
+        "p1": "Kuueteljeline põhiseaduse Monte Carlo mis tahes eesmärgile",
+        "p2": "Turu-, krüpto- ja trenditõenäosuste näidud",
+        "p3": "Mõju järgi järjestatud põhjuslikkuse hoovad",
+        "doctrine": "Hüpertulevikuennustav · Hüperaktsiaennustav · Hüperbitcoini-analüütiline"
+      },
+      "syndicateX": {
+        "tagline": "Rendi tehas, liitu võrgustikuga",
+        "description": "SYNDICATE-X on koht, kus nomaadid ja väikeettevõtted rendivad üksteiselt autonoomseid agenditehaseid — koalitsiooniturg, mille väärtus kasvab iga liituva liikmega.",
+        "p1": "Agenditehaste renditurg, alustamiseks null kapitali",
+        "p2": "Koalitsioonigraafid, mis toovad esile partnerid ja tarnijad",
+        "p3": "Võrguefektid, mis kasvavad iga liikme jaoks",
+        "doctrine": "Hüperdetsentraliseeritud · Hüperskaleeritav · Hüperüheinimese-teostus"
+      },
+      "fateMatrix": {
+        "tagline": "Häkki oma eesmärgi põhjuslikkust",
+        "description": "FATE-MATRIX laotab sinu eesmärgi 100 doktriini põhiseaduse peale tõenäosusvõrguna ja laseb sul tõmmata igat põhjuslikku hooba, kuni tee sinna muutub vältimatuks.",
+        "p1": "Eesmärgist tõenäosuseni ulatuv võrk üle kuue telje",
+        "p2": "Põhjuslikkuse häkid enne/pärast trajektooridega",
+        "p3": "1·2·3·5·10 aasta verstapostide sepistamine",
+        "doctrine": "Hüpertulevikule suunatud · Hüperkvant · Hüperülim"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "Ümberkujundus"
   },
   "Governance": {
-    "title": "Tsivilisatsiooni Valitsemise Maatriks",
-    "subtitle": "Vali üks 16-st suveräänsest teljest, mis kannavad iga UNITASe otsust, et alustada redelit.",
-    "badge": "SUVERÄÄNNE VALITSEMISE TELG",
     "prev": "Eelmine",
     "next": "Järgmine",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "Äike rahega"
     },
     "stateBadge": "Osariik",
-    "countryBadge": "Riik"
+    "countryBadge": "Riik",
+    "pickRegion": "Mitu kohta kannab seda nime — vali enda oma",
+    "approx": "võrgupõhine hinnang",
+    "dismiss": "Sulge",
+    "detecting": "Tuvastan…"
   },
   "ExitGuard": {
     "eyebrow": "Väljumiskaitse",
@@ -1363,125 +1445,6 @@
       "3": "Tuntud {module} kogukonnas stabiilse ja järjepideva panuse poolest.",
       "4": "Mitme mooduli operaator, kelle {module} aktiivsusindeks on püsinud tipptasemel mitme tsükli jooksul.",
       "5": "Tunnustatud {module}s püsiva tegevuse eest, mis ületab mooduli keskmist aktiivsusindeksit selgelt."
-    }
-  },
-  "HyperSovereign": {
-    "label": "Hüpersuveräänsed otseteed",
-    "hint": "Puuduta, et avada hüpersuveräänne kognitiivne mootor",
-    "switchEngine": "Vaheta mootorit",
-    "engines": {
-      "ideaReplicator": {
-        "title": "Äri isepaljunemine",
-        "description": "AI-agendid paljundavad nullkapitaliga ühe inimese tehaseideid põlvkond põlvkonna järel.",
-        "cta": "Alusta paljundamist"
-      },
-      "fateEngine": {
-        "title": "Saatuse tõenäosusmootor",
-        "description": "Arvutab 6-teljelise põhiseaduse Monte Carloga sinu eesmärgi täitumise tõenäosuse — ja häkib põhjuslikkust.",
-        "cta": "Arvuta saatus"
-      },
-      "omniTwin": {
-        "title": "Kõiksuse kaksik",
-        "description": "Kloonib mida tahes andmekaksikuks koos U-Signature’i ja resonantsspektriga.",
-        "cta": "Loo kaksik"
-      },
-      "chronoForge": {
-        "title": "Põhjuslikkuse ajajoon",
-        "description": "Sepistab 1·2·3·5·10 aasta tulevikuverstapostid koos tõenäosusega.",
-        "cta": "Sepista ajajoon"
-      },
-      "marginInfinity": {
-        "title": "Marginaal ∞ simulaator",
-        "description": "Simuleerib reaalajas nullpiirkulu ja lõpmatut marginaali mikropõletuse ja intelligentse vahemäluga.",
-        "cta": "Simuleeri"
-      }
-    },
-    "seedPlaceholder": "Sisesta seemnesõna (nt kohv, linn, anne)…",
-    "goalPlaceholder": "Sisesta eesmärk (nt aastaga 10 000 € automaatset tulu kuus)…",
-    "subjectPlaceholder": "Sisesta subjekt (nt sinu nimi, linn, bränd)…",
-    "replicate": "Paljunda",
-    "rerun": "Arvuta uuesti",
-    "hack": "Häki põhjuslikkust",
-    "hacked": "Häkk rakendatud",
-    "evolve": "Arenda kaksikut",
-    "forge": "Sepista uuesti",
-    "generation": "{n}. põlvkond",
-    "probability": "Teostumise tõenäosus",
-    "horizon": "Ajahorisont",
-    "yearsShort": "{n} a",
-    "levers": "Põhjuslikkuse hoovad",
-    "trajectory": "Tõenäosuse trajektoor",
-    "entropy": "Entroopia",
-    "signature": "U-Signature",
-    "resonance": "16 telje resonants",
-    "constitution": "6 telje põhiseaduse spekter",
-    "elements": "Elementide dünaamika",
-    "metrics": {
-      "capital": "Vajalik kapital",
-      "launchDays": "Käivitus (päeva)",
-      "automation": "Automatiseeritus",
-      "margin": "Marginaal",
-      "viability": "Teostatavus",
-      "blueOcean": "Sinine ookean"
-    },
-    "capitalZero": "0 · nullkapital",
-    "patterns": {
-      "agentRental": "Agendi rent",
-      "dataTwin": "Andmekaksiku tellimus",
-      "microBurnSaaS": "Mikropõletus-SaaS",
-      "autonomousMarketplace": "Autonoomne turg",
-      "sovereignAcademy": "Suveräänne akadeemia",
-      "predictiveOracle": "Ennustav oraakel",
-      "cachedIntelligence": "Vahemäluintelligents",
-      "nomadFactory": "Nomaaditehas"
-    },
-    "element": {
-      "earth": "Maa",
-      "water": "Vesi",
-      "fire": "Tuli",
-      "wind": "Tuul",
-      "lightning": "Välk"
-    },
-    "oracleLabel": "U-AI oraakel",
-    "oracleLoading": "U-AI oraakel sepistab narratiivi…",
-    "oracleUnavailable": "Oraakli narratiivi saab varsti uuesti proovida — ülalolev arvutustulemus on juba lõplik.",
-    "disclaimer": "Tõenäosused ja arvud on 100 doktriini põhiseadusel põhinev deterministlik simulatsioon, mitte investeerimis- ega õigusnõu.",
-    "sliders": {
-      "price": "Hind kõne kohta (U-COIN)",
-      "burn": "Mikropõletuse kulu vahemäluta kõne kohta (U-COIN)",
-      "cacheHit": "Intelligentse vahemälu tabamus",
-      "calls": "Kõnesid päevas"
-    },
-    "revenue": "Päevatulu",
-    "cost": "Päevakulu",
-    "margin": "Marginaal",
-    "marginInfinite": "∞ (lõpmatu)",
-    "marginalCost": "Piirkulu",
-    "marginCurve": "Marginaalikõver vahemälu tabamuse järgi",
-    "milestone": "Verstapostid",
-    "yearLabel": "{year}",
-    "magnitude": "Suurus {n}/5",
-    "emptyState": "Sisesta seeme ja käivita — tulemus ilmub kohe.",
-    "lineage": "Paljunemise sugupuu",
-    "pool": {
-      "ideaHeadline": "Põlvkond {n} · kolm nullkapitaliga ettevõtet, mis koonduvad teljele {axis}",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "Käivitus {days} päevaga teljel {axis}: automatiseerimine {automation}%, marginaal ×{margin}, elujõulisus {viability}%, sinine ookean {blueOcean}% — kapital 0.",
-      "ideaOracle": "Paljunda järgmisena ideed {n}: selle {blueOcean}% sinine ookean on selle põlvkonna laiim.",
-      "fateHeadline": "{probability}% teostumise tõenäosus {horizon} aasta jooksul · entroopia {entropy}/100",
-      "fateTitle": "Häki telge {axis}",
-      "fateBody": "See põhjuslikkuse hoob lisab +{delta} punkti telje {axis} kaudu. {status}",
-      "leverApplied": "Rakendatud — trajektoor sisaldab seda juba.",
-      "leverPending": "Veel rakendamata — järgmine häkk avab selle.",
-      "fateOracle": "Trajektoor tõuseb {first}%-lt aastal {firstYear} {last}%-ni aastaks {lastYear}; kõvera järskuse otsustab hoob {axis}.",
-      "twinHeadline": "Kaksik {signature} · põlvkond {n} · entroopia {entropy}/100",
-      "twinTitle": "{axis} resonants {score}",
-      "twinBody": "Telg {axis} resoneerib selles kaksikus tasemel {score}/99 — omadus, mis kujundab subjekti tegutsemist.",
-      "twinOracle": "Elav andmeorganism, mida juhib {element} ({score}) — tema hingeandmete arhiiv areneb iga põlvkonnaga.",
-      "chronoHeadline": "10-aastane kaar telje {axis} suunas aastaks {year}",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "Tõenäosus {probability}%, muster {pattern}, ulatus {magnitude}/5 — {offset} aasta pärast.",
-      "chronoOracle": "Hing on aasta {year}: {axis} {probability}% pöörab kogu ajajoone."
     }
   }
 }

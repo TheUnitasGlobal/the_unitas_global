@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "Ekosystem modułów UNITAS · powiązany z Twoim wyszukiwaniem"
   },
+  "LockIn": {
+    "title": "Ekosystem lock-in",
+    "subtitle": "Osiem suwerennych modułów, które utrzymują każdą podróż wewnątrz UNITAS — otwórz i aktywuj każdy z nich, aby dopełnić swój lock-in.",
+    "hint": "Otwórz ten moduł lock-in",
+    "eyebrow": "MODUŁ LOCK-IN {index} / {total}",
+    "progress": "Aktywowano {active} / {total}",
+    "complete": "Lock-in ukończony — wszystkie osiem modułów jest aktywnych na tym urządzeniu.",
+    "activate": "Aktywuj moduł",
+    "deactivate": "Dezaktywuj",
+    "activeBadge": "Aktywny",
+    "pillarsLabel": "Filary",
+    "doctrineLabel": "Doktryna",
+    "prev": "Poprzedni moduł",
+    "next": "Następny moduł",
+    "modules": {
+      "nexus": {
+        "tagline": "Jedna tożsamość, każdy moduł",
+        "description": "NEXUS wiąże Twój U-Signature, portfel, pamięć i każdy moduł w jeden suwerenny graf — im więcej go używasz, tym więcej pamięta, i nigdy nie trzeba niczego wpisywać ponownie.",
+        "p1": "Jedno suwerenne logowanie do wszystkich 19 modułów UNITAS",
+        "p2": "Pamięć międzymodułowa, która podąża za Tobą od silnika do silnika",
+        "p3": "Przenośny graf tożsamości, który należy do Ciebie, nie do platformy",
+        "doctrine": "Hiperpołączony · Hiperzintegrowany · Hiperzsynchronizowany"
+      },
+      "aegis": {
+        "tagline": "Tarcza, która nigdy nie śpi",
+        "description": "AEGIS otacza Twoje konto, portfel i dane warstwą obrony zero-trust — każda sesja, klucz i ruch monet jest weryfikowany, zanim nastąpi, więc odejście jest jedynym niebezpiecznym ruchem.",
+        "p1": "Sesje zero-trust i przechowywanie kluczy przy każdym żądaniu",
+        "p2": "Nadzór anomalii w czasie rzeczywistym nad portfelem i księgą",
+        "p3": "Fail-closed z założenia: nic niezweryfikowanego nigdy się nie wykona",
+        "doctrine": "Hiperobronny · Hiperodporny na hakerów · Hipercyberobronny"
+      },
+      "uTwin": {
+        "tagline": "Twój ewoluujący bliźniak danych",
+        "description": "U-TWIN zamienia wszystko, co robisz, w żywy organizm danych — archiwum U-Signature, które wyostrza się z każdym wyszukiwaniem, decyzją i wynikiem, i nie może istnieć nigdzie indziej.",
+        "p1": "Archiwum danych duszy, które procentuje z każdą interakcją",
+        "p2": "Profil rezonansu na sześciu osiach konstytucji",
+        "p3": "Porównanie bliźniaków i śledzenie ewolucji",
+        "doctrine": "Hipergeneratywny · Hiperadaptacyjny · Hipernieśmiertelny"
+      },
+      "infinity": {
+        "tagline": "Marża ∞ dzięki inteligentnemu cache’owaniu",
+        "description": "INFINITY to silnik ekonomiczny pod UNITAS: każda raz obliczona odpowiedź trafia do cache i jest ponownie używana przy zerowym koszcie krańcowym, więc ekosystem tanieje dla Ciebie, im dłużej zostajesz.",
+        "p1": "Ceny micro-burn spadające wraz z rozgrzewaniem cache",
+        "p2": "Każdy zsyntetyzowany poziom serwowany ponownie na całym świecie za darmo",
+        "p3": "Zgromadzone umiejętności i dane, które nigdy nie wygasają",
+        "doctrine": "Hiperabsolutna marża · Hiperinteligentny cache · Hiperoszczędny"
+      },
+      "panopticon": {
+        "tagline": "Zobacz cały świat na jednym ekranie",
+        "description": "PANOPTICON scala rankingi świata na żywo, wiadomości z 21 osi, pogodę i trendy wyszukiwania w jedno obserwatorium czasu rzeczywistego — ekran, który zastępuje każdą inną kartę.",
+        "p1": "Rankingi świata i UNITAS na żywo, odświeżane całą dobę",
+        "p2": "Globalne wiadomości z 21 osi w Twoim języku",
+        "p3": "Pogoda, trendy i sygnały dla Twojego dokładnego regionu",
+        "doctrine": "Hiperwnikliwy · Hipersynteza sieci w czasie rzeczywistym · Hiperprzejrzysty"
+      },
+      "oracle": {
+        "tagline": "Prawdopodobieństwo, zanim się wydarzy",
+        "description": "ORACLE uruchamia deterministyczne symulacje na rachunku przyczynowości — rynki, projekty, cele — i zwraca prawdopodobieństwa wraz z dźwigniami, które je poruszają. Symulacja, nigdy porada.",
+        "p1": "Sześcioosiowe konstytucyjne Monte Carlo dla dowolnego celu",
+        "p2": "Odczyty prawdopodobieństwa rynku, krypto i trendów",
+        "p3": "Dźwignie przyczynowości uszeregowane według wpływu",
+        "doctrine": "Hiperprzewidujący przyszłość · Hiperprzewidujący giełdę · Hiperanalityczny wobec bitcoina"
+      },
+      "syndicateX": {
+        "tagline": "Wynajmij fabrykę, dołącz do sieci",
+        "description": "SYNDICATE-X to miejsce, w którym nomadzi i małe firmy wynajmują sobie nawzajem autonomiczne fabryki agentów — rynek koalicyjny, którego wartość rośnie z każdym dołączającym członkiem.",
+        "p1": "Rynek wynajmu fabryk agentów bez kapitału na start",
+        "p2": "Grafy koalicyjne ujawniające partnerów i dostawców",
+        "p3": "Efekty sieciowe procentujące dla każdego członka",
+        "doctrine": "Hiperzdecentralizowany · Hiperskalowalny · Hiperwykonanie jednoosobowe"
+      },
+      "fateMatrix": {
+        "tagline": "Zhakuj przyczynowość swojego celu",
+        "description": "FATE-MATRIX rozkłada Twój cel jako siatkę prawdopodobieństwa na konstytucji 100 doktryn i pozwala pociągać każdą dźwignię przyczynową, aż droga do niego stanie się nieunikniona.",
+        "p1": "Siatka cel→prawdopodobieństwo na sześciu osiach",
+        "p2": "Hacki przyczynowości z trajektoriami przed/po",
+        "p3": "Kucie kamieni milowych na 1·2·3·5·10 lat",
+        "doctrine": "Hiperzorientowany na przyszłość · Hiperkwantowy · Hiperostateczny"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "Przeprojektowanie"
   },
   "Governance": {
-    "title": "Macierz Ładu Cywilizacyjnego",
-    "subtitle": "Wybierz jedną z 16 suwerennych osi, na których opiera się każda decyzja UNITAS, aby rozpocząć drabinę.",
-    "badge": "OŚ SUWERENNEGO ŁADU",
     "prev": "Wstecz",
     "next": "Dalej",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "Burza z gradem"
     },
     "stateBadge": "Stan",
-    "countryBadge": "Kraj"
+    "countryBadge": "Kraj",
+    "pickRegion": "Kilka miejsc nosi tę nazwę — wybierz swoje",
+    "approx": "szacunek sieciowy",
+    "dismiss": "Zamknij",
+    "detecting": "Wykrywanie…"
   },
   "ExitGuard": {
     "eyebrow": "Ochrona wyjścia",
@@ -1363,125 +1445,6 @@
       "3": "Znany w społeczności {module} za spójne, stabilne wzorce wkładu.",
       "4": "Operator działający w wielu modułach, którego wskaźnik aktywności w {module} utrzymuje się na najwyższym poziomie przez wiele cykli.",
       "5": "Doceniany w {module} za trwałe zaangażowanie znacznie powyżej mediany wskaźnika aktywności modułu."
-    }
-  },
-  "HyperSovereign": {
-    "label": "Skróty hipersuwerenne",
-    "hint": "Dotknij, aby otworzyć hipersuwerenny silnik poznawczy",
-    "switchEngine": "Zmień silnik",
-    "engines": {
-      "ideaReplicator": {
-        "title": "Samoreplikacja biznesu",
-        "description": "Agenci AI samoreplikują pomysły na jednoosobową fabrykę bez kapitału, pokolenie po pokoleniu.",
-        "cta": "Rozpocznij replikację"
-      },
-      "fateEngine": {
-        "title": "Silnik prawdopodobieństwa losu",
-        "description": "Oblicza prawdopodobieństwo spełnienia celu 6-osiowym konstytucyjnym Monte Carlo — a potem hakuje przyczynowość.",
-        "cta": "Oblicz los"
-      },
-      "omniTwin": {
-        "title": "Bliźniak wszechświata",
-        "description": "Klonuje cokolwiek w bliźniaka danych z U-Signature i widmem rezonansu.",
-        "cta": "Wykuj bliźniaka"
-      },
-      "chronoForge": {
-        "title": "Oś czasu przyczynowości",
-        "description": "Wykuwa kamienie milowe przyszłości na 1·2·3·5·10 lat, każdy z prawdopodobieństwem.",
-        "cta": "Wykuj oś czasu"
-      },
-      "marginInfinity": {
-        "title": "Symulator marży ∞",
-        "description": "Symuluje na żywo zerowy koszt krańcowy i nieskończoną marżę dzięki micro-burn i inteligentnemu cache.",
-        "cta": "Symuluj"
-      }
-    },
-    "seedPlaceholder": "Wpisz słowo-ziarno (np. kawa, miasto, talent)…",
-    "goalPlaceholder": "Wpisz cel (np. 40 000 zł miesięcznie zautomatyzowanego dochodu w rok)…",
-    "subjectPlaceholder": "Wpisz podmiot (np. twoje imię, miasto, marka)…",
-    "replicate": "Replikuj",
-    "rerun": "Przelicz",
-    "hack": "Zhakuj przyczynowość",
-    "hacked": "Hack zastosowany",
-    "evolve": "Ewoluuj bliźniaka",
-    "forge": "Przekuj",
-    "generation": "Pokolenie {n}",
-    "probability": "Prawdopodobieństwo realizacji",
-    "horizon": "Horyzont czasowy",
-    "yearsShort": "{n} l.",
-    "levers": "Dźwignie przyczynowości",
-    "trajectory": "Trajektoria prawdopodobieństwa",
-    "entropy": "Entropia",
-    "signature": "U-Signature",
-    "resonance": "Rezonans 16 osi",
-    "constitution": "Widmo konstytucji 6 osi",
-    "elements": "Dynamika żywiołów",
-    "metrics": {
-      "capital": "Potrzebny kapitał",
-      "launchDays": "Start (dni)",
-      "automation": "Automatyzacja",
-      "margin": "Marża",
-      "viability": "Wykonalność",
-      "blueOcean": "Błękitny ocean"
-    },
-    "capitalZero": "0 · bez kapitału",
-    "patterns": {
-      "agentRental": "Wynajem agentów",
-      "dataTwin": "Subskrypcja bliźniaka danych",
-      "microBurnSaaS": "SaaS micro-burn",
-      "autonomousMarketplace": "Autonomiczny marketplace",
-      "sovereignAcademy": "Suwerenna akademia",
-      "predictiveOracle": "Wyrocznia predykcyjna",
-      "cachedIntelligence": "Inteligencja z cache",
-      "nomadFactory": "Fabryka nomady"
-    },
-    "element": {
-      "earth": "Ziemia",
-      "water": "Woda",
-      "fire": "Ogień",
-      "wind": "Wiatr",
-      "lightning": "Piorun"
-    },
-    "oracleLabel": "Wyrocznia U-AI",
-    "oracleLoading": "Wyrocznia U-AI wykuwa narrację…",
-    "oracleUnavailable": "Narrację wyroczni można ponowić za chwilę — obliczony wynik powyżej jest już ostateczny.",
-    "disclaimer": "Prawdopodobieństwa i liczby to deterministyczna symulacja oparta na konstytucji 100 doktryn, a nie porada inwestycyjna czy prawna.",
-    "sliders": {
-      "price": "Cena za wywołanie (U-COIN)",
-      "burn": "Koszt micro-burn za wywołanie bez cache (U-COIN)",
-      "cacheHit": "Trafność inteligentnego cache",
-      "calls": "Wywołań dziennie"
-    },
-    "revenue": "Dzienny przychód",
-    "cost": "Dzienny koszt",
-    "margin": "Marża",
-    "marginInfinite": "∞ (nieskończona)",
-    "marginalCost": "Koszt krańcowy",
-    "marginCurve": "Krzywa marży według trafności cache",
-    "milestone": "Kamienie milowe",
-    "yearLabel": "{year}",
-    "magnitude": "Skala {n}/5",
-    "emptyState": "Wpisz ziarno i uruchom — wynik pojawi się natychmiast.",
-    "lineage": "Rodowód replikacji",
-    "pool": {
-      "ideaHeadline": "Pokolenie {n} · trzy biznesy bez kapitału zbiegające się na osi {axis}",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "Start w {days} dni na osi {axis}: automatyzacja {automation}%, marża ×{margin}, wykonalność {viability}%, błękitny ocean {blueOcean}% — kapitał 0.",
-      "ideaOracle": "Następnie replikuj pomysł {n}: jego błękitny ocean {blueOcean}% jest najszerszy w tym pokoleniu.",
-      "fateHeadline": "{probability}% prawdopodobieństwa realizacji w ciągu {horizon} lat · entropia {entropy}/100",
-      "fateTitle": "Zhakuj oś {axis}",
-      "fateBody": "Ta dźwignia przyczynowości dodaje +{delta} punktów przez oś {axis}. {status}",
-      "leverApplied": "Zastosowana — trajektoria już ją uwzględnia.",
-      "leverPending": "Jeszcze niezastosowana — kolejny hack ją odblokuje.",
-      "fateOracle": "Trajektoria wznosi się z {first}% w roku {firstYear} do {last}% do roku {lastYear}; o stromości krzywej decyduje dźwignia {axis}.",
-      "twinHeadline": "Bliźniak {signature} · pokolenie {n} · entropia {entropy}/100",
-      "twinTitle": "Rezonans {axis} {score}",
-      "twinBody": "Oś {axis} rezonuje na poziomie {score}/99 w tym bliźniaku — cecha kształtująca sposób działania podmiotu.",
-      "twinOracle": "Żywy organizm danych prowadzony przez żywioł {element} ({score}) — jego archiwum danych duszy ewoluuje z każdym pokoleniem.",
-      "chronoHeadline": "10-letni łuk w stronę {axis} do {year}",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "Prawdopodobieństwo {probability}%, wzorzec {pattern}, skala {magnitude}/5 — za {offset} lat.",
-      "chronoOracle": "Zawiasem jest {year}: {axis} na poziomie {probability}% obraca całą oś czasu."
     }
   }
 }

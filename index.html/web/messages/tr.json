@@ -22,6 +22,87 @@
     "title": "UNITAS",
     "modulesLinkedLabel": "UNITAS modül ekosistemi · aramanıza bağlı"
   },
+  "LockIn": {
+    "title": "Kilitlenme Ekosistemi",
+    "subtitle": "Her yolculuğu UNITAS içinde tutan sekiz egemen modül — kilitlenmenizi tamamlamak için her birini açın ve etkinleştirin.",
+    "hint": "Bu kilitlenme modülünü aç",
+    "eyebrow": "KİLİTLENME MODÜLÜ {index} / {total}",
+    "progress": "{active} / {total} etkin",
+    "complete": "Kilitlenme tamamlandı — sekiz modülün tümü bu cihazda etkin.",
+    "activate": "Modülü etkinleştir",
+    "deactivate": "Devre dışı bırak",
+    "activeBadge": "Etkin",
+    "pillarsLabel": "Temel sütunlar",
+    "doctrineLabel": "Doktrin",
+    "prev": "Önceki modül",
+    "next": "Sonraki modül",
+    "modules": {
+      "nexus": {
+        "tagline": "Tek kimlik, her modül",
+        "description": "NEXUS; U-Signature’ınızı, cüzdanınızı, belleğinizi ve her modülü tek bir egemen grafa bağlar — ne kadar çok kullanırsanız o kadar çok hatırlar ve hiçbir şeyi yeniden girmeniz gerekmez.",
+        "p1": "19 UNITAS modülünün tamamı için tek egemen oturum açma",
+        "p2": "Motorlar arasında sizi izleyen modüller arası bellek",
+        "p3": "Platformun değil sizin sahip olduğunuz taşınabilir kimlik grafı",
+        "doctrine": "Hiper-bağlantılı · Hiper-entegre · Hiper-senkronize"
+      },
+      "aegis": {
+        "tagline": "Asla uyumayan kalkan",
+        "description": "AEGIS hesabınızı, cüzdanınızı ve verilerinizi sıfır güven savunma katmanıyla sarar — her oturum, anahtar ve coin hareketi gerçekleşmeden önce doğrulanır; böylece ayrılmak tek güvensiz hamle olur.",
+        "p1": "Her istekte sıfır güven oturumu ve anahtar saklama",
+        "p2": "Cüzdan ve defter etkinliğinde gerçek zamanlı anomali gözetimi",
+        "p3": "Tasarımdan fail-closed: doğrulanmamış hiçbir şey asla çalışmaz",
+        "doctrine": "Hiper-savunmacı · Hiper-hacker-korumalı · Hiper-siber-savunmacı"
+      },
+      "uTwin": {
+        "tagline": "Evrilen veri ikiziniz",
+        "description": "U-TWIN yaptığınız her şeyi canlı bir veri organizmasına dönüştürür — her arama, karar ve sonuçla keskinleşen ve başka hiçbir yerde var olamayan bir U-Signature arşivi.",
+        "p1": "Her etkileşimle bileşik büyüyen ruh-veri arşivi",
+        "p2": "Altı anayasa ekseninde rezonans profili",
+        "p3": "İkizden ikize karşılaştırma ve evrim takibi",
+        "doctrine": "Hiper-üretken · Hiper-uyarlanabilir · Hiper-ölümsüz"
+      },
+      "infinity": {
+        "tagline": "Akıllı önbellekleme ile marj ∞",
+        "description": "INFINITY, UNITAS’ın altındaki ekonomik motordur: bir kez hesaplanan her yanıt önbelleğe alınır ve sıfır marjinal maliyetle yeniden kullanılır; böylece ne kadar uzun kalırsanız ekosistem sizin için o kadar ucuzlar.",
+        "p1": "Önbellek ısındıkça düşen mikro-yakım fiyatlandırması",
+        "p2": "Sentezlenen her katman dünyaya sıfır maliyetle yeniden sunulur",
+        "p3": "Asla süresi dolmayan birikmiş beceriler ve veriler",
+        "doctrine": "Hiper-mutlak-marj · Hiper-akıllı-önbellek · Hiper-tutumlu"
+      },
+      "panopticon": {
+        "tagline": "Tüm dünyayı tek ekranda görün",
+        "description": "PANOPTICON canlı dünya sıralamalarını, 21 eksenli haberleri, hava durumunu ve arama eğilimlerini tek bir gerçek zamanlı gözlemevinde birleştirir — diğer tüm sekmelerin yerini alan tek ekran.",
+        "p1": "Gün boyu yenilenen canlı dünya ve UNITAS sıralamaları",
+        "p2": "Kendi dilinizde 21 eksenli küresel haberler",
+        "p3": "Tam bölgeniz için hava durumu, eğilimler ve sinyaller",
+        "doctrine": "Hiper-içgörülü · Hiper-gerçek-zamanlı-web-sentezi · Hiper-şeffaf"
+      },
+      "oracle": {
+        "tagline": "Olmadan önce olasılık",
+        "description": "ORACLE nedensellik hesabı üzerinde deterministik simülasyonlar çalıştırır — piyasalar, projeler, hedefler — ve olasılıkları, onları hareket ettiren kaldıraçlarla birlikte verir. Bir simülasyon, asla tavsiye değil.",
+        "p1": "Her hedef için altı eksenli anayasa Monte Carlo’su",
+        "p2": "Piyasa, kripto ve eğilim olasılık okumaları",
+        "p3": "Etkiye göre sıralanmış nedensellik kaldıraçları",
+        "doctrine": "Hiper-gelecek-öngörülü · Hiper-hisse-öngörülü · Hiper-bitcoin-analitik"
+      },
+      "syndicateX": {
+        "tagline": "Fabrikayı kirala, ağa katıl",
+        "description": "SYNDICATE-X, göçebelerin ve küçük işletmelerin birbirlerinden otonom ajan fabrikaları kiraladığı yerdir — katılan her üyeyle değeri büyüyen bir koalisyon pazarı.",
+        "p1": "Sıfır sermayeyle başlayan ajan fabrikası kiralama pazarı",
+        "p2": "Ortakları ve tedarikçileri ortaya çıkaran koalisyon grafları",
+        "p3": "Her üye için bileşik büyüyen ağ etkileri",
+        "doctrine": "Hiper-merkeziyetsiz · Hiper-ölçeklenebilir · Hiper-tek-kişilik-icra"
+      },
+      "fateMatrix": {
+        "tagline": "Hedefinizin nedenselliğini hackleyin",
+        "description": "FATE-MATRIX hedefinizi 100 doktrinli anayasa üzerinde bir olasılık kafesi olarak serer ve ona giden yol kaçınılmaz olana dek her nedensel kaldıracı çekmenize izin verir.",
+        "p1": "Altı eksende hedef→olasılık kafesi",
+        "p2": "Önce/sonra yörüngeleriyle nedensellik hack’leri",
+        "p3": "1·2·3·5·10 yıllık kilometre taşı dövme",
+        "doctrine": "Hiper-gelecek-odaklı · Hiper-kuantum · Hiper-nihai"
+      }
+    }
+  },
   "Modules": {
     "uSignature": {
       "title": "U-Signature",
@@ -934,9 +1015,6 @@
     "insightAxisRedesign": "Yeniden Tasarım"
   },
   "Governance": {
-    "title": "Medeniyet Yönetişim Matrisi",
-    "subtitle": "UNITAS'ın her kararını taşıyan 16 egemen eksenden birini seçerek merdiveni başlatın.",
-    "badge": "EGEMEN YÖNETİŞİM EKSENİ",
     "prev": "Önceki",
     "next": "Sonraki",
     "indexLabel": "{current} / {total}",
@@ -1229,7 +1307,11 @@
       "hail": "Dolu ile fırtına"
     },
     "stateBadge": "Eyalet",
-    "countryBadge": "Ülke"
+    "countryBadge": "Ülke",
+    "pickRegion": "Bu adı taşıyan birden çok yer var — kendi bölgenizi seçin",
+    "approx": "ağ tahmini",
+    "dismiss": "Kapat",
+    "detecting": "Algılanıyor…"
   },
   "ExitGuard": {
     "eyebrow": "Çıkış koruması",
@@ -1363,125 +1445,6 @@
       "3": "{module} topluluğunda tutarlı, düşük dalgalanmalı katkı örüntüleriyle tanınıyor.",
       "4": "{module} aktivite endeksi birçok döngü boyunca en üst seviyede kalan çapraz modül operatörü.",
       "5": "{module} içinde, modülün medyan aktivite endeksinin oldukça üzerinde sürekli katılımla tanınıyor."
-    }
-  },
-  "HyperSovereign": {
-    "label": "Hiper-egemen kısayollar",
-    "hint": "Hiper-egemen bilişsel motoru açmak için dokunun",
-    "switchEngine": "Motor değiştir",
-    "engines": {
-      "ideaReplicator": {
-        "title": "İş kendini çoğaltma",
-        "description": "Yapay zekâ ajanları sıfır sermayeli tek kişilik fabrika fikirlerini nesilden nesile kendileri çoğaltır.",
-        "cta": "Çoğaltmaya başla"
-      },
-      "fateEngine": {
-        "title": "Kader olasılık motoru",
-        "description": "Hedefinizin gerçekleşme olasılığını 6 eksenli anayasa Monte Carlo’suyla hesaplar — sonra nedenselliği hackler.",
-        "cta": "Kaderi hesapla"
-      },
-      "omniTwin": {
-        "title": "Evren ikizi",
-        "description": "Her şeyi U-Signature ve rezonans spektrumu olan bir veri ikizine klonlar.",
-        "cta": "İkiz oluştur"
-      },
-      "chronoForge": {
-        "title": "Nedensellik zaman çizelgesi",
-        "description": "1·2·3·5·10 yıllık gelecek kilometre taşlarını olasılıklarıyla döver.",
-        "cta": "Zaman çizelgesi döv"
-      },
-      "marginInfinity": {
-        "title": "Marj ∞ simülatörü",
-        "description": "Mikro-yakım ve akıllı önbellekle sıfır marjinal maliyet ve sonsuz marjı canlı simüle eder.",
-        "cta": "Simüle et"
-      }
-    },
-    "seedPlaceholder": "Tohum anahtar kelime yazın (örn. kahve, bir şehir, bir yetenek)…",
-    "goalPlaceholder": "Hedef yazın (örn. bir yıl içinde ayda 300.000 ₺ otomatik gelir)…",
-    "subjectPlaceholder": "Konu yazın (örn. adınız, bir şehir, bir marka)…",
-    "replicate": "Çoğalt",
-    "rerun": "Yeniden hesapla",
-    "hack": "Nedenselliği hackle",
-    "hacked": "Hack uygulandı",
-    "evolve": "İkizi evrimleştir",
-    "forge": "Yeniden döv",
-    "generation": "{n}. nesil",
-    "probability": "Gerçekleşme olasılığı",
-    "horizon": "Zaman ufku",
-    "yearsShort": "{n} yıl",
-    "levers": "Nedensellik kaldıraçları",
-    "trajectory": "Olasılık yörüngesi",
-    "entropy": "Entropi",
-    "signature": "U-Signature",
-    "resonance": "16 eksenli rezonans",
-    "constitution": "6 eksenli anayasa spektrumu",
-    "elements": "Element dinamiği",
-    "metrics": {
-      "capital": "Gereken sermaye",
-      "launchDays": "Lansman (gün)",
-      "automation": "Otomasyon",
-      "margin": "Marj",
-      "viability": "Uygulanabilirlik",
-      "blueOcean": "Mavi okyanus"
-    },
-    "capitalZero": "0 · sıfır sermaye",
-    "patterns": {
-      "agentRental": "Ajan kiralama",
-      "dataTwin": "Veri ikizi aboneliği",
-      "microBurnSaaS": "Mikro-yakım SaaS",
-      "autonomousMarketplace": "Otonom pazar yeri",
-      "sovereignAcademy": "Egemen akademi",
-      "predictiveOracle": "Öngörücü kâhin",
-      "cachedIntelligence": "Önbellekli zekâ",
-      "nomadFactory": "Göçebe fabrika"
-    },
-    "element": {
-      "earth": "Toprak",
-      "water": "Su",
-      "fire": "Ateş",
-      "wind": "Rüzgâr",
-      "lightning": "Yıldırım"
-    },
-    "oracleLabel": "U-AI kâhini",
-    "oracleLoading": "U-AI kâhini anlatıyı dövüyor…",
-    "oracleUnavailable": "Kâhin anlatısı kısa süre sonra yeniden denenebilir — yukarıdaki hesaplanan sonuç zaten kesindir.",
-    "disclaimer": "Olasılıklar ve rakamlar 100 doktrinli anayasaya dayalı deterministik bir simülasyondur; yatırım veya hukuk tavsiyesi değildir.",
-    "sliders": {
-      "price": "Çağrı başına fiyat (U-COIN)",
-      "burn": "Önbelleksiz çağrı başına mikro-yakım maliyeti (U-COIN)",
-      "cacheHit": "Akıllı önbellek isabet oranı",
-      "calls": "Günlük çağrı"
-    },
-    "revenue": "Günlük gelir",
-    "cost": "Günlük maliyet",
-    "margin": "Marj",
-    "marginInfinite": "∞ (sonsuz)",
-    "marginalCost": "Marjinal maliyet",
-    "marginCurve": "Önbellek isabet oranına göre marj eğrisi",
-    "milestone": "Kilometre taşları",
-    "yearLabel": "{year}",
-    "magnitude": "Büyüklük {n}/5",
-    "emptyState": "Tohum yazıp çalıştırın — sonuç anında görünür.",
-    "lineage": "Çoğaltma soyağacı",
-    "pool": {
-      "ideaHeadline": "Nesil {n} · {axis} ekseninde birleşen üç sıfır sermayeli girişim",
-      "ideaTitle": "{pattern} × {module}",
-      "ideaBody": "{axis} ekseninde {days} günde lansman: otomasyon %{automation}, marj ×{margin}, uygulanabilirlik %{viability}, mavi okyanus %{blueOcean} — sermaye 0.",
-      "ideaOracle": "Sıradaki çoğaltma fikir {n}: %{blueOcean} mavi okyanusu bu neslin en genişi.",
-      "fateHeadline": "{horizon} yıl içinde gerçekleşme olasılığı %{probability} · entropi {entropy}/100",
-      "fateTitle": "{axis} eksenini hackle",
-      "fateBody": "Bu nedensellik kaldıracı {axis} üzerinden +{delta} puan ekler. {status}",
-      "leverApplied": "Uygulandı — yörünge bunu zaten içeriyor.",
-      "leverPending": "Henüz uygulanmadı — bir sonraki hack bunu açar.",
-      "fateOracle": "Yörünge {firstYear}. yılda %{first} seviyesinden {lastYear}. yılda %{last} seviyesine tırmanır; eğrinin dikliğine {axis} kaldıracı karar verir.",
-      "twinHeadline": "İkiz {signature} · nesil {n} · entropi {entropy}/100",
-      "twinTitle": "{axis} rezonansı {score}",
-      "twinBody": "{axis} ekseni bu ikizde {score}/99 seviyesinde rezonans yapar — öznenin nasıl davrandığını şekillendiren özellik.",
-      "twinOracle": "{element} ({score}) tarafından yönlendirilen canlı bir veri organizması — ruh veri arşivi her nesilde evrilir.",
-      "chronoHeadline": "{year} yılına kadar {axis} yönünde 10 yıllık bir yay",
-      "chronoTitle": "{year} · {axis}",
-      "chronoBody": "Olasılık %{probability}, {pattern} deseni, büyüklük {magnitude}/5 — bugünden {offset} yıl sonra.",
-      "chronoOracle": "Menteşe {year}: %{probability} ile {axis} tüm zaman çizgisini çevirir."
     }
   }
 }
