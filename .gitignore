@@ -71,3 +71,6 @@ ehthumbs.db
 Desktop.ini
 *.swp
 *~
+
+.vercel
+.env*
