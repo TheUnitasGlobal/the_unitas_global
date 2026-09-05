@@ -4,13 +4,22 @@
 // Low-Memory Armor / no-binary-assets rule used by SpatialAudioProvider and
 // the Coming-Soon cinema.
 //
-//   1.0s -> ~2.6s  "U - NI - TAS" -- an ultra-deep, grand, HUMAN male bass
-//                  chant (round 10 rebuild, owner instruction 2026-09-05,
-//                  item 1). The fundamental lives in the F1-A1 band
-//                  (43.65-55 Hz): U sits on F1, the phrase leans up through
-//                  G1 / G#1 to peak on A1 for the sustained "A", then drops
-//                  away into the final "S". Two things separate this from a
-//                  one-second synth blast:
+//   1.0s -> ~2.8s  "U - NI - TAS" -- a deep, grand, HUMAN male BARITONE
+//                  chest-voice murmur (round 11 re-voicing, owner instruction
+//                  2026-09-05, item 4; letter-by-letter humanization from the
+//                  round 10 rebuild). The fundamental now lives where a real
+//                  low baritone's chest register lives -- the G2-C3 band
+//                  (98-131 Hz): U sits on G2, the phrase leans up through A2
+//                  / B2 to peak on C3 for the sustained "A", then settles
+//                  back through A2 and drops away into the final "S". The
+//                  round-10 F1-A1 (43-55 Hz) fundamental sat BELOW the range
+//                  of any human voice, which is precisely what read as a
+//                  machine rumble; a soft sub-octave sine (49-65 Hz) is kept
+//                  underneath at low level purely as chest resonance, so the
+//                  grandeur stays while the voice becomes a person. A gentle
+//                  two-tap echo (low-passed, panned, feeding the cathedral
+//                  hall) gives the murmur its space -- "미세한 메아리". Two
+//                  things separate this from a one-second synth blast:
 //                    * PER-LETTER PITCH CONTOURING -- every voiced letter is
 //                      its own note with a human onset scoop (starting 30-50
 //                      cents flat and gliding up onto pitch), a slight lean
@@ -26,18 +35,19 @@
 //                      already shaping "A" during the silent "T" closure)
 //                      plus a slow jaw LFO that keeps F1/F2 gently moving.
 //                  The source is a detuned sawtooth pair + a clean sine on
-//                  the fundamental (the felt sub weight) + an octave-up
-//                  sawtooth (the same voice carried through phone speakers
-//                  via the missing-fundamental effect), glottal-lowpassed,
-//                  then split into a direct "chest" path (lowpass ~140 Hz,
-//                  so the F1-A1 fundamental and its 2nd harmonic reach the
-//                  output at full weight -- parallel formant bandpasses
-//                  alone would strip them) and a three-band formant filter
-//                  (wide, low-Q -- a narrow resonant peak rings like a
-//                  machine formant). A lowshelf chest lift, a mild presence
-//                  peak, a highshelf CUT (brightness reads as synthetic on a
-//                  bass) and a cathedral convolver finish it. The chant is
-//                  1.6s long by design and OVERLAPS the crystal impact: the
+//                  the fundamental + the soft sub-octave sine (chest
+//                  resonance) + a faint octave-up sawtooth (the same voice
+//                  carried through phone speakers via the missing-fundamental
+//                  effect), glottal-lowpassed, then split into a direct
+//                  "chest" path (lowpass ~300 Hz, so the G2-C3 fundamental
+//                  and its 2nd harmonic reach the output at full weight --
+//                  parallel formant bandpasses alone would strip them) and a
+//                  three-band formant filter (wide, low-Q -- a narrow
+//                  resonant peak rings like a machine formant). A lowshelf
+//                  chest lift, a mild presence peak, a highshelf CUT
+//                  (brightness reads as synthetic on a low voice), the echo
+//                  send and a cathedral convolver finish it. The chant is
+//                  1.76s long by design and OVERLAPS the crystal impact: the
 //                  held "A" is still ringing when the impact lands at 2s.
 //   2.0s -> 3.0s   crystal echo impact -- a bright inharmonic bell cluster
 //                  (E7 / B7 / E8 / G7 strikes) with a two-tap feedback delay
@@ -52,9 +62,22 @@
 //
 // Autoplay policy: the context is created suspended on a cold load. We try
 // to resume immediately (allowed for installed PWAs / high-engagement
-// sites); otherwise the first pointer/key gesture during the splash unlocks
-// it and `splashAudioOffsets` re-times the cues from that moment. Respects
-// the site-wide mute preference (`unitas_audio_pref === 'off'`).
+// sites); otherwise the first gesture unlocks it and `splashAudioOffsets`
+// re-times the cues from that moment. Respects the site-wide mute
+// preference (`unitas_audio_pref === 'off'`).
+//
+// MOBILE ONLINE UNLOCK (owner instruction 2026-09-05, round 11, item 2): the
+// gesture listeners live HERE, on `window`, in the capture phase, from the
+// moment the context is created until it is running (or disposed) -- not
+// only inside the splash component's effect. Decisively, they listen to the
+// events browsers actually count as USER ACTIVATION: `pointerup` / `touchend`
+// / `click` (touch), `pointerdown` (mouse) and `keydown`. `touchstart` and a
+// touch `pointerdown` do NOT grant activation (HTML "activation triggering
+// input event"), so on a phone the round-10 listeners fired but their
+// `resume()` was refused by the autoplay policy and the chant never played
+// -- that is the exact drop-out this round eradicates. A `statechange`
+// hook schedules the score if anything else (the site-wide audio gate, an
+// OS media resume) brings the context up first.
 
 import { attenuateMaster } from '@/lib/audio/masterLevel';
 import {
@@ -117,23 +140,24 @@ function envelope(param: AudioParam, t0: number, points: Array<[number, number]>
 const cents = (c: number) => Math.pow(2, c / 1200);
 
 // ---------------------------------------------------------------------------
-// 1. "UNITAS" chant -- ultra-deep human bass, letter by letter
+// 1. "UNITAS" chant -- deep human baritone chest voice, letter by letter
 // ---------------------------------------------------------------------------
 
-// The F1-A1 band the fundamental is confined to (owner instruction).
-const F1_HZ = 43.65;
-const G1_HZ = 49.0;
-const GS1_HZ = 51.91;
-const A1_HZ = 55.0;
+// The low-baritone chest band the fundamental moves through (round 11).
+const G2_HZ = 98.0;
+const A2_HZ = 110.0;
+const B2_HZ = 123.47;
+const C3_HZ = 130.81;
 
-/** Letter timing inside the chant (relative seconds; total = 1.6s). */
+/** Letter timing inside the chant (relative seconds; total = 1.76s) -- a
+ *  slower, murmured delivery than round 10's 1.6s. */
 const LETTER = {
-  U: { on: 0.0, off: 0.44 },
-  N: { on: 0.44, off: 0.58 },
-  I: { on: 0.58, off: 0.84 },
-  T: { close: 0.84, burst: 0.905 },
-  A: { on: 0.935, off: 1.36 },
-  S: { on: 1.36, off: 1.62 },
+  U: { on: 0.0, off: 0.48 },
+  N: { on: 0.48, off: 0.63 },
+  I: { on: 0.63, off: 0.9 },
+  T: { close: 0.9, burst: 0.965 },
+  A: { on: 1.0, off: 1.48 },
+  S: { on: 1.48, off: 1.76 },
 } as const;
 
 /** A tiny per-play humanization: +/- `range` (uniform). */
@@ -170,46 +194,48 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   // --- per-letter pitch contour (fundamental, Hz) ------------------------
   // Every voiced letter is its own note: a flat onset scoop gliding up onto
   // pitch, a slight lean into the sustain, and a release drift. The phrase
-  // as a whole rises U -> N -> I -> A ("announcement" cadence) and falls
-  // away into S. Per-play humanization nudges the scoop depths and the lean
-  // so no two launches are the same take.
-  const scoopU = -45 + humanize(8);
-  const scoopN = -20 + humanize(5);
-  const scoopI = -30 + humanize(6);
-  const scoopA = -50 + humanize(9);
+  // as a whole rises U (G2) -> N (A2) -> I (B2) -> A (C3) ("announcement"
+  // cadence), settles back onto A2 through the held A and falls away into S.
+  // Per-play humanization nudges the scoop depths and the lean so no two
+  // launches are the same take.
+  const scoopU = -40 + humanize(8);
+  const scoopN = -18 + humanize(5);
+  const scoopI = -28 + humanize(6);
+  const scoopA = -45 + humanize(9);
   const f0: Array<[number, number]> = [
-    [0, F1_HZ * cents(scoopU)],
-    [0.1, F1_HZ],
-    [U.off - 0.04, F1_HZ * cents(6 + humanize(2))],
-    [N.on + 0.02, G1_HZ * cents(scoopN)],
-    [N.off - 0.02, G1_HZ],
-    [I.on + 0.02, GS1_HZ * cents(scoopI)],
-    [I.on + 0.12, GS1_HZ],
-    [I.off - 0.02, GS1_HZ * cents(8 + humanize(2))],
-    [A.on, A1_HZ * cents(scoopA)],
-    [A.on + 0.095, A1_HZ],
-    [A.on + 0.29, A1_HZ * cents(5 + humanize(2))],
-    [A.off - 0.02, G1_HZ],
-    [S.on + 0.06, F1_HZ * cents(-20)],
+    [0, G2_HZ * cents(scoopU)],
+    [0.11, G2_HZ],
+    [U.off - 0.05, G2_HZ * cents(5 + humanize(2))],
+    [N.on + 0.02, A2_HZ * cents(scoopN)],
+    [N.off - 0.02, A2_HZ],
+    [I.on + 0.02, B2_HZ * cents(scoopI)],
+    [I.on + 0.12, B2_HZ],
+    [I.off - 0.02, B2_HZ * cents(7 + humanize(2))],
+    [A.on, C3_HZ * cents(scoopA)],
+    [A.on + 0.1, C3_HZ],
+    [A.on + 0.3, C3_HZ * cents(4 + humanize(2))],
+    [A.off - 0.03, A2_HZ],
+    [S.on + 0.06, G2_HZ * cents(-15)],
   ];
 
   // Slow vibrato whose DEPTH builds across each held vowel (a singer's
   // vibrato blooms into a sustain; it is not switched on at a fixed depth).
+  // A murmured chest voice carries a gentler vibrato than a projected one.
   const vibrato = ctx.createOscillator();
   vibrato.type = 'sine';
-  vibrato.frequency.value = 5.0 + humanize(0.3);
+  vibrato.frequency.value = 5.3 + humanize(0.3);
   const vibratoDepth = ctx.createGain();
   envelope(vibratoDepth.gain, t0, [
     [0, 0],
     [0.12, 0],
-    [U.off - 0.06, 9],
+    [U.off - 0.06, 8],
     [N.on + 0.02, 3],
     [I.on + 0.1, 4],
     [I.off, 6],
     [A.on, 0],
     [A.on + 0.12, 4],
-    [A.on + 0.3, 12],
-    [A.off, 7],
+    [A.on + 0.32, 11],
+    [A.off, 6],
     [S.on + 0.1, 0],
   ]);
   vibrato.connect(vibratoDepth);
@@ -252,17 +278,20 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   }
 
   // --- source oscillators --------------------------------------------------
-  // The F1-A1 fundamental is carried by the detuned sawtooth pair + a clean
-  // sine (pure sub weight, no extra harmonics); the octave sawtooth carries
-  // the same voice through small/phone speakers (missing-fundamental
-  // effect) so the chant reads as the same deep bass everywhere; a faint
-  // triangle on the 12th adds presence without buzz.
+  // The G2-C3 fundamental is carried by the detuned sawtooth pair + a clean
+  // sine (the felt chest weight, no extra harmonics); a SOFT sub-octave sine
+  // (49-65 Hz) sits underneath as chest resonance -- the grandeur of the
+  // round-10 bass without its machine rumble; a faint octave sawtooth carries
+  // the same voice through small/phone speakers (missing-fundamental effect)
+  // so the chant reads as the same deep voice everywhere; a faint triangle on
+  // the 12th adds presence without buzz.
   const oscSpecs: Array<{ type: OscillatorType; mult: number; detune: number; gain: number }> = [
-    { type: 'sawtooth', mult: 1, detune: -5, gain: 0.4 },
-    { type: 'sawtooth', mult: 1, detune: 5, gain: 0.4 },
-    { type: 'sine', mult: 1, detune: 0, gain: 0.34 },
-    { type: 'sawtooth', mult: 2, detune: 3, gain: 0.2 },
-    { type: 'triangle', mult: 3, detune: -2, gain: 0.07 },
+    { type: 'sawtooth', mult: 1, detune: -4, gain: 0.36 },
+    { type: 'sawtooth', mult: 1, detune: 4, gain: 0.36 },
+    { type: 'sine', mult: 1, detune: 0, gain: 0.3 },
+    { type: 'sine', mult: 0.5, detune: 0, gain: 0.18 },
+    { type: 'sawtooth', mult: 2, detune: 3, gain: 0.12 },
+    { type: 'triangle', mult: 3, detune: -2, gain: 0.06 },
   ];
   for (const spec of oscSpecs) {
     const osc = ctx.createOscillator();
@@ -298,24 +327,25 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   // Glottal rolloff: shave the raw sawtooth buzz before the tract.
   const sourceLp = ctx.createBiquadFilter();
   sourceLp.type = 'lowpass';
-  sourceLp.frequency.value = 2400;
+  sourceLp.frequency.value = 2600;
   sourceLp.Q.value = 0.5;
   source.connect(sourceLp);
 
   // --- vocal tract -----------------------------------------------------------
   const vocalBus = ctx.createGain();
-  vocalBus.gain.value = 1.35;
+  vocalBus.gain.value = 1.3;
 
-  // Direct CHEST path: a lowpass that lets the F1-A1 fundamental and its 2nd
-  // harmonic (87-110 Hz) through at full weight. Parallel formant bandpasses
-  // centred at 250 Hz+ would otherwise strip the very band the owner wants
-  // maximised -- this is where the "극저음 웅장함" physically comes from.
+  // Direct CHEST path: a lowpass that lets the G2-C3 fundamental, the sub
+  // octave beneath it and the 2nd harmonic (196-262 Hz) through at full
+  // weight. Parallel formant bandpasses alone would thin the very band the
+  // chest tone lives in -- this is where the "깊고 웅장한 체스트 톤"
+  // physically comes from.
   const chestPath = ctx.createBiquadFilter();
   chestPath.type = 'lowpass';
-  chestPath.frequency.value = 140;
-  chestPath.Q.value = 0.8;
+  chestPath.frequency.value = 300;
+  chestPath.Q.value = 0.7;
   const chestGain = ctx.createGain();
-  chestGain.gain.value = 0.62;
+  chestGain.gain.value = 0.58;
   sourceLp.connect(chestPath);
   chestPath.connect(chestGain);
   chestGain.connect(vocalBus);
@@ -389,13 +419,16 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   breathFilter.frequency.value = 600;
   breathFilter.Q.value = 0.35;
   const breathGain = ctx.createGain();
+  // A murmured chest voice is breathier than a projected one: the
+  // aspiration bed sits a touch higher so the "부드러운 호흡" stays audible
+  // under every vowel.
   envelope(breathGain.gain, t0, [
     [0, 0.0001],
-    [0.1, 0.05],
-    [U.off, 0.045],
-    [T.close, 0.012],
-    [A.on + 0.06, 0.05],
-    [S.on, 0.04],
+    [0.1, 0.062],
+    [U.off, 0.055],
+    [T.close, 0.014],
+    [A.on + 0.06, 0.06],
+    [S.on, 0.048],
     [S.off + 0.1, 0.0001],
   ]);
   breath.connect(breathFilter);
@@ -422,8 +455,8 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   const inhaleGain = ctx.createGain();
   envelope(inhaleGain.gain, inhaleAt, [
     [0, 0.0001],
-    [inhaleSpan * 0.55, 0.045],
-    [inhaleSpan * 0.92, 0.012],
+    [inhaleSpan * 0.55, 0.055],
+    [inhaleSpan * 0.92, 0.014],
     [inhaleSpan, 0.0001],
   ]);
   inhale.connect(inhaleHp);
@@ -458,11 +491,11 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
 
   // --- tone shaping + sends ----------------------------------------------------
   // Chest lowshelf lift, a mild presence peak so the consonants stay
-  // intelligible, and a highshelf CUT (a bass voice with a bright top end
-  // reads as artificial). Then dry + cathedral hall.
+  // intelligible, and a highshelf CUT (a low voice with a bright top end
+  // reads as artificial). Then dry + echo + cathedral hall.
   const chest = ctx.createBiquadFilter();
   chest.type = 'lowshelf';
-  chest.frequency.value = 160;
+  chest.frequency.value = 220;
   chest.gain.value = 4;
   const presence = ctx.createBiquadFilter();
   presence.type = 'peaking';
@@ -478,9 +511,47 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   presence.connect(airCut);
   airCut.connect(buses.dry);
   const toHall = ctx.createGain();
-  toHall.gain.value = 0.55;
+  toHall.gain.value = 0.68;
   airCut.connect(toHall);
   toHall.connect(buses.wet);
+
+  // --- echo ("미세한 메아리", round 11) -----------------------------------------
+  // Two gentle feedback taps on the voice, each low-passed inside its loop
+  // so every repeat comes back darker and further away, panned apart so the
+  // space opens sideways, and fed into the hall as well so the echoes sit in
+  // the same room as the voice. Kept deliberately understated: the send is
+  // low, the tails die within ~1.5s, and the direct voice always leads.
+  const echoSend = ctx.createGain();
+  echoSend.gain.value = 0.3;
+  airCut.connect(echoSend);
+  const echoOut = ctx.createGain();
+  echoOut.gain.value = 0.5;
+  echoOut.connect(buses.dry);
+  const echoHall = ctx.createGain();
+  echoHall.gain.value = 0.5;
+  echoOut.connect(echoHall);
+  echoHall.connect(buses.wet);
+  for (const [time, feedback, lp, pan] of [
+    [0.27, 0.36, 1700, -0.35],
+    [0.41, 0.3, 1250, 0.35],
+  ] as const) {
+    const delay = ctx.createDelay(1);
+    delay.delayTime.value = time + humanize(0.01);
+    const loopLp = ctx.createBiquadFilter();
+    loopLp.type = 'lowpass';
+    loopLp.frequency.value = lp;
+    loopLp.Q.value = 0.5;
+    const fb = ctx.createGain();
+    fb.gain.value = feedback;
+    const panner = ctx.createStereoPanner();
+    panner.pan.value = pan;
+    echoSend.connect(delay);
+    delay.connect(loopLp);
+    loopLp.connect(fb);
+    fb.connect(delay);
+    loopLp.connect(panner);
+    panner.connect(echoOut);
+  }
 
   // --- consonants ---------------------------------------------------------
   // T: short band-passed burst right after the closure.
@@ -697,10 +768,12 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
 
   let scheduled = false;
   let disposed = false;
+  let detachGestures: (() => void) | null = null;
 
   const schedule = () => {
     if (scheduled || disposed || ctx.state !== 'running') return;
     scheduled = true;
+    detachGestures?.();
     const elapsed = (performance.now() - startedAt) / 1000;
     const { vocalAt, crystalAt } = splashAudioOffsets(elapsed);
     const now = ctx.currentTime + 0.02;
@@ -718,15 +791,32 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
       schedule();
       return;
     }
+    // `resume()` MUST be called synchronously inside the gesture handler --
+    // that is what carries the user activation to the autoplay policy.
     ctx
       .resume()
       .then(() => schedule())
       .catch(() => {});
   };
 
+  // Global activation-event unlock (round 11, item 2) -- see the header.
+  // Capture phase so a surface that stops propagation (a modal backdrop, the
+  // curtain's own handlers) can never swallow the unlocking gesture; passive
+  // so scrolling is never blocked. Detached the moment the score is
+  // scheduled, or on dispose.
+  detachGestures = attachActivationUnlock(unlock);
+  // Anything else bringing the context up (the site-wide audio gate resuming
+  // it, an OS-level media resume) schedules the score too.
+  const onStateChange = () => {
+    if (ctx.state === 'running') schedule();
+  };
+  ctx.addEventListener('statechange', onStateChange);
+
   const dispose = () => {
     if (disposed) return;
     disposed = true;
+    detachGestures?.();
+    ctx.removeEventListener('statechange', onStateChange);
     try {
       const t = ctx.currentTime;
       master.gain.cancelScheduledValues(t);
@@ -745,4 +835,37 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
   unlock();
 
   return { unlock, dispose };
+}
+
+/**
+ * The events browsers treat as "activation triggering input events" (HTML
+ * spec): `keydown`, `mousedown`, a MOUSE `pointerdown`, a non-mouse
+ * `pointerup`, `touchend`, plus `click` as the universal fallback. Touch
+ * `pointerdown` / `touchstart` are deliberately NOT relied on -- they carry
+ * no activation and a `resume()` fired from them is refused on phones.
+ * Exported for the splash component, which mirrors the same set.
+ */
+export const SPLASH_UNLOCK_EVENTS = ['pointerdown', 'pointerup', 'touchend', 'mousedown', 'click', 'keydown'] as const;
+
+/**
+ * Installs the unlock listeners on `window` (capture, passive) and returns
+ * the detach function. Idempotent per call; safe to call multiple times.
+ */
+export function attachActivationUnlock(unlock: () => void): () => void {
+  if (typeof window === 'undefined') return () => {};
+  const opts: AddEventListenerOptions = { passive: true, capture: true };
+  const handler = () => {
+    try {
+      unlock();
+    } catch {
+      /* never let an unlock attempt throw out of a gesture */
+    }
+  };
+  for (const type of SPLASH_UNLOCK_EVENTS) window.addEventListener(type, handler, opts);
+  let detached = false;
+  return () => {
+    if (detached) return;
+    detached = true;
+    for (const type of SPLASH_UNLOCK_EVENTS) window.removeEventListener(type, handler, opts);
+  };
 }

@@ -261,14 +261,19 @@ html[data-splash='off'] .sp-root {
   }
 }
 
-/* --- "UNITAS" title: stroke draw U -> S, then flowing gradient fill ------ */
+/* --- "UNITAS" title: stroke draw U -> S, gold band sweep, solid gold hold --
+   Round 11 (owner instruction 2026-09-05, item 5): the fill paint is the
+   looping gold-band gradient defined in CinematicIntroSplash.tsx (SMIL, 5s
+   period: 3s sweep U -> S, 2s solid original gold). The outline stroke that
+   draws each glyph in fades out at 2.7-3.2s so that from the 3s mark the
+   letters are nothing but the original gold -- "완전 고정". */
 .sp-title {
   width: clamp(250px, 70vw, 640px);
   height: auto;
   overflow: visible;
   filter:
     drop-shadow(0 0 18px rgba(212, 175, 55, 0.45))
-    drop-shadow(0 0 44px rgba(0, 243, 255, 0.2));
+    drop-shadow(0 0 44px rgba(212, 175, 55, 0.18));
 }
 .sp-title-text {
   font-family: var(--font-cinzel), 'Cinzel', serif;
@@ -281,6 +286,7 @@ html[data-splash='off'] .sp-root {
   fill-opacity: 0;
   stroke: url(#sp-stroke-grad);
   stroke-width: 1.7;
+  stroke-opacity: 1;
   stroke-linejoin: round;
   stroke-linecap: round;
   stroke-dasharray: 560;
@@ -288,7 +294,8 @@ html[data-splash='off'] .sp-root {
   paint-order: stroke;
   animation:
     sp-letter-draw 0.55s cubic-bezier(0.4, 0, 0.2, 1) var(--draw, 0.5s) forwards,
-    sp-letter-fill 0.7s ease-out var(--fill, 0.72s) forwards;
+    sp-letter-fill 0.7s ease-out var(--fill, 0.72s) forwards,
+    sp-letter-stroke-fade 0.5s ease-out 2.7s forwards;
 }
 @keyframes sp-letter-draw {
   to {
@@ -301,6 +308,14 @@ html[data-splash='off'] .sp-root {
   }
   to {
     fill-opacity: 1;
+  }
+}
+@keyframes sp-letter-stroke-fade {
+  from {
+    stroke-opacity: 1;
+  }
+  to {
+    stroke-opacity: 0;
   }
 }
 
@@ -361,7 +376,9 @@ html[data-splash='off'] .sp-root {
   }
   .sp-letter {
     stroke-dashoffset: 0;
-    animation: sp-letter-fill 0.6s ease-out var(--fill, 0.72s) forwards;
+    animation:
+      sp-letter-fill 0.6s ease-out var(--fill, 0.72s) forwards,
+      sp-letter-stroke-fade 0.5s ease-out 2.7s forwards;
   }
 }
 @keyframes sp-fade-in {

@@ -64,6 +64,18 @@ export const SPLASH_OFF_QUERY = /[?&]splash=(0|off|false)(&|$)/;
  *  - registers the installability service worker as early as possible
  *  - stamps `data-splash="off"` on <html> for `?splash=0` so the SSR'd intro
  *    splash never paints on a QA/E2E run (pure CSS gate, no JS race)
+ *  - RE-ENTRY RESET (owner instruction 2026-09-05, round 11, item 3): on
+ *    every document load that is not an in-place `reload` -- a PWA launch,
+ *    a typed / bookmarked URL, an external link, a browser session restore,
+ *    a history traversal back onto the site -- the tab's session state
+ *    (curtain phase, sub-view UI state, open popups) is wiped BEFORE any of
+ *    it is read, so PC, mobile and tablet, online and App alike, always
+ *    re-enter through the very first "logo page" splash instead of being
+ *    restored into the login / main / ad / Coming-Soon sub-view they left.
+ *    A bfcache restore (`pageshow` with `persisted`) is a re-entry too: the
+ *    state is wiped and the document reloads so the same bootstrap runs
+ *    again. `?splash=0` (QA harness) keeps state. Mirrors the pure predicate
+ *    `shouldResetEntrySession()` in lib/splash/splashTimeline.ts.
  *  - stamps the same attribute when the tab's persisted Coming-Soon curtain
  *    phase is a SUB-VIEW (gate / cinema / sealed): a refresh parked on one of
  *    those must re-render that view in place with no "logo page" in between
@@ -71,12 +83,18 @@ export const SPLASH_OFF_QUERY = /[?&]splash=(0|off|false)(&|$)/;
  *    (`released`) and a cold first visit keep the splash. Pre-hydration on
  *    purpose -- the splash is SSR'd visible, so only a pre-paint gate avoids
  *    a flash of it; the React component skips its audio/timer separately.
+ *    Because the re-entry reset above runs first, this branch can only ever
+ *    fire on a genuine `reload`.
  */
 export const PWA_CAPTURE_BOOTSTRAP = `(function(){try{
 window.__unitasPwaPrompt=null;
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__unitasPwaPrompt=e;try{window.dispatchEvent(new CustomEvent('${PWA_PROMPT_CAPTURED_EVENT}'));}catch(_){}});
 window.addEventListener('appinstalled',function(){window.__unitasPwaInstalled=true;window.__unitasPwaPrompt=null;});
-if(/[?&]splash=(0|off|false)(&|$)/.test(location.search)){document.documentElement.setAttribute('data-splash','off');}
+var qa=/[?&]splash=(0|off|false)(&|$)/.test(location.search);
+if(qa){document.documentElement.setAttribute('data-splash','off');}
+try{var nt='navigate';try{var en=performance.getEntriesByType&&performance.getEntriesByType('navigation');if(en&&en[0]&&en[0].type){nt=String(en[0].type);}else if(performance.navigation&&performance.navigation.type===1){nt='reload';}}catch(_){}
+if(!qa&&nt.toLowerCase()!=='reload'){try{sessionStorage.clear();}catch(_){}}
+var rl=false;window.addEventListener('pageshow',function(e){if(!e||!e.persisted||qa||rl)return;rl=true;try{sessionStorage.clear();}catch(_){}try{location.reload();}catch(_){}});}catch(_){}
 try{var p=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(p&&${JSON.stringify([...SPLASH_SUB_VIEW_PHASES])}.indexOf(p)!==-1){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}
 }catch(_){}})();`;

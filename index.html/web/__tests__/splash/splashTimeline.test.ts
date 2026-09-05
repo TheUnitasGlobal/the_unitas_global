@@ -3,14 +3,22 @@ import {
   CINEMA_PHASE_STORAGE_KEY,
   SPLASH_CRYSTAL_AT_S,
   SPLASH_DURATION_MS,
+  SPLASH_GOLD_HOLD_S,
+  SPLASH_GOLD_LOOP_S,
+  SPLASH_GOLD_SWEEP_FROM_X,
+  SPLASH_GOLD_SWEEP_S,
+  SPLASH_GOLD_SWEEP_TO_X,
   SPLASH_LETTERS,
   SPLASH_SUB_VIEW_PHASES,
   SPLASH_VOCAL_AT_S,
   SPLASH_VOCAL_LEAD_S,
   SPLASH_VOCAL_LENGTH_S,
+  goldLoopKeyTimes,
+  goldLoopValues,
   isSubViewPhase,
   letterDrawStart,
   letterFillStart,
+  shouldResetEntrySession,
   shouldRunSplash,
   shouldRunSplashForPhase,
   splashAudioOffsets,
@@ -74,6 +82,39 @@ describe('splash timeline', () => {
     expect(shouldRunSplashForPhase('', 'gate')).toBe(false);
     expect(shouldRunSplashForPhase('?splash=0', 'released')).toBe(false);
     expect(shouldRunSplashForPhase('?splash=0', null)).toBe(false);
+  });
+
+  it('resets the session on every document load except an in-place reload (round 11, item 3)', () => {
+    // Re-entries: PWA launch / typed URL / external link / session restore / history traversal.
+    expect(shouldResetEntrySession('navigate', '')).toBe(true);
+    expect(shouldResetEntrySession('back_forward', '')).toBe(true);
+    expect(shouldResetEntrySession('prerender', '')).toBe(true);
+    expect(shouldResetEntrySession(null, '')).toBe(true);
+    expect(shouldResetEntrySession(undefined, '?dev=skip')).toBe(true);
+    // An F5 parked on a sub-view keeps the round-10 "refresh in place" rule.
+    expect(shouldResetEntrySession('reload', '')).toBe(false);
+    expect(shouldResetEntrySession(' Reload ', '')).toBe(false);
+    // The QA harness (?splash=0) keeps its pre-seeded session state.
+    expect(shouldResetEntrySession('navigate', '?splash=0')).toBe(false);
+    expect(shouldResetEntrySession('back_forward', '?a=1&splash=off')).toBe(false);
+  });
+
+  it('loops the gold band for 5s: a 3s U -> S sweep, then 2s of solid original gold (round 11, item 5)', () => {
+    expect(SPLASH_GOLD_LOOP_S).toBe(5);
+    expect(SPLASH_GOLD_SWEEP_S).toBe(3);
+    expect(SPLASH_GOLD_HOLD_S).toBe(2);
+    // One full cycle per splash hold.
+    expect(SPLASH_GOLD_LOOP_S * 1000).toBe(SPLASH_DURATION_MS);
+    // Sweep runs left -> right, and the SMIL cues park the band for the hold.
+    expect(SPLASH_GOLD_SWEEP_TO_X).toBeGreaterThan(SPLASH_GOLD_SWEEP_FROM_X);
+    expect(goldLoopKeyTimes()).toBe('0;0.6;1');
+    expect(goldLoopValues()).toBe(
+      `${SPLASH_GOLD_SWEEP_FROM_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0`,
+    );
+    // Every glyph has started filling before the sweep phase ends, so each
+    // letter is lit by the band in turn during 0-3s and none first appears
+    // during the solid-gold hold.
+    expect(letterFillStart(SPLASH_LETTERS.length - 1)).toBeLessThan(SPLASH_GOLD_SWEEP_S);
   });
 
   it('keeps absolute beats when audio unlocks early', () => {

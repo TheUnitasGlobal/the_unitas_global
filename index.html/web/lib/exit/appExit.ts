@@ -17,13 +17,19 @@
 //     terminate immediately and drop the visitor back onto the launcher /
 //     desktop. `window.close()` is the only web API that genuinely ends an
 //     installed app's window, and Chromium only honours it while the window's
-//     history holds ONE entry -- which is exactly why ExitGuard no longer
-//     parks its back-gesture sentinel entry in standalone mode (see
-//     components/interaction/ExitGuard.tsx). When the runtime still refuses
-//     (iOS home-screen apps expose no close path at all; an app that has
-//     navigated between routes has more than one entry) the app restarts
-//     cleanly at its own root instead of freezing on `about:blank` -- the
-//     "백지 멈춤" this round explicitly retires.
+//     history holds ONE entry. Round 11 (owner instruction 2026-09-05, item
+//     1) made the mobile/tablet App channel intercept the OS back button with
+//     the z-680 exit confirm, which REQUIRES ExitGuard to park its sentinel
+//     history entry in standalone mode too -- so on a Chromium mobile app the
+//     close call is expected to be refused and the fallback below is the
+//     normal path. When the runtime refuses (that case; iOS home-screen apps,
+//     which expose no close path at all; an app that has navigated between
+//     routes) the app restarts cleanly at its own root instead of freezing on
+//     `about:blank` -- and, under the round-11 re-entry reset doctrine
+//     (lib/pwa/installPrompt.ts), that restart is a fresh session that opens
+//     on the logo splash, never the view that was just closed. A desktop App
+//     window never arms the sentinel, so there `window.close()` still ends
+//     the window outright.
 //
 // `planExit()` is pure (no DOM) so the branching is unit-tested in
 // __tests__/exit/appExit.test.ts; `executeAppExit()` is the thin browser

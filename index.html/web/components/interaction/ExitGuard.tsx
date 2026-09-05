@@ -10,7 +10,7 @@ import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { CINEMA_PHASE_EVENT } from '@/lib/foundersGate';
 import { CINEMA_PHASE_STORAGE_KEY } from '@/lib/splash/splashTimeline';
-import { executeAppExit, isStandaloneApp } from '@/lib/exit/appExit';
+import { executeAppExit } from '@/lib/exit/appExit';
 
 /** history.state marker of the sentinel entry parked under the home page. */
 const GUARD_MARKER = 'unitasExitGuard';
@@ -40,17 +40,29 @@ export function requestAppExit(detail?: ExitRequestDetail): void {
 type Step = 'logout' | 'exit';
 
 /**
- * Only the ONLINE channel arms the back-gesture sentinel. In the App channel
- * (installed PWA) the doctrine is "exit = terminate immediately" (owner
- * instruction 2026-09-05, round 10, item 5): the OS back on a single-entry
- * app window already closes it, and -- decisively -- parking a second
- * history entry would make Chromium refuse `window.close()` for the rest
- * of the session, breaking the 'X' / 종료 force-close. So: never in
- * standalone mode; otherwise a touch / narrow viewport as before.
+ * BOTH channels arm the back-gesture sentinel on a touch / narrow device
+ * (owner instruction 2026-09-05, round 11, item 1).
+ *
+ * ONLINE (browser tab): unchanged -- back opens the confirm, 종료 returns to
+ * the previous page.
+ *
+ * APP (installed PWA / native container) on mobile & tablet: the hardware /
+ * software back button must NOT close the app outright any more; it opens
+ * the same z-680 exit confirm, and only an explicit 종료 leaves. The only
+ * way a web page can intercept the OS back is to hold one extra history
+ * entry beneath itself, so the sentinel is now parked in standalone mode
+ * too. Known, accepted trade-off: Chromium refuses `window.close()` while
+ * the window's session history holds more than one entry, so once the
+ * sentinel exists the confirmed 종료 can no longer hard-terminate a
+ * Chromium app window; `executeAppExit()` then falls through to a clean
+ * restart at the app root, which -- under the round-11 re-entry reset
+ * doctrine (lib/pwa/installPrompt.ts) -- is a brand-new session starting
+ * from the logo splash, never the view the visitor left. A desktop App
+ * window (fine pointer, wide) has no back button and keeps `window.close()`
+ * intact by never arming.
  */
 function shouldArm(): boolean {
   if (typeof window === 'undefined') return false;
-  if (isStandaloneApp()) return false;
   try {
     const coarse = window.matchMedia('(pointer: coarse)').matches;
     const narrow = window.innerWidth <= 1024;
@@ -84,17 +96,19 @@ function readCinemaPhase(): string {
 }
 
 /**
- * Mobile "back = leave" double gate (owner instruction 2026-09-03) for the
- * ONLINE channel. On a touch / narrow browser viewport, once the real site
- * is visible, the page parks one extra same-URL history entry beneath
- * itself; the device's back gesture -- including the second press after one
- * has only dismissed the virtual keyboard -- pops to the real entry, and
- * instead of bouncing the visitor out this opens the two-step confirm:
- * "로그아웃을 하시겠습니까?" (only while signed in) then "종료하시겠습니까?".
- * The sentinel is re-armed immediately, so the site only actually unloads on
- * an explicit tap of 종료 (which runs the shared exit engine -- online: back
- * to the previous page; app: immediate termination). Every other path (취소,
- * backdrop, Escape) leaves the visitor exactly where they were.
+ * Mobile "back = leave" double gate (owner instruction 2026-09-03; extended
+ * to the App channel 2026-09-05, round 11, item 1). On a touch / narrow
+ * viewport -- browser tab OR installed app -- once the real site is visible,
+ * the page parks one extra same-URL history entry beneath itself; the
+ * device's back gesture -- including the second press after one has only
+ * dismissed the virtual keyboard -- pops to the real entry, and instead of
+ * bouncing the visitor out (online) or killing the app (App) this opens the
+ * two-step confirm: "로그아웃을 하시겠습니까?" (only while signed in) then
+ * "종료하시겠습니까?". The sentinel is re-armed immediately, so the site only
+ * actually unloads on an explicit tap of 종료 (which runs the shared exit
+ * engine -- online: back to the previous page; app: terminate, else a clean
+ * restart from the logo splash). Every other path (취소, backdrop, Escape)
+ * leaves the visitor exactly where they were.
  *
  * ENTRY-POPUP ERADICATION (owner instruction 2026-09-05, round 10, item 4):
  * the guard used to arm 60ms after mount, on every route, under the opaque

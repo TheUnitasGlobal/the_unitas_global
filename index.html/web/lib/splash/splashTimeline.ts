@@ -17,14 +17,16 @@ export const SPLASH_DURATION_MS = 5000;
 /** Exit cross-fade length (the layer unmounts after DURATION + EXIT). */
 export const SPLASH_EXIT_MS = 450;
 
-/** Audio cue 1: the ultra-deep synthesized "UNITAS" chant. It starts at 1s;
- *  since the round-10 rebuild (owner instruction 2026-09-05) it is a slow,
- *  letter-by-letter human delivery ~1.6s long rather than a one-second
- *  burst, so it deliberately OVERLAPS the crystal impact: the sustained
- *  "A" of "-TAS" is still ringing when the crystal lands at 2s, and the
- *  final "S" hiss rides out into the echo tail. */
+/** Audio cue 1: the synthesized "UNITAS" chant. It starts at 1s; since the
+ *  round-10 rebuild (owner instruction 2026-09-05) it is a slow,
+ *  letter-by-letter human delivery rather than a one-second burst, so it
+ *  deliberately OVERLAPS the crystal impact: the sustained "A" of "-TAS" is
+ *  still ringing when the crystal lands at 2s, and the final "S" hiss rides
+ *  out into the echo tail. Round 11 (owner instruction 2026-09-05, item 4)
+ *  re-voiced it as a deep human BARITONE chest murmur with a soft echo, and
+ *  slowed the delivery to 1.76s. */
 export const SPLASH_VOCAL_AT_S = 1.0;
-export const SPLASH_VOCAL_LENGTH_S = 1.6;
+export const SPLASH_VOCAL_LENGTH_S = 1.76;
 /** Audio cue 2: the crystal-echo impact that rings out the final second. */
 export const SPLASH_CRYSTAL_AT_S = 2.0;
 export const SPLASH_CRYSTAL_LENGTH_S = 1.0;
@@ -65,15 +67,71 @@ export function shouldRunSplashForPhase(search: string, phase: string | null | u
   return !isSubViewPhase(phase);
 }
 
+/**
+ * Re-entry reset doctrine (owner instruction 2026-09-05, round 11, item 3).
+ *
+ * Every DOCUMENT LOAD that is not an in-place refresh is a (re-)entry: a
+ * PWA launch, a typed/bookmarked URL, an external link, a browser session
+ * restore, a history traversal back onto the site. On every one of those --
+ * on every device, online and App -- the tab's session state (curtain phase,
+ * sub-view UI state, open popups) is wiped BEFORE anything reads it, so the
+ * visitor always starts from the very first "logo page" splash instead of
+ * being restored into whatever sub-view they left. Only `reload` is exempt:
+ * the round-10 rule that an F5 parked on a sub-view re-renders that view in
+ * place still holds, because a refresh is not a re-entry.
+ *
+ * `search` carries the QA opt-out: the Playwright harness drives the funnel
+ * with `?splash=0`, and that flag keeps session state as well (a harness
+ * that pre-seeds a phase and then navigates must not be wiped).
+ */
+export function shouldResetEntrySession(navigationType: string | null | undefined, search: string): boolean {
+  if (!shouldRunSplash(search)) return false;
+  return (navigationType ?? '').trim().toLowerCase() !== 'reload';
+}
+
 /** Title glyphs, filled U -> S in order. */
 export const SPLASH_LETTERS = ['U', 'N', 'I', 'T', 'A', 'S'] as const;
 /** First letter starts drawing at this offset; each next letter is staggered. */
 export const SPLASH_LETTER_START_S = 0.5;
-export const SPLASH_LETTER_STAGGER_S = 0.17;
+/** Round 11: widened from 0.17s so each glyph's fill lands exactly as the
+ *  travelling gold band (below) reaches it -- one letter at a time, U -> S. */
+export const SPLASH_LETTER_STAGGER_S = 0.26;
 /** Stroke draw length per letter (the "light running along the line"). */
 export const SPLASH_LETTER_DRAW_S = 0.55;
 /** Gradient fill floods in this long after a letter's stroke started. */
 export const SPLASH_LETTER_FILL_LAG_S = 0.22;
+
+/**
+ * "UNITAS" gold colour loop (owner instruction 2026-09-05, round 11, item 5).
+ * A 5-second cycle: for the first 3s a bright gold band travels across the
+ * title from the left-most glyph to the right-most, re-colouring one letter
+ * after the next; for the remaining 2s every glyph sits on the ORIGINAL
+ * solid gold (#d4af37), perfectly still. Then it repeats. The period equals
+ * the splash hold on purpose -- one full cycle plays per splash -- and the
+ * loop is infinite so a replay / longer hold keeps cycling.
+ */
+export const SPLASH_GOLD_LOOP_S = 5;
+export const SPLASH_GOLD_SWEEP_S = 3;
+export const SPLASH_GOLD_HOLD_S = SPLASH_GOLD_LOOP_S - SPLASH_GOLD_SWEEP_S;
+/** The title's original gold -- what the hold phase (and the pad colour of
+ *  the sweeping gradient) shows. */
+export const SPLASH_GOLD_HEX = '#d4af37';
+/** Gradient `translate` x at the start of the sweep (band fully left of the
+ *  glyphs) and at its end (band fully past the last glyph). The title SVG is
+ *  720 user units wide with the band centred at x = 360 of the gradient. */
+export const SPLASH_GOLD_SWEEP_FROM_X = -500;
+export const SPLASH_GOLD_SWEEP_TO_X = 420;
+
+/** SMIL `keyTimes` for the loop: sweep 0 -> SWEEP_S, then hold to LOOP_S. */
+export function goldLoopKeyTimes(): string {
+  const holdAt = SPLASH_GOLD_SWEEP_S / SPLASH_GOLD_LOOP_S;
+  return `0;${holdAt};1`;
+}
+
+/** SMIL `values` for the loop (translate x/y pairs): from -> to -> to (hold). */
+export function goldLoopValues(): string {
+  return `${SPLASH_GOLD_SWEEP_FROM_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0`;
+}
 
 /** Window `CustomEvent` name that restarts the splash (founder debug panel). */
 export const SPLASH_REPLAY_EVENT = 'unitas:splash-replay';
