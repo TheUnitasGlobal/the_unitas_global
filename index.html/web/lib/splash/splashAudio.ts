@@ -23,6 +23,7 @@
 // it and `splashAudioOffsets` re-times the cues from that moment. Respects
 // the site-wide mute preference (`unitas_audio_pref === 'off'`).
 
+import { isTouchPrimaryDevice } from '@/lib/pointerDevice';
 import {
   SPLASH_CRYSTAL_LENGTH_S,
   SPLASH_VOCAL_LENGTH_S,
@@ -31,10 +32,19 @@ import {
 
 /** Mirrors SpatialAudioProvider's persisted preference key. */
 const AUDIO_PREF_KEY = 'unitas_audio_pref';
-// Owner instruction 2026-09-05: master gain cut to 0.3x its prior level
-// (0.82 -> 0.246) so the splash vocal/crystal chime sits well under the
-// site's ambient bed instead of dominating the opening seconds.
-const MASTER_GAIN = 0.246;
+// Owner instruction 2026-09-05 (round 1): master gain cut to 0.3x its prior
+// level (0.82 -> 0.246) so the splash vocal/crystal chime sits well under
+// the site's ambient bed instead of dominating the opening seconds. This
+// stays the mobile/handheld level -- untouched by round 2 below.
+const MASTER_GAIN_MOBILE = 0.246;
+// Owner instruction 2026-09-05 (round 2): PC only gets an ADDITIONAL 30% cut
+// on top of the round-1 level (0.246 -> 0.1722) so the vocal/echo sits more
+// comfortably on desktop speakers/headphones; handheld devices keep the
+// round-1 level unchanged. Gated on `isTouchPrimaryDevice()` (coarse
+// pointer + no hover -- a genuine phone/tablet), the same primary-pointer
+// check the scroll-focus SFX already uses to tell a real handheld apart
+// from a mouse-driven desktop.
+const MASTER_GAIN_PC = MASTER_GAIN_MOBILE * 0.7;
 
 export interface SplashAudioHandle {
   /** Call from a user gesture (or immediately) -- resumes + schedules once. */
@@ -423,7 +433,7 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
   }
 
   const master = ctx.createGain();
-  master.gain.value = MASTER_GAIN;
+  master.gain.value = isTouchPrimaryDevice() ? MASTER_GAIN_MOBILE : MASTER_GAIN_PC;
   const limiter = ctx.createDynamicsCompressor();
   limiter.threshold.value = -16;
   limiter.knee.value = 14;

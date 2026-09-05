@@ -165,7 +165,15 @@ html[data-splash='off'] .sp-root {
   }
 }
 /* lightning triangle: spins independently inside the fixed hex frame,
-   opposite direction and slower than the dot-hexagon for visual separation */
+   opposite direction and slower than the dot-hexagon for visual separation.
+   Owner instruction 2026-09-05 (round 2): the triangle's own points
+   (250,165)/(265,195)/(235,195) in MasterMarkLogo.tsx are now bounding-box
+   symmetric around (250, 180) -- the same point the globe/dot-hex/bolt
+   already rotate on -- so `transform-origin: center` (fill-box) resolves to
+   exactly (250, 180), not the old off-center (250, 172). The triangle was
+   also shrunk (circumradius ~21) so its rotation sweep stays inside the
+   inner hex void's tightest wall (25 units from center at the two vertical
+   facets) instead of clipping into the gold frame. */
 .sp-tri-spin {
   transform-box: fill-box;
   transform-origin: center;
@@ -223,26 +231,24 @@ html[data-splash='off'] .sp-root {
     opacity: 1;
   }
 }
-/* hologram globe: spins independently while it pulses -- rotate and scale
-   are combined in one keyframe (owner instruction 2026-09-05, item 1) since
-   two separate animations both writing `transform` would not compose. */
+/* hologram globe: FIXED at dead center (250, 180) -- no rotation. Owner
+   instruction 2026-09-05 (round 2): the globe's spin was scrapped entirely;
+   only the in-place pulse (scale + opacity) remains, anchored on its own
+   fill-box center so it never drifts off (250, 180). */
 .sp-globe {
   transform-box: fill-box;
   transform-origin: center;
-  animation: sp-globe-pulse 2.4s linear infinite;
+  animation: sp-globe-pulse 2.4s ease-in-out infinite;
 }
 @keyframes sp-globe-pulse {
-  0% {
-    transform: rotate(0deg) scale(1);
+  0%,
+  100% {
+    transform: scale(1);
     opacity: 0.92;
   }
   50% {
-    transform: rotate(180deg) scale(1.16);
+    transform: scale(1.16);
     opacity: 1;
-  }
-  100% {
-    transform: rotate(360deg) scale(1);
-    opacity: 0.92;
   }
 }
 .sp-facet-shine {

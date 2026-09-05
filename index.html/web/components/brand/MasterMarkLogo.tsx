@@ -8,12 +8,11 @@ interface MasterMarkLogoProps {
   /**
    * 'hero' (default) -- the full glow-filter treatment for large display
    * (intro splash, Coming-Soon ad page). 'compact' -- the same geometry and
-   * the same four independent rotations (triangle / hexagon / center bar /
-   * globe) around the fixed gold hex frame, but with the heavy
-   * `feGaussianBlur` glow filters dropped and hairline strokes thickened so
-   * the mark stays crisp at nav-bar / icon scale instead of dissolving into
-   * a blurry blob (owner instruction 2026-09-05, item 1: "소형 스케일 벡터
-   * 최적화").
+   * the same independent rotations (triangle / hexagon / center bar) around
+   * the fixed gold hex frame, but with the heavy `feGaussianBlur` glow
+   * filters dropped and hairline strokes thickened so the mark stays crisp
+   * at nav-bar / icon scale instead of dissolving into a blurry blob (owner
+   * instruction 2026-09-05, item 1: "소형 스케일 벡터 최적화").
    */
   variant?: MasterMarkVariant;
 }
@@ -28,12 +27,17 @@ interface MasterMarkLogoProps {
  * Ported out of the intro splash into this shared component (owner
  * instruction 2026-09-05, item 1) so the SAME animated mark -- gold hexagon
  * frame perfectly fixed, with the lightning triangle, the centered dashed
- * hexagon, the center bar and the hologram globe each spinning
- * independently inside it -- renders in all three places the owner named:
- * the intro splash (CinematicIntroSplash), the nav-bar small logo (NavBar),
- * and the Coming-Soon ad page's install CTA (CinemaAppDownload). All three
- * share `app/splash.css`'s `.sp-*` animation classes, loaded globally from
- * app/layout.tsx, so no per-caller stylesheet wiring is needed.
+ * hexagon and the center bar each spinning independently inside it, and the
+ * hologram globe held perfectly still at dead center (owner instruction
+ * 2026-09-05, round 2: the globe's spin was scrapped, only its in-place
+ * pulse remains) -- renders in all three places the owner named: the intro
+ * splash (CinematicIntroSplash), the nav-bar small logo (NavBar), and the
+ * Coming-Soon ad page's install CTA (CinemaAppDownload). All three share
+ * `app/splash.css`'s `.sp-*` animation classes, loaded globally from
+ * app/layout.tsx, so no per-caller stylesheet wiring is needed. The
+ * lightning-triangle points are bounding-box symmetric around (250, 180) --
+ * the same fixed center the globe/dot-hex/bolt already share -- and sized so
+ * its rotation sweep can't cross into the gold frame (round 2 fix).
  */
 export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMarkLogoProps) {
   const hero = variant === 'hero';
@@ -105,7 +109,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
         {/* lightning triangle -- spins independently inside the fixed frame */}
         <g className="sp-tri-spin">
           <polygon
-            points="250,146 278,198 222,198"
+            points="250,165 265,195 235,195"
             fill="url(#sp-triBg)"
             stroke="#00FFFF"
             strokeWidth={hero ? 2.5 : 3}
@@ -115,7 +119,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
             <>
               <polygon
                 className="sp-tri-spark"
-                points="250,146 278,198 222,198"
+                points="250,165 265,195 235,195"
                 fill="none"
                 stroke="#FFFFFF"
                 strokeWidth="1.8"
@@ -124,7 +128,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
               />
               <polygon
                 className="sp-tri-arc"
-                points="250,146 278,198 222,198"
+                points="250,165 265,195 235,195"
                 fill="none"
                 stroke="#7FFFD4"
                 strokeWidth="3"
@@ -133,7 +137,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
               />
             </>
           ) : (
-            <polygon points="250,146 278,198 222,198" fill="none" stroke="#7FFFD4" strokeWidth="1.4" />
+            <polygon points="250,165 265,195 235,195" fill="none" stroke="#7FFFD4" strokeWidth="1.4" />
           )}
         </g>
 

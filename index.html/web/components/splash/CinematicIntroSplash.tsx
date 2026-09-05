@@ -49,8 +49,10 @@ import {
  *
  * Audio: lib/splash/splashAudio.ts -- synthesized "UNITAS" vocal (1-2s) and
  * crystal echo (2-3s), at 0.3x the prior master gain (owner instruction
- * 2026-09-05, item 2). Any pointer/key gesture during the splash unlocks a
- * context the autoplay policy kept suspended.
+ * 2026-09-05, item 2), with an additional 30% cut on desktop only (owner
+ * instruction 2026-09-05, round 2; handheld devices keep the round-1
+ * level). Any pointer/key gesture during the splash unlocks a context the
+ * autoplay policy kept suspended.
  */
 export function CinematicIntroSplash() {
   const [active, setActive] = useState(true);
