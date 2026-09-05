@@ -166,19 +166,24 @@ html[data-splash='off'] .sp-root {
 }
 /* lightning triangle: spins independently inside the fixed hex frame,
    opposite direction and slower than the dot-hexagon for visual separation.
-   Owner instruction 2026-09-05 (round 2): the triangle's own points
-   (250,154)/(278,206)/(222,206) in MasterMarkLogo.tsx are bounding-box
-   symmetric around (250, 180) -- the same point the globe/dot-hex/bolt
-   rotate on -- so `transform-origin: center` (fill-box) resolves to exactly
-   (250, 180), not the old off-center (250, 172), so the spin itself never
-   wobbles. Round 3 restored the triangle to its original large scale
-   (circumradius ~38, unchanged from the pre-fix artwork) per owner
-   instruction: it is now meant to sweep through and fill the gold frame
-   as it turns -- a deliberate grand/majestic look, not a bug -- rather
-   than staying safely inside the inner hex void as round 2 had it. */
+   Owner instruction 2026-09-05 (round 4): round 2/3 used
+   `transform-origin: center`, i.e. 50%/50% of the triangle's *bounding
+   box* -- which is NOT the same point as the triangle's true center of
+   mass (centroid = average of the 3 vertices). For any apex-up triangle
+   with a horizontal base, the centroid always sits at exactly 66.667%
+   of the bbox height measured from the apex (a geometric invariant: the
+   median splits 2:1 from vertex to opposite side), independent of the
+   exact vertex coordinates -- so `50% 66.667%` is the correct,
+   scale-proof origin. MasterMarkLogo.tsx's triangle points were also
+   recomputed (round 4) into a true equilateral whose centroid lands
+   exactly on (250, 180), the same fixed point the globe/dot-hex/bolt
+   rotate on, so this origin now coincides with that shared axis and the
+   spin has zero eccentricity. Scale stays the round-3 "grand/majestic"
+   size (side 56) that sweeps through and fills the gold frame as it
+   turns. */
 .sp-tri-spin {
   transform-box: fill-box;
-  transform-origin: center;
+  transform-origin: 50% 66.667%;
   animation: sp-spin 5s linear infinite reverse;
 }
 /* centered dot-hexagon: spins + dashes travel along its edges */

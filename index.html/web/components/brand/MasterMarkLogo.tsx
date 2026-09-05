@@ -35,12 +35,18 @@ interface MasterMarkLogoProps {
  * nav-bar small logo (NavBar), and the Coming-Soon ad page's install CTA
  * (CinemaAppDownload). All three share `app/splash.css`'s `.sp-*` animation
  * classes, loaded globally from app/layout.tsx, so no per-caller stylesheet
- * wiring is needed. The lightning-triangle points are bounding-box
- * symmetric around (250, 180) -- the same fixed center the globe/dot-hex/
- * bolt already share, so the spin never wobbles -- and restored to their
- * original large scale (round 3) so the triangle sweeps through and fills
- * the gold frame as it turns, a deliberate grand/majestic look rather than
- * the smaller, frame-clearing size round 2 had used.
+ * wiring is needed. Owner instruction 2026-09-05 (round 4): the round-3
+ * points were only *bounding-box* symmetric around (250, 180), not
+ * centroid-symmetric -- a triangle's bounding-box center and its true
+ * center of mass are different points (average-of-vertices vs
+ * average-of-extents), so the old artwork had its visual weight sitting
+ * ~8.7 units below the shared (250, 180) rotation axis and swept
+ * eccentrically as it spun. The triangle is now a true equilateral
+ * (side 56, matching the old bounding-box width so the "grand/majestic"
+ * scale from round 3 is unchanged) whose CENTROID -- (apex + baseL +
+ * baseR) / 3 -- lands exactly on (250, 180), the same fixed point the
+ * globe/dot-hex/bolt already rotate on. See `.sp-tri-spin` in
+ * `app/splash.css` for the matching transform-origin fix.
  */
 export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMarkLogoProps) {
   const hero = variant === 'hero';
@@ -112,7 +118,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
         {/* lightning triangle -- spins independently inside the fixed frame */}
         <g className="sp-tri-spin">
           <polygon
-            points="250,154 278,206 222,206"
+            points="250,147.67 278,196.17 222,196.17"
             fill="url(#sp-triBg)"
             stroke="#00FFFF"
             strokeWidth={hero ? 2.5 : 3}
@@ -122,7 +128,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
             <>
               <polygon
                 className="sp-tri-spark"
-                points="250,154 278,206 222,206"
+                points="250,147.67 278,196.17 222,196.17"
                 fill="none"
                 stroke="#FFFFFF"
                 strokeWidth="1.8"
@@ -131,7 +137,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
               />
               <polygon
                 className="sp-tri-arc"
-                points="250,154 278,206 222,206"
+                points="250,147.67 278,196.17 222,196.17"
                 fill="none"
                 stroke="#7FFFD4"
                 strokeWidth="3"
@@ -140,7 +146,7 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
               />
             </>
           ) : (
-            <polygon points="250,154 278,206 222,206" fill="none" stroke="#7FFFD4" strokeWidth="1.4" />
+            <polygon points="250,147.67 278,196.17 222,196.17" fill="none" stroke="#7FFFD4" strokeWidth="1.4" />
           )}
         </g>
 

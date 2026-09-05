@@ -9,13 +9,16 @@
 //                 sine sub-octave for clean weight instead of a harmonic sub,
 //                 slow vibrato), source-lowpassed to shave off the raw
 //                 sawtooth's buzz before it hits a three-band formant filter
-//                 (round 5 -- owner instruction 2026-09-05: lower Q per band
-//                 so the formants read as rounded and airy rather than
-//                 nasal/honky) whose F1/F2/F3 targets walk U -> N -> I -> T
-//                 -> A -> S (a noise burst for the plosive T, a high-passed
-//                 hiss for the final S), then a light low-shelf for chest
-//                 (trimmed from the prior murky boost) and a cathedral
-//                 convolver for scale.
+//                 (round 6 -- owner instruction 2026-09-05: the F1 band, the
+//                 one carrying the most low-mid energy, had its Q/gain cut
+//                 further on top of round 5's pass, the chest low-shelf was
+//                 halved again, and the sub-octave choir layer was quieted --
+//                 together the biggest remaining sources of "phlegmy"
+//                 low-mid congestion) whose F1/F2/F3 targets walk U -> N -> I
+//                 -> T -> A -> S (a noise burst for the plosive T, a
+//                 high-passed hiss for the final S), then a light low-shelf
+//                 for chest (trimmed twice now from the original murky
+//                 boost) and a cathedral convolver for scale.
 //   2.0s -> 3.0s  crystal echo impact -- a bright inharmonic bell cluster
 //                 (E7 / B7 / E8 / G7 strikes) with a two-tap feedback delay
 //                 whose loop is high-passed so every echo comes back thinner
@@ -185,7 +188,7 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   const vocalBus = ctx.createGain();
   vocalBus.gain.value = 1.35;
   const bands = [
-    { q: 4.5, gain: 1.6 },
+    { q: 3.6, gain: 1.3 }, // round 6: F1 band trimmed further -- the main low-mid mud source
     { q: 5.5, gain: 0.8 },
     { q: 6.5, gain: 0.35 },
   ].map(({ q, gain }) => {
@@ -222,13 +225,13 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   setVowel('I', t0 + I0);
   setVowel('A', t0 + A0, 0.025);
 
-  // Tone shaping: chest low-shelf (trimmed -- the prior +5dB boost was the
-  // other main source of mud) + a wider, gentler presence lift, then
-  // dry/wet split.
+  // Tone shaping: chest low-shelf (round 6: halved again, 3dB -> 1.5dB --
+  // the prior +5dB then +3dB boosts were the other main source of mud) + a
+  // wider, gentler presence lift, then dry/wet split.
   const shelf = ctx.createBiquadFilter();
   shelf.type = 'lowshelf';
   shelf.frequency.value = 190;
-  shelf.gain.value = 3;
+  shelf.gain.value = 1.5;
   const presence = ctx.createBiquadFilter();
   presence.type = 'peaking';
   presence.frequency.value = 2400;
@@ -293,12 +296,14 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   chestLp.type = 'lowpass';
   chestLp.frequency.value = 240;
   const chestGain = ctx.createGain();
+  // round 6: quieted (0.16/0.14 -> 0.12/0.1) -- the sub-octave choir layer
+  // was the last meaningful contributor to low-end boom/congestion.
   envelope(chestGain.gain, t0, [
     [0, 0.0001],
-    [0.09, 0.16],
-    [T0 - 0.02, 0.14],
+    [0.09, 0.12],
+    [T0 - 0.02, 0.1],
     [T0, 0.0001],
-    [A0 + 0.04, 0.16],
+    [A0 + 0.04, 0.12],
     [S0, 0.0001],
   ]);
   chest.connect(chestLp);
