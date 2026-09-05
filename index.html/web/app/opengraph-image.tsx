@@ -16,9 +16,13 @@ export const contentType = 'image/png';
 
 /**
  * Simplified re-render of public/assets/svg/unitas-mark.svg -- Satori (the
- * renderer behind ImageResponse) does not support SVG <filter>/feGaussianBlur,
- * so the blur/glow filters on the source mark are dropped here in favor of
- * plain opacity fills that read the same at OG-card size.
+ * renderer behind ImageResponse) does not support SVG <filter>/feGaussianBlur
+ * or gradients, so the blur/glow filters and the deepVoid/triBg/holoGlobe
+ * gradients on the source mark are flattened here to plain fills that read
+ * the same at OG-card size. Secondary embellishments (the dashed hex ring,
+ * the U-signature lightning bolt, the globe's highlight rings) are dropped
+ * for the same reason the previous jewel-hexagon version dropped its glass
+ * highlight ellipse -- fine detail that doesn't survive card scale anyway.
  */
 export default async function Image() {
   return new ImageResponse(
@@ -34,28 +38,20 @@ export default async function Image() {
           backgroundColor: '#030305',
         }}
       >
-        <svg width="150" height="150" viewBox="0 0 200 200">
-          <circle cx="100" cy="94" r="80" fill="#d4af37" opacity="0.16" />
-          <polygon points="100,8 100,28 153.7,59" fill="#e8c765" />
-          <polygon points="100,8 153.7,59 153.7,121" fill="#d4af37" />
-          <polygon points="100,8 153.7,121 100,152" fill="#a8842a" />
-          <polygon points="100,8 100,152 46.3,121" fill="#8a6a1f" />
-          <polygon points="100,8 46.3,121 46.3,59" fill="#b8912e" />
-          <polygon points="100,8 46.3,59 100,28" fill="#f5d98a" />
-          <polygon points="100,172 100,152 153.7,121" fill="#7a5c1a" />
-          <polygon points="100,172 153.7,121 153.7,59" fill="#58400f" />
-          <polygon points="100,172 153.7,59 100,28" fill="#6b5015" />
-          <polygon points="100,172 100,28 46.3,59" fill="#8a6a1f" />
-          <polygon points="100,172 46.3,59 46.3,121" fill="#a8842a" />
-          <polygon points="100,172 46.3,121 100,152" fill="#b8912e" />
-          <polygon
-            points="100,28 153.7,59 153.7,121 100,152 46.3,121 46.3,59"
-            fill="none"
-            stroke="#00f3ff"
-            strokeWidth="1.4"
-          />
-          <circle cx="100" cy="90" r="27" fill="#00f3ff" opacity="0.55" />
-          <circle cx="100" cy="90" r="27" fill="none" stroke="#ffffff" strokeWidth="1" opacity="0.6" />
+        <svg width="150" height="150" viewBox="174 64 152 152">
+          <circle cx="250" cy="140" r="62" fill="#d4af37" opacity="0.14" />
+          <g transform="translate(0, -40)">
+            <polygon points="205,145 250,115 250,145 225,160" fill="#FFE47A" />
+            <polygon points="250,115 295,145 275,160 250,145" fill="#E8C359" />
+            <polygon points="205,215 205,145 225,160 225,200" fill="#C69A2B" />
+            <polygon points="295,145 295,215 275,200 275,160" fill="#9A7017" />
+            <polygon points="250,245 205,215 225,200 250,215" fill="#704D07" />
+            <polygon points="295,215 250,245 250,215 275,200" fill="#4D3300" />
+            <polygon points="225,160 250,145 275,160 275,200 250,215 225,200" fill="#011616" />
+            <polygon points="250,146 278,198 222,198" fill="#001616" stroke="#00FFFF" strokeWidth="2.5" />
+            <circle cx="250" cy="180" r="12.5" fill="#00e5e5" opacity="0.85" />
+            <circle cx="250" cy="180" r="12.5" fill="none" stroke="#ffffff" strokeWidth="0.7" opacity="0.6" />
+          </g>
         </svg>
         <div
           style={{
