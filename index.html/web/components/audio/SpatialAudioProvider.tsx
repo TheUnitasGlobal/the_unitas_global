@@ -112,6 +112,10 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     if (!ctxRef.current) {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioCtx) return null;
+      // iPhone ring/silent switch (owner instruction 2026-09-05, hardening
+      // patch, item 4): declare a playback session before the context
+      // exists -- lib/audio/audioSession.ts.
+      ensurePlaybackAudioSession();
       const ctx: AudioContext = new AudioCtx();
       const masterGain = ctx.createGain();
       masterGain.gain.value = muted ? 0 : BASE_MASTER_GAIN;

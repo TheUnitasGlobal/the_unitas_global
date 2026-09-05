@@ -11,6 +11,7 @@ import { CinemaAppDownload } from '@/components/pwa/CinemaAppDownload';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { APP_EXIT_EVENT, executeAppExit, isExitInProgress } from '@/lib/exit/appExit';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
+import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '@/lib/audio/audioSession';
 import { attachActivationUnlock } from '@/lib/splash/splashAudio';
 import { CINEMA_PHASE_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
 import {
@@ -336,6 +337,9 @@ export function ComingSoonCinema() {
       window.AudioContext ||
       (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!AudioCtx) return;
+    // iPhone ring/silent switch (round 13, item 4): declare a playback
+    // session before the context exists -- lib/audio/audioSession.ts.
+    ensurePlaybackAudioSession();
     const ctx = new AudioCtx();
     const now = ctx.currentTime;
 
@@ -665,8 +669,13 @@ export function ComingSoonCinema() {
     const engine = audioRef.current;
     if (!engine || engine.ctx.state === 'running') return;
     let detached = false;
+    const silent = makeSilentBuffer(engine.ctx);
     const detach = attachActivationUnlock(() => {
       if (detached) return;
+      // Round 13 (hardening patch, item 4): the same WebKit-proof gesture
+      // unlock the logo-page score uses -- silent kick + resume, inside the
+      // gesture -- so the ad stages sing on the first touch of a phone.
+      if (silent) kickAudioContext(engine.ctx, silent);
       engine.ctx.resume().catch(() => {});
     });
     const onState = () => {

@@ -5,30 +5,26 @@ import {
   SPLASH_ACTIVE_VALUE,
   SPLASH_CRYSTAL_AT_S,
   SPLASH_DURATION_MS,
+  SPLASH_GOLD_HEX,
   SPLASH_GOLD_HOLD_S,
   SPLASH_GOLD_LOOP_S,
-  SPLASH_GOLD_SHIMMER_S,
   SPLASH_GOLD_SWEEP_FROM_X,
   SPLASH_GOLD_SWEEP_S,
   SPLASH_GOLD_SWEEP_TO_X,
   SPLASH_LETTERS,
-  SPLASH_SHIMMER_PERIODS,
   SPLASH_SUB_VIEW_PHASES,
+  SPLASH_TITLE_PALETTE,
   SPLASH_TITLE_WIDTH,
   SPLASH_VOCAL_AT_S,
   SPLASH_VOCAL_LEAD_S,
   SPLASH_VOCAL_LENGTH_S,
   goldLoopKeyTimes,
   goldLoopValues,
+  hexHue,
   isSplashActiveFlag,
   isSubViewPhase,
   letterDrawStart,
   letterFillStart,
-  shimmerOpacityKeyTimes,
-  shimmerOpacityValues,
-  shimmerSweepKeyTimes,
-  shimmerSweepValues,
-  shimmerWindow,
   shouldResetEntrySession,
   shouldRunSplash,
   shouldRunSplashForPhase,
@@ -130,41 +126,38 @@ describe('splash timeline', () => {
     expect(shouldResetEntrySession('back_forward', '?a=1&splash=off')).toBe(false);
   });
 
-  it('loops the title colour for 5s: 3s U -> S gold sweep, 1s multi-colour shimmer, 1s pure gold (7-point hardening, item 2)', () => {
+  it('loops the single-tone gold light for 5s: 3s U -> S sweep, 2s solid gold hold (hardening patch, item 3)', () => {
     expect(SPLASH_GOLD_LOOP_S).toBe(5);
     expect(SPLASH_GOLD_SWEEP_S).toBe(3);
-    expect(SPLASH_GOLD_SHIMMER_S).toBe(1);
-    expect(SPLASH_GOLD_HOLD_S).toBe(1);
-    expect(SPLASH_GOLD_SWEEP_S + SPLASH_GOLD_SHIMMER_S + SPLASH_GOLD_HOLD_S).toBe(SPLASH_GOLD_LOOP_S);
+    expect(SPLASH_GOLD_HOLD_S).toBe(2);
+    expect(SPLASH_GOLD_SWEEP_S + SPLASH_GOLD_HOLD_S).toBe(SPLASH_GOLD_LOOP_S);
     // One full cycle per splash hold.
     expect(SPLASH_GOLD_LOOP_S * 1000).toBe(SPLASH_DURATION_MS);
-    // Sweep runs left -> right, and the SMIL cues park the band from 3s on so
-    // the base layer is solid gold through both the shimmer and the hold.
+    // Sweep runs left -> right, and the SMIL cues park the light from 3s on
+    // so the title is solid gold through the hold.
     expect(SPLASH_GOLD_SWEEP_TO_X).toBeGreaterThan(SPLASH_GOLD_SWEEP_FROM_X);
+    expect(SPLASH_TITLE_WIDTH).toBe(720);
     expect(goldLoopKeyTimes()).toBe('0;0.6;1');
     expect(goldLoopValues()).toBe(
       `${SPLASH_GOLD_SWEEP_FROM_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0`,
     );
     // Every glyph has started filling before the sweep phase ends, so each
-    // letter is lit by the band in turn during 0-3s and none first appears
-    // during the shimmer or the solid-gold hold.
+    // letter is lit by the light in turn during 0-3s and none first appears
+    // during the solid-gold hold.
     expect(letterFillStart(SPLASH_LETTERS.length - 1)).toBeLessThan(SPLASH_GOLD_SWEEP_S);
   });
 
-  it('lights the shimmer overlay only inside the 3-4s window and sweeps it fast', () => {
-    expect(shimmerWindow()).toEqual({ start: 0.6, end: 0.8 });
-    // Opacity: hidden -> fade in at 3s -> hold -> fade out by 4s -> hidden.
-    expect(shimmerOpacityKeyTimes()).toBe('0;0.6;0.62;0.78;0.8;1');
-    expect(shimmerOpacityValues()).toBe('0;0;1;1;0;0');
-    const opacityTimes = shimmerOpacityKeyTimes().split(';').map(Number);
-    for (let i = 1; i < opacityTimes.length; i++) {
-      expect(opacityTimes[i]).toBeGreaterThanOrEqual(opacityTimes[i - 1]);
+  it('paints the title in ONE tone: every palette entry is the original gold hue (no cyan / violet / rose)', () => {
+    expect(SPLASH_TITLE_PALETTE).toContain(SPLASH_GOLD_HEX);
+    const goldHue = hexHue(SPLASH_GOLD_HEX);
+    expect(goldHue).toBeGreaterThan(40);
+    expect(goldHue).toBeLessThan(55);
+    for (const hex of SPLASH_TITLE_PALETTE) {
+      expect(Math.abs(hexHue(hex) - goldHue)).toBeLessThanOrEqual(6);
     }
-    // Translate: parked, then PERIODS full title-widths across the window.
-    expect(shimmerSweepKeyTimes()).toBe('0;0.6;0.8;1');
-    expect(SPLASH_SHIMMER_PERIODS).toBeGreaterThanOrEqual(2);
-    const travel = -SPLASH_SHIMMER_PERIODS * SPLASH_TITLE_WIDTH;
-    expect(shimmerSweepValues()).toBe(`0 0;0 0;${travel} 0;${travel} 0`);
+    // Sanity: the guard would catch the retired prism stops.
+    expect(Math.abs(hexHue('#00f3ff') - goldHue)).toBeGreaterThan(90);
+    expect(Math.abs(hexHue('#7c3aed') - goldHue)).toBeGreaterThan(90);
   });
 
   it('keeps absolute beats when audio unlocks early', () => {

@@ -4,33 +4,33 @@
 // Low-Memory Armor / no-binary-assets rule used by SpatialAudioProvider and
 // the Coming-Soon cinema.
 //
-//   1.0s -> ~2.9s  "U - NI - TA - S" -- a deep, grand, HUMAN male BARITONE
-//                  chest-voice murmur (round 11 re-voicing, owner instruction
-//                  2026-09-05, item 4; letter-by-letter humanization from the
-//                  round 10 rebuild; round 12 -- the 7-point hardening, item
-//                  1 -- re-segmented the delivery into FOUR organically
-//                  separated syllables with a designed pitch contour:
-//                    유  mid tone (A2), deliberately SHORTENED so the phrase
-//                        never lingers on its first vowel;
-//                    니  the signature HIGH-TONE POINT -- the nasal lifts
-//                        through B2/C3 and the "I" peaks on E3, the phrase's
-//                        one bright announcement;
-//                    타  back to the mid tone (A2) after the stop burst;
-//                    스  the LOWEST tone -- the hiss opens onto a voiced,
-//                        closed "으" tail that sinks from E2 down to D2.
-//                  Each syllable is its own note with a soft dip in level
-//                  between them (an organic break, not a hard cut) and a
-//                  legato pitch glide across the break, so the letters read
-//                  as separately articulated yet one connected breath.)
-//                  The fundamental lives where a real low baritone's chest
-//                  register lives -- D2 at the very bottom of the final "스",
-//                  A2 for the mid tones, E3 for the high point; a soft
-//                  sub-octave sine is kept underneath at low level purely as
-//                  chest resonance, so the grandeur stays while the voice is
-//                  a person. A three-tap echo (low-passed, panned, feeding a
-//                  longer cathedral hall -- round 12 deepened both) gives the
-//                  murmur a grand, spacious "메아리". Two things separate this
-//                  from a one-second synth blast:
+//   1.0s -> ~3.3s  "유 - 니 - 타 - 스" -- a POWERFUL, thick, grand, HUMAN male
+//                  SUB-BASS BARITONE (round 13 rebuild, owner instruction
+//                  2026-09-05, hardening patch, item 2; on top of the round
+//                  11 chest re-voicing and the round 12 four-syllable
+//                  segmentation). The cue sheet is now UNIFORM by design:
+//                    * ONE TONE -- every syllable sits on the same low note
+//                      (E2, 82 Hz: the floor of a real bass-baritone's chest
+//                      register), with only a human onset scoop and release
+//                      drift around it -- no high point, no descending tail;
+//                    * ONE LEVEL -- 유 · 니 · 타 are delivered at the same
+//                      full weight, separated by the same short break;
+//                    * ONE SPACING -- the same gap between every syllable
+//                      (the T closure IS the gap before 타);
+//                  with exactly two designed exceptions:
+//                    * 타 is held TWICE as long as any other syllable -- the
+//                      phrase's one long, overwhelming sustain;
+//                    * 스 is delivered QUIETER than 유 / 니 (a lower voiced
+//                      level and a softer hiss), so the phrase lands, not
+//                      spits.
+//                  The weight comes from the source: a heavier fundamental
+//                  sine, a stronger sub-octave sine (41 Hz, felt more than
+//                  heard) as chest resonance, a wider-open chest path and a
+//                  deeper low-shelf lift -- thick and grand, while the
+//                  formant tract, vibrato bloom, breath and drift keep it a
+//                  person. A three-tap echo (low-passed, panned, feeding a
+//                  long cathedral hall) gives the voice its grand, spacious
+//                  "메아리". Two things separate this from a synth blast:
 //                    * PER-LETTER PITCH CONTOURING -- every voiced letter is
 //                      its own note with a human onset scoop (starting 30-50
 //                      cents flat and gliding up onto pitch), a slight lean
@@ -50,16 +50,16 @@
 //                  resonance) + a faint octave-up sawtooth (the same voice
 //                  carried through phone speakers via the missing-fundamental
 //                  effect), glottal-lowpassed, then split into a direct
-//                  "chest" path (lowpass ~300 Hz, so the G2-C3 fundamental
-//                  and its 2nd harmonic reach the output at full weight --
-//                  parallel formant bandpasses alone would strip them) and a
-//                  three-band formant filter (wide, low-Q -- a narrow
-//                  resonant peak rings like a machine formant). A lowshelf
-//                  chest lift, a mild presence peak, a highshelf CUT
+//                  "chest" path (lowpass ~320 Hz, so the E2 fundamental, its
+//                  sub-octave and its 2nd/3rd harmonics reach the output at
+//                  full weight -- parallel formant bandpasses alone would
+//                  strip them) and a three-band formant filter (wide, low-Q
+//                  -- a narrow resonant peak rings like a machine formant). A
+//                  lowshelf chest lift, a mild presence peak, a highshelf CUT
 //                  (brightness reads as synthetic on a low voice), the echo
 //                  send and a cathedral convolver finish it. The chant is
-//                  1.76s long by design and OVERLAPS the crystal impact: the
-//                  held "A" is still ringing when the impact lands at 2s.
+//                  2.3s long by design and OVERLAPS the crystal impact: the
+//                  long "타" is still ringing when the impact lands at 2s.
 //   2.0s -> 3.0s   crystal echo impact -- a bright inharmonic bell cluster
 //                  (E7 / B7 / E8 / G7 strikes) with a two-tap feedback delay
 //                  whose loop is high-passed so every echo comes back thinner
@@ -77,20 +77,28 @@
 // re-times the cues from that moment. Respects the site-wide mute
 // preference (`unitas_audio_pref === 'off'`).
 //
-// MOBILE ONLINE UNLOCK (owner instruction 2026-09-05, round 11, item 2; the
-// 7-point hardening, item 7): the gesture listeners live HERE, on `window`,
-// in the capture phase, from the moment the context is created until it is
-// running (or disposed) -- not only inside the splash component's effect.
-// They listen to the events browsers count as USER ACTIVATION -- `pointerup`
-// / `touchend` / `click` (touch), a mouse `pointerdown`, `keydown` -- AND, per
-// the round-12 instruction, force a `resume()` on `pointerdown` / `touchstart`
-// as well: the very first contact with the screen. Where an engine refuses a
-// pre-activation resume the promise simply settles later, on the activating
-// `touchend` that follows the same finger; where it honours it (installed
-// PWAs, engaged origins, Firefox) the chant starts a full gesture earlier.
-// Every path converges on the idempotent `schedule()`. A `statechange` hook
-// schedules the score if anything else (the site-wide audio gate, an OS media
-// resume) brings the context up first.
+// MOBILE UNLOCK, online AND App (owner instruction 2026-09-05, round 11,
+// item 2; the 7-point hardening, item 7; the hardening patch, item 4): the
+// gesture listeners live HERE, on `window`, in the capture phase, from the
+// moment the context is created until it is running (or disposed) -- not
+// only inside the splash component's effect. They listen to the events
+// browsers count as USER ACTIVATION -- `pointerup` / `touchend` / `click`
+// (touch), a mouse `pointerdown`, `keydown` -- AND force a `resume()` on
+// `pointerdown` / `touchstart` as well: the very first contact with the
+// screen. Where an engine refuses a pre-activation resume the promise simply
+// settles later, on the activating `touchend` that follows the same finger;
+// where it honours it (installed PWAs, engaged origins, Firefox) the chant
+// starts a full gesture earlier. Round 13 hardens the gesture itself for
+// WebKit: inside EVERY unlock gesture a silent one-sample buffer is started
+// on the context (the legacy iOS unlock that `resume()` alone did not always
+// achieve), an `interrupted` context (iOS after a call / Siri) is treated
+// like a suspended one, and the page declares a PLAYBACK audio session so
+// the iPhone ring/silent switch no longer mutes Web Audio (lib/audio/
+// audioSession.ts) -- the reason the logo page was silent on so many phones
+// while the same code sang on a desktop. Every path converges on the
+// idempotent `schedule()`. A `statechange` hook schedules the score if
+// anything else (the site-wide audio gate, an OS media resume) brings the
+// context up first.
 //
 // LATE UNLOCK: on a phone the first touch routinely lands 2-4s into the
 // splash. `splashAudioOffsets` no longer drops the chant in that case -- it
@@ -99,6 +107,7 @@
 // so the logo page is never silent on mobile online.
 
 import { attenuateMaster } from '@/lib/audio/masterLevel';
+import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '@/lib/audio/audioSession';
 import {
   SPLASH_CRYSTAL_LENGTH_S,
   SPLASH_VOCAL_LENGTH_S,
@@ -112,9 +121,9 @@ const SPLASH_BASE_MASTER_GAIN = 0.246;
 /** Shipped level under the global 50% doctrine -- every device, every channel. */
 const MASTER_GAIN = attenuateMaster(SPLASH_BASE_MASTER_GAIN);
 /** Longest `dispose()` will hold the context open for a late-unlocked score
- *  to finish (s). Covers vocal + crystal + a breath of tail; short enough that
- *  a founder replay never stacks two chants for long. */
-const LATE_SCORE_HOLD_MAX_S = 2.6;
+ *  to finish (s). Covers the 2.3s vocal + crystal + a breath of tail; short
+ *  enough that a founder replay never stacks two chants for long. */
+const LATE_SCORE_HOLD_MAX_S = 3.2;
 
 export interface SplashAudioHandle {
   /** Call from a user gesture (or immediately) -- resumes + schedules once. */
@@ -163,129 +172,156 @@ function envelope(param: AudioParam, t0: number, points: Array<[number, number]>
 const cents = (c: number) => Math.pow(2, c / 1200);
 
 // ---------------------------------------------------------------------------
-// 1. "UNITAS" chant -- deep human baritone chest voice, letter by letter
+// 1. "UNITAS" chant -- powerful sub-bass baritone chest voice, one tone
 // ---------------------------------------------------------------------------
 
-// The low-baritone chest band the fundamental moves through (round 12): D2
-// at the floor of the final "스", A2 for the two mid tones, E3 for the "니"
-// high point.
-const D2_HZ = 73.42;
+/** THE tone (round 13): every syllable sits on E2 -- the floor of a real
+ *  bass-baritone's chest register. Lower than this (F1-A1, 43-55 Hz) leaves
+ *  the human range and reads as machine rumble (round 11 finding); the
+ *  sub-octave sine underneath supplies that felt weight instead. */
 const E2_HZ = 82.41;
-const G2_HZ = 98.0;
-const A2_HZ = 110.0;
-const B2_HZ = 123.47;
-const C3_HZ = 130.81;
-const E3_HZ = 164.81;
 
-/** Syllable timing inside the chant (relative seconds; total = 1.9s).
- *  Round 12 (owner instruction 2026-09-05, 7-point hardening, item 1): four
- *  organically separated syllables -- 유 · 니 · 타 · 스 -- each its own
- *  note, with the first "유" deliberately SHORTER than round 11's 0.48s so
- *  the phrase moves on instead of lingering on its opening vowel. `S.voice`
- *  is where the hiss opens onto the voiced low "으" tail. */
-const LETTER = {
-  U: { on: 0.0, off: 0.34 },
-  N: { on: 0.4, off: 0.52 },
-  I: { on: 0.52, off: 0.88 },
-  T: { close: 0.88, burst: 0.94 },
-  A: { on: 0.98, off: 1.36 },
-  S: { on: 1.4, voice: 1.5, off: 1.9 },
-} as const;
+/** Uniform syllable length (s) for 유 · 니 · 스. */
+const SYL_S = 0.4;
+/** Uniform break (s) between syllables (the T closure IS the break before
+ *  타). */
+const GAP_S = 0.1;
+/** 타 is held TWICE as long as any other syllable (owner instruction
+ *  2026-09-05, hardening patch, item 2). */
+const TA_S = SYL_S * 2;
+
+/** Level of 스 relative to 유 / 니 / 타 (the instruction: 스 is delivered
+ *  QUIETER than 유 + 니). Applied to the voiced "으" tail; the hiss has its
+ *  own lowered gain below. */
+const S_LEVEL = 0.58;
+
+/**
+ * Syllable cue sheet inside the chant (relative seconds; total = 2.3s =
+ * SPLASH_VOCAL_LENGTH_S). Uniform by design (see the header): 유 / 니 / 스
+ * each SYL_S long, 타 twice that, every break GAP_S. `S.voice` is where the
+ * hiss opens onto the voiced, closed "으" tail.
+ *
+ *   유  0.00 - 0.40
+ *   니  0.50 - 0.90   (nasal 0.50 - 0.60, "I" 0.60 - 0.90)
+ *   타  1.00 - 1.80   (closure 0.90 - 0.98, burst 0.98)
+ *   스  1.90 - 2.30   (hiss 1.90, voiced 으 1.98 - 2.30)
+ */
+const SYLLABLE = (() => {
+  const uOn = 0;
+  const uOff = uOn + SYL_S;
+  const nOn = uOff + GAP_S;
+  const nOff = nOn + 0.1;
+  const iOff = nOn + SYL_S;
+  const tClose = iOff;
+  const aOn = tClose + GAP_S;
+  const tBurst = aOn - 0.02;
+  const aOff = aOn + TA_S;
+  const sOn = aOff + GAP_S;
+  const sVoice = sOn + 0.08;
+  const sOff = sOn + SYL_S;
+  return {
+    U: { on: uOn, off: uOff },
+    N: { on: nOn, off: nOff },
+    I: { on: nOff, off: iOff },
+    T: { close: tClose, burst: tBurst },
+    A: { on: aOn, off: aOff },
+    S: { on: sOn, voice: sVoice, off: sOff },
+  } as const;
+})();
 
 /** A tiny per-play humanization: +/- `range` (uniform). */
 const humanize = (range: number) => (Math.random() * 2 - 1) * range;
 
 function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: number): void {
   const L = SPLASH_VOCAL_LENGTH_S;
-  const { U, N, I, T, A, S } = LETTER;
+  const { U, N, I, T, A, S } = SYLLABLE;
   const stopAt = t0 + L + 0.6;
 
   // --- voiced source bus with the phonetic amplitude contour -------------
-  // Soft onset (a human never slams into a vowel), then an ORGANIC BREAK
-  // between every syllable -- the level dips to ~a third rather than cutting
-  // to silence, so "유 | 니 | 타 | 스" read as separately articulated while
-  // the breath underneath never stops (the stop closure for T is the one
-  // true silence, as in real speech). Full-weight bloom on the "A", then the
-  // voice sinks into the low voiced "으" tail under the final S hiss.
+  // Soft onset (a human never slams into a vowel), full weight held through
+  // the syllable, then a clean, UNIFORM break down to near-silence before
+  // the next one -- the same shape for 유, 니 and 타 (타 simply holds twice as
+  // long); the stop closure for T is the one true silence, as in real
+  // speech. 스 opens with the hiss alone and its voiced "으" tail comes in
+  // at S_LEVEL -- deliberately below the other three.
   const source = ctx.createGain();
   envelope(source.gain, t0, [
     [0, 0.0001],
-    [0.05, 0.55],
-    [0.13, 1],
-    [U.off - 0.05, 0.92],
-    [U.off, 0.34],
-    [N.on, 0.5],
-    [N.off - 0.02, 0.62],
-    [I.on + 0.04, 1],
-    [I.on + 0.2, 1],
-    [I.off - 0.05, 0.88],
-    [T.close, 0.0001],
+    [0.04, 0.7],
+    [0.1, 1],
+    [U.off - 0.06, 0.96],
+    [U.off, 0.04],
+    [N.on, 0.04],
+    [N.on + 0.05, 0.86],
+    [I.on, 1],
+    [I.off - 0.06, 0.96],
+    [I.off, 0.04],
+    [T.close + 0.02, 0.0001],
     [A.on, 0.0001],
-    [A.on + 0.04, 1],
-    [A.on + 0.2, 1],
-    [A.off - 0.05, 0.8],
-    [A.off, 0.3],
-    [S.on + 0.05, 0.12],
-    [S.voice, 0.5],
-    [S.voice + 0.1, 0.56],
-    [S.off - 0.12, 0.46],
+    [A.on + 0.05, 1],
+    [A.on + 0.3, 1],
+    [A.off - 0.1, 0.96],
+    [A.off, 0.04],
+    [S.on, 0.02],
+    [S.voice, S_LEVEL * 0.9],
+    [S.voice + 0.06, S_LEVEL],
+    [S.off - 0.1, S_LEVEL * 0.85],
     [S.off, 0.0001],
   ]);
 
-  // --- per-syllable pitch contour (fundamental, Hz) ----------------------
-  // Every voiced syllable is its own note: a flat onset scoop gliding up
-  // onto pitch, a slight lean into the sustain, and a release drift. The
-  // designed contour (round 12): 유 on the MID tone (A2) -> 니 lifts through
-  // the nasal (B2 -> C3) to PEAK on E3 for the "I" -- the phrase's one bright
-  // high-tone point -> 타 returns to the MID tone (A2) after the stop ->
-  // 스 falls to the LOWEST tone, the voiced "으" tail sinking from E2 to D2.
-  // The glides ACROSS each break are legato (the pitch keeps moving through
-  // the level dip), which is what makes the separated syllables still
-  // connect as one phrase. Per-play humanization nudges the scoop depths and
-  // the leans so no two launches are the same take.
-  const scoopU = -35 + humanize(8);
-  const scoopA = -40 + humanize(9);
+  // --- pitch contour (fundamental, Hz) -------------------------------------
+  // ONE tone. Every syllable is the same E2 note; what remains human is the
+  // onset scoop (starting 25-35 cents flat and gliding up onto pitch), a
+  // slight lean into each sustain, and a release drift into each break --
+  // never a change of note. Per-play humanization nudges the scoop depths so
+  // no two launches are the same take.
+  const scoopU = -30 + humanize(6);
+  const scoopN = -25 + humanize(5);
+  const scoopA = -35 + humanize(7);
+  const scoopS = -20 + humanize(5);
   const f0: Array<[number, number]> = [
-    [0, A2_HZ * cents(scoopU)],
-    [0.09, A2_HZ],
-    [U.off - 0.04, A2_HZ * cents(4 + humanize(2))],
-    [N.on, A2_HZ * cents(-8)],
-    [N.on + 0.05, B2_HZ],
-    [N.off, C3_HZ],
-    [I.on + 0.07, E3_HZ],
-    [I.on + 0.2, E3_HZ * cents(5 + humanize(2))],
-    [I.off - 0.03, E3_HZ * cents(2)],
-    [A.on, A2_HZ * cents(scoopA)],
-    [A.on + 0.08, A2_HZ],
-    [A.on + 0.25, A2_HZ * cents(3 + humanize(2))],
-    [A.off, G2_HZ],
-    [S.voice, E2_HZ * cents(-6)],
-    [S.voice + 0.16, E2_HZ * cents(-14)],
-    [S.off, D2_HZ * cents(-18)],
+    [0, E2_HZ * cents(scoopU)],
+    [0.08, E2_HZ],
+    [U.off - 0.05, E2_HZ * cents(2 + humanize(1))],
+    [U.off, E2_HZ * cents(-6)],
+    [N.on, E2_HZ * cents(scoopN)],
+    [N.on + 0.08, E2_HZ],
+    [I.off - 0.05, E2_HZ * cents(2 + humanize(1))],
+    [I.off, E2_HZ * cents(-6)],
+    [A.on, E2_HZ * cents(scoopA)],
+    [A.on + 0.1, E2_HZ],
+    [A.on + 0.4, E2_HZ * cents(3 + humanize(1))],
+    [A.off - 0.08, E2_HZ * cents(1)],
+    [A.off, E2_HZ * cents(-8)],
+    [S.voice, E2_HZ * cents(scoopS)],
+    [S.voice + 0.1, E2_HZ * cents(-3)],
+    [S.off, E2_HZ * cents(-14)],
   ];
 
   // Slow vibrato whose DEPTH builds across each held vowel (a singer's
   // vibrato blooms into a sustain; it is not switched on at a fixed depth).
-  // A murmured chest voice carries a gentler vibrato than a projected one;
-  // the "니" high point gets the widest bloom, the low "스" tail the least.
+  // The long 타 gets the widest bloom -- it has the time for it -- and the
+  // quiet 스 tail the least.
   const vibrato = ctx.createOscillator();
   vibrato.type = 'sine';
-  vibrato.frequency.value = 5.3 + humanize(0.3);
+  vibrato.frequency.value = 5.1 + humanize(0.3);
   const vibratoDepth = ctx.createGain();
   envelope(vibratoDepth.gain, t0, [
     [0, 0],
     [0.1, 0],
-    [U.off - 0.05, 6],
-    [N.on, 2],
-    [I.on + 0.08, 3],
-    [I.on + 0.26, 10],
-    [I.off, 7],
+    [U.off - 0.05, 5],
+    [U.off, 2],
+    [N.on, 0],
+    [N.on + 0.1, 1],
+    [I.off - 0.05, 6],
+    [I.off, 2],
     [A.on, 0],
-    [A.on + 0.1, 4],
-    [A.on + 0.3, 8],
-    [A.off, 4],
-    [S.voice, 2],
-    [S.voice + 0.2, 4],
+    [A.on + 0.15, 3],
+    [A.on + 0.5, 9],
+    [A.off - 0.05, 8],
+    [A.off, 3],
+    [S.voice, 1],
+    [S.voice + 0.15, 3],
     [S.off, 0],
   ]);
   vibrato.connect(vibratoDepth);
@@ -328,19 +364,20 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   }
 
   // --- source oscillators --------------------------------------------------
-  // The G2-C3 fundamental is carried by the detuned sawtooth pair + a clean
-  // sine (the felt chest weight, no extra harmonics); a SOFT sub-octave sine
-  // (49-65 Hz) sits underneath as chest resonance -- the grandeur of the
-  // round-10 bass without its machine rumble; a faint octave sawtooth carries
-  // the same voice through small/phone speakers (missing-fundamental effect)
-  // so the chant reads as the same deep voice everywhere; a faint triangle on
+  // The E2 fundamental is carried by the detuned sawtooth pair + a HEAVY
+  // clean sine (the felt chest weight, no extra harmonics); a strong
+  // sub-octave sine (41 Hz -- felt more than heard) sits underneath as chest
+  // resonance, the "굵고 웅장한" body of the round-13 voice without the
+  // machine rumble of a sub-bass fundamental; an octave sawtooth carries the
+  // same voice through small/phone speakers (missing-fundamental effect) so
+  // the chant reads as the same deep voice everywhere; a faint triangle on
   // the 12th adds presence without buzz.
   const oscSpecs: Array<{ type: OscillatorType; mult: number; detune: number; gain: number }> = [
-    { type: 'sawtooth', mult: 1, detune: -4, gain: 0.36 },
-    { type: 'sawtooth', mult: 1, detune: 4, gain: 0.36 },
-    { type: 'sine', mult: 1, detune: 0, gain: 0.3 },
-    { type: 'sine', mult: 0.5, detune: 0, gain: 0.18 },
-    { type: 'sawtooth', mult: 2, detune: 3, gain: 0.12 },
+    { type: 'sawtooth', mult: 1, detune: -4, gain: 0.4 },
+    { type: 'sawtooth', mult: 1, detune: 4, gain: 0.4 },
+    { type: 'sine', mult: 1, detune: 0, gain: 0.44 },
+    { type: 'sine', mult: 0.5, detune: 0, gain: 0.3 },
+    { type: 'sawtooth', mult: 2, detune: 3, gain: 0.14 },
     { type: 'triangle', mult: 3, detune: -2, gain: 0.06 },
   ];
   for (const spec of oscSpecs) {
@@ -383,19 +420,19 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
 
   // --- vocal tract -----------------------------------------------------------
   const vocalBus = ctx.createGain();
-  vocalBus.gain.value = 1.3;
+  vocalBus.gain.value = 1.42;
 
-  // Direct CHEST path: a lowpass that lets the G2-C3 fundamental, the sub
-  // octave beneath it and the 2nd harmonic (196-262 Hz) through at full
-  // weight. Parallel formant bandpasses alone would thin the very band the
-  // chest tone lives in -- this is where the "깊고 웅장한 체스트 톤"
-  // physically comes from.
+  // Direct CHEST path: a lowpass that lets the E2 fundamental, the sub
+  // octave beneath it and the 2nd / 3rd harmonics (165 / 247 Hz) through at
+  // full weight. Parallel formant bandpasses alone would thin the very band
+  // the chest tone lives in -- this is where the "굵고 웅장한 극저음 체스트
+  // 톤" physically comes from (round 13 opened it wider and heavier).
   const chestPath = ctx.createBiquadFilter();
   chestPath.type = 'lowpass';
-  chestPath.frequency.value = 300;
-  chestPath.Q.value = 0.7;
+  chestPath.frequency.value = 320;
+  chestPath.Q.value = 0.8;
   const chestGain = ctx.createGain();
-  chestGain.gain.value = 0.58;
+  chestGain.gain.value = 0.74;
   sourceLp.connect(chestPath);
   chestPath.connect(chestGain);
   chestGain.connect(vocalBus);
@@ -420,12 +457,13 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   // Vowel targets [F1, F2, F3] Hz + band weights, voiced for a large, warm
   // male tract (formants sit low). N is the nasal murmur (weak, dark); EU is
   // the closed, unrounded "으" that voices the tail of the final "스".
+  // Round 13: the whole set sits a little lower -- a bigger, darker tract.
   const vowels: Record<string, { f: [number, number, number]; w: [number, number, number] }> = {
-    U: { f: [300, 690, 2250], w: [1, 0.32, 0.1] },
-    N: { f: [250, 1150, 2300], w: [0.55, 0.18, 0.07] },
-    I: { f: [280, 2050, 2650], w: [1, 0.42, 0.3] },
-    A: { f: [680, 1080, 2400], w: [1, 0.7, 0.3] },
-    EU: { f: [290, 1250, 2300], w: [0.9, 0.24, 0.08] },
+    U: { f: [280, 640, 2200], w: [1, 0.32, 0.1] },
+    N: { f: [240, 1100, 2250], w: [0.55, 0.18, 0.07] },
+    I: { f: [270, 1950, 2600], w: [1, 0.42, 0.3] },
+    A: { f: [640, 1040, 2350], w: [1, 0.7, 0.3] },
+    EU: { f: [280, 1200, 2250], w: [0.9, 0.24, 0.08] },
   };
   const setVowel = (name: keyof typeof vowels, at: number, tau: number) => {
     const v = vowels[name];
@@ -483,8 +521,9 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
     [I.on + 0.1, 0.05],
     [T.close, 0.014],
     [A.on + 0.06, 0.06],
-    [S.on, 0.05],
-    [S.voice + 0.1, 0.04],
+    [A.off, 0.05],
+    [S.on, 0.05 * S_LEVEL],
+    [S.voice + 0.1, 0.04 * S_LEVEL],
     [S.off + 0.1, 0.0001],
   ]);
   breath.connect(breathFilter);
@@ -549,19 +588,21 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   // Chest lowshelf lift, a mild presence peak so the consonants stay
   // intelligible, and a highshelf CUT (a low voice with a bright top end
   // reads as artificial). Then dry + echo + cathedral hall.
+  // Round 13: a deeper, lower chest lift and a firmer top cut -- weight
+  // below, nothing brittle above.
   const chest = ctx.createBiquadFilter();
   chest.type = 'lowshelf';
-  chest.frequency.value = 220;
-  chest.gain.value = 4;
+  chest.frequency.value = 180;
+  chest.gain.value = 6;
   const presence = ctx.createBiquadFilter();
   presence.type = 'peaking';
-  presence.frequency.value = 1900;
+  presence.frequency.value = 1500;
   presence.Q.value = 0.9;
   presence.gain.value = 1.5;
   const airCut = ctx.createBiquadFilter();
   airCut.type = 'highshelf';
-  airCut.frequency.value = 4800;
-  airCut.gain.value = -3;
+  airCut.frequency.value = 4400;
+  airCut.gain.value = -4;
   vocalBus.connect(chest);
   chest.connect(presence);
   presence.connect(airCut);
@@ -633,6 +674,7 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
 
   // S: high-passed hiss that opens the final syllable and hands over to its
   // low voiced "으" tail (the hiss thins as the voice sinks in beneath it).
+  // Round 13: the hiss, like the tail, sits BELOW the level of 유 / 니.
   const hiss = ctx.createBufferSource();
   hiss.buffer = noise;
   const hissFilter = ctx.createBiquadFilter();
@@ -640,9 +682,10 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   hissFilter.frequency.value = 5000;
   hissFilter.Q.value = 0.7;
   const hissGain = ctx.createGain();
+  const hissPeak = 0.15 * S_LEVEL;
   hissGain.gain.setValueAtTime(0.0001, t0 + S.on);
-  hissGain.gain.linearRampToValueAtTime(0.15, t0 + S.on + 0.04);
-  hissGain.gain.setValueAtTime(0.15, t0 + S.voice - 0.02);
+  hissGain.gain.linearRampToValueAtTime(hissPeak, t0 + S.on + 0.04);
+  hissGain.gain.setValueAtTime(hissPeak, t0 + S.voice - 0.02);
   hissGain.gain.exponentialRampToValueAtTime(0.0001, t0 + S.on + 0.34);
   hiss.connect(hissFilter);
   hissFilter.connect(hissGain);
@@ -792,12 +835,17 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
     (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
   if (!AudioCtx) return null;
 
+  // iPhone ring/silent switch: declare a playback session BEFORE the context
+  // exists (round 13, item 4 -- see lib/audio/audioSession.ts).
+  ensurePlaybackAudioSession();
+
   let ctx: AudioContext;
   try {
     ctx = new AudioCtx();
   } catch {
     return null;
   }
+  const silent = makeSilentBuffer(ctx);
 
   const master = ctx.createGain();
   master.gain.value = MASTER_GAIN;
@@ -861,8 +909,14 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
       schedule();
       return;
     }
-    // `resume()` MUST be called synchronously inside the gesture handler --
-    // that is what carries the user activation to the autoplay policy.
+    // Round 13 (item 4): everything below runs SYNCHRONOUSLY inside the
+    // gesture handler -- that is what carries the user activation to the
+    // autoplay policy. The silent kick is the legacy WebKit unlock that
+    // `resume()` alone did not always achieve on iPhones; an `interrupted`
+    // context (iOS, after a call / Siri) is resumed exactly like a
+    // suspended one.
+    ensurePlaybackAudioSession();
+    if (silent) kickAudioContext(ctx, silent);
     ctx
       .resume()
       .then(() => schedule())
@@ -951,6 +1005,10 @@ export function attachActivationUnlock(unlock: () => void): () => void {
   const opts: AddEventListenerOptions = { passive: true, capture: true };
   const handler = () => {
     try {
+      // Round 13 (item 4): the playback session is (re)declared inside the
+      // gesture itself, for every engine that shares this unlock -- the
+      // splash score, the Coming-Soon ambient bed and the site-wide SFX.
+      ensurePlaybackAudioSession();
       unlock();
     } catch {
       /* never let an unlock attempt throw out of a gesture */

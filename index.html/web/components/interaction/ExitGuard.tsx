@@ -342,7 +342,8 @@ export function ExitGuard() {
     const onBeforeUnload = (e: BeforeUnloadEvent) => {
       if (leavingRef.current || !openRef.current || !onHome()) return;
       e.preventDefault();
-      e.returnValue = '';
+      // Legacy engines (Chromium < 119) prompt only on a truthy returnValue.
+      e.returnValue = true;
     };
     window.addEventListener('beforeunload', onBeforeUnload);
 

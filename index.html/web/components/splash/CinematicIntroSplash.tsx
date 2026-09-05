@@ -9,8 +9,11 @@ import {
   SPLASH_ACTIVE_VALUE,
   SPLASH_DURATION_MS,
   SPLASH_EXIT_MS,
+  SPLASH_GOLD_DEEP_HEX,
   SPLASH_GOLD_HEX,
+  SPLASH_GOLD_LIGHT_HEX,
   SPLASH_GOLD_LOOP_S,
+  SPLASH_GOLD_PALE_HEX,
   SPLASH_LETTERS,
   SPLASH_REPLAY_EVENT,
   SPLASH_TITLE_WIDTH,
@@ -19,10 +22,6 @@ import {
   isSplashActiveFlag,
   letterDrawStart,
   letterFillStart,
-  shimmerOpacityKeyTimes,
-  shimmerOpacityValues,
-  shimmerSweepKeyTimes,
-  shimmerSweepValues,
   shouldRunSplashForPhase,
 } from '@/lib/splash/splashTimeline';
 
@@ -54,20 +53,6 @@ function setSplashActiveFlag(active: boolean): void {
   }
 }
 
-/** Shimmer-phase prism palette (item 2): gold -> ice-cyan -> violet -> rose
- *  -> white -> gold, repeating, so the 1s sweep reads as a brilliant
- *  multi-colour flash rather than a single hue. */
-const SHIMMER_STOPS: ReadonlyArray<[number, string]> = [
-  [0, SPLASH_GOLD_HEX],
-  [0.14, '#fff7d6'],
-  [0.28, '#00f3ff'],
-  [0.42, '#7c3aed'],
-  [0.56, '#ec4899'],
-  [0.7, '#ffffff'],
-  [0.84, '#f1d36a'],
-  [1, SPLASH_GOLD_HEX],
-];
-
 /**
  * Cinematic 3D intro splash (owner instruction 2026-09-04, item 3; extended
  * to a 5s hold and the master mark's rotation redesigned per owner
@@ -90,28 +75,27 @@ const SHIMMER_STOPS: ReadonlyArray<[number, string]> = [
  *         the hologram globe stays FIXED at that same (250, 180) centre --
  *         all compositor CSS, all still inside the static hex frame.
  *   0.5s  "UNITAS": each glyph's outline is drawn by a travelling gold
- *         stroke (U -> S, staggered) and its fill fades in as the GOLD BAND
+ *         stroke (U -> S, staggered) and its fill fades in as the LIGHT
  *         below reaches it.
- *   0-3s  COLOUR LOOP, phase 1 (owner instruction 2026-09-05, round 11,
- *         item 5): a bright gold band sweeps across the title from the
- *         left-most glyph to the right-most, re-colouring one letter after
- *         the next -- the "moving gold gradient". Driven by a single SMIL
- *         `gradientTransform` on the shared fill gradient, so it is one
- *         continuous flow rather than six disjoint flashes.
+ *   0-3s  SINGLE-TONE GOLD (owner instruction 2026-09-05, hardening patch,
+ *         item 3 -- the round-12 multi-colour prism shimmer is GONE): the
+ *         title is one hue, the original gold, rendered as solid burnished
+ *         metal (a vertical gradient from deep gold at the foot through pure
+ *         gold to pale gold at the crown -- the same hue at three
+ *         lightnesses) and, on a second `<text>` overlay masked to the same
+ *         glyphs, one pale-gold SPECULAR LIGHT sweeps across the title from
+ *         the left-most glyph to the right-most, catching one letter after
+ *         the next. Driven by a single SMIL `gradientTransform`, so it is
+ *         one continuous flow rather than six disjoint flashes; behind it a
+ *         breathing gold halo (`sp-title-breathe`) swells and settles.
  *   1.9s  "THE UNITAS GLOBAL OÜ" rises in.
  *   2.0s  crystal impact: ring burst + screen bloom (matches the audio hit).
- *   3-4s  COLOUR LOOP, phase 2 (7-point hardening, item 2): a FAST, brilliant
- *         multi-colour shimmer -- a repeating gold/cyan/violet/rose/white
- *         prism gradient crosses the whole title twice inside the second,
- *         painted by a second `<text>` overlay whose opacity cross-fades in
- *         at 3.0s and out by 4.0s (SMIL, same document timeline as the band
- *         sweep, so the phases can never drift apart).
- *   4-5s  COLOUR LOOP, phase 3: every glyph sits on the ORIGINAL pure solid
- *         gold (#d4af37), perfectly still (the outline stroke has faded out
- *         by 3.2s and the overlay is gone, so nothing but gold remains). The
- *         cycle then repeats every 5s (`repeatCount="indefinite"`) -- the
- *         period matches the splash hold, so one full cycle plays per
- *         splash, and a founder replay or a longer hold keeps cycling.
+ *   3-5s  the light is parked past the last glyph: every letter sits on the
+ *         solid burnished gold, perfectly still (the outline stroke has
+ *         faded out by 3.2s), only the halo still breathing. The cycle then
+ *         repeats every 5s (`repeatCount="indefinite"`) -- the period
+ *         matches the splash hold, so one full cycle plays per splash, and
+ *         a founder replay or a longer hold keeps cycling.
  *   5.0s  0.45s exit cross-fade, then the layer unmounts.
  *
  * Current-page reload (7-point hardening, item 6): while this layer is on
@@ -224,71 +208,64 @@ export function CinematicIntroSplash() {
 
         <svg className="sp-title" viewBox="0 0 720 150" aria-hidden="true">
           <defs>
-            {/* Outline stroke: gold -> white-gold -> gold (no cyan -- the
-                typography must resolve to pure original gold). */}
+            {/* Outline stroke: gold -> pale gold -> gold. ONE hue. */}
             <linearGradient id="sp-stroke-grad" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0" stopColor={SPLASH_GOLD_HEX} />
-              <stop offset="0.5" stopColor="#fff4c7" />
+              <stop offset="0.5" stopColor={SPLASH_GOLD_PALE_HEX} />
               <stop offset="1" stopColor={SPLASH_GOLD_HEX} />
             </linearGradient>
-            {/* Fill: the 5-second GOLD COLOUR LOOP (round 11, item 5). The
-                gradient is the ORIGINAL gold everywhere except a bright band
-                in its middle; `spreadMethod="pad"` extends the first/last
-                stop, so wherever the band is not, a glyph shows solid
-                #d4af37. Translating the gradient sweeps the band across the
-                title U -> S over the first 3s (one letter after the next),
-                then parks it past the last glyph for 2s (all glyphs solid
-                original gold), and repeats -- lib/splash/splashTimeline.ts
-                owns the cue maths. */}
+            {/* Body fill (hardening patch, item 3): SOLID BURNISHED GOLD --
+                a vertical gradient of the ORIGINAL gold hue only: pale gold
+                on the crown of each glyph, pure #d4af37 through the body,
+                deep gold at the foot, a thin pale highlight along the
+                lower bevel. This is what every letter shows at rest -- one
+                tone, never another colour. userSpaceOnUse so the same
+                metal runs through all six glyphs at the same height. */}
             <linearGradient
               id="sp-fill-grad"
               gradientUnits="userSpaceOnUse"
               spreadMethod="pad"
               x1="0"
-              y1="0"
-              x2="720"
-              y2="0"
+              y1="26"
+              x2="0"
+              y2="124"
             >
-              <stop offset="0" stopColor={SPLASH_GOLD_HEX} />
-              <stop offset="0.36" stopColor={SPLASH_GOLD_HEX} />
-              <stop offset="0.44" stopColor="#f1d36a" />
-              <stop offset="0.5" stopColor="#fff4c7" />
-              <stop offset="0.56" stopColor="#f1d36a" />
-              <stop offset="0.64" stopColor={SPLASH_GOLD_HEX} />
-              <stop offset="1" stopColor={SPLASH_GOLD_HEX} />
-              <animateTransform
-                attributeName="gradientTransform"
-                type="translate"
-                values={goldLoopValues()}
-                keyTimes={goldLoopKeyTimes()}
-                dur={`${SPLASH_GOLD_LOOP_S}s`}
-                repeatCount="indefinite"
-                calcMode="linear"
-              />
+              <stop offset="0" stopColor={SPLASH_GOLD_PALE_HEX} />
+              <stop offset="0.16" stopColor={SPLASH_GOLD_LIGHT_HEX} />
+              <stop offset="0.46" stopColor={SPLASH_GOLD_HEX} />
+              <stop offset="0.74" stopColor={SPLASH_GOLD_DEEP_HEX} />
+              <stop offset="0.88" stopColor={SPLASH_GOLD_HEX} />
+              <stop offset="1" stopColor={SPLASH_GOLD_LIGHT_HEX} />
             </linearGradient>
-            {/* Shimmer (phase 2, 3-4s -- 7-point hardening, item 2): a
-                REPEATING prism gradient one title-width long. Translating it
-                by two title-widths inside the 1s window sweeps the full
-                colour cycle across every glyph twice -- fast and brilliant.
-                Parked (and invisible, see the overlay's opacity animation)
-                outside the window. */}
+            {/* Specular light: transparent everywhere except one pale-gold
+                blade in its middle (`spreadMethod="pad"` keeps the ends
+                transparent). Translating it sweeps the blade across the
+                title U -> S over the first 3s (one letter after the next),
+                then parks it past the last glyph for 2s (letters at rest on
+                the burnished gold), and repeats -- lib/splash/
+                splashTimeline.ts owns the cue maths. Same hue as the body:
+                the light only LIFTS the gold, it never recolours it. */}
             <linearGradient
-              id="sp-shimmer-grad"
+              id="sp-sheen-grad"
               gradientUnits="userSpaceOnUse"
-              spreadMethod="repeat"
+              spreadMethod="pad"
               x1="0"
               y1="0"
               x2={SPLASH_TITLE_WIDTH}
               y2="0"
             >
-              {SHIMMER_STOPS.map(([offset, color]) => (
-                <stop key={offset} offset={offset} stopColor={color} />
-              ))}
+              <stop offset="0" stopColor={SPLASH_GOLD_PALE_HEX} stopOpacity="0" />
+              <stop offset="0.38" stopColor={SPLASH_GOLD_PALE_HEX} stopOpacity="0" />
+              <stop offset="0.46" stopColor={SPLASH_GOLD_LIGHT_HEX} stopOpacity="0.55" />
+              <stop offset="0.5" stopColor={SPLASH_GOLD_PALE_HEX} stopOpacity="0.95" />
+              <stop offset="0.54" stopColor={SPLASH_GOLD_LIGHT_HEX} stopOpacity="0.55" />
+              <stop offset="0.62" stopColor={SPLASH_GOLD_PALE_HEX} stopOpacity="0" />
+              <stop offset="1" stopColor={SPLASH_GOLD_PALE_HEX} stopOpacity="0" />
               <animateTransform
                 attributeName="gradientTransform"
                 type="translate"
-                values={shimmerSweepValues()}
-                keyTimes={shimmerSweepKeyTimes()}
+                values={goldLoopValues()}
+                keyTimes={goldLoopKeyTimes()}
                 dur={`${SPLASH_GOLD_LOOP_S}s`}
                 repeatCount="indefinite"
                 calcMode="linear"
@@ -311,34 +288,21 @@ export function CinematicIntroSplash() {
               </tspan>
             ))}
           </text>
-          {/* Phase-2 overlay: the same glyphs painted with the prism
-              gradient, cross-faded in at 3.0s and out by 4.0s on the SAME
-              SMIL timeline as the band sweep. Below 3s and from 4s on it is
-              fully transparent, so phase 1 (gold band) and phase 3 (pure
-              gold) show the base text untouched. */}
-          <text
-            x="372"
-            y="110"
-            textAnchor="middle"
-            className="sp-title-text sp-title-shimmer"
-            fill="url(#sp-shimmer-grad)"
-            opacity="0"
-            aria-hidden="true"
-          >
-            {/* Same tspan structure as the base text so glyph advances match
-                pixel-for-pixel (letter-spacing is applied per glyph either
-                way, but identical markup removes any engine-level doubt). */}
+          {/* Specular overlay: the same glyphs painted with the sweeping
+              pale-gold light. Each overlay glyph fades in on the same cue as
+              its base glyph, so the light never shows on a letter that has
+              not been drawn yet. Identical tspan structure so glyph advances
+              match pixel-for-pixel. */}
+          <text x="372" y="110" textAnchor="middle" className="sp-title-text sp-title-sheen" aria-hidden="true">
             {SPLASH_LETTERS.map((letter, i) => (
-              <tspan key={`shimmer-${letter}-${i}`}>{letter}</tspan>
+              <tspan
+                key={`sheen-${letter}-${i}`}
+                className="sp-letter-sheen"
+                style={{ '--fill': `${letterFillStart(i)}s` } as CSSProperties}
+              >
+                {letter}
+              </tspan>
             ))}
-            <animate
-              attributeName="opacity"
-              values={shimmerOpacityValues()}
-              keyTimes={shimmerOpacityKeyTimes()}
-              dur={`${SPLASH_GOLD_LOOP_S}s`}
-              repeatCount="indefinite"
-              calcMode="linear"
-            />
           </text>
         </svg>
 

@@ -131,42 +131,41 @@ export const SPLASH_LETTER_DRAW_S = 0.55;
 export const SPLASH_LETTER_FILL_LAG_S = 0.22;
 
 /**
- * "UNITAS" gold colour loop (owner instruction 2026-09-05, round 11, item 5;
- * re-choreographed into THREE phases by the 7-point hardening, item 2).
- * A 5-second cycle:
- *   0-3s  a bright gold band travels across the title from the left-most
- *         glyph to the right-most, re-colouring one letter after the next
- *         (the "moving gold gradient");
- *   3-4s  a fast, brilliant multi-colour shimmer sweeps the whole title --
- *         a repeating rainbow-prism gradient crossing it SHIMMER_PERIODS
- *         times inside the second, lit through a cross-faded overlay;
- *   4-5s  every glyph sits on the ORIGINAL pure solid gold (#d4af37),
- *         perfectly still.
+ * "UNITAS" SINGLE-TONE gold loop (owner instruction 2026-09-05, hardening
+ * patch, item 3). The round-12 multi-colour prism shimmer -- the title
+ * cycling through cyan / violet / rose every few seconds -- is GONE. The
+ * title is ONE tone, the original gold (#d4af37), rendered as solid metal:
+ * a vertical burnished-gold body (deep gold at the foot, pure gold in the
+ * body, pale gold at the crown -- all the same hue) with, once per 5-second
+ * cycle, a single pale-gold specular light sweeping across it:
+ *   0-3s  the light travels across the title from the left-most glyph to
+ *         the right-most, catching one letter after the next (the same beat
+ *         the stroke draw and fill-in follow);
+ *   3-5s  the light is past the last glyph -- every letter sits on the
+ *         solid burnished gold, perfectly still, while the glow behind the
+ *         title breathes.
  * Then it repeats. The period equals the splash hold on purpose -- one full
  * cycle plays per splash -- and the loop is infinite so a replay / longer
  * hold keeps cycling.
  */
 export const SPLASH_GOLD_LOOP_S = 5;
 export const SPLASH_GOLD_SWEEP_S = 3;
-export const SPLASH_GOLD_SHIMMER_S = 1;
-export const SPLASH_GOLD_HOLD_S = SPLASH_GOLD_LOOP_S - SPLASH_GOLD_SWEEP_S - SPLASH_GOLD_SHIMMER_S;
-/** The title's original gold -- what the hold phase (and the pad colour of
- *  the sweeping gradient) shows. */
+export const SPLASH_GOLD_HOLD_S = SPLASH_GOLD_LOOP_S - SPLASH_GOLD_SWEEP_S;
+/** The title's one and only hue -- the original gold. */
 export const SPLASH_GOLD_HEX = '#d4af37';
-/** Gradient `translate` x at the start of the sweep (band fully left of the
- *  glyphs) and at its end (band fully past the last glyph). The title SVG is
- *  720 user units wide with the band centred at x = 360 of the gradient. */
+/** Same hue, darker (the metal's foot / shadow side). */
+export const SPLASH_GOLD_DEEP_HEX = '#9c7a1f';
+/** Same hue, brighter (the metal's crown / lit edge). */
+export const SPLASH_GOLD_LIGHT_HEX = '#f1d36a';
+/** Same hue, palest (the specular light itself). */
+export const SPLASH_GOLD_PALE_HEX = '#fff4c7';
+/** Gradient `translate` x at the start of the sweep (light fully left of the
+ *  glyphs) and at its end (light fully past the last glyph). The title SVG is
+ *  720 user units wide with the light centred at x = 360 of the gradient. */
 export const SPLASH_GOLD_SWEEP_FROM_X = -500;
 export const SPLASH_GOLD_SWEEP_TO_X = 420;
-/** Title SVG width in user units -- one full period of the shimmer gradient. */
+/** Title SVG width in user units. */
 export const SPLASH_TITLE_WIDTH = 720;
-/** How many full rainbow sweeps cross the title during the 1s shimmer. */
-export const SPLASH_SHIMMER_PERIODS = 2;
-/** Cross-fade length (s) at each edge of the shimmer window so the colour
- *  bloom rises out of the gold and dissolves back into it, never hard-cuts. */
-export const SPLASH_SHIMMER_FADE_S = 0.1;
-
-const clampKeyTime = (t: number) => Math.min(1, Math.max(0, Number(t.toFixed(4))));
 
 /** SMIL `keyTimes` for the loop: sweep 0 -> SWEEP_S, then hold to LOOP_S. */
 export function goldLoopKeyTimes(): string {
@@ -179,40 +178,32 @@ export function goldLoopValues(): string {
   return `${SPLASH_GOLD_SWEEP_FROM_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0`;
 }
 
-/** Shimmer window edges as fractions of the loop. */
-export function shimmerWindow(): { start: number; end: number } {
-  return {
-    start: SPLASH_GOLD_SWEEP_S / SPLASH_GOLD_LOOP_S,
-    end: (SPLASH_GOLD_SWEEP_S + SPLASH_GOLD_SHIMMER_S) / SPLASH_GOLD_LOOP_S,
-  };
-}
+/** Every colour the title may ever show, for the single-tone guard test:
+ *  all four are the same gold hue at different lightness. */
+export const SPLASH_TITLE_PALETTE = [
+  SPLASH_GOLD_DEEP_HEX,
+  SPLASH_GOLD_HEX,
+  SPLASH_GOLD_LIGHT_HEX,
+  SPLASH_GOLD_PALE_HEX,
+] as const;
 
-/** SMIL `keyTimes` for the shimmer overlay's opacity: hidden, fade in at the
- *  window start, hold, fade out at the window end, hidden. */
-export function shimmerOpacityKeyTimes(): string {
-  const { start, end } = shimmerWindow();
-  const fade = SPLASH_SHIMMER_FADE_S / SPLASH_GOLD_LOOP_S;
-  return [0, start, start + fade, end - fade, end, 1].map(clampKeyTime).join(';');
-}
-
-/** SMIL `values` matching `shimmerOpacityKeyTimes()`. */
-export function shimmerOpacityValues(): string {
-  return '0;0;1;1;0;0';
-}
-
-/** SMIL `keyTimes` for the shimmer gradient's translate: parked, then a fast
- *  multi-period sweep across the shimmer window, then parked again. */
-export function shimmerSweepKeyTimes(): string {
-  const { start, end } = shimmerWindow();
-  return [0, start, end, 1].map(clampKeyTime).join(';');
-}
-
-/** SMIL `values` matching `shimmerSweepKeyTimes()` (translate x/y pairs). The
- *  gradient repeats every TITLE_WIDTH, so travelling PERIODS x TITLE_WIDTH
- *  inside the window crosses the whole title PERIODS times. */
-export function shimmerSweepValues(): string {
-  const travel = -SPLASH_SHIMMER_PERIODS * SPLASH_TITLE_WIDTH;
-  return `0 0;0 0;${travel} 0;${travel} 0`;
+/** Hue (degrees) of a `#rrggbb` colour -- used to prove the palette is one
+ *  tone. */
+export function hexHue(hex: string): number {
+  const n = parseInt(hex.replace('#', ''), 16);
+  const r = ((n >> 16) & 255) / 255;
+  const g = ((n >> 8) & 255) / 255;
+  const b = (n & 255) / 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const d = max - min;
+  if (d === 0) return 0;
+  let h: number;
+  if (max === r) h = ((g - b) / d) % 6;
+  else if (max === g) h = (b - r) / d + 2;
+  else h = (r - g) / d + 4;
+  h *= 60;
+  return h < 0 ? h + 360 : h;
 }
 
 /** Window `CustomEvent` name that restarts the splash (founder debug panel). */
