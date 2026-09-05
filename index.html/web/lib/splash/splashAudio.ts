@@ -4,12 +4,17 @@
 // Low-Memory Armor / no-binary-assets rule used by SpatialAudioProvider and
 // the Coming-Soon cinema.
 //
-//   1.0s -> 2.0s  "UNITAS" -- a deep, cinematic-opening vocal: a detuned
-//                 sawtooth glottal source (G2 region, sub-octave weight,
-//                 slow vibrato) pushed through a three-band formant filter
-//                 whose F1/F2/F3 targets walk U -> N -> I -> T -> A -> S
-//                 (a noise burst for the plosive T, a high-passed hiss for
-//                 the final S), then a low-shelf for chest and a cathedral
+//   1.0s -> 2.0s  "UNITAS" -- a smooth, premium cinematic-opening vocal: a
+//                 gently detuned sawtooth glottal source (G2 region, a pure
+//                 sine sub-octave for clean weight instead of a harmonic sub,
+//                 slow vibrato), source-lowpassed to shave off the raw
+//                 sawtooth's buzz before it hits a three-band formant filter
+//                 (round 5 -- owner instruction 2026-09-05: lower Q per band
+//                 so the formants read as rounded and airy rather than
+//                 nasal/honky) whose F1/F2/F3 targets walk U -> N -> I -> T
+//                 -> A -> S (a noise burst for the plosive T, a high-passed
+//                 hiss for the final S), then a light low-shelf for chest
+//                 (trimmed from the prior murky boost) and a cathedral
 //                 convolver for scale.
 //   2.0s -> 3.0s  crystal echo impact -- a bright inharmonic bell cluster
 //                 (E7 / B7 / E8 / G7 strikes) with a two-tap feedback delay
@@ -144,10 +149,10 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   vibrato.stop(t0 + L + 0.4);
 
   const oscSpecs: Array<{ type: OscillatorType; mult: number; detune: number; gain: number }> = [
-    { type: 'sawtooth', mult: 1, detune: -6, gain: 0.55 },
-    { type: 'sawtooth', mult: 1, detune: 6, gain: 0.55 },
-    { type: 'sawtooth', mult: 0.5, detune: 0, gain: 0.3 }, // sub-octave chest weight
-    { type: 'triangle', mult: 2, detune: 3, gain: 0.12 }, // presence octave
+    { type: 'sawtooth', mult: 1, detune: -4, gain: 0.5 },
+    { type: 'sawtooth', mult: 1, detune: 4, gain: 0.5 },
+    { type: 'sine', mult: 0.5, detune: 0, gain: 0.38 }, // pure sine sub -- clean weight, no harmonic mud
+    { type: 'triangle', mult: 2, detune: 2, gain: 0.14 }, // presence octave
   ];
   for (const spec of oscSpecs) {
     const osc = ctx.createOscillator();
@@ -166,20 +171,30 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
     osc.stop(t0 + L + 0.4);
   }
 
+  // Shave the raw sawtooth's upper buzz before it ever reaches the formant
+  // bands -- round 5: this is the single biggest lever from "murky/raspy" to
+  // "smooth/clean", since a resonant bandpass spotlighting a harsh harmonic
+  // is what read as thick/muddy rather than premium.
+  const sourceLp = ctx.createBiquadFilter();
+  sourceLp.type = 'lowpass';
+  sourceLp.frequency.value = 4200;
+  sourceLp.Q.value = 0.6;
+  source.connect(sourceLp);
+
   // --- three-band formant filter (parallel) ------------------------------
   const vocalBus = ctx.createGain();
   vocalBus.gain.value = 1.35;
   const bands = [
-    { q: 8, gain: 1.6 },
-    { q: 10, gain: 0.8 },
-    { q: 12, gain: 0.35 },
+    { q: 4.5, gain: 1.6 },
+    { q: 5.5, gain: 0.8 },
+    { q: 6.5, gain: 0.35 },
   ].map(({ q, gain }) => {
     const filter = ctx.createBiquadFilter();
     filter.type = 'bandpass';
     filter.Q.value = q;
     const g = ctx.createGain();
     g.gain.value = gain;
-    source.connect(filter);
+    sourceLp.connect(filter);
     filter.connect(g);
     g.connect(vocalBus);
     return { filter, g, base: gain };
@@ -207,16 +222,18 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   setVowel('I', t0 + I0);
   setVowel('A', t0 + A0, 0.025);
 
-  // Tone shaping: chest low-shelf + gentle presence, then dry/wet split.
+  // Tone shaping: chest low-shelf (trimmed -- the prior +5dB boost was the
+  // other main source of mud) + a wider, gentler presence lift, then
+  // dry/wet split.
   const shelf = ctx.createBiquadFilter();
   shelf.type = 'lowshelf';
   shelf.frequency.value = 190;
-  shelf.gain.value = 5;
+  shelf.gain.value = 3;
   const presence = ctx.createBiquadFilter();
   presence.type = 'peaking';
   presence.frequency.value = 2400;
-  presence.Q.value = 1.1;
-  presence.gain.value = 2;
+  presence.Q.value = 0.9;
+  presence.gain.value = 2.2;
   vocalBus.connect(shelf);
   shelf.connect(presence);
   presence.connect(buses.dry);
