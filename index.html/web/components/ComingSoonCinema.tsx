@@ -999,10 +999,17 @@ export function ComingSoonCinema() {
                     PWA, confirming there drops the visitor straight back to
                     the home screen. Same gold-accent icon-button treatment,
                     stacked below the GlobalLanguagePicker so the two never
-                    overlap. */}
+                    overlap.
+                    Round 2: a fresh direct visit has zero back-history, so
+                    window.close()/history.go(-2) both silently fail and used
+                    to strand the visitor on a "please close manually"
+                    warning. Passing forceRedirectTo hard-navigates to this
+                    locale's own root once that failure is confirmed, so the
+                    'X' always visibly takes the visitor somewhere instead of
+                    doing nothing. */}
                 <button
                   type="button"
-                  onClick={() => requestAppExit()}
+                  onClick={() => requestAppExit({ forceRedirectTo: `/${locale}` })}
                   aria-label={tExit('exitTitle')}
                   className="absolute right-4 top-16 z-20 flex h-8 w-8 items-center justify-center border border-accent/50 bg-void/40 text-accent backdrop-blur-sm transition-colors hover:border-accent hover:bg-void/60 sm:right-6 sm:top-20"
                 >

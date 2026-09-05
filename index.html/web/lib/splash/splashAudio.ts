@@ -4,21 +4,22 @@
 // Low-Memory Armor / no-binary-assets rule used by SpatialAudioProvider and
 // the Coming-Soon cinema.
 //
-//   1.0s -> 2.0s  "UNITAS" -- a smooth, premium cinematic-opening vocal: a
-//                 gently detuned sawtooth glottal source (G2 region, a pure
-//                 sine sub-octave for clean weight instead of a harmonic sub,
-//                 slow vibrato), source-lowpassed to shave off the raw
+//   1.0s -> 2.0s  "UNITAS" -- a thin, clean, premium mid-to-high vocal: a
+//                 gently detuned sawtooth glottal source (round 7 -- owner
+//                 instruction 2026-09-05: fundamental register moved from
+//                 the old G2 bass area up into a G3/C4 mid-high band, the
+//                 sub-octave sine layer and the separate low sub-octave
+//                 "chest" choir oscillator were both removed outright --
+//                 not just trimmed -- since a doubled-down octave is
+//                 exactly the "thick low end" being eliminated; slow
+//                 vibrato), source-lowpassed to shave off the raw
 //                 sawtooth's buzz before it hits a three-band formant filter
-//                 (round 6 -- owner instruction 2026-09-05: the F1 band, the
-//                 one carrying the most low-mid energy, had its Q/gain cut
-//                 further on top of round 5's pass, the chest low-shelf was
-//                 halved again, and the sub-octave choir layer was quieted --
-//                 together the biggest remaining sources of "phlegmy"
-//                 low-mid congestion) whose F1/F2/F3 targets walk U -> N -> I
-//                 -> T -> A -> S (a noise burst for the plosive T, a
-//                 high-passed hiss for the final S), then a light low-shelf
-//                 for chest (trimmed twice now from the original murky
-//                 boost) and a cathedral convolver for scale.
+//                 whose F1/F2/F3 targets (also shifted upward this round for
+//                 a thinner vocal-tract color) walk U -> N -> I -> T -> A ->
+//                 S (a noise burst for the plosive T, a high-passed hiss for
+//                 the final S), then a highshelf "air" lift in place of the
+//                 old chest low-shelf boost (fully removed -- round 7), and
+//                 a cathedral convolver for scale.
 //   2.0s -> 3.0s  crystal echo impact -- a bright inharmonic bell cluster
 //                 (E7 / B7 / E8 / G7 strikes) with a two-tap feedback delay
 //                 whose loop is high-passed so every echo comes back thinner
@@ -129,16 +130,18 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   ]);
 
   // Fundamental contour: rises through the word ("announcement" cadence),
-  // then falls into the final syllable -- a low, cinematic register.
+  // then falls into the final syllable -- round 7: moved from the old G2
+  // bass area (82-118 Hz) up into a thin G3/C4 mid-high register so the
+  // voice reads as sleek and premium rather than low/chesty.
   const f0: Array<[number, number]> = [
-    [0, 82],
-    [0.2, 98],
-    [N0, 100],
-    [I0, 104],
-    [T0 - 0.02, 108],
-    [A0, 118],
-    [0.8, 102],
-    [S0, 92],
+    [0, 196],
+    [0.2, 228],
+    [N0, 232],
+    [I0, 240],
+    [T0 - 0.02, 248],
+    [A0, 268],
+    [0.8, 236],
+    [S0, 214],
   ];
 
   const vibrato = ctx.createOscillator();
@@ -151,11 +154,14 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   vibrato.start(t0);
   vibrato.stop(t0 + L + 0.4);
 
+  // round 7: the sub-octave sine (mult 0.5) is gone outright -- a doubled
+  // octave below the fundamental is exactly the "thick low end" being
+  // eliminated. The presence octave above carries slightly more weight now
+  // that nothing sits below the fundamental.
   const oscSpecs: Array<{ type: OscillatorType; mult: number; detune: number; gain: number }> = [
     { type: 'sawtooth', mult: 1, detune: -4, gain: 0.5 },
     { type: 'sawtooth', mult: 1, detune: 4, gain: 0.5 },
-    { type: 'sine', mult: 0.5, detune: 0, gain: 0.38 }, // pure sine sub -- clean weight, no harmonic mud
-    { type: 'triangle', mult: 2, detune: 2, gain: 0.14 }, // presence octave
+    { type: 'triangle', mult: 2, detune: 2, gain: 0.22 }, // presence octave
   ];
   for (const spec of oscSpecs) {
     const osc = ctx.createOscillator();
@@ -180,7 +186,7 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   // is what read as thick/muddy rather than premium.
   const sourceLp = ctx.createBiquadFilter();
   sourceLp.type = 'lowpass';
-  sourceLp.frequency.value = 4200;
+  sourceLp.frequency.value = 5400; // round 7: raised alongside the higher f0 so the mid-high harmonics survive
   sourceLp.Q.value = 0.6;
   source.connect(sourceLp);
 
@@ -203,12 +209,14 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
     return { filter, g, base: gain };
   });
 
-  // Vowel targets: [F1, F2, F3] Hz and relative band weights.
+  // Vowel targets: [F1, F2, F3] Hz and relative band weights. round 7:
+  // shifted upward from round 6 (330/780/2500 etc.) so the vocal-tract
+  // color reads thinner/smaller alongside the raised fundamental.
   const vowels: Record<string, { f: [number, number, number]; w: [number, number, number] }> = {
-    U: { f: [330, 780, 2500], w: [1, 0.35, 0.1] },
-    N: { f: [280, 1300, 2500], w: [0.6, 0.2, 0.08] },
-    I: { f: [290, 2200, 2900], w: [1, 0.32, 0.26] },
-    A: { f: [720, 1180, 2600], w: [1, 0.68, 0.3] },
+    U: { f: [390, 900, 2650], w: [1, 0.35, 0.1] },
+    N: { f: [330, 1500, 2650], w: [0.6, 0.2, 0.08] },
+    I: { f: [345, 2500, 3050], w: [1, 0.32, 0.26] },
+    A: { f: [830, 1350, 2750], w: [1, 0.68, 0.3] },
   };
   const setVowel = (name: keyof typeof vowels, at: number, tau = 0.035) => {
     const v = vowels[name];
@@ -225,24 +233,25 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   setVowel('I', t0 + I0);
   setVowel('A', t0 + A0, 0.025);
 
-  // Tone shaping: chest low-shelf (round 6: halved again, 3dB -> 1.5dB --
-  // the prior +5dB then +3dB boosts were the other main source of mud) + a
-  // wider, gentler presence lift, then dry/wet split.
-  const shelf = ctx.createBiquadFilter();
-  shelf.type = 'lowshelf';
-  shelf.frequency.value = 190;
-  shelf.gain.value = 1.5;
+  // Tone shaping: round 7 -- the chest low-shelf boost is removed outright
+  // (not just trimmed) since any low-shelf lift is exactly the "thick low
+  // end" being eliminated. In its place, a highshelf "air" lift reinforces
+  // the thin/clean premium quality up top, after the same presence peak.
   const presence = ctx.createBiquadFilter();
   presence.type = 'peaking';
-  presence.frequency.value = 2400;
+  presence.frequency.value = 2800;
   presence.Q.value = 0.9;
-  presence.gain.value = 2.2;
-  vocalBus.connect(shelf);
-  shelf.connect(presence);
-  presence.connect(buses.dry);
+  presence.gain.value = 2.4;
+  const air = ctx.createBiquadFilter();
+  air.type = 'highshelf';
+  air.frequency.value = 4500;
+  air.gain.value = 2;
+  vocalBus.connect(presence);
+  presence.connect(air);
+  air.connect(buses.dry);
   const toHall = ctx.createGain();
   toHall.gain.value = 0.45;
-  presence.connect(toHall);
+  air.connect(toHall);
   toHall.connect(buses.wet);
 
   // --- consonants ---------------------------------------------------------
@@ -285,32 +294,9 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   hiss.start(t0 + S0);
   hiss.stop(t0 + S0 + 0.36);
 
-  // Choir weight: a soft sub-octave sine under the voiced part only.
-  const chest = ctx.createOscillator();
-  chest.type = 'sine';
-  chest.frequency.setValueAtTime(f0[0][1] / 2, t0);
-  for (let i = 1; i < f0.length; i++) {
-    chest.frequency.exponentialRampToValueAtTime(f0[i][1] / 2, t0 + f0[i][0]);
-  }
-  const chestLp = ctx.createBiquadFilter();
-  chestLp.type = 'lowpass';
-  chestLp.frequency.value = 240;
-  const chestGain = ctx.createGain();
-  // round 6: quieted (0.16/0.14 -> 0.12/0.1) -- the sub-octave choir layer
-  // was the last meaningful contributor to low-end boom/congestion.
-  envelope(chestGain.gain, t0, [
-    [0, 0.0001],
-    [0.09, 0.12],
-    [T0 - 0.02, 0.1],
-    [T0, 0.0001],
-    [A0 + 0.04, 0.12],
-    [S0, 0.0001],
-  ]);
-  chest.connect(chestLp);
-  chestLp.connect(chestGain);
-  chestGain.connect(buses.dry);
-  chest.start(t0);
-  chest.stop(t0 + L + 0.2);
+  // round 7: the "chest" sub-octave choir oscillator that used to sit here
+  // is removed outright -- a doubled-down octave under the voice is exactly
+  // the thick low end this round eliminates, not merely trims.
 }
 
 // ---------------------------------------------------------------------------

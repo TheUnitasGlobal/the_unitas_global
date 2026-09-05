@@ -18,6 +18,20 @@ const LEAVE_SETTLE_MS = 450;
  *  this component shows on a back-gesture -- see `requestAppExit()` below. */
 const EXIT_REQUEST_EVENT = 'unitas:app-exit-request';
 
+interface ExitRequestDetail {
+  /**
+   * Owner instruction 2026-09-05 (round 2): when window.close() is silently
+   * refused by browser security policy (a tab not opened by script, the
+   * common case) AND there is no prior history entry to travel back through
+   * (a fresh direct visit -- exactly how most Coming-Soon 'X' clicks arrive,
+   * with zero back-history), the confirm's "종료" action used to dead-end on
+   * a "please close manually" warning. A caller that supplies this hard-
+   * navigates here instead once that failure is confirmed, so the visitor
+   * always ends up leaving the sealed screen rather than getting stuck.
+   */
+  forceRedirectTo?: string;
+}
+
 /**
  * Ask ExitGuard to open its logout/exit confirm on demand, outside the
  * back-gesture flow -- e.g. the Coming-Soon sealed screen's 'X' button
@@ -25,9 +39,9 @@ const EXIT_REQUEST_EVENT = 'unitas:app-exit-request';
  * the same confirmed exit rather than bouncing the visitor out unconfirmed.
  * No-ops if ExitGuard isn't mounted (SSR / component removed).
  */
-export function requestAppExit(): void {
+export function requestAppExit(detail?: ExitRequestDetail): void {
   if (typeof window === 'undefined') return;
-  window.dispatchEvent(new Event(EXIT_REQUEST_EVENT));
+  window.dispatchEvent(new CustomEvent<ExitRequestDetail>(EXIT_REQUEST_EVENT, { detail }));
 }
 
 type Step = 'logout' | 'exit';
@@ -92,6 +106,7 @@ export function ExitGuard() {
   const sessionRef = useRef(session);
   sessionRef.current = session;
   const leavingRef = useRef(false);
+  const forceRedirectRef = useRef<string | null>(null);
 
   const openGate = gate.setOpen;
 
@@ -112,6 +127,7 @@ export function ExitGuard() {
       } catch {
         // nothing focused
       }
+      forceRedirectRef.current = null;
       setLeaveRefused(false);
       setStep(sessionRef.current ? 'logout' : 'exit');
       openGate(true, { force: true });
@@ -125,12 +141,13 @@ export function ExitGuard() {
 
   // On-demand open (no back-gesture involved) -- see `requestAppExit()`.
   useEffect(() => {
-    const onExitRequest = () => {
+    const onExitRequest = (e: Event) => {
       try {
         (document.activeElement as HTMLElement | null)?.blur?.();
       } catch {
         // nothing focused
       }
+      forceRedirectRef.current = (e as CustomEvent<ExitRequestDetail>).detail?.forceRedirectTo ?? null;
       setLeaveRefused(false);
       setStep(sessionRef.current ? 'logout' : 'exit');
       openGate(true, { force: true });
@@ -190,7 +207,14 @@ export function ExitGuard() {
     setTimeout(() => {
       if (document.visibilityState === 'hidden') return;
       // Nothing unloaded us: no prior page and the browser refused
-      // window.close(). Say so instead of pretending.
+      // window.close(). A caller that supplied a fallback (the Coming-Soon
+      // 'X' button) gets a guaranteed hard redirect instead of a dead end --
+      // same-origin navigation is never blocked by the close/popup policies
+      // that just defeated window.close()/history.go(-2) above.
+      if (forceRedirectRef.current) {
+        window.location.href = forceRedirectRef.current;
+        return;
+      }
       leavingRef.current = false;
       armSentinel();
       setBusy(false);
