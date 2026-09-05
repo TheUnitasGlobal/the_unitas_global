@@ -22,6 +22,8 @@
 //      app/[locale]/layout.tsx) turns a request into the native prompt when
 //      available, or the localized guide sheet otherwise.
 
+import { CINEMA_PHASE_STORAGE_KEY, SPLASH_SUB_VIEW_PHASES } from '@/lib/splash/splashTimeline';
+
 export interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform?: string }>;
@@ -62,12 +64,20 @@ export const SPLASH_OFF_QUERY = /[?&]splash=(0|off|false)(&|$)/;
  *  - registers the installability service worker as early as possible
  *  - stamps `data-splash="off"` on <html> for `?splash=0` so the SSR'd intro
  *    splash never paints on a QA/E2E run (pure CSS gate, no JS race)
+ *  - stamps the same attribute when the tab's persisted Coming-Soon curtain
+ *    phase is a SUB-VIEW (gate / cinema / sealed): a refresh parked on one of
+ *    those must re-render that view in place with no "logo page" in between
+ *    (owner instruction 2026-09-05, round 10, item 3). The main home
+ *    (`released`) and a cold first visit keep the splash. Pre-hydration on
+ *    purpose -- the splash is SSR'd visible, so only a pre-paint gate avoids
+ *    a flash of it; the React component skips its audio/timer separately.
  */
 export const PWA_CAPTURE_BOOTSTRAP = `(function(){try{
 window.__unitasPwaPrompt=null;
 window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__unitasPwaPrompt=e;try{window.dispatchEvent(new CustomEvent('${PWA_PROMPT_CAPTURED_EVENT}'));}catch(_){}});
 window.addEventListener('appinstalled',function(){window.__unitasPwaInstalled=true;window.__unitasPwaPrompt=null;});
 if(/[?&]splash=(0|off|false)(&|$)/.test(location.search)){document.documentElement.setAttribute('data-splash','off');}
+try{var p=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(p&&${JSON.stringify([...SPLASH_SUB_VIEW_PHASES])}.indexOf(p)!==-1){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}
 }catch(_){}})();`;
 

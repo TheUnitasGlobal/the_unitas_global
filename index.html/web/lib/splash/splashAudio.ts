@@ -1,39 +1,54 @@
-// Fully synthesized Web Audio score for the 3-second cinematic intro splash
-// (owner instruction 2026-09-04, item 3-4). No audio files -- every sound is
+// Fully synthesized Web Audio score for the cinematic intro splash (owner
+// instruction 2026-09-04, item 3-4). No audio files -- every sound is
 // oscillators + filtered noise + a synthesized hall impulse, matching the
 // Low-Memory Armor / no-binary-assets rule used by SpatialAudioProvider and
 // the Coming-Soon cinema.
 //
-//   1.0s -> 2.0s  "UNITAS" -- a grand, deep, natural male bass vocal (round 8
-//                 -- owner instruction 2026-09-05: reverses round 7's move to
-//                 a thin mid-high register; the fundamental sits back down in
-//                 a true bass band, but unlike the pre-round-5 "murky" bass
-//                 this one stays clean via a lower-Q, smoother formant filter
-//                 and a lighter sourceLp cutoff tuned to the lower register).
-//                 A unison pair of detuned sawtooths plus a soft sine
-//                 sub-octave (not a second sawtooth -- keeps the extra weight
-//                 from turning into buzz) feed a shared vibrato+jitter detune
-//                 bus (slow 5.2 Hz vibrato for the "grand" sustain, a faster
-//                 subtle ~11 Hz jitter for natural pitch micro-instability --
-//                 a dead-steady pitch is what reads as "machine"), plus a
-//                 gain-domain shimmer LFO and a parallel formant-shaped
-//                 breath-noise bed for the same reason -- a pure harmonic
-//                 tone with zero air/noise floor is the other big "synthetic"
-//                 tell. Source-lowpassed to shave the raw sawtooth's buzz
-//                 before it hits a three-band formant filter (wider, lower-Q
-//                 bands than round 7 -- a narrow resonant peak rings like a
-//                 machine formant) whose F1/F2/F3 targets (lowered back for a
-//                 warm, large vocal-tract color) walk U -> N -> I -> T -> A ->
-//                 S (a noise burst for the plosive T, a high-passed hiss for
-//                 the final S), then a warm low-shelf "chest" lift + a tamed
-//                 top end (a highshelf CUT, not boost -- round 7's brightness
-//                 is exactly the thin/artificial quality being reversed), and
-//                 a cathedral convolver for scale.
-//   2.0s -> 3.0s  crystal echo impact -- a bright inharmonic bell cluster
-//                 (E7 / B7 / E8 / G7 strikes) with a two-tap feedback delay
-//                 whose loop is high-passed so every echo comes back thinner
-//                 and glassier, plus an airy 10 kHz shimmer and a rising
-//                 sweep for the impact edge. Rings out by the 3-second mark.
+//   1.0s -> ~2.6s  "U - NI - TAS" -- an ultra-deep, grand, HUMAN male bass
+//                  chant (round 10 rebuild, owner instruction 2026-09-05,
+//                  item 1). The fundamental lives in the F1-A1 band
+//                  (43.65-55 Hz): U sits on F1, the phrase leans up through
+//                  G1 / G#1 to peak on A1 for the sustained "A", then drops
+//                  away into the final "S". Two things separate this from a
+//                  one-second synth blast:
+//                    * PER-LETTER PITCH CONTOURING -- every voiced letter is
+//                      its own note with a human onset scoop (starting 30-50
+//                      cents flat and gliding up onto pitch), a slight lean
+//                      into the sustain, and a release drift -- on top of a
+//                      slow vibrato whose depth BUILDS across each held
+//                      vowel, a faster micro-jitter, and a random-walk pitch
+//                      drift (low-passed noise into detune) so no two plays
+//                      are identical and no note is ever machine-steady.
+//                    * BREATH + FORMANT MODULATION -- an audible intake of
+//                      breath before the onset, an aspiration bed that
+//                      follows the voice, and a soft exhale after the "S";
+//                      vowel formants move with coarticulation (the tract is
+//                      already shaping "A" during the silent "T" closure)
+//                      plus a slow jaw LFO that keeps F1/F2 gently moving.
+//                  The source is a detuned sawtooth pair + a clean sine on
+//                  the fundamental (the felt sub weight) + an octave-up
+//                  sawtooth (the same voice carried through phone speakers
+//                  via the missing-fundamental effect), glottal-lowpassed,
+//                  then split into a direct "chest" path (lowpass ~140 Hz,
+//                  so the F1-A1 fundamental and its 2nd harmonic reach the
+//                  output at full weight -- parallel formant bandpasses
+//                  alone would strip them) and a three-band formant filter
+//                  (wide, low-Q -- a narrow resonant peak rings like a
+//                  machine formant). A lowshelf chest lift, a mild presence
+//                  peak, a highshelf CUT (brightness reads as synthetic on a
+//                  bass) and a cathedral convolver finish it. The chant is
+//                  1.6s long by design and OVERLAPS the crystal impact: the
+//                  held "A" is still ringing when the impact lands at 2s.
+//   2.0s -> 3.0s   crystal echo impact -- a bright inharmonic bell cluster
+//                  (E7 / B7 / E8 / G7 strikes) with a two-tap feedback delay
+//                  whose loop is high-passed so every echo comes back thinner
+//                  and glassier, plus an airy 10 kHz shimmer and a rising
+//                  sweep for the impact edge. Rings out by the 3-second mark.
+//
+// Master level (round 10, item 2): the 0.246 baseline x the GLOBAL 50%
+// omni-channel attenuation (lib/audio/masterLevel.ts) -- identical on PC,
+// mobile and tablet, online and installed App. The earlier PC-only extra
+// cuts are retired.
 //
 // Autoplay policy: the context is created suspended on a cold load. We try
 // to resume immediately (allowed for installed PWAs / high-engagement
@@ -41,7 +56,7 @@
 // it and `splashAudioOffsets` re-times the cues from that moment. Respects
 // the site-wide mute preference (`unitas_audio_pref === 'off'`).
 
-import { isTouchPrimaryDevice } from '@/lib/pointerDevice';
+import { attenuateMaster } from '@/lib/audio/masterLevel';
 import {
   SPLASH_CRYSTAL_LENGTH_S,
   SPLASH_VOCAL_LENGTH_S,
@@ -50,22 +65,10 @@ import {
 
 /** Mirrors SpatialAudioProvider's persisted preference key. */
 const AUDIO_PREF_KEY = 'unitas_audio_pref';
-// Owner instruction 2026-09-05 (round 1): master gain cut to 0.3x its prior
-// level (0.82 -> 0.246) so the splash vocal/crystal chime sits well under
-// the site's ambient bed instead of dominating the opening seconds. This
-// stays the mobile/handheld level -- untouched by round 2 below.
-const MASTER_GAIN_MOBILE = 0.246;
-// Owner instruction 2026-09-05 (round 2): PC only gets an ADDITIONAL 30% cut
-// on top of the round-1 level (0.246 -> 0.1722) so the vocal/echo sits more
-// comfortably on desktop speakers/headphones; handheld devices keep the
-// round-1 level unchanged. Gated on `isTouchPrimaryDevice()` (coarse
-// pointer + no hover -- a genuine phone/tablet), the same primary-pointer
-// check the scroll-focus SFX already uses to tell a real handheld apart
-// from a mouse-driven desktop.
-// Owner instruction 2026-09-05 (round 4): a SECOND additional 30% cut stacks
-// on top of round 2's already-reduced PC level (0.1722 -> 0.12054) -- still
-// gated the same way, handheld level untouched.
-const MASTER_GAIN_PC = MASTER_GAIN_MOBILE * 0.7 * 0.7;
+/** Round-1 (2026-09-05) baseline: 0.3x the original 0.82. */
+const SPLASH_BASE_MASTER_GAIN = 0.246;
+/** Shipped level under the global 50% doctrine -- every device, every channel. */
+const MASTER_GAIN = attenuateMaster(SPLASH_BASE_MASTER_GAIN);
 
 export interface SplashAudioHandle {
   /** Call from a user gesture (or immediately) -- resumes + schedules once. */
@@ -110,83 +113,156 @@ function envelope(param: AudioParam, t0: number, points: Array<[number, number]>
   }
 }
 
+/** Cents -> frequency ratio. */
+const cents = (c: number) => Math.pow(2, c / 1200);
+
 // ---------------------------------------------------------------------------
-// 1. "UNITAS" vocal (formant synthesis)
+// 1. "UNITAS" chant -- ultra-deep human bass, letter by letter
 // ---------------------------------------------------------------------------
+
+// The F1-A1 band the fundamental is confined to (owner instruction).
+const F1_HZ = 43.65;
+const G1_HZ = 49.0;
+const GS1_HZ = 51.91;
+const A1_HZ = 55.0;
+
+/** Letter timing inside the chant (relative seconds; total = 1.6s). */
+const LETTER = {
+  U: { on: 0.0, off: 0.44 },
+  N: { on: 0.44, off: 0.58 },
+  I: { on: 0.58, off: 0.84 },
+  T: { close: 0.84, burst: 0.905 },
+  A: { on: 0.935, off: 1.36 },
+  S: { on: 1.36, off: 1.62 },
+} as const;
+
+/** A tiny per-play humanization: +/- `range` (uniform). */
+const humanize = (range: number) => (Math.random() * 2 - 1) * range;
+
 function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: number): void {
   const L = SPLASH_VOCAL_LENGTH_S;
-  // Syllable map inside the one-second word (relative seconds).
-  const N0 = 0.3;
-  const I0 = 0.38;
-  const T0 = 0.6;
-  const A0 = 0.65;
-  const S0 = 0.88;
+  const { U, N, I, T, A, S } = LETTER;
+  const stopAt = t0 + L + 0.6;
 
   // --- voiced source bus with the phonetic amplitude contour -------------
+  // Soft onset (a human never slams into a vowel), a nasal dip for N, the
+  // stop closure for T, a full-weight bloom on the held A, then the voice
+  // thins out under the final S hiss.
   const source = ctx.createGain();
   envelope(source.gain, t0, [
     [0, 0.0001],
-    [0.07, 1],
-    [N0 - 0.02, 1],
-    [N0 + 0.02, 0.62], // nasal dip for N
-    [I0 + 0.03, 1],
-    [T0 - 0.03, 0.9],
-    [T0, 0.0001], // stop closure for T
-    [A0, 0.0001],
-    [A0 + 0.035, 1],
-    [S0 - 0.03, 0.85],
-    [S0 + 0.05, 0.0001],
+    [0.06, 0.5],
+    [0.17, 1],
+    [U.off - 0.03, 0.95],
+    [N.on + 0.03, 0.6],
+    [N.off, 0.62],
+    [I.on + 0.04, 1],
+    [I.off - 0.04, 0.9],
+    [T.close, 0.0001],
+    [A.on, 0.0001],
+    [A.on + 0.045, 1],
+    [A.on + 0.22, 1],
+    [A.off - 0.06, 0.82],
+    [S.on + 0.02, 0.3],
+    [S.on + 0.1, 0.0001],
   ]);
 
-  // Fundamental contour: rises through the word ("announcement" cadence),
-  // then falls into the final syllable -- round 8: back down into a true
-  // bass register (a low G2 area) after round 7's mid-high excursion, per
-  // owner instruction to sound like a grand, deep, natural male bass rather
-  // than a thin premium tone.
+  // --- per-letter pitch contour (fundamental, Hz) ------------------------
+  // Every voiced letter is its own note: a flat onset scoop gliding up onto
+  // pitch, a slight lean into the sustain, and a release drift. The phrase
+  // as a whole rises U -> N -> I -> A ("announcement" cadence) and falls
+  // away into S. Per-play humanization nudges the scoop depths and the lean
+  // so no two launches are the same take.
+  const scoopU = -45 + humanize(8);
+  const scoopN = -20 + humanize(5);
+  const scoopI = -30 + humanize(6);
+  const scoopA = -50 + humanize(9);
   const f0: Array<[number, number]> = [
-    [0, 92],
-    [0.2, 104],
-    [N0, 106],
-    [I0, 109],
-    [T0 - 0.02, 112],
-    [A0, 118],
-    [0.8, 102],
-    [S0, 90],
+    [0, F1_HZ * cents(scoopU)],
+    [0.1, F1_HZ],
+    [U.off - 0.04, F1_HZ * cents(6 + humanize(2))],
+    [N.on + 0.02, G1_HZ * cents(scoopN)],
+    [N.off - 0.02, G1_HZ],
+    [I.on + 0.02, GS1_HZ * cents(scoopI)],
+    [I.on + 0.12, GS1_HZ],
+    [I.off - 0.02, GS1_HZ * cents(8 + humanize(2))],
+    [A.on, A1_HZ * cents(scoopA)],
+    [A.on + 0.095, A1_HZ],
+    [A.on + 0.29, A1_HZ * cents(5 + humanize(2))],
+    [A.off - 0.02, G1_HZ],
+    [S.on + 0.06, F1_HZ * cents(-20)],
   ];
 
+  // Slow vibrato whose DEPTH builds across each held vowel (a singer's
+  // vibrato blooms into a sustain; it is not switched on at a fixed depth).
   const vibrato = ctx.createOscillator();
   vibrato.type = 'sine';
-  vibrato.frequency.value = 5.2;
+  vibrato.frequency.value = 5.0 + humanize(0.3);
   const vibratoDepth = ctx.createGain();
-  vibratoDepth.gain.setValueAtTime(0, t0);
-  vibratoDepth.gain.linearRampToValueAtTime(11, t0 + 0.4); // cents -- slightly deeper for a "grand" sustain
+  envelope(vibratoDepth.gain, t0, [
+    [0, 0],
+    [0.12, 0],
+    [U.off - 0.06, 9],
+    [N.on + 0.02, 3],
+    [I.on + 0.1, 4],
+    [I.off, 6],
+    [A.on, 0],
+    [A.on + 0.12, 4],
+    [A.on + 0.3, 12],
+    [A.off, 7],
+    [S.on + 0.1, 0],
+  ]);
   vibrato.connect(vibratoDepth);
   vibrato.start(t0);
-  vibrato.stop(t0 + L + 0.4);
+  vibrato.stop(stopAt);
 
-  // round 8: a small, fast, ever-so-slightly-random-sounding jitter LFO on
-  // top of the slow vibrato -- a perfectly steady pitch is one of the
-  // clearest "synthesized" tells; real vocal cords wobble a few cents even
-  // when a human is trying to hold a note dead level.
+  // Faster micro-jitter: real vocal cords wobble a few cents even on a
+  // "held" note -- a dead-steady pitch is what reads as "machine".
   const jitter = ctx.createOscillator();
   jitter.type = 'sine';
-  jitter.frequency.value = 11.3;
+  jitter.frequency.value = 7.3 + humanize(0.6);
   const jitterDepth = ctx.createGain();
-  jitterDepth.gain.value = 3; // cents
+  jitterDepth.gain.value = 2.6; // cents
   jitter.connect(jitterDepth);
   jitter.start(t0);
-  jitter.stop(t0 + L + 0.4);
+  jitter.stop(stopAt);
 
-  // round 8: a soft sine sub-octave is back (round 7 removed it outright to
-  // kill "thick low end", but that was in service of a mid-high voice this
-  // round intentionally reverses). Using a sine rather than a second
-  // sawtooth keeps the extra octave of weight from turning into the old
-  // "murky" buzz -- it just reinforces fundamental weight, no new harmonics.
+  // Slow aperiodic drift: three incommensurate, per-play-randomized sub-Hz
+  // sines summed into detune wander a few cents with no audible period --
+  // the organic instability a single LFO can't fake. (Deterministic nodes
+  // rather than a sub-Hz-lowpassed noise source: a 2 Hz biquad sits at the
+  // edge of float precision on some engines, and a misbehaving one would
+  // spray hundreds of cents of noise into the pitch.)
+  const driftDepth = ctx.createGain();
+  driftDepth.gain.value = 1;
+  for (const [hz, depthCents] of [
+    [0.41, 3.2],
+    [0.67, 2.3],
+    [1.13, 1.6],
+  ] as const) {
+    const lfo = ctx.createOscillator();
+    lfo.type = 'sine';
+    lfo.frequency.value = hz + humanize(hz * 0.25);
+    const depth = ctx.createGain();
+    depth.gain.value = depthCents;
+    lfo.connect(depth);
+    depth.connect(driftDepth);
+    lfo.start(t0 + humanize(0.4) - 0.4); // random phase via a random (past) start
+    lfo.stop(stopAt);
+  }
+
+  // --- source oscillators --------------------------------------------------
+  // The F1-A1 fundamental is carried by the detuned sawtooth pair + a clean
+  // sine (pure sub weight, no extra harmonics); the octave sawtooth carries
+  // the same voice through small/phone speakers (missing-fundamental
+  // effect) so the chant reads as the same deep bass everywhere; a faint
+  // triangle on the 12th adds presence without buzz.
   const oscSpecs: Array<{ type: OscillatorType; mult: number; detune: number; gain: number }> = [
-    { type: 'sawtooth', mult: 1, detune: -4, gain: 0.5 },
-    { type: 'sawtooth', mult: 1, detune: 4, gain: 0.5 },
-    { type: 'sine', mult: 0.5, detune: 0, gain: 0.17 }, // chest sub-octave, deliberately clean
-    { type: 'triangle', mult: 2, detune: 2, gain: 0.12 }, // presence octave, trimmed back this round
+    { type: 'sawtooth', mult: 1, detune: -5, gain: 0.4 },
+    { type: 'sawtooth', mult: 1, detune: 5, gain: 0.4 },
+    { type: 'sine', mult: 1, detune: 0, gain: 0.34 },
+    { type: 'sawtooth', mult: 2, detune: 3, gain: 0.2 },
+    { type: 'triangle', mult: 3, detune: -2, gain: 0.07 },
   ];
   for (const spec of oscSpecs) {
     const osc = ctx.createOscillator();
@@ -198,68 +274,57 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
     }
     vibratoDepth.connect(osc.detune);
     jitterDepth.connect(osc.detune);
+    driftDepth.connect(osc.detune);
     const g = ctx.createGain();
     g.gain.value = spec.gain;
     osc.connect(g);
     g.connect(source);
     osc.start(t0);
-    osc.stop(t0 + L + 0.4);
+    osc.stop(stopAt);
   }
 
-  // round 8: a barely-there amplitude shimmer -- real vocal loudness never
-  // holds a perfectly flat line either. Sums additively into source.gain
-  // alongside the phonetic envelope already scheduled above.
+  // Barely-there loudness shimmer -- real vocal loudness never holds a flat
+  // line either. Sums additively into source.gain with the envelope above.
   const shimmer = ctx.createOscillator();
   shimmer.type = 'sine';
-  shimmer.frequency.value = 4.3;
+  shimmer.frequency.value = 4.6 + humanize(0.4);
   const shimmerDepth = ctx.createGain();
-  shimmerDepth.gain.value = 0.035;
+  shimmerDepth.gain.value = 0.03;
   shimmer.connect(shimmerDepth);
   shimmerDepth.connect(source.gain);
   shimmer.start(t0);
-  shimmer.stop(t0 + L + 0.4);
+  shimmer.stop(stopAt);
 
-  // Shave the raw sawtooth's upper buzz before it ever reaches the formant
-  // bands -- round 8: cutoff lowered back down alongside the bass f0 (round
-  // 7 raised it for the mid-high voice's harmonics; those aren't needed here
-  // and leaving it high just reintroduces buzz on the lower fundamental).
+  // Glottal rolloff: shave the raw sawtooth buzz before the tract.
   const sourceLp = ctx.createBiquadFilter();
   sourceLp.type = 'lowpass';
-  sourceLp.frequency.value = 3400;
-  sourceLp.Q.value = 0.6;
+  sourceLp.frequency.value = 2400;
+  sourceLp.Q.value = 0.5;
   source.connect(sourceLp);
 
-  // round 8: a parallel formant-shaped breath-noise bed. A pure harmonic
-  // tone with zero noise floor is the other classic "synthesizer" tell --
-  // real breath moving through a vocal tract always carries some air.  Kept
-  // very quiet and shaped broadly (not a sharp resonance) so it reads as
-  // texture, not hiss.
-  const breath = ctx.createBufferSource();
-  breath.buffer = noise;
-  const breathFilter = ctx.createBiquadFilter();
-  breathFilter.type = 'bandpass';
-  breathFilter.frequency.value = 700;
-  breathFilter.Q.value = 0.4;
-  const breathGain = ctx.createGain();
-  envelope(breathGain.gain, t0, [
-    [0, 0.0001],
-    [0.08, 0.05],
-    [S0 + 0.05, 0.045],
-    [S0 + 0.2, 0.0001],
-  ]);
-  breath.connect(breathFilter);
-  breathFilter.connect(breathGain);
-  breath.start(t0);
-  breath.stop(t0 + L + 0.3);
-
-  // --- three-band formant filter (parallel) ------------------------------
+  // --- vocal tract -----------------------------------------------------------
   const vocalBus = ctx.createGain();
   vocalBus.gain.value = 1.35;
-  breathGain.connect(vocalBus);
+
+  // Direct CHEST path: a lowpass that lets the F1-A1 fundamental and its 2nd
+  // harmonic (87-110 Hz) through at full weight. Parallel formant bandpasses
+  // centred at 250 Hz+ would otherwise strip the very band the owner wants
+  // maximised -- this is where the "극저음 웅장함" physically comes from.
+  const chestPath = ctx.createBiquadFilter();
+  chestPath.type = 'lowpass';
+  chestPath.frequency.value = 140;
+  chestPath.Q.value = 0.8;
+  const chestGain = ctx.createGain();
+  chestGain.gain.value = 0.62;
+  sourceLp.connect(chestPath);
+  chestPath.connect(chestGain);
+  chestGain.connect(vocalBus);
+
+  // Three-band formant filter (parallel) -- wide, low-Q bands.
   const bands = [
-    { q: 2.8, gain: 1.5 }, // round 8: lower Q than round 7 -- a narrow resonant peak rings like a machine formant, not a chest
-    { q: 4.0, gain: 0.75 },
-    { q: 5.0, gain: 0.3 },
+    { q: 2.2, gain: 1.5 },
+    { q: 3.2, gain: 0.8 },
+    { q: 4.0, gain: 0.32 },
   ].map(({ q, gain }) => {
     const filter = ctx.createBiquadFilter();
     filter.type = 'bandpass';
@@ -272,16 +337,15 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
     return { filter, g, base: gain };
   });
 
-  // Vowel targets: [F1, F2, F3] Hz and relative band weights. round 8:
-  // lowered back down from round 7's thinned-out values so the vocal-tract
-  // color reads as a large, warm chest rather than a small/sleek throat.
+  // Vowel targets [F1, F2, F3] Hz + band weights, voiced for a large, warm
+  // male tract (formants sit low). N is the nasal murmur (weak, dark).
   const vowels: Record<string, { f: [number, number, number]; w: [number, number, number] }> = {
-    U: { f: [350, 800, 2300], w: [1, 0.35, 0.1] },
-    N: { f: [300, 1350, 2300], w: [0.6, 0.2, 0.08] },
-    I: { f: [310, 2150, 2700], w: [1, 0.32, 0.24] },
-    A: { f: [750, 1150, 2450], w: [1, 0.65, 0.28] },
+    U: { f: [300, 690, 2250], w: [1, 0.32, 0.1] },
+    N: { f: [250, 1150, 2300], w: [0.55, 0.18, 0.07] },
+    I: { f: [280, 2050, 2650], w: [1, 0.36, 0.26] },
+    A: { f: [680, 1080, 2400], w: [1, 0.7, 0.3] },
   };
-  const setVowel = (name: keyof typeof vowels, at: number, tau = 0.035) => {
+  const setVowel = (name: keyof typeof vowels, at: number, tau: number) => {
     const v = vowels[name];
     bands.forEach(({ filter, g, base }, i) => {
       filter.frequency.setTargetAtTime(v.f[i], at, tau);
@@ -292,35 +356,129 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
     filter.frequency.setValueAtTime(vowels.U.f[i], t0);
     g.gain.setValueAtTime(base * vowels.U.w[i], t0);
   });
-  setVowel('N', t0 + N0, 0.02);
-  setVowel('I', t0 + I0);
-  setVowel('A', t0 + A0, 0.025);
+  // Coarticulation: the tract starts moving toward the next vowel a little
+  // before the voice gets there, and is already shaping "A" during the
+  // silent T closure -- exactly what a real mouth does.
+  setVowel('N', t0 + N.on - 0.02, 0.03);
+  setVowel('I', t0 + I.on - 0.015, 0.04);
+  setVowel('A', t0 + T.close + 0.02, 0.035);
 
-  // Tone shaping: round 8 -- the chest low-shelf boost is back (round 7
-  // removed it for a thin mid-high voice; this round explicitly wants the
-  // opposite). A gentle presence peak keeps consonants intelligible, and the
-  // old "air" highshelf BOOST is flipped to a highshelf CUT -- extra top-end
-  // brilliance is exactly the sleek/synthetic quality being reversed here,
-  // and a bass voice with a bright top end reads as artificial.
+  // Slow "jaw" LFO keeps F1 / F2 gently moving through every sustain --
+  // formants that sit perfectly still are another machine tell.
+  const jaw = ctx.createOscillator();
+  jaw.type = 'sine';
+  jaw.frequency.value = 1.1 + humanize(0.15);
+  const jawF1 = ctx.createGain();
+  jawF1.gain.value = 16; // Hz
+  const jawF2 = ctx.createGain();
+  jawF2.gain.value = 28; // Hz
+  jaw.connect(jawF1);
+  jaw.connect(jawF2);
+  jawF1.connect(bands[0].filter.frequency);
+  jawF2.connect(bands[1].filter.frequency);
+  jaw.start(t0);
+  jaw.stop(stopAt);
+
+  // --- breath ------------------------------------------------------------------
+  // Aspiration bed that follows the voice: air moving through the tract.
+  const breath = ctx.createBufferSource();
+  breath.buffer = noise;
+  breath.loop = true;
+  const breathFilter = ctx.createBiquadFilter();
+  breathFilter.type = 'bandpass';
+  breathFilter.frequency.value = 600;
+  breathFilter.Q.value = 0.35;
+  const breathGain = ctx.createGain();
+  envelope(breathGain.gain, t0, [
+    [0, 0.0001],
+    [0.1, 0.05],
+    [U.off, 0.045],
+    [T.close, 0.012],
+    [A.on + 0.06, 0.05],
+    [S.on, 0.04],
+    [S.off + 0.1, 0.0001],
+  ]);
+  breath.connect(breathFilter);
+  breathFilter.connect(breathGain);
+  breathGain.connect(vocalBus);
+  breath.start(t0);
+  breath.stop(stopAt);
+
+  // Intake of breath before the onset (the human "tell" before a phrase).
+  // If the context unlocked late and the chant is being played "now", the
+  // inhale is compressed forward rather than scheduled in the past.
+  const inhaleLen = 0.28;
+  const inhaleAt = Math.max(t0 - inhaleLen, ctx.currentTime + 0.005);
+  const inhaleSpan = Math.max(0.08, t0 - inhaleAt);
+  const inhale = ctx.createBufferSource();
+  inhale.buffer = noise;
+  const inhaleHp = ctx.createBiquadFilter();
+  inhaleHp.type = 'highpass';
+  inhaleHp.frequency.value = 900;
+  const inhaleBp = ctx.createBiquadFilter();
+  inhaleBp.type = 'bandpass';
+  inhaleBp.frequency.value = 1400;
+  inhaleBp.Q.value = 0.5;
+  const inhaleGain = ctx.createGain();
+  envelope(inhaleGain.gain, inhaleAt, [
+    [0, 0.0001],
+    [inhaleSpan * 0.55, 0.045],
+    [inhaleSpan * 0.92, 0.012],
+    [inhaleSpan, 0.0001],
+  ]);
+  inhale.connect(inhaleHp);
+  inhaleHp.connect(inhaleBp);
+  inhaleBp.connect(inhaleGain);
+  inhaleGain.connect(buses.dry);
+  const inhaleHall = ctx.createGain();
+  inhaleHall.gain.value = 0.25;
+  inhaleGain.connect(inhaleHall);
+  inhaleHall.connect(buses.wet);
+  inhale.start(inhaleAt);
+  inhale.stop(t0 + 0.05);
+
+  // Soft exhale after the final S -- the phrase is released, not cut.
+  const exhale = ctx.createBufferSource();
+  exhale.buffer = noise;
+  const exhaleBp = ctx.createBiquadFilter();
+  exhaleBp.type = 'bandpass';
+  exhaleBp.frequency.value = 900;
+  exhaleBp.Q.value = 0.4;
+  const exhaleGain = ctx.createGain();
+  envelope(exhaleGain.gain, t0 + S.off, [
+    [0, 0.0001],
+    [0.08, 0.03],
+    [0.33, 0.0001],
+  ]);
+  exhale.connect(exhaleBp);
+  exhaleBp.connect(exhaleGain);
+  exhaleGain.connect(buses.dry);
+  exhale.start(t0 + S.off);
+  exhale.stop(t0 + S.off + 0.36);
+
+  // --- tone shaping + sends ----------------------------------------------------
+  // Chest lowshelf lift, a mild presence peak so the consonants stay
+  // intelligible, and a highshelf CUT (a bass voice with a bright top end
+  // reads as artificial). Then dry + cathedral hall.
   const chest = ctx.createBiquadFilter();
   chest.type = 'lowshelf';
-  chest.frequency.value = 220;
-  chest.gain.value = 3.5;
+  chest.frequency.value = 160;
+  chest.gain.value = 4;
   const presence = ctx.createBiquadFilter();
   presence.type = 'peaking';
-  presence.frequency.value = 2200;
+  presence.frequency.value = 1900;
   presence.Q.value = 0.9;
-  presence.gain.value = 1.6;
+  presence.gain.value = 1.5;
   const airCut = ctx.createBiquadFilter();
   airCut.type = 'highshelf';
-  airCut.frequency.value = 5000;
-  airCut.gain.value = -2.5;
+  airCut.frequency.value = 4800;
+  airCut.gain.value = -3;
   vocalBus.connect(chest);
   chest.connect(presence);
   presence.connect(airCut);
   airCut.connect(buses.dry);
   const toHall = ctx.createGain();
-  toHall.gain.value = 0.5; // round 8: a touch more hall depth to reinforce the "grand" quality
+  toHall.gain.value = 0.55;
   airCut.connect(toHall);
   toHall.connect(buses.wet);
 
@@ -330,30 +488,30 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   burst.buffer = noise;
   const burstFilter = ctx.createBiquadFilter();
   burstFilter.type = 'bandpass';
-  burstFilter.frequency.value = 3800;
-  burstFilter.Q.value = 2.5;
+  burstFilter.frequency.value = 3600;
+  burstFilter.Q.value = 2.2;
   const burstGain = ctx.createGain();
-  burstGain.gain.setValueAtTime(0.0001, t0 + T0);
-  burstGain.gain.linearRampToValueAtTime(0.24, t0 + T0 + 0.032);
-  burstGain.gain.exponentialRampToValueAtTime(0.0001, t0 + T0 + 0.08);
+  burstGain.gain.setValueAtTime(0.0001, t0 + T.burst);
+  burstGain.gain.linearRampToValueAtTime(0.22, t0 + T.burst + 0.03);
+  burstGain.gain.exponentialRampToValueAtTime(0.0001, t0 + T.burst + 0.075);
   burst.connect(burstFilter);
   burstFilter.connect(burstGain);
   burstGain.connect(buses.dry);
-  burst.start(t0 + T0 + 0.028);
-  burst.stop(t0 + T0 + 0.1);
+  burst.start(t0 + T.burst);
+  burst.stop(t0 + T.burst + 0.1);
 
-  // S: high-passed hiss that tails the word out.
+  // S: high-passed hiss that tails the word out into the crystal echo.
   const hiss = ctx.createBufferSource();
   hiss.buffer = noise;
   const hissFilter = ctx.createBiquadFilter();
   hissFilter.type = 'highpass';
-  hissFilter.frequency.value = 5200;
+  hissFilter.frequency.value = 5000;
   hissFilter.Q.value = 0.7;
   const hissGain = ctx.createGain();
-  hissGain.gain.setValueAtTime(0.0001, t0 + S0);
-  hissGain.gain.linearRampToValueAtTime(0.17, t0 + S0 + 0.035);
-  hissGain.gain.setValueAtTime(0.17, t0 + S0 + 0.1);
-  hissGain.gain.exponentialRampToValueAtTime(0.0001, t0 + S0 + 0.32);
+  hissGain.gain.setValueAtTime(0.0001, t0 + S.on);
+  hissGain.gain.linearRampToValueAtTime(0.16, t0 + S.on + 0.04);
+  hissGain.gain.setValueAtTime(0.16, t0 + S.on + 0.12);
+  hissGain.gain.exponentialRampToValueAtTime(0.0001, t0 + S.on + 0.34);
   hiss.connect(hissFilter);
   hissFilter.connect(hissGain);
   hissGain.connect(buses.dry);
@@ -361,8 +519,8 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   hissHall.gain.value = 0.3;
   hissGain.connect(hissHall);
   hissHall.connect(buses.wet);
-  hiss.start(t0 + S0);
-  hiss.stop(t0 + S0 + 0.36);
+  hiss.start(t0 + S.on);
+  hiss.stop(t0 + S.on + 0.38);
 }
 
 // ---------------------------------------------------------------------------
@@ -510,7 +668,7 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
   }
 
   const master = ctx.createGain();
-  master.gain.value = isTouchPrimaryDevice() ? MASTER_GAIN_MOBILE : MASTER_GAIN_PC;
+  master.gain.value = MASTER_GAIN;
   const limiter = ctx.createDynamicsCompressor();
   limiter.threshold.value = -16;
   limiter.knee.value = 14;

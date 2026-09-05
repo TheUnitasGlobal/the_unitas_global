@@ -93,8 +93,9 @@ test.describe('pre-launch cinema flow', () => {
     await expect(page.getByRole('heading', { name: 'The Singularity is Near.' })).toBeVisible({
       timeout: 4000,
     });
+    // (Copy tracked from web/messages/en.json `ComingSoonGate.cinemaS1Sub`.)
     await expect(
-      page.getByText('The orbit of an intelligence unbound from flesh swings open.'),
+      page.getByText('An intelligence unbound from the body begins to trace its own orbit.'),
     ).toBeVisible();
 
     // Audio: a context was created AND/OR resumed as a direct result of the
@@ -129,12 +130,15 @@ test.describe('pre-launch cinema flow', () => {
     await page.goto(GATE_URL);
     await enterButton(page).click();
 
+    // Order follows web/lib/comingSoonSequence.ts (6s even cadence, owner
+    // instruction 2026-08-29) with copy from web/messages/en.json
+    // `ComingSoonGate.cinemaS{n}Head`: UNITAS -> U-AI -> 11 Cores -> 5 -> 3.
     const heads = [
       'The Singularity is Near.',
-      '11 Cognitive Cores',
       'U-AI Engine',
-      '5 Systems & 3 Pillars',
-      'The Sovereign Intelligence is Awakening.',
+      '11 Cognitive Cores',
+      '5 Live Systems',
+      '3 Sovereign Pillars',
     ];
     for (const h of heads) {
       await expect(page.getByRole('heading', { name: h })).toBeVisible({ timeout: 12_000 });

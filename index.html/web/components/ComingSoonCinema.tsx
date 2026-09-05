@@ -8,7 +8,9 @@ import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
 import { CinemaAppDownload } from '@/components/pwa/CinemaAppDownload';
-import { requestAppExit } from '@/components/interaction/ExitGuard';
+import { executeAppExit, isExitInProgress } from '@/lib/exit/appExit';
+import { attenuateMaster } from '@/lib/audio/masterLevel';
+import { CINEMA_PHASE_STORAGE_KEY } from '@/lib/splash/splashTimeline';
 import {
   CINEMA_PHASE_EVENT,
   revokeSovereignFounder,
@@ -34,7 +36,9 @@ import {
 type Phase = 'gate' | 'cinema' | 'sealed' | 'released';
 type Mode = 'public' | 'founder';
 
-const PHASE_KEY = 'unitas_cinema_phase';
+// Shared with the pre-hydration splash gate (lib/pwa/installPrompt.ts) and
+// ExitGuard -- one key, no drift (owner instruction 2026-09-05, round 10).
+const PHASE_KEY = CINEMA_PHASE_STORAGE_KEY;
 const LOCALE_PREF_KEY = 'unitas_locale_pref';
 const LOCALE_AUTO_KEY = 'unitas_locale_autodetected';
 // components/audio/AudioGate.tsx STORAGE_KEY -- once the founder has crossed
@@ -50,7 +54,10 @@ const AUDIO_GATE_SEEN_KEY = 'unitas_audio_gate_seen';
 // harmonic weight in the low-MID register, a slow-breathing cathedral pad,
 // sparse consonant bells and an airy high shimmer -- never from level or
 // sub weight. Master also drops so the 30s ad never feels loud.
-const CINEMA_MASTER_GAIN = 0.3;
+// Owner instruction 2026-09-05 (round 10, item 2): the 0.3 baseline is then
+// halved by the global omni-channel 50% master attenuation, identically on
+// every device and in both the online and App channels.
+const CINEMA_MASTER_GAIN = attenuateMaster(0.3);
 
 // Each cinema segment now renders as a two-line high-end keyword lockup:
 // an English keyword HEAD + a localized, riddle-like SUB line beneath it.
@@ -228,7 +235,12 @@ export function ComingSoonCinema() {
         /* no-op */
       }
     }
-    // Founder debug panel mirrors the live curtain phase.
+    // Live phase stamp on <html> -- lets a sibling mounted AFTER this
+    // component (ExitGuard) read the current phase synchronously instead of
+    // depending on having caught the event below. The curtain is a fixed
+    // overlay, so the attribute is purely informational (no CSS hooks).
+    document.documentElement.dataset.cinemaPhase = phase;
+    // Founder debug panel + ExitGuard mirror the live curtain phase.
     window.dispatchEvent(new CustomEvent(CINEMA_PHASE_EVENT, { detail: phase }));
   }, [phase]);
 
@@ -1023,26 +1035,30 @@ export function ComingSoonCinema() {
                 transition={{ duration: 1.1, ease: 'easeOut' }}
               >
                 {/* Owner instruction 2026-09-05: the globally-recognized
-                    close 'X' now lives EXCLUSIVELY on this sealed "COMING
-                    SOON" screen (removed from the cinema/ad phase above) and
-                    wires straight into ExitGuard's confirmed logout/exit
-                    flow instead of a mere "skip" -- on an installed mobile
-                    PWA, confirming there drops the visitor straight back to
-                    the home screen. Same gold-accent icon-button treatment,
-                    stacked below the GlobalLanguagePicker so the two never
-                    overlap.
-                    Round 2: a fresh direct visit has zero back-history, so
-                    window.close()/history.go(-2) both silently fail and used
-                    to strand the visitor on a "please close manually"
-                    warning. Passing forceRedirectTo hard-navigates to this
-                    locale's own root once that failure is confirmed, so the
-                    'X' always visibly takes the visitor somewhere instead of
-                    doing nothing. */}
+                    close 'X' lives EXCLUSIVELY on this sealed "COMING SOON"
+                    screen. Same gold-accent icon-button treatment, stacked
+                    below the GlobalLanguagePicker so the two never overlap.
+
+                    ROUND 10 -- "극단적 터널링" (item 6): the tap no longer
+                    detours through ExitGuard's confirm dialog at all. That
+                    dialog rendered on the z-200 modal layer, BENEATH this
+                    z-400 curtain -- so every prior round's tap DID open it,
+                    invisibly, which read as "무반응" here and then surfaced
+                    as a phantom popup the moment the founder entered the
+                    main home. The 'X' now calls the shared exit engine
+                    directly, synchronously inside the gesture (window.close
+                    and history traversal are activation-gated): App channel
+                    -> immediate termination back to the launcher; online
+                    -> back to the previous page / close the fresh tab; and
+                    if the runtime refuses every step, an in-place refresh of
+                    this locale's root (the sub-view splash gate re-renders
+                    this same sealed screen -- never a blank document). */}
                 <button
                   type="button"
                   onClick={(e) => {
                     e.preventDefault();
-                    requestAppExit({ forceRedirectTo: `/${locale}` });
+                    if (isExitInProgress()) return;
+                    executeAppExit({ fallbackUrl: `/${locale}` });
                   }}
                   onTouchEnd={(e) => {
                     // Owner instruction 2026-09-05 (round 3): a bare onClick
@@ -1053,7 +1069,8 @@ export function ComingSoonCinema() {
                     // tap never double-fires) makes the close button react
                     // to the very first tap on every touch device.
                     e.preventDefault();
-                    requestAppExit({ forceRedirectTo: `/${locale}` });
+                    if (isExitInProgress()) return;
+                    executeAppExit({ fallbackUrl: `/${locale}` });
                   }}
                   aria-label={tExit('exitTitle')}
                   style={{ pointerEvents: 'auto', touchAction: 'manipulation' }}

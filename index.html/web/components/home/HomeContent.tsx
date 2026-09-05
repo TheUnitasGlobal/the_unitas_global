@@ -13,7 +13,6 @@ import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModa
 import { ModuleQuestModal } from '@/components/interaction/ModuleQuestModal';
 import { HotShortcutResultModal } from '@/components/interaction/HotShortcutResultModal';
 import { LockInModuleModal } from '@/components/interaction/LockInModuleModal';
-import { ExitGuard } from '@/components/interaction/ExitGuard';
 import { Footer } from '@/components/layout/Footer';
 import { useShockwave } from '@/components/effects/Shockwave';
 import { useUai } from '@/lib/uai/useUai';
@@ -139,10 +138,9 @@ export function HomeContent() {
         onOuroborosChange={setIsOuroboros}
       />
 
-      {/* Mobile "back = leave" double gate: the hardware/browser back gesture
-          (incl. the one dismissing the virtual keyboard) asks 로그아웃? then
-          종료? instead of bouncing the visitor straight to the home screen. */}
-      <ExitGuard />
+      {/* The mobile "back = leave" double gate (ExitGuard) now mounts once in
+          app/[locale]/layout.tsx so it serves every route and can read the
+          pre-launch curtain's phase (owner instruction 2026-09-05, round 10). */}
 
       {/* Sections 1-3 -- the UNITAS ecosystem / consumer / enterprise catalogs.
           Always visible on the bare home screen (restored, owner instruction

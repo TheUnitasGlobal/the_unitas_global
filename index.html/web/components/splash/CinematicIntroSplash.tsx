@@ -4,14 +4,24 @@ import { useEffect, useState, type CSSProperties } from 'react';
 import { MasterMarkLogo } from '@/components/brand/MasterMarkLogo';
 import { createSplashAudio } from '@/lib/splash/splashAudio';
 import {
+  CINEMA_PHASE_STORAGE_KEY,
   SPLASH_DURATION_MS,
   SPLASH_EXIT_MS,
   SPLASH_LETTERS,
   SPLASH_REPLAY_EVENT,
   letterDrawStart,
   letterFillStart,
-  shouldRunSplash,
+  shouldRunSplashForPhase,
 } from '@/lib/splash/splashTimeline';
+
+/** Persisted Coming-Soon curtain phase for this tab (null on a cold visit). */
+function readPersistedCinemaPhase(): string | null {
+  try {
+    return window.sessionStorage.getItem(CINEMA_PHASE_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
 
 /**
  * Cinematic 3D intro splash (owner instruction 2026-09-04, item 3; extended
@@ -29,10 +39,11 @@ import {
  *         then settles and holds -- the gold facet hexagon frame is FIXED
  *         once settled (no continuous 3D sway); only the elements nested
  *         inside it keep moving, each independently: the lightning triangle
- *         spins (`sp-tri-spin`), the centered dot-hexagon spins the other
- *         way (`sp-dothex`), and the hologram globe spins while it pulses
- *         (`sp-globe`) -- all compositor CSS, all still inside the static
- *         hex frame.
+ *         spins about its true centroid (`sp-tri-spin`, origin 50%/66.667%
+ *         of its fill-box == (250, 180)), the centered dot-hexagon spins the
+ *         other way (`sp-dothex`), the bolt rod spins (`sp-bolt-spin`), and
+ *         the hologram globe stays FIXED at that same (250, 180) centre --
+ *         all compositor CSS, all still inside the static hex frame.
  *   0.5s  "UNITAS": each glyph's outline is drawn by a travelling gradient
  *         stroke (U -> S, staggered), then a flowing gold/white/cyan gradient
  *         floods the fill left-to-right like water following the line.
@@ -47,12 +58,19 @@ import {
  * it); `?splash=0` (QA/E2E) hides it before first paint via the
  * `html[data-splash="off"]` attribute the head bootstrap stamps.
  *
- * Audio: lib/splash/splashAudio.ts -- synthesized "UNITAS" vocal (1-2s) and
- * crystal echo (2-3s), at 0.3x the prior master gain (owner instruction
- * 2026-09-05, item 2), with an additional 30% cut on desktop only (owner
- * instruction 2026-09-05, round 2; handheld devices keep the round-1
- * level). Any pointer/key gesture during the splash unlocks a context the
- * autoplay policy kept suspended.
+ * Audio: lib/splash/splashAudio.ts -- the synthesized "UNITAS" chant (an
+ * ultra-deep F1-A1 human bass, letter-by-letter, ~1.0-2.6s) and the crystal
+ * echo (2-3s). Master level = the 0.246 baseline x the global omni-channel
+ * 50% attenuation (lib/audio/masterLevel.ts), identical on every device and
+ * in both the online and App channels (owner instruction 2026-09-05, round
+ * 10, item 2 -- the earlier PC-only extra cuts are retired). Any pointer/key
+ * gesture during the splash unlocks a context the autoplay policy kept
+ * suspended.
+ *
+ * Sub-view refresh (round 10, item 3): when the tab's persisted Coming-Soon
+ * phase is gate / cinema / sealed, the head bootstrap hides this layer
+ * before paint and the effect below unmounts it -- the refresh lands on the
+ * same view. Cold visits and the released main home still get the splash.
  */
 export function CinematicIntroSplash() {
   const [active, setActive] = useState(true);
@@ -61,6 +79,9 @@ export function CinematicIntroSplash() {
   // Founder debug panel can replay the splash at will.
   useEffect(() => {
     const onReplay = () => {
+      // An explicit replay overrides the pre-paint CSS gate the head
+      // bootstrap may have stamped for a sub-view refresh (or ?splash=0).
+      document.documentElement.removeAttribute('data-splash');
       setActive(true);
       setRun((n) => n + 1);
     };
@@ -70,7 +91,12 @@ export function CinematicIntroSplash() {
 
   useEffect(() => {
     if (!active) return;
-    if (run === 0 && !shouldRunSplash(window.location.search)) {
+    // Owner instruction 2026-09-05 (round 10, item 3): a refresh parked on a
+    // pre-launch SUB-VIEW (gate / ad cinema / sealed Coming-Soon) re-renders
+    // that view in place -- no "logo page" first. The head bootstrap already
+    // hid the SSR'd layer before paint; this unmounts it and skips the
+    // score/timers. A cold visit and the main home (`released`) still run.
+    if (run === 0 && !shouldRunSplashForPhase(window.location.search, readPersistedCinemaPhase())) {
       setActive(false);
       return;
     }

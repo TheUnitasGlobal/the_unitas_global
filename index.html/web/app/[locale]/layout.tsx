@@ -12,6 +12,7 @@ import { AudioGate } from '@/components/audio/AudioGate';
 import { ComingSoonCinema } from '@/components/ComingSoonCinema';
 import { PwaInstallHost } from '@/components/pwa/PwaInstallHost';
 import { SovereignDebugPanel } from '@/components/sovereign/SovereignDebugPanel';
+import { ExitGuard } from '@/components/interaction/ExitGuard';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -98,6 +99,12 @@ export default async function LocaleLayout({
             -> middleware.ts -> /api/sovereign/verify, see lib/sovereignAuth.ts)
             unlocks the founder door. Sits above everything, at full scale. */}
         <ComingSoonCinema />
+        {/* Online-channel back-gesture confirm (owner instruction 2026-09-05,
+            round 10): mounted AFTER the curtain so it reads the curtain's
+            live phase stamp on mount, and here in the layout (not the home
+            page) so one guard serves every route. Its modal renders on the
+            top layer (z-680), above the curtain. Never arms in App mode. */}
+        <ExitGuard />
         {/* Global one-click PWA install handler (z-650) -- serves every route,
             including the sealed cinema screen. Any `data-pwa-install` element
             or requestPwaInstall() call anywhere resolves here. */}

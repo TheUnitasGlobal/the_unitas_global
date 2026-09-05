@@ -1,12 +1,18 @@
 import { describe, expect, it } from 'vitest';
 import {
+  CINEMA_PHASE_STORAGE_KEY,
   SPLASH_CRYSTAL_AT_S,
   SPLASH_DURATION_MS,
   SPLASH_LETTERS,
+  SPLASH_SUB_VIEW_PHASES,
   SPLASH_VOCAL_AT_S,
+  SPLASH_VOCAL_LEAD_S,
+  SPLASH_VOCAL_LENGTH_S,
+  isSubViewPhase,
   letterDrawStart,
   letterFillStart,
   shouldRunSplash,
+  shouldRunSplashForPhase,
   splashAudioOffsets,
 } from '../../lib/splash/splashTimeline';
 
@@ -36,9 +42,38 @@ describe('splash timeline', () => {
     expect(letterFillStart(0)).toBeGreaterThan(letterDrawStart(0));
   });
 
-  it('places the vocal in the 1-2s window and the crystal in the final second', () => {
+  it('places the vocal at 1s leading the crystal at 2s, chant overlapping the impact', () => {
     expect(SPLASH_VOCAL_AT_S).toBe(1);
     expect(SPLASH_CRYSTAL_AT_S).toBe(2);
+    expect(SPLASH_VOCAL_LEAD_S).toBe(1);
+    // Round 10: the letter-by-letter bass chant is longer than its lead, so
+    // the held "A" is still ringing when the crystal lands -- by design.
+    expect(SPLASH_VOCAL_LENGTH_S).toBeGreaterThan(SPLASH_VOCAL_LEAD_S);
+    expect(SPLASH_VOCAL_AT_S + SPLASH_VOCAL_LENGTH_S).toBeLessThan(SPLASH_DURATION_MS / 1000);
+  });
+
+  it('treats gate / cinema / sealed as sub-views that refresh in place without the splash', () => {
+    expect(CINEMA_PHASE_STORAGE_KEY).toBe('unitas_cinema_phase');
+    expect([...SPLASH_SUB_VIEW_PHASES]).toEqual(['gate', 'cinema', 'sealed']);
+    expect(isSubViewPhase('gate')).toBe(true);
+    expect(isSubViewPhase('cinema')).toBe(true);
+    expect(isSubViewPhase(' sealed ')).toBe(true);
+    // Cold visit and the released main home keep the intro.
+    expect(isSubViewPhase(null)).toBe(false);
+    expect(isSubViewPhase(undefined)).toBe(false);
+    expect(isSubViewPhase('')).toBe(false);
+    expect(isSubViewPhase('released')).toBe(false);
+    expect(isSubViewPhase('garbage')).toBe(false);
+  });
+
+  it('combines the URL opt-out with the sub-view gate', () => {
+    expect(shouldRunSplashForPhase('', null)).toBe(true);
+    expect(shouldRunSplashForPhase('', 'released')).toBe(true);
+    expect(shouldRunSplashForPhase('', 'sealed')).toBe(false);
+    expect(shouldRunSplashForPhase('', 'cinema')).toBe(false);
+    expect(shouldRunSplashForPhase('', 'gate')).toBe(false);
+    expect(shouldRunSplashForPhase('?splash=0', 'released')).toBe(false);
+    expect(shouldRunSplashForPhase('?splash=0', null)).toBe(false);
   });
 
   it('keeps absolute beats when audio unlocks early', () => {

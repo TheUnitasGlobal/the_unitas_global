@@ -18,10 +18,27 @@ interface ModalProps {
    *  corner 'X' was pure redundant clutter competing with the title for
    *  attention. Opt-in per dialog -- every other modal keeps the X. */
   hideCloseButton?: boolean;
+  /** Stacking layer. 'base' (default, z-200) sits under the pre-launch
+   *  curtain (z-400) -- correct for every in-site dialog, which only opens
+   *  once the curtain is gone. 'top' (z-680) sits above the curtain, the
+   *  founder console (z-450) and the PWA install sheet (z-650), below only
+   *  the intro splash (z-700): reserved for the exit/logout confirm, which
+   *  must be reachable from the sealed Coming-Soon screen too (owner
+   *  instruction 2026-09-05, round 10 -- the dialog opening invisibly
+   *  beneath the curtain was the "'X' 무반응" / "진입 시 팝업" root cause). */
+  layer?: 'base' | 'top';
 }
 
 /** Shared overlay/dialog shell used by the wallet, quest, and inquiry modals. */
-export function Modal({ open, onClose, children, labelledBy, size = 'md', hideCloseButton = false }: ModalProps) {
+export function Modal({
+  open,
+  onClose,
+  children,
+  labelledBy,
+  size = 'md',
+  hideCloseButton = false,
+  layer = 'base',
+}: ModalProps) {
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -36,7 +53,9 @@ export function Modal({ open, onClose, children, labelledBy, size = 'md', hideCl
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-[200] h-[100dvh] overflow-y-auto overscroll-contain bg-void/80 backdrop-blur-sm"
+            className={`fixed inset-0 ${
+              layer === 'top' ? 'z-[680]' : 'z-[200]'
+            } h-[100dvh] overflow-y-auto overscroll-contain bg-void/80 backdrop-blur-sm`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

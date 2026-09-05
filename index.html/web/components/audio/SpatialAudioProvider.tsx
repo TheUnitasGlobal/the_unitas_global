@@ -11,6 +11,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { attenuateMaster } from '@/lib/audio/masterLevel';
 
 // useLayoutEffect warns during SSR; fall back to useEffect on the server.
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
@@ -40,7 +41,10 @@ interface SpatialAudioContextValue {
 
 const SpatialAudioContext = createContext<SpatialAudioContextValue | null>(null);
 
-const BASE_MASTER_GAIN = 0.4;
+// Owner instruction 2026-09-05 (round 10, item 2): the 0.4 baseline is halved
+// by the global omni-channel 50% master attenuation -- one rule for every
+// device (PC / mobile / tablet) and both channels (online / installed App).
+const BASE_MASTER_GAIN = attenuateMaster(0.4);
 
 /**
  * Persistent audio preference. Absent OR 'on' => sound is ON by default on

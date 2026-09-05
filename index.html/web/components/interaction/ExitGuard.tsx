@@ -8,36 +8,29 @@ import { useGatedSurface } from '@/components/ui/useGatedSurface';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { CINEMA_PHASE_EVENT } from '@/lib/foundersGate';
+import { CINEMA_PHASE_STORAGE_KEY } from '@/lib/splash/splashTimeline';
+import { executeAppExit, isStandaloneApp } from '@/lib/exit/appExit';
 
 /** history.state marker of the sentinel entry parked under the home page. */
 const GUARD_MARKER = 'unitasExitGuard';
-/** Give a leave attempt this long to actually unload before admitting the
- *  browser refused (no prior page to go back to, window.close() denied). */
-const LEAVE_SETTLE_MS = 450;
 /** Window event any surface can fire to open the same logout/exit confirm
  *  this component shows on a back-gesture -- see `requestAppExit()` below. */
 const EXIT_REQUEST_EVENT = 'unitas:app-exit-request';
+/** Curtain phase in which the real site is visible and the guard may arm. */
+const RELEASED_PHASE = 'released';
 
 interface ExitRequestDetail {
-  /**
-   * Owner instruction 2026-09-05 (round 2): when window.close() is silently
-   * refused by browser security policy (a tab not opened by script, the
-   * common case) AND there is no prior history entry to travel back through
-   * (a fresh direct visit -- exactly how most Coming-Soon 'X' clicks arrive,
-   * with zero back-history), the confirm's "종료" action used to dead-end on
-   * a "please close manually" warning. A caller that supplies this hard-
-   * navigates here instead once that failure is confirmed, so the visitor
-   * always ends up leaving the sealed screen rather than getting stuck.
-   */
+  /** Same-origin URL for the exit engine's in-place fallback (defaults to
+   *  the current locale's root). */
   forceRedirectTo?: string;
 }
 
 /**
  * Ask ExitGuard to open its logout/exit confirm on demand, outside the
- * back-gesture flow -- e.g. the Coming-Soon sealed screen's 'X' button
- * (owner instruction 2026-09-05), which must send a mobile PWA straight to
- * the same confirmed exit rather than bouncing the visitor out unconfirmed.
- * No-ops if ExitGuard isn't mounted (SSR / component removed).
+ * back-gesture flow. No-ops if ExitGuard isn't mounted (SSR / removed).
+ * (The Coming-Soon 'X' no longer goes through here -- owner instruction
+ * 2026-09-05 round 10 item 6 tunnels it straight into `executeAppExit()`.)
  */
 export function requestAppExit(detail?: ExitRequestDetail): void {
   if (typeof window === 'undefined') return;
@@ -46,24 +39,22 @@ export function requestAppExit(detail?: ExitRequestDetail): void {
 
 type Step = 'logout' | 'exit';
 
-function isStandaloneMode(): boolean {
-  if (typeof window === 'undefined') return false;
-  try {
-    return (
-      window.matchMedia('(display-mode: standalone)').matches ||
-      (navigator as Navigator & { standalone?: boolean }).standalone === true
-    );
-  } catch {
-    return false;
-  }
-}
-
+/**
+ * Only the ONLINE channel arms the back-gesture sentinel. In the App channel
+ * (installed PWA) the doctrine is "exit = terminate immediately" (owner
+ * instruction 2026-09-05, round 10, item 5): the OS back on a single-entry
+ * app window already closes it, and -- decisively -- parking a second
+ * history entry would make Chromium refuse `window.close()` for the rest
+ * of the session, breaking the 'X' / 종료 force-close. So: never in
+ * standalone mode; otherwise a touch / narrow viewport as before.
+ */
 function shouldArm(): boolean {
   if (typeof window === 'undefined') return false;
+  if (isStandaloneApp()) return false;
   try {
     const coarse = window.matchMedia('(pointer: coarse)').matches;
     const narrow = window.innerWidth <= 1024;
-    return coarse || isStandaloneMode() || narrow;
+    return coarse || narrow;
   } catch {
     return false;
   }
@@ -80,20 +71,47 @@ function armSentinel() {
   }
 }
 
+/** Live curtain phase: the DOM attribute the curtain stamps, else storage. */
+function readCinemaPhase(): string {
+  if (typeof document === 'undefined') return 'gate';
+  const stamped = document.documentElement.dataset.cinemaPhase;
+  if (stamped) return stamped;
+  try {
+    return sessionStorage.getItem(CINEMA_PHASE_STORAGE_KEY) ?? 'gate';
+  } catch {
+    return 'gate';
+  }
+}
+
 /**
- * Mobile "back = leave" double gate (owner instruction 2026-09-03). On a
- * touch / narrow / installed-PWA viewport, the home page parks one extra
- * same-URL history entry beneath itself; the device's hardware or browser
- * back gesture -- including the second press after one has only dismissed
- * the virtual keyboard -- pops to the real entry, and instead of bouncing
- * the visitor out to the launcher this opens the two-step confirm:
+ * Mobile "back = leave" double gate (owner instruction 2026-09-03) for the
+ * ONLINE channel. On a touch / narrow browser viewport, once the real site
+ * is visible, the page parks one extra same-URL history entry beneath
+ * itself; the device's back gesture -- including the second press after one
+ * has only dismissed the virtual keyboard -- pops to the real entry, and
+ * instead of bouncing the visitor out this opens the two-step confirm:
  * "로그아웃을 하시겠습니까?" (only while signed in) then "종료하시겠습니까?".
- * The sentinel is re-armed immediately, so the site only actually unloads
- * on an explicit tap of 종료; every other path (취소, backdrop, Escape)
- * leaves the visitor exactly where they were, keyboard closed.
+ * The sentinel is re-armed immediately, so the site only actually unloads on
+ * an explicit tap of 종료 (which runs the shared exit engine -- online: back
+ * to the previous page; app: immediate termination). Every other path (취소,
+ * backdrop, Escape) leaves the visitor exactly where they were.
  *
- * Plays nicely with the dialog towers: they push their own markers on top
- * of the sentinel, so one back closes the tower and the next reaches here.
+ * ENTRY-POPUP ERADICATION (owner instruction 2026-09-05, round 10, item 4):
+ * the guard used to arm 60ms after mount, on every route, under the opaque
+ * pre-launch curtain -- so a synthetic load/resume `popstate` (WebKit PWA
+ * history restore) or a stray exit request could open this confirm while
+ * nothing on screen had asked for it, and, because the Modal layer sat
+ * BELOW the curtain, the dialog stayed invisible until the founder entered
+ * the main home -- surfacing there as "팝업 자동 발동". Now the sentinel is
+ * only ever parked when ALL of these hold: the curtain phase is `released`
+ * (the real site is visible), the visitor has produced at least one real
+ * pointer/key gesture since mount (a load-time synthetic pop physically
+ * precedes any gesture), and the channel is online. The popstate listener
+ * itself is not even attached before that. The confirm renders on the
+ * top-most modal layer so it can never be hidden behind the curtain.
+ *
+ * Mounted once in app/[locale]/layout.tsx (after the curtain), so the same
+ * guard serves every route rather than only the home page.
  */
 export function ExitGuard() {
   const t = useTranslations('ExitGuard');
@@ -108,8 +126,7 @@ export function ExitGuard() {
   const leavingRef = useRef(false);
   const forceRedirectRef = useRef<string | null>(null);
   /** Timestamp (ms) before which an incoming popstate is treated as a
-   *  spurious/synthetic event rather than a real user back-gesture -- see
-   *  the grace-window note below. */
+   *  spurious/synthetic event rather than a real user back-gesture. */
   const guardReadyAtRef = useRef(0);
 
   const openGate = gate.setOpen;
@@ -117,30 +134,21 @@ export function ExitGuard() {
   useEffect(() => {
     if (!shouldArm()) return;
 
-    // GRACE WINDOW (owner instruction 2026-09-05, round 3): some mobile
-    // browsers/PWA runtimes fire a `popstate` that is NOT a real user back
-    // gesture -- e.g. WebKit occasionally replays one while restoring an
-    // installed PWA's history stack after the OS suspends and resumes it.
-    // Without a guard, that synthetic pop landed on the un-marked real entry
-    // and opened the exit confirm the instant the visitor merely reopened
-    // the app -- "메인 홈페이지 진입 시 팝업 자동 발동". A real back-button
-    // press physically cannot land inside this short window measured from
-    // mount/resume, so any popstate that does is re-armed silently instead
-    // of asked about.
+    let released = readCinemaPhase() === RELEASED_PHASE;
+    let gestureSeen = false;
+    let armed = false;
+
     const arm = () => {
       armSentinel();
       guardReadyAtRef.current = Date.now() + 600;
     };
-    // Let Next's own hydration-time replaceState land first, so the
-    // sentinel is layered over the router's real entry, not under it.
-    const armTimer = setTimeout(arm, 60);
 
     const onPop = (e: PopStateEvent) => {
       if (leavingRef.current) return;
       const state = e.state as Record<string, unknown> | null;
       if (state?.[GUARD_MARKER]) return; // a tower closed -- still on the sentinel
-      if (Date.now() < guardReadyAtRef.current) {
-        // Spurious pop inside the grace window -- re-arm and say nothing.
+      if (document.visibilityState !== 'visible' || Date.now() < guardReadyAtRef.current) {
+        // Spurious pop (grace window / background resume) -- re-arm silently.
         arm();
         return;
       }
@@ -155,18 +163,41 @@ export function ExitGuard() {
       setStep(sessionRef.current ? 'logout' : 'exit');
       openGate(true, { force: true });
     };
-    window.addEventListener('popstate', onPop);
+
+    const tryArm = () => {
+      if (armed || !released || !gestureSeen) return;
+      armed = true;
+      arm();
+      window.addEventListener('popstate', onPop);
+    };
+
+    const onGesture = () => {
+      gestureSeen = true;
+      tryArm();
+    };
+    const gestureOpts: AddEventListenerOptions = { passive: true, capture: true };
+    window.addEventListener('pointerdown', onGesture, gestureOpts);
+    window.addEventListener('touchstart', onGesture, gestureOpts);
+    window.addEventListener('keydown', onGesture, gestureOpts);
+
+    const onPhase = (event: Event) => {
+      released = (event as CustomEvent<string>).detail === RELEASED_PHASE;
+      tryArm();
+    };
+    window.addEventListener(CINEMA_PHASE_EVENT, onPhase);
 
     // Re-open the grace window whenever the tab/app regains visibility (the
-    // same PWA-resume moment that can produce the synthetic pop above), so
-    // the same protection applies after backgrounding, not just on mount.
+    // PWA-resume moment that can replay a synthetic pop).
     const onVisible = () => {
       if (document.visibilityState === 'visible') guardReadyAtRef.current = Date.now() + 600;
     };
     document.addEventListener('visibilitychange', onVisible);
 
     return () => {
-      clearTimeout(armTimer);
+      window.removeEventListener('pointerdown', onGesture, gestureOpts);
+      window.removeEventListener('touchstart', onGesture, gestureOpts);
+      window.removeEventListener('keydown', onGesture, gestureOpts);
+      window.removeEventListener(CINEMA_PHASE_EVENT, onPhase);
       window.removeEventListener('popstate', onPop);
       document.removeEventListener('visibilitychange', onVisible);
     };
@@ -209,50 +240,21 @@ export function ExitGuard() {
   function handleExit() {
     leavingRef.current = true;
     setBusy(true);
-    try {
-      // Installed PWA / script-opened tab: a real close is permitted.
-      window.close();
-    } catch {
-      // ignored -- fall through below
-    }
-    try {
-      if (isStandaloneMode()) {
-        // Owner instruction 2026-09-05 (round 2): `history.go(-2)` is a dead
-        // end for a freshly-launched installed PWA -- armSentinel() only
-        // ever pushes ONE synthetic entry on top of the app's single real
-        // entry, so by the time the visitor has backed onto that real entry
-        // and confirmed exit here, there are no 2 entries left to go back
-        // through and nothing happens (the app just sits there). No web API
-        // can force-quit an installed PWA/TWA process, so the closest
-        // honest equivalent is leaving the app's visible content -- replace
-        // the document instead of trying to travel past history it doesn't
-        // have.
-        window.location.replace('about:blank');
-      } else {
-        // Sentinel + real entry: two steps back leaves the site for the page
-        // (or launcher) the visitor came from.
-        window.history.go(-2);
-      }
-    } catch {
-      // ignored
-    }
-    setTimeout(() => {
-      if (document.visibilityState === 'hidden') return;
-      // Nothing unloaded us: no prior page and the browser refused
-      // window.close()/history.go(-2). Owner instruction 2026-09-05 (round
-      // 3): every caller now gets a guaranteed hard redirect to the main
-      // observation home instead of a dead-end "please close manually"
-      // notice -- same-origin navigation is never blocked by the
-      // close/popup policies that just defeated the attempts above.
-      window.location.href = forceRedirectRef.current ?? `/${locale}`;
-    }, LEAVE_SETTLE_MS);
+    // Owner instruction 2026-09-05 (round 10, item 5): one shared engine
+    // decides the channel -- online: back to the previous (search) page;
+    // App: immediate termination, and a clean in-place restart (never a
+    // blank document) if the runtime refuses to close.
+    executeAppExit({
+      fallbackUrl: forceRedirectRef.current ?? `/${locale}`,
+      sentinelMarker: GUARD_MARKER,
+    });
   }
 
   const titleId = 'exit-guard-title';
   const isLogout = step === 'logout';
 
   return (
-    <Modal open={gate.open} onClose={close} labelledBy={titleId} hideCloseButton>
+    <Modal open={gate.open} onClose={close} labelledBy={titleId} hideCloseButton layer="top">
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-3">
           <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-accent/50 bg-accent/10 text-accent">

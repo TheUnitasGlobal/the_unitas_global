@@ -9,12 +9,12 @@ import {
   verifySovereignFounder,
   type SovereignVerification,
 } from '@/lib/foundersGate';
-import { SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
+import { CINEMA_PHASE_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
 
 const COLLAPSED_KEY = 'unitas_sovereign_panel_collapsed';
-// components/ComingSoonCinema.tsx PHASE_KEY -- read once for the initial value,
-// then kept live through CINEMA_PHASE_EVENT.
-const PHASE_KEY = 'unitas_cinema_phase';
+// The curtain's persisted phase key (shared constant) -- read once for the
+// initial value, then kept live through CINEMA_PHASE_EVENT.
+const PHASE_KEY = CINEMA_PHASE_STORAGE_KEY;
 
 /**
  * Founder debug panel (owner instruction 2026-09-04, item 4-2). Renders

@@ -197,7 +197,11 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
           />
         </g>
 
-        {/* hologram globe -- spins while it pulses */}
+        {/* hologram globe -- FIXED dead-centre on (250, 180): no rotation, no
+            pulse (owner instruction 2026-09-05, round 3; re-verified round 10
+            item 7 together with the triangle's centroid landing on the same
+            point: (250 + 278 + 222) / 3 = 250, (147.67 + 196.17 + 196.17) /
+            3 = 180.00). */}
         <g className="sp-globe" filter={hero ? 'url(#sp-globeGlow)' : undefined}>
           <circle cx="250" cy="180" r="12.5" fill="url(#sp-holoGlobe)" />
           <ellipse cx="250" cy="180" rx="12.5" ry="4.5" fill="none" stroke="#FFFFFF" strokeWidth={hero ? 0.7 : 1.1} opacity="0.6" />
