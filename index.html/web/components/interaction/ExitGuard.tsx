@@ -259,7 +259,22 @@ export function ExitGuard() {
             {isLogout ? <LogOut size={20} aria-hidden="true" /> : <Power size={20} aria-hidden="true" />}
           </span>
           <div className="min-w-0">
-            <h2 id={titleId} className="text-base font-bold leading-snug text-white sm:text-xl">
+            {/* Owner instruction 2026-09-05 (round 4): guarantee a single,
+                unbroken line for the Korean title specifically -- at 320px
+                viewport width the icon + pr-6 close-button reserve leaves too
+                little room for the default wrapping size to hold one line.
+                Scoped to `locale === 'ko'` only: forcing nowrap + a shrunk
+                size globally would overflow the other 19 locales, several of
+                which run 35-40+ space-separated characters (et/tr/km) that
+                need their natural word-wrap to stay inside the modal. */}
+            <h2
+              id={titleId}
+              className={
+                locale === 'ko'
+                  ? 'whitespace-nowrap text-[13px] font-bold tracking-tight text-white sm:text-xl sm:tracking-normal'
+                  : 'text-base font-bold leading-snug text-white sm:text-xl'
+              }
+            >
               {isLogout ? t('logoutTitle') : t('exitTitle')}
             </h2>
           </div>
