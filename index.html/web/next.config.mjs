@@ -37,6 +37,31 @@ const nextConfig = {
   // Caps the in-memory ISR/data cache (default 50MB) -- this app has no
   // heavy per-route cached payloads, so a smaller ceiling costs nothing.
   cacheMaxMemorySize: 25 * 1024 * 1024,
+  // PWA icon cache-busting (owner instruction 2026-09-04, item 1). Icon URLs
+  // are content-versioned by scripts/pwa-cache-bust.mjs (`?v=<label>.<digest>`),
+  // so the files themselves may be cached forever -- a changed icon is a new
+  // URL. The manifest and the service worker, by contrast, must ALWAYS be
+  // revalidated so OS/browser install records pick up the new icon URLs on
+  // the very next launch instead of a day later.
+  async headers() {
+    return [
+      {
+        source: '/icons/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      {
+        source: '/manifest.json',
+        headers: [{ key: 'Cache-Control', value: 'no-cache, must-revalidate' }],
+      },
+      {
+        source: '/sw.js',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, must-revalidate' },
+          { key: 'Service-Worker-Allowed', value: '/' },
+        ],
+      },
+    ];
+  },
   webpack: (config, { dev }) => {
     // In-memory webpack cache trades RAM for faster incremental rebuilds;
     // worth it in dev, not worth it for a one-shot production build.

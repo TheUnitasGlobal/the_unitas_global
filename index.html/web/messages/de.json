@@ -526,6 +526,18 @@
     "awakening": "Die souveräne Intelligenz erwacht",
     "sealed": "Der öffentliche Zugang zur Hauptoberfläche ist bis zum Start versiegelt."
   },
+  "Sovereign": {
+    "title": "Sovereign-Konsole",
+    "verified": "Gründer-Token verifiziert",
+    "expires": "Sitzung gültig bis",
+    "phase": "Vorhangphase",
+    "enterMain": "Hauptseite betreten",
+    "replaySequence": "Sequenz erneut abspielen",
+    "replaySplash": "Intro erneut abspielen",
+    "revoke": "Zugriff widerrufen",
+    "collapse": "Einklappen",
+    "expand": "Ausklappen"
+  },
   "Auth": {
     "login": "Anmelden",
     "logout": "Abmelden",

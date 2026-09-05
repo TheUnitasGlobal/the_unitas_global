@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "dev:lan": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/lan-bridge.ps1 && next dev -H 0.0.0.0",
-    "prebuild": "node scripts/validate-module-registry.mjs",
+    "prebuild": "node scripts/validate-module-registry.mjs && node scripts/pwa-cache-bust.mjs",
+    "pwa:cache-bust": "node scripts/pwa-cache-bust.mjs",
     "build": "next build",
     "postbuild": "node scripts/ownership-fingerprint.mjs",
     "build:memcheck": "next build --experimental-debug-memory-usage",

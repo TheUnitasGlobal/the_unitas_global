@@ -526,6 +526,18 @@
     "awakening": "L'intelligence souveraine s'éveille",
     "sealed": "L'entrée publique à l'interface principale est scellée jusqu'au lancement."
   },
+  "Sovereign": {
+    "title": "Console souveraine",
+    "verified": "Jeton fondateur vérifié",
+    "expires": "Session valide jusqu'au",
+    "phase": "Phase du rideau",
+    "enterMain": "Entrer sur le site principal",
+    "replaySequence": "Rejouer la séquence",
+    "replaySplash": "Rejouer l'intro",
+    "revoke": "Révoquer l'accès",
+    "collapse": "Réduire",
+    "expand": "Développer"
+  },
   "Auth": {
     "login": "Connexion",
     "logout": "Déconnexion",

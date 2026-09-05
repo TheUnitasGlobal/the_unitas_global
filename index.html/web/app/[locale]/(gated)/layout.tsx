@@ -1,7 +1,11 @@
 import type { ReactNode } from 'react';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { FOUNDER_BYPASS_COOKIE } from '@/lib/foundersGate';
+import {
+  SOVEREIGN_SESSION_COOKIE,
+  resolveSovereignSigningSecret,
+  verifySovereignSession,
+} from '@/lib/sovereignAuth';
 import { moduleForPathname } from '@/lib/moduleAccess';
 import { moduleAccessName } from '@/lib/module-registry';
 import { getSupabaseServerComponentClient } from '@/lib/supabase/serverComponent';
@@ -27,7 +31,9 @@ import type { ModuleLockReason } from '@/components/modules/ModuleLockPanel';
  * is resolved from the `x-unitas-pathname` request header that middleware.ts
  * injects. Fail-closed everywhere: missing header, unconfigured Supabase,
  * auth error, or query error all redirect to the locked page. The one bypass
- * is the founder's `unitas_dev` cookie (QA), matching lib/foundersGate.ts.
+ * is a SERVER-VERIFIED sovereign founder session -- the HMAC-signed HttpOnly
+ * cookie middleware.ts mints for `?sovereign_auth=<token>` (lib/sovereignAuth.ts,
+ * owner instruction 2026-09-04) -- never a client-settable flag.
  */
 export default async function GatedModuleLayout({
   children,
@@ -38,9 +44,12 @@ export default async function GatedModuleLayout({
 }) {
   const { locale } = await params;
 
-  // Founder / developer QA bypass (soft pre-launch curtain convention).
-  const devCookie = cookies().get(FOUNDER_BYPASS_COOKIE)?.value;
-  if (devCookie === '1' || devCookie === 'true') {
+  // Founder QA bypass: only a verified, unexpired signed session passes.
+  const sovereign = await verifySovereignSession(
+    cookies().get(SOVEREIGN_SESSION_COOKIE)?.value,
+    resolveSovereignSigningSecret(),
+  );
+  if (sovereign.ok) {
     return <>{children}</>;
   }
 

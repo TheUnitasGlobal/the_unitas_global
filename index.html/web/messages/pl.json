@@ -526,6 +526,18 @@
     "awakening": "Suwerenna inteligencja się budzi",
     "sealed": "Publiczny dostęp do głównego interfejsu jest zapieczętowany do momentu premiery."
   },
+  "Sovereign": {
+    "title": "Konsola suwerenna",
+    "verified": "Token założyciela zweryfikowany",
+    "expires": "Sesja ważna do",
+    "phase": "Faza kurtyny",
+    "enterMain": "Wejdź na stronę główną",
+    "replaySequence": "Odtwórz sekwencję ponownie",
+    "replaySplash": "Odtwórz intro ponownie",
+    "revoke": "Cofnij dostęp",
+    "collapse": "Zwiń",
+    "expand": "Rozwiń"
+  },
   "Auth": {
     "login": "Zaloguj się",
     "logout": "Wyloguj się",

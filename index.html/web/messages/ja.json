@@ -526,6 +526,18 @@
     "awakening": "主権的知性が目覚めつつある",
     "sealed": "正式ローンチまで、メインインターフェースへの一般アクセスは封印されています。"
   },
+  "Sovereign": {
+    "title": "ソブリン・コンソール",
+    "verified": "創業者トークン検証済み",
+    "expires": "セッション有効期限",
+    "phase": "カーテン段階",
+    "enterMain": "メインサイトへ入る",
+    "replaySequence": "シーケンスを再生",
+    "replaySplash": "イントロスプラッシュを再生",
+    "revoke": "権限を取り消す",
+    "collapse": "折りたたむ",
+    "expand": "展開"
+  },
   "Auth": {
     "login": "ログイン",
     "logout": "ログアウト",

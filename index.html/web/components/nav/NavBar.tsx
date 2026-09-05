@@ -2,12 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Download } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { SoundToggle } from '@/components/audio/SoundToggle';
-import { usePwaInstall } from '@/lib/hooks/usePwaInstall';
-import { Modal } from '@/components/ui/Modal';
-import { useGatedSurface } from '@/components/ui/useGatedSurface';
+import { PWA_INSTALL_TRIGGER_ATTR } from '@/lib/pwa/installPrompt';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { AuthButton } from './AuthButton';
 import { SettingsButton } from './SettingsButton';
@@ -15,10 +12,6 @@ import { CoinBalanceBadge } from '@/components/wallet/CoinBalanceBadge';
 
 export function NavBar() {
   const t = useTranslations('Nav');
-  const { canInstall, isInstalled, isIos, isDesktop, promptInstall } = usePwaInstall();
-  const { open: showGuide, setOpen: setShowGuide } = useGatedSurface('nav:app-download', {
-    lockScroll: true,
-  });
   const scrollRef = useRef<HTMLDivElement>(null);
   const [edgeHint, setEdgeHint] = useState({ left: false, right: false });
 
@@ -43,27 +36,12 @@ export function NavBar() {
     };
   }, []);
 
-  // Always surface the install popup (owner instruction 2026-08-29): the modal
-  // now hosts the live one-click install button wired to `beforeinstallprompt`,
-  // so we no longer fire the native prompt straight from the nav click.
-  const handleAppDownloadClick = () => {
-    setShowGuide(true, { force: true });
-  };
-
-  const handleModalInstall = () => {
-    void promptInstall();
-    setShowGuide(false);
-  };
-
-  const guideMessage = isInstalled
-    ? t('appDownloadAlreadyInstalledHint')
-    : canInstall
-      ? t('appDownloadReadyHint')
-      : isIos
-        ? t('appDownloadIosHint')
-        : isDesktop
-          ? t('appDownloadDesktopHint')
-          : t('appDownloadUnsupported');
+  // One-click install (owner instruction 2026-09-04, item 2): the button is a
+  // plain `data-pwa-install` trigger. The global <PwaInstallHost/> (mounted in
+  // app/[locale]/layout.tsx) fires the browser's native install popup on this
+  // exact click whenever `beforeinstallprompt` was captured, and opens the
+  // localized guide sheet otherwise -- identical behaviour on every route.
+  const installTrigger = { [PWA_INSTALL_TRIGGER_ATTR]: 'nav' } as Record<string, string>;
 
   return (
     <nav id="unitas-nav" className="fixed left-0 top-0 z-50 w-full border-b border-accent/20 bg-void/80 py-5 backdrop-blur-md">
@@ -79,7 +57,7 @@ export function NavBar() {
           <button
             type="button"
             aria-label={t('appDownloadAria')}
-            onClick={handleAppDownloadClick}
+            {...installTrigger}
             className="app-download-pulse flex min-w-0 flex-col items-start justify-center gap-0 rounded-xl border-none bg-transparent px-2.5 py-1 sm:flex-row sm:items-center sm:gap-1.5 sm:rounded-full sm:px-4 sm:py-1.5"
           >
             <span className="font-serif text-[10px] font-bold uppercase leading-tight tracking-[0.1em] text-accent sm:text-[15px] sm:leading-none sm:tracking-[0.18em]">
@@ -143,30 +121,6 @@ export function NavBar() {
           </div>
         </div>
       </div>
-
-      <Modal open={showGuide} onClose={() => setShowGuide(false)} labelledBy="app-download-guide-title">
-        <h2
-          id="app-download-guide-title"
-          className="font-serif text-lg font-bold uppercase tracking-[0.18em] text-accent"
-        >
-          {t('appDownloadModalTitle')}
-        </h2>
-        <p className="mt-4 text-sm leading-relaxed text-gray-200">{guideMessage}</p>
-
-        {/* Live one-click install: only rendered while the browser has actually
-            fired `beforeinstallprompt` (canInstall), so tapping it always
-            resolves to the real native install flow -- no dead button. */}
-        {!isInstalled && canInstall && (
-          <button
-            type="button"
-            onClick={handleModalInstall}
-            className="mt-6 flex w-full items-center justify-center gap-2 border border-accent bg-accent/10 py-3 text-sm font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
-          >
-            <Download size={16} aria-hidden="true" />
-            {t('appDownloadInstallNow')}
-          </button>
-        )}
-      </Modal>
     </nav>
   );
 }

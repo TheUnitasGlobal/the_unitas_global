@@ -2,11 +2,11 @@
   "owner": "THE UNITAS GLOBAL OU",
   "copyright": "© 2026 THE UNITAS GLOBAL OU",
   "license": "Proprietary -- All Rights Reserved. See /legal#license.",
-  "generatedAt": "2026-09-05T02:29:06.330Z",
-  "gitCommit": "d815b6322e2d922885a8358ef0db15ea56d48c35",
+  "generatedAt": "2026-09-05T03:24:05.163Z",
+  "gitCommit": "904de078b74c85c6cce60c15888cb0badd2f9b76",
   "algorithm": "sha256",
   "fileCount": 12,
-  "buildFingerprint": "68e1523e87ae846ac586df7e37152771b7afb5800d97b03e5fe962955ab60aef",
+  "buildFingerprint": "fd8c2e03fe5b6cc480f7cf8cdd8a21c544e26f1e8c3993fadda3b8c9f22bd1a9",
   "files": {
     "assets/models/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "assets/svg/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -18,7 +18,7 @@
     "icons/icon-512.png": "763ef2283358a7fd63b455938f8dea41f934989fc00556fa6dc492940de29a59",
     "icons/icon-maskable-512.png": "f89088289afec95ff9d4d994c3c1d5b537d994d3d67dec6e11c689427d5b0e35",
     "icons/shortcut-192.png": "2198ea60b6354743f08e0b466044e8b14076f3d0bf0a952e52522d34402940fe",
-    "manifest.json": "4908b93f550274ee3ab688dffa3a313dc3c22998f87e5957abf9f88805d97c8e",
-    "sw.js": "cb1402d7aec4aa2a7363b365d424bfa184b43e0cb4f6f20d0f9dff531145143c"
+    "manifest.json": "dfda97710680ce18bbbb057b38cb27cc6d2a7174a327a9a87a7a8d178e4cbcc7",
+    "sw.js": "3704fe44f531a7cca5317bc63863f2a1c9ef7191290d33cf3116fe5abb7e0a22"
   }
 }

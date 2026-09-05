@@ -526,6 +526,18 @@
     "awakening": "The Sovereign Intelligence is Awakening",
     "sealed": "Public entry to the main interface is sealed until launch."
   },
+  "Sovereign": {
+    "title": "Sovereign Console",
+    "verified": "Founder token verified",
+    "expires": "Session valid until",
+    "phase": "Curtain phase",
+    "enterMain": "Enter main site",
+    "replaySequence": "Replay sequence",
+    "replaySplash": "Replay intro splash",
+    "revoke": "Revoke access",
+    "collapse": "Collapse",
+    "expand": "Expand"
+  },
   "Auth": {
     "login": "Login",
     "logout": "Logout",

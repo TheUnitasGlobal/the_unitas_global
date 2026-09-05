@@ -526,6 +526,18 @@
     "awakening": "Trí tuệ chủ quyền đang thức tỉnh",
     "sealed": "Lối vào công khai đến giao diện chính bị niêm phong cho đến khi ra mắt."
   },
+  "Sovereign": {
+    "title": "Bảng điều khiển Sovereign",
+    "verified": "Đã xác minh token nhà sáng lập",
+    "expires": "Phiên có hiệu lực đến",
+    "phase": "Giai đoạn màn che",
+    "enterMain": "Vào trang chính",
+    "replaySequence": "Phát lại chuỗi",
+    "replaySplash": "Phát lại màn hình mở đầu",
+    "revoke": "Thu hồi quyền truy cập",
+    "collapse": "Thu gọn",
+    "expand": "Mở rộng"
+  },
   "Auth": {
     "login": "Đăng nhập",
     "logout": "Đăng xuất",

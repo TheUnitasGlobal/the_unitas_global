@@ -1,10 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Download, X } from 'lucide-react';
-import { usePwaInstall } from '@/lib/hooks/usePwaInstall';
+import { PWA_INSTALL_TRIGGER_ATTR } from '@/lib/pwa/installPrompt';
 
 /**
  * Coming-Soon twin of the nav-bar "shimmering logo + UNITAS App Download" CTA
@@ -13,26 +10,16 @@ import { usePwaInstall } from '@/lib/hooks/usePwaInstall';
  * sealed cinema screen so a visitor can one-click install the PWA the instant
  * the ad ends -- the post-ad growth path (owner instruction 2026-08-30).
  *
- * It deliberately does NOT reuse the shared <Modal/>: that portals to <body>
- * at z-[200], below the curtain's z-[400], so it would render behind the
- * sealed screen. The install sheet here is an in-curtain overlay instead.
- * The logo is intentionally NOT a link -- the sealed screen is fail-closed,
- * nothing may offer a route into the real site.
+ * Owner instruction 2026-09-04 (item 2): the button no longer owns an
+ * in-curtain sheet. It is a plain `data-pwa-install` trigger -- the global
+ * <PwaInstallHost/> fires the native install popup on this very click when
+ * the browser offers one, and its z-[650] guide sheet (above this curtain's
+ * z-400) otherwise. The logo is intentionally NOT a link -- the sealed screen
+ * is fail-closed, nothing may offer a route into the real site.
  */
 export function CinemaAppDownload() {
   const t = useTranslations('Nav');
-  const { canInstall, isInstalled, isIos, isDesktop, promptInstall } = usePwaInstall();
-  const [open, setOpen] = useState(false);
-
-  const hint = isInstalled
-    ? t('appDownloadAlreadyInstalledHint')
-    : canInstall
-      ? t('appDownloadReadyHint')
-      : isIos
-        ? t('appDownloadIosHint')
-        : isDesktop
-          ? t('appDownloadDesktopHint')
-          : t('appDownloadUnsupported');
+  const trigger = { [PWA_INSTALL_TRIGGER_ATTR]: 'cinema' } as Record<string, string>;
 
   return (
     <div className="absolute bottom-6 left-6 z-20 flex items-center gap-2.5">
@@ -42,7 +29,7 @@ export function CinemaAppDownload() {
       <button
         type="button"
         aria-label={t('appDownloadAria')}
-        onClick={() => setOpen(true)}
+        {...trigger}
         className="app-download-pulse flex items-center gap-1.5 whitespace-nowrap rounded-full border-none bg-transparent px-3 py-1.5"
       >
         <span className="font-serif text-[11px] font-bold uppercase leading-none tracking-[0.22em] text-accent">
@@ -52,61 +39,6 @@ export function CinemaAppDownload() {
           App Download
         </span>
       </button>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto overscroll-contain bg-void/85 p-6 text-left backdrop-blur-md"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setOpen(false)}
-            role="presentation"
-          >
-            <motion.div
-              className="glow-box relative w-full max-w-md bg-quantum p-6 sm:p-8"
-              initial={{ opacity: 0, scale: 0.95, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 12 }}
-              transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-              onClick={(e) => e.stopPropagation()}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="cinema-app-download-title"
-            >
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                aria-label="Close"
-                className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center border border-accent/40 bg-quantum/80 text-accent transition-colors hover:border-accent"
-              >
-                <X size={14} />
-              </button>
-              <h2
-                id="cinema-app-download-title"
-                className="font-serif text-lg font-bold uppercase tracking-[0.18em] text-accent"
-              >
-                {t('appDownloadModalTitle')}
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-gray-200">{hint}</p>
-
-              {!isInstalled && canInstall && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    void promptInstall();
-                    setOpen(false);
-                  }}
-                  className="mt-6 flex w-full items-center justify-center gap-2 border border-accent bg-accent/10 py-3 text-sm font-bold uppercase tracking-widest text-accent transition-all hover:bg-accent hover:text-void"
-                >
-                  <Download size={16} aria-hidden="true" />
-                  {t('appDownloadInstallNow')}
-                </button>
-              )}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

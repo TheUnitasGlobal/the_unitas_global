@@ -1,8 +1,12 @@
 const { test, expect } = require('@playwright/test');
 
-// Founder bypass so the run can walk the full sequence; `?dev=true` is the
-// documented QA key (auto-memory `coming-soon-gate`).
-const GATE_URL = '/en?dev=true';
+// Sovereign founder session so the run can walk the full sequence (the test
+// server has no SOVEREIGN_AUTH_TOKEN env, so the owner default token from
+// web/lib/sovereignAuth.ts is live). middleware.ts strips the token via a
+// 303 and keeps `splash=0`, which skips the forced 3s intro splash so the
+// gate button is clickable immediately (see intro-splash.spec.js for it).
+const TOKEN = 'unitas_master_dooyeong_2026_secure_key';
+const GATE_URL = `/en?sovereign_auth=${TOKEN}&splash=0`;
 
 // Both <AudioGate/> (z-300) and the <ComingSoonCinema/> curtain (z-400) render
 // an identical "ENTER THE EVENT HORIZON" button; the curtain's is the one on

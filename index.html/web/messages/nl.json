@@ -526,6 +526,18 @@
     "awakening": "De Soevereine Intelligentie Ontwaakt",
     "sealed": "Publieke toegang tot de hoofdinterface is verzegeld tot de lancering."
   },
+  "Sovereign": {
+    "title": "Soevereine console",
+    "verified": "Oprichterstoken geverifieerd",
+    "expires": "Sessie geldig tot",
+    "phase": "Gordijnfase",
+    "enterMain": "Hoofdsite betreden",
+    "replaySequence": "Reeks opnieuw afspelen",
+    "replaySplash": "Intro opnieuw afspelen",
+    "revoke": "Toegang intrekken",
+    "collapse": "Inklappen",
+    "expand": "Uitklappen"
+  },
   "Auth": {
     "login": "Inloggen",
     "logout": "Uitloggen",

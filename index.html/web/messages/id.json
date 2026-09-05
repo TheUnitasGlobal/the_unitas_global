@@ -526,6 +526,18 @@
     "awakening": "Kecerdasan Berdaulat Sedang Terbangun",
     "sealed": "Pintu masuk publik ke antarmuka utama tersegel hingga peluncuran."
   },
+  "Sovereign": {
+    "title": "Konsol Sovereign",
+    "verified": "Token pendiri terverifikasi",
+    "expires": "Sesi berlaku hingga",
+    "phase": "Fase tirai",
+    "enterMain": "Masuk ke situs utama",
+    "replaySequence": "Putar ulang urutan",
+    "replaySplash": "Putar ulang intro",
+    "revoke": "Cabut akses",
+    "collapse": "Ciutkan",
+    "expand": "Perluas"
+  },
   "Auth": {
     "login": "Masuk",
     "logout": "Keluar",

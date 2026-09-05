@@ -7,9 +7,10 @@ const { test, expect } = require('@playwright/test');
 // Without Supabase env vars on the test server the gate fail-closes for
 // everyone -- which is exactly the property under test: a direct hit on a
 // gated route must NOT render module content, it must 307 to /{locale}/locked.
-// The founder `?dev=true` bypass is the one way through.
+// The server-verified sovereign founder session is the one way through.
 
-const GATED_PATH = '/en/arche';
+const TOKEN = 'unitas_master_dooyeong_2026_secure_key';
+const GATED_PATH = '/en/arche?splash=0';
 
 test.describe('page-level module coin gate', () => {
   test('direct navigation to a gated route redirects to the locked page', async ({ page }) => {
@@ -33,15 +34,26 @@ test.describe('page-level module coin gate', () => {
     const res = await request.get(GATED_PATH, { maxRedirects: 0 });
     expect(res.status()).toBe(307);
     expect(res.headers()['location']).toContain('/en/locked');
-    expect((await res.text()).trim()).toBe('');
+    // Next 14 answers a layout redirect() with its generic `__next_error__`
+    // shell (the RSC tree ABOVE the throwing layout, for the client router).
+    // The property that matters: nothing from the gated module itself --
+    // its <main class="isolate"> scene or its title -- is in that body.
+    const body = await res.text();
+    expect(body).not.toMatch(/<main[^>]*isolate/);
+    expect(body).not.toContain('ARCHE');
+    expect(body).not.toContain('module_access_grants');
   });
 
-  test('founder ?dev=true bypass reaches the real module page', async ({ page, context }) => {
-    // ?dev=true persists the `unitas_dev` cookie (lib/foundersGate.ts); prime it
-    // so the gate layout lets the request through on the server.
-    await context.addCookies([
-      { name: 'unitas_dev', value: '1', url: 'http://127.0.0.1:3123' },
-    ]);
+  test('a forged legacy dev cookie no longer opens the gate', async ({ page, context }) => {
+    await context.addCookies([{ name: 'unitas_dev', value: '1', url: 'http://127.0.0.1:3123' }]);
+    await page.goto(GATED_PATH, { waitUntil: 'domcontentloaded' });
+    expect(page.url()).toContain('/en/locked');
+  });
+
+  test('verified sovereign founder session reaches the real module page', async ({ page }) => {
+    // The token visit makes middleware.ts mint the HMAC-signed HttpOnly
+    // session cookie; the gate layout verifies it server-side.
+    await page.goto(`/en?sovereign_auth=${TOKEN}&splash=0`);
 
     await page.goto(GATED_PATH, { waitUntil: 'domcontentloaded' });
     expect(page.url()).toContain('/en/arche');

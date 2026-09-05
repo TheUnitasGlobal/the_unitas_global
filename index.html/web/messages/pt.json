@@ -526,6 +526,18 @@
     "awakening": "A inteligência soberana está a despertar",
     "sealed": "A entrada pública na interface principal está selada até ao lançamento."
   },
+  "Sovereign": {
+    "title": "Console soberano",
+    "verified": "Token do fundador verificado",
+    "expires": "Sessão válida até",
+    "phase": "Fase da cortina",
+    "enterMain": "Entrar no site principal",
+    "replaySequence": "Repetir sequência",
+    "replaySplash": "Repetir introdução",
+    "revoke": "Revogar acesso",
+    "collapse": "Recolher",
+    "expand": "Expandir"
+  },
   "Auth": {
     "login": "Iniciar sessão",
     "logout": "Terminar sessão",

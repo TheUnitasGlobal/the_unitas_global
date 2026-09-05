@@ -526,6 +526,18 @@
     "awakening": "Suveräänne intelligentsus ärkab",
     "sealed": "Avalik sisenemine peamisse liidesesse on lukustatud kuni käivitamiseni."
   },
+  "Sovereign": {
+    "title": "Suveräänne konsool",
+    "verified": "Asutaja token kinnitatud",
+    "expires": "Seanss kehtib kuni",
+    "phase": "Eesriide faas",
+    "enterMain": "Sisene põhisaidile",
+    "replaySequence": "Esita jada uuesti",
+    "replaySplash": "Esita sissejuhatus uuesti",
+    "revoke": "Tühista juurdepääs",
+    "collapse": "Ahenda",
+    "expand": "Laienda"
+  },
   "Auth": {
     "login": "Logi sisse",
     "logout": "Logi välja",

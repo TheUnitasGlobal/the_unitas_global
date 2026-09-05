@@ -9,9 +9,9 @@ import { routing } from '@/i18n/routing';
 import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
 import { CinemaAppDownload } from '@/components/pwa/CinemaAppDownload';
 import {
-  persistFounderBypass,
-  readFounderBypass,
-  revokeFounderBypass,
+  CINEMA_PHASE_EVENT,
+  revokeSovereignFounder,
+  verifySovereignFounder,
 } from '@/lib/foundersGate';
 import {
   CINEMA_DURATION_MS,
@@ -70,13 +70,20 @@ const captionKeyFor = (segId: number, slot: CaptionSlot): CaptionKey =>
  * -> sealed "Coming Soon" screen. The main interface is never reachable and no
  * control that could reach it is ever rendered (fail-closed).
  *
- * FOUNDER (build/QA -- ?dev=true | ?key=<secret> | ?dev=skip | ?dev=replay |
- * persisted grant): walks the EXACT SAME sequential flow -- entry gate ->
- * cinematic -> sealed "Coming Soon" -- so the founder monitors every screen a
- * real visitor sees. The ONLY difference: on that final sealed screen the
- * founder (and only the founder) is shown a secret
- * "[ 창립자 전용 메인 사이트 진입 ]" button that dissolves the curtain into
- * the real homepage. ?dev=skip is a QA shortcut straight to that release.
+ * FOUNDER (build/QA): identity is decided by the SERVER only -- a
+ * `?sovereign_auth=<token>` visit makes middleware.ts mint an HMAC-signed
+ * HttpOnly session, and this component asks GET /api/sovereign/verify
+ * (lib/foundersGate.ts) before flipping to founder mode. The retired
+ * `?dev=true` / `?key=` / localStorage grants no longer exist anywhere in the
+ * bundle (owner instruction 2026-09-04, item 4). A verified founder walks the
+ * EXACT SAME sequential flow -- entry gate -> cinematic -> sealed "Coming
+ * Soon" -- so the founder monitors every screen a real visitor sees. The
+ * ONLY difference: on that final sealed screen the founder (and only the
+ * founder) is shown a secret "[ 창립자 전용 메인 사이트 진입 ]" button that
+ * dissolves the curtain into the real homepage. QA shortcuts `?dev=skip`
+ * (straight to release) and `?dev=replay` (restart from the gate) are honoured
+ * only AFTER the server verification succeeds; `?dev=off` signs the founder
+ * session out.
  *
  * Mounted in app/[locale]/layout.tsx AFTER <AudioGate/> and outside
  * `.dashboard-zoom`. Client Component, but Next App Router SSRs it, so the
@@ -121,13 +128,15 @@ export function ComingSoonCinema() {
   // 'sealed' "COMING SOON" screen; the founder just gets an extra button there.
   const isFounder = mode === 'founder';
 
-  // --- founder bypass + persisted phase --------------------------------------
+  // --- sovereign founder verification + persisted phase ----------------------
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const dev = params.get('dev');
+    const qaReplay = dev === 'replay' || dev === 'reset' || params.get('replay') === '1';
+    const qaSkip = dev === 'skip' || params.get('skip') === '1';
 
     if (dev === 'off') {
-      revokeFounderBypass();
+      void revokeSovereignFounder();
       try {
         sessionStorage.removeItem(PHASE_KEY);
       } catch {
@@ -136,38 +145,47 @@ export function ComingSoonCinema() {
       return; // stay public, stay on the gate
     }
 
-    const qaReplay = dev === 'replay' || dev === 'reset' || params.get('replay') === '1';
-    const qaSkip = dev === 'skip' || params.get('skip') === '1';
-    const founder = readFounderBypass() || qaReplay || qaSkip;
+    // Read the persisted phase SYNCHRONOUSLY, before the persist effect
+    // below (which runs right after this one on mount) can overwrite it with
+    // the initial 'gate'. Restoring 'cinema' / 'sealed' needs no identity, so
+    // it happens now -- a remount mid-sequence (locale auto-switch, language
+    // change, F5) never loses the visitor's place. Only the founder-exclusive
+    // 'released' waits for the server: it resolves fail-closed to 'sealed'
+    // immediately and upgrades once verification succeeds.
+    let saved: string | null = null;
+    try {
+      saved = sessionStorage.getItem(PHASE_KEY);
+    } catch {
+      /* storage unavailable -- stay on the gate */
+    }
+    if (saved === 'released') setPhase('sealed');
+    else if (saved === 'sealed') setPhase('sealed');
+    else if (saved === 'cinema') setPhase('cinema');
 
-    if (founder) {
-      persistFounderBypass();
+    // Public visitors resolve synchronously to `founder: false` (no hint
+    // cookie -> no network); a founder pays one no-store GET.
+    let cancelled = false;
+    void verifySovereignFounder().then(({ founder }) => {
+      if (cancelled || !founder) return;
       setMode('founder');
-
       if (qaReplay) {
         try {
           sessionStorage.removeItem(PHASE_KEY);
         } catch {
           /* no-op */
         }
-        return; // full flow from the gate
-      }
-      if (qaSkip) {
-        setPhase('released');
+        startRef.current = 0;
+        setSegId(1);
+        setPhase('gate'); // full flow from the gate
         return;
       }
-    }
-
-    try {
-      const saved = sessionStorage.getItem(PHASE_KEY);
-      // 'released' is founder-only; a public browser that somehow has it stored
-      // still resolves to the locked screen.
-      if (saved === 'released') setPhase(founder ? 'released' : 'sealed');
-      else if (saved === 'sealed') setPhase('sealed');
-      else if (saved === 'cinema') setPhase('cinema');
-    } catch {
-      /* storage unavailable -- stay on the gate */
-    }
+      if (qaSkip || saved === 'released') {
+        setPhase('released');
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -177,6 +195,8 @@ export function ComingSoonCinema() {
     } catch {
       /* no-op */
     }
+    // Founder debug panel mirrors the live curtain phase.
+    window.dispatchEvent(new CustomEvent(CINEMA_PHASE_EVENT, { detail: phase }));
   }, [phase]);
 
   // --- auto-localization to navigator.language -----------------------------

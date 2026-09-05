@@ -526,6 +526,18 @@
     "awakening": "Egemen Zeka Uyanıyor",
     "sealed": "Ana arayüze genel erişim, lansmana kadar mühürlü."
   },
+  "Sovereign": {
+    "title": "Egemen Konsol",
+    "verified": "Kurucu belirteci doğrulandı",
+    "expires": "Oturum geçerlilik süresi",
+    "phase": "Perde aşaması",
+    "enterMain": "Ana siteye gir",
+    "replaySequence": "Diziyi yeniden oynat",
+    "replaySplash": "Açılışı yeniden oynat",
+    "revoke": "Erişimi iptal et",
+    "collapse": "Daralt",
+    "expand": "Genişlet"
+  },
   "Auth": {
     "login": "Giriş Yap",
     "logout": "Çıkış Yap",

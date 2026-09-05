@@ -526,6 +526,18 @@
     "awakening": "자주적 지성이 깨어나고 있습니다",
     "sealed": "정식 출시 전까지 메인 인터페이스로의 일반 진입은 봉인되어 있습니다."
   },
+  "Sovereign": {
+    "title": "소버린 콘솔",
+    "verified": "창립자 토큰 검증 완료",
+    "expires": "세션 유효 기한",
+    "phase": "커튼 단계",
+    "enterMain": "메인 사이트 진입",
+    "replaySequence": "시퀀스 다시 재생",
+    "replaySplash": "인트로 스플래시 다시 재생",
+    "revoke": "권한 해제",
+    "collapse": "접기",
+    "expand": "펼치기"
+  },
   "Auth": {
     "login": "로그인",
     "logout": "로그아웃",

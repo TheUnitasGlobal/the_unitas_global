@@ -526,6 +526,18 @@
     "awakening": "主权智能正在觉醒",
     "sealed": "正式发布前，主界面的公众入口已封锁。"
   },
+  "Sovereign": {
+    "title": "主权控制台",
+    "verified": "创始人令牌已验证",
+    "expires": "会话有效期至",
+    "phase": "幕布阶段",
+    "enterMain": "进入主站",
+    "replaySequence": "重播序列",
+    "replaySplash": "重播开场动画",
+    "revoke": "撤销权限",
+    "collapse": "收起",
+    "expand": "展开"
+  },
   "Auth": {
     "login": "登录",
     "logout": "退出登录",

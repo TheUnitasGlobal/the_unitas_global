@@ -1,0 +1,362 @@
+/* 3-second cinematic intro splash (components/splash/CinematicIntroSplash.tsx).
+   Every animation here is compositor-only (transform / opacity / SVG stroke
+   & fill) so the sequence runs at full frame rate on low-end mobile too.
+   Timing cues mirror lib/splash/splashTimeline.ts. */
+
+.sp-root {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #030305;
+  color: #fff;
+  /* Fail-safe exit: pure CSS, 3s hold + 0.45s fade, releases pointer events
+     and hides itself even if JavaScript never runs. */
+  animation: sp-autohide 0.45s ease-in-out 3s forwards;
+}
+html[data-splash='off'] .sp-root {
+  display: none;
+}
+@keyframes sp-autohide {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* --- backdrop -------------------------------------------------------- */
+.sp-bg {
+  position: absolute;
+  inset: -12%;
+  background:
+    radial-gradient(circle at 50% 44%, rgba(212, 175, 55, 0.24) 0%, rgba(0, 243, 255, 0.11) 20%, rgba(124, 58, 237, 0.09) 38%, transparent 66%);
+  animation: sp-bg-breathe 3s ease-in-out both;
+  pointer-events: none;
+}
+@keyframes sp-bg-breathe {
+  0% {
+    opacity: 0;
+    transform: scale(0.78);
+  }
+  35% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  68% {
+    opacity: 1;
+    transform: scale(1.07);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1.14);
+  }
+}
+.sp-grain {
+  position: absolute;
+  inset: -4%;
+  opacity: 0.05;
+  mix-blend-mode: screen;
+  background-image: repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 3px);
+  pointer-events: none;
+}
+/* crystal impact (2.0s) -- ring burst + brief screen bloom */
+.sp-flash {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  width: 42vmin;
+  height: 42vmin;
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 0 44px rgba(0, 243, 255, 0.65),
+    inset 0 0 44px rgba(212, 175, 55, 0.5);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.15);
+  animation: sp-flash 1s cubic-bezier(0.1, 0.8, 0.3, 1) 2s forwards;
+  pointer-events: none;
+}
+@keyframes sp-flash {
+  0% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.15);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.7);
+  }
+}
+.sp-bloom {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  mix-blend-mode: screen;
+  animation: sp-bloom 0.55s ease-out 2s both;
+  pointer-events: none;
+}
+@keyframes sp-bloom {
+  0% {
+    opacity: 0;
+  }
+  16% {
+    opacity: 0.24;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* --- stage ------------------------------------------------------------ */
+.sp-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(8px, 2.2vmin, 22px);
+  padding: 0 1.25rem;
+  width: 100%;
+}
+
+/* --- 3D master mark ---------------------------------------------------- */
+.sp-mark-3d {
+  perspective: 900px;
+  width: clamp(150px, 34vmin, 260px);
+  aspect-ratio: 1 / 1;
+}
+.sp-mark {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  filter:
+    drop-shadow(0 0 26px rgba(212, 175, 55, 0.38))
+    drop-shadow(0 0 60px rgba(0, 243, 255, 0.18));
+  animation:
+    sp-mark-enter 1.25s cubic-bezier(0.16, 0.84, 0.44, 1) both,
+    sp-mark-float 1.75s ease-in-out 1.25s both;
+}
+.sp-mark svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+@keyframes sp-mark-enter {
+  0% {
+    opacity: 0;
+    transform: rotateY(-100deg) rotateX(22deg) scale(0.5);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg) rotateX(0deg) scale(1);
+  }
+}
+@keyframes sp-mark-float {
+  0% {
+    transform: rotateY(0deg) rotateX(0deg) scale(1);
+  }
+  40% {
+    transform: rotateY(16deg) rotateX(-7deg) scale(1.01);
+  }
+  75% {
+    transform: rotateY(-10deg) rotateX(4deg) scale(1.01);
+  }
+  100% {
+    transform: rotateY(0deg) rotateX(0deg) scale(1.03);
+  }
+}
+/* centered dot-hexagon: spins + dashes travel along its edges */
+.sp-dothex {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation:
+    sp-spin 3s linear infinite,
+    sp-dash-run 1.1s linear infinite;
+}
+@keyframes sp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes sp-dash-run {
+  to {
+    stroke-dashoffset: -60;
+  }
+}
+/* lightning triangle: running dashes + electric flicker */
+.sp-tri-spark {
+  animation:
+    sp-dash-run 0.9s linear infinite,
+    sp-flicker 0.42s steps(2, end) infinite;
+}
+.sp-tri-arc {
+  animation: sp-dash-run 1.4s linear infinite reverse;
+}
+.sp-bolt {
+  animation: sp-flicker 0.36s steps(2, end) infinite;
+}
+.sp-bolt--b {
+  animation-delay: 0.18s;
+}
+@keyframes sp-flicker {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/* hologram globe pulse */
+.sp-globe {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sp-globe-pulse 0.9s ease-in-out infinite;
+}
+@keyframes sp-globe-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: scale(1.16);
+    opacity: 1;
+  }
+}
+.sp-facet-shine {
+  opacity: 0;
+  animation: sp-shine 1.6s ease-in-out 0.6s infinite;
+}
+@keyframes sp-shine {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.32;
+  }
+}
+
+/* --- "UNITAS" title: stroke draw U -> S, then flowing gradient fill ------ */
+.sp-title {
+  width: clamp(250px, 70vw, 640px);
+  height: auto;
+  overflow: visible;
+  filter:
+    drop-shadow(0 0 18px rgba(212, 175, 55, 0.45))
+    drop-shadow(0 0 44px rgba(0, 243, 255, 0.2));
+}
+.sp-title-text {
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 92px;
+  letter-spacing: 0.22em;
+}
+.sp-letter {
+  fill: url(#sp-fill-grad);
+  fill-opacity: 0;
+  stroke: url(#sp-stroke-grad);
+  stroke-width: 1.7;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 560;
+  stroke-dashoffset: 560;
+  paint-order: stroke;
+  animation:
+    sp-letter-draw 0.55s cubic-bezier(0.4, 0, 0.2, 1) var(--draw, 0.5s) forwards,
+    sp-letter-fill 0.7s ease-out var(--fill, 0.72s) forwards;
+}
+@keyframes sp-letter-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes sp-letter-fill {
+  from {
+    fill-opacity: 0;
+  }
+  to {
+    fill-opacity: 1;
+  }
+}
+
+/* --- corporate line ---------------------------------------------------- */
+.sp-corp {
+  margin: 0;
+  font-family: var(--font-cinzel), 'Cinzel', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
+  font-size: clamp(0.62rem, 1.7vw, 0.98rem);
+  color: rgba(255, 255, 255, 0.64);
+  text-shadow: 0 0 18px rgba(0, 243, 255, 0.18);
+  white-space: nowrap;
+  opacity: 0;
+  animation: sp-rise 0.8s ease-out 1.9s forwards;
+}
+@keyframes sp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- device adaptation -------------------------------------------------- */
+@media (max-height: 470px) {
+  .sp-mark-3d {
+    width: clamp(110px, 26vmin, 180px);
+  }
+  .sp-title {
+    width: clamp(220px, 46vw, 460px);
+  }
+  .sp-stage {
+    gap: 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sp-mark {
+    animation: sp-fade-in 0.8s ease-out both;
+  }
+  .sp-dothex,
+  .sp-tri-spark,
+  .sp-tri-arc,
+  .sp-bolt,
+  .sp-globe,
+  .sp-facet-shine,
+  .sp-flash,
+  .sp-bloom {
+    animation: none;
+  }
+  .sp-facet-shine {
+    opacity: 0.12;
+  }
+  .sp-letter {
+    stroke-dashoffset: 0;
+    animation: sp-letter-fill 0.6s ease-out var(--fill, 0.72s) forwards;
+  }
+}
+@keyframes sp-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

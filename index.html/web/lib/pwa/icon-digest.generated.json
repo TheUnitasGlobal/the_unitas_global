@@ -1,0 +1,11 @@
+{
+  "version": "v2-final-symmetry",
+  "manifestQuery": "v2-final-symmetry.30e8388cfc",
+  "icons": {
+    "apple-touch-icon.png": "98cd258fe8",
+    "icon-192.png": "2198ea60b6",
+    "icon-512.png": "763ef22833",
+    "icon-maskable-512.png": "f89088289a",
+    "shortcut-192.png": "2198ea60b6"
+  }
+}

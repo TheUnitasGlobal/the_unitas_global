@@ -10,6 +10,8 @@ import { WalletProvider } from '@/components/wallet/WalletProvider';
 import { NavBar } from '@/components/nav/NavBar';
 import { AudioGate } from '@/components/audio/AudioGate';
 import { ComingSoonCinema } from '@/components/ComingSoonCinema';
+import { PwaInstallHost } from '@/components/pwa/PwaInstallHost';
+import { SovereignDebugPanel } from '@/components/sovereign/SovereignDebugPanel';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -91,10 +93,17 @@ export default async function LocaleLayout({
           <div className="relative z-0">{children}</div>
         </div>
         <AudioGate />
-        {/* Pre-launch curtain: opaque, non-dismissable for the public; the
-            founder bypasses it via ?dev=true / secret key / persisted grant
-            (see lib/foundersGate.ts). Sits above everything, at full scale. */}
+        {/* Pre-launch curtain: opaque, non-dismissable for the public; only a
+            server-verified sovereign founder session (?sovereign_auth=<token>
+            -> middleware.ts -> /api/sovereign/verify, see lib/sovereignAuth.ts)
+            unlocks the founder door. Sits above everything, at full scale. */}
         <ComingSoonCinema />
+        {/* Global one-click PWA install handler (z-650) -- serves every route,
+            including the sealed cinema screen. Any `data-pwa-install` element
+            or requestPwaInstall() call anywhere resolves here. */}
+        <PwaInstallHost />
+        {/* Founder-only console (renders nothing unless the server verifies). */}
+        <SovereignDebugPanel />
         <noscript>
           {/* Fail-closed when JS is disabled: the client curtain can't mount,
               so seal the interface with a static panel instead. */}

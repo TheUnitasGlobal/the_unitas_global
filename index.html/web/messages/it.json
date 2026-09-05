@@ -526,6 +526,18 @@
     "awakening": "L'Intelligenza Sovrana si sta Risvegliando",
     "sealed": "L'accesso pubblico all'interfaccia principale è sigillato fino al lancio."
   },
+  "Sovereign": {
+    "title": "Console sovrana",
+    "verified": "Token del fondatore verificato",
+    "expires": "Sessione valida fino a",
+    "phase": "Fase del sipario",
+    "enterMain": "Entra nel sito principale",
+    "replaySequence": "Ripeti la sequenza",
+    "replaySplash": "Ripeti l'intro",
+    "revoke": "Revoca accesso",
+    "collapse": "Comprimi",
+    "expand": "Espandi"
+  },
   "Auth": {
     "login": "Accedi",
     "logout": "Esci",

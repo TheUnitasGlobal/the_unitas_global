@@ -526,6 +526,18 @@
     "awakening": "Nagigising ang Sovereign Intelligence",
     "sealed": "Naka-seal ang pampublikong pasukan sa main interface hanggang sa paglulunsad."
   },
+  "Sovereign": {
+    "title": "Sovereign Console",
+    "verified": "Na-verify ang token ng founder",
+    "expires": "Valid ang session hanggang",
+    "phase": "Yugto ng kurtina",
+    "enterMain": "Pumasok sa pangunahing site",
+    "replaySequence": "Ulitin ang sequence",
+    "replaySplash": "Ulitin ang intro splash",
+    "revoke": "Bawiin ang access",
+    "collapse": "I-collapse",
+    "expand": "I-expand"
+  },
   "Auth": {
     "login": "Mag-login",
     "logout": "Mag-logout",
