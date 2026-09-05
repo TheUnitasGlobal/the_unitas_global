@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { LogOut, Power, ShieldAlert } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
+import { LogOut, Power } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useGatedSurface } from '@/components/ui/useGatedSurface';
 import { useWallet } from '@/components/wallet/WalletProvider';
@@ -97,45 +97,78 @@ function armSentinel() {
  */
 export function ExitGuard() {
   const t = useTranslations('ExitGuard');
+  const locale = useLocale();
   const { session } = useWallet();
   const { playHoverSfx } = useSpatialAudio();
   const gate = useGatedSurface('exit-guard');
   const [step, setStep] = useState<Step>('exit');
-  const [leaveRefused, setLeaveRefused] = useState(false);
   const [busy, setBusy] = useState(false);
   const sessionRef = useRef(session);
   sessionRef.current = session;
   const leavingRef = useRef(false);
   const forceRedirectRef = useRef<string | null>(null);
+  /** Timestamp (ms) before which an incoming popstate is treated as a
+   *  spurious/synthetic event rather than a real user back-gesture -- see
+   *  the grace-window note below. */
+  const guardReadyAtRef = useRef(0);
 
   const openGate = gate.setOpen;
 
   useEffect(() => {
     if (!shouldArm()) return;
+
+    // GRACE WINDOW (owner instruction 2026-09-05, round 3): some mobile
+    // browsers/PWA runtimes fire a `popstate` that is NOT a real user back
+    // gesture -- e.g. WebKit occasionally replays one while restoring an
+    // installed PWA's history stack after the OS suspends and resumes it.
+    // Without a guard, that synthetic pop landed on the un-marked real entry
+    // and opened the exit confirm the instant the visitor merely reopened
+    // the app -- "메인 홈페이지 진입 시 팝업 자동 발동". A real back-button
+    // press physically cannot land inside this short window measured from
+    // mount/resume, so any popstate that does is re-armed silently instead
+    // of asked about.
+    const arm = () => {
+      armSentinel();
+      guardReadyAtRef.current = Date.now() + 600;
+    };
     // Let Next's own hydration-time replaceState land first, so the
     // sentinel is layered over the router's real entry, not under it.
-    const armTimer = setTimeout(armSentinel, 60);
+    const armTimer = setTimeout(arm, 60);
 
     const onPop = (e: PopStateEvent) => {
       if (leavingRef.current) return;
       const state = e.state as Record<string, unknown> | null;
       if (state?.[GUARD_MARKER]) return; // a tower closed -- still on the sentinel
+      if (Date.now() < guardReadyAtRef.current) {
+        // Spurious pop inside the grace window -- re-arm and say nothing.
+        arm();
+        return;
+      }
       // We are on the real entry: re-arm at once, then ask.
-      armSentinel();
+      arm();
       try {
         (document.activeElement as HTMLElement | null)?.blur?.();
       } catch {
         // nothing focused
       }
       forceRedirectRef.current = null;
-      setLeaveRefused(false);
       setStep(sessionRef.current ? 'logout' : 'exit');
       openGate(true, { force: true });
     };
     window.addEventListener('popstate', onPop);
+
+    // Re-open the grace window whenever the tab/app regains visibility (the
+    // same PWA-resume moment that can produce the synthetic pop above), so
+    // the same protection applies after backgrounding, not just on mount.
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') guardReadyAtRef.current = Date.now() + 600;
+    };
+    document.addEventListener('visibilitychange', onVisible);
+
     return () => {
       clearTimeout(armTimer);
       window.removeEventListener('popstate', onPop);
+      document.removeEventListener('visibilitychange', onVisible);
     };
   }, [openGate]);
 
@@ -148,7 +181,6 @@ export function ExitGuard() {
         // nothing focused
       }
       forceRedirectRef.current = (e as CustomEvent<ExitRequestDetail>).detail?.forceRedirectTo ?? null;
-      setLeaveRefused(false);
       setStep(sessionRef.current ? 'logout' : 'exit');
       openGate(true, { force: true });
     };
@@ -207,18 +239,12 @@ export function ExitGuard() {
     setTimeout(() => {
       if (document.visibilityState === 'hidden') return;
       // Nothing unloaded us: no prior page and the browser refused
-      // window.close(). A caller that supplied a fallback (the Coming-Soon
-      // 'X' button) gets a guaranteed hard redirect instead of a dead end --
-      // same-origin navigation is never blocked by the close/popup policies
-      // that just defeated window.close()/history.go(-2) above.
-      if (forceRedirectRef.current) {
-        window.location.href = forceRedirectRef.current;
-        return;
-      }
-      leavingRef.current = false;
-      armSentinel();
-      setBusy(false);
-      setLeaveRefused(true);
+      // window.close()/history.go(-2). Owner instruction 2026-09-05 (round
+      // 3): every caller now gets a guaranteed hard redirect to the main
+      // observation home instead of a dead-end "please close manually"
+      // notice -- same-origin navigation is never blocked by the
+      // close/popup policies that just defeated the attempts above.
+      window.location.href = forceRedirectRef.current ?? `/${locale}`;
     }, LEAVE_SETTLE_MS);
   }
 
@@ -233,21 +259,13 @@ export function ExitGuard() {
             {isLogout ? <LogOut size={20} aria-hidden="true" /> : <Power size={20} aria-hidden="true" />}
           </span>
           <div className="min-w-0">
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent">{t('eyebrow')}</p>
-            <h2 id={titleId} className="text-lg font-bold text-white sm:text-xl">
+            <h2 id={titleId} className="text-base font-bold leading-snug text-white sm:text-xl">
               {isLogout ? t('logoutTitle') : t('exitTitle')}
             </h2>
           </div>
         </div>
 
         <p className="text-sm leading-relaxed text-gray-300">{isLogout ? t('logoutBody') : t('exitBody')}</p>
-
-        {leaveRefused && (
-          <p className="flex items-start gap-2 border border-amber-400/40 bg-amber-400/10 px-3 py-2 text-[13px] text-amber-200">
-            <ShieldAlert size={15} className="mt-0.5 shrink-0" aria-hidden="true" />
-            {t('exitManual')}
-          </p>
-        )}
 
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <button

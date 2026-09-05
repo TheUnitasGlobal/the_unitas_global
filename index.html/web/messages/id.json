@@ -1327,7 +1327,6 @@
     "instant": "Instan · cache perangkat ini"
   },
   "ExitGuard": {
-    "eyebrow": "Penjaga keluar",
     "logoutTitle": "Keluar dari akun?",
     "logoutBody": "Anda akan meninggalkan UNITAS. Keluar dari akun di perangkat ini dulu, atau pertahankan sesi dan lanjutkan untuk keluar.",
     "logoutConfirm": "Keluar akun",
@@ -1335,8 +1334,7 @@
     "exitTitle": "Keluar akun dan keluar dari UNITAS?",
     "exitBody": "Situs hanya ditutup jika Anda mengonfirmasi di sini. Batalkan untuk tetap di tempat semula.",
     "exitConfirm": "Keluar",
-    "exitCancel": "Batal",
-    "exitManual": "Browser tidak mengizinkan tab ini menutup sendiri — gunakan tombol kembali perangkat atau tutup tab secara manual."
+    "exitCancel": "Batal"
   },
   "Civic": {
     "axes": {

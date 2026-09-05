@@ -1009,9 +1009,24 @@ export function ComingSoonCinema() {
                     doing nothing. */}
                 <button
                   type="button"
-                  onClick={() => requestAppExit({ forceRedirectTo: `/${locale}` })}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    requestAppExit({ forceRedirectTo: `/${locale}` });
+                  }}
+                  onTouchEnd={(e) => {
+                    // Owner instruction 2026-09-05 (round 3): a bare onClick
+                    // was intermittently unresponsive to a mobile tap on this
+                    // control -- some devices swallow the synthetic click
+                    // that normally follows touchend. Handling touchend
+                    // directly (and preventing that follow-up click so the
+                    // tap never double-fires) makes the close button react
+                    // to the very first tap on every touch device.
+                    e.preventDefault();
+                    requestAppExit({ forceRedirectTo: `/${locale}` });
+                  }}
                   aria-label={tExit('exitTitle')}
-                  className="absolute right-4 top-16 z-20 flex h-8 w-8 items-center justify-center border border-accent/50 bg-void/40 text-accent backdrop-blur-sm transition-colors hover:border-accent hover:bg-void/60 sm:right-6 sm:top-20"
+                  style={{ pointerEvents: 'auto', touchAction: 'manipulation' }}
+                  className="absolute right-4 top-16 z-30 flex h-8 w-8 items-center justify-center border border-accent/50 bg-void/40 text-accent backdrop-blur-sm transition-colors hover:border-accent hover:bg-void/60 sm:right-6 sm:top-20"
                 >
                   <X size={16} aria-hidden="true" />
                 </button>

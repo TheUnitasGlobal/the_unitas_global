@@ -1327,7 +1327,6 @@
     "instant": "Instantáneo · caché de este dispositivo"
   },
   "ExitGuard": {
-    "eyebrow": "Guardia de salida",
     "logoutTitle": "¿Cerrar sesión?",
     "logoutBody": "Estás a punto de salir de UNITAS. Cierra sesión en este dispositivo primero o mantén tu sesión y continúa hacia la salida.",
     "logoutConfirm": "Cerrar sesión",
@@ -1335,8 +1334,7 @@
     "exitTitle": "¿Cerrar sesión y salir de UNITAS?",
     "exitBody": "El sitio solo se cierra cuando lo confirmas aquí. Cancela para quedarte exactamente donde estabas.",
     "exitConfirm": "Salir",
-    "exitCancel": "Cancelar",
-    "exitManual": "Tu navegador no permitió que esta pestaña se cerrara sola — usa el botón atrás del dispositivo o cierra la pestaña manualmente."
+    "exitCancel": "Cancelar"
   },
   "Civic": {
     "axes": {

@@ -1327,7 +1327,6 @@
     "instant": "즉시 응답 · 기기 캐시"
   },
   "ExitGuard": {
-    "eyebrow": "종료 방어",
     "logoutTitle": "로그아웃을 하시겠습니까?",
     "logoutBody": "UNITAS를 떠나려고 합니다. 이 기기에서 먼저 로그아웃하거나, 세션을 유지한 채 종료 단계로 진행하세요.",
     "logoutConfirm": "로그아웃",
@@ -1335,8 +1334,7 @@
     "exitTitle": "로그아웃 및 종료하시겠습니까?",
     "exitBody": "여기서 확인해야만 사이트가 종료됩니다. 취소하면 있던 자리에 그대로 머무릅니다.",
     "exitConfirm": "종료",
-    "exitCancel": "취소",
-    "exitManual": "브라우저가 이 탭의 자동 닫기를 허용하지 않았습니다 — 기기의 뒤로가기 버튼을 사용하거나 탭을 직접 닫아주세요."
+    "exitCancel": "취소"
   },
   "Civic": {
     "axes": {

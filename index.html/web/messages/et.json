@@ -1327,7 +1327,6 @@
     "instant": "Kohene · selle seadme vahemälu"
   },
   "ExitGuard": {
-    "eyebrow": "Väljumiskaitse",
     "logoutTitle": "Kas logid välja?",
     "logoutBody": "Oled lahkumas UNITASest. Logi sellest seadmest esmalt välja või jätka seansiga väljumise juurde.",
     "logoutConfirm": "Logi välja",
@@ -1335,8 +1334,7 @@
     "exitTitle": "Kas logid välja ja väljud UNITASest?",
     "exitBody": "Sait suletakse ainult siin kinnitades. Tühista, et jääda täpselt sinna, kus olid.",
     "exitConfirm": "Välju",
-    "exitCancel": "Tühista",
-    "exitManual": "Brauser ei lubanud sellel vahelehel end sulgeda — kasuta seadme tagasi-nuppu või sulge vaheleht käsitsi."
+    "exitCancel": "Tühista"
   },
   "Civic": {
     "axes": {

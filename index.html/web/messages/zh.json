@@ -1327,7 +1327,6 @@
     "instant": "即时响应 · 本机缓存"
   },
   "ExitGuard": {
-    "eyebrow": "退出防护",
     "logoutTitle": "要退出登录吗？",
     "logoutBody": "您即将离开 UNITAS。请先在此设备上退出登录，或保留会话并继续退出。",
     "logoutConfirm": "退出登录",
@@ -1335,8 +1334,7 @@
     "exitTitle": "要登出并退出 UNITAS 吗？",
     "exitBody": "只有在此确认后网站才会关闭。取消则停留在原处。",
     "exitConfirm": "退出",
-    "exitCancel": "取消",
-    "exitManual": "浏览器不允许此标签页自行关闭 — 请使用设备返回键或手动关闭标签页。"
+    "exitCancel": "取消"
   },
   "Civic": {
     "axes": {

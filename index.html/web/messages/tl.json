@@ -1327,7 +1327,6 @@
     "instant": "Instant · cache ng device na ito"
   },
   "ExitGuard": {
-    "eyebrow": "Bantay sa paglabas",
     "logoutTitle": "Mag-log out?",
     "logoutBody": "Aalis ka na sa UNITAS. Mag-log out muna sa device na ito, o panatilihin ang session at magpatuloy sa paglabas.",
     "logoutConfirm": "Mag-log out",
@@ -1335,8 +1334,7 @@
     "exitTitle": "Mag-log out at lumabas sa UNITAS?",
     "exitBody": "Magsasara lang ang site kapag kinumpirma mo rito. Kanselahin para manatili kung nasaan ka.",
     "exitConfirm": "Lumabas",
-    "exitCancel": "Kanselahin",
-    "exitManual": "Hindi pinayagan ng browser na magsara mag-isa ang tab na ito — gamitin ang back button ng device o isara ang tab nang manu-mano."
+    "exitCancel": "Kanselahin"
   },
   "Civic": {
     "axes": {

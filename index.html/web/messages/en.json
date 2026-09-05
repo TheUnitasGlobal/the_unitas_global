@@ -1327,7 +1327,6 @@
     "instant": "Instant · cached on this device"
   },
   "ExitGuard": {
-    "eyebrow": "Exit guard",
     "logoutTitle": "Log out?",
     "logoutBody": "You are about to leave UNITAS. Log out of this device first, or keep your session and continue to exit.",
     "logoutConfirm": "Log out",
@@ -1335,8 +1334,7 @@
     "exitTitle": "Log out and exit UNITAS?",
     "exitBody": "The site only closes when you confirm here. Cancel to stay exactly where you were.",
     "exitConfirm": "Exit",
-    "exitCancel": "Cancel",
-    "exitManual": "Your browser did not allow this tab to close itself — use the device back button or close the tab manually."
+    "exitCancel": "Cancel"
   },
   "Civic": {
     "axes": {

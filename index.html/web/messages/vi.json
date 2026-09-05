@@ -1327,7 +1327,6 @@
     "instant": "Tức thì · bộ nhớ đệm trên thiết bị này"
   },
   "ExitGuard": {
-    "eyebrow": "Bảo vệ thoát",
     "logoutTitle": "Đăng xuất?",
     "logoutBody": "Bạn sắp rời UNITAS. Hãy đăng xuất khỏi thiết bị này trước, hoặc giữ phiên và tiếp tục thoát.",
     "logoutConfirm": "Đăng xuất",
@@ -1335,8 +1334,7 @@
     "exitTitle": "Đăng xuất và thoát UNITAS?",
     "exitBody": "Trang chỉ đóng khi bạn xác nhận tại đây. Hủy để ở lại đúng nơi bạn đang xem.",
     "exitConfirm": "Thoát",
-    "exitCancel": "Hủy",
-    "exitManual": "Trình duyệt không cho phép thẻ này tự đóng — hãy dùng nút quay lại của thiết bị hoặc đóng thẻ thủ công."
+    "exitCancel": "Hủy"
   },
   "Civic": {
     "axes": {

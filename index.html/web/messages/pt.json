@@ -1327,7 +1327,6 @@
     "instant": "Instantâneo · cache deste dispositivo"
   },
   "ExitGuard": {
-    "eyebrow": "Guarda de saída",
     "logoutTitle": "Terminar sessão?",
     "logoutBody": "Está prestes a sair do UNITAS. Termine primeiro a sessão neste dispositivo ou mantenha-a e prossiga para a saída.",
     "logoutConfirm": "Terminar sessão",
@@ -1335,8 +1334,7 @@
     "exitTitle": "Encerrar sessão e sair do UNITAS?",
     "exitBody": "O site só fecha quando confirmar aqui. Cancele para ficar exatamente onde estava.",
     "exitConfirm": "Sair",
-    "exitCancel": "Cancelar",
-    "exitManual": "O navegador não permitiu que este separador se fechasse sozinho — use o botão de retroceder do dispositivo ou feche o separador manualmente."
+    "exitCancel": "Cancelar"
   },
   "Civic": {
     "axes": {

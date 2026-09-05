@@ -1327,7 +1327,6 @@
     "instant": "Instantané · cache de cet appareil"
   },
   "ExitGuard": {
-    "eyebrow": "Garde de sortie",
     "logoutTitle": "Se déconnecter ?",
     "logoutBody": "Vous êtes sur le point de quitter UNITAS. Déconnectez-vous d’abord de cet appareil, ou conservez votre session et poursuivez vers la sortie.",
     "logoutConfirm": "Se déconnecter",
@@ -1335,8 +1334,7 @@
     "exitTitle": "Se déconnecter et quitter UNITAS ?",
     "exitBody": "Le site ne se ferme que si vous confirmez ici. Annulez pour rester exactement où vous étiez.",
     "exitConfirm": "Quitter",
-    "exitCancel": "Annuler",
-    "exitManual": "Votre navigateur n’a pas autorisé cet onglet à se fermer seul — utilisez le bouton retour de l’appareil ou fermez l’onglet manuellement."
+    "exitCancel": "Annuler"
   },
   "Civic": {
     "axes": {

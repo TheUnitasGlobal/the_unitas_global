@@ -1327,7 +1327,6 @@
     "instant": "Natychmiast · pamięć podręczna tego urządzenia"
   },
   "ExitGuard": {
-    "eyebrow": "Ochrona wyjścia",
     "logoutTitle": "Wylogować się?",
     "logoutBody": "Zamierzasz opuścić UNITAS. Najpierw wyloguj się na tym urządzeniu lub zachowaj sesję i przejdź do wyjścia.",
     "logoutConfirm": "Wyloguj",
@@ -1335,8 +1334,7 @@
     "exitTitle": "Wylogować się i opuścić UNITAS?",
     "exitBody": "Strona zamknie się tylko po potwierdzeniu tutaj. Anuluj, aby zostać dokładnie tam, gdzie byłeś.",
     "exitConfirm": "Wyjdź",
-    "exitCancel": "Anuluj",
-    "exitManual": "Przeglądarka nie pozwoliła tej karcie zamknąć się samodzielnie — użyj przycisku wstecz urządzenia lub zamknij kartę ręcznie."
+    "exitCancel": "Anuluj"
   },
   "Civic": {
     "axes": {

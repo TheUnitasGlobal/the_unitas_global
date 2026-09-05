@@ -1327,7 +1327,6 @@
     "instant": "Anında · bu cihazın önbelleği"
   },
   "ExitGuard": {
-    "eyebrow": "Çıkış koruması",
     "logoutTitle": "Oturumu kapatmak istiyor musunuz?",
     "logoutBody": "UNITAS’tan ayrılmak üzeresiniz. Önce bu cihazda oturumu kapatın veya oturumu koruyup çıkışa devam edin.",
     "logoutConfirm": "Oturumu kapat",
@@ -1335,8 +1334,7 @@
     "exitTitle": "Oturum kapatılıp UNITAS’tan çıkılsın mı?",
     "exitBody": "Site yalnızca burada onayladığınızda kapanır. İptal ederseniz tam olduğunuz yerde kalırsınız.",
     "exitConfirm": "Çık",
-    "exitCancel": "İptal",
-    "exitManual": "Tarayıcı bu sekmenin kendini kapatmasına izin vermedi — cihazın geri düğmesini kullanın veya sekmeyi elle kapatın."
+    "exitCancel": "İptal"
   },
   "Civic": {
     "axes": {
