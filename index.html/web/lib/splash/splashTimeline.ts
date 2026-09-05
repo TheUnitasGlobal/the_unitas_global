@@ -1,12 +1,19 @@
-// Pure timeline constants + predicates for the 3-second cinematic intro
-// splash (owner instruction 2026-09-04, item 3). No DOM, no React -- unit
+// Pure timeline constants + predicates for the cinematic intro splash
+// (owner instruction 2026-09-04, item 3; duration extended to 5s and the
+// master mark's rotation redesigned 2026-09-05). No DOM, no React -- unit
 // tested in __tests__/splash/splashTimeline.test.ts. The component
 // (components/splash/CinematicIntroSplash.tsx) and the audio score
 // (lib/splash/splashAudio.ts) both read their cues from here so the visual
 // beats and the sound beats can never drift apart.
+//
+// The choreographed beats (mark swing-in, letter draw, crystal impact) all
+// still land inside the original first 3s -- extending this constant to
+// 5000 only lengthens the hold after they finish, so the mark and title sit
+// on screen longer before the exit cross-fade rather than re-timing every
+// keyframe in app/splash.css.
 
 /** Total forced on-screen time before the exit fade begins. */
-export const SPLASH_DURATION_MS = 3000;
+export const SPLASH_DURATION_MS = 5000;
 /** Exit cross-fade length (the layer unmounts after DURATION + EXIT). */
 export const SPLASH_EXIT_MS = 450;
 

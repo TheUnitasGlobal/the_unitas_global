@@ -9,7 +9,7 @@ const { test, expect } = require('@playwright/test');
 // on-screen founder door in a real browser.
 //
 // The test server has no SOVEREIGN_AUTH_TOKEN env, so the owner default from
-// web/lib/sovereignAuth.ts is the live token. `splash=0` skips the 3s intro
+// web/lib/sovereignAuth.ts is the live token. `splash=0` skips the 5s intro
 // splash so the gate button is clickable immediately.
 
 const TOKEN = 'unitas_master_dooyeong_2026_secure_key';

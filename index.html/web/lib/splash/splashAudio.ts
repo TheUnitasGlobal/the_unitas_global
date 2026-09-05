@@ -31,7 +31,10 @@ import {
 
 /** Mirrors SpatialAudioProvider's persisted preference key. */
 const AUDIO_PREF_KEY = 'unitas_audio_pref';
-const MASTER_GAIN = 0.82;
+// Owner instruction 2026-09-05: master gain cut to 0.3x its prior level
+// (0.82 -> 0.246) so the splash vocal/crystal chime sits well under the
+// site's ambient bed instead of dominating the opening seconds.
+const MASTER_GAIN = 0.246;
 
 export interface SplashAudioHandle {
   /** Call from a user gesture (or immediately) -- resumes + schedules once. */

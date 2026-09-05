@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ChevronDown, ChevronUp, LogOut, Play, RotateCcw, ShieldCheck, Sparkles } from 'lucide-react';
+import { ChevronUp, LogOut, Play, RotateCcw, ShieldCheck, Sparkles } from 'lucide-react';
 import {
   CINEMA_PHASE_EVENT,
   revokeSovereignFounder,
@@ -26,6 +26,11 @@ const PHASE_KEY = 'unitas_cinema_phase';
  * enter main site (`?dev=skip`), replay the sequence (`?dev=replay`), replay
  * the intro splash, and revoke the session. Collapsed state persists for
  * the tab.
+ *
+ * Collapsing (owner instruction 2026-09-05, item 3) swaps the whole panel
+ * for a mini circular toggle button at the same anchor point, rather than
+ * just hiding the body under a full-width header bar -- so a collapsed
+ * console is genuinely out of the way of whatever is underneath it.
  */
 export function SovereignDebugPanel() {
   const t = useTranslations('Sovereign');
@@ -95,6 +100,24 @@ export function SovereignDebugPanel() {
   const actionClass =
     'flex w-full items-center gap-2 border border-accent/30 bg-void/60 px-3 py-2 text-left text-[11px] uppercase tracking-[0.14em] text-gray-100 transition-colors hover:border-accent hover:text-accent disabled:opacity-50';
 
+  // Collapsed state (owner instruction 2026-09-05, item 3): a true mini
+  // toggle button -- not the full-width panel with its body merely hidden --
+  // so the console stays out of the way of the page underneath it until the
+  // founder deliberately reopens it.
+  if (collapsed) {
+    return (
+      <button
+        type="button"
+        onClick={toggleCollapsed}
+        aria-label={t('expand')}
+        data-testid="sovereign-debug-panel"
+        className="cs-glass fixed left-4 top-24 z-[450] flex h-10 w-10 items-center justify-center rounded-full text-accent shadow-[0_0_30px_rgba(212,175,55,0.15)] transition-transform hover:scale-105"
+      >
+        <ShieldCheck size={18} aria-hidden="true" />
+      </button>
+    );
+  }
+
   return (
     <aside
       className="cs-glass fixed left-4 top-24 z-[450] w-[min(17rem,calc(100vw-2rem))] rounded-xl p-3 text-left text-white shadow-[0_0_30px_rgba(212,175,55,0.15)]"
@@ -109,56 +132,54 @@ export function SovereignDebugPanel() {
         <button
           type="button"
           onClick={toggleCollapsed}
-          aria-label={collapsed ? t('expand') : t('collapse')}
+          aria-label={t('collapse')}
           className="flex h-6 w-6 items-center justify-center text-white/60 transition-colors hover:text-white"
         >
-          {collapsed ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
+          <ChevronUp size={14} />
         </button>
       </div>
 
-      {!collapsed && (
-        <div className="mt-3 space-y-3">
-          <dl className="space-y-1 text-[11px] leading-relaxed text-white/70">
-            <div className="flex items-center gap-2 text-emerald-300/90">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
-              <dd>{t('verified')}</dd>
-            </div>
-            {expires && (
-              <div className="flex justify-between gap-3">
-                <dt className="text-white/45">{t('expires')}</dt>
-                <dd className="font-mono text-[10px] text-white/80">{expires.toLocaleDateString()}</dd>
-              </div>
-            )}
-            <div className="flex justify-between gap-3">
-              <dt className="text-white/45">{t('phase')}</dt>
-              <dd className="font-mono text-[10px] uppercase text-cyan-300/90">{phase}</dd>
-            </div>
-          </dl>
-
-          <div className="space-y-1.5">
-            <button type="button" className={actionClass} onClick={() => navigateWith('?dev=skip')}>
-              <Play size={12} aria-hidden="true" />
-              {t('enterMain')}
-            </button>
-            <button type="button" className={actionClass} onClick={() => navigateWith('?dev=replay')}>
-              <RotateCcw size={12} aria-hidden="true" />
-              {t('replaySequence')}
-            </button>
-            <button
-              type="button"
-              className={actionClass}
-              onClick={() => window.dispatchEvent(new CustomEvent(SPLASH_REPLAY_EVENT))}
-            >
-              <Sparkles size={12} aria-hidden="true" />
-              {t('replaySplash')}
-            </button>
-            <button type="button" className={actionClass} onClick={() => void revoke()} disabled={busy}>
-              <LogOut size={12} aria-hidden="true" />
-              {t('revoke')}
-            </button>
+      <div className="mt-3 space-y-3">
+        <dl className="space-y-1 text-[11px] leading-relaxed text-white/70">
+          <div className="flex items-center gap-2 text-emerald-300/90">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
+            <dd>{t('verified')}</dd>
           </div>
+          {expires && (
+            <div className="flex justify-between gap-3">
+              <dt className="text-white/45">{t('expires')}</dt>
+              <dd className="font-mono text-[10px] text-white/80">{expires.toLocaleDateString()}</dd>
+            </div>
+          )}
+          <div className="flex justify-between gap-3">
+            <dt className="text-white/45">{t('phase')}</dt>
+            <dd className="font-mono text-[10px] uppercase text-cyan-300/90">{phase}</dd>
+          </div>
+        </dl>
+
+        <div className="space-y-1.5">
+          <button type="button" className={actionClass} onClick={() => navigateWith('?dev=skip')}>
+            <Play size={12} aria-hidden="true" />
+            {t('enterMain')}
+          </button>
+          <button type="button" className={actionClass} onClick={() => navigateWith('?dev=replay')}>
+            <RotateCcw size={12} aria-hidden="true" />
+            {t('replaySequence')}
+          </button>
+          <button
+            type="button"
+            className={actionClass}
+            onClick={() => window.dispatchEvent(new CustomEvent(SPLASH_REPLAY_EVENT))}
+          >
+            <Sparkles size={12} aria-hidden="true" />
+            {t('replaySplash')}
+          </button>
+          <button type="button" className={actionClass} onClick={() => void revoke()} disabled={busy}>
+            <LogOut size={12} aria-hidden="true" />
+            {t('revoke')}
+          </button>
         </div>
-      )}
+      </div>
     </aside>
   );
 }

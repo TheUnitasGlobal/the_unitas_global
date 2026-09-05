@@ -13,8 +13,8 @@ import {
 // Pure timeline maths only -- no fixtures shared with other __tests__/** files
 // (see CLAUDE.md "Module-level test isolation").
 describe('splash timeline', () => {
-  it('is a forced 3-second splash spelling UNITAS', () => {
-    expect(SPLASH_DURATION_MS).toBe(3000);
+  it('is a forced 5-second splash spelling UNITAS', () => {
+    expect(SPLASH_DURATION_MS).toBe(5000);
     expect(SPLASH_LETTERS.join('')).toBe('UNITAS');
   });
 

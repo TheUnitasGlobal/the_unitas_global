@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { MasterMarkLogo } from '@/components/brand/MasterMarkLogo';
 import { PWA_INSTALL_TRIGGER_ATTR } from '@/lib/pwa/installPrompt';
 
 /**
@@ -24,7 +25,7 @@ export function CinemaAppDownload() {
   return (
     <div className="absolute bottom-6 left-6 z-20 flex items-center gap-2.5">
       <span className="logo-hologram logo-hologram--sm shrink-0" aria-hidden="true">
-        <img src="/assets/svg/unitas-mark.svg" alt="" width={18} height={18} />
+        <MasterMarkLogo variant="compact" style={{ width: 18, height: 18 }} />
       </span>
       <button
         type="button"

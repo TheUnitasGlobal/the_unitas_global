@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, type CSSProperties } from 'react';
+import { MasterMarkLogo } from '@/components/brand/MasterMarkLogo';
 import { createSplashAudio } from '@/lib/splash/splashAudio';
 import {
   SPLASH_DURATION_MS,
@@ -13,7 +14,9 @@ import {
 } from '@/lib/splash/splashTimeline';
 
 /**
- * 3-second cinematic 3D intro splash (owner instruction 2026-09-04, item 3).
+ * Cinematic 3D intro splash (owner instruction 2026-09-04, item 3; extended
+ * to a 5s hold and the master mark's rotation redesigned per owner
+ * instruction 2026-09-05, item 1).
  *
  * Forced on EVERY cold load / PWA launch, on every device, before anything
  * else -- it sits at z-[700], above the pre-launch curtain (z-400), the
@@ -22,25 +25,31 @@ import {
  * auto-switch during the first seconds can't remount and restart it.
  *
  * Visual beats (see lib/splash/splashTimeline.ts for the exact cues):
- *   0.0s  v2 master mark (gold facet hexagon, centered dot-hexagon, lightning
- *         triangle, hologram globe) swings in from -100deg on a 3D perspective
- *         stage, then floats; dot-hexagon spins, triangle/bolt strokes run
- *         their dashes and flicker, the globe pulses -- all compositor CSS.
+ *   0.0s  v2 master mark swings in from -100deg on a 3D perspective stage,
+ *         then settles and holds -- the gold facet hexagon frame is FIXED
+ *         once settled (no continuous 3D sway); only the elements nested
+ *         inside it keep moving, each independently: the lightning triangle
+ *         spins (`sp-tri-spin`), the centered dot-hexagon spins the other
+ *         way (`sp-dothex`), and the hologram globe spins while it pulses
+ *         (`sp-globe`) -- all compositor CSS, all still inside the static
+ *         hex frame.
  *   0.5s  "UNITAS": each glyph's outline is drawn by a travelling gradient
  *         stroke (U -> S, staggered), then a flowing gold/white/cyan gradient
  *         floods the fill left-to-right like water following the line.
  *   1.9s  "THE UNITAS GLOBAL OÜ" rises in.
  *   2.0s  crystal impact: ring burst + screen bloom (matches the audio hit).
- *   3.0s  0.45s exit cross-fade, then the layer unmounts.
+ *   3.0s  choreography complete; the mark and title hold on screen.
+ *   5.0s  0.45s exit cross-fade, then the layer unmounts.
  *
- * Fail-safe by construction: the exit is a pure CSS animation with a 3s delay
+ * Fail-safe by construction: the exit is a pure CSS animation with a 5s delay
  * (`sp-autohide`), so even if JS never runs the layer still fades out and
  * releases pointer events. It is SSR'd visible (no flash of the page under
  * it); `?splash=0` (QA/E2E) hides it before first paint via the
  * `html[data-splash="off"]` attribute the head bootstrap stamps.
  *
  * Audio: lib/splash/splashAudio.ts -- synthesized "UNITAS" vocal (1-2s) and
- * crystal echo (2-3s). Any pointer/key gesture during the splash unlocks a
+ * crystal echo (2-3s), at 0.3x the prior master gain (owner instruction
+ * 2026-09-05, item 2). Any pointer/key gesture during the splash unlocks a
  * context the autoplay policy kept suspended.
  */
 export function CinematicIntroSplash() {
@@ -101,7 +110,7 @@ export function CinematicIntroSplash() {
       <div className="sp-stage">
         <div className="sp-mark-3d">
           <div className="sp-mark">
-            <MasterMark />
+            <MasterMarkLogo variant="hero" />
           </div>
         </div>
 
@@ -163,141 +172,7 @@ export function CinematicIntroSplash() {
   );
 }
 
-/**
- * The v2 "FINAL SYMMETRY" master mark, inlined from
- * public/assets/svg/unitas-mark.svg with animation hooks on each layer.
- * Kept geometry-identical to the single-source SVG (same viewBox, same
- * coordinates) so the splash logo is pixel-consistent with the nav mark,
- * favicon and PWA icons.
- */
-function MasterMark() {
-  return (
-    <svg viewBox="174 64 152 152" role="img" aria-label="UNITAS">
-      <defs>
-        <filter id="sp-softBlur" x="-80%" y="-80%" width="260%" height="260%">
-          <feGaussianBlur stdDeviation="9" />
-        </filter>
-        <filter id="sp-extremeGlow" x="-100%" y="-100%" width="300%" height="300%">
-          <feGaussianBlur stdDeviation="7" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-        <filter id="sp-sparkFilter" x="-200%" y="-200%" width="500%" height="500%">
-          <feGaussianBlur stdDeviation="1.4" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-        <filter id="sp-globeGlow" x="-150%" y="-150%" width="400%" height="400%">
-          <feGaussianBlur stdDeviation="2.5" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-        <radialGradient id="sp-triBg" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#002A2A" />
-          <stop offset="100%" stopColor="#000000" />
-        </radialGradient>
-        <radialGradient id="sp-deepVoid" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#004D4D" />
-          <stop offset="100%" stopColor="#010103" />
-        </radialGradient>
-        <radialGradient id="sp-holoGlobe" cx="35%" cy="35%" r="65%">
-          <stop offset="0%" stopColor="#E0FFFF" />
-          <stop offset="30%" stopColor="#00FFFF" stopOpacity="0.95" />
-          <stop offset="70%" stopColor="#008B8B" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#002233" stopOpacity="0.95" />
-        </radialGradient>
-        <linearGradient id="sp-facetShine" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#ffffff" stopOpacity="0" />
-          <stop offset="0.5" stopColor="#ffffff" stopOpacity="0.9" />
-          <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-
-      <circle cx="250" cy="140" r="62" fill="#d4af37" opacity="0.14" filter="url(#sp-softBlur)" />
-
-      <g transform="translate(0, -40)">
-        {/* gold facet hexagon */}
-        <g className="sp-hex">
-          <polygon points="205,145 250,115 250,145 225,160" fill="#FFE47A" />
-          <polygon points="250,115 295,145 275,160 250,145" fill="#E8C359" />
-          <polygon points="205,215 205,145 225,160 225,200" fill="#C69A2B" />
-          <polygon points="295,145 295,215 275,200 275,160" fill="#9A7017" />
-          <polygon points="250,245 205,215 225,200 250,215" fill="#704D07" />
-          <polygon points="295,215 250,245 250,215 275,200" fill="#4D3300" />
-          <polygon
-            points="225,160 250,145 275,160 275,200 250,215 225,200"
-            fill="url(#sp-deepVoid)"
-          />
-          <polygon
-            className="sp-facet-shine"
-            points="205,145 250,115 295,145 295,215 250,245 205,215"
-            fill="url(#sp-facetShine)"
-          />
-        </g>
-
-        {/* lightning triangle */}
-        <polygon
-          points="250,146 278,198 222,198"
-          fill="url(#sp-triBg)"
-          stroke="#00FFFF"
-          strokeWidth="2.5"
-          filter="url(#sp-extremeGlow)"
-        />
-        <polygon
-          className="sp-tri-spark"
-          points="250,146 278,198 222,198"
-          fill="none"
-          stroke="#FFFFFF"
-          strokeWidth="1.8"
-          strokeDasharray="8,12,15,6"
-          filter="url(#sp-sparkFilter)"
-        />
-        <polygon
-          className="sp-tri-arc"
-          points="250,146 278,198 222,198"
-          fill="none"
-          stroke="#7FFFD4"
-          strokeWidth="3"
-          strokeDasharray="4,25,10,18"
-          filter="url(#sp-extremeGlow)"
-        />
-
-        {/* centered dot-hexagon (v2 FINAL SYMMETRY) */}
-        <polygon
-          className="sp-dothex"
-          points="250,157 270,168.5 270,191.5 250,203 230,191.5 230,168.5"
-          fill="none"
-          stroke="#7FFFD4"
-          strokeWidth="1.5"
-          opacity="0.85"
-          strokeDasharray="4,2"
-        />
-
-        {/* bolts */}
-        <path
-          className="sp-bolt"
-          d="M 250 162 L 250 198"
-          fill="none"
-          stroke="#00FFFF"
-          strokeWidth="2.8"
-          filter="url(#sp-extremeGlow)"
-        />
-        <path
-          className="sp-bolt sp-bolt--b"
-          d="M 238 162 L 238 176 L 250 180 L 262 184 L 262 198"
-          fill="none"
-          stroke="#00FFFF"
-          strokeWidth="2.8"
-          filter="url(#sp-extremeGlow)"
-        />
-        <circle className="sp-bolt" cx="238" cy="162" r="4" fill="#FF0055" filter="url(#sp-extremeGlow)" />
-        <circle className="sp-bolt sp-bolt--b" cx="262" cy="198" r="4" fill="#0055FF" filter="url(#sp-extremeGlow)" />
-
-        {/* hologram globe */}
-        <g className="sp-globe" filter="url(#sp-globeGlow)">
-          <circle cx="250" cy="180" r="12.5" fill="url(#sp-holoGlobe)" />
-          <ellipse cx="250" cy="180" rx="12.5" ry="4.5" fill="none" stroke="#FFFFFF" strokeWidth="0.7" opacity="0.6" />
-          <ellipse cx="250" cy="180" rx="4.5" ry="12.5" fill="none" stroke="#FFFFFF" strokeWidth="0.7" opacity="0.6" />
-          <circle cx="250" cy="180" r="12.5" fill="none" stroke="#7FFFD4" strokeWidth="1.1" opacity="0.8" />
-        </g>
-      </g>
-    </svg>
-  );
-}
+// The animated master mark itself now lives in
+// components/brand/MasterMarkLogo.tsx -- shared with the nav-bar small logo
+// and the Coming-Soon ad page's install CTA (owner instruction 2026-09-05,
+// item 1).

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
+import { MasterMarkLogo } from '@/components/brand/MasterMarkLogo';
 import { SoundToggle } from '@/components/audio/SoundToggle';
 import { PWA_INSTALL_TRIGGER_ATTR } from '@/lib/pwa/installPrompt';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -51,7 +52,7 @@ export function NavBar() {
         <div className="relative flex shrink-0 items-center gap-3">
           <Link href="/" className="flex items-center">
             <span className="logo-hologram shrink-0">
-              <img src="/assets/svg/unitas-mark.svg" alt="UNITAS" width={30} height={30} />
+              <MasterMarkLogo variant="compact" style={{ width: 30, height: 30 }} />
             </span>
           </Link>
           <button
