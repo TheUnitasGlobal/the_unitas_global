@@ -1311,7 +1311,8 @@
     "pickRegion": "有多个同名地点 — 请选择您所在的地区",
     "approx": "网络估算",
     "dismiss": "关闭",
-    "detecting": "检测中…"
+    "detecting": "检测中…",
+    "instant": "即时响应 · 本机缓存"
   },
   "ExitGuard": {
     "eyebrow": "退出防护",

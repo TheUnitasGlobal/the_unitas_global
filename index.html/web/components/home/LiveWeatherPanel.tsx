@@ -22,10 +22,12 @@ import {
   Thermometer,
   Wind,
   X,
+  Zap,
   type LucideIcon,
 } from 'lucide-react';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
+import { geoCache, geoCoordKey, geoQueryKey } from '@/lib/live/geoCache';
 import {
   GEOCODE_COUNT,
   GPS_MATCH_KM,
@@ -64,6 +66,12 @@ import {
  *    is listed with its own state + country. Non-Latin queries (라그레인지)
  *    bridge through the locale's Wikipedia search → English titles → the
  *    same gazetteer pipeline. Pure helpers live in lib/live/geoMatch.ts.
+ *  - Intelligent Caching (owner instruction 2026-09-04 round 9): every
+ *    resolved search and every "내 위치" resolution is parked in
+ *    lib/live/geoCache.ts (memory + localStorage, LRU, versioned). The
+ *    external round-trips are paid once per device; the second search of
+ *    the same place renders in well under 100 ms with zero network -- the
+ *    ⚡ line under the search box says so. Zero server cost by construction.
  */
 
 type Condition =
@@ -411,13 +419,28 @@ async function geocodeViaWikipedia(name: string, locale: string, signal: AbortSi
   ]);
 }
 
-async function geocode(name: string, locale: string, signal: AbortSignal): Promise<Place[]> {
-  if (isLatinQuery(name)) return geocodeLatin(name, locale, signal);
-  // Some non-Latin alternate names do resolve directly (Cyrillic etc.) --
-  // try the gazetteer first, bridge through Wikipedia only on a miss.
-  const direct = await geocodeOpenMeteo(name, locale, signal, GEOCODE_COUNT).catch(() => [] as Place[]);
-  if (direct.length > 0) return rankPlaces(direct, name);
-  return geocodeViaWikipedia(name, locale, signal);
+interface GeocodeResult {
+  places: Place[];
+  /** Served from the device cache -- no network round-trip was made. */
+  instant: boolean;
+}
+
+async function geocode(name: string, locale: string, signal: AbortSignal): Promise<GeocodeResult> {
+  const key = geoQueryKey(locale, name);
+  const cached = geoCache.get(key);
+  if (cached) return { places: cached, instant: true };
+
+  let places: Place[];
+  if (isLatinQuery(name)) {
+    places = await geocodeLatin(name, locale, signal);
+  } else {
+    // Some non-Latin alternate names do resolve directly (Cyrillic etc.) --
+    // try the gazetteer first, bridge through Wikipedia only on a miss.
+    const direct = await geocodeOpenMeteo(name, locale, signal, GEOCODE_COUNT).catch(() => [] as Place[]);
+    places = direct.length > 0 ? rankPlaces(direct, name) : await geocodeViaWikipedia(name, locale, signal);
+  }
+  geoCache.set(key, places); // no-op for an empty list -- a miss stays retryable
+  return { places, instant: false };
 }
 
 /* ------------------------------------------------------------------ */
@@ -522,6 +545,13 @@ async function resolveCoords(
   approx: boolean,
   fallbackName: string,
 ): Promise<Place> {
+  // Intelligent Caching: a fix inside an already-resolved ~1 km cell needs
+  // no reverse geocoding at all -- the parked record is re-stamped with the
+  // exact coordinates and returned at once.
+  const key = geoCoordKey(locale, lat, lon, approx);
+  const cached = geoCache.get(key)?.[0];
+  if (cached) return { ...cached, lat, lon, approx };
+
   const [local, english] = await Promise.all([
     reverseLabel(lat, lon, locale, signal),
     locale === 'en' ? Promise.resolve<ReverseLabel | null>(null) : reverseLabel(lat, lon, 'en', signal),
@@ -531,15 +561,23 @@ async function resolveCoords(
     try {
       const candidates = sameCountry(await geocodeLatin(keyed.name, locale, signal), keyed.countryCode);
       const best = nearestWithin(candidates, lat, lon, approx ? IP_MATCH_KM : GPS_MATCH_KM);
-      if (best) return { ...best, lat, lon, approx };
+      if (best) {
+        const place = { ...best, lat, lon, approx };
+        geoCache.set(key, [place]);
+        return place;
+      }
     } catch {
       // fall through to the raw reverse label below
     }
   }
   const label = local ?? english;
   if (label) {
-    return { name: label.name, admin1: label.admin1, country: label.country, countryCode: label.countryCode, lat, lon, approx };
+    const place = { name: label.name, admin1: label.admin1, country: label.country, countryCode: label.countryCode, lat, lon, approx };
+    geoCache.set(key, [place]);
+    return place;
   }
+  // Nothing resolved (both reverse providers unreachable) -- never cached,
+  // so the next attempt resolves properly once the network is back.
   return { name: fallbackName, lat, lon, approx };
 }
 
@@ -558,6 +596,8 @@ export function LiveWeatherPanel() {
   const [cityQuery, setCityQuery] = useState('');
   const [candidates, setCandidates] = useState<Place[]>([]);
   const [searching, setSearching] = useState(false);
+  /** The last city search was answered from the device cache (⚡ line). */
+  const [instant, setInstant] = useState(false);
   const [locating, setLocating] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
   const locateAbortRef = useRef<AbortController | null>(null);
@@ -652,12 +692,25 @@ export function LiveWeatherPanel() {
     const q = cityQuery.trim();
     if (!q) return;
     interactedRef.current = true;
+    // Instant path: a cached query is answered synchronously inside the click
+    // task itself -- no await, no "searching" spinner frame, one React commit
+    // -- so the list is on screen before the next paint (<100 ms even on a
+    // low-spec device). Zero network, zero server, zero burn.
+    const cachedHit = geoCache.get(geoQueryKey(locale, q));
+    if (cachedHit) {
+      setError(null);
+      setCandidates(cachedHit.length > 1 ? cachedHit.slice(0, MAX_CANDIDATES) : []);
+      setInstant(true);
+      void load(cachedHit[0], true);
+      return;
+    }
     setSearching(true);
     setError(null);
+    setInstant(false);
     setCandidates([]);
     const controller = new AbortController();
     try {
-      const list = await geocode(q, locale, controller.signal);
+      const { places: list, instant: fromCache } = await geocode(q, locale, controller.signal);
       if (list.length === 0) {
         setError(t('noCity'));
         return;
@@ -666,6 +719,7 @@ export function LiveWeatherPanel() {
       // listed (own state + country) so the visitor can switch in one tap.
       void load(list[0], true);
       setCandidates(list.length > 1 ? list.slice(0, MAX_CANDIDATES) : []);
+      setInstant(fromCache);
     } catch {
       setError(t('error'));
     } finally {
@@ -687,6 +741,7 @@ export function LiveWeatherPanel() {
     locateAbortRef.current = controller;
     setLocating(true);
     setError(null);
+    setInstant(false);
     setCandidates([]);
 
     let fix: (IpFix & { approx: boolean }) | null = await browserPosition()
@@ -841,6 +896,13 @@ export function LiveWeatherPanel() {
           </div>
         )}
       </div>
+
+      {instant && (
+        <p className="mb-3 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-accent/80" aria-live="polite">
+          <Zap size={11} aria-hidden="true" />
+          {t('instant')}
+        </p>
+      )}
 
       {error && <p className="mb-3 text-[12px] font-bold text-amber-300">{error}</p>}
 

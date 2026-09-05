@@ -1311,7 +1311,8 @@
     "pickRegion": "같은 이름의 지역이 여러 곳입니다 — 내 지역을 선택하세요",
     "approx": "네트워크 추정",
     "dismiss": "닫기",
-    "detecting": "감지 중…"
+    "detecting": "감지 중…",
+    "instant": "즉시 응답 · 기기 캐시"
   },
   "ExitGuard": {
     "eyebrow": "종료 방어",

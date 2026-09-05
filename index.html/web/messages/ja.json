@@ -1311,7 +1311,8 @@
     "pickRegion": "同名の地域が複数あります — ご自身の地域を選択してください",
     "approx": "ネットワーク推定",
     "dismiss": "閉じる",
-    "detecting": "検出中…"
+    "detecting": "検出中…",
+    "instant": "即時応答 · 端末キャッシュ"
   },
   "ExitGuard": {
     "eyebrow": "終了ガード",

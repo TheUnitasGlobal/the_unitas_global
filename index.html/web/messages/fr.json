@@ -1311,7 +1311,8 @@
     "pickRegion": "Plusieurs lieux portent ce nom — choisissez le vôtre",
     "approx": "estimation réseau",
     "dismiss": "Fermer",
-    "detecting": "Détection…"
+    "detecting": "Détection…",
+    "instant": "Instantané · cache de cet appareil"
   },
   "ExitGuard": {
     "eyebrow": "Garde de sortie",

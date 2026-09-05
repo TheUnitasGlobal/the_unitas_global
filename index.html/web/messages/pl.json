@@ -1311,7 +1311,8 @@
     "pickRegion": "Kilka miejsc nosi tę nazwę — wybierz swoje",
     "approx": "szacunek sieciowy",
     "dismiss": "Zamknij",
-    "detecting": "Wykrywanie…"
+    "detecting": "Wykrywanie…",
+    "instant": "Natychmiast · pamięć podręczna tego urządzenia"
   },
   "ExitGuard": {
     "eyebrow": "Ochrona wyjścia",

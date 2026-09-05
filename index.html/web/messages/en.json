@@ -1311,7 +1311,8 @@
     "pickRegion": "Several places share this name — pick yours",
     "approx": "network estimate",
     "dismiss": "Dismiss",
-    "detecting": "Detecting…"
+    "detecting": "Detecting…",
+    "instant": "Instant · cached on this device"
   },
   "ExitGuard": {
     "eyebrow": "Exit guard",

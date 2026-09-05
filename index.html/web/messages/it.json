@@ -1311,7 +1311,8 @@
     "pickRegion": "Più luoghi condividono questo nome — scegli il tuo",
     "approx": "stima di rete",
     "dismiss": "Chiudi",
-    "detecting": "Rilevamento…"
+    "detecting": "Rilevamento…",
+    "instant": "Istantaneo · cache di questo dispositivo"
   },
   "ExitGuard": {
     "eyebrow": "Guardia di uscita",

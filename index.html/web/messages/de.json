@@ -1311,7 +1311,8 @@
     "pickRegion": "Mehrere Orte tragen diesen Namen — wählen Sie Ihren",
     "approx": "Netzwerkschätzung",
     "dismiss": "Schließen",
-    "detecting": "Erkenne…"
+    "detecting": "Erkenne…",
+    "instant": "Sofort · Cache dieses Geräts"
   },
   "ExitGuard": {
     "eyebrow": "Ausgangsschutz",

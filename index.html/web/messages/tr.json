@@ -1311,7 +1311,8 @@
     "pickRegion": "Bu adı taşıyan birden çok yer var — kendi bölgenizi seçin",
     "approx": "ağ tahmini",
     "dismiss": "Kapat",
-    "detecting": "Algılanıyor…"
+    "detecting": "Algılanıyor…",
+    "instant": "Anında · bu cihazın önbelleği"
   },
   "ExitGuard": {
     "eyebrow": "Çıkış koruması",

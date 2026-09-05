@@ -1311,7 +1311,8 @@
     "pickRegion": "Meerdere plaatsen dragen deze naam — kies de jouwe",
     "approx": "netwerkschatting",
     "dismiss": "Sluiten",
-    "detecting": "Detecteren…"
+    "detecting": "Detecteren…",
+    "instant": "Direct · cache van dit apparaat"
   },
   "ExitGuard": {
     "eyebrow": "Afsluitbeveiliging",
