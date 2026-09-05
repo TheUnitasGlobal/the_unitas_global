@@ -16,20 +16,23 @@
 //   APP (installed PWA / native container, any device):
 //     terminate immediately and drop the visitor back onto the launcher /
 //     desktop. `window.close()` is the only web API that genuinely ends an
-//     installed app's window, and Chromium only honours it while the window's
-//     history holds ONE entry. Round 11 (owner instruction 2026-09-05, item
-//     1) made the mobile/tablet App channel intercept the OS back button with
-//     the z-680 exit confirm, which REQUIRES ExitGuard to park its sentinel
-//     history entry in standalone mode too -- so on a Chromium mobile app the
-//     close call is expected to be refused and the fallback below is the
-//     normal path. When the runtime refuses (that case; iOS home-screen apps,
-//     which expose no close path at all; an app that has navigated between
-//     routes) the app restarts cleanly at its own root instead of freezing on
-//     `about:blank` -- and, under the round-11 re-entry reset doctrine
-//     (lib/pwa/installPrompt.ts), that restart is a fresh session that opens
-//     on the logo splash, never the view that was just closed. A desktop App
-//     window never arms the sentinel, so there `window.close()` still ends
-//     the window outright.
+//     installed app's window, and Chromium / WebKit only honour it while the
+//     window's session history holds ONE entry. Round 13 (owner instruction
+//     2026-09-05, "hardening patch", item 4) confines ExitGuard's sentinel
+//     history buffer to the MAIN HOME, so on the logo page, the ad stages and
+//     the sealed Coming-Soon screen a freshly launched app still sits on its
+//     single entry and the 'X' genuinely closes it. Where the runtime refuses
+//     anyway (an iOS home-screen app, which exposes no close path at all; a
+//     main-home 종료 with the sentinel buffer parked; an app that has
+//     navigated between routes) the app is TERMINATED IN PLACE instead of
+//     being restarted on the logo splash (the round-10/11 fallback the owner
+//     rejected as "리다이렉트"): the tab's session is wiped, every audio
+//     engine is told to stop, and an opaque black shroud covers the document
+//     -- the app is visibly over, no dead-end notice, no `about:blank`. The
+//     next time the OS brings that document back to the foreground (a
+//     launcher tap on the still-resident activity, a bfcache restore) it
+//     reloads itself into a brand-new session that opens on the logo splash,
+//     under the round-11 re-entry reset doctrine (lib/pwa/installPrompt.ts).
 //
 // `planExit()` is pure (no DOM) so the branching is unit-tested in
 // __tests__/exit/appExit.test.ts; `executeAppExit()` is the thin browser
@@ -57,7 +60,10 @@ export interface ExitEnvironment {
 export type ExitStep =
   | { kind: 'close' }
   | { kind: 'history-back'; steps: number }
-  | { kind: 'navigate'; url: string; replace: boolean };
+  | { kind: 'navigate'; url: string; replace: boolean }
+  /** Terminate in place: wipe the session, silence every audio engine and
+   *  cover the document with an opaque black shroud (App channel only). */
+  | { kind: 'terminate' };
 
 export interface ExitPlan {
   channel: ExitChannel;
@@ -85,16 +91,18 @@ export function isExternalReferrer(referrer: string, origin: string): boolean {
 
 /**
  * Pure planner. `fallbackUrl` is the same-origin URL used when nothing else
- * unloads the page (the current locale's root -- an in-place refresh that,
- * thanks to the sub-view splash gate, re-renders the same view).
+ * unloads the page in the ONLINE channel (the current locale's root). The App
+ * channel never navigates on refusal any more -- it terminates in place.
  */
 export function planExit(env: ExitEnvironment, fallbackUrl: string): ExitPlan {
   if (env.standalone) {
     return {
       channel: 'app',
       immediate: [{ kind: 'close' }],
-      // A clean restart of the app at its root -- never `about:blank`.
-      fallback: { kind: 'navigate', url: fallbackUrl, replace: true },
+      // Round 13: a refused close TERMINATES the app in place (session wiped,
+      // audio silenced, black shroud) -- never a restart on the logo splash,
+      // never `about:blank`.
+      fallback: { kind: 'terminate' },
     };
   }
 
@@ -127,6 +135,87 @@ export function isStandaloneApp(): boolean {
   }
 }
 
+/**
+ * Window event fired the instant an exit is confirmed (before the first
+ * step runs) and again if the runtime refuses and the app is terminated in
+ * place. Every audio engine on the page (the Coming-Soon ambient bed, the
+ * site-wide spatial SFX provider, the splash score) listens and goes silent,
+ * so a black terminated app can never keep humming underneath.
+ */
+export const APP_EXIT_EVENT = 'unitas:app-exit';
+/** `data-` attribute stamped on <html> while the terminal shroud is up. */
+export const TERMINATED_ATTR = 'data-unitas-terminated';
+
+/** Wipe the tab's session -- the session is OVER the moment an exit is
+ *  confirmed, whatever the runtime does next. localStorage (audio / locale
+ *  preferences, the wallet's remembered device) is deliberately kept: those
+ *  are the visitor's settings, not this session's state. */
+function clearSession(): void {
+  try {
+    window.sessionStorage.clear();
+  } catch {
+    /* storage blocked -- nothing to clear */
+  }
+}
+
+function announceExit(): void {
+  try {
+    window.dispatchEvent(new CustomEvent(APP_EXIT_EVENT));
+  } catch {
+    /* no-op */
+  }
+}
+
+/**
+ * Terminate in place (App channel, runtime refused `window.close()`): the
+ * document goes opaque black, nothing underneath is reachable, and the next
+ * time the OS brings this (still resident) document back to the foreground
+ * it reloads into a fresh session that starts on the logo splash. No text,
+ * no button -- a closed app shows nothing.
+ */
+function terminateInPlace(): void {
+  clearSession();
+  announceExit();
+  try {
+    if (document.documentElement.hasAttribute(TERMINATED_ATTR)) return;
+    document.documentElement.setAttribute(TERMINATED_ATTR, '1');
+    const shroud = document.createElement('div');
+    shroud.setAttribute('role', 'presentation');
+    shroud.setAttribute('aria-hidden', 'true');
+    shroud.style.cssText =
+      'position:fixed;inset:0;z-index:2147483647;background:#000;pointer-events:auto;touch-action:none;overscroll-behavior:none;';
+    document.documentElement.appendChild(shroud);
+    document.documentElement.style.background = '#000';
+    try {
+      (document.activeElement as HTMLElement | null)?.blur?.();
+    } catch {
+      /* nothing focused */
+    }
+    // Resident activity brought back to the foreground (launcher tap, task
+    // switcher, bfcache restore): start over from the logo page.
+    let wasHidden = document.visibilityState === 'hidden';
+    const revive = () => {
+      try {
+        window.location.reload();
+      } catch {
+        /* no-op */
+      }
+    };
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') {
+        wasHidden = true;
+        return;
+      }
+      if (wasHidden) revive();
+    });
+    window.addEventListener('pageshow', (e) => {
+      if ((e as PageTransitionEvent).persisted) revive();
+    });
+  } catch {
+    /* DOM unavailable -- the session wipe above is still done */
+  }
+}
+
 function runStep(step: ExitStep): void {
   try {
     switch (step.kind) {
@@ -139,6 +228,9 @@ function runStep(step: ExitStep): void {
       case 'navigate':
         if (step.replace) window.location.replace(step.url);
         else window.location.href = step.url;
+        return;
+      case 'terminate':
+        terminateInPlace();
         return;
     }
   } catch {
@@ -210,6 +302,10 @@ export function executeAppExit(options: ExecuteAppExitOptions): ExitChannel {
   );
 
   leaving = true;
+  // The session ends HERE, on the confirmed gesture -- whatever the runtime
+  // does with the steps below, nothing of this visit is restored later.
+  clearSession();
+  announceExit();
   for (const step of plan.immediate) runStep(step);
 
   window.setTimeout(() => {

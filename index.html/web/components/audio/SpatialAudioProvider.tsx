@@ -12,6 +12,7 @@ import {
   type ReactNode,
 } from 'react';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
+import { APP_EXIT_EVENT } from '@/lib/exit/appExit';
 
 // useLayoutEffect warns during SSR; fall back to useEffect on the server.
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
@@ -781,6 +782,23 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     return () => {
       ctxRef.current?.close().catch(() => {});
     };
+  }, []);
+
+  // A confirmed exit / in-place termination (lib/exit/appExit.ts): fall
+  // silent at once -- a terminated app must never keep its ambient bed or a
+  // hover blip playing under the black shroud.
+  useEffect(() => {
+    const onExit = () => {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      try {
+        ctx.suspend().catch(() => {});
+      } catch {
+        /* no-op */
+      }
+    };
+    window.addEventListener(APP_EXIT_EVENT, onExit);
+    return () => window.removeEventListener(APP_EXIT_EVENT, onExit);
   }, []);
 
   const value = useMemo(
