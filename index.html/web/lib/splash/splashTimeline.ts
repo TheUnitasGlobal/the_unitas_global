@@ -19,17 +19,19 @@ export const SPLASH_EXIT_MS = 450;
 
 /** Audio cue 1: the synthesized "UNITAS" chant. It starts at 1s; since the
  *  round-10 rebuild (owner instruction 2026-09-05) it is a slow,
- *  letter-by-letter human delivery rather than a one-second burst, so it
- *  deliberately OVERLAPS the crystal impact: the sustained "A" of "-TAS" is
- *  still ringing when the crystal lands at 2s, and the final "S" hiss rides
- *  out into the echo tail. Round 11 (owner instruction 2026-09-05, item 4)
- *  re-voiced it as a deep human BARITONE chest murmur with a soft echo.
- *  Round 12 (owner instruction 2026-09-05, 7-point hardening, item 1)
- *  re-segmented it into four organically separated syllables -- 유 (mid,
- *  shortened) · 니 (the high-tone point) · 타 (mid) · 스 (the lowest tone)
- *  -- at 1.9s. */
+ *  syllable-by-syllable human delivery rather than a one-second burst, so it
+ *  deliberately OVERLAPS the crystal impact: the long-held "타" is still
+ *  ringing when the crystal lands at 2s, and the final "스" rides out into
+ *  the echo tail. Round 11 (owner instruction 2026-09-05, item 4) re-voiced
+ *  it as a deep human BARITONE chest murmur with a soft echo; round 12
+ *  segmented it into four syllables. Round 13 (owner instruction 2026-09-05,
+ *  hardening patch, item 2) rebuilt it as a POWERFUL, thick, grand SUB-BASS
+ *  BARITONE: 유 · 니 · 타 · 스 all on ONE uniform low tone, uniform level and
+ *  uniform spacing -- except that 타 is held TWICE as long as the others and
+ *  스 is delivered QUIETER than 유 / 니. See lib/splash/splashAudio.ts
+ *  `SYLLABLE` for the exact cue sheet; 2.3s in total. */
 export const SPLASH_VOCAL_AT_S = 1.0;
-export const SPLASH_VOCAL_LENGTH_S = 1.9;
+export const SPLASH_VOCAL_LENGTH_S = 2.3;
 /** Audio cue 2: the crystal-echo impact that rings out the final second. */
 export const SPLASH_CRYSTAL_AT_S = 2.0;
 export const SPLASH_CRYSTAL_LENGTH_S = 1.0;

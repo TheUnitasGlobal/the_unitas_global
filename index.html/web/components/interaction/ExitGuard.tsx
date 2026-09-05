@@ -53,21 +53,15 @@ const SPURIOUS_POP_GRACE_MS = 600;
  *  instruction 2026-09-05, hardening patch, item 4). */
 const RELEASED_PHASE = 'released';
 
-interface ExitRequestDetail {
-  /** Same-origin URL for the exit engine's in-place fallback (defaults to
-   *  the current locale's root). */
-  forceRedirectTo?: string;
-}
-
 /**
  * Ask ExitGuard to open its logout/exit confirm on demand, outside the
  * back-gesture flow. No-ops if ExitGuard isn't mounted (SSR / removed).
  * (The Coming-Soon 'X' does not go through here -- owner instruction
  * 2026-09-05 round 10 item 6 tunnels it straight into `executeAppExit()`.)
  */
-export function requestAppExit(detail?: ExitRequestDetail): void {
+export function requestAppExit(): void {
   if (typeof window === 'undefined') return;
-  window.dispatchEvent(new CustomEvent<ExitRequestDetail>(EXIT_REQUEST_EVENT, { detail }));
+  window.dispatchEvent(new CustomEvent(EXIT_REQUEST_EVENT));
 }
 
 type Step = 'logout' | 'exit';
@@ -247,7 +241,6 @@ export function ExitGuard() {
   const sessionRef = useRef(session);
   sessionRef.current = session;
   const leavingRef = useRef(false);
-  const forceRedirectRef = useRef<string | null>(null);
   /** Timestamp (ms) before which an incoming popstate is treated as a
    *  spurious/synthetic event rather than a real user back-gesture. */
   const guardReadyAtRef = useRef(0);
@@ -257,20 +250,16 @@ export function ExitGuard() {
   const openGate = gate.setOpen;
 
   /** Open the confirm (logout step first while signed in). */
-  const openConfirm = useCallback(
-    (forceRedirectTo: string | null = null) => {
-      if (leavingRef.current) return;
-      try {
-        (document.activeElement as HTMLElement | null)?.blur?.();
-      } catch {
-        // nothing focused
-      }
-      forceRedirectRef.current = forceRedirectTo;
-      setStep(sessionRef.current ? 'logout' : 'exit');
-      openGate(true, { force: true });
-    },
-    [openGate],
-  );
+  const openConfirm = useCallback(() => {
+    if (leavingRef.current) return;
+    try {
+      (document.activeElement as HTMLElement | null)?.blur?.();
+    } catch {
+      // nothing focused
+    }
+    setStep(sessionRef.current ? 'logout' : 'exit');
+    openGate(true, { force: true });
+  }, [openGate]);
 
   // --- mobile / tablet, MAIN HOME only: back-gesture sentinel buffer -----------
   useEffect(() => {
@@ -320,7 +309,7 @@ export function ExitGuard() {
       if (document.visibilityState !== 'visible' || Date.now() < guardReadyAtRef.current) return;
       // A real back press landed inside the buffer (or, after a burst, on the
       // page's own entry): still on the site -- ask. No push here.
-      openConfirm(null);
+      openConfirm();
     }
 
     // Live curtain phase. Nothing is pushed off this event: when the curtain
@@ -383,7 +372,7 @@ export function ExitGuard() {
       if (owner !== null) return; // another popup owns Escape -- let it close
       if (anotherOverlayOpen()) return; // ...same for non-gated overlays
       e.preventDefault();
-      openConfirm(null);
+      openConfirm();
     };
     const opts: AddEventListenerOptions = { capture: true };
     window.addEventListener('keydown', onKeyDown, opts);
@@ -392,9 +381,7 @@ export function ExitGuard() {
 
   // On-demand open (no back-gesture involved) -- see `requestAppExit()`.
   useEffect(() => {
-    const onExitRequest = (e: Event) => {
-      openConfirm((e as CustomEvent<ExitRequestDetail>).detail?.forceRedirectTo ?? null);
-    };
+    const onExitRequest = () => openConfirm();
     window.addEventListener(EXIT_REQUEST_EVENT, onExitRequest);
     return () => window.removeEventListener(EXIT_REQUEST_EVENT, onExitRequest);
   }, [openConfirm]);
@@ -425,7 +412,6 @@ export function ExitGuard() {
     // App: immediate termination, else terminated in place (never a blank
     // document, never a restart on the logo splash).
     executeAppExit({
-      fallbackUrl: forceRedirectRef.current ?? `/${locale}`,
       sentinelMarker: GUARD_MARKER,
       sentinelDepthKey: GUARD_DEPTH,
     });

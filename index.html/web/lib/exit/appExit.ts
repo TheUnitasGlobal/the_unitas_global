@@ -90,11 +90,13 @@ export function isExternalReferrer(referrer: string, origin: string): boolean {
 }
 
 /**
- * Pure planner. `fallbackUrl` is the same-origin URL used when nothing else
- * unloads the page in the ONLINE channel (the current locale's root). The App
- * channel never navigates on refusal any more -- it terminates in place.
+ * Pure planner. Neither channel navigates back onto the site on refusal any
+ * more (round 13): the App channel terminates in place, the online channel
+ * hands the visitor to the external page they came from when one is known
+ * and otherwise terminates in place as well -- an exit never turns into a
+ * restart on the logo splash.
  */
-export function planExit(env: ExitEnvironment, fallbackUrl: string): ExitPlan {
+export function planExit(env: ExitEnvironment): ExitPlan {
   if (env.standalone) {
     return {
       channel: 'app',
@@ -114,7 +116,7 @@ export function planExit(env: ExitEnvironment, fallbackUrl: string): ExitPlan {
 
   const fallback: ExitStep = isExternalReferrer(env.referrer, env.origin)
     ? { kind: 'navigate', url: env.referrer, replace: false }
-    : { kind: 'navigate', url: fallbackUrl, replace: false };
+    : { kind: 'terminate' };
 
   return { channel: 'online', immediate, fallback };
 }
@@ -246,8 +248,6 @@ export function isExitInProgress(): boolean {
 }
 
 export interface ExecuteAppExitOptions {
-  /** Same-origin URL for the in-place fallback (normally `/${locale}`). */
-  fallbackUrl: string;
   /** ExitGuard's sentinel-history marker key, if the caller parks one. */
   sentinelMarker?: string;
   /** history.state key holding the sentinel's depth (1 = bottom sentinel,
@@ -275,7 +275,7 @@ export function readSentinelDepth(
  * a user gesture -- `window.close()` and history traversal are both
  * activation-gated. Returns the channel that was executed.
  */
-export function executeAppExit(options: ExecuteAppExitOptions): ExitChannel {
+export function executeAppExit(options: ExecuteAppExitOptions = {}): ExitChannel {
   if (typeof window === 'undefined') return 'online';
   let sentinelDepth = 0;
   try {
@@ -284,22 +284,19 @@ export function executeAppExit(options: ExecuteAppExitOptions): ExitChannel {
     sentinelDepth = 0;
   }
 
-  const plan = planExit(
-    {
-      standalone: isStandaloneApp(),
-      historyLength: (() => {
-        try {
-          return window.history.length;
-        } catch {
-          return 1;
-        }
-      })(),
-      sentinelDepth,
-      referrer: typeof document === 'undefined' ? '' : document.referrer || '',
-      origin: window.location.origin,
-    },
-    options.fallbackUrl,
-  );
+  const plan = planExit({
+    standalone: isStandaloneApp(),
+    historyLength: (() => {
+      try {
+        return window.history.length;
+      } catch {
+        return 1;
+      }
+    })(),
+    sentinelDepth,
+    referrer: typeof document === 'undefined' ? '' : document.referrer || '',
+    origin: window.location.origin,
+  });
 
   leaving = true;
   // The session ends HERE, on the confirmed gesture -- whatever the runtime

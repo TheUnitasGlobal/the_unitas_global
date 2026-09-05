@@ -9,7 +9,7 @@ import { routing } from '@/i18n/routing';
 import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
 import { CinemaAppDownload } from '@/components/pwa/CinemaAppDownload';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
-import { executeAppExit, isExitInProgress } from '@/lib/exit/appExit';
+import { APP_EXIT_EVENT, executeAppExit, isExitInProgress } from '@/lib/exit/appExit';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
 import { attachActivationUnlock } from '@/lib/splash/splashAudio';
 import { CINEMA_PHASE_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
@@ -692,6 +692,19 @@ export function ComingSoonCinema() {
     }
   }, [phase]);
 
+  // A confirmed exit / in-place termination (the sealed screen's 'X', the
+  // main home's 종료): the bed falls silent at once -- a terminated app must
+  // never keep its ambient loop playing under the black shroud
+  // (lib/exit/appExit.ts APP_EXIT_EVENT).
+  useEffect(() => {
+    const onExit = () => {
+      audioRef.current?.stop();
+      audioRef.current = null;
+    };
+    window.addEventListener(APP_EXIT_EVENT, onExit);
+    return () => window.removeEventListener(APP_EXIT_EVENT, onExit);
+  }, []);
+
   useEffect(() => {
     return () => {
       audioRef.current?.stop();
@@ -1153,21 +1166,28 @@ export function ComingSoonCinema() {
                     z-400 curtain -- so every prior round's tap DID open it,
                     invisibly, which read as "무반응" here and then surfaced
                     as a phantom popup the moment the founder entered the
-                    main home. The 'X' now calls the shared exit engine
+                    main home. The 'X' calls the shared exit engine
                     directly, synchronously inside the gesture (window.close
-                    and history traversal are activation-gated): App channel
-                    -> immediate termination back to the launcher; online
-                    -> back to the previous page / close the fresh tab; and
-                    if the runtime refuses every step, an in-place refresh of
-                    this locale's root (the sub-view splash gate re-renders
-                    this same sealed screen -- never a blank document). */}
+                    and history traversal are activation-gated).
+
+                    ROUND 13 (owner instruction 2026-09-05, hardening patch,
+                    item 4): the tap is ABSOLUTE TERMINATION, never a restart
+                    on the logo splash. The session is wiped on the tap
+                    itself; App channel -> window.close() -- honoured now that
+                    ExitGuard no longer parks history entries under this
+                    screen, so a freshly launched app sits on its single
+                    entry -- and, where a runtime still refuses, the app is
+                    terminated IN PLACE (audio silenced, opaque black shroud,
+                    fresh session only on the next foreground resume);
+                    online -> back to the previous page / close the fresh
+                    tab. */}
                 <button
                   type="button"
                   onMouseEnter={() => playHoverSfx()}
                   onClick={(e) => {
                     e.preventDefault();
                     if (isExitInProgress()) return;
-                    executeAppExit({ fallbackUrl: `/${locale}` });
+                    executeAppExit();
                   }}
                   onTouchEnd={(e) => {
                     // Owner instruction 2026-09-05 (round 3): a bare onClick
@@ -1179,7 +1199,7 @@ export function ComingSoonCinema() {
                     // to the very first tap on every touch device.
                     e.preventDefault();
                     if (isExitInProgress()) return;
-                    executeAppExit({ fallbackUrl: `/${locale}` });
+                    executeAppExit();
                   }}
                   aria-label={tExit('exitTitle')}
                   style={{ pointerEvents: 'auto', touchAction: 'manipulation' }}
