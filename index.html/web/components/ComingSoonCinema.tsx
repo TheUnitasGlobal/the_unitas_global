@@ -8,9 +8,11 @@ import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
 import { CinemaAppDownload } from '@/components/pwa/CinemaAppDownload';
+import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { executeAppExit, isExitInProgress } from '@/lib/exit/appExit';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
-import { CINEMA_PHASE_STORAGE_KEY } from '@/lib/splash/splashTimeline';
+import { attachActivationUnlock } from '@/lib/splash/splashAudio';
+import { CINEMA_PHASE_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
 import {
   CINEMA_PHASE_EVENT,
   revokeSovereignFounder,
@@ -21,6 +23,7 @@ import {
   CINEMA_SEGMENTS,
   cinemaOverallProgress,
   cinemaSegmentAt,
+  cinemaSegmentStartMs,
   drawCinemaFrame,
   seedCinemaField,
 } from '@/lib/comingSoonSequence';
@@ -39,6 +42,10 @@ type Mode = 'public' | 'founder';
 // Shared with the pre-hydration splash gate (lib/pwa/installPrompt.ts) and
 // ExitGuard -- one key, no drift (owner instruction 2026-09-05, round 10).
 const PHASE_KEY = CINEMA_PHASE_STORAGE_KEY;
+// Which of the 5 cinema segments is on screen -- persisted so an in-place
+// refresh (F5) during the ad resumes at THAT stage instead of rewinding to
+// stage 1 (owner instruction 2026-09-05, 7-point hardening, item 6).
+const SEGMENT_KEY = 'unitas_cinema_segment';
 const LOCALE_PREF_KEY = 'unitas_locale_pref';
 const LOCALE_AUTO_KEY = 'unitas_locale_autodetected';
 // components/audio/AudioGate.tsx STORAGE_KEY -- once the founder has crossed
@@ -113,6 +120,11 @@ export function ComingSoonCinema() {
   const pathname = usePathname();
   const router = useRouter();
   const reduceMotion = useReducedMotion();
+  // Site-wide UI SFX (owner instruction 2026-09-05, 7-point hardening, item
+  // 5): the curtain's buttons play the SAME hover / confirm cues the main
+  // site's buttons do, through the one provider that already applies the
+  // global 50% level -- so every device and both channels sound identical.
+  const { playHoverSfx, playQuestEnterSfx, playSpatialPing } = useSpatialAudio();
 
   const [mode, setMode] = useState<Mode>('public');
   const [phase, setPhase] = useState<Phase>('gate');
@@ -121,6 +133,9 @@ export function ComingSoonCinema() {
   const [autoLocalized, setAutoLocalized] = useState(false);
 
   const field = useMemo(() => seedCinemaField(), []);
+  /** Segment to resume at after an in-place refresh (item 6); consumed by
+   *  the canvas effect the first time it starts the cinema clock. */
+  const resumeSegRef = useRef<number | null>(null);
   /**
    * Owner instruction 2026-09-05 (round 9): true while a persisted
    * `released` phase is being re-verified against the server on mount (see
@@ -185,6 +200,16 @@ export function ComingSoonCinema() {
     } else if (saved === 'sealed') {
       setPhase('sealed');
     } else if (saved === 'cinema') {
+      // Item 6: resume the ad at the stage that was on screen, not stage 1.
+      let savedSeg: string | null = null;
+      try {
+        savedSeg = sessionStorage.getItem(SEGMENT_KEY);
+      } catch {
+        /* no-op */
+      }
+      const seg = cinemaSegmentAt(cinemaSegmentStartMs(savedSeg)).id;
+      resumeSegRef.current = seg;
+      setSegId(seg);
       setPhase('cinema');
     }
 
@@ -243,6 +268,16 @@ export function ComingSoonCinema() {
     // Founder debug panel + ExitGuard mirror the live curtain phase.
     window.dispatchEvent(new CustomEvent(CINEMA_PHASE_EVENT, { detail: phase }));
   }, [phase]);
+
+  // Item 6: remember the ad stage on screen so an F5 resumes right there.
+  useEffect(() => {
+    try {
+      if (phase === 'cinema') sessionStorage.setItem(SEGMENT_KEY, String(segId));
+      else sessionStorage.removeItem(SEGMENT_KEY);
+    } catch {
+      /* no-op */
+    }
+  }, [phase, segId]);
 
   // --- auto-localization to navigator.language -----------------------------
   useEffect(() => {
@@ -514,40 +549,50 @@ export function ComingSoonCinema() {
     arriveBell.stop(now + 3.1);
 
     // ---- phase-transition cue (fires on every S1->S2->...->S5 hand-off) ----
-    // A short, consonant rising two-note ping (A5 -> D6) plus an airy
+    // A short, consonant rising three-note ping (A5 -> D6 -> A6) plus an airy
     // high-passed tick -- clean attack, no boom, no sub. Routed through
     // `master` (NOT `bedGain`), so it sits clearly on top of the lowered
     // ambient bed and gives each segment change a crisp, high-end punctuation
     // (owner instruction 2026-08-30: "타격감·청각적 몰입감").
+    //
+    // OMNI-CHANNEL SYNC (owner instruction 2026-09-05, 7-point hardening,
+    // item 5): the cue was routinely inaudible in the ONLINE channel -- its
+    // 0.12 peak under the halved master sat below the bed on phone speakers,
+    // and after an in-place refresh into the cinema no context existed at
+    // all (the bed only ever started from the gate button; see the resume
+    // effect below). It now plays at a level that clears the bed on every
+    // device, skips cleanly (rather than queueing a stray late ping) while
+    // the context is not yet running, and the context itself is guaranteed
+    // to exist for every cinema/sealed render.
     const phaseCue = () => {
-      if (ctx.state === 'closed') return;
+      if (ctx.state !== 'running') return;
       const b = ctx.currentTime;
-      [880, 1174.66].forEach((f, i) => {
-        const at = b + i * 0.07;
+      [880, 1174.66, 1760].forEach((f, i) => {
+        const at = b + i * 0.065;
         const osc = ctx.createOscillator();
         osc.type = 'sine';
         osc.frequency.value = f;
         const g = ctx.createGain();
         g.gain.setValueAtTime(0.0001, at);
-        g.gain.linearRampToValueAtTime(0.12, at + 0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, at + 0.55);
+        g.gain.linearRampToValueAtTime(i === 2 ? 0.18 : 0.26, at + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, at + 0.6);
         const bp = ctx.createBiquadFilter();
         bp.type = 'bandpass';
         bp.frequency.value = 2400;
-        bp.Q.value = 0.9;
+        bp.Q.value = 0.8;
         const panner = ctx.createStereoPanner();
-        panner.pan.value = i === 0 ? -0.12 : 0.12;
+        panner.pan.value = i === 0 ? -0.14 : i === 1 ? 0.14 : 0;
         osc.connect(g);
         g.connect(bp);
         bp.connect(panner);
         panner.connect(master);
         osc.start(at);
-        osc.stop(at + 0.7);
+        osc.stop(at + 0.75);
       });
       const tick = ctx.createBufferSource();
       tick.buffer = noiseBuffer;
       const tg = ctx.createGain();
-      tg.gain.setValueAtTime(0.05, b);
+      tg.gain.setValueAtTime(0.09, b);
       tg.gain.exponentialRampToValueAtTime(0.0001, b + 0.14);
       const tf = ctx.createBiquadFilter();
       tf.type = 'highpass';
@@ -604,6 +649,41 @@ export function ComingSoonCinema() {
     if (segId > 1 && !muted) audioRef.current?.phaseCue();
   }, [segId, phase, muted]);
 
+  // OMNI-CHANNEL AUDIO GUARANTEE (owner instruction 2026-09-05, 7-point
+  // hardening, item 5): the ambient bed + cue engine used to be created ONLY
+  // by the gate button's click. Every other way into the cinema / sealed
+  // screens -- an in-place refresh (item 6), a persisted phase restored on a
+  // remount, a locale switch mid-ad -- rendered the ad SILENT, with no
+  // segment cues at all. Now any cinema/sealed render without a live engine
+  // builds one; if the autoplay policy keeps it suspended (no gesture yet),
+  // the same activation-event unlock the intro splash uses resumes it on the
+  // first touch / click / key, on every device, online and App alike.
+  useEffect(() => {
+    if (phase !== 'cinema' && phase !== 'sealed') return;
+    if (reduceMotion) return;
+    if (!audioRef.current) startAmbient();
+    const engine = audioRef.current;
+    if (!engine || engine.ctx.state === 'running') return;
+    let detached = false;
+    const detach = attachActivationUnlock(() => {
+      if (detached) return;
+      engine.ctx.resume().catch(() => {});
+    });
+    const onState = () => {
+      if (engine.ctx.state === 'running') {
+        detached = true;
+        detach();
+        engine.ctx.removeEventListener('statechange', onState);
+      }
+    };
+    engine.ctx.addEventListener('statechange', onState);
+    return () => {
+      detached = true;
+      detach();
+      engine.ctx.removeEventListener('statechange', onState);
+    };
+  }, [phase, reduceMotion, startAmbient]);
+
   // stop the ambient bed once the founder leaves the curtain for the real site
   useEffect(() => {
     if (phase === 'released') {
@@ -649,7 +729,11 @@ export function ComingSoonCinema() {
     // switch) can NOT rewind the timeline. On the sealed loop we keep
     // whatever clock we had so the dimmed background keeps flowing unbroken.
     if (phase === 'cinema' && startRef.current === 0) {
-      startRef.current = performance.now();
+      // Item 6: after an in-place refresh, back-date the clock so the loop
+      // resumes at the start of the segment that was on screen.
+      const resumeSeg = resumeSegRef.current;
+      resumeSegRef.current = null;
+      startRef.current = performance.now() - (resumeSeg ? cinemaSegmentStartMs(resumeSeg) : 0);
     }
 
     const sealed = phase === 'sealed';
@@ -730,24 +814,46 @@ export function ComingSoonCinema() {
 
   // --- actions -----------------------------------------------------------
   const enter = () => {
+    playQuestEnterSfx();
     if (!reduceMotion) startAmbient();
     startRef.current = 0;
+    resumeSegRef.current = null;
     setSegId(1);
     setPhase('cinema');
   };
 
+  /**
+   * "다시보기" (owner instruction 2026-09-05, 7-point hardening, item 4): a
+   * replay is a COMPLETE restart of the visitor's journey -- the very first
+   * "logo page" (the 5s cinematic intro splash), then the entry gate, then
+   * the ad from stage 1 -- never a jump into the middle of the sequence.
+   * The ambient engine is torn down (the gate button rebuilds it, exactly
+   * as on a cold visit) and the intro splash is replayed through the same
+   * window event the founder console uses; it mounts above this curtain at
+   * z-700 and dissolves onto the gate 5s later.
+   */
   const replay = () => {
+    playSpatialPing();
+    audioRef.current?.stop();
+    audioRef.current = null;
     startRef.current = 0;
+    resumeSegRef.current = null;
     setSegId(1);
-    setPhase('cinema');
+    setPhase('gate');
+    window.scrollTo(0, 0);
+    window.dispatchEvent(new CustomEvent(SPLASH_REPLAY_EVENT));
   };
 
-  const skip = () => setPhase('sealed');
+  const skip = () => {
+    playSpatialPing();
+    setPhase('sealed');
+  };
 
   // FOUNDER-ONLY: leave the curtain for the real homepage. Guarded by
   // `isFounder` at the call site AND here -- a public build can never call it.
   const enterMainSite = () => {
     if (!isFounder) return;
+    playQuestEnterSfx();
     try {
       // don't make the founder clear the site's own <AudioGate/> as well
       sessionStorage.setItem(AUDIO_GATE_SEEN_KEY, '1');
@@ -892,6 +998,7 @@ export function ComingSoonCinema() {
                   </p>
                   <button
                     type="button"
+                    onMouseEnter={() => playHoverSfx()}
                     onClick={enter}
                     className="event-horizon-btn inline-block whitespace-nowrap px-7 py-3.5 text-xs font-medium uppercase tracking-[0.15em] text-white backdrop-blur-md transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98] sm:text-sm"
                   >
@@ -1004,6 +1111,7 @@ export function ComingSoonCinema() {
                     the two affordances feel like one system. */}
                 <button
                   type="button"
+                  onMouseEnter={() => playHoverSfx()}
                   onClick={skip}
                   aria-label={t('skip')}
                   className="absolute bottom-6 right-6 z-20 flex items-center gap-2.5 whitespace-nowrap text-[11px] uppercase tracking-[0.22em] text-white/45 transition-colors hover:text-white/90"
@@ -1055,6 +1163,7 @@ export function ComingSoonCinema() {
                     this same sealed screen -- never a blank document). */}
                 <button
                   type="button"
+                  onMouseEnter={() => playHoverSfx()}
                   onClick={(e) => {
                     e.preventDefault();
                     if (isExitInProgress()) return;
@@ -1147,6 +1256,7 @@ export function ComingSoonCinema() {
                     </p>
                     <button
                       type="button"
+                      onMouseEnter={() => playHoverSfx()}
                       onClick={enterMainSite}
                       className="event-horizon-btn inline-block whitespace-nowrap px-7 py-3.5 text-xs font-medium uppercase tracking-[0.15em] text-white backdrop-blur-md transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98] sm:text-sm"
                     >
@@ -1169,6 +1279,7 @@ export function ComingSoonCinema() {
                     mirrors the cinema 'skip' affordance. */}
                 <button
                   type="button"
+                  onMouseEnter={() => playHoverSfx()}
                   onClick={replay}
                   aria-label={t('replay')}
                   className="absolute bottom-6 right-6 z-20 flex items-center gap-2.5 whitespace-nowrap text-[11px] uppercase tracking-[0.22em] text-white/45 transition-colors hover:text-white/90"

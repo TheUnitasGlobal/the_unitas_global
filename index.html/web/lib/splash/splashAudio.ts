@@ -4,22 +4,33 @@
 // Low-Memory Armor / no-binary-assets rule used by SpatialAudioProvider and
 // the Coming-Soon cinema.
 //
-//   1.0s -> ~2.8s  "U - NI - TAS" -- a deep, grand, HUMAN male BARITONE
+//   1.0s -> ~2.9s  "U - NI - TA - S" -- a deep, grand, HUMAN male BARITONE
 //                  chest-voice murmur (round 11 re-voicing, owner instruction
 //                  2026-09-05, item 4; letter-by-letter humanization from the
-//                  round 10 rebuild). The fundamental now lives where a real
-//                  low baritone's chest register lives -- the G2-C3 band
-//                  (98-131 Hz): U sits on G2, the phrase leans up through A2
-//                  / B2 to peak on C3 for the sustained "A", then settles
-//                  back through A2 and drops away into the final "S". The
-//                  round-10 F1-A1 (43-55 Hz) fundamental sat BELOW the range
-//                  of any human voice, which is precisely what read as a
-//                  machine rumble; a soft sub-octave sine (49-65 Hz) is kept
-//                  underneath at low level purely as chest resonance, so the
-//                  grandeur stays while the voice becomes a person. A gentle
-//                  two-tap echo (low-passed, panned, feeding the cathedral
-//                  hall) gives the murmur its space -- "미세한 메아리". Two
-//                  things separate this from a one-second synth blast:
+//                  round 10 rebuild; round 12 -- the 7-point hardening, item
+//                  1 -- re-segmented the delivery into FOUR organically
+//                  separated syllables with a designed pitch contour:
+//                    유  mid tone (A2), deliberately SHORTENED so the phrase
+//                        never lingers on its first vowel;
+//                    니  the signature HIGH-TONE POINT -- the nasal lifts
+//                        through B2/C3 and the "I" peaks on E3, the phrase's
+//                        one bright announcement;
+//                    타  back to the mid tone (A2) after the stop burst;
+//                    스  the LOWEST tone -- the hiss opens onto a voiced,
+//                        closed "으" tail that sinks from E2 down to D2.
+//                  Each syllable is its own note with a soft dip in level
+//                  between them (an organic break, not a hard cut) and a
+//                  legato pitch glide across the break, so the letters read
+//                  as separately articulated yet one connected breath.)
+//                  The fundamental lives where a real low baritone's chest
+//                  register lives -- D2 at the very bottom of the final "스",
+//                  A2 for the mid tones, E3 for the high point; a soft
+//                  sub-octave sine is kept underneath at low level purely as
+//                  chest resonance, so the grandeur stays while the voice is
+//                  a person. A three-tap echo (low-passed, panned, feeding a
+//                  longer cathedral hall -- round 12 deepened both) gives the
+//                  murmur a grand, spacious "메아리". Two things separate this
+//                  from a one-second synth blast:
 //                    * PER-LETTER PITCH CONTOURING -- every voiced letter is
 //                      its own note with a human onset scoop (starting 30-50
 //                      cents flat and gliding up onto pitch), a slight lean
@@ -66,18 +77,26 @@
 // re-times the cues from that moment. Respects the site-wide mute
 // preference (`unitas_audio_pref === 'off'`).
 //
-// MOBILE ONLINE UNLOCK (owner instruction 2026-09-05, round 11, item 2): the
-// gesture listeners live HERE, on `window`, in the capture phase, from the
-// moment the context is created until it is running (or disposed) -- not
-// only inside the splash component's effect. Decisively, they listen to the
-// events browsers actually count as USER ACTIVATION: `pointerup` / `touchend`
-// / `click` (touch), `pointerdown` (mouse) and `keydown`. `touchstart` and a
-// touch `pointerdown` do NOT grant activation (HTML "activation triggering
-// input event"), so on a phone the round-10 listeners fired but their
-// `resume()` was refused by the autoplay policy and the chant never played
-// -- that is the exact drop-out this round eradicates. A `statechange`
-// hook schedules the score if anything else (the site-wide audio gate, an
-// OS media resume) brings the context up first.
+// MOBILE ONLINE UNLOCK (owner instruction 2026-09-05, round 11, item 2; the
+// 7-point hardening, item 7): the gesture listeners live HERE, on `window`,
+// in the capture phase, from the moment the context is created until it is
+// running (or disposed) -- not only inside the splash component's effect.
+// They listen to the events browsers count as USER ACTIVATION -- `pointerup`
+// / `touchend` / `click` (touch), a mouse `pointerdown`, `keydown` -- AND, per
+// the round-12 instruction, force a `resume()` on `pointerdown` / `touchstart`
+// as well: the very first contact with the screen. Where an engine refuses a
+// pre-activation resume the promise simply settles later, on the activating
+// `touchend` that follows the same finger; where it honours it (installed
+// PWAs, engaged origins, Firefox) the chant starts a full gesture earlier.
+// Every path converges on the idempotent `schedule()`. A `statechange` hook
+// schedules the score if anything else (the site-wide audio gate, an OS media
+// resume) brings the context up first.
+//
+// LATE UNLOCK: on a phone the first touch routinely lands 2-4s into the
+// splash. `splashAudioOffsets` no longer drops the chant in that case -- it
+// plays immediately with the crystal a full lead behind -- and `dispose()`
+// below holds the context open until that late score has finished ringing,
+// so the logo page is never silent on mobile online.
 
 import { attenuateMaster } from '@/lib/audio/masterLevel';
 import {
@@ -92,6 +111,10 @@ const AUDIO_PREF_KEY = 'unitas_audio_pref';
 const SPLASH_BASE_MASTER_GAIN = 0.246;
 /** Shipped level under the global 50% doctrine -- every device, every channel. */
 const MASTER_GAIN = attenuateMaster(SPLASH_BASE_MASTER_GAIN);
+/** Longest `dispose()` will hold the context open for a late-unlocked score
+ *  to finish (s). Covers vocal + crystal + a breath of tail; short enough that
+ *  a founder replay never stacks two chants for long. */
+const LATE_SCORE_HOLD_MAX_S = 2.6;
 
 export interface SplashAudioHandle {
   /** Call from a user gesture (or immediately) -- resumes + schedules once. */
@@ -143,21 +166,30 @@ const cents = (c: number) => Math.pow(2, c / 1200);
 // 1. "UNITAS" chant -- deep human baritone chest voice, letter by letter
 // ---------------------------------------------------------------------------
 
-// The low-baritone chest band the fundamental moves through (round 11).
+// The low-baritone chest band the fundamental moves through (round 12): D2
+// at the floor of the final "스", A2 for the two mid tones, E3 for the "니"
+// high point.
+const D2_HZ = 73.42;
+const E2_HZ = 82.41;
 const G2_HZ = 98.0;
 const A2_HZ = 110.0;
 const B2_HZ = 123.47;
 const C3_HZ = 130.81;
+const E3_HZ = 164.81;
 
-/** Letter timing inside the chant (relative seconds; total = 1.76s) -- a
- *  slower, murmured delivery than round 10's 1.6s. */
+/** Syllable timing inside the chant (relative seconds; total = 1.9s).
+ *  Round 12 (owner instruction 2026-09-05, 7-point hardening, item 1): four
+ *  organically separated syllables -- 유 · 니 · 타 · 스 -- each its own
+ *  note, with the first "유" deliberately SHORTER than round 11's 0.48s so
+ *  the phrase moves on instead of lingering on its opening vowel. `S.voice`
+ *  is where the hiss opens onto the voiced low "으" tail. */
 const LETTER = {
-  U: { on: 0.0, off: 0.48 },
-  N: { on: 0.48, off: 0.63 },
-  I: { on: 0.63, off: 0.9 },
-  T: { close: 0.9, burst: 0.965 },
-  A: { on: 1.0, off: 1.48 },
-  S: { on: 1.48, off: 1.76 },
+  U: { on: 0.0, off: 0.34 },
+  N: { on: 0.4, off: 0.52 },
+  I: { on: 0.52, off: 0.88 },
+  T: { close: 0.88, burst: 0.94 },
+  A: { on: 0.98, off: 1.36 },
+  S: { on: 1.4, voice: 1.5, off: 1.9 },
 } as const;
 
 /** A tiny per-play humanization: +/- `range` (uniform). */
@@ -169,74 +201,92 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   const stopAt = t0 + L + 0.6;
 
   // --- voiced source bus with the phonetic amplitude contour -------------
-  // Soft onset (a human never slams into a vowel), a nasal dip for N, the
-  // stop closure for T, a full-weight bloom on the held A, then the voice
-  // thins out under the final S hiss.
+  // Soft onset (a human never slams into a vowel), then an ORGANIC BREAK
+  // between every syllable -- the level dips to ~a third rather than cutting
+  // to silence, so "유 | 니 | 타 | 스" read as separately articulated while
+  // the breath underneath never stops (the stop closure for T is the one
+  // true silence, as in real speech). Full-weight bloom on the "A", then the
+  // voice sinks into the low voiced "으" tail under the final S hiss.
   const source = ctx.createGain();
   envelope(source.gain, t0, [
     [0, 0.0001],
-    [0.06, 0.5],
-    [0.17, 1],
-    [U.off - 0.03, 0.95],
-    [N.on + 0.03, 0.6],
-    [N.off, 0.62],
+    [0.05, 0.55],
+    [0.13, 1],
+    [U.off - 0.05, 0.92],
+    [U.off, 0.34],
+    [N.on, 0.5],
+    [N.off - 0.02, 0.62],
     [I.on + 0.04, 1],
-    [I.off - 0.04, 0.9],
+    [I.on + 0.2, 1],
+    [I.off - 0.05, 0.88],
     [T.close, 0.0001],
     [A.on, 0.0001],
-    [A.on + 0.045, 1],
-    [A.on + 0.22, 1],
-    [A.off - 0.06, 0.82],
-    [S.on + 0.02, 0.3],
-    [S.on + 0.1, 0.0001],
+    [A.on + 0.04, 1],
+    [A.on + 0.2, 1],
+    [A.off - 0.05, 0.8],
+    [A.off, 0.3],
+    [S.on + 0.05, 0.12],
+    [S.voice, 0.5],
+    [S.voice + 0.1, 0.56],
+    [S.off - 0.12, 0.46],
+    [S.off, 0.0001],
   ]);
 
-  // --- per-letter pitch contour (fundamental, Hz) ------------------------
-  // Every voiced letter is its own note: a flat onset scoop gliding up onto
-  // pitch, a slight lean into the sustain, and a release drift. The phrase
-  // as a whole rises U (G2) -> N (A2) -> I (B2) -> A (C3) ("announcement"
-  // cadence), settles back onto A2 through the held A and falls away into S.
-  // Per-play humanization nudges the scoop depths and the lean so no two
-  // launches are the same take.
-  const scoopU = -40 + humanize(8);
-  const scoopN = -18 + humanize(5);
-  const scoopI = -28 + humanize(6);
-  const scoopA = -45 + humanize(9);
+  // --- per-syllable pitch contour (fundamental, Hz) ----------------------
+  // Every voiced syllable is its own note: a flat onset scoop gliding up
+  // onto pitch, a slight lean into the sustain, and a release drift. The
+  // designed contour (round 12): 유 on the MID tone (A2) -> 니 lifts through
+  // the nasal (B2 -> C3) to PEAK on E3 for the "I" -- the phrase's one bright
+  // high-tone point -> 타 returns to the MID tone (A2) after the stop ->
+  // 스 falls to the LOWEST tone, the voiced "으" tail sinking from E2 to D2.
+  // The glides ACROSS each break are legato (the pitch keeps moving through
+  // the level dip), which is what makes the separated syllables still
+  // connect as one phrase. Per-play humanization nudges the scoop depths and
+  // the leans so no two launches are the same take.
+  const scoopU = -35 + humanize(8);
+  const scoopA = -40 + humanize(9);
   const f0: Array<[number, number]> = [
-    [0, G2_HZ * cents(scoopU)],
-    [0.11, G2_HZ],
-    [U.off - 0.05, G2_HZ * cents(5 + humanize(2))],
-    [N.on + 0.02, A2_HZ * cents(scoopN)],
-    [N.off - 0.02, A2_HZ],
-    [I.on + 0.02, B2_HZ * cents(scoopI)],
-    [I.on + 0.12, B2_HZ],
-    [I.off - 0.02, B2_HZ * cents(7 + humanize(2))],
-    [A.on, C3_HZ * cents(scoopA)],
-    [A.on + 0.1, C3_HZ],
-    [A.on + 0.3, C3_HZ * cents(4 + humanize(2))],
-    [A.off - 0.03, A2_HZ],
-    [S.on + 0.06, G2_HZ * cents(-15)],
+    [0, A2_HZ * cents(scoopU)],
+    [0.09, A2_HZ],
+    [U.off - 0.04, A2_HZ * cents(4 + humanize(2))],
+    [N.on, A2_HZ * cents(-8)],
+    [N.on + 0.05, B2_HZ],
+    [N.off, C3_HZ],
+    [I.on + 0.07, E3_HZ],
+    [I.on + 0.2, E3_HZ * cents(5 + humanize(2))],
+    [I.off - 0.03, E3_HZ * cents(2)],
+    [A.on, A2_HZ * cents(scoopA)],
+    [A.on + 0.08, A2_HZ],
+    [A.on + 0.25, A2_HZ * cents(3 + humanize(2))],
+    [A.off, G2_HZ],
+    [S.voice, E2_HZ * cents(-6)],
+    [S.voice + 0.16, E2_HZ * cents(-14)],
+    [S.off, D2_HZ * cents(-18)],
   ];
 
   // Slow vibrato whose DEPTH builds across each held vowel (a singer's
   // vibrato blooms into a sustain; it is not switched on at a fixed depth).
-  // A murmured chest voice carries a gentler vibrato than a projected one.
+  // A murmured chest voice carries a gentler vibrato than a projected one;
+  // the "니" high point gets the widest bloom, the low "스" tail the least.
   const vibrato = ctx.createOscillator();
   vibrato.type = 'sine';
   vibrato.frequency.value = 5.3 + humanize(0.3);
   const vibratoDepth = ctx.createGain();
   envelope(vibratoDepth.gain, t0, [
     [0, 0],
-    [0.12, 0],
-    [U.off - 0.06, 8],
-    [N.on + 0.02, 3],
-    [I.on + 0.1, 4],
-    [I.off, 6],
+    [0.1, 0],
+    [U.off - 0.05, 6],
+    [N.on, 2],
+    [I.on + 0.08, 3],
+    [I.on + 0.26, 10],
+    [I.off, 7],
     [A.on, 0],
-    [A.on + 0.12, 4],
-    [A.on + 0.32, 11],
-    [A.off, 6],
-    [S.on + 0.1, 0],
+    [A.on + 0.1, 4],
+    [A.on + 0.3, 8],
+    [A.off, 4],
+    [S.voice, 2],
+    [S.voice + 0.2, 4],
+    [S.off, 0],
   ]);
   vibrato.connect(vibratoDepth);
   vibrato.start(t0);
@@ -368,12 +418,14 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   });
 
   // Vowel targets [F1, F2, F3] Hz + band weights, voiced for a large, warm
-  // male tract (formants sit low). N is the nasal murmur (weak, dark).
+  // male tract (formants sit low). N is the nasal murmur (weak, dark); EU is
+  // the closed, unrounded "으" that voices the tail of the final "스".
   const vowels: Record<string, { f: [number, number, number]; w: [number, number, number] }> = {
     U: { f: [300, 690, 2250], w: [1, 0.32, 0.1] },
     N: { f: [250, 1150, 2300], w: [0.55, 0.18, 0.07] },
-    I: { f: [280, 2050, 2650], w: [1, 0.36, 0.26] },
+    I: { f: [280, 2050, 2650], w: [1, 0.42, 0.3] },
     A: { f: [680, 1080, 2400], w: [1, 0.7, 0.3] },
+    EU: { f: [290, 1250, 2300], w: [0.9, 0.24, 0.08] },
   };
   const setVowel = (name: keyof typeof vowels, at: number, tau: number) => {
     const v = vowels[name];
@@ -388,10 +440,12 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   });
   // Coarticulation: the tract starts moving toward the next vowel a little
   // before the voice gets there, and is already shaping "A" during the
-  // silent T closure -- exactly what a real mouth does.
+  // silent T closure -- exactly what a real mouth does. The "으" of the
+  // final syllable forms while the hiss is still sounding.
   setVowel('N', t0 + N.on - 0.02, 0.03);
   setVowel('I', t0 + I.on - 0.015, 0.04);
   setVowel('A', t0 + T.close + 0.02, 0.035);
+  setVowel('EU', t0 + S.on + 0.03, 0.04);
 
   // Slow "jaw" LFO keeps F1 / F2 gently moving through every sustain --
   // formants that sit perfectly still are another machine tell.
@@ -425,10 +479,12 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   envelope(breathGain.gain, t0, [
     [0, 0.0001],
     [0.1, 0.062],
-    [U.off, 0.055],
+    [U.off, 0.058],
+    [I.on + 0.1, 0.05],
     [T.close, 0.014],
     [A.on + 0.06, 0.06],
-    [S.on, 0.048],
+    [S.on, 0.05],
+    [S.voice + 0.1, 0.04],
     [S.off + 0.1, 0.0001],
   ]);
   breath.connect(breathFilter);
@@ -510,30 +566,34 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   chest.connect(presence);
   presence.connect(airCut);
   airCut.connect(buses.dry);
+  // Round 12 (item 1): a heavier hall send -- the voice is meant to fill a
+  // grand, deep space ("웅장하고 깊은 공간감"), not sit dry in front of it.
   const toHall = ctx.createGain();
-  toHall.gain.value = 0.68;
+  toHall.gain.value = 0.84;
   airCut.connect(toHall);
   toHall.connect(buses.wet);
 
-  // --- echo ("미세한 메아리", round 11) -----------------------------------------
-  // Two gentle feedback taps on the voice, each low-passed inside its loop
-  // so every repeat comes back darker and further away, panned apart so the
-  // space opens sideways, and fed into the hall as well so the echoes sit in
-  // the same room as the voice. Kept deliberately understated: the send is
-  // low, the tails die within ~1.5s, and the direct voice always leads.
+  // --- echo ("메아리", round 11; deepened round 12) --------------------------
+  // Three feedback taps on the voice, each low-passed inside its loop so
+  // every repeat comes back darker and further away, panned apart (and one
+  // dead-centre, longest) so the space opens sideways AND backwards, and fed
+  // into the hall as well so the echoes sit in the same room as the voice.
+  // Round 12 raised the send and the feedback and added the long centre tap:
+  // the tails now ring ~2.2s, yet the direct voice still always leads.
   const echoSend = ctx.createGain();
-  echoSend.gain.value = 0.3;
+  echoSend.gain.value = 0.44;
   airCut.connect(echoSend);
   const echoOut = ctx.createGain();
-  echoOut.gain.value = 0.5;
+  echoOut.gain.value = 0.58;
   echoOut.connect(buses.dry);
   const echoHall = ctx.createGain();
-  echoHall.gain.value = 0.5;
+  echoHall.gain.value = 0.66;
   echoOut.connect(echoHall);
   echoHall.connect(buses.wet);
   for (const [time, feedback, lp, pan] of [
-    [0.27, 0.36, 1700, -0.35],
-    [0.41, 0.3, 1250, 0.35],
+    [0.27, 0.42, 1700, -0.4],
+    [0.41, 0.36, 1250, 0.4],
+    [0.63, 0.3, 950, 0],
   ] as const) {
     const delay = ctx.createDelay(1);
     delay.delayTime.value = time + humanize(0.01);
@@ -571,7 +631,8 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   burst.start(t0 + T.burst);
   burst.stop(t0 + T.burst + 0.1);
 
-  // S: high-passed hiss that tails the word out into the crystal echo.
+  // S: high-passed hiss that opens the final syllable and hands over to its
+  // low voiced "으" tail (the hiss thins as the voice sinks in beneath it).
   const hiss = ctx.createBufferSource();
   hiss.buffer = noise;
   const hissFilter = ctx.createBiquadFilter();
@@ -580,8 +641,8 @@ function scheduleVocal(ctx: AudioContext, buses: Buses, noise: AudioBuffer, t0: 
   hissFilter.Q.value = 0.7;
   const hissGain = ctx.createGain();
   hissGain.gain.setValueAtTime(0.0001, t0 + S.on);
-  hissGain.gain.linearRampToValueAtTime(0.16, t0 + S.on + 0.04);
-  hissGain.gain.setValueAtTime(0.16, t0 + S.on + 0.12);
+  hissGain.gain.linearRampToValueAtTime(0.15, t0 + S.on + 0.04);
+  hissGain.gain.setValueAtTime(0.15, t0 + S.voice - 0.02);
   hissGain.gain.exponentialRampToValueAtTime(0.0001, t0 + S.on + 0.34);
   hiss.connect(hissFilter);
   hissFilter.connect(hissGain);
@@ -753,13 +814,15 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
   dry.gain.value = 0.9;
   dry.connect(master);
 
+  // Round 12 (item 1): a longer, slower-decaying cathedral tail -- the
+  // "웅장하고 깊은 공간감" lives here as much as in the echo taps.
   const hall = ctx.createConvolver();
-  hall.buffer = makeHallImpulse(ctx, 1.9, 2.6);
+  hall.buffer = makeHallImpulse(ctx, 2.8, 2.3);
   const wet = ctx.createGain();
   wet.gain.value = 1;
   wet.connect(hall);
   const hallOut = ctx.createGain();
-  hallOut.gain.value = 0.42;
+  hallOut.gain.value = 0.5;
   hall.connect(hallOut);
   hallOut.connect(master);
 
@@ -769,6 +832,9 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
   let scheduled = false;
   let disposed = false;
   let detachGestures: (() => void) | null = null;
+  /** Context time at which the scheduled score (voice + crystal + tails) is
+   *  over -- `dispose()` will not fade before this on a late unlock. */
+  let scoreEndsAt = 0;
 
   const schedule = () => {
     if (scheduled || disposed || ctx.state !== 'running') return;
@@ -780,6 +846,10 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
     try {
       if (vocalAt !== null) scheduleVocal(ctx, buses, noise, now + vocalAt);
       scheduleCrystal(ctx, buses, noise, now + crystalAt);
+      scoreEndsAt = Math.max(
+        vocalAt !== null ? now + vocalAt + SPLASH_VOCAL_LENGTH_S : 0,
+        now + crystalAt + SPLASH_CRYSTAL_LENGTH_S,
+      );
     } catch {
       /* a node failing to schedule must never break the splash */
     }
@@ -817,17 +887,29 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
     disposed = true;
     detachGestures?.();
     ctx.removeEventListener('statechange', onStateChange);
+    // A late-unlocked score (mobile online: first touch at 2-4s) may still be
+    // mid-chant when the 5s layer leaves. Let it finish -- bounded -- before
+    // fading, so the logo page's voice is never cut off on a phone. An early
+    // unlock has already finished by now and fades at once, as before.
+    let holdMs = 0;
     try {
-      const t = ctx.currentTime;
-      master.gain.cancelScheduledValues(t);
-      master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), t);
-      master.gain.linearRampToValueAtTime(0, t + 0.25);
+      holdMs = Math.min(LATE_SCORE_HOLD_MAX_S, Math.max(0, scoreEndsAt - ctx.currentTime)) * 1000;
     } catch {
-      /* no-op */
+      holdMs = 0;
     }
     window.setTimeout(() => {
-      ctx.close().catch(() => {});
-    }, 400);
+      try {
+        const t = ctx.currentTime;
+        master.gain.cancelScheduledValues(t);
+        master.gain.setValueAtTime(Math.max(master.gain.value, 0.0001), t);
+        master.gain.linearRampToValueAtTime(0, t + 0.35);
+      } catch {
+        /* no-op */
+      }
+      window.setTimeout(() => {
+        ctx.close().catch(() => {});
+      }, 500);
+    }, holdMs);
   };
 
   // Try right away -- installed PWAs and high-engagement origins are allowed
@@ -840,12 +922,25 @@ export function createSplashAudio(startedAt: number): SplashAudioHandle | null {
 /**
  * The events browsers treat as "activation triggering input events" (HTML
  * spec): `keydown`, `mousedown`, a MOUSE `pointerdown`, a non-mouse
- * `pointerup`, `touchend`, plus `click` as the universal fallback. Touch
- * `pointerdown` / `touchstart` are deliberately NOT relied on -- they carry
- * no activation and a `resume()` fired from them is refused on phones.
- * Exported for the splash component, which mirrors the same set.
+ * `pointerup`, `touchend`, plus `click` as the universal fallback -- AND
+ * (owner instruction 2026-09-05, 7-point hardening, item 7) a forced resume
+ * on `pointerdown` / `touchstart`, the first physical contact with the
+ * screen. Those two carry no activation on their own, so an engine may
+ * defer the resume they request; the activating `touchend` / `pointerup` of
+ * the same finger settles it a few dozen ms later. Where the engine does
+ * honour an early resume (installed PWA, engaged origin, Firefox) the chant
+ * starts on contact. Exported for the splash component and the Coming-Soon
+ * cinema, which mirror the same set.
  */
-export const SPLASH_UNLOCK_EVENTS = ['pointerdown', 'pointerup', 'touchend', 'mousedown', 'click', 'keydown'] as const;
+export const SPLASH_UNLOCK_EVENTS = [
+  'pointerdown',
+  'touchstart',
+  'pointerup',
+  'touchend',
+  'mousedown',
+  'click',
+  'keydown',
+] as const;
 
 /**
  * Installs the unlock listeners on `window` (capture, passive) and returns

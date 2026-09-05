@@ -3,6 +3,7 @@ import {
   LEAVE_SETTLE_MS,
   isExternalReferrer,
   planExit,
+  readSentinelDepth,
   type ExitEnvironment,
 } from '../../lib/exit/appExit';
 
@@ -15,7 +16,7 @@ function env(overrides: Partial<ExitEnvironment> = {}): ExitEnvironment {
   return {
     standalone: false,
     historyLength: 1,
-    onSentinel: false,
+    sentinelDepth: 0,
     referrer: '',
     origin: ORIGIN,
     ...overrides,
@@ -39,7 +40,7 @@ describe('sovereign omni-channel exit planner', () => {
 
     it('ignores history/referrer entirely -- an app has no "previous page"', () => {
       const plan = planExit(
-        env({ standalone: true, historyLength: 7, onSentinel: true, referrer: 'https://www.google.com/search?q=unitas' }),
+        env({ standalone: true, historyLength: 7, sentinelDepth: 2, referrer: 'https://www.google.com/search?q=unitas' }),
         FALLBACK,
       );
       expect(plan.channel).toBe('app');
@@ -56,13 +57,28 @@ describe('sovereign omni-channel exit planner', () => {
     });
 
     it('steps over ExitGuard\'s sentinel entry as well when it is on top', () => {
-      const plan = planExit(env({ historyLength: 3, onSentinel: true }), FALLBACK);
+      const plan = planExit(env({ historyLength: 3, sentinelDepth: 1 }), FALLBACK);
       expect(plan.immediate).toEqual([{ kind: 'history-back', steps: 2 }]);
+    });
+
+    it('steps over the whole double-tap sentinel buffer (7-point hardening, item 7)', () => {
+      const plan = planExit(env({ historyLength: 4, sentinelDepth: 2 }), FALLBACK);
+      expect(plan.immediate).toEqual([{ kind: 'history-back', steps: 3 }]);
+      // Malformed depths never over-step: negatives / fractions clamp sanely.
+      expect(planExit(env({ historyLength: 4, sentinelDepth: -3 }), FALLBACK).immediate).toEqual([
+        { kind: 'history-back', steps: 1 },
+      ]);
+      expect(planExit(env({ historyLength: 4, sentinelDepth: 1.9 }), FALLBACK).immediate).toEqual([
+        { kind: 'history-back', steps: 2 },
+      ]);
     });
 
     it('closes a fresh tab outright when nothing sits behind our own entries', () => {
       expect(planExit(env({ historyLength: 1 }), FALLBACK).immediate).toEqual([{ kind: 'close' }]);
-      expect(planExit(env({ historyLength: 2, onSentinel: true }), FALLBACK).immediate).toEqual([
+      expect(planExit(env({ historyLength: 2, sentinelDepth: 1 }), FALLBACK).immediate).toEqual([
+        { kind: 'close' },
+      ]);
+      expect(planExit(env({ historyLength: 3, sentinelDepth: 2 }), FALLBACK).immediate).toEqual([
         { kind: 'close' },
       ]);
     });
@@ -85,6 +101,24 @@ describe('sovereign omni-channel exit planner', () => {
         replace: false,
       });
     });
+  });
+
+  it('readSentinelDepth reads the parked depth off history.state defensively', () => {
+    const MARKER = 'unitasExitGuard';
+    const DEPTH = 'unitasExitDepth';
+    expect(readSentinelDepth(null, MARKER, DEPTH)).toBe(0);
+    expect(readSentinelDepth(undefined, MARKER, DEPTH)).toBe(0);
+    expect(readSentinelDepth('junk', MARKER, DEPTH)).toBe(0);
+    expect(readSentinelDepth({ __NA: true }, MARKER, DEPTH)).toBe(0);
+    // A marked entry with no depth is the legacy single sentinel.
+    expect(readSentinelDepth({ [MARKER]: true }, MARKER, DEPTH)).toBe(1);
+    expect(readSentinelDepth({ [MARKER]: true }, MARKER, undefined)).toBe(1);
+    expect(readSentinelDepth({ [MARKER]: true, [DEPTH]: 2 }, MARKER, DEPTH)).toBe(2);
+    expect(readSentinelDepth({ [MARKER]: true, [DEPTH]: 2.7 }, MARKER, DEPTH)).toBe(2);
+    expect(readSentinelDepth({ [MARKER]: true, [DEPTH]: 0 }, MARKER, DEPTH)).toBe(1);
+    expect(readSentinelDepth({ [MARKER]: true, [DEPTH]: 'x' }, MARKER, DEPTH)).toBe(1);
+    // No marker configured -> never counts anything.
+    expect(readSentinelDepth({ [MARKER]: true, [DEPTH]: 2 }, undefined, DEPTH)).toBe(0);
   });
 
   it('isExternalReferrer is strict and never throws', () => {

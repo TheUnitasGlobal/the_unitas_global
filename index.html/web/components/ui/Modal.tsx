@@ -42,7 +42,11 @@ export function Modal({
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      // `defaultPrevented`: ExitGuard's global ESC toggle (capture phase,
+      // owner instruction 2026-09-05, 7-point hardening, item 3) marks the
+      // key press it already consumed, so one press never closes the exit
+      // confirm here AND re-opens it there.
+      if (e.key === 'Escape' && !e.defaultPrevented) onClose();
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);

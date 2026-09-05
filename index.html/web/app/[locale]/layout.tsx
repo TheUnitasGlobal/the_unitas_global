@@ -99,11 +99,12 @@ export default async function LocaleLayout({
             -> middleware.ts -> /api/sovereign/verify, see lib/sovereignAuth.ts)
             unlocks the founder door. Sits above everything, at full scale. */}
         <ComingSoonCinema />
-        {/* Online-channel back-gesture confirm (owner instruction 2026-09-05,
-            round 10): mounted AFTER the curtain so it reads the curtain's
-            live phase stamp on mount, and here in the layout (not the home
-            page) so one guard serves every route. Its modal renders on the
-            top layer (z-680), above the curtain. Never arms in App mode. */}
+        {/* Sovereign exit confirm (owner instruction 2026-09-05, round 10 ->
+            7-point hardening): mobile/tablet back-gesture buffer on EVERY
+            funnel page in both channels, PC right-click + ESC toggle.
+            Mounted here in the layout (not the home page) so one guard
+            serves every route; its modal renders on the top layer (z-680),
+            above the curtain. */}
         <ExitGuard />
         {/* Global one-click PWA install handler (z-650) -- serves every route,
             including the sealed cinema screen. Any `data-pwa-install` element

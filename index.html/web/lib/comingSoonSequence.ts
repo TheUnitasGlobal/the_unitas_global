@@ -48,6 +48,19 @@ export function cinemaSegmentAt(ms: number): CinemaSegment {
   return CINEMA_SEGMENTS[CINEMA_SEGMENTS.length - 1];
 }
 
+/**
+ * Clock offset (ms into the 30s loop) at which segment `id` begins -- used to
+ * RESUME the cinema at the segment the visitor was watching after an in-place
+ * refresh (owner instruction 2026-09-05, 7-point hardening, item 6). An
+ * unknown / malformed id resolves to the start of the loop (segment 1).
+ */
+export function cinemaSegmentStartMs(id: number | string | null | undefined): number {
+  const n = typeof id === 'string' ? Number.parseInt(id, 10) : id;
+  if (!Number.isFinite(n)) return 0;
+  const seg = CINEMA_SEGMENTS.find((s) => s.id === n);
+  return seg ? seg.startMs : 0;
+}
+
 /** 0..1 progress within the current segment. */
 export function cinemaSegmentProgress(ms: number): number {
   const t = wrap(ms);

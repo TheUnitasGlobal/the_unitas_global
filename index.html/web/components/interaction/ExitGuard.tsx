@@ -8,17 +8,31 @@ import { useGatedSurface } from '@/components/ui/useGatedSurface';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
-import { CINEMA_PHASE_EVENT } from '@/lib/foundersGate';
-import { CINEMA_PHASE_STORAGE_KEY } from '@/lib/splash/splashTimeline';
-import { executeAppExit } from '@/lib/exit/appExit';
+import { getGateOwner } from '@/lib/uiGate';
+import { executeAppExit, readSentinelDepth } from '@/lib/exit/appExit';
 
-/** history.state marker of the sentinel entry parked under the home page. */
+/** history.state marker of a sentinel entry parked under the page. */
 const GUARD_MARKER = 'unitasExitGuard';
+/** history.state key holding a sentinel's depth (1 = bottom, 2 = top). */
+const GUARD_DEPTH = 'unitasExitDepth';
+/** How many sentinel entries are parked beneath the page at all times.
+ *  Owner instruction 2026-09-05 (7-point hardening, item 7): ONE sentinel
+ *  was beatable by a rapid double-tap of the back button -- the second press
+ *  could be committed by the browser before the popstate handler for the
+ *  first had re-parked the entry, so the second traversal left the site
+ *  outright with the dialog barely painted. Two entries mean a double-tap
+ *  merely lands on the page's real entry (still on the site, dialog open);
+ *  every pop re-fills the buffer back to two. */
+const SENTINEL_DEPTH = 2;
+/** Gate id in the site-wide single-open-surface registry (lib/uiGate.ts). */
+const GATE_ID = 'exit-guard';
 /** Window event any surface can fire to open the same logout/exit confirm
  *  this component shows on a back-gesture -- see `requestAppExit()` below. */
 const EXIT_REQUEST_EVENT = 'unitas:app-exit-request';
-/** Curtain phase in which the real site is visible and the guard may arm. */
-const RELEASED_PHASE = 'released';
+/** Grace window (ms) after arming / regaining visibility during which an
+ *  incoming popstate is treated as synthetic (WebKit PWA history restore,
+ *  bfcache resume) rather than a user's back gesture. */
+const SPURIOUS_POP_GRACE_MS = 600;
 
 interface ExitRequestDetail {
   /** Same-origin URL for the exit engine's in-place fallback (defaults to
@@ -43,25 +57,25 @@ type Step = 'logout' | 'exit';
  * BOTH channels arm the back-gesture sentinel on a touch / narrow device
  * (owner instruction 2026-09-05, round 11, item 1).
  *
- * ONLINE (browser tab): unchanged -- back opens the confirm, 종료 returns to
- * the previous page.
+ * ONLINE (browser tab): back opens the confirm, 종료 returns to the previous
+ * page.
  *
  * APP (installed PWA / native container) on mobile & tablet: the hardware /
- * software back button must NOT close the app outright any more; it opens
- * the same z-680 exit confirm, and only an explicit 종료 leaves. The only
- * way a web page can intercept the OS back is to hold one extra history
- * entry beneath itself, so the sentinel is now parked in standalone mode
- * too. Known, accepted trade-off: Chromium refuses `window.close()` while
- * the window's session history holds more than one entry, so once the
- * sentinel exists the confirmed 종료 can no longer hard-terminate a
- * Chromium app window; `executeAppExit()` then falls through to a clean
- * restart at the app root, which -- under the round-11 re-entry reset
- * doctrine (lib/pwa/installPrompt.ts) -- is a brand-new session starting
- * from the logo splash, never the view the visitor left. A desktop App
- * window (fine pointer, wide) has no back button and keeps `window.close()`
- * intact by never arming.
+ * software back button must NOT close the app outright; it opens the same
+ * z-680 exit confirm, and only an explicit 종료 leaves. The only way a web
+ * page can intercept the OS back is to hold extra history entries beneath
+ * itself, so the sentinel buffer is parked in standalone mode too. Known,
+ * accepted trade-off: Chromium refuses `window.close()` while the window's
+ * session history holds more than one entry, so once the buffer exists the
+ * confirmed 종료 can no longer hard-terminate a Chromium app window;
+ * `executeAppExit()` then falls through to a clean restart at the app root,
+ * which -- under the round-11 re-entry reset doctrine
+ * (lib/pwa/installPrompt.ts) -- is a brand-new session starting from the
+ * logo splash, never the view the visitor left. A desktop App window (fine
+ * pointer, wide) has no back button and keeps `window.close()` intact by
+ * never arming; it gets the right-click / ESC paths instead.
  */
-function shouldArm(): boolean {
+function shouldArmBackGuard(): boolean {
   if (typeof window === 'undefined') return false;
   try {
     const coarse = window.matchMedia('(pointer: coarse)').matches;
@@ -72,57 +86,115 @@ function shouldArm(): boolean {
   }
 }
 
-function armSentinel() {
+/** PC environment (owner instruction 2026-09-05, 7-point hardening, item
+ *  3): a hover-capable fine pointer -- desktop / laptop, online tab or
+ *  installed App window alike. Right-click is intercepted only here; a
+ *  long-press "context menu" on a phone is a different gesture and stays
+ *  native. */
+function isDesktopPointer(): boolean {
+  if (typeof window === 'undefined') return false;
   try {
-    const state = window.history.state as Record<string, unknown> | null;
-    if (!state?.[GUARD_MARKER]) {
-      window.history.pushState({ ...(state ?? {}), [GUARD_MARKER]: true }, '');
+    return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  } catch {
+    return false;
+  }
+}
+
+/** Editable targets keep the native context menu (cut / copy / paste --
+ *  none of which can navigate away) and are never blocked. */
+function isEditableTarget(target: EventTarget | null): boolean {
+  const el = target as HTMLElement | null;
+  if (!el || typeof el.closest !== 'function') return false;
+  return Boolean(el.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"]'));
+}
+
+/** Some OTHER overlay is open ON TOP (a dialog / tower / expanded picker
+ *  that does not go through the UI gate) -- ESC belongs to it, not to the
+ *  exit confirm. "On top" matters: the site's audio gate is a `role="dialog"`
+ *  that sits BENEATH the pre-launch curtain for a visitor's whole stay, so a
+ *  bare selector match would have silenced ESC on every funnel page. Each
+ *  candidate must actually be hit-testable at its own centre. The exit
+ *  confirm itself is not in the DOM while closed. */
+function anotherOverlayOpen(): boolean {
+  if (typeof document === 'undefined') return false;
+  try {
+    const candidates = document.querySelectorAll<HTMLElement>(
+      '[role="dialog"], [aria-modal="true"], [role="menu"], [role="listbox"], [aria-expanded="true"]',
+    );
+    for (const el of Array.from(candidates)) {
+      const rect = el.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) continue;
+      const x = Math.min(window.innerWidth - 1, Math.max(0, rect.left + rect.width / 2));
+      const y = Math.min(window.innerHeight - 1, Math.max(0, rect.top + rect.height / 2));
+      const hit = document.elementFromPoint(x, y);
+      if (hit && (hit === el || el.contains(hit))) return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+/** Current sentinel depth per history.state (0 = the page's real entry). */
+function currentDepth(): number {
+  try {
+    return readSentinelDepth(window.history.state, GUARD_MARKER, GUARD_DEPTH);
+  } catch {
+    return 0;
+  }
+}
+
+/** Re-fill the sentinel buffer so exactly SENTINEL_DEPTH entries sit above
+ *  the page's real entry, whatever depth we are currently parked at. */
+function refillSentinels(): void {
+  try {
+    let depth = currentDepth();
+    while (depth < SENTINEL_DEPTH) {
+      depth += 1;
+      const base = (window.history.state as Record<string, unknown> | null) ?? {};
+      window.history.pushState({ ...base, [GUARD_MARKER]: true, [GUARD_DEPTH]: depth }, '');
     }
   } catch {
     // history unavailable -- nothing to guard with.
   }
 }
 
-/** Live curtain phase: the DOM attribute the curtain stamps, else storage. */
-function readCinemaPhase(): string {
-  if (typeof document === 'undefined') return 'gate';
-  const stamped = document.documentElement.dataset.cinemaPhase;
-  if (stamped) return stamped;
-  try {
-    return sessionStorage.getItem(CINEMA_PHASE_STORAGE_KEY) ?? 'gate';
-  } catch {
-    return 'gate';
-  }
-}
-
 /**
- * Mobile "back = leave" double gate (owner instruction 2026-09-03; extended
- * to the App channel 2026-09-05, round 11, item 1). On a touch / narrow
- * viewport -- browser tab OR installed app -- once the real site is visible,
- * the page parks one extra same-URL history entry beneath itself; the
- * device's back gesture -- including the second press after one has only
- * dismissed the virtual keyboard -- pops to the real entry, and instead of
- * bouncing the visitor out (online) or killing the app (App) this opens the
- * two-step confirm: "로그아웃을 하시겠습니까?" (only while signed in) then
- * "종료하시겠습니까?". The sentinel is re-armed immediately, so the site only
- * actually unloads on an explicit tap of 종료 (which runs the shared exit
- * engine -- online: back to the previous page; app: terminate, else a clean
- * restart from the logo splash). Every other path (취소, backdrop, Escape)
- * leaves the visitor exactly where they were.
+ * Sovereign exit confirm -- one dialog, every trigger, every channel.
  *
- * ENTRY-POPUP ERADICATION (owner instruction 2026-09-05, round 10, item 4):
- * the guard used to arm 60ms after mount, on every route, under the opaque
- * pre-launch curtain -- so a synthetic load/resume `popstate` (WebKit PWA
- * history restore) or a stray exit request could open this confirm while
- * nothing on screen had asked for it, and, because the Modal layer sat
- * BELOW the curtain, the dialog stayed invisible until the founder entered
- * the main home -- surfacing there as "팝업 자동 발동". Now the sentinel is
- * only ever parked when ALL of these hold: the curtain phase is `released`
- * (the real site is visible), the visitor has produced at least one real
- * pointer/key gesture since mount (a load-time synthetic pop physically
- * precedes any gesture), and the channel is online. The popstate listener
- * itself is not even attached before that. The confirm renders on the
- * top-most modal layer so it can never be hidden behind the curtain.
+ * MOBILE / TABLET (online tab AND installed App): the "back = leave" gate
+ * (owner instruction 2026-09-03; App channel 2026-09-05 round 11 item 1;
+ * hardened 2026-09-05 by the 7-point patch, item 7). Once the visitor has
+ * produced a single real gesture on the document, the page parks a TWO-deep
+ * buffer of same-URL history entries beneath itself; the device's back
+ * gesture -- on EVERY page of the funnel: the logo splash, the entry gate,
+ * ad stages 1-4, the sealed Coming-Soon screen and the main home alike --
+ * pops into that buffer, and instead of bouncing the visitor out (online) or
+ * killing the app (App) this opens the confirm: "로그아웃을 하시겠습니까?"
+ * (only while signed in) then "종료하시겠습니까?". The buffer is re-filled on
+ * every pop, so even a rapid double-tap of the back button only lands on the
+ * page's own entry with the dialog open -- the site unloads ONLY on an
+ * explicit tap of 종료, which runs the shared exit engine (online: back to the
+ * previous page; app: terminate, else a clean restart from the logo
+ * splash). Every other path (취소, backdrop, Escape) leaves the visitor
+ * exactly where they were.
+ *
+ * Why a gesture must precede arming: Chromium's history-manipulation
+ * intervention marks entries pushed WITHOUT user activation as skippable,
+ * and the back button then skips straight past them -- a sentinel parked
+ * before the first touch would be silently ignored. The first tap anywhere
+ * (the gate button, the screen itself) grants sticky activation and arms
+ * the guard for the rest of the document's life. The round-10 curtain-phase
+ * precondition (`released` only) is gone: the guard now serves the whole
+ * pre-launch funnel, and the phantom-popup bug it worked around was fixed at
+ * its root when this dialog moved to the top modal layer (z-680).
+ *
+ * PC (owner instruction 2026-09-05, 7-point hardening, item 3): a mouse
+ * RIGHT-CLICK anywhere (except inside an editable field) suppresses the
+ * browser context menu -- whose Back / Reload / Close items are exit paths
+ * -- and opens the same confirm; the ESC key TOGGLES it (opens when closed,
+ * closes when open). Escape defers to whichever other popup currently holds
+ * the site-wide UI gate, so it still closes that popup first.
  *
  * Mounted once in app/[locale]/layout.tsx (after the curtain), so the same
  * guard serves every route rather than only the home page.
@@ -132,7 +204,7 @@ export function ExitGuard() {
   const locale = useLocale();
   const { session } = useWallet();
   const { playHoverSfx } = useSpatialAudio();
-  const gate = useGatedSurface('exit-guard');
+  const gate = useGatedSurface(GATE_ID);
   const [step, setStep] = useState<Step>('exit');
   const [busy, setBusy] = useState(false);
   const sessionRef = useRef(session);
@@ -145,41 +217,53 @@ export function ExitGuard() {
 
   const openGate = gate.setOpen;
 
-  useEffect(() => {
-    if (!shouldArm()) return;
-
-    let released = readCinemaPhase() === RELEASED_PHASE;
-    let gestureSeen = false;
-    let armed = false;
-
-    const arm = () => {
-      armSentinel();
-      guardReadyAtRef.current = Date.now() + 600;
-    };
-
-    const onPop = (e: PopStateEvent) => {
+  /** Open the confirm (logout step first while signed in). */
+  const openConfirm = useCallback(
+    (forceRedirectTo: string | null = null) => {
       if (leavingRef.current) return;
-      const state = e.state as Record<string, unknown> | null;
-      if (state?.[GUARD_MARKER]) return; // a tower closed -- still on the sentinel
-      if (document.visibilityState !== 'visible' || Date.now() < guardReadyAtRef.current) {
-        // Spurious pop (grace window / background resume) -- re-arm silently.
-        arm();
-        return;
-      }
-      // We are on the real entry: re-arm at once, then ask.
-      arm();
       try {
         (document.activeElement as HTMLElement | null)?.blur?.();
       } catch {
         // nothing focused
       }
-      forceRedirectRef.current = null;
+      forceRedirectRef.current = forceRedirectTo;
       setStep(sessionRef.current ? 'logout' : 'exit');
       openGate(true, { force: true });
+    },
+    [openGate],
+  );
+
+  // --- mobile / tablet: back-gesture sentinel buffer ---------------------------
+  useEffect(() => {
+    if (!shouldArmBackGuard()) return;
+
+    let gestureSeen = false;
+    let armed = false;
+
+    const arm = () => {
+      refillSentinels();
+      guardReadyAtRef.current = Date.now() + SPURIOUS_POP_GRACE_MS;
+    };
+
+    const onPop = (e: PopStateEvent) => {
+      if (leavingRef.current) return;
+      const depth = readSentinelDepth(e.state, GUARD_MARKER, GUARD_DEPTH);
+      // Landed on the TOP sentinel: a tower/popup that had pushed its own
+      // entry above us just closed -- not a back-out of the page.
+      if (depth >= SENTINEL_DEPTH) return;
+      if (document.visibilityState !== 'visible' || Date.now() < guardReadyAtRef.current) {
+        // Spurious pop (grace window / background resume) -- re-fill silently.
+        arm();
+        return;
+      }
+      // Depth 1 (one press) or 0 (a rapid double-tap ate both entries): we are
+      // still on the site. Re-fill the buffer at once, then ask.
+      arm();
+      openConfirm(null);
     };
 
     const tryArm = () => {
-      if (armed || !released || !gestureSeen) return;
+      if (armed || !gestureSeen) return;
       armed = true;
       arm();
       window.addEventListener('popstate', onPop);
@@ -194,16 +278,12 @@ export function ExitGuard() {
     window.addEventListener('touchstart', onGesture, gestureOpts);
     window.addEventListener('keydown', onGesture, gestureOpts);
 
-    const onPhase = (event: Event) => {
-      released = (event as CustomEvent<string>).detail === RELEASED_PHASE;
-      tryArm();
-    };
-    window.addEventListener(CINEMA_PHASE_EVENT, onPhase);
-
     // Re-open the grace window whenever the tab/app regains visibility (the
     // PWA-resume moment that can replay a synthetic pop).
     const onVisible = () => {
-      if (document.visibilityState === 'visible') guardReadyAtRef.current = Date.now() + 600;
+      if (document.visibilityState === 'visible') {
+        guardReadyAtRef.current = Date.now() + SPURIOUS_POP_GRACE_MS;
+      }
     };
     document.addEventListener('visibilitychange', onVisible);
 
@@ -211,27 +291,56 @@ export function ExitGuard() {
       window.removeEventListener('pointerdown', onGesture, gestureOpts);
       window.removeEventListener('touchstart', onGesture, gestureOpts);
       window.removeEventListener('keydown', onGesture, gestureOpts);
-      window.removeEventListener(CINEMA_PHASE_EVENT, onPhase);
       window.removeEventListener('popstate', onPop);
       document.removeEventListener('visibilitychange', onVisible);
     };
-  }, [openGate]);
+  }, [openConfirm]);
+
+  // --- PC: right-click -> confirm; ESC -> toggle ----------------------------------
+  useEffect(() => {
+    if (!isDesktopPointer()) return;
+    const onContextMenu = (e: MouseEvent) => {
+      if (isEditableTarget(e.target)) return;
+      e.preventDefault();
+      if (getGateOwner() === GATE_ID) return; // already open -- stay put
+      if (getGateOwner() !== null || anotherOverlayOpen()) return; // never stack on a popup
+      openConfirm(null);
+    };
+    window.addEventListener('contextmenu', onContextMenu);
+    return () => window.removeEventListener('contextmenu', onContextMenu);
+  }, [openConfirm]);
+
+  useEffect(() => {
+    // Capture phase on `window` runs before the Modal's own bubble-phase
+    // Escape listener; marking the event handled (preventDefault) tells the
+    // Modal to leave it alone so a single key press never closes-then-reopens.
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape' || e.repeat || e.defaultPrevented) return;
+      if (leavingRef.current) return;
+      const owner = getGateOwner();
+      if (owner === GATE_ID) {
+        e.preventDefault();
+        if (!busy) openGate(false);
+        return;
+      }
+      if (owner !== null) return; // another popup owns Escape -- let it close
+      if (anotherOverlayOpen()) return; // ...same for non-gated overlays
+      e.preventDefault();
+      openConfirm(null);
+    };
+    const opts: AddEventListenerOptions = { capture: true };
+    window.addEventListener('keydown', onKeyDown, opts);
+    return () => window.removeEventListener('keydown', onKeyDown, opts);
+  }, [busy, openConfirm, openGate]);
 
   // On-demand open (no back-gesture involved) -- see `requestAppExit()`.
   useEffect(() => {
     const onExitRequest = (e: Event) => {
-      try {
-        (document.activeElement as HTMLElement | null)?.blur?.();
-      } catch {
-        // nothing focused
-      }
-      forceRedirectRef.current = (e as CustomEvent<ExitRequestDetail>).detail?.forceRedirectTo ?? null;
-      setStep(sessionRef.current ? 'logout' : 'exit');
-      openGate(true, { force: true });
+      openConfirm((e as CustomEvent<ExitRequestDetail>).detail?.forceRedirectTo ?? null);
     };
     window.addEventListener(EXIT_REQUEST_EVENT, onExitRequest);
     return () => window.removeEventListener(EXIT_REQUEST_EVENT, onExitRequest);
-  }, [openGate]);
+  }, [openConfirm]);
 
   const close = useCallback(() => {
     if (busy) return;
@@ -261,6 +370,7 @@ export function ExitGuard() {
     executeAppExit({
       fallbackUrl: forceRedirectRef.current ?? `/${locale}`,
       sentinelMarker: GUARD_MARKER,
+      sentinelDepthKey: GUARD_DEPTH,
     });
   }
 

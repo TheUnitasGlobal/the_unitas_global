@@ -5,16 +5,24 @@ import { MasterMarkLogo } from '@/components/brand/MasterMarkLogo';
 import { attachActivationUnlock, createSplashAudio } from '@/lib/splash/splashAudio';
 import {
   CINEMA_PHASE_STORAGE_KEY,
+  SPLASH_ACTIVE_STORAGE_KEY,
+  SPLASH_ACTIVE_VALUE,
   SPLASH_DURATION_MS,
   SPLASH_EXIT_MS,
   SPLASH_GOLD_HEX,
   SPLASH_GOLD_LOOP_S,
   SPLASH_LETTERS,
   SPLASH_REPLAY_EVENT,
+  SPLASH_TITLE_WIDTH,
   goldLoopKeyTimes,
   goldLoopValues,
+  isSplashActiveFlag,
   letterDrawStart,
   letterFillStart,
+  shimmerOpacityKeyTimes,
+  shimmerOpacityValues,
+  shimmerSweepKeyTimes,
+  shimmerSweepValues,
   shouldRunSplashForPhase,
 } from '@/lib/splash/splashTimeline';
 
@@ -26,6 +34,39 @@ function readPersistedCinemaPhase(): string | null {
     return null;
   }
 }
+
+/** True when the tab was refreshed WHILE the logo page was on screen. */
+function readSplashActiveFlag(): boolean {
+  try {
+    return isSplashActiveFlag(window.sessionStorage.getItem(SPLASH_ACTIVE_STORAGE_KEY));
+  } catch {
+    return false;
+  }
+}
+
+/** Raise / clear the "logo page is showing" flag (item 6, current-page reload). */
+function setSplashActiveFlag(active: boolean): void {
+  try {
+    if (active) window.sessionStorage.setItem(SPLASH_ACTIVE_STORAGE_KEY, SPLASH_ACTIVE_VALUE);
+    else window.sessionStorage.removeItem(SPLASH_ACTIVE_STORAGE_KEY);
+  } catch {
+    /* storage blocked -- a refresh simply follows the curtain phase */
+  }
+}
+
+/** Shimmer-phase prism palette (item 2): gold -> ice-cyan -> violet -> rose
+ *  -> white -> gold, repeating, so the 1s sweep reads as a brilliant
+ *  multi-colour flash rather than a single hue. */
+const SHIMMER_STOPS: ReadonlyArray<[number, string]> = [
+  [0, SPLASH_GOLD_HEX],
+  [0.14, '#fff7d6'],
+  [0.28, '#00f3ff'],
+  [0.42, '#7c3aed'],
+  [0.56, '#ec4899'],
+  [0.7, '#ffffff'],
+  [0.84, '#f1d36a'],
+  [1, SPLASH_GOLD_HEX],
+];
 
 /**
  * Cinematic 3D intro splash (owner instruction 2026-09-04, item 3; extended
@@ -51,7 +92,7 @@ function readPersistedCinemaPhase(): string | null {
  *   0.5s  "UNITAS": each glyph's outline is drawn by a travelling gold
  *         stroke (U -> S, staggered) and its fill fades in as the GOLD BAND
  *         below reaches it.
- *   0-3s  GOLD COLOUR LOOP, phase 1 (owner instruction 2026-09-05, round 11,
+ *   0-3s  COLOUR LOOP, phase 1 (owner instruction 2026-09-05, round 11,
  *         item 5): a bright gold band sweeps across the title from the
  *         left-most glyph to the right-most, re-colouring one letter after
  *         the next -- the "moving gold gradient". Driven by a single SMIL
@@ -59,13 +100,26 @@ function readPersistedCinemaPhase(): string | null {
  *         continuous flow rather than six disjoint flashes.
  *   1.9s  "THE UNITAS GLOBAL OÜ" rises in.
  *   2.0s  crystal impact: ring burst + screen bloom (matches the audio hit).
- *   3-5s  GOLD COLOUR LOOP, phase 2: every glyph sits on the ORIGINAL solid
+ *   3-4s  COLOUR LOOP, phase 2 (7-point hardening, item 2): a FAST, brilliant
+ *         multi-colour shimmer -- a repeating gold/cyan/violet/rose/white
+ *         prism gradient crosses the whole title twice inside the second,
+ *         painted by a second `<text>` overlay whose opacity cross-fades in
+ *         at 3.0s and out by 4.0s (SMIL, same document timeline as the band
+ *         sweep, so the phases can never drift apart).
+ *   4-5s  COLOUR LOOP, phase 3: every glyph sits on the ORIGINAL pure solid
  *         gold (#d4af37), perfectly still (the outline stroke has faded out
- *         by 3.2s so nothing but gold remains). The cycle then repeats every
- *         5s (`repeatCount="indefinite"`) -- the period matches the splash
- *         hold, so one full cycle plays per splash, and a founder replay or a
- *         longer hold keeps cycling.
+ *         by 3.2s and the overlay is gone, so nothing but gold remains). The
+ *         cycle then repeats every 5s (`repeatCount="indefinite"`) -- the
+ *         period matches the splash hold, so one full cycle plays per
+ *         splash, and a founder replay or a longer hold keeps cycling.
  *   5.0s  0.45s exit cross-fade, then the layer unmounts.
+ *
+ * Current-page reload (7-point hardening, item 6): while this layer is on
+ * screen the tab carries `unitas_splash_active=1` in sessionStorage. The
+ * curtain persists its `gate` phase underneath from its first frame, which
+ * -- before this -- made an F5 during the logo page skip straight to the
+ * entry gate. Now the head bootstrap and the effect below both see the flag
+ * and replay the logo page instead, exactly where the visitor was.
  *
  * Fail-safe by construction: the exit is a pure CSS animation with a 5s delay
  * (`sp-autohide`), so even if JS never runs the layer still fades out and
@@ -115,10 +169,16 @@ export function CinematicIntroSplash() {
     // that view in place -- no "logo page" first. The head bootstrap already
     // hid the SSR'd layer before paint; this unmounts it and skips the
     // score/timers. A cold visit and the main home (`released`) still run.
-    if (run === 0 && !shouldRunSplashForPhase(window.location.search, readPersistedCinemaPhase())) {
+    if (
+      run === 0 &&
+      !shouldRunSplashForPhase(window.location.search, readPersistedCinemaPhase(), readSplashActiveFlag())
+    ) {
       setActive(false);
       return;
     }
+
+    // Item 6: "the logo page is showing" -- an F5 from here replays it.
+    setSplashActiveFlag(true);
 
     const startedAt = performance.now();
     let audio: ReturnType<typeof createSplashAudio> = null;
@@ -133,7 +193,11 @@ export function CinematicIntroSplash() {
     // resumes the context on every device, online and App alike.
     const detachGesture = attachActivationUnlock(() => audio?.unlock());
 
-    const done = window.setTimeout(() => setActive(false), SPLASH_DURATION_MS + SPLASH_EXIT_MS);
+    const done = window.setTimeout(() => {
+      // The logo page is over -- a later refresh follows the curtain phase.
+      setSplashActiveFlag(false);
+      setActive(false);
+    }, SPLASH_DURATION_MS + SPLASH_EXIT_MS);
 
     return () => {
       window.clearTimeout(done);
@@ -202,6 +266,34 @@ export function CinematicIntroSplash() {
                 calcMode="linear"
               />
             </linearGradient>
+            {/* Shimmer (phase 2, 3-4s -- 7-point hardening, item 2): a
+                REPEATING prism gradient one title-width long. Translating it
+                by two title-widths inside the 1s window sweeps the full
+                colour cycle across every glyph twice -- fast and brilliant.
+                Parked (and invisible, see the overlay's opacity animation)
+                outside the window. */}
+            <linearGradient
+              id="sp-shimmer-grad"
+              gradientUnits="userSpaceOnUse"
+              spreadMethod="repeat"
+              x1="0"
+              y1="0"
+              x2={SPLASH_TITLE_WIDTH}
+              y2="0"
+            >
+              {SHIMMER_STOPS.map(([offset, color]) => (
+                <stop key={offset} offset={offset} stopColor={color} />
+              ))}
+              <animateTransform
+                attributeName="gradientTransform"
+                type="translate"
+                values={shimmerSweepValues()}
+                keyTimes={shimmerSweepKeyTimes()}
+                dur={`${SPLASH_GOLD_LOOP_S}s`}
+                repeatCount="indefinite"
+                calcMode="linear"
+              />
+            </linearGradient>
           </defs>
           <text x="372" y="110" textAnchor="middle" className="sp-title-text">
             {SPLASH_LETTERS.map((letter, i) => (
@@ -218,6 +310,35 @@ export function CinematicIntroSplash() {
                 {letter}
               </tspan>
             ))}
+          </text>
+          {/* Phase-2 overlay: the same glyphs painted with the prism
+              gradient, cross-faded in at 3.0s and out by 4.0s on the SAME
+              SMIL timeline as the band sweep. Below 3s and from 4s on it is
+              fully transparent, so phase 1 (gold band) and phase 3 (pure
+              gold) show the base text untouched. */}
+          <text
+            x="372"
+            y="110"
+            textAnchor="middle"
+            className="sp-title-text sp-title-shimmer"
+            fill="url(#sp-shimmer-grad)"
+            opacity="0"
+            aria-hidden="true"
+          >
+            {/* Same tspan structure as the base text so glyph advances match
+                pixel-for-pixel (letter-spacing is applied per glyph either
+                way, but identical markup removes any engine-level doubt). */}
+            {SPLASH_LETTERS.map((letter, i) => (
+              <tspan key={`shimmer-${letter}-${i}`}>{letter}</tspan>
+            ))}
+            <animate
+              attributeName="opacity"
+              values={shimmerOpacityValues()}
+              keyTimes={shimmerOpacityKeyTimes()}
+              dur={`${SPLASH_GOLD_LOOP_S}s`}
+              repeatCount="indefinite"
+              calcMode="linear"
+            />
           </text>
         </svg>
 

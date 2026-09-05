@@ -22,7 +22,12 @@
 //      app/[locale]/layout.tsx) turns a request into the native prompt when
 //      available, or the localized guide sheet otherwise.
 
-import { CINEMA_PHASE_STORAGE_KEY, SPLASH_SUB_VIEW_PHASES } from '@/lib/splash/splashTimeline';
+import {
+  CINEMA_PHASE_STORAGE_KEY,
+  SPLASH_ACTIVE_STORAGE_KEY,
+  SPLASH_ACTIVE_VALUE,
+  SPLASH_SUB_VIEW_PHASES,
+} from '@/lib/splash/splashTimeline';
 
 export interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -85,6 +90,13 @@ export const SPLASH_OFF_QUERY = /[?&]splash=(0|off|false)(&|$)/;
  *    a flash of it; the React component skips its audio/timer separately.
  *    Because the re-entry reset above runs first, this branch can only ever
  *    fire on a genuine `reload`.
+ *  - EXCEPT when the tab also carries `unitas_splash_active=1` (owner
+ *    instruction 2026-09-05, 7-point hardening, item 6): that flag is raised
+ *    by the splash component for exactly as long as the logo page is on
+ *    screen, and the curtain persists `gate` beneath it from its first
+ *    frame -- so a refresh DURING the logo page used to skip ahead to the
+ *    entry gate. With the flag present the splash is left visible and
+ *    replays: the visitor lands on the very page they were looking at.
  */
 export const PWA_CAPTURE_BOOTSTRAP = `(function(){try{
 window.__unitasPwaPrompt=null;
@@ -95,7 +107,7 @@ if(qa){document.documentElement.setAttribute('data-splash','off');}
 try{var nt='navigate';try{var en=performance.getEntriesByType&&performance.getEntriesByType('navigation');if(en&&en[0]&&en[0].type){nt=String(en[0].type);}else if(performance.navigation&&performance.navigation.type===1){nt='reload';}}catch(_){}
 if(!qa&&nt.toLowerCase()!=='reload'){try{sessionStorage.clear();}catch(_){}}
 var rl=false;window.addEventListener('pageshow',function(e){if(!e||!e.persisted||qa||rl)return;rl=true;try{sessionStorage.clear();}catch(_){}try{location.reload();}catch(_){}});}catch(_){}
-try{var p=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(p&&${JSON.stringify([...SPLASH_SUB_VIEW_PHASES])}.indexOf(p)!==-1){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
+try{var sa=sessionStorage.getItem('${SPLASH_ACTIVE_STORAGE_KEY}');var p=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(!(sa&&String(sa).trim()==='${SPLASH_ACTIVE_VALUE}')&&p&&${JSON.stringify([...SPLASH_SUB_VIEW_PHASES])}.indexOf(p)!==-1){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}
 }catch(_){}})();`;
 

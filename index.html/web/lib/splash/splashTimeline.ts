@@ -23,10 +23,13 @@ export const SPLASH_EXIT_MS = 450;
  *  deliberately OVERLAPS the crystal impact: the sustained "A" of "-TAS" is
  *  still ringing when the crystal lands at 2s, and the final "S" hiss rides
  *  out into the echo tail. Round 11 (owner instruction 2026-09-05, item 4)
- *  re-voiced it as a deep human BARITONE chest murmur with a soft echo, and
- *  slowed the delivery to 1.76s. */
+ *  re-voiced it as a deep human BARITONE chest murmur with a soft echo.
+ *  Round 12 (owner instruction 2026-09-05, 7-point hardening, item 1)
+ *  re-segmented it into four organically separated syllables -- 유 (mid,
+ *  shortened) · 니 (the high-tone point) · 타 (mid) · 스 (the lowest tone)
+ *  -- at 1.9s. */
 export const SPLASH_VOCAL_AT_S = 1.0;
-export const SPLASH_VOCAL_LENGTH_S = 1.76;
+export const SPLASH_VOCAL_LENGTH_S = 1.9;
 /** Audio cue 2: the crystal-echo impact that rings out the final second. */
 export const SPLASH_CRYSTAL_AT_S = 2.0;
 export const SPLASH_CRYSTAL_LENGTH_S = 1.0;
@@ -58,12 +61,36 @@ export function isSubViewPhase(phase: string | null | undefined): boolean {
 }
 
 /**
- * Combined gate: the URL opt-out (`?splash=0`) wins, then a persisted
- * sub-view phase suppresses the splash so the refresh lands in place. A
- * missing/unknown phase (cold visit, `released` main home) runs the splash.
+ * sessionStorage flag the splash component raises for exactly as long as the
+ * "logo page" is on screen (owner instruction 2026-09-05, 7-point hardening,
+ * item 6). A refresh while it is set means the visitor was LOOKING AT the
+ * logo page, so the reload must restart that page -- not skip ahead to the
+ * entry gate the curtain had already persisted underneath it. Cleared the
+ * moment the splash finishes; wiped with the rest of the session on any
+ * re-entry (lib/pwa/installPrompt.ts).
  */
-export function shouldRunSplashForPhase(search: string, phase: string | null | undefined): boolean {
+export const SPLASH_ACTIVE_STORAGE_KEY = 'unitas_splash_active';
+export const SPLASH_ACTIVE_VALUE = '1';
+
+/** True when the persisted flag says the logo page was showing. */
+export function isSplashActiveFlag(value: string | null | undefined): boolean {
+  return (value ?? '').trim() === SPLASH_ACTIVE_VALUE;
+}
+
+/**
+ * Combined gate: the URL opt-out (`?splash=0`) wins; then a refresh parked ON
+ * the logo page itself (`splashActive`) restarts the logo page; then a
+ * persisted sub-view phase suppresses the splash so the refresh lands in
+ * place. A missing/unknown phase (cold visit, `released` main home) runs the
+ * splash.
+ */
+export function shouldRunSplashForPhase(
+  search: string,
+  phase: string | null | undefined,
+  splashActive = false,
+): boolean {
   if (!shouldRunSplash(search)) return false;
+  if (splashActive) return true;
   return !isSubViewPhase(phase);
 }
 
@@ -102,17 +129,25 @@ export const SPLASH_LETTER_DRAW_S = 0.55;
 export const SPLASH_LETTER_FILL_LAG_S = 0.22;
 
 /**
- * "UNITAS" gold colour loop (owner instruction 2026-09-05, round 11, item 5).
- * A 5-second cycle: for the first 3s a bright gold band travels across the
- * title from the left-most glyph to the right-most, re-colouring one letter
- * after the next; for the remaining 2s every glyph sits on the ORIGINAL
- * solid gold (#d4af37), perfectly still. Then it repeats. The period equals
- * the splash hold on purpose -- one full cycle plays per splash -- and the
- * loop is infinite so a replay / longer hold keeps cycling.
+ * "UNITAS" gold colour loop (owner instruction 2026-09-05, round 11, item 5;
+ * re-choreographed into THREE phases by the 7-point hardening, item 2).
+ * A 5-second cycle:
+ *   0-3s  a bright gold band travels across the title from the left-most
+ *         glyph to the right-most, re-colouring one letter after the next
+ *         (the "moving gold gradient");
+ *   3-4s  a fast, brilliant multi-colour shimmer sweeps the whole title --
+ *         a repeating rainbow-prism gradient crossing it SHIMMER_PERIODS
+ *         times inside the second, lit through a cross-faded overlay;
+ *   4-5s  every glyph sits on the ORIGINAL pure solid gold (#d4af37),
+ *         perfectly still.
+ * Then it repeats. The period equals the splash hold on purpose -- one full
+ * cycle plays per splash -- and the loop is infinite so a replay / longer
+ * hold keeps cycling.
  */
 export const SPLASH_GOLD_LOOP_S = 5;
 export const SPLASH_GOLD_SWEEP_S = 3;
-export const SPLASH_GOLD_HOLD_S = SPLASH_GOLD_LOOP_S - SPLASH_GOLD_SWEEP_S;
+export const SPLASH_GOLD_SHIMMER_S = 1;
+export const SPLASH_GOLD_HOLD_S = SPLASH_GOLD_LOOP_S - SPLASH_GOLD_SWEEP_S - SPLASH_GOLD_SHIMMER_S;
 /** The title's original gold -- what the hold phase (and the pad colour of
  *  the sweeping gradient) shows. */
 export const SPLASH_GOLD_HEX = '#d4af37';
@@ -121,6 +156,15 @@ export const SPLASH_GOLD_HEX = '#d4af37';
  *  720 user units wide with the band centred at x = 360 of the gradient. */
 export const SPLASH_GOLD_SWEEP_FROM_X = -500;
 export const SPLASH_GOLD_SWEEP_TO_X = 420;
+/** Title SVG width in user units -- one full period of the shimmer gradient. */
+export const SPLASH_TITLE_WIDTH = 720;
+/** How many full rainbow sweeps cross the title during the 1s shimmer. */
+export const SPLASH_SHIMMER_PERIODS = 2;
+/** Cross-fade length (s) at each edge of the shimmer window so the colour
+ *  bloom rises out of the gold and dissolves back into it, never hard-cuts. */
+export const SPLASH_SHIMMER_FADE_S = 0.1;
+
+const clampKeyTime = (t: number) => Math.min(1, Math.max(0, Number(t.toFixed(4))));
 
 /** SMIL `keyTimes` for the loop: sweep 0 -> SWEEP_S, then hold to LOOP_S. */
 export function goldLoopKeyTimes(): string {
@@ -131,6 +175,42 @@ export function goldLoopKeyTimes(): string {
 /** SMIL `values` for the loop (translate x/y pairs): from -> to -> to (hold). */
 export function goldLoopValues(): string {
   return `${SPLASH_GOLD_SWEEP_FROM_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0`;
+}
+
+/** Shimmer window edges as fractions of the loop. */
+export function shimmerWindow(): { start: number; end: number } {
+  return {
+    start: SPLASH_GOLD_SWEEP_S / SPLASH_GOLD_LOOP_S,
+    end: (SPLASH_GOLD_SWEEP_S + SPLASH_GOLD_SHIMMER_S) / SPLASH_GOLD_LOOP_S,
+  };
+}
+
+/** SMIL `keyTimes` for the shimmer overlay's opacity: hidden, fade in at the
+ *  window start, hold, fade out at the window end, hidden. */
+export function shimmerOpacityKeyTimes(): string {
+  const { start, end } = shimmerWindow();
+  const fade = SPLASH_SHIMMER_FADE_S / SPLASH_GOLD_LOOP_S;
+  return [0, start, start + fade, end - fade, end, 1].map(clampKeyTime).join(';');
+}
+
+/** SMIL `values` matching `shimmerOpacityKeyTimes()`. */
+export function shimmerOpacityValues(): string {
+  return '0;0;1;1;0;0';
+}
+
+/** SMIL `keyTimes` for the shimmer gradient's translate: parked, then a fast
+ *  multi-period sweep across the shimmer window, then parked again. */
+export function shimmerSweepKeyTimes(): string {
+  const { start, end } = shimmerWindow();
+  return [0, start, end, 1].map(clampKeyTime).join(';');
+}
+
+/** SMIL `values` matching `shimmerSweepKeyTimes()` (translate x/y pairs). The
+ *  gradient repeats every TITLE_WIDTH, so travelling PERIODS x TITLE_WIDTH
+ *  inside the window crosses the whole title PERIODS times. */
+export function shimmerSweepValues(): string {
+  const travel = -SPLASH_SHIMMER_PERIODS * SPLASH_TITLE_WIDTH;
+  return `0 0;0 0;${travel} 0;${travel} 0`;
 }
 
 /** Window `CustomEvent` name that restarts the splash (founder debug panel). */
@@ -174,20 +254,22 @@ export interface SplashAudioOffsets {
  * Autoplay policy means the AudioContext may only unlock on a later gesture.
  * Given how far into the splash we already are, this maps the absolute cue
  * times onto "from now" delays: cues still in the future keep their absolute
- * beat; a vocal we are already past is compressed (played now) while there is
- * still room for it before the crystal, and dropped once it is not.
+ * beat; once we are past the vocal cue the whole score is simply re-based on
+ * the unlock moment -- the chant plays NOW and the crystal lands its full
+ * lead behind it.
+ *
+ * Owner instruction 2026-09-05 (7-point hardening, item 7): the vocal is
+ * NEVER dropped any more. On a phone in the online channel the very first
+ * touch is the unlock, and it routinely arrives 2-4s into the splash; the
+ * round-11 rule that discarded a chant "too late for its lead" was the exact
+ * reason the mobile logo page played the crystal alone -- or nothing. The
+ * audio module keeps its context alive long enough for a late-started score
+ * to finish (see splashAudio.ts `dispose`).
  */
 export function splashAudioOffsets(elapsedS: number): SplashAudioOffsets {
   const e = Math.max(0, elapsedS);
   const crystalAbs = Math.max(0, SPLASH_CRYSTAL_AT_S - e);
   const vocalAbs = SPLASH_VOCAL_AT_S - e;
   if (vocalAbs >= 0) return { vocalAt: vocalAbs, crystalAt: crystalAbs };
-  // Past the vocal cue: play it immediately only if most of its intended
-  // LEAD over the crystal impact can still be honoured (the chant is designed
-  // to overlap the impact, so its full length is not the measure here).
-  const roomLeft = SPLASH_CRYSTAL_AT_S - e;
-  if (roomLeft >= SPLASH_VOCAL_LEAD_S * 0.6) {
-    return { vocalAt: 0, crystalAt: Math.max(crystalAbs, SPLASH_VOCAL_LEAD_S * 0.85) };
-  }
-  return { vocalAt: null, crystalAt: crystalAbs };
+  return { vocalAt: 0, crystalAt: Math.max(crystalAbs, SPLASH_VOCAL_LEAD_S) };
 }

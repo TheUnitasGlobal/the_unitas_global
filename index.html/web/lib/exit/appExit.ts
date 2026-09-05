@@ -42,8 +42,12 @@ export interface ExitEnvironment {
   standalone: boolean;
   /** `history.length` -- an upper bound on how many entries sit behind us. */
   historyLength: number;
-  /** ExitGuard's synthetic sentinel entry is the CURRENT entry (online only). */
-  onSentinel: boolean;
+  /** How many of ExitGuard's synthetic sentinel entries sit between the
+   *  CURRENT entry and the page's real entry, inclusive of the current one:
+   *  0 = we are on the real entry, 1 = one sentinel above it, 2 = the
+   *  double-tap buffer (owner instruction 2026-09-05, 7-point hardening,
+   *  item 7) is fully parked and we are on its top. */
+  sentinelDepth: number;
   /** `document.referrer` (may be empty). */
   referrer: string;
   /** `location.origin` -- a same-origin referrer is not "the previous site". */
@@ -94,7 +98,7 @@ export function planExit(env: ExitEnvironment, fallbackUrl: string): ExitPlan {
     };
   }
 
-  const ownEntries = env.onSentinel ? 2 : 1;
+  const ownEntries = 1 + Math.max(0, Math.floor(env.sentinelDepth || 0));
   const immediate: ExitStep[] =
     env.historyLength > ownEntries
       ? [{ kind: 'history-back', steps: ownEntries }]
@@ -154,6 +158,24 @@ export interface ExecuteAppExitOptions {
   fallbackUrl: string;
   /** ExitGuard's sentinel-history marker key, if the caller parks one. */
   sentinelMarker?: string;
+  /** history.state key holding the sentinel's depth (1 = bottom sentinel,
+   *  2 = top of the double-tap buffer). A marked entry without it counts
+   *  as depth 1. */
+  sentinelDepthKey?: string;
+}
+
+/** Pure: how many sentinel entries the current history.state says we sit on. */
+export function readSentinelDepth(
+  state: unknown,
+  marker: string | undefined,
+  depthKey: string | undefined,
+): number {
+  if (!marker) return 0;
+  const record = state && typeof state === 'object' ? (state as Record<string, unknown>) : null;
+  if (!record?.[marker]) return 0;
+  const raw = depthKey ? record[depthKey] : undefined;
+  const depth = typeof raw === 'number' && Number.isFinite(raw) ? Math.floor(raw) : 1;
+  return Math.max(1, depth);
 }
 
 /**
@@ -163,12 +185,11 @@ export interface ExecuteAppExitOptions {
  */
 export function executeAppExit(options: ExecuteAppExitOptions): ExitChannel {
   if (typeof window === 'undefined') return 'online';
-  let onSentinel = false;
+  let sentinelDepth = 0;
   try {
-    const state = window.history.state as Record<string, unknown> | null;
-    onSentinel = Boolean(options.sentinelMarker && state?.[options.sentinelMarker]);
+    sentinelDepth = readSentinelDepth(window.history.state, options.sentinelMarker, options.sentinelDepthKey);
   } catch {
-    onSentinel = false;
+    sentinelDepth = 0;
   }
 
   const plan = planExit(
@@ -181,7 +202,7 @@ export function executeAppExit(options: ExecuteAppExitOptions): ExitChannel {
           return 1;
         }
       })(),
-      onSentinel,
+      sentinelDepth,
       referrer: typeof document === 'undefined' ? '' : document.referrer || '',
       origin: window.location.origin,
     },

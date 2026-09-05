@@ -5,6 +5,7 @@ import {
   cinemaOverallProgress,
   cinemaSegmentAt,
   cinemaSegmentProgress,
+  cinemaSegmentStartMs,
   seedCinemaField,
 } from '../../lib/comingSoonSequence';
 
@@ -42,6 +43,21 @@ describe('cinema timeline helpers', () => {
     expect(cinemaOverallProgress(0)).toBeCloseTo(0);
     expect(cinemaOverallProgress(15_000)).toBeCloseTo(0.5);
     expect(cinemaOverallProgress(CINEMA_DURATION_MS + 7_500)).toBeCloseTo(0.25);
+  });
+
+  it('resumes an in-place refresh at the start of the segment being watched (7-point hardening, item 6)', () => {
+    for (const seg of CINEMA_SEGMENTS) {
+      expect(cinemaSegmentStartMs(seg.id)).toBe(seg.startMs);
+      expect(cinemaSegmentStartMs(String(seg.id))).toBe(seg.startMs);
+      // The resumed clock lands inside the same segment.
+      expect(cinemaSegmentAt(cinemaSegmentStartMs(seg.id)).id).toBe(seg.id);
+    }
+    // Anything unknown restarts the loop rather than throwing.
+    expect(cinemaSegmentStartMs(null)).toBe(0);
+    expect(cinemaSegmentStartMs(undefined)).toBe(0);
+    expect(cinemaSegmentStartMs('')).toBe(0);
+    expect(cinemaSegmentStartMs('garbage')).toBe(0);
+    expect(cinemaSegmentStartMs(99)).toBe(0);
   });
 });
 
