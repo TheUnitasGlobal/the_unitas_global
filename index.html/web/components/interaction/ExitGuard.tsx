@@ -252,26 +252,34 @@ export function ExitGuard() {
   const isLogout = step === 'logout';
 
   return (
-    <Modal open={gate.open} onClose={close} labelledBy={titleId}>
-      <div className="flex flex-col gap-5 pr-6">
+    <Modal open={gate.open} onClose={close} labelledBy={titleId} hideCloseButton>
+      <div className="flex flex-col gap-5">
         <div className="flex items-center gap-3">
           <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-accent/50 bg-accent/10 text-accent">
             {isLogout ? <LogOut size={20} aria-hidden="true" /> : <Power size={20} aria-hidden="true" />}
           </span>
           <div className="min-w-0">
-            {/* Owner instruction 2026-09-05 (round 4): guarantee a single,
-                unbroken line for the Korean title specifically -- at 320px
-                viewport width the icon + pr-6 close-button reserve leaves too
-                little room for the default wrapping size to hold one line.
-                Scoped to `locale === 'ko'` only: forcing nowrap + a shrunk
-                size globally would overflow the other 19 locales, several of
+            {/* Owner instruction 2026-09-05 (round 4, revised round 5): a
+                single, unbroken line for the Korean title -- at 320px
+                viewport width the icon leaves too little room for the
+                default wrapping size to hold one line. Scoped to
+                `locale === 'ko'` only: forcing nowrap + a shrunk size
+                globally would overflow the other 19 locales, several of
                 which run 35-40+ space-separated characters (et/tr/km) that
-                need their natural word-wrap to stay inside the modal. */}
+                need their natural word-wrap to stay inside the modal.
+                Round 5: with the corner 'X' gone (hideCloseButton above) the
+                reserved pr-6 gutter is reclaimed, giving this line extra
+                breathing room at a slightly larger size, which now reads
+                clearly bigger than the shrunk subtext below it -- the prior
+                13px sat *under* the old 14px body text. Kept the bump modest
+                (13px -> 14px, not further) since the freed width is the only
+                new margin available at the narrowest supported viewport and
+                nowrap must not push the line past the panel edge. */}
             <h2
               id={titleId}
               className={
                 locale === 'ko'
-                  ? 'whitespace-nowrap text-[13px] font-bold tracking-tight text-white sm:text-xl sm:tracking-normal'
+                  ? 'whitespace-nowrap text-[14px] font-bold tracking-tight text-white sm:text-xl sm:tracking-normal'
                   : 'text-base font-bold leading-snug text-white sm:text-xl'
               }
             >
@@ -280,7 +288,7 @@ export function ExitGuard() {
           </div>
         </div>
 
-        <p className="text-sm leading-relaxed text-gray-300">{isLogout ? t('logoutBody') : t('exitBody')}</p>
+        <p className="text-xs leading-relaxed text-gray-300">{isLogout ? t('logoutBody') : t('exitBody')}</p>
 
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <button

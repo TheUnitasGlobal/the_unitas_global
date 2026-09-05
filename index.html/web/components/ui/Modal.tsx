@@ -13,10 +13,15 @@ interface ModalProps {
   /** Widen the panel for feature-dense dialogs (wallet/charge) or long-form
    *  encyclopedic content ('xl' -- ranking detail popups). Default: 'md'. */
   size?: 'md' | 'lg' | 'xl';
+  /** Owner instruction 2026-09-05 (round 5): the exit/logout confirm already
+   *  has explicit Cancel/Confirm actions plus backdrop-click-to-close, so its
+   *  corner 'X' was pure redundant clutter competing with the title for
+   *  attention. Opt-in per dialog -- every other modal keeps the X. */
+  hideCloseButton?: boolean;
 }
 
 /** Shared overlay/dialog shell used by the wallet, quest, and inquiry modals. */
-export function Modal({ open, onClose, children, labelledBy, size = 'md' }: ModalProps) {
+export function Modal({ open, onClose, children, labelledBy, size = 'md', hideCloseButton = false }: ModalProps) {
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -57,14 +62,16 @@ export function Modal({ open, onClose, children, labelledBy, size = 'md' }: Moda
                 aria-modal="true"
                 aria-labelledby={labelledBy}
               >
-                <button
-                  type="button"
-                  onClick={onClose}
-                  aria-label="Close"
-                  className="absolute right-4 top-4 z-10 flex h-7 w-7 items-center justify-center border border-accent/40 bg-quantum/80 text-accent transition-colors hover:border-accent"
-                >
-                  <X size={14} />
-                </button>
+                {!hideCloseButton && (
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    aria-label="Close"
+                    className="absolute right-4 top-4 z-10 flex h-7 w-7 items-center justify-center border border-accent/40 bg-quantum/80 text-accent transition-colors hover:border-accent"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
                 {children}
               </motion.div>
             </div>

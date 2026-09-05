@@ -114,6 +114,18 @@ export function ComingSoonCinema() {
   const [autoLocalized, setAutoLocalized] = useState(false);
 
   const field = useMemo(() => seedCinemaField(), []);
+  /**
+   * Owner instruction 2026-09-05 (round 9): true while a persisted
+   * `released` phase is being re-verified against the server on mount (see
+   * the effect below). The mount effect sets the in-memory `phase` to the
+   * fail-closed `sealed` placeholder *before* the async verify resolves --
+   * without this guard, the sibling persist-effect immediately writes that
+   * placeholder over the durable `released` record in sessionStorage, so
+   * any second read of it (a React Strict Mode dev double-invoke, a locale
+   * remount, or simply losing the race) permanently downgrades the founder
+   * to `sealed` on every refresh instead of recovering `released`.
+   */
+  const verifyingReleasedRef = useRef(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -160,17 +172,29 @@ export function ComingSoonCinema() {
     } catch {
       /* storage unavailable -- stay on the gate */
     }
-    if (saved === 'released') setPhase('sealed');
-    else if (saved === 'sealed') setPhase('sealed');
-    else if (saved === 'cinema') setPhase('cinema');
+    if (saved === 'released') {
+      verifyingReleasedRef.current = true;
+      setPhase('sealed');
+    } else if (saved === 'sealed') {
+      setPhase('sealed');
+    } else if (saved === 'cinema') {
+      setPhase('cinema');
+    }
 
     // Public visitors resolve synchronously to `founder: false` (no hint
     // cookie -> no network); a founder pays one no-store GET.
     let cancelled = false;
     void verifySovereignFounder().then(({ founder }) => {
-      if (cancelled || !founder) return;
+      if (cancelled) return;
+      if (!founder) {
+        // Genuinely not a founder (session lapsed/revoked) -- the sealed
+        // placeholder above was correct all along; let it persist for real.
+        verifyingReleasedRef.current = false;
+        return;
+      }
       setMode('founder');
       if (qaReplay) {
+        verifyingReleasedRef.current = false;
         try {
           sessionStorage.removeItem(PHASE_KEY);
         } catch {
@@ -181,6 +205,7 @@ export function ComingSoonCinema() {
         setPhase('gate'); // full flow from the gate
         return;
       }
+      verifyingReleasedRef.current = false;
       if (qaSkip || saved === 'released') {
         setPhase('released');
       }
@@ -192,10 +217,16 @@ export function ComingSoonCinema() {
   }, []);
 
   useEffect(() => {
-    try {
-      sessionStorage.setItem(PHASE_KEY, phase);
-    } catch {
-      /* no-op */
+    // See `verifyingReleasedRef` above: skip persisting the transient
+    // fail-closed `sealed` default while a durable `released` record is
+    // still being re-verified, so it survives a remount instead of being
+    // permanently clobbered before the verify call resolves.
+    if (!(verifyingReleasedRef.current && phase === 'sealed')) {
+      try {
+        sessionStorage.setItem(PHASE_KEY, phase);
+      } catch {
+        /* no-op */
+      }
     }
     // Founder debug panel mirrors the live curtain phase.
     window.dispatchEvent(new CustomEvent(CINEMA_PHASE_EVENT, { detail: phase }));
