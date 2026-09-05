@@ -44,7 +44,10 @@ const MASTER_GAIN_MOBILE = 0.246;
 // pointer + no hover -- a genuine phone/tablet), the same primary-pointer
 // check the scroll-focus SFX already uses to tell a real handheld apart
 // from a mouse-driven desktop.
-const MASTER_GAIN_PC = MASTER_GAIN_MOBILE * 0.7;
+// Owner instruction 2026-09-05 (round 4): a SECOND additional 30% cut stacks
+// on top of round 2's already-reduced PC level (0.1722 -> 0.12054) -- still
+// gated the same way, handheld level untouched.
+const MASTER_GAIN_PC = MASTER_GAIN_MOBILE * 0.7 * 0.7;
 
 export interface SplashAudioHandle {
   /** Call from a user gesture (or immediately) -- resumes + schedules once. */

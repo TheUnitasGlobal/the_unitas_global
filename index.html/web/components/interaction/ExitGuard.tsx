@@ -14,6 +14,21 @@ const GUARD_MARKER = 'unitasExitGuard';
 /** Give a leave attempt this long to actually unload before admitting the
  *  browser refused (no prior page to go back to, window.close() denied). */
 const LEAVE_SETTLE_MS = 450;
+/** Window event any surface can fire to open the same logout/exit confirm
+ *  this component shows on a back-gesture -- see `requestAppExit()` below. */
+const EXIT_REQUEST_EVENT = 'unitas:app-exit-request';
+
+/**
+ * Ask ExitGuard to open its logout/exit confirm on demand, outside the
+ * back-gesture flow -- e.g. the Coming-Soon sealed screen's 'X' button
+ * (owner instruction 2026-09-05), which must send a mobile PWA straight to
+ * the same confirmed exit rather than bouncing the visitor out unconfirmed.
+ * No-ops if ExitGuard isn't mounted (SSR / component removed).
+ */
+export function requestAppExit(): void {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new Event(EXIT_REQUEST_EVENT));
+}
 
 type Step = 'logout' | 'exit';
 
@@ -106,6 +121,22 @@ export function ExitGuard() {
       clearTimeout(armTimer);
       window.removeEventListener('popstate', onPop);
     };
+  }, [openGate]);
+
+  // On-demand open (no back-gesture involved) -- see `requestAppExit()`.
+  useEffect(() => {
+    const onExitRequest = () => {
+      try {
+        (document.activeElement as HTMLElement | null)?.blur?.();
+      } catch {
+        // nothing focused
+      }
+      setLeaveRefused(false);
+      setStep(sessionRef.current ? 'logout' : 'exit');
+      openGate(true, { force: true });
+    };
+    window.addEventListener(EXIT_REQUEST_EVENT, onExitRequest);
+    return () => window.removeEventListener(EXIT_REQUEST_EVENT, onExitRequest);
   }, [openGate]);
 
   const close = useCallback(() => {

@@ -8,6 +8,7 @@ import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
 import { CinemaAppDownload } from '@/components/pwa/CinemaAppDownload';
+import { requestAppExit } from '@/components/interaction/ExitGuard';
 import {
   CINEMA_PHASE_EVENT,
   revokeSovereignFounder,
@@ -100,6 +101,7 @@ const captionKeyFor = (segId: number, slot: CaptionSlot): CaptionKey =>
 export function ComingSoonCinema() {
   const t = useTranslations('ComingSoonGate');
   const tGate = useTranslations('AudioGate');
+  const tExit = useTranslations('ExitGuard');
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -882,28 +884,6 @@ export function ComingSoonCinema() {
                   />
                 </div>
 
-                {/* Owner instruction 2026-09-05, round 3: a globally-recognized
-                    top-right close/skip 'X' -- the same gold-accent-bordered
-                    icon-button treatment as PwaInstallHost's sheet close --
-                    alongside the existing bottom-right "건너뛰기" text control
-                    (kept as-is; this is an additional, more universally
-                    intuitive affordance, not a replacement). Calls the exact
-                    same `skip()` as that control: it advances straight to the
-                    sealed "COMING SOON" screen, never past it -- the
-                    fail-closed public/founder boundary below is untouched.
-                    Stacked BELOW the GlobalLanguagePicker (which pins the
-                    same top-right corner in every phase, see `right-4 top-4`
-                    below) instead of sharing its exact spot, so the two
-                    controls never overlap. */}
-                <button
-                  type="button"
-                  onClick={skip}
-                  aria-label={t('skip')}
-                  className="absolute right-4 top-16 z-20 flex h-8 w-8 items-center justify-center border border-accent/50 bg-void/40 text-accent backdrop-blur-sm transition-colors hover:border-accent hover:bg-void/60 sm:right-6 sm:top-20"
-                >
-                  <X size={16} aria-hidden="true" />
-                </button>
-
                 {/* 5-segment scroll indicator dots -- permanently fixed (lives
                     inside the curtain's `fixed inset-0` ancestor, so it never
                     moves with page scroll or resize) and tracks `segId`,
@@ -1011,6 +991,24 @@ export function ComingSoonCinema() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.1, ease: 'easeOut' }}
               >
+                {/* Owner instruction 2026-09-05: the globally-recognized
+                    close 'X' now lives EXCLUSIVELY on this sealed "COMING
+                    SOON" screen (removed from the cinema/ad phase above) and
+                    wires straight into ExitGuard's confirmed logout/exit
+                    flow instead of a mere "skip" -- on an installed mobile
+                    PWA, confirming there drops the visitor straight back to
+                    the home screen. Same gold-accent icon-button treatment,
+                    stacked below the GlobalLanguagePicker so the two never
+                    overlap. */}
+                <button
+                  type="button"
+                  onClick={() => requestAppExit()}
+                  aria-label={tExit('exitTitle')}
+                  className="absolute right-4 top-16 z-20 flex h-8 w-8 items-center justify-center border border-accent/50 bg-void/40 text-accent backdrop-blur-sm transition-colors hover:border-accent hover:bg-void/60 sm:right-6 sm:top-20"
+                >
+                  <X size={16} aria-hidden="true" />
+                </button>
+
                 <h2 className="cs-awaken font-serif text-[2.75rem] font-bold tracking-[0.22em] text-white sm:text-7xl lg:text-[5.25rem]">
                   {t('comingSoon')}
                 </h2>
