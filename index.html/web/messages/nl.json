@@ -1339,7 +1339,9 @@
     "appExitBody": "Je staat op het punt de app te sluiten. Afsluiten leidt naar één laatste bevestiging; Annuleren houdt je precies waar je bent.",
     "appExitFinalTitle": "Druk nog één keer op Afsluiten om de app volledig te sluiten",
     "appExitFinalBody": "Deze sessie eindigt en de app sluit meteen. Annuleer en er gebeurt niets.",
-    "appExitStep": "Stap {current} van {total}"
+    "appExitStep": "Stap {current} van {total}",
+    "appExitDoneTitle": "Afsluiten voltooid.",
+    "appExitDoneBody": "Sluit de app of browser veilig af."
   },
   "Civic": {
     "axes": {

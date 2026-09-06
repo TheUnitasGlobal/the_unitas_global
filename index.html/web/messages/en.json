@@ -1339,7 +1339,9 @@
     "appExitBody": "You are about to close the app. Exit moves to one final confirmation; Cancel keeps you exactly where you are.",
     "appExitFinalTitle": "Press Exit once more to completely close the app",
     "appExitFinalBody": "This session ends and the app closes immediately. Cancel and nothing happens.",
-    "appExitStep": "Step {current} of {total}"
+    "appExitStep": "Step {current} of {total}",
+    "appExitDoneTitle": "Shutdown complete.",
+    "appExitDoneBody": "Please close the app or browser safely."
   },
   "Civic": {
     "axes": {

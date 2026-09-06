@@ -1339,7 +1339,9 @@
     "appExitBody": "Anda akan menutup aplikasi. Keluar membawa ke satu konfirmasi terakhir; Batal membiarkan Anda tetap di tempat.",
     "appExitFinalTitle": "Tekan Keluar sekali lagi untuk menutup aplikasi sepenuhnya",
     "appExitFinalBody": "Sesi ini berakhir dan aplikasi langsung tertutup. Jika dibatalkan, tidak terjadi apa-apa.",
-    "appExitStep": "Langkah {current} dari {total}"
+    "appExitStep": "Langkah {current} dari {total}",
+    "appExitDoneTitle": "Penutupan selesai.",
+    "appExitDoneBody": "Silakan tutup aplikasi atau browser dengan aman."
   },
   "Civic": {
     "axes": {

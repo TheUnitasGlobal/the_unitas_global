@@ -1339,7 +1339,9 @@
     "appExitBody": "Stai per chiudere l’app. Esci porta a un’ultima conferma; Annulla ti lascia esattamente dove sei.",
     "appExitFinalTitle": "Premi di nuovo Esci per chiudere completamente l’app",
     "appExitFinalBody": "Questa sessione termina e l’app si chiude immediatamente. Se annulli, non succede nulla.",
-    "appExitStep": "Passo {current} di {total}"
+    "appExitStep": "Passo {current} di {total}",
+    "appExitDoneTitle": "Chiusura completata.",
+    "appExitDoneBody": "Chiudi l'app o il browser in modo sicuro."
   },
   "Civic": {
     "axes": {

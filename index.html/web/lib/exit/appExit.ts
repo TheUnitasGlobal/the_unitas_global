@@ -160,25 +160,28 @@
 //   a task from Recents; a web page can only make sure the card is clean and
 //   that nothing of the session survives behind it.
 //
-//   ROUND 20 (owner instruction 2026-09-06, "강제 탭 폐쇄 패치 -- about:blank
-//   치환 및 프로세스 붕괴 가드"): the terminal FRAME of a PHONE / TABLET app
-//   split from the DESKTOP app's. Round 19's dimmed-mark black shroud stays
-//   for a desktop app window (its `window.close()` genuinely closes it, so the
-//   shroud is only ever a fallback), but on a phone / tablet the second 종료
-//   now OVERWRITES the window with `about:blank` and strikes `window.close()`
-//   (`terminateWithBlankClose` -> `overwriteWithBlankAndClose`), so the OS
-//   task-switcher snapshot is a plain blank document instead of a rendered
-//   black app card. Everything round 19 did to leave nothing behind still runs
-//   first -- session + founder-token purge, React-tree unmount, whole-stack
-//   collapse -- and the blank overwrite waits for the collapse to land on the
-//   document's first entry so a back press from the blank frame LEAVES the app
-//   rather than stepping back into the buffer. `close()` is fired first (the
-//   only call that truly ends a single-entry window: a PC app window, a phone
-//   tab reduced to one entry); on a multi-entry phone PWA it is refused and
-//   `about:blank` covers the frame. The web-platform limit above is unchanged:
-//   no web call removes the Recents card or kills a resident phone-PWA process
-//   -- the blank overwrite only makes the retained card clean, and the native
-//   bridges remain the true process kill.
+//   ROUND 21 (owner instruction 2026-09-06, "모바일 앱 2단계 안심 종료 안내
+//   가이드 팝업 + 원복"): round 20's `about:blank` overwrite is REVERTED in
+//   full -- on a phone the blank document left an address-bar card in Recents
+//   and a relaunch that reloaded from nothing, which read as a bug rather than
+//   a closed app. The terminal FRAME of a PHONE / TABLET app is now a
+//   floating GLASSMORPHISM GUIDE (`terminate-guide` -> `terminateInPlace
+//   ('guide')`): "종료가 완료되었습니다. 안전하게 앱 또는 브라우저를 닫아주시기
+//   바랍니다." centred over the app's own void, so the visitor knows the app
+//   is finished and leaves it with the device's own navigation (home gesture,
+//   Recents swipe, hardware back) with nothing to fear. Everything round 19
+//   did to leave nothing behind still runs first -- session + founder-token
+//   purge, React-tree unmount, whole-stack collapse, sealed launch entry --
+//   the frame itself is what changed: the guide lives on <html> outside
+//   React's reach, like the desktop shroud, and the document is NEVER
+//   navigated away. A DESKTOP app window keeps round 19's dimmed-mark black
+//   shroud (its `window.close()` genuinely closes it, so the shroud is only
+//   ever a fallback). The mobile confirm is a SINGLE question again ("로그아웃
+//   및 종료하시겠습니까?"): the two "steps" the doctrine names are that
+//   confirm and this guide -- see lib/exit/exitConfirmFlow.ts. The
+//   web-platform limit above is unchanged: no web call removes the Recents
+//   card or kills a resident phone-PWA process -- a terminated document
+//   brought back to the foreground relaunches itself as a cold start.
 //
 // `planExit()` is pure (no DOM) so the branching is unit-tested in
 // __tests__/exit/appExit.test.ts; `executeAppExit()` is the thin browser
@@ -241,8 +244,8 @@ export interface ExitEnvironment {
    *  see `isDesktopAppWindow`). Such a window has no hardware back button, so
    *  ExitGuard keeps it at a single launch entry and `window.close()` really
    *  closes it -- its in-place fallback stays the round-19 black shroud. A
-   *  PHONE / TABLET app (omitted / false) takes round 20's `about:blank`
-   *  overwrite + `window.close()` instead. */
+   *  PHONE / TABLET app (omitted / false) takes round 21's floating
+   *  "종료가 완료되었습니다" guide frame instead. */
   desktopAppWindow?: boolean;
 }
 
@@ -257,12 +260,13 @@ export type ExitStep =
    *  cover the document with an opaque black shroud (DESKTOP App window
    *  only, round 19). */
   | { kind: 'terminate' }
-  /** Round 20 (mobile App channel): wipe the session, unmount the React tree,
-   *  collapse the history stack, then OVERWRITE the window with `about:blank`
-   *  and strike `window.close()` -- so the OS task switcher keeps a blank
-   *  frame rather than a rendered app, and the tab is force-closed wherever
-   *  the platform permits (owner instruction 2026-09-06). */
-  | { kind: 'blank-terminate' };
+  /** Round 21 (PHONE / TABLET App channel): terminate in place exactly like
+   *  `terminate` -- session purge, React-tree unmount, whole-stack collapse,
+   *  sealed launch entry -- but the terminal frame is the floating
+   *  glassmorphism GUIDE ("종료가 완료되었습니다. 안전하게 앱 또는 브라우저를
+   *  닫아주시기 바랍니다.") rather than a bare shroud. The document is never
+   *  navigated away (no `about:blank`, owner instruction 2026-09-06). */
+  | { kind: 'terminate-guide' };
 
 export interface ExitPlan {
   channel: ExitChannel;
@@ -297,14 +301,15 @@ export function isExternalReferrer(referrer: string, origin: string): boolean {
  */
 export function planExit(env: ExitEnvironment): ExitPlan {
   if (env.standalone) {
-    // Round 20: the terminal in-place step splits by device. A DESKTOP app
+    // Round 21: the terminal in-place step splits by device. A DESKTOP app
     // window keeps the round-19 black shroud (`terminate`) -- its
     // `window.close()` genuinely closes the window, so the shroud is only ever
-    // a belt-and-braces fallback. A PHONE / TABLET app takes `blank-terminate`
-    // -- it OVERWRITES the window with `about:blank` and strikes
-    // `window.close()`, so the OS task switcher keeps a blank frame instead of
-    // a rendered app card (owner instruction 2026-09-06).
-    const terminal: ExitStep = env.desktopAppWindow ? { kind: 'terminate' } : { kind: 'blank-terminate' };
+    // a belt-and-braces fallback. A PHONE / TABLET app takes
+    // `terminate-guide`: the same in-place termination under the floating
+    // "종료가 완료되었습니다" guide, never a navigation away from the document
+    // (round 20's about:blank overwrite is reverted -- owner instruction
+    // 2026-09-06).
+    const terminal: ExitStep = env.desktopAppWindow ? { kind: 'terminate' } : { kind: 'terminate-guide' };
     // Round 15: the native shell's exit API first (kills the process
     // outright inside a container), then the web window close.
     const immediate: ExitStep[] = [{ kind: 'native-exit' }, { kind: 'close' }];
@@ -319,8 +324,8 @@ export function planExit(env: ExitEnvironment): ExitPlan {
       channel: 'app',
       immediate,
       // Round 13: a refused close TERMINATES the app in place -- never a
-      // restart on the logo splash. Round 20: mobile overwrites with
-      // `about:blank`, desktop keeps the black shroud. (Idempotent when the
+      // restart on the logo splash. Round 21: mobile shows the completion
+      // guide, desktop keeps the black shroud. (Idempotent when the
       // immediate step already ran.)
       fallback: terminal,
     };
@@ -534,9 +539,13 @@ export const APP_EXIT_EVENT = 'unitas:app-exit';
  * must stay rendered until the browser has actually left it.
  */
 export const APP_TERMINATE_EVENT = 'unitas:app-terminate';
-/** `data-` attribute stamped on <html> while the terminal shroud is up. */
+/** `data-` attribute stamped on <html> while the terminal frame is up. */
 export const TERMINATED_ATTR = 'data-unitas-terminated';
-/** `data-` attribute on the terminal shroud element itself (round 19). */
+/** `data-` attribute stamped on <html> naming WHICH terminal frame is up
+ *  (`shroud` / `guide`, see `TerminalFrame`) -- round 21 diagnostics. */
+export const TERMINAL_FRAME_ATTR = 'data-unitas-terminal-frame';
+/** `data-` attribute on the terminal cover element itself (the round-19
+ *  black shroud AND the round-21 guide frame both carry it). */
 export const TERMINAL_SHROUD_ATTR = 'data-unitas-shroud';
 /**
  * The brand mark painted on the terminal frame (round 19): the single-source
@@ -593,54 +602,212 @@ export function isDocumentTerminated(): boolean {
   }
 }
 
+// ---------------------------------------------------------------------------
+// terminal frames: desktop black shroud (round 19) / mobile guide (round 21)
+// ---------------------------------------------------------------------------
+
+/** Which cover a terminated document wears. `shroud` = the round-19 opaque
+ *  black frame with the dimmed mark (DESKTOP app window). `guide` = the
+ *  round-21 floating glassmorphism completion guide (PHONE / TABLET app). */
+export type TerminalFrame = 'shroud' | 'guide';
+
+/** `data-` attribute on the round-21 guide card itself (E2E / diagnostics). */
+export const TERMINAL_GUIDE_ATTR = 'data-unitas-exit-guide';
+/** DOM id of the guide's title -- `aria-labelledby` target and E2E anchor. */
+export const TERMINAL_GUIDE_TITLE_ID = 'unitas-exit-guide-title';
+
+/** The localized copy the round-21 guide paints. ExitGuard resolves it from
+ *  the visitor's locale (`ExitGuard.appExitDoneTitle` / `appExitDoneBody`)
+ *  and hands it to `executeAppExit()`; the built-in default below is the
+ *  English fallback for any caller that passes none. */
+export interface TerminalGuideCopy {
+  /** "종료가 완료되었습니다." */
+  title: string;
+  /** "안전하게 앱 또는 브라우저를 닫아주시기 바랍니다." */
+  body: string;
+}
+
+export const DEFAULT_TERMINAL_GUIDE: TerminalGuideCopy = {
+  title: 'Shutdown complete.',
+  body: 'Please close the app or browser safely.',
+};
+
+/** The copy the next `terminate-guide` step paints (set by `executeAppExit`
+ *  from the caller's locale; the plan's fallback step reads it later). */
+let pendingGuideCopy: TerminalGuideCopy = DEFAULT_TERMINAL_GUIDE;
+
+/**
+ * Pure: sanitise caller-supplied guide copy -- a missing / blank string falls
+ * back to the English default field by field, so the frame never paints an
+ * empty title or body whatever an i18n gap does.
+ */
+export function resolveTerminalGuideCopy(copy: Partial<TerminalGuideCopy> | null | undefined): TerminalGuideCopy {
+  const clean = (value: unknown, fallback: string) =>
+    typeof value === 'string' && value.trim().length > 0 ? value.trim() : fallback;
+  return {
+    title: clean(copy?.title, DEFAULT_TERMINAL_GUIDE.title),
+    body: clean(copy?.body, DEFAULT_TERMINAL_GUIDE.body),
+  };
+}
+
+/** Round 19: the pristine DESKTOP terminal frame -- opaque black, the dimmed
+ *  master mark centred, not hit-testable, no text, no control. */
+function buildShroudFrame(): HTMLElement {
+  const shroud = document.createElement('div');
+  shroud.setAttribute('role', 'presentation');
+  shroud.setAttribute('aria-hidden', 'true');
+  shroud.setAttribute(TERMINAL_SHROUD_ATTR, '1');
+  shroud.style.cssText =
+    'position:fixed;inset:0;z-index:2147483647;background:#000;pointer-events:auto;touch-action:none;overscroll-behavior:none;';
+  const mark = document.createElement('img');
+  mark.setAttribute('src', TERMINAL_MARK_HREF);
+  mark.setAttribute('alt', '');
+  mark.setAttribute('aria-hidden', 'true');
+  mark.setAttribute('decoding', 'async');
+  mark.setAttribute('draggable', 'false');
+  mark.style.cssText =
+    'position:absolute;left:50%;top:50%;width:min(26vmin,132px);height:auto;transform:translate(-50%,-50%);opacity:.38;filter:saturate(.4);pointer-events:none;user-select:none;-webkit-user-select:none;';
+  shroud.appendChild(mark);
+  return shroud;
+}
+
+/**
+ * Round 21: the PHONE / TABLET terminal frame -- the app's own void with a
+ * floating glassmorphism guide card centred on it: the master mark, the
+ * completion title, the "close the app or browser safely" line and a hairline
+ * UNITAS wordmark. Built with the site's own tokens (void #030305 / quantum
+ * #0f1016 / gold #d4af37 / neon #00f3ff, JetBrains Mono + Cinzel through the
+ * font variables next/font leaves on <html>) so it reads as the same design
+ * system as the confirm dialog it follows. Plain DOM on purpose: it must
+ * outlive the React tree that `announceTerminate()` unmounts a beat later.
+ * Not interactive -- there is nothing left to do in a finished app; the
+ * device's own navigation (home gesture, Recents swipe, hardware back on the
+ * collapsed single entry) is how the visitor leaves.
+ */
+function buildGuideFrame(copy: TerminalGuideCopy): HTMLElement {
+  const frame = document.createElement('div');
+  frame.setAttribute('role', 'presentation');
+  frame.setAttribute(TERMINAL_SHROUD_ATTR, '1');
+  frame.style.cssText =
+    'position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;' +
+    'padding:max(24px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(24px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left));' +
+    'box-sizing:border-box;background:radial-gradient(120% 80% at 50% 0%,rgba(212,175,55,.10),rgba(3,3,5,0) 55%),radial-gradient(90% 60% at 50% 100%,rgba(0,243,255,.06),rgba(3,3,5,0) 60%),#030305;' +
+    'pointer-events:auto;touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none;';
+
+  const style = document.createElement('style');
+  style.textContent =
+    '@keyframes unitas-exit-guide-in{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}' +
+    '@keyframes unitas-exit-guide-halo{0%,100%{opacity:.55}50%{opacity:1}}' +
+    `[${TERMINAL_GUIDE_ATTR}]{animation:unitas-exit-guide-in .55s cubic-bezier(.22,1,.36,1) both}` +
+    `[${TERMINAL_GUIDE_ATTR}] .unitas-exit-guide-halo{animation:unitas-exit-guide-halo 3.2s ease-in-out infinite}` +
+    `@media (prefers-reduced-motion:reduce){[${TERMINAL_GUIDE_ATTR}],[${TERMINAL_GUIDE_ATTR}] .unitas-exit-guide-halo{animation:none}}`;
+  frame.appendChild(style);
+
+  const card = document.createElement('section');
+  card.setAttribute(TERMINAL_GUIDE_ATTR, '1');
+  card.setAttribute('role', 'status');
+  card.setAttribute('aria-live', 'polite');
+  card.setAttribute('aria-labelledby', TERMINAL_GUIDE_TITLE_ID);
+  card.style.cssText =
+    'position:relative;box-sizing:border-box;width:100%;max-width:400px;padding:34px 28px 28px;text-align:center;' +
+    'color:#e5e7eb;font-family:var(--font-jetbrains-mono),ui-monospace,SFMono-Regular,Menlo,monospace;' +
+    'background:linear-gradient(160deg,rgba(255,255,255,.085),rgba(255,255,255,.028) 55%,rgba(15,16,22,.55));' +
+    'border:1px solid rgba(212,175,55,.32);' +
+    'box-shadow:0 0 0 1px rgba(255,255,255,.03) inset,0 1px 0 rgba(255,255,255,.14) inset,0 0 48px rgba(0,243,255,.07),0 28px 90px rgba(0,0,0,.72);' +
+    '-webkit-backdrop-filter:blur(26px) saturate(1.35);backdrop-filter:blur(26px) saturate(1.35);';
+
+  const halo = document.createElement('div');
+  halo.className = 'unitas-exit-guide-halo';
+  halo.setAttribute('aria-hidden', 'true');
+  halo.style.cssText =
+    'position:absolute;left:50%;top:0;width:72%;height:1px;transform:translateX(-50%);pointer-events:none;' +
+    'background:linear-gradient(90deg,rgba(212,175,55,0),rgba(241,211,106,.95),rgba(212,175,55,0));';
+  card.appendChild(halo);
+
+  const mark = document.createElement('img');
+  mark.setAttribute('src', TERMINAL_MARK_HREF);
+  mark.setAttribute('alt', '');
+  mark.setAttribute('aria-hidden', 'true');
+  mark.setAttribute('decoding', 'async');
+  mark.setAttribute('draggable', 'false');
+  mark.style.cssText =
+    'display:block;width:56px;height:56px;margin:0 auto 18px;opacity:.92;filter:drop-shadow(0 0 14px rgba(212,175,55,.35));pointer-events:none;';
+  card.appendChild(mark);
+
+  const title = document.createElement('h2');
+  title.id = TERMINAL_GUIDE_TITLE_ID;
+  title.textContent = copy.title;
+  title.style.cssText =
+    'margin:0 0 12px;font-size:19px;line-height:1.35;font-weight:700;letter-spacing:-.01em;color:#fff;' +
+    'text-shadow:0 0 18px rgba(212,175,55,.22);word-break:keep-all;overflow-wrap:break-word;';
+  card.appendChild(title);
+
+  const body = document.createElement('p');
+  body.textContent = copy.body;
+  body.style.cssText =
+    'margin:0;font-size:13px;line-height:1.75;color:rgba(229,231,235,.82);word-break:keep-all;overflow-wrap:break-word;';
+  card.appendChild(body);
+
+  const rule = document.createElement('div');
+  rule.setAttribute('aria-hidden', 'true');
+  rule.style.cssText =
+    'height:1px;margin:24px auto 14px;width:44%;background:linear-gradient(90deg,rgba(212,175,55,0),rgba(212,175,55,.6),rgba(212,175,55,0));';
+  card.appendChild(rule);
+
+  const wordmark = document.createElement('div');
+  wordmark.setAttribute('aria-hidden', 'true');
+  wordmark.textContent = 'UNITAS';
+  wordmark.style.cssText =
+    'font-family:var(--font-cinzel),Georgia,serif;font-size:11px;letter-spacing:.42em;text-indent:.42em;color:rgba(212,175,55,.85);';
+  card.appendChild(wordmark);
+
+  frame.appendChild(card);
+  return frame;
+}
+
 /**
  * Terminate in place (App channel, runtime refused `window.close()`): the
- * document goes opaque black, nothing underneath is reachable, and the next
- * time the OS brings this (still resident) document back to the foreground
- * it reloads into a fresh session that starts on the logo splash. No text,
- * no button -- a closed app shows nothing but its own dimmed mark (round 19:
- * the one frame the OS keeps for the task-switcher card is the app's clean
- * closed cover, never a featureless black void).
+ * session is purged, every audio engine falls silent, the whole React tree is
+ * unmounted, the history stack collapses to the sealed launch entry, and the
+ * document is covered by its terminal frame -- the round-19 black shroud with
+ * the dimmed mark on a DESKTOP app window, the round-21 floating "종료가
+ * 완료되었습니다" guide on a PHONE / TABLET app. Nothing underneath is
+ * reachable, the document is never navigated away, and the next time the OS
+ * brings this (still resident) document back to the foreground it relaunches
+ * as a cold start from the clean launch URL.
  */
-function terminateInPlace(): void {
+function terminateInPlace(frame: TerminalFrame): void {
   clearSession();
   announceExit();
   try {
     if (document.documentElement.hasAttribute(TERMINATED_ATTR)) return;
     document.documentElement.setAttribute(TERMINATED_ATTR, '1');
-    const shroud = document.createElement('div');
-    shroud.setAttribute('role', 'presentation');
-    shroud.setAttribute('aria-hidden', 'true');
-    shroud.setAttribute(TERMINAL_SHROUD_ATTR, '1');
-    shroud.style.cssText =
-      'position:fixed;inset:0;z-index:2147483647;background:#000;pointer-events:auto;touch-action:none;overscroll-behavior:none;';
-    // Round 19: the pristine terminal frame -- the dimmed master mark,
-    // centred, not hit-testable (pointer-events:none keeps the shroud itself
-    // the only element under any tap), no text, no control.
-    const mark = document.createElement('img');
-    mark.setAttribute('src', TERMINAL_MARK_HREF);
-    mark.setAttribute('alt', '');
-    mark.setAttribute('aria-hidden', 'true');
-    mark.setAttribute('decoding', 'async');
-    mark.setAttribute('draggable', 'false');
-    mark.style.cssText =
-      'position:absolute;left:50%;top:50%;width:min(26vmin,132px);height:auto;transform:translate(-50%,-50%);opacity:.38;filter:saturate(.4);pointer-events:none;user-select:none;-webkit-user-select:none;';
-    shroud.appendChild(mark);
-    document.documentElement.appendChild(shroud);
-    document.documentElement.style.background = '#000';
+    document.documentElement.setAttribute(TERMINAL_FRAME_ATTR, frame);
+    const cover = frame === 'guide' ? buildGuideFrame(pendingGuideCopy) : buildShroudFrame();
+    document.documentElement.appendChild(cover);
+    document.documentElement.style.background = frame === 'guide' ? '#030305' : '#000';
     try {
       (document.activeElement as HTMLElement | null)?.blur?.();
     } catch {
       /* nothing focused */
     }
     // Resident activity brought back to the foreground (launcher tap, task
-    // switcher, bfcache restore): start over from the logo page.
+    // switcher, bfcache restore): the app was closed, so this is a LAUNCH --
+    // start over as a cold start from the clean launch URL (round 21:
+    // `location.replace` to the sealed URL, so no query / hash / deep route
+    // of the finished session can come back; a plain reload is the fallback).
     let wasHidden = document.visibilityState === 'hidden';
-    const revive = () => {
+    const relaunch = () => {
       try {
-        window.location.reload();
+        const url = sealedLaunchUrl(window.location.href);
+        if (url) window.location.replace(url);
+        else window.location.reload();
       } catch {
-        /* no-op */
+        try {
+          window.location.reload();
+        } catch {
+          /* no-op */
+        }
       }
     };
     document.addEventListener('visibilitychange', () => {
@@ -648,21 +815,21 @@ function terminateInPlace(): void {
         wasHidden = true;
         return;
       }
-      if (wasHidden) revive();
+      if (wasHidden) relaunch();
     });
     window.addEventListener('pageshow', (e) => {
-      if ((e as PageTransitionEvent).persisted) revive();
+      if ((e as PageTransitionEvent).persisted) relaunch();
     });
     // Round 19 (item 1): purge the DOM -- the whole React tree under <body>
     // unmounts through TerminationBoundary (scene, audio, timers, channels
-    // all released by their own effect cleanups). The shroud above lives on
+    // all released by their own effect cleanups). The frame above lives on
     // <html>, outside React's reach, so it survives the purge untouched.
     announceTerminate();
     // Round 16 (item 2): a terminated app must die on the very NEXT back
     // press. ExitGuard parks a deep sentinel buffer under the page (phones /
     // tablets), so collapse the whole buffer to the app's real entry RIGHT
     // NOW (a same-document traversal needs no activation and leaves the
-    // shroud untouched): the terminated document then sits on its single
+    // frame untouched): the terminated document then sits on its single
     // real entry, and the first hardware back press leaves it -- on an
     // installed app the OS finishes the activity, in a tab the browser goes
     // to the page before the site. Round 15 did this lazily, on the first
@@ -682,111 +849,6 @@ function terminateInPlace(): void {
     collapseSentinelsOnNextPop();
   } catch {
     /* DOM unavailable -- the session wipe above is still done */
-  }
-}
-
-// ---------------------------------------------------------------------------
-// mobile-app blank overwrite + force close (round 20)
-// ---------------------------------------------------------------------------
-
-/** The blank scheme a terminated mobile app's window is overwritten with. */
-export const BLANK_TERMINAL_URL = 'about:blank';
-
-/**
- * Round 20 terminal strike (owner instruction 2026-09-06, "태스크 스위처 빈
- * 카드 잔류 현상 격멸"): strike `window.close()` and overwrite the window with
- * `about:blank`. `close()` is fired first because it is the only call that can
- * genuinely end the tab / app window -- honoured on a single-entry window (a
- * PC app window, or a phone tab that reached a single entry); silently refused
- * on a multi-entry phone PWA, where `about:blank` then takes over the frame so
- * the OS task-switcher snapshot is a plain blank document, never a rendered
- * black app card. `location.replace` (not `href`) so no extra history entry is
- * ever created for the blank page.
- *
- * The single web-platform limit this cannot cross (stated so it is never
- * "fixed" again): on a multi-entry phone PWA no web call actually removes the
- * Recents card or kills the process -- only the OS, or a native shell's
- * `finishAndRemoveTask`, can. The blank overwrite makes the retained card
- * clean; the native bridges (`findNativeExitBridge`) are the true kill path.
- */
-export function overwriteWithBlankAndClose(): void {
-  if (typeof window === 'undefined') return;
-  try {
-    window.close();
-  } catch {
-    /* refused on a multi-entry window -- about:blank below covers the frame */
-  }
-  try {
-    window.location.replace(BLANK_TERMINAL_URL);
-  } catch {
-    try {
-      window.location.href = BLANK_TERMINAL_URL;
-    } catch {
-      /* navigation blocked -- nothing more a web page can do */
-    }
-  }
-}
-
-/**
- * Terminate a PHONE / TABLET app in place (round 20). Everything the round-19
- * black-shroud path did to leave nothing behind still runs -- the session and
- * founder-token memo are purged, every audio engine is silenced and the whole
- * React tree is unmounted through `TerminationBoundary` -- but the terminal
- * FRAME is no longer a black shroud: once the history stack has collapsed to
- * the document's first entry, the window is OVERWRITTEN with `about:blank` and
- * `window.close()` is struck. The collapse runs FIRST (and the overwrite waits
- * for it to land) so `about:blank` replaces the app's first entry: a hardware
- * back press from the blank frame then leaves the app instead of stepping back
- * into the sentinel buffer.
- */
-function terminateWithBlankClose(): void {
-  clearSession();
-  announceExit();
-  let struck = false;
-  const strike = () => {
-    if (struck) return;
-    struck = true;
-    overwriteWithBlankAndClose();
-  };
-  try {
-    if (document.documentElement.hasAttribute(TERMINATED_ATTR)) {
-      strike();
-      return;
-    }
-    document.documentElement.setAttribute(TERMINATED_ATTR, '1');
-    // Paint the document black immediately so the frames between here and the
-    // about:blank navigation are never a flash of live UI or bare white.
-    document.documentElement.style.background = '#000';
-    try {
-      (document.activeElement as HTMLElement | null)?.blur?.();
-    } catch {
-      /* nothing focused */
-    }
-    // Round 19 (item 1): unmount the whole React tree (scene, audio, timers,
-    // channels released by their own effect cleanups) BEFORE navigating away,
-    // since a page-unload does not run React effect cleanups.
-    announceTerminate();
-    // Round 18: collapse the whole same-document stack to the launch entry so
-    // about:blank replaces the FIRST entry (back then leaves the app).
-    const delta = collapseHistoryStackNow();
-    if (delta === 0) {
-      strike();
-      return;
-    }
-    const onLanded = (e: PopStateEvent) => {
-      if (readSentinelDepth(e.state, EXIT_GUARD_MARKER, EXIT_GUARD_DEPTH_KEY) > 0) return;
-      window.removeEventListener('popstate', onLanded, true);
-      strike();
-    };
-    window.addEventListener('popstate', onLanded, true);
-    // Safety net: if the traversal never lands (refused part-way), overwrite
-    // anyway a beat later so a terminated app never sits on a live frame.
-    window.setTimeout(() => {
-      window.removeEventListener('popstate', onLanded, true);
-      strike();
-    }, LEAVE_SETTLE_MS);
-  } catch {
-    strike();
   }
 }
 
@@ -1034,10 +1096,10 @@ function runStep(step: ExitStep): void {
         else window.location.href = step.url;
         return;
       case 'terminate':
-        terminateInPlace();
+        terminateInPlace('shroud');
         return;
-      case 'blank-terminate':
-        terminateWithBlankClose();
+      case 'terminate-guide':
+        terminateInPlace('guide');
         return;
     }
   } catch {
@@ -1060,6 +1122,10 @@ export interface ExecuteAppExitOptions {
   sentinelDepthKey?: string;
   /** Full depth of the buffer once armed (see `ExitEnvironment`). */
   sentinelCapacity?: number;
+  /** Round 21: the localized copy the PHONE / TABLET app's terminal guide
+   *  paints ("종료가 완료되었습니다." / "안전하게 앱 또는 브라우저를 닫아주시기
+   *  바랍니다."). Falls back to `DEFAULT_TERMINAL_GUIDE` field by field. */
+  guide?: Partial<TerminalGuideCopy>;
 }
 
 /** Pure: how many sentinel entries the current history.state says we sit on. */
@@ -1108,6 +1174,9 @@ export function executeAppExit(options: ExecuteAppExitOptions = {}): ExitChannel
   });
 
   leaving = true;
+  // Round 21: the guide copy is fixed for this exit before any step runs --
+  // the plan's deferred fallback step reads the same copy later.
+  pendingGuideCopy = resolveTerminalGuideCopy(options.guide);
   // The session ends HERE, on the confirmed gesture -- whatever the runtime
   // does with the steps below, nothing of this visit is restored later.
   clearSession();

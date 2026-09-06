@@ -1339,7 +1339,9 @@
     "appExitBody": "Está prestes a fechar a app. Sair leva a uma confirmação final; Cancelar mantém-no exatamente onde está.",
     "appExitFinalTitle": "Prima Sair mais uma vez para fechar a app por completo",
     "appExitFinalBody": "Esta sessão termina e a app fecha imediatamente. Se cancelar, nada acontece.",
-    "appExitStep": "Passo {current} de {total}"
+    "appExitStep": "Passo {current} de {total}",
+    "appExitDoneTitle": "Encerramento concluído.",
+    "appExitDoneBody": "Feche o aplicativo ou o navegador com segurança."
   },
   "Civic": {
     "axes": {

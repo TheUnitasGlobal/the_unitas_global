@@ -240,16 +240,29 @@ const ACTIVATION_EVENTS = EXIT_GUARD_ACTIVATION_EVENTS;
  *     Every other path (취소, backdrop, Escape) leaves the visitor exactly
  *     where they were.
  *
- * TWO-STEP DOUBLE CONFIRM ON THE APP CHANNEL (round 17, owner instruction
- * 2026-09-06): an installed app's confirmed exit is terminal (process kill /
- * window close / black shroud), so there the exit question is asked TWICE in
- * two consecutive dialogs of the same design -- "정말 종료하시겠습니까?" and
- * then "종료 버튼을 한 번 더 누르면 앱이 완전히 종료됩니다" -- and only the
- * second explicit 종료 runs the engine, which collapses the sentinel buffer
- * and ends the app on that very tap. The sealed Coming-Soon screen's 'X 종료'
- * joins this flow on the App channel through `requestAppExit()` (online it
- * still tunnels straight into the engine, round 10 item 6). The sequence is
- * the pure state machine in lib/exit/exitConfirmFlow.ts.
+ * TWO-STEP DOUBLE CONFIRM ON THE DESKTOP APP WINDOW (round 17, owner
+ * instruction 2026-09-06; narrowed to desktop in round 21): a PC app window's
+ * confirmed exit genuinely closes the window (`window.close()`), so there the
+ * exit question is asked TWICE in two consecutive dialogs of the same design
+ * -- "정말 종료하시겠습니까?" and then "종료 버튼을 한 번 더 누르면 앱이
+ * 완전히 종료됩니다" -- and only the second explicit 종료 runs the engine.
+ * The sealed Coming-Soon screen's 'X 종료' joins this flow on the App channel
+ * through `requestAppExit()` (online it still tunnels straight into the
+ * engine, round 10 item 6). The sequence is the pure state machine in
+ * lib/exit/exitConfirmFlow.ts.
+ *
+ * TWO-STEP REASSURING EXIT ON PHONE / TABLET APPS (round 21, owner
+ * instruction 2026-09-06, "모바일 앱 전용 2단계 안심 종료 안내 가이드 팝업"):
+ * a phone app cannot close its own window, so a second question there only
+ * delayed a black screen. The two steps are now (1) ONE confirm -- "로그아웃
+ * 및 종료하시겠습니까?", the online channel's question -- and (2) the
+ * COMPLETION GUIDE the exit engine paints once the app is terminated in
+ * place: a floating glassmorphism card reading "종료가 완료되었습니다.
+ * 안전하게 앱 또는 브라우저를 닫아주시기 바랍니다." (lib/exit/appExit.ts,
+ * `terminate-guide`; the copy is handed over from this component's locale).
+ * The visitor then leaves with the device's own navigation. Round 20's
+ * about:blank overwrite is reverted in full -- the document is never
+ * navigated away.
  *
  * FINAL-DIALOG PRE-COLLAPSE ON PHONE / TABLET APPS (round 18, owner
  * instruction 2026-09-06, "블랙 스크린 렌더링 프리즈 긴급 패치"): the instant
@@ -344,7 +357,10 @@ export function ExitGuard() {
     } catch {
       // nothing focused
     }
-    setDoubleConfirm(needsDoubleExitConfirm(isStandaloneApp()));
+    // Round 21: only a DESKTOP app window asks twice; a phone / tablet app
+    // asks once ("로그아웃 및 종료하시겠습니까?") and then shows the
+    // completion guide painted by the exit engine.
+    setDoubleConfirm(needsDoubleExitConfirm(isStandaloneApp(), isDesktopAppWindow()));
     setStep(initialExitConfirmStep(Boolean(sessionRef.current)));
     openGate(true, { force: true });
   }, [openGate]);
@@ -569,15 +585,18 @@ export function ExitGuard() {
     // phone app the sentinel buffer collapses to the real entry on this very
     // tap; round 18: the WHOLE stack, down to the document's launch entry;
     // round 19: the React tree is unmounted (this dialog included) and the
-    // session + founder-token remnants purged. Round 20: on a PHONE / TABLET
-    // app the window is then OVERWRITTEN with about:blank and window.close()
-    // is struck, so the OS task switcher keeps a blank frame instead of a
-    // rendered app card; a DESKTOP app window keeps the round-19 black shroud
-    // (its window.close() genuinely closes the window).
+    // session + founder-token remnants purged. Round 21: on a PHONE / TABLET
+    // app the terminal frame is the floating completion GUIDE ("종료가
+    // 완료되었습니다. 안전하게 앱 또는 브라우저를 닫아주시기 바랍니다."),
+    // painted in the visitor's locale from the copy handed over here -- the
+    // document is never navigated to about:blank (round 20 reverted); a
+    // DESKTOP app window keeps the round-19 black shroud (its window.close()
+    // genuinely closes the window).
     executeAppExit({
       sentinelMarker: GUARD_MARKER,
       sentinelDepthKey: GUARD_DEPTH,
       sentinelCapacity: SENTINEL_DEPTH,
+      guide: { title: t('appExitDoneTitle'), body: t('appExitDoneBody') },
     });
   }
 

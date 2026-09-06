@@ -25,12 +25,27 @@ function confirmedPath(start: ExitConfirmStep, doubleConfirm: boolean): ExitConf
   return shown;
 }
 
-describe('round 17: two-step double-confirm exit (App channel)', () => {
-  it('the App channel asks twice, the online channel once', () => {
+describe('round 17 / 21: double-confirm exit (desktop App window) vs single confirm + guide (mobile App, online)', () => {
+  it('only the DESKTOP app window asks twice; a phone / tablet app and the online channel ask once', () => {
     expect(EXIT_CONFIRM_TAPS.app).toBe(2);
+    expect(EXIT_CONFIRM_TAPS.mobileApp).toBe(1);
     expect(EXIT_CONFIRM_TAPS.online).toBe(1);
-    expect(needsDoubleExitConfirm(true)).toBe(true);
-    expect(needsDoubleExitConfirm(false)).toBe(false);
+    // standalone + desktop window -> two questions, then window.close().
+    expect(needsDoubleExitConfirm(true, true)).toBe(true);
+    // Round 21: standalone phone / tablet -> ONE question, then the
+    // "종료가 완료되었습니다" completion guide painted by the exit engine.
+    expect(needsDoubleExitConfirm(true, false)).toBe(false);
+    // Online: one question, whatever the pointer.
+    expect(needsDoubleExitConfirm(false, true)).toBe(false);
+    expect(needsDoubleExitConfirm(false, false)).toBe(false);
+  });
+
+  it('round 21: a phone / tablet app walks "로그아웃 및 종료하시겠습니까?" -> engine in ONE 종료 tap (the guide is the second step)', () => {
+    const doubleConfirm = needsDoubleExitConfirm(true, false);
+    expect(confirmedPath('exit', doubleConfirm)).toEqual(['exit']);
+    expect(confirmedPath('logout', doubleConfirm)).toEqual(['logout', 'exit']);
+    expect(remainingExitConfirmTaps('exit', doubleConfirm)).toBe(EXIT_CONFIRM_TAPS.mobileApp);
+    expect(exitConfirmPosition('exit', doubleConfirm)).toBeNull();
   });
 
   it('opens on the logout question only while signed in', () => {

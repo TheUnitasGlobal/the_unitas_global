@@ -1339,7 +1339,9 @@
     "appExitBody": "Isasara mo na ang app. Ang Lumabas ay patungo sa huling kumpirmasyon; ang Kanselahin ay mag-iiwan sa iyo kung nasaan ka.",
     "appExitFinalTitle": "Pindutin muli ang Lumabas para ganap na isara ang app",
     "appExitFinalBody": "Matatapos ang session na ito at agad na magsasara ang app. Kapag kinansela, walang mangyayari.",
-    "appExitStep": "Hakbang {current} ng {total}"
+    "appExitStep": "Hakbang {current} ng {total}",
+    "appExitDoneTitle": "Kumpleto na ang pagsasara.",
+    "appExitDoneBody": "Mangyaring isara nang ligtas ang app o browser."
   },
   "Civic": {
     "axes": {

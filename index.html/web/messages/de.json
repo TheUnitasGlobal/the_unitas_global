@@ -1339,7 +1339,9 @@
     "appExitBody": "Du bist dabei, die App zu schließen. Beenden führt zu einer letzten Bestätigung; Abbrechen lässt dich genau dort, wo du bist.",
     "appExitFinalTitle": "Drücke noch einmal Beenden, um die App vollständig zu schließen",
     "appExitFinalBody": "Diese Sitzung endet und die App wird sofort geschlossen. Bei Abbrechen passiert nichts.",
-    "appExitStep": "Schritt {current} von {total}"
+    "appExitStep": "Schritt {current} von {total}",
+    "appExitDoneTitle": "Beenden abgeschlossen.",
+    "appExitDoneBody": "Bitte schließen Sie die App oder den Browser sicher."
   },
   "Civic": {
     "axes": {

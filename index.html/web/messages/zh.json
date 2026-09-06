@@ -1339,7 +1339,9 @@
     "appExitBody": "您即将关闭应用。点击退出将进入最终确认；取消则停留在原处。",
     "appExitFinalTitle": "再按一次退出按钮，应用将完全关闭",
     "appExitFinalBody": "本次会话将结束，应用会立即完全关闭。取消则不会发生任何操作。",
-    "appExitStep": "第 {current} / {total} 步"
+    "appExitStep": "第 {current} / {total} 步",
+    "appExitDoneTitle": "已完成退出。",
+    "appExitDoneBody": "请安全地关闭应用或浏览器。"
   },
   "Civic": {
     "axes": {

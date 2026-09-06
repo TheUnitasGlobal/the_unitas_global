@@ -1339,7 +1339,9 @@
     "appExitBody": "Vous êtes sur le point de fermer l’application. Quitter mène à une dernière confirmation ; Annuler vous laisse exactement où vous êtes.",
     "appExitFinalTitle": "Appuyez encore une fois sur Quitter pour fermer complètement l’application",
     "appExitFinalBody": "Cette session se termine et l’application se ferme immédiatement. Annulez et rien ne se passe.",
-    "appExitStep": "Étape {current} sur {total}"
+    "appExitStep": "Étape {current} sur {total}",
+    "appExitDoneTitle": "Fermeture terminée.",
+    "appExitDoneBody": "Veuillez fermer l'application ou le navigateur en toute sécurité."
   },
   "Civic": {
     "axes": {

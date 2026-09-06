@@ -1339,7 +1339,9 @@
     "appExitBody": "Oled sulgemas rakendust. Välju viib viimase kinnituseni; Tühista jätab su täpselt sinna, kus oled.",
     "appExitFinalTitle": "Vajuta veel kord Välju, et rakendus täielikult sulgeda",
     "appExitFinalBody": "See seanss lõpeb ja rakendus sulgub kohe. Tühistamisel ei juhtu midagi.",
-    "appExitStep": "Samm {current} / {total}"
+    "appExitStep": "Samm {current} / {total}",
+    "appExitDoneTitle": "Sulgemine on lõpule viidud.",
+    "appExitDoneBody": "Palun sulgege rakendus või brauser turvaliselt."
   },
   "Civic": {
     "axes": {

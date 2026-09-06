@@ -23,6 +23,20 @@
 // is reversible (the browser's own back button, its history), so a second
 // dialog there would be friction without protection.
 //
+// ROUND 21 (owner instruction 2026-09-06, "모바일 앱 전용 2단계 안심 종료 안내
+// 가이드 팝업"): on a PHONE / TABLET app the two "steps" are no longer two
+// QUESTIONS. Step 1 is the single confirm -- "로그아웃 및 종료하시겠습니까?",
+// the same question the online channel asks -- and step 2 is the COMPLETION
+// GUIDE the exit engine paints once the app is terminated in place
+// ("종료가 완료되었습니다. 안전하게 앱 또는 브라우저를 닫아주시기 바랍니다.",
+// lib/exit/appExit.ts `terminate-guide`). A phone app cannot close its own
+// window, so a second question there only delayed a black screen; the guide
+// instead tells the visitor plainly that the app is finished and that the
+// device's own navigation is the way out. The DESKTOP app window keeps the
+// round-17 double confirm unchanged: its second 종료 genuinely closes the
+// window with `window.close()`, so the two questions guard a real, instant,
+// irreversible close.
+//
 // Pure state machine -- no DOM -- so the sequence is unit-tested in
 // __tests__/exit/exitConfirmFlow.test.ts. ExitGuard
 // (components/interaction/ExitGuard.tsx) is its only renderer; the sealed
@@ -32,17 +46,21 @@
 /** The dialog's steps, in order. `logout` is skipped while signed out. */
 export type ExitConfirmStep = 'logout' | 'exit' | 'exit-final';
 
-/** How many explicit 종료 taps an exit needs on each channel. */
-export const EXIT_CONFIRM_TAPS = { app: 2, online: 1 } as const;
+/** How many explicit 종료 taps an exit needs on each channel. `app` is the
+ *  DESKTOP app window (two questions, then `window.close()`); `mobileApp` is
+ *  a phone / tablet app (one question, then the completion guide). */
+export const EXIT_CONFIRM_TAPS = { app: 2, mobileApp: 1, online: 1 } as const;
 
 /**
- * Pure: does this channel take the second, final confirmation? `standalone`
- * is the App channel (see `isStandaloneApp()` in lib/exit/appExit.ts) --
- * phones, tablets AND desktop app windows alike, since every one of them
- * ends the app for real on the confirmed tap.
+ * Pure: does this channel take the second, final confirmation? Only the
+ * DESKTOP app window does (round 21): `standalone` is the App channel (see
+ * `isStandaloneApp()` in lib/exit/appExit.ts) and `desktopAppWindow` narrows
+ * it to a PC / laptop app window (`isDesktopAppWindow()`), whose confirmed
+ * tap closes the window for real. A phone / tablet app asks once and then
+ * shows the completion guide; the online channel asks once.
  */
-export function needsDoubleExitConfirm(standalone: boolean): boolean {
-  return standalone;
+export function needsDoubleExitConfirm(standalone: boolean, desktopAppWindow: boolean): boolean {
+  return standalone && desktopAppWindow;
 }
 
 /** Pure: the step the dialog opens on. */

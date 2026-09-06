@@ -1339,7 +1339,9 @@
     "appExitBody": "アプリを終了しようとしています。終了を押すと最終確認に進み、キャンセルすると元の場所に留まります。",
     "appExitFinalTitle": "もう一度終了ボタンを押すとアプリが完全に終了します",
     "appExitFinalBody": "このセッションが終了し、アプリはすぐに完全終了します。キャンセルすれば何も起こりません。",
-    "appExitStep": "ステップ {current} / {total}"
+    "appExitStep": "ステップ {current} / {total}",
+    "appExitDoneTitle": "終了が完了しました。",
+    "appExitDoneBody": "アプリまたはブラウザを安全に閉じてください。"
   },
   "Civic": {
     "axes": {

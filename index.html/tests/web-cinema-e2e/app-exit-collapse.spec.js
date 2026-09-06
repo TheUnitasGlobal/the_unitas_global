@@ -1,24 +1,20 @@
 const { test, expect } = require('@playwright/test');
 
-// Round 18 (owner instruction 2026-09-06, "모바일 앱 블랙 스크린 렌더링 프리즈
-// 긴급 패치"): on a PHONE / TABLET app the FINAL exit dialog opens over a
-// pre-collapsed sentinel buffer, so a hardware back press leaves the document
-// at once (the OS finishes the activity) instead of being swallowed by a
-// sentinel; and the second 종료 collapses the WHOLE same-document stack in one
-// hop before terminating.
+// Round 21 (owner instruction 2026-09-06, "모바일 앱 전용 2단계 안심 종료 안내
+// 가이드 팝업 + about:blank 원복"): on a PHONE / TABLET app the exit is ONE
+// confirm ("로그아웃 및 종료하시겠습니까?") and then the COMPLETION GUIDE --
+// the exit engine terminates the app in place (session purge, React unmount,
+// whole-stack collapse, sealed launch entry) and paints a floating
+// glassmorphism card reading "Shutdown complete. Please close the app or
+// browser safely." The document is NEVER navigated to about:blank (round 20
+// reverted). A DESKTOP app window keeps the round-17 two-step confirm and its
+// round-19 black shroud fallback (its window.close() genuinely closes it).
 //
-// Round 20 (owner instruction 2026-09-06, "태스크 스위처 빈 카드 잔류 현상
-// 격멸 -- 강제 탭 폐쇄 패치"): the phone / tablet terminal FRAME is no longer
-// the round-19 black shroud -- the second 종료 now OVERWRITES the window with
-// `about:blank` and strikes `window.close()`, so the OS task-switcher snapshot
-// is a blank frame rather than a rendered app card. The session purge + React
-// unmount still run first. A DESKTOP app window keeps the black shroud (its
-// window.close() genuinely closes it).
-//
-// The App channel is emulated the way round 17 did it: `matchMedia` is patched
-// so `(display-mode: standalone)` matches and the desktop-app query
-// `(hover: hover) and (pointer: fine)` does not.
-// web/lib/exit/appExit.ts, web/components/interaction/ExitGuard.tsx.
+// The App channel is emulated the way rounds 17-20 did it: `matchMedia` is
+// patched so `(display-mode: standalone)` matches; the desktop-app query
+// `(hover: hover) and (pointer: fine)` matches only in the desktop describe.
+// web/lib/exit/appExit.ts, web/lib/exit/exitConfirmFlow.ts,
+// web/components/interaction/ExitGuard.tsx.
 
 const MARKER = 'unitasExitGuard';
 const DEPTH = 'unitasExitDepth';
@@ -33,6 +29,9 @@ const exitPanel = (page) => page.locator('[role="dialog"]', { has: page.locator(
 const confirmButton = (page) => exitPanel(page).locator('button').last();
 /** The dialog's 취소 button -- the first button inside the dialog. */
 const cancelButton = (page) => exitPanel(page).locator('button').first();
+/** Round 21: the completion guide card painted by the exit engine. */
+const guideCard = (page) => page.locator('[data-unitas-exit-guide]');
+const guideTitle = (page) => page.locator('#unitas-exit-guide-title');
 
 const readStack = (page) =>
   page.evaluate(
@@ -44,87 +43,159 @@ const readStack = (page) =>
         sentinelDepth: state && state[marker] ? Number(state[depth]) || 1 : 0,
         sameDocumentIndex: nav && nav.currentEntry ? nav.currentEntry.index : -1,
         terminated: document.documentElement.hasAttribute('data-unitas-terminated'),
+        frame: document.documentElement.getAttribute('data-unitas-terminal-frame'),
         url: location.href,
       };
     },
     { marker: MARKER, depth: DEPTH },
   );
 
-// Chromium only. The mechanics were verified by hand on Playwright's WebKit
-// too (it exposes the Navigation API: collapse -> index 0, 취소 -> depth 12,
-// back -> depth 11), but headless WebKit on this machine intermittently loses
-// its WebGL context when the main site's 3D scene mounts behind the curtain
+// Chromium only. Headless WebKit on this machine intermittently loses its
+// WebGL context when the main site's 3D scene mounts behind the curtain
 // ("WebGL: context lost" -> three.js `getShaderPrecisionFormat` on null ->
 // root error boundary), which tears the page down mid-test. The behaviours
 // asserted here are Android-app semantics anyway: an iOS home-screen app has
 // no hardware back button and exposes no close path at all.
 test.skip(({ browserName }) => browserName === 'webkit', 'headless WebKit WebGL context-loss flake; Android-app semantics');
 
-test.beforeEach(async ({ page }) => {
-  await page.addInitScript(() => {
-    const native = window.matchMedia.bind(window);
-    window.matchMedia = (query) => {
-      if (query.includes('display-mode: standalone')) {
-        return { matches: true, media: query, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, onchange: null, dispatchEvent: () => false };
-      }
-      if (query.includes('pointer: fine')) {
-        return { matches: false, media: query, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, onchange: null, dispatchEvent: () => false };
-      }
-      return native(query);
-    };
-  });
-});
+function patchMatchMedia(page, { finePointer }) {
+  return page.addInitScript(
+    ({ fine }) => {
+      const native = window.matchMedia.bind(window);
+      const stub = (query, matches) => ({
+        matches,
+        media: query,
+        addEventListener() {},
+        removeEventListener() {},
+        addListener() {},
+        removeListener() {},
+        onchange: null,
+        dispatchEvent: () => false,
+      });
+      window.matchMedia = (query) => {
+        if (query.includes('display-mode: standalone')) return stub(query, true);
+        if (query.includes('pointer: fine')) return stub(query, fine);
+        return native(query);
+      };
+    },
+    { fine: finePointer },
+  );
+}
 
-/** Land on the sealed Coming-Soon screen as an installed phone app, with the
- *  sentinel buffer parked by a first activation gesture. */
-async function openSealedApp(page) {
+/** Land on the sealed Coming-Soon screen as an installed app. On a phone app
+ *  the first activation gesture parks the sentinel buffer under the page. */
+async function openSealedApp(page, { expectBuffer = true } = {}) {
   await page.goto('/en?splash=0');
   await page.evaluate(() => sessionStorage.setItem('unitas_cinema_phase', 'sealed'));
   await page.reload();
   await expect(sealedX(page)).toBeVisible({ timeout: 8000 });
-  // First genuine gesture parks the buffer (12 deep) under the page.
   await page.mouse.click(5, 5);
-  await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(SENTINEL_DEPTH);
+  if (expectBuffer) {
+    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(SENTINEL_DEPTH);
+  } else {
+    await page.waitForTimeout(300);
+    expect((await readStack(page)).sentinelDepth).toBe(0);
+  }
 }
 
-test.describe('App channel: final exit dialog pre-collapses the back buffer (round 18)', () => {
-  test('step 1 keeps the buffer (back is swallowed); step 2 collapses it to the real entry while the dialog stays open', async ({ page }) => {
+test.describe('PHONE / TABLET app: one confirm, then the completion guide (round 21)', () => {
+  test.beforeEach(async ({ page }) => {
+    await patchMatchMedia(page, { finePointer: false });
+  });
+
+  test("'X 종료' opens a SINGLE confirm -- no step indicator, no second question -- and back is swallowed while it is open", async ({ page }) => {
     await openSealedApp(page);
     const siteUrl = page.url();
 
-    // 'X 종료' on the App channel opens the two-step confirm (round 17).
     await sealedX(page).dispatchEvent('click');
     await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
+    // The online channel's question, verbatim (en): no "1 / 2" indicator.
+    await expect(exitDialog(page)).toHaveText(/log out and exit/i);
+    await expect(exitPanel(page)).not.toContainText(/Step \d of \d/);
 
-    // Step 1: the buffer is intact -- a back traversal lands on a sentinel
-    // and the visitor stays on the site with the dialog still open.
+    // The buffer is intact -- a back traversal lands on a sentinel and the
+    // visitor stays on the site with the dialog still open.
     expect((await readStack(page)).sentinelDepth).toBe(SENTINEL_DEPTH);
     await page.goBack({ waitUntil: 'commit' }).catch(() => {});
     await page.waitForTimeout(400);
     expect(page.url()).toBe(siteUrl);
     await expect(exitDialog(page)).toBeVisible();
-
-    // Step 1 -> step 2: the tap's activation tops the buffer up, then the
-    // FINAL dialog opens over a collapsed buffer (same-document traversal).
-    await confirmButton(page).click();
-    await expect(exitDialog(page)).toBeVisible();
-    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(0);
-    const collapsed = await readStack(page);
-    expect(collapsed.terminated).toBe(false);
-    expect(collapsed.url).toBe(siteUrl);
-    // Chromium exposes the Navigation API: the app sits on the document's
-    // FIRST entry. (WebKit may lack it -- then -1 is the documented fallback.)
-    expect([0, -1]).toContain(collapsed.sameDocumentIndex);
-    // The dialog is still the final one -- nothing re-rendered underneath.
-    await expect(exitDialog(page)).toBeVisible();
+    expect((await readStack(page)).terminated).toBe(false);
   });
 
-  test('on the final dialog a hardware back press LEAVES the document at once -- no shroud, no extra gesture', async ({ page }) => {
+  test('취소 leaves the visitor exactly where they were, buffer re-parked', async ({ page }) => {
+    await openSealedApp(page);
+    const siteUrl = page.url();
+    await sealedX(page).dispatchEvent('click');
+    await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
+
+    await cancelButton(page).click();
+    await expect(exitDialog(page)).toHaveCount(0, { timeout: 3000 });
+    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(SENTINEL_DEPTH);
+    await page.goBack({ waitUntil: 'commit' }).catch(() => {});
+    await page.waitForTimeout(400);
+    expect(page.url()).toBe(siteUrl);
+    expect((await readStack(page)).terminated).toBe(false);
+    await expect(guideCard(page)).toHaveCount(0);
+  });
+
+  test('종료 terminates in place under the completion GUIDE: localized copy, tree purged, stack collapsed, launch URL sealed -- never about:blank', async ({ page }) => {
+    await openSealedApp(page);
+    const origin = new URL(page.url()).origin;
+    await page.evaluate(() => sessionStorage.setItem('unitas_probe', '1'));
+
+    await sealedX(page).dispatchEvent('click');
+    await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
+    await confirmButton(page).click();
+
+    // The guide card is the terminal frame -- visible, with the locale's copy.
+    await expect(guideCard(page)).toBeVisible({ timeout: 5000 });
+    await expect(guideTitle(page)).toHaveText('Shutdown complete.');
+    await expect(guideCard(page)).toContainText('Please close the app or browser safely.');
+    // It is the centre-most thing on screen: the hit-test at the viewport
+    // centre lands inside the guide frame, never on live app UI.
+    const centreHit = await page.evaluate(() => {
+      const el = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
+      return el ? Boolean(el.closest('[data-unitas-shroud]')) : false;
+    });
+    expect(centreHit).toBe(true);
+
+    // The document is still the app's document -- no navigation away.
+    const done = await readStack(page);
+    expect(done.terminated).toBe(true);
+    expect(done.frame).toBe('guide');
+    expect(done.url).not.toContain('about:blank');
+    // Whole-stack collapse landed on the document's first entry and the
+    // entry was sealed to the clean launch URL (origin + locale root).
+    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 5000 }).toBe(0);
+    await expect.poll(async () => (await readStack(page)).url, { timeout: 5000 }).toBe(`${origin}/en`);
+    expect([0, -1]).toContain((await readStack(page)).sameDocumentIndex);
+
+    // React tree purged (no dialog, no canvas), session purged.
+    const purged = await page.evaluate(() => ({
+      dialog: document.getElementById('exit-guard-title') !== null,
+      canvases: document.querySelectorAll('canvas').length,
+      session: sessionStorage.length,
+      guide: document.querySelectorAll('[data-unitas-exit-guide]').length,
+    }));
+    expect(purged.dialog).toBe(false);
+    expect(purged.canvases).toBe(0);
+    expect(purged.session).toBe(0);
+    expect(purged.guide).toBe(1);
+
+    // Still there a beat later: the fallback step is idempotent (one card).
+    await page.waitForTimeout(700);
+    expect(await page.evaluate(() => document.querySelectorAll('[data-unitas-exit-guide]').length)).toBe(1);
+    expect(page.url()).not.toContain('about:blank');
+  });
+
+  test('after the guide, ONE hardware back press leaves the document (the OS finishes the activity)', async ({ page }) => {
     await openSealedApp(page);
     await sealedX(page).dispatchEvent('click');
     await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
     await confirmButton(page).click();
-    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(0);
+    await expect(guideCard(page)).toBeVisible({ timeout: 5000 });
+    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 5000 }).toBe(0);
 
     // Under Playwright the entry beneath the app's launch entry is the
     // harness's about:blank -- the stand-in for "the OS finishes the
@@ -133,58 +204,10 @@ test.describe('App channel: final exit dialog pre-collapses the back buffer (rou
     await expect.poll(() => page.url(), { timeout: 5000 }).toBe('about:blank');
   });
 
-  test('취소 on the final dialog re-parks the full buffer from its own gesture', async ({ page }) => {
-    await openSealedApp(page);
-    const siteUrl = page.url();
-    await sealedX(page).dispatchEvent('click');
-    await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
-    await confirmButton(page).click();
-    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(0);
-
-    await cancelButton(page).click();
-    await expect(exitDialog(page)).toHaveCount(0, { timeout: 3000 });
-    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(SENTINEL_DEPTH);
-    // ...and a back press is swallowed again: still on the site.
-    await page.goBack({ waitUntil: 'commit' }).catch(() => {});
-    await page.waitForTimeout(400);
-    expect(page.url()).toBe(siteUrl);
-  });
-
-  test('round 20: the second 종료 overwrites the phone-app window with about:blank and strikes window.close()', async ({ page }) => {
-    await openSealedApp(page);
-    await sealedX(page).dispatchEvent('click');
-    await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
-    await confirmButton(page).click();
-    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(0);
-
-    // Final 종료: shell kill (none) -> window.close (refused on a multi-entry
-    // phone PWA) -> the WHOLE stack collapses and the window is OVERWRITTEN
-    // with about:blank, so the OS task-switcher snapshot is a blank frame
-    // instead of a rendered app card (round 20). No black shroud, no sealed
-    // launch URL -- the document is replaced outright.
-    await confirmButton(page).click();
-    await expect.poll(() => page.url(), { timeout: 5000 }).toBe('about:blank');
-
-    // The blank frame is a genuinely empty document -- no app UI, no dialog,
-    // no canvas, nothing for a relaunch snapshot to show but blankness.
-    const blank = await page.evaluate(() => ({
-      body: document.body ? document.body.innerHTML.trim() : null,
-      dialog: document.getElementById('exit-guard-title') !== null,
-      canvases: document.querySelectorAll('canvas').length,
-    }));
-    expect(blank.body).toBe('');
-    expect(blank.dialog).toBe(false);
-    expect(blank.canvases).toBe(0);
-  });
-
-  test('round 20: termination purges the session and unmounts the tree BEFORE the blank overwrite', async ({ page }) => {
+  test('termination purges the session and unmounts the tree on the confirmed tap (terminate event, session 0)', async ({ page }) => {
     await openSealedApp(page);
     await page.evaluate(() => sessionStorage.setItem('unitas_probe', '1'));
 
-    // Capture the state at the exact moment the terminate pipeline fires --
-    // before about:blank replaces the document and wipes our JS context.
-    // `clearSession()` runs before `announceTerminate()` in
-    // terminateWithBlankClose, so the session is already empty here.
     let terminateFired = false;
     let sessionLenAtTerminate = -1;
     await page.exposeFunction('__recordTerminate', (len) => {
@@ -198,15 +221,41 @@ test.describe('App channel: final exit dialog pre-collapses the back buffer (rou
     await sealedX(page).dispatchEvent('click');
     await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
     await confirmButton(page).click();
-    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(0);
-    await confirmButton(page).click();
 
-    // The terminate event fired (React tree unmounted through
-    // TerminationBoundary) and the session was already purged when it did.
     await expect.poll(() => terminateFired, { timeout: 5000 }).toBe(true);
     expect(sessionLenAtTerminate).toBe(0);
+    await expect(guideCard(page)).toBeVisible({ timeout: 5000 });
+  });
+});
 
-    // ...and the window then lands on the blank overwrite.
-    await expect.poll(() => page.url(), { timeout: 5000 }).toBe('about:blank');
+test.describe('DESKTOP app window: two-step confirm and the black shroud fallback stay as they were (round 21, item 2)', () => {
+  test.beforeEach(async ({ page }) => {
+    await patchMatchMedia(page, { finePointer: true });
+  });
+
+  test('asks twice ("1 / 2" -> "2 / 2"), then window.close() -- refused under the harness -> black shroud, no guide, no about:blank', async ({ page }) => {
+    // A desktop app window never parks the sentinel buffer (round 15).
+    await openSealedApp(page, { expectBuffer: false });
+
+    await sealedX(page).dispatchEvent('click');
+    await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
+    await expect(exitPanel(page)).toContainText(/Step 1 of 2/);
+    await confirmButton(page).click();
+    await expect(exitDialog(page)).toBeVisible();
+    await expect(exitPanel(page)).toContainText(/Step 2 of 2/);
+
+    // Second 종료: shell kill (none) -> window.close() (the harness page holds
+    // more than one entry, so it is refused) -> round-19 shroud, in place.
+    await confirmButton(page).click();
+    await expect.poll(async () => (await readStack(page)).terminated, { timeout: 5000 }).toBe(true);
+    const done = await readStack(page);
+    expect(done.frame).toBe('shroud');
+    expect(done.url).not.toContain('about:blank');
+    await expect(guideCard(page)).toHaveCount(0);
+    const shroud = await page.evaluate(() => {
+      const el = document.querySelector('[data-unitas-shroud]');
+      return el ? getComputedStyle(el).backgroundColor : null;
+    });
+    expect(shroud).toBe('rgb(0, 0, 0)');
   });
 });

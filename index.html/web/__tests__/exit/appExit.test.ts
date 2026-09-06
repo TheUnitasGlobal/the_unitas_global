@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import {
   APP_EXIT_EVENT,
   APP_TERMINATE_EVENT,
-  BLANK_TERMINAL_URL,
+  DEFAULT_TERMINAL_GUIDE,
   EXIT_GUARD_ACTIVATION_EVENTS,
   EXIT_GUARD_BOOTSTRAP,
   EXIT_GUARD_DEPTH_KEY,
@@ -13,6 +13,9 @@ import {
   NATIVE_EXIT_MESSAGE,
   NEXT_ROUTER_STATE_FLAG,
   NEXT_ROUTER_TREE_KEY,
+  TERMINAL_FRAME_ATTR,
+  TERMINAL_GUIDE_ATTR,
+  TERMINAL_GUIDE_TITLE_ID,
   TERMINAL_MARK_HREF,
   TERMINAL_SHROUD_ATTR,
   TERMINATED_ATTR,
@@ -22,6 +25,7 @@ import {
   planStackCollapse,
   readHistoryStackView,
   readSentinelDepth,
+  resolveTerminalGuideCopy,
   sealedHistoryState,
   sealedLaunchUrl,
   type ExitEnvironment,
@@ -60,7 +64,7 @@ describe('sovereign omni-channel exit planner', () => {
       expect(plan.fallback).toEqual({ kind: 'terminate' });
       expect(JSON.stringify(plan)).not.toContain('about:blank');
       expect(JSON.stringify(plan)).not.toContain('navigate');
-      expect(JSON.stringify(plan)).not.toContain('blank-terminate');
+      expect(JSON.stringify(plan)).not.toContain('terminate-guide');
     });
 
     it('ignores the referrer entirely -- an app has no "previous page"', () => {
@@ -79,48 +83,91 @@ describe('sovereign omni-channel exit planner', () => {
       expect(JSON.stringify(plan)).not.toContain('navigate');
     });
 
-    it('round 20: a PHONE app with its back buffer parked and no shell overwrites with about:blank ON THE TAP -- no settle wait', () => {
+    it('round 21: a PHONE app with its back buffer parked and no shell shows the completion GUIDE ON THE TAP -- no settle wait', () => {
       // Chromium / WebKit refuse window.close() on a multi-entry window
       // without exception, so waiting LEAVE_SETTLE_MS only shows a hang.
       const plan = planExit(env({ standalone: true, historyLength: 13, sentinelDepth: 12 }));
       expect(plan.channel).toBe('app');
-      expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }, { kind: 'blank-terminate' }]);
-      expect(plan.fallback).toEqual({ kind: 'blank-terminate' });
+      expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }, { kind: 'terminate-guide' }]);
+      expect(plan.fallback).toEqual({ kind: 'terminate-guide' });
       // Even a two-entry phone window (an app that opened a tower) is certain.
-      expect(planExit(env({ standalone: true, historyLength: 2 })).immediate).toContainEqual({ kind: 'blank-terminate' });
+      expect(planExit(env({ standalone: true, historyLength: 2 })).immediate).toContainEqual({ kind: 'terminate-guide' });
     });
 
-    it('round 20: a native shell is trusted to kill the process -- no in-place overwrite on the tap', () => {
+    it('round 21: a native shell is trusted to kill the process -- no in-place frame on the tap', () => {
       const plan = planExit(env({ standalone: true, historyLength: 13, sentinelDepth: 12, nativeBridge: true }));
       expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
-      // The fallback is still the mobile blank overwrite should the bridge fail.
-      expect(plan.fallback).toEqual({ kind: 'blank-terminate' });
+      // The fallback is still the mobile guide should the bridge fail.
+      expect(plan.fallback).toEqual({ kind: 'terminate-guide' });
     });
 
     it('round 16: a single-entry desktop app window keeps the genuine window.close() path (PC app unchanged)', () => {
       const plan = planExit(env({ standalone: true, desktopAppWindow: true, historyLength: 1 }));
       expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
       expect(plan.immediate).not.toContainEqual({ kind: 'terminate' });
-      expect(plan.immediate).not.toContainEqual({ kind: 'blank-terminate' });
+      expect(plan.immediate).not.toContainEqual({ kind: 'terminate-guide' });
     });
 
-    it('round 20: the mobile blank overwrite targets about:blank (never a URL the seal would keep)', () => {
-      expect(BLANK_TERMINAL_URL).toBe('about:blank');
-      // about:blank is exactly what the round-19 seal REFUSES, so the two
-      // paths can never be confused for one another.
-      expect(sealedLaunchUrl(BLANK_TERMINAL_URL)).toBeNull();
+    it('round 21: NO plan on any channel ever navigates the document away -- about:blank is gone for good', () => {
+      const plans = [
+        planExit(env({ standalone: true, historyLength: 13, sentinelDepth: 12 })),
+        planExit(env({ standalone: true, desktopAppWindow: true, historyLength: 13, sentinelDepth: 12 })),
+        planExit(env({ standalone: true, historyLength: 1 })),
+        planExit(env({ historyLength: 13, sentinelDepth: 12 })),
+        planExit(env({ historyLength: 1 })),
+      ];
+      for (const plan of plans) {
+        const json = JSON.stringify(plan);
+        expect(json).not.toContain('about:blank');
+        expect(json).not.toContain('blank');
+      }
     });
 
-    it('round 20: the terminal step splits by device -- desktop keeps the black shroud, mobile overwrites with about:blank', () => {
+    it('round 21: the terminal step splits by device -- desktop keeps the black shroud, mobile shows the completion guide', () => {
       const desktop = planExit(env({ standalone: true, desktopAppWindow: true, historyLength: 13, sentinelDepth: 12 }));
       expect(desktop.immediate).toContainEqual({ kind: 'terminate' });
-      expect(desktop.immediate).not.toContainEqual({ kind: 'blank-terminate' });
+      expect(desktop.immediate).not.toContainEqual({ kind: 'terminate-guide' });
       expect(desktop.fallback).toEqual({ kind: 'terminate' });
 
       const mobile = planExit(env({ standalone: true, desktopAppWindow: false, historyLength: 13, sentinelDepth: 12 }));
-      expect(mobile.immediate).toContainEqual({ kind: 'blank-terminate' });
+      expect(mobile.immediate).toContainEqual({ kind: 'terminate-guide' });
       expect(mobile.immediate).not.toContainEqual({ kind: 'terminate' });
-      expect(mobile.fallback).toEqual({ kind: 'blank-terminate' });
+      expect(mobile.fallback).toEqual({ kind: 'terminate-guide' });
+    });
+  });
+
+  describe('mobile completion guide copy (round 21)', () => {
+    it('ships an English default and diagnostic hooks for the guide frame', () => {
+      expect(DEFAULT_TERMINAL_GUIDE.title.length).toBeGreaterThan(0);
+      expect(DEFAULT_TERMINAL_GUIDE.body.length).toBeGreaterThan(0);
+      expect(TERMINAL_GUIDE_ATTR).toMatch(/^data-unitas-/);
+      expect(TERMINAL_FRAME_ATTR).toMatch(/^data-unitas-/);
+      expect(TERMINAL_GUIDE_ATTR).not.toBe(TERMINAL_SHROUD_ATTR);
+      expect(TERMINAL_FRAME_ATTR).not.toBe(TERMINATED_ATTR);
+      expect(TERMINAL_GUIDE_TITLE_ID).toMatch(/^unitas-/);
+    });
+
+    it('takes the localized copy as given, trimmed', () => {
+      expect(
+        resolveTerminalGuideCopy({ title: ' 종료가 완료되었습니다. ', body: '안전하게 앱 또는 브라우저를 닫아주시기 바랍니다.' }),
+      ).toEqual({ title: '종료가 완료되었습니다.', body: '안전하게 앱 또는 브라우저를 닫아주시기 바랍니다.' });
+    });
+
+    it('never paints an empty title or body -- each field falls back to the English default on its own', () => {
+      expect(resolveTerminalGuideCopy(undefined)).toEqual(DEFAULT_TERMINAL_GUIDE);
+      expect(resolveTerminalGuideCopy(null)).toEqual(DEFAULT_TERMINAL_GUIDE);
+      expect(resolveTerminalGuideCopy({})).toEqual(DEFAULT_TERMINAL_GUIDE);
+      expect(resolveTerminalGuideCopy({ title: '   ', body: '' })).toEqual(DEFAULT_TERMINAL_GUIDE);
+      expect(resolveTerminalGuideCopy({ title: '終了が完了しました。' })).toEqual({
+        title: '終了が完了しました。',
+        body: DEFAULT_TERMINAL_GUIDE.body,
+      });
+      // A missing-key placeholder from i18n is still a non-empty string and is
+      // shown as-is (the locale files carry the key for all 20 locales).
+      expect(resolveTerminalGuideCopy({ title: 42 as unknown as string, body: 'x' })).toEqual({
+        title: DEFAULT_TERMINAL_GUIDE.title,
+        body: 'x',
+      });
     });
   });
 
