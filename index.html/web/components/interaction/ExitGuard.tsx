@@ -10,6 +10,7 @@ import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { getGateOwner } from '@/lib/uiGate';
 import {
+  EXIT_GUARD_ACTIVATION_EVENTS,
   EXIT_GUARD_DEPTH_KEY,
   EXIT_GUARD_MARKER,
   EXIT_GUARD_SENTINEL_DEPTH,
@@ -210,8 +211,10 @@ function refillSentinels(): void {
  * `mousedown`, a non-mouse `pointerup`, `touchend`, `click`, `keydown`. A
  * touch `pointerdown` / `touchstart` is deliberately NOT here -- it carries
  * no activation, and a sentinel pushed inside it would be born skippable.
+ * Owned by lib/exit/appExit.ts so the pre-hydration head bootstrap
+ * (`EXIT_GUARD_BOOTSTRAP`) listens for exactly the same gestures.
  */
-const ACTIVATION_EVENTS = ['mousedown', 'pointerup', 'touchend', 'click', 'keydown'] as const;
+const ACTIVATION_EVENTS = EXIT_GUARD_ACTIVATION_EVENTS;
 
 /**
  * Sovereign exit confirm -- one dialog, every trigger, every channel.
@@ -247,6 +250,17 @@ const ACTIVATION_EVENTS = ['mousedown', 'pointerup', 'touchend', 'click', 'keydo
  * before the first touch would be silently ignored. A back press on the 3s
  * logo page before the visitor has touched anything therefore stays native;
  * that is a browser-level limit, not a bug to retry.
+ *
+ * THE LOGO PAGE (round 16, owner instruction 2026-09-05 mobile-app
+ * hardening, item 1): this component lives inside the `[locale]` layout and
+ * hydrates LATE on a phone -- often after most of the 3s logo page -- so a
+ * tap on the logo page used to arm nothing and the next hardware back press
+ * finished the installed app. The head bootstrap `EXIT_GUARD_BOOTSTRAP`
+ * (lib/exit/appExit.ts, injected by app/layout.tsx) now parks the very
+ * same buffer from the first gesture of the document; on mount this
+ * component adopts whatever depth it finds (listens for traversals at once,
+ * pushes nothing until the next gesture) and raises `__unitasExitGuardLive`
+ * so the bootstrap stands down.
  *
  * PC: the native right-click context menu is left intact (round 13) -- its
  * 뒤로가기 / 앞으로가기 are neutralised by the buffer, not by hiding the
@@ -296,6 +310,11 @@ export function ExitGuard() {
   useEffect(() => {
     if (!shouldArmBackGuard()) return;
 
+    // Round 16 (item 1): from here on the React guard owns the buffer; the
+    // pre-hydration head bootstrap (lib/exit/appExit.ts EXIT_GUARD_BOOTSTRAP)
+    // stands down on its next gesture.
+    window.__unitasExitGuardLive = true;
+
     let phase = readCinemaPhase();
     let armed = false;
 
@@ -306,10 +325,10 @@ export function ExitGuard() {
       refillSentinels();
     };
 
-    const arm = () => {
+    const arm = (push: boolean) => {
       if (armed) return;
       armed = true;
-      topUp();
+      if (push) topUp();
       guardReadyAtRef.current = Date.now() + SPURIOUS_POP_GRACE_MS;
       window.addEventListener('popstate', onPop);
     };
@@ -326,7 +345,7 @@ export function ExitGuard() {
       // own back handler is collapsing (round 15).
       if (leavingRef.current || isExitInProgress()) return;
       if (!armed) {
-        arm();
+        arm(true);
         return;
       }
       topUp();
@@ -364,6 +383,14 @@ export function ExitGuard() {
     for (const type of ACTIVATION_EVENTS) window.addEventListener(type, onActivation, gestureOpts);
     window.addEventListener(CINEMA_PHASE_EVENT, onPhase);
 
+    // Round 16 (item 1): the head bootstrap may already have parked the
+    // buffer on a gesture that landed BEFORE this component hydrated (a tap
+    // on the 3s logo page). Adopt it: listen for traversals from this very
+    // moment so a back press inside that buffer is handled here, but push
+    // NOTHING -- a sentinel must be born inside an activation gesture, and
+    // the next gesture tops the buffer up through `onActivation` anyway.
+    if (!isExitInProgress() && currentDepth() > 0) arm(false);
+
     // Re-open the grace window whenever the tab/app regains visibility (the
     // PWA-resume moment that can replay a synthetic pop).
     const onVisible = () => {
@@ -387,6 +414,7 @@ export function ExitGuard() {
     window.addEventListener('beforeunload', onBeforeUnload);
 
     return () => {
+      delete window.__unitasExitGuardLive;
       for (const type of ACTIVATION_EVENTS) window.removeEventListener(type, onActivation, gestureOpts);
       window.removeEventListener(CINEMA_PHASE_EVENT, onPhase);
       window.removeEventListener('popstate', onPop);

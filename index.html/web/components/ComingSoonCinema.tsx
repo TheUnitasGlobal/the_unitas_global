@@ -1390,11 +1390,17 @@ export function ComingSoonCinema() {
                         there); where a runtime still refuses (a phone /
                         tablet app with its hardware-back buffer parked, an
                         iOS home-screen app) the app is terminated IN PLACE
-                        (audio silenced, opaque black shroud, one back press
-                        collapses the buffer so the next lets the OS finish
-                        the activity, fresh session only on the next
-                        foreground resume); online -> back to the page the
-                        visitor came from / close the fresh tab. */}
+                        (audio silenced, opaque black shroud, fresh session
+                        only on the next foreground resume); online -> back
+                        to the page the visitor came from / close the fresh
+                        tab.
+
+                        ROUND 16 (mobile-app hardening, item 2): a certain
+                        refusal (no native shell, multi-entry history) is
+                        decided ON THE TAP -- no settle wait -- and the
+                        sentinel buffer collapses to the real entry at once,
+                        so the very next hardware back press lets the OS
+                        finish the activity. */}
                     <button
                       type="button"
                       onMouseEnter={() => playHoverSfx()}

@@ -4,6 +4,7 @@ import { Cinzel, JetBrains_Mono } from 'next/font/google';
 import { SceneLazy } from '@/components/canvas/SceneLazy';
 import { SpatialAudioProvider } from '@/components/audio/SpatialAudioProvider';
 import { CinematicIntroSplash } from '@/components/splash/CinematicIntroSplash';
+import { EXIT_GUARD_BOOTSTRAP } from '@/lib/exit/appExit';
 import { PWA_CAPTURE_BOOTSTRAP } from '@/lib/pwa/installPrompt';
 import { PWA_ICON_VERSION, PWA_MANIFEST_HREF, pwaIconHref } from '@/lib/pwa/iconVersion';
 import './globals.css';
@@ -94,6 +95,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             React mounts (it fires once, early), registers /sw.js on load, and
             stamps data-splash="off" for ?splash=0. See lib/pwa/installPrompt.ts. */}
         <script id="unitas-pwa-bootstrap" dangerouslySetInnerHTML={{ __html: PWA_CAPTURE_BOOTSTRAP }} />
+        {/* Pre-hydration back-guard bootstrap (round 16, item 1): parks the
+            hardware-back sentinel buffer on the visitor's FIRST gesture --
+            on the 3s logo page, before ExitGuard has hydrated on a phone --
+            so a back press there never finishes the installed app. Stands
+            down once ExitGuard mounts. See lib/exit/appExit.ts. */}
+        <script id="unitas-exit-guard-bootstrap" dangerouslySetInnerHTML={{ __html: EXIT_GUARD_BOOTSTRAP }} />
       </head>
       <body className="min-h-screen bg-void font-sans text-gray-200 antialiased">
         <script

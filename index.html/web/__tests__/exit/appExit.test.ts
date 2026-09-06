@@ -1,11 +1,15 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
   APP_EXIT_EVENT,
+  EXIT_GUARD_ACTIVATION_EVENTS,
+  EXIT_GUARD_BOOTSTRAP,
   EXIT_GUARD_DEPTH_KEY,
+  EXIT_GUARD_LIVE_FLAG,
   EXIT_GUARD_MARKER,
   EXIT_GUARD_SENTINEL_DEPTH,
   LEAVE_SETTLE_MS,
   NATIVE_EXIT_MESSAGE,
+  TERMINATED_ATTR,
   findNativeExitBridge,
   isExternalReferrer,
   planExit,
@@ -48,13 +52,196 @@ describe('sovereign omni-channel exit planner', () => {
       expect(JSON.stringify(plan)).not.toContain('navigate');
     });
 
-    it('ignores history/referrer entirely -- an app has no "previous page"', () => {
+    it('ignores the referrer entirely -- an app has no "previous page"', () => {
       const plan = planExit(
-        env({ standalone: true, historyLength: 7, sentinelDepth: 12, referrer: 'https://www.google.com/search?q=unitas' }),
+        env({ standalone: true, historyLength: 1, sentinelDepth: 0, referrer: 'https://www.google.com/search?q=unitas' }),
       );
       expect(plan.channel).toBe('app');
       expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
       expect(plan.fallback).toEqual({ kind: 'terminate' });
+      expect(JSON.stringify(plan)).not.toContain('navigate');
+    });
+
+    it('round 16 (item 2): a phone app with its back buffer parked and no shell terminates ON THE TAP -- no settle wait', () => {
+      // Chromium / WebKit refuse window.close() on a multi-entry window
+      // without exception, so waiting LEAVE_SETTLE_MS only shows a hang.
+      const plan = planExit(env({ standalone: true, historyLength: 13, sentinelDepth: 12 }));
+      expect(plan.channel).toBe('app');
+      expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }, { kind: 'terminate' }]);
+      expect(plan.fallback).toEqual({ kind: 'terminate' });
+      // Even a two-entry window (a desktop app that opened a tower) is certain.
+      expect(planExit(env({ standalone: true, historyLength: 2 })).immediate).toContainEqual({ kind: 'terminate' });
+    });
+
+    it('round 16: a native shell is trusted to kill the process -- no in-place termination on the tap', () => {
+      const plan = planExit(env({ standalone: true, historyLength: 13, sentinelDepth: 12, nativeBridge: true }));
+      expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
+      expect(plan.fallback).toEqual({ kind: 'terminate' });
+    });
+
+    it('round 16: a single-entry desktop app window keeps the genuine window.close() path (PC app unchanged)', () => {
+      const plan = planExit(env({ standalone: true, historyLength: 1 }));
+      expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
+      expect(plan.immediate).not.toContainEqual({ kind: 'terminate' });
+    });
+  });
+
+  describe('pre-hydration back-guard bootstrap (round 16, item 1)', () => {
+    type Listener = (e?: unknown) => void;
+
+    /** Minimal browser stand-in: enough `window` / `history` / `document` for
+     *  the ES5 bootstrap to run under Node. */
+    function makeHost(opts: { standalone?: boolean; finePointer?: boolean; state?: unknown } = {}) {
+      const listeners = new Map<string, Set<Listener>>();
+      const entries: unknown[] = [opts.state ?? null];
+      let index = 0;
+      const history = {
+        get state() {
+          return entries[index];
+        },
+        get length() {
+          return entries.length;
+        },
+        pushState(data: unknown) {
+          entries.splice(index + 1);
+          entries.push(data);
+          index = entries.length - 1;
+        },
+      };
+      const media = (q: string) => {
+        if (q.includes('display-mode')) return { matches: q.includes('standalone') && opts.standalone === true };
+        if (q.includes('pointer: fine')) return { matches: opts.finePointer === true };
+        return { matches: false };
+      };
+      const documentElement = {
+        attrs: new Set<string>(),
+        hasAttribute(name: string) {
+          return this.attrs.has(name);
+        },
+      };
+      const window: Record<string, unknown> = {
+        history,
+        matchMedia: media,
+        addEventListener(type: string, fn: Listener) {
+          if (!listeners.has(type)) listeners.set(type, new Set());
+          listeners.get(type)!.add(fn);
+        },
+        removeEventListener(type: string, fn: Listener) {
+          listeners.get(type)?.delete(fn);
+        },
+      };
+      const document = { documentElement };
+      const navigator = { standalone: false };
+      const fire = (type: string) => {
+        for (const fn of Array.from(listeners.get(type) ?? [])) fn({ type });
+      };
+      const listenerCount = () => Array.from(listeners.values()).reduce((n, set) => n + set.size, 0);
+      return { window, document, navigator, history, entries, fire, listenerCount, documentElement };
+    }
+
+    function run(host: ReturnType<typeof makeHost>) {
+      // The bootstrap only touches these four globals.
+      new Function('window', 'document', 'history', 'navigator', EXIT_GUARD_BOOTSTRAP)(
+        host.window,
+        host.document,
+        host.history,
+        host.navigator,
+      );
+    }
+
+    it('is dependency-free ES5 that parses and never throws on a bare host', () => {
+      expect(() => new Function(EXIT_GUARD_BOOTSTRAP)).not.toThrow();
+      expect(() => new Function('window', 'document', 'history', 'navigator', EXIT_GUARD_BOOTSTRAP)({}, {}, {}, {})).not.toThrow();
+      expect(EXIT_GUARD_BOOTSTRAP).not.toContain('=>');
+      expect(EXIT_GUARD_BOOTSTRAP).not.toMatch(/\b(let|const)\b/);
+    });
+
+    it('parks nothing on load, then the full buffer on the FIRST activation gesture -- with ExitGuard\'s exact sentinel shape', () => {
+      const host = makeHost();
+      run(host);
+      expect(host.history.length).toBe(1);
+      expect(host.listenerCount()).toBe(EXIT_GUARD_ACTIVATION_EVENTS.length);
+
+      host.fire('touchend');
+      expect(host.history.length).toBe(1 + EXIT_GUARD_SENTINEL_DEPTH);
+      host.entries.slice(1).forEach((state, i) => {
+        expect(readSentinelDepth(state, EXIT_GUARD_MARKER, EXIT_GUARD_DEPTH_KEY)).toBe(i + 1);
+      });
+      // A later gesture tops up but never over-fills.
+      host.fire('click');
+      expect(host.history.length).toBe(1 + EXIT_GUARD_SENTINEL_DEPTH);
+    });
+
+    it('stamps every sentinel with Next.js app-router\'s `__NA` so a popstate onto it restores instead of reloading (Next 14.2 private flag)', () => {
+      const host = makeHost();
+      run(host);
+      host.fire('pointerup');
+      for (const state of host.entries.slice(1)) {
+        expect((state as Record<string, unknown>).__NA).toBe(true);
+      }
+      // Existing state (the Next tree after hydration) is carried along.
+      const seeded = makeHost({ state: { __NA: true, __PRIVATE_NEXTJS_INTERNALS_TREE: ['', {}], custom: 1 } });
+      run(seeded);
+      seeded.fire('mousedown');
+      const top = seeded.entries[seeded.entries.length - 1] as Record<string, unknown>;
+      expect(top.__PRIVATE_NEXTJS_INTERNALS_TREE).toEqual(['', {}]);
+      expect(top.custom).toBe(1);
+      expect(top[EXIT_GUARD_MARKER]).toBe(true);
+      expect(top[EXIT_GUARD_DEPTH_KEY]).toBe(EXIT_GUARD_SENTINEL_DEPTH);
+    });
+
+    it('listens for exactly the activation-triggering events (no touchstart / pointerdown)', () => {
+      expect([...EXIT_GUARD_ACTIVATION_EVENTS]).toEqual(['mousedown', 'pointerup', 'touchend', 'click', 'keydown']);
+      for (const type of EXIT_GUARD_ACTIVATION_EVENTS) expect(EXIT_GUARD_BOOTSTRAP).toContain(`"${type}"`);
+      expect(EXIT_GUARD_BOOTSTRAP).not.toContain('touchstart');
+      expect(EXIT_GUARD_BOOTSTRAP).not.toContain('pointerdown');
+      const host = makeHost();
+      run(host);
+      host.fire('touchstart');
+      host.fire('pointerdown');
+      expect(host.history.length).toBe(1);
+    });
+
+    it('never arms a DESKTOP app window (single entry keeps window.close() genuine), but does arm a phone / tablet app', () => {
+      const desktop = makeHost({ standalone: true, finePointer: true });
+      run(desktop);
+      expect(desktop.listenerCount()).toBe(0);
+      desktop.fire('mousedown');
+      expect(desktop.history.length).toBe(1);
+
+      const phone = makeHost({ standalone: true, finePointer: false });
+      run(phone);
+      phone.fire('touchend');
+      expect(phone.history.length).toBe(1 + EXIT_GUARD_SENTINEL_DEPTH);
+    });
+
+    it('stands down once ExitGuard is live, never pushes over a foreign unitas* entry, never after termination', () => {
+      const live = makeHost();
+      run(live);
+      (live.window as Record<string, unknown>)[EXIT_GUARD_LIVE_FLAG] = true;
+      live.fire('click');
+      expect(live.history.length).toBe(1);
+      expect(live.listenerCount()).toBe(0);
+
+      const tower = makeHost({ state: { unitasDialogTower: true } });
+      run(tower);
+      tower.fire('click');
+      expect(tower.history.length).toBe(1);
+
+      const dead = makeHost();
+      run(dead);
+      dead.documentElement.attrs.add(TERMINATED_ATTR);
+      dead.fire('click');
+      expect(dead.history.length).toBe(1);
+    });
+
+    it('resumes from a partly consumed buffer (back presses stepped down) without re-parking from scratch', () => {
+      const host = makeHost({ state: { [EXIT_GUARD_MARKER]: true, [EXIT_GUARD_DEPTH_KEY]: 9 } });
+      run(host);
+      host.fire('keydown');
+      // 9 -> 12: exactly three new entries above the current one.
+      expect(host.history.length).toBe(1 + 3);
+      expect(readSentinelDepth(host.history.state, EXIT_GUARD_MARKER, EXIT_GUARD_DEPTH_KEY)).toBe(EXIT_GUARD_SENTINEL_DEPTH);
     });
   });
 

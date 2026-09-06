@@ -43,20 +43,43 @@
 //          round-10/11 fallback the owner rejected as "리다이렉트"): the tab's
 //          session is wiped, every audio engine is told to stop, and an
 //          opaque black shroud covers the document -- the app is visibly
-//          over, no dead-end notice, no `about:blank`. While the shroud is
-//          up the FIRST hardware back press collapses the whole sentinel
-//          buffer to the app's real entry, so the very next press lets the
-//          OS finish the activity (round 15) -- the visitor is never asked
-//          to mash back a dozen times through a dead app. The next time the
-//          OS brings that document back to the foreground (a launcher tap on
-//          the still-resident activity, a bfcache restore) it reloads itself
-//          into a brand-new session that opens on the logo splash, under the
-//          round-11 re-entry reset doctrine (lib/pwa/installPrompt.ts).
+//          over, no dead-end notice, no `about:blank`.
+//
+//          ROUND 16 (owner instruction 2026-09-05, mobile-app hardening,
+//          item 2 -- "까만 화면으로 1차 이동되어 멈추는" on a phone): the
+//          refusal is DECIDED SYNCHRONOUSLY, inside the gesture, whenever it
+//          is certain -- no native shell answered and the window's session
+//          history holds more than one entry (Chromium and WebKit both
+//          refuse `window.close()` on such a window, without exception) --
+//          so the terminal state is reached on the very tap, with none of
+//          the LEAVE_SETTLE_MS wait that used to read as a hang. And the
+//          sentinel buffer is collapsed to the app's real entry AT ONCE
+//          (round 15 collapsed it lazily, on the first back press): the
+//          terminated app now sits on its single real entry, so ONE
+//          hardware back press lets the OS finish the activity -- the
+//          fastest exit a web page can give a phone that has no shell to
+//          kill its process. The next time the OS brings that document back
+//          to the foreground (a launcher tap on the still-resident activity,
+//          a bfcache restore) it reloads itself into a brand-new session
+//          that opens on the logo splash, under the round-11 re-entry reset
+//          doctrine (lib/pwa/installPrompt.ts).
+//
+//   The single web-platform limit this file cannot cross (stated here so it
+//   is never "fixed" again by dropping the guard): an installed PHONE app
+//   must keep extra history entries under itself to intercept the hardware
+//   back button at all, and `window.close()` is honoured ONLY on a
+//   single-entry window -- so on a phone without a native shell "back opens
+//   the exit confirm" and "종료 closes the process outright" cannot both be
+//   true. The buffer wins (owner instruction, rounds 11 + 14 + 16 item 1);
+//   the native bridges above are the path to a true process kill.
 //
 // `planExit()` is pure (no DOM) so the branching is unit-tested in
 // __tests__/exit/appExit.test.ts; `executeAppExit()` is the thin browser
 // runner around it. `findNativeExitBridge()` is pure over a host object for
-// the same reason.
+// the same reason. `EXIT_GUARD_BOOTSTRAP` (bottom of this file) is the
+// pre-hydration twin of ExitGuard's sentinel arming, injected into <head>
+// by app/layout.tsx so the very first tap on the 3s logo page already
+// parks the buffer -- long before the React tree has hydrated on a phone.
 
 export type ExitChannel = 'app' | 'online';
 
@@ -100,6 +123,9 @@ export interface ExitEnvironment {
   referrer: string;
   /** `location.origin` -- a same-origin referrer is not "the previous site". */
   origin: string;
+  /** A native container exit API is present on the host (see
+   *  `findNativeExitBridge`). Omitted / false = plain browser or PWA. */
+  nativeBridge?: boolean;
 }
 
 export type ExitStep =
@@ -146,14 +172,22 @@ export function isExternalReferrer(referrer: string, origin: string): boolean {
  */
 export function planExit(env: ExitEnvironment): ExitPlan {
   if (env.standalone) {
+    // Round 15: the native shell's exit API first (kills the process
+    // outright inside a container), then the web window close.
+    const immediate: ExitStep[] = [{ kind: 'native-exit' }, { kind: 'close' }];
+    // Round 16 (item 2): when no shell can kill the process AND the window's
+    // session history holds more than one entry, `window.close()` is
+    // refused by every engine without exception -- the phone / tablet app
+    // with its hardware-back buffer parked, a desktop app window that has
+    // opened a tower. Waiting LEAVE_SETTLE_MS to "find out" only shows the
+    // visitor a frozen page; terminate on the tap itself instead.
+    if (!env.nativeBridge && env.historyLength > 1) immediate.push({ kind: 'terminate' });
     return {
       channel: 'app',
-      // Round 15: the native shell's exit API first (kills the process
-      // outright inside a container), then the web window close.
-      immediate: [{ kind: 'native-exit' }, { kind: 'close' }],
+      immediate,
       // Round 13: a refused close TERMINATES the app in place (session wiped,
       // audio silenced, black shroud) -- never a restart on the logo splash,
-      // never `about:blank`.
+      // never `about:blank`. (Idempotent when the immediate step already ran.)
       fallback: { kind: 'terminate' },
     };
   }
@@ -424,21 +458,37 @@ function terminateInPlace(): void {
     window.addEventListener('pageshow', (e) => {
       if ((e as PageTransitionEvent).persisted) revive();
     });
-    // Round 15: a terminated app must not need a dozen back presses to die.
-    // ExitGuard parks a deep sentinel buffer under the page (phones /
-    // tablets); the FIRST hardware back press after termination lands on a
-    // sentinel, and we immediately collapse the rest of the buffer to the
-    // app's real entry (a traversal needs no activation). The very NEXT back
-    // press then leaves the document -- on an installed app the OS finishes
-    // the activity, in a tab the browser goes to the page before the site.
+    // Round 16 (item 2): a terminated app must die on the very NEXT back
+    // press. ExitGuard parks a deep sentinel buffer under the page (phones /
+    // tablets), so collapse the whole buffer to the app's real entry RIGHT
+    // NOW (a same-document traversal needs no activation and leaves the
+    // shroud untouched): the terminated document then sits on its single
+    // real entry, and the first hardware back press leaves it -- on an
+    // installed app the OS finishes the activity, in a tab the browser goes
+    // to the page before the site. Round 15 did this lazily, on the first
+    // press, which cost the visitor one dead press on a black screen.
+    collapseSentinelsNow();
+    // Safety net: should any sentinel survive (the traversal above refused,
+    // a pop landing mid-buffer), the next press collapses the rest.
     collapseSentinelsOnNextPop();
   } catch {
     /* DOM unavailable -- the session wipe above is still done */
   }
 }
 
-/** After termination: one back press walks the sentinel buffer down to the
- *  real entry so the next one exits (see `terminateInPlace`). */
+/** Walk the sentinel buffer down to the page's real entry in one traversal
+ *  (see `terminateInPlace`). No-op when already on the real entry. */
+function collapseSentinelsNow(): void {
+  try {
+    const depth = readSentinelDepth(window.history.state, EXIT_GUARD_MARKER, EXIT_GUARD_DEPTH_KEY);
+    if (depth > 0) window.history.go(-depth);
+  } catch {
+    /* no-op */
+  }
+}
+
+/** After termination: a back press that still lands on a sentinel walks the
+ *  rest of the buffer down to the real entry so the next one exits. */
 function collapseSentinelsOnNextPop(): void {
   const onPop = (e: PopStateEvent) => {
     const depth = readSentinelDepth(e.state, EXIT_GUARD_MARKER, EXIT_GUARD_DEPTH_KEY);
@@ -535,6 +585,7 @@ export function executeAppExit(options: ExecuteAppExitOptions = {}): ExitChannel
     sentinelCapacity: options.sentinelCapacity,
     referrer: typeof document === 'undefined' ? '' : document.referrer || '',
     origin: window.location.origin,
+    nativeBridge: findNativeExitBridge(window) !== null,
   });
 
   leaving = true;
@@ -571,3 +622,89 @@ export function executeAppExit(options: ExecuteAppExitOptions = {}): ExitChannel
 
   return plan.channel;
 }
+
+// ---------------------------------------------------------------------------
+// pre-hydration back-guard bootstrap (round 16, item 1)
+// ---------------------------------------------------------------------------
+
+declare global {
+  interface Window {
+    /** Set by ExitGuard while mounted: the React guard now owns the sentinel
+     *  buffer and the head bootstrap below stands down. */
+    __unitasExitGuardLive?: boolean;
+  }
+}
+
+/** `window` flag ExitGuard raises while mounted (see `EXIT_GUARD_BOOTSTRAP`). */
+export const EXIT_GUARD_LIVE_FLAG = '__unitasExitGuardLive';
+
+/**
+ * The events browsers treat as ACTIVATION-TRIGGERING input (HTML spec):
+ * `mousedown`, a non-mouse `pointerup`, `touchend`, `click`, `keydown`. A
+ * touch `pointerdown` / `touchstart` is deliberately NOT here -- it carries
+ * no activation, and a sentinel pushed inside it would be born skippable
+ * under Chromium's history-manipulation intervention. Shared by ExitGuard
+ * and the head bootstrap so the two can never drift.
+ */
+export const EXIT_GUARD_ACTIVATION_EVENTS = ['mousedown', 'pointerup', 'touchend', 'click', 'keydown'] as const;
+
+/**
+ * Pre-hydration twin of ExitGuard's sentinel arming. Injected verbatim into
+ * <head> by app/layout.tsx (dependency-free ES5, runs before any bundle).
+ *
+ * WHY (owner instruction 2026-09-05, mobile-app hardening, item 1): on a
+ * phone the React tree takes most of the 3-second logo page to hydrate, and
+ * ExitGuard (components/interaction/ExitGuard.tsx, mounted inside the
+ * `[locale]` layout) cannot park a single history entry before it has
+ * mounted. A visitor who tapped the logo page and then pressed the hardware
+ * back button therefore left a SINGLE-entry window -- and the OS finished
+ * the installed app on the spot ("앱이 즉시 강제 종료"). This script
+ * listens for the very first activation gesture from the first byte of the
+ * document and parks the same EXIT_GUARD_SENTINEL_DEPTH-deep buffer, with the
+ * same marker / depth keys, that ExitGuard would have parked: the logo page
+ * is guarded exactly like the entry gate, the ad stages, the sealed
+ * Coming-Soon screen and the main home. A back press on it then lands
+ * inside the buffer on the same document and nothing happens ("무반응").
+ *
+ * The one thing no web page can do: intercept a back press BEFORE the
+ * visitor's first gesture. Chromium marks history entries pushed without
+ * user activation as skippable and steps straight over them, so a sentinel
+ * parked on load would be ignored and would ALSO poison the buffer pushed
+ * later (a skippable flag is never cleared). Hence arming waits for the
+ * first activation, exactly as ExitGuard does -- a browser-level limit, not
+ * a bug to retry.
+ *
+ * Contract with the rest of the site:
+ *  - identical sentinel shape (`EXIT_GUARD_MARKER` / `EXIT_GUARD_DEPTH_KEY`,
+ *    depth 1..N), so ExitGuard's `currentDepth()` sees the parked buffer at
+ *    mount and tops it up instead of parking a second one, and
+ *    `executeAppExit()` steps over it correctly.
+ *  - every pushed state carries `__NA: true`. Next.js's app router reloads
+ *    the page when a popstate lands on an entry it did not write (one whose
+ *    state lacks `__NA`); with the flag present it restores its CURRENT
+ *    tree instead (`restoreReducer`: `tree || state.tree`, Next 14.2). The
+ *    post-hydration buffer inherits the flag naturally because ExitGuard
+ *    spreads the live `history.state`; the pre-hydration buffer has to set
+ *    it by hand. Pinned to Next 14.2's private flag on purpose -- asserted
+ *    by __tests__/exit/appExit.test.ts so an upgrade cannot silently drop it.
+ *  - stands down the moment ExitGuard is mounted (`EXIT_GUARD_LIVE_FLAG`),
+ *    never pushes on top of a foreign `unitas*` entry (a DialogTower's own
+ *    back entry), never after a confirmed exit (`TERMINATED_ATTR`), and
+ *    never under a DESKTOP app window (fine pointer + hover) -- exactly the
+ *    one place ExitGuard keeps a single-entry history so `window.close()`
+ *    can genuinely close the window (round 15).
+ */
+export const EXIT_GUARD_BOOTSTRAP = `(function(){try{
+var M=${JSON.stringify(EXIT_GUARD_MARKER)},D=${JSON.stringify(EXIT_GUARD_DEPTH_KEY)},N=${EXIT_GUARD_SENTINEL_DEPTH},L=${JSON.stringify(EXIT_GUARD_LIVE_FLAG)},T=${JSON.stringify(TERMINATED_ATTR)};
+var EV=${JSON.stringify([...EXIT_GUARD_ACTIVATION_EVENTS])};
+function mq(q){try{var m=window.matchMedia;return !!(m&&m.call(window,q).matches);}catch(_){return false;}}
+function standalone(){return mq('(display-mode: standalone)')||mq('(display-mode: window-controls-overlay)')||mq('(display-mode: minimal-ui)')||navigator.standalone===true;}
+function desktopApp(){return standalone()&&mq('(hover: hover) and (pointer: fine)');}
+function state(){try{var s=window.history.state;return s&&typeof s==='object'?s:null;}catch(_){return null;}}
+function depth(){var s=state();if(!s||!s[M])return 0;var d=s[D];return typeof d==='number'&&isFinite(d)?Math.max(1,Math.floor(d)):1;}
+function foreign(){var s=state();if(!s)return false;for(var k in s){if(Object.prototype.hasOwnProperty.call(s,k)&&k.indexOf('unitas')===0&&k!==M&&k!==D)return true;}return false;}
+function fill(){try{var d=depth();while(d<N){d+=1;var b=state(),n={__NA:true};if(b){for(var k in b){if(Object.prototype.hasOwnProperty.call(b,k))n[k]=b[k];}}n[M]=true;n[D]=d;window.history.pushState(n,'');}}catch(_){}}
+function off(){for(var i=0;i<EV.length;i++){window.removeEventListener(EV[i],on,true);}}
+function on(){if(window[L]){off();return;}try{if(document.documentElement.hasAttribute(T))return;}catch(_){}if(desktopApp()||foreign())return;fill();}
+if(!desktopApp()){for(var i=0;i<EV.length;i++){window.addEventListener(EV[i],on,true);}}
+}catch(_){}})();`;
