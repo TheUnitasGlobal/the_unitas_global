@@ -153,10 +153,14 @@ test.describe('App channel: final exit dialog pre-collapses the back buffer (rou
     await confirmButton(page).click();
     await expect.poll(async () => (await readStack(page)).terminated, { timeout: 3000 }).toBe(true);
     const done = await readStack(page);
-    expect(done.url).toBe(siteUrl);
+    // Round 19: the surviving entry is SEALED to the clean launch URL --
+    // the `?splash=0` QA query (and any token / deep route) is gone.
+    const launchUrl = new URL(siteUrl);
+    expect(done.url).toBe(`${launchUrl.origin}/en`);
     expect(done.sentinelDepth).toBe(0);
     expect([0, -1]).toContain(done.sameDocumentIndex);
-    // The terminal shroud is opaque black and on top of everything.
+    // The terminal shroud is opaque black and on top of everything (the
+    // dimmed mark on it is not hit-testable, so the shroud itself answers).
     const shroud = await page.evaluate(() => {
       const el = document.elementFromPoint(Math.floor(innerWidth / 2), Math.floor(innerHeight / 2));
       return el ? getComputedStyle(el).backgroundColor : null;
@@ -165,5 +169,75 @@ test.describe('App channel: final exit dialog pre-collapses the back buffer (rou
     // The very next back press ends the app (leaves the document).
     await page.goBack({ waitUntil: 'commit' });
     await expect.poll(() => page.url(), { timeout: 5000 }).toBe('about:blank');
+  });
+
+  test('round 19: termination purges the DOM, wipes the session and seals the history entry -- nothing for the task switcher to keep', async ({ page }) => {
+    await openSealedApp(page);
+    const siteUrl = page.url();
+    await page.evaluate(() => sessionStorage.setItem('unitas_probe', '1'));
+    await sealedX(page).dispatchEvent('click');
+    await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
+    await confirmButton(page).click();
+    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(0);
+    await confirmButton(page).click();
+    await expect.poll(async () => (await readStack(page)).terminated, { timeout: 3000 }).toBe(true);
+
+    // 1. DOM memory purge: the whole React tree under <body> is unmounted --
+    //    the dialog, the curtain, the scene canvas, every portal. Only
+    //    Next's own body-level nodes (scripts, the route announcer portal
+    //    host) may remain, and the shroud lives on <html>, not <body>.
+    await expect.poll(
+      () =>
+        page.evaluate(() =>
+          Array.from(document.body.children)
+            .map((el) => el.tagName.toLowerCase())
+            .filter((tag) => !['script', 'next-route-announcer', 'nextjs-portal'].includes(tag)),
+        ),
+      { timeout: 3000 },
+    ).toEqual([]);
+    const purged = await page.evaluate(() => ({
+      dialog: document.getElementById('exit-guard-title') !== null,
+      canvases: document.querySelectorAll('canvas').length,
+      shroudOnHtml: document.querySelector(`html > [data-unitas-shroud]`) !== null,
+      markOnShroud: document.querySelector(`[data-unitas-shroud] > img[src*="unitas-mark.svg"]`) !== null,
+    }));
+    expect(purged.dialog).toBe(false);
+    expect(purged.canvases).toBe(0);
+    expect(purged.shroudOnHtml).toBe(true);
+    expect(purged.markOnShroud).toBe(true);
+
+    // 2. Local session purge: sessionStorage is empty (the curtain phase,
+    //    the splash flag and our probe are gone). localStorage holds the
+    //    visitor's preferences and is deliberately left alone.
+    expect(await page.evaluate(() => sessionStorage.length)).toBe(0);
+
+    // 3. History seal: clean launch URL (no query, no hash) and a bare
+    //    router state -- Next's flag only, no sentinel keys, nothing unitas*.
+    await expect.poll(() => page.evaluate(() => location.search + location.hash), { timeout: 3000 }).toBe('');
+    const sealed = await page.evaluate(() => {
+      const state = window.history.state;
+      return {
+        url: location.href,
+        na: state && state.__NA === true,
+        unitasKeys: state ? Object.keys(state).filter((k) => k.startsWith('unitas')) : [],
+      };
+    });
+    expect(sealed.url).toBe(`${new URL(siteUrl).origin}/en`);
+    expect(sealed.na).toBe(true);
+    expect(sealed.unitasKeys).toEqual([]);
+
+    // 4. The seal is re-applied at the OS snapshot moment (page hidden):
+    //    even if something rewrote the entry, hiding the app re-seals it.
+    await page.evaluate(() => {
+      window.history.replaceState({ __NA: true, unitasExitGuard: true, unitasExitDepth: 3 }, '', '/en?ghost=1');
+      Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' });
+      document.dispatchEvent(new Event('visibilitychange'));
+    });
+    const resealed = await page.evaluate(() => ({
+      url: location.href,
+      unitasKeys: window.history.state ? Object.keys(window.history.state).filter((k) => k.startsWith('unitas')) : [],
+    }));
+    expect(resealed.url).toBe(`${new URL(siteUrl).origin}/en`);
+    expect(resealed.unitasKeys).toEqual([]);
   });
 });

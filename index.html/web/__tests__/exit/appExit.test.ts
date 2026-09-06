@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
   APP_EXIT_EVENT,
+  APP_TERMINATE_EVENT,
   EXIT_GUARD_ACTIVATION_EVENTS,
   EXIT_GUARD_BOOTSTRAP,
   EXIT_GUARD_DEPTH_KEY,
@@ -9,6 +10,10 @@ import {
   EXIT_GUARD_SENTINEL_DEPTH,
   LEAVE_SETTLE_MS,
   NATIVE_EXIT_MESSAGE,
+  NEXT_ROUTER_STATE_FLAG,
+  NEXT_ROUTER_TREE_KEY,
+  TERMINAL_MARK_HREF,
+  TERMINAL_SHROUD_ATTR,
   TERMINATED_ATTR,
   findNativeExitBridge,
   isExternalReferrer,
@@ -16,6 +21,8 @@ import {
   planStackCollapse,
   readHistoryStackView,
   readSentinelDepth,
+  sealedHistoryState,
+  sealedLaunchUrl,
   type ExitEnvironment,
 } from '../../lib/exit/appExit';
 
@@ -147,6 +154,71 @@ describe('sovereign omni-channel exit planner', () => {
           }),
         ),
       ).toBe(-15);
+    });
+  });
+
+  describe('task-switcher card hygiene on termination (round 19)', () => {
+    it('announces the DOM purge on its own window event, distinct from the exit announcement the online channel also fires', () => {
+      expect(APP_TERMINATE_EVENT).toMatch(/^unitas:/);
+      expect(APP_TERMINATE_EVENT).not.toBe(APP_EXIT_EVENT);
+      expect(TERMINAL_SHROUD_ATTR).toMatch(/^data-unitas-/);
+      expect(TERMINAL_SHROUD_ATTR).not.toBe(TERMINATED_ATTR);
+    });
+
+    it('paints the versioned master mark on the terminal frame (never a stale cached icon)', () => {
+      expect(TERMINAL_MARK_HREF).toMatch(/^\/assets\/svg\/unitas-mark\.svg\?v=.+/);
+    });
+
+    it('seals the surviving entry to the clean LAUNCH URL: origin + locale root, no query, no hash, no deep route', () => {
+      expect(sealedLaunchUrl(`${ORIGIN}/ko`)).toBe(`${ORIGIN}/ko`);
+      expect(sealedLaunchUrl(`${ORIGIN}/ko/`)).toBe(`${ORIGIN}/ko`);
+      expect(sealedLaunchUrl(`${ORIGIN}/en?splash=0`)).toBe(`${ORIGIN}/en`);
+      expect(sealedLaunchUrl(`${ORIGIN}/ko/u-ai?dev=skip#panel`)).toBe(`${ORIGIN}/ko`);
+      // The founder entry token is the one thing that must never linger.
+      expect(sealedLaunchUrl(`${ORIGIN}/ko?sovereign_auth=unitas_master_dooyeong_2026_secure_key`)).toBe(`${ORIGIN}/ko`);
+      // Region-qualified locales keep their whole segment.
+      expect(sealedLaunchUrl(`${ORIGIN}/pt-BR/company/about`)).toBe(`${ORIGIN}/pt-BR`);
+      expect(sealedLaunchUrl(`${ORIGIN}/zh-Hant?x=1`)).toBe(`${ORIGIN}/zh-Hant`);
+      // No locale segment: the bare origin (middleware picks the locale on relaunch).
+      expect(sealedLaunchUrl(`${ORIGIN}/`)).toBe(`${ORIGIN}/`);
+      expect(sealedLaunchUrl(`${ORIGIN}/api/sovereign/verify`)).toBe(`${ORIGIN}/`);
+      expect(sealedLaunchUrl(`${ORIGIN}/company/about`)).toBe(`${ORIGIN}/`);
+      // Local dev origins are ordinary http origins.
+      expect(sealedLaunchUrl('http://localhost:3000/en?splash=0')).toBe('http://localhost:3000/en');
+    });
+
+    it('refuses to seal to anything a browser could reject (non-http, junk)', () => {
+      expect(sealedLaunchUrl('about:blank')).toBeNull();
+      expect(sealedLaunchUrl('javascript:alert(1)')).toBeNull();
+      expect(sealedLaunchUrl('not a url')).toBeNull();
+      expect(sealedLaunchUrl('')).toBeNull();
+    });
+
+    it("keeps ONLY Next's router flag (+ its tree when present) on the sealed state -- no sentinel, no depth, nothing of the session", () => {
+      expect(NEXT_ROUTER_STATE_FLAG).toBe('__NA');
+      expect(NEXT_ROUTER_TREE_KEY).toBe('__PRIVATE_NEXTJS_INTERNALS_TREE');
+      // The bootstrap stamps the very same flag on every sentinel it parks.
+      expect(EXIT_GUARD_BOOTSTRAP).toContain(NEXT_ROUTER_STATE_FLAG);
+      const tree = ['', { children: ['__PAGE__', {}] }];
+      const parked = {
+        __NA: true,
+        __PRIVATE_NEXTJS_INTERNALS_TREE: tree,
+        [EXIT_GUARD_MARKER]: true,
+        [EXIT_GUARD_DEPTH_KEY]: 12,
+        unitasDialogTower: true,
+        custom: 1,
+      };
+      const sealed = sealedHistoryState(parked);
+      expect(sealed).toEqual({ __NA: true, __PRIVATE_NEXTJS_INTERNALS_TREE: tree });
+      expect(readSentinelDepth(sealed, EXIT_GUARD_MARKER, EXIT_GUARD_DEPTH_KEY)).toBe(0);
+      expect(Object.keys(sealed).some((k) => k.startsWith('unitas'))).toBe(false);
+      // No tree / no state at all: the flag alone (a popstate onto it restores, never reloads).
+      expect(sealedHistoryState(null)).toEqual({ __NA: true });
+      expect(sealedHistoryState(undefined)).toEqual({ __NA: true });
+      expect(sealedHistoryState('junk')).toEqual({ __NA: true });
+      expect(sealedHistoryState({ [EXIT_GUARD_MARKER]: true })).toEqual({ __NA: true });
+      // Never mutates the state it reads.
+      expect(parked[EXIT_GUARD_MARKER]).toBe(true);
     });
   });
 

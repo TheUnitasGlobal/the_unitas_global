@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { Cinzel, JetBrains_Mono } from 'next/font/google';
 import { SceneLazy } from '@/components/canvas/SceneLazy';
 import { SpatialAudioProvider } from '@/components/audio/SpatialAudioProvider';
+import { TerminationBoundary } from '@/components/exit/TerminationBoundary';
 import { CinematicIntroSplash } from '@/components/splash/CinematicIntroSplash';
 import { EXIT_GUARD_BOOTSTRAP } from '@/lib/exit/appExit';
 import { PWA_CAPTURE_BOOTSTRAP } from '@/lib/pwa/installPrompt';
@@ -107,14 +108,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }}
         />
-        {/* Forced 3s SILENT cinematic intro ("logo page") -- SSR'd visible,
-            top of the stack (z-700); runs only on a cold entry, never on a
-            refresh of any page. */}
-        <CinematicIntroSplash />
-        <SpatialAudioProvider>
-          <SceneLazy />
-          {children}
-        </SpatialAudioProvider>
+        {/* Round 19 (owner instruction 2026-09-06, task-switcher hygiene):
+            the app's `root.unmount()`. Everything rendered under <body> --
+            the splash, the audio graph, the 3D scene, every route -- sits
+            inside this boundary, so a terminated app releases the WHOLE
+            tree (WebGL, AudioContexts, timers, channels) through React's own
+            cleanups. See components/exit/TerminationBoundary.tsx. */}
+        <TerminationBoundary>
+          {/* Forced 3s SILENT cinematic intro ("logo page") -- SSR'd visible,
+              top of the stack (z-700); runs only on a cold entry, never on a
+              refresh of any page. */}
+          <CinematicIntroSplash />
+          <SpatialAudioProvider>
+            <SceneLazy />
+            {children}
+          </SpatialAudioProvider>
+        </TerminationBoundary>
       </body>
     </html>
   );

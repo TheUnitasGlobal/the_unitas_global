@@ -114,13 +114,63 @@
 //   brings a parked app back to a single-entry window -- round 18's collapse
 //   makes the OS back press the LAST gesture, it cannot remove it.
 //
+//   ROUND 19 (owner instruction 2026-09-06, "태스크 스위처 빈 카드 잔류 현상
+//   격멸"): a terminated app must leave NOTHING behind that the OS task
+//   switcher (Android Recents / the iOS App Switcher) or a later relaunch
+//   could show as a blank address-bar card or a black ghost frame. Four
+//   things now happen inside `terminateInPlace()`, on the confirmed tap:
+//
+//     1. DOM MEMORY PURGE -- `APP_TERMINATE_EVENT` is fired and
+//        `TerminationBoundary` (components/exit/TerminationBoundary.tsx, the
+//        outermost client boundary in app/layout.tsx) unmounts the WHOLE
+//        React tree beneath <body>: the 3D scene's WebGL context, every
+//        AudioContext, every timer / listener / Supabase channel is released
+//        through React's own effect cleanups. Next.js never exposes its
+//        `hydrateRoot` handle, so this boundary IS the app's `root.unmount()`
+//        -- and a better one, since cleanups actually run.
+//     2. LOCAL SESSION + FOUNDER ENTRY-TOKEN PURGE -- sessionStorage is wiped
+//        (curtain phase, splash flag, debug-panel state), the page-lifetime
+//        founder verification memo is dropped (`resetSovereignCache`), and
+//        the surviving history entry's URL is rewritten WITHOUT any query or
+//        hash (`?sovereign_auth=`, `?dev=`, `?splash=0` -- gone). The signed
+//        30-day HttpOnly founder cookie is server-owned and deliberately NOT
+//        revoked here: an installed app has no address bar to re-enter the
+//        token, so revoking it on every exit would lock the founder out of
+//        their own app; revocation stays explicit (`?sovereign_auth=logout`
+//        / DELETE /api/sovereign/verify). localStorage (audio / locale /
+//        wallet-device preferences) is kept, as before.
+//     3. HISTORY STATE RESET -- once the round-18 collapse lands on the
+//        document's first entry, that entry is SEALED with
+//        `history.replaceState`: a bare `{ __NA: true }` state (no sentinel
+//        marker, no depth, nothing of the session) at the app's clean launch
+//        URL (`sealedLaunchUrl`: origin + locale root). Sealed from a
+//        CAPTURE-phase popstate listener so Next's own router listener --
+//        which reads `location.href` on the same event to compute the
+//        canonical URL it later re-writes -- already sees the clean URL; and
+//        sealed AGAIN on `visibilitychange: hidden` / `pagehide`, the exact
+//        moments the OS snapshots the task card. A relaunch from that card
+//        therefore opens the clean launch URL of a brand-new session.
+//     4. PRISTINE TERMINAL FRAME -- the opaque black shroud now carries the
+//        dimmed UNITAS mark (no text, no button, not hit-testable), so the
+//        one frame the OS keeps for the task card is the app's own closed
+//        cover rather than a featureless black void.
+//
+//   What stays impossible (and must not be retried): removing the task card
+//   itself. Only the OS (or a native shell's `finishAndRemoveTask`) can drop
+//   a task from Recents; a web page can only make sure the card is clean and
+//   that nothing of the session survives behind it.
+//
 // `planExit()` is pure (no DOM) so the branching is unit-tested in
 // __tests__/exit/appExit.test.ts; `executeAppExit()` is the thin browser
-// runner around it. `findNativeExitBridge()` is pure over a host object for
-// the same reason. `EXIT_GUARD_BOOTSTRAP` (bottom of this file) is the
-// pre-hydration twin of ExitGuard's sentinel arming, injected into <head>
-// by app/layout.tsx so the very first tap on the 3s logo page already
-// parks the buffer -- long before the React tree has hydrated on a phone.
+// runner around it. `findNativeExitBridge()`, `planStackCollapse()`,
+// `sealedLaunchUrl()` and `sealedHistoryState()` are pure for the same
+// reason. `EXIT_GUARD_BOOTSTRAP` (bottom of this file) is the pre-hydration
+// twin of ExitGuard's sentinel arming, injected into <head> by
+// app/layout.tsx so the very first tap on the 3s logo page already parks
+// the buffer -- long before the React tree has hydrated on a phone.
+
+import { resetSovereignCache } from '@/lib/foundersGate';
+import { PWA_ICON_VERSION } from '@/lib/pwa/iconVersion';
 
 export type ExitChannel = 'app' | 'online';
 
@@ -431,18 +481,46 @@ export function requestNativeAppExit(): boolean {
  * so a black terminated app can never keep humming underneath.
  */
 export const APP_EXIT_EVENT = 'unitas:app-exit';
+/**
+ * Window event fired by `terminateInPlace()` the instant the terminal shroud
+ * is up (round 19). `TerminationBoundary` (components/exit/
+ * TerminationBoundary.tsx) listens and unmounts the ENTIRE React tree under
+ * <body> -- the app's `root.unmount()` -- so no scene, audio graph, timer or
+ * subscription keeps running behind a closed app. Distinct from
+ * `APP_EXIT_EVENT`, which also fires on the ONLINE channel where the page
+ * must stay rendered until the browser has actually left it.
+ */
+export const APP_TERMINATE_EVENT = 'unitas:app-terminate';
 /** `data-` attribute stamped on <html> while the terminal shroud is up. */
 export const TERMINATED_ATTR = 'data-unitas-terminated';
+/** `data-` attribute on the terminal shroud element itself (round 19). */
+export const TERMINAL_SHROUD_ATTR = 'data-unitas-shroud';
+/**
+ * The brand mark painted on the terminal frame (round 19): the single-source
+ * master mark, with the same content-versioned query every other icon href
+ * carries so the OS snapshot never shows a stale cached mark.
+ */
+export const TERMINAL_MARK_HREF = `/assets/svg/unitas-mark.svg?v=${PWA_ICON_VERSION}`;
 
 /** Wipe the tab's session -- the session is OVER the moment an exit is
  *  confirmed, whatever the runtime does next. localStorage (audio / locale
  *  preferences, the wallet's remembered device) is deliberately kept: those
- *  are the visitor's settings, not this session's state. */
+ *  are the visitor's settings, not this session's state.
+ *
+ *  Round 19: the page-lifetime founder verification memo goes with it, so a
+ *  terminated document holds no answer about the founder in memory. The
+ *  signed HttpOnly founder cookie itself is server-owned and is NOT revoked
+ *  here (see the ROUND 19 note at the top of this file). */
 function clearSession(): void {
   try {
     window.sessionStorage.clear();
   } catch {
     /* storage blocked -- nothing to clear */
+  }
+  try {
+    resetSovereignCache();
+  } catch {
+    /* no-op */
   }
 }
 
@@ -454,12 +532,32 @@ function announceExit(): void {
   }
 }
 
+function announceTerminate(): void {
+  try {
+    window.dispatchEvent(new CustomEvent(APP_TERMINATE_EVENT));
+  } catch {
+    /* no-op */
+  }
+}
+
+/** True once `terminateInPlace()` has run on this document. */
+export function isDocumentTerminated(): boolean {
+  if (typeof document === 'undefined') return false;
+  try {
+    return document.documentElement.hasAttribute(TERMINATED_ATTR);
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Terminate in place (App channel, runtime refused `window.close()`): the
  * document goes opaque black, nothing underneath is reachable, and the next
  * time the OS brings this (still resident) document back to the foreground
  * it reloads into a fresh session that starts on the logo splash. No text,
- * no button -- a closed app shows nothing.
+ * no button -- a closed app shows nothing but its own dimmed mark (round 19:
+ * the one frame the OS keeps for the task-switcher card is the app's clean
+ * closed cover, never a featureless black void).
  */
 function terminateInPlace(): void {
   clearSession();
@@ -470,8 +568,21 @@ function terminateInPlace(): void {
     const shroud = document.createElement('div');
     shroud.setAttribute('role', 'presentation');
     shroud.setAttribute('aria-hidden', 'true');
+    shroud.setAttribute(TERMINAL_SHROUD_ATTR, '1');
     shroud.style.cssText =
       'position:fixed;inset:0;z-index:2147483647;background:#000;pointer-events:auto;touch-action:none;overscroll-behavior:none;';
+    // Round 19: the pristine terminal frame -- the dimmed master mark,
+    // centred, not hit-testable (pointer-events:none keeps the shroud itself
+    // the only element under any tap), no text, no control.
+    const mark = document.createElement('img');
+    mark.setAttribute('src', TERMINAL_MARK_HREF);
+    mark.setAttribute('alt', '');
+    mark.setAttribute('aria-hidden', 'true');
+    mark.setAttribute('decoding', 'async');
+    mark.setAttribute('draggable', 'false');
+    mark.style.cssText =
+      'position:absolute;left:50%;top:50%;width:min(26vmin,132px);height:auto;transform:translate(-50%,-50%);opacity:.38;filter:saturate(.4);pointer-events:none;user-select:none;-webkit-user-select:none;';
+    shroud.appendChild(mark);
     document.documentElement.appendChild(shroud);
     document.documentElement.style.background = '#000';
     try {
@@ -499,6 +610,11 @@ function terminateInPlace(): void {
     window.addEventListener('pageshow', (e) => {
       if ((e as PageTransitionEvent).persisted) revive();
     });
+    // Round 19 (item 1): purge the DOM -- the whole React tree under <body>
+    // unmounts through TerminationBoundary (scene, audio, timers, channels
+    // all released by their own effect cleanups). The shroud above lives on
+    // <html>, outside React's reach, so it survives the purge untouched.
+    announceTerminate();
     // Round 16 (item 2): a terminated app must die on the very NEXT back
     // press. ExitGuard parks a deep sentinel buffer under the page (phones /
     // tablets), so collapse the whole buffer to the app's real entry RIGHT
@@ -513,7 +629,11 @@ function terminateInPlace(): void {
     // document -- past the buffer AND past every in-app route entry -- in
     // one hop, so the terminated app always sits on the launch entry and
     // exactly ONE back press ends it, however deep the visitor navigated.
-    collapseHistoryStackNow();
+    const delta = collapseHistoryStackNow();
+    // Round 19 (item 2): once the collapse lands, SEAL the surviving entry --
+    // clean launch URL, bare router state, no sentinel marker, no token --
+    // and keep it sealed at every OS snapshot moment.
+    sealLandingEntry(delta);
     // Safety net: should any sentinel survive (the traversal above refused,
     // a pop landing mid-buffer), the next press collapses the rest.
     collapseSentinelsOnNextPop();
@@ -617,6 +737,121 @@ export function collapseSentinelBufferNow(): number {
   } catch {
     return 0;
   }
+}
+
+// ---------------------------------------------------------------------------
+// history entry seal (round 19: task-switcher card hygiene)
+// ---------------------------------------------------------------------------
+
+/** Next.js app-router's private "this entry is mine" flag (Next 14.2). A
+ *  popstate onto an entry WITHOUT it makes the router reload the page --
+ *  asserted by __tests__/exit/appExit.test.ts so an upgrade cannot silently
+ *  break the sealed entry. */
+export const NEXT_ROUTER_STATE_FLAG = '__NA';
+/** Next.js app-router's private router-tree key (Next 14.2), carried along
+ *  on the sealed entry so a later restore keeps the router coherent. */
+export const NEXT_ROUTER_TREE_KEY = '__PRIVATE_NEXTJS_INTERNALS_TREE';
+
+/** A leading locale segment: `/ko`, `/pt-BR`, `/zh-Hant` (matches the
+ *  `[locale]` route group -- see lib/i18n). */
+const LOCALE_SEGMENT = /^\/([a-z]{2}(?:-[A-Za-z]{2,4})?)(?=\/|$)/;
+
+/**
+ * Pure: the clean LAUNCH URL a terminated app's surviving history entry is
+ * rewritten to -- the origin plus the locale root (`https://…/ko`), or the
+ * bare origin when the path carries no locale. Every query and hash is
+ * dropped: `?sovereign_auth=` (the founder entry token), `?dev=`, `?splash=0`
+ * and any deep in-app route are all things of the session that is over. A
+ * relaunch from the OS task card therefore opens the app exactly as a cold
+ * launch would. `null` for anything that is not an http(s) URL (never
+ * rewrite to something a browser could refuse).
+ */
+export function sealedLaunchUrl(href: string): string | null {
+  try {
+    const url = new URL(href);
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return null;
+    const locale = LOCALE_SEGMENT.exec(url.pathname)?.[1];
+    return locale ? `${url.origin}/${locale}` : `${url.origin}/`;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Pure: the bare `history.state` a sealed entry carries -- Next's own router
+ * flag (so a popstate onto it restores instead of reloading) and, when
+ * present, the router tree it already held. Nothing else survives: no
+ * sentinel marker or depth, no tower / modal key, nothing of the session.
+ */
+export function sealedHistoryState(state: unknown): Record<string, unknown> {
+  const sealed: Record<string, unknown> = { [NEXT_ROUTER_STATE_FLAG]: true };
+  const record = state && typeof state === 'object' ? (state as Record<string, unknown>) : null;
+  if (record && Object.prototype.hasOwnProperty.call(record, NEXT_ROUTER_TREE_KEY)) {
+    sealed[NEXT_ROUTER_TREE_KEY] = record[NEXT_ROUTER_TREE_KEY];
+  }
+  return sealed;
+}
+
+/**
+ * Rewrite the CURRENT history entry in place to the clean launch URL with a
+ * bare router state (`history.replaceState` -- the entry count is untouched,
+ * nothing navigates, nothing re-renders). Idempotent. Returns the URL the
+ * entry now carries, or null when nothing could be sealed.
+ */
+export function sealHistoryEntryNow(): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    const url = sealedLaunchUrl(window.location.href);
+    if (!url) return null;
+    window.history.replaceState(sealedHistoryState(window.history.state), '', url);
+    return url;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Seal the entry the round-18 collapse lands on, and keep it sealed.
+ *
+ * `history.go()` is asynchronous: the traversal lands in a later task and
+ * announces itself with `popstate`, so sealing right after `go()` would
+ * rewrite the entry we are LEAVING. The seal therefore runs from a popstate
+ * listener -- registered in the CAPTURE phase on purpose: Next's app-router
+ * listens on the same target in the bubble phase and, on that very event,
+ * reads `location.href` to derive the canonical URL its `HistoryUpdater`
+ * re-writes into the entry once the restore commits. Capture listeners on
+ * the target run first, so the router already sees the sealed URL and keeps
+ * it (its `preserveCustomHistoryState` restore keeps our bare state too).
+ * A pop that lands mid-buffer (the traversal refused part-way) is left to
+ * `collapseSentinelsOnNextPop`; the seal waits for the real entry.
+ *
+ * Belt and braces: the entry is re-sealed on `visibilitychange: hidden` and
+ * `pagehide` -- exactly the moments the OS captures the task-switcher card
+ * and decides what a relaunch opens -- so whatever any engine did to the
+ * entry in between, the card and the relaunch are clean.
+ */
+function sealLandingEntry(delta: number): void {
+  const reseal = () => {
+    sealHistoryEntryNow();
+  };
+  try {
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') reseal();
+    });
+    window.addEventListener('pagehide', reseal);
+  } catch {
+    /* no-op */
+  }
+  if (delta === 0) {
+    reseal();
+    return;
+  }
+  const onLanded = (e: PopStateEvent) => {
+    if (readSentinelDepth(e.state, EXIT_GUARD_MARKER, EXIT_GUARD_DEPTH_KEY) > 0) return;
+    window.removeEventListener('popstate', onLanded, true);
+    reseal();
+  };
+  window.addEventListener('popstate', onLanded, true);
 }
 
 /** After termination: a back press that still lands on a sentinel walks the
