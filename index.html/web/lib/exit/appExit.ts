@@ -73,6 +73,34 @@
 //   `requestAppExit()`; online it still calls `executeAppExit()` directly.
 //   Nothing below changed: the second 종료 is the gesture this runner needs.
 //
+//   ROUND 18 (owner instruction 2026-09-06, "모바일 앱 블랙 스크린 렌더링
+//   프리즈 긴급 패치"): the second 종료 must collapse the WHOLE history stack
+//   the instant it is tapped, so that no extra gesture stands between the
+//   tap and the OS ending the activity. Two changes, both inside the tap:
+//
+//     - `collapseHistoryStackNow()` (replaces round 16's sentinel-only
+//       collapse) walks the app down to the FIRST entry of the current
+//       document in ONE traversal -- past the sentinel buffer AND past every
+//       in-app route entry Next.js pushed above the launch entry -- using the
+//       Navigation API's `navigation.currentEntry.index` (Chromium 102+,
+//       every Android WebAPK / Samsung Internet standalone app), with the
+//       sentinel depth as the fallback where the API is absent. The owner's
+//       literal `history.go(-history.length)` is a no-op by spec (an
+//       out-of-range delta is ignored), so the maximal VALID delta is used:
+//       never past the first entry, never across documents (the Navigation
+//       API only ever lists same-document entries, so the terminated
+//       document can never be resurrected by a cross-document reload).
+//
+//     - ExitGuard PRE-COLLAPSES the sentinel buffer the moment the FINAL
+//       dialog opens on a phone / tablet app, so the app already sits on its
+//       real entry while the visitor reads "종료 버튼을 한 번 더 누르면 앱이
+//       완전히 종료됩니다". From there the hardware back press is no longer
+//       swallowed by a sentinel: the OS finishes the activity AT ONCE -- no
+//       shroud, no wait -- which is the one truly instant exit a web page can
+//       give a phone that has no native shell. The 종료 button on that same
+//       dialog runs this engine (shell kill / window.close / terminate) and
+//       the very next back press ends the app.
+//
 //   The single web-platform limit this file cannot cross (stated here so it
 //   is never "fixed" again by dropping the guard): an installed PHONE app
 //   must keep extra history entries under itself to intercept the hardware
@@ -80,7 +108,11 @@
 //   single-entry window -- so on a phone without a native shell "back opens
 //   the exit confirm" and "종료 closes the process outright" cannot both be
 //   true. The buffer wins (owner instruction, rounds 11 + 14 + 16 item 1);
-//   the native bridges above are the path to a true process kill.
+//   the native bridges above are the path to a true process kill. A history
+//   entry pushed once can never be un-pushed (traversing back leaves it as a
+//   forward entry; a replace keeps the count), so no sequence of web calls
+//   brings a parked app back to a single-entry window -- round 18's collapse
+//   makes the OS back press the LAST gesture, it cannot remove it.
 //
 // `planExit()` is pure (no DOM) so the branching is unit-tested in
 // __tests__/exit/appExit.test.ts; `executeAppExit()` is the thin browser
@@ -476,7 +508,12 @@ function terminateInPlace(): void {
     // installed app the OS finishes the activity, in a tab the browser goes
     // to the page before the site. Round 15 did this lazily, on the first
     // press, which cost the visitor one dead press on a black screen.
-    collapseSentinelsNow();
+    //
+    // Round 18: the collapse now walks down to the FIRST entry of the
+    // document -- past the buffer AND past every in-app route entry -- in
+    // one hop, so the terminated app always sits on the launch entry and
+    // exactly ONE back press ends it, however deep the visitor navigated.
+    collapseHistoryStackNow();
     // Safety net: should any sentinel survive (the traversal above refused,
     // a pop landing mid-buffer), the next press collapses the rest.
     collapseSentinelsOnNextPop();
@@ -485,14 +522,100 @@ function terminateInPlace(): void {
   }
 }
 
-/** Walk the sentinel buffer down to the page's real entry in one traversal
- *  (see `terminateInPlace`). No-op when already on the real entry. */
-function collapseSentinelsNow(): void {
+// ---------------------------------------------------------------------------
+// history stack collapse (round 16 sentinel-only -> round 18 whole stack)
+// ---------------------------------------------------------------------------
+
+/** What the collapse planner needs to know about the live session history. */
+export interface HistoryStackView {
+  /** `navigation.currentEntry.index` -- the current entry's position among
+   *  the entries that belong to THIS document (`navigation.entries()`, a
+   *  contiguous same-document run; 0 = the document's first entry). -1 when
+   *  the Navigation API is unavailable (WebKit < 26, old Chromium). */
+  sameDocumentIndex: number;
+  /** `history.length` -- the hard ceiling on how far back any delta can go. */
+  historyLength: number;
+  /** ExitGuard's sentinel depth per `history.state` (fallback measure). */
+  sentinelDepth: number;
+}
+
+/**
+ * Pure: the `history.go()` delta that collapses the stack to the document's
+ * first entry in ONE traversal (0 = nothing to do). Prefers the Navigation
+ * API's exact index (past sentinels AND in-app route entries alike, never
+ * across documents); falls back to the sentinel depth. Clamped so it can
+ * never exceed the entries actually behind us -- an out-of-range delta is
+ * silently ignored by every engine, which is exactly why the owner's literal
+ * `history.go(-history.length)` could never fire.
+ */
+export function planStackCollapse(view: HistoryStackView): number {
+  const ceiling = Math.max(0, Math.floor(Number.isFinite(view.historyLength) ? view.historyLength : 1) - 1);
+  const exact = Number.isFinite(view.sameDocumentIndex) ? Math.floor(view.sameDocumentIndex) : -1;
+  const fallback = Math.max(0, Math.floor(Number.isFinite(view.sentinelDepth) ? view.sentinelDepth : 0));
+  const steps = Math.min(exact >= 0 ? exact : fallback, ceiling);
+  return steps > 0 ? -steps : 0;
+}
+
+/** Read the live `HistoryStackView` off a host window, defensively (the
+ *  Navigation API is probed structurally so a host without it, or a
+ *  test stand-in, never throws). */
+export function readHistoryStackView(host: unknown, marker = EXIT_GUARD_MARKER, depthKey = EXIT_GUARD_DEPTH_KEY): HistoryStackView {
+  const w = rec(host);
+  const history = rec(w?.history);
+  let historyLength = 1;
+  let sentinelDepth = 0;
+  try {
+    const raw = history?.length;
+    historyLength = typeof raw === 'number' && Number.isFinite(raw) ? raw : 1;
+    sentinelDepth = readSentinelDepth(history?.state, marker, depthKey);
+  } catch {
+    /* history unreadable -- treat as a single entry */
+  }
+  let sameDocumentIndex = -1;
+  try {
+    const current = rec(rec(w?.navigation)?.currentEntry);
+    const index = current?.index;
+    if (typeof index === 'number' && Number.isFinite(index) && index >= 0) sameDocumentIndex = index;
+  } catch {
+    /* Navigation API absent or the document is not fully active */
+  }
+  return { sameDocumentIndex, historyLength, sentinelDepth };
+}
+
+/**
+ * Collapse the session history to the document's FIRST entry in one
+ * traversal (round 18). Same-document by construction, so it needs no user
+ * activation, never reloads, and leaves the terminal shroud untouched.
+ * Returns the delta that was fired (0 = already at the bottom).
+ */
+export function collapseHistoryStackNow(): number {
+  if (typeof window === 'undefined') return 0;
+  try {
+    const delta = planStackCollapse(readHistoryStackView(window));
+    if (delta < 0) window.history.go(delta);
+    return delta;
+  } catch {
+    return 0;
+  }
+}
+
+/**
+ * Walk ExitGuard's sentinel buffer down to the page's REAL entry in one
+ * traversal, leaving in-app route entries beneath it alone. Used by
+ * ExitGuard to pre-collapse the buffer under the FINAL confirm dialog
+ * (round 18): the page the visitor is on stays exactly as it is, and the
+ * next hardware back press is no longer swallowed by a sentinel. No-op on
+ * the real entry. Returns the delta fired.
+ */
+export function collapseSentinelBufferNow(): number {
+  if (typeof window === 'undefined') return 0;
   try {
     const depth = readSentinelDepth(window.history.state, EXIT_GUARD_MARKER, EXIT_GUARD_DEPTH_KEY);
-    if (depth > 0) window.history.go(-depth);
+    const delta = planStackCollapse({ sameDocumentIndex: -1, historyLength: window.history.length, sentinelDepth: depth });
+    if (delta < 0) window.history.go(delta);
+    return delta;
   } catch {
-    /* no-op */
+    return 0;
   }
 }
 

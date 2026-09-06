@@ -13,6 +13,8 @@ import {
   findNativeExitBridge,
   isExternalReferrer,
   planExit,
+  planStackCollapse,
+  readHistoryStackView,
   readSentinelDepth,
   type ExitEnvironment,
 } from '../../lib/exit/appExit';
@@ -83,6 +85,68 @@ describe('sovereign omni-channel exit planner', () => {
       const plan = planExit(env({ standalone: true, historyLength: 1 }));
       expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
       expect(plan.immediate).not.toContainEqual({ kind: 'terminate' });
+    });
+  });
+
+  describe('history stack collapse on the confirmed tap (round 18, mobile-app black-screen patch)', () => {
+    it('walks to the FIRST entry of the document in one hop when the Navigation API knows the index -- past sentinels AND in-app routes', () => {
+      // [launch, /u-ai route, s1..s12] -> current index 13 -> one go(-13).
+      expect(planStackCollapse({ sameDocumentIndex: 13, historyLength: 14, sentinelDepth: 12 })).toBe(-13);
+      // Only the buffer above the launch entry: same answer as the sentinel depth.
+      expect(planStackCollapse({ sameDocumentIndex: 12, historyLength: 13, sentinelDepth: 12 })).toBe(-12);
+      // Already at the bottom: nothing to fire.
+      expect(planStackCollapse({ sameDocumentIndex: 0, historyLength: 13, sentinelDepth: 0 })).toBe(0);
+    });
+
+    it('falls back to the sentinel depth without the Navigation API (WebKit < 26 / old Chromium)', () => {
+      expect(planStackCollapse({ sameDocumentIndex: -1, historyLength: 13, sentinelDepth: 12 })).toBe(-12);
+      expect(planStackCollapse({ sameDocumentIndex: -1, historyLength: 13, sentinelDepth: 9 })).toBe(-9);
+      expect(planStackCollapse({ sameDocumentIndex: -1, historyLength: 1, sentinelDepth: 0 })).toBe(0);
+    });
+
+    it("never exceeds history.length - 1 -- the owner's literal go(-history.length) would be silently ignored by every engine", () => {
+      // A delta past the first entry is out of range and a spec no-op; the
+      // planner emits the maximal VALID traversal instead.
+      expect(planStackCollapse({ sameDocumentIndex: 40, historyLength: 13, sentinelDepth: 12 })).toBe(-12);
+      expect(planStackCollapse({ sameDocumentIndex: -1, historyLength: 5, sentinelDepth: 12 })).toBe(-4);
+      expect(planStackCollapse({ sameDocumentIndex: -1, historyLength: 1, sentinelDepth: 12 })).toBe(0);
+      // Malformed inputs clamp sanely rather than throwing or over-stepping.
+      expect(planStackCollapse({ sameDocumentIndex: Number.NaN, historyLength: Number.NaN, sentinelDepth: -3 })).toBe(0);
+      expect(planStackCollapse({ sameDocumentIndex: 2.9, historyLength: 13, sentinelDepth: 12 })).toBe(-2);
+    });
+
+    it('reads the live view defensively: Navigation API present, absent, or broken', () => {
+      const MARKER = EXIT_GUARD_MARKER;
+      const DEPTH = EXIT_GUARD_DEPTH_KEY;
+      const parked = { [MARKER]: true, [DEPTH]: 12 };
+      // Chromium 102+ / Android WebAPK: exact same-document index.
+      expect(
+        readHistoryStackView({
+          history: { length: 14, state: parked },
+          navigation: { currentEntry: { index: 13 } },
+        }),
+      ).toEqual({ sameDocumentIndex: 13, historyLength: 14, sentinelDepth: 12 });
+      // No Navigation API: the sentinel depth carries the collapse.
+      expect(readHistoryStackView({ history: { length: 13, state: parked } })).toEqual({
+        sameDocumentIndex: -1,
+        historyLength: 13,
+        sentinelDepth: 12,
+      });
+      // A not-fully-active document reports index -1; junk never throws.
+      expect(
+        readHistoryStackView({ history: { length: 3, state: null }, navigation: { currentEntry: { index: -1 } } }),
+      ).toEqual({ sameDocumentIndex: -1, historyLength: 3, sentinelDepth: 0 });
+      expect(readHistoryStackView({ navigation: 'junk' })).toEqual({ sameDocumentIndex: -1, historyLength: 1, sentinelDepth: 0 });
+      expect(readHistoryStackView(null)).toEqual({ sameDocumentIndex: -1, historyLength: 1, sentinelDepth: 0 });
+      // The two compose: a phone app three routes deep collapses to launch in one hop.
+      expect(
+        planStackCollapse(
+          readHistoryStackView({
+            history: { length: 16, state: parked },
+            navigation: { currentEntry: { index: 15 } },
+          }),
+        ),
+      ).toBe(-15);
     });
   });
 

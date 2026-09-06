@@ -15,6 +15,7 @@ import {
   EXIT_GUARD_DEPTH_KEY,
   EXIT_GUARD_MARKER,
   EXIT_GUARD_SENTINEL_DEPTH,
+  collapseSentinelBufferNow,
   executeAppExit,
   isDesktopAppWindow,
   isExitInProgress,
@@ -250,6 +251,23 @@ const ACTIVATION_EVENTS = EXIT_GUARD_ACTIVATION_EVENTS;
  * still tunnels straight into the engine, round 10 item 6). The sequence is
  * the pure state machine in lib/exit/exitConfirmFlow.ts.
  *
+ * FINAL-DIALOG PRE-COLLAPSE ON PHONE / TABLET APPS (round 18, owner
+ * instruction 2026-09-06, "블랙 스크린 렌더링 프리즈 긴급 패치"): the instant
+ * the FINAL dialog opens, the sentinel buffer is collapsed to the page's
+ * real entry (a same-document `history.go(-depth)` -- no activation needed,
+ * nothing re-renders, the dialog stays). While the visitor reads "종료
+ * 버튼을 한 번 더 누르면 앱이 완전히 종료됩니다" the app therefore already
+ * sits on its launch entry, and the hardware back press -- the only thing
+ * that can end a shell-less PWA's activity -- is no longer swallowed by a
+ * sentinel: the OS finishes the app AT ONCE, with no black shroud and no
+ * further gesture. The 종료 button on that dialog runs the shared engine
+ * (shell kill / window.close / terminate-in-place with the whole stack
+ * collapsed), after which the very next back press ends the app. To keep
+ * the collapsed state, the activation gesture of that final tap does NOT
+ * top the buffer back up (`finalArmedRef`); 취소 / backdrop / Escape on the
+ * final dialog re-park the full buffer from inside their own gesture, so
+ * the page is exactly as guarded as before the visitor ever pressed back.
+ *
  * Further presses only step down the buffer; every activation gesture (the
  * tap on 취소 included) tops it back up. Should a burst of presses ever
  * exhaust the buffer while the dialog is open, `beforeunload` raises the
@@ -307,6 +325,10 @@ export function ExitGuard() {
   const guardReadyAtRef = useRef(0);
   const openRef = useRef(gate.open);
   openRef.current = gate.open;
+  /** Round 18: the FINAL App-channel dialog is showing with the sentinel
+   *  buffer pre-collapsed beneath it -- activation gestures must not re-park
+   *  the buffer until the visitor backs out of the dialog. */
+  const finalArmedRef = useRef(false);
 
   const openGate = gate.setOpen;
 
@@ -365,6 +387,11 @@ export function ExitGuard() {
       // the terminal shroud must not re-park the buffer that the shroud's
       // own back handler is collapsing (round 15).
       if (leavingRef.current || isExitInProgress()) return;
+      // Round 18: under the FINAL dialog the buffer is deliberately
+      // collapsed -- the gesture of the final 종료 tap (this very event, in
+      // the capture phase, before the button's onClick) must not re-park
+      // it. 취소 / backdrop / Escape re-arm explicitly from their handlers.
+      if (finalArmedRef.current) return;
       if (!armed) {
         arm(true);
         return;
@@ -428,6 +455,10 @@ export function ExitGuard() {
     // a pull-to-refresh, an F5 or an ordinary link never prompts.
     const onBeforeUnload = (e: BeforeUnloadEvent) => {
       if (leavingRef.current || !openRef.current || !onHome()) return;
+      // Round 18: on the FINAL App-channel dialog the buffer is collapsed on
+      // purpose so the OS back press ends the app -- that unload IS the
+      // visitor's second confirmation, never something to prompt about.
+      if (finalArmedRef.current) return;
       e.preventDefault();
       // Legacy engines (Chromium < 119) prompt only on a truthy returnValue.
       e.returnValue = true;
@@ -444,6 +475,27 @@ export function ExitGuard() {
     };
   }, [openConfirm]);
 
+  /** Dismiss the dialog (취소, backdrop, Escape) -- the visitor stays exactly
+   *  where they were. Round 18: leaving the FINAL App-channel dialog re-parks
+   *  the sentinel buffer that was pre-collapsed beneath it, from inside this
+   *  very gesture (the only place a non-skippable entry can be born), so the
+   *  page is as guarded as before the visitor ever pressed back. */
+  const close = useCallback(() => {
+    if (busy) return;
+    if (finalArmedRef.current) {
+      finalArmedRef.current = false;
+      if (shouldArmBackGuard() && !foreignEntryOnTop()) refillSentinels();
+    }
+    openGate(false);
+  }, [busy, openGate]);
+
+  // Round 18: whatever closes the gate (another surface claiming it, a
+  // programmatic close) ends the final-dialog state; the buffer is then
+  // topped back up by the visitor's next activation gesture as usual.
+  useEffect(() => {
+    if (!gate.open) finalArmedRef.current = false;
+  }, [gate.open]);
+
   // --- PC: ESC toggles the confirm -----------------------------------------------
   useEffect(() => {
     // Capture phase on `window` runs before the Modal's own bubble-phase
@@ -455,7 +507,7 @@ export function ExitGuard() {
       const owner = getGateOwner();
       if (owner === GATE_ID) {
         e.preventDefault();
-        if (!busy) openGate(false);
+        close();
         return;
       }
       if (owner !== null) return; // another popup owns Escape -- let it close
@@ -466,7 +518,7 @@ export function ExitGuard() {
     const opts: AddEventListenerOptions = { capture: true };
     window.addEventListener('keydown', onKeyDown, opts);
     return () => window.removeEventListener('keydown', onKeyDown, opts);
-  }, [busy, openConfirm, openGate]);
+  }, [close, openConfirm]);
 
   // On-demand open (no back-gesture involved) -- see `requestAppExit()`.
   useEffect(() => {
@@ -474,11 +526,6 @@ export function ExitGuard() {
     window.addEventListener(EXIT_REQUEST_EVENT, onExitRequest);
     return () => window.removeEventListener(EXIT_REQUEST_EVENT, onExitRequest);
   }, [openConfirm]);
-
-  const close = useCallback(() => {
-    if (busy) return;
-    openGate(false);
-  }, [busy, openGate]);
 
   async function handleLogout() {
     setBusy(true);
@@ -501,15 +548,27 @@ export function ExitGuard() {
     const next = advanceExitConfirm(step, doubleConfirm);
     if (next) {
       setStep(next);
+      // Round 18: the FINAL dialog opens over an already-collapsed sentinel
+      // buffer on a phone / tablet app (this tap's activation topped it up
+      // in the capture phase a moment ago; the same-document traversal here
+      // needs none). The app now sits on its real entry: the hardware back
+      // press ends the activity outright -- no shroud, no extra gesture --
+      // and the 종료 button below still runs the full engine.
+      if (next === 'exit-final' && shouldArmBackGuard()) {
+        finalArmedRef.current = true;
+        collapseSentinelBufferNow();
+      }
       return;
     }
     leavingRef.current = true;
+    finalArmedRef.current = false;
     setBusy(true);
     // Owner instruction 2026-09-05 (round 10, item 5): one shared engine
     // decides the channel -- online: back to the previous (search) page;
     // App: immediate termination, else terminated in place (never a blank
     // document, never a restart on the logo splash). Round 16: on a phone
-    // app the sentinel buffer collapses to the real entry on this very tap.
+    // app the sentinel buffer collapses to the real entry on this very tap;
+    // round 18: the WHOLE stack, down to the document's launch entry.
     executeAppExit({
       sentinelMarker: GUARD_MARKER,
       sentinelDepthKey: GUARD_DEPTH,
