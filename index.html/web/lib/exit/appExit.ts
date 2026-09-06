@@ -160,6 +160,26 @@
 //   a task from Recents; a web page can only make sure the card is clean and
 //   that nothing of the session survives behind it.
 //
+//   ROUND 20 (owner instruction 2026-09-06, "강제 탭 폐쇄 패치 -- about:blank
+//   치환 및 프로세스 붕괴 가드"): the terminal FRAME of a PHONE / TABLET app
+//   split from the DESKTOP app's. Round 19's dimmed-mark black shroud stays
+//   for a desktop app window (its `window.close()` genuinely closes it, so the
+//   shroud is only ever a fallback), but on a phone / tablet the second 종료
+//   now OVERWRITES the window with `about:blank` and strikes `window.close()`
+//   (`terminateWithBlankClose` -> `overwriteWithBlankAndClose`), so the OS
+//   task-switcher snapshot is a plain blank document instead of a rendered
+//   black app card. Everything round 19 did to leave nothing behind still runs
+//   first -- session + founder-token purge, React-tree unmount, whole-stack
+//   collapse -- and the blank overwrite waits for the collapse to land on the
+//   document's first entry so a back press from the blank frame LEAVES the app
+//   rather than stepping back into the buffer. `close()` is fired first (the
+//   only call that truly ends a single-entry window: a PC app window, a phone
+//   tab reduced to one entry); on a multi-entry phone PWA it is refused and
+//   `about:blank` covers the frame. The web-platform limit above is unchanged:
+//   no web call removes the Recents card or kills a resident phone-PWA process
+//   -- the blank overwrite only makes the retained card clean, and the native
+//   bridges remain the true process kill.
+//
 // `planExit()` is pure (no DOM) so the branching is unit-tested in
 // __tests__/exit/appExit.test.ts; `executeAppExit()` is the thin browser
 // runner around it. `findNativeExitBridge()`, `planStackCollapse()`,
@@ -217,6 +237,13 @@ export interface ExitEnvironment {
   /** A native container exit API is present on the host (see
    *  `findNativeExitBridge`). Omitted / false = plain browser or PWA. */
   nativeBridge?: boolean;
+  /** Installed as a DESKTOP app window (PC / laptop: fine pointer + hover;
+   *  see `isDesktopAppWindow`). Such a window has no hardware back button, so
+   *  ExitGuard keeps it at a single launch entry and `window.close()` really
+   *  closes it -- its in-place fallback stays the round-19 black shroud. A
+   *  PHONE / TABLET app (omitted / false) takes round 20's `about:blank`
+   *  overwrite + `window.close()` instead. */
+  desktopAppWindow?: boolean;
 }
 
 export type ExitStep =
@@ -227,8 +254,15 @@ export type ExitStep =
   | { kind: 'history-back'; steps: number }
   | { kind: 'navigate'; url: string; replace: boolean }
   /** Terminate in place: wipe the session, silence every audio engine and
-   *  cover the document with an opaque black shroud (App channel only). */
-  | { kind: 'terminate' };
+   *  cover the document with an opaque black shroud (DESKTOP App window
+   *  only, round 19). */
+  | { kind: 'terminate' }
+  /** Round 20 (mobile App channel): wipe the session, unmount the React tree,
+   *  collapse the history stack, then OVERWRITE the window with `about:blank`
+   *  and strike `window.close()` -- so the OS task switcher keeps a blank
+   *  frame rather than a rendered app, and the tab is force-closed wherever
+   *  the platform permits (owner instruction 2026-09-06). */
+  | { kind: 'blank-terminate' };
 
 export interface ExitPlan {
   channel: ExitChannel;
@@ -263,6 +297,14 @@ export function isExternalReferrer(referrer: string, origin: string): boolean {
  */
 export function planExit(env: ExitEnvironment): ExitPlan {
   if (env.standalone) {
+    // Round 20: the terminal in-place step splits by device. A DESKTOP app
+    // window keeps the round-19 black shroud (`terminate`) -- its
+    // `window.close()` genuinely closes the window, so the shroud is only ever
+    // a belt-and-braces fallback. A PHONE / TABLET app takes `blank-terminate`
+    // -- it OVERWRITES the window with `about:blank` and strikes
+    // `window.close()`, so the OS task switcher keeps a blank frame instead of
+    // a rendered app card (owner instruction 2026-09-06).
+    const terminal: ExitStep = env.desktopAppWindow ? { kind: 'terminate' } : { kind: 'blank-terminate' };
     // Round 15: the native shell's exit API first (kills the process
     // outright inside a container), then the web window close.
     const immediate: ExitStep[] = [{ kind: 'native-exit' }, { kind: 'close' }];
@@ -272,14 +314,15 @@ export function planExit(env: ExitEnvironment): ExitPlan {
     // with its hardware-back buffer parked, a desktop app window that has
     // opened a tower. Waiting LEAVE_SETTLE_MS to "find out" only shows the
     // visitor a frozen page; terminate on the tap itself instead.
-    if (!env.nativeBridge && env.historyLength > 1) immediate.push({ kind: 'terminate' });
+    if (!env.nativeBridge && env.historyLength > 1) immediate.push(terminal);
     return {
       channel: 'app',
       immediate,
-      // Round 13: a refused close TERMINATES the app in place (session wiped,
-      // audio silenced, black shroud) -- never a restart on the logo splash,
-      // never `about:blank`. (Idempotent when the immediate step already ran.)
-      fallback: { kind: 'terminate' },
+      // Round 13: a refused close TERMINATES the app in place -- never a
+      // restart on the logo splash. Round 20: mobile overwrites with
+      // `about:blank`, desktop keeps the black shroud. (Idempotent when the
+      // immediate step already ran.)
+      fallback: terminal,
     };
   }
 
@@ -643,6 +686,111 @@ function terminateInPlace(): void {
 }
 
 // ---------------------------------------------------------------------------
+// mobile-app blank overwrite + force close (round 20)
+// ---------------------------------------------------------------------------
+
+/** The blank scheme a terminated mobile app's window is overwritten with. */
+export const BLANK_TERMINAL_URL = 'about:blank';
+
+/**
+ * Round 20 terminal strike (owner instruction 2026-09-06, "태스크 스위처 빈
+ * 카드 잔류 현상 격멸"): strike `window.close()` and overwrite the window with
+ * `about:blank`. `close()` is fired first because it is the only call that can
+ * genuinely end the tab / app window -- honoured on a single-entry window (a
+ * PC app window, or a phone tab that reached a single entry); silently refused
+ * on a multi-entry phone PWA, where `about:blank` then takes over the frame so
+ * the OS task-switcher snapshot is a plain blank document, never a rendered
+ * black app card. `location.replace` (not `href`) so no extra history entry is
+ * ever created for the blank page.
+ *
+ * The single web-platform limit this cannot cross (stated so it is never
+ * "fixed" again): on a multi-entry phone PWA no web call actually removes the
+ * Recents card or kills the process -- only the OS, or a native shell's
+ * `finishAndRemoveTask`, can. The blank overwrite makes the retained card
+ * clean; the native bridges (`findNativeExitBridge`) are the true kill path.
+ */
+export function overwriteWithBlankAndClose(): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.close();
+  } catch {
+    /* refused on a multi-entry window -- about:blank below covers the frame */
+  }
+  try {
+    window.location.replace(BLANK_TERMINAL_URL);
+  } catch {
+    try {
+      window.location.href = BLANK_TERMINAL_URL;
+    } catch {
+      /* navigation blocked -- nothing more a web page can do */
+    }
+  }
+}
+
+/**
+ * Terminate a PHONE / TABLET app in place (round 20). Everything the round-19
+ * black-shroud path did to leave nothing behind still runs -- the session and
+ * founder-token memo are purged, every audio engine is silenced and the whole
+ * React tree is unmounted through `TerminationBoundary` -- but the terminal
+ * FRAME is no longer a black shroud: once the history stack has collapsed to
+ * the document's first entry, the window is OVERWRITTEN with `about:blank` and
+ * `window.close()` is struck. The collapse runs FIRST (and the overwrite waits
+ * for it to land) so `about:blank` replaces the app's first entry: a hardware
+ * back press from the blank frame then leaves the app instead of stepping back
+ * into the sentinel buffer.
+ */
+function terminateWithBlankClose(): void {
+  clearSession();
+  announceExit();
+  let struck = false;
+  const strike = () => {
+    if (struck) return;
+    struck = true;
+    overwriteWithBlankAndClose();
+  };
+  try {
+    if (document.documentElement.hasAttribute(TERMINATED_ATTR)) {
+      strike();
+      return;
+    }
+    document.documentElement.setAttribute(TERMINATED_ATTR, '1');
+    // Paint the document black immediately so the frames between here and the
+    // about:blank navigation are never a flash of live UI or bare white.
+    document.documentElement.style.background = '#000';
+    try {
+      (document.activeElement as HTMLElement | null)?.blur?.();
+    } catch {
+      /* nothing focused */
+    }
+    // Round 19 (item 1): unmount the whole React tree (scene, audio, timers,
+    // channels released by their own effect cleanups) BEFORE navigating away,
+    // since a page-unload does not run React effect cleanups.
+    announceTerminate();
+    // Round 18: collapse the whole same-document stack to the launch entry so
+    // about:blank replaces the FIRST entry (back then leaves the app).
+    const delta = collapseHistoryStackNow();
+    if (delta === 0) {
+      strike();
+      return;
+    }
+    const onLanded = (e: PopStateEvent) => {
+      if (readSentinelDepth(e.state, EXIT_GUARD_MARKER, EXIT_GUARD_DEPTH_KEY) > 0) return;
+      window.removeEventListener('popstate', onLanded, true);
+      strike();
+    };
+    window.addEventListener('popstate', onLanded, true);
+    // Safety net: if the traversal never lands (refused part-way), overwrite
+    // anyway a beat later so a terminated app never sits on a live frame.
+    window.setTimeout(() => {
+      window.removeEventListener('popstate', onLanded, true);
+      strike();
+    }, LEAVE_SETTLE_MS);
+  } catch {
+    strike();
+  }
+}
+
+// ---------------------------------------------------------------------------
 // history stack collapse (round 16 sentinel-only -> round 18 whole stack)
 // ---------------------------------------------------------------------------
 
@@ -888,6 +1036,9 @@ function runStep(step: ExitStep): void {
       case 'terminate':
         terminateInPlace();
         return;
+      case 'blank-terminate':
+        terminateWithBlankClose();
+        return;
     }
   } catch {
     /* a refused step must never throw out of the gesture handler */
@@ -953,6 +1104,7 @@ export function executeAppExit(options: ExecuteAppExitOptions = {}): ExitChannel
     referrer: typeof document === 'undefined' ? '' : document.referrer || '',
     origin: window.location.origin,
     nativeBridge: findNativeExitBridge(window) !== null,
+    desktopAppWindow: isDesktopAppWindow(),
   });
 
   leaving = true;

@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import {
   APP_EXIT_EVENT,
   APP_TERMINATE_EVENT,
+  BLANK_TERMINAL_URL,
   EXIT_GUARD_ACTIVATION_EVENTS,
   EXIT_GUARD_BOOTSTRAP,
   EXIT_GUARD_DEPTH_KEY,
@@ -52,18 +53,25 @@ describe('sovereign omni-channel exit planner', () => {
   });
 
   describe('APP channel (installed PWA / native container)', () => {
-    it('kills the process through the native shell first, then window.close, and if refused terminates IN PLACE -- never a restart, never about:blank (round 15)', () => {
-      const plan = planExit(env({ standalone: true, historyLength: 1 }));
+    it('DESKTOP app window: native shell first, then window.close, and if refused the round-19 black shroud -- never a restart, never about:blank', () => {
+      const plan = planExit(env({ standalone: true, desktopAppWindow: true, historyLength: 1 }));
       expect(plan.channel).toBe('app');
       expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
       expect(plan.fallback).toEqual({ kind: 'terminate' });
       expect(JSON.stringify(plan)).not.toContain('about:blank');
       expect(JSON.stringify(plan)).not.toContain('navigate');
+      expect(JSON.stringify(plan)).not.toContain('blank-terminate');
     });
 
     it('ignores the referrer entirely -- an app has no "previous page"', () => {
       const plan = planExit(
-        env({ standalone: true, historyLength: 1, sentinelDepth: 0, referrer: 'https://www.google.com/search?q=unitas' }),
+        env({
+          standalone: true,
+          desktopAppWindow: true,
+          historyLength: 1,
+          sentinelDepth: 0,
+          referrer: 'https://www.google.com/search?q=unitas',
+        }),
       );
       expect(plan.channel).toBe('app');
       expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
@@ -71,27 +79,48 @@ describe('sovereign omni-channel exit planner', () => {
       expect(JSON.stringify(plan)).not.toContain('navigate');
     });
 
-    it('round 16 (item 2): a phone app with its back buffer parked and no shell terminates ON THE TAP -- no settle wait', () => {
+    it('round 20: a PHONE app with its back buffer parked and no shell overwrites with about:blank ON THE TAP -- no settle wait', () => {
       // Chromium / WebKit refuse window.close() on a multi-entry window
       // without exception, so waiting LEAVE_SETTLE_MS only shows a hang.
       const plan = planExit(env({ standalone: true, historyLength: 13, sentinelDepth: 12 }));
       expect(plan.channel).toBe('app');
-      expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }, { kind: 'terminate' }]);
-      expect(plan.fallback).toEqual({ kind: 'terminate' });
-      // Even a two-entry window (a desktop app that opened a tower) is certain.
-      expect(planExit(env({ standalone: true, historyLength: 2 })).immediate).toContainEqual({ kind: 'terminate' });
+      expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }, { kind: 'blank-terminate' }]);
+      expect(plan.fallback).toEqual({ kind: 'blank-terminate' });
+      // Even a two-entry phone window (an app that opened a tower) is certain.
+      expect(planExit(env({ standalone: true, historyLength: 2 })).immediate).toContainEqual({ kind: 'blank-terminate' });
     });
 
-    it('round 16: a native shell is trusted to kill the process -- no in-place termination on the tap', () => {
+    it('round 20: a native shell is trusted to kill the process -- no in-place overwrite on the tap', () => {
       const plan = planExit(env({ standalone: true, historyLength: 13, sentinelDepth: 12, nativeBridge: true }));
       expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
-      expect(plan.fallback).toEqual({ kind: 'terminate' });
+      // The fallback is still the mobile blank overwrite should the bridge fail.
+      expect(plan.fallback).toEqual({ kind: 'blank-terminate' });
     });
 
     it('round 16: a single-entry desktop app window keeps the genuine window.close() path (PC app unchanged)', () => {
-      const plan = planExit(env({ standalone: true, historyLength: 1 }));
+      const plan = planExit(env({ standalone: true, desktopAppWindow: true, historyLength: 1 }));
       expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
       expect(plan.immediate).not.toContainEqual({ kind: 'terminate' });
+      expect(plan.immediate).not.toContainEqual({ kind: 'blank-terminate' });
+    });
+
+    it('round 20: the mobile blank overwrite targets about:blank (never a URL the seal would keep)', () => {
+      expect(BLANK_TERMINAL_URL).toBe('about:blank');
+      // about:blank is exactly what the round-19 seal REFUSES, so the two
+      // paths can never be confused for one another.
+      expect(sealedLaunchUrl(BLANK_TERMINAL_URL)).toBeNull();
+    });
+
+    it('round 20: the terminal step splits by device -- desktop keeps the black shroud, mobile overwrites with about:blank', () => {
+      const desktop = planExit(env({ standalone: true, desktopAppWindow: true, historyLength: 13, sentinelDepth: 12 }));
+      expect(desktop.immediate).toContainEqual({ kind: 'terminate' });
+      expect(desktop.immediate).not.toContainEqual({ kind: 'blank-terminate' });
+      expect(desktop.fallback).toEqual({ kind: 'terminate' });
+
+      const mobile = planExit(env({ standalone: true, desktopAppWindow: false, historyLength: 13, sentinelDepth: 12 }));
+      expect(mobile.immediate).toContainEqual({ kind: 'blank-terminate' });
+      expect(mobile.immediate).not.toContainEqual({ kind: 'terminate' });
+      expect(mobile.fallback).toEqual({ kind: 'blank-terminate' });
     });
   });
 

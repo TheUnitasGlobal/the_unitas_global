@@ -565,14 +565,15 @@ export function ExitGuard() {
     setBusy(true);
     // Owner instruction 2026-09-05 (round 10, item 5): one shared engine
     // decides the channel -- online: back to the previous (search) page;
-    // App: immediate termination, else terminated in place (never a blank
-    // document, never a restart on the logo splash). Round 16: on a phone
-    // app the sentinel buffer collapses to the real entry on this very tap;
-    // round 18: the WHOLE stack, down to the document's launch entry;
-    // round 19: the React tree is unmounted (this dialog included), the
-    // session + founder-token remnants purged and the surviving history
-    // entry sealed to the clean launch URL -- nothing is left for the OS
-    // task switcher to keep but the app's own closed cover.
+    // App: immediate termination, else terminated in place. Round 16: on a
+    // phone app the sentinel buffer collapses to the real entry on this very
+    // tap; round 18: the WHOLE stack, down to the document's launch entry;
+    // round 19: the React tree is unmounted (this dialog included) and the
+    // session + founder-token remnants purged. Round 20: on a PHONE / TABLET
+    // app the window is then OVERWRITTEN with about:blank and window.close()
+    // is struck, so the OS task switcher keeps a blank frame instead of a
+    // rendered app card; a DESKTOP app window keeps the round-19 black shroud
+    // (its window.close() genuinely closes the window).
     executeAppExit({
       sentinelMarker: GUARD_MARKER,
       sentinelDepthKey: GUARD_DEPTH,

@@ -5,9 +5,19 @@ const { test, expect } = require('@playwright/test');
 // pre-collapsed sentinel buffer, so a hardware back press leaves the document
 // at once (the OS finishes the activity) instead of being swallowed by a
 // sentinel; and the second 종료 collapses the WHOLE same-document stack in one
-// hop before terminating in place. The App channel is emulated the way round
-// 17 did it: `matchMedia` is patched so `(display-mode: standalone)` matches
-// and the desktop-app query `(hover: hover) and (pointer: fine)` does not.
+// hop before terminating.
+//
+// Round 20 (owner instruction 2026-09-06, "태스크 스위처 빈 카드 잔류 현상
+// 격멸 -- 강제 탭 폐쇄 패치"): the phone / tablet terminal FRAME is no longer
+// the round-19 black shroud -- the second 종료 now OVERWRITES the window with
+// `about:blank` and strikes `window.close()`, so the OS task-switcher snapshot
+// is a blank frame rather than a rendered app card. The session purge + React
+// unmount still run first. A DESKTOP app window keeps the black shroud (its
+// window.close() genuinely closes it).
+//
+// The App channel is emulated the way round 17 did it: `matchMedia` is patched
+// so `(display-mode: standalone)` matches and the desktop-app query
+// `(hover: hover) and (pointer: fine)` does not.
 // web/lib/exit/appExit.ts, web/components/interaction/ExitGuard.tsx.
 
 const MARKER = 'unitasExitGuard';
@@ -140,104 +150,63 @@ test.describe('App channel: final exit dialog pre-collapses the back buffer (rou
     expect(page.url()).toBe(siteUrl);
   });
 
-  test('the second 종료 terminates in place with the WHOLE stack collapsed on the tap itself', async ({ page }) => {
+  test('round 20: the second 종료 overwrites the phone-app window with about:blank and strikes window.close()', async ({ page }) => {
     await openSealedApp(page);
-    const siteUrl = page.url();
     await sealedX(page).dispatchEvent('click');
     await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
     await confirmButton(page).click();
     await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(0);
 
-    // Final 종료: shell kill (none) -> window.close (refused, multi-entry) ->
-    // terminate in place, synchronously inside the tap.
+    // Final 종료: shell kill (none) -> window.close (refused on a multi-entry
+    // phone PWA) -> the WHOLE stack collapses and the window is OVERWRITTEN
+    // with about:blank, so the OS task-switcher snapshot is a blank frame
+    // instead of a rendered app card (round 20). No black shroud, no sealed
+    // launch URL -- the document is replaced outright.
     await confirmButton(page).click();
-    await expect.poll(async () => (await readStack(page)).terminated, { timeout: 3000 }).toBe(true);
-    const done = await readStack(page);
-    // Round 19: the surviving entry is SEALED to the clean launch URL --
-    // the `?splash=0` QA query (and any token / deep route) is gone.
-    const launchUrl = new URL(siteUrl);
-    expect(done.url).toBe(`${launchUrl.origin}/en`);
-    expect(done.sentinelDepth).toBe(0);
-    expect([0, -1]).toContain(done.sameDocumentIndex);
-    // The terminal shroud is opaque black and on top of everything (the
-    // dimmed mark on it is not hit-testable, so the shroud itself answers).
-    const shroud = await page.evaluate(() => {
-      const el = document.elementFromPoint(Math.floor(innerWidth / 2), Math.floor(innerHeight / 2));
-      return el ? getComputedStyle(el).backgroundColor : null;
-    });
-    expect(shroud).toBe('rgb(0, 0, 0)');
-    // The very next back press ends the app (leaves the document).
-    await page.goBack({ waitUntil: 'commit' });
     await expect.poll(() => page.url(), { timeout: 5000 }).toBe('about:blank');
-  });
 
-  test('round 19: termination purges the DOM, wipes the session and seals the history entry -- nothing for the task switcher to keep', async ({ page }) => {
-    await openSealedApp(page);
-    const siteUrl = page.url();
-    await page.evaluate(() => sessionStorage.setItem('unitas_probe', '1'));
-    await sealedX(page).dispatchEvent('click');
-    await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
-    await confirmButton(page).click();
-    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(0);
-    await confirmButton(page).click();
-    await expect.poll(async () => (await readStack(page)).terminated, { timeout: 3000 }).toBe(true);
-
-    // 1. DOM memory purge: the whole React tree under <body> is unmounted --
-    //    the dialog, the curtain, the scene canvas, every portal. Only
-    //    Next's own body-level nodes (scripts, the route announcer portal
-    //    host) may remain, and the shroud lives on <html>, not <body>.
-    await expect.poll(
-      () =>
-        page.evaluate(() =>
-          Array.from(document.body.children)
-            .map((el) => el.tagName.toLowerCase())
-            .filter((tag) => !['script', 'next-route-announcer', 'nextjs-portal'].includes(tag)),
-        ),
-      { timeout: 3000 },
-    ).toEqual([]);
-    const purged = await page.evaluate(() => ({
+    // The blank frame is a genuinely empty document -- no app UI, no dialog,
+    // no canvas, nothing for a relaunch snapshot to show but blankness.
+    const blank = await page.evaluate(() => ({
+      body: document.body ? document.body.innerHTML.trim() : null,
       dialog: document.getElementById('exit-guard-title') !== null,
       canvases: document.querySelectorAll('canvas').length,
-      shroudOnHtml: document.querySelector(`html > [data-unitas-shroud]`) !== null,
-      markOnShroud: document.querySelector(`[data-unitas-shroud] > img[src*="unitas-mark.svg"]`) !== null,
     }));
-    expect(purged.dialog).toBe(false);
-    expect(purged.canvases).toBe(0);
-    expect(purged.shroudOnHtml).toBe(true);
-    expect(purged.markOnShroud).toBe(true);
+    expect(blank.body).toBe('');
+    expect(blank.dialog).toBe(false);
+    expect(blank.canvases).toBe(0);
+  });
 
-    // 2. Local session purge: sessionStorage is empty (the curtain phase,
-    //    the splash flag and our probe are gone). localStorage holds the
-    //    visitor's preferences and is deliberately left alone.
-    expect(await page.evaluate(() => sessionStorage.length)).toBe(0);
+  test('round 20: termination purges the session and unmounts the tree BEFORE the blank overwrite', async ({ page }) => {
+    await openSealedApp(page);
+    await page.evaluate(() => sessionStorage.setItem('unitas_probe', '1'));
 
-    // 3. History seal: clean launch URL (no query, no hash) and a bare
-    //    router state -- Next's flag only, no sentinel keys, nothing unitas*.
-    await expect.poll(() => page.evaluate(() => location.search + location.hash), { timeout: 3000 }).toBe('');
-    const sealed = await page.evaluate(() => {
-      const state = window.history.state;
-      return {
-        url: location.href,
-        na: state && state.__NA === true,
-        unitasKeys: state ? Object.keys(state).filter((k) => k.startsWith('unitas')) : [],
-      };
+    // Capture the state at the exact moment the terminate pipeline fires --
+    // before about:blank replaces the document and wipes our JS context.
+    // `clearSession()` runs before `announceTerminate()` in
+    // terminateWithBlankClose, so the session is already empty here.
+    let terminateFired = false;
+    let sessionLenAtTerminate = -1;
+    await page.exposeFunction('__recordTerminate', (len) => {
+      terminateFired = true;
+      sessionLenAtTerminate = len;
     });
-    expect(sealed.url).toBe(`${new URL(siteUrl).origin}/en`);
-    expect(sealed.na).toBe(true);
-    expect(sealed.unitasKeys).toEqual([]);
-
-    // 4. The seal is re-applied at the OS snapshot moment (page hidden):
-    //    even if something rewrote the entry, hiding the app re-seals it.
     await page.evaluate(() => {
-      window.history.replaceState({ __NA: true, unitasExitGuard: true, unitasExitDepth: 3 }, '', '/en?ghost=1');
-      Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => 'hidden' });
-      document.dispatchEvent(new Event('visibilitychange'));
+      window.addEventListener('unitas:app-terminate', () => window.__recordTerminate(sessionStorage.length));
     });
-    const resealed = await page.evaluate(() => ({
-      url: location.href,
-      unitasKeys: window.history.state ? Object.keys(window.history.state).filter((k) => k.startsWith('unitas')) : [],
-    }));
-    expect(resealed.url).toBe(`${new URL(siteUrl).origin}/en`);
-    expect(resealed.unitasKeys).toEqual([]);
+
+    await sealedX(page).dispatchEvent('click');
+    await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
+    await confirmButton(page).click();
+    await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 3000 }).toBe(0);
+    await confirmButton(page).click();
+
+    // The terminate event fired (React tree unmounted through
+    // TerminationBoundary) and the session was already purged when it did.
+    await expect.poll(() => terminateFired, { timeout: 5000 }).toBe(true);
+    expect(sessionLenAtTerminate).toBe(0);
+
+    // ...and the window then lands on the blank overwrite.
+    await expect.poll(() => page.url(), { timeout: 5000 }).toBe('about:blank');
   });
 });
