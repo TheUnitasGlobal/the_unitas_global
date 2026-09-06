@@ -12,6 +12,7 @@ import {
   type ReactNode,
 } from 'react';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
+import { ensurePlaybackAudioSession } from '@/lib/audio/audioSession';
 import { APP_EXIT_EVENT } from '@/lib/exit/appExit';
 
 // useLayoutEffect warns during SSR; fall back to useEffect on the server.
