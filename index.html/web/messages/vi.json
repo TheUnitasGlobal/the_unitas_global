@@ -1334,7 +1334,12 @@
     "exitTitle": "Đăng xuất và thoát UNITAS?",
     "exitBody": "Trang chỉ đóng khi bạn xác nhận tại đây. Hủy để ở lại đúng nơi bạn đang xem.",
     "exitConfirm": "Thoát",
-    "exitCancel": "Hủy"
+    "exitCancel": "Hủy",
+    "appExitTitle": "Bạn có chắc muốn thoát?",
+    "appExitBody": "Bạn sắp đóng ứng dụng. Thoát sẽ dẫn đến một xác nhận cuối cùng; Hủy giữ bạn đúng ở nơi đang xem.",
+    "appExitFinalTitle": "Nhấn Thoát một lần nữa để đóng hoàn toàn ứng dụng",
+    "appExitFinalBody": "Phiên này kết thúc và ứng dụng đóng ngay lập tức. Hủy thì không có gì xảy ra.",
+    "appExitStep": "Bước {current} / {total}"
   },
   "Civic": {
     "axes": {

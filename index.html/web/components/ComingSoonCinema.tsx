@@ -16,7 +16,9 @@ import {
   EXIT_GUARD_SENTINEL_DEPTH,
   executeAppExit,
   isExitInProgress,
+  isStandaloneApp,
 } from '@/lib/exit/appExit';
+import { requestAppExit } from '@/lib/exit/exitConfirmFlow';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
 import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '@/lib/audio/audioSession';
 import { attachActivationUnlock } from '@/lib/audio/activationUnlock';
@@ -929,6 +931,39 @@ export function ComingSoonCinema() {
     setPhase('sealed');
   };
 
+  /**
+   * The sealed screen's "[X] 종료" (bottom-right, next to 다시 재생).
+   *
+   * ROUND 17 (owner instruction 2026-09-06, "2단계 더블 컨펌 안심 종료"): on
+   * the APP channel the tap no longer drops the visitor onto the black
+   * terminal shroud in one step -- it opens ExitGuard's two-step confirm
+   * ("정말 종료하시겠습니까?" -> "종료 버튼을 한 번 더 누르면 앱이 완전히
+   * 종료됩니다"), and only the second explicit 종료 there runs the exit
+   * engine (lib/exit/exitConfirmFlow.ts). ExitGuard mounts right after this
+   * curtain in app/[locale]/layout.tsx and its modal renders on the top
+   * layer (z-680), above the curtain.
+   *
+   * ONLINE (a browser tab) keeps round 10's "극단적 터널링" (item 6): the tap
+   * calls the shared exit engine directly, synchronously inside the gesture
+   * (window.close and history traversal are activation-gated) -- back to the
+   * page the visitor came from, or the fresh tab closes. Round 13: absolute
+   * termination on refusal, never a restart on the logo splash. Round 16: a
+   * certain refusal is decided on the tap and the sentinel buffer collapses
+   * at once.
+   */
+  const exitFromSealed = () => {
+    if (isExitInProgress()) return;
+    if (isStandaloneApp()) {
+      requestAppExit();
+      return;
+    }
+    executeAppExit({
+      sentinelMarker: EXIT_GUARD_MARKER,
+      sentinelDepthKey: EXIT_GUARD_DEPTH_KEY,
+      sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
+    });
+  };
+
   // FOUNDER-ONLY: leave the curtain for the real homepage. Guarded by
   // `isFounder` at the call site AND here -- a public build can never call it.
   //
@@ -1372,46 +1407,15 @@ export function ComingSoonCinema() {
                     </button>
 
                     {/* Exit -- "[X] 종료", the exact same control as replay.
-
-                        ROUND 10 -- "극단적 터널링" (item 6): the tap does not
-                        detour through ExitGuard's confirm dialog; it calls
-                        the shared exit engine directly, synchronously inside
-                        the gesture (window.close and history traversal are
-                        activation-gated).
-
-                        ROUND 13 (hardening patch, item 4): the tap is
-                        ABSOLUTE TERMINATION, never a restart on the logo
-                        splash. The session is wiped on the tap itself.
-
-                        ROUND 15 (item 1): App channel -> the native shell's
-                        exit API (process kill inside a container), then
-                        window.close() -- which now genuinely closes a
-                        DESKTOP app window (ExitGuard parks no sentinel
-                        there); where a runtime still refuses (a phone /
-                        tablet app with its hardware-back buffer parked, an
-                        iOS home-screen app) the app is terminated IN PLACE
-                        (audio silenced, opaque black shroud, fresh session
-                        only on the next foreground resume); online -> back
-                        to the page the visitor came from / close the fresh
-                        tab.
-
-                        ROUND 16 (mobile-app hardening, item 2): a certain
-                        refusal (no native shell, multi-entry history) is
-                        decided ON THE TAP -- no settle wait -- and the
-                        sentinel buffer collapses to the real entry at once,
-                        so the very next hardware back press lets the OS
-                        finish the activity. */}
+                        Round 17: App channel -> ExitGuard's two-step double
+                        confirm; online -> the exit engine directly. See
+                        `exitFromSealed` above for the full round history. */}
                     <button
                       type="button"
                       onMouseEnter={() => playHoverSfx()}
                       onClick={(e) => {
                         e.preventDefault();
-                        if (isExitInProgress()) return;
-                        executeAppExit({
-                          sentinelMarker: EXIT_GUARD_MARKER,
-                          sentinelDepthKey: EXIT_GUARD_DEPTH_KEY,
-                          sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
-                        });
+                        exitFromSealed();
                       }}
                       onTouchEnd={(e) => {
                         // Owner instruction 2026-09-05 (round 3): a bare
@@ -1423,12 +1427,7 @@ export function ComingSoonCinema() {
                         // makes the exit control react to the very first tap
                         // on every touch device.
                         e.preventDefault();
-                        if (isExitInProgress()) return;
-                        executeAppExit({
-                          sentinelMarker: EXIT_GUARD_MARKER,
-                          sentinelDepthKey: EXIT_GUARD_DEPTH_KEY,
-                          sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
-                        });
+                        exitFromSealed();
                       }}
                       aria-label={tExit('exitTitle')}
                       style={{ pointerEvents: 'auto', touchAction: 'manipulation' }}

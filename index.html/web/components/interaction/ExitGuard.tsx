@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import { motion, useReducedMotion } from 'framer-motion';
 import { LogOut, Power } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useGatedSurface } from '@/components/ui/useGatedSurface';
@@ -17,9 +18,23 @@ import {
   executeAppExit,
   isDesktopAppWindow,
   isExitInProgress,
+  isStandaloneApp,
   readSentinelDepth,
 } from '@/lib/exit/appExit';
+import {
+  EXIT_REQUEST_EVENT,
+  advanceExitConfirm,
+  exitConfirmPosition,
+  initialExitConfirmStep,
+  needsDoubleExitConfirm,
+  requestAppExit,
+  type ExitConfirmStep,
+} from '@/lib/exit/exitConfirmFlow';
 import { CINEMA_PHASE_EVENT } from '@/lib/foundersGate';
+
+// Re-exported so existing callers keep their import path; the primitive now
+// lives with the pure confirm-flow state machine (round 17).
+export { requestAppExit };
 
 /** history.state marker of a sentinel entry parked under the page. */
 const GUARD_MARKER = EXIT_GUARD_MARKER;
@@ -49,9 +64,6 @@ const GUARD_DEPTH = EXIT_GUARD_DEPTH_KEY;
 const SENTINEL_DEPTH = EXIT_GUARD_SENTINEL_DEPTH;
 /** Gate id in the site-wide single-open-surface registry (lib/uiGate.ts). */
 const GATE_ID = 'exit-guard';
-/** Window event any surface can fire to open the same logout/exit confirm
- *  this component shows on a back-gesture -- see `requestAppExit()` below. */
-const EXIT_REQUEST_EVENT = 'unitas:app-exit-request';
 /** Grace window (ms) after arming / regaining visibility during which an
  *  incoming popstate is treated as synthetic (WebKit PWA history restore,
  *  bfcache resume) rather than a user's back gesture. */
@@ -64,18 +76,7 @@ const SPURIOUS_POP_GRACE_MS = 600;
  *  "무반응"). */
 const RELEASED_PHASE = 'released';
 
-/**
- * Ask ExitGuard to open its logout/exit confirm on demand, outside the
- * back-gesture flow. No-ops if ExitGuard isn't mounted (SSR / removed).
- * (The Coming-Soon 'X' does not go through here -- owner instruction
- * 2026-09-05 round 10 item 6 tunnels it straight into `executeAppExit()`.)
- */
-export function requestAppExit(): void {
-  if (typeof window === 'undefined') return;
-  window.dispatchEvent(new CustomEvent(EXIT_REQUEST_EVENT));
-}
-
-type Step = 'logout' | 'exit';
+type Step = ExitConfirmStep;
 
 /**
  * EVERY device and BOTH channels arm the history sentinel buffer, on EVERY
@@ -238,6 +239,17 @@ const ACTIVATION_EVENTS = EXIT_GUARD_ACTIVATION_EVENTS;
  *     Every other path (취소, backdrop, Escape) leaves the visitor exactly
  *     where they were.
  *
+ * TWO-STEP DOUBLE CONFIRM ON THE APP CHANNEL (round 17, owner instruction
+ * 2026-09-06): an installed app's confirmed exit is terminal (process kill /
+ * window close / black shroud), so there the exit question is asked TWICE in
+ * two consecutive dialogs of the same design -- "정말 종료하시겠습니까?" and
+ * then "종료 버튼을 한 번 더 누르면 앱이 완전히 종료됩니다" -- and only the
+ * second explicit 종료 runs the engine, which collapses the sentinel buffer
+ * and ends the app on that very tap. The sealed Coming-Soon screen's 'X 종료'
+ * joins this flow on the App channel through `requestAppExit()` (online it
+ * still tunnels straight into the engine, round 10 item 6). The sequence is
+ * the pure state machine in lib/exit/exitConfirmFlow.ts.
+ *
  * Further presses only step down the buffer; every activation gesture (the
  * tap on 취소 included) tops it back up. Should a burst of presses ever
  * exhaust the buffer while the dialog is open, `beforeunload` raises the
@@ -281,7 +293,11 @@ export function ExitGuard() {
   const { session } = useWallet();
   const { playHoverSfx } = useSpatialAudio();
   const gate = useGatedSurface(GATE_ID);
+  const reducedMotion = useReducedMotion();
   const [step, setStep] = useState<Step>('exit');
+  /** App channel: the exit question is asked twice (round 17). Resolved on
+   *  every open, never at render time -- `isStandaloneApp()` needs `window`. */
+  const [doubleConfirm, setDoubleConfirm] = useState(false);
   const [busy, setBusy] = useState(false);
   const sessionRef = useRef(session);
   sessionRef.current = session;
@@ -294,15 +310,20 @@ export function ExitGuard() {
 
   const openGate = gate.setOpen;
 
-  /** Open the confirm (logout step first while signed in). */
+  /** Open the confirm (logout step first while signed in). While it is
+   *  already open -- a second back press, a repeated ESC / exit request --
+   *  the dialog keeps the step the visitor is on: a press on the final
+   *  App-channel confirm must never quietly rewind it to step one. */
   const openConfirm = useCallback(() => {
     if (leavingRef.current) return;
+    if (openRef.current) return;
     try {
       (document.activeElement as HTMLElement | null)?.blur?.();
     } catch {
       // nothing focused
     }
-    setStep(sessionRef.current ? 'logout' : 'exit');
+    setDoubleConfirm(needsDoubleExitConfirm(isStandaloneApp()));
+    setStep(initialExitConfirmStep(Boolean(sessionRef.current)));
     openGate(true, { force: true });
   }, [openGate]);
 
@@ -473,12 +494,22 @@ export function ExitGuard() {
   }
 
   function handleExit() {
+    if (busy || leavingRef.current) return;
+    // Round 17: on the App channel the first 종료 only advances to the
+    // FINAL confirm ("종료 버튼을 한 번 더 누르면 앱이 완전히 종료됩니다");
+    // nothing leaves, nothing is wiped. Online the single confirm is final.
+    const next = advanceExitConfirm(step, doubleConfirm);
+    if (next) {
+      setStep(next);
+      return;
+    }
     leavingRef.current = true;
     setBusy(true);
     // Owner instruction 2026-09-05 (round 10, item 5): one shared engine
     // decides the channel -- online: back to the previous (search) page;
     // App: immediate termination, else terminated in place (never a blank
-    // document, never a restart on the logo splash).
+    // document, never a restart on the logo splash). Round 16: on a phone
+    // app the sentinel buffer collapses to the real entry on this very tap.
     executeAppExit({
       sentinelMarker: GUARD_MARKER,
       sentinelDepthKey: GUARD_DEPTH,
@@ -488,15 +519,69 @@ export function ExitGuard() {
 
   const titleId = 'exit-guard-title';
   const isLogout = step === 'logout';
+  const isFinal = step === 'exit-final';
+  const position = exitConfirmPosition(step, doubleConfirm);
+  const title = isLogout
+    ? t('logoutTitle')
+    : isFinal
+      ? t('appExitFinalTitle')
+      : doubleConfirm
+        ? t('appExitTitle')
+        : t('exitTitle');
+  const body = isLogout
+    ? t('logoutBody')
+    : isFinal
+      ? t('appExitFinalBody')
+      : doubleConfirm
+        ? t('appExitBody')
+        : t('exitBody');
 
   return (
     <Modal open={gate.open} onClose={close} labelledBy={titleId} hideCloseButton layer="top">
-      <div className="flex flex-col gap-5">
+      {/* Keyed on the step so every advance (logout -> exit -> final) plays
+          as a fresh dialog sliding into the same glass panel -- the App
+          channel's second confirm reads as a NEW popup opening in sequence,
+          not as a title silently changing under the visitor's thumb. */}
+      <motion.div
+        key={step}
+        className="flex flex-col gap-5"
+        initial={reducedMotion ? false : { opacity: 0, x: 18 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+      >
         <div className="flex items-center gap-3">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-accent/50 bg-accent/10 text-accent">
+          <span
+            className={`flex h-11 w-11 shrink-0 items-center justify-center border ${
+              isFinal
+                ? 'animate-pulse border-red-400/70 bg-red-500/15 text-red-200'
+                : 'border-accent/50 bg-accent/10 text-accent'
+            }`}
+          >
             {isLogout ? <LogOut size={20} aria-hidden="true" /> : <Power size={20} aria-hidden="true" />}
           </span>
           <div className="min-w-0">
+            {position && (
+              /* Round 17: the App channel's "1 / 2 -> 2 / 2" progress -- the
+                 visitor always knows one more explicit tap stands between
+                 them and a closed app. */
+              <div className="mb-1 flex items-center gap-2">
+                <span className="flex items-center gap-1" aria-hidden="true">
+                  {Array.from({ length: position.total }, (_, i) => (
+                    <span
+                      key={i}
+                      className={`h-1 w-4 transition-colors ${
+                        i < position.current ? (isFinal ? 'bg-red-300' : 'bg-accent') : 'bg-white/15'
+                      }`}
+                    />
+                  ))}
+                </span>
+                <span
+                  className={`text-[10px] uppercase tracking-[0.22em] ${isFinal ? 'text-red-200/90' : 'text-accent/80'}`}
+                >
+                  {t('appExitStep', { current: position.current, total: position.total })}
+                </span>
+              </div>
+            )}
             {/* Owner instruction 2026-09-05 (round 4, revised round 5): a
                 single, unbroken line for the Korean title -- at 320px
                 viewport width the icon leaves too little room for the
@@ -512,21 +597,26 @@ export function ExitGuard() {
                 13px sat *under* the old 14px body text. Kept the bump modest
                 (13px -> 14px, not further) since the freed width is the only
                 new margin available at the narrowest supported viewport and
-                nowrap must not push the line past the panel edge. */}
+                nowrap must not push the line past the panel edge.
+                Round 17: the App channel's FINAL title ("종료 버튼을 한 번 더
+                누르면 앱이 완전히 종료됩니다") is a full sentence that no
+                single line can hold at 320px -- it takes the wrapping style. */}
             <h2
               id={titleId}
               className={
-                locale === 'ko'
+                locale === 'ko' && !isFinal
                   ? 'whitespace-nowrap text-[14px] font-bold tracking-tight text-white sm:text-xl sm:tracking-normal'
-                  : 'text-base font-bold leading-snug text-white sm:text-xl'
+                  : isFinal
+                    ? 'text-[15px] font-bold leading-snug text-white sm:text-lg'
+                    : 'text-base font-bold leading-snug text-white sm:text-xl'
               }
             >
-              {isLogout ? t('logoutTitle') : t('exitTitle')}
+              {title}
             </h2>
           </div>
         </div>
 
-        <p className="text-xs leading-relaxed text-gray-300">{isLogout ? t('logoutBody') : t('exitBody')}</p>
+        <p className="text-xs leading-relaxed text-gray-300">{body}</p>
 
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <button
@@ -546,13 +636,15 @@ export function ExitGuard() {
             className={`border px-5 py-3 text-sm font-bold transition-colors disabled:opacity-50 ${
               isLogout
                 ? 'border-accent bg-accent/15 text-accent hover:bg-accent/25'
-                : 'border-red-400/70 bg-red-500/15 text-red-200 hover:bg-red-500/25'
+                : isFinal
+                  ? 'border-red-400 bg-red-500/30 text-red-50 shadow-[0_0_28px_rgba(248,113,113,0.35)] hover:bg-red-500/40'
+                  : 'border-red-400/70 bg-red-500/15 text-red-200 hover:bg-red-500/25'
             }`}
           >
             {isLogout ? t('logoutConfirm') : t('exitConfirm')}
           </button>
         </div>
-      </div>
+      </motion.div>
     </Modal>
   );
 }

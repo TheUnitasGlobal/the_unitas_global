@@ -64,6 +64,15 @@
 //          that opens on the logo splash, under the round-11 re-entry reset
 //          doctrine (lib/pwa/installPrompt.ts).
 //
+//   ROUND 17 (owner instruction 2026-09-06, "2단계 더블 컨펌 안심 종료"): on
+//   the App channel this engine is reached ONLY after two consecutive
+//   explicit confirmations -- "정말 종료하시겠습니까?" then "종료 버튼을 한
+//   번 더 누르면 앱이 완전히 종료됩니다" -- rendered by ExitGuard from the
+//   pure state machine in lib/exit/exitConfirmFlow.ts. The sealed
+//   Coming-Soon 'X 종료' joins that flow on the App channel via
+//   `requestAppExit()`; online it still calls `executeAppExit()` directly.
+//   Nothing below changed: the second 종료 is the gesture this runner needs.
+//
 //   The single web-platform limit this file cannot cross (stated here so it
 //   is never "fixed" again by dropping the guard): an installed PHONE app
 //   must keep extra history entries under itself to intercept the hardware

@@ -1334,7 +1334,12 @@
     "exitTitle": "Se déconnecter et quitter UNITAS ?",
     "exitBody": "Le site ne se ferme que si vous confirmez ici. Annulez pour rester exactement où vous étiez.",
     "exitConfirm": "Quitter",
-    "exitCancel": "Annuler"
+    "exitCancel": "Annuler",
+    "appExitTitle": "Voulez-vous vraiment quitter ?",
+    "appExitBody": "Vous êtes sur le point de fermer l’application. Quitter mène à une dernière confirmation ; Annuler vous laisse exactement où vous êtes.",
+    "appExitFinalTitle": "Appuyez encore une fois sur Quitter pour fermer complètement l’application",
+    "appExitFinalBody": "Cette session se termine et l’application se ferme immédiatement. Annulez et rien ne se passe.",
+    "appExitStep": "Étape {current} sur {total}"
   },
   "Civic": {
     "axes": {

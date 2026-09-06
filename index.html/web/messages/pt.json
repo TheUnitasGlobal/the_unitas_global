@@ -1334,7 +1334,12 @@
     "exitTitle": "Encerrar sessão e sair do UNITAS?",
     "exitBody": "O site só fecha quando confirmar aqui. Cancele para ficar exatamente onde estava.",
     "exitConfirm": "Sair",
-    "exitCancel": "Cancelar"
+    "exitCancel": "Cancelar",
+    "appExitTitle": "Tem a certeza de que quer sair?",
+    "appExitBody": "Está prestes a fechar a app. Sair leva a uma confirmação final; Cancelar mantém-no exatamente onde está.",
+    "appExitFinalTitle": "Prima Sair mais uma vez para fechar a app por completo",
+    "appExitFinalBody": "Esta sessão termina e a app fecha imediatamente. Se cancelar, nada acontece.",
+    "appExitStep": "Passo {current} de {total}"
   },
   "Civic": {
     "axes": {

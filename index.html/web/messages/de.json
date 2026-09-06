@@ -1334,7 +1334,12 @@
     "exitTitle": "Abmelden und UNITAS beenden?",
     "exitBody": "Die Seite wird nur geschlossen, wenn du hier bestätigst. Abbrechen lässt dich genau dort, wo du warst.",
     "exitConfirm": "Beenden",
-    "exitCancel": "Abbrechen"
+    "exitCancel": "Abbrechen",
+    "appExitTitle": "Möchtest du wirklich beenden?",
+    "appExitBody": "Du bist dabei, die App zu schließen. Beenden führt zu einer letzten Bestätigung; Abbrechen lässt dich genau dort, wo du bist.",
+    "appExitFinalTitle": "Drücke noch einmal Beenden, um die App vollständig zu schließen",
+    "appExitFinalBody": "Diese Sitzung endet und die App wird sofort geschlossen. Bei Abbrechen passiert nichts.",
+    "appExitStep": "Schritt {current} von {total}"
   },
   "Civic": {
     "axes": {

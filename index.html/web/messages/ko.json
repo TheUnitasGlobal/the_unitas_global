@@ -1334,7 +1334,12 @@
     "exitTitle": "로그아웃 및 종료하시겠습니까?",
     "exitBody": "여기서 확인해야만 사이트가 종료됩니다. 취소하면 있던 자리에 그대로 머무릅니다.",
     "exitConfirm": "종료",
-    "exitCancel": "취소"
+    "exitCancel": "취소",
+    "appExitTitle": "정말 종료하시겠습니까?",
+    "appExitBody": "앱을 종료하려고 합니다. 종료를 누르면 마지막 확인 단계로 넘어가고, 취소하면 있던 자리에 그대로 머무릅니다.",
+    "appExitFinalTitle": "종료 버튼을 한 번 더 누르면 앱이 완전히 종료됩니다",
+    "appExitFinalBody": "이 세션이 정리되고 앱이 즉시 완전 종료됩니다. 취소하면 아무 일도 일어나지 않습니다.",
+    "appExitStep": "{current} / {total} 단계"
   },
   "Civic": {
     "axes": {

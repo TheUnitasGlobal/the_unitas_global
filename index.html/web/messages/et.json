@@ -1334,7 +1334,12 @@
     "exitTitle": "Kas logid välja ja väljud UNITASest?",
     "exitBody": "Sait suletakse ainult siin kinnitades. Tühista, et jääda täpselt sinna, kus olid.",
     "exitConfirm": "Välju",
-    "exitCancel": "Tühista"
+    "exitCancel": "Tühista",
+    "appExitTitle": "Kas soovid kindlasti väljuda?",
+    "appExitBody": "Oled sulgemas rakendust. Välju viib viimase kinnituseni; Tühista jätab su täpselt sinna, kus oled.",
+    "appExitFinalTitle": "Vajuta veel kord Välju, et rakendus täielikult sulgeda",
+    "appExitFinalBody": "See seanss lõpeb ja rakendus sulgub kohe. Tühistamisel ei juhtu midagi.",
+    "appExitStep": "Samm {current} / {total}"
   },
   "Civic": {
     "axes": {

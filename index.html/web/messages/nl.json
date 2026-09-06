@@ -1334,7 +1334,12 @@
     "exitTitle": "Afmelden en UNITAS afsluiten?",
     "exitBody": "De site sluit alleen als je hier bevestigt. Annuleer om precies te blijven waar je was.",
     "exitConfirm": "Afsluiten",
-    "exitCancel": "Annuleren"
+    "exitCancel": "Annuleren",
+    "appExitTitle": "Weet je zeker dat je wilt afsluiten?",
+    "appExitBody": "Je staat op het punt de app te sluiten. Afsluiten leidt naar één laatste bevestiging; Annuleren houdt je precies waar je bent.",
+    "appExitFinalTitle": "Druk nog één keer op Afsluiten om de app volledig te sluiten",
+    "appExitFinalBody": "Deze sessie eindigt en de app sluit meteen. Annuleer en er gebeurt niets.",
+    "appExitStep": "Stap {current} van {total}"
   },
   "Civic": {
     "axes": {

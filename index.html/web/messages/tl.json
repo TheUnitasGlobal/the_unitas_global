@@ -1334,7 +1334,12 @@
     "exitTitle": "Mag-log out at lumabas sa UNITAS?",
     "exitBody": "Magsasara lang ang site kapag kinumpirma mo rito. Kanselahin para manatili kung nasaan ka.",
     "exitConfirm": "Lumabas",
-    "exitCancel": "Kanselahin"
+    "exitCancel": "Kanselahin",
+    "appExitTitle": "Sigurado ka bang lalabas?",
+    "appExitBody": "Isasara mo na ang app. Ang Lumabas ay patungo sa huling kumpirmasyon; ang Kanselahin ay mag-iiwan sa iyo kung nasaan ka.",
+    "appExitFinalTitle": "Pindutin muli ang Lumabas para ganap na isara ang app",
+    "appExitFinalBody": "Matatapos ang session na ito at agad na magsasara ang app. Kapag kinansela, walang mangyayari.",
+    "appExitStep": "Hakbang {current} ng {total}"
   },
   "Civic": {
     "axes": {

@@ -1334,7 +1334,12 @@
     "exitTitle": "¿Cerrar sesión y salir de UNITAS?",
     "exitBody": "El sitio solo se cierra cuando lo confirmas aquí. Cancela para quedarte exactamente donde estabas.",
     "exitConfirm": "Salir",
-    "exitCancel": "Cancelar"
+    "exitCancel": "Cancelar",
+    "appExitTitle": "¿Seguro que quieres salir?",
+    "appExitBody": "Estás a punto de cerrar la app. Salir te lleva a una última confirmación; Cancelar te deja exactamente donde estás.",
+    "appExitFinalTitle": "Pulsa Salir una vez más para cerrar la app por completo",
+    "appExitFinalBody": "Esta sesión termina y la app se cierra de inmediato. Si cancelas, no pasa nada.",
+    "appExitStep": "Paso {current} de {total}"
   },
   "Civic": {
     "axes": {

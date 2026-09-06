@@ -1334,7 +1334,12 @@
     "exitTitle": "ログアウトして終了しますか？",
     "exitBody": "ここで確認した場合のみサイトを終了します。キャンセルすると元の場所に留まります。",
     "exitConfirm": "終了",
-    "exitCancel": "キャンセル"
+    "exitCancel": "キャンセル",
+    "appExitTitle": "本当に終了しますか？",
+    "appExitBody": "アプリを終了しようとしています。終了を押すと最終確認に進み、キャンセルすると元の場所に留まります。",
+    "appExitFinalTitle": "もう一度終了ボタンを押すとアプリが完全に終了します",
+    "appExitFinalBody": "このセッションが終了し、アプリはすぐに完全終了します。キャンセルすれば何も起こりません。",
+    "appExitStep": "ステップ {current} / {total}"
   },
   "Civic": {
     "axes": {
