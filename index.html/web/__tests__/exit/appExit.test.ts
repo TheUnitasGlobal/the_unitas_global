@@ -1,10 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import {
   APP_EXIT_EVENT,
   EXIT_GUARD_DEPTH_KEY,
   EXIT_GUARD_MARKER,
   EXIT_GUARD_SENTINEL_DEPTH,
   LEAVE_SETTLE_MS,
+  NATIVE_EXIT_MESSAGE,
+  findNativeExitBridge,
   isExternalReferrer,
   planExit,
   readSentinelDepth,
@@ -36,11 +38,11 @@ describe('sovereign omni-channel exit planner', () => {
     expect(APP_EXIT_EVENT).toMatch(/^unitas:/);
   });
 
-  describe('APP channel (installed PWA)', () => {
-    it('terminates immediately via window.close and, if refused, terminates IN PLACE -- never a restart, never about:blank', () => {
+  describe('APP channel (installed PWA / native container)', () => {
+    it('kills the process through the native shell first, then window.close, and if refused terminates IN PLACE -- never a restart, never about:blank (round 15)', () => {
       const plan = planExit(env({ standalone: true, historyLength: 1 }));
       expect(plan.channel).toBe('app');
-      expect(plan.immediate).toEqual([{ kind: 'close' }]);
+      expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
       expect(plan.fallback).toEqual({ kind: 'terminate' });
       expect(JSON.stringify(plan)).not.toContain('about:blank');
       expect(JSON.stringify(plan)).not.toContain('navigate');
@@ -51,8 +53,98 @@ describe('sovereign omni-channel exit planner', () => {
         env({ standalone: true, historyLength: 7, sentinelDepth: 12, referrer: 'https://www.google.com/search?q=unitas' }),
       );
       expect(plan.channel).toBe('app');
-      expect(plan.immediate).toEqual([{ kind: 'close' }]);
+      expect(plan.immediate).toEqual([{ kind: 'native-exit' }, { kind: 'close' }]);
       expect(plan.fallback).toEqual({ kind: 'terminate' });
+    });
+  });
+
+  describe('native container exit bridges (round 15, item 1)', () => {
+    it('finds nothing in a plain browser / PWA (no shell, no throw)', () => {
+      expect(findNativeExitBridge({})).toBeNull();
+      expect(findNativeExitBridge(null)).toBeNull();
+      expect(findNativeExitBridge(undefined)).toBeNull();
+      expect(findNativeExitBridge({ navigator: {}, webkit: {}, Capacitor: { Plugins: {} } })).toBeNull();
+      // Present but not callable -> not a bridge.
+      expect(findNativeExitBridge({ Android: { exitApp: 'nope' } })).toBeNull();
+    });
+
+    it('invokes Capacitor App.exitApp()', () => {
+      const exitApp = vi.fn();
+      const bridge = findNativeExitBridge({ Capacitor: { Plugins: { App: { exitApp } } } });
+      expect(bridge?.name).toBe('Capacitor.Plugins.App.exitApp');
+      bridge?.invoke();
+      expect(exitApp).toHaveBeenCalledTimes(1);
+    });
+
+    it('invokes Cordova navigator.app.exitApp()', () => {
+      const exitApp = vi.fn();
+      const bridge = findNativeExitBridge({ navigator: { app: { exitApp } } });
+      expect(bridge?.name).toBe('navigator.app.exitApp');
+      bridge?.invoke();
+      expect(exitApp).toHaveBeenCalledTimes(1);
+    });
+
+    it('invokes an Android WebView JavascriptInterface (exitApp, else finish) with the interface as `this`', () => {
+      const calls: string[] = [];
+      const Android = {
+        finish() {
+          calls.push(`finish:${this === Android}`);
+        },
+      };
+      const bridge = findNativeExitBridge({ Android });
+      expect(bridge?.name).toBe('Android.finish');
+      bridge?.invoke();
+      expect(calls).toEqual(['finish:true']);
+
+      const exitApp = vi.fn();
+      expect(findNativeExitBridge({ Android: { exitApp, finish: vi.fn() } })?.name).toBe('Android.exitApp');
+    });
+
+    it('posts the exit message to an iOS WKWebView handler and a React Native WebView', () => {
+      const postMessage = vi.fn();
+      const ios = findNativeExitBridge({ webkit: { messageHandlers: { unitasExit: { postMessage } } } });
+      expect(ios?.name).toBe('webkit.messageHandlers.unitasExit');
+      ios?.invoke();
+      expect(postMessage).toHaveBeenCalledWith(NATIVE_EXIT_MESSAGE);
+
+      const rnPost = vi.fn();
+      const rn = findNativeExitBridge({ ReactNativeWebView: { postMessage: rnPost } });
+      expect(rn?.name).toBe('ReactNativeWebView.postMessage');
+      rn?.invoke();
+      expect(rnPost).toHaveBeenCalledTimes(1);
+      expect(JSON.parse(rnPost.mock.calls[0][0] as string)).toEqual({ type: NATIVE_EXIT_MESSAGE });
+    });
+
+    it('exits an Electron / Tauri / NW.js desktop shell', () => {
+      const electron = vi.fn();
+      expect(findNativeExitBridge({ electronAPI: { exitApp: electron } })?.name).toBe('electronAPI.exitApp');
+
+      const tauriExit = vi.fn();
+      const tauri = findNativeExitBridge({ __TAURI__: { process: { exit: tauriExit } } });
+      expect(tauri?.name).toBe('__TAURI__.process.exit');
+      tauri?.invoke();
+      expect(tauriExit).toHaveBeenCalledWith(0);
+
+      const close = vi.fn();
+      const tauriWin = findNativeExitBridge({ __TAURI__: { window: { getCurrentWindow: () => ({ close }) } } });
+      expect(tauriWin?.name).toBe('__TAURI__.window.getCurrent().close');
+      tauriWin?.invoke();
+      expect(close).toHaveBeenCalledTimes(1);
+
+      const quit = vi.fn();
+      expect(findNativeExitBridge({ nw: { App: { quit } } })?.name).toBe('nw.App.quit');
+    });
+
+    it("prefers UNITAS's own shell objects over every third-party bridge", () => {
+      const own = vi.fn();
+      const bridge = findNativeExitBridge({
+        UnitasNative: { exitApp: own },
+        Capacitor: { Plugins: { App: { exitApp: vi.fn() } } },
+        Android: { exitApp: vi.fn() },
+      });
+      expect(bridge?.name).toBe('UnitasNative.exitApp');
+      bridge?.invoke();
+      expect(own).toHaveBeenCalledTimes(1);
     });
   });
 

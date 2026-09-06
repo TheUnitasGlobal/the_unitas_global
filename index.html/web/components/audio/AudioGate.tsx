@@ -5,8 +5,28 @@ import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSpatialAudio } from './SpatialAudioProvider';
 import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
+import { CINEMA_PHASE_EVENT } from '@/lib/foundersGate';
+import { CINEMA_PHASE_STORAGE_KEY } from '@/lib/splash/splashTimeline';
 
 const STORAGE_KEY = 'unitas_audio_gate_seen';
+/** The Coming-Soon curtain phase on which the real site is revealed
+ *  (components/ComingSoonCinema.tsx `released`, founder-only, server-verified). */
+const RELEASED_PHASE = 'released';
+
+/**
+ * Has the pre-launch curtain ALREADY released the site for this tab? Read
+ * synchronously (before paint) from the live `<html data-cinema-phase>` stamp
+ * the curtain keeps current, falling back to the phase it persisted -- so a
+ * refresh parked on the main home never flashes this gate for a frame.
+ */
+function curtainAlreadyReleased(): boolean {
+  try {
+    if (document.documentElement.dataset.cinemaPhase === RELEASED_PHASE) return true;
+    return sessionStorage.getItem(CINEMA_PHASE_STORAGE_KEY) === RELEASED_PHASE;
+  } catch {
+    return false;
+  }
+}
 
 // useLayoutEffect has no server-side equivalent and React warns if it's
 // called during SSR; swap to the plain (async) useEffect there instead.
@@ -29,20 +49,52 @@ const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffec
  * paints) rather than a regular effect (after) -- otherwise the gate would
  * flash fully onscreen and then fade out over the exit transition on every
  * reload instead of just staying hidden.
+ *
+ * NO INTERMEDIATE ENTRY PAGE (owner instruction 2026-09-05, round 15, item
+ * 0): this gate sits BENEATH the pre-launch curtain (z-300 under z-400), so
+ * the only moment it could ever be seen is the instant the curtain releases
+ * the real site to the verified founder -- and then it used to appear as a
+ * second, redundant "entry page" between the Coming-Soon screen and the main
+ * home. The founder's click on the curtain's entry button IS the audio
+ * unlock gesture now (ComingSoonCinema `enterMainSite()` calls
+ * `unlockAndUnmute()` itself), and this gate additionally retires itself the
+ * moment the curtain reports `released` -- by any route, including the
+ * `?dev=skip` QA jump and a refresh parked on the main home -- rendering
+ * NOTHING at once (no exit fade that could ghost through the dissolving
+ * curtain). The public never reaches `released`, so nothing changes for them.
  */
 export function AudioGate() {
   const t = useTranslations('AudioGate');
   const { unlocked, unlockAndUnmute } = useSpatialAudio();
   const [dismissed, setDismissed] = useState(false);
+  const [released, setReleased] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
     if (typeof window === 'undefined') return;
     if (sessionStorage.getItem(STORAGE_KEY)) {
       setDismissed(true);
     }
+    if (curtainAlreadyReleased()) setReleased(true);
   }, []);
 
-  const open = !dismissed && !unlocked;
+  // The curtain releasing the site (founder door / QA skip / verified
+  // restore after a refresh) retires this gate for good.
+  useEffect(() => {
+    const onPhase = (event: Event) => {
+      if ((event as CustomEvent<string>).detail !== RELEASED_PHASE) return;
+      try {
+        sessionStorage.setItem(STORAGE_KEY, 'true');
+      } catch {
+        /* no-op */
+      }
+      setDismissed(true);
+      setReleased(true);
+    };
+    window.addEventListener(CINEMA_PHASE_EVENT, onPhase);
+    return () => window.removeEventListener(CINEMA_PHASE_EVENT, onPhase);
+  }, []);
+
+  const open = !released && !dismissed && !unlocked;
 
   // NO document scroll lock (owner instruction 2026-08-29: never freeze up/down
   // scrolling on any device). The overlay is a full-viewport fixed layer that
@@ -66,6 +118,9 @@ export function AudioGate() {
     // was scrolled before the gate appeared (e.g. back-navigation).
     window.scrollTo(0, 0);
   }
+
+  // Released: nothing, instantly -- not even an exit transition.
+  if (released) return null;
 
   return (
     <AnimatePresence>

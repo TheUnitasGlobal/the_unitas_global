@@ -14,6 +14,8 @@ import {
   EXIT_GUARD_MARKER,
   EXIT_GUARD_SENTINEL_DEPTH,
   executeAppExit,
+  isDesktopAppWindow,
+  isExitInProgress,
   readSentinelDepth,
 } from '@/lib/exit/appExit';
 import { CINEMA_PHASE_EVENT } from '@/lib/foundersGate';
@@ -97,16 +99,27 @@ type Step = 'logout' | 'exit';
  * back is to hold extra history entries beneath itself, so the buffer is
  * parked in standalone mode too.
  *
- * Known, accepted trade-off (round 11): Chromium refuses `window.close()`
- * while the window's session history holds more than one entry, so once the
- * buffer exists a confirmed 종료 / the Coming-Soon 'X 종료' can no longer
- * hard-close a Chromium app window; `executeAppExit()` then terminates the
- * app IN PLACE (session wiped, audio silenced, black shroud) and the next
- * foreground resume starts a fresh session on the logo page. Not fixable
- * with web APIs -- do not try.
+ * DESKTOP APP WINDOW -- the one exception (owner instruction 2026-09-05,
+ * round 15, item 1: a PC app's 종료 must genuinely close the window, never
+ * leave a black window on the desktop). Chromium refuses `window.close()`
+ * while the window's session history holds more than one entry, so an
+ * installed app running as a desktop window (fine pointer + hover) keeps its
+ * SINGLE launch entry: no sentinel is ever parked under it. It loses
+ * nothing -- a desktop window has no hardware back button, and on a
+ * single-entry window the context menu's 뒤로가기, Alt+Left and mouse X1 are
+ * all no-ops already ("무반응" for free); the main home's exit confirm stays
+ * reachable through ESC and the nav's 종료. Phones and tablets keep the
+ * buffer (the hardware back button MUST open the confirm on the main home
+ * and do nothing elsewhere), so there a refused close still terminates the
+ * app IN PLACE (`executeAppExit()`: session wiped, audio silenced, black
+ * shroud, one back press collapses the buffer so the next one lets the OS
+ * finish the activity) -- a browser-level limit, not fixable with web APIs.
+ * A native container (Capacitor / WebView bridge, see lib/exit/appExit.ts)
+ * is what ends the process outright on a phone.
  */
 function shouldArmBackGuard(): boolean {
-  return typeof window !== 'undefined';
+  if (typeof window === 'undefined') return false;
+  return !isDesktopAppWindow();
 }
 
 /** Live curtain phase, stamped on <html> by ComingSoonCinema from its very
@@ -241,6 +254,10 @@ const ACTIVATION_EVENTS = ['mousedown', 'pointerup', 'touchend', 'click', 'keydo
  * when open), deferring to whichever other popup holds the site-wide UI
  * gate.
  *
+ * Desktop APP windows are the single exception (round 15): they keep a
+ * one-entry history so 종료 can genuinely close the window -- see
+ * `shouldArmBackGuard()`.
+ *
  * Mounted once in app/[locale]/layout.tsx (after the curtain), so the same
  * guard serves every route rather than only the home page.
  */
@@ -303,7 +320,11 @@ export function ExitGuard() {
     // SENTINEL_DEPTH). On a PC the `mousedown` of a right-click is such a
     // gesture, so the buffer is in place before the context menu opens.
     const onActivation = () => {
-      if (leavingRef.current) return;
+      // A confirmed exit (this dialog's 종료 OR the Coming-Soon 'X 종료',
+      // which tunnels straight into the engine) ends all arming: a tap on
+      // the terminal shroud must not re-park the buffer that the shroud's
+      // own back handler is collapsing (round 15).
+      if (leavingRef.current || isExitInProgress()) return;
       if (!armed) {
         arm();
         return;
@@ -312,7 +333,7 @@ export function ExitGuard() {
     };
 
     function onPop(e: PopStateEvent) {
-      if (leavingRef.current) return;
+      if (leavingRef.current || isExitInProgress()) return;
       const depth = readSentinelDepth(e.state, GUARD_MARKER, GUARD_DEPTH);
       // Landed on the TOP sentinel: a tower/popup that had pushed its own
       // entry above us just closed (or a forward traversal walked back up

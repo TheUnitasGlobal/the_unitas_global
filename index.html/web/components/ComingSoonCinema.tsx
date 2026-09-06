@@ -23,6 +23,7 @@ import { attachActivationUnlock } from '@/lib/audio/activationUnlock';
 import { CINEMA_PHASE_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
 import {
   CINEMA_PHASE_EVENT,
+  hasSovereignHint,
   revokeSovereignFounder,
   verifySovereignFounder,
 } from '@/lib/foundersGate';
@@ -132,13 +133,26 @@ export function ComingSoonCinema() {
   // 5): the curtain's buttons play the SAME hover / confirm cues the main
   // site's buttons do, through the one provider that already applies the
   // global 50% level -- so every device and both channels sound identical.
-  const { playHoverSfx, playQuestEnterSfx, playSpatialPing } = useSpatialAudio();
+  const { playHoverSfx, playQuestEnterSfx, playSpatialPing, unlockAndUnmute } = useSpatialAudio();
 
   const [mode, setMode] = useState<Mode>('public');
   const [phase, setPhase] = useState<Phase>('gate');
   const [segId, setSegId] = useState(1);
   const [muted, setMuted] = useState(false);
   const [autoLocalized, setAutoLocalized] = useState(false);
+  /**
+   * Owner instruction 2026-09-05 (round 15, item 1 -- refresh persistence):
+   * true while a persisted `released` MAIN HOME is being re-verified against
+   * the server after an in-place refresh, for a browser that carries the
+   * founder hint cookie. During that window the curtain paints as a plain
+   * opaque void -- NOT the sealed "COMING SOON" screen -- so an F5 on the
+   * main home reads as a normal reload (black -> the very page you were on)
+   * and never as a reset to the entry page. Still fail-closed: the void is
+   * opaque, nothing underneath is visible, and a forged hint / lapsed session
+   * resolves straight back to the sealed screen. A browser without the hint
+   * (the public) never enters this state -- it gets `sealed` synchronously.
+   */
+  const [restoringReleased, setRestoringReleased] = useState(false);
 
   const field = useMemo(() => seedCinemaField(), []);
   /** Segment to resume at after an in-place refresh (item 6); consumed by
@@ -156,6 +170,16 @@ export function ComingSoonCinema() {
    * to `sealed` on every refresh instead of recovering `released`.
    */
   const verifyingReleasedRef = useRef(false);
+  /**
+   * Round 15 (refresh persistence): the persist effect below runs on mount
+   * with the INITIAL `gate` state -- one render before the phase restored
+   * from sessionStorage is applied -- and used to overwrite the persisted
+   * `cinema` / `sealed` / `released` record with `gate` for that one render
+   * (and for good if the founder verify then failed offline). While this ref
+   * is set the initial `gate` is never written: the first persisted value
+   * after a restore is the restored phase itself.
+   */
+  const skipInitialPersistRef = useRef(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -202,8 +226,15 @@ export function ComingSoonCinema() {
     } catch {
       /* storage unavailable -- stay on the gate */
     }
+    if (saved === 'released' || saved === 'sealed' || saved === 'cinema') {
+      // Round 15: never let the mount-time persist write `gate` over this.
+      skipInitialPersistRef.current = true;
+    }
     if (saved === 'released') {
       verifyingReleasedRef.current = true;
+      // A founder browser (hint cookie present) re-verifying its main home
+      // paints an opaque void instead of the sealed screen (round 15).
+      if (hasSovereignHint()) setRestoringReleased(true);
       setPhase('sealed');
     } else if (saved === 'sealed') {
       setPhase('sealed');
@@ -228,13 +259,24 @@ export function ComingSoonCinema() {
       if (cancelled) return;
       if (!founder) {
         // Genuinely not a founder (session lapsed/revoked) -- the sealed
-        // placeholder above was correct all along; let it persist for real.
+        // placeholder above was correct all along; persist it for real now
+        // (the persist effect skipped it while the verify was pending).
+        const wasVerifying = verifyingReleasedRef.current;
         verifyingReleasedRef.current = false;
+        setRestoringReleased(false);
+        if (wasVerifying) {
+          try {
+            sessionStorage.setItem(PHASE_KEY, 'sealed');
+          } catch {
+            /* no-op */
+          }
+        }
         return;
       }
       setMode('founder');
       if (qaReplay) {
         verifyingReleasedRef.current = false;
+        setRestoringReleased(false);
         try {
           sessionStorage.removeItem(PHASE_KEY);
         } catch {
@@ -248,6 +290,8 @@ export function ComingSoonCinema() {
       verifyingReleasedRef.current = false;
       if (qaSkip || saved === 'released') {
         setPhase('released');
+      } else {
+        setRestoringReleased(false);
       }
     });
     return () => {
@@ -261,7 +305,12 @@ export function ComingSoonCinema() {
     // fail-closed `sealed` default while a durable `released` record is
     // still being re-verified, so it survives a remount instead of being
     // permanently clobbered before the verify call resolves.
-    if (!(verifyingReleasedRef.current && phase === 'sealed')) {
+    // Round 15: the mount-time run sees the initial `gate` one render before
+    // a restored phase lands -- never write that `gate` over the restored
+    // record (see `skipInitialPersistRef`).
+    const skipInitialGate = skipInitialPersistRef.current && phase === 'gate';
+    if (phase !== 'gate') skipInitialPersistRef.current = false;
+    if (!skipInitialGate && !(verifyingReleasedRef.current && phase === 'sealed')) {
       try {
         sessionStorage.setItem(PHASE_KEY, phase);
       } catch {
@@ -847,6 +896,7 @@ export function ComingSoonCinema() {
     if (!reduceMotion) startAmbient();
     startRef.current = 0;
     resumeSegRef.current = null;
+    setRestoringReleased(false);
     setSegId(1);
     setPhase('cinema');
   };
@@ -867,6 +917,7 @@ export function ComingSoonCinema() {
     audioRef.current = null;
     startRef.current = 0;
     resumeSegRef.current = null;
+    setRestoringReleased(false);
     setSegId(1);
     setPhase('gate');
     window.scrollTo(0, 0);
@@ -880,6 +931,16 @@ export function ComingSoonCinema() {
 
   // FOUNDER-ONLY: leave the curtain for the real homepage. Guarded by
   // `isFounder` at the call site AND here -- a public build can never call it.
+  //
+  // DIRECT ENTRY (owner instruction 2026-09-05, round 15, item 0): this one
+  // tap lands on the MAIN HOME itself -- no intermediate entry page. The
+  // site's own <AudioGate/> (z-300, beneath this curtain) used to surface as
+  // a second "[ 진입 ]" screen the moment the curtain dissolved, because its
+  // sessionStorage flag is only read on mount and nothing here unlocked the
+  // site's audio. Now the tap IS the site-wide audio unlock (the same
+  // `unlockAndUnmute()` the audio gate's own button runs, synchronously
+  // inside this gesture), the seen-flag covers a later refresh, and the
+  // audio gate additionally retires itself on the `released` phase event.
   const enterMainSite = () => {
     if (!isFounder) return;
     playQuestEnterSfx();
@@ -891,6 +952,8 @@ export function ComingSoonCinema() {
     }
     audioRef.current?.stop();
     audioRef.current = null;
+    // The site's SFX / ambient engine unlocks on THIS gesture (round 15).
+    unlockAndUnmute();
     // Land the real homepage at the very top (the page behind the curtain was
     // free to scroll while the curtain was up -- we no longer lock it).
     window.scrollTo(0, 0);
@@ -898,6 +961,8 @@ export function ComingSoonCinema() {
   };
 
   const showChrome = phase === 'cinema' || phase === 'sealed';
+  /** Round 15: opaque void while a persisted main home re-verifies (F5). */
+  const voidPlaceholder = phase === 'sealed' && restoringReleased;
 
   return (
     <AnimatePresence>
@@ -906,20 +971,23 @@ export function ComingSoonCinema() {
           key="curtain"
           className="fixed inset-0 z-[400] overflow-hidden bg-void text-center"
           initial={false}
-          exit={{ opacity: 0, filter: 'blur(8px)' }}
-          transition={{ duration: 1, ease: 'easeInOut' }}
+          // A verified restore after a refresh dissolves fast and flat (the
+          // visitor never left the page); the founder's live entry keeps the
+          // cinematic 1s blur-out.
+          exit={restoringReleased ? { opacity: 0 } : { opacity: 0, filter: 'blur(8px)' }}
+          transition={{ duration: restoringReleased ? 0.35 : 1, ease: 'easeInOut' }}
         >
           {/* permanent canvas -- never gated behind an AnimatePresence */}
           <canvas
             ref={canvasRef}
             aria-hidden="true"
             className={`absolute inset-0 h-full w-full transition-opacity duration-700 ${
-              phase === 'gate' ? 'opacity-0' : 'opacity-100'
+              phase === 'gate' || voidPlaceholder ? 'opacity-0' : 'opacity-100'
             }`}
           />
 
           {/* pure-CSS cinematic backdrop -- guaranteed motion from frame zero */}
-          {showChrome && !reduceMotion && (
+          {showChrome && !voidPlaceholder && !reduceMotion && (
             <div className="cs-stage-in pointer-events-none absolute inset-0" aria-hidden="true">
               <div
                 className="cs-horizon absolute left-1/2 top-1/2 h-[120vmin] w-[120vmin]"
@@ -960,17 +1028,19 @@ export function ComingSoonCinema() {
               (gate, cinematic, sealed) so the visitor is never stuck on an
               unreadable screen. Shared component -- same one the audio gate
               and the main-site nav use. */}
-          <div className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6">
-            <GlobalLanguagePicker onSelect={() => setAutoLocalized(false)} />
-            {autoLocalized && (
-              <p className="mt-2 max-w-[11rem] text-[10px] leading-tight text-white/40">
-                {t('autoNote')}
-              </p>
-            )}
-          </div>
+          {!voidPlaceholder && (
+            <div className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6">
+              <GlobalLanguagePicker onSelect={() => setAutoLocalized(false)} />
+              {autoLocalized && (
+                <p className="mt-2 max-w-[11rem] text-[10px] leading-tight text-white/40">
+                  {t('autoNote')}
+                </p>
+              )}
+            </div>
+          )}
 
           {/* sound toggle -- cinema + sealed only */}
-          {showChrome && !reduceMotion && (
+          {showChrome && !voidPlaceholder && !reduceMotion && (
             <button
               type="button"
               onClick={() => setMuted((v) => !v)}
@@ -1161,7 +1231,7 @@ export function ComingSoonCinema() {
           {/* SEALED -- the terminal screen for EVERYONE. Public sees no path
               out. Founder alone gets the secret entry button at the bottom. */}
           <AnimatePresence>
-            {phase === 'sealed' && (
+            {phase === 'sealed' && !voidPlaceholder && (
               <motion.div
                 key="sealed"
                 className={`absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain px-6 py-16 ${
@@ -1251,97 +1321,119 @@ export function ComingSoonCinema() {
                   </motion.div>
                 )}
 
-                {/* Post-ad growth path: the exact nav-bar "shimmering logo +
-                    UNITAS App Download" lockup, pinned bottom-left, mirroring
-                    the replay control on the right. One tap -> in-curtain PWA
-                    install sheet (owner instruction 2026-08-30). */}
-                <CinemaAppDownload />
+                {/* BOTTOM BAR -- ONE flex row (owner instruction 2026-09-05,
+                    round 15, item 1). The app-download lockup (left) and the
+                    replay / exit controls (right) used to be two independent
+                    `absolute` corners that collided on narrow phones -- the
+                    three labels overlapped. They now share a single
+                    bottom-pinned flex row with `justify-between`, so the two
+                    ends can never occupy the same pixels on ANY viewport: the
+                    row is the layout contract. On mobile the lockup stacks
+                    "UNITAS" over "App Download" (two lines), the right-hand
+                    labels shrink one step, gutters tighten, and the whole bar
+                    respects the iOS home-indicator safe area in the App
+                    channel; from `sm` up it is the exact round-14 layout. */}
+                <div
+                  className="absolute inset-x-0 bottom-0 z-20 flex items-end justify-between gap-3 px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))] sm:gap-6 sm:px-6 sm:pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]"
+                >
+                  {/* Post-ad growth path: the exact nav-bar "shimmering logo +
+                      UNITAS App Download" lockup, bottom-left, mirroring the
+                      replay control on the right. One tap -> PWA install
+                      (owner instruction 2026-08-30). */}
+                  <CinemaAppDownload />
 
-                {/* Bottom-right control row (owner instruction 2026-09-05,
-                    checklist item 4): "[glyph] 다시 재생" and, to its RIGHT,
-                    "[X] 종료" -- two controls of identical size, typography,
-                    aurora halo and hover treatment, baseline-aligned on one
-                    row. The 'X' that used to sit top-right (under the
-                    language picker) is GONE from there; it lives here as the
-                    glyph of the exit control, in the same haloed slot the
-                    replay glyph occupies. */}
-                <div className="absolute bottom-6 right-6 z-20 flex items-center gap-6 sm:gap-8">
-                  {/* Replay -- minimal "다시 재생" label + a reverse-play glyph
-                      haloed in a soft, slow rainbow aurora. Mirrors the
-                      cinema 'skip' affordance. */}
-                  <button
-                    type="button"
-                    onMouseEnter={() => playHoverSfx()}
-                    onClick={replay}
-                    aria-label={t('replay')}
-                    className="flex items-center gap-2.5 whitespace-nowrap text-[11px] uppercase tracking-[0.22em] text-white/45 transition-colors hover:text-white/90"
-                  >
-                    <span className="cs-replay-aurora" aria-hidden="true">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                        {/* reverse-play: triangle to the left + a leading stop bar */}
-                        <path d="M20 5v14L9 12z" />
-                        <rect x="4" y="5" width="2.6" height="14" rx="1" />
-                      </svg>
-                    </span>
-                    <span>{t('replay')}</span>
-                  </button>
+                  {/* Bottom-right control row (owner instruction 2026-09-05,
+                      checklist item 4): "[glyph] 다시 재생" and, to its RIGHT,
+                      "[X] 종료" -- two controls of identical size, typography,
+                      aurora halo and hover treatment, baseline-aligned on one
+                      row. The 'X' that used to sit top-right (under the
+                      language picker) is GONE from there; it lives here as the
+                      glyph of the exit control, in the same haloed slot the
+                      replay glyph occupies. */}
+                  <div className="flex shrink-0 items-center gap-4 sm:gap-8">
+                    {/* Replay -- minimal "다시 재생" label + a reverse-play
+                        glyph haloed in a soft, slow rainbow aurora. Mirrors
+                        the cinema 'skip' affordance. */}
+                    <button
+                      type="button"
+                      onMouseEnter={() => playHoverSfx()}
+                      onClick={replay}
+                      aria-label={t('replay')}
+                      className="flex items-center gap-2 whitespace-nowrap text-[10px] uppercase tracking-[0.16em] text-white/45 transition-colors hover:text-white/90 sm:gap-2.5 sm:text-[11px] sm:tracking-[0.22em]"
+                    >
+                      <span className="cs-replay-aurora" aria-hidden="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                          {/* reverse-play: triangle to the left + a leading stop bar */}
+                          <path d="M20 5v14L9 12z" />
+                          <rect x="4" y="5" width="2.6" height="14" rx="1" />
+                        </svg>
+                      </span>
+                      <span>{t('replay')}</span>
+                    </button>
 
-                  {/* Exit -- "[X] 종료", the exact same control as replay.
+                    {/* Exit -- "[X] 종료", the exact same control as replay.
 
-                      ROUND 10 -- "극단적 터널링" (item 6): the tap does not
-                      detour through ExitGuard's confirm dialog; it calls the
-                      shared exit engine directly, synchronously inside the
-                      gesture (window.close and history traversal are
-                      activation-gated).
+                        ROUND 10 -- "극단적 터널링" (item 6): the tap does not
+                        detour through ExitGuard's confirm dialog; it calls
+                        the shared exit engine directly, synchronously inside
+                        the gesture (window.close and history traversal are
+                        activation-gated).
 
-                      ROUND 13 (hardening patch, item 4): the tap is ABSOLUTE
-                      TERMINATION, never a restart on the logo splash. The
-                      session is wiped on the tap itself; App channel ->
-                      window.close(), and where a runtime refuses (the
-                      back-gesture sentinel buffer now sits under EVERY page
-                      -- checklist items 2 + 3 -- so a Chromium app window
-                      does refuse) the app is terminated IN PLACE (audio
-                      silenced, opaque black shroud, fresh session only on
-                      the next foreground resume); online -> back to the
-                      page the visitor came from / close the fresh tab. */}
-                  <button
-                    type="button"
-                    onMouseEnter={() => playHoverSfx()}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (isExitInProgress()) return;
-                      executeAppExit({
-                        sentinelMarker: EXIT_GUARD_MARKER,
-                        sentinelDepthKey: EXIT_GUARD_DEPTH_KEY,
-                        sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
-                      });
-                    }}
-                    onTouchEnd={(e) => {
-                      // Owner instruction 2026-09-05 (round 3): a bare onClick
-                      // was intermittently unresponsive to a mobile tap on
-                      // this control -- some devices swallow the synthetic
-                      // click that normally follows touchend. Handling
-                      // touchend directly (and preventing that follow-up
-                      // click so the tap never double-fires) makes the exit
-                      // control react to the very first tap on every touch
-                      // device.
-                      e.preventDefault();
-                      if (isExitInProgress()) return;
-                      executeAppExit({
-                        sentinelMarker: EXIT_GUARD_MARKER,
-                        sentinelDepthKey: EXIT_GUARD_DEPTH_KEY,
-                        sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
-                      });
-                    }}
-                    aria-label={tExit('exitTitle')}
-                    style={{ pointerEvents: 'auto', touchAction: 'manipulation' }}
-                    className="flex items-center gap-2.5 whitespace-nowrap text-[11px] uppercase tracking-[0.22em] text-white/45 transition-colors hover:text-white/90"
-                  >
-                    <span className="cs-replay-aurora" aria-hidden="true">
-                      <X size={15} strokeWidth={2.4} aria-hidden="true" />
-                    </span>
-                    <span>{tExit('exitConfirm')}</span>
-                  </button>
+                        ROUND 13 (hardening patch, item 4): the tap is
+                        ABSOLUTE TERMINATION, never a restart on the logo
+                        splash. The session is wiped on the tap itself.
+
+                        ROUND 15 (item 1): App channel -> the native shell's
+                        exit API (process kill inside a container), then
+                        window.close() -- which now genuinely closes a
+                        DESKTOP app window (ExitGuard parks no sentinel
+                        there); where a runtime still refuses (a phone /
+                        tablet app with its hardware-back buffer parked, an
+                        iOS home-screen app) the app is terminated IN PLACE
+                        (audio silenced, opaque black shroud, one back press
+                        collapses the buffer so the next lets the OS finish
+                        the activity, fresh session only on the next
+                        foreground resume); online -> back to the page the
+                        visitor came from / close the fresh tab. */}
+                    <button
+                      type="button"
+                      onMouseEnter={() => playHoverSfx()}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (isExitInProgress()) return;
+                        executeAppExit({
+                          sentinelMarker: EXIT_GUARD_MARKER,
+                          sentinelDepthKey: EXIT_GUARD_DEPTH_KEY,
+                          sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
+                        });
+                      }}
+                      onTouchEnd={(e) => {
+                        // Owner instruction 2026-09-05 (round 3): a bare
+                        // onClick was intermittently unresponsive to a mobile
+                        // tap on this control -- some devices swallow the
+                        // synthetic click that normally follows touchend.
+                        // Handling touchend directly (and preventing that
+                        // follow-up click so the tap never double-fires)
+                        // makes the exit control react to the very first tap
+                        // on every touch device.
+                        e.preventDefault();
+                        if (isExitInProgress()) return;
+                        executeAppExit({
+                          sentinelMarker: EXIT_GUARD_MARKER,
+                          sentinelDepthKey: EXIT_GUARD_DEPTH_KEY,
+                          sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
+                        });
+                      }}
+                      aria-label={tExit('exitTitle')}
+                      style={{ pointerEvents: 'auto', touchAction: 'manipulation' }}
+                      className="flex items-center gap-2 whitespace-nowrap text-[10px] uppercase tracking-[0.16em] text-white/45 transition-colors hover:text-white/90 sm:gap-2.5 sm:text-[11px] sm:tracking-[0.22em]"
+                    >
+                      <span className="cs-replay-aurora" aria-hidden="true">
+                        <X size={15} strokeWidth={2.4} aria-hidden="true" />
+                      </span>
+                      <span>{tExit('exitConfirm')}</span>
+                    </button>
+                  </div>
                 </div>
               </motion.div>
             )}
