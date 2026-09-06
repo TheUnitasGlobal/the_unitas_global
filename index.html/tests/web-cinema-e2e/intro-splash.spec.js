@@ -1,10 +1,10 @@
 const { test, expect } = require('@playwright/test');
 
 // Cinematic intro splash (web/components/splash/CinematicIntroSplash.tsx,
-// owner instruction 2026-09-04, item 3; extended to 5s per owner instruction
-// 2026-09-05, item 2). Forced on every cold load, on every device (all three
-// configured projects), above the pre-launch curtain; must release the page
-// by itself within ~5.5s.
+// owner instruction 2026-09-04, item 3; re-timed to EXACTLY 3s and made
+// silent per owner instruction 2026-09-05, checklist item 1). Forced on
+// every cold load, on every device (all three configured projects), above
+// the pre-launch curtain; must release the page by itself within ~3.5s.
 
 const splash = (page) => page.getByTestId('intro-splash');
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();
@@ -19,10 +19,12 @@ test.describe('cinematic intro splash', () => {
     await expect(page.locator('.sp-letter')).toHaveText(['U', 'N', 'I', 'T', 'A', 'S']);
     await expect(page.locator('.sp-corp')).toHaveText('THE UNITAS GLOBAL OÜ');
     await expect(page.locator('.sp-mark svg')).toHaveCount(1);
+    // The colour-light art overlay is on the title from the first frame.
+    await expect(page.locator('.sp-letter-sheen')).toHaveCount(6);
 
-    // Unmounts after DURATION (5000ms) + EXIT (450ms).
-    await expect(splash(page)).toHaveCount(0, { timeout: 8000 });
-    expect(Date.now() - t0).toBeGreaterThanOrEqual(5000);
+    // Unmounts after DURATION (3000ms) + EXIT (450ms).
+    await expect(splash(page)).toHaveCount(0, { timeout: 6000 });
+    expect(Date.now() - t0).toBeGreaterThanOrEqual(3000);
 
     // The entry gate beneath is now interactive.
     await expect(enterButton(page)).toBeVisible();

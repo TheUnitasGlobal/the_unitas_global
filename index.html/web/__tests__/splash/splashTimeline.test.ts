@@ -3,40 +3,49 @@ import {
   CINEMA_PHASE_STORAGE_KEY,
   SPLASH_ACTIVE_STORAGE_KEY,
   SPLASH_ACTIVE_VALUE,
-  SPLASH_CRYSTAL_AT_S,
+  SPLASH_CORP_AT_S,
   SPLASH_DURATION_MS,
+  SPLASH_EXIT_MS,
   SPLASH_GOLD_HEX,
   SPLASH_GOLD_HOLD_S,
   SPLASH_GOLD_LOOP_S,
   SPLASH_GOLD_SWEEP_FROM_X,
   SPLASH_GOLD_SWEEP_S,
   SPLASH_GOLD_SWEEP_TO_X,
+  SPLASH_IMPACT_AT_S,
+  SPLASH_IN_PLACE_PHASES,
   SPLASH_LETTERS,
-  SPLASH_SUB_VIEW_PHASES,
+  SPLASH_LETTER_DRAW_S,
+  SPLASH_STROKE_FADE_AT_S,
+  SPLASH_STROKE_FADE_S,
   SPLASH_TITLE_PALETTE,
   SPLASH_TITLE_WIDTH,
-  SPLASH_VOCAL_AT_S,
-  SPLASH_VOCAL_LEAD_S,
-  SPLASH_VOCAL_LENGTH_S,
   goldLoopKeyTimes,
   goldLoopValues,
   hexHue,
+  isInPlacePhase,
   isSplashActiveFlag,
-  isSubViewPhase,
   letterDrawStart,
   letterFillStart,
   shouldResetEntrySession,
   shouldRunSplash,
   shouldRunSplashForPhase,
-  splashAudioOffsets,
 } from '../../lib/splash/splashTimeline';
 
 // Pure timeline maths only -- no fixtures shared with other __tests__/** files
 // (see CLAUDE.md "Module-level test isolation").
 describe('splash timeline', () => {
-  it('is a forced 5-second splash spelling UNITAS', () => {
-    expect(SPLASH_DURATION_MS).toBe(5000);
+  it('is a forced, EXACTLY 3-second splash spelling UNITAS (checklist item 1)', () => {
+    expect(SPLASH_DURATION_MS).toBe(3000);
+    expect(SPLASH_EXIT_MS).toBeGreaterThan(0);
+    expect(SPLASH_EXIT_MS).toBeLessThan(1000);
     expect(SPLASH_LETTERS.join('')).toBe('UNITAS');
+  });
+
+  it('is SILENT: the timeline exports no audio cue of any kind', async () => {
+    const timeline = await import('../../lib/splash/splashTimeline');
+    const audioLike = Object.keys(timeline).filter((key) => /VOCAL|CRYSTAL|AUDIO|UNLOCK/i.test(key));
+    expect(audioLike).toEqual([]);
   });
 
   it('runs by default and only skips on an explicit opt-out', () => {
@@ -49,41 +58,47 @@ describe('splash timeline', () => {
     expect(() => shouldRunSplash('%%%')).not.toThrow();
   });
 
-  it('draws letters U -> S in strictly increasing order, all inside the splash', () => {
+  it('draws letters U -> S in strictly increasing order, every glyph solid well inside the 3s', () => {
     const starts = SPLASH_LETTERS.map((_, i) => letterDrawStart(i));
     for (let i = 1; i < starts.length; i++) expect(starts[i]).toBeGreaterThan(starts[i - 1]);
-    const lastFill = letterFillStart(SPLASH_LETTERS.length - 1);
-    expect(lastFill).toBeLessThan(SPLASH_DURATION_MS / 1000);
+    const last = SPLASH_LETTERS.length - 1;
     expect(letterFillStart(0)).toBeGreaterThan(letterDrawStart(0));
+    // The last glyph's outline is fully drawn and its fill has started with
+    // a clear second to spare before the exit fade.
+    expect(letterDrawStart(last) + SPLASH_LETTER_DRAW_S).toBeLessThan(SPLASH_DURATION_MS / 1000 - 1);
+    expect(letterFillStart(last)).toBeLessThan(SPLASH_DURATION_MS / 1000 - 1);
   });
 
-  it('places the vocal at 1s leading the crystal at 2s, chant overlapping the impact', () => {
-    expect(SPLASH_VOCAL_AT_S).toBe(1);
-    expect(SPLASH_CRYSTAL_AT_S).toBe(2);
-    expect(SPLASH_VOCAL_LEAD_S).toBe(1);
-    // Round 10: the letter-by-letter bass chant is longer than its lead, so
-    // the held "A" is still ringing when the crystal lands -- by design.
-    expect(SPLASH_VOCAL_LENGTH_S).toBeGreaterThan(SPLASH_VOCAL_LEAD_S);
-    expect(SPLASH_VOCAL_AT_S + SPLASH_VOCAL_LENGTH_S).toBeLessThan(SPLASH_DURATION_MS / 1000);
+  it('lands every remaining visual beat before the 3.0s exit fade', () => {
+    const hold = SPLASH_DURATION_MS / 1000;
+    expect(SPLASH_CORP_AT_S).toBeLessThan(hold);
+    expect(SPLASH_IMPACT_AT_S).toBeLessThan(hold);
+    // The impact fires only once every outline has been drawn.
+    const last = SPLASH_LETTERS.length - 1;
+    expect(SPLASH_IMPACT_AT_S).toBeGreaterThanOrEqual(letterDrawStart(last) + SPLASH_LETTER_DRAW_S);
+    // The outline stroke has faded out (pure burnished gold) before 3.0s.
+    expect(SPLASH_STROKE_FADE_AT_S + SPLASH_STROKE_FADE_S).toBeLessThanOrEqual(hold);
+    expect(SPLASH_STROKE_FADE_AT_S).toBeGreaterThan(letterFillStart(last));
   });
 
-  it('treats gate / cinema / sealed as sub-views that refresh in place without the splash', () => {
+  it('treats gate / cinema / sealed / released as pages that refresh in place without the splash (checklist items 2 + 3)', () => {
     expect(CINEMA_PHASE_STORAGE_KEY).toBe('unitas_cinema_phase');
-    expect([...SPLASH_SUB_VIEW_PHASES]).toEqual(['gate', 'cinema', 'sealed']);
-    expect(isSubViewPhase('gate')).toBe(true);
-    expect(isSubViewPhase('cinema')).toBe(true);
-    expect(isSubViewPhase(' sealed ')).toBe(true);
-    // Cold visit and the released main home keep the intro.
-    expect(isSubViewPhase(null)).toBe(false);
-    expect(isSubViewPhase(undefined)).toBe(false);
-    expect(isSubViewPhase('')).toBe(false);
-    expect(isSubViewPhase('released')).toBe(false);
-    expect(isSubViewPhase('garbage')).toBe(false);
+    expect([...SPLASH_IN_PLACE_PHASES]).toEqual(['gate', 'cinema', 'sealed', 'released']);
+    expect(isInPlacePhase('gate')).toBe(true);
+    expect(isInPlacePhase('cinema')).toBe(true);
+    expect(isInPlacePhase(' sealed ')).toBe(true);
+    // The main home too: an F5 there must never show the logo page again.
+    expect(isInPlacePhase('released')).toBe(true);
+    // Only a cold entry (no persisted phase) keeps the intro.
+    expect(isInPlacePhase(null)).toBe(false);
+    expect(isInPlacePhase(undefined)).toBe(false);
+    expect(isInPlacePhase('')).toBe(false);
+    expect(isInPlacePhase('garbage')).toBe(false);
   });
 
-  it('combines the URL opt-out with the sub-view gate', () => {
+  it('combines the URL opt-out with the in-place gate', () => {
     expect(shouldRunSplashForPhase('', null)).toBe(true);
-    expect(shouldRunSplashForPhase('', 'released')).toBe(true);
+    expect(shouldRunSplashForPhase('', 'released')).toBe(false);
     expect(shouldRunSplashForPhase('', 'sealed')).toBe(false);
     expect(shouldRunSplashForPhase('', 'cinema')).toBe(false);
     expect(shouldRunSplashForPhase('', 'gate')).toBe(false);
@@ -105,10 +120,12 @@ describe('splash timeline', () => {
     expect(shouldRunSplashForPhase('', 'gate', true)).toBe(true);
     expect(shouldRunSplashForPhase('', 'cinema', true)).toBe(true);
     expect(shouldRunSplashForPhase('', 'sealed', true)).toBe(true);
+    expect(shouldRunSplashForPhase('', 'released', true)).toBe(true);
     // ...but the QA opt-out still wins over everything.
     expect(shouldRunSplashForPhase('?splash=0', 'gate', true)).toBe(false);
-    // And without the flag the round-10 in-place rule is unchanged.
+    // And without the flag the in-place rule is unchanged.
     expect(shouldRunSplashForPhase('', 'gate', false)).toBe(false);
+    expect(shouldRunSplashForPhase('', 'released', false)).toBe(false);
   });
 
   it('resets the session on every document load except an in-place reload (round 11, item 3)', () => {
@@ -118,7 +135,7 @@ describe('splash timeline', () => {
     expect(shouldResetEntrySession('prerender', '')).toBe(true);
     expect(shouldResetEntrySession(null, '')).toBe(true);
     expect(shouldResetEntrySession(undefined, '?dev=skip')).toBe(true);
-    // An F5 parked on a sub-view keeps the round-10 "refresh in place" rule.
+    // An F5 parked on any page keeps the "refresh in place" rule.
     expect(shouldResetEntrySession('reload', '')).toBe(false);
     expect(shouldResetEntrySession(' Reload ', '')).toBe(false);
     // The QA harness (?splash=0) keeps its pre-seeded session state.
@@ -126,24 +143,22 @@ describe('splash timeline', () => {
     expect(shouldResetEntrySession('back_forward', '?a=1&splash=off')).toBe(false);
   });
 
-  it('loops the single-tone gold light for 5s: 3s U -> S sweep, 2s solid gold hold (hardening patch, item 3)', () => {
-    expect(SPLASH_GOLD_LOOP_S).toBe(5);
+  it('sweeps the single-tone gold light U -> S for the WHOLE 3s hold, no parked rest (checklist item 1)', () => {
+    expect(SPLASH_GOLD_LOOP_S).toBe(3);
     expect(SPLASH_GOLD_SWEEP_S).toBe(3);
-    expect(SPLASH_GOLD_HOLD_S).toBe(2);
+    expect(SPLASH_GOLD_HOLD_S).toBe(0);
     expect(SPLASH_GOLD_SWEEP_S + SPLASH_GOLD_HOLD_S).toBe(SPLASH_GOLD_LOOP_S);
-    // One full cycle per splash hold.
+    // One full pass per splash hold -- the colour art never rests while the
+    // page is on screen.
     expect(SPLASH_GOLD_LOOP_S * 1000).toBe(SPLASH_DURATION_MS);
-    // Sweep runs left -> right, and the SMIL cues park the light from 3s on
-    // so the title is solid gold through the hold.
+    // Sweep runs left -> right; with no hold the SMIL cue list is a plain
+    // two-point sweep (a zero-length hold segment would be invalid SMIL).
     expect(SPLASH_GOLD_SWEEP_TO_X).toBeGreaterThan(SPLASH_GOLD_SWEEP_FROM_X);
     expect(SPLASH_TITLE_WIDTH).toBe(720);
-    expect(goldLoopKeyTimes()).toBe('0;0.6;1');
-    expect(goldLoopValues()).toBe(
-      `${SPLASH_GOLD_SWEEP_FROM_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0`,
-    );
-    // Every glyph has started filling before the sweep phase ends, so each
-    // letter is lit by the light in turn during 0-3s and none first appears
-    // during the solid-gold hold.
+    expect(goldLoopKeyTimes()).toBe('0;1');
+    expect(goldLoopValues()).toBe(`${SPLASH_GOLD_SWEEP_FROM_X} 0;${SPLASH_GOLD_SWEEP_TO_X} 0`);
+    // Every glyph has started filling before the sweep ends, so each letter
+    // is lit by the light in turn during the pass.
     expect(letterFillStart(SPLASH_LETTERS.length - 1)).toBeLessThan(SPLASH_GOLD_SWEEP_S);
   });
 
@@ -158,25 +173,5 @@ describe('splash timeline', () => {
     // Sanity: the guard would catch the retired prism stops.
     expect(Math.abs(hexHue('#00f3ff') - goldHue)).toBeGreaterThan(90);
     expect(Math.abs(hexHue('#7c3aed') - goldHue)).toBeGreaterThan(90);
-  });
-
-  it('keeps absolute beats when audio unlocks early', () => {
-    expect(splashAudioOffsets(0)).toEqual({ vocalAt: 1, crystalAt: 2 });
-    expect(splashAudioOffsets(0.4)).toEqual({ vocalAt: 0.6, crystalAt: 1.6 });
-  });
-
-  it('never drops the vocal on a late unlock: chant now, crystal one full lead behind (7-point hardening, item 7)', () => {
-    const late = splashAudioOffsets(1.2);
-    expect(late.vocalAt).toBe(0);
-    expect(late.crystalAt).toBe(SPLASH_VOCAL_LEAD_S);
-
-    // The mobile-online reality: the first touch (= the unlock) lands well
-    // into the splash. The chant must still play, in full, and lead the
-    // crystal exactly as it does on an early unlock.
-    for (const elapsed of [1.9, 2.5, 3.4, 4.6]) {
-      const offsets = splashAudioOffsets(elapsed);
-      expect(offsets.vocalAt).toBe(0);
-      expect(offsets.crystalAt).toBe(SPLASH_VOCAL_LEAD_S);
-    }
   });
 });

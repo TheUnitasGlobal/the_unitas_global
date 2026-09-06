@@ -99,9 +99,11 @@ export default async function LocaleLayout({
             -> middleware.ts -> /api/sovereign/verify, see lib/sovereignAuth.ts)
             unlocks the founder door. Sits above everything, at full scale. */}
         <ComingSoonCinema />
-        {/* Sovereign exit confirm (owner instruction 2026-09-05, round 10 ->
-            7-point hardening): mobile/tablet back-gesture buffer on EVERY
-            funnel page in both channels, PC right-click + ESC toggle.
+        {/* Sovereign exit confirm (owner instruction 2026-09-05, checklist
+            items 2 + 3): a history-traversal sentinel buffer on EVERY device
+            and EVERY funnel page in both channels -- back / forward is
+            swallowed silently on the logo / gate / ad / Coming-Soon pages and
+            opens the exit confirm on the main home; PC ESC toggles it.
             Mounted here in the layout (not the home page) so one guard
             serves every route; its modal renders on the top layer (z-680),
             above the curtain. */}

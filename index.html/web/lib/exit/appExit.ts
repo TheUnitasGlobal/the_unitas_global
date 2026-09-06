@@ -40,17 +40,42 @@
 
 export type ExitChannel = 'app' | 'online';
 
+/**
+ * ExitGuard's sentinel-history contract (components/interaction/ExitGuard.tsx
+ * parks the entries; the Coming-Soon 'X 종료' and ExitGuard's own 종료 both
+ * hand these to `executeAppExit` so the online channel steps over the whole
+ * buffer in one traversal). Owned here so the two callers can never drift.
+ */
+/** history.state marker of a sentinel entry parked under the page. */
+export const EXIT_GUARD_MARKER = 'unitasExitGuard';
+/** history.state key holding a sentinel's depth (1 = bottom, N = top). */
+export const EXIT_GUARD_DEPTH_KEY = 'unitasExitDepth';
+/**
+ * How many sentinel entries are parked beneath the page at all times once
+ * armed (see ExitGuard for why the buffer is this deep and why it is only
+ * ever filled from inside a genuine activation gesture).
+ */
+export const EXIT_GUARD_SENTINEL_DEPTH = 12;
+
 export interface ExitEnvironment {
   /** Running as an installed app (display-mode: standalone / iOS standalone). */
   standalone: boolean;
-  /** `history.length` -- an upper bound on how many entries sit behind us. */
+  /** `history.length` -- an upper bound on how many entries sit behind us
+   *  (it counts FORWARD entries too, which is why `sentinelCapacity` below
+   *  matters). */
   historyLength: number;
   /** How many of ExitGuard's synthetic sentinel entries sit between the
    *  CURRENT entry and the page's real entry, inclusive of the current one:
-   *  0 = we are on the real entry, 1 = one sentinel above it, 2 = the
-   *  double-tap buffer (owner instruction 2026-09-05, 7-point hardening,
-   *  item 7) is fully parked and we are on its top. */
+   *  0 = we are on the real entry, 1 = one sentinel above it, N = we are on
+   *  the top of a fully parked N-deep buffer. */
   sentinelDepth: number;
+  /** The buffer's FULL depth once armed (0 / omitted = no buffer is ever
+   *  parked). When the visitor has stepped down into the buffer with the
+   *  back gesture, the entries above them still count in `history.length`
+   *  as forward entries; knowing the capacity lets the planner tell "there
+   *  is a page behind our real entry" from "those are only our own forward
+   *  sentinels", so it never fires a `history.go()` that lands nowhere. */
+  sentinelCapacity?: number;
   /** `document.referrer` (may be empty). */
   referrer: string;
   /** `location.origin` -- a same-origin referrer is not "the previous site". */
@@ -108,9 +133,15 @@ export function planExit(env: ExitEnvironment): ExitPlan {
     };
   }
 
-  const ownEntries = 1 + Math.max(0, Math.floor(env.sentinelDepth || 0));
+  const depth = Math.max(0, Math.floor(env.sentinelDepth || 0));
+  // Entries of OURS between the page's real entry and the top of the buffer:
+  // the ones we are standing on (`depth`) plus, when we have stepped down
+  // into an armed buffer, the forward sentinels still above us.
+  const capacity = Math.max(depth, Math.max(0, Math.floor(env.sentinelCapacity || 0)));
+  const ownEntries = 1 + depth;
+  const ownFootprint = 1 + (depth > 0 ? capacity : 0);
   const immediate: ExitStep[] =
-    env.historyLength > ownEntries
+    env.historyLength > ownFootprint
       ? [{ kind: 'history-back', steps: ownEntries }]
       : [{ kind: 'close' }];
 
@@ -251,9 +282,10 @@ export interface ExecuteAppExitOptions {
   /** ExitGuard's sentinel-history marker key, if the caller parks one. */
   sentinelMarker?: string;
   /** history.state key holding the sentinel's depth (1 = bottom sentinel,
-   *  2 = top of the double-tap buffer). A marked entry without it counts
-   *  as depth 1. */
+   *  N = top of the buffer). A marked entry without it counts as depth 1. */
   sentinelDepthKey?: string;
+  /** Full depth of the buffer once armed (see `ExitEnvironment`). */
+  sentinelCapacity?: number;
 }
 
 /** Pure: how many sentinel entries the current history.state says we sit on. */
@@ -294,6 +326,7 @@ export function executeAppExit(options: ExecuteAppExitOptions = {}): ExitChannel
       }
     })(),
     sentinelDepth,
+    sentinelCapacity: options.sentinelCapacity,
     referrer: typeof document === 'undefined' ? '' : document.referrer || '',
     origin: window.location.origin,
   });

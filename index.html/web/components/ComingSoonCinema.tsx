@@ -9,10 +9,17 @@ import { routing } from '@/i18n/routing';
 import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
 import { CinemaAppDownload } from '@/components/pwa/CinemaAppDownload';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
-import { APP_EXIT_EVENT, executeAppExit, isExitInProgress } from '@/lib/exit/appExit';
+import {
+  APP_EXIT_EVENT,
+  EXIT_GUARD_DEPTH_KEY,
+  EXIT_GUARD_MARKER,
+  EXIT_GUARD_SENTINEL_DEPTH,
+  executeAppExit,
+  isExitInProgress,
+} from '@/lib/exit/appExit';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
 import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '@/lib/audio/audioSession';
-import { attachActivationUnlock } from '@/lib/splash/splashAudio';
+import { attachActivationUnlock } from '@/lib/audio/activationUnlock';
 import { CINEMA_PHASE_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
 import {
   CINEMA_PHASE_EVENT,
@@ -672,9 +679,9 @@ export function ComingSoonCinema() {
     const silent = makeSilentBuffer(engine.ctx);
     const detach = attachActivationUnlock(() => {
       if (detached) return;
-      // Round 13 (hardening patch, item 4): the same WebKit-proof gesture
-      // unlock the logo-page score uses -- silent kick + resume, inside the
-      // gesture -- so the ad stages sing on the first touch of a phone.
+      // Round 13 (hardening patch, item 4): a WebKit-proof gesture unlock --
+      // silent kick + resume, inside the gesture -- so the ad stages sing on
+      // the first touch of a phone. (The logo page itself is silent now.)
       if (silent) kickAudioContext(engine.ctx, silent);
       engine.ctx.resume().catch(() => {});
     });
@@ -847,12 +854,12 @@ export function ComingSoonCinema() {
   /**
    * "다시보기" (owner instruction 2026-09-05, 7-point hardening, item 4): a
    * replay is a COMPLETE restart of the visitor's journey -- the very first
-   * "logo page" (the 5s cinematic intro splash), then the entry gate, then
-   * the ad from stage 1 -- never a jump into the middle of the sequence.
-   * The ambient engine is torn down (the gate button rebuilds it, exactly
-   * as on a cold visit) and the intro splash is replayed through the same
-   * window event the founder console uses; it mounts above this curtain at
-   * z-700 and dissolves onto the gate 5s later.
+   * "logo page" (the silent 3s cinematic intro splash), then the entry gate,
+   * then the ad from stage 1 -- never a jump into the middle of the
+   * sequence. The ambient engine is torn down (the gate button rebuilds it,
+   * exactly as on a cold visit) and the intro splash is replayed through the
+   * same window event the founder console uses; it mounts above this curtain
+   * at z-700 and dissolves onto the gate 3s later.
    */
   const replay = () => {
     playSpatialPing();
@@ -1164,59 +1171,6 @@ export function ComingSoonCinema() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.1, ease: 'easeOut' }}
               >
-                {/* Owner instruction 2026-09-05: the globally-recognized
-                    close 'X' lives EXCLUSIVELY on this sealed "COMING SOON"
-                    screen. Same gold-accent icon-button treatment, stacked
-                    below the GlobalLanguagePicker so the two never overlap.
-
-                    ROUND 10 -- "극단적 터널링" (item 6): the tap no longer
-                    detours through ExitGuard's confirm dialog at all. That
-                    dialog rendered on the z-200 modal layer, BENEATH this
-                    z-400 curtain -- so every prior round's tap DID open it,
-                    invisibly, which read as "무반응" here and then surfaced
-                    as a phantom popup the moment the founder entered the
-                    main home. The 'X' calls the shared exit engine
-                    directly, synchronously inside the gesture (window.close
-                    and history traversal are activation-gated).
-
-                    ROUND 13 (owner instruction 2026-09-05, hardening patch,
-                    item 4): the tap is ABSOLUTE TERMINATION, never a restart
-                    on the logo splash. The session is wiped on the tap
-                    itself; App channel -> window.close() -- honoured now that
-                    ExitGuard no longer parks history entries under this
-                    screen, so a freshly launched app sits on its single
-                    entry -- and, where a runtime still refuses, the app is
-                    terminated IN PLACE (audio silenced, opaque black shroud,
-                    fresh session only on the next foreground resume);
-                    online -> back to the previous page / close the fresh
-                    tab. */}
-                <button
-                  type="button"
-                  onMouseEnter={() => playHoverSfx()}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    if (isExitInProgress()) return;
-                    executeAppExit();
-                  }}
-                  onTouchEnd={(e) => {
-                    // Owner instruction 2026-09-05 (round 3): a bare onClick
-                    // was intermittently unresponsive to a mobile tap on this
-                    // control -- some devices swallow the synthetic click
-                    // that normally follows touchend. Handling touchend
-                    // directly (and preventing that follow-up click so the
-                    // tap never double-fires) makes the close button react
-                    // to the very first tap on every touch device.
-                    e.preventDefault();
-                    if (isExitInProgress()) return;
-                    executeAppExit();
-                  }}
-                  aria-label={tExit('exitTitle')}
-                  style={{ pointerEvents: 'auto', touchAction: 'manipulation' }}
-                  className="absolute right-4 top-16 z-30 flex h-8 w-8 items-center justify-center border border-accent/50 bg-void/40 text-accent backdrop-blur-sm transition-colors hover:border-accent hover:bg-void/60 sm:right-6 sm:top-20"
-                >
-                  <X size={16} aria-hidden="true" />
-                </button>
-
                 <h2 className="cs-awaken font-serif text-[2.75rem] font-bold tracking-[0.22em] text-white sm:text-7xl lg:text-[5.25rem]">
                   {t('comingSoon')}
                 </h2>
@@ -1303,25 +1257,92 @@ export function ComingSoonCinema() {
                     install sheet (owner instruction 2026-08-30). */}
                 <CinemaAppDownload />
 
-                {/* Replay -- minimal "다시 재생" label + a reverse-play glyph
-                    haloed in a soft, slow rainbow aurora. Pinned bottom-right,
-                    mirrors the cinema 'skip' affordance. */}
-                <button
-                  type="button"
-                  onMouseEnter={() => playHoverSfx()}
-                  onClick={replay}
-                  aria-label={t('replay')}
-                  className="absolute bottom-6 right-6 z-20 flex items-center gap-2.5 whitespace-nowrap text-[11px] uppercase tracking-[0.22em] text-white/45 transition-colors hover:text-white/90"
-                >
-                  <span className="cs-replay-aurora" aria-hidden="true">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                      {/* reverse-play: triangle to the left + a leading stop bar */}
-                      <path d="M20 5v14L9 12z" />
-                      <rect x="4" y="5" width="2.6" height="14" rx="1" />
-                    </svg>
-                  </span>
-                  <span>{t('replay')}</span>
-                </button>
+                {/* Bottom-right control row (owner instruction 2026-09-05,
+                    checklist item 4): "[glyph] 다시 재생" and, to its RIGHT,
+                    "[X] 종료" -- two controls of identical size, typography,
+                    aurora halo and hover treatment, baseline-aligned on one
+                    row. The 'X' that used to sit top-right (under the
+                    language picker) is GONE from there; it lives here as the
+                    glyph of the exit control, in the same haloed slot the
+                    replay glyph occupies. */}
+                <div className="absolute bottom-6 right-6 z-20 flex items-center gap-6 sm:gap-8">
+                  {/* Replay -- minimal "다시 재생" label + a reverse-play glyph
+                      haloed in a soft, slow rainbow aurora. Mirrors the
+                      cinema 'skip' affordance. */}
+                  <button
+                    type="button"
+                    onMouseEnter={() => playHoverSfx()}
+                    onClick={replay}
+                    aria-label={t('replay')}
+                    className="flex items-center gap-2.5 whitespace-nowrap text-[11px] uppercase tracking-[0.22em] text-white/45 transition-colors hover:text-white/90"
+                  >
+                    <span className="cs-replay-aurora" aria-hidden="true">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                        {/* reverse-play: triangle to the left + a leading stop bar */}
+                        <path d="M20 5v14L9 12z" />
+                        <rect x="4" y="5" width="2.6" height="14" rx="1" />
+                      </svg>
+                    </span>
+                    <span>{t('replay')}</span>
+                  </button>
+
+                  {/* Exit -- "[X] 종료", the exact same control as replay.
+
+                      ROUND 10 -- "극단적 터널링" (item 6): the tap does not
+                      detour through ExitGuard's confirm dialog; it calls the
+                      shared exit engine directly, synchronously inside the
+                      gesture (window.close and history traversal are
+                      activation-gated).
+
+                      ROUND 13 (hardening patch, item 4): the tap is ABSOLUTE
+                      TERMINATION, never a restart on the logo splash. The
+                      session is wiped on the tap itself; App channel ->
+                      window.close(), and where a runtime refuses (the
+                      back-gesture sentinel buffer now sits under EVERY page
+                      -- checklist items 2 + 3 -- so a Chromium app window
+                      does refuse) the app is terminated IN PLACE (audio
+                      silenced, opaque black shroud, fresh session only on
+                      the next foreground resume); online -> back to the
+                      page the visitor came from / close the fresh tab. */}
+                  <button
+                    type="button"
+                    onMouseEnter={() => playHoverSfx()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (isExitInProgress()) return;
+                      executeAppExit({
+                        sentinelMarker: EXIT_GUARD_MARKER,
+                        sentinelDepthKey: EXIT_GUARD_DEPTH_KEY,
+                        sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
+                      });
+                    }}
+                    onTouchEnd={(e) => {
+                      // Owner instruction 2026-09-05 (round 3): a bare onClick
+                      // was intermittently unresponsive to a mobile tap on
+                      // this control -- some devices swallow the synthetic
+                      // click that normally follows touchend. Handling
+                      // touchend directly (and preventing that follow-up
+                      // click so the tap never double-fires) makes the exit
+                      // control react to the very first tap on every touch
+                      // device.
+                      e.preventDefault();
+                      if (isExitInProgress()) return;
+                      executeAppExit({
+                        sentinelMarker: EXIT_GUARD_MARKER,
+                        sentinelDepthKey: EXIT_GUARD_DEPTH_KEY,
+                        sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
+                      });
+                    }}
+                    aria-label={tExit('exitTitle')}
+                    style={{ pointerEvents: 'auto', touchAction: 'manipulation' }}
+                    className="flex items-center gap-2.5 whitespace-nowrap text-[11px] uppercase tracking-[0.22em] text-white/45 transition-colors hover:text-white/90"
+                  >
+                    <span className="cs-replay-aurora" aria-hidden="true">
+                      <X size={15} strokeWidth={2.4} aria-hidden="true" />
+                    </span>
+                    <span>{tExit('exitConfirm')}</span>
+                  </button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

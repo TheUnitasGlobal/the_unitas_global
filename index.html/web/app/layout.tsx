@@ -100,7 +100,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }}
         />
-        {/* Forced 3s cinematic intro -- SSR'd visible, top of the stack (z-700). */}
+        {/* Forced 3s SILENT cinematic intro ("logo page") -- SSR'd visible,
+            top of the stack (z-700); runs only on a cold entry, never on a
+            refresh of any page. */}
         <CinematicIntroSplash />
         <SpatialAudioProvider>
           <SceneLazy />

@@ -1,7 +1,13 @@
-/* 3-second cinematic intro splash (components/splash/CinematicIntroSplash.tsx).
-   Every animation here is compositor-only (transform / opacity / SVG stroke
-   & fill) so the sequence runs at full frame rate on low-end mobile too.
-   Timing cues mirror lib/splash/splashTimeline.ts. */
+/* 3-second SILENT cinematic intro splash -- the "logo page"
+   (components/splash/CinematicIntroSplash.tsx; owner instruction 2026-09-05,
+   checklist item 1: exactly 3s, no voice, no SFX, colour-light art on the
+   title for the whole 3s). Every animation here is compositor-only
+   (transform / opacity / SVG stroke & fill) so the sequence runs at full
+   frame rate on low-end mobile too. Timing cues mirror
+   lib/splash/splashTimeline.ts: the component stamps them as custom
+   properties on .sp-root (`--sp-hold`, `--sp-exit`, `--sp-impact`,
+   `--sp-corp`, `--sp-draw-len`, `--sp-stroke-fade-at`,
+   `--sp-stroke-fade-len`); the fallbacks below equal those constants. */
 
 .sp-root {
   position: fixed;
@@ -12,9 +18,9 @@
   overflow: hidden;
   background: #030305;
   color: #fff;
-  /* Fail-safe exit: pure CSS, 5s hold + 0.45s fade, releases pointer events
+  /* Fail-safe exit: pure CSS, 3s hold + 0.45s fade, releases pointer events
      and hides itself even if JavaScript never runs. */
-  animation: sp-autohide 0.45s ease-in-out 5s forwards;
+  animation: sp-autohide var(--sp-exit, 0.45s) ease-in-out var(--sp-hold, 3s) forwards;
 }
 html[data-splash='off'] .sp-root {
   display: none;
@@ -65,7 +71,7 @@ html[data-splash='off'] .sp-root {
   background-image: repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 3px);
   pointer-events: none;
 }
-/* crystal impact (2.0s) -- ring burst + brief screen bloom */
+/* visual crystal impact (1.7s, silent) -- ring burst + brief screen bloom */
 .sp-flash {
   position: absolute;
   left: 50%;
@@ -79,7 +85,7 @@ html[data-splash='off'] .sp-root {
     inset 0 0 44px rgba(212, 175, 55, 0.5);
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.15);
-  animation: sp-flash 1s cubic-bezier(0.1, 0.8, 0.3, 1) 2s forwards;
+  animation: sp-flash 1s cubic-bezier(0.1, 0.8, 0.3, 1) var(--sp-impact, 1.7s) forwards;
   pointer-events: none;
 }
 @keyframes sp-flash {
@@ -98,7 +104,7 @@ html[data-splash='off'] .sp-root {
   background: #fff;
   opacity: 0;
   mix-blend-mode: screen;
-  animation: sp-bloom 0.55s ease-out 2s both;
+  animation: sp-bloom 0.55s ease-out var(--sp-impact, 1.7s) both;
   pointer-events: none;
 }
 @keyframes sp-bloom {
@@ -262,18 +268,17 @@ html[data-splash='off'] .sp-root {
 }
 
 /* --- "UNITAS" title: stroke draw U -> S, single-tone burnished gold, one
-   sweeping specular light, breathing gold halo --
-   Round 11 (owner instruction 2026-09-05, item 5) introduced the looping
-   gold sweep; round 12 added a 1s multi-colour prism shimmer. Round 13
-   (hardening patch, item 3) RETIRES every second colour: the title is ONE
-   tone -- the original gold -- painted as solid burnished metal (vertical
-   gradient, same hue, three lightnesses, in CinematicIntroSplash.tsx) with a
-   single pale-gold light sweeping U -> S over 0-3s of each 5s cycle on a
-   masked overlay (.sp-title-sheen) and parked for 3-5s, while the halo
-   behind the whole word BREATHES (sp-title-breathe) -- the visual weight
-   now comes from light and depth, not from changing colour. The outline
-   stroke that draws each glyph in fades out at 2.7-3.2s so that from the
-   3s mark the letters are nothing but burnished gold -- "완전 고정". */
+   sweeping specular light, breathing gold halo -- for the WHOLE 3s hold.
+   Round 13 (hardening patch, item 3) made the title ONE tone -- the original
+   gold -- painted as solid burnished metal (vertical gradient, same hue,
+   three lightnesses, in CinematicIntroSplash.tsx) with a single pale-gold
+   light sweeping U -> S on a masked overlay (.sp-title-sheen). Checklist
+   item 1 (2026-09-05) re-times the sweep to the full 3s the logo page is on
+   screen (no parked hold any more: the light is moving from the first frame
+   to the last) while the halo behind the whole word BREATHES twice
+   (sp-title-breathe, 1.5s alternate). The outline stroke that draws each
+   glyph in fades out at 2.35-2.85s so the letters end as nothing but
+   burnished gold under the still-moving light before the 3.0s exit fade. */
 .sp-title {
   width: clamp(250px, 70vw, 640px);
   height: auto;
@@ -281,7 +286,7 @@ html[data-splash='off'] .sp-root {
   filter:
     drop-shadow(0 0 18px rgba(212, 175, 55, 0.5))
     drop-shadow(0 0 48px rgba(212, 175, 55, 0.22));
-  animation: sp-title-breathe 2.5s ease-in-out infinite alternate;
+  animation: sp-title-breathe 1.5s ease-in-out infinite alternate;
 }
 @keyframes sp-title-breathe {
   from {
@@ -313,9 +318,9 @@ html[data-splash='off'] .sp-root {
   stroke-dashoffset: 560;
   paint-order: stroke;
   animation:
-    sp-letter-draw 0.55s cubic-bezier(0.4, 0, 0.2, 1) var(--draw, 0.5s) forwards,
-    sp-letter-fill 0.7s ease-out var(--fill, 0.72s) forwards,
-    sp-letter-stroke-fade 0.5s ease-out 2.7s forwards;
+    sp-letter-draw var(--sp-draw-len, 0.45s) cubic-bezier(0.4, 0, 0.2, 1) var(--draw, 0.35s) forwards,
+    sp-letter-fill 0.6s ease-out var(--fill, 0.53s) forwards,
+    sp-letter-stroke-fade var(--sp-stroke-fade-len, 0.5s) ease-out var(--sp-stroke-fade-at, 2.35s) forwards;
 }
 @keyframes sp-letter-draw {
   to {
@@ -351,7 +356,7 @@ html[data-splash='off'] .sp-root {
   fill: url(#sp-sheen-grad);
   fill-opacity: 0;
   stroke: none;
-  animation: sp-letter-fill 0.7s ease-out var(--fill, 0.72s) forwards;
+  animation: sp-letter-fill 0.6s ease-out var(--fill, 0.53s) forwards;
 }
 
 /* --- corporate line ---------------------------------------------------- */
@@ -366,7 +371,7 @@ html[data-splash='off'] .sp-root {
   text-shadow: 0 0 18px rgba(0, 243, 255, 0.18);
   white-space: nowrap;
   opacity: 0;
-  animation: sp-rise 0.8s ease-out 1.9s forwards;
+  animation: sp-rise 0.8s ease-out var(--sp-corp, 1.5s) forwards;
 }
 @keyframes sp-rise {
   from {
@@ -412,8 +417,8 @@ html[data-splash='off'] .sp-root {
   .sp-letter {
     stroke-dashoffset: 0;
     animation:
-      sp-letter-fill 0.6s ease-out var(--fill, 0.72s) forwards,
-      sp-letter-stroke-fade 0.5s ease-out 2.7s forwards;
+      sp-letter-fill 0.6s ease-out var(--fill, 0.53s) forwards,
+      sp-letter-stroke-fade var(--sp-stroke-fade-len, 0.5s) ease-out var(--sp-stroke-fade-at, 2.35s) forwards;
   }
   /* reduced motion: the title rests on its burnished gold with a still
      halo -- the slow light sweep stays (it is gentle), the breathing stops */

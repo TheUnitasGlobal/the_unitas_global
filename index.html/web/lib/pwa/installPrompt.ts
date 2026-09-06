@@ -26,7 +26,7 @@ import {
   CINEMA_PHASE_STORAGE_KEY,
   SPLASH_ACTIVE_STORAGE_KEY,
   SPLASH_ACTIVE_VALUE,
-  SPLASH_SUB_VIEW_PHASES,
+  SPLASH_IN_PLACE_PHASES,
 } from '@/lib/splash/splashTimeline';
 
 export interface BeforeInstallPromptEvent extends Event {
@@ -81,15 +81,18 @@ export const SPLASH_OFF_QUERY = /[?&]splash=(0|off|false)(&|$)/;
  *    state is wiped and the document reloads so the same bootstrap runs
  *    again. `?splash=0` (QA harness) keeps state. Mirrors the pure predicate
  *    `shouldResetEntrySession()` in lib/splash/splashTimeline.ts.
- *  - stamps the same attribute when the tab's persisted Coming-Soon curtain
- *    phase is a SUB-VIEW (gate / cinema / sealed): a refresh parked on one of
- *    those must re-render that view in place with no "logo page" in between
- *    (owner instruction 2026-09-05, round 10, item 3). The main home
- *    (`released`) and a cold first visit keep the splash. Pre-hydration on
- *    purpose -- the splash is SSR'd visible, so only a pre-paint gate avoids
- *    a flash of it; the React component skips its audio/timer separately.
- *    Because the re-entry reset above runs first, this branch can only ever
- *    fire on a genuine `reload`.
+ *  - stamps the same attribute when the tab carries ANY persisted Coming-Soon
+ *    curtain phase (gate / cinema / sealed / released): a refresh parked on
+ *    any of those pages -- the entry gate, an ad stage, the sealed
+ *    Coming-Soon screen or the released MAIN HOME -- must re-render that
+ *    page in place with no "logo page" in between (owner instruction
+ *    2026-09-05, checklist items 2 + 3: "새로고침시 ... 아무것도 안보이게",
+ *    and in particular no logo page on a main-home F5). Only a cold entry
+ *    (no persisted phase) keeps the splash. Pre-hydration on purpose -- the
+ *    splash is SSR'd visible, so only a pre-paint gate avoids a flash of it;
+ *    the React component skips its timer separately. Because the re-entry
+ *    reset above runs first, this branch can only ever fire on a genuine
+ *    `reload`.
  *  - EXCEPT when the tab also carries `unitas_splash_active=1` (owner
  *    instruction 2026-09-05, 7-point hardening, item 6): that flag is raised
  *    by the splash component for exactly as long as the logo page is on
@@ -107,7 +110,7 @@ if(qa){document.documentElement.setAttribute('data-splash','off');}
 try{var nt='navigate';try{var en=performance.getEntriesByType&&performance.getEntriesByType('navigation');if(en&&en[0]&&en[0].type){nt=String(en[0].type);}else if(performance.navigation&&performance.navigation.type===1){nt='reload';}}catch(_){}
 if(!qa&&nt.toLowerCase()!=='reload'){try{sessionStorage.clear();}catch(_){}}
 var rl=false;window.addEventListener('pageshow',function(e){if(!e||!e.persisted||qa||rl)return;rl=true;try{sessionStorage.clear();}catch(_){}try{location.reload();}catch(_){}});}catch(_){}
-try{var sa=sessionStorage.getItem('${SPLASH_ACTIVE_STORAGE_KEY}');var p=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(!(sa&&String(sa).trim()==='${SPLASH_ACTIVE_VALUE}')&&p&&${JSON.stringify([...SPLASH_SUB_VIEW_PHASES])}.indexOf(p)!==-1){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
+try{var sa=sessionStorage.getItem('${SPLASH_ACTIVE_STORAGE_KEY}');var p=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(!(sa&&String(sa).trim()==='${SPLASH_ACTIVE_VALUE}')&&p&&${JSON.stringify([...SPLASH_IN_PLACE_PHASES])}.indexOf(String(p).trim())!==-1){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}
 }catch(_){}})();`;
 

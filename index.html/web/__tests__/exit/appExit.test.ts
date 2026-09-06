@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
   APP_EXIT_EVENT,
+  EXIT_GUARD_DEPTH_KEY,
+  EXIT_GUARD_MARKER,
+  EXIT_GUARD_SENTINEL_DEPTH,
   LEAVE_SETTLE_MS,
   isExternalReferrer,
   planExit,
@@ -81,6 +84,41 @@ describe('sovereign omni-channel exit planner', () => {
       expect(planExit(env({ historyLength: 1 })).immediate).toEqual([{ kind: 'close' }]);
       expect(planExit(env({ historyLength: 2, sentinelDepth: 1 })).immediate).toEqual([{ kind: 'close' }]);
       expect(planExit(env({ historyLength: 13, sentinelDepth: 12 })).immediate).toEqual([{ kind: 'close' }]);
+    });
+
+    it('counts our own FORWARD sentinels when the visitor has stepped down into an armed buffer (checklist items 2 + 3)', () => {
+      const capacity = EXIT_GUARD_SENTINEL_DEPTH;
+      expect(capacity).toBe(12);
+      // Fresh tab: [real, s1..s12] = 13 entries, visitor pressed back 3
+      // times (depth 9). Without the capacity the planner would have fired
+      // a history.go(-10) that lands nowhere; with it, it knows those 3
+      // forward entries are ours and closes / falls back instead.
+      expect(planExit(env({ historyLength: 13, sentinelDepth: 9, sentinelCapacity: capacity })).immediate).toEqual([
+        { kind: 'close' },
+      ]);
+      // A page really is behind us: step over exactly the entries we stand
+      // on (the forward ones vanish with the traversal).
+      expect(planExit(env({ historyLength: 14, sentinelDepth: 9, sentinelCapacity: capacity })).immediate).toEqual([
+        { kind: 'history-back', steps: 10 },
+      ]);
+      // On the top of the buffer the capacity changes nothing.
+      expect(planExit(env({ historyLength: 14, sentinelDepth: 12, sentinelCapacity: capacity })).immediate).toEqual([
+        { kind: 'history-back', steps: 13 },
+      ]);
+      // On the real entry the capacity is not assumed to have been parked.
+      expect(planExit(env({ historyLength: 2, sentinelDepth: 0, sentinelCapacity: capacity })).immediate).toEqual([
+        { kind: 'history-back', steps: 1 },
+      ]);
+      // A capacity smaller than the depth actually observed never under-counts.
+      expect(planExit(env({ historyLength: 13, sentinelDepth: 12, sentinelCapacity: 2 })).immediate).toEqual([
+        { kind: 'close' },
+      ]);
+    });
+
+    it('shares one sentinel contract with ExitGuard and the Coming-Soon exit control', () => {
+      expect(EXIT_GUARD_MARKER).toBe('unitasExitGuard');
+      expect(EXIT_GUARD_DEPTH_KEY).toBe('unitasExitDepth');
+      expect(EXIT_GUARD_SENTINEL_DEPTH).toBeGreaterThanOrEqual(2);
     });
 
     it('falls back to the external referrer (the search page) when a step is refused', () => {
