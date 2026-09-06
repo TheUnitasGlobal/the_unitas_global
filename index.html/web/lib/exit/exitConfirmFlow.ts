@@ -12,7 +12,7 @@
 // exit engine (which then collapses the history sentinel buffer and ends the
 // app -- see `executeAppExit`):
 //
-//   1. "정말 종료하시겠습니까?"                              -- intent
+//   1. "종료하시겠습니까?"                                    -- intent
 //   2. "종료 버튼을 한 번 더 누르면 앱이 완전히 종료됩니다"   -- final
 //
 // 취소, a backdrop tap or Escape on EITHER dialog leaves the visitor exactly
@@ -25,7 +25,7 @@
 //
 // ROUND 21 (owner instruction 2026-09-06, "모바일 앱 전용 2단계 안심 종료 안내
 // 가이드 팝업"): on a PHONE / TABLET app the two "steps" are no longer two
-// QUESTIONS. Step 1 is the single confirm -- "로그아웃 및 종료하시겠습니까?",
+// QUESTIONS. Step 1 is the single confirm -- "종료하시겠습니까?",
 // the same question the online channel asks -- and step 2 is the COMPLETION
 // GUIDE the exit engine paints once the app is terminated in place
 // ("종료가 완료되었습니다. 안전하게 앱 또는 브라우저를 닫아주시기 바랍니다.",

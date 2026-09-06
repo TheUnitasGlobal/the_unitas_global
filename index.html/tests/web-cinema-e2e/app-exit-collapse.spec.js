@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 // Round 21 (owner instruction 2026-09-06, "모바일 앱 전용 2단계 안심 종료 안내
 // 가이드 팝업 + about:blank 원복"): on a PHONE / TABLET app the exit is ONE
-// confirm ("로그아웃 및 종료하시겠습니까?") and then the COMPLETION GUIDE --
+// confirm ("종료하시겠습니까?") and then the COMPLETION GUIDE --
 // the exit engine terminates the app in place (session purge, React unmount,
 // whole-stack collapse, sealed launch entry) and paints a floating
 // glassmorphism card reading "Shutdown complete. Please close the app or

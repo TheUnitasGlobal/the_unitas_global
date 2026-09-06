@@ -244,7 +244,7 @@ const ACTIVATION_EVENTS = EXIT_GUARD_ACTIVATION_EVENTS;
  * instruction 2026-09-06; narrowed to desktop in round 21): a PC app window's
  * confirmed exit genuinely closes the window (`window.close()`), so there the
  * exit question is asked TWICE in two consecutive dialogs of the same design
- * -- "정말 종료하시겠습니까?" and then "종료 버튼을 한 번 더 누르면 앱이
+ * -- "종료하시겠습니까?" and then "종료 버튼을 한 번 더 누르면 앱이
  * 완전히 종료됩니다" -- and only the second explicit 종료 runs the engine.
  * The sealed Coming-Soon screen's 'X 종료' joins this flow on the App channel
  * through `requestAppExit()` (online it still tunnels straight into the
@@ -358,7 +358,7 @@ export function ExitGuard() {
       // nothing focused
     }
     // Round 21: only a DESKTOP app window asks twice; a phone / tablet app
-    // asks once ("로그아웃 및 종료하시겠습니까?") and then shows the
+    // asks once ("종료하시겠습니까?") and then shows the
     // completion guide painted by the exit engine.
     setDoubleConfirm(needsDoubleExitConfirm(isStandaloneApp(), isDesktopAppWindow()));
     setStep(initialExitConfirmStep(Boolean(sessionRef.current)));

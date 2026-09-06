@@ -40,7 +40,7 @@ describe('round 17 / 21: double-confirm exit (desktop App window) vs single conf
     expect(needsDoubleExitConfirm(false, false)).toBe(false);
   });
 
-  it('round 21: a phone / tablet app walks "로그아웃 및 종료하시겠습니까?" -> engine in ONE 종료 tap (the guide is the second step)', () => {
+  it('round 21: a phone / tablet app walks "종료하시겠습니까?" -> engine in ONE 종료 tap (the guide is the second step)', () => {
     const doubleConfirm = needsDoubleExitConfirm(true, false);
     expect(confirmedPath('exit', doubleConfirm)).toEqual(['exit']);
     expect(confirmedPath('logout', doubleConfirm)).toEqual(['logout', 'exit']);
@@ -53,7 +53,7 @@ describe('round 17 / 21: double-confirm exit (desktop App window) vs single conf
     expect(initialExitConfirmStep(false)).toBe('exit');
   });
 
-  it('App: "정말 종료하시겠습니까?" -> "한 번 더 누르면 완전히 종료" -> engine, never fewer than two explicit 종료 taps', () => {
+  it('App: "종료하시겠습니까?" -> "한 번 더 누르면 완전히 종료" -> engine, never fewer than two explicit 종료 taps', () => {
     expect(confirmedPath('exit', true)).toEqual(['exit', 'exit-final']);
     expect(advanceExitConfirm('exit', true)).toBe('exit-final');
     // The engine runs ONLY off the final step.

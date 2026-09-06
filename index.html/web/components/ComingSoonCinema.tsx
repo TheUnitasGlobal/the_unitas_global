@@ -937,7 +937,7 @@ export function ComingSoonCinema() {
    * ROUND 17 (owner instruction 2026-09-06, "2단계 더블 컨펌 안심 종료"): on
    * the APP channel the tap no longer drops the visitor onto the black
    * terminal shroud in one step -- it opens ExitGuard's two-step confirm
-   * ("정말 종료하시겠습니까?" -> "종료 버튼을 한 번 더 누르면 앱이 완전히
+   * ("종료하시겠습니까?" -> "종료 버튼을 한 번 더 누르면 앱이 완전히
    * 종료됩니다"), and only the second explicit 종료 there runs the exit
    * engine (lib/exit/exitConfirmFlow.ts). ExitGuard mounts right after this
    * curtain in app/[locale]/layout.tsx and its modal renders on the top
