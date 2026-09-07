@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "Klik je op Afsluiten, dan sluit de app; Annuleren houdt je precies waar je bent.",
     "appExitStep": "Stap {current} van {total}",
     "appExitDoneTitle": "Afsluiten voltooid.",
-    "appExitDoneBody": "Sluit de app of browser veilig af."
+    "appExitDoneBody": "Sluit de app of browser veilig af.",
+    "webExitDoneBody": "Sluit het browsertabblad veilig af."
   },
   "Civic": {
     "axes": {

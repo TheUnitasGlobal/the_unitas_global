@@ -46,6 +46,93 @@
 /** The dialog's steps, in order. `logout` is skipped while signed out. */
 export type ExitConfirmStep = 'logout' | 'exit' | 'exit-final';
 
+/**
+ * OMNI-CHANNEL EXIT COPY (owner instruction 2026-09-07, master audit item 3:
+ * "플랫폼별 차별화된 종료/팝업 UX ... 모바일 전용 문구가 PC에 노출되는 등의
+ * 라우팅 글리치 박멸"). Every exit surface -- ESC, the hardware / context-menu
+ * back, the nav 종료, the sealed screen's 'X 종료', on the logo page, the
+ * entry gate, ad stages 1-5, the Coming-Soon screen and the main home --
+ * resolves ONE of three channels at the moment the dialog opens and reads
+ * every string it shows from that channel, so a phone-app sentence can never
+ * surface on a PC tab and an "app closes" body never on a website:
+ *
+ *   online       browser tab, any device (PC / tablet / phone):
+ *                  "종료하시겠습니까?" / "사이트가 닫히며..." then, if the
+ *                  session ends in this document, the completion guide with
+ *                  the WEB body ("브라우저 탭을 닫아주시기 바랍니다").
+ *   mobile-app   installed app on a phone / tablet (single confirm):
+ *                  "종료하시겠습니까?" / "앱이 닫히며..." then the APP guide
+ *                  ("안전하게 앱 또는 브라우저를 닫아주시기 바랍니다").
+ *   desktop-app  installed app window on a PC (double confirm):
+ *                  "종료하시겠습니까?" / "마지막 확인 단계로..." then
+ *                  "앱을 완전히 종료하시겠습니까?" / "앱이 닫히며..." and the
+ *                  window genuinely closes (black shroud as the fallback).
+ */
+export type ExitChannelKind = 'online' | 'mobile-app' | 'desktop-app';
+
+/** Pure: which channel this surface is on. `standalone` = installed app
+ *  (`isStandaloneApp()`), `desktopAppWindow` = a PC app window
+ *  (`isDesktopAppWindow()`); the online channel is every browser tab. */
+export function resolveExitChannel(standalone: boolean, desktopAppWindow: boolean): ExitChannelKind {
+  if (!standalone) return 'online';
+  return desktopAppWindow ? 'desktop-app' : 'mobile-app';
+}
+
+/** `ExitGuard.*` message keys the dialog reads for a given step + channel. */
+export interface ExitDialogCopyKeys {
+  title: ExitCopyKey;
+  body: ExitCopyKey;
+}
+
+export type ExitCopyKey =
+  | 'logoutTitle'
+  | 'logoutBody'
+  | 'exitTitle'
+  | 'exitBody'
+  | 'appExitTitle'
+  | 'appExitBody'
+  | 'appExitFinalTitle'
+  | 'appExitFinalBody'
+  | 'appExitDoneTitle'
+  | 'appExitDoneBody'
+  | 'webExitDoneBody';
+
+/**
+ * Pure: the title / body keys for `step` on `channel`. The logout question is
+ * channel-neutral. The first exit question keeps the unified minimal title on
+ * every channel (round 22) and branches only its BODY: the website closes
+ * (online), the app closes (mobile app), or one more confirmation follows
+ * (desktop app). The final step exists on the desktop app only.
+ */
+export function exitDialogCopyKeys(step: ExitConfirmStep, channel: ExitChannelKind): ExitDialogCopyKeys {
+  if (step === 'logout') return { title: 'logoutTitle', body: 'logoutBody' };
+  if (step === 'exit-final') return { title: 'appExitFinalTitle', body: 'appExitFinalBody' };
+  switch (channel) {
+    case 'desktop-app':
+      return { title: 'appExitTitle', body: 'appExitBody' };
+    case 'mobile-app':
+      return { title: 'exitTitle', body: 'appExitFinalBody' };
+    case 'online':
+    default:
+      return { title: 'exitTitle', body: 'exitBody' };
+  }
+}
+
+/**
+ * Pure: the completion-guide keys the exit engine paints once the session
+ * has ended in THIS document (lib/exit/appExit.ts `terminate-guide`). The
+ * title is shared; the body names what to close -- the browser tab on the
+ * online channel, the app on a phone / tablet app. A desktop app window
+ * closes for real and paints the shroud, but is handed the app copy for its
+ * belt-and-braces fallback.
+ */
+export function exitGuideCopyKeys(channel: ExitChannelKind): ExitDialogCopyKeys {
+  return {
+    title: 'appExitDoneTitle',
+    body: channel === 'online' ? 'webExitDoneBody' : 'appExitDoneBody',
+  };
+}
+
 /** How many explicit 종료 taps an exit needs on each channel. `app` is the
  *  DESKTOP app window (two questions, then `window.close()`); `mobileApp` is
  *  a phone / tablet app (one question, then the completion guide). */

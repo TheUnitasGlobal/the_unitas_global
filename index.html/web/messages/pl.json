@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "Kliknięcie Wyjdź zamknie aplikację; Anuluj zostawia Cię dokładnie tam, gdzie jesteś.",
     "appExitStep": "Krok {current} z {total}",
     "appExitDoneTitle": "Zamykanie zakończone.",
-    "appExitDoneBody": "Zamknij bezpiecznie aplikację lub przeglądarkę."
+    "appExitDoneBody": "Zamknij bezpiecznie aplikację lub przeglądarkę.",
+    "webExitDoneBody": "Zamknij bezpiecznie kartę przeglądarki."
   },
   "Civic": {
     "axes": {

@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "En cliquant sur Quitter, l'application se ferme ; Annuler vous laisse exactement où vous êtes.",
     "appExitStep": "Étape {current} sur {total}",
     "appExitDoneTitle": "Fermeture terminée.",
-    "appExitDoneBody": "Veuillez fermer l'application ou le navigateur en toute sécurité."
+    "appExitDoneBody": "Veuillez fermer l'application ou le navigateur en toute sécurité.",
+    "webExitDoneBody": "Veuillez fermer l'onglet du navigateur en toute sécurité."
   },
   "Civic": {
     "axes": {

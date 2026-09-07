@@ -13,7 +13,7 @@ import { APP_EXIT_EVENT, isExitInProgress } from '@/lib/exit/appExit';
 import { requestAppExit } from '@/lib/exit/exitConfirmFlow';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
 import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '@/lib/audio/audioSession';
-import { attachActivationUnlock } from '@/lib/audio/activationUnlock';
+import { attachActivationUnlock, scheduleAutoUnlockRetries } from '@/lib/audio/activationUnlock';
 import { isAppLocale } from '@/lib/countryLocale';
 import { readLocalePreference } from '@/lib/i18n/localePreference';
 import { CINEMA_PHASE_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
@@ -186,6 +186,10 @@ export function ComingSoonCinema() {
     stop: () => void;
   } | null>(null);
   const prevSegRef = useRef(1);
+  /** Live mute flag for the rAF closure (its effect does not re-run on
+   *  `muted`), so the stage-5 closing cue honours the toggle. */
+  const mutedRef = useRef(muted);
+  mutedRef.current = muted;
 
   // Everyone -- public AND founder -- ends the cinematic on the same locked
   // 'sealed' "COMING SOON" screen; the founder just gets an extra button there.
@@ -225,6 +229,15 @@ export function ComingSoonCinema() {
       // Round 15: never let the mount-time persist write `gate` over this.
       skipInitialPersistRef.current = true;
     }
+    // Sovereign console isolation (owner instruction 2026-09-07, master
+    // audit item 2): the console's "메인사이트 진입" (`?dev=skip`) is a
+    // TRANSITION straight onto the main home -- no logo page (the head
+    // bootstrap stamped it off), no entry chime, and no flash of the entry
+    // gate / sealed screen while the server verifies: a founder browser
+    // (hint cookie) paints the opaque void until the verified `released`
+    // lands. Fail-closed as ever -- a lapsed session resolves to the sealed
+    // screen below.
+    if (qaSkip && hasSovereignHint()) setRestoringReleased(true);
     if (saved === 'released') {
       verifyingReleasedRef.current = true;
       // A founder browser (hint cookie present) re-verifying its main home
@@ -760,7 +773,7 @@ export function ComingSoonCinema() {
     if (!engine || engine.ctx.state === 'running') return;
     let detached = false;
     const silent = makeSilentBuffer(engine.ctx);
-    const detach = attachActivationUnlock(() => {
+    const wake = () => {
       if (detached) return;
       // Round 13 (hardening patch, item 4): a WebKit-proof gesture unlock --
       // silent kick + resume, inside the gesture -- so the ad stages sing on
@@ -769,16 +782,24 @@ export function ComingSoonCinema() {
       // treated like `suspended` -- anything not running is woken.
       try {
         if (engine.ctx.state === 'running') return;
+        ensurePlaybackAudioSession();
         if (silent) kickAudioContext(engine.ctx, silent);
         engine.ctx.resume().catch(() => {});
       } catch {
         /* never throw out of the gesture */
       }
-    });
+    };
+    // Universal auto-unlock hub (owner instruction 2026-09-07, master audit
+    // item 2): gestures + lifecycle retries (visibilitychange / pageshow /
+    // focus) + a bounded post-load kickstart burst -- the ad stages 1-5 and
+    // the sealed screen wake at the earliest instant every engine allows.
+    const detach = attachActivationUnlock(wake);
+    const cancelRetries = scheduleAutoUnlockRetries(wake);
     const onState = () => {
       if (engine.ctx.state === 'running') {
         detached = true;
         detach();
+        cancelRetries();
         engine.ctx.removeEventListener('statechange', onState);
       }
     };
@@ -790,6 +811,7 @@ export function ComingSoonCinema() {
     return () => {
       detached = true;
       detach();
+      cancelRetries();
       try {
         engine.ctx.removeEventListener('statechange', onState);
       } catch {
@@ -907,6 +929,19 @@ export function ComingSoonCinema() {
       if (stopped) return;
       const elapsed = now - startRef.current;
       if (phase === 'cinema' && elapsed >= CINEMA_DURATION_MS) {
+        // AD STAGE 5 AUDIO SYNC (owner instruction 2026-09-07, master audit
+        // item 1): stages 2-5 each open with the phase cue; the sealed
+        // "COMING SOON" screen is stage 5's hand-off, so its arrival gets
+        // the same crisp cue -- the last stage is punctuated exactly like
+        // the four before it. Natural completion only: the skip control
+        // plays its own ping.
+        if (!mutedRef.current) {
+          try {
+            audioRef.current?.phaseCue();
+          } catch {
+            /* a refused cue never breaks the hand-off */
+          }
+        }
         setPhase('sealed');
         return;
       }
@@ -1034,8 +1069,10 @@ export function ComingSoonCinema() {
   };
 
   const showChrome = phase === 'cinema' || phase === 'sealed';
-  /** Round 15: opaque void while a persisted main home re-verifies (F5). */
-  const voidPlaceholder = phase === 'sealed' && restoringReleased;
+  /** Round 15: opaque void while a persisted main home re-verifies (F5);
+   *  2026-09-07 (console isolation): also while the console's `?dev=skip`
+   *  entry verifies -- whichever phase the curtain is parked on. */
+  const voidPlaceholder = restoringReleased && phase !== 'released';
 
   return (
     <AnimatePresence>
@@ -1127,7 +1164,7 @@ export function ComingSoonCinema() {
 
           {/* GATE */}
           <AnimatePresence>
-            {phase === 'gate' && (
+            {phase === 'gate' && !voidPlaceholder && (
               <motion.div
                 key="gate"
                 className="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain px-6 py-16 backdrop-blur-2xl"
@@ -1186,9 +1223,13 @@ export function ComingSoonCinema() {
             )}
           </AnimatePresence>
 
-          {/* CINEMA -- mysterious keyword typography only, centered */}
+          {/* CINEMA -- mysterious keyword typography only, centered.
+              Ad stages 1-5 all render through this ONE panel: identical
+              lockup, dots, progress line, skip control, phase cue, segment
+              persistence and exit guard -- stage 5 is never a special case
+              (owner instruction 2026-09-07, master audit item 1). */}
           <AnimatePresence>
-            {phase === 'cinema' && (
+            {phase === 'cinema' && !voidPlaceholder && (
               <motion.div
                 key="cinema"
                 className="absolute inset-0"
@@ -1338,7 +1379,7 @@ export function ComingSoonCinema() {
                     centre and making the (less-tracked) corporate line beneath
                     read as shifted right. Re-adding an equal `text-indent`
                     before the first glyph restores a symmetric gap on both
-                    sides, so 'UNITAS' and '© THE UNITAS GLOBAL OÜ' now share
+                    sides, so 'UNITAS' and 'THE UNITAS GLOBAL OÜ' now share
                     one exact vertical centre line (±0). Both lines are
                     `w-full text-center` for the same box reference. */}
                 <p
@@ -1350,9 +1391,22 @@ export function ComingSoonCinema() {
                 {/* 법인명: 모든 디바이스에서 좌우 여백 기준 완벽 중앙 정렬
                     (w-full text-center) + tracking 상쇄 text-indent 로 위
                     UNITAS 워드마크 정중앙과 1~2px 오차 없이 대칭
-                    (owner instruction 2026-08-30). */}
-                <p className="mt-3 w-full text-center text-[0.8rem] font-medium uppercase tracking-[0.2em] text-white/45 [text-indent:0.2em] sm:text-[1.05rem]">
-                  © THE UNITAS GLOBAL OÜ
+                    (owner instruction 2026-08-30).
+                    Owner instruction 2026-09-07 (master audit, item 1): the
+                    `©` glyph is REMOVED -- the line is the bare corporate
+                    name only. With no leading symbol the glyph run is
+                    symmetric under the same `text-indent` == `tracking`
+                    compensation, so the string sits on the exact horizontal
+                    centre of every viewport (PC / tablet / mobile, online
+                    and App) with nothing to drift: `w-full` pins the box to
+                    the panel width, `whitespace-nowrap` + `break-keep` keep
+                    it one unbroken line, `[text-wrap:nowrap]` guards the
+                    balance heuristics some engines apply to short lines. */}
+                <p
+                  className="mt-3 w-full whitespace-nowrap break-keep text-center text-[0.8rem] font-medium uppercase tracking-[0.2em] text-white/45 [text-indent:0.2em] [text-wrap:nowrap] sm:text-[1.05rem]"
+                  translate="no"
+                >
+                  THE UNITAS GLOBAL OÜ
                 </p>
 
                 {/* FOUNDER-ONLY secret door. Never rendered for the public,

@@ -26,9 +26,13 @@ import {
   EXIT_REQUEST_EVENT,
   advanceExitConfirm,
   exitConfirmPosition,
+  exitDialogCopyKeys,
+  exitGuideCopyKeys,
   initialExitConfirmStep,
   needsDoubleExitConfirm,
   requestAppExit,
+  resolveExitChannel,
+  type ExitChannelKind,
   type ExitConfirmStep,
 } from '@/lib/exit/exitConfirmFlow';
 import { CINEMA_PHASE_EVENT } from '@/lib/foundersGate';
@@ -71,7 +75,7 @@ const GATE_ID = 'exit-guard';
 const SPURIOUS_POP_GRACE_MS = 600;
 /** The curtain phase on which a back / forward traversal OPENS THE EXIT
  *  CONFIRM: the MAIN HOME. On every other page -- the logo page, the entry
- *  gate, ad stages 1-4 and the sealed Coming-Soon screen -- the same
+ *  gate, ad stages 1-5 and the sealed Coming-Soon screen -- the same
  *  traversal is swallowed silently: the sentinel buffer absorbs it and
  *  nothing happens (owner instruction 2026-09-05, checklist items 2 + 3:
  *  "무반응"). */
@@ -231,7 +235,7 @@ const ACTIVATION_EVENTS = EXIT_GUARD_ACTIVATION_EVENTS;
  * mouse X1/X2, Alt+arrows, the toolbar buttons -- then lands inside that
  * buffer, on the same document, and:
  *
- *   - on the logo page, the entry gate, ad stages 1-4 and the sealed
+ *   - on the logo page, the entry gate, ad stages 1-5 and the sealed
  *     Coming-Soon screen: NOTHING happens ("무반응"). No dialog, no exit.
  *   - on the MAIN HOME: the confirm opens -- "로그아웃을 하시겠습니까?" (only
  *     while signed in) then "종료하시겠습니까?" -- and the site unloads ONLY
@@ -329,6 +333,11 @@ export function ExitGuard() {
   /** App channel: the exit question is asked twice (round 17). Resolved on
    *  every open, never at render time -- `isStandaloneApp()` needs `window`. */
   const [doubleConfirm, setDoubleConfirm] = useState(false);
+  /** Omni-channel copy source (owner instruction 2026-09-07, item 3):
+   *  online tab / mobile app / desktop app window, resolved on every open
+   *  alongside `doubleConfirm`; every string the dialog and the completion
+   *  guide show is read through it (lib/exit/exitConfirmFlow.ts). */
+  const [channel, setChannel] = useState<ExitChannelKind>('online');
   const [busy, setBusy] = useState(false);
   const sessionRef = useRef(session);
   sessionRef.current = session;
@@ -360,7 +369,10 @@ export function ExitGuard() {
     // Round 21: only a DESKTOP app window asks twice; a phone / tablet app
     // asks once ("종료하시겠습니까?") and then shows the
     // completion guide painted by the exit engine.
-    setDoubleConfirm(needsDoubleExitConfirm(isStandaloneApp(), isDesktopAppWindow()));
+    const standalone = isStandaloneApp();
+    const desktopWindow = isDesktopAppWindow();
+    setDoubleConfirm(needsDoubleExitConfirm(standalone, desktopWindow));
+    setChannel(resolveExitChannel(standalone, desktopWindow));
     setStep(initialExitConfirmStep(Boolean(sessionRef.current)));
     openGate(true, { force: true });
   }, [openGate]);
@@ -597,11 +609,16 @@ export function ExitGuard() {
     // previous page only when the engine can PROVE that page is not this
     // site; a traversal that could land on an earlier page of the site (the
     // "종료 -> 진입 페이지 리셋" bug) is never fired. See lib/exit/appExit.ts.
+    // Owner instruction 2026-09-07 (item 3): the completion guide's copy is
+    // the CHANNEL's -- "브라우저 탭을 닫아주시기 바랍니다" on a browser tab,
+    // "앱 또는 브라우저를 닫아주시기 바랍니다" on an installed app -- so the
+    // phone-app sentence never surfaces on a PC tab.
+    const guideKeys = exitGuideCopyKeys(channel);
     executeAppExit({
       sentinelMarker: GUARD_MARKER,
       sentinelDepthKey: GUARD_DEPTH,
       sentinelCapacity: SENTINEL_DEPTH,
-      guide: { title: t('appExitDoneTitle'), body: t('appExitDoneBody') },
+      guide: { title: t(guideKeys.title), body: t(guideKeys.body) },
     });
   }
 
@@ -609,20 +626,12 @@ export function ExitGuard() {
   const isLogout = step === 'logout';
   const isFinal = step === 'exit-final';
   const position = exitConfirmPosition(step, doubleConfirm);
-  const title = isLogout
-    ? t('logoutTitle')
-    : isFinal
-      ? t('appExitFinalTitle')
-      : doubleConfirm
-        ? t('appExitTitle')
-        : t('exitTitle');
-  const body = isLogout
-    ? t('logoutBody')
-    : isFinal
-      ? t('appExitFinalBody')
-      : doubleConfirm
-        ? t('appExitBody')
-        : t('exitBody');
+  // Every string comes from the resolved channel (pure selector, unit
+  // tested): online -> "사이트가 닫히며", mobile app -> "앱이 닫히며",
+  // desktop app -> step 1 "마지막 확인 단계로" then the final question.
+  const copyKeys = exitDialogCopyKeys(step, channel);
+  const title = t(copyKeys.title);
+  const body = t(copyKeys.body);
 
   return (
     <Modal open={gate.open} onClose={close} labelledBy={titleId} hideCloseButton layer="top">

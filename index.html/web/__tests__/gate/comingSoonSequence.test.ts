@@ -59,6 +59,22 @@ describe('cinema timeline helpers', () => {
     expect(cinemaSegmentStartMs('garbage')).toBe(0);
     expect(cinemaSegmentStartMs(99)).toBe(0);
   });
+
+  it('AD STAGE 5 PARITY (master audit 2026-09-07, item 1): stage 5 is a first-class 6s stage with its own caption key, resume point and hand-off', () => {
+    const last = CINEMA_SEGMENTS[CINEMA_SEGMENTS.length - 1];
+    expect(CINEMA_SEGMENTS.length).toBe(5);
+    expect(last.id).toBe(5);
+    expect(last.captionKey).toBe('cinemaS5');
+    expect(last.endMs - last.startMs).toBe(6_000);
+    // Same cadence as stages 1-4 -- no shorter, no longer.
+    for (const seg of CINEMA_SEGMENTS) expect(seg.endMs - seg.startMs).toBe(6_000);
+    // An F5 during stage 5 resumes at 24s (6s left), never rewinds to stage 1.
+    expect(cinemaSegmentStartMs(5)).toBe(24_000);
+    expect(cinemaSegmentAt(24_000 + 5_999).id).toBe(5);
+    // The clock reaching 30s is the hand-off to the sealed screen.
+    expect(cinemaOverallProgress(29_999)).toBeLessThan(1);
+    expect(cinemaOverallProgress(CINEMA_DURATION_MS)).toBe(0);
+  });
 });
 
 describe('seedCinemaField', () => {

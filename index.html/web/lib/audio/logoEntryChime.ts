@@ -42,15 +42,39 @@
 //    `APP_TERMINATE_EVENT` / `TERMINATED_ATTR`), for sound switched off, or
 //    when a replay of the logo page supersedes it with its own chime.
 //
+// UNIVERSAL AUTO-UNLOCK (owner instruction 2026-09-07, master audit item 2):
+// both engines now run the full unlock hub of lib/audio/activationUnlock.ts
+// -- kickstart at load, a bounded post-load retry burst, lifecycle retries on
+// `visibilitychange` / `pageshow` / `focus`, then the gesture set -- so the
+// chime sounds at the earliest instant EVERY browser allows, with no gesture
+// and no lifecycle moment ever lost.
+//
+// SOVEREIGN CONSOLE ISOLATION (same instruction): the chime is the VISITOR's
+// entry cue. A document load that is a founder-console action (`?dev=skip`,
+// `?dev=replay`, a revoke reload -- lib/sovereign/consoleTrigger.ts) never
+// arms it, a gesture that lands on the console never fires it, and a
+// console-initiated splash replay runs SILENT (`silent: true`). The console
+// confirms its own commands with the site's ordinary UI ping instead.
+//
 // What no web page can do: produce sound in a phone browser BEFORE the first
 // tap. The guarantee here is the strongest one the platform allows -- the
 // chime plays at the earliest instant the engine is permitted to run, with
 // no window in which a gesture can be lost.
 
 import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from './audioSession';
-import { ACTIVATION_UNLOCK_EVENTS } from './activationUnlock';
+import {
+  ACTIVATION_UNLOCK_EVENTS,
+  AUTO_UNLOCK_RETRY_DELAYS_MS,
+  scheduleAutoUnlockRetries,
+} from './activationUnlock';
 import { AUDIO_PREF_KEY, readAudioPrefMuted } from './audioPreference';
 import { APP_EXIT_EVENT, APP_TERMINATE_EVENT, TERMINATED_ATTR } from '@/lib/exit/appExit';
+import {
+  CONSOLE_GESTURE_ES5,
+  CONSOLE_LOAD_ES5,
+  isConsoleGesture,
+  isConsoleTriggeredDocument,
+} from '@/lib/sovereign/consoleTrigger';
 
 /**
  * The two-note crystal blip -- bright, brief (under 300 ms), unmistakable but
@@ -74,6 +98,12 @@ export const ENTRY_CHIME_CLOSE_MS = 1500;
 export const ENTRY_CHIME_REPLAY_DEDUPE_MS = 1200;
 /** `window` key the pending / played chime state is published under. */
 export const ENTRY_CHIME_SHARED_KEY = '__unitasEntryChime';
+/**
+ * Lifecycle (non-gesture) retry events a pending chime listens for on
+ * `window` -- see `AUTO_UNLOCK_RETRY_EVENTS`; `visibilitychange` lives on
+ * `document` and is registered separately (fenced).
+ */
+export const ENTRY_CHIME_WINDOW_RETRY_EVENTS = ['pageshow', 'focus'] as const;
 
 /**
  * The document's single entry-chime state, shared by the head bootstrap and
@@ -189,6 +219,7 @@ function createEngine(): EntryChimeShared | null {
   const silent = makeSilentBuffer(ctx);
   const opts: AddEventListenerOptions = { passive: true, capture: true };
   let listening = false;
+  let cancelRetries: () => void = () => {};
 
   // Everything is declared before anything can call it (the round-24 TDZ
   // lesson), every step is fenced -- this engine can never throw.
@@ -209,7 +240,22 @@ function createEngine(): EntryChimeShared | null {
     if (!listening) return;
     listening = false;
     try {
+      cancelRetries();
+    } catch {
+      /* no-op */
+    }
+    try {
       for (const type of ACTIVATION_UNLOCK_EVENTS) window.removeEventListener(type, onGesture, opts);
+    } catch {
+      /* no-op */
+    }
+    try {
+      for (const type of ENTRY_CHIME_WINDOW_RETRY_EVENTS) window.removeEventListener(type, onRetry);
+    } catch {
+      /* no-op */
+    }
+    try {
+      document.removeEventListener('visibilitychange', onVisible);
     } catch {
       /* no-op */
     }
@@ -279,8 +325,25 @@ function createEngine(): EntryChimeShared | null {
     return false;
   }
 
-  function onGesture(): void {
+  function onGesture(event: Event): void {
+    // A gesture on the founder console is a QA command, not a visitor's
+    // entry gesture -- the console has its own confirmation cue.
+    if (isConsoleGesture(event)) return;
     if (!shared.gestureAt) shared.gestureAt = nowMs();
+    tryFire();
+  }
+
+  /** Lifecycle retry (no gesture): a resumed tab / app, a focus regain. */
+  function onRetry(): void {
+    tryFire();
+  }
+
+  function onVisible(): void {
+    try {
+      if (document.visibilityState !== 'visible') return;
+    } catch {
+      /* treat as visible */
+    }
     tryFire();
   }
 
@@ -304,12 +367,27 @@ function createEngine(): EntryChimeShared | null {
   } catch {
     /* no-op */
   }
+  try {
+    for (const type of ENTRY_CHIME_WINDOW_RETRY_EVENTS) window.addEventListener(type, onRetry);
+  } catch {
+    /* no-op */
+  }
+  try {
+    document.addEventListener('visibilitychange', onVisible);
+  } catch {
+    /* a bare host without `document` -- lifecycle retries are simply absent */
+  }
 
   try {
     window[ENTRY_CHIME_SHARED_KEY] = shared;
   } catch {
     /* no-op */
   }
+  // Kickstart burst: the bounded post-load retry schedule (cancelled with
+  // the listeners the moment the chime plays or stands down).
+  cancelRetries = scheduleAutoUnlockRetries(() => {
+    if (!shared.played && !shared.cancelled) tryFire();
+  });
   return shared;
 }
 
@@ -321,6 +399,13 @@ export interface ArmLogoEntryChimeOptions {
    * that started the replay) is not doubled.
    */
   replay?: boolean;
+  /**
+   * Console isolation (owner instruction 2026-09-07, item 2): the replay was
+   * started from the founder console -- it runs VISUALLY only. Any pending
+   * visitor chime is stood down and no new chime is armed; the console has
+   * already confirmed the command with its own UI ping.
+   */
+  silent?: boolean;
 }
 
 /**
@@ -335,8 +420,21 @@ export interface ArmLogoEntryChimeOptions {
 export function armLogoEntryChime(options: ArmLogoEntryChimeOptions = {}): void {
   if (typeof window === 'undefined') return;
   const replay = options.replay === true;
+  const silent = options.silent === true;
 
   const shared = readEntryChimeShared();
+  if (silent) {
+    // A console-initiated run: whatever is pending stands down, nothing new
+    // is armed. (A chime that already played is left alone -- it is over.)
+    if (shared && !shared.played && !shared.cancelled) shared.cancel();
+    return;
+  }
+  if (!replay && isConsoleTriggeredDocument()) {
+    // A cold arm on a console-action document (`?dev=skip` / `?dev=replay` /
+    // a revoke reload): the head bootstrap already stood down; so does this.
+    if (shared && !shared.played && !shared.cancelled) shared.cancel();
+    return;
+  }
   if (shared) {
     if (!replay) {
       // Cold entry: the head bootstrap (or an earlier mount) owns the chime.
@@ -370,27 +468,33 @@ export function cancelLogoEntryChime(): void {
 /**
  * Pre-hydration twin of `createEngine()` + `armLogoEntryChime()`. Injected
  * verbatim into <head> by app/layout.tsx AFTER the PWA bootstrap (which
- * stamps `html[data-splash="off"]` for `?splash=0` and for every in-place
- * refresh -- the chime belongs to the logo page, so it is skipped whenever
- * the logo page is). Dependency-free ES5; touches only `window`, `document`,
- * `navigator`, `localStorage`, `performance`, `setTimeout`.
+ * stamps `html[data-splash="off"]` for `?splash=0`, for every in-place
+ * refresh AND for every founder-console load -- the chime belongs to the
+ * logo page, so it is skipped whenever the logo page is). Dependency-free
+ * ES5; touches only `window`, `document`, `navigator`, `localStorage`,
+ * `sessionStorage`, `performance`, `setTimeout`.
  *
- * Same state machine, same note table, same shared `window` record as the
- * module: the hydrated `armLogoEntryChime()` adopts whatever this parked,
- * and the `played` flag is shared, so the chime can never sound twice for
- * one logo page whichever side wins the race.
+ * Same state machine, same note table, same shared `window` record, same
+ * unlock hub (kickstart + bounded retries + lifecycle retries + gestures)
+ * and the same console isolation as the module: the hydrated
+ * `armLogoEntryChime()` adopts whatever this parked, and the `played` flag is
+ * shared, so the chime can never sound twice for one logo page whichever
+ * side wins the race.
  */
 export const ENTRY_CHIME_BOOTSTRAP = `(function(){try{
 var S=${JSON.stringify(ENTRY_CHIME_SHARED_KEY)},K=${JSON.stringify(AUDIO_PREF_KEY)},T=${JSON.stringify(TERMINATED_ATTR)},X=${JSON.stringify(APP_EXIT_EVENT)},Q=${JSON.stringify(APP_TERMINATE_EVENT)};
-var EV=${JSON.stringify([...ACTIVATION_UNLOCK_EVENTS])},NOTES=${JSON.stringify(ENTRY_CHIME_NOTES)},BUS=${ENTRY_CHIME_BUS_GAIN},PART=${ENTRY_CHIME_PARTIAL_GAIN},CLOSE=${ENTRY_CHIME_CLOSE_MS};
+var EV=${JSON.stringify([...ACTIVATION_UNLOCK_EVENTS])},RV=${JSON.stringify([...ENTRY_CHIME_WINDOW_RETRY_EVENTS])},RD=${JSON.stringify([...AUTO_UNLOCK_RETRY_DELAYS_MS])},NOTES=${JSON.stringify(ENTRY_CHIME_NOTES)},BUS=${ENTRY_CHIME_BUS_GAIN},PART=${ENTRY_CHIME_PARTIAL_GAIN},CLOSE=${ENTRY_CHIME_CLOSE_MS};
+${CONSOLE_GESTURE_ES5}
+${CONSOLE_LOAD_ES5}
 if(window[S])return;
 try{if(document.documentElement.getAttribute('data-splash')==='off')return;}catch(_){}
+if(consoleLoad())return;
 function muted(){try{return window.localStorage.getItem(K)==='off';}catch(_){return false;}}
 if(muted())return;
 var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
 function now(){try{return window.performance.now();}catch(_){return Date.now();}}
 function session(){try{var a=navigator.audioSession;if(a&&a.type!=='playback')a.type='playback';}catch(_){}}
-var ctx,silent=null;
+var ctx,silent=null,timers=[];
 try{session();ctx=new AC();}catch(_){return;}
 try{silent=ctx.createBuffer(1,1,22050);}catch(_){}
 var sh={v:1,source:'bootstrap',ctx:ctx,played:false,playedAt:0,cancelled:false,armedAt:now(),gestureAt:0,tryFire:tryFire,cancel:cancel};
@@ -400,15 +504,21 @@ function tone(f,st,peak,atk,end,bus){var o=ctx.createOscillator();o.type='sine';
 function synth(){var t=ctx.currentTime,bus=ctx.createGain();bus.gain.value=BUS;bus.connect(ctx.destination);for(var i=0;i<NOTES.length;i++){var n=NOTES[i],st=t+n.at;tone(n.freq,st,1,0.012,n.dur,bus);tone(n.freq*2,st,PART,0.01,n.dur*0.7,bus);}}
 function terminated(){try{return document.documentElement.hasAttribute(T);}catch(_){return false;}}
 function closeCtx(){sh.ctx=null;try{var p=ctx.close();if(p&&p.then)p.then(null,function(){});}catch(_){}}
-function off(){if(!live)return;live=false;for(var i=0;i<EV.length;i++){window.removeEventListener(EV[i],on,true);}try{ctx.removeEventListener('statechange',st);}catch(_){}try{window.removeEventListener(X,cancel);window.removeEventListener(Q,cancel);}catch(_){}}
+function clearTimers(){for(var i=0;i<timers.length;i++){try{clearTimeout(timers[i]);}catch(_){}}timers=[];}
+function off(){if(!live)return;live=false;clearTimers();for(var i=0;i<EV.length;i++){window.removeEventListener(EV[i],on,true);}for(var j=0;j<RV.length;j++){try{window.removeEventListener(RV[j],retry);}catch(_){}}try{document.removeEventListener('visibilitychange',vis);}catch(_){}try{ctx.removeEventListener('statechange',st);}catch(_){}try{window.removeEventListener(X,cancel);window.removeEventListener(Q,cancel);}catch(_){}}
 function fire(){if(sh.played)return true;if(sh.cancelled)return false;if(terminated()||muted()){cancel();return false;}sh.played=true;sh.playedAt=now();try{synth();}catch(_){}off();try{setTimeout(closeCtx,CLOSE);}catch(_){}return true;}
 function tryFire(){if(sh.played)return true;if(sh.cancelled)return false;try{session();kick();if(ctx.state==='running')return fire();var p=ctx.resume();if(p&&p.then)p.then(function(){if(ctx.state==='running')fire();},function(){});}catch(_){}return false;}
-function on(){if(!sh.gestureAt)sh.gestureAt=now();tryFire();}
+function on(e){if(consoleGesture(e))return;if(!sh.gestureAt)sh.gestureAt=now();tryFire();}
+function retry(){tryFire();}
+function vis(){try{if(document.visibilityState!=='visible')return;}catch(_){}tryFire();}
 function st(){if(ctx.state==='running')fire();}
 function cancel(){if(sh.cancelled)return;sh.cancelled=true;off();closeCtx();}
 window[S]=sh;
 live=true;for(var i=0;i<EV.length;i++){window.addEventListener(EV[i],on,O);}
+for(var j=0;j<RV.length;j++){try{window.addEventListener(RV[j],retry);}catch(_){}}
+try{document.addEventListener('visibilitychange',vis);}catch(_){}
 try{ctx.addEventListener('statechange',st);}catch(_){}
 try{window.addEventListener(X,cancel);window.addEventListener(Q,cancel);}catch(_){}
+for(var k=0;k<RD.length;k++){try{timers.push(setTimeout(function(){if(!sh.played&&!sh.cancelled)tryFire();},RD[k]));}catch(_){}}
 tryFire();
 }catch(_){}})();`;

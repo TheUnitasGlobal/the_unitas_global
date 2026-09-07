@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "Al pulsar Salir se cierra la aplicación; Cancelar te deja exactamente donde estás.",
     "appExitStep": "Paso {current} de {total}",
     "appExitDoneTitle": "Cierre completado.",
-    "appExitDoneBody": "Cierre la aplicación o el navegador de forma segura."
+    "appExitDoneBody": "Cierre la aplicación o el navegador de forma segura.",
+    "webExitDoneBody": "Cierre la pestaña del navegador de forma segura."
   },
   "Civic": {
     "axes": {

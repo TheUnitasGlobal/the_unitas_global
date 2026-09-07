@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "Kapag pinindot ang Lumabas, magsasara ang app; ang Kanselahin ay mananatili ka kung nasaan ka.",
     "appExitStep": "Hakbang {current} ng {total}",
     "appExitDoneTitle": "Kumpleto na ang pagsasara.",
-    "appExitDoneBody": "Mangyaring isara nang ligtas ang app o browser."
+    "appExitDoneBody": "Mangyaring isara nang ligtas ang app o browser.",
+    "webExitDoneBody": "Mangyaring isara nang ligtas ang tab ng browser."
   },
   "Civic": {
     "axes": {

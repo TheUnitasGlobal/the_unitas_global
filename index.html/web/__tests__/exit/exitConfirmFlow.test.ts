@@ -4,9 +4,12 @@ import {
   EXIT_REQUEST_EVENT,
   advanceExitConfirm,
   exitConfirmPosition,
+  exitDialogCopyKeys,
+  exitGuideCopyKeys,
   initialExitConfirmStep,
   needsDoubleExitConfirm,
   remainingExitConfirmTaps,
+  resolveExitChannel,
   type ExitConfirmStep,
 } from '../../lib/exit/exitConfirmFlow';
 
@@ -92,5 +95,42 @@ describe('round 17 / 21: double-confirm exit (desktop App window) vs single conf
 
   it('the on-demand open request rides the site-wide unitas: event namespace', () => {
     expect(EXIT_REQUEST_EVENT).toMatch(/^unitas:/);
+  });
+});
+
+describe('omni-channel exit copy (owner instruction 2026-09-07, master audit item 3)', () => {
+  it('resolves exactly one channel per surface: browser tab -> online, phone/tablet app -> mobile-app, PC app window -> desktop-app', () => {
+    expect(resolveExitChannel(false, false)).toBe('online');
+    expect(resolveExitChannel(false, true)).toBe('online'); // a fine-pointer browser tab is still online
+    expect(resolveExitChannel(true, false)).toBe('mobile-app');
+    expect(resolveExitChannel(true, true)).toBe('desktop-app');
+    // The channel and the double-confirm flag come from the same two facts.
+    expect(needsDoubleExitConfirm(true, true)).toBe(true);
+    expect(resolveExitChannel(true, true)).toBe('desktop-app');
+  });
+
+  it('online: "site closes" body, never an app sentence; mobile app: "app closes" body under the same minimal title', () => {
+    expect(exitDialogCopyKeys('exit', 'online')).toEqual({ title: 'exitTitle', body: 'exitBody' });
+    expect(exitDialogCopyKeys('exit', 'mobile-app')).toEqual({ title: 'exitTitle', body: 'appExitFinalBody' });
+    expect(exitDialogCopyKeys('exit', 'desktop-app')).toEqual({ title: 'appExitTitle', body: 'appExitBody' });
+    // Every key an online tab can ever show is a website / neutral one.
+    for (const step of ['logout', 'exit'] as const) {
+      const keys = exitDialogCopyKeys(step, 'online');
+      expect(keys.title).not.toMatch(/^appExit/);
+      expect(keys.body).not.toMatch(/^appExit/);
+    }
+  });
+
+  it('the logout question is channel-neutral and the final question is the desktop app\'s', () => {
+    for (const channel of ['online', 'mobile-app', 'desktop-app'] as const) {
+      expect(exitDialogCopyKeys('logout', channel)).toEqual({ title: 'logoutTitle', body: 'logoutBody' });
+      expect(exitDialogCopyKeys('exit-final', channel)).toEqual({ title: 'appExitFinalTitle', body: 'appExitFinalBody' });
+    }
+  });
+
+  it('completion guide: the WEB body ("close the browser tab") on a tab, the APP body on an installed app', () => {
+    expect(exitGuideCopyKeys('online')).toEqual({ title: 'appExitDoneTitle', body: 'webExitDoneBody' });
+    expect(exitGuideCopyKeys('mobile-app')).toEqual({ title: 'appExitDoneTitle', body: 'appExitDoneBody' });
+    expect(exitGuideCopyKeys('desktop-app')).toEqual({ title: 'appExitDoneTitle', body: 'appExitDoneBody' });
   });
 });

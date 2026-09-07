@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "Clicking Exit closes the app; Cancel keeps you exactly where you are.",
     "appExitStep": "Step {current} of {total}",
     "appExitDoneTitle": "Shutdown complete.",
-    "appExitDoneBody": "Please close the app or browser safely."
+    "appExitDoneBody": "Please close the app or browser safely.",
+    "webExitDoneBody": "Please close the browser tab safely."
   },
   "Civic": {
     "axes": {

@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "Väljumisnupu vajutamine sulgeb rakenduse; Tühista jätab su täpselt sinna, kus oled.",
     "appExitStep": "Samm {current} / {total}",
     "appExitDoneTitle": "Sulgemine on lõpule viidud.",
-    "appExitDoneBody": "Palun sulgege rakendus või brauser turvaliselt."
+    "appExitDoneBody": "Palun sulgege rakendus või brauser turvaliselt.",
+    "webExitDoneBody": "Palun sulgege brauseri vahekaart turvaliselt."
   },
   "Civic": {
     "axes": {

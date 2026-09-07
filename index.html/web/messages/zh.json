@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "点击退出将关闭应用；取消则停留在原处。",
     "appExitStep": "第 {current} / {total} 步",
     "appExitDoneTitle": "已完成退出。",
-    "appExitDoneBody": "请安全地关闭应用或浏览器。"
+    "appExitDoneBody": "请安全地关闭应用或浏览器。",
+    "webExitDoneBody": "请安全地关闭浏览器标签页。"
   },
   "Civic": {
     "axes": {

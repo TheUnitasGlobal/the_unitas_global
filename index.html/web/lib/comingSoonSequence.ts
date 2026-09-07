@@ -350,9 +350,15 @@ export function drawCinemaFrame({
   }
 
   // SEGMENT 5 -- 3 sovereign pillars (triangle of nodes + axes), then a soft
-  // closing bloom that hands off to the sealed "COMING SOON" screen
+  // closing bloom that hands off to the sealed "COMING SOON" screen.
+  // Owner instruction 2026-09-07 (master audit, item 1 -- ad stage 5 parity):
+  // the pillars used to cut in hard at 24 s while stages 1-4 all ease in over
+  // the same 420 ms edge fade; stage 5 now takes that identical entrance
+  // and keeps its own long closing fade-out into the bloom.
   if (seg.id === 5) {
-    const a = 1 - clamp01((local - 0.7) / 0.3);
+    const segMs = seg.endMs - seg.startMs;
+    const enter = clamp01((local * segMs) / 420);
+    const a = enter * (1 - clamp01((local - 0.7) / 0.3));
     const R = minDim * 0.22;
     const tri: Array<[number, number]> = [];
     for (let i = 0; i < 3; i++) {

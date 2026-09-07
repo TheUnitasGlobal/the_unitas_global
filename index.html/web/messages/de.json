@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "Ein Klick auf Beenden schließt die App; Abbrechen lässt dich genau dort, wo du bist.",
     "appExitStep": "Schritt {current} von {total}",
     "appExitDoneTitle": "Beenden abgeschlossen.",
-    "appExitDoneBody": "Bitte schließen Sie die App oder den Browser sicher."
+    "appExitDoneBody": "Bitte schließen Sie die App oder den Browser sicher.",
+    "webExitDoneBody": "Bitte schließen Sie den Browser-Tab sicher."
   },
   "Civic": {
     "axes": {

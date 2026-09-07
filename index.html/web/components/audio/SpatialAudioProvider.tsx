@@ -13,7 +13,7 @@ import {
 } from 'react';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
 import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '@/lib/audio/audioSession';
-import { attachActivationUnlock } from '@/lib/audio/activationUnlock';
+import { attachActivationUnlock, scheduleAutoUnlockRetries } from '@/lib/audio/activationUnlock';
 import { AUDIO_PREF_KEY, readAudioPrefMuted } from '@/lib/audio/audioPreference';
 import { APP_EXIT_EVENT } from '@/lib/exit/appExit';
 
@@ -356,11 +356,13 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     if (muted) return;
     const ctx = ensureContext();
     if (!ctx) return;
-    try {
-      ctx.resume().catch(() => {});
-    } catch {
-      /* no-op */
-    }
+    // Owner instruction 2026-09-07 (item 2, universal auto-unlock): the
+    // load-time start is the full kickstart -- playback session + silent
+    // buffer kick + resume -- not a bare resume(), so an engine that already
+    // permits autoplay (installed app, engaged origin) is running before any
+    // gesture; the bounded retry burst below covers a first request refused
+    // while the document is still loading.
+    resumeContext(ctx);
     ambientRef.current?.stop();
     try {
       ambientRef.current = startAmbient(ctx);
@@ -372,7 +374,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       ambientRef.current?.stop();
       ambientRef.current = null;
     };
-  }, [muted, ensureContext, startAmbient]);
+  }, [muted, ensureContext, startAmbient, resumeContext]);
 
   /**
    * Must be called directly from a user gesture handler (click/keydown) --
@@ -468,21 +470,24 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   // on return. Installed regardless of `muted` (a muted master is gain 0, so
   // keeping the context RUNNING is free and makes a later unmute instant),
   // creating the context only while sound is on.
+  //
+  // Owner instruction 2026-09-07 (master audit item 2): the shared hub
+  // (lib/audio/activationUnlock.ts) now also carries the lifecycle retries
+  // -- `visibilitychange`, `pageshow`, window `focus` -- and a bounded
+  // post-load kickstart burst runs here too, so the site-wide engine is
+  // running at the earliest lawful instant on every page and both channels.
   useEffect(() => {
     const wake = () => {
       const ctx = mutedRef.current ? ctxRef.current : ensureContext();
       if (ctx) resumeContext(ctx);
     };
     const detach = attachActivationUnlock(wake);
-    const onVisible = () => {
-      if (document.visibilityState === 'visible') wake();
-    };
-    document.addEventListener('visibilitychange', onVisible);
+    const cancelRetries = scheduleAutoUnlockRetries(wake);
     const opts: AddEventListenerOptions = { passive: true };
     window.addEventListener('wheel', wake, opts);
     return () => {
       detach();
-      document.removeEventListener('visibilitychange', onVisible);
+      cancelRetries();
       window.removeEventListener('wheel', wake);
     };
   }, [ensureContext, resumeContext]);

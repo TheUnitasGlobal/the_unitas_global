@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "Toccando Esci l'app si chiude; Annulla ti lascia esattamente dove sei.",
     "appExitStep": "Passo {current} di {total}",
     "appExitDoneTitle": "Chiusura completata.",
-    "appExitDoneBody": "Chiudi l'app o il browser in modo sicuro."
+    "appExitDoneBody": "Chiudi l'app o il browser in modo sicuro.",
+    "webExitDoneBody": "Chiudi la scheda del browser in modo sicuro."
   },
   "Civic": {
     "axes": {

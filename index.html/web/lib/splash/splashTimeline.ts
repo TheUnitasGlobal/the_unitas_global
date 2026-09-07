@@ -12,6 +12,8 @@
 // audio module for this page any more), and the "UNITAS" title carries its
 // colour-light art effect for the whole 3 seconds.
 
+import { isConsoleTriggeredLoad } from '@/lib/sovereign/consoleTrigger';
+
 /** Total forced on-screen time before the exit fade begins: exactly 3s. */
 export const SPLASH_DURATION_MS = 3000;
 /** Exit cross-fade length (the layer unmounts after DURATION + EXIT). */
@@ -27,7 +29,7 @@ export const CINEMA_PHASE_STORAGE_KEY = 'unitas_cinema_phase';
 
 /**
  * Every curtain phase a tab can be parked on: the entry gate, the 30s ad
- * cinema (stages 1-4 + the closing stage), the sealed Coming-Soon screen and
+ * cinema (ad stages 1-5), the sealed Coming-Soon screen and
  * the released MAIN HOME. A refresh while parked on ANY of these re-renders
  * THAT page in place, with no "logo page" in between (owner instruction
  * 2026-09-05, checklist items 2 + 3: "새로고침시 ... 아무것도 안보이게" --
@@ -62,18 +64,23 @@ export function isSplashActiveFlag(value: string | null | undefined): boolean {
 }
 
 /**
- * Combined gate: the URL opt-out (`?splash=0`) wins; then a refresh parked ON
- * the logo page itself (`splashActive`) restarts the logo page; then ANY
- * persisted phase (gate / cinema / sealed / released) suppresses the splash
- * so the refresh lands in place. Only a missing/unknown phase (a cold entry)
- * runs the splash.
+ * Combined gate: the URL opt-out (`?splash=0`) wins; then a founder-console
+ * load (`?dev=skip` / `?dev=replay` / `?dev=off`, or the storage-carried
+ * revoke reload passed as `consoleTrigger` -- lib/sovereign/consoleTrigger.ts,
+ * owner instruction 2026-09-07 item 2) is a transition, never an entry, so
+ * the logo page is skipped; then a refresh parked ON the logo page itself
+ * (`splashActive`) restarts the logo page; then ANY persisted phase (gate /
+ * cinema / sealed / released) suppresses the splash so the refresh lands in
+ * place. Only a missing/unknown phase (a cold entry) runs the splash.
  */
 export function shouldRunSplashForPhase(
   search: string,
   phase: string | null | undefined,
   splashActive = false,
+  consoleTrigger: string | null | undefined = null,
 ): boolean {
   if (!shouldRunSplash(search)) return false;
+  if (isConsoleTriggeredLoad(search, consoleTrigger)) return false;
   if (splashActive) return true;
   return !isInPlacePhase(phase);
 }

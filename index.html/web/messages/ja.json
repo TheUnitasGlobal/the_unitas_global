@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "終了ボタンを押すとアプリが閉じます。キャンセルすると元の場所に留まります。",
     "appExitStep": "ステップ {current} / {total}",
     "appExitDoneTitle": "終了が完了しました。",
-    "appExitDoneBody": "アプリまたはブラウザを安全に閉じてください。"
+    "appExitDoneBody": "アプリまたはブラウザを安全に閉じてください。",
+    "webExitDoneBody": "ブラウザのタブを安全に閉じてください。"
   },
   "Civic": {
     "axes": {

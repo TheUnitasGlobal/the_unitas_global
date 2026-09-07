@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "종료 버튼 클릭 시 앱이 닫히며, 취소하면 그대로 유지됩니다.",
     "appExitStep": "{current} / {total} 단계",
     "appExitDoneTitle": "종료가 완료되었습니다.",
-    "appExitDoneBody": "안전하게 앱 또는 브라우저를 닫아주시기 바랍니다."
+    "appExitDoneBody": "안전하게 앱 또는 브라우저를 닫아주시기 바랍니다.",
+    "webExitDoneBody": "안전하게 브라우저 탭을 닫아주시기 바랍니다."
   },
   "Civic": {
     "axes": {

@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { MasterMarkLogo } from '@/components/brand/MasterMarkLogo';
 import { armLogoEntryChime } from '@/lib/audio/logoEntryChime';
+import { SPLASH_REPLAY_SOURCE_CONSOLE, readConsoleTrigger } from '@/lib/sovereign/consoleTrigger';
 import {
   CINEMA_PHASE_STORAGE_KEY,
   SPLASH_ACTIVE_STORAGE_KEY,
@@ -120,13 +121,20 @@ function setSplashActiveFlag(active: boolean): void {
 export function CinematicIntroSplash() {
   const [active, setActive] = useState(true);
   const [run, setRun] = useState(0);
+  /** Who asked for the current replay: the visitor-facing 다시 재생 (default)
+   *  or the founder console (`detail.source === 'console'`) -- the latter
+   *  replays the logo page VISUALLY only (console isolation, owner
+   *  instruction 2026-09-07 item 2). */
+  const replaySourceRef = useRef<string | null>(null);
 
   // Founder debug panel / the Coming-Soon "다시 재생" can replay the splash.
   useEffect(() => {
-    const onReplay = () => {
+    const onReplay = (event: Event) => {
       // An explicit replay overrides the pre-paint CSS gate the head
       // bootstrap may have stamped for an in-place refresh (or ?splash=0).
       document.documentElement.removeAttribute('data-splash');
+      const detail = (event as CustomEvent<{ source?: unknown } | undefined>).detail;
+      replaySourceRef.current = typeof detail?.source === 'string' ? detail.source : null;
       setActive(true);
       setRun((n) => n + 1);
     };
@@ -140,10 +148,17 @@ export function CinematicIntroSplash() {
     // released main home) re-renders that page in place -- no "logo page"
     // first. The head bootstrap already hid the SSR'd layer before paint;
     // this unmounts it and skips the timer. A cold entry (no persisted
-    // phase) and a refresh DURING the logo page still run it.
+    // phase) and a refresh DURING the logo page still run it. A founder
+    // console load (`?dev=skip` / `?dev=replay` / a revoke reload) is a
+    // transition, not an entry -- no logo page, no chime.
     if (
       run === 0 &&
-      !shouldRunSplashForPhase(window.location.search, readPersistedCinemaPhase(), readSplashActiveFlag())
+      !shouldRunSplashForPhase(
+        window.location.search,
+        readPersistedCinemaPhase(),
+        readSplashActiveFlag(),
+        readConsoleTrigger(),
+      )
     ) {
       setActive(false);
       return;
@@ -162,7 +177,12 @@ export function CinematicIntroSplash() {
     // engine down here was exactly what silenced it. On a cold entry this
     // call adopts the chime the head bootstrap (ENTRY_CHIME_BOOTSTRAP,
     // app/layout.tsx) has been holding since the document's first byte.
-    armLogoEntryChime({ replay: run > 0 });
+    // CONSOLE ISOLATION: a replay started from the founder console runs
+    // silent -- the console confirmed the command with its own UI ping.
+    armLogoEntryChime({
+      replay: run > 0,
+      silent: run > 0 && replaySourceRef.current === SPLASH_REPLAY_SOURCE_CONSOLE,
+    });
 
     const done = window.setTimeout(() => {
       // The logo page is over -- a later refresh follows the curtain phase.

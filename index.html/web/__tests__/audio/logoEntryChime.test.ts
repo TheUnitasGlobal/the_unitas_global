@@ -5,12 +5,14 @@ import {
   ENTRY_CHIME_NOTES,
   ENTRY_CHIME_REPLAY_DEDUPE_MS,
   ENTRY_CHIME_SHARED_KEY,
+  ENTRY_CHIME_WINDOW_RETRY_EVENTS,
   armLogoEntryChime,
   cancelLogoEntryChime,
   readEntryChimeShared,
 } from '../../lib/audio/logoEntryChime';
-import { ACTIVATION_UNLOCK_EVENTS } from '../../lib/audio/activationUnlock';
+import { ACTIVATION_UNLOCK_EVENTS, AUTO_UNLOCK_RETRY_DELAYS_MS } from '../../lib/audio/activationUnlock';
 import { APP_EXIT_EVENT, APP_TERMINATE_EVENT, TERMINATED_ATTR } from '../../lib/exit/appExit';
+import { CONSOLE_ROOT_SELECTOR, CONSOLE_TRIGGER_STORAGE_KEY } from '../../lib/sovereign/consoleTrigger';
 
 // Regression guards for the logo-page entry chime:
 //  - the "Sovereign Core Error on entry" root cause (owner instruction
@@ -105,8 +107,9 @@ class FakeAudioContext {
   }
 }
 
-/** Activation listeners + the two exit-event listeners a live engine holds. */
-const ARMED_LISTENERS = ACTIVATION_UNLOCK_EVENTS.length + 2;
+/** Activation listeners + the window lifecycle-retry listeners (pageshow /
+ *  focus) + the two exit-event listeners a live engine holds on `window`. */
+const ARMED_LISTENERS = ACTIVATION_UNLOCK_EVENTS.length + ENTRY_CHIME_WINDOW_RETRY_EVENTS.length + 2;
 
 function makeWindow(initial: 'running' | 'suspended') {
   const listeners = new Map<string, Set<Listener>>();
@@ -134,6 +137,9 @@ function makeWindow(initial: 'running' | 'suspended') {
     fire(type: string) {
       for (const fn of Array.from(listeners.get(type) ?? [])) fn({ type });
     },
+    fireWith(type: string, event: unknown) {
+      for (const fn of Array.from(listeners.get(type) ?? [])) fn(event);
+    },
     listenerCount() {
       return Array.from(listeners.values()).reduce((n, set) => n + set.size, 0);
     },
@@ -144,6 +150,7 @@ function makeWindow(initial: 'running' | 'suspended') {
     AudioContext: unknown;
     localStorage: { getItem: () => string | null; setItem: (k: string, v: string) => void };
     fire: (type: string) => void;
+    fireWith: (type: string, event: unknown) => void;
     listenerCount: () => number;
     setPref: (v: string | null) => void;
   };
@@ -506,5 +513,129 @@ describe('pre-hydration entry-chime bootstrap (ENTRY_CHIME_BOOTSTRAP)', () => {
     term.fire('click');
     expect(ctx2.nodesBuilt).toBe(0);
     expect(ctx2.closed).toBe(true);
+  });
+
+  it('UNIVERSAL AUTO-UNLOCK: retries the kickstart on the bounded post-load schedule and on lifecycle events (pageshow / focus), with no gesture', () => {
+    const win = makeWindow('suspended');
+    run(win);
+    const ctx = FakeAudioContext.created[0];
+    expect(ctx.nodesBuilt).toBe(0);
+    // Autoplay becomes permitted a moment after load (an engaged origin
+    // settling, an installed app resuming): the timed retry catches it.
+    ctx.activated = true;
+    vi.advanceTimersByTime(AUTO_UNLOCK_RETRY_DELAYS_MS[1] + 1);
+    expect(ctx.state).toBe('running');
+    expect(ctx.nodesBuilt).toBeGreaterThan(0);
+    expect(win.listenerCount()).toBe(0);
+
+    // A different document: the retry burst is refused, but a bfcache /
+    // app-switcher `pageshow` later resumes the engine without any tap.
+    FakeAudioContext.created.length = 0;
+    const later = makeWindow('suspended');
+    run(later);
+    const ctx2 = FakeAudioContext.created[0];
+    vi.advanceTimersByTime(AUTO_UNLOCK_RETRY_DELAYS_MS[AUTO_UNLOCK_RETRY_DELAYS_MS.length - 1] + 10);
+    expect(ctx2.nodesBuilt).toBe(0);
+    ctx2.activated = true;
+    later.fire('pageshow');
+    expect(ctx2.nodesBuilt).toBeGreaterThan(0);
+    expect(later.listenerCount()).toBe(0);
+
+    FakeAudioContext.created.length = 0;
+    const focus = makeWindow('suspended');
+    run(focus);
+    const ctx3 = FakeAudioContext.created[0];
+    ctx3.activated = true;
+    focus.fire('focus');
+    expect(ctx3.nodesBuilt).toBeGreaterThan(0);
+  });
+
+  it('SOVEREIGN CONSOLE ISOLATION: a gesture that lands on the founder console never fires the visitor chime', () => {
+    const win = makeWindow('suspended');
+    run(win);
+    const ctx = FakeAudioContext.created[0];
+    ctx.activated = true;
+    // A click whose target sits inside `[data-sovereign-console]`.
+    const consoleTarget = { closest: (sel: string) => (sel === CONSOLE_ROOT_SELECTOR ? {} : null) };
+    fireEvent(win, 'click', { type: 'click', target: consoleTarget });
+    expect(ctx.nodesBuilt).toBe(0);
+    expect((win[ENTRY_CHIME_SHARED_KEY] as { played: boolean }).played).toBe(false);
+    // The very next VISITOR gesture (target outside the console) plays it.
+    fireEvent(win, 'click', { type: 'click', target: { closest: () => null } });
+    expect(ctx.nodesBuilt).toBeGreaterThan(0);
+  });
+
+  it('SOVEREIGN CONSOLE ISOLATION: a console document load (?dev=skip / ?dev=replay / a revoke reload) never arms the chime at all', () => {
+    for (const search of ['?dev=skip', '?dev=replay', '?dev=off', '?a=1&dev=skip']) {
+      FakeAudioContext.created.length = 0;
+      const win = makeWindow('running');
+      (win as Record<string, unknown>).location = { search };
+      run(win);
+      expect(FakeAudioContext.created.length).toBe(0);
+      expect(win[ENTRY_CHIME_SHARED_KEY]).toBeUndefined();
+    }
+    // Storage-carried trigger (the console's revoke reload).
+    FakeAudioContext.created.length = 0;
+    const reload = makeWindow('running');
+    (reload as Record<string, unknown>).location = { search: '' };
+    (reload as Record<string, unknown>).sessionStorage = {
+      getItem: (k: string) => (k === CONSOLE_TRIGGER_STORAGE_KEY ? 'revoke' : null),
+    };
+    run(reload);
+    expect(FakeAudioContext.created.length).toBe(0);
+    // An ordinary visitor URL still arms it.
+    FakeAudioContext.created.length = 0;
+    const visitor = makeWindow('running');
+    (visitor as Record<string, unknown>).location = { search: '?utm=google' };
+    run(visitor);
+    expect(FakeAudioContext.created.length).toBe(1);
+  });
+});
+
+/** Dispatch a synthetic event object to every listener of `type` on the fake window. */
+function fireEvent(win: ReturnType<typeof makeWindow>, type: string, event: unknown): void {
+  (win as unknown as { fireWith: (t: string, e: unknown) => void }).fireWith(type, event);
+}
+
+describe('hydrated engine -- console isolation (armLogoEntryChime silent / console document)', () => {
+  beforeEach(() => {
+    FakeAudioContext.created.length = 0;
+    FakeAudioContext.sticky = false;
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  it('a console-initiated splash replay (silent) stands a pending chime down and arms nothing new', () => {
+    const win = installWindow('suspended');
+    armLogoEntryChime();
+    const pending = FakeAudioContext.created[0];
+    expect(win.listenerCount()).toBe(ARMED_LISTENERS);
+    armLogoEntryChime({ replay: true, silent: true });
+    expect(pending.closed).toBe(true);
+    expect(FakeAudioContext.created.length).toBe(1);
+    expect(win.listenerCount()).toBe(0);
+    // A silent replay on a document whose chime already played leaves it be
+    // and still builds nothing.
+    FakeAudioContext.created.length = 0;
+    delete (win as Record<string, unknown>)[ENTRY_CHIME_SHARED_KEY];
+    FakeAudioContext.sticky = true;
+    armLogoEntryChime();
+    expect(readEntryChimeShared()?.played).toBe(true);
+    armLogoEntryChime({ replay: true, silent: true });
+    expect(FakeAudioContext.created.length).toBe(1);
+  });
+
+  it('a cold arm on a console document (?dev=skip) builds no engine; a visitor replay on it still chimes', () => {
+    const win = installWindow('running');
+    (win as Record<string, unknown>).location = { search: '?dev=skip' };
+    armLogoEntryChime();
+    expect(FakeAudioContext.created.length).toBe(0);
+    // The visitor-facing 다시 재생 on the sealed screen is not a console action.
+    armLogoEntryChime({ replay: true });
+    expect(FakeAudioContext.created.length).toBe(1);
+    expect(FakeAudioContext.created[0].nodesBuilt).toBeGreaterThan(0);
   });
 });

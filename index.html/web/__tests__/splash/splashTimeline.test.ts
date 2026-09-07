@@ -106,6 +106,22 @@ describe('splash timeline', () => {
     expect(shouldRunSplashForPhase('?splash=0', null)).toBe(false);
   });
 
+  it('skips the logo page on a founder-console load -- a transition, not an entry (console isolation, 2026-09-07)', () => {
+    // `?dev=skip` (메인사이트 진입), `?dev=replay` (시퀀스 다시 재생), `?dev=off`
+    // and the storage-carried revoke reload all land WITHOUT the logo page,
+    // even on a cold tab and even mid-logo-page (splashActive).
+    for (const search of ['?dev=skip', '?dev=replay', '?dev=off', '?sovereign_auth=x&dev=skip']) {
+      expect(shouldRunSplashForPhase(search, null)).toBe(false);
+      expect(shouldRunSplashForPhase(search, 'gate', true)).toBe(false);
+    }
+    expect(shouldRunSplashForPhase('', null, false, 'revoke')).toBe(false);
+    expect(shouldRunSplashForPhase('', 'gate', true, 'revoke')).toBe(false);
+    // A visitor's cold entry is untouched -- with or without other params.
+    expect(shouldRunSplashForPhase('?utm_source=google', null)).toBe(true);
+    expect(shouldRunSplashForPhase('', null, false, null)).toBe(true);
+    expect(shouldRunSplashForPhase('', null, false, '')).toBe(true);
+  });
+
   it('restarts the logo page itself when a refresh lands while it was showing (7-point hardening, item 6)', () => {
     expect(SPLASH_ACTIVE_STORAGE_KEY).toBe('unitas_splash_active');
     expect(isSplashActiveFlag(SPLASH_ACTIVE_VALUE)).toBe(true);

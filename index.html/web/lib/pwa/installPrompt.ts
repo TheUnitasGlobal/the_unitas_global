@@ -28,6 +28,7 @@ import {
   SPLASH_ACTIVE_VALUE,
   SPLASH_IN_PLACE_PHASES,
 } from '@/lib/splash/splashTimeline';
+import { CONSOLE_LOAD_ES5 } from '@/lib/sovereign/consoleTrigger';
 
 export interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -100,6 +101,13 @@ export const SPLASH_OFF_QUERY = /[?&]splash=(0|off|false)(&|$)/;
  *    frame -- so a refresh DURING the logo page used to skip ahead to the
  *    entry gate. With the flag present the splash is left visible and
  *    replays: the visitor lands on the very page they were looking at.
+ *  - SOVEREIGN CONSOLE ISOLATION (owner instruction 2026-09-07, master audit
+ *    item 2): a document load that is a founder-console action -- `?dev=skip`
+ *    (메인사이트 진입), `?dev=replay` (시퀀스 다시 재생), `?dev=off` or the
+ *    storage-carried revoke reload (권한 해제) -- is a TRANSITION, not an
+ *    entry: the logo page is stamped off here, before paint, and the entry
+ *    chime bootstrap (which runs next) stands down on the same predicate
+ *    (lib/sovereign/consoleTrigger.ts `CONSOLE_LOAD_ES5`).
  */
 export const PWA_CAPTURE_BOOTSTRAP = `(function(){try{
 window.__unitasPwaPrompt=null;
@@ -111,6 +119,8 @@ try{var nt='navigate';try{var en=performance.getEntriesByType&&performance.getEn
 if(!qa&&nt.toLowerCase()!=='reload'){try{sessionStorage.clear();}catch(_){}}
 var rl=false;window.addEventListener('pageshow',function(e){if(!e||!e.persisted||qa||rl)return;rl=true;try{sessionStorage.clear();}catch(_){}try{location.reload();}catch(_){}});}catch(_){}
 try{var sa=sessionStorage.getItem('${SPLASH_ACTIVE_STORAGE_KEY}');var p=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(!(sa&&String(sa).trim()==='${SPLASH_ACTIVE_VALUE}')&&p&&${JSON.stringify([...SPLASH_IN_PLACE_PHASES])}.indexOf(String(p).trim())!==-1){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
+${CONSOLE_LOAD_ES5}
+try{if(consoleLoad()){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}
 }catch(_){}})();`;
 

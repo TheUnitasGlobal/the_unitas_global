@@ -1341,7 +1341,8 @@
     "appExitFinalBody": "Çık düğmesine basmak uygulamayı kapatır; İptal sizi tam olduğunuz yerde bırakır.",
     "appExitStep": "Adım {current} / {total}",
     "appExitDoneTitle": "Kapatma tamamlandı.",
-    "appExitDoneBody": "Lütfen uygulamayı veya tarayıcıyı güvenli bir şekilde kapatın."
+    "appExitDoneBody": "Lütfen uygulamayı veya tarayıcıyı güvenli bir şekilde kapatın.",
+    "webExitDoneBody": "Lütfen tarayıcı sekmesini güvenli bir şekilde kapatın."
   },
   "Civic": {
     "axes": {
