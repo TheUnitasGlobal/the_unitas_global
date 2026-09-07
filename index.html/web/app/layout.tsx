@@ -7,6 +7,7 @@ import { TerminationBoundary } from '@/components/exit/TerminationBoundary';
 import { CinematicIntroSplash } from '@/components/splash/CinematicIntroSplash';
 import { RuntimeShield } from '@/components/system/RuntimeShield';
 import { SovereignShield } from '@/components/system/SovereignShield';
+import { ENTRY_CHIME_BOOTSTRAP } from '@/lib/audio/logoEntryChime';
 import { EXIT_GUARD_BOOTSTRAP } from '@/lib/exit/appExit';
 import { PWA_CAPTURE_BOOTSTRAP } from '@/lib/pwa/installPrompt';
 import { PWA_ICON_VERSION, PWA_MANIFEST_HREF, pwaIconHref } from '@/lib/pwa/iconVersion';
@@ -104,6 +105,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             so a back press there never finishes the installed app. Stands
             down once ExitGuard mounts. See lib/exit/appExit.ts. */}
         <script id="unitas-exit-guard-bootstrap" dangerouslySetInnerHTML={{ __html: EXIT_GUARD_BOOTSTRAP }} />
+        {/* Pre-hydration logo-page entry chime (owner instruction 2026-09-07,
+            mobile online browser fix): from the document's first byte, arms
+            the chime's own AudioContext and sounds it immediately where
+            autoplay is allowed, else inside the visitor's very FIRST tap --
+            before React has hydrated on a phone, and never torn down when the
+            3s logo page ends. Must come AFTER the PWA bootstrap, which stamps
+            data-splash="off" for in-place refreshes. See lib/audio/logoEntryChime.ts. */}
+        <script id="unitas-entry-chime-bootstrap" dangerouslySetInnerHTML={{ __html: ENTRY_CHIME_BOOTSTRAP }} />
       </head>
       <body className="min-h-screen bg-void font-sans text-gray-200 antialiased">
         <script

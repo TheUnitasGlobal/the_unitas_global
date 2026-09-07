@@ -75,7 +75,10 @@ function setSplashActiveFlag(active: boolean): void {
  * 2026-09-06 (item 2) reintroduced exactly one sound: a short two-note entry
  * chime (lib/audio/logoEntryChime.ts), self-contained and hardened to fire
  * on every omni-channel surface (PC online/App, mobile online/App) -- see
- * `armLogoEntryChime()` in the effect below.
+ * `armLogoEntryChime()` in the effect below. Owner instruction 2026-09-07
+ * (mobile online browser): the chime is armed from the document's first byte
+ * by a head bootstrap and is never torn down with this layer -- it waits for
+ * the phone visitor's first tap however late that comes.
  *
  * Visual beats (lib/splash/splashTimeline.ts owns the exact cues):
  *   0.0s  v2 master mark swings in from -100deg on a 3D perspective stage,
@@ -150,8 +153,16 @@ export function CinematicIntroSplash() {
     setSplashActiveFlag(true);
 
     // Arm the entry chime for this run of the logo page -- fires immediately
-    // where the engine allows it, otherwise on the visitor's first gesture.
-    const disarmChime = armLogoEntryChime();
+    // where the engine allows it, otherwise inside the visitor's first
+    // activation gesture. MOBILE ONLINE BROWSER FIX (owner instruction
+    // 2026-09-07): the chime is a document-level singleton that OUTLIVES this
+    // layer. It is deliberately NOT disarmed in the cleanup below -- a phone
+    // browser never lets a context start before the first tap, and that tap
+    // usually comes after the 3 s logo page has already gone; tearing the
+    // engine down here was exactly what silenced it. On a cold entry this
+    // call adopts the chime the head bootstrap (ENTRY_CHIME_BOOTSTRAP,
+    // app/layout.tsx) has been holding since the document's first byte.
+    armLogoEntryChime({ replay: run > 0 });
 
     const done = window.setTimeout(() => {
       // The logo page is over -- a later refresh follows the curtain phase.
@@ -161,7 +172,6 @@ export function CinematicIntroSplash() {
 
     return () => {
       window.clearTimeout(done);
-      disarmChime();
     };
   }, [active, run]);
 
