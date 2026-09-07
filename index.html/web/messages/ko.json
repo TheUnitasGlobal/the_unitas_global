@@ -18,6 +18,15 @@
     "appDownloadInstallNow": "원클릭 설치",
     "appDownloadReadyHint": "지금 이 브라우저에서 UNITAS를 앱으로 설치할 수 있습니다. 아래 버튼을 눌러 설치하세요."
   },
+  "InApp": {
+    "title": "외부 브라우저에서 열기",
+    "body": "이 인앱 브라우저에서는 앱 설치가 지원되지 않습니다. 원클릭 설치를 위해 시스템 기본 브라우저(Chrome / Safari)로 UNITAS를 여는 중입니다.",
+    "open": "브라우저에서 열기",
+    "copy": "링크 복사",
+    "copied": "링크가 복사되었습니다",
+    "menuHint": "화면이 바뀌지 않으면 우측 상단 ⋯ 또는 공유 메뉴에서 \"브라우저에서 열기\"를 선택해 주세요.",
+    "close": "닫기"
+  },
   "Home": {
     "title": "UNITAS",
     "modulesLinkedLabel": "검색 결과와 연동된 UNITAS 모듈 생태계"

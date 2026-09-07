@@ -11,7 +11,15 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "prefer_related_applications": false,
+  "orientation": "any",
   "background_color": "#030305",
   "theme_color": "#d4af37",
   "lang": "en",

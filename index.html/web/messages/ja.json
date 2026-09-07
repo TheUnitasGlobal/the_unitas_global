@@ -18,6 +18,15 @@
     "appDownloadInstallNow": "ワンクリックでインストール",
     "appDownloadReadyHint": "お使いのブラウザは今すぐ UNITAS をアプリとしてインストールできます。下をタップしてインストールしてください。"
   },
+  "InApp": {
+    "title": "ブラウザで開く",
+    "body": "このアプリ内ブラウザではアプリをインストールできません。ワンタップでインストールできるよう、UNITAS をシステムのブラウザ（Chrome / Safari）で開いています。",
+    "open": "ブラウザで開く",
+    "copy": "リンクをコピー",
+    "copied": "リンクをコピーしました",
+    "menuHint": "画面が切り替わらない場合は、右上の ⋯ または共有メニューから「ブラウザで開く」を選択してください。",
+    "close": "閉じる"
+  },
   "Home": {
     "title": "UNITAS",
     "modulesLinkedLabel": "検索結果と連動する UNITAS モジュール生態系"

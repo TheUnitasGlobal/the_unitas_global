@@ -10,6 +10,8 @@ import { SovereignShield } from '@/components/system/SovereignShield';
 import { ENTRY_CHIME_BOOTSTRAP } from '@/lib/audio/logoEntryChime';
 import { EXIT_GUARD_BOOTSTRAP } from '@/lib/exit/appExit';
 import { PWA_CAPTURE_BOOTSTRAP } from '@/lib/pwa/installPrompt';
+import { IN_APP_ESCAPE_BOOTSTRAP } from '@/lib/pwa/inAppBrowser';
+import { STANDALONE_LAUNCH_BOOTSTRAP } from '@/lib/pwa/standaloneLaunch';
 import { PWA_ICON_VERSION, PWA_MANIFEST_HREF, pwaIconHref } from '@/lib/pwa/iconVersion';
 import './globals.css';
 import './splash.css';
@@ -80,10 +82,19 @@ export const metadata: Metadata = {
     shortcut: `/favicon.ico?v=${PWA_ICON_VERSION}`,
     apple: pwaIconHref('apple-touch-icon.png'),
   },
+  applicationName: 'UNITAS',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: 'UNITAS',
+  },
+  // Standalone-mode imprint (owner instruction 2026-09-07, comparative
+  // hardening item 4): `appleWebApp.capable` covers iOS; Chromium on Android
+  // (and the older Samsung / Huawei shells) read the legacy
+  // `mobile-web-app-capable` meta for the same "launch without browser
+  // chrome" contract, alongside manifest `display: standalone`.
+  other: {
+    'mobile-web-app-capable': 'yes',
   },
 };
 
@@ -99,6 +110,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             React mounts (it fires once, early), registers /sw.js on load, and
             stamps data-splash="off" for ?splash=0. See lib/pwa/installPrompt.ts. */}
         <script id="unitas-pwa-bootstrap" dangerouslySetInnerHTML={{ __html: PWA_CAPTURE_BOOTSTRAP }} />
+        {/* Installed-app launch fast-path (owner instruction 2026-09-07,
+            item 4): inside the standalone app, a `/` launch is redirected to
+            the visitor's persisted language BEFORE first paint, so the app
+            opens in the right locale in one document. No-op online.
+            See lib/pwa/standaloneLaunch.ts. */}
+        <script id="unitas-standalone-launch" dangerouslySetInnerHTML={{ __html: STANDALONE_LAUNCH_BOOTSTRAP }} />
+        {/* In-app browser hand-off (owner instruction 2026-09-07, item 2): a
+            Facebook / Instagram / KakaoTalk / LINE / ... embedded WebView can
+            never install the app, so the page is handed to the system
+            browser automatically, pre-paint, throttled to once per 90s.
+            See lib/pwa/inAppBrowser.ts. */}
+        <script id="unitas-inapp-escape" dangerouslySetInnerHTML={{ __html: IN_APP_ESCAPE_BOOTSTRAP }} />
         {/* Pre-hydration back-guard bootstrap (round 16, item 1): parks the
             hardware-back sentinel buffer on the visitor's FIRST gesture --
             on the 3s logo page, before ExitGuard has hydrated on a phone --

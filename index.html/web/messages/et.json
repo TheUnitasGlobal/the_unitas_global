@@ -18,6 +18,15 @@
     "appDownloadInstallNow": "Paigalda ühe klikiga",
     "appDownloadReadyHint": "Sinu brauser saab UNITASe kohe rakendusena paigaldada. Puuduta all paigaldamiseks."
   },
+  "InApp": {
+    "title": "Ava oma brauseris",
+    "body": "See rakendusesisene vaatur ei toeta rakenduste paigaldamist. UNITAS avatakse süsteemi brauseris (Chrome / Safari), et saaksid selle ühe puudutusega paigaldada.",
+    "open": "Ava brauseris",
+    "copy": "Kopeeri link",
+    "copied": "Link kopeeritud",
+    "menuHint": "Kui midagi ei juhtu, puuduta ⋯ või jagamismenüüd ja vali \"Ava brauseris\".",
+    "close": "Sulge"
+  },
   "Home": {
     "title": "UNITAS",
     "modulesLinkedLabel": "UNITASe moodulite ökosüsteem · seotud sinu otsinguga"

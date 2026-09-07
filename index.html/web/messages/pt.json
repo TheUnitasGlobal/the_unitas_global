@@ -18,6 +18,15 @@
     "appDownloadInstallNow": "Instalar com um clique",
     "appDownloadReadyHint": "O seu navegador pode instalar o UNITAS como app agora. Toque abaixo para instalar."
   },
+  "InApp": {
+    "title": "Abrir no seu navegador",
+    "body": "Este navegador integrado não permite instalar aplicativos. O UNITAS está sendo aberto no navegador do sistema (Chrome / Safari) para que você o instale com um único toque.",
+    "open": "Abrir no navegador",
+    "copy": "Copiar link",
+    "copied": "Link copiado",
+    "menuHint": "Se nada acontecer, toque no menu ⋯ ou de compartilhar e escolha \"Abrir no navegador\".",
+    "close": "Fechar"
+  },
   "Home": {
     "title": "UNITAS",
     "modulesLinkedLabel": "Ecossistema de módulos UNITAS · ligado à sua pesquisa"

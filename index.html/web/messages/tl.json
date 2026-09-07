@@ -18,6 +18,15 @@
     "appDownloadInstallNow": "One-click install",
     "appDownloadReadyHint": "Kayang i-install ng iyong browser ang UNITAS bilang app ngayon din. I-tap sa ibaba para mag-install."
   },
+  "InApp": {
+    "title": "Buksan sa iyong browser",
+    "body": "Hindi makapag-install ng app ang in-app browser na ito. Binubuksan ang UNITAS sa system browser (Chrome / Safari) para ma-install mo ito sa isang tap lang.",
+    "open": "Buksan sa browser",
+    "copy": "Kopyahin ang link",
+    "copied": "Nakopya ang link",
+    "menuHint": "Kung walang nangyari, i-tap ang ⋯ o share menu at piliin ang \"Buksan sa browser\".",
+    "close": "Isara"
+  },
   "Home": {
     "title": "UNITAS",
     "modulesLinkedLabel": "UNITAS module ecosystem · naka-link sa iyong paghahanap"

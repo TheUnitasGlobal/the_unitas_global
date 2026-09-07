@@ -118,17 +118,45 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 9999px;
+  /* Cross-engine hardening (owner instruction 2026-09-07, comparative
+     hardening item 3): `isolation: isolate` pins the ::before halo
+     (z-index: -1) inside THIS element's own stacking context, so it can
+     never sink behind an opaque ancestor background on engines that resolve
+     negative z-index against a different root (older WebKit / third-party
+     WebViews). The translateZ(0) promotes the disc to its own compositor
+     layer so the blurred, rotating halo underneath never smears the mark. */
+  isolation: isolate;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
   background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(6px) saturate(1.4);
   -webkit-backdrop-filter: blur(6px) saturate(1.4);
+  backdrop-filter: blur(6px) saturate(1.4);
   border: 1px solid rgba(255, 255, 255, 0.16);
+}
+/* Engines without backdrop-filter (older Android WebViews, Firefox < 103,
+   KaiOS...) would show a near-invisible disc: give them a frosted solid. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .logo-hologram {
+    background: rgba(24, 26, 36, 0.78);
+  }
 }
 .logo-hologram::before {
   content: '';
   position: absolute;
+  /* Longhands FIRST: `inset` is Safari 14.1+ / Chrome 87+; an older engine
+     that ignores the shorthand still sizes the halo from these. */
+  top: -9px;
+  right: -9px;
+  bottom: -9px;
+  left: -9px;
   inset: -9px;
   z-index: -1;
   border-radius: 9999px;
+  /* Vector fallback FIRST: radial gold/cyan glow for engines without
+     conic-gradient (Safari < 12.1, old WebViews) -- a valid later
+     declaration replaces it everywhere else. Colors are plain hex so no
+     modern color syntax can fail to parse. */
+  background: radial-gradient(circle at 50% 50%, #d4af37 0%, #00f3ff 55%, rgba(0, 243, 255, 0) 100%);
   background: conic-gradient(
     from 0deg,
     #ff3b30,
@@ -140,7 +168,9 @@ body {
     #af52de,
     #ff3b30
   );
+  -webkit-filter: blur(9px);
   filter: blur(9px);
+  will-change: transform, opacity;
   animation: logo-halo-spin 16s linear infinite, logo-halo-breathe 5.5s ease-in-out infinite;
 }
 .logo-hologram img,
@@ -199,6 +229,121 @@ body {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Global cross-browser CTA hardening (owner instruction 2026-09-07,
+   comparative hardening item 3). The "UNITAS / App Download" lockup (nav bar
+   + sealed Coming-Soon bar) was reported washed-out / re-tinted / broken on
+   some national browsers and third-party WebViews. Root causes addressed:
+     - Tailwind's `rgb(r g b / a)` modern color syntax: unparsed by older
+       engines -> the text silently inherited the body gray. The lockup now
+       carries plain hex / legacy rgba() on dedicated classes.
+     - shadow/glow animations painted on the CPU every frame -> flicker and
+       colour banding in low-end WebViews. The button is promoted to its own
+       GPU layer (translateZ + backface-visibility) so the glow composites.
+     - the 300ms tap delay + double-tap zoom (`touch-action: manipulation`)
+       and the grey tap flash (`-webkit-tap-highlight-color`) made a single
+       tap feel like it needed a second one -- exactly the "repeat touch"
+       the one-click doctrine forbids.
+     - flex `gap` (Safari < 14.1) fallback margins so the two words never
+       collide on an older engine.
+   `.unitas-tap` is the reusable touch-hardening subset for any button.
+   --------------------------------------------------------------------------- */
+.unitas-tap {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  cursor: pointer;
+}
+.unitas-install-cta {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  cursor: pointer;
+  color: #d4af37;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* Hex-only dual-tone fallback border/glow so the lockup keeps its gold
+     identity even when every animated shadow above is dropped. */
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.18);
+  transition: box-shadow 200ms ease, text-shadow 200ms ease;
+}
+.unitas-install-cta__brand {
+  color: #d4af37;
+  -webkit-text-fill-color: #d4af37;
+}
+.unitas-install-cta__label {
+  color: #67e8f9;
+  -webkit-text-fill-color: #67e8f9;
+  opacity: 0.92;
+}
+/* A tap that arrived a beat before the browser offered its install prompt:
+   the host holds the activation window open (data-pwa-busy) -- brighten so
+   the visitor sees the tap registered, no second tap needed. */
+.unitas-install-cta[data-pwa-busy='1'] {
+  animation-duration: 1.1s;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.45), 0 0 18px rgba(0, 243, 255, 0.3);
+}
+@supports not (gap: 1px) {
+  .unitas-install-cta > * + * {
+    margin-top: 4px;
+  }
+  @media (min-width: 640px) {
+    .unitas-install-cta > * + * {
+      margin-top: 0;
+      margin-left: 6px;
+    }
+  }
+}
+/* Solid CTA (sheet "one-click install" / "open in browser"): explicit
+   dual-tone so a hover-less WebView still shows a clearly pressable box. */
+.unitas-cta-solid {
+  color: #d4af37;
+  border-color: #d4af37;
+  background-color: rgba(212, 175, 55, 0.1);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+.unitas-cta-solid:active {
+  background-color: rgba(212, 175, 55, 0.24);
+}
+/* Sheet cards: guarantee an opaque, hex-defined panel under the glow shell
+   even where backdrop-filter / layered box-shadows are unsupported. */
+.unitas-sheet-card {
+  background-color: #0f1016;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+/* Full-viewport overlay height: `100vh` first for engines without dynamic
+   viewport units (Safari < 15.4, older WebViews), `100dvh` where supported so
+   the mobile URL bar never clips the sheet. */
+.pwa-sheet-viewport {
+  height: 100vh;
+  height: 100dvh;
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-download-pulse,
+  .logo-hologram::before {
+    animation: none !important;
+  }
 }
 
 /* Mobile/tablet nav swipe-scroll (see components/nav/NavBar.tsx): only the

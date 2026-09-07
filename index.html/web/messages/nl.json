@@ -18,6 +18,15 @@
     "appDownloadInstallNow": "Installeren met één klik",
     "appDownloadReadyHint": "Uw browser kan UNITAS nu direct als app installeren. Tik hieronder om te installeren."
   },
+  "InApp": {
+    "title": "Openen in je browser",
+    "body": "Deze in-app browser kan geen apps installeren. UNITAS wordt geopend in de systeembrowser (Chrome / Safari) zodat je het met één tik kunt installeren.",
+    "open": "Openen in browser",
+    "copy": "Link kopiëren",
+    "copied": "Link gekopieerd",
+    "menuHint": "Gebeurt er niets, tik dan op het ⋯- of deelmenu en kies \"Openen in browser\".",
+    "close": "Sluiten"
+  },
   "Home": {
     "title": "UNITAS",
     "modulesLinkedLabel": "UNITAS-moduleecosysteem · gekoppeld aan uw zoekopdracht"

@@ -18,6 +18,15 @@
     "appDownloadInstallNow": "一键安装",
     "appDownloadReadyHint": "您的浏览器现在即可将 UNITAS 安装为应用。点按下方按钮进行安装。"
   },
+  "InApp": {
+    "title": "在浏览器中打开",
+    "body": "此应用内浏览器不支持安装应用。为了一键安装，正在系统浏览器（Chrome / Safari）中打开 UNITAS。",
+    "open": "在浏览器中打开",
+    "copy": "复制链接",
+    "copied": "链接已复制",
+    "menuHint": "如果没有反应，请点击右上角 ⋯ 或分享菜单，选择“在浏览器中打开”。",
+    "close": "关闭"
+  },
   "Home": {
     "title": "UNITAS",
     "modulesLinkedLabel": "与搜索结果联动的 UNITAS 模块生态"

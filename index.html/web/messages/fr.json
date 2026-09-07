@@ -18,6 +18,15 @@
     "appDownloadInstallNow": "Installer en un clic",
     "appDownloadReadyHint": "Votre navigateur peut installer UNITAS en tant qu’application. Touchez ci-dessous pour installer."
   },
+  "InApp": {
+    "title": "Ouvrir dans votre navigateur",
+    "body": "Ce navigateur intégré ne permet pas d'installer d'applications. UNITAS s'ouvre dans le navigateur du système (Chrome / Safari) pour une installation en un seul geste.",
+    "open": "Ouvrir dans le navigateur",
+    "copy": "Copier le lien",
+    "copied": "Lien copié",
+    "menuHint": "Si rien ne se passe, touchez le menu ⋯ ou de partage et choisissez « Ouvrir dans le navigateur ».",
+    "close": "Fermer"
+  },
   "Home": {
     "title": "UNITAS",
     "modulesLinkedLabel": "Écosystème de modules UNITAS · lié à votre recherche"

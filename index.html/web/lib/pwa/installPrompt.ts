@@ -42,7 +42,34 @@ declare global {
   }
 }
 
-export type PwaInstallStatus = 'idle' | 'prompting' | 'accepted' | 'dismissed' | 'unavailable';
+export type PwaInstallStatus =
+  | 'idle'
+  /** A tap arrived before the browser offered its prompt; we are holding the activation window open for it. */
+  | 'awaiting'
+  | 'prompting'
+  | 'accepted'
+  | 'dismissed'
+  | 'unavailable';
+
+/**
+ * localStorage flag raised by `appinstalled` so a LATER browser-tab visit
+ * (where `beforeinstallprompt` will never fire again because the app is
+ * already on the device) can still tell the visitor to launch the installed
+ * app instead of showing a dead "install" path. Cleared the moment a fresh
+ * `beforeinstallprompt` arrives -- that event only fires when the app is NOT
+ * installed, so it is the authoritative "uninstalled since" signal.
+ */
+export const PWA_INSTALLED_STORAGE_KEY = 'unitas.pwa.installed';
+
+/**
+ * How long a tap may wait for a late `beforeinstallprompt` before falling
+ * back. Chromium's transient user activation lasts ~5s; `prompt()` fired
+ * inside that window still counts as gesture-initiated, so a click that
+ * lands a beat before the browser finishes its installability check (fresh
+ * cold load, slow manifest / SW fetch) is turned into the native dialog
+ * instead of a manual guide.
+ */
+export const PWA_PROMPT_GRACE_MS = 2600;
 
 export interface PwaInstallSnapshot {
   /** The captured `beforeinstallprompt` event, or null when none is available. */
@@ -66,8 +93,13 @@ export const SPLASH_OFF_QUERY = /[?&]splash=(0|off|false)(&|$)/;
  * Kept dependency-free ES5 so it runs on every engine before any bundle.
  *  - captures `beforeinstallprompt` (preventDefault so Chrome's mini-infobar
  *    doesn't steal the moment; we fire it ourselves on the visitor's click)
- *  - tracks `appinstalled`
- *  - registers the installability service worker as early as possible
+ *  - tracks `appinstalled` (persisted in localStorage, see
+ *    PWA_INSTALLED_STORAGE_KEY; a fresh `beforeinstallprompt` clears it)
+ *  - registers the installability service worker IMMEDIATELY -- not on
+ *    `load` any more (owner instruction 2026-09-07, one-click hardening):
+ *    Chromium runs its installability check once manifest + SW are known,
+ *    so the earlier the registration, the earlier `beforeinstallprompt`
+ *    lands and the more likely the visitor's FIRST tap meets a live prompt
  *  - stamps `data-splash="off"` on <html> for `?splash=0` so the SSR'd intro
  *    splash never paints on a QA/E2E run (pure CSS gate, no JS race)
  *  - RE-ENTRY RESET (owner instruction 2026-09-05, round 11, item 3): on
@@ -111,8 +143,10 @@ export const SPLASH_OFF_QUERY = /[?&]splash=(0|off|false)(&|$)/;
  */
 export const PWA_CAPTURE_BOOTSTRAP = `(function(){try{
 window.__unitasPwaPrompt=null;
-window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__unitasPwaPrompt=e;try{window.dispatchEvent(new CustomEvent('${PWA_PROMPT_CAPTURED_EVENT}'));}catch(_){}});
-window.addEventListener('appinstalled',function(){window.__unitasPwaInstalled=true;window.__unitasPwaPrompt=null;});
+try{window.__unitasPwaInstalled=localStorage.getItem('${PWA_INSTALLED_STORAGE_KEY}')==='1';}catch(_){}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__unitasPwaPrompt=e;window.__unitasPwaInstalled=false;try{localStorage.removeItem('${PWA_INSTALLED_STORAGE_KEY}');}catch(_){}try{window.dispatchEvent(new CustomEvent('${PWA_PROMPT_CAPTURED_EVENT}'));}catch(_){}});
+window.addEventListener('appinstalled',function(){window.__unitasPwaInstalled=true;window.__unitasPwaPrompt=null;try{localStorage.setItem('${PWA_INSTALLED_STORAGE_KEY}','1');}catch(_){}});
+if('serviceWorker' in navigator){try{navigator.serviceWorker.register('/sw.js').catch(function(){});}catch(_){}}
 var qa=/[?&]splash=(0|off|false)(&|$)/.test(location.search);
 if(qa){document.documentElement.setAttribute('data-splash','off');}
 try{var nt='navigate';try{var en=performance.getEntriesByType&&performance.getEntriesByType('navigation');if(en&&en[0]&&en[0].type){nt=String(en[0].type);}else if(performance.navigation&&performance.navigation.type===1){nt='reload';}}catch(_){}
@@ -121,7 +155,6 @@ var rl=false;window.addEventListener('pageshow',function(e){if(!e||!e.persisted|
 try{var sa=sessionStorage.getItem('${SPLASH_ACTIVE_STORAGE_KEY}');var p=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(!(sa&&String(sa).trim()==='${SPLASH_ACTIVE_VALUE}')&&p&&${JSON.stringify([...SPLASH_IN_PLACE_PHASES])}.indexOf(String(p).trim())!==-1){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
 ${CONSOLE_LOAD_ES5}
 try{if(consoleLoad()){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
-if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}
 }catch(_){}})();`;
 
 const SERVER_SNAPSHOT: PwaInstallSnapshot = { prompt: null, installed: false, status: 'idle' };
@@ -165,32 +198,93 @@ export function ensureServiceWorker(): void {
   });
 }
 
+function readInstalledFlag(): boolean {
+  try {
+    return window.localStorage.getItem(PWA_INSTALLED_STORAGE_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function writeInstalledFlag(installed: boolean): void {
+  try {
+    if (installed) window.localStorage.setItem(PWA_INSTALLED_STORAGE_KEY, '1');
+    else window.localStorage.removeItem(PWA_INSTALLED_STORAGE_KEY);
+  } catch {
+    /* storage blocked -- in-memory state still covers this document */
+  }
+}
+
+/**
+ * Whether this engine can EVER hand us a programmatic install prompt
+ * (Chromium family: Chrome, Edge, Samsung Internet, Opera, Brave, Arc...).
+ * Safari / Firefox never will, so a tap there must not wait for one.
+ */
+export function canBrowserPrompt(): boolean {
+  if (typeof window === 'undefined') return false;
+  return 'onbeforeinstallprompt' in window || 'BeforeInstallPromptEvent' in window;
+}
+
 function wireWindow(): void {
   if (wired || typeof window === 'undefined') return;
   wired = true;
 
   // Adopt whatever the bootstrap script parked before hydration.
+  const prompt = window.__unitasPwaPrompt ?? null;
   snapshot = {
-    prompt: window.__unitasPwaPrompt ?? null,
-    installed: window.__unitasPwaInstalled === true || isStandaloneDisplay(),
+    prompt,
+    // A live prompt is authoritative: it only ever fires for a NOT-installed app.
+    installed: prompt ? false : window.__unitasPwaInstalled === true || readInstalledFlag() || isStandaloneDisplay(),
     status: 'idle',
   };
 
   window.addEventListener(PWA_PROMPT_CAPTURED_EVENT, () => {
-    patch({ prompt: window.__unitasPwaPrompt ?? null, status: 'idle' });
+    patch({ prompt: window.__unitasPwaPrompt ?? null, installed: false, status: 'idle' });
   });
   // Belt and braces: if the bootstrap was somehow absent, catch it here too.
   window.addEventListener('beforeinstallprompt', (event) => {
     event.preventDefault();
     window.__unitasPwaPrompt = event as BeforeInstallPromptEvent;
-    patch({ prompt: event as BeforeInstallPromptEvent, status: 'idle' });
+    window.__unitasPwaInstalled = false;
+    writeInstalledFlag(false);
+    patch({ prompt: event as BeforeInstallPromptEvent, installed: false, status: 'idle' });
   });
   window.addEventListener('appinstalled', () => {
     window.__unitasPwaInstalled = true;
     window.__unitasPwaPrompt = null;
+    writeInstalledFlag(true);
     patch({ prompt: null, installed: true, status: 'accepted' });
   });
   ensureServiceWorker();
+}
+
+/**
+ * Resolves with the captured prompt as soon as one exists, or null once
+ * `timeoutMs` elapses. Used by the install host to bridge the gap between a
+ * visitor's tap and a `beforeinstallprompt` that is still in flight, while
+ * the tap's transient activation is still valid (see PWA_PROMPT_GRACE_MS).
+ */
+export function waitForPwaPrompt(timeoutMs = PWA_PROMPT_GRACE_MS): Promise<BeforeInstallPromptEvent | null> {
+  const current = getPwaInstallSnapshot();
+  if (current.prompt) return Promise.resolve(current.prompt);
+  if (!canBrowserPrompt() || current.installed) return Promise.resolve(null);
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = (value: BeforeInstallPromptEvent | null) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timer);
+      window.removeEventListener(PWA_PROMPT_CAPTURED_EVENT, onCaptured);
+      resolve(value);
+    };
+    const onCaptured = () => finish(window.__unitasPwaPrompt ?? getPwaInstallSnapshot().prompt);
+    const timer = window.setTimeout(() => finish(null), Math.max(0, timeoutMs));
+    window.addEventListener(PWA_PROMPT_CAPTURED_EVENT, onCaptured);
+    patch({ status: 'awaiting' });
+  }).then((value) => {
+    if (!value && snapshot.status === 'awaiting') patch({ status: 'idle' });
+    return value as BeforeInstallPromptEvent | null;
+  });
 }
 
 export function getPwaInstallSnapshot(): PwaInstallSnapshot {
@@ -231,7 +325,9 @@ export async function promptPwaInstall(): Promise<PwaInstallStatus> {
     const status: PwaInstallStatus = outcome === 'accepted' ? 'accepted' : 'dismissed';
     // A BeforeInstallPromptEvent can only be prompted once.
     window.__unitasPwaPrompt = null;
-    patch({ prompt: null, status, installed: current.installed || outcome === 'accepted' });
+    const installed = current.installed || outcome === 'accepted';
+    if (outcome === 'accepted') writeInstalledFlag(true);
+    patch({ prompt: null, status, installed });
     return status;
   } catch {
     window.__unitasPwaPrompt = null;

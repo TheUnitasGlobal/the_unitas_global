@@ -40,12 +40,12 @@ export function CinemaAppDownload() {
         type="button"
         aria-label={t('appDownloadAria')}
         {...trigger}
-        className="app-download-pulse flex flex-col items-start gap-1 whitespace-nowrap rounded-full border-none bg-transparent px-2.5 py-1.5 text-left sm:flex-row sm:items-center sm:gap-1.5 sm:px-3"
+        className="app-download-pulse unitas-install-cta flex flex-col items-start gap-1 whitespace-nowrap rounded-full border-none bg-transparent px-2.5 py-1.5 text-left sm:flex-row sm:items-center sm:gap-1.5 sm:px-3"
       >
-        <span className="font-serif text-[11px] font-bold uppercase leading-none tracking-[0.22em] text-accent">
+        <span className="unitas-install-cta__brand font-serif text-[11px] font-bold uppercase leading-none tracking-[0.22em] text-accent">
           UNITAS
         </span>
-        <span className="text-[11px] font-medium normal-case leading-none tracking-[0.02em] text-cyan-300/90">
+        <span className="unitas-install-cta__label text-[11px] font-medium normal-case leading-none tracking-[0.02em] text-cyan-300/90">
           App Download
         </span>
       </button>

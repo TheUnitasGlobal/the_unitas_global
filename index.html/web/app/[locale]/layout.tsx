@@ -11,6 +11,7 @@ import { NavBar } from '@/components/nav/NavBar';
 import { AudioGate } from '@/components/audio/AudioGate';
 import { ComingSoonCinema } from '@/components/ComingSoonCinema';
 import { PwaInstallHost } from '@/components/pwa/PwaInstallHost';
+import { InAppBrowserEscape } from '@/components/pwa/InAppBrowserEscape';
 import { SovereignDebugPanel } from '@/components/sovereign/SovereignDebugPanel';
 import { ExitGuard } from '@/components/interaction/ExitGuard';
 import { SovereignShield } from '@/components/system/SovereignShield';
@@ -146,6 +147,14 @@ export default async function LocaleLayout({
             or requestPwaInstall() call anywhere resolves here. */}
         <SovereignShield zone="pwa-install">
           <PwaInstallHost />
+        </SovereignShield>
+        {/* In-app browser (Facebook / Instagram / KakaoTalk / LINE / ...
+            WebView) hand-off fallback card (z-660). The automatic hand-off
+            itself fires pre-hydration from app/layout.tsx's head bootstrap;
+            this only appears if the container refused it. Renders nothing
+            in a real browser or the installed app. */}
+        <SovereignShield zone="inapp-escape">
+          <InAppBrowserEscape />
         </SovereignShield>
         {/* Founder-only console (renders nothing unless the server verifies). */}
         <SovereignShield zone="sovereign-debug">

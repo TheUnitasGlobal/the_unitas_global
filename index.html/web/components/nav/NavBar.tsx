@@ -59,12 +59,12 @@ export function NavBar() {
             type="button"
             aria-label={t('appDownloadAria')}
             {...installTrigger}
-            className="app-download-pulse flex min-w-0 flex-col items-start justify-center gap-0 rounded-xl border-none bg-transparent px-2.5 py-1 sm:flex-row sm:items-center sm:gap-1.5 sm:rounded-full sm:px-4 sm:py-1.5"
+            className="app-download-pulse unitas-install-cta flex min-w-0 flex-col items-start justify-center gap-0 rounded-xl border-none bg-transparent px-2.5 py-1 sm:flex-row sm:items-center sm:gap-1.5 sm:rounded-full sm:px-4 sm:py-1.5"
           >
-            <span className="font-serif text-[10px] font-bold uppercase leading-tight tracking-[0.1em] text-accent sm:text-[15px] sm:leading-none sm:tracking-[0.18em]">
+            <span className="unitas-install-cta__brand font-serif text-[10px] font-bold uppercase leading-tight tracking-[0.1em] text-accent sm:text-[15px] sm:leading-none sm:tracking-[0.18em]">
               UNITAS
             </span>
-            <span className="text-[8px] font-medium normal-case leading-tight tracking-wide text-cyan-300/90 sm:text-[11px] sm:leading-none">
+            <span className="unitas-install-cta__label text-[8px] font-medium normal-case leading-tight tracking-wide text-cyan-300/90 sm:text-[11px] sm:leading-none">
               App Download
             </span>
           </button>

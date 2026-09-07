@@ -18,6 +18,15 @@
     "appDownloadInstallNow": "Tek tıkla yükle",
     "appDownloadReadyHint": "Tarayıcınız UNITAS'ı şu anda uygulama olarak yükleyebilir. Yüklemek için aşağıya dokunun."
   },
+  "InApp": {
+    "title": "Tarayıcınızda açın",
+    "body": "Bu uygulama içi tarayıcı uygulama yükleyemez. Tek dokunuşla yükleyebilmeniz için UNITAS sistem tarayıcısında (Chrome / Safari) açılıyor.",
+    "open": "Tarayıcıda aç",
+    "copy": "Bağlantıyı kopyala",
+    "copied": "Bağlantı kopyalandı",
+    "menuHint": "Hiçbir şey olmazsa ⋯ veya paylaş menüsüne dokunup \"Tarayıcıda aç\" seçeneğini seçin.",
+    "close": "Kapat"
+  },
   "Home": {
     "title": "UNITAS",
     "modulesLinkedLabel": "UNITAS modül ekosistemi · aramanıza bağlı"

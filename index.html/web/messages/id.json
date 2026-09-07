@@ -18,6 +18,15 @@
     "appDownloadInstallNow": "Instal satu klik",
     "appDownloadReadyHint": "Browser Anda dapat memasang UNITAS sebagai aplikasi sekarang. Ketuk di bawah untuk memasang."
   },
+  "InApp": {
+    "title": "Buka di browser Anda",
+    "body": "Browser dalam aplikasi ini tidak dapat memasang aplikasi. UNITAS sedang dibuka di browser sistem (Chrome / Safari) agar Anda bisa memasangnya dengan sekali ketuk.",
+    "open": "Buka di browser",
+    "copy": "Salin tautan",
+    "copied": "Tautan disalin",
+    "menuHint": "Jika tidak terjadi apa-apa, ketuk menu ⋯ atau bagikan lalu pilih \"Buka di browser\".",
+    "close": "Tutup"
+  },
   "Home": {
     "title": "UNITAS",
     "modulesLinkedLabel": "Ekosistem modul UNITAS · terhubung dengan pencarian Anda"
