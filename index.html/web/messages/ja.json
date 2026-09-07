@@ -1338,7 +1338,7 @@
     "appExitTitle": "終了しますか？",
     "appExitBody": "終了ボタンを押すと最終確認に進みます。キャンセルすると元の場所に留まります。",
     "appExitFinalTitle": "アプリを完全に終了しますか？",
-    "appExitFinalBody": "終了ボタンを押すとサイトが閉じます。キャンセルすると元の場所に留まります。",
+    "appExitFinalBody": "終了ボタンを押すとアプリが閉じます。キャンセルすると元の場所に留まります。",
     "appExitStep": "ステップ {current} / {total}",
     "appExitDoneTitle": "終了が完了しました。",
     "appExitDoneBody": "アプリまたはブラウザを安全に閉じてください。"

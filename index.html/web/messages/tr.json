@@ -1338,7 +1338,7 @@
     "appExitTitle": "Çıkılsın mı?",
     "appExitBody": "Çık düğmesine basmak son onaya götürür; İptal sizi tam olduğunuz yerde bırakır.",
     "appExitFinalTitle": "Uygulama tamamen kapatılsın mı?",
-    "appExitFinalBody": "Çık düğmesine basmak siteyi kapatır; İptal sizi tam olduğunuz yerde bırakır.",
+    "appExitFinalBody": "Çık düğmesine basmak uygulamayı kapatır; İptal sizi tam olduğunuz yerde bırakır.",
     "appExitStep": "Adım {current} / {total}",
     "appExitDoneTitle": "Kapatma tamamlandı.",
     "appExitDoneBody": "Lütfen uygulamayı veya tarayıcıyı güvenli bir şekilde kapatın."

@@ -13,6 +13,7 @@ import {
 } from 'react';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
 import { ensurePlaybackAudioSession } from '@/lib/audio/audioSession';
+import { AUDIO_PREF_KEY, readAudioPrefMuted } from '@/lib/audio/audioPreference';
 import { APP_EXIT_EVENT } from '@/lib/exit/appExit';
 
 // useLayoutEffect warns during SSR; fall back to useEffect on the server.
@@ -48,26 +49,8 @@ const SpatialAudioContext = createContext<SpatialAudioContextValue | null>(null)
 // device (PC / mobile / tablet) and both channels (online / installed App).
 const BASE_MASTER_GAIN = attenuateMaster(0.4);
 
-/**
- * Persistent audio preference. Absent OR 'on' => sound is ON by default on
- * every device and every page load (home + each module). Only an explicit
- * user mute writes 'off', and that survives F5 / full reloads. This is the
- * fix for "sound silently OFF after refresh": `muted` no longer resets to a
- * hardcoded true on mount -- it is rehydrated from here.
- */
-const AUDIO_PREF_KEY = 'unitas_audio_pref';
-
 /** Ambient bed level (under BASE_MASTER_GAIN). Deliberately low -- a presence, not a soundtrack. */
 const AMBIENT_GAIN = 0.05;
-
-function readAudioPrefMuted(): boolean {
-  if (typeof window === 'undefined') return true; // SSR / first paint parity
-  try {
-    return window.localStorage.getItem(AUDIO_PREF_KEY) === 'off';
-  } catch {
-    return false; // storage blocked -> default ON
-  }
-}
 
 /**
  * Web Audio API spatial-cue provider. No binary audio assets are bundled --

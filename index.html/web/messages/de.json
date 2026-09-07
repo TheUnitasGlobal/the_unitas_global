@@ -1338,7 +1338,7 @@
     "appExitTitle": "Beenden?",
     "appExitBody": "Ein Klick auf Beenden führt zur letzten Bestätigung; Abbrechen lässt dich genau dort, wo du bist.",
     "appExitFinalTitle": "App vollständig schließen?",
-    "appExitFinalBody": "Ein Klick auf Beenden schließt die Seite; Abbrechen lässt dich genau dort, wo du bist.",
+    "appExitFinalBody": "Ein Klick auf Beenden schließt die App; Abbrechen lässt dich genau dort, wo du bist.",
     "appExitStep": "Schritt {current} von {total}",
     "appExitDoneTitle": "Beenden abgeschlossen.",
     "appExitDoneBody": "Bitte schließen Sie die App oder den Browser sicher."

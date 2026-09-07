@@ -17,6 +17,30 @@ body {
   overflow-x: hidden;
 }
 
+/* Global scrollbar visibility (owner instruction 2026-09-06, item 4): every
+   scroll surface on every page/channel -- the document itself, plus every
+   full-viewport overlay (AudioGate, ComingSoonCinema's ad/curtain stages,
+   Modal/DialogTower, PwaInstallHost) that scrolls via Tailwind's
+   `overflow-y-auto`/`overflow-y-scroll`/`overflow-auto` -- stays fully
+   scrollable by wheel/touch/keyboard while never showing a visible
+   scrollbar. `.nav-scroll` already had its own copy of this pair above;
+   this generalizes it site-wide instead of duplicating it per component. */
+html,
+body,
+.overflow-y-auto,
+.overflow-y-scroll,
+.overflow-auto {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge/IE */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.overflow-y-auto::-webkit-scrollbar,
+.overflow-y-scroll::-webkit-scrollbar,
+.overflow-auto::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/WebKit */
+}
+
 body {
   background-color: #030305;
   color: #e2e8f0;

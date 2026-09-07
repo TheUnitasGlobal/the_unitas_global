@@ -71,6 +71,20 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
               <feGaussianBlur stdDeviation="2.5" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
+            {/* High-luminance bolt-end dot glow (owner instruction 2026-09-06,
+                item 1): a stacked two-pass bloom -- a wide soft halo layered
+                under a tighter hot core -- so both end dots read as
+                dramatically brighter than the old single-pass sp-extremeGlow
+                they used to share, with identical intensity on both. */}
+            <filter id="sp-dotGlow" x="-300%" y="-300%" width="700%" height="700%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="6.5" result="halo" />
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2.8" result="core" />
+              <feMerge>
+                <feMergeNode in="halo" />
+                <feMergeNode in="core" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
           </>
         )}
         <radialGradient id="sp-triBg" cx="50%" cy="50%" r="50%">
@@ -179,21 +193,26 @@ export function MasterMarkLogo({ className, style, variant = 'hero' }: MasterMar
             strokeWidth={hero ? 2.8 : 3.4}
             filter={hero ? 'url(#sp-extremeGlow)' : undefined}
           />
+          {/* End dots: owner instruction 2026-09-06 (item 1) -- perfectly
+              matched luminance/flicker on both (a shared `sp-bolt-dot` class,
+              no phase offset between them, unlike the rod's sp-bolt/sp-bolt--b
+              pair above) and a stronger glow (`sp-dotGlow`) than either dot
+              carried before. */}
           <circle
-            className="sp-bolt"
+            className="sp-bolt-dot"
             cx="238"
             cy="162"
             r={hero ? 4 : 5}
             fill="#FF0055"
-            filter={hero ? 'url(#sp-extremeGlow)' : undefined}
+            filter={hero ? 'url(#sp-dotGlow)' : undefined}
           />
           <circle
-            className="sp-bolt sp-bolt--b"
+            className="sp-bolt-dot"
             cx="262"
             cy="198"
             r={hero ? 4 : 5}
             fill="#0055FF"
-            filter={hero ? 'url(#sp-extremeGlow)' : undefined}
+            filter={hero ? 'url(#sp-dotGlow)' : undefined}
           />
         </g>
 

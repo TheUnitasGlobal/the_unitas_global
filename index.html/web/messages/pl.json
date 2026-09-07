@@ -1338,7 +1338,7 @@
     "appExitTitle": "Wyjść?",
     "appExitBody": "Kliknięcie Wyjdź prowadzi do ostatniego potwierdzenia; Anuluj zostawia Cię dokładnie tam, gdzie jesteś.",
     "appExitFinalTitle": "Całkowicie zamknąć aplikację?",
-    "appExitFinalBody": "Kliknięcie Wyjdź zamknie stronę; Anuluj zostawia Cię dokładnie tam, gdzie jesteś.",
+    "appExitFinalBody": "Kliknięcie Wyjdź zamknie aplikację; Anuluj zostawia Cię dokładnie tam, gdzie jesteś.",
     "appExitStep": "Krok {current} z {total}",
     "appExitDoneTitle": "Zamykanie zakończone.",
     "appExitDoneBody": "Zamknij bezpiecznie aplikację lub przeglądarkę."

@@ -1338,7 +1338,7 @@
     "appExitTitle": "Keluar?",
     "appExitBody": "Mengklik Keluar membawa ke konfirmasi terakhir; Batal membiarkan Anda tetap di tempat.",
     "appExitFinalTitle": "Tutup aplikasi sepenuhnya?",
-    "appExitFinalBody": "Mengklik Keluar akan menutup situs; Batal membiarkan Anda tetap di tempat.",
+    "appExitFinalBody": "Mengklik Keluar akan menutup aplikasi; Batal membiarkan Anda tetap di tempat.",
     "appExitStep": "Langkah {current} dari {total}",
     "appExitDoneTitle": "Penutupan selesai.",
     "appExitDoneBody": "Silakan tutup aplikasi atau browser dengan aman."

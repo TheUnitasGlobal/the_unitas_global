@@ -1338,7 +1338,7 @@
     "appExitTitle": "Exit?",
     "appExitBody": "Clicking Exit moves to the final confirmation; Cancel keeps you exactly where you are.",
     "appExitFinalTitle": "Completely close the app?",
-    "appExitFinalBody": "Clicking Exit closes the site; Cancel keeps you exactly where you are.",
+    "appExitFinalBody": "Clicking Exit closes the app; Cancel keeps you exactly where you are.",
     "appExitStep": "Step {current} of {total}",
     "appExitDoneTitle": "Shutdown complete.",
     "appExitDoneBody": "Please close the app or browser safely."

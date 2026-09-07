@@ -1338,7 +1338,7 @@
     "appExitTitle": "Kas väljud?",
     "appExitBody": "Väljumisnupu vajutamine viib viimase kinnituseni; Tühista jätab su täpselt sinna, kus oled.",
     "appExitFinalTitle": "Kas sulgeda rakendus täielikult?",
-    "appExitFinalBody": "Väljumisnupu vajutamine sulgeb saidi; Tühista jätab su täpselt sinna, kus oled.",
+    "appExitFinalBody": "Väljumisnupu vajutamine sulgeb rakenduse; Tühista jätab su täpselt sinna, kus oled.",
     "appExitStep": "Samm {current} / {total}",
     "appExitDoneTitle": "Sulgemine on lõpule viidud.",
     "appExitDoneBody": "Palun sulgege rakendus või brauser turvaliselt."

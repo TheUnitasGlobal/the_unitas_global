@@ -1338,7 +1338,7 @@
     "appExitTitle": "Sair?",
     "appExitBody": "Ao clicar em Sair, avança para a confirmação final; Cancelar mantém-no exatamente onde está.",
     "appExitFinalTitle": "Fechar a app por completo?",
-    "appExitFinalBody": "Ao clicar em Sair, o site fecha; Cancelar mantém-no exatamente onde está.",
+    "appExitFinalBody": "Ao clicar em Sair, o aplicativo fecha; Cancelar mantém-no exatamente onde está.",
     "appExitStep": "Passo {current} de {total}",
     "appExitDoneTitle": "Encerramento concluído.",
     "appExitDoneBody": "Feche o aplicativo ou o navegador com segurança."

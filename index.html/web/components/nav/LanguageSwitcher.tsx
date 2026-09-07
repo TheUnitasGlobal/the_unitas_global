@@ -10,6 +10,7 @@ import { ModalPortal } from '@/components/ui/ModalPortal';
 import { LOCALE_NATIVE_NAME } from '@/components/i18n/GlobalLanguagePicker';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { isAppLocale, persistUserLocale } from '@/lib/countryLocale';
+import { persistLocalePreference } from '@/lib/i18n/localePreference';
 import { FlagIcon } from './FlagIcon';
 
 type Locale = (typeof routing.locales)[number];
@@ -76,9 +77,14 @@ export function LanguageSwitcher() {
 
   function selectLocale(nextLocale: string) {
     setOpen(false);
-    // Manual switch persists to the account immediately (owner instruction
-    // 2026-09-03) so it "wins" over the country-based auto-switch on every
-    // later login -- see components/i18n/LocaleAutoSwitch.tsx.
+    // Manual switch persists globally (owner instruction 2026-09-06, item 5)
+    // -- localStorage + cookie for every visitor, guest or signed in, so a
+    // return visit re-applies it without a manual reselect (see
+    // ComingSoonCinema's auto-localization effect). Signed-in visitors ALSO
+    // get it written to their account (owner instruction 2026-09-03) so it
+    // "wins" over the country-based auto-switch on every later login on any
+    // device -- see components/i18n/LocaleAutoSwitch.tsx.
+    persistLocalePreference(nextLocale);
     if (session && isAppLocale(nextLocale)) {
       persistUserLocale(session.user.id, nextLocale);
     }

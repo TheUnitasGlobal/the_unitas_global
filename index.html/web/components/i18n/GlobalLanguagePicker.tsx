@@ -5,6 +5,7 @@ import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { FlagIcon } from '@/components/nav/FlagIcon';
+import { LOCALE_PREF_COOKIE, persistLocalePreference } from '@/lib/i18n/localePreference';
 
 type Locale = (typeof routing.locales)[number];
 
@@ -35,7 +36,7 @@ export const LOCALE_NATIVE_NAME: Record<Locale, string> = {
 };
 
 /** Shared with <ComingSoonCinema/> so the manual pick isn't re-overridden by auto-detect. */
-export const LOCALE_PREF_KEY = 'unitas_locale_pref';
+export const LOCALE_PREF_KEY = LOCALE_PREF_COOKIE;
 
 interface Props {
   /** Visual treatment: `glass` = frosted pill (dark overlays), `bare` = nav-bar inline. */
@@ -86,11 +87,7 @@ export function GlobalLanguagePicker({
 
   function selectLocale(next: string) {
     setOpen(false);
-    try {
-      window.localStorage.setItem(LOCALE_PREF_KEY, next);
-    } catch {
-      /* storage blocked -- the route switch below still applies for this session */
-    }
+    persistLocalePreference(next);
     onSelect?.(next);
     if (next !== locale) router.replace(pathname, { locale: next });
   }

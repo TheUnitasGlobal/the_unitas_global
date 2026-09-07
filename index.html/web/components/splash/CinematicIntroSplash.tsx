@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type CSSProperties } from 'react';
 import { MasterMarkLogo } from '@/components/brand/MasterMarkLogo';
+import { armLogoEntryChime } from '@/lib/audio/logoEntryChime';
 import {
   CINEMA_PHASE_STORAGE_KEY,
   SPLASH_ACTIVE_STORAGE_KEY,
@@ -68,10 +69,13 @@ function setSplashActiveFlag(active: boolean): void {
  * root layout (app/layout.tsx), outside the `[locale]` segment, so a locale
  * auto-switch during the first seconds can't remount and restart it.
  *
- * NO AUDIO (item 1): the synthesized "UNITAS" chant and the crystal-echo
- * impact of rounds 10-13 are deleted -- this layer creates no AudioContext,
- * installs no unlock listeners and plays nothing. The crystal "impact" below
- * survives only as a visual (ring burst + bloom).
+ * NO VOICE/AMBIENT SCORE (item 1): the synthesized "UNITAS" chant and the
+ * crystal-echo impact of rounds 10-13 stay deleted. The crystal "impact"
+ * below survives only as a visual (ring burst + bloom). Owner instruction
+ * 2026-09-06 (item 2) reintroduced exactly one sound: a short two-note entry
+ * chime (lib/audio/logoEntryChime.ts), self-contained and hardened to fire
+ * on every omni-channel surface (PC online/App, mobile online/App) -- see
+ * `armLogoEntryChime()` in the effect below.
  *
  * Visual beats (lib/splash/splashTimeline.ts owns the exact cues):
  *   0.0s  v2 master mark swings in from -100deg on a 3D perspective stage,
@@ -145,6 +149,10 @@ export function CinematicIntroSplash() {
     // "The logo page is showing" -- an F5 from here replays it.
     setSplashActiveFlag(true);
 
+    // Arm the entry chime for this run of the logo page -- fires immediately
+    // where the engine allows it, otherwise on the visitor's first gesture.
+    const disarmChime = armLogoEntryChime();
+
     const done = window.setTimeout(() => {
       // The logo page is over -- a later refresh follows the curtain phase.
       setSplashActiveFlag(false);
@@ -153,6 +161,7 @@ export function CinematicIntroSplash() {
 
     return () => {
       window.clearTimeout(done);
+      disarmChime();
     };
   }, [active, run]);
 
@@ -180,13 +189,16 @@ export function CinematicIntroSplash() {
       <div className="sp-bg" />
       <div className="sp-grain" />
       <div className="sp-bloom" />
-      <div className="sp-flash" />
 
       <div className="sp-stage">
         <div className="sp-mark-3d">
           <div className="sp-mark">
             <MasterMarkLogo variant="hero" />
           </div>
+          {/* Nested inside the mark's own box (not positioned against the
+              viewport) so the burst locks onto the logo image's exact center
+              on every layout -- owner instruction 2026-09-06, item 6. */}
+          <div className="sp-flash" />
         </div>
 
         <svg className="sp-title" viewBox="0 0 720 150" aria-hidden="true">

@@ -1338,7 +1338,7 @@
     "appExitTitle": "要退出吗？",
     "appExitBody": "点击退出将进入最终确认；取消则停留在原处。",
     "appExitFinalTitle": "要完全关闭应用吗？",
-    "appExitFinalBody": "点击退出将关闭网站；取消则停留在原处。",
+    "appExitFinalBody": "点击退出将关闭应用；取消则停留在原处。",
     "appExitStep": "第 {current} / {total} 步",
     "appExitDoneTitle": "已完成退出。",
     "appExitDoneBody": "请安全地关闭应用或浏览器。"

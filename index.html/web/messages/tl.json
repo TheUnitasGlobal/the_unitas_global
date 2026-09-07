@@ -1338,7 +1338,7 @@
     "appExitTitle": "Lalabas?",
     "appExitBody": "Kapag pinindot ang Lumabas, magpapatuloy sa huling kumpirmasyon; ang Kanselahin ay mananatili ka kung nasaan ka.",
     "appExitFinalTitle": "Ganap bang isasara ang app?",
-    "appExitFinalBody": "Kapag pinindot ang Lumabas, magsasara ang site; ang Kanselahin ay mananatili ka kung nasaan ka.",
+    "appExitFinalBody": "Kapag pinindot ang Lumabas, magsasara ang app; ang Kanselahin ay mananatili ka kung nasaan ka.",
     "appExitStep": "Hakbang {current} ng {total}",
     "appExitDoneTitle": "Kumpleto na ang pagsasara.",
     "appExitDoneBody": "Mangyaring isara nang ligtas ang app o browser."

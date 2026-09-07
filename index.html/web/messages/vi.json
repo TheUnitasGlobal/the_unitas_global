@@ -1338,7 +1338,7 @@
     "appExitTitle": "Thoát?",
     "appExitBody": "Nhấn Thoát sẽ chuyển sang xác nhận cuối cùng; Hủy giữ bạn đúng ở nơi đang xem.",
     "appExitFinalTitle": "Đóng hoàn toàn ứng dụng?",
-    "appExitFinalBody": "Nhấn Thoát sẽ đóng trang; Hủy giữ bạn đúng ở nơi đang xem.",
+    "appExitFinalBody": "Nhấn Thoát sẽ đóng ứng dụng; Hủy giữ bạn đúng ở nơi đang xem.",
     "appExitStep": "Bước {current} / {total}",
     "appExitDoneTitle": "Đã hoàn tất thoát.",
     "appExitDoneBody": "Vui lòng đóng ứng dụng hoặc trình duyệt một cách an toàn."

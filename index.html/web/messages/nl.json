@@ -1338,7 +1338,7 @@
     "appExitTitle": "Afsluiten?",
     "appExitBody": "Klik je op Afsluiten, dan ga je naar de laatste bevestiging; Annuleren houdt je precies waar je bent.",
     "appExitFinalTitle": "De app volledig sluiten?",
-    "appExitFinalBody": "Klik je op Afsluiten, dan sluit de site; Annuleren houdt je precies waar je bent.",
+    "appExitFinalBody": "Klik je op Afsluiten, dan sluit de app; Annuleren houdt je precies waar je bent.",
     "appExitStep": "Stap {current} van {total}",
     "appExitDoneTitle": "Afsluiten voltooid.",
     "appExitDoneBody": "Sluit de app of browser veilig af."

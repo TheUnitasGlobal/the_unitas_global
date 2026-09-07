@@ -14,6 +14,8 @@ import { requestAppExit } from '@/lib/exit/exitConfirmFlow';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
 import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '@/lib/audio/audioSession';
 import { attachActivationUnlock } from '@/lib/audio/activationUnlock';
+import { isAppLocale } from '@/lib/countryLocale';
+import { readLocalePreference } from '@/lib/i18n/localePreference';
 import { CINEMA_PHASE_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
 import {
   CINEMA_PHASE_EVENT,
@@ -49,7 +51,6 @@ const PHASE_KEY = CINEMA_PHASE_STORAGE_KEY;
 // refresh (F5) during the ad resumes at THAT stage instead of rewinding to
 // stage 1 (owner instruction 2026-09-05, 7-point hardening, item 6).
 const SEGMENT_KEY = 'unitas_cinema_segment';
-const LOCALE_PREF_KEY = 'unitas_locale_pref';
 const LOCALE_AUTO_KEY = 'unitas_locale_autodetected';
 // components/audio/AudioGate.tsx STORAGE_KEY -- once the founder has crossed
 // THIS gate + sat through the cinema, don't make them clear a second entry
@@ -330,17 +331,29 @@ export function ComingSoonCinema() {
     }
   }, [phase, segId]);
 
-  // --- auto-localization to navigator.language -----------------------------
+  // --- global locale restore + auto-localization to navigator.language ----
+  // Owner instruction 2026-09-06 (item 5): a previously chosen language must
+  // win on every fresh visit -- re-APPLY it, not just skip auto-detect (the
+  // bug this used to have: `manual` blocked the navigator.language guess
+  // below but was never itself redirected to, so a guest's manual pick never
+  // survived a real return visit to the canonical "/" root).
   useEffect(() => {
     let manual: string | null = null;
     let already: string | null = null;
     try {
-      manual = localStorage.getItem(LOCALE_PREF_KEY);
+      manual = readLocalePreference();
       already = localStorage.getItem(LOCALE_AUTO_KEY);
     } catch {
       /* no-op */
     }
-    if (manual || already) return;
+    if (manual) {
+      if (isAppLocale(manual) && manual !== locale) {
+        setAutoLocalized(true);
+        router.replace(pathname, { locale: manual });
+      }
+      return;
+    }
+    if (already) return;
 
     const detected = (navigator.languages ?? [navigator.language])
       .map((tag) => tag?.split('-')[0]?.toLowerCase())

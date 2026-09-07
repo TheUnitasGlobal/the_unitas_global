@@ -1338,7 +1338,7 @@
     "appExitTitle": "Uscire?",
     "appExitBody": "Toccando Esci passi alla conferma finale; Annulla ti lascia esattamente dove sei.",
     "appExitFinalTitle": "Chiudere completamente l’app?",
-    "appExitFinalBody": "Toccando Esci il sito si chiude; Annulla ti lascia esattamente dove sei.",
+    "appExitFinalBody": "Toccando Esci l'app si chiude; Annulla ti lascia esattamente dove sei.",
     "appExitStep": "Passo {current} di {total}",
     "appExitDoneTitle": "Chiusura completata.",
     "appExitDoneBody": "Chiudi l'app o il browser in modo sicuro."

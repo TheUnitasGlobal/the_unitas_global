@@ -1338,7 +1338,7 @@
     "appExitTitle": "종료하시겠습니까?",
     "appExitBody": "종료 버튼을 클릭 시 마지막 확인 단계로 넘어가고, 취소하면 그대로 유지됩니다.",
     "appExitFinalTitle": "앱을 완전히 종료하시겠습니까?",
-    "appExitFinalBody": "종료 버튼 클릭 시 사이트가 닫히며, 취소하면 그대로 유지됩니다.",
+    "appExitFinalBody": "종료 버튼 클릭 시 앱이 닫히며, 취소하면 그대로 유지됩니다.",
     "appExitStep": "{current} / {total} 단계",
     "appExitDoneTitle": "종료가 완료되었습니다.",
     "appExitDoneBody": "안전하게 앱 또는 브라우저를 닫아주시기 바랍니다."

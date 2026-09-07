@@ -71,31 +71,38 @@ html[data-splash='off'] .sp-root {
   background-image: repeating-linear-gradient(0deg, #fff 0, #fff 1px, transparent 1px, transparent 3px);
   pointer-events: none;
 }
-/* visual crystal impact (1.7s, silent) -- ring burst + brief screen bloom */
+/* visual crystal impact (1.7s, silent) -- ring burst + brief screen bloom.
+   Owner instruction 2026-09-06 (item 6): nested inside .sp-mark-3d (see the
+   TSX) instead of positioned against the viewport, so `left/top: 50%` locks
+   onto the logo mark's OWN center -- exact on every layout, no magic-number
+   percentage guess. Sized in `vmax` (the LARGER viewport dimension) rather
+   than the old `vmin`, and scaled further out, so the ring clears every
+   screen edge -- portrait phone or ultra-wide desktop alike -- well before
+   it fully fades, instead of visibly stopping short/clipping on some ratios. */
 .sp-flash {
   position: absolute;
   left: 50%;
-  top: 44%;
-  width: 42vmin;
-  height: 42vmin;
+  top: 50%;
+  width: 60vmax;
+  height: 60vmax;
   border-radius: 9999px;
   border: 2px solid rgba(255, 255, 255, 0.92);
   box-shadow:
     0 0 44px rgba(0, 243, 255, 0.65),
     inset 0 0 44px rgba(212, 175, 55, 0.5);
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.15);
+  transform: translate(-50%, -50%) scale(0.12);
   animation: sp-flash 1s cubic-bezier(0.1, 0.8, 0.3, 1) var(--sp-impact, 1.7s) forwards;
   pointer-events: none;
 }
 @keyframes sp-flash {
   0% {
     opacity: 0.95;
-    transform: translate(-50%, -50%) scale(0.15);
+    transform: translate(-50%, -50%) scale(0.12);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(2.7);
+    transform: translate(-50%, -50%) scale(3.2);
   }
 }
 .sp-bloom {
@@ -132,6 +139,7 @@ html[data-splash='off'] .sp-root {
 
 /* --- 3D master mark ---------------------------------------------------- */
 .sp-mark-3d {
+  position: relative;
   perspective: 900px;
   width: clamp(150px, 34vmin, 260px);
   aspect-ratio: 1 / 1;
@@ -224,6 +232,25 @@ html[data-splash='off'] .sp-root {
 }
 .sp-bolt--b {
   animation-delay: 0.18s;
+}
+/* Bolt-end dots (owner instruction 2026-09-06, item 1): a shared, unoffset
+   flicker so both dots stay perfectly identical instant-to-instant (the rod's
+   sp-bolt/sp-bolt--b pair above stays phase-offset on purpose, for the rod
+   itself), with a higher opacity floor than sp-flicker so neither dot ever
+   dims as much as the old red one did. */
+.sp-bolt-dot {
+  animation: sp-flicker-dot 0.36s steps(2, end) infinite;
+}
+@keyframes sp-flicker-dot {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 /* center bar: spins as one rigid rod, independent of the triangle/hexagon/
    globe (owner instruction 2026-09-05, item 1) -- the flicker above stays on
