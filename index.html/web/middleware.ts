@@ -1,4 +1,6 @@
+import createIntlMiddleware from 'next-intl/middleware';
 import { NextResponse, type NextRequest } from 'next/server';
+import { routing } from '@/i18n/routing';
 import { updateSession } from '@/lib/supabase/middlewareClient';
 import {
   SOVEREIGN_AUTH_PARAM,
@@ -15,13 +17,17 @@ import {
   verifySovereignSession,
 } from '@/lib/sovereignAuth';
 
-// Locale resolution deliberately does NOT run next-intl/middleware. It
-// happens entirely at the page/layout level instead:
-//   - app/page.tsx handles the bare "/" -> "/{locale}" redirect
-//   - app/[locale]/layout.tsx validates the locale segment (hasLocale + notFound)
-//   - i18n/request.ts resolves the request locale for Server Components
+// Root single-URL English-first architecture (owner instruction 2026-09-06):
+// `i18n/routing.ts` sets `localePrefix: 'as-needed'` + `localeDetection:
+// false`, so next-intl's own middleware is now load-bearing -- it is the
+// thing that internally rewrites a bare "/" (or "/about") request to
+// "/en" (or "/en/about") for Next's router while leaving the address bar
+// alone, and it 308-redirects a superfluous "/en" to "/" for canonical
+// consolidation. There is deliberately no app/page.tsx any more; the
+// rewrite below is what makes "/" resolve to app/[locale]/page.tsx at all.
 //
-// This middleware does four things, all fail-safe:
+// This still has to compose with the three other things this middleware
+// does, all fail-safe:
 //   1. Sovereign founder auth (owner instruction 2026-09-04, item 4): a
 //      `?sovereign_auth=<token>` visit is verified in constant time against
 //      SOVEREIGN_AUTH_TOKEN; a match mints the HMAC-signed HttpOnly session
@@ -36,10 +42,25 @@ import {
 //   4. Forwards `x-unitas-pathname` onto the downstream request so that gate
 //      layout (which, being a route-group layout, does not otherwise receive
 //      the module route segment) can tell which module is being requested.
+//      `moduleForPathname` already tolerates a pathname with or without a
+//      locale prefix, so the ORIGINAL (pre-rewrite) pathname is forwarded
+//      unchanged here.
+//
+// Composition order: sovereign token hand-off and 404 fencing run first
+// (locale-independent, early-return). Then next-intl's middleware resolves
+// the locale rewrite/redirect. A redirect (superfluous "/en", or a locale
+// literally not in `routing.locales`) is returned as-is. Otherwise its
+// rewrite target (if any) is preserved while rebuilding the response so the
+// Supabase cookie refresh and the `x-unitas-pathname` request header can
+// both still be attached to the SAME response next-intl produced -- per
+// next-intl's documented middleware-composition pattern, only altering its
+// response rather than discarding it.
 //
 // Ownership/fingerprint headers: a lightweight, non-visual complement to
 // scripts/ownership-fingerprint.mjs's public/ manifest -- the manifest covers
 // static assets under public/, this covers page navigations.
+const handleI18nRouting = createIntlMiddleware(routing);
+
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl;
   const secure = url.protocol === 'https:';
@@ -88,11 +109,57 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // --- 3 + 4. session refresh + pathname forwarding -----------------------
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-unitas-pathname', url.pathname);
 
-  const { response } = await updateSession(request, requestHeaders);
+  // API routes (only /api/sovereign/verify can reach this point -- every
+  // other /api/* path is outside this middleware's matcher entirely) never
+  // go through locale rewriting.
+  if (url.pathname.startsWith('/api/')) {
+    const response = NextResponse.next({ request: { headers: requestHeaders } });
+    await updateSession(request, response);
+    response.headers.set('X-Unitas-Owner', 'THE UNITAS GLOBAL OU');
+    response.headers.set(
+      'X-Unitas-License',
+      'Proprietary -- All Rights Reserved. See /legal#license.',
+    );
+    return response;
+  }
+
+  // --- 3. locale resolution (next-intl) ------------------------------------
+  // `intlResponse` is one of: a redirect (superfluous "/en" -> "/"), or a 200
+  // that's either a pass-through (already-correct URL) or carries an
+  // `x-middleware-rewrite` target (bare "/" internally resolved to "/en").
+  const intlResponse = handleI18nRouting(request);
+  if (!intlResponse.ok) {
+    // Redirect: nothing downstream renders, so there's no Server Component
+    // waiting on x-unitas-pathname and no session to usefully refresh here --
+    // the browser's follow-up request re-enters this middleware and does both.
+    intlResponse.headers.set('X-Unitas-Owner', 'THE UNITAS GLOBAL OU');
+    intlResponse.headers.set(
+      'X-Unitas-License',
+      'Proprietary -- All Rights Reserved. See /legal#license.',
+    );
+    return intlResponse;
+  }
+
+  // --- 4. rebuild the response to carry BOTH next-intl's rewrite target AND
+  // the forwarded x-unitas-pathname request header, then layer the Supabase
+  // session-refresh cookies on top. NextResponse.next()/.rewrite() only
+  // accept a `request.headers` override at construction time, so a fresh
+  // response has to be built from whichever target next-intl chose -- its
+  // own headers/cookies (locale-preference cookie, hreflang `Link` header)
+  // are copied across rather than lost.
+  const rewriteTarget = intlResponse.headers.get('x-middleware-rewrite');
+  const response = rewriteTarget
+    ? NextResponse.rewrite(new URL(rewriteTarget), { request: { headers: requestHeaders } })
+    : NextResponse.next({ request: { headers: requestHeaders } });
+
+  intlResponse.cookies.getAll().forEach((cookie) => response.cookies.set(cookie));
+  const alternateLinks = intlResponse.headers.get('link');
+  if (alternateLinks) response.headers.set('link', alternateLinks);
+
+  await updateSession(request, response);
 
   response.headers.set('X-Unitas-Owner', 'THE UNITAS GLOBAL OU');
   response.headers.set(

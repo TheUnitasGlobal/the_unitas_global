@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { cookies, headers } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/i18n/navigation';
 import {
   SOVEREIGN_SESSION_COOKIE,
   resolveSovereignSigningSecret,
@@ -61,9 +61,12 @@ export default async function GatedModuleLayout({
     : ('locked' as const);
 
   if (outcome !== 'ok') {
-    const query = new URLSearchParams({ reason: outcome });
-    if (entry) query.set('m', entry.route);
-    redirect(`/${locale}/locked?${query.toString()}`);
+    const query: Record<string, string> = { reason: outcome };
+    if (entry) query.m = entry.route;
+    // next-intl's own redirect() (not next/navigation's) so the target
+    // respects `localePrefix: 'as-needed'` -- an English visitor lands on
+    // the unprefixed `/locked`, not a redundant `/en/locked`.
+    redirect({ href: { pathname: '/locked', query }, locale });
   }
 
   return <>{children}</>;

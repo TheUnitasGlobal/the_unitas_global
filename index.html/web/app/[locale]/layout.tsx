@@ -29,15 +29,21 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: 'LocaleLayout' });
   const title = t('title');
   const description = `${t('description')} · THE UNITAS GLOBAL OÜ`;
-  const url = `${SITE_URL}/${locale}`;
+  // Root single-URL SEO architecture (owner instruction 2026-09-06):
+  // localePrefix is 'as-needed', so the default locale (English) lives at
+  // the bare root, not `/en` -- canonical/hreflang must point there too, or
+  // Google indexes a phantom `/en` alongside the real, unprefixed page.
+  const localizedUrl = (loc: string) =>
+    loc === routing.defaultLocale ? SITE_URL : `${SITE_URL}/${loc}`;
+  const url = localizedUrl(locale);
 
   return {
     description,
     alternates: {
       canonical: url,
       languages: {
-        ...Object.fromEntries(routing.locales.map((loc) => [loc, `${SITE_URL}/${loc}`])),
-        'x-default': `${SITE_URL}/${routing.defaultLocale}`,
+        ...Object.fromEntries(routing.locales.map((loc) => [loc, localizedUrl(loc)])),
+        'x-default': SITE_URL,
       },
     },
     openGraph: {

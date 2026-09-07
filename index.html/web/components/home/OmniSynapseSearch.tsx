@@ -11,6 +11,7 @@ import {
   type FormEvent,
 } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import { getPathname } from '@/i18n/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search,
@@ -525,7 +526,10 @@ export function OmniSynapseSearch({
   // -- shows the 16-axis Governance shortcut marquee instead, and tells
   // HomeContent to sink Sections 1-3 behind it (Focus Isolation).
   const ouroboros = focused && query.length === 0 && uai.phase === 'idle';
-  const fullReportHref = `/${locale}/u-ai${value.trim() ? `?q=${encodeURIComponent(value.trim())}` : ''}`;
+  const fullReportHref = getPathname({
+    locale,
+    href: value.trim() ? { pathname: '/u-ai', query: { q: value.trim() } } : '/u-ai',
+  });
 
   useEffect(() => {
     onOuroborosChange?.(ouroboros);
