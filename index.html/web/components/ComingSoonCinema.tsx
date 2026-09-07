@@ -9,15 +9,7 @@ import { routing } from '@/i18n/routing';
 import { GlobalLanguagePicker } from '@/components/i18n/GlobalLanguagePicker';
 import { CinemaAppDownload } from '@/components/pwa/CinemaAppDownload';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
-import {
-  APP_EXIT_EVENT,
-  EXIT_GUARD_DEPTH_KEY,
-  EXIT_GUARD_MARKER,
-  EXIT_GUARD_SENTINEL_DEPTH,
-  executeAppExit,
-  isExitInProgress,
-  isStandaloneApp,
-} from '@/lib/exit/appExit';
+import { APP_EXIT_EVENT, isExitInProgress } from '@/lib/exit/appExit';
 import { requestAppExit } from '@/lib/exit/exitConfirmFlow';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
 import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '@/lib/audio/audioSession';
@@ -934,34 +926,25 @@ export function ComingSoonCinema() {
   /**
    * The sealed screen's "[X] 종료" (bottom-right, next to 다시 재생).
    *
-   * ROUND 17 (owner instruction 2026-09-06, "2단계 더블 컨펌 안심 종료"): on
-   * the APP channel the tap no longer drops the visitor onto the black
-   * terminal shroud in one step -- it opens ExitGuard's two-step confirm
-   * ("종료하시겠습니까?" -> "종료 버튼을 한 번 더 누르면 앱이 완전히
-   * 종료됩니다"), and only the second explicit 종료 there runs the exit
-   * engine (lib/exit/exitConfirmFlow.ts). ExitGuard mounts right after this
-   * curtain in app/[locale]/layout.tsx and its modal renders on the top
-   * layer (z-680), above the curtain.
-   *
-   * ONLINE (a browser tab) keeps round 10's "극단적 터널링" (item 6): the tap
-   * calls the shared exit engine directly, synchronously inside the gesture
-   * (window.close and history traversal are activation-gated) -- back to the
-   * page the visitor came from, or the fresh tab closes. Round 13: absolute
-   * termination on refusal, never a restart on the logo splash. Round 16: a
-   * certain refusal is decided on the tap and the sentinel buffer collapses
-   * at once.
+   * ROUND 23 (owner instruction 2026-09-06, exit UX hardening items 2 + 4):
+   * EVERY channel now opens ExitGuard's confirm dialog first -- the tap no
+   * longer tunnels straight into the exit engine on the ONLINE channel. Round
+   * 10's "극단적 터널링" (item 6) is superseded: a visitor exiting from the
+   * sealed Coming-Soon screen on a PC or mobile BROWSER TAB used to leave
+   * with zero confirmation, while the same tap on the MAIN HOME (back
+   * gesture / Escape) already showed "종료하시겠습니까?" -- an inconsistency
+   * the owner named directly ("커밍순 페이지: 기존에 즉시 종료되던 방식을
+   * 개편하여 메인과 동일하게... 팝업창이... 정상 작동"). `requestAppExit()`
+   * opens the same dialog ExitGuard renders everywhere else; only an explicit
+   * 종료 there runs the shared exit engine (lib/exit/exitConfirmFlow.ts),
+   * which still decides the ONLINE/APP branch (back to the referring page vs.
+   * terminate) exactly as before. ExitGuard mounts right after this curtain
+   * in app/[locale]/layout.tsx and its modal renders on the top layer (z-680,
+   * above the curtain).
    */
   const exitFromSealed = () => {
     if (isExitInProgress()) return;
-    if (isStandaloneApp()) {
-      requestAppExit();
-      return;
-    }
-    executeAppExit({
-      sentinelMarker: EXIT_GUARD_MARKER,
-      sentinelDepthKey: EXIT_GUARD_DEPTH_KEY,
-      sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
-    });
+    requestAppExit();
   };
 
   // FOUNDER-ONLY: leave the curtain for the real homepage. Guarded by

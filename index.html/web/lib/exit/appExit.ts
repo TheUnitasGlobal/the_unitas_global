@@ -673,16 +673,26 @@ function buildShroudFrame(): HTMLElement {
 
 /**
  * Round 21: the PHONE / TABLET terminal frame -- the app's own void with a
- * floating glassmorphism guide card centred on it: the master mark, the
- * completion title, the "close the app or browser safely" line and a hairline
- * UNITAS wordmark. Built with the site's own tokens (void #030305 / quantum
- * #0f1016 / gold #d4af37 / neon #00f3ff, JetBrains Mono + Cinzel through the
- * font variables next/font leaves on <html>) so it reads as the same design
- * system as the confirm dialog it follows. Plain DOM on purpose: it must
- * outlive the React tree that `announceTerminate()` unmounts a beat later.
- * Not interactive -- there is nothing left to do in a finished app; the
- * device's own navigation (home gesture, Recents swipe, hardware back on the
- * collapsed single entry) is how the visitor leaves.
+ * floating glassmorphism guide card centred on it. Built with the site's own
+ * tokens (void #030305 / quantum #0f1016 / gold #d4af37 / neon #00f3ff,
+ * JetBrains Mono + Cinzel through the font variables next/font leaves on
+ * <html>) so it reads as the same design system as the confirm dialog it
+ * follows. Plain DOM on purpose: it must outlive the React tree that
+ * `announceTerminate()` unmounts a beat later. Not interactive -- there is
+ * nothing left to do in a finished app; the device's own navigation (home
+ * gesture, Recents swipe, hardware back on the collapsed single entry) is how
+ * the visitor leaves.
+ *
+ * ROUND 23 layout (owner instruction 2026-09-06, exit UX hardening item 5):
+ * the master mark,
+ * then the "UNITAS" wordmark directly beneath it, then one long expanded
+ * rule, then the completion title + body -- in that reading order. The prior
+ * layout floated a thin animated line ACROSS THE TOP of the card (a "halo")
+ * before the mark; the owner flagged it as reading like a tappable control
+ * ("상단 버튼 오인 소지 유발 효과선") on a frame that has nothing to tap. It
+ * is removed outright, not just relocated -- the rule below is a static
+ * (non-animated) divider between the brand block and the message, not a
+ * repositioned halo.
  */
 function buildGuideFrame(copy: TerminalGuideCopy): HTMLElement {
   const frame = document.createElement('div');
@@ -697,10 +707,8 @@ function buildGuideFrame(copy: TerminalGuideCopy): HTMLElement {
   const style = document.createElement('style');
   style.textContent =
     '@keyframes unitas-exit-guide-in{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}' +
-    '@keyframes unitas-exit-guide-halo{0%,100%{opacity:.55}50%{opacity:1}}' +
     `[${TERMINAL_GUIDE_ATTR}]{animation:unitas-exit-guide-in .55s cubic-bezier(.22,1,.36,1) both}` +
-    `[${TERMINAL_GUIDE_ATTR}] .unitas-exit-guide-halo{animation:unitas-exit-guide-halo 3.2s ease-in-out infinite}` +
-    `@media (prefers-reduced-motion:reduce){[${TERMINAL_GUIDE_ATTR}],[${TERMINAL_GUIDE_ATTR}] .unitas-exit-guide-halo{animation:none}}`;
+    `@media (prefers-reduced-motion:reduce){[${TERMINAL_GUIDE_ATTR}]{animation:none}}`;
   frame.appendChild(style);
 
   const card = document.createElement('section');
@@ -709,21 +717,14 @@ function buildGuideFrame(copy: TerminalGuideCopy): HTMLElement {
   card.setAttribute('aria-live', 'polite');
   card.setAttribute('aria-labelledby', TERMINAL_GUIDE_TITLE_ID);
   card.style.cssText =
-    'position:relative;box-sizing:border-box;width:100%;max-width:400px;padding:34px 28px 28px;text-align:center;' +
+    'position:relative;box-sizing:border-box;width:100%;max-width:400px;padding:32px 28px 30px;text-align:center;' +
     'color:#e5e7eb;font-family:var(--font-jetbrains-mono),ui-monospace,SFMono-Regular,Menlo,monospace;' +
     'background:linear-gradient(160deg,rgba(255,255,255,.085),rgba(255,255,255,.028) 55%,rgba(15,16,22,.55));' +
     'border:1px solid rgba(212,175,55,.32);' +
     'box-shadow:0 0 0 1px rgba(255,255,255,.03) inset,0 1px 0 rgba(255,255,255,.14) inset,0 0 48px rgba(0,243,255,.07),0 28px 90px rgba(0,0,0,.72);' +
     '-webkit-backdrop-filter:blur(26px) saturate(1.35);backdrop-filter:blur(26px) saturate(1.35);';
 
-  const halo = document.createElement('div');
-  halo.className = 'unitas-exit-guide-halo';
-  halo.setAttribute('aria-hidden', 'true');
-  halo.style.cssText =
-    'position:absolute;left:50%;top:0;width:72%;height:1px;transform:translateX(-50%);pointer-events:none;' +
-    'background:linear-gradient(90deg,rgba(212,175,55,0),rgba(241,211,106,.95),rgba(212,175,55,0));';
-  card.appendChild(halo);
-
+  // 1. Master mark.
   const mark = document.createElement('img');
   mark.setAttribute('src', TERMINAL_MARK_HREF);
   mark.setAttribute('alt', '');
@@ -731,9 +732,25 @@ function buildGuideFrame(copy: TerminalGuideCopy): HTMLElement {
   mark.setAttribute('decoding', 'async');
   mark.setAttribute('draggable', 'false');
   mark.style.cssText =
-    'display:block;width:56px;height:56px;margin:0 auto 18px;opacity:.92;filter:drop-shadow(0 0 14px rgba(212,175,55,.35));pointer-events:none;';
+    'display:block;width:52px;height:52px;margin:0 auto 12px;opacity:.92;filter:drop-shadow(0 0 14px rgba(212,175,55,.35));pointer-events:none;';
   card.appendChild(mark);
 
+  // 2. "UNITAS" wordmark, directly beneath the mark.
+  const wordmark = document.createElement('div');
+  wordmark.setAttribute('aria-hidden', 'true');
+  wordmark.textContent = 'UNITAS';
+  wordmark.style.cssText =
+    'margin:0 0 18px;font-family:var(--font-cinzel),Georgia,serif;font-size:12px;letter-spacing:.42em;text-indent:.42em;color:rgba(212,175,55,.85);';
+  card.appendChild(wordmark);
+
+  // 3. One long expanded rule, separating the brand block from the message.
+  const rule = document.createElement('div');
+  rule.setAttribute('aria-hidden', 'true');
+  rule.style.cssText =
+    'height:1px;margin:0 auto 22px;width:82%;background:linear-gradient(90deg,rgba(212,175,55,0),rgba(212,175,55,.65),rgba(212,175,55,0));';
+  card.appendChild(rule);
+
+  // 4. Completion title + body.
   const title = document.createElement('h2');
   title.id = TERMINAL_GUIDE_TITLE_ID;
   title.textContent = copy.title;
@@ -747,19 +764,6 @@ function buildGuideFrame(copy: TerminalGuideCopy): HTMLElement {
   body.style.cssText =
     'margin:0;font-size:13px;line-height:1.75;color:rgba(229,231,235,.82);word-break:keep-all;overflow-wrap:break-word;';
   card.appendChild(body);
-
-  const rule = document.createElement('div');
-  rule.setAttribute('aria-hidden', 'true');
-  rule.style.cssText =
-    'height:1px;margin:24px auto 14px;width:44%;background:linear-gradient(90deg,rgba(212,175,55,0),rgba(212,175,55,.6),rgba(212,175,55,0));';
-  card.appendChild(rule);
-
-  const wordmark = document.createElement('div');
-  wordmark.setAttribute('aria-hidden', 'true');
-  wordmark.textContent = 'UNITAS';
-  wordmark.style.cssText =
-    'font-family:var(--font-cinzel),Georgia,serif;font-size:11px;letter-spacing:.42em;text-indent:.42em;color:rgba(212,175,55,.85);';
-  card.appendChild(wordmark);
 
   frame.appendChild(card);
   return frame;
