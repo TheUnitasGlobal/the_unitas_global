@@ -690,8 +690,8 @@ export function ExitGuard() {
                 locale === 'ko' && !isFinal
                   ? 'whitespace-nowrap text-[14px] font-bold tracking-tight text-white sm:text-xl sm:tracking-normal'
                   : isFinal
-                    ? 'text-[15px] font-bold leading-snug text-white sm:text-lg'
-                    : 'text-base font-bold leading-snug text-white sm:text-xl'
+                    ? 'break-keep text-[15px] font-bold leading-snug text-white sm:text-lg'
+                    : 'break-keep text-base font-bold leading-snug text-white sm:text-xl'
               }
             >
               {title}
@@ -699,7 +699,13 @@ export function ExitGuard() {
           </div>
         </div>
 
-        <p className="text-xs leading-relaxed text-gray-300">{body}</p>
+        {/* `break-keep` (word-break: keep-all) stops CJK locales (ko/ja/zh)
+            from splitting mid-syllable-block at the panel edge -- without it
+            a line could wrap between a word's own characters (e.g. Korean
+            "유지됩니다" breaking into "유지됩니" / "다."), which the default
+            `word-break: normal` permits for CJK text. Latin scripts are
+            unaffected: keep-all only changes CJK/Thai/Lao breaking rules. */}
+        <p className="break-keep text-xs leading-relaxed text-gray-300">{body}</p>
 
         <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           <button
