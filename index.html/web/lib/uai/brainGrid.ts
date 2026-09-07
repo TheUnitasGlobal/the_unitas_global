@@ -62,6 +62,7 @@ export function recordBrainGrid(entry: BrainGridEntry, session: Session | null):
 }
 
 export function clearBrainGrid(): BrainGridEntry[] {
+  if (typeof window === 'undefined') return [];
   try {
     window.localStorage.removeItem(STORAGE_KEY);
   } catch {

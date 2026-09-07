@@ -32,6 +32,7 @@ const ABORT_MS = 3000;
 type CacheShape = Record<string, { data: WebSynthesis; ts: number }>;
 
 function readCache(): CacheShape {
+  if (typeof window === 'undefined') return {};
   try {
     const raw = window.localStorage.getItem(CACHE_KEY);
     if (!raw) return {};
@@ -43,6 +44,7 @@ function readCache(): CacheShape {
 }
 
 function writeCache(next: CacheShape): void {
+  if (typeof window === 'undefined') return;
   try {
     const entries = Object.entries(next).sort((a, b) => b[1].ts - a[1].ts).slice(0, CACHE_MAX);
     window.localStorage.setItem(CACHE_KEY, JSON.stringify(Object.fromEntries(entries)));

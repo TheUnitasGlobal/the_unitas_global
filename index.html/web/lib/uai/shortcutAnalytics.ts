@@ -83,6 +83,7 @@ function clamp(n: number, min = 0, max = 100): number {
 type PulseLedger = Record<string, { momentum: number; ts: number }>;
 
 function readPulseLedger(): PulseLedger {
+  if (typeof window === 'undefined') return {};
   try {
     const raw = window.localStorage.getItem(PULSE_KEY);
     const parsed = raw ? (JSON.parse(raw) as PulseLedger) : {};
@@ -93,6 +94,7 @@ function readPulseLedger(): PulseLedger {
 }
 
 function writePulseLedger(next: PulseLedger): void {
+  if (typeof window === 'undefined') return;
   try {
     const entries = Object.entries(next).sort((a, b) => b[1].ts - a[1].ts).slice(0, PULSE_MAX);
     window.localStorage.setItem(PULSE_KEY, JSON.stringify(Object.fromEntries(entries)));

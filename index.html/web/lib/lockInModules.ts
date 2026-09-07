@@ -79,8 +79,9 @@ export function lockInIndex(key: LockInModuleKey): number {
 export const LOCK_IN_STORAGE_KEY = 'unitas.lockin.active.v1';
 
 export function readActiveLockIns(): LockInModuleKey[] {
+  if (typeof window === 'undefined') return [];
   try {
-    const raw = localStorage.getItem(LOCK_IN_STORAGE_KEY);
+    const raw = window.localStorage.getItem(LOCK_IN_STORAGE_KEY);
     if (!raw) return [];
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
@@ -91,8 +92,9 @@ export function readActiveLockIns(): LockInModuleKey[] {
 }
 
 export function writeActiveLockIns(keys: LockInModuleKey[]): void {
+  if (typeof window === 'undefined') return;
   try {
-    localStorage.setItem(LOCK_IN_STORAGE_KEY, JSON.stringify(Array.from(new Set(keys))));
+    window.localStorage.setItem(LOCK_IN_STORAGE_KEY, JSON.stringify(Array.from(new Set(keys))));
   } catch {
     // storage unavailable -- activation simply doesn't persist past this session.
   }

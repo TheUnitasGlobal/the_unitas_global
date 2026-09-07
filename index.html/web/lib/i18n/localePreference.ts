@@ -11,6 +11,7 @@ export const LOCALE_PREF_COOKIE = 'unitas_locale_pref';
 const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
 
 export function persistLocalePreference(locale: string): void {
+  if (typeof window === 'undefined') return;
   try {
     window.localStorage.setItem(LOCALE_PREF_COOKIE, locale);
   } catch {
@@ -24,6 +25,7 @@ export function persistLocalePreference(locale: string): void {
 }
 
 export function readLocalePreference(): string | null {
+  if (typeof window === 'undefined') return null;
   try {
     const fromStorage = window.localStorage.getItem(LOCALE_PREF_COOKIE);
     if (fromStorage) return fromStorage;

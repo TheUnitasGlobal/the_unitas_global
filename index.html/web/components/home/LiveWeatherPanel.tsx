@@ -200,8 +200,9 @@ function conditionOf(code: number): Condition {
 }
 
 function readCache(): { place: Place; forecast: Forecast; at: number } | null {
+  if (typeof window === 'undefined') return null;
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as { place?: Place; forecast?: Forecast; at?: number };
     if (!parsed.place || !parsed.forecast || typeof parsed.at !== 'number') return null;
@@ -212,8 +213,9 @@ function readCache(): { place: Place; forecast: Forecast; at: number } | null {
 }
 
 function writeCache(place: Place, forecast: Forecast) {
+  if (typeof window === 'undefined') return;
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ place, forecast, at: Date.now() }));
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ place, forecast, at: Date.now() }));
   } catch {
     // storage unavailable -- the tab simply refetches next time.
   }
