@@ -5,6 +5,8 @@ import { SceneLazy } from '@/components/canvas/SceneLazy';
 import { SpatialAudioProvider } from '@/components/audio/SpatialAudioProvider';
 import { TerminationBoundary } from '@/components/exit/TerminationBoundary';
 import { CinematicIntroSplash } from '@/components/splash/CinematicIntroSplash';
+import { RuntimeShield } from '@/components/system/RuntimeShield';
+import { SovereignShield } from '@/components/system/SovereignShield';
 import { EXIT_GUARD_BOOTSTRAP } from '@/lib/exit/appExit';
 import { PWA_CAPTURE_BOOTSTRAP } from '@/lib/pwa/installPrompt';
 import { PWA_ICON_VERSION, PWA_MANIFEST_HREF, pwaIconHref } from '@/lib/pwa/iconVersion';
@@ -115,12 +117,25 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             tree (WebGL, AudioContexts, timers, channels) through React's own
             cleanups. See components/exit/TerminationBoundary.tsx. */}
         <TerminationBoundary>
+          {/* Sovereign Shield doctrine (owner instruction 2026-09-07, item 1):
+              the route-level error screens never cover THIS layout's own
+              modules -- a fault in the 3D scene, the intro splash or the audio
+              graph used to fall straight through to global-error.tsx as a
+              "SOVEREIGN CORE ERROR". Each module now sits in its own
+              self-healing SovereignShield (fallback: nothing), and
+              RuntimeShield catches the window-level faults no boundary sees.
+              See components/system/*. */}
+          <RuntimeShield />
           {/* Forced 3s SILENT cinematic intro ("logo page") -- SSR'd visible,
               top of the stack (z-700); runs only on a cold entry, never on a
               refresh of any page. */}
-          <CinematicIntroSplash />
+          <SovereignShield zone="intro-splash">
+            <CinematicIntroSplash />
+          </SovereignShield>
           <SpatialAudioProvider>
-            <SceneLazy />
+            <SovereignShield zone="scene">
+              <SceneLazy />
+            </SovereignShield>
             {children}
           </SpatialAudioProvider>
         </TerminationBoundary>

@@ -160,6 +160,45 @@
 //   a task from Recents; a web page can only make sure the card is clean and
 //   that nothing of the session survives behind it.
 //
+//   ROUND 24 (owner instruction 2026-09-07, item 3: "종료 클릭 시 진입 페이지
+//   리셋 버그 완벽 근절"): the confirmed 종료 sometimes landed the visitor on
+//   the site's very first entry page instead of closing anything. ROOT CAUSE,
+//   both channels: the engine traversed history ACROSS DOCUMENTS. The
+//   Navigation API's `navigation.currentEntry.index` counts every contiguous
+//   SAME-ORIGIN entry -- including entries of EARLIER documents of this site
+//   still sitting in the tab (a previous visit, a relaunch after a prior
+//   exit, a typed URL over a page that was already the site) -- and the
+//   round-18 collapse mistook it for the same-DOCUMENT index. `history.go()`
+//   with that delta left the document and reloaded an older one; the online
+//   channel's `history-back` did the same whenever the entry behind our own
+//   was another page of this site. Every such cross-document landing runs
+//   the re-entry reset bootstrap (lib/pwa/installPrompt.ts: session wiped,
+//   logo page), which the visitor saw as "종료를 눌렀더니 진입 페이지로
+//   리셋". Fixes:
+//
+//     - `readHistoryStackView()` now walks `navigation.entries()` and counts
+//       only entries whose `sameDocument` is true beneath the current one
+//       (`sameDocumentIndex`); it also reports how many same-origin entries of
+//       OTHER documents sit below this document (`siteEntriesBehind`). The
+//       whole-stack collapse therefore never leaves the document.
+//     - The ONLINE planner steps back to the previous page ONLY when that is
+//       provable: the Navigation API says no other document of this site is
+//       behind ours, the referrer is an external page, and a cross-origin
+//       entry exists in the tab. Anywhere else -- the API absent (Firefox,
+//       older WebKit), a site page behind us, no referrer -- it never
+//       traverses: it tries `window.close()` where that can work (a fresh
+//       single-entry tab or a script-opened window) and otherwise TERMINATES
+//       IN PLACE under the round-21 completion guide ("종료가 완료되었습니다.
+//       안전하게 앱 또는 브라우저를 닫아주시기 바랍니다."), decided on the
+//       tap itself when the close is certain to be refused (multi-entry,
+//       not script-opened) so there is no settle-wait hang.
+//     - A terminated ONLINE tab is inert: it no longer relaunches itself into
+//       a fresh session when the tab regains focus (that too read as "reset
+//       to the entry page" after a mobile tab switch). Only an installed App
+//       relaunches as a cold start when the OS brings it back, and only after
+//       it was genuinely in the background (`RELAUNCH_MIN_HIDDEN_MS`), so a
+//       Recents peek does not restart it.
+//
 //   ROUND 21 (owner instruction 2026-09-06, "모바일 앱 2단계 안심 종료 안내
 //   가이드 팝업 + 원복"): round 20's `about:blank` overwrite is REVERTED in
 //   full -- on a phone the blank document left an address-bar card in Recents
@@ -247,6 +286,22 @@ export interface ExitEnvironment {
    *  PHONE / TABLET app (omitted / false) takes round 21's floating
    *  "종료가 완료되었습니다" guide frame instead. */
   desktopAppWindow?: boolean;
+  /** Round 24: how many entries of THIS document sit beneath the current one
+   *  per the Navigation API (`sameDocumentIndex` of `readHistoryStackView`).
+   *  -1 / omitted = unknown (API absent) -- the sentinel depth is used. */
+  documentDepth?: number;
+  /** Round 24: how many same-origin entries of OTHER documents of this site
+   *  sit beneath this document's first entry (`siteEntriesBehind` of
+   *  `readHistoryStackView`). > 0 = a history-back past our own entries
+   *  would land on the site again (forbidden). -1 / omitted = unknown. */
+  siteEntriesBehind?: number;
+  /** Round 24: `navigation.entries().length` -- the contiguous same-origin
+   *  run around the current entry. `historyLength` above it means a
+   *  cross-origin entry exists somewhere in the tab. -1 / omitted = unknown. */
+  sameOriginRunLength?: number;
+  /** Round 24: `window.opener` is set -- a script-opened window, which the
+   *  engines let `window.close()` close whatever its history length. */
+  scriptOpened?: boolean;
 }
 
 export type ExitStep =
@@ -279,6 +334,12 @@ export interface ExitPlan {
 /** Give a leave attempt this long to actually unload before admitting the
  *  runtime refused it and running the plan's fallback. */
 export const LEAVE_SETTLE_MS = 450;
+
+/** Round 24: a terminated INSTALLED app relaunches as a cold start when the
+ *  OS brings it back to the foreground only after it was hidden at least
+ *  this long -- a Recents peek / notification-shade pull that returns at
+ *  once keeps the completion guide instead of restarting the app. */
+export const RELAUNCH_MIN_HIDDEN_MS = 1200;
 
 /** Pure: is `referrer` an external http(s) page we can hand the visitor back to? */
 export function isExternalReferrer(referrer: string, origin: string): boolean {
@@ -331,23 +392,54 @@ export function planExit(env: ExitEnvironment): ExitPlan {
     };
   }
 
+  // ---- ONLINE channel (round 24 rewrite -- see the header) -----------------
   const depth = Math.max(0, Math.floor(env.sentinelDepth || 0));
+  // Entries of THIS document beneath the current one: the Navigation API's
+  // exact same-document count when known (sentinels AND in-app route
+  // entries), never less than the sentinel depth we can read ourselves.
+  const known = (value: number | undefined): number =>
+    typeof value === 'number' && Number.isFinite(value) && value >= 0 ? Math.floor(value) : -1;
+  const documentDepth = known(env.documentDepth);
+  const docBelow = documentDepth >= 0 ? Math.max(documentDepth, depth) : depth;
   // Entries of OURS between the page's real entry and the top of the buffer:
-  // the ones we are standing on (`depth`) plus, when we have stepped down
+  // the ones we are standing on (`docBelow`) plus, when we have stepped down
   // into an armed buffer, the forward sentinels still above us.
   const capacity = Math.max(depth, Math.max(0, Math.floor(env.sentinelCapacity || 0)));
-  const ownEntries = 1 + depth;
-  const ownFootprint = 1 + (depth > 0 ? capacity : 0);
-  const immediate: ExitStep[] =
-    env.historyLength > ownFootprint
-      ? [{ kind: 'history-back', steps: ownEntries }]
-      : [{ kind: 'close' }];
+  const ownEntries = 1 + docBelow;
+  const ownFootprint = 1 + (depth > 0 ? Math.max(docBelow, capacity) : docBelow);
 
-  const fallback: ExitStep = isExternalReferrer(env.referrer, env.origin)
-    ? { kind: 'navigate', url: env.referrer, replace: false }
-    : { kind: 'terminate' };
+  // Step back to the previous page ONLY when it is provably NOT this site:
+  //   - the Navigation API answered (no guessing on Firefox / old WebKit),
+  //   - no other document of this site sits beneath ours,
+  //   - the referrer is an external page (the entry behind ours is it), and
+  //   - a cross-origin entry actually exists in the tab.
+  const siteBehind = known(env.siteEntriesBehind);
+  const runLength = known(env.sameOriginRunLength);
+  const external = isExternalReferrer(env.referrer, env.origin);
+  const traversable =
+    documentDepth >= 0 &&
+    siteBehind === 0 &&
+    external &&
+    runLength >= 0 &&
+    env.historyLength > Math.max(ownFootprint, runLength);
+  if (traversable) {
+    return {
+      channel: 'online',
+      immediate: [{ kind: 'history-back', steps: ownEntries }],
+      // A refused traversal still hands the visitor to the external page --
+      // a forward navigation never lands on this site.
+      fallback: { kind: 'navigate', url: env.referrer, replace: false },
+    };
+  }
 
-  return { channel: 'online', immediate, fallback };
+  // Otherwise the session ends HERE, in this document. `window.close()` is
+  // honoured only on a single-entry window or one opened by script; on any
+  // other window every engine refuses it, so the completion guide is painted
+  // on the tap itself -- no settle-wait, no black hang, no traversal.
+  const terminal: ExitStep = { kind: 'terminate-guide' };
+  const closable = env.historyLength <= 1 || env.scriptOpened === true;
+  const immediate: ExitStep[] = closable ? [{ kind: 'close' }] : [{ kind: 'close' }, terminal];
+  return { channel: 'online', immediate, fallback: terminal };
 }
 
 // ---------------------------------------------------------------------------
@@ -800,30 +892,41 @@ function terminateInPlace(frame: TerminalFrame): void {
     // start over as a cold start from the clean launch URL (round 21:
     // `location.replace` to the sealed URL, so no query / hash / deep route
     // of the finished session can come back; a plain reload is the fallback).
-    let wasHidden = document.visibilityState === 'hidden';
-    const relaunch = () => {
-      try {
-        const url = sealedLaunchUrl(window.location.href);
-        if (url) window.location.replace(url);
-        else window.location.reload();
-      } catch {
+    //
+    // Round 24: INSTALLED APP ONLY, and only after the app was genuinely in
+    // the background for `RELAUNCH_MIN_HIDDEN_MS`. A terminated ONLINE tab
+    // stays inert under its guide -- it used to reload itself into the entry
+    // page the moment the tab regained focus (a tab-switcher peek on a
+    // phone, an alt-tab on a PC), which the visitor saw as "종료를 눌렀더니
+    // 진입 페이지로 리셋". The bfcache `pageshow` relaunch is App-only too:
+    // a tab brought back by the browser's own back / forward button simply
+    // shows the guide again.
+    if (isStandaloneApp()) {
+      let hiddenAt = document.visibilityState === 'hidden' ? Date.now() : -1;
+      const relaunch = () => {
         try {
-          window.location.reload();
+          const url = sealedLaunchUrl(window.location.href);
+          if (url) window.location.replace(url);
+          else window.location.reload();
         } catch {
-          /* no-op */
+          try {
+            window.location.reload();
+          } catch {
+            /* no-op */
+          }
         }
-      }
-    };
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') {
-        wasHidden = true;
-        return;
-      }
-      if (wasHidden) relaunch();
-    });
-    window.addEventListener('pageshow', (e) => {
-      if ((e as PageTransitionEvent).persisted) relaunch();
-    });
+      };
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+          hiddenAt = Date.now();
+          return;
+        }
+        if (hiddenAt >= 0 && Date.now() - hiddenAt >= RELAUNCH_MIN_HIDDEN_MS) relaunch();
+      });
+      window.addEventListener('pageshow', (e) => {
+        if ((e as PageTransitionEvent).persisted) relaunch();
+      });
+    }
     // Round 19 (item 1): purge the DOM -- the whole React tree under <body>
     // unmounts through TerminationBoundary (scene, audio, timers, channels
     // all released by their own effect cleanups). The frame above lives on
@@ -862,15 +965,26 @@ function terminateInPlace(frame: TerminalFrame): void {
 
 /** What the collapse planner needs to know about the live session history. */
 export interface HistoryStackView {
-  /** `navigation.currentEntry.index` -- the current entry's position among
-   *  the entries that belong to THIS document (`navigation.entries()`, a
-   *  contiguous same-document run; 0 = the document's first entry). -1 when
-   *  the Navigation API is unavailable (WebKit < 26, old Chromium). */
+  /** How many entries of THIS document sit beneath the current one: the
+   *  count of contiguous `navigation.entries()` below `currentEntry` whose
+   *  `sameDocument` is true (0 = we are on the document's first entry).
+   *  Round 24: NOT `currentEntry.index` -- that counts every contiguous
+   *  SAME-ORIGIN entry, including earlier documents of this site still in
+   *  the tab, and a traversal by that number leaves the document (and lands
+   *  on the re-entry reset). -1 when the Navigation API is unavailable
+   *  (WebKit < 26, old Chromium, Firefox). */
   sameDocumentIndex: number;
   /** `history.length` -- the hard ceiling on how far back any delta can go. */
   historyLength: number;
   /** ExitGuard's sentinel depth per `history.state` (fallback measure). */
   sentinelDepth: number;
+  /** Round 24: same-origin entries of OTHER documents beneath this
+   *  document's first entry (`currentEntry.index - sameDocumentIndex`).
+   *  -1 / omitted when unknown. */
+  siteEntriesBehind?: number;
+  /** Round 24: `navigation.entries().length` (the contiguous same-origin
+   *  run). -1 / omitted when unknown. */
+  sameOriginRunLength?: number;
 }
 
 /**
@@ -906,14 +1020,35 @@ export function readHistoryStackView(host: unknown, marker = EXIT_GUARD_MARKER, 
     /* history unreadable -- treat as a single entry */
   }
   let sameDocumentIndex = -1;
+  let siteEntriesBehind = -1;
+  let sameOriginRunLength = -1;
   try {
-    const current = rec(rec(w?.navigation)?.currentEntry);
+    const navigation = rec(w?.navigation);
+    const current = rec(navigation?.currentEntry);
     const index = current?.index;
-    if (typeof index === 'number' && Number.isFinite(index) && index >= 0) sameDocumentIndex = index;
+    const entriesFn = navigation ? fn(navigation.entries) : null;
+    if (navigation && entriesFn && typeof index === 'number' && Number.isFinite(index) && index >= 0) {
+      const entries = entriesFn.call(navigation);
+      if (Array.isArray(entries) && index < entries.length) {
+        // Walk down from the current entry while the entries still belong
+        // to THIS document. The first foreign one (an earlier document of
+        // this origin) ends the document's run; everything beneath it is
+        // "the site, but not us".
+        let below = 0;
+        for (let i = index - 1; i >= 0; i -= 1) {
+          const entry = rec(entries[i]);
+          if (entry && entry.sameDocument === true) below += 1;
+          else break;
+        }
+        sameDocumentIndex = below;
+        siteEntriesBehind = Math.max(0, index - below);
+        sameOriginRunLength = entries.length;
+      }
+    }
   } catch {
     /* Navigation API absent or the document is not fully active */
   }
-  return { sameDocumentIndex, historyLength, sentinelDepth };
+  return { sameDocumentIndex, historyLength, sentinelDepth, siteEntriesBehind, sameOriginRunLength };
 }
 
 /**
@@ -1160,6 +1295,17 @@ export function executeAppExit(options: ExecuteAppExitOptions = {}): ExitChannel
     sentinelDepth = 0;
   }
 
+  // Round 24: the live same-document / same-origin picture, so the online
+  // planner can PROVE the entry behind us is not this site before it ever
+  // traverses (see the header).
+  const stack = readHistoryStackView(window);
+  let scriptOpened = false;
+  try {
+    scriptOpened = window.opener != null;
+  } catch {
+    scriptOpened = false;
+  }
+
   const plan = planExit({
     standalone: isStandaloneApp(),
     historyLength: (() => {
@@ -1175,6 +1321,10 @@ export function executeAppExit(options: ExecuteAppExitOptions = {}): ExitChannel
     origin: window.location.origin,
     nativeBridge: findNativeExitBridge(window) !== null,
     desktopAppWindow: isDesktopAppWindow(),
+    documentDepth: stack.sameDocumentIndex,
+    siteEntriesBehind: stack.siteEntriesBehind,
+    sameOriginRunLength: stack.sameOriginRunLength,
+    scriptOpened,
   });
 
   leaving = true;
@@ -1188,6 +1338,13 @@ export function executeAppExit(options: ExecuteAppExitOptions = {}): ExitChannel
   for (const step of plan.immediate) runStep(step);
 
   window.setTimeout(() => {
+    // Round 24: a document already terminated in place owns its own
+    // foreground policy (App: cold relaunch after a real background stay;
+    // online: inert under the guide). The revive-by-reload below is only for
+    // a LIVE document whose exit attempt got it backgrounded mid-way -- on
+    // a terminated one it would reload the entry page the moment a visitor
+    // who tapped 종료 and switched tabs at once came back.
+    if (isDocumentTerminated()) return;
     if (document.visibilityState === 'hidden') {
       // Something DID take us away (app backgrounded / tab hidden). If the
       // visitor ever returns to this exact document -- an app resumed from

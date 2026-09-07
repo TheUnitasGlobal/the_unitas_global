@@ -400,10 +400,19 @@ export function ComingSoonCinema() {
       window.AudioContext ||
       (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!AudioCtx) return;
+    // Owner instruction 2026-09-07 (item 1): the whole engine build is
+    // fenced. This runs from a mount / phase effect as well as from the gate
+    // button, and a refused AudioContext (hardware context cap on some
+    // Android WebViews, a node the engine lacks) used to throw out of that
+    // effect straight into the route error screen. A bed that cannot be
+    // built is skipped -- the ad plays silent, never crashes.
+    let created: AudioContext | null = null;
+    try {
     // iPhone ring/silent switch (round 13, item 4): declare a playback
     // session before the context exists -- lib/audio/audioSession.ts.
     ensurePlaybackAudioSession();
     const ctx = new AudioCtx();
+    created = ctx;
     const now = ctx.currentTime;
 
     const master = ctx.createGain();
@@ -693,14 +702,26 @@ export function ComingSoonCinema() {
       },
     };
     ctx.resume().catch(() => {});
+    } catch {
+      audioRef.current = null;
+      try {
+        created?.close().catch(() => {});
+      } catch {
+        /* no-op */
+      }
+    }
   }, []);
 
   useEffect(() => {
     const a = audioRef.current;
     if (!a) return;
-    const now = a.ctx.currentTime;
-    a.master.gain.cancelScheduledValues(now);
-    a.master.gain.linearRampToValueAtTime(muted ? 0 : CINEMA_MASTER_GAIN, now + 0.3);
+    try {
+      const now = a.ctx.currentTime;
+      a.master.gain.cancelScheduledValues(now);
+      a.master.gain.linearRampToValueAtTime(muted ? 0 : CINEMA_MASTER_GAIN, now + 0.3);
+    } catch {
+      /* a closed engine -- nothing to fade */
+    }
   }, [muted]);
 
   // Fire the crisp phase-transition cue on each cinema segment hand-off
@@ -713,7 +734,13 @@ export function ComingSoonCinema() {
     }
     if (segId === prevSegRef.current) return;
     prevSegRef.current = segId;
-    if (segId > 1 && !muted) audioRef.current?.phaseCue();
+    if (segId > 1 && !muted) {
+      try {
+        audioRef.current?.phaseCue();
+      } catch {
+        /* a refused cue never breaks the segment hand-off */
+      }
+    }
   }, [segId, phase, muted]);
 
   // OMNI-CHANNEL AUDIO GUARANTEE (owner instruction 2026-09-05, 7-point
@@ -738,8 +765,15 @@ export function ComingSoonCinema() {
       // Round 13 (hardening patch, item 4): a WebKit-proof gesture unlock --
       // silent kick + resume, inside the gesture -- so the ad stages sing on
       // the first touch of a phone. (The logo page itself is silent now.)
-      if (silent) kickAudioContext(engine.ctx, silent);
-      engine.ctx.resume().catch(() => {});
+      // Owner instruction 2026-09-07 (item 2): `interrupted` (WebKit) is
+      // treated like `suspended` -- anything not running is woken.
+      try {
+        if (engine.ctx.state === 'running') return;
+        if (silent) kickAudioContext(engine.ctx, silent);
+        engine.ctx.resume().catch(() => {});
+      } catch {
+        /* never throw out of the gesture */
+      }
     });
     const onState = () => {
       if (engine.ctx.state === 'running') {
@@ -748,11 +782,19 @@ export function ComingSoonCinema() {
         engine.ctx.removeEventListener('statechange', onState);
       }
     };
-    engine.ctx.addEventListener('statechange', onState);
+    try {
+      engine.ctx.addEventListener('statechange', onState);
+    } catch {
+      /* no-op */
+    }
     return () => {
       detached = true;
       detach();
-      engine.ctx.removeEventListener('statechange', onState);
+      try {
+        engine.ctx.removeEventListener('statechange', onState);
+      } catch {
+        /* no-op */
+      }
     };
   }, [phase, reduceMotion, startAmbient]);
 

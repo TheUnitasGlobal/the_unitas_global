@@ -71,8 +71,10 @@ export function AudioGate() {
 
   useIsomorphicLayoutEffect(() => {
     if (typeof window === 'undefined') return;
-    if (sessionStorage.getItem(STORAGE_KEY)) {
-      setDismissed(true);
+    try {
+      if (sessionStorage.getItem(STORAGE_KEY)) setDismissed(true);
+    } catch {
+      /* storage blocked -- the gate simply shows */
     }
     if (curtainAlreadyReleased()) setReleased(true);
   }, []);
@@ -107,16 +109,31 @@ export function AudioGate() {
   }, [open]);
 
   function markSeen() {
-    sessionStorage.setItem(STORAGE_KEY, 'true');
+    try {
+      sessionStorage.setItem(STORAGE_KEY, 'true');
+    } catch {
+      /* private-mode quota / blocked storage -- dismiss for this render anyway */
+    }
     setDismissed(true);
   }
 
   function handleInitiate() {
-    unlockAndUnmute();
+    // Owner instruction 2026-09-07 (item 2): the entry tap IS the site-wide
+    // audio unlock; every step here is fenced so the gate always dismisses
+    // even if the engine refuses to build or resume a context.
+    try {
+      unlockAndUnmute();
+    } catch {
+      /* never block the entry on a refused unlock */
+    }
     markSeen();
     // Land on the dashboard scrolled to the very top -- even if the page
     // was scrolled before the gate appeared (e.g. back-navigation).
-    window.scrollTo(0, 0);
+    try {
+      window.scrollTo(0, 0);
+    } catch {
+      /* no-op */
+    }
   }
 
   // Released: nothing, instantly -- not even an exit transition.

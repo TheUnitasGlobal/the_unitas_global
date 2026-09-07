@@ -591,7 +591,12 @@ export function ExitGuard() {
     // painted in the visitor's locale from the copy handed over here -- the
     // document is never navigated to about:blank (round 20 reverted); a
     // DESKTOP app window keeps the round-19 black shroud (its window.close()
-    // genuinely closes the window).
+    // genuinely closes the window). Round 24 (owner instruction 2026-09-07,
+    // item 3): the ONLINE channel ends the session on THIS document too --
+    // the same completion guide, painted on the tap -- and steps back to the
+    // previous page only when the engine can PROVE that page is not this
+    // site; a traversal that could land on an earlier page of the site (the
+    // "종료 -> 진입 페이지 리셋" bug) is never fired. See lib/exit/appExit.ts.
     executeAppExit({
       sentinelMarker: GUARD_MARKER,
       sentinelDepthKey: GUARD_DEPTH,

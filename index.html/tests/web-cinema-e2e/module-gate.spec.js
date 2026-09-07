@@ -1,4 +1,4 @@
-const { test, expect } = require('@playwright/test');
+﻿const { test, expect } = require('@playwright/test');
 
 // Page-level coin gate for the 16 coin-gated module routes
 // (web/app/[locale]/(gated)/layout.tsx). On-demand only:
@@ -17,7 +17,7 @@ test.describe('page-level module coin gate', () => {
     const response = await page.goto(GATED_PATH, { waitUntil: 'domcontentloaded' });
 
     // Landed on /en/locked, not /en/arche.
-    expect(page.url()).toContain('/en/locked');
+    expect(page.url()).toMatch(/\/(en\/)?locked/); // English lives at the bare root (single-URL SEO, 2026-09-06)
     expect(response?.status()).toBe(200); // after following the 307
 
     // The lock panel rendered...
@@ -31,9 +31,12 @@ test.describe('page-level module coin gate', () => {
   test('the raw response for a gated route is a 307, carrying no module payload', async ({
     request,
   }) => {
-    const res = await request.get(GATED_PATH, { maxRedirects: 0 });
+    // The bare-root spelling: `/en/...` first 307s to the canonical
+    // unprefixed English URL (single-URL SEO, 2026-09-06), and with
+    // maxRedirects 0 that hop would be the one inspected here.
+    const res = await request.get(GATED_PATH.replace(/^\/en\//, '/'), { maxRedirects: 0 });
     expect(res.status()).toBe(307);
-    expect(res.headers()['location']).toContain('/en/locked');
+    expect(res.headers()['location']).toMatch(/\/(en\/)?locked/);
     // Next 14 answers a layout redirect() with its generic `__next_error__`
     // shell (the RSC tree ABOVE the throwing layout, for the client router).
     // The property that matters: nothing from the gated module itself --
@@ -47,7 +50,7 @@ test.describe('page-level module coin gate', () => {
   test('a forged legacy dev cookie no longer opens the gate', async ({ page, context }) => {
     await context.addCookies([{ name: 'unitas_dev', value: '1', url: 'http://127.0.0.1:3123' }]);
     await page.goto(GATED_PATH, { waitUntil: 'domcontentloaded' });
-    expect(page.url()).toContain('/en/locked');
+    expect(page.url()).toMatch(/\/(en\/)?locked/); // English lives at the bare root (single-URL SEO, 2026-09-06)
   });
 
   test('verified sovereign founder session reaches the real module page', async ({ page }) => {
@@ -56,7 +59,7 @@ test.describe('page-level module coin gate', () => {
     await page.goto(`/en?sovereign_auth=${TOKEN}&splash=0`);
 
     await page.goto(GATED_PATH, { waitUntil: 'domcontentloaded' });
-    expect(page.url()).toContain('/en/arche');
+    expect(page.url()).toMatch(/\/(en\/)?arche/);
     await expect(page.locator('main.isolate')).toBeVisible();
   });
 });

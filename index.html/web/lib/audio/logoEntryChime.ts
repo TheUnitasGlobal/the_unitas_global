@@ -75,7 +75,60 @@ export function armLogoEntryChime(): () => void {
   }
   const silent = makeSilentBuffer(ctx);
 
-  const fire = () => {
+  // ROOT CAUSE of the "Sovereign Core Error on entry" (owner instruction
+  // 2026-09-07, item 1) -- fixed here. The previous shape of this function
+  // declared its gesture listeners AFTER an early `if (ctx.state ===
+  // 'running') { fire(); ... }` branch, while `fire()` -> `detach()` read
+  // those `const` bindings: on any engine whose autoplay policy lets a
+  // fresh AudioContext start at once (an installed PWA, an origin the
+  // visitor has engaged with often -- the founder's own browser --
+  // Firefox, headless Chromium) the branch ran and `detach()` hit the
+  // temporal dead zone: a ReferenceError thrown from CinematicIntroSplash's
+  // mount effect, straight into the root error boundary. Everything is now
+  // declared before anything can call it, `detach` is idempotent, and every
+  // step is fenced -- this function can no longer throw.
+  const opts: AddEventListenerOptions = { passive: true, capture: true };
+  let listening = false;
+
+  const onState = () => {
+    if (ctx.state === 'running') fire();
+  };
+
+  const onGesture = () => {
+    try {
+      ensurePlaybackAudioSession();
+      if (silent) kickAudioContext(ctx, silent);
+      if (ctx.state === 'running') {
+        fire();
+        return;
+      }
+      ctx
+        .resume()
+        .then(() => {
+          if (ctx.state === 'running') fire();
+        })
+        .catch(() => {});
+    } catch {
+      /* never throw out of the gesture */
+    }
+  };
+
+  function detach() {
+    if (!listening) return;
+    listening = false;
+    try {
+      for (const type of ACTIVATION_UNLOCK_EVENTS) window.removeEventListener(type, onGesture, opts);
+    } catch {
+      /* no-op */
+    }
+    try {
+      ctx.removeEventListener('statechange', onState);
+    } catch {
+      /* no-op */
+    }
+  }
+
+  function fire() {
     if (played) return;
     played = true;
     try {
@@ -84,36 +137,9 @@ export function armLogoEntryChime(): () => void {
       /* a synth failure must never surface to the caller */
     }
     detach();
-  };
-
-  ctx.resume().catch(() => {});
-  if (silent) kickAudioContext(ctx, silent);
-
-  if (ctx.state === 'running') {
-    fire();
-    return () => {
-      try {
-        ctx.close().catch(() => {});
-      } catch {
-        /* no-op */
-      }
-    };
   }
 
-  const opts: AddEventListenerOptions = { passive: true, capture: true };
-  const onGesture = () => {
-    ensurePlaybackAudioSession();
-    ctx.resume().catch(() => {});
-    if (silent) kickAudioContext(ctx, silent);
-    fire();
-  };
-  for (const type of ACTIVATION_UNLOCK_EVENTS) window.addEventListener(type, onGesture, opts);
-
-  function detach() {
-    for (const type of ACTIVATION_UNLOCK_EVENTS) window.removeEventListener(type, onGesture, opts);
-  }
-
-  return () => {
+  const disarm = () => {
     detach();
     try {
       ctx.close().catch(() => {});
@@ -121,4 +147,35 @@ export function armLogoEntryChime(): () => void {
       /* no-op */
     }
   };
+
+  try {
+    ctx.resume().catch(() => {});
+    if (silent) kickAudioContext(ctx, silent);
+  } catch {
+    /* no-op */
+  }
+
+  // Immediate playback wherever the engine already allows it.
+  if (ctx.state === 'running') {
+    fire();
+    return disarm;
+  }
+
+  // Owner instruction 2026-09-07 (item 2): the chime is scheduled only once
+  // the context is actually RUNNING. It used to be synthesized in the same
+  // tick as the `resume()` request -- on a still-suspended context the
+  // notes were stamped at currentTime 0 and could be lost entirely when the
+  // resume settled a beat later (Chromium grants activation on the
+  // touchend / click of the tap, not its touchstart). Now: kick + resume
+  // inside the gesture, then fire from the resume promise / statechange,
+  // whichever lands first.
+  try {
+    listening = true;
+    for (const type of ACTIVATION_UNLOCK_EVENTS) window.addEventListener(type, onGesture, opts);
+    ctx.addEventListener('statechange', onState);
+  } catch {
+    /* no-op */
+  }
+
+  return disarm;
 }

@@ -13,6 +13,9 @@ import { ComingSoonCinema } from '@/components/ComingSoonCinema';
 import { PwaInstallHost } from '@/components/pwa/PwaInstallHost';
 import { SovereignDebugPanel } from '@/components/sovereign/SovereignDebugPanel';
 import { ExitGuard } from '@/components/interaction/ExitGuard';
+import { SovereignShield } from '@/components/system/SovereignShield';
+import { SealedFallback } from '@/components/system/SealedFallback';
+import { PageShield } from '@/components/system/PageShield';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -87,24 +90,46 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider>
-      <HtmlLangSync />
+      {/* Sovereign Shield doctrine (owner instruction 2026-09-07, item 1):
+          every independent module below sits in its own self-healing
+          SovereignShield so a module-local fault never escalates into the
+          route-level "Sovereign Core Error" screen. Fallbacks are FAIL-SAFE
+          per module: nothing for chrome / guards (the site keeps working
+          without them for a beat while they remount), the quiet
+          ModuleFallback for the page slot, and -- the one FAIL-CLOSED case --
+          a static sealed panel for the pre-launch curtain, so a curtain fault
+          can never expose the site to the public. */}
+      <SovereignShield zone="html-lang">
+        <HtmlLangSync />
+      </SovereignShield>
       <WalletProvider>
-        <LocaleAutoSwitch />
+        <SovereignShield zone="locale-auto-switch">
+          <LocaleAutoSwitch />
+        </SovereignShield>
         {/* Everything but the entry gate renders at a 75%-zoom-equivalent
             scale, so the whole ecosystem reads as one wide, majestic
             composition on entry instead of a taller, more cramped 100%
             layout. The gate itself stays outside this wrapper so its
             typography renders at full, undiminished scale. */}
         <div className="dashboard-zoom">
-          <NavBar />
-          <div className="relative z-0">{children}</div>
+          <SovereignShield zone="nav">
+            <NavBar />
+          </SovereignShield>
+          <div className="relative z-0">
+            <PageShield>{children}</PageShield>
+          </div>
         </div>
-        <AudioGate />
+        <SovereignShield zone="audio-gate">
+          <AudioGate />
+        </SovereignShield>
         {/* Pre-launch curtain: opaque, non-dismissable for the public; only a
             server-verified sovereign founder session (?sovereign_auth=<token>
             -> middleware.ts -> /api/sovereign/verify, see lib/sovereignAuth.ts)
-            unlocks the founder door. Sits above everything, at full scale. */}
-        <ComingSoonCinema />
+            unlocks the founder door. Sits above everything, at full scale.
+            FAIL-CLOSED: its shield falls back to the static sealed panel. */}
+        <SovereignShield zone="curtain" fallback={<SealedFallback />}>
+          <ComingSoonCinema />
+        </SovereignShield>
         {/* Sovereign exit confirm (owner instruction 2026-09-05, checklist
             items 2 + 3): a history-traversal sentinel buffer on EVERY device
             and EVERY funnel page in both channels -- back / forward is
@@ -113,13 +138,19 @@ export default async function LocaleLayout({
             Mounted here in the layout (not the home page) so one guard
             serves every route; its modal renders on the top layer (z-680),
             above the curtain. */}
-        <ExitGuard />
+        <SovereignShield zone="exit-guard">
+          <ExitGuard />
+        </SovereignShield>
         {/* Global one-click PWA install handler (z-650) -- serves every route,
             including the sealed cinema screen. Any `data-pwa-install` element
             or requestPwaInstall() call anywhere resolves here. */}
-        <PwaInstallHost />
+        <SovereignShield zone="pwa-install">
+          <PwaInstallHost />
+        </SovereignShield>
         {/* Founder-only console (renders nothing unless the server verifies). */}
-        <SovereignDebugPanel />
+        <SovereignShield zone="sovereign-debug">
+          <SovereignDebugPanel />
+        </SovereignShield>
         <noscript>
           {/* Fail-closed when JS is disabled: the client curtain can't mount,
               so seal the interface with a static panel instead. */}

@@ -11,6 +11,7 @@ import {
   EXIT_GUARD_SENTINEL_DEPTH,
   LEAVE_SETTLE_MS,
   NATIVE_EXIT_MESSAGE,
+  RELAUNCH_MIN_HIDDEN_MS,
   NEXT_ROUTER_STATE_FLAG,
   NEXT_ROUTER_TREE_KEY,
   TERMINAL_FRAME_ATTR,
@@ -198,38 +199,84 @@ describe('sovereign omni-channel exit planner', () => {
       expect(planStackCollapse({ sameDocumentIndex: 2.9, historyLength: 13, sentinelDepth: 12 })).toBe(-2);
     });
 
+    /** A Navigation API stand-in: `entries()` of `sameDocument` flags. */
+    function nav(flags: boolean[], index = flags.length - 1) {
+      const entries = flags.map((sameDocument) => ({ sameDocument }));
+      return { currentEntry: { index }, entries: () => entries };
+    }
+
     it('reads the live view defensively: Navigation API present, absent, or broken', () => {
       const MARKER = EXIT_GUARD_MARKER;
       const DEPTH = EXIT_GUARD_DEPTH_KEY;
       const parked = { [MARKER]: true, [DEPTH]: 12 };
-      // Chromium 102+ / Android WebAPK: exact same-document index.
+      // Chromium 102+ / Android WebAPK: exact same-document count -- launch,
+      // one in-app route, twelve sentinels, all of THIS document.
       expect(
         readHistoryStackView({
           history: { length: 14, state: parked },
-          navigation: { currentEntry: { index: 13 } },
+          navigation: nav(Array(14).fill(true)),
         }),
-      ).toEqual({ sameDocumentIndex: 13, historyLength: 14, sentinelDepth: 12 });
+      ).toEqual({ sameDocumentIndex: 13, historyLength: 14, sentinelDepth: 12, siteEntriesBehind: 0, sameOriginRunLength: 14 });
       // No Navigation API: the sentinel depth carries the collapse.
       expect(readHistoryStackView({ history: { length: 13, state: parked } })).toEqual({
         sameDocumentIndex: -1,
         historyLength: 13,
         sentinelDepth: 12,
+        siteEntriesBehind: -1,
+        sameOriginRunLength: -1,
       });
       // A not-fully-active document reports index -1; junk never throws.
       expect(
-        readHistoryStackView({ history: { length: 3, state: null }, navigation: { currentEntry: { index: -1 } } }),
-      ).toEqual({ sameDocumentIndex: -1, historyLength: 3, sentinelDepth: 0 });
-      expect(readHistoryStackView({ navigation: 'junk' })).toEqual({ sameDocumentIndex: -1, historyLength: 1, sentinelDepth: 0 });
-      expect(readHistoryStackView(null)).toEqual({ sameDocumentIndex: -1, historyLength: 1, sentinelDepth: 0 });
+        readHistoryStackView({ history: { length: 3, state: null }, navigation: { currentEntry: { index: -1 }, entries: () => [] } }),
+      ).toEqual({ sameDocumentIndex: -1, historyLength: 3, sentinelDepth: 0, siteEntriesBehind: -1, sameOriginRunLength: -1 });
+      expect(readHistoryStackView({ navigation: 'junk' })).toEqual({
+        sameDocumentIndex: -1,
+        historyLength: 1,
+        sentinelDepth: 0,
+        siteEntriesBehind: -1,
+        sameOriginRunLength: -1,
+      });
+      expect(readHistoryStackView(null)).toEqual({
+        sameDocumentIndex: -1,
+        historyLength: 1,
+        sentinelDepth: 0,
+        siteEntriesBehind: -1,
+        sameOriginRunLength: -1,
+      });
       // The two compose: a phone app three routes deep collapses to launch in one hop.
       expect(
         planStackCollapse(
           readHistoryStackView({
             history: { length: 16, state: parked },
-            navigation: { currentEntry: { index: 15 } },
+            navigation: nav(Array(16).fill(true)),
           }),
         ),
       ).toBe(-15);
+    });
+
+    it('round 24: `currentEntry.index` alone is NOT trusted -- it counts earlier documents of this site and a collapse by it left the document (the "진입 페이지 리셋" bug)', () => {
+      const MARKER = EXIT_GUARD_MARKER;
+      const DEPTH = EXIT_GUARD_DEPTH_KEY;
+      const parked = { [MARKER]: true, [DEPTH]: 12 };
+      // The tab holds an EARLIER document of the site (a previous visit / a
+      // relaunch after a prior exit): 13 foreign same-origin entries, then
+      // this document's launch entry + 12 sentinels. currentEntry.index is
+      // 25, but only 12 entries beneath us are ours.
+      const view = readHistoryStackView({
+        history: { length: 26, state: parked },
+        navigation: nav([...Array(13).fill(false), ...Array(13).fill(true)]),
+      });
+      expect(view).toEqual({ sameDocumentIndex: 12, historyLength: 26, sentinelDepth: 12, siteEntriesBehind: 13, sameOriginRunLength: 26 });
+      // The collapse stays INSIDE the document: -12, never -25.
+      expect(planStackCollapse(view)).toBe(-12);
+      // An API without `entries()` cannot prove anything -> unknown, sentinel fallback.
+      expect(readHistoryStackView({ history: { length: 26, state: parked }, navigation: { currentEntry: { index: 25 } } })).toEqual({
+        sameDocumentIndex: -1,
+        historyLength: 26,
+        sentinelDepth: 12,
+        siteEntriesBehind: -1,
+        sameOriginRunLength: -1,
+      });
     });
   });
 
@@ -243,6 +290,11 @@ describe('sovereign omni-channel exit planner', () => {
 
     it('paints the versioned master mark on the terminal frame (never a stale cached icon)', () => {
       expect(TERMINAL_MARK_HREF).toMatch(/^\/assets\/svg\/unitas-mark\.svg\?v=.+/);
+    });
+
+    it('round 24: a terminated App relaunches only after a genuine background stay -- a Recents peek keeps the guide', () => {
+      expect(RELAUNCH_MIN_HIDDEN_MS).toBeGreaterThanOrEqual(500);
+      expect(RELAUNCH_MIN_HIDDEN_MS).toBeLessThan(5000);
     });
 
     it('seals the surviving entry to the clean LAUNCH URL: origin + locale root, no query, no hash, no deep route', () => {
@@ -547,63 +599,117 @@ describe('sovereign omni-channel exit planner', () => {
     });
   });
 
-  describe('ONLINE channel (browser tab)', () => {
-    it('returns to the previous page: one step back when no sentinel is parked', () => {
-      const plan = planExit(env({ historyLength: 3 }));
+  describe('ONLINE channel (browser tab) -- round 24: never a traversal that can land on this site', () => {
+    const GOOGLE = 'https://www.google.com/search?q=unitas';
+    /** The provable "external page behind us" picture: Navigation API present,
+     *  every entry beneath us ours, no other site document behind, a
+     *  cross-origin entry in the tab, external referrer. */
+    const provable = (overrides: Partial<ExitEnvironment> = {}): ExitEnvironment =>
+      env({
+        referrer: GOOGLE,
+        documentDepth: 12,
+        siteEntriesBehind: 0,
+        sameOriginRunLength: 13,
+        historyLength: 14,
+        sentinelDepth: 12,
+        sentinelCapacity: EXIT_GUARD_SENTINEL_DEPTH,
+        ...overrides,
+      });
+
+    it('returns to the external previous page (the search page) when that is PROVABLE, stepping over every entry of this document in one hop', () => {
+      const plan = planExit(provable());
       expect(plan.channel).toBe('online');
-      expect(plan.immediate).toEqual([{ kind: 'history-back', steps: 1 }]);
-    });
-
-    it("steps over ExitGuard's sentinel entry as well when it is on top", () => {
-      const plan = planExit(env({ historyLength: 3, sentinelDepth: 1 }));
-      expect(plan.immediate).toEqual([{ kind: 'history-back', steps: 2 }]);
-    });
-
-    it('steps over the whole deep sentinel buffer of the main home', () => {
-      const plan = planExit(env({ historyLength: 14, sentinelDepth: 12 }));
       expect(plan.immediate).toEqual([{ kind: 'history-back', steps: 13 }]);
-      // Malformed depths never over-step: negatives / fractions clamp sanely.
-      expect(planExit(env({ historyLength: 4, sentinelDepth: -3 })).immediate).toEqual([
+      // A refused traversal still hands the visitor to the external page.
+      expect(plan.fallback).toEqual({ kind: 'navigate', url: GOOGLE, replace: false });
+      // In-app route entries beneath the buffer are ours too: [launch, /u-ai, s1..s12].
+      expect(planExit(provable({ documentDepth: 13, sameOriginRunLength: 14, historyLength: 15 })).immediate).toEqual([
+        { kind: 'history-back', steps: 14 },
+      ]);
+      // No sentinel parked, one entry of ours: one step.
+      expect(planExit(provable({ documentDepth: 0, sentinelDepth: 0, sameOriginRunLength: 1, historyLength: 2 })).immediate).toEqual([
         { kind: 'history-back', steps: 1 },
       ]);
-      expect(planExit(env({ historyLength: 4, sentinelDepth: 1.9 })).immediate).toEqual([
-        { kind: 'history-back', steps: 2 },
+    });
+
+    it('never traverses when an EARLIER document of this site sits behind ours -- that landing is the "진입 페이지 리셋" bug', () => {
+      const plan = planExit(provable({ siteEntriesBehind: 13, sameOriginRunLength: 26, historyLength: 27 }));
+      expect(JSON.stringify(plan)).not.toContain('history-back');
+      expect(JSON.stringify(plan)).not.toContain('navigate');
+      expect(plan.immediate).toEqual([{ kind: 'close' }, { kind: 'terminate-guide' }]);
+      expect(plan.fallback).toEqual({ kind: 'terminate-guide' });
+    });
+
+    it('never traverses without the Navigation API (Firefox / old WebKit): nothing is provable there', () => {
+      const plan = planExit(env({ historyLength: 14, sentinelDepth: 12, referrer: GOOGLE }));
+      expect(JSON.stringify(plan)).not.toContain('history-back');
+      expect(plan.immediate).toEqual([{ kind: 'close' }, { kind: 'terminate-guide' }]);
+      expect(plan.fallback).toEqual({ kind: 'terminate-guide' });
+      expect(planExit(env({ historyLength: 14, sentinelDepth: 12, referrer: GOOGLE, documentDepth: -1, siteEntriesBehind: -1 })).immediate).toEqual([
+        { kind: 'close' },
+        { kind: 'terminate-guide' },
       ]);
     });
 
-    it('closes a fresh tab outright when nothing sits behind our own entries', () => {
-      expect(planExit(env({ historyLength: 1 })).immediate).toEqual([{ kind: 'close' }]);
-      expect(planExit(env({ historyLength: 2, sentinelDepth: 1 })).immediate).toEqual([{ kind: 'close' }]);
-      expect(planExit(env({ historyLength: 13, sentinelDepth: 12 })).immediate).toEqual([{ kind: 'close' }]);
+    it('never traverses without an external referrer or without a cross-origin entry in the tab', () => {
+      // Same-origin / empty / junk referrer: the entry behind is not known to be foreign.
+      for (const referrer of [`${ORIGIN}/en/u-ai`, '', 'javascript:alert(1)']) {
+        const plan = planExit(provable({ referrer }));
+        expect(JSON.stringify(plan)).not.toContain('history-back');
+        expect(plan.fallback).toEqual({ kind: 'terminate-guide' });
+      }
+      // history.length equals the same-origin run: no cross-origin entry exists anywhere.
+      expect(JSON.stringify(planExit(provable({ historyLength: 13 })))).not.toContain('history-back');
     });
 
     it('counts our own FORWARD sentinels when the visitor has stepped down into an armed buffer (checklist items 2 + 3)', () => {
       const capacity = EXIT_GUARD_SENTINEL_DEPTH;
       expect(capacity).toBe(12);
-      // Fresh tab: [real, s1..s12] = 13 entries, visitor pressed back 3
-      // times (depth 9). Without the capacity the planner would have fired
-      // a history.go(-10) that lands nowhere; with it, it knows those 3
-      // forward entries are ours and closes / falls back instead.
+      // [google, real, s1..s12] = 14 entries, visitor pressed back 3 times
+      // (depth 9): step over exactly the entries we stand on (the forward
+      // ones vanish with the traversal).
+      expect(
+        planExit(provable({ documentDepth: 9, sentinelDepth: 9, sentinelCapacity: capacity, sameOriginRunLength: 13, historyLength: 14 })).immediate,
+      ).toEqual([{ kind: 'history-back', steps: 10 }]);
+      // Fresh tab: [real, s1..s12] = 13 entries, depth 9 -- those 3 forward
+      // entries are ours, nothing is behind: close / guide, never a go(-10)
+      // that lands nowhere.
       expect(planExit(env({ historyLength: 13, sentinelDepth: 9, sentinelCapacity: capacity })).immediate).toEqual([
         { kind: 'close' },
-      ]);
-      // A page really is behind us: step over exactly the entries we stand
-      // on (the forward ones vanish with the traversal).
-      expect(planExit(env({ historyLength: 14, sentinelDepth: 9, sentinelCapacity: capacity })).immediate).toEqual([
-        { kind: 'history-back', steps: 10 },
-      ]);
-      // On the top of the buffer the capacity changes nothing.
-      expect(planExit(env({ historyLength: 14, sentinelDepth: 12, sentinelCapacity: capacity })).immediate).toEqual([
-        { kind: 'history-back', steps: 13 },
-      ]);
-      // On the real entry the capacity is not assumed to have been parked.
-      expect(planExit(env({ historyLength: 2, sentinelDepth: 0, sentinelCapacity: capacity })).immediate).toEqual([
-        { kind: 'history-back', steps: 1 },
+        { kind: 'terminate-guide' },
       ]);
       // A capacity smaller than the depth actually observed never under-counts.
       expect(planExit(env({ historyLength: 13, sentinelDepth: 12, sentinelCapacity: 2 })).immediate).toEqual([
         { kind: 'close' },
+        { kind: 'terminate-guide' },
       ]);
+      // Malformed depths never over-step: negatives / fractions clamp sanely.
+      expect(planExit(provable({ documentDepth: -3, sentinelDepth: -3, sameOriginRunLength: 1, historyLength: 2 })).immediate).toEqual([
+        { kind: 'close' },
+        { kind: 'terminate-guide' },
+      ]);
+      // [google, real, s1, s2] with the visitor one step down (depth 1.9 -> 1, capacity 2).
+      expect(
+        planExit(provable({ documentDepth: 1.9, sentinelDepth: 1.9, sentinelCapacity: 2, sameOriginRunLength: 3, historyLength: 4 })).immediate,
+      ).toEqual([{ kind: 'history-back', steps: 2 }]);
+    });
+
+    it('closes a fresh single-entry tab or a script-opened window, and only then waits for the settle before the guide', () => {
+      expect(planExit(env({ historyLength: 1 }))).toEqual({
+        channel: 'online',
+        immediate: [{ kind: 'close' }],
+        fallback: { kind: 'terminate-guide' },
+      });
+      expect(planExit(env({ historyLength: 13, sentinelDepth: 12, scriptOpened: true })).immediate).toEqual([{ kind: 'close' }]);
+    });
+
+    it('terminates in place ON THE TAP when the close is certain to be refused (multi-entry, not script-opened) -- no settle-wait, no black hang', () => {
+      const plan = planExit(env({ historyLength: 13, sentinelDepth: 12 }));
+      expect(plan.immediate).toEqual([{ kind: 'close' }, { kind: 'terminate-guide' }]);
+      expect(plan.fallback).toEqual({ kind: 'terminate-guide' });
+      // The online terminal frame is the completion GUIDE, never the bare
+      // black shroud (that stays the desktop App window's own fallback).
+      expect(JSON.stringify(plan)).not.toContain('"terminate"');
     });
 
     it('shares one sentinel contract with ExitGuard and the Coming-Soon exit control', () => {
@@ -612,16 +718,18 @@ describe('sovereign omni-channel exit planner', () => {
       expect(EXIT_GUARD_SENTINEL_DEPTH).toBeGreaterThanOrEqual(2);
     });
 
-    it('falls back to the external referrer (the search page) when a step is refused', () => {
-      const referrer = 'https://www.google.com/search?q=unitas';
-      const plan = planExit(env({ historyLength: 1, referrer }));
-      expect(plan.fallback).toEqual({ kind: 'navigate', url: referrer, replace: false });
-    });
-
-    it('with no external page to return to, a refused exit terminates in place -- never a restart on the site', () => {
-      expect(planExit(env({ referrer: `${ORIGIN}/en/u-ai` })).fallback).toEqual({ kind: 'terminate' });
-      expect(planExit(env({ referrer: 'javascript:alert(1)' })).fallback).toEqual({ kind: 'terminate' });
-      expect(planExit(env({ referrer: '' })).fallback).toEqual({ kind: 'terminate' });
+    it('NO online plan ever navigates the document to a page of this site', () => {
+      const plans = [
+        planExit(provable()),
+        planExit(provable({ siteEntriesBehind: 2, sameOriginRunLength: 15, historyLength: 16 })),
+        planExit(env({ historyLength: 14, sentinelDepth: 12, referrer: `${ORIGIN}/ko` })),
+        planExit(env({ historyLength: 1, referrer: `${ORIGIN}/ko` })),
+      ];
+      for (const plan of plans) {
+        for (const step of [...plan.immediate, plan.fallback]) {
+          if (step.kind === 'navigate') expect(step.url.startsWith(ORIGIN)).toBe(false);
+        }
+      }
     });
   });
 

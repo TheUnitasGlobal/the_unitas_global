@@ -12,7 +12,8 @@ import {
   type ReactNode,
 } from 'react';
 import { attenuateMaster } from '@/lib/audio/masterLevel';
-import { ensurePlaybackAudioSession } from '@/lib/audio/audioSession';
+import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '@/lib/audio/audioSession';
+import { attachActivationUnlock } from '@/lib/audio/activationUnlock';
 import { AUDIO_PREF_KEY, readAudioPrefMuted } from '@/lib/audio/audioPreference';
 import { APP_EXIT_EVENT } from '@/lib/exit/appExit';
 
@@ -52,6 +53,62 @@ const BASE_MASTER_GAIN = attenuateMaster(0.4);
 /** Ambient bed level (under BASE_MASTER_GAIN). Deliberately low -- a presence, not a soundtrack. */
 const AMBIENT_GAIN = 0.05;
 
+const noop = () => {};
+
+/**
+ * Safe no-op surface returned by `useSpatialAudio()` outside a provider
+ * (owner instruction 2026-09-07, item 1): a missing provider used to THROW
+ * during render and take the whole route down to the error screen -- a
+ * silent cue is the correct failure mode for an audio helper.
+ */
+const SILENT_AUDIO: SpatialAudioContextValue = {
+  muted: true,
+  unlocked: false,
+  toggleMuted: noop,
+  unlockAndUnmute: noop,
+  playSpatialPing: noop,
+  playHoverSfx: noop,
+  playSearchFocusSfx: noop,
+  playQuestEnterSfx: noop,
+  playTypingTick: noop,
+  playEcosystemHover: noop,
+  playVaultSfx: noop,
+};
+
+/**
+ * Wrap an SFX / control function so a Web Audio refusal (a closed context, a
+ * node the engine lacks, a scheduling error) never throws out of the click,
+ * hover or effect that triggered it (owner instruction 2026-09-07, items 1 +
+ * 2). A cue that cannot play is simply skipped.
+ */
+function guard<A extends unknown[]>(fn: (...args: A) => void): (...args: A) => void {
+  return (...args: A) => {
+    try {
+      fn(...args);
+    } catch {
+      /* a refused cue must never break the interaction that asked for it */
+    }
+  };
+}
+
+/**
+ * Stereo pan node with a graceful fallback: `createStereoPanner` is missing
+ * on older WebKit (Safari < 14.1); an equal-power PannerNode gives the same
+ * left/right placement there instead of a TypeError.
+ */
+function createPan(ctx: AudioContext, pan: number): AudioNode {
+  const p = Math.max(-1, Math.min(1, pan));
+  if (typeof ctx.createStereoPanner === 'function') {
+    const node = ctx.createStereoPanner();
+    node.pan.value = p;
+    return node;
+  }
+  const node = ctx.createPanner();
+  node.panningModel = 'equalpower';
+  node.setPosition(p, 0, 1 - Math.abs(p));
+  return node;
+}
+
 /**
  * Web Audio API spatial-cue provider. No binary audio assets are bundled --
  * every SFX, including all 11 ecosystem themes, is synthesized (oscillators,
@@ -88,27 +145,68 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   const ctxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
   const noiseBufferRef = useRef<AudioBuffer | null>(null);
+  const silentRef = useRef<AudioBuffer | null>(null);
   const hydratedRef = useRef(false);
   const ambientRef = useRef<{ stop: () => void } | null>(null);
+  const mutedRef = useRef(muted);
+  mutedRef.current = muted;
 
   const ensureContext = useCallback(() => {
     if (typeof window === 'undefined') return null;
+    if (ctxRef.current && ctxRef.current.state === 'closed') {
+      // A closed context (an earlier teardown) can never run again -- drop it
+      // so the next call rebuilds a live one.
+      ctxRef.current = null;
+      masterGainRef.current = null;
+      noiseBufferRef.current = null;
+      silentRef.current = null;
+    }
     if (!ctxRef.current) {
-      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-      if (!AudioCtx) return null;
-      // iPhone ring/silent switch (owner instruction 2026-09-05, hardening
-      // patch, item 4): declare a playback session before the context
-      // exists -- lib/audio/audioSession.ts.
-      ensurePlaybackAudioSession();
-      const ctx: AudioContext = new AudioCtx();
-      const masterGain = ctx.createGain();
-      masterGain.gain.value = muted ? 0 : BASE_MASTER_GAIN;
-      masterGain.connect(ctx.destination);
-      ctxRef.current = ctx;
-      masterGainRef.current = masterGain;
+      try {
+        const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+        if (!AudioCtx) return null;
+        // iPhone ring/silent switch (owner instruction 2026-09-05, hardening
+        // patch, item 4): declare a playback session before the context
+        // exists -- lib/audio/audioSession.ts.
+        ensurePlaybackAudioSession();
+        const ctx: AudioContext = new AudioCtx();
+        const masterGain = ctx.createGain();
+        masterGain.gain.value = mutedRef.current ? 0 : BASE_MASTER_GAIN;
+        masterGain.connect(ctx.destination);
+        ctxRef.current = ctx;
+        masterGainRef.current = masterGain;
+        silentRef.current = makeSilentBuffer(ctx);
+      } catch {
+        // The engine refused to build a context (hardware context cap, a
+        // WebView without Web Audio). Owner instruction 2026-09-07, item 1:
+        // this used to throw out of a mount effect straight into the error
+        // screen -- the site simply runs silent instead.
+        ctxRef.current = null;
+        masterGainRef.current = null;
+        return null;
+      }
     }
     return ctxRef.current;
-  }, [muted]);
+  }, []);
+
+  /**
+   * Bring the context to `running` from INSIDE a user gesture: playback
+   * session declared, the WebKit silent kick fired, `resume()` requested.
+   * Covers every non-running state -- `suspended` (autoplay policy, an
+   * in-session F5) AND WebKit's non-standard `interrupted` (a phone call,
+   * Siri, backgrounding), which the old `=== 'suspended'` check never
+   * revived (owner instruction 2026-09-07, item 2).
+   */
+  const resumeContext = useCallback((ctx: AudioContext) => {
+    try {
+      if (ctx.state === 'running') return;
+      ensurePlaybackAudioSession();
+      if (silentRef.current) kickAudioContext(ctx, silentRef.current);
+      ctx.resume().catch(() => {});
+    } catch {
+      /* a refused resume must never throw out of the gesture */
+    }
+  }, []);
 
   // Rehydrate the persisted preference before the first paint so the sound
   // toggle never flashes the wrong state, and sound is ON unless the user
@@ -258,9 +356,18 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     if (muted) return;
     const ctx = ensureContext();
     if (!ctx) return;
-    ctx.resume().catch(() => {});
+    try {
+      ctx.resume().catch(() => {});
+    } catch {
+      /* no-op */
+    }
     ambientRef.current?.stop();
-    ambientRef.current = startAmbient(ctx);
+    try {
+      ambientRef.current = startAmbient(ctx);
+    } catch {
+      // A bed that cannot be built is skipped; SFX still work.
+      ambientRef.current = null;
+    }
     return () => {
       ambientRef.current?.stop();
       ambientRef.current = null;
@@ -274,9 +381,15 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   const unlockAndUnmute = useCallback(() => {
     const ctx = ensureContext();
     if (!ctx) return;
-    ctx.resume().catch(() => {});
+    // Owner instruction 2026-09-07, item 2: the entry / login tap is THE
+    // unlock gesture on every channel -- session + kick + resume, inside it.
+    resumeContext(ctx);
     setUnlocked(true);
     setMuted(false);
+    // The master was built muted (SSR default) if the context was created
+    // before the preference hydrated; open it on the same frame so the cue
+    // below is audible at once instead of waiting for the muted-effect.
+    if (masterGainRef.current) masterGainRef.current.gain.value = BASE_MASTER_GAIN;
 
     // Immediate "arrival" cue so crossing the gate is never silent while the
     // ambient bed ramps up behind it (zero-delay symphony). AUDIO PURIFY
@@ -311,7 +424,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       shimmer.start(now);
       shimmer.stop(now + 1.2);
     }
-  }, [ensureContext]);
+  }, [ensureContext, resumeContext]);
 
   /**
    * Side effects live here in the handler, not inside a setMuted() updater
@@ -327,11 +440,11 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       // in case the AudioGate was skipped.
       const ctx = ensureContext();
       if (ctx) {
-        ctx.resume().catch(() => {});
+        resumeContext(ctx);
         setUnlocked(true);
       }
     }
-  }, [muted, ensureContext]);
+  }, [muted, ensureContext, resumeContext]);
 
   // Hardening: browsers create every AudioContext suspended and require a
   // gesture to start it, AND some (mobile Safari especially) silently
@@ -340,30 +453,39 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   // rehydrated to false, and the very first interaction of any kind resumes
   // the fresh (suspended) context so the ambient bed + SFX come back without
   // the visitor ever seeing the entry gate again or touching the toggle.
+  //
+  // OMNI-CHANNEL 100% UNLOCK (owner instruction 2026-09-07, item 2): the
+  // old listener set (pointerdown / touchstart / wheel / keydown) missed the
+  // very events that CARRY activation on a phone -- a touch `pointerdown` /
+  // `touchstart` grants none, so the resume they requested was refused, and
+  // the `touchend` / `click` of that same finger (which do grant it) were not
+  // listened for: the FIRST tap on a phone stayed silent and only the second
+  // interaction woke the engine. The shared activation-unlock set
+  // (lib/audio/activationUnlock.ts: pointerdown, touchstart, pointerup,
+  // touchend, mousedown, click, keydown) now resumes -- with the WebKit kick
+  // -- on every one of them, in the capture phase, on every page and both
+  // channels; `visibilitychange` covers the OS-side re-suspend / `interrupted`
+  // on return. Installed regardless of `muted` (a muted master is gain 0, so
+  // keeping the context RUNNING is free and makes a later unmute instant),
+  // creating the context only while sound is on.
   useEffect(() => {
-    if (muted) return;
-
-    function resumeIfSuspended() {
-      const ctx = ctxRef.current;
-      if (ctx && ctx.state === 'suspended') {
-        ctx.resume().catch(() => {});
-      }
-    }
-
-    const opts: AddEventListenerOptions = { passive: true };
-    document.addEventListener('visibilitychange', resumeIfSuspended);
-    window.addEventListener('pointerdown', resumeIfSuspended, opts);
-    window.addEventListener('touchstart', resumeIfSuspended, opts);
-    window.addEventListener('wheel', resumeIfSuspended, opts);
-    window.addEventListener('keydown', resumeIfSuspended);
-    return () => {
-      document.removeEventListener('visibilitychange', resumeIfSuspended);
-      window.removeEventListener('pointerdown', resumeIfSuspended);
-      window.removeEventListener('touchstart', resumeIfSuspended);
-      window.removeEventListener('wheel', resumeIfSuspended);
-      window.removeEventListener('keydown', resumeIfSuspended);
+    const wake = () => {
+      const ctx = mutedRef.current ? ctxRef.current : ensureContext();
+      if (ctx) resumeContext(ctx);
     };
-  }, [muted]);
+    const detach = attachActivationUnlock(wake);
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') wake();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    const opts: AddEventListenerOptions = { passive: true };
+    window.addEventListener('wheel', wake, opts);
+    return () => {
+      detach();
+      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('wheel', wake);
+    };
+  }, [ensureContext, resumeContext]);
 
   const playSpatialPing = useCallback(
     (pan = 0) => {
@@ -373,11 +495,10 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
 
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
-      const panner = ctx.createStereoPanner();
+      const panner = createPan(ctx, pan);
 
       osc.type = 'sine';
       osc.frequency.value = 660;
-      panner.pan.value = Math.max(-1, Math.min(1, pan));
 
       const now = ctx.currentTime;
       gain.gain.setValueAtTime(0, now);
@@ -401,8 +522,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       if (!ctx || !master) return;
 
       const now = ctx.currentTime;
-      const panner = ctx.createStereoPanner();
-      panner.pan.value = Math.max(-1, Math.min(1, pan));
+      const panner = createPan(ctx, pan);
 
       // Refined high-tech blip (owner instruction 2026-08-29 SFX polish):
       // a clean voiced core + a soft octave partial for sparkle, run through
@@ -660,8 +780,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       if (!ctx || !master) return;
 
       const now = ctx.currentTime;
-      const panner = ctx.createStereoPanner();
-      panner.pan.value = Math.max(-1, Math.min(1, pan));
+      const panner = createPan(ctx, pan);
       panner.connect(master);
 
       const tone = (
@@ -789,19 +908,22 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener(APP_EXIT_EVENT, onExit);
   }, []);
 
+  // Every function handed out is guarded (see `guard`): a Web Audio refusal
+  // inside a cue is swallowed at this boundary, never thrown into the click,
+  // hover or effect that requested it.
   const value = useMemo(
     () => ({
       muted,
       unlocked,
-      toggleMuted,
-      unlockAndUnmute,
-      playSpatialPing,
-      playHoverSfx,
-      playSearchFocusSfx,
-      playQuestEnterSfx,
-      playTypingTick,
-      playEcosystemHover,
-      playVaultSfx,
+      toggleMuted: guard(toggleMuted),
+      unlockAndUnmute: guard(unlockAndUnmute),
+      playSpatialPing: guard(playSpatialPing),
+      playHoverSfx: guard(playHoverSfx),
+      playSearchFocusSfx: guard(playSearchFocusSfx),
+      playQuestEnterSfx: guard(playQuestEnterSfx),
+      playTypingTick: guard(playTypingTick),
+      playEcosystemHover: guard(playEcosystemHover),
+      playVaultSfx: guard(playVaultSfx),
     }),
     [
       muted,
@@ -823,10 +945,23 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useSpatialAudio() {
+let warnedMissingProvider = false;
+
+export function useSpatialAudio(): SpatialAudioContextValue {
   const ctx = useContext(SpatialAudioContext);
   if (!ctx) {
-    throw new Error('useSpatialAudio must be used within a SpatialAudioProvider');
+    // Never throw during render (owner instruction 2026-09-07, item 1): a
+    // consumer mounted outside the provider runs silent instead of taking
+    // the route down to the error screen. Logged once so it is still found.
+    if (!warnedMissingProvider) {
+      warnedMissingProvider = true;
+      try {
+        console.warn('[Sovereign Shield] useSpatialAudio used outside SpatialAudioProvider -- running silent');
+      } catch {
+        /* console unavailable */
+      }
+    }
+    return SILENT_AUDIO;
   }
   return ctx;
 }

@@ -1,6 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { SELF_HEAL_DELAY_MS, claimSelfHealAttempt, clearSelfHealRecord } from '@/lib/system/selfHeal';
+
+const SELF_HEAL_SCOPE = 'root';
 
 /**
  * Last-resort error boundary: only fires if the root layout itself throws
@@ -13,6 +16,14 @@ import { useEffect } from 'react';
  *
  * Same rule as the locale-scoped boundary: never render `error.message` /
  * `error.stack` / `error.name`, only the safe opaque `error.digest`.
+ *
+ * SELF-HEALING (owner instruction 2026-09-07, item 1): like the locale
+ * boundary, the first move is to `reset()` after a short beat (two automatic
+ * attempts per 30s, lib/system/selfHeal.ts) behind a quiet black void, so a
+ * transient root fault never shows this screen; only a persistent one does.
+ * The root layout's own modules (3D scene, intro splash, audio graph) are
+ * additionally fenced by per-module SovereignShields, so this boundary is
+ * reached only when the layout shell itself cannot render.
  */
 export default function GlobalError({
   error,
@@ -21,9 +32,34 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const [healing, setHealing] = useState(true);
+
   useEffect(() => {
     console.error('[Sovereign Core Error - root boundary]', error);
   }, [error]);
+
+  useEffect(() => {
+    if (!claimSelfHealAttempt(SELF_HEAL_SCOPE)) {
+      setHealing(false);
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      try {
+        reset();
+      } catch {
+        setHealing(false);
+      }
+    }, SELF_HEAL_DELAY_MS);
+    return () => window.clearTimeout(timer);
+  }, [reset]);
+
+  if (healing) {
+    return (
+      <html lang="en">
+        <body style={{ margin: 0, minHeight: '100vh', backgroundColor: '#030305' }} aria-busy="true" />
+      </html>
+    );
+  }
 
   return (
     <html lang="en">
@@ -85,7 +121,10 @@ export default function GlobalError({
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
           <button
             type="button"
-            onClick={reset}
+            onClick={() => {
+              clearSelfHealRecord(SELF_HEAL_SCOPE);
+              reset();
+            }}
             style={{
               border: '1px solid #d4af37',
               background: 'rgba(212,175,55,0.1)',

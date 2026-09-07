@@ -14,6 +14,8 @@ import { ModuleQuestModal } from '@/components/interaction/ModuleQuestModal';
 import { HotShortcutResultModal } from '@/components/interaction/HotShortcutResultModal';
 import { LockInModuleModal } from '@/components/interaction/LockInModuleModal';
 import { Footer } from '@/components/layout/Footer';
+import { SovereignShield } from '@/components/system/SovereignShield';
+import { SectionShield } from '@/components/system/PageShield';
 import { useShockwave } from '@/components/effects/Shockwave';
 import { useUai } from '@/lib/uai/useUai';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
@@ -128,15 +130,24 @@ export function HomeContent() {
           values that happen to match -- that is what guarantees exact top/bottom symmetry around
           the title. OmniSynapseSearch carries no margin-top of its own (see its root div), so
           this pb-24 is the entire gap down to the search box, mirroring the pt-24 gap up to the nav. */}
+      {/* Sovereign Shield doctrine (owner instruction 2026-09-07, item 1):
+          every independent block of the home page is fenced on its own, so
+          one faulting widget (a feed, a card grid, a modal) settles on a
+          quiet in-place fallback and self-heals while the rest of the page
+          keeps working -- never the route error screen. */}
       <div className="flex flex-col items-center pt-24 pb-24">
-        <Hero />
+        <SectionShield zone="home-hero">
+          <Hero />
+        </SectionShield>
       </div>
-      <OmniSynapseSearch
-        uai={uai}
-        onSelectEcosystem={setActiveEcosystem}
-        onOpenShortcut={setActiveShortcut}
-        onOuroborosChange={setIsOuroboros}
-      />
+      <SectionShield zone="home-search">
+        <OmniSynapseSearch
+          uai={uai}
+          onSelectEcosystem={setActiveEcosystem}
+          onOpenShortcut={setActiveShortcut}
+          onOuroborosChange={setIsOuroboros}
+        />
+      </SectionShield>
 
       {/* The mobile "back = leave" double gate (ExitGuard) now mounts once in
           app/[locale]/layout.tsx so it serves every route and can read the
@@ -181,17 +192,19 @@ export function HomeContent() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {ECOSYSTEMS.map((eco, index) => (
-            <EcosystemCard
-              key={eco.key}
-              ecosystem={eco}
-              index={index}
-              onOpen={setActiveEcosystem}
-              shockwaveTrigger={triggerShockwave}
-            />
-          ))}
-        </div>
+        <SectionShield zone="home-ecosystems">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {ECOSYSTEMS.map((eco, index) => (
+              <EcosystemCard
+                key={eco.key}
+                ecosystem={eco}
+                index={index}
+                onOpen={setActiveEcosystem}
+                shockwaveTrigger={triggerShockwave}
+              />
+            ))}
+          </div>
+        </SectionShield>
       </section>
 
       {/* Section 2 -- Live Consumer Services (restored: the original 5 modules) */}
@@ -208,11 +221,13 @@ export function HomeContent() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {B2C_MODULES.map((module, index) => (
-            <LiveServiceCard key={module.key} module={module} index={index} onOpen={setActiveModule} />
-          ))}
-        </div>
+        <SectionShield zone="home-live-services">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {B2C_MODULES.map((module, index) => (
+              <LiveServiceCard key={module.key} module={module} index={index} onOpen={setActiveModule} />
+            ))}
+          </div>
+        </SectionShield>
       </section>
 
       {/* Lock-in Ecosystem -- the 8 lock-in modules [NEXUS, AEGIS, U-TWIN,
@@ -221,7 +236,9 @@ export function HomeContent() {
           enterprise modules (owner instruction 2026-09-04 round 8). Keep
           this block between Section 2 and Section 3; nothing may be
           inserted between it and Section 3 below. */}
-      <LockInModuleCarousel active={lockedIn} onOpen={setActiveLockIn} />
+      <SectionShield zone="home-lockin">
+        <LockInModuleCarousel active={lockedIn} onOpen={setActiveLockIn} />
+      </SectionShield>
 
       {/* Section 3 -- Enterprise Protocols (the core 3 modules) */}
       <section id="b2b" className="mx-auto mt-8 max-w-7xl border-t border-accent/10 px-6 py-16">
@@ -237,26 +254,40 @@ export function HomeContent() {
               one-line subtitle, matching the other two sections' altitude. */}
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {B2B_PROTOCOLS.map((protocol, index) => (
-            <B2BProtocolCard key={protocol.key} protocol={protocol} index={index} />
-          ))}
-        </div>
+        <SectionShield zone="home-b2b">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {B2B_PROTOCOLS.map((protocol, index) => (
+              <B2BProtocolCard key={protocol.key} protocol={protocol} index={index} />
+            ))}
+          </div>
+        </SectionShield>
       </section>
       </motion.div>
 
-      <EcosystemEntryModal ecosystem={activeEcosystem} onClose={() => setActiveEcosystem(null)} />
-      <ModuleQuestModal module={activeModule} onClose={() => setActiveModule(null)} />
-      <HotShortcutResultModal shortcut={activeShortcut} onClose={() => setActiveShortcut(null)} />
-      <LockInModuleModal
-        module={activeLockIn}
-        active={activeLockIn !== null && lockedIn.includes(activeLockIn.key)}
-        onToggleActive={handleToggleLockIn}
-        onStep={setActiveLockIn}
-        onClose={() => setActiveLockIn(null)}
-      />
+      {/* Popups: a faulting modal closes itself (fallback null) and the shield
+          resets the moment its subject changes, so the next open is clean. */}
+      <SovereignShield zone="modal-ecosystem" resetKeys={[activeEcosystem]}>
+        <EcosystemEntryModal ecosystem={activeEcosystem} onClose={() => setActiveEcosystem(null)} />
+      </SovereignShield>
+      <SovereignShield zone="modal-module" resetKeys={[activeModule]}>
+        <ModuleQuestModal module={activeModule} onClose={() => setActiveModule(null)} />
+      </SovereignShield>
+      <SovereignShield zone="modal-shortcut" resetKeys={[activeShortcut]}>
+        <HotShortcutResultModal shortcut={activeShortcut} onClose={() => setActiveShortcut(null)} />
+      </SovereignShield>
+      <SovereignShield zone="modal-lockin" resetKeys={[activeLockIn]}>
+        <LockInModuleModal
+          module={activeLockIn}
+          active={activeLockIn !== null && lockedIn.includes(activeLockIn.key)}
+          onToggleActive={handleToggleLockIn}
+          onStep={setActiveLockIn}
+          onClose={() => setActiveLockIn(null)}
+        />
+      </SovereignShield>
     </main>
-    <Footer />
+    <SovereignShield zone="footer">
+      <Footer />
+    </SovereignShield>
     </Fragment>
   );
 }

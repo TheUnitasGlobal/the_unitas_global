@@ -109,8 +109,9 @@ test.describe('PHONE / TABLET app: one confirm, then the completion guide (round
 
     await sealedX(page).dispatchEvent('click');
     await expect(exitDialog(page)).toBeVisible({ timeout: 3000 });
-    // The online channel's question, verbatim (en): no "1 / 2" indicator.
-    await expect(exitDialog(page)).toHaveText(/log out and exit/i);
+    // The single minimal question (round 22 copy, en "Exit?"): no "1 / 2"
+    // indicator, no logout question while signed out.
+    await expect(exitDialog(page)).toHaveText(/^exit\?$/i);
     await expect(exitPanel(page)).not.toContainText(/Step \d of \d/);
 
     // The buffer is intact -- a back traversal lands on a sentinel and the
@@ -166,9 +167,13 @@ test.describe('PHONE / TABLET app: one confirm, then the completion guide (round
     expect(done.frame).toBe('guide');
     expect(done.url).not.toContain('about:blank');
     // Whole-stack collapse landed on the document's first entry and the
-    // entry was sealed to the clean launch URL (origin + locale root).
+    // entry was sealed to the clean launch URL. English lives at the bare
+    // root since the single-URL SEO architecture (localePrefix 'as-needed',
+    // 2026-09-06), so the router's canonical URL for /en is `/`; either
+    // spelling is the clean launch entry -- what matters is that no query,
+    // hash or deep route survives.
     await expect.poll(async () => (await readStack(page)).sentinelDepth, { timeout: 5000 }).toBe(0);
-    await expect.poll(async () => (await readStack(page)).url, { timeout: 5000 }).toBe(`${origin}/en`);
+    await expect.poll(async () => (await readStack(page)).url, { timeout: 5000 }).toMatch(new RegExp(`^${origin}/(en)?$`));
     expect([0, -1]).toContain((await readStack(page)).sameDocumentIndex);
 
     // React tree purged (no dialog, no canvas), session purged.

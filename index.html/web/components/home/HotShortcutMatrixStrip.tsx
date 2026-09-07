@@ -19,6 +19,7 @@ import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
 import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
 import { AppDetailCard } from '@/components/interaction/AppDetailCard';
+import { SectionShield } from '@/components/system/PageShield';
 
 interface HotShortcutMatrixStripProps {
   onOpenShortcut: (axis: HotShortcutAxis) => void;
@@ -243,7 +244,11 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
               onOpen={() => setExpandedApp(null)}
             />
           )}
-          {activeTab === 'weather' && <LiveWeatherPanel />}
+          {activeTab === 'weather' && (
+            <SectionShield zone="live-weather">
+              <LiveWeatherPanel />
+            </SectionShield>
+          )}
           {activeTab !== 'email' &&
             activeTab !== 'social' &&
             activeTab !== 'weather' &&
@@ -277,9 +282,18 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
           modules ("실시간 세계 랭킹", "실시간 유니타스 랭킹") now lead, the
           renamed "실시간 뉴스" feed closes it out. */}
       <div className="mt-5 flex flex-col gap-4 px-4 sm:px-6">
-        <GlobalThemeRankings />
-        <UnitasModuleRankings />
-        <HotIssueNewsList />
+        {/* Each live feed is shielded on its own (owner instruction
+            2026-09-07, item 1): a malformed upstream answer in one row can
+            never take the other two -- or the search bar above -- down. */}
+        <SectionShield zone="live-global-rankings">
+          <GlobalThemeRankings />
+        </SectionShield>
+        <SectionShield zone="live-unitas-rankings">
+          <UnitasModuleRankings />
+        </SectionShield>
+        <SectionShield zone="live-news">
+          <HotIssueNewsList />
+        </SectionShield>
       </div>
       </div>
     </motion.div>

@@ -97,28 +97,51 @@ test.describe('no popup on entry', () => {
   });
 });
 
-test.describe("sealed screen 'X' tunnels straight into the exit engine", () => {
-  test('online channel: one tap returns to the previous page, with no confirm and no blank page', async ({ page }) => {
-    // A stand-in for "the search page the visitor came from".
+test.describe("sealed screen 'X' -> confirm -> 종료 ends the session IN PLACE (round 23 + round 24)", () => {
+  // Round 24 (owner instruction 2026-09-07, item 3): the online channel must
+  // NEVER traverse history onto an earlier page of this site -- that landing
+  // ran the re-entry reset and showed the entry page ("종료를 눌렀더니 진입
+  // 페이지로 리셋"). Here an earlier SITE page sits behind the sealed screen
+  // (exactly the founder's testing pattern), so the confirmed 종료 must stay
+  // on this document and paint the completion guide.
+  test('online channel: X opens the confirm; 종료 paints the completion guide on THIS document -- never back onto an earlier site page', async ({ page }) => {
     await page.goto('/en/company/about?splash=0');
-    const previousUrl = page.url();
+    const earlierSitePage = page.url();
     await page.evaluate(() => sessionStorage.setItem('unitas_cinema_phase', 'sealed'));
     await page.goto('/en?splash=0');
+    const sealedUrl = page.url();
     const closeX = page.locator('button[aria-label]').filter({ has: page.locator('svg.lucide-x') }).first();
     await expect(closeX).toBeVisible({ timeout: 5000 });
 
-    // Clicking triggers `history.go(-1)` synchronously inside the gesture --
-    // Playwright may report the element detaching mid-click; that IS the exit.
-    await closeX.dispatchEvent('click');
-    await page.waitForURL(previousUrl, { timeout: 5000 });
-    expect(page.url()).toBe(previousUrl);
-    expect(page.url()).not.toContain('about:blank');
+    // A genuine activation gesture first (arms the sentinel buffer, like a
+    // real visitor's first tap), then the X.
+    await page.mouse.click(5, 5);
+    await closeX.click();
+    await expect(exitDialog(page)).toBeVisible({ timeout: 5000 });
+
+    const confirm = page.locator('[role="dialog"] button').last();
+    await confirm.click();
+
+    // The document is terminated in place: guide frame up, tree purged.
+    const guide = page.locator('[data-unitas-exit-guide]');
+    await expect(guide).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('html')).toHaveAttribute('data-unitas-terminated', '1');
+    await expect(page.locator('html')).toHaveAttribute('data-unitas-terminal-frame', 'guide');
     await expect(exitDialog(page)).toHaveCount(0);
+
+    // Never left the document, never landed on the earlier site page, never
+    // reset to the entry page.
+    await page.waitForTimeout(1200);
+    expect(page.url().split('?')[0]).toBe(sealedUrl.split('?')[0]);
+    expect(page.url()).not.toBe(earlierSitePage);
+    expect(page.url()).not.toContain('about:blank');
+    await expect(page.locator('button.event-horizon-btn')).toHaveCount(0);
+    await expect(guide).toBeVisible();
   });
 
   // The single-entry "fresh tab" branch (window.close() honoured by Chromium
-  // when the session history holds one document) cannot be reproduced under
-  // Playwright -- its pages always start on a real about:blank entry, so the
-  // planner correctly picks history-back instead. That branch is covered by
-  // the pure planner unit tests in web/__tests__/exit/appExit.test.ts.
+  // when the session history holds one document) and the provable
+  // external-referrer branch cannot be reproduced under Playwright -- its
+  // pages always start on a real about:blank entry. Both are covered by the
+  // pure planner unit tests in web/__tests__/exit/appExit.test.ts.
 });
