@@ -11,6 +11,14 @@
 // if any copy's marker block has drifted, or if the root 3 disagree with
 // each other.
 //
+// Vercel's Root Directory is scoped to this operational root, so its build
+// checkout does not include the git-root canon files one level up (by
+// deliberate infra config, not an error — see CLAUDE.md). When they're
+// absent, this script falls back to treating the first operational copy as
+// the reference and only checks the 4 copies against each other, so a
+// missing root doesn't fail a legitimate deploy but a copy actually
+// drifting from its siblings still does.
+//
 // Usage:
 //   node scripts/sync-codex.mjs            verify (default) — exit 1 on drift
 //   node scripts/sync-codex.mjs --write     rewrite each copy's marker block
@@ -67,7 +75,13 @@ function extractBlock(normalizedContent, filePath) {
 function loadCanon() {
   const digests = new Map();
   for (const file of CANON_FILES) {
-    const normalized = normalize(fs.readFileSync(file, 'utf8'));
+    let normalized;
+    try {
+      normalized = normalize(fs.readFileSync(file, 'utf8'));
+    } catch (err) {
+      if (err.code === 'ENOENT') return loadCanonFromFirstCopy(err);
+      throw err;
+    }
     digests.set(file, { normalized, hash: sha256(normalized) });
   }
   const hashes = new Set([...digests.values()].map((d) => d.hash));
@@ -78,7 +92,15 @@ function loadCanon() {
     throw new Error(`canonical root files disagree with each other:\n${detail}`);
   }
   const [first] = digests.values();
-  return { text: first.normalized, hash: first.hash };
+  return { text: first.normalized, hash: first.hash, source: 'git-root canon' };
+}
+
+function loadCanonFromFirstCopy(rootErr) {
+  console.warn(`[sync-codex] git-root canon unavailable (${rootErr.path}) — falling back to cross-copy check only.`);
+  const [firstCopy] = COPY_FILES;
+  const normalized = normalize(fs.readFileSync(firstCopy, 'utf8'));
+  const { block } = extractBlock(normalized, firstCopy);
+  return { text: block, hash: sha256(block), source: `first copy (${path.relative(OPERATIONAL_ROOT, firstCopy)})` };
 }
 
 function verify(canon) {
@@ -122,7 +144,7 @@ function main() {
   const results = verify(canon);
   const drifted = results.filter((r) => !r.ok);
 
-  console.log(`[sync-codex] canon sha256 = ${canon.hash}`);
+  console.log(`[sync-codex] canon sha256 = ${canon.hash} (source: ${canon.source})`);
   for (const r of results) {
     console.log(`[sync-codex] ${r.ok ? 'PASS' : 'FAIL'}  ${r.file}${r.ok ? '' : `  (${r.reason ?? `hash ${r.hash} != canon`})`}`);
   }
