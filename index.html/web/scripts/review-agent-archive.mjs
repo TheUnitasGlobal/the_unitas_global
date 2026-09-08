@@ -18,6 +18,14 @@
 // archive, satisfying the literal request without pretending a serverless
 // route can write to a home directory it doesn't have.
 //
+// Each run is also mirrored as a companion `<date>-<id>.md` file (founder
+// directive 2026-09-08) — a skimmable executive-briefing document (status,
+// the LLM-generated one-paragraph briefing if one was generated, and the
+// findings list) rather than raw JSON. To run this nightly without a
+// manual trigger, see scripts/install-review-archive-task.ps1 (Windows
+// Task Scheduler installer — not run automatically by anything in this
+// repo; the founder runs it once, opt-in).
+//
 // Dependency-free (Node >= 18 `fetch`), same .env.local-loading convention
 // as scripts/admin-verify-phone.mjs. Never wired into build/prebuild —
 // this is a founder-run op, not part of the app.
@@ -82,12 +90,43 @@ async function fetchRecentRuns() {
   return res.json();
 }
 
+function findingsToMarkdown(findings) {
+  if (!Array.isArray(findings) || findings.length === 0) return '_(no findings)_';
+  return findings.map((f) => `- **${String(f.level).toUpperCase()}** \`${f.code}\` -- ${f.message}`).join('\n');
+}
+
+/**
+ * Companion human-readable markdown file, alongside the raw JSON archive.
+ * This is the actual "executive briefing stream" artifact under
+ * ~/life/review/ -- one skimmable file per run instead of raw JSON, per
+ * founder directive 2026-09-08 to fully automate the briefing stream.
+ */
+function briefingMarkdown(run) {
+  const lines = [
+    `# Review Agent -- ${run.run_at}`,
+    '',
+    `**Status:** ${String(run.status).toUpperCase()}  `,
+    `**Triggered by:** ${run.triggered_by}`,
+    '',
+    `> ${run.summary}`,
+    '',
+  ];
+  if (run.briefing) {
+    lines.push('## Executive Briefing', '', run.briefing, '');
+  }
+  lines.push('## Findings', '', findingsToMarkdown(run.findings), '');
+  return lines.join('\n');
+}
+
 function archiveRun(run) {
   const date = run.run_at.slice(0, 10);
   const fileName = `${date}-${run.id}.json`;
+  const mdFileName = `${date}-${run.id}.md`;
   const filePath = path.join(ARCHIVE_DIR, fileName);
+  const mdFilePath = path.join(ARCHIVE_DIR, mdFileName);
   if (existsSync(filePath)) return { fileName, wrote: false };
   writeFileSync(filePath, `${JSON.stringify(run, null, 2)}\n`, 'utf8');
+  writeFileSync(mdFilePath, briefingMarkdown(run), 'utf8');
   return { fileName, wrote: true };
 }
 

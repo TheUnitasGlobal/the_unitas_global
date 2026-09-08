@@ -13,6 +13,7 @@ interface ReviewRunRow {
   summary: string;
   findings: ReviewFinding[];
   triggered_by: 'cron' | 'manual';
+  briefing: string | null;
 }
 
 const LEVEL_ICON: Record<ReviewLevel, typeof CheckCircle2> = {
@@ -104,6 +105,12 @@ export function ReviewAgentEngine() {
                   </time>
                 </div>
                 <p className="mb-2 text-sm text-gray-300">{run.summary}</p>
+                {run.briefing && (
+                  <p className="mb-3 border-l-2 border-accent/40 pl-3 text-xs italic text-gray-400">
+                    <span className="mr-1 font-bold not-italic text-accent">{t('briefingLabel')}:</span>
+                    {run.briefing}
+                  </p>
+                )}
                 <ul className="space-y-1">
                   {run.findings.map((finding, i) => (
                     <li key={i} className="text-xs text-gray-500">

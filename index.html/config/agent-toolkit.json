@@ -30,6 +30,13 @@
       "repository": "https://github.com/usestrix/strix.git",
       "path": ".agent-tools/strix",
       "mode": "local-source-only"
+    },
+    "ponytail": {
+      "repository": "https://github.com/DietrichGebert/ponytail",
+      "package": "@dietrichgebert/ponytail",
+      "entrypoint": "npx @dietrichgebert/ponytail",
+      "mode": "project-skill",
+      "note": "Minimal-code coding-agent skill/ruleset (MIT) -- a 7-step decision ladder biasing Claude Code/etc. toward stdlib/native/existing-dependency solutions over new code. Verified 2026-09-08 via web research: NOT a pipeline-automation tool, correcting this repo's earlier internal naming. Confirm the exact install subcommand in the package's own README before first run -- not executed automatically here, same convention as claude-mem's official install flow above."
     }
   },
   "revenueModules": ["Arche", "Arena", "Score", "Fate", "Codex22"],

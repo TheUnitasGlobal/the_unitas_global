@@ -1,8 +1,8 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { AlertTriangle } from 'lucide-react';
+import { useTranslations, useLocale } from 'next-intl';
+import { AlertTriangle, Loader2, Sparkles } from 'lucide-react';
 import {
   BRAND_ASSET_MANIFEST,
   BRAND_COLOR_TOKENS,
@@ -10,6 +10,8 @@ import {
   applyBrandVoice,
   checkBrandVoice,
 } from '@/lib/lifeOs/brandKit';
+import type { GeneratedMarketingAssets } from '@/lib/lifeOs/marketingAssets';
+import { lifeOsFetch } from '@/lib/lifeOs/clientFetch';
 
 /**
  * Brand Kit: sovereign tone-of-voice + style/asset automated injection.
@@ -21,10 +23,39 @@ import {
  */
 export function BrandKitEngine() {
   const t = useTranslations('LifeOs.brandKit');
+  const locale = useLocale();
   const [draft, setDraft] = useState('');
 
   const findings = useMemo(() => checkBrandVoice(draft), [draft]);
   const preview = useMemo(() => applyBrandVoice(draft), [draft]);
+
+  const [brief, setBrief] = useState('');
+  const [generating, setGenerating] = useState(false);
+  const [generated, setGenerated] = useState<GeneratedMarketingAssets | null>(null);
+  const [generateError, setGenerateError] = useState(false);
+
+  const generate = async () => {
+    if (generating || !brief.trim()) return;
+    setGenerating(true);
+    setGenerateError(false);
+    try {
+      const res = await lifeOsFetch('/api/life/brand-kit/generate', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ brief, locale }),
+      });
+      const json = await res.json();
+      if (json.ok) {
+        setGenerated(json as GeneratedMarketingAssets);
+      } else {
+        setGenerateError(true);
+      }
+    } catch {
+      setGenerateError(true);
+    } finally {
+      setGenerating(false);
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -90,6 +121,60 @@ export function BrandKitEngine() {
               <p className="mb-1 text-[10px] uppercase tracking-widest text-gray-500">{t('previewLabel')}</p>
               <p className="text-sm text-gray-200">{preview}</p>
             </div>
+          </div>
+        )}
+      </section>
+
+      <section>
+        <h2 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-accent">{t('generatorLabel')}</h2>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <input
+            value={brief}
+            onChange={(e) => setBrief(e.target.value)}
+            placeholder={t('generatorPlaceholder')}
+            className="flex-1 border border-accent/20 bg-void/60 px-3 py-2 text-sm text-white placeholder:text-gray-600 focus:border-accent focus:outline-none"
+          />
+          <button
+            type="button"
+            onClick={() => void generate()}
+            disabled={generating || !brief.trim()}
+            className="flex items-center justify-center gap-2 border border-accent/40 px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-accent transition-colors hover:border-accent disabled:opacity-40"
+          >
+            {generating ? <Loader2 size={14} className="animate-spin" aria-hidden="true" /> : <Sparkles size={14} aria-hidden="true" />}
+            {t('generatorButton')}
+          </button>
+        </div>
+
+        {generateError && <p className="mt-3 text-xs text-rose-400">{t('generatorError')}</p>}
+
+        {generated && (
+          <div className="mt-4 space-y-3 border border-accent/15 bg-void/60 p-4">
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-gray-500">{t('generatorHeadline')}</p>
+              <p className="text-sm font-bold text-white">{generated.assets.headline}</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-gray-500">{t('generatorBody')}</p>
+              <p className="text-sm text-gray-300">{generated.assets.body}</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-gray-500">{t('generatorCta')}</p>
+              <p className="text-sm text-accent">{generated.assets.cta}</p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-gray-500">{t('generatorSocial')}</p>
+              <p className="text-sm text-gray-300">{generated.assets.socialCaption}</p>
+              <p className="mt-1 font-mono text-xs text-gray-500">
+                {generated.assets.hashtags.map((h) => `#${h}`).join(' ')}
+              </p>
+            </div>
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-gray-500">{t('generatorVisualBrief')}</p>
+              <p className="text-xs text-gray-400">{generated.assets.visualBrief}</p>
+            </div>
+            <p className="pt-1 text-[9px] uppercase tracking-widest text-gray-600">
+              {t('generatorModel')}: {generated.model} -- {t('generatorSanitized')}: {generated.sanitizedCount}
+            </p>
           </div>
         )}
       </section>

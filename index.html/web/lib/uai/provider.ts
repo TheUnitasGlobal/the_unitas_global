@@ -10,6 +10,15 @@
  * premium key is provisioned yet. The repo's .env.example lists all five --
  * adding a higher-priority key later switches the engine back with zero code
  * change. Keys never leave the server; BYOK is not accepted.
+ *
+ * Resilience (founder audit 2026-09-08): generateInsight no longer bets the
+ * whole call on the single highest-priority configured key. Every
+ * configured provider (in the same priority order as before) is tried in
+ * turn -- a free-tier 429/5xx from e.g. OpenRouter now falls through to
+ * NVIDIA NIM, then Bytez, instead of failing the whole feature. This is
+ * pure resilience, not a cost change: paid keys (anthropic/openai) are
+ * still tried first, so nothing shifts spend onto a free tier that wasn't
+ * already the active provider.
  */
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -30,51 +39,67 @@ export function insightProviderAvailable(): boolean {
   );
 }
 
-function activeProvider(): { provider: InsightProvider; key: string; model: string; url: string } | null {
+interface ProviderConfig {
+  provider: InsightProvider;
+  key: string;
+  model: string;
+  url: string;
+}
+
+/**
+ * Every configured provider, in priority order (paid engines first, then
+ * the free/low-cost fallback tier). Unlike the old single-winner
+ * `activeProvider`, this can return more than one entry -- generateInsight
+ * walks the whole list so a failure on entry N falls through to N+1 rather
+ * than failing the feature outright.
+ */
+function candidateProviders(): ProviderConfig[] {
+  const candidates: ProviderConfig[] = [];
   if (process.env.ANTHROPIC_API_KEY) {
-    return {
+    candidates.push({
       provider: 'anthropic',
       key: process.env.ANTHROPIC_API_KEY,
       model: process.env.UAI_ANTHROPIC_MODEL || 'claude-sonnet-5',
       url: ANTHROPIC_URL,
-    };
+    });
   }
   if (process.env.OPENAI_API_KEY) {
-    return {
+    candidates.push({
       provider: 'openai',
       key: process.env.OPENAI_API_KEY,
       model: process.env.UAI_OPENAI_MODEL || 'gpt-4o',
       url: OPENAI_URL,
-    };
+    });
   }
   // Free/low-cost fallback tier: unlocks the feature with zero premium spend
-  // when neither paid key above is provisioned. Model ids are overridable --
-  // each provider's free-tier catalog shifts over time.
+  // when neither paid key above is provisioned (or when a provisioned paid
+  // key's call fails). Model ids are overridable -- each provider's
+  // free-tier catalog shifts over time.
   if (process.env.OPENROUTER_API_KEY) {
-    return {
+    candidates.push({
       provider: 'openrouter',
       key: process.env.OPENROUTER_API_KEY,
       model: process.env.UAI_OPENROUTER_MODEL || 'meta-llama/llama-3.3-70b-instruct:free',
       url: OPENROUTER_URL,
-    };
+    });
   }
   if (process.env.NVIDIA_NIM_API_KEY) {
-    return {
+    candidates.push({
       provider: 'nvidia-nim',
       key: process.env.NVIDIA_NIM_API_KEY,
       model: process.env.UAI_NVIDIA_NIM_MODEL || 'meta/llama-3.1-8b-instruct',
       url: NVIDIA_NIM_URL,
-    };
+    });
   }
   if (process.env.BYTEZ_API_KEY) {
-    return {
+    candidates.push({
       provider: 'bytez',
       key: process.env.BYTEZ_API_KEY,
       model: process.env.UAI_BYTEZ_MODEL || 'meta-llama/Llama-3.1-8B-Instruct',
       url: BYTEZ_URL,
-    };
+    });
   }
-  return null;
+  return candidates;
 }
 
 /** One multimodal image block for the Anthropic content-array message shape. */
@@ -106,10 +131,28 @@ export async function generateInsight(
   maxTokens = 1800,
   images?: InsightImage[],
 ): Promise<{ text: string; model: string }> {
-  const active = activeProvider();
-  if (!active) throw new Error('No insight provider configured');
+  const candidates = candidateProviders();
+  if (candidates.length === 0) throw new Error('No insight provider configured');
   const max_tokens = Math.max(256, Math.min(4096, Math.round(maxTokens)));
 
+  const errors: string[] = [];
+  for (const active of candidates) {
+    try {
+      return await callProvider(active, system, userPrompt, max_tokens, images);
+    } catch (err) {
+      errors.push(`${active.provider}: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+  throw new Error(`All insight providers failed -- ${errors.join('; ')}`);
+}
+
+async function callProvider(
+  active: ProviderConfig,
+  system: string,
+  userPrompt: string,
+  max_tokens: number,
+  images?: InsightImage[],
+): Promise<{ text: string; model: string }> {
   if (active.provider === 'anthropic') {
     const content = images?.length
       ? [

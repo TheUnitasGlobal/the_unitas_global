@@ -2,7 +2,7 @@ import { timingSafeEqual } from 'node:crypto';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
-import { runNightlyAudit } from '@/lib/lifeOs/reviewAgent';
+import { craftExecutiveBriefing, runNightlyAudit } from '@/lib/lifeOs/reviewAgent';
 import {
   SOVEREIGN_SESSION_COOKIE,
   resolveSovereignSigningSecret,
@@ -52,7 +52,7 @@ export async function GET() {
   const supabase = getSupabaseServerClient();
   const { data, error } = await supabase
     .from('review_agent_logs')
-    .select('id, run_at, status, summary, findings, triggered_by')
+    .select('id, run_at, status, summary, findings, triggered_by, briefing')
     .order('run_at', { ascending: false })
     .limit(RECENT_RUNS_LIMIT);
 
@@ -71,17 +71,37 @@ export async function POST(req: Request) {
 
   const supabase = getSupabaseServerClient();
   const result = await runNightlyAudit(supabase);
+  const briefing = await craftExecutiveBriefing(result);
 
-  const { data, error } = await supabase
+  const insertRow = {
+    status: result.status,
+    summary: result.summary,
+    findings: result.findings,
+    triggered_by: viaCron ? 'cron' : 'manual',
+    briefing,
+  };
+
+  let { data, error } = await supabase
     .from('review_agent_logs')
-    .insert({
-      status: result.status,
-      summary: result.summary,
-      findings: result.findings,
-      triggered_by: viaCron ? 'cron' : 'manual',
-    })
-    .select('id, run_at, status, summary, findings, triggered_by')
+    .insert(insertRow)
+    .select('id, run_at, status, summary, findings, triggered_by, briefing')
     .single();
+
+  // Deployment-ordering safety net: the `briefing` column ships in migration
+  // 20260913000000, applied separately from this code (see that file's
+  // header). If this code reaches production before that migration does,
+  // retry once without `briefing` rather than losing the whole nightly
+  // audit log over one optional column.
+  if (error) {
+    const { briefing: _omit, ...withoutBriefing } = insertRow;
+    const retry = await supabase
+      .from('review_agent_logs')
+      .insert(withoutBriefing)
+      .select('id, run_at, status, summary, findings, triggered_by')
+      .single();
+    data = retry.data ? { ...retry.data, briefing: null } : data;
+    error = retry.error;
+  }
 
   if (error || !data) {
     return NextResponse.json({ ok: false, error: 'archive_failed', result }, { status: 500 });

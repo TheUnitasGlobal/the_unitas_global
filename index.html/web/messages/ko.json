@@ -1519,7 +1519,8 @@
       "runNow": "지금 감사 실행",
       "triggeredBy": "실행 방식",
       "triggeredByCron": "야간 자동 실행",
-      "triggeredByManual": "수동 실행"
+      "triggeredByManual": "수동 실행",
+      "briefingLabel": "경영진 브리핑"
     },
     "brandKit": {
       "title": "브랜드 킷",
@@ -1529,7 +1530,18 @@
       "assetsLabel": "에셋 매니페스트",
       "voiceCheckerLabel": "보이스 체커",
       "voiceCheckerPlaceholder": "초안을 붙여넣어 톤앤보이스를 검사하세요...",
-      "previewLabel": "소버린 톤 순화 미리보기"
+      "previewLabel": "소버린 톤 순화 미리보기",
+      "generatorLabel": "마케팅 자산 생성기",
+      "generatorPlaceholder": "한 줄 캠페인 브리프...",
+      "generatorButton": "생성",
+      "generatorError": "생성 실패 -- 인사이트 프로바이더 키가 설정되어 있는지 확인하세요.",
+      "generatorHeadline": "헤드라인",
+      "generatorBody": "본문",
+      "generatorCta": "행동 유도(CTA)",
+      "generatorSocial": "소셜 캡션",
+      "generatorVisualBrief": "비주얼 브리프",
+      "generatorModel": "모델",
+      "generatorSanitized": "보이스 순화 적용 건수"
     },
     "lifeLibrary": {
       "title": "라이프 라이브러리",

@@ -74,7 +74,13 @@ The checked-in manifest is `config/agent-toolkit.json`. Local source checkouts a
 npm run setup:agents -- -InstallProjectSkills
 ```
 
-This prepares Claude-Mem, Graphify, Superpowers, Strix, and the Vercel Skills CLI entrypoint without changing user-level agent settings. Claude-Mem's official `npx claude-mem install` flow is intentionally documented but not run automatically because it can configure a user profile and offer paid cloud memory.
+This prepares Claude-Mem, Graphify, Superpowers, Strix, Ponytail, and the Vercel Skills CLI entrypoint without changing user-level agent settings. Claude-Mem's official `npx claude-mem install` flow is intentionally documented but not run automatically because it can configure a user profile and offer paid cloud memory.
+
+Ponytail (`@dietrichgebert/ponytail` on npm, MIT) is a minimal-code coding-agent skill/ruleset -- a 7-step decision ladder that biases the agent toward stdlib/native/existing-dependency solutions before writing new code, matching this repo's own "three similar lines beats a premature abstraction" stance. Confirmed via research 2026-09-08: this is a real, unrelated project from whatever internal note previously called something "Ponytail 파이프라인 오토메이션" -- it is not a pipeline-automation tool. Not installed automatically; confirm the exact install subcommand in the package's own README first, same as Claude-Mem above.
+
+`tokenpack` (also researched 2026-09-08) exists on npm (Yashwanth9394) as a small JSON->CSV token-compression utility for LLM prompts, but this repo does not depend on it directly -- `web/lib/uai/tokenPack.ts` hand-rolls the same CSV-packing pattern natively (no external dependency for something this small) and is wired into the Review Agent's executive-briefing prompt (`lib/lifeOs/reviewAgent.ts`).
+
+`reborn.ax`, named in an internal note alongside Pomelli/Opal as a marketing-asset tool, does not exist -- its domain does not resolve and no such product was found (research 2026-09-08). Treat that name as stale/a typo until someone provides a corrected reference; nothing in this codebase integrates it.
 
 For zero-cost checkout tests, run the local mock endpoint:
 

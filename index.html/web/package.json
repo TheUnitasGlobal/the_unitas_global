@@ -21,6 +21,7 @@
     "verify:integrity": "node scripts/verify-integrity.mjs",
     "admin:verify-phone": "node scripts/admin-verify-phone.mjs",
     "life:review:archive": "node scripts/review-agent-archive.mjs",
+    "life:review:install-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-review-archive-task.ps1",
     "test": "vitest run",
     "dev:all": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev-all.ps1"
   },

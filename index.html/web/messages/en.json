@@ -1519,7 +1519,8 @@
       "runNow": "Run Audit Now",
       "triggeredBy": "Triggered by",
       "triggeredByCron": "Nightly cron",
-      "triggeredByManual": "Manual"
+      "triggeredByManual": "Manual",
+      "briefingLabel": "Executive Briefing"
     },
     "brandKit": {
       "title": "Brand Kit",
@@ -1529,7 +1530,18 @@
       "assetsLabel": "Asset Manifest",
       "voiceCheckerLabel": "Voice Checker",
       "voiceCheckerPlaceholder": "Paste a draft to check its tone-of-voice...",
-      "previewLabel": "Sovereign-toned preview"
+      "previewLabel": "Sovereign-toned preview",
+      "generatorLabel": "Marketing Asset Generator",
+      "generatorPlaceholder": "One-line campaign brief...",
+      "generatorButton": "Generate",
+      "generatorError": "Generation failed -- check that an insight provider key is configured.",
+      "generatorHeadline": "Headline",
+      "generatorBody": "Body",
+      "generatorCta": "Call to Action",
+      "generatorSocial": "Social Caption",
+      "generatorVisualBrief": "Visual Brief",
+      "generatorModel": "Model",
+      "generatorSanitized": "Voice rewrites applied"
     },
     "lifeLibrary": {
       "title": "Life Library",
