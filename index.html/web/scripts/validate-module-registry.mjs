@@ -42,7 +42,18 @@ const localeAppDir = path.resolve(__dirname, '..', 'app', '[locale]');
 // its Phase-1 analysis is free client-side heuristic and its Phase 2-4 deep
 // insight is gated by spend_coins('u-ai', N) at request time, not by a
 // MODULE_REGISTRY route entry (owner instruction 2026-08-30).
-const INFRA_ROUTES = new Set(['legal', 'company', 'support', 'locked', 'u-ai']);
+// 'sovereign' is the single literal app-router segment hosting the 5
+// founder-only "Sovereign Life-OS" cognitive hub modules (Life Dashboard,
+// Second Brain, Review Agent, Brand Kit, Life Library -- founder directive
+// 2026-09-08, catalog: web/lib/lifeOs/registry.ts). It carries no coin
+// economy and is access-controlled by the edge-level fail-closed 404 fence
+// in middleware.ts (`isSovereignProtectedPath`), not by MODULE_REGISTRY --
+// same precedent as 'u-ai' above. Its 5 sub-pages nest one level deeper
+// (app/[locale]/sovereign/second-brain/, etc.), which this script's
+// top-level-only folder scan does not walk into, matching how
+// company/[slug], legal/[slug], support/[slug] are already unvalidated below
+// the top segment.
+const INFRA_ROUTES = new Set(['legal', 'company', 'support', 'locked', 'u-ai', 'sovereign']);
 
 function extractRoutes(source) {
   const routes = [];

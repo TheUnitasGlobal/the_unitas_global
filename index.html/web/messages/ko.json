@@ -545,7 +545,8 @@
     "replaySplash": "인트로 스플래시 다시 재생",
     "revoke": "권한 해제",
     "collapse": "접기",
-    "expand": "펼치기"
+    "expand": "펼치기",
+    "lifeOs": "라이프-OS 진입"
   },
   "Auth": {
     "login": "로그인",
@@ -1473,6 +1474,73 @@
       "3": "{module} 커뮤니티 내에서 일관되고 안정적인 기여 패턴으로 알려져 있습니다.",
       "4": "여러 주기 동안 {module} 활동 지수 최상위권을 유지해온 크로스 모듈 운영자입니다.",
       "5": "{module} 내 평균 활동 지수를 크게 웃도는 지속적 참여로 인정받고 있습니다."
+    }
+  },
+  "LifeOs": {
+    "hub": {
+      "eyebrow": "소버린 라이프-OS",
+      "backLink": "홈으로",
+      "navLabel": "Life-OS 모듈"
+    },
+    "nav": {
+      "lifeDashboard": "대시보드",
+      "secondBrain": "세컨드 브레인",
+      "reviewAgent": "리뷰 에이전트",
+      "brandKit": "브랜드 킷",
+      "lifeLibrary": "라이프 라이브러리"
+    },
+    "common": {
+      "loading": "불러오는 중...",
+      "empty": "아직 표시할 항목이 없습니다."
+    },
+    "lifeDashboard": {
+      "title": "라이프 대시보드",
+      "description": "통합 운영 및 브리핑 스트림 -- 실시간 생태계와 세계 뉴스 와이어를 한눈에 보는 소버린 뷰.",
+      "systemPulse": "시스템 펄스",
+      "liveModules": "라이브 모듈",
+      "coinGatedModules": "코인 게이팅 모듈",
+      "governanceTiers": "거버넌스 티어",
+      "briefingStream": "브리핑 스트림"
+    },
+    "secondBrain": {
+      "title": "세컨드 브레인",
+      "description": "벡터화된 문서 그래프 -- 모든 노트가 폴더가 아니라 의미로 가장 가까운 노트와 연결됩니다.",
+      "composerLabel": "새 노트",
+      "titlePlaceholder": "제목",
+      "contentPlaceholder": "노트를 작성하세요...",
+      "tagsPlaceholder": "태그 (쉼표로 구분)",
+      "addNote": "노트 추가",
+      "graphLabel": "문서 그래프",
+      "selectNodeHint": "노드를 선택하면 노트 내용을 확인할 수 있습니다."
+    },
+    "reviewAgent": {
+      "title": "리뷰 에이전트",
+      "description": "실시간 소버린 경제에 대한 자동 야간 감사 -- 원장에 기록되고 창립자 로컬 아카이브로도 미러링됩니다.",
+      "runNow": "지금 감사 실행",
+      "triggeredBy": "실행 방식",
+      "triggeredByCron": "야간 자동 실행",
+      "triggeredByManual": "수동 실행"
+    },
+    "brandKit": {
+      "title": "브랜드 킷",
+      "description": "유일한 진짜 소버린 톤앤보이스와 비주얼 시스템 -- 팔레트, 타이포그래피, 에셋, 그리고 실시간 어휘 검사기.",
+      "paletteLabel": "컬러 토큰",
+      "typographyLabel": "타이포그래피",
+      "assetsLabel": "에셋 매니페스트",
+      "voiceCheckerLabel": "보이스 체커",
+      "voiceCheckerPlaceholder": "초안을 붙여넣어 톤앤보이스를 검사하세요...",
+      "previewLabel": "소버린 톤 순화 미리보기"
+    },
+    "lifeLibrary": {
+      "title": "라이프 라이브러리",
+      "description": "지능형 24시간 캐싱을 갖춘 다중 소스 지식 아카이브 -- 한 번 조회하면 영구히 캐시됩니다.",
+      "searchPlaceholder": "주제를 검색하세요...",
+      "searchButton": "검색",
+      "notFound": "해당 검색어에 대한 아카이브 항목이 없습니다.",
+      "sourceCache": "캐시에서 제공",
+      "sourceFresh": "방금 아카이브됨",
+      "sourceLabel": "출처",
+      "archiveLabel": "최근 아카이브"
     }
   }
 }

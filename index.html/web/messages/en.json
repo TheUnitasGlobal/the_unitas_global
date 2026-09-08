@@ -545,7 +545,8 @@
     "replaySplash": "Replay intro splash",
     "revoke": "Revoke access",
     "collapse": "Collapse",
-    "expand": "Expand"
+    "expand": "Expand",
+    "lifeOs": "Life-OS"
   },
   "Auth": {
     "login": "Login",
@@ -1473,6 +1474,73 @@
       "3": "Known across the {module} community for high-consistency, low-noise contribution patterns.",
       "4": "A cross-module operator whose {module} activity index has held a top-tier position for multiple cycles.",
       "5": "Recognized within {module} for sustained engagement well above the module's median activity index."
+    }
+  },
+  "LifeOs": {
+    "hub": {
+      "eyebrow": "SOVEREIGN LIFE-OS",
+      "backLink": "Back to Home",
+      "navLabel": "Life-OS modules"
+    },
+    "nav": {
+      "lifeDashboard": "Dashboard",
+      "secondBrain": "Second Brain",
+      "reviewAgent": "Review Agent",
+      "brandKit": "Brand Kit",
+      "lifeLibrary": "Life Library"
+    },
+    "common": {
+      "loading": "Loading...",
+      "empty": "Nothing here yet."
+    },
+    "lifeDashboard": {
+      "title": "Life Dashboard",
+      "description": "Unified operations and briefing stream -- a single sovereign view over the live ecosystem and the world wire.",
+      "systemPulse": "System Pulse",
+      "liveModules": "Live modules",
+      "coinGatedModules": "Coin-gated modules",
+      "governanceTiers": "Governance tiers",
+      "briefingStream": "Briefing Stream"
+    },
+    "secondBrain": {
+      "title": "Second Brain",
+      "description": "A vectorized document graph -- every note connects to its nearest neighbors by meaning, not just by folder.",
+      "composerLabel": "New Note",
+      "titlePlaceholder": "Title",
+      "contentPlaceholder": "Write a note...",
+      "tagsPlaceholder": "Tags, comma-separated",
+      "addNote": "Add Note",
+      "graphLabel": "Document Graph",
+      "selectNodeHint": "Select a node to read its note."
+    },
+    "reviewAgent": {
+      "title": "Review Agent",
+      "description": "Automated nightly audit of the live sovereign economy, archived to the ledger and mirrored to disk for the founder.",
+      "runNow": "Run Audit Now",
+      "triggeredBy": "Triggered by",
+      "triggeredByCron": "Nightly cron",
+      "triggeredByManual": "Manual"
+    },
+    "brandKit": {
+      "title": "Brand Kit",
+      "description": "The one true sovereign tone-of-voice and visual system -- palette, typography, assets, and a live phrasing checker.",
+      "paletteLabel": "Color Tokens",
+      "typographyLabel": "Typography",
+      "assetsLabel": "Asset Manifest",
+      "voiceCheckerLabel": "Voice Checker",
+      "voiceCheckerPlaceholder": "Paste a draft to check its tone-of-voice...",
+      "previewLabel": "Sovereign-toned preview"
+    },
+    "lifeLibrary": {
+      "title": "Life Library",
+      "description": "A multi-source knowledge archive with intelligent 24-hour caching -- look a topic up once, and it stays cached for good.",
+      "searchPlaceholder": "Look up a topic...",
+      "searchButton": "Search",
+      "notFound": "No archive entry found for that query.",
+      "sourceCache": "From cache",
+      "sourceFresh": "Freshly archived",
+      "sourceLabel": "Source",
+      "archiveLabel": "Recent Archive"
     }
   }
 }

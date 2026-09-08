@@ -3,6 +3,10 @@
     {
       "path": "/api/u-ai/shortcut-cache/refresh",
       "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/life/review/run",
+      "schedule": "0 4 * * *"
     }
   ]
 }

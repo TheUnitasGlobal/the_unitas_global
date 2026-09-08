@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ChevronUp, LogOut, Play, RotateCcw, ShieldCheck, Sparkles } from 'lucide-react';
+import { ChevronUp, LayoutDashboard, LogOut, Play, RotateCcw, ShieldCheck, Sparkles } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import {
   CINEMA_PHASE_EVENT,
@@ -228,6 +229,16 @@ export function SovereignDebugPanel() {
             <Play size={12} aria-hidden="true" />
             {t('enterMain')}
           </button>
+          <Link
+            href="/sovereign"
+            className={actionClass}
+            onMouseEnter={() => playHoverSfx()}
+            onClick={cue}
+            {...consoleAttr}
+          >
+            <LayoutDashboard size={12} aria-hidden="true" />
+            {t('lifeOs')}
+          </Link>
           <button
             type="button"
             className={actionClass}
