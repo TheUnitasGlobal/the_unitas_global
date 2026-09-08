@@ -1520,7 +1520,7 @@
       "triggeredBy": "[MISSING:en] Triggered by",
       "triggeredByCron": "[MISSING:en] Nightly cron",
       "triggeredByManual": "[MISSING:en] Manual",
-      "briefingLabel": "[MISSING:en] Executive Briefing"
+      "briefingLabel": "高层简报"
     },
     "brandKit": {
       "title": "[MISSING:en] Brand Kit",
@@ -1531,17 +1531,17 @@
       "voiceCheckerLabel": "[MISSING:en] Voice Checker",
       "voiceCheckerPlaceholder": "[MISSING:en] Paste a draft to check its tone-of-voice...",
       "previewLabel": "[MISSING:en] Sovereign-toned preview",
-      "generatorLabel": "[MISSING:en] Marketing Asset Generator",
-      "generatorPlaceholder": "[MISSING:en] One-line campaign brief...",
-      "generatorButton": "[MISSING:en] Generate",
-      "generatorError": "[MISSING:en] Generation failed -- check that an insight provider key is configured.",
-      "generatorHeadline": "[MISSING:en] Headline",
-      "generatorBody": "[MISSING:en] Body",
-      "generatorCta": "[MISSING:en] Call to Action",
-      "generatorSocial": "[MISSING:en] Social Caption",
-      "generatorVisualBrief": "[MISSING:en] Visual Brief",
-      "generatorModel": "[MISSING:en] Model",
-      "generatorSanitized": "[MISSING:en] Voice rewrites applied"
+      "generatorLabel": "营销素材生成器",
+      "generatorPlaceholder": "一句话营销简报...",
+      "generatorButton": "生成",
+      "generatorError": "生成失败 -- 请检查是否已配置洞察提供方密钥。",
+      "generatorHeadline": "标题",
+      "generatorBody": "正文",
+      "generatorCta": "行动号召 (CTA)",
+      "generatorSocial": "社交媒体文案",
+      "generatorVisualBrief": "视觉简报",
+      "generatorModel": "模型",
+      "generatorSanitized": "已应用的语气修正数"
     },
     "lifeLibrary": {
       "title": "[MISSING:en] Life Library",

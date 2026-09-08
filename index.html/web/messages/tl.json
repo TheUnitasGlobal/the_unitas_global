@@ -1520,7 +1520,7 @@
       "triggeredBy": "[MISSING:en] Triggered by",
       "triggeredByCron": "[MISSING:en] Nightly cron",
       "triggeredByManual": "[MISSING:en] Manual",
-      "briefingLabel": "[MISSING:en] Executive Briefing"
+      "briefingLabel": "Ulat Para sa Pamunuan"
     },
     "brandKit": {
       "title": "[MISSING:en] Brand Kit",
@@ -1531,17 +1531,17 @@
       "voiceCheckerLabel": "[MISSING:en] Voice Checker",
       "voiceCheckerPlaceholder": "[MISSING:en] Paste a draft to check its tone-of-voice...",
       "previewLabel": "[MISSING:en] Sovereign-toned preview",
-      "generatorLabel": "[MISSING:en] Marketing Asset Generator",
-      "generatorPlaceholder": "[MISSING:en] One-line campaign brief...",
-      "generatorButton": "[MISSING:en] Generate",
-      "generatorError": "[MISSING:en] Generation failed -- check that an insight provider key is configured.",
-      "generatorHeadline": "[MISSING:en] Headline",
-      "generatorBody": "[MISSING:en] Body",
-      "generatorCta": "[MISSING:en] Call to Action",
-      "generatorSocial": "[MISSING:en] Social Caption",
-      "generatorVisualBrief": "[MISSING:en] Visual Brief",
-      "generatorModel": "[MISSING:en] Model",
-      "generatorSanitized": "[MISSING:en] Voice rewrites applied"
+      "generatorLabel": "Generator ng Marketing Asset",
+      "generatorPlaceholder": "Isang-linyang buod ng kampanya...",
+      "generatorButton": "Buuin",
+      "generatorError": "Nabigo ang paggawa -- tingnan kung naka-configure ang key ng insight provider.",
+      "generatorHeadline": "Headline",
+      "generatorBody": "Katawan ng Teksto",
+      "generatorCta": "Panawagan sa Aksyon",
+      "generatorSocial": "Caption para sa Social Media",
+      "generatorVisualBrief": "Visual Brief",
+      "generatorModel": "Modelo",
+      "generatorSanitized": "Bilang ng ginawang pagsasaayos sa tono"
     },
     "lifeLibrary": {
       "title": "[MISSING:en] Life Library",

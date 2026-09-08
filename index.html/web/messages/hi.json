@@ -1520,7 +1520,7 @@
       "triggeredBy": "[MISSING:en] Triggered by",
       "triggeredByCron": "[MISSING:en] Nightly cron",
       "triggeredByManual": "[MISSING:en] Manual",
-      "briefingLabel": "[MISSING:en] Executive Briefing"
+      "briefingLabel": "कार्यकारी ब्रीफिंग"
     },
     "brandKit": {
       "title": "[MISSING:en] Brand Kit",
@@ -1531,17 +1531,17 @@
       "voiceCheckerLabel": "[MISSING:en] Voice Checker",
       "voiceCheckerPlaceholder": "[MISSING:en] Paste a draft to check its tone-of-voice...",
       "previewLabel": "[MISSING:en] Sovereign-toned preview",
-      "generatorLabel": "[MISSING:en] Marketing Asset Generator",
-      "generatorPlaceholder": "[MISSING:en] One-line campaign brief...",
-      "generatorButton": "[MISSING:en] Generate",
-      "generatorError": "[MISSING:en] Generation failed -- check that an insight provider key is configured.",
-      "generatorHeadline": "[MISSING:en] Headline",
-      "generatorBody": "[MISSING:en] Body",
-      "generatorCta": "[MISSING:en] Call to Action",
-      "generatorSocial": "[MISSING:en] Social Caption",
-      "generatorVisualBrief": "[MISSING:en] Visual Brief",
-      "generatorModel": "[MISSING:en] Model",
-      "generatorSanitized": "[MISSING:en] Voice rewrites applied"
+      "generatorLabel": "मार्केटिंग एसेट जनरेटर",
+      "generatorPlaceholder": "एक-पंक्ति अभियान संक्षिप्त विवरण...",
+      "generatorButton": "जनरेट करें",
+      "generatorError": "जनरेशन विफल -- जांचें कि इनसाइट प्रोवाइडर कुंजी कॉन्फ़िगर की गई है या नहीं।",
+      "generatorHeadline": "हेडलाइन",
+      "generatorBody": "मुख्य पाठ",
+      "generatorCta": "कॉल टू एक्शन",
+      "generatorSocial": "सोशल कैप्शन",
+      "generatorVisualBrief": "विज़ुअल ब्रीफ",
+      "generatorModel": "मॉडल",
+      "generatorSanitized": "लागू किए गए वॉइस सुधार"
     },
     "lifeLibrary": {
       "title": "[MISSING:en] Life Library",
