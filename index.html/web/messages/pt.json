@@ -546,7 +546,7 @@
     "revoke": "Revogar acesso",
     "collapse": "Recolher",
     "expand": "Expandir",
-    "lifeOs": "[MISSING:en] Life-OS"
+    "lifeOs": "Life-OS"
   },
   "Auth": {
     "login": "Iniciar sessão",
@@ -1478,59 +1478,59 @@
   },
   "LifeOs": {
     "hub": {
-      "eyebrow": "[MISSING:en] SOVEREIGN LIFE-OS",
-      "backLink": "[MISSING:en] Back to Home",
-      "navLabel": "[MISSING:en] Life-OS modules"
+      "eyebrow": "LIFE-OS SOBERANO",
+      "backLink": "Voltar ao Início",
+      "navLabel": "Módulos Life-OS"
     },
     "nav": {
-      "lifeDashboard": "[MISSING:en] Dashboard",
-      "secondBrain": "[MISSING:en] Second Brain",
-      "reviewAgent": "[MISSING:en] Review Agent",
-      "brandKit": "[MISSING:en] Brand Kit",
-      "lifeLibrary": "[MISSING:en] Life Library"
+      "lifeDashboard": "Painel",
+      "secondBrain": "Second Brain",
+      "reviewAgent": "Agente de Revisão",
+      "brandKit": "Kit de Marca",
+      "lifeLibrary": "Biblioteca de Vida"
     },
     "common": {
-      "loading": "[MISSING:en] Loading...",
-      "empty": "[MISSING:en] Nothing here yet."
+      "loading": "Carregando...",
+      "empty": "Ainda não há nada aqui."
     },
     "lifeDashboard": {
-      "title": "[MISSING:en] Life Dashboard",
-      "description": "[MISSING:en] Unified operations and briefing stream -- a single sovereign view over the live ecosystem and the world wire.",
-      "systemPulse": "[MISSING:en] System Pulse",
-      "liveModules": "[MISSING:en] Live modules",
-      "coinGatedModules": "[MISSING:en] Coin-gated modules",
-      "governanceTiers": "[MISSING:en] Governance tiers",
-      "briefingStream": "[MISSING:en] Briefing Stream"
+      "title": "Painel de Vida",
+      "description": "Operações e fluxo de briefing unificados -- uma visão soberana única sobre o ecossistema em tempo real e o noticiário mundial.",
+      "systemPulse": "Pulso do Sistema",
+      "liveModules": "Módulos ativos",
+      "coinGatedModules": "Módulos com acesso por moedas",
+      "governanceTiers": "Níveis de governança",
+      "briefingStream": "Fluxo de Briefing"
     },
     "secondBrain": {
-      "title": "[MISSING:en] Second Brain",
-      "description": "[MISSING:en] A vectorized document graph -- every note connects to its nearest neighbors by meaning, not just by folder.",
-      "composerLabel": "[MISSING:en] New Note",
-      "titlePlaceholder": "[MISSING:en] Title",
-      "contentPlaceholder": "[MISSING:en] Write a note...",
-      "tagsPlaceholder": "[MISSING:en] Tags, comma-separated",
-      "addNote": "[MISSING:en] Add Note",
-      "graphLabel": "[MISSING:en] Document Graph",
-      "selectNodeHint": "[MISSING:en] Select a node to read its note."
+      "title": "Second Brain",
+      "description": "Um grafo de documentos vetorizado -- cada nota se conecta aos seus vizinhos mais próximos por significado, não apenas por pasta.",
+      "composerLabel": "Nova Nota",
+      "titlePlaceholder": "Título",
+      "contentPlaceholder": "Escreva uma nota...",
+      "tagsPlaceholder": "Tags, separadas por vírgula",
+      "addNote": "Adicionar Nota",
+      "graphLabel": "Grafo de Documentos",
+      "selectNodeHint": "Selecione um nó para ler sua nota."
     },
     "reviewAgent": {
-      "title": "[MISSING:en] Review Agent",
-      "description": "[MISSING:en] Automated nightly audit of the live sovereign economy, archived to the ledger and mirrored to disk for the founder.",
-      "runNow": "[MISSING:en] Run Audit Now",
-      "triggeredBy": "[MISSING:en] Triggered by",
-      "triggeredByCron": "[MISSING:en] Nightly cron",
-      "triggeredByManual": "[MISSING:en] Manual",
+      "title": "Agente de Revisão",
+      "description": "Auditoria noturna automatizada da economia soberana em tempo real, arquivada no livro-razão e espelhada em disco para o fundador.",
+      "runNow": "Executar Auditoria Agora",
+      "triggeredBy": "Acionado por",
+      "triggeredByCron": "Execução automática noturna",
+      "triggeredByManual": "Manual",
       "briefingLabel": "Briefing Executivo"
     },
     "brandKit": {
-      "title": "[MISSING:en] Brand Kit",
-      "description": "[MISSING:en] The one true sovereign tone-of-voice and visual system -- palette, typography, assets, and a live phrasing checker.",
-      "paletteLabel": "[MISSING:en] Color Tokens",
-      "typographyLabel": "[MISSING:en] Typography",
-      "assetsLabel": "[MISSING:en] Asset Manifest",
-      "voiceCheckerLabel": "[MISSING:en] Voice Checker",
-      "voiceCheckerPlaceholder": "[MISSING:en] Paste a draft to check its tone-of-voice...",
-      "previewLabel": "[MISSING:en] Sovereign-toned preview",
+      "title": "Kit de Marca",
+      "description": "O único e verdadeiro sistema de tom de voz e visual soberano -- paleta, tipografia, ativos e um verificador de fraseado em tempo real.",
+      "paletteLabel": "Tokens de Cor",
+      "typographyLabel": "Tipografia",
+      "assetsLabel": "Manifesto de Ativos",
+      "voiceCheckerLabel": "Verificador de Tom",
+      "voiceCheckerPlaceholder": "Cole um rascunho para verificar seu tom de voz...",
+      "previewLabel": "Pré-visualização em tom soberano",
       "generatorLabel": "Gerador de Ativos de Marketing",
       "generatorPlaceholder": "Briefing de campanha em uma linha...",
       "generatorButton": "Gerar",
@@ -1544,15 +1544,15 @@
       "generatorSanitized": "Correções de tom aplicadas"
     },
     "lifeLibrary": {
-      "title": "[MISSING:en] Life Library",
-      "description": "[MISSING:en] A multi-source knowledge archive with intelligent 24-hour caching -- look a topic up once, and it stays cached for good.",
-      "searchPlaceholder": "[MISSING:en] Look up a topic...",
-      "searchButton": "[MISSING:en] Search",
-      "notFound": "[MISSING:en] No archive entry found for that query.",
-      "sourceCache": "[MISSING:en] From cache",
-      "sourceFresh": "[MISSING:en] Freshly archived",
-      "sourceLabel": "[MISSING:en] Source",
-      "archiveLabel": "[MISSING:en] Recent Archive"
+      "title": "Biblioteca de Vida",
+      "description": "Um arquivo de conhecimento multi-fonte com cache inteligente de 24 horas -- pesquise um tópico uma vez e ele permanecerá em cache para sempre.",
+      "searchPlaceholder": "Pesquisar um tópico...",
+      "searchButton": "Pesquisar",
+      "notFound": "Nenhuma entrada de arquivo encontrada para essa busca.",
+      "sourceCache": "Do cache",
+      "sourceFresh": "Recém-arquivado",
+      "sourceLabel": "Fonte",
+      "archiveLabel": "Arquivo Recente"
     }
   }
 }

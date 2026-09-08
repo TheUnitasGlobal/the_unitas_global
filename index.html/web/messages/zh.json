@@ -546,7 +546,7 @@
     "revoke": "撤销权限",
     "collapse": "收起",
     "expand": "展开",
-    "lifeOs": "[MISSING:en] Life-OS"
+    "lifeOs": "Life-OS"
   },
   "Auth": {
     "login": "登录",
@@ -1478,59 +1478,59 @@
   },
   "LifeOs": {
     "hub": {
-      "eyebrow": "[MISSING:en] SOVEREIGN LIFE-OS",
-      "backLink": "[MISSING:en] Back to Home",
-      "navLabel": "[MISSING:en] Life-OS modules"
+      "eyebrow": "主权 LIFE-OS",
+      "backLink": "返回首页",
+      "navLabel": "Life-OS 模块"
     },
     "nav": {
-      "lifeDashboard": "[MISSING:en] Dashboard",
-      "secondBrain": "[MISSING:en] Second Brain",
-      "reviewAgent": "[MISSING:en] Review Agent",
-      "brandKit": "[MISSING:en] Brand Kit",
-      "lifeLibrary": "[MISSING:en] Life Library"
+      "lifeDashboard": "仪表盘",
+      "secondBrain": "第二大脑",
+      "reviewAgent": "审查代理",
+      "brandKit": "品牌套件",
+      "lifeLibrary": "生活图书馆"
     },
     "common": {
-      "loading": "[MISSING:en] Loading...",
-      "empty": "[MISSING:en] Nothing here yet."
+      "loading": "加载中...",
+      "empty": "暂无内容。"
     },
     "lifeDashboard": {
-      "title": "[MISSING:en] Life Dashboard",
-      "description": "[MISSING:en] Unified operations and briefing stream -- a single sovereign view over the live ecosystem and the world wire.",
-      "systemPulse": "[MISSING:en] System Pulse",
-      "liveModules": "[MISSING:en] Live modules",
-      "coinGatedModules": "[MISSING:en] Coin-gated modules",
-      "governanceTiers": "[MISSING:en] Governance tiers",
-      "briefingStream": "[MISSING:en] Briefing Stream"
+      "title": "生活仪表盘",
+      "description": "统一的运营与简报流 -- 一站式主权视角纵览实时生态系统与全球资讯。",
+      "systemPulse": "系统脉搏",
+      "liveModules": "运行中的模块",
+      "coinGatedModules": "代币门控模块",
+      "governanceTiers": "治理层级",
+      "briefingStream": "简报流"
     },
     "secondBrain": {
-      "title": "[MISSING:en] Second Brain",
-      "description": "[MISSING:en] A vectorized document graph -- every note connects to its nearest neighbors by meaning, not just by folder.",
-      "composerLabel": "[MISSING:en] New Note",
-      "titlePlaceholder": "[MISSING:en] Title",
-      "contentPlaceholder": "[MISSING:en] Write a note...",
-      "tagsPlaceholder": "[MISSING:en] Tags, comma-separated",
-      "addNote": "[MISSING:en] Add Note",
-      "graphLabel": "[MISSING:en] Document Graph",
-      "selectNodeHint": "[MISSING:en] Select a node to read its note."
+      "title": "第二大脑",
+      "description": "向量化文档图谱 -- 每条笔记按语义(而非仅按文件夹)与其最近邻笔记相连。",
+      "composerLabel": "新建笔记",
+      "titlePlaceholder": "标题",
+      "contentPlaceholder": "撰写笔记...",
+      "tagsPlaceholder": "标签,以逗号分隔",
+      "addNote": "添加笔记",
+      "graphLabel": "文档图谱",
+      "selectNodeHint": "选择一个节点以阅读其笔记。"
     },
     "reviewAgent": {
-      "title": "[MISSING:en] Review Agent",
-      "description": "[MISSING:en] Automated nightly audit of the live sovereign economy, archived to the ledger and mirrored to disk for the founder.",
-      "runNow": "[MISSING:en] Run Audit Now",
-      "triggeredBy": "[MISSING:en] Triggered by",
-      "triggeredByCron": "[MISSING:en] Nightly cron",
-      "triggeredByManual": "[MISSING:en] Manual",
+      "title": "审查代理",
+      "description": "对实时主权经济进行自动化夜间审计,记录于账本并为创始人镜像存档至本地磁盘。",
+      "runNow": "立即执行审计",
+      "triggeredBy": "触发方式",
+      "triggeredByCron": "夜间自动执行",
+      "triggeredByManual": "手动执行",
       "briefingLabel": "高层简报"
     },
     "brandKit": {
-      "title": "[MISSING:en] Brand Kit",
-      "description": "[MISSING:en] The one true sovereign tone-of-voice and visual system -- palette, typography, assets, and a live phrasing checker.",
-      "paletteLabel": "[MISSING:en] Color Tokens",
-      "typographyLabel": "[MISSING:en] Typography",
-      "assetsLabel": "[MISSING:en] Asset Manifest",
-      "voiceCheckerLabel": "[MISSING:en] Voice Checker",
-      "voiceCheckerPlaceholder": "[MISSING:en] Paste a draft to check its tone-of-voice...",
-      "previewLabel": "[MISSING:en] Sovereign-toned preview",
+      "title": "品牌套件",
+      "description": "唯一真实的主权语调与视觉系统 -- 调色板、字体排版、素材清单,以及实时措辞检查器。",
+      "paletteLabel": "色彩标记",
+      "typographyLabel": "字体排版",
+      "assetsLabel": "素材清单",
+      "voiceCheckerLabel": "语调检查器",
+      "voiceCheckerPlaceholder": "粘贴草稿以检查其语调...",
+      "previewLabel": "主权语调预览",
       "generatorLabel": "营销素材生成器",
       "generatorPlaceholder": "一句话营销简报...",
       "generatorButton": "生成",
@@ -1544,15 +1544,15 @@
       "generatorSanitized": "已应用的语气修正数"
     },
     "lifeLibrary": {
-      "title": "[MISSING:en] Life Library",
-      "description": "[MISSING:en] A multi-source knowledge archive with intelligent 24-hour caching -- look a topic up once, and it stays cached for good.",
-      "searchPlaceholder": "[MISSING:en] Look up a topic...",
-      "searchButton": "[MISSING:en] Search",
-      "notFound": "[MISSING:en] No archive entry found for that query.",
-      "sourceCache": "[MISSING:en] From cache",
-      "sourceFresh": "[MISSING:en] Freshly archived",
-      "sourceLabel": "[MISSING:en] Source",
-      "archiveLabel": "[MISSING:en] Recent Archive"
+      "title": "生活图书馆",
+      "description": "具备智能24小时缓存的多源知识档案库 -- 查询一次主题,便可永久保留缓存。",
+      "searchPlaceholder": "查找主题...",
+      "searchButton": "搜索",
+      "notFound": "未找到与该查询匹配的存档条目。",
+      "sourceCache": "来自缓存",
+      "sourceFresh": "新鲜存档",
+      "sourceLabel": "来源",
+      "archiveLabel": "最近存档"
     }
   }
 }

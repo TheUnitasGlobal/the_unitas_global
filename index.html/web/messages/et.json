@@ -546,7 +546,7 @@
     "revoke": "Tühista juurdepääs",
     "collapse": "Ahenda",
     "expand": "Laienda",
-    "lifeOs": "[MISSING:en] Life-OS"
+    "lifeOs": "Life-OS"
   },
   "Auth": {
     "login": "Logi sisse",
@@ -1478,59 +1478,59 @@
   },
   "LifeOs": {
     "hub": {
-      "eyebrow": "[MISSING:en] SOVEREIGN LIFE-OS",
-      "backLink": "[MISSING:en] Back to Home",
-      "navLabel": "[MISSING:en] Life-OS modules"
+      "eyebrow": "SUVERÄÄNNE LIFE-OS",
+      "backLink": "Tagasi avalehele",
+      "navLabel": "Life-OS moodulid"
     },
     "nav": {
-      "lifeDashboard": "[MISSING:en] Dashboard",
-      "secondBrain": "[MISSING:en] Second Brain",
-      "reviewAgent": "[MISSING:en] Review Agent",
-      "brandKit": "[MISSING:en] Brand Kit",
-      "lifeLibrary": "[MISSING:en] Life Library"
+      "lifeDashboard": "Töölaud",
+      "secondBrain": "Second Brain",
+      "reviewAgent": "Ülevaateagent",
+      "brandKit": "Brändikomplekt",
+      "lifeLibrary": "Elu Raamatukogu"
     },
     "common": {
-      "loading": "[MISSING:en] Loading...",
-      "empty": "[MISSING:en] Nothing here yet."
+      "loading": "Laadimine...",
+      "empty": "Siin ei ole veel midagi."
     },
     "lifeDashboard": {
-      "title": "[MISSING:en] Life Dashboard",
-      "description": "[MISSING:en] Unified operations and briefing stream -- a single sovereign view over the live ecosystem and the world wire.",
-      "systemPulse": "[MISSING:en] System Pulse",
-      "liveModules": "[MISSING:en] Live modules",
-      "coinGatedModules": "[MISSING:en] Coin-gated modules",
-      "governanceTiers": "[MISSING:en] Governance tiers",
-      "briefingStream": "[MISSING:en] Briefing Stream"
+      "title": "Life Dashboard",
+      "description": "Ühtne toimingute ja ülevaadete voog -- üks suveräänne vaade elavale ökosüsteemile ja maailma uudistevoole.",
+      "systemPulse": "Süsteemi pulss",
+      "liveModules": "Aktiivsed moodulid",
+      "coinGatedModules": "Mündiga lukustatud moodulid",
+      "governanceTiers": "Juhtimistasandid",
+      "briefingStream": "Ülevaadete voog"
     },
     "secondBrain": {
-      "title": "[MISSING:en] Second Brain",
-      "description": "[MISSING:en] A vectorized document graph -- every note connects to its nearest neighbors by meaning, not just by folder.",
-      "composerLabel": "[MISSING:en] New Note",
-      "titlePlaceholder": "[MISSING:en] Title",
-      "contentPlaceholder": "[MISSING:en] Write a note...",
-      "tagsPlaceholder": "[MISSING:en] Tags, comma-separated",
-      "addNote": "[MISSING:en] Add Note",
-      "graphLabel": "[MISSING:en] Document Graph",
-      "selectNodeHint": "[MISSING:en] Select a node to read its note."
+      "title": "Second Brain",
+      "description": "Vektoriseeritud dokumendigraaf -- iga märkmine seostub oma tähenduselt lähimate naabritega, mitte ainult kausta järgi.",
+      "composerLabel": "Uus märkmine",
+      "titlePlaceholder": "Pealkiri",
+      "contentPlaceholder": "Kirjuta märkmine...",
+      "tagsPlaceholder": "Märksõnad, komadega eraldatuna",
+      "addNote": "Lisa märkmine",
+      "graphLabel": "Dokumendigraaf",
+      "selectNodeHint": "Vali sõlm, et lugeda selle märkmist."
     },
     "reviewAgent": {
-      "title": "[MISSING:en] Review Agent",
-      "description": "[MISSING:en] Automated nightly audit of the live sovereign economy, archived to the ledger and mirrored to disk for the founder.",
-      "runNow": "[MISSING:en] Run Audit Now",
-      "triggeredBy": "[MISSING:en] Triggered by",
-      "triggeredByCron": "[MISSING:en] Nightly cron",
-      "triggeredByManual": "[MISSING:en] Manual",
+      "title": "Ülevaateagent",
+      "description": "Automatiseeritud öine audit elavast suveräänsest majandusest, arhiveeritud pearaamatusse ja peegeldatud kettale asutaja jaoks.",
+      "runNow": "Käivita audit kohe",
+      "triggeredBy": "Käivitanud",
+      "triggeredByCron": "Öine automaatkäivitus",
+      "triggeredByManual": "Käsitsi",
       "briefingLabel": "Juhtkonna kokkuvõte"
     },
     "brandKit": {
-      "title": "[MISSING:en] Brand Kit",
-      "description": "[MISSING:en] The one true sovereign tone-of-voice and visual system -- palette, typography, assets, and a live phrasing checker.",
-      "paletteLabel": "[MISSING:en] Color Tokens",
-      "typographyLabel": "[MISSING:en] Typography",
-      "assetsLabel": "[MISSING:en] Asset Manifest",
-      "voiceCheckerLabel": "[MISSING:en] Voice Checker",
-      "voiceCheckerPlaceholder": "[MISSING:en] Paste a draft to check its tone-of-voice...",
-      "previewLabel": "[MISSING:en] Sovereign-toned preview",
+      "title": "Brändikomplekt",
+      "description": "Ainus tõeline suveräänne hääletoon ja visuaalne süsteem -- palett, tüpograafia, ressursid ja reaalajas sõnastuskontroll.",
+      "paletteLabel": "Värvitoonid",
+      "typographyLabel": "Tüpograafia",
+      "assetsLabel": "Ressursside manifest",
+      "voiceCheckerLabel": "Häälekontrollija",
+      "voiceCheckerPlaceholder": "Kleebi mustand, et kontrollida selle hääletooni...",
+      "previewLabel": "Suveräänses toonis eelvaade",
       "generatorLabel": "Turundusmaterjalide generaator",
       "generatorPlaceholder": "Üherealine kampaania lühikirjeldus...",
       "generatorButton": "Genereeri",
@@ -1544,15 +1544,15 @@
       "generatorSanitized": "Rakendatud hääletoonuse parandused"
     },
     "lifeLibrary": {
-      "title": "[MISSING:en] Life Library",
-      "description": "[MISSING:en] A multi-source knowledge archive with intelligent 24-hour caching -- look a topic up once, and it stays cached for good.",
-      "searchPlaceholder": "[MISSING:en] Look up a topic...",
-      "searchButton": "[MISSING:en] Search",
-      "notFound": "[MISSING:en] No archive entry found for that query.",
-      "sourceCache": "[MISSING:en] From cache",
-      "sourceFresh": "[MISSING:en] Freshly archived",
-      "sourceLabel": "[MISSING:en] Source",
-      "archiveLabel": "[MISSING:en] Recent Archive"
+      "title": "Elu Raamatukogu",
+      "description": "Mitmest allikast koosnev teadmiste arhiiv nutika 24-tunnise vahemäluga -- otsi teemat üks kord ja see jääb jäädavalt vahemällu.",
+      "searchPlaceholder": "Otsi teemat...",
+      "searchButton": "Otsi",
+      "notFound": "Selle otsingu jaoks arhiivikirjet ei leitud.",
+      "sourceCache": "Vahemälust",
+      "sourceFresh": "Värskelt arhiveeritud",
+      "sourceLabel": "Allikas",
+      "archiveLabel": "Viimane arhiiv"
     }
   }
 }

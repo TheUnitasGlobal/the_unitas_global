@@ -546,7 +546,7 @@
     "revoke": "Thu hồi quyền truy cập",
     "collapse": "Thu gọn",
     "expand": "Mở rộng",
-    "lifeOs": "[MISSING:en] Life-OS"
+    "lifeOs": "Life-OS"
   },
   "Auth": {
     "login": "Đăng nhập",
@@ -1478,59 +1478,59 @@
   },
   "LifeOs": {
     "hub": {
-      "eyebrow": "[MISSING:en] SOVEREIGN LIFE-OS",
-      "backLink": "[MISSING:en] Back to Home",
-      "navLabel": "[MISSING:en] Life-OS modules"
+      "eyebrow": "LIFE-OS CHỦ QUYỀN",
+      "backLink": "Về Trang Chủ",
+      "navLabel": "Các mô-đun Life-OS"
     },
     "nav": {
-      "lifeDashboard": "[MISSING:en] Dashboard",
-      "secondBrain": "[MISSING:en] Second Brain",
-      "reviewAgent": "[MISSING:en] Review Agent",
-      "brandKit": "[MISSING:en] Brand Kit",
-      "lifeLibrary": "[MISSING:en] Life Library"
+      "lifeDashboard": "Bảng Điều Khiển",
+      "secondBrain": "Second Brain",
+      "reviewAgent": "Đại Lý Đánh Giá",
+      "brandKit": "Bộ Nhận Diện Thương Hiệu",
+      "lifeLibrary": "Thư Viện Cuộc Sống"
     },
     "common": {
-      "loading": "[MISSING:en] Loading...",
-      "empty": "[MISSING:en] Nothing here yet."
+      "loading": "Đang tải...",
+      "empty": "Chưa có gì để hiển thị."
     },
     "lifeDashboard": {
-      "title": "[MISSING:en] Life Dashboard",
-      "description": "[MISSING:en] Unified operations and briefing stream -- a single sovereign view over the live ecosystem and the world wire.",
-      "systemPulse": "[MISSING:en] System Pulse",
-      "liveModules": "[MISSING:en] Live modules",
-      "coinGatedModules": "[MISSING:en] Coin-gated modules",
-      "governanceTiers": "[MISSING:en] Governance tiers",
-      "briefingStream": "[MISSING:en] Briefing Stream"
+      "title": "Bảng Điều Khiển Cuộc Sống",
+      "description": "Luồng vận hành và báo cáo thống nhất -- một góc nhìn chủ quyền duy nhất về hệ sinh thái trực tiếp và tin tức thế giới.",
+      "systemPulse": "Nhịp Đập Hệ Thống",
+      "liveModules": "Mô-đun đang hoạt động",
+      "coinGatedModules": "Mô-đun yêu cầu xu",
+      "governanceTiers": "Các cấp quản trị",
+      "briefingStream": "Luồng Báo Cáo"
     },
     "secondBrain": {
-      "title": "[MISSING:en] Second Brain",
-      "description": "[MISSING:en] A vectorized document graph -- every note connects to its nearest neighbors by meaning, not just by folder.",
-      "composerLabel": "[MISSING:en] New Note",
-      "titlePlaceholder": "[MISSING:en] Title",
-      "contentPlaceholder": "[MISSING:en] Write a note...",
-      "tagsPlaceholder": "[MISSING:en] Tags, comma-separated",
-      "addNote": "[MISSING:en] Add Note",
-      "graphLabel": "[MISSING:en] Document Graph",
-      "selectNodeHint": "[MISSING:en] Select a node to read its note."
+      "title": "Second Brain",
+      "description": "Đồ thị tài liệu được vector hóa -- mỗi ghi chú kết nối với các ghi chú gần nhất theo ý nghĩa, không chỉ theo thư mục.",
+      "composerLabel": "Ghi Chú Mới",
+      "titlePlaceholder": "Tiêu đề",
+      "contentPlaceholder": "Viết một ghi chú...",
+      "tagsPlaceholder": "Thẻ, phân tách bằng dấu phẩy",
+      "addNote": "Thêm Ghi Chú",
+      "graphLabel": "Đồ Thị Tài Liệu",
+      "selectNodeHint": "Chọn một nút để đọc ghi chú của nó."
     },
     "reviewAgent": {
-      "title": "[MISSING:en] Review Agent",
-      "description": "[MISSING:en] Automated nightly audit of the live sovereign economy, archived to the ledger and mirrored to disk for the founder.",
-      "runNow": "[MISSING:en] Run Audit Now",
-      "triggeredBy": "[MISSING:en] Triggered by",
-      "triggeredByCron": "[MISSING:en] Nightly cron",
-      "triggeredByManual": "[MISSING:en] Manual",
+      "title": "Đại Lý Đánh Giá",
+      "description": "Kiểm toán tự động hàng đêm của nền kinh tế chủ quyền trực tiếp, được lưu trữ vào sổ cái và sao lưu ra đĩa cho người sáng lập.",
+      "runNow": "Chạy Kiểm Toán Ngay",
+      "triggeredBy": "Được kích hoạt bởi",
+      "triggeredByCron": "Tự động chạy hàng đêm",
+      "triggeredByManual": "Thủ công",
       "briefingLabel": "Báo Cáo Điều Hành"
     },
     "brandKit": {
-      "title": "[MISSING:en] Brand Kit",
-      "description": "[MISSING:en] The one true sovereign tone-of-voice and visual system -- palette, typography, assets, and a live phrasing checker.",
-      "paletteLabel": "[MISSING:en] Color Tokens",
-      "typographyLabel": "[MISSING:en] Typography",
-      "assetsLabel": "[MISSING:en] Asset Manifest",
-      "voiceCheckerLabel": "[MISSING:en] Voice Checker",
-      "voiceCheckerPlaceholder": "[MISSING:en] Paste a draft to check its tone-of-voice...",
-      "previewLabel": "[MISSING:en] Sovereign-toned preview",
+      "title": "Bộ Nhận Diện Thương Hiệu",
+      "description": "Hệ thống tông giọng và hình ảnh chủ quyền chân thực duy nhất -- bảng màu, kiểu chữ, tài sản, và bộ kiểm tra cách diễn đạt trực tiếp.",
+      "paletteLabel": "Mã Màu",
+      "typographyLabel": "Kiểu Chữ",
+      "assetsLabel": "Danh Mục Tài Sản",
+      "voiceCheckerLabel": "Bộ Kiểm Tra Giọng Văn",
+      "voiceCheckerPlaceholder": "Dán một bản thảo để kiểm tra tông giọng của nó...",
+      "previewLabel": "Xem trước theo tông chủ quyền",
       "generatorLabel": "Công Cụ Tạo Tài Sản Marketing",
       "generatorPlaceholder": "Tóm tắt chiến dịch một dòng...",
       "generatorButton": "Tạo",
@@ -1544,15 +1544,15 @@
       "generatorSanitized": "Số lượt chỉnh sửa giọng văn đã áp dụng"
     },
     "lifeLibrary": {
-      "title": "[MISSING:en] Life Library",
-      "description": "[MISSING:en] A multi-source knowledge archive with intelligent 24-hour caching -- look a topic up once, and it stays cached for good.",
-      "searchPlaceholder": "[MISSING:en] Look up a topic...",
-      "searchButton": "[MISSING:en] Search",
-      "notFound": "[MISSING:en] No archive entry found for that query.",
-      "sourceCache": "[MISSING:en] From cache",
-      "sourceFresh": "[MISSING:en] Freshly archived",
-      "sourceLabel": "[MISSING:en] Source",
-      "archiveLabel": "[MISSING:en] Recent Archive"
+      "title": "Thư Viện Cuộc Sống",
+      "description": "Một kho lưu trữ kiến thức đa nguồn với bộ nhớ đệm thông minh 24 giờ -- tra cứu một chủ đề một lần, và nó sẽ được lưu đệm vĩnh viễn.",
+      "searchPlaceholder": "Tra cứu một chủ đề...",
+      "searchButton": "Tìm kiếm",
+      "notFound": "Không tìm thấy mục lưu trữ nào cho truy vấn đó.",
+      "sourceCache": "Từ bộ nhớ đệm",
+      "sourceFresh": "Mới được lưu trữ",
+      "sourceLabel": "Nguồn",
+      "archiveLabel": "Lưu Trữ Gần Đây"
     }
   }
 }

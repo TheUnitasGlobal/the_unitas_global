@@ -546,7 +546,7 @@
     "revoke": "ដកសិទ្ធិចូល",
     "collapse": "បង្រួម",
     "expand": "ពង្រីក",
-    "lifeOs": "[MISSING:en] Life-OS"
+    "lifeOs": "Life-OS"
   },
   "Auth": {
     "login": "ចូល",
@@ -1478,59 +1478,59 @@
   },
   "LifeOs": {
     "hub": {
-      "eyebrow": "[MISSING:en] SOVEREIGN LIFE-OS",
-      "backLink": "[MISSING:en] Back to Home",
-      "navLabel": "[MISSING:en] Life-OS modules"
+      "eyebrow": "LIFE-OS ដ៏មានអធិបតេយ្យ",
+      "backLink": "ត្រឡប់ទៅទំព័រដើម",
+      "navLabel": "ម៉ូឌុល Life-OS"
     },
     "nav": {
-      "lifeDashboard": "[MISSING:en] Dashboard",
-      "secondBrain": "[MISSING:en] Second Brain",
-      "reviewAgent": "[MISSING:en] Review Agent",
-      "brandKit": "[MISSING:en] Brand Kit",
-      "lifeLibrary": "[MISSING:en] Life Library"
+      "lifeDashboard": "ផ្ទាំងគ្រប់គ្រង",
+      "secondBrain": "Second Brain (ខួរក្បាលទីពីរ)",
+      "reviewAgent": "ភ្នាក់ងារត្រួតពិនិត្យ",
+      "brandKit": "កញ្ចប់ម៉ាកយីហោ",
+      "lifeLibrary": "បណ្ណាល័យជីវិត"
     },
     "common": {
-      "loading": "[MISSING:en] Loading...",
-      "empty": "[MISSING:en] Nothing here yet."
+      "loading": "កំពុងផ្ទុក...",
+      "empty": "មិនទាន់មានអ្វីនៅទីនេះទេ។"
     },
     "lifeDashboard": {
-      "title": "[MISSING:en] Life Dashboard",
-      "description": "[MISSING:en] Unified operations and briefing stream -- a single sovereign view over the live ecosystem and the world wire.",
-      "systemPulse": "[MISSING:en] System Pulse",
-      "liveModules": "[MISSING:en] Live modules",
-      "coinGatedModules": "[MISSING:en] Coin-gated modules",
-      "governanceTiers": "[MISSING:en] Governance tiers",
-      "briefingStream": "[MISSING:en] Briefing Stream"
+      "title": "ផ្ទាំងគ្រប់គ្រងជីវិត",
+      "description": "ប្រតិបត្តិការ និងស្ទ្រីមសង្ខេបរួបរួម -- ទិដ្ឋភាពមួយសម្រាប់ប្រព័ន្ធអេកូឡូស៊ីផ្ទាល់ និងព័ត៌មានពិភពលោក។",
+      "systemPulse": "ចង្វាក់ប្រព័ន្ធ",
+      "liveModules": "ម៉ូឌុលកំពុងដំណើរការ",
+      "coinGatedModules": "ម៉ូឌុលដែលត្រូវប្រើកាក់",
+      "governanceTiers": "កម្រិតគ្រប់គ្រង",
+      "briefingStream": "ស្ទ្រីមសង្ខេប"
     },
     "secondBrain": {
-      "title": "[MISSING:en] Second Brain",
-      "description": "[MISSING:en] A vectorized document graph -- every note connects to its nearest neighbors by meaning, not just by folder.",
-      "composerLabel": "[MISSING:en] New Note",
-      "titlePlaceholder": "[MISSING:en] Title",
-      "contentPlaceholder": "[MISSING:en] Write a note...",
-      "tagsPlaceholder": "[MISSING:en] Tags, comma-separated",
-      "addNote": "[MISSING:en] Add Note",
-      "graphLabel": "[MISSING:en] Document Graph",
-      "selectNodeHint": "[MISSING:en] Select a node to read its note."
+      "title": "Second Brain (ខួរក្បាលទីពីរ)",
+      "description": "ក្រាបឯកសារវ៉ែកទ័រ -- កំណត់ចំណាំនីមួយៗភ្ជាប់ជាមួយកំណត់ចំណាំដែលមានន័យស្រដៀងគ្នា មិនមែនត្រឹមតែថតឯកសារនោះទេ។",
+      "composerLabel": "កំណត់ចំណាំថ្មី",
+      "titlePlaceholder": "ចំណងជើង",
+      "contentPlaceholder": "សរសេរកំណត់ចំណាំ...",
+      "tagsPlaceholder": "ស្លាក ខណ្ឌដោយក្បៀស",
+      "addNote": "បញ្ចូលកំណត់ចំណាំ",
+      "graphLabel": "ក្រាបឯកសារ",
+      "selectNodeHint": "ជ្រើសរើសថ្នុំមួយ ដើម្បីអានកំណត់ចំណាំរបស់វា។"
     },
     "reviewAgent": {
-      "title": "[MISSING:en] Review Agent",
-      "description": "[MISSING:en] Automated nightly audit of the live sovereign economy, archived to the ledger and mirrored to disk for the founder.",
-      "runNow": "[MISSING:en] Run Audit Now",
-      "triggeredBy": "[MISSING:en] Triggered by",
-      "triggeredByCron": "[MISSING:en] Nightly cron",
-      "triggeredByManual": "[MISSING:en] Manual",
+      "title": "ភ្នាក់ងារត្រួតពិនិត្យ",
+      "description": "ការត្រួតពិនិត្យប្រចាំយប់ដោយស្វ័យប្រវត្តិលើសេដ្ឋកិច្ចផ្ទាល់ ត្រូវបានកត់ត្រាទុកក្នុងបញ្ជី និងចម្លងទុកលើថាសសម្រាប់អ្នកបង្កើត។",
+      "runNow": "ដំណើរការត្រួតពិនិត្យឥឡូវនេះ",
+      "triggeredBy": "ធ្វើឡើងដោយ",
+      "triggeredByCron": "ដំណើរការស្វ័យប្រវត្តិពេលយប់",
+      "triggeredByManual": "ដោយដៃ",
       "briefingLabel": "សេចក្តីសង្ខេបសម្រាប់អ្នកគ្រប់គ្រង"
     },
     "brandKit": {
-      "title": "[MISSING:en] Brand Kit",
-      "description": "[MISSING:en] The one true sovereign tone-of-voice and visual system -- palette, typography, assets, and a live phrasing checker.",
-      "paletteLabel": "[MISSING:en] Color Tokens",
-      "typographyLabel": "[MISSING:en] Typography",
-      "assetsLabel": "[MISSING:en] Asset Manifest",
-      "voiceCheckerLabel": "[MISSING:en] Voice Checker",
-      "voiceCheckerPlaceholder": "[MISSING:en] Paste a draft to check its tone-of-voice...",
-      "previewLabel": "[MISSING:en] Sovereign-toned preview",
+      "title": "កញ្ចប់ម៉ាកយីហោ",
+      "description": "ប្រព័ន្ធសម្លេង និងរូបភាពពិតតែមួយគត់ -- ក្រុមពណ៌ រចនាបថអក្សរ ឯកសារ និងកម្មវិធីពិនិត្យពាក្យសម្តីផ្ទាល់។",
+      "paletteLabel": "តំណាងពណ៌",
+      "typographyLabel": "រចនាបថអក្សរ",
+      "assetsLabel": "បញ្ជីឯកសារ",
+      "voiceCheckerLabel": "កម្មវិធីពិនិត្យសម្លេង",
+      "voiceCheckerPlaceholder": "បញ្ចូលសារព្រាងដើម្បីពិនិត្យសម្លេងរបស់វា...",
+      "previewLabel": "ការមើលជាមុនតាមសម្លេងម៉ាកយីហោ",
       "generatorLabel": "កម្មវិធីបង្កើតឯកសារផ្សព្វផ្សាយ",
       "generatorPlaceholder": "សេចក្តីសង្ខេបយុទ្ធនាការមួយបន្ទាត់...",
       "generatorButton": "បង្កើត",
@@ -1544,15 +1544,15 @@
       "generatorSanitized": "ចំនួនការកែតម្រូវសម្លេងម៉ាកយីហោដែលបានអនុវត្ត"
     },
     "lifeLibrary": {
-      "title": "[MISSING:en] Life Library",
-      "description": "[MISSING:en] A multi-source knowledge archive with intelligent 24-hour caching -- look a topic up once, and it stays cached for good.",
-      "searchPlaceholder": "[MISSING:en] Look up a topic...",
-      "searchButton": "[MISSING:en] Search",
-      "notFound": "[MISSING:en] No archive entry found for that query.",
-      "sourceCache": "[MISSING:en] From cache",
-      "sourceFresh": "[MISSING:en] Freshly archived",
-      "sourceLabel": "[MISSING:en] Source",
-      "archiveLabel": "[MISSING:en] Recent Archive"
+      "title": "បណ្ណាល័យជីវិត",
+      "description": "ប័ណ្ណសារចំណេះដឹងពីប្រភពច្រើន ជាមួយឃ្លាំងសម្ងាត់ឆ្លាតវៃរយៈពេល ២៤ ម៉ោង -- ស្វែងរកប្រធានបទម្តង វានឹងនៅក្នុងឃ្លាំងសម្ងាត់ជារៀងរហូត។",
+      "searchPlaceholder": "ស្វែងរកប្រធានបទ...",
+      "searchButton": "ស្វែងរក",
+      "notFound": "រកមិនឃើញធាតុប័ណ្ណសារសម្រាប់ការស្វែងរកនោះទេ។",
+      "sourceCache": "ពីឃ្លាំងសម្ងាត់",
+      "sourceFresh": "ថ្មីៗនេះបានរក្សាទុក",
+      "sourceLabel": "ប្រភព",
+      "archiveLabel": "ប័ណ្ណសារថ្មីៗ"
     }
   }
 }
