@@ -545,19 +545,13 @@ export function OmniSynapseSearch({
       <form onSubmit={handleSubmit}>
         <div
           id="omni-synapse-search"
+          data-state={dragActive ? 'drag' : focused ? 'focus' : 'idle'}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           className={`flex items-center gap-1.5 border bg-white/[0.04] px-3 py-4 backdrop-blur-2xl transition-all duration-300 sm:gap-3 sm:px-6 sm:py-5 ${
             dragActive ? 'border-neon' : focused ? 'border-accent' : 'border-white/15'
           }`}
-          style={
-            dragActive
-              ? { boxShadow: '0 0 70px rgba(0,255,180,0.3)' }
-              : focused
-                ? { boxShadow: '0 0 70px rgba(212,175,55,0.28)' }
-                : undefined
-          }
         >
           <Search size={20} className="h-4 w-4 shrink-0 text-accent sm:h-5 sm:w-5" aria-hidden="true" />
           <input

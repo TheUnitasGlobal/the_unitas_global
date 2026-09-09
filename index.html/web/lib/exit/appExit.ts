@@ -809,7 +809,7 @@ function buildGuideFrame(copy: TerminalGuideCopy): HTMLElement {
   card.setAttribute('aria-live', 'polite');
   card.setAttribute('aria-labelledby', TERMINAL_GUIDE_TITLE_ID);
   card.style.cssText =
-    'position:relative;box-sizing:border-box;width:100%;max-width:400px;padding:32px 28px 30px;text-align:center;' +
+    'position:relative;box-sizing:border-box;width:100%;max-width:400px;max-height:calc(100dvh - 48px);overflow:hidden;padding:32px 28px 30px;text-align:center;' +
     'color:#e5e7eb;font-family:var(--font-jetbrains-mono),ui-monospace,SFMono-Regular,Menlo,monospace;' +
     'background:linear-gradient(160deg,rgba(255,255,255,.085),rgba(255,255,255,.028) 55%,rgba(15,16,22,.55));' +
     'border:1px solid rgba(212,175,55,.32);' +

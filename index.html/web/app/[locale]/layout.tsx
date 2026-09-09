@@ -168,6 +168,7 @@ export default async function LocaleLayout({
               position: 'fixed',
               inset: 0,
               zIndex: 500,
+              height: '100svh',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',

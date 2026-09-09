@@ -1282,7 +1282,7 @@ export function ComingSoonCinema() {
                     drop-shadow is static, so the text swap is seamless.
                     `line-clamp-2` hard-guarantees the large typography never
                     exceeds two lines on any mobile viewport. */}
-                <div className="absolute inset-0 grid place-items-center overflow-y-auto overscroll-contain px-6 py-20 sm:px-10">
+                <div className="cs-cinema-body absolute inset-0 grid place-items-center overflow-y-auto overscroll-contain">
                   <AnimatePresence>
                     <motion.div
                       key={segId}
@@ -1296,7 +1296,7 @@ export function ComingSoonCinema() {
                       className="col-start-1 row-start-1 flex max-w-4xl flex-col items-center text-center [will-change:opacity,transform]"
                     >
                       <h2
-                        className="line-clamp-2 break-keep bg-gradient-to-r from-accent via-white to-neon bg-clip-text font-serif text-[clamp(1.05rem,5.4vw,1.9rem)] font-bold uppercase leading-[1.12] tracking-[0.16em] text-transparent [text-wrap:balance] sm:text-5xl sm:tracking-[0.14em] lg:text-7xl"
+                        className="line-clamp-2 break-keep bg-gradient-to-r from-accent via-white to-neon bg-clip-text font-serif font-bold uppercase tracking-[0.16em] text-transparent [text-wrap:balance] sm:tracking-[0.14em]"
                         style={{
                           filter:
                             'drop-shadow(0 0 26px rgba(212,175,55,0.4)) drop-shadow(0 0 60px rgba(0,243,255,0.18))',
@@ -1306,10 +1306,10 @@ export function ComingSoonCinema() {
                       </h2>
                       <span
                         aria-hidden="true"
-                        className="my-6 block h-px w-16 bg-gradient-to-r from-transparent via-accent/70 to-transparent sm:w-28"
+                        className="cs-cinema-divider block h-px w-16 bg-gradient-to-r from-transparent via-accent/70 to-transparent sm:w-28"
                       />
                       <p
-                        className="line-clamp-2 max-w-2xl break-keep font-serif text-[clamp(0.72rem,3.2vw,0.95rem)] font-medium leading-snug tracking-[0.14em] text-white/70 [text-wrap:balance] sm:text-lg lg:text-2xl"
+                        className="line-clamp-2 max-w-2xl break-keep font-serif font-medium tracking-[0.14em] text-white/70 [text-wrap:balance]"
                         style={{ textShadow: '0 0 24px rgba(0,243,255,0.14)' }}
                       >
                         {t(captionKeyFor(segId, 'Sub'))}
@@ -1348,20 +1348,25 @@ export function ComingSoonCinema() {
             {phase === 'sealed' && !voidPlaceholder && (
               <motion.div
                 key="sealed"
-                className={`absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain px-6 py-16 ${
-                  isFounder ? 'pb-56' : ''
-                }`}
+                data-founder={isFounder ? '1' : undefined}
+                className="cs-sealed absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.1, ease: 'easeOut' }}
               >
-                <h2 className="cs-awaken font-serif text-[2.75rem] font-bold tracking-[0.22em] text-white sm:text-7xl lg:text-[5.25rem]">
+                <h2 className="cs-awaken font-serif font-bold tracking-[0.22em] text-white">
                   {t('comingSoon')}
                 </h2>
-                <p className="mt-7 max-w-lg text-base leading-relaxed text-gray-300 [text-wrap:balance] sm:text-lg">
+                <p
+                  className="max-w-lg text-base leading-relaxed text-gray-300 [text-wrap:balance] sm:text-lg"
+                  style={{ marginTop: 'clamp(.75rem,2.5svh,1.75rem)' }}
+                >
                   {t('awakening')}
                 </p>
-                <p className="mt-3 max-w-sm text-xs leading-relaxed text-white/35 [text-wrap:balance] sm:text-sm">
+                <p
+                  className="max-w-sm text-xs leading-relaxed text-white/35 [text-wrap:balance] sm:text-sm"
+                  style={{ marginTop: 'clamp(.5rem,1.2svh,.75rem)' }}
+                >
                   {t('sealed')}
                 </p>
 
@@ -1383,7 +1388,7 @@ export function ComingSoonCinema() {
                     one exact vertical centre line (±0). Both lines are
                     `w-full text-center` for the same box reference. */}
                 <p
-                  className="mt-16 w-full bg-gradient-to-r from-[#d4af37] via-[#f5e6b8] to-[#d4af37] bg-clip-text text-center font-serif text-[1.62rem] font-bold uppercase tracking-[0.45em] text-transparent [text-indent:0.45em] sm:text-[2.62rem]"
+                  className="cs-seal-mark w-full bg-gradient-to-r from-[#d4af37] via-[#f5e6b8] to-[#d4af37] bg-clip-text text-center font-serif font-bold uppercase tracking-[0.45em] text-transparent [text-indent:0.45em]"
                   style={{ filter: 'drop-shadow(0 0 22px rgba(212,175,55,0.35))' }}
                 >
                   {tGate('title')}
@@ -1403,7 +1408,8 @@ export function ComingSoonCinema() {
                     it one unbroken line, `[text-wrap:nowrap]` guards the
                     balance heuristics some engines apply to short lines. */}
                 <p
-                  className="mt-3 w-full whitespace-nowrap break-keep text-center text-[0.8rem] font-medium uppercase tracking-[0.2em] text-white/45 [text-indent:0.2em] [text-wrap:nowrap] sm:text-[1.05rem]"
+                  className="mt-3 w-full whitespace-nowrap break-keep text-center font-medium uppercase tracking-[0.2em] text-white/45 [text-indent:0.2em] [text-wrap:nowrap]"
+                  style={{ fontSize: 'clamp(.72rem, .5rem + 1vw, 1.05rem)' }}
                   translate="no"
                 >
                   THE UNITAS GLOBAL OÜ
@@ -1426,7 +1432,8 @@ export function ComingSoonCinema() {
                     corner-control row so nothing overlaps on narrow phones. */}
                 {isFounder && (
                   <motion.div
-                    className="absolute inset-x-0 bottom-24 z-20 flex flex-col items-center gap-3 px-6"
+                    className="absolute inset-x-0 z-20 flex flex-col items-center gap-3 px-6"
+                    style={{ bottom: 'calc(6rem + var(--u-safe-bottom))' }}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6, duration: 0.8 }}

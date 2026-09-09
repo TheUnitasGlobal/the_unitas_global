@@ -47,7 +47,6 @@ const SHORTCUT_STORAGE_KEY = 'unitas.ouroboros.shortcut.v1';
  * Singularity Core cluster grid (spec §10.20).
  */
 export function QuantumWhiteHome() {
-  const t = useTranslations('QuantumWhite');
   const tHome = useTranslations('Home');
   const released = useCurtainReleased();
 
@@ -149,13 +148,10 @@ export function QuantumWhiteHome() {
     <Fragment>
       <QuantumVoid />
       <main className="qw-main pb-24">
-        <div className="qw-hero-wrap flex flex-col items-center pt-24 pb-16">
+        <div className="qw-hero-wrap flex flex-col items-center pt-24 pb-12">
           <SectionShield zone="home-hero">
             <Hero />
           </SectionShield>
-          <p className="qw-hero-tagline mx-auto mt-5 max-w-[42ch] text-center text-[clamp(0.95rem,1.4vw,1.15rem)] text-[var(--qw-ink-3)]">
-            {t('heroTagline')}
-          </p>
         </div>
 
         <SectionShield zone="home-search">

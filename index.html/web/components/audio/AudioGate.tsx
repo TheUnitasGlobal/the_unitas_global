@@ -143,7 +143,7 @@ export function AudioGate() {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-y-auto overscroll-contain bg-void px-6 py-16 text-center backdrop-blur-2xl"
+          className="u-viewport-fit gate-panel fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-y-auto overscroll-contain bg-void text-center backdrop-blur-2xl"
           initial={false}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: 'easeInOut' }}
@@ -153,7 +153,10 @@ export function AudioGate() {
         >
           {/* Flag + native-language selector -- present on the very first
               screen so a visitor can read the gate before committing. */}
-          <div className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6">
+          <div
+            className="absolute right-4 z-20 sm:right-6"
+            style={{ top: 'max(1rem, var(--u-safe-top))' }}
+          >
             <GlobalLanguagePicker />
           </div>
 
@@ -182,12 +185,12 @@ export function AudioGate() {
           >
             <h1
               id="audio-gate-title"
-              className="mb-6 font-serif text-5xl font-bold tracking-[0.14em] text-white md:text-7xl lg:text-8xl"
+              className="font-serif font-bold tracking-[0.14em] text-white"
               style={{ textShadow: '0 0 24px rgba(212,175,55,0.3), 0 0 60px rgba(0,243,255,0.1)' }}
             >
               {t('title')}
             </h1>
-            <p className="mx-auto mb-12 max-w-lg text-base leading-relaxed text-gray-300 [text-wrap:balance] md:max-w-3xl md:text-xl">
+            <p className="mx-auto max-w-lg text-gray-300 [text-wrap:balance] md:max-w-3xl">
               {t('subtitle')}
             </p>
 

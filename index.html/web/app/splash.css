@@ -16,6 +16,8 @@
   display: grid;
   place-items: center;
   overflow: hidden;
+  height: 100vh;
+  height: 100svh;
   background: #030305;
   color: #fff;
   /* Fail-safe exit: pure CSS, 3s hold + 0.45s fade, releases pointer events
@@ -141,7 +143,7 @@ html[data-splash='off'] .sp-root {
 .sp-mark-3d {
   position: relative;
   perspective: 900px;
-  width: clamp(150px, 34vmin, 260px);
+  width: clamp(120px, 30vmin, 260px);
   aspect-ratio: 1 / 1;
 }
 .sp-mark {
@@ -412,6 +414,22 @@ html[data-splash='off'] .sp-root {
 }
 
 /* --- device adaptation -------------------------------------------------- */
+/* Mid-tier short viewport (short-landscape phones / small laptop windows
+   between the 470px hard floor below and a full-height portrait phone):
+   the 470px query never fired here, and `overflow: hidden` above clips
+   silently with the scrollbar hidden site-wide -- this tier keeps the
+   whole stage inside the box before it ever reaches that floor. */
+@media (max-height: 560px) {
+  .sp-mark-3d {
+    width: clamp(110px, 26vmin, 200px);
+  }
+  .sp-title {
+    width: clamp(220px, 52vw, 520px);
+  }
+  .sp-stage {
+    gap: clamp(6px, 1.6vmin, 14px);
+  }
+}
 @media (max-height: 470px) {
   .sp-mark-3d {
     width: clamp(110px, 26vmin, 180px);

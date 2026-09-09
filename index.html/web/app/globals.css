@@ -4,6 +4,27 @@
 
 :root {
   color-scheme: dark;
+  /* --------------------------------------------------------------------
+     REV-14 single-viewport gate tokens (SPEC.md §1.2). Every fixed-inset
+     pre-home screen (splash / AudioGate / cinema ad / sealed coming-soon)
+     reads its vertical rhythm from these instead of a fixed `py-*` so the
+     screen fits one viewport on any device without the scroll-lock the
+     owner instruction 2026-08-29 forbids on `html`/`body`.
+     -------------------------------------------------------------------- */
+  --u-vp-pad-y: clamp(1.25rem, 5svh, 4rem);
+  --u-vp-pad-x: clamp(1rem, 4vw, 2.5rem);
+  --u-safe-top: env(safe-area-inset-top, 0px);
+  --u-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --u-gate-title: clamp(2.25rem, 8.5vmin, 6rem);
+  --u-gate-sub: clamp(0.875rem, 0.5rem + 1.6vmin, 1.25rem);
+  --u-cin-head: clamp(1.05rem, min(5.4vw, 9svh), 4.5rem);
+  --u-cin-sub: clamp(0.72rem, min(3.2vw, 4svh), 1.5rem);
+  --u-cin-gap: clamp(0.75rem, 2.5svh, 1.5rem);
+  --u-seal-title: clamp(2rem, min(11vw, 9svh), 5.25rem);
+  --u-seal-mark: clamp(1.25rem, min(7vw, 5svh), 2.62rem);
+  --u-seal-gap: clamp(1.25rem, 5svh, 4rem);
+  --u-seal-foot: calc(4.5rem + var(--u-safe-bottom));
+  --u-seal-foot-founder: calc(clamp(9rem, 26svh, 13rem) + var(--u-safe-bottom));
 }
 
 html,
@@ -44,6 +65,98 @@ body::-webkit-scrollbar,
 body {
   background-color: #030305;
   color: #e2e8f0;
+}
+
+/* --------------------------------------------------------------------------
+   REV-14 single-viewport gate shells (SPEC.md §2). `height: 100svh` (the
+   *static* minimum viewport -- never the "large" one Safari/Chrome expose
+   before the URL bar collapses) is what actually guarantees zero overflow;
+   `100vh` above it is the pre-svh fallback, and `max-height: 100dvh` caps
+   it back down if the dynamic viewport is ever smaller still. Owner
+   instruction 2026-08-29 forbids scroll-locking `html`/`body` on any of
+   these screens, so this fits content INTO the viewport via clamp()'d
+   spacing/type instead of clipping or locking scroll -- the panels' own
+   `overflow-y-auto overscroll-contain` stays as a fail-safe, not the
+   primary mechanism. */
+.u-viewport-fit {
+  height: 100vh;
+  height: 100svh;
+  max-height: 100dvh;
+  padding-block: max(var(--u-vp-pad-y), var(--u-safe-top)) max(var(--u-vp-pad-y), var(--u-safe-bottom));
+  padding-inline: max(var(--u-vp-pad-x), env(safe-area-inset-left, 0px)) max(var(--u-vp-pad-x), env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+}
+/* AudioGate (components/audio/AudioGate.tsx): replaces the fixed `py-16`
+   Tailwind literal so the h1/subtitle scale with `--u-gate-title`/`--u-gate-sub`
+   instead of the old 48/72/96px 3-step ladder. */
+.gate-panel h1 {
+  font-size: var(--u-gate-title);
+  line-height: 1;
+  margin-bottom: clamp(0.75rem, 2.5svh, 1.5rem);
+}
+.gate-panel p {
+  font-size: var(--u-gate-sub);
+  line-height: 1.5;
+  margin-bottom: clamp(1rem, 4svh, 3rem);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+}
+@media (max-height: 600px) {
+  .gate-panel p {
+    -webkit-line-clamp: 3;
+  }
+}
+/* Cinema ad caption box (components/ComingSoonCinema.tsx `cinema` phase):
+   replaces `px-6 py-20 sm:px-10` + the head/sub's 3-breakpoint clamp
+   ladders. `line-clamp-2`, `break-keep`, and the tracking values on the
+   head/sub stay exactly as they were in the TSX -- only the size/spacing
+   literals move here. */
+.cs-cinema-body {
+  padding: clamp(3rem, 10svh, 5rem) var(--u-vp-pad-x);
+}
+.cs-cinema-body h2 {
+  font-size: var(--u-cin-head);
+  line-height: 1.12;
+}
+.cs-cinema-body .cs-cinema-divider {
+  margin-block: var(--u-cin-gap);
+}
+.cs-cinema-body p {
+  font-size: var(--u-cin-sub);
+  line-height: 1.35;
+}
+/* Sealed coming-soon panel: replaces `px-6 py-16` (+ founder's `pb-56`) with
+   a bottom padding that reserves exactly the fixed bottom row's height
+   (`--u-seal-foot`) or, for the founder door variant, the taller reserve
+   that also clears the `bottom-24`-pinned founder CTA (`--u-seal-foot-founder`). */
+.cs-sealed {
+  padding: var(--u-vp-pad-y) var(--u-vp-pad-x) var(--u-seal-foot);
+}
+.cs-sealed[data-founder] {
+  padding-bottom: var(--u-seal-foot-founder);
+}
+.cs-sealed h2 {
+  font-size: var(--u-seal-title);
+  line-height: 1.05;
+}
+.cs-sealed .cs-seal-mark {
+  margin-top: var(--u-seal-gap);
+  font-size: var(--u-seal-mark);
+}
+
+/* U-AI search bar glow (components/home/OmniSynapseSearch.tsx): was an
+   inline `style={{boxShadow}}` keyed off local component state; moved onto
+   the `data-state` attribute the component now stamps so the Quantum White
+   scope (app/quantum-white.css) can override it with its own crystal-glass
+   ring instead of losing to inline-style specificity. This rule is the
+   dark-route identity these values always were. */
+#omni-synapse-search[data-state='focus'] {
+  box-shadow: 0 0 70px rgba(212, 175, 55, 0.28);
+}
+#omni-synapse-search[data-state='drag'] {
+  box-shadow: 0 0 70px rgba(0, 255, 180, 0.3);
 }
 
 .glow-text {
