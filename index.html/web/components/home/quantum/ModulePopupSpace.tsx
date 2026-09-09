@@ -16,10 +16,11 @@ interface ModulePopupSpaceProps {
  * REV-13 module detail + one-click investment panel (spec §3, §10.6-9):
  * title/description/cost resolved from `module.i18n` (root-namespace full
  * keys) or, for lock-in modules, the literal owner-named brand mark; renders
- * `UPayGateway` for every module kind (b2b/life-os simply always resolve to
- * its `unlisted` state -- `planInvestment` marks them non-executable); once
- * a burn (or a double-burn-guard reuse) succeeds, reveals the matching
- * post-investment action for the module's kind.
+ * `UPayGateway` for every module kind (b2b resolves the same as ecosystem/
+ * b2c/lockin; lifeos only resolves executable for a verified founder hint,
+ * `planInvestment` marks it `unlisted` for everyone else); once a burn (or a
+ * double-burn-guard reuse) succeeds, reveals the matching post-investment
+ * action for the module's kind.
  */
 export function ModulePopupSpace({ module }: ModulePopupSpaceProps) {
   const t = useTranslations('QuantumWhite');
@@ -29,6 +30,10 @@ export function ModulePopupSpace({ module }: ModulePopupSpaceProps) {
   const [invested, setInvested] = useState(false);
   const [balanceAfter, setBalanceAfter] = useState<number | null>(null);
   const [locallyActive, setLocallyActive] = useState(false);
+  // Client-visible hint cookie only (not server-verified) -- exactly the
+  // read `canEnter` already relied on below; gates whether `lifeos` even
+  // attempts a burn (see `UPayGateway`'s `founder` prop / `planInvestment`).
+  const founderHint = hasSovereignHint();
 
   // Every module the popout can open is a fresh subject -- never carry a
   // previous tile's investment/activation state into this one.
@@ -61,7 +66,7 @@ export function ModulePopupSpace({ module }: ModulePopupSpaceProps) {
     invested &&
     module.kind !== 'lockin' &&
     module.hasRoute &&
-    (module.kind !== 'lifeos' || hasSovereignHint());
+    (module.kind !== 'lifeos' || founderHint);
   const canActivate = invested && module.kind === 'lockin';
 
   return (
@@ -83,7 +88,7 @@ export function ModulePopupSpace({ module }: ModulePopupSpaceProps) {
         </span>
       </p>
 
-      <UPayGateway module={module} onSuccess={handleSuccess} />
+      <UPayGateway module={module} founder={founderHint} onSuccess={handleSuccess} />
 
       {invested && (
         <div className="qw-module-success flex flex-col gap-2 rounded-2xl border border-[var(--qw-line)] bg-[var(--qw-bg-2)] p-4" role="status">

@@ -147,18 +147,34 @@ describe('planInvestment', () => {
     expect(plan).toEqual({ accessName: 'nexus', amount: 2, executable: true });
   });
 
-  it('b2b: not executable -- reason "unlisted" -- even though it has an access name', () => {
+  it('b2b: executable unconditionally -- its Coming-Soon route is always reachable', () => {
     const plan = planInvestment(
       makeModule({ kind: 'b2b', accessName: 'u-signature', coinCost: UPAY_UNIVERSAL_COSTS.b2b }),
     );
-    expect(plan).toEqual({ accessName: 'u-signature', amount: 5, executable: false, reason: 'unlisted' });
+    expect(plan).toEqual({ accessName: 'u-signature', amount: 5, executable: true });
   });
 
-  it('lifeos: not executable -- reason "unlisted" -- even though it has an access name', () => {
+  it('lifeos: not executable for the public -- reason "unlisted" -- even with an access name', () => {
     const plan = planInvestment(
       makeModule({ kind: 'lifeos', accessName: 'second-brain', coinCost: UPAY_UNIVERSAL_COSTS.lifeos }),
     );
     expect(plan).toEqual({ accessName: 'second-brain', amount: 3, executable: false, reason: 'unlisted' });
+  });
+
+  it('lifeos: executable for a verified founder', () => {
+    const plan = planInvestment(
+      makeModule({ kind: 'lifeos', accessName: 'second-brain', coinCost: UPAY_UNIVERSAL_COSTS.lifeos }),
+      { founder: true },
+    );
+    expect(plan).toEqual({ accessName: 'second-brain', amount: 3, executable: true });
+  });
+
+  it('lifeos: a founder flag never opens any other kind further (no-op for ecosystem)', () => {
+    const plan = planInvestment(
+      makeModule({ kind: 'ecosystem', accessName: 'echo', coinCost: 2 }),
+      { founder: true },
+    );
+    expect(plan).toEqual({ accessName: 'echo', amount: 2, executable: true });
   });
 
   it('no access name at all -> not executable, reason "unlisted"', () => {
@@ -171,11 +187,11 @@ describe('planInvestment', () => {
     expect(plan).toEqual({ accessName: 'echo', amount: 0, executable: false, reason: 'free' });
   });
 
-  it('UPAY_OPEN_KINDS is exactly ecosystem / b2c / lockin', () => {
+  it('UPAY_OPEN_KINDS is exactly ecosystem / b2c / lockin / b2b (lifeos is founder-gated separately)', () => {
     expect(UPAY_OPEN_KINDS.has('ecosystem')).toBe(true);
     expect(UPAY_OPEN_KINDS.has('b2c')).toBe(true);
     expect(UPAY_OPEN_KINDS.has('lockin')).toBe(true);
-    expect(UPAY_OPEN_KINDS.has('b2b')).toBe(false);
+    expect(UPAY_OPEN_KINDS.has('b2b')).toBe(true);
     expect(UPAY_OPEN_KINDS.has('lifeos')).toBe(false);
   });
 });

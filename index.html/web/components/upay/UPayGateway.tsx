@@ -29,6 +29,9 @@ const INITIAL_STATE: OneClickState = { status: 'idle' };
 
 interface UPayGatewayProps {
   module: ClusterModule;
+  /** Verified founder session (`hasSovereignHint()`) -- only gates `lifeos`
+   *  executability, see `planInvestment`'s `PlanInvestmentOptions.founder`. */
+  founder?: boolean;
   onSuccess?: (result: { balanceAfter: number | null; reused: boolean }) => void;
 }
 
@@ -48,7 +51,7 @@ interface UPayGatewayProps {
  * accessible name stable through the whole flow. A separate `aria-live`
  * region carries the state's message text.
  */
-export function UPayGateway({ module, onSuccess }: UPayGatewayProps) {
+export function UPayGateway({ module, founder = false, onSuccess }: UPayGatewayProps) {
   const t = useTranslations('QuantumWhite');
   const { session, balance, profile, configured, guest, refreshProfile } = useWallet();
   const authGate = useGatedSurface('nav:auth');
@@ -63,7 +66,7 @@ export function UPayGateway({ module, onSuccess }: UPayGatewayProps) {
     };
   }, []);
 
-  const plan = useMemo(() => planInvestment(module), [module]);
+  const plan = useMemo(() => planInvestment(module, { founder }), [module, founder]);
 
   const activateLockInIfNeeded = useCallback(() => {
     if (module.kind !== 'lockin' || !isLockInModuleKey(module.key)) return;

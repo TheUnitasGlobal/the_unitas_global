@@ -20,14 +20,16 @@ import type { ClusterModule, ModuleKind } from '@/lib/quantumWhite/clusters';
  */
 
 /**
- * The three cluster kinds a 1-click investment can actually execute today
- * (spec section 10 item 6). Enterprise rails and Life-OS hubs still render
- * the gateway in every pop-up -- so the cost and "what you'd get" are always
- * visible -- but `planInvestment` marks them `executable: false` because
- * their destinations are Coming-Soon / founder-only pages, not a live
- * (gated) route a burn should unlock.
+ * Cluster kinds a 1-click investment can execute unconditionally (founder
+ * status never enters into it): every module of these kinds lands on a real,
+ * publicly reachable page once burned, including `b2b`'s Coming-Soon
+ * placeholder route. `lifeos` is deliberately NOT in this set -- it is
+ * executable only when the caller is a verified founder (see
+ * `planInvestment`'s `opts.founder`), because its destination 404s for
+ * everyone else and there is no refund path for a burn spent on a page a
+ * visitor can never reach.
  */
-export const UPAY_OPEN_KINDS: ReadonlySet<ModuleKind> = new Set(['ecosystem', 'b2c', 'lockin']);
+export const UPAY_OPEN_KINDS: ReadonlySet<ModuleKind> = new Set(['ecosystem', 'b2c', 'lockin', 'b2b']);
 
 /** Why a one-click attempt was refused before (or instead of) the RPC firing. */
 export type OneClickBlockReason =
@@ -114,22 +116,39 @@ export interface InvestmentPlan {
   reason?: 'unlisted' | 'free';
 }
 
+export interface PlanInvestmentOptions {
+  /**
+   * Live-verified founder session (see `hasSovereignHint()` in
+   * `@/lib/foundersGate`). Gates `lifeos` executability ONLY -- Life-OS
+   * pages sit behind `middleware.ts`'s hard 404 fence for anyone without the
+   * founder cookie, so opening the burn to the public would let a visitor
+   * pay U-COIN (no refund path exists, see `spend_coins()`) and then land on
+   * a real 404. `ecosystem` / `b2c` / `lockin` / `b2b` never consult this --
+   * their destinations are always reachable once paid for.
+   */
+  founder?: boolean;
+}
+
 /**
  * Decides whether a one-click burn should even attempt the RPC for this
- * module (spec section 10 item 6): only `ecosystem` / `b2c` / `lockin`
- * modules with a real access name and a positive cost are executable.
- * `b2b` / `lifeos` (and anything with no access name at all) still return a
- * fully-formed plan -- `UPayGateway` renders it and shows
+ * module. `ecosystem` / `b2c` / `lockin` / `b2b` modules with a real access
+ * name and a positive cost are always executable -- all four land on a real,
+ * publicly reachable page once burned (b2b's Coming-Soon placeholder is
+ * still a live route, not a dead end). `lifeos` is executable ONLY when
+ * `opts.founder` is true, because its destination 404s for anyone else (see
+ * `PlanInvestmentOptions.founder`). Anything with no access name at all
+ * still returns a fully-formed plan -- `UPayGateway` renders it and shows
  * `QuantumWhite.unlisted` rather than hiding the button.
  */
-export function planInvestment(module: ClusterModule): InvestmentPlan {
+export function planInvestment(module: ClusterModule, opts: PlanInvestmentOptions = {}): InvestmentPlan {
   const accessName = module.accessName ?? '';
   const amount = module.coinCost;
 
   if (!accessName) {
     return { accessName, amount, executable: false, reason: 'unlisted' };
   }
-  if (!UPAY_OPEN_KINDS.has(module.kind)) {
+  const kindOpen = module.kind === 'lifeos' ? opts.founder === true : UPAY_OPEN_KINDS.has(module.kind);
+  if (!kindOpen) {
     return { accessName, amount, executable: false, reason: 'unlisted' };
   }
   if (amount <= 0) {
