@@ -9,11 +9,22 @@ import { moduleAccessName } from '../../lib/module-registry';
 
 // Must stay in sync with the CHECK constraint in
 // supabase/migrations/20260902000000_module_access_grants.sql and
-// 20260830000000_ecosystem_coin_gating.sql's spend_coins() whitelist.
+// 20260830000000_ecosystem_coin_gating.sql's spend_coins() whitelist, widened
+// by supabase/migrations/20260914000000_upay_universal_allowlist.sql (REV-13
+// U-Pay universal access -- lib/upay/universal.ts UPAY_UNIVERSAL_ACCESS) to
+// 33 names: the original 16 B2C/ecosystem names + 'u-ai'
+// (20260908000000_u_ai_genesis_memory.sql) + the 16 lock-in/b2b/life-os
+// access names the Quantum White home's Singularity Core grid can now
+// 1-click-invest in.
 const DB_MODULE_WHITELIST = new Set([
   'Arche', 'Arena', 'Score', 'Fate', 'Codex22',
   'echo', 'void', 'mirror', 'oracle', 'pulse', 'apex',
   'genesis', 'syndicate', 'aura', 'paradox', 'chronos',
+  'u-ai',
+  'nexus', 'aegis', 'u-twin', 'infinity', 'panopticon', 'oracle-lockin',
+  'syndicate-x', 'fate-matrix',
+  'u-signature', 'u-key', 'u-pay',
+  'life-dashboard', 'second-brain', 'review-agent', 'brand-kit', 'life-library',
 ]);
 
 describe('moduleForPathname', () => {

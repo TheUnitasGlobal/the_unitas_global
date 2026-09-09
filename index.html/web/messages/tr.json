@@ -1554,5 +1554,52 @@
       "sourceLabel": "Kaynak",
       "archiveLabel": "Son Arşiv"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "Tek bir beyaz tuval. Her UNITAS varlığı bir tık uzağınızda.",
+    "surfaceLabel": "Quantum White paneli",
+    "clusters": {
+      "cognitive": {
+        "title": "Bilişsel Çekirdek",
+        "tagline": "Soruları gelire dönüştüren on altı zekâ motoru."
+      },
+      "live": {
+        "title": "Canlı Hizmetler",
+        "tagline": "Daha ilk oturumdan itibaren karşılığını veren beş anında erişim hizmeti."
+      },
+      "lockin": {
+        "title": "Sadakat Ağı",
+        "tagline": "Her ziyaretin değerini katlayan sekiz elde tutma motoru."
+      },
+      "enterprise": {
+        "title": "Kurumsal Altyapı",
+        "tagline": "Kimlik, anahtarlar ve ödemeler için üç altyapı hattı."
+      }
+    },
+    "moduleCount": "{count} modül",
+    "openCluster": "{title} öğesini aç",
+    "closeCluster": "Kapat",
+    "back": "Geri",
+    "selectModule": "Getiri profilini görmek ve tek tıkla yatırım yapmak için bir modül seçin.",
+    "costLabel": "Erişim",
+    "coinUnit": "U-COIN",
+    "investNow": "Şimdi Yatırım Yap",
+    "executing": "Pozisyonunuz güvence altına alınıyor...",
+    "successTitle": "Yatırım Gerçekleştirildi",
+    "successBody": "Erişiminiz aktif. Giriş yapın ve değer yaratmaya başlayın.",
+    "enterModule": "Şimdi Gir",
+    "activated": "Bu cihazda etkinleştirildi",
+    "activateModule": "Etkinleştir",
+    "balanceLabel": "Bakiyeniz",
+    "insufficient": "Bu pozisyon için bakiye yetersiz.",
+    "chargeCoins": "U-COIN Ekle",
+    "signInToInvest": "Yatırım Yapmak İçin Giriş Yapın",
+    "guestInvest": "Varlık tutmak ve yatırım yapmak için tam bir hesap oluşturun.",
+    "shieldBlocked": "Güvenlik kontrolü başarısız oldu. Doğal hareket edin ve tekrar deneyin.",
+    "unlisted": "Bu pozisyon yakında yatırıma açılacak.",
+    "failed": "İşlem tamamlanamadı. Tekrar deneyin.",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "Anında Hazır",
+    "phoneRequired": "Yatırım yapmak için telefonunuzu doğrulayın."
   }
 }

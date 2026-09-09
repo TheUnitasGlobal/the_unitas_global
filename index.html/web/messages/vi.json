@@ -1554,5 +1554,52 @@
       "sourceLabel": "Nguồn",
       "archiveLabel": "Lưu Trữ Gần Đây"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "Một tấm nền trắng duy nhất. Mọi tài sản UNITAS chỉ cách một cú nhấp chuột.",
+    "surfaceLabel": "Bảng điều khiển Quantum White",
+    "clusters": {
+      "cognitive": {
+        "title": "Lõi Nhận Thức",
+        "tagline": "Mười sáu công cụ trí tuệ biến câu hỏi thành doanh thu."
+      },
+      "live": {
+        "title": "Dịch Vụ Trực Tiếp",
+        "tagline": "Năm dịch vụ truy cập tức thì sinh lời ngay từ phiên đầu tiên."
+      },
+      "lockin": {
+        "title": "Mạng Lưới Giữ Chân",
+        "tagline": "Tám công cụ giữ chân nhân lên giá trị của mỗi lượt truy cập."
+      },
+      "enterprise": {
+        "title": "Hạ Tầng Doanh Nghiệp",
+        "tagline": "Ba tuyến hạ tầng cho danh tính, khóa bảo mật và thanh toán."
+      }
+    },
+    "moduleCount": "{count} mô-đun",
+    "openCluster": "Mở {title}",
+    "closeCluster": "Đóng",
+    "back": "Quay lại",
+    "selectModule": "Chọn một mô-đun để xem hồ sơ lợi nhuận và đầu tư chỉ với một cú nhấp.",
+    "costLabel": "Quyền truy cập",
+    "coinUnit": "U-COIN",
+    "investNow": "Đầu tư ngay",
+    "executing": "Đang bảo đảm vị thế của bạn...",
+    "successTitle": "Đã thực hiện khoản đầu tư",
+    "successBody": "Quyền truy cập của bạn đã kích hoạt. Hãy vào và bắt đầu tạo ra giá trị.",
+    "enterModule": "Vào ngay",
+    "activated": "Đã kích hoạt trên thiết bị này",
+    "activateModule": "Kích hoạt",
+    "balanceLabel": "Số dư của bạn",
+    "insufficient": "Số dư quá thấp cho vị thế này.",
+    "chargeCoins": "Nạp U-COIN",
+    "signInToInvest": "Đăng nhập để đầu tư",
+    "guestInvest": "Tạo tài khoản đầy đủ để nắm giữ tài sản và đầu tư.",
+    "shieldBlocked": "Kiểm tra bảo mật không đạt. Hãy thao tác tự nhiên và thử lại.",
+    "unlisted": "Vị thế này sẽ sớm mở để đầu tư.",
+    "failed": "Giao dịch chưa hoàn tất. Vui lòng thử lại.",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "Sẵn sàng tức thì",
+    "phoneRequired": "Xác minh điện thoại của bạn để đầu tư."
   }
 }

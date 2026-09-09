@@ -1,0 +1,972 @@
+'use client';
+
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
+import { attenuateMaster } from '@/lib/audio/masterLevel';
+import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '@/lib/audio/audioSession';
+import { attachActivationUnlock, scheduleAutoUnlockRetries } from '@/lib/audio/activationUnlock';
+import { AUDIO_PREF_KEY, readAudioPrefMuted } from '@/lib/audio/audioPreference';
+import { APP_EXIT_EVENT } from '@/lib/exit/appExit';
+
+// useLayoutEffect warns during SSR; fall back to useEffect on the server.
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+interface SpatialAudioContextValue {
+  muted: boolean;
+  /** True once the AudioContext has actually been resumed by a user gesture. */
+  unlocked: boolean;
+  toggleMuted: () => void;
+  /** Explicitly unlocks the AudioContext AND unmutes in one action -- see AudioGate. */
+  unlockAndUnmute: () => void;
+  /** Plays a short synthesized blip panned in stereo space (-1 left .. 1 right). */
+  playSpatialPing: (pan?: number) => void;
+  /** Soft high-tech blip for card/button hover. */
+  playHoverSfx: (pan?: number) => void;
+  /** Futuristic activation click when the OMNI-SYNAPSE search input gains focus. */
+  playSearchFocusSfx: () => void;
+  /** Rising three-note confirm swell for entering a quest/module. */
+  playQuestEnterSfx: () => void;
+  /** Single percussive tick for each OMNI-SYNAPSE search keystroke. */
+  playTypingTick: () => void;
+  /** Themed hover cue for one of the 11 ecosystems (see lib/ecosystems.ts `sfx` keys). */
+  playEcosystemHover: (theme: string, pan?: number) => void;
+  /** Heavy mechanical vault-closing thud for B2B protocol cards. */
+  playVaultSfx: () => void;
+}
+
+const SpatialAudioContext = createContext<SpatialAudioContextValue | null>(null);
+
+// Owner instruction 2026-09-05 (round 10, item 2): the 0.4 baseline is halved
+// by the global omni-channel 50% master attenuation -- one rule for every
+// device (PC / mobile / tablet) and both channels (online / installed App).
+const BASE_MASTER_GAIN = attenuateMaster(0.4);
+
+/** Ambient bed level (under BASE_MASTER_GAIN). Deliberately low -- a presence, not a soundtrack. */
+const AMBIENT_GAIN = 0.05;
+
+const noop = () => {};
+
+/**
+ * Safe no-op surface returned by `useSpatialAudio()` outside a provider
+ * (owner instruction 2026-09-07, item 1): a missing provider used to THROW
+ * during render and take the whole route down to the error screen -- a
+ * silent cue is the correct failure mode for an audio helper.
+ */
+const SILENT_AUDIO: SpatialAudioContextValue = {
+  muted: true,
+  unlocked: false,
+  toggleMuted: noop,
+  unlockAndUnmute: noop,
+  playSpatialPing: noop,
+  playHoverSfx: noop,
+  playSearchFocusSfx: noop,
+  playQuestEnterSfx: noop,
+  playTypingTick: noop,
+  playEcosystemHover: noop,
+  playVaultSfx: noop,
+};
+
+/**
+ * Wrap an SFX / control function so a Web Audio refusal (a closed context, a
+ * node the engine lacks, a scheduling error) never throws out of the click,
+ * hover or effect that triggered it (owner instruction 2026-09-07, items 1 +
+ * 2). A cue that cannot play is simply skipped.
+ */
+function guard<A extends unknown[]>(fn: (...args: A) => void): (...args: A) => void {
+  return (...args: A) => {
+    try {
+      fn(...args);
+    } catch {
+      /* a refused cue must never break the interaction that asked for it */
+    }
+  };
+}
+
+/**
+ * Stereo pan node with a graceful fallback: `createStereoPanner` is missing
+ * on older WebKit (Safari < 14.1); an equal-power PannerNode gives the same
+ * left/right placement there instead of a TypeError.
+ */
+function createPan(ctx: AudioContext, pan: number): AudioNode {
+  const p = Math.max(-1, Math.min(1, pan));
+  if (typeof ctx.createStereoPanner === 'function') {
+    const node = ctx.createStereoPanner();
+    node.pan.value = p;
+    return node;
+  }
+  const node = ctx.createPanner();
+  node.panningModel = 'equalpower';
+  node.setPosition(p, 0, 1 - Math.abs(p));
+  return node;
+}
+
+/**
+ * Web Audio API spatial-cue provider. No binary audio assets are bundled --
+ * every SFX, including all 11 ecosystem themes, is synthesized (oscillators,
+ * filtered noise, envelopes/LFOs), matching the root static site's
+ * assets/js/soundscape.js approach. Autoplay-gated behind the first user
+ * gesture. Muting is implemented purely via the master gain node.
+ *
+ * "Whisper" layers (Echo, Aura) are a breathy band-passed noise texture, not
+ * synthesized speech -- there's no real voice synthesis here, just a sound
+ * design approximation.
+ *
+ * Ambient bed (owner instruction 2026-08-29, supersedes the 2026-08-26
+ * "no persistent audio bed" decision): a fully synthesized, very low-level
+ * drone (two detuned low oscillators + a slow filter LFO + a faint filtered-
+ * noise "air" layer) plays continuously whenever sound is ON, on every
+ * device and every page. It routes through the same master gain as the SFX,
+ * so muting silences it too -- there is still exactly one mute path.
+ *
+ * CRITICAL: browsers block AudioContext output until a user gesture. `muted`
+ * now rehydrates from localStorage (`unitas_audio_pref`) and defaults to
+ * false (sound ON) when no explicit 'off' was ever stored, so a refresh
+ * never silently flips sound off. The context still needs a gesture to
+ * actually produce sound: the AudioGate is that gesture on first visit, and
+ * after an in-session reload the existing pointerdown/keydown/visibilitychange
+ * resume handler below revives a suspended context on the very next
+ * interaction while `muted` stays false the whole time.
+ */
+export function SpatialAudioProvider({ children }: { children: ReactNode }) {
+  // Start from the SSR-safe default (true) so server and first client render
+  // match, then rehydrate synchronously from localStorage in a layout effect
+  // before paint -- see the effect below.
+  const [muted, setMuted] = useState(true);
+  const [unlocked, setUnlocked] = useState(false);
+  const ctxRef = useRef<AudioContext | null>(null);
+  const masterGainRef = useRef<GainNode | null>(null);
+  const noiseBufferRef = useRef<AudioBuffer | null>(null);
+  const silentRef = useRef<AudioBuffer | null>(null);
+  const hydratedRef = useRef(false);
+  const ambientRef = useRef<{ stop: () => void } | null>(null);
+  const mutedRef = useRef(muted);
+  mutedRef.current = muted;
+
+  const ensureContext = useCallback(() => {
+    if (typeof window === 'undefined') return null;
+    if (ctxRef.current && ctxRef.current.state === 'closed') {
+      // A closed context (an earlier teardown) can never run again -- drop it
+      // so the next call rebuilds a live one.
+      ctxRef.current = null;
+      masterGainRef.current = null;
+      noiseBufferRef.current = null;
+      silentRef.current = null;
+    }
+    if (!ctxRef.current) {
+      try {
+        const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+        if (!AudioCtx) return null;
+        // iPhone ring/silent switch (owner instruction 2026-09-05, hardening
+        // patch, item 4): declare a playback session before the context
+        // exists -- lib/audio/audioSession.ts.
+        ensurePlaybackAudioSession();
+        const ctx: AudioContext = new AudioCtx();
+        const masterGain = ctx.createGain();
+        masterGain.gain.value = mutedRef.current ? 0 : BASE_MASTER_GAIN;
+        masterGain.connect(ctx.destination);
+        ctxRef.current = ctx;
+        masterGainRef.current = masterGain;
+        silentRef.current = makeSilentBuffer(ctx);
+      } catch {
+        // The engine refused to build a context (hardware context cap, a
+        // WebView without Web Audio). Owner instruction 2026-09-07, item 1:
+        // this used to throw out of a mount effect straight into the error
+        // screen -- the site simply runs silent instead.
+        ctxRef.current = null;
+        masterGainRef.current = null;
+        return null;
+      }
+    }
+    return ctxRef.current;
+  }, []);
+
+  /**
+   * Bring the context to `running` from INSIDE a user gesture: playback
+   * session declared, the WebKit silent kick fired, `resume()` requested.
+   * Covers every non-running state -- `suspended` (autoplay policy, an
+   * in-session F5) AND WebKit's non-standard `interrupted` (a phone call,
+   * Siri, backgrounding), which the old `=== 'suspended'` check never
+   * revived (owner instruction 2026-09-07, item 2).
+   */
+  const resumeContext = useCallback((ctx: AudioContext) => {
+    try {
+      if (ctx.state === 'running') return;
+      ensurePlaybackAudioSession();
+      if (silentRef.current) kickAudioContext(ctx, silentRef.current);
+      ctx.resume().catch(() => {});
+    } catch {
+      /* a refused resume must never throw out of the gesture */
+    }
+  }, []);
+
+  // Rehydrate the persisted preference before the first paint so the sound
+  // toggle never flashes the wrong state, and sound is ON unless the user
+  // explicitly turned it off in a previous session.
+  useIsomorphicLayoutEffect(() => {
+    const prefMuted = readAudioPrefMuted();
+    if (prefMuted !== muted) setMuted(prefMuted);
+    hydratedRef.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Persist every change (but not the initial hydration write-back).
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    try {
+      window.localStorage.setItem(AUDIO_PREF_KEY, muted ? 'off' : 'on');
+    } catch {
+      /* storage blocked -- in-memory state still holds for this session */
+    }
+  }, [muted]);
+
+  useEffect(() => {
+    if (masterGainRef.current) {
+      masterGainRef.current.gain.value = muted ? 0 : BASE_MASTER_GAIN;
+    }
+  }, [muted]);
+
+  const getNoiseBuffer = useCallback((ctx: AudioContext) => {
+    if (!noiseBufferRef.current) {
+      const length = ctx.sampleRate * 2;
+      const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < length; i++) data[i] = Math.random() * 2 - 1;
+      noiseBufferRef.current = buffer;
+    }
+    return noiseBufferRef.current;
+  }, []);
+
+  /**
+   * Builds the continuous ambient bed and returns a stop() that fades it out.
+   * Idempotent-safe: callers null out ambientRef, and StrictMode's
+   * double-invoke is handled by the effect below stopping any prior instance
+   * before starting a new one.
+   */
+  const startAmbient = useCallback(
+    (ctx: AudioContext): { stop: () => void } => {
+      const master = masterGainRef.current;
+      const now = ctx.currentTime;
+
+      const bed = ctx.createGain();
+      bed.gain.setValueAtTime(0.0001, now);
+      // ZERO-DELAY SYMPHONY (owner instruction 2026-08-29): the bed reaches
+      // full level in ~0.7s instead of 2.4s so the soundscape is present the
+      // instant a page/render appears -- no silent lead-in.
+      bed.gain.exponentialRampToValueAtTime(AMBIENT_GAIN, now + 0.7);
+
+      // Gentle movement: a slow LFO sweeps a lowpass cutoff so the drone
+      // breathes instead of sitting as a dead tone.
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass';
+      lp.frequency.value = 420;
+      lp.Q.value = 0.6;
+      const lfo = ctx.createOscillator();
+      lfo.type = 'sine';
+      lfo.frequency.value = 0.05;
+      const lfoDepth = ctx.createGain();
+      lfoDepth.gain.value = 90;
+      lfo.connect(lfoDepth);
+      lfoDepth.connect(lp.frequency);
+
+      lp.connect(bed);
+      if (master) bed.connect(master);
+
+      // Detuned low oscillators -- A1 (55 Hz) + E2 (~82.4 Hz) + A2 (110 Hz).
+      // The 55 Hz fundamental is deliberately de-weighted (owner instruction
+      // 2026-08-29 audio purify): presence lives in the fifth above it, not
+      // in a sub rumble.
+      const oscSpecs: Array<{ freq: number; type: OscillatorType; detune: number; gain: number }> = [
+        { freq: 55, type: 'sine', detune: -4, gain: 0.3 },
+        { freq: 82.41, type: 'triangle', detune: 5, gain: 0.3 },
+        { freq: 110, type: 'sine', detune: 0, gain: 0.16 },
+      ];
+      const oscs = oscSpecs.map(({ freq, type, detune, gain }) => {
+        const osc = ctx.createOscillator();
+        osc.type = type;
+        osc.frequency.value = freq;
+        osc.detune.value = detune;
+        const g = ctx.createGain();
+        g.gain.value = gain;
+        osc.connect(g);
+        g.connect(lp);
+        osc.start(now);
+        return osc;
+      });
+
+      // Faint filtered-noise "air" layer for texture.
+      const airSrc = ctx.createBufferSource();
+      airSrc.buffer = getNoiseBuffer(ctx);
+      airSrc.loop = true;
+      const airFilter = ctx.createBiquadFilter();
+      airFilter.type = 'bandpass';
+      airFilter.frequency.value = 1600;
+      airFilter.Q.value = 0.4;
+      const airGain = ctx.createGain();
+      airGain.gain.value = 0.05;
+      airSrc.connect(airFilter);
+      airFilter.connect(airGain);
+      airGain.connect(bed);
+      airSrc.start(now);
+      lfo.start(now);
+
+      return {
+        stop: () => {
+          const t = ctx.currentTime;
+          try {
+            bed.gain.cancelScheduledValues(t);
+            bed.gain.setValueAtTime(Math.max(bed.gain.value, 0.0001), t);
+            bed.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+          } catch {
+            /* no-op */
+          }
+          const stopAt = t + 0.7;
+          [...oscs, lfo, airSrc].forEach((node) => {
+            try {
+              node.stop(stopAt);
+            } catch {
+              /* already stopped */
+            }
+          });
+          window.setTimeout(() => {
+            try {
+              bed.disconnect();
+            } catch {
+              /* no-op */
+            }
+          }, 900);
+        },
+      };
+    },
+    [getNoiseBuffer],
+  );
+
+  // Drive the ambient bed off `muted`: present whenever sound is on, on every
+  // page and device. Pre-gesture the context is suspended so this schedules
+  // silently and becomes audible the moment the context resumes.
+  useEffect(() => {
+    if (muted) return;
+    const ctx = ensureContext();
+    if (!ctx) return;
+    // Owner instruction 2026-09-07 (item 2, universal auto-unlock): the
+    // load-time start is the full kickstart -- playback session + silent
+    // buffer kick + resume -- not a bare resume(), so an engine that already
+    // permits autoplay (installed app, engaged origin) is running before any
+    // gesture; the bounded retry burst below covers a first request refused
+    // while the document is still loading.
+    resumeContext(ctx);
+    ambientRef.current?.stop();
+    try {
+      ambientRef.current = startAmbient(ctx);
+    } catch {
+      // A bed that cannot be built is skipped; SFX still work.
+      ambientRef.current = null;
+    }
+    return () => {
+      ambientRef.current?.stop();
+      ambientRef.current = null;
+    };
+  }, [muted, ensureContext, startAmbient, resumeContext]);
+
+  /**
+   * Must be called directly from a user gesture handler (click/keydown) --
+   * resumes the AudioContext and unmutes in the same synchronous gesture.
+   */
+  const unlockAndUnmute = useCallback(() => {
+    const ctx = ensureContext();
+    if (!ctx) return;
+    // Owner instruction 2026-09-07, item 2: the entry / login tap is THE
+    // unlock gesture on every channel -- session + kick + resume, inside it.
+    resumeContext(ctx);
+    setUnlocked(true);
+    setMuted(false);
+    // The master was built muted (SSR default) if the context was created
+    // before the preference hydrated; open it on the same frame so the cue
+    // below is audible at once instead of waiting for the muted-effect.
+    if (masterGainRef.current) masterGainRef.current.gain.value = BASE_MASTER_GAIN;
+
+    // Immediate "arrival" cue so crossing the gate is never silent while the
+    // ambient bed ramps up behind it (zero-delay symphony). AUDIO PURIFY
+    // (owner instruction 2026-08-29): this is now a soft warm swell, not a
+    // low "웅~~" boom -- it never drops below ~90 Hz and its level is halved.
+    const master = masterGainRef.current;
+    if (master) {
+      const now = ctx.currentTime;
+      const boom = ctx.createOscillator();
+      boom.type = 'sine';
+      boom.frequency.setValueAtTime(220, now);
+      boom.frequency.exponentialRampToValueAtTime(96, now + 1.2);
+      const boomGain = ctx.createGain();
+      boomGain.gain.setValueAtTime(0.0001, now);
+      boomGain.gain.linearRampToValueAtTime(0.26, now + 0.04);
+      boomGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
+      boom.connect(boomGain);
+      boomGain.connect(master);
+      boom.start(now);
+      boom.stop(now + 1.6);
+
+      const shimmer = ctx.createOscillator();
+      shimmer.type = 'triangle';
+      shimmer.frequency.setValueAtTime(320, now);
+      shimmer.frequency.exponentialRampToValueAtTime(1280, now + 0.9);
+      const shimmerGain = ctx.createGain();
+      shimmerGain.gain.setValueAtTime(0.0001, now);
+      shimmerGain.gain.linearRampToValueAtTime(0.14, now + 0.04);
+      shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.1);
+      shimmer.connect(shimmerGain);
+      shimmerGain.connect(master);
+      shimmer.start(now);
+      shimmer.stop(now + 1.2);
+    }
+  }, [ensureContext, resumeContext]);
+
+  /**
+   * Side effects live here in the handler, not inside a setMuted() updater
+   * -- updater functions must stay pure, and React 18 StrictMode
+   * double-invokes them in dev, which would otherwise fire ctx.resume()
+   * twice per click.
+   */
+  const toggleMuted = useCallback(() => {
+    const next = !muted;
+    setMuted(next);
+    if (!next) {
+      // Turning sound ON: make sure the context is actually resumed too,
+      // in case the AudioGate was skipped.
+      const ctx = ensureContext();
+      if (ctx) {
+        resumeContext(ctx);
+        setUnlocked(true);
+      }
+    }
+  }, [muted, ensureContext, resumeContext]);
+
+  // Hardening: browsers create every AudioContext suspended and require a
+  // gesture to start it, AND some (mobile Safari especially) silently
+  // re-suspend a running context on tab-backgrounding or power-saving. This
+  // is also what revives sound after an in-session F5: `muted` has already
+  // rehydrated to false, and the very first interaction of any kind resumes
+  // the fresh (suspended) context so the ambient bed + SFX come back without
+  // the visitor ever seeing the entry gate again or touching the toggle.
+  //
+  // OMNI-CHANNEL 100% UNLOCK (owner instruction 2026-09-07, item 2): the
+  // old listener set (pointerdown / touchstart / wheel / keydown) missed the
+  // very events that CARRY activation on a phone -- a touch `pointerdown` /
+  // `touchstart` grants none, so the resume they requested was refused, and
+  // the `touchend` / `click` of that same finger (which do grant it) were not
+  // listened for: the FIRST tap on a phone stayed silent and only the second
+  // interaction woke the engine. The shared activation-unlock set
+  // (lib/audio/activationUnlock.ts: pointerdown, touchstart, pointerup,
+  // touchend, mousedown, click, keydown) now resumes -- with the WebKit kick
+  // -- on every one of them, in the capture phase, on every page and both
+  // channels; `visibilitychange` covers the OS-side re-suspend / `interrupted`
+  // on return. Installed regardless of `muted` (a muted master is gain 0, so
+  // keeping the context RUNNING is free and makes a later unmute instant),
+  // creating the context only while sound is on.
+  //
+  // Owner instruction 2026-09-07 (master audit item 2): the shared hub
+  // (lib/audio/activationUnlock.ts) now also carries the lifecycle retries
+  // -- `visibilitychange`, `pageshow`, window `focus` -- and a bounded
+  // post-load kickstart burst runs here too, so the site-wide engine is
+  // running at the earliest lawful instant on every page and both channels.
+  useEffect(() => {
+    const wake = () => {
+      const ctx = mutedRef.current ? ctxRef.current : ensureContext();
+      if (ctx) resumeContext(ctx);
+    };
+    const detach = attachActivationUnlock(wake);
+    const cancelRetries = scheduleAutoUnlockRetries(wake);
+    const opts: AddEventListenerOptions = { passive: true };
+    window.addEventListener('wheel', wake, opts);
+    return () => {
+      detach();
+      cancelRetries();
+      window.removeEventListener('wheel', wake);
+    };
+  }, [ensureContext, resumeContext]);
+
+  const playSpatialPing = useCallback(
+    (pan = 0) => {
+      const ctx = ensureContext();
+      const master = masterGainRef.current;
+      if (!ctx || !master) return;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const panner = createPan(ctx, pan);
+
+      osc.type = 'sine';
+      osc.frequency.value = 660;
+
+      const now = ctx.currentTime;
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.3, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      osc.connect(gain);
+      gain.connect(panner);
+      panner.connect(master);
+
+      osc.start(now);
+      osc.stop(now + 0.4);
+    },
+    [ensureContext],
+  );
+
+  const playHoverSfx = useCallback(
+    (pan = 0) => {
+      const ctx = ensureContext();
+      const master = masterGainRef.current;
+      if (!ctx || !master) return;
+
+      const now = ctx.currentTime;
+      const panner = createPan(ctx, pan);
+
+      // Refined high-tech blip (owner instruction 2026-08-29 SFX polish):
+      // a clean voiced core + a soft octave partial for sparkle, run through
+      // a gentle lowpass so it reads as crisp, not harsh. Framework unchanged.
+      const shape = ctx.createBiquadFilter();
+      shape.type = 'lowpass';
+      shape.frequency.value = 5200;
+      shape.Q.value = 0.7;
+      shape.connect(panner);
+      panner.connect(master);
+
+      const core = ctx.createOscillator();
+      core.type = 'triangle';
+      core.frequency.setValueAtTime(1180, now);
+      core.frequency.exponentialRampToValueAtTime(1320, now + 0.05);
+      const coreGain = ctx.createGain();
+      coreGain.gain.setValueAtTime(0, now);
+      coreGain.gain.linearRampToValueAtTime(0.11, now + 0.008);
+      coreGain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      core.connect(coreGain);
+      coreGain.connect(shape);
+      core.start(now);
+      core.stop(now + 0.12);
+
+      const partial = ctx.createOscillator();
+      partial.type = 'sine';
+      partial.frequency.value = 2400;
+      const partialGain = ctx.createGain();
+      partialGain.gain.setValueAtTime(0, now);
+      partialGain.gain.linearRampToValueAtTime(0.03, now + 0.006);
+      partialGain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+      partial.connect(partialGain);
+      partialGain.connect(shape);
+      partial.start(now);
+      partial.stop(now + 0.09);
+    },
+    [ensureContext],
+  );
+
+  const playSearchFocusSfx = useCallback(() => {
+    const ctx = ensureContext();
+    const master = masterGainRef.current;
+    if (!ctx || !master) return;
+
+    const now = ctx.currentTime;
+
+    // Rising pitched sweep -- the "activation" feel.
+    const osc = ctx.createOscillator();
+    const oscGain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(420, now);
+    osc.frequency.exponentialRampToValueAtTime(1800, now + 0.09);
+    oscGain.gain.setValueAtTime(0, now);
+    oscGain.gain.linearRampToValueAtTime(0.16, now + 0.015);
+    oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+
+    const oscFilter = ctx.createBiquadFilter();
+    oscFilter.type = 'bandpass';
+    oscFilter.frequency.value = 1600;
+    oscFilter.Q.value = 6;
+
+    osc.connect(oscFilter);
+    oscFilter.connect(oscGain);
+    oscGain.connect(master);
+    osc.start(now);
+    osc.stop(now + 0.16);
+
+    // Crisp digital noise transient layered on top for a "click" texture.
+    const buffer = getNoiseBuffer(ctx);
+    const noiseSrc = ctx.createBufferSource();
+    noiseSrc.buffer = buffer;
+    const noiseFilter = ctx.createBiquadFilter();
+    noiseFilter.type = 'highpass';
+    noiseFilter.frequency.value = 6000;
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.setValueAtTime(0.09, now);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
+
+    noiseSrc.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(master);
+    noiseSrc.start(now);
+    noiseSrc.stop(now + 0.03);
+  }, [ensureContext, getNoiseBuffer]);
+
+  const playQuestEnterSfx = useCallback(() => {
+    const ctx = ensureContext();
+    const master = masterGainRef.current;
+    if (!ctx || !master) return;
+
+    const now = ctx.currentTime;
+    const notes = [440, 660, 880]; // rising arpeggio -- an "access granted" cue
+
+    // SFX polish (owner instruction 2026-08-29): each note keeps its sine core
+    // but gains a soft octave partial for sparkle and a longer, cleaner tail,
+    // so the confirm swell reads clearly instead of blurring together.
+    const bus = ctx.createGain();
+    bus.gain.value = 1;
+    const busShape = ctx.createBiquadFilter();
+    busShape.type = 'lowpass';
+    busShape.frequency.value = 4200;
+    busShape.Q.value = 0.6;
+    bus.connect(busShape);
+    busShape.connect(master);
+
+    notes.forEach((freq, i) => {
+      const start = now + i * 0.075;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(0.24, start + 0.018);
+      gain.gain.exponentialRampToValueAtTime(0.001, start + 0.36);
+      osc.connect(gain);
+      gain.connect(bus);
+      osc.start(start);
+      osc.stop(start + 0.38);
+
+      const partial = ctx.createOscillator();
+      const partialGain = ctx.createGain();
+      partial.type = 'sine';
+      partial.frequency.value = freq * 2;
+      partialGain.gain.setValueAtTime(0, start);
+      partialGain.gain.linearRampToValueAtTime(0.05, start + 0.015);
+      partialGain.gain.exponentialRampToValueAtTime(0.001, start + 0.22);
+      partial.connect(partialGain);
+      partialGain.connect(bus);
+      partial.start(start);
+      partial.stop(start + 0.24);
+    });
+  }, [ensureContext]);
+
+  const playTypingTick = useCallback(() => {
+    const ctx = ensureContext();
+    const master = masterGainRef.current;
+    if (!ctx || !master) return;
+
+    const buffer = getNoiseBuffer(ctx);
+    const src = ctx.createBufferSource();
+    src.buffer = buffer;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.value = 4000;
+    const gain = ctx.createGain();
+
+    const now = ctx.currentTime;
+    gain.gain.setValueAtTime(0.06, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+
+    src.connect(filter);
+    filter.connect(gain);
+    gain.connect(master);
+    src.start(now);
+    src.stop(now + 0.04);
+  }, [ensureContext, getNoiseBuffer]);
+
+  const playVaultSfx = useCallback(() => {
+    const ctx = ensureContext();
+    const master = masterGainRef.current;
+    if (!ctx || !master) return;
+
+    const now = ctx.currentTime;
+    const buffer = getNoiseBuffer(ctx);
+
+    // Owner instruction 2026-08-29 (second volume balancing pass): the same
+    // five-layer vault-door design -- attack transient, sub-impact, body thud,
+    // metallic clank, resonant ring tail -- but levels are cut again (and the
+    // sub-impact de-weighted hardest + given a shorter tail) so the stacked
+    // 3대 모듈 cue lands at the SAME perceived loudness as a single-layer hover
+    // SFX (playHoverSfx ~0.11), not louder or boomier.
+
+    // 0. Attack transient -- a ~7 ms highpassed noise spike that gives the hit
+    //    a clean, articulate leading edge instead of a soft swell into the sub.
+    const attack = ctx.createBufferSource();
+    attack.buffer = buffer;
+    const attackFilter = ctx.createBiquadFilter();
+    attackFilter.type = 'highpass';
+    attackFilter.frequency.value = 3200;
+    const attackGain = ctx.createGain();
+    attackGain.gain.setValueAtTime(0.055, now);
+    attackGain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+    attack.connect(attackFilter);
+    attackFilter.connect(attackGain);
+    attackGain.connect(master);
+    attack.start(now);
+    attack.stop(now + 0.04);
+
+    // 1. Deep sub-impact (chest-hit weight) -- tightened decay for a punchier,
+    //    less boomy tail.
+    const sub = ctx.createOscillator();
+    sub.type = 'sine';
+    sub.frequency.setValueAtTime(104, now);
+    sub.frequency.exponentialRampToValueAtTime(32, now + 0.26);
+    const subGain = ctx.createGain();
+    subGain.gain.setValueAtTime(0.06, now);
+    subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+    sub.connect(subGain);
+    subGain.connect(master);
+    sub.start(now);
+    sub.stop(now + 0.44);
+
+    // 2. Body thud -- triangle gives a woodier "door slab" tone than a pure sine.
+    const body = ctx.createOscillator();
+    body.type = 'triangle';
+    body.frequency.setValueAtTime(190, now);
+    body.frequency.exponentialRampToValueAtTime(58, now + 0.22);
+    const bodyGain = ctx.createGain();
+    bodyGain.gain.setValueAtTime(0.06, now);
+    bodyGain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+    body.connect(bodyGain);
+    bodyGain.connect(master);
+    body.start(now);
+    body.stop(now + 0.36);
+
+    // 3. Metallic clank (bolt slam) -- filtered noise burst.
+    const clank = ctx.createBufferSource();
+    clank.buffer = buffer;
+    const clankFilter = ctx.createBiquadFilter();
+    clankFilter.type = 'bandpass';
+    clankFilter.frequency.value = 760;
+    clankFilter.Q.value = 7;
+    const clankGain = ctx.createGain();
+    clankGain.gain.setValueAtTime(0.05, now);
+    clankGain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+    clank.connect(clankFilter);
+    clankFilter.connect(clankGain);
+    clankGain.connect(master);
+    clank.start(now);
+    clank.stop(now + 0.24);
+
+    // 4. Resonant ring tail -- a high, narrow band that keeps humming for ~0.5s
+    // so the hit has a lingering steel-vault character ("타격감").
+    const ring = ctx.createBufferSource();
+    ring.buffer = buffer;
+    const ringFilter = ctx.createBiquadFilter();
+    ringFilter.type = 'bandpass';
+    ringFilter.frequency.value = 2600;
+    ringFilter.Q.value = 14;
+    const ringGain = ctx.createGain();
+    ringGain.gain.setValueAtTime(0.028, now + 0.02);
+    ringGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+    ring.connect(ringFilter);
+    ringFilter.connect(ringGain);
+    ringGain.connect(master);
+    ring.start(now);
+    ring.stop(now + 0.57);
+  }, [ensureContext, getNoiseBuffer]);
+
+  const playEcosystemHover = useCallback(
+    (theme: string, pan = 0) => {
+      const ctx = ensureContext();
+      const master = masterGainRef.current;
+      if (!ctx || !master) return;
+
+      const now = ctx.currentTime;
+      const panner = createPan(ctx, pan);
+      panner.connect(master);
+
+      const tone = (
+        freq: number,
+        start: number,
+        duration: number,
+        opts: { type?: OscillatorType; gain?: number; detune?: number; freqTo?: number } = {},
+      ) => {
+        const osc = ctx.createOscillator();
+        osc.type = opts.type ?? 'sine';
+        osc.frequency.setValueAtTime(freq, start);
+        if (opts.freqTo) osc.frequency.exponentialRampToValueAtTime(opts.freqTo, start + duration);
+        if (opts.detune) osc.detune.value = opts.detune;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0, start);
+        g.gain.linearRampToValueAtTime(opts.gain ?? 0.2, start + Math.min(0.02, duration / 4));
+        g.gain.exponentialRampToValueAtTime(0.001, start + duration);
+        osc.connect(g);
+        g.connect(panner);
+        osc.start(start);
+        osc.stop(start + duration + 0.02);
+      };
+
+      const noise = (
+        start: number,
+        duration: number,
+        opts: { filterType?: BiquadFilterType; freq?: number; q?: number; gain?: number } = {},
+      ) => {
+        const buffer = getNoiseBuffer(ctx);
+        const src = ctx.createBufferSource();
+        src.buffer = buffer;
+        const filter = ctx.createBiquadFilter();
+        filter.type = opts.filterType ?? 'bandpass';
+        filter.frequency.value = opts.freq ?? 2000;
+        filter.Q.value = opts.q ?? 3;
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(opts.gain ?? 0.15, start);
+        g.gain.exponentialRampToValueAtTime(0.001, start + duration);
+        src.connect(filter);
+        filter.connect(g);
+        g.connect(panner);
+        src.start(start);
+        src.stop(start + duration + 0.02);
+      };
+
+      switch (theme) {
+        case 'echo': // water drop + repeating echo + breathy whisper tail
+          tone(1400, now, 0.15, { type: 'sine', gain: 0.22 });
+          tone(1400, now + 0.14, 0.12, { type: 'sine', gain: 0.12 });
+          tone(1400, now + 0.26, 0.1, { type: 'sine', gain: 0.06 });
+          noise(now + 0.05, 0.5, { filterType: 'bandpass', freq: 3200, q: 1.2, gain: 0.03 });
+          break;
+        case 'void': // vacuum tear -- fast descending sweep into silence
+          tone(600, now, 0.5, { type: 'sawtooth', freqTo: 30, gain: 0.18 });
+          noise(now, 0.3, { filterType: 'lowpass', freq: 400, q: 0.5, gain: 0.08 });
+          break;
+        case 'mirror': // mech scan blip
+          noise(now, 0.18, { filterType: 'highpass', freq: 3500, q: 2, gain: 0.14 });
+          tone(2200, now, 0.15, { type: 'square', freqTo: 3400, gain: 0.06 });
+          break;
+        case 'oracle': // choir-like triad + music-box shimmer
+          tone(523.25, now, 0.6, { type: 'triangle', gain: 0.14 });
+          tone(659.25, now + 0.05, 0.55, { type: 'triangle', gain: 0.12 });
+          tone(783.99, now + 0.1, 0.5, { type: 'triangle', gain: 0.1 });
+          tone(1567.98, now + 0.15, 0.3, { type: 'sine', gain: 0.05 });
+          break;
+        case 'pulse': // double heartbeat thump
+          tone(90, now, 0.14, { type: 'sine', gain: 0.32 });
+          tone(90, now + 0.18, 0.14, { type: 'sine', gain: 0.24 });
+          break;
+        case 'apex': // ticking countdown
+          [0, 0.1, 0.2].forEach((offset) => tone(1800, now + offset, 0.04, { type: 'square', gain: 0.1 }));
+          break;
+        case 'genesis': // crystal chime cluster
+          [1046.5, 1318.5, 1568, 2093].forEach((freq, i) =>
+            tone(freq, now + i * 0.04, 0.5 - i * 0.05, { type: 'sine', gain: 0.1 }),
+          );
+          break;
+        case 'syndicate': // radio static + pitch-swept tuning
+          noise(now, 0.35, { filterType: 'bandpass', freq: 1500, q: 0.8, gain: 0.18 });
+          tone(400, now, 0.3, { type: 'sawtooth', freqTo: 900, gain: 0.05 });
+          break;
+        case 'aura': // slow synth pad swell + breathy whisper
+          tone(220, now, 1.1, { type: 'sine', gain: 0.1, detune: -8 });
+          tone(277.18, now, 1.1, { type: 'sine', gain: 0.08, detune: 6 });
+          noise(now + 0.1, 0.9, { filterType: 'bandpass', freq: 2600, q: 1, gain: 0.025 });
+          break;
+        case 'paradox': // reversed metallic pluck -- swells up then cuts (inverse envelope)
+          tone(1800, now, 0.4, { type: 'sawtooth', freqTo: 500, gain: 0.16 });
+          noise(now, 0.4, { filterType: 'highpass', freq: 2000, q: 4, gain: 0.06 });
+          break;
+        case 'chronos': // heavy clockwork tick-tock with metallic resonance
+          tone(180, now, 0.08, { type: 'square', gain: 0.2 });
+          tone(180, now + 0.35, 0.08, { type: 'square', gain: 0.18 });
+          noise(now, 0.05, { filterType: 'bandpass', freq: 2500, q: 8, gain: 0.05 });
+          noise(now + 0.35, 0.05, { filterType: 'bandpass', freq: 2500, q: 8, gain: 0.045 });
+          break;
+        default:
+          tone(900, now, 0.15, { gain: 0.15 });
+      }
+    },
+    [ensureContext, getNoiseBuffer],
+  );
+
+  useEffect(() => {
+    return () => {
+      ctxRef.current?.close().catch(() => {});
+    };
+  }, []);
+
+  // A confirmed exit / in-place termination (lib/exit/appExit.ts): fall
+  // silent at once -- a terminated app must never keep its ambient bed or a
+  // hover blip playing under the black shroud.
+  useEffect(() => {
+    const onExit = () => {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+      try {
+        ctx.suspend().catch(() => {});
+      } catch {
+        /* no-op */
+      }
+    };
+    window.addEventListener(APP_EXIT_EVENT, onExit);
+    return () => window.removeEventListener(APP_EXIT_EVENT, onExit);
+  }, []);
+
+  // Every function handed out is guarded (see `guard`): a Web Audio refusal
+  // inside a cue is swallowed at this boundary, never thrown into the click,
+  // hover or effect that requested it.
+  const value = useMemo(
+    () => ({
+      muted,
+      unlocked,
+      toggleMuted: guard(toggleMuted),
+      unlockAndUnmute: guard(unlockAndUnmute),
+      playSpatialPing: guard(playSpatialPing),
+      playHoverSfx: guard(playHoverSfx),
+      playSearchFocusSfx: guard(playSearchFocusSfx),
+      playQuestEnterSfx: guard(playQuestEnterSfx),
+      playTypingTick: guard(playTypingTick),
+      playEcosystemHover: guard(playEcosystemHover),
+      playVaultSfx: guard(playVaultSfx),
+    }),
+    [
+      muted,
+      unlocked,
+      toggleMuted,
+      unlockAndUnmute,
+      playSpatialPing,
+      playHoverSfx,
+      playSearchFocusSfx,
+      playQuestEnterSfx,
+      playTypingTick,
+      playEcosystemHover,
+      playVaultSfx,
+    ],
+  );
+
+  return (
+    <SpatialAudioContext.Provider value={value}>{children}</SpatialAudioContext.Provider>
+  );
+}
+
+let warnedMissingProvider = false;
+
+export function useSpatialAudio(): SpatialAudioContextValue {
+  const ctx = useContext(SpatialAudioContext);
+  if (!ctx) {
+    // Never throw during render (owner instruction 2026-09-07, item 1): a
+    // consumer mounted outside the provider runs silent instead of taking
+    // the route down to the error screen. Logged once so it is still found.
+    if (!warnedMissingProvider) {
+      warnedMissingProvider = true;
+      try {
+        console.warn('[Sovereign Shield] useSpatialAudio used outside SpatialAudioProvider -- running silent');
+      } catch {
+        /* console unavailable */
+      }
+    }
+    return SILENT_AUDIO;
+  }
+  return ctx;
+}

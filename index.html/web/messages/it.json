@@ -1554,5 +1554,52 @@
       "sourceLabel": "Fonte",
       "archiveLabel": "Archivio Recente"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "Una tela bianca. Ogni asset UNITAS a un clic di distanza.",
+    "surfaceLabel": "Dashboard Quantum White",
+    "clusters": {
+      "cognitive": {
+        "title": "Nucleo Cognitivo",
+        "tagline": "Sedici motori di intelligenza che trasformano le domande in ricavi."
+      },
+      "live": {
+        "title": "Servizi Live",
+        "tagline": "Cinque servizi ad accesso istantaneo che si ripagano dalla prima sessione."
+      },
+      "lockin": {
+        "title": "Rete di Fidelizzazione",
+        "tagline": "Otto motori di fidelizzazione che moltiplicano il valore di ogni visita."
+      },
+      "enterprise": {
+        "title": "Infrastruttura Enterprise",
+        "tagline": "Tre binari infrastrutturali per identità, chiavi e pagamenti."
+      }
+    },
+    "moduleCount": "{count} moduli",
+    "openCluster": "Apri {title}",
+    "closeCluster": "Chiudi",
+    "back": "Indietro",
+    "selectModule": "Seleziona un modulo per vedere il suo profilo di rendimento e investire con un clic.",
+    "costLabel": "Accesso",
+    "coinUnit": "U-COIN",
+    "investNow": "Investi ora",
+    "executing": "Messa in sicurezza della tua posizione...",
+    "successTitle": "Investimento eseguito",
+    "successBody": "Il tuo accesso è attivo. Entra e inizia a creare valore.",
+    "enterModule": "Entra ora",
+    "activated": "Attivato su questo dispositivo",
+    "activateModule": "Attiva",
+    "balanceLabel": "Il tuo saldo",
+    "insufficient": "Saldo insufficiente per questa posizione.",
+    "chargeCoins": "Aggiungi U-COIN",
+    "signInToInvest": "Accedi per investire",
+    "guestInvest": "Crea un account completo per detenere asset e investire.",
+    "shieldBlocked": "Il controllo di sicurezza non è stato superato. Muoviti in modo naturale e riprova.",
+    "unlisted": "Questa posizione aprirà a breve agli investimenti.",
+    "failed": "Transazione non completata. Riprova.",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "Pronto all'istante",
+    "phoneRequired": "Verifica il tuo telefono per investire."
   }
 }

@@ -27,7 +27,7 @@ export function Scene({ children, className }: SceneProps) {
   if (!mounted) return null;
 
   return (
-    <div className={className ?? 'fixed inset-0 -z-10'} aria-hidden="true">
+    <div className={className ?? 'fixed inset-0 -z-10'} aria-hidden="true" data-unitas-scene="">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 60 }}
         dpr={[1, 2]}

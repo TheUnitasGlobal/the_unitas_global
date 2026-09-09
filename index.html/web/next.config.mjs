@@ -5,6 +5,18 @@ const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // U-Shield hardening (REV-13 spec §6 + §10 item 15) -- additive only, no
+  // existing option below is touched. No source maps ship to the client, no
+  // `X-Powered-By: Next.js` header advertises the framework, and production
+  // builds strip `console.log`/`console.info`/`console.debug` (errors and
+  // warnings are kept so real failures still surface). Guarded on NODE_ENV
+  // rather than always-on so `next dev` keeps every console call for local
+  // debugging.
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+  },
   // Fixes "Cannot find module './vendor-chunks/three.js'" -- three.js and
   // its React Three Fiber wrappers ship ESM that Next's default webpack
   // config leaves untranspiled/unbundled as external node_modules code,
@@ -58,6 +70,29 @@ const nextConfig = {
         headers: [
           { key: 'Cache-Control', value: 'no-cache, must-revalidate' },
           { key: 'Service-Worker-Allowed', value: '/' },
+        ],
+      },
+      // U-Shield baseline security headers (REV-13 spec §10 item 15) -- applied
+      // to every response. Deliberately NO Content-Security-Policy: this app
+      // is embedded in third-party in-app WebViews (Kakao/LINE/Instagram/etc,
+      // see lib/inAppBrowser.ts) and relies on inline bootstrap scripts (e.g.
+      // ENTRY_CHIME_BOOTSTRAP in app/layout.tsx) that a CSP would break.
+      {
+        source: '/(.*)',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'X-Frame-Options', value: 'DENY' },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(self), payment=(), usb=(), interest-cohort=()',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload',
+          },
+          { key: 'X-Unitas-Owner', value: 'THE UNITAS GLOBAL OU' },
+          { key: 'X-Unitas-License', value: 'Proprietary -- All Rights Reserved' },
         ],
       },
     ];

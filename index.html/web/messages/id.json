@@ -1554,5 +1554,52 @@
       "sourceLabel": "Sumber",
       "archiveLabel": "Arsip Terbaru"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "Satu kanvas putih. Setiap aset UNITAS hanya sejauh satu klik.",
+    "surfaceLabel": "Dasbor Quantum White",
+    "clusters": {
+      "cognitive": {
+        "title": "Inti Kognitif",
+        "tagline": "Enam belas mesin kecerdasan yang mengubah pertanyaan menjadi pendapatan."
+      },
+      "live": {
+        "title": "Layanan Langsung",
+        "tagline": "Lima layanan akses instan yang memberi hasil sejak sesi pertama."
+      },
+      "lockin": {
+        "title": "Jaringan Loyalitas",
+        "tagline": "Delapan mesin retensi yang melipatgandakan nilai setiap kunjungan."
+      },
+      "enterprise": {
+        "title": "Infrastruktur Enterprise",
+        "tagline": "Tiga jalur infrastruktur untuk identitas, kunci, dan pembayaran."
+      }
+    },
+    "moduleCount": "{count} modul",
+    "openCluster": "Buka {title}",
+    "closeCluster": "Tutup",
+    "back": "Kembali",
+    "selectModule": "Pilih modul untuk melihat profil imbal hasilnya dan berinvestasi dengan satu klik.",
+    "costLabel": "Akses",
+    "coinUnit": "U-COIN",
+    "investNow": "Investasi sekarang",
+    "executing": "Mengamankan posisi Anda...",
+    "successTitle": "Investasi berhasil dieksekusi",
+    "successBody": "Akses Anda sudah aktif. Masuk dan mulai ciptakan nilai.",
+    "enterModule": "Masuk sekarang",
+    "activated": "Diaktifkan di perangkat ini",
+    "activateModule": "Aktifkan",
+    "balanceLabel": "Saldo Anda",
+    "insufficient": "Saldo terlalu rendah untuk posisi ini.",
+    "chargeCoins": "Tambah U-COIN",
+    "signInToInvest": "Masuk untuk berinvestasi",
+    "guestInvest": "Buat akun lengkap untuk memiliki aset dan berinvestasi.",
+    "shieldBlocked": "Pemeriksaan keamanan tidak lolos. Bergeraklah secara alami dan coba lagi.",
+    "unlisted": "Posisi ini akan segera dibuka untuk investasi.",
+    "failed": "Transaksi tidak selesai. Coba lagi.",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "Siap seketika",
+    "phoneRequired": "Verifikasi ponsel Anda untuk berinvestasi."
   }
 }

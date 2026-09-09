@@ -1554,5 +1554,52 @@
       "sourceLabel": "Source",
       "archiveLabel": "Recent Archive"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "One white canvas. Every UNITAS asset one click away.",
+    "surfaceLabel": "Quantum White dashboard",
+    "clusters": {
+      "cognitive": {
+        "title": "Cognitive Core",
+        "tagline": "Sixteen intelligence engines that turn questions into revenue."
+      },
+      "live": {
+        "title": "Live Services",
+        "tagline": "Five instant-access services that pay back from the first session."
+      },
+      "lockin": {
+        "title": "Lock-in Network",
+        "tagline": "Eight retention engines that compound the value of every visit."
+      },
+      "enterprise": {
+        "title": "Enterprise Rails",
+        "tagline": "Three infrastructure rails for identity, keys and payments."
+      }
+    },
+    "moduleCount": "{count} modules",
+    "openCluster": "Open {title}",
+    "closeCluster": "Close",
+    "back": "Back",
+    "selectModule": "Select a module to see its return profile and invest in one click.",
+    "costLabel": "Access",
+    "coinUnit": "U-COIN",
+    "investNow": "Invest now",
+    "executing": "Securing your position...",
+    "successTitle": "Investment executed",
+    "successBody": "Your position is live. Enter and start creating value.",
+    "enterModule": "Enter now",
+    "activated": "Activated on this device",
+    "activateModule": "Activate",
+    "balanceLabel": "Your balance",
+    "insufficient": "Balance too low for this position.",
+    "chargeCoins": "Add U-COIN",
+    "signInToInvest": "Sign in to invest",
+    "guestInvest": "Create a full account to hold assets and invest.",
+    "shieldBlocked": "Secure session check did not pass. Move naturally and try again.",
+    "unlisted": "This position opens for investment shortly.",
+    "failed": "Transaction did not complete. Try again.",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "Ready instantly",
+    "phoneRequired": "Verify your phone to invest."
   }
 }

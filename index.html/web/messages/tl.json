@@ -1554,5 +1554,52 @@
       "sourceLabel": "Pinagmulan",
       "archiveLabel": "Kamakailang Archive"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "Isang puting kambas. Bawat asset ng UNITAS isang click lang ang layo.",
+    "surfaceLabel": "Quantum White dashboard",
+    "clusters": {
+      "cognitive": {
+        "title": "Cognitive Core",
+        "tagline": "Labing-anim na intelligence engine na nagpapalit ng mga tanong tungo sa kita."
+      },
+      "live": {
+        "title": "Live na mga Serbisyo",
+        "tagline": "Limang serbisyong instant-access na may bumabalik na kita mula pa sa unang session."
+      },
+      "lockin": {
+        "title": "Lock-in Network",
+        "tagline": "Walong retention engine na nagpapalago sa halaga ng bawat pagbisita."
+      },
+      "enterprise": {
+        "title": "Enterprise Rails",
+        "tagline": "Tatlong infrastructure rail para sa pagkakakilanlan, mga key, at pagbabayad."
+      }
+    },
+    "moduleCount": "{count} na module",
+    "openCluster": "Buksan ang {title}",
+    "closeCluster": "Isara",
+    "back": "Bumalik",
+    "selectModule": "Pumili ng module para makita ang return profile nito at mamuhunan sa isang click lang.",
+    "costLabel": "Access",
+    "coinUnit": "U-COIN",
+    "investNow": "Mamuhunan Ngayon",
+    "executing": "Sinisiguro ang iyong posisyon...",
+    "successTitle": "Naisakatuparan ang Pamumuhunan",
+    "successBody": "Aktibo na ang access mo. Pumasok at simulan nang lumikha ng halaga.",
+    "enterModule": "Pumasok Ngayon",
+    "activated": "Aktibo sa device na ito",
+    "activateModule": "I-activate",
+    "balanceLabel": "Iyong Balance",
+    "insufficient": "Kulang ang balanse para sa posisyong ito.",
+    "chargeCoins": "Magdagdag ng U-COIN",
+    "signInToInvest": "Mag-sign In Para Mamuhunan",
+    "guestInvest": "Gumawa ng buong account para mag-hawak ng asset at mamuhunan.",
+    "shieldBlocked": "Hindi nakapasa ang secure na pagsusuri. Kumilos nang natural at subukan muli.",
+    "unlisted": "Malapit nang mabuksan ang posisyong ito para sa pamumuhunan.",
+    "failed": "Hindi natapos ang transaksyon. Subukan muli.",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "Handa Agad",
+    "phoneRequired": "I-verify ang iyong telepono para makapamuhunan."
   }
 }

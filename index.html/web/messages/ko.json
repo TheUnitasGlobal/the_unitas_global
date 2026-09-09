@@ -1554,5 +1554,52 @@
       "sourceLabel": "출처",
       "archiveLabel": "최근 아카이브"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "하나의 하얀 캔버스. 모든 UNITAS 자산이 클릭 한 번 거리에 있습니다.",
+    "surfaceLabel": "퀀텀 화이트 대시보드",
+    "clusters": {
+      "cognitive": {
+        "title": "코그니티브 코어",
+        "tagline": "질문을 수익으로 바꾸는 열여섯 개의 지능 엔진입니다."
+      },
+      "live": {
+        "title": "라이브 서비스",
+        "tagline": "첫 세션부터 수익을 돌려주는 다섯 개의 즉시 이용 서비스입니다."
+      },
+      "lockin": {
+        "title": "락인 네트워크",
+        "tagline": "방문할 때마다 가치를 쌓아가는 여덟 개의 리텐션 엔진입니다."
+      },
+      "enterprise": {
+        "title": "엔터프라이즈 레일",
+        "tagline": "신원, 키, 결제를 위한 세 개의 인프라 레일입니다."
+      }
+    },
+    "moduleCount": "모듈 {count}개",
+    "openCluster": "{title} 열기",
+    "closeCluster": "닫기",
+    "back": "뒤로",
+    "selectModule": "모듈을 선택하여 수익 구조를 확인하고 클릭 한 번으로 투자하세요.",
+    "costLabel": "이용 비용",
+    "coinUnit": "U-COIN",
+    "investNow": "지금 투자하기",
+    "executing": "포지션을 확보하는 중입니다...",
+    "successTitle": "투자가 완료되었습니다",
+    "successBody": "이용 권한이 활성화되었습니다. 지금 시작하여 가치를 만들어 보세요.",
+    "enterModule": "지금 시작하기",
+    "activated": "이 기기에서 활성화되었습니다",
+    "activateModule": "활성화",
+    "balanceLabel": "보유 잔액",
+    "insufficient": "이 포지션에는 잔액이 부족합니다.",
+    "chargeCoins": "U-COIN 충전하기",
+    "signInToInvest": "투자하려면 로그인하세요",
+    "guestInvest": "자산을 보유하고 투자하려면 정식 계정을 만들어 주세요.",
+    "shieldBlocked": "보안 확인을 통과하지 못했습니다. 자연스럽게 조작한 뒤 다시 시도해 주세요.",
+    "unlisted": "이 포지션은 곧 투자가 가능해집니다.",
+    "failed": "거래가 완료되지 않았습니다. 다시 시도해 주세요.",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "즉시 이용 가능",
+    "phoneRequired": "투자하려면 휴대폰 인증이 필요합니다."
   }
 }

@@ -1554,5 +1554,52 @@
       "sourceLabel": "Quelle",
       "archiveLabel": "Letztes Archiv"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "Eine weiße Leinwand. Jedes UNITAS-Asset einen Klick entfernt.",
+    "surfaceLabel": "Quantum White Dashboard",
+    "clusters": {
+      "cognitive": {
+        "title": "Kognitiver Kern",
+        "tagline": "Sechzehn Intelligenz-Engines, die Fragen in Umsatz verwandeln."
+      },
+      "live": {
+        "title": "Live-Dienste",
+        "tagline": "Fünf sofort verfügbare Dienste, die sich schon in der ersten Sitzung auszahlen."
+      },
+      "lockin": {
+        "title": "Bindungsnetzwerk",
+        "tagline": "Acht Bindungs-Engines, die den Wert jedes Besuchs vervielfachen."
+      },
+      "enterprise": {
+        "title": "Unternehmens-Infrastruktur",
+        "tagline": "Drei Infrastrukturschienen für Identität, Schlüssel und Zahlungen."
+      }
+    },
+    "moduleCount": "{count} Module",
+    "openCluster": "{title} öffnen",
+    "closeCluster": "Schließen",
+    "back": "Zurück",
+    "selectModule": "Wählen Sie ein Modul, um sein Renditeprofil zu sehen und mit einem Klick zu investieren.",
+    "costLabel": "Zugang",
+    "coinUnit": "U-COIN",
+    "investNow": "Jetzt investieren",
+    "executing": "Ihre Position wird gesichert...",
+    "successTitle": "Investition ausgeführt",
+    "successBody": "Ihr Zugang ist aktiv. Treten Sie ein und beginnen Sie, Wert zu schaffen.",
+    "enterModule": "Jetzt betreten",
+    "activated": "Auf diesem Gerät aktiviert",
+    "activateModule": "Aktivieren",
+    "balanceLabel": "Ihr Guthaben",
+    "insufficient": "Guthaben für diese Position zu niedrig.",
+    "chargeCoins": "U-COIN aufladen",
+    "signInToInvest": "Zum Investieren anmelden",
+    "guestInvest": "Erstellen Sie ein vollständiges Konto, um Assets zu halten und zu investieren.",
+    "shieldBlocked": "Sicherheitsprüfung nicht bestanden. Bewegen Sie sich natürlich und versuchen Sie es erneut.",
+    "unlisted": "Diese Position öffnet in Kürze für Investitionen.",
+    "failed": "Transaktion nicht abgeschlossen. Bitte erneut versuchen.",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "Sofort bereit",
+    "phoneRequired": "Verifizieren Sie Ihr Telefon, um zu investieren."
   }
 }

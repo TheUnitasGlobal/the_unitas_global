@@ -1554,5 +1554,52 @@
       "sourceLabel": "来源",
       "archiveLabel": "最近存档"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "一块白色画布。每一项UNITAS资产触手可及。",
+    "surfaceLabel": "Quantum White 仪表盘",
+    "clusters": {
+      "cognitive": {
+        "title": "认知核心",
+        "tagline": "十六个将问题转化为收益的智能引擎。"
+      },
+      "live": {
+        "title": "实时服务",
+        "tagline": "五项即时接入服务，从首次使用起就能获得回报。"
+      },
+      "lockin": {
+        "title": "锁定网络",
+        "tagline": "八个留存引擎，让每一次访问的价值持续叠加。"
+      },
+      "enterprise": {
+        "title": "企业级基础设施",
+        "tagline": "三条基础设施通道，覆盖身份、密钥与支付。"
+      }
+    },
+    "moduleCount": "{count} 个模块",
+    "openCluster": "打开{title}",
+    "closeCluster": "关闭",
+    "back": "返回",
+    "selectModule": "选择一个模块，查看其回报情况并一键投资。",
+    "costLabel": "接入权限",
+    "coinUnit": "U-COIN",
+    "investNow": "立即投资",
+    "executing": "正在确认您的持仓...",
+    "successTitle": "投资已完成",
+    "successBody": "您的权限已生效。立即进入，开始创造价值。",
+    "enterModule": "立即进入",
+    "activated": "已在此设备上激活",
+    "activateModule": "激活",
+    "balanceLabel": "您的余额",
+    "insufficient": "余额不足，无法完成此项投资。",
+    "chargeCoins": "充值 U-COIN",
+    "signInToInvest": "登录以投资",
+    "guestInvest": "创建完整账户以持有资产并进行投资。",
+    "shieldBlocked": "安全校验未通过，请自然操作后重试。",
+    "unlisted": "该项目即将开放投资。",
+    "failed": "交易未完成，请重试。",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "即时就绪",
+    "phoneRequired": "请验证您的手机号以进行投资。"
   }
 }

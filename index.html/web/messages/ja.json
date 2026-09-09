@@ -1554,5 +1554,52 @@
       "sourceLabel": "ソース",
       "archiveLabel": "最近のアーカイブ"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "一枚の白いキャンバス。すべてのUNITASアセットがワンクリックの距離に。",
+    "surfaceLabel": "Quantum White ダッシュボード",
+    "clusters": {
+      "cognitive": {
+        "title": "コグニティブ・コア",
+        "tagline": "質問を収益に変える16のインテリジェンスエンジン。"
+      },
+      "live": {
+        "title": "ライブサービス",
+        "tagline": "初回セッションから元が取れる、5つの即時アクセスサービス。"
+      },
+      "lockin": {
+        "title": "ロックインネットワーク",
+        "tagline": "訪問のたびに価値を積み重ねる8つのリテンションエンジン。"
+      },
+      "enterprise": {
+        "title": "エンタープライズ・レール",
+        "tagline": "ID、鍵、決済のための3つのインフラレール。"
+      }
+    },
+    "moduleCount": "{count}個のモジュール",
+    "openCluster": "{title}を開く",
+    "closeCluster": "閉じる",
+    "back": "戻る",
+    "selectModule": "モジュールを選択してリターンプロファイルを確認し、ワンクリックで投資しましょう。",
+    "costLabel": "アクセス",
+    "coinUnit": "U-COIN",
+    "investNow": "今すぐ投資",
+    "executing": "ポジションを確保しています...",
+    "successTitle": "投資が実行されました",
+    "successBody": "アクセスが有効になりました。今すぐ入って価値を生み出しましょう。",
+    "enterModule": "今すぐ入る",
+    "activated": "このデバイスで有効化済み",
+    "activateModule": "有効化する",
+    "balanceLabel": "残高",
+    "insufficient": "このポジションには残高が不足しています。",
+    "chargeCoins": "U-COINを追加",
+    "signInToInvest": "投資するにはサインイン",
+    "guestInvest": "アセットを保有・投資するには本アカウントを作成してください。",
+    "shieldBlocked": "セキュリティチェックに通りませんでした。自然に操作してもう一度お試しください。",
+    "unlisted": "このポジションはまもなく投資可能になります。",
+    "failed": "取引が完了しませんでした。もう一度お試しください。",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "即座に利用可能",
+    "phoneRequired": "投資するには電話番号を確認してください。"
   }
 }

@@ -1554,5 +1554,52 @@
       "sourceLabel": "Allikas",
       "archiveLabel": "Viimane arhiiv"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "Üks valge lõuend. Iga UNITAS-e vara ühe klõpsu kaugusel.",
+    "surfaceLabel": "Quantum White'i töölaud",
+    "clusters": {
+      "cognitive": {
+        "title": "Kognitiivne Tuumik",
+        "tagline": "Kuusteist intelligentsimootorit, mis muudavad küsimused tuluks."
+      },
+      "live": {
+        "title": "Reaalajateenused",
+        "tagline": "Viis kohese juurdepääsuga teenust, mis tasuvad end ära juba esimesest seansist."
+      },
+      "lockin": {
+        "title": "Lojaalsusvõrgustik",
+        "tagline": "Kaheksa hoidmismootorit, mis liidavad iga külastuse väärtust."
+      },
+      "enterprise": {
+        "title": "Ettevõtte Infrastruktuur",
+        "tagline": "Kolm infrastruktuuriliini identiteedi, võtmete ja maksete jaoks."
+      }
+    },
+    "moduleCount": "{count} moodulit",
+    "openCluster": "Ava {title}",
+    "closeCluster": "Sulge",
+    "back": "Tagasi",
+    "selectModule": "Vali moodul, et näha selle tootlusprofiili ja investeerida ühe klõpsuga.",
+    "costLabel": "Juurdepääs",
+    "coinUnit": "U-COIN",
+    "investNow": "Investeeri kohe",
+    "executing": "Sinu positsiooni kindlustatakse...",
+    "successTitle": "Investeering tehtud",
+    "successBody": "Sinu juurdepääs on aktiivne. Astu sisse ja hakka väärtust looma.",
+    "enterModule": "Astu sisse",
+    "activated": "Aktiveeritud selles seadmes",
+    "activateModule": "Aktiveeri",
+    "balanceLabel": "Sinu jääk",
+    "insufficient": "Jääk on selle positsiooni jaoks liiga väike.",
+    "chargeCoins": "Lisa U-COIN",
+    "signInToInvest": "Logi sisse, et investeerida",
+    "guestInvest": "Loo täisväärtuslik konto varade hoidmiseks ja investeerimiseks.",
+    "shieldBlocked": "Turvakontroll ebaõnnestus. Liigu loomulikult ja proovi uuesti.",
+    "unlisted": "See positsioon avaneb investeerimiseks peagi.",
+    "failed": "Tehing ei õnnestunud. Proovi uuesti.",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "Kohe valmis",
+    "phoneRequired": "Investeerimiseks kinnita oma telefoninumber."
   }
 }

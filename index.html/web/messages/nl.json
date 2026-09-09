@@ -1554,5 +1554,52 @@
       "sourceLabel": "Bron",
       "archiveLabel": "Recent Archief"
     }
+  },
+  "QuantumWhite": {
+    "heroTagline": "Eén wit canvas. Elk UNITAS-asset op één klik afstand.",
+    "surfaceLabel": "Quantum White-dashboard",
+    "clusters": {
+      "cognitive": {
+        "title": "Cognitieve Kern",
+        "tagline": "Zestien intelligentie-engines die vragen omzetten in inkomsten."
+      },
+      "live": {
+        "title": "Live Diensten",
+        "tagline": "Vijf direct toegankelijke diensten die zich al vanaf de eerste sessie terugbetalen."
+      },
+      "lockin": {
+        "title": "Retentienetwerk",
+        "tagline": "Acht retentie-engines die de waarde van elk bezoek vermenigvuldigen."
+      },
+      "enterprise": {
+        "title": "Enterprise-infrastructuur",
+        "tagline": "Drie infrastructuurlijnen voor identiteit, sleutels en betalingen."
+      }
+    },
+    "moduleCount": "{count} modules",
+    "openCluster": "{title} openen",
+    "closeCluster": "Sluiten",
+    "back": "Terug",
+    "selectModule": "Selecteer een module om het rendementsprofiel te bekijken en met één klik te investeren.",
+    "costLabel": "Toegang",
+    "coinUnit": "U-COIN",
+    "investNow": "Nu investeren",
+    "executing": "Uw positie wordt beveiligd...",
+    "successTitle": "Investering uitgevoerd",
+    "successBody": "Uw toegang is actief. Ga naar binnen en begin waarde te creëren.",
+    "enterModule": "Nu binnengaan",
+    "activated": "Geactiveerd op dit apparaat",
+    "activateModule": "Activeren",
+    "balanceLabel": "Uw saldo",
+    "insufficient": "Saldo te laag voor deze positie.",
+    "chargeCoins": "U-COIN toevoegen",
+    "signInToInvest": "Log in om te investeren",
+    "guestInvest": "Maak een volledig account aan om assets aan te houden en te investeren.",
+    "shieldBlocked": "Beveiligingscontrole niet geslaagd. Beweeg natuurlijk en probeer het opnieuw.",
+    "unlisted": "Deze positie opent binnenkort voor investeringen.",
+    "failed": "Transactie niet voltooid. Probeer het opnieuw.",
+    "watermark": "THE UNITAS GLOBAL OÜ",
+    "precached": "Direct gereed",
+    "phoneRequired": "Verifieer uw telefoon om te investeren."
   }
 }

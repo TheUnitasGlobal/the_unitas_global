@@ -1,5 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
-import { HomeContent } from '@/components/home/HomeContent';
+import { QuantumWhiteHome } from '@/components/home/quantum/QuantumWhiteHome';
 
 export default async function HomePage({
   params,
@@ -9,5 +9,5 @@ export default async function HomePage({
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return <HomeContent />;
+  return <QuantumWhiteHome />;
 }

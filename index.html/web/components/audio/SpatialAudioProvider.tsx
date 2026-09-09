@@ -16,6 +16,8 @@ import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '
 import { attachActivationUnlock, scheduleAutoUnlockRetries } from '@/lib/audio/activationUnlock';
 import { AUDIO_PREF_KEY, readAudioPrefMuted } from '@/lib/audio/audioPreference';
 import { APP_EXIT_EVENT } from '@/lib/exit/appExit';
+import { CINEMA_PHASE_EVENT } from '@/lib/foundersGate';
+import { CINEMA_PHASE_STORAGE_KEY } from '@/lib/splash/splashTimeline';
 
 // useLayoutEffect warns during SSR; fall back to useEffect on the server.
 const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
@@ -54,6 +56,57 @@ const BASE_MASTER_GAIN = attenuateMaster(0.4);
 const AMBIENT_GAIN = 0.05;
 
 const noop = () => {};
+
+/**
+ * REV-13 Quantum White (spec section 5 + section 10 item 2): window
+ * CustomEvent (detail = boolean) fired by `setAmbientBedSuppressed` so a
+ * provider mounted ABOVE the home (app/layout.tsx) learns of the request.
+ */
+export const AMBIENT_SUPPRESS_EVENT = 'unitas:ambient-suppress';
+
+/**
+ * Module-level ambient-bed suppression REQUEST. The new white home has no
+ * BGM, but it mounts below the provider and cannot reach its state -- it
+ * asks through this flag. It is only a request: the bed actually stops
+ * when the request AND the curtain's `released` phase both hold (the bed
+ * keeps playing under gate / cinema / sealed exactly as before).
+ */
+let ambientSuppressRequested = false;
+
+/**
+ * Request (or lift) suppression of the site-wide ambient bed. Safe to call
+ * before the provider mounts (the hydration effect reads the flag) and on
+ * the server (no window -> flag only).
+ */
+export function setAmbientBedSuppressed(on: boolean): void {
+  ambientSuppressRequested = on;
+  if (typeof window === 'undefined') return;
+  try {
+    window.dispatchEvent(new CustomEvent(AMBIENT_SUPPRESS_EVENT, { detail: on }));
+  } catch {
+    /* an environment without CustomEvent keeps the flag for the next mount */
+  }
+}
+
+/** Whether ambient-bed suppression is currently REQUESTED (not whether it is in effect). */
+export function isAmbientBedSuppressed(): boolean {
+  return ambientSuppressRequested;
+}
+
+/**
+ * Curtain released? Read synchronously from the live `<html data-cinema-phase>`
+ * stamp OR the persisted phase (lib/splash/splashTimeline.ts) -- the same
+ * two sources the curtain itself restores from, so a reload lands on the
+ * right answer before the first paint.
+ */
+function readCurtainReleased(): boolean {
+  try {
+    if (document.documentElement.dataset.cinemaPhase === 'released') return true;
+    return window.sessionStorage.getItem(CINEMA_PHASE_STORAGE_KEY) === 'released';
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Safe no-op surface returned by `useSpatialAudio()` outside a provider
@@ -142,6 +195,12 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
   // before paint -- see the effect below.
   const [muted, setMuted] = useState(true);
   const [unlocked, setUnlocked] = useState(false);
+  // REV-13: ambient-bed suppression = requested (setAmbientBedSuppressed)
+  // AND curtain released. Both start false for SSR parity and are read
+  // synchronously in the hydration layout effect below.
+  const [suppressRequested, setSuppressRequested] = useState(false);
+  const [released, setReleased] = useState(false);
+  const bedSuppressed = suppressRequested && released;
   const ctxRef = useRef<AudioContext | null>(null);
   const masterGainRef = useRef<GainNode | null>(null);
   const noiseBufferRef = useRef<AudioBuffer | null>(null);
@@ -215,7 +274,30 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     const prefMuted = readAudioPrefMuted();
     if (prefMuted !== muted) setMuted(prefMuted);
     hydratedRef.current = true;
+    // REV-13: the curtain phase and any suppression request made before
+    // this provider mounted are read in the same pre-paint pass.
+    setReleased(readCurtainReleased());
+    setSuppressRequested(ambientSuppressRequested);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // REV-13: keep both suppression inputs live -- the curtain's phase event
+  // (lib/foundersGate.ts, detail = phase string) and the suppression request
+  // event fired by `setAmbientBedSuppressed`.
+  useEffect(() => {
+    const onPhase = (event: Event) => {
+      const detail = (event as CustomEvent<unknown>).detail;
+      setReleased(typeof detail === 'string' ? detail === 'released' : readCurtainReleased());
+    };
+    const onSuppress = (event: Event) => {
+      setSuppressRequested(Boolean((event as CustomEvent<unknown>).detail));
+    };
+    window.addEventListener(CINEMA_PHASE_EVENT, onPhase);
+    window.addEventListener(AMBIENT_SUPPRESS_EVENT, onSuppress);
+    return () => {
+      window.removeEventListener(CINEMA_PHASE_EVENT, onPhase);
+      window.removeEventListener(AMBIENT_SUPPRESS_EVENT, onSuppress);
+    };
   }, []);
 
   // Persist every change (but not the initial hydration write-back).
@@ -364,6 +446,14 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
     // while the document is still loading.
     resumeContext(ctx);
     ambientRef.current?.stop();
+    // REV-13 Quantum White (spec section 10 item 2): the released Quantum
+    // White home asks for a silent canvas -- skip building a new bed while
+    // suppression is in effect. ensureContext/resumeContext above stay
+    // untouched so the context keeps warming exactly as before.
+    if (bedSuppressed) {
+      ambientRef.current = null;
+      return;
+    }
     try {
       ambientRef.current = startAmbient(ctx);
     } catch {
@@ -374,7 +464,7 @@ export function SpatialAudioProvider({ children }: { children: ReactNode }) {
       ambientRef.current?.stop();
       ambientRef.current = null;
     };
-  }, [muted, ensureContext, startAmbient, resumeContext]);
+  }, [muted, bedSuppressed, ensureContext, startAmbient, resumeContext]);
 
   /**
    * Must be called directly from a user gesture handler (click/keydown) --
