@@ -104,7 +104,7 @@ export function LanguageSwitcher() {
           blocked ? 'pointer-events-none opacity-50' : ''
         }`}
       >
-        <FlagIcon locale={activeLocale} size={24} />
+        <FlagIcon locale={activeLocale} size={30} />
         {/* flag + native language name (현지어) -- consistent with the entry
             gate / cinematic GlobalLanguagePicker across every surface. */}
         <span className="leading-none normal-case">{NATIVE_NAME[activeLocale]}</span>
@@ -126,11 +126,11 @@ export function LanguageSwitcher() {
                 <button
                   type="button"
                   onClick={() => selectLocale(loc)}
-                  className={`flex w-full items-center gap-2.5 px-3 py-2 text-left text-xs transition-colors hover:bg-accent/10 ${
+                  className={`flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-xs transition-colors hover:bg-accent/10 ${
                     loc === activeLocale ? 'font-bold text-accent' : 'font-normal text-gray-300'
                   }`}
                 >
-                  <FlagIcon locale={loc} size={20} />
+                  <FlagIcon locale={loc} size={22} />
                   <span className="whitespace-nowrap leading-none">{NATIVE_NAME[loc]}</span>
                 </button>
               </li>

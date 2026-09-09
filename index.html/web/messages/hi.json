@@ -1599,6 +1599,13 @@
     "failed": "लेनदेन पूरा नहीं हुआ। फिर से कोशिश करें।",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "तुरंत तैयार",
-    "phoneRequired": "निवेश के लिए अपना फोन वेरीफाई करें।"
+    "phoneRequired": "निवेश के लिए अपना फोन वेरीफाई करें।",
+    "kind": {
+      "ecosystem": "पारिस्थितिकी तंत्र",
+      "lifeos": "Life-OS",
+      "b2c": "लाइव",
+      "lockin": "लॉक-इन",
+      "b2b": "रेल"
+    }
   }
 }

@@ -9,7 +9,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 import { useTranslations } from 'next-intl';
-import { X, ChevronLeft } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ModalPortal } from '@/components/ui/ModalPortal';
 import { releaseGate } from '@/lib/uiGate';
 import { playHapticTic } from '@/lib/audio/haptics';
@@ -144,7 +144,10 @@ export function ClusterPopout({ cluster, onClose, precache }: ClusterPopoutProps
           aria-labelledby="qw-popout-title"
           onClick={(event) => event.stopPropagation()}
         >
-          <header className="flex items-start justify-between gap-4 border-b border-[var(--qw-line)] px-7 pb-5 pt-6">
+          <header
+            className="flex items-start justify-between gap-4 border-b border-[var(--qw-line)] px-7 pb-5"
+            style={{ paddingTop: 'max(1.5rem, var(--u-safe-top))' }}
+          >
             <div>
               <h2 id="qw-popout-title" className="font-serif text-xl font-bold text-[var(--qw-ink)] md:text-2xl">
                 {title}
@@ -165,11 +168,9 @@ export function ClusterPopout({ cluster, onClose, precache }: ClusterPopoutProps
 
           <p className="px-7 pt-4 text-sm text-[var(--qw-ink-3)]">{t('selectModule')}</p>
 
-          <div className="qw-popout-body flex flex-1 items-start gap-6 overflow-hidden px-7 pb-7 pt-4">
+          <div className="qw-popout-body flex flex-1 gap-6 overflow-hidden px-7 pb-7 pt-4">
             <div
-              className={`qw-tile-grid grid flex-1 gap-3 overflow-y-auto pb-2 pr-1 [grid-template-columns:repeat(auto-fill,minmax(150px,1fr))] ${
-                activeModule ? 'qw-tile-grid-hidden' : ''
-              }`}
+              className={`qw-tile-grid grid flex-1 overflow-y-auto pb-2 ${activeModule ? 'qw-tile-grid-hidden' : ''}`}
             >
               {cluster.modules.map((m) => (
                 <ModuleTile key={m.id} module={m} onOpen={() => handleTileOpen(m)} onWarm={() => precache.warmModule(m)} />
@@ -237,13 +238,15 @@ function ModuleTile({ module, onOpen, onWarm }: ModuleTileProps) {
 
   const Icon = module.icon;
   const title = resolveModuleTitle(module, tFull);
+  const description = tFull(module.i18n.descriptionKey);
   const style = { '--qw-tile-accent': module.color } as CSSProperties;
 
   return (
     <button
       ref={ref}
       type="button"
-      className="qw-tile unitas-tap flex min-h-[44px] flex-col items-start gap-2 rounded-2xl border border-[var(--qw-line)] bg-[var(--qw-bg-2)] p-4 text-left transition-shadow duration-150 hover:shadow-[0_10px_28px_rgba(10,10,12,.1)]"
+      data-kind={module.kind}
+      className="qw-tile unitas-tap rounded-2xl border border-[var(--qw-line)] bg-[var(--qw-bg-2)] text-left"
       style={style}
       onPointerEnter={onWarm}
       onFocus={onWarm}
@@ -251,17 +254,19 @@ function ModuleTile({ module, onOpen, onWarm }: ModuleTileProps) {
       onPointerLeave={resetTilt}
       onClick={onOpen}
     >
-      <span className="flex items-center gap-2">
-        <span
-          className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
-          style={{ backgroundColor: module.color }}
-          aria-hidden="true"
-        />
-        {Icon ? <Icon size={16} style={{ color: module.color }} aria-hidden="true" /> : null}
+      <span className="qw-tile-head">
+        <span className="qw-tile-medallion" aria-hidden="true">
+          <Icon size={18} strokeWidth={1.75} />
+        </span>
+        <span className="qw-tile-kind">{t(`kind.${module.kind}`)}</span>
       </span>
-      <span className="text-sm font-semibold leading-tight text-[var(--qw-ink)]">{title}</span>
-      <span className="qw-upay-chip mt-auto inline-flex w-fit items-center text-[0.68rem]">
-        {module.coinCost} {t('coinUnit')}
+      <span className="qw-tile-title">{title}</span>
+      <span className="qw-tile-desc">{description}</span>
+      <span className="qw-tile-foot">
+        <span className="qw-upay-chip inline-flex w-fit items-center text-[0.68rem]">
+          {module.coinCost} {t('coinUnit')}
+        </span>
+        <ChevronRight size={14} aria-hidden="true" />
       </span>
     </button>
   );

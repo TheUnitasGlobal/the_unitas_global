@@ -1599,6 +1599,13 @@
     "failed": "Giao dịch chưa hoàn tất. Vui lòng thử lại.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Sẵn sàng tức thì",
-    "phoneRequired": "Xác minh điện thoại của bạn để đầu tư."
+    "phoneRequired": "Xác minh điện thoại của bạn để đầu tư.",
+    "kind": {
+      "ecosystem": "Hệ sinh thái",
+      "lifeos": "Life-OS",
+      "b2c": "Trực tiếp",
+      "lockin": "Khóa",
+      "b2b": "Đường ray"
+    }
   }
 }

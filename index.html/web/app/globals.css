@@ -25,6 +25,17 @@
   --u-seal-gap: clamp(1.25rem, 5svh, 4rem);
   --u-seal-foot: calc(4.5rem + var(--u-safe-bottom));
   --u-seal-foot-founder: calc(clamp(9rem, 26svh, 13rem) + var(--u-safe-bottom));
+
+  /* --------------------------------------------------------------------
+     REV-15 flag hairline tokens (SPEC.md §3.2). Default (this block) is
+     tuned for a DARK surface (entry gate / cinematic GlobalLanguagePicker,
+     any dark route) -- a white hairline at 38% alpha, ~3.3:1 against the
+     void background. app/quantum-white.css re-scopes this to an ink
+     hairline at 45% (~3.15:1 against white) for #unitas-nav and the
+     portaled LanguageSwitcher dropdown only.
+     -------------------------------------------------------------------- */
+  --u-flag-radius: 3px;
+  --u-flag-ring: 0 0 0 1px rgba(255, 255, 255, 0.38), 0 1px 2px rgba(0, 0, 0, 0.45);
 }
 
 html,
@@ -62,6 +73,22 @@ body::-webkit-scrollbar,
   display: none; /* Chrome/Safari/WebKit */
 }
 
+/* REV-15 (SPEC.md §3): flag swatch hairline + corner radius, replacing
+   FlagIcon.tsx's `ring-1 ring-white/20` (rendered as an ~1.0:1-contrast
+   white-on-white ring against the Quantum White nav background --
+   effectively invisible). Default here is the dark-surface value; the
+   Quantum White scope (app/quantum-white.css) re-keys --u-flag-ring to an
+   ink hairline for #unitas-nav and the portaled language dropdown. */
+.u-flag {
+  border-radius: var(--u-flag-radius);
+  box-shadow: var(--u-flag-ring);
+  background: #fff; /* fixes the sub-pixel seam some flag SVGs show at their own edge */
+  isolation: isolate;
+}
+.u-flag > svg {
+  display: block;
+}
+
 body {
   background-color: #030305;
   color: #e2e8f0;
@@ -82,6 +109,30 @@ body {
   height: 100vh;
   height: 100svh;
   max-height: 100dvh;
+  padding-block: max(var(--u-vp-pad-y), var(--u-safe-top)) max(var(--u-vp-pad-y), var(--u-safe-bottom));
+  padding-inline: max(var(--u-vp-pad-x), env(safe-area-inset-left, 0px)) max(var(--u-vp-pad-x), env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+}
+/* REV-15 (SPEC.md §2.1): a second, independent height guard on the
+   pre-launch curtain's own fixed root (ComingSoonCinema.tsx `.cs-root`,
+   components/system/SealedFallback.tsx). §1 removes the body{filter} that
+   was hijacking every fixed descendant's containing block and inflating it
+   to the full document height; this class is the fail-safe in case a
+   future filter/transform/perspective/contain regression on any ancestor
+   reopens that hijack -- the curtain still cannot grow past one viewport. */
+.cs-root {
+  height: 100vh;
+  height: 100svh;
+  max-height: 100dvh;
+}
+/* Entry-gate phase (ComingSoonCinema.tsx `phase === 'gate'`): replaces the
+   Tailwind `px-6 py-16` literal with the same safe-area-aware padding
+   `.u-viewport-fit` uses, so `.gate-panel h1/p` (below) render inside a
+   correctly-padded box. Kept a separate class (not `.u-viewport-fit`
+   itself) because this phase is `absolute inset-0` INSIDE `.cs-root`
+   (which already owns the height contract), so only the padding half of
+   `.u-viewport-fit` is needed here. */
+.cs-gate {
   padding-block: max(var(--u-vp-pad-y), var(--u-safe-top)) max(var(--u-vp-pad-y), var(--u-safe-bottom));
   padding-inline: max(var(--u-vp-pad-x), env(safe-area-inset-left, 0px)) max(var(--u-vp-pad-x), env(safe-area-inset-right, 0px));
   box-sizing: border-box;
@@ -144,6 +195,30 @@ body {
 .cs-sealed .cs-seal-mark {
   margin-top: var(--u-seal-gap);
   font-size: var(--u-seal-mark);
+}
+/* REV-15 (SPEC.md §2.4): short-landscape founder variant (e.g. 844x390) --
+   the founder door was pinned `bottom: 6rem`, overlapping the in-flow
+   COMING SOON / wordmark / corporate-name stack by up to 82px on the
+   longest locale strings. Below this breakpoint the door drops out of its
+   pinned-bottom slot into normal flow (right after the corporate name) and
+   the sealed panel's bottom padding shrinks back down since the door no
+   longer needs a reserved strip below the fold. Founder-only, landscape-
+   only -- the public sealed screen and every portrait viewport are
+   unaffected. */
+@media (max-height: 480px) {
+  .cs-sealed[data-founder] {
+    --u-seal-gap: 0.75rem;
+    --u-seal-foot: calc(3.75rem + var(--u-safe-bottom));
+    padding-bottom: var(--u-seal-foot);
+  }
+  .cs-sealed[data-founder] .cs-founder-door {
+    position: static;
+    margin-top: 0.75rem;
+    gap: 0.5rem;
+  }
+  .cs-sealed[data-founder] .cs-founder-note {
+    display: none;
+  }
 }
 
 /* U-AI search bar glow (components/home/OmniSynapseSearch.tsx): was an

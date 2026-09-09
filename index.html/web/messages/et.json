@@ -1599,6 +1599,13 @@
     "failed": "Tehing ei õnnestunud. Proovi uuesti.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Kohe valmis",
-    "phoneRequired": "Investeerimiseks kinnita oma telefoninumber."
+    "phoneRequired": "Investeerimiseks kinnita oma telefoninumber.",
+    "kind": {
+      "ecosystem": "Ökosüsteem",
+      "lifeos": "Life-OS",
+      "b2c": "Live",
+      "lockin": "Lukustus",
+      "b2b": "Liin"
+    }
   }
 }

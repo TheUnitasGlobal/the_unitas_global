@@ -1599,6 +1599,13 @@
     "failed": "Transaksi tidak selesai. Coba lagi.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Siap seketika",
-    "phoneRequired": "Verifikasi ponsel Anda untuk berinvestasi."
+    "phoneRequired": "Verifikasi ponsel Anda untuk berinvestasi.",
+    "kind": {
+      "ecosystem": "Ekosistem",
+      "lifeos": "Life-OS",
+      "b2c": "Langsung",
+      "lockin": "Lock-in",
+      "b2b": "Rel"
+    }
   }
 }

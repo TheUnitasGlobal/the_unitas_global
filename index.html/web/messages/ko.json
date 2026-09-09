@@ -1599,6 +1599,13 @@
     "failed": "거래가 완료되지 않았습니다. 다시 시도해 주세요.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "즉시 이용 가능",
-    "phoneRequired": "투자하려면 휴대폰 인증이 필요합니다."
+    "phoneRequired": "투자하려면 휴대폰 인증이 필요합니다.",
+    "kind": {
+      "ecosystem": "에코시스템",
+      "lifeos": "라이프-OS",
+      "b2c": "라이브",
+      "lockin": "락인",
+      "b2b": "레일"
+    }
   }
 }

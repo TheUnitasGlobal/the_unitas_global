@@ -1599,6 +1599,13 @@
     "failed": "Transactie niet voltooid. Probeer het opnieuw.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Direct gereed",
-    "phoneRequired": "Verifieer uw telefoon om te investeren."
+    "phoneRequired": "Verifieer uw telefoon om te investeren.",
+    "kind": {
+      "ecosystem": "Ecosysteem",
+      "lifeos": "Life-OS",
+      "b2c": "Live",
+      "lockin": "Lock-in",
+      "b2b": "Rail"
+    }
   }
 }

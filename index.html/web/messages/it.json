@@ -1599,6 +1599,13 @@
     "failed": "Transazione non completata. Riprova.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Pronto all'istante",
-    "phoneRequired": "Verifica il tuo telefono per investire."
+    "phoneRequired": "Verifica il tuo telefono per investire.",
+    "kind": {
+      "ecosystem": "Ecosistema",
+      "lifeos": "Life-OS",
+      "b2c": "Live",
+      "lockin": "Lock-in",
+      "b2b": "Binario"
+    }
   }
 }

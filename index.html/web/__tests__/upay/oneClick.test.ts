@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { Circle } from 'lucide-react';
 import {
   classifySpendError,
   planInvestment,
@@ -26,6 +27,7 @@ function makeModule(
     href: '/test',
     hasRoute: true,
     color: '#0b5cff',
+    icon: Circle,
     i18n: { titleKey: 'Test.title', descriptionKey: 'Test.description' },
     ...overrides,
   };

@@ -292,8 +292,9 @@ export function FlagIcon({
   };
   return (
     <span
-      className={`inline-block shrink-0 overflow-hidden rounded-[2px] ring-1 ring-white/20 ${className}`}
+      className={`u-flag inline-block shrink-0 ${className}`}
       style={style}
+      data-flag={locale}
       aria-hidden="true"
     >
       <svg viewBox={VIEWBOX} width="100%" height="100%" preserveAspectRatio="xMidYMid slice">

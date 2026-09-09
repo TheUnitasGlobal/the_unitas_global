@@ -32,6 +32,11 @@ html[data-unitas-surface='quantum-white'] {
      defaults hold until the curtain releases and the first chrono tick runs. */
   --qw-lum: 1;
   --qw-warm: 0;
+  /* REV-15 (SPEC.md §1): color-mix()-driven luminance replaces body{filter}
+     (below) which was hijacking every fixed-position descendant's
+     containing block site-wide. applyChrono() writes both --qw-lum (kept
+     for back-compat) and --qw-lum-pct (a ready-made percentage string). */
+  --qw-lum-pct: 100%;
 
   /* --------------------------------------------------------------------
      REV-14 precision-polish tokens (SPEC.md §1.1). `--qw-line` itself is
@@ -70,14 +75,54 @@ html[data-unitas-surface='quantum-white'] {
   --qw-tile-border-w: 1.5px;
   --qw-card-shadow-rest: 0 1px 2px rgba(10, 10, 12, 0.05), 0 6px 18px -10px rgba(10, 10, 12, 0.12);
   --qw-card-shadow-hover: 0 18px 40px rgba(10, 10, 12, 0.12);
+
+  /* --------------------------------------------------------------------
+     REV-15 rich tile interior tokens (SPEC.md §4.2). Desktop defaults;
+     the `@media (max-width: 767px)` block near the tile rules re-keys
+     several of these into a compact list-row layout.
+     -------------------------------------------------------------------- */
+  --qw-tile-min-w: 196px;
+  --qw-tile-gap: 14px;
+  --qw-tile-pad: 16px;
+  --qw-tile-min-h: 168px;
+  --qw-tile-medallion: 36px;
+  --qw-tile-icon: 18px;
+  --qw-tile-title-size: 0.92rem;
+  --qw-tile-desc-size: 0.78rem;
+  --qw-tile-desc-lines: 3;
+  --qw-tile-kind-size: 0.6rem;
+}
+
+/* REV-15 (SPEC.md §1.3): chrono-luminance via color-mix(), not filter().
+   color-mix(in srgb, X k%, black) on a channel equals brightness(k) applied
+   to X for k in [0,1] -- identical math (255*k per channel), so the visual
+   breathe is unchanged; only the mechanism moves off the fixed-layer
+   ancestor. Static hex values above remain the polyfill for browsers
+   without color-mix() -- chrono breathing degrades gracefully to a flat
+   white, layout is never affected. */
+@supports (color: color-mix(in srgb, #fff 50%, #000)) {
+  html[data-unitas-surface='quantum-white'] {
+    --qw-bg: color-mix(in srgb, #ffffff var(--qw-lum-pct), #000000);
+    --qw-bg-2: color-mix(in srgb, #f6f7fa var(--qw-lum-pct), #000000);
+    --qw-glass-solid: color-mix(in srgb, rgba(255, 255, 255, 0.86) var(--qw-lum-pct), rgba(0, 0, 0, 0.86));
+    --qw-nav-bg: color-mix(in srgb, rgba(255, 255, 255, 0.94) var(--qw-lum-pct), rgba(0, 0, 0, 0.94));
+  }
 }
 
 html[data-unitas-surface='quantum-white'] body {
   background: var(--qw-bg);
   color: var(--qw-ink);
-  /* Adaptive chrono-luminance (spec §2): a whole-canvas luminance breathe,
-     never a full theme switch -- --qw-lum stays within 0.92..1.0. */
-  filter: brightness(var(--qw-lum, 1));
+  /* REV-15 (SPEC.md §1): NO filter here. `filter` on any fixed-layer
+     ancestor (html/body/.dashboard-zoom) makes that ancestor the containing
+     block for every `position: fixed` descendant -- the curtain, the nav,
+     ModalPortal dialogs, ExitGuard -- so they render against the document's
+     full scrollHeight instead of the viewport (field-tested: 1702px tall
+     curtain on a 667px iPhone SE). Adaptive chrono-luminance (spec §2) now
+     lives entirely in the color-mix() tokens below instead.
+     --qw-bg/-bg-2/-glass-solid/-nav-bg are the color-mix()-composited
+     values on browsers that support it (`@supports` block further below);
+     they equal the static hex on unsupporting browsers, which only loses
+     the day/night breathe, never the layout. */
 }
 
 /* Site-wide opaque WebGL background (spec §10.1): never mounted on the home
@@ -307,6 +352,22 @@ html[data-unitas-surface='quantum-white'] .z-\[140\] .text-gray-300 {
 html[data-unitas-surface='quantum-white'] .z-\[140\] .hover\:bg-accent\/10:hover {
   background-color: var(--qw-blue-soft);
 }
+/* REV-15 (SPEC.md §3.2): flag hairline re-keyed to ink on this white
+   surface -- the dark-surface default (--u-flag-ring in app/globals.css,
+   white 38%) would read at ~1:1 contrast against #unitas-nav's near-white
+   background and the dropdown's near-white panel. Scoped to exactly the
+   two places a flag renders on Quantum White: the nav trigger and this
+   portaled dropdown (both outside `.dashboard-zoom`'s zoom, so no zoom
+   compensation needed here). */
+html[data-unitas-surface='quantum-white'] #unitas-nav .u-flag,
+html[data-unitas-surface='quantum-white'] .z-\[140\] .u-flag {
+  --u-flag-ring: 0 0 0 1px rgba(10, 10, 12, 0.45), 0 1px 3px rgba(10, 10, 12, 0.18);
+}
+/* Active-locale row background (LanguageSwitcher.tsx dropdown item) */
+html[data-unitas-surface='quantum-white'] .z-\[140\] .font-bold.text-accent {
+  background-color: var(--qw-blue-soft);
+  border-radius: 8px;
+}
 
 /* --------------------------------------------------------------------------
    4. Hero re-typeset (spec §2) -- QuantumWhiteHome wraps the retained <Hero/>
@@ -479,25 +540,160 @@ html[data-unitas-surface='quantum-white'] .qw-popout-panel header button {
   }
 }
 html[data-unitas-surface='quantum-white'] .qw-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-height: var(--qw-tile-min-h);
+  padding: var(--qw-tile-pad);
   border-width: var(--qw-tile-border-w);
   border-color: var(--qw-line-strong);
   box-shadow: var(--qw-card-shadow-rest);
   transform: perspective(600px) rotateX(var(--qw-tilt-x, 0deg)) rotateY(var(--qw-tilt-y, 0deg));
   transition: transform 0.12s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  /* color-mix() polyfill: --qw-tile-ink falls back to the bare accent
+     (still readable, just lower contrast) when color-mix() is unsupported;
+     the @supports block below composites it against --qw-ink for the
+     4.6:1+ metal-swatch contrast SPEC.md §4.2 requires. */
+  --qw-tile-ink: var(--qw-tile-accent);
+}
+@supports (color: color-mix(in srgb, #fff 50%, #000)) {
+  html[data-unitas-surface='quantum-white'] .qw-tile {
+    --qw-tile-ink: color-mix(in srgb, var(--qw-tile-accent) 62%, var(--qw-ink));
+  }
 }
 html[data-unitas-surface='quantum-white'] .qw-tile:hover,
 html[data-unitas-surface='quantum-white'] .qw-tile:focus-visible {
   border-color: var(--qw-tile-accent, var(--qw-ink-3));
   outline: none;
 }
+/* REV-15 (SPEC.md §4.2) -- rich tile interior: a fixed-height icon-badge
+   header row, a 2-line-minimum title, a clamped description (every one of
+   the 32 modules' `descriptionKey` strings, 20 locales x 32 modules, none
+   empty -- see clusters.test.ts), and a footer pinned to the tile bottom
+   via `margin-top: auto` so the coin chip lines up across every tile in a
+   row regardless of how many lines its neighbours' title/description used. */
+html[data-unitas-surface='quantum-white'] .qw-tile-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: var(--qw-tile-medallion);
+}
+html[data-unitas-surface='quantum-white'] .qw-tile-medallion {
+  display: grid;
+  place-items: center;
+  width: var(--qw-tile-medallion);
+  height: var(--qw-tile-medallion);
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: var(--qw-tile-ink);
+  background: var(--qw-bg);
+  box-shadow: 0 0 0 1.5px var(--qw-tile-ink), inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 6px rgba(10, 10, 12, 0.08);
+}
+@supports (color: color-mix(in srgb, #fff 50%, #000)) {
+  html[data-unitas-surface='quantum-white'] .qw-tile-medallion {
+    background: color-mix(in srgb, var(--qw-tile-accent) 14%, #fff);
+  }
+}
+html[data-unitas-surface='quantum-white'] .qw-tile-medallion svg {
+  width: var(--qw-tile-icon);
+  height: var(--qw-tile-icon);
+}
+html[data-unitas-surface='quantum-white'] .qw-tile-kind {
+  font-size: var(--qw-tile-kind-size);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--qw-ink-3);
+  white-space: nowrap;
+}
+html[data-unitas-surface='quantum-white'] .qw-tile-title {
+  font-size: var(--qw-tile-title-size);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--qw-ink);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: calc(2 * var(--qw-tile-title-size) * 1.25);
+}
+html[data-unitas-surface='quantum-white'] .qw-tile-desc {
+  font-size: var(--qw-tile-desc-size);
+  line-height: 1.45;
+  color: var(--qw-ink-3);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--qw-tile-desc-lines);
+  overflow: hidden;
+}
+html[data-unitas-surface='quantum-white'] .qw-tile-foot {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-tile:hover .qw-tile-foot,
+html[data-unitas-surface='quantum-white'] .qw-tile:focus-visible .qw-tile-foot {
+  color: var(--qw-tile-ink);
+}
 html[data-unitas-surface='quantum-white'] .qw-module-success {
   border-width: 1.5px;
   border-color: var(--qw-line-strong);
 }
 
-/* Mobile: the pop-out becomes a full-height sheet and the module panel
-   becomes a bottom sheet over the tile grid (spec §9). */
+/* REV-15 (SPEC.md §4.1) -- the mobile 1-column-155px collapse and the
+   desktop last-row clipping shared ONE root cause: `.qw-popout-body` was
+   `items-start` (a `flex-start` cross-axis alignment), which under a
+   COLUMN flex direction (mobile, media query below) gives the grid a
+   fit-content cross-axis size instead of the parent's full width -- CSS
+   Grid's `repeat(auto-fill, minmax(150px,1fr))` only repeats once inside
+   an indefinite track, collapsing to one narrow column -- and under a ROW
+   flex direction (desktop) leaves the grid's own height unconstrained, so
+   `overflow-y: auto` never had a bounded box to scroll and the last row
+   was clipped by the panel's own `overflow-hidden` instead. `stretch`
+   (the flex default, restored here explicitly) fixes both at once: full
+   cross-axis width on mobile, a real bounded height on desktop.
+   `grid-auto-rows: max-content` is the second half of the mobile fix --
+   inside a definite-height scroll container, an `auto` grid row's track
+   sizes to each item's OWN minimum contribution (`min-h-[44px]` collapsed
+   every tile to 44px, spilling titles/chips into the next tile); this
+   keeps rows sized to their actual (now much taller) content. */
+html[data-unitas-surface='quantum-white'] .qw-popout-body {
+  align-items: stretch;
+  min-height: 0;
+}
+html[data-unitas-surface='quantum-white'] .qw-tile-grid {
+  width: 100%;
+  min-height: 0;
+  grid-template-columns: repeat(auto-fill, minmax(var(--qw-tile-min-w), 1fr));
+  grid-auto-rows: max-content;
+  align-content: start;
+  gap: var(--qw-tile-gap);
+  padding-right: 4px;
+}
+html[data-unitas-surface='quantum-white'] .qw-module-slide {
+  align-self: stretch;
+  min-height: 0;
+}
+
+/* Mobile: the pop-out becomes a full-height sheet, the tile grid becomes a
+   single-column list of rows (icon left, copy right), and the module panel
+   becomes a bottom sheet over it (spec §9). */
 @media (max-width: 767px) {
+  html[data-unitas-surface='quantum-white'] {
+    --qw-tile-min-h: 0px;
+    --qw-tile-medallion: 40px;
+    --qw-tile-icon: 20px;
+    --qw-tile-title-size: 0.95rem;
+    --qw-tile-desc-size: 0.8rem;
+    /* No clamp on mobile: each module is its own full-width row (not a
+       grid cell competing for height with neighbours), so the full
+       description reads without truncation. */
+    --qw-tile-desc-lines: 99;
+  }
   html[data-unitas-surface='quantum-white'] .qw-popout-backdrop {
     padding: 0;
   }
@@ -509,6 +705,37 @@ html[data-unitas-surface='quantum-white'] .qw-module-success {
   }
   html[data-unitas-surface='quantum-white'] .qw-popout-body {
     flex-direction: column;
+  }
+  html[data-unitas-surface='quantum-white'] .qw-tile-grid {
+    grid-template-columns: 1fr;
+  }
+  html[data-unitas-surface='quantum-white'] .qw-tile {
+    display: grid;
+    grid-template-columns: var(--qw-tile-medallion) 1fr;
+    grid-template-areas: 'medal head' 'medal title' 'medal desc' 'medal foot';
+    column-gap: 12px;
+    row-gap: 4px;
+  }
+  html[data-unitas-surface='quantum-white'] .qw-tile-head {
+    grid-area: head;
+    height: auto;
+    justify-content: flex-start;
+  }
+  html[data-unitas-surface='quantum-white'] .qw-tile-medallion {
+    grid-area: medal;
+    align-self: start;
+  }
+  html[data-unitas-surface='quantum-white'] .qw-tile-title {
+    grid-area: title;
+    min-height: 0;
+    -webkit-line-clamp: 3;
+  }
+  html[data-unitas-surface='quantum-white'] .qw-tile-desc {
+    grid-area: desc;
+  }
+  html[data-unitas-surface='quantum-white'] .qw-tile-foot {
+    grid-area: foot;
+    margin-top: 6px;
   }
   html[data-unitas-surface='quantum-white'] .qw-tile-grid-hidden {
     display: none;

@@ -1,5 +1,15 @@
 'use client';
 
+// REV-15 (SPEC.md §2.5, §7): this component sits at z-300, UNDER the
+// pre-launch curtain (ComingSoonCinema, z-400) -- see the long comment
+// below. It is never the screen a member of the public actually sees.
+// If a task says "fix the intro screen" / "fix the entry gate" and points
+// at overflow/typography on the very first screen a visitor sees, the real
+// target is almost always ComingSoonCinema.tsx's phase === 'gate' render
+// block (search for key="gate"), NOT this file. Confirmed by REV-15's
+// field measurement: AudioGate was already svh-converted in REV-14 and
+// still shipped with a visibly overflowing "intro screen" in the field,
+// because the actual public intro is ComingSoonCinema's gate phase.
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'framer-motion';

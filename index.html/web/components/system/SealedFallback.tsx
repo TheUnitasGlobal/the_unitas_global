@@ -14,8 +14,8 @@ export function SealedFallback() {
   return (
     <div
       role="presentation"
-      className="fixed inset-0 z-[400] flex flex-col items-center justify-center bg-void p-6 text-center"
-      style={{ fontFamily: 'var(--font-cinzel), Georgia, serif', height: '100svh' }}
+      className="cs-root fixed inset-0 z-[400] flex flex-col items-center justify-center bg-void p-6 text-center"
+      style={{ fontFamily: 'var(--font-cinzel), Georgia, serif' }}
     >
       <p className="text-xs tracking-[0.4em] text-accent/70">UNITAS</p>
       <h2 className="mb-2 mt-4 text-3xl tracking-[0.2em] text-gray-100">COMING SOON</h2>

@@ -1599,6 +1599,13 @@
     "failed": "Hindi natapos ang transaksyon. Subukan muli.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Handa Agad",
-    "phoneRequired": "I-verify ang iyong telepono para makapamuhunan."
+    "phoneRequired": "I-verify ang iyong telepono para makapamuhunan.",
+    "kind": {
+      "ecosystem": "Ekosistema",
+      "lifeos": "Life-OS",
+      "b2c": "Live",
+      "lockin": "Lock-in",
+      "b2b": "Riles"
+    }
   }
 }

@@ -136,6 +136,20 @@ describe('ALL_CLUSTER_MODULES', () => {
     }
   });
 
+  it('REV-15 (SPEC.md §4.3): gives every one of the 32 modules a LucideIcon component', () => {
+    for (const m of ALL_CLUSTER_MODULES) {
+      expect(m.icon, `${m.id} has no icon`).toBeTypeOf('object');
+    }
+  });
+
+  it('REV-15 (SPEC.md §4.2): resolves every module.kind to a non-empty QuantumWhite.kind.* badge label in en.json', () => {
+    for (const m of ALL_CLUSTER_MODULES) {
+      const resolved = resolveKey(MESSAGES, `QuantumWhite.kind.${m.kind}`);
+      expect(typeof resolved, `QuantumWhite.kind.${m.kind}`).toBe('string');
+      expect(resolved).not.toBe('');
+    }
+  });
+
   it('resolves the ecosystem "oracle" and the lock-in "oracle" to distinct ids and access names', () => {
     const ecosystemOracle = findClusterModule('ecosystem:oracle');
     const lockinOracle = findClusterModule('lockin:oracle');

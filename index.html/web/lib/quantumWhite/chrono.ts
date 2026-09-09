@@ -48,17 +48,22 @@ export function chronoLuminance(date: Date): ChronoLuminance {
 
 export const CHRONO_LUM_PROP = '--qw-lum';
 export const CHRONO_WARM_PROP = '--qw-warm';
+/** REV-15 (SPEC.md §1.2): ready-made percentage string for the `color-mix()`
+ *  tokens in app/quantum-white.css -- keeps that CSS free of any `calc()`
+ *  dependency on `--qw-lum`. */
+export const CHRONO_LUM_PCT_PROP = '--qw-lum-pct';
 
 /**
- * Writes `--qw-lum` / `--qw-warm` (plus a `data-qw-chrono` label for
- * CSS-only band styling) onto `root`. Never throws -- a detached or
- * style-less element simply receives nothing.
+ * Writes `--qw-lum` / `--qw-warm` / `--qw-lum-pct` (plus a `data-qw-chrono`
+ * label for CSS-only band styling) onto `root`. Never throws -- a detached
+ * or style-less element simply receives nothing.
  */
 export function applyChrono(root: HTMLElement, date: Date = new Date()): ChronoLuminance {
   const chrono = chronoLuminance(date);
   try {
     root.style.setProperty(CHRONO_LUM_PROP, String(chrono.lum));
     root.style.setProperty(CHRONO_WARM_PROP, String(chrono.warm));
+    root.style.setProperty(CHRONO_LUM_PCT_PROP, `${Math.round(chrono.lum * 100)}%`);
     root.dataset.qwChrono = chrono.label;
   } catch {
     // Non-element root or frozen style declaration -- decorative only.
@@ -71,6 +76,7 @@ export function clearChrono(root: HTMLElement): void {
   try {
     root.style.removeProperty(CHRONO_LUM_PROP);
     root.style.removeProperty(CHRONO_WARM_PROP);
+    root.style.removeProperty(CHRONO_LUM_PCT_PROP);
     delete root.dataset.qwChrono;
   } catch {
     // ignore -- see applyChrono

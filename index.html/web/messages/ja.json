@@ -1599,6 +1599,13 @@
     "failed": "取引が完了しませんでした。もう一度お試しください。",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "即座に利用可能",
-    "phoneRequired": "投資するには電話番号を確認してください。"
+    "phoneRequired": "投資するには電話番号を確認してください。",
+    "kind": {
+      "ecosystem": "エコシステム",
+      "lifeos": "Life-OS",
+      "b2c": "ライブ",
+      "lockin": "ロックイン",
+      "b2b": "レール"
+    }
   }
 }

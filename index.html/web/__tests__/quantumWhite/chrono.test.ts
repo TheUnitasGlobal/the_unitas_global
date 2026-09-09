@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  CHRONO_LUM_PCT_PROP,
   CHRONO_LUM_PROP,
   CHRONO_WARM_PROP,
   applyChrono,
@@ -113,8 +114,15 @@ describe('applyChrono / clearChrono', () => {
 
     expect(props.get(CHRONO_LUM_PROP)).toBe('0.95');
     expect(props.get(CHRONO_WARM_PROP)).toBe('0.55');
+    expect(props.get(CHRONO_LUM_PCT_PROP)).toBe('95%');
     expect(dataset.qwChrono).toBe('dusk');
     expect(chrono.label).toBe('dusk');
+  });
+
+  it('REV-15 (SPEC.md §1.4): writes --qw-lum-pct as a ready percentage string, no calc()', () => {
+    const { root, props } = makeMockRoot();
+    applyChrono(root, hourDate(2));
+    expect(props.get(CHRONO_LUM_PCT_PROP)).toBe('92%');
   });
 
   it('defaults to the current time when no date is passed', () => {
@@ -132,6 +140,7 @@ describe('applyChrono / clearChrono', () => {
 
     expect(props.has(CHRONO_LUM_PROP)).toBe(false);
     expect(props.has(CHRONO_WARM_PROP)).toBe(false);
+    expect(props.has(CHRONO_LUM_PCT_PROP)).toBe(false);
     expect(dataset.qwChrono).toBeUndefined();
   });
 

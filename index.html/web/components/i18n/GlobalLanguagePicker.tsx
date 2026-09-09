@@ -108,7 +108,7 @@ export function GlobalLanguagePicker({
       >
         {/* No globe/world icon (owner instruction 2026-08-29) -- a clean
             flag + native-language text selector only, on every surface. */}
-        <FlagIcon locale={active} size={variant === 'glass' ? 16 : 20} />
+        <FlagIcon locale={active} size={variant === 'glass' ? 18 : 20} />
         <span className="whitespace-nowrap leading-none">{LOCALE_NATIVE_NAME[active]}</span>
       </button>
 
@@ -132,7 +132,7 @@ export function GlobalLanguagePicker({
                   loc === active ? 'font-bold text-accent' : 'text-white/70'
                 }`}
               >
-                <FlagIcon locale={loc} size={18} />
+                <FlagIcon locale={loc} size={20} />
                 <span className="whitespace-nowrap leading-none">{LOCALE_NATIVE_NAME[loc]}</span>
               </button>
             </li>

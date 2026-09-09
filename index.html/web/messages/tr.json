@@ -1599,6 +1599,13 @@
     "failed": "İşlem tamamlanamadı. Tekrar deneyin.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Anında Hazır",
-    "phoneRequired": "Yatırım yapmak için telefonunuzu doğrulayın."
+    "phoneRequired": "Yatırım yapmak için telefonunuzu doğrulayın.",
+    "kind": {
+      "ecosystem": "Ekosistem",
+      "lifeos": "Life-OS",
+      "b2c": "Canlı",
+      "lockin": "Kilitleme",
+      "b2b": "Ray"
+    }
   }
 }

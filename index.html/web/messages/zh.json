@@ -1599,6 +1599,13 @@
     "failed": "交易未完成，请重试。",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "即时就绪",
-    "phoneRequired": "请验证您的手机号以进行投资。"
+    "phoneRequired": "请验证您的手机号以进行投资。",
+    "kind": {
+      "ecosystem": "生态系统",
+      "lifeos": "Life-OS",
+      "b2c": "实时",
+      "lockin": "锁定",
+      "b2b": "轨道"
+    }
   }
 }

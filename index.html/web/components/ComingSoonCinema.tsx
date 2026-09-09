@@ -1079,7 +1079,7 @@ export function ComingSoonCinema() {
       {phase !== 'released' && (
         <motion.div
           key="curtain"
-          className="fixed inset-0 z-[400] overflow-hidden bg-void text-center"
+          className="cs-root fixed inset-0 z-[400] overflow-hidden bg-void text-center"
           initial={false}
           // A verified restore after a refresh dissolves fast and flat (the
           // visitor never left the page); the founder's live entry keeps the
@@ -1139,7 +1139,10 @@ export function ComingSoonCinema() {
               unreadable screen. Shared component -- same one the audio gate
               and the main-site nav use. */}
           {!voidPlaceholder && (
-            <div className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6">
+            <div
+              className="absolute right-4 z-20 sm:right-6"
+              style={{ top: 'max(1rem, var(--u-safe-top))' }}
+            >
               <GlobalLanguagePicker onSelect={() => setAutoLocalized(false)} />
               {autoLocalized && (
                 <p className="mt-2 max-w-[11rem] text-[10px] leading-tight text-white/40">
@@ -1155,7 +1158,8 @@ export function ComingSoonCinema() {
               type="button"
               onClick={() => setMuted((v) => !v)}
               aria-label={muted ? t('soundOff') : t('soundOn')}
-              className="cs-glass absolute left-4 top-4 z-20 flex items-center gap-2 rounded-full px-3 py-2 text-xs uppercase tracking-[0.15em] text-white/70 transition-colors hover:text-white sm:left-6 sm:top-6"
+              className="cs-glass absolute left-4 z-20 flex items-center gap-2 rounded-full px-3 py-2 text-xs uppercase tracking-[0.15em] text-white/70 transition-colors hover:text-white sm:left-6"
+              style={{ top: 'max(1rem, var(--u-safe-top))' }}
             >
               {muted ? <VolumeX size={15} aria-hidden="true" /> : <Volume2 size={15} aria-hidden="true" />}
               <span>{muted ? t('soundOff') : t('soundOn')}</span>
@@ -1167,7 +1171,7 @@ export function ComingSoonCinema() {
             {phase === 'gate' && !voidPlaceholder && (
               <motion.div
                 key="gate"
-                className="absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain px-6 py-16 backdrop-blur-2xl"
+                className="cs-gate gate-panel absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain backdrop-blur-2xl"
                 initial={false}
                 exit={{ opacity: 0, scale: 1.04 }}
                 transition={{ duration: 0.9, ease: 'easeInOut' }}
@@ -1195,14 +1199,14 @@ export function ComingSoonCinema() {
                   transition={{ delay: 0.15, duration: 1, ease: 'easeOut' }}
                 >
                   <h1
-                    className="mb-6 font-serif text-5xl font-bold tracking-[0.14em] text-white md:text-7xl lg:text-8xl"
+                    className="font-serif font-bold tracking-[0.14em] text-white"
                     style={{
                       textShadow: '0 0 24px rgba(212,175,55,0.3), 0 0 60px rgba(0,243,255,0.1)',
                     }}
                   >
                     {tGate('title')}
                   </h1>
-                  <p className="mx-auto mb-12 max-w-lg text-base leading-relaxed text-gray-300 [text-wrap:balance] md:max-w-3xl md:text-xl">
+                  <p className="mx-auto max-w-lg text-gray-300 [text-wrap:balance] md:max-w-3xl">
                     {tGate('subtitle')}
                   </p>
                   <button
@@ -1432,7 +1436,7 @@ export function ComingSoonCinema() {
                     corner-control row so nothing overlaps on narrow phones. */}
                 {isFounder && (
                   <motion.div
-                    className="absolute inset-x-0 z-20 flex flex-col items-center gap-3 px-6"
+                    className="cs-founder-door absolute inset-x-0 z-20 flex flex-col items-center gap-3 px-6"
                     style={{ bottom: 'calc(6rem + var(--u-safe-bottom))' }}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -1449,7 +1453,7 @@ export function ComingSoonCinema() {
                     >
                       {t('enterMain')}
                     </button>
-                    <p className="max-w-[85vw] text-[10px] leading-relaxed text-white/30 [text-wrap:balance] sm:max-w-xs">
+                    <p className="cs-founder-note max-w-[85vw] text-[10px] leading-relaxed text-white/30 [text-wrap:balance] sm:max-w-xs">
                       {t('founderAccessNote')}
                     </p>
                   </motion.div>

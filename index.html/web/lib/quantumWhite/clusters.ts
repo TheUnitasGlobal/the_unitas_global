@@ -5,6 +5,7 @@ import { LOCK_IN_MODULES } from '@/lib/lockInModules';
 import { LIFE_OS_MODULES, lifeOsHref } from '@/lib/lifeOs/registry';
 import { moduleAccessName } from '@/lib/module-registry';
 import { UPAY_UNIVERSAL_ACCESS, UPAY_UNIVERSAL_COSTS } from '@/lib/upay/universal';
+import { ECOSYSTEM_ICONS, B2B_ICONS } from '@/lib/quantumWhite/moduleIcons';
 
 /**
  * REV-13 "Singularity Core" catalog: the four cluster cores the Quantum
@@ -51,7 +52,15 @@ export interface ClusterModule {
   coinCost: number;
   /** Brand hex used for orbit dots, tile accents and the popup accent strip. */
   color: string;
-  icon?: LucideIcon;
+  /**
+   * REV-15 (SPEC.md §4.3): required for every module -- previously optional
+   * and unset for the 11 ecosystems + 3 B2B rails, which rendered as a bare
+   * dot with no icon in the cluster pop-out tile grid while the other 18
+   * modules (Life-OS + B2C + lock-in) got both, a visible baseline mismatch
+   * within the same row. See `moduleIcons.ts` for the two maps that now
+   * cover the gap.
+   */
+  icon: LucideIcon;
   /**
    * FULL next-intl keys ('Ecosystems.echo.title'). Lock-in titles are
    * owner-named brand marks rendered verbatim in every locale, so their
@@ -115,6 +124,19 @@ function universalAccess(id: string): string | null {
   return typeof name === 'string' && name.length > 0 ? name : null;
 }
 
+/**
+ * REV-15 (SPEC.md §4.3): fails LOUD and at module-evaluation time (this
+ * whole file's own stated design, see the header comment) rather than
+ * silently rendering `undefined` as a tile icon -- catches a future
+ * ecosystem/B2B-protocol key added to its source catalog without a
+ * matching entry in `moduleIcons.ts` at build/test time, not in the field.
+ */
+function requireIcon(map: Readonly<Record<string, LucideIcon>>, key: string, catalog: string): LucideIcon {
+  const icon = map[key];
+  if (!icon) throw new Error(`lib/quantumWhite/clusters.ts: no icon mapped for ${catalog} key "${key}" -- add one to lib/quantumWhite/moduleIcons.ts`);
+  return icon;
+}
+
 const ECOSYSTEM_MODULES: ClusterModule[] = ECOSYSTEMS.map((m): ClusterModule => ({
   id: moduleId('ecosystem', m.key),
   kind: 'ecosystem',
@@ -124,6 +146,7 @@ const ECOSYSTEM_MODULES: ClusterModule[] = ECOSYSTEMS.map((m): ClusterModule => 
   accessName: moduleAccessName(m.route) ?? m.key,
   coinCost: resolveCost('ecosystem', m.coinCost),
   color: m.color,
+  icon: requireIcon(ECOSYSTEM_ICONS, m.key, 'ECOSYSTEMS'),
   i18n: {
     titleKey: `Ecosystems.${m.messageKey}.title`,
     descriptionKey: `Ecosystems.${m.messageKey}.description`,
@@ -198,6 +221,7 @@ const B2B_CLUSTER_MODULES: ClusterModule[] = B2B_PROTOCOLS.map((m): ClusterModul
     accessName: universalAccess(id),
     coinCost: resolveCost('b2b', undefined),
     color: B2B_COLOR,
+    icon: requireIcon(B2B_ICONS, m.key, 'B2B_PROTOCOLS'),
     i18n: {
       titleKey: `Modules.${m.messageKey}.title`,
       descriptionKey: `Modules.${m.messageKey}.description`,
