@@ -43,7 +43,7 @@ npm run setup:toolchain -- -Install -PullModel # 새 노트북 전체 재설치 
 | 8 | **systematic-debugging** | obra/superpowers | `~/.claude/skills/systematic-debugging` | 버그·테스트 실패 시 자동 트리거 | 동반 참조 파일 포함 설치 |
 | 9 | **skill-creator** | anthropics/skills | `~/.claude/skills/skill-creator` | `/skill-creator` | `pip install pyyaml` 후 `quick_validate.py` (평가 루프는 WSL 필요) |
 | 10 | **UI/UX Pro Max** | ui-ux-pro-max-cli 2.15.0 (7 스킬) | `~/.claude/skills/ui-ux-pro-max` 외 6 | `python ~/.claude/skills/ui-ux-pro-max/scripts/search.py "<query>" --domain ux` | Python stdlib, 네트워크 0 |
-| 11 | **21st.dev** MCP + 레지스트리 | HTTP MCP `https://21st.dev/api/mcp` · shadcn 레지스트리 | 사용자 스코프 MCP(키 필요) | `scripts/agent/setup-21st.ps1`, `npx shadcn@latest add "https://21st.dev/r/<author>/<slug>"` | `claude mcp get 21st`, 세션 `/mcp` |
+| 11 | **21st.dev** MCP + 레지스트리 | HTTP MCP `https://21st.dev/api/mcp`(33 tools) · shadcn `@21st` 네임스페이스 | 사용자 스코프 MCP(`${API_KEY_21ST}` 참조, **2026-09-10 등록·연결 확인**) | `scripts/agent/setup-21st.ps1 -Persist`, `npx shadcn@latest add @21st/<author>/<slug>` | `claude mcp get 21st` = Connected, `npm run setup:toolchain` 상태판 |
 | 12 | 보조: **mcporter**, **yt-dlp**, **gh** | 0.13.10 · 2026.8.19 · winget | 전역 | Agent-Reach 검색/유튜브/GitHub 백엔드 | `gh auth login`으로 GitHub 채널 완전 개방 |
 
 ## 각 도구 요점
@@ -90,13 +90,15 @@ npm run setup:toolchain -- -Install -PullModel # 새 노트북 전체 재설치 
 
 ### 11. 21st.dev ↔ Next.js 연결점
 
-- `web/components.json`(shadcn 스키마, `cssVariables:false`, baseColor zinc) + `web/lib/utils.ts`(`cn`) 추가 → `npx shadcn@latest add "https://21st.dev/r/<author>/<slug>"`가 `web/components/ui/`에 컴포넌트를 떨어뜨린다.
+- **키 보관 원칙(2026-09-10 실측)**: 키는 Windows *User* 환경변수 `API_KEY_21ST` 한 곳에만 산다(`setup-21st.ps1 -Persist`가 기록). MCP 등록은 리터럴이 아니라 `x-api-key: ${API_KEY_21ST}` 참조로 하며, Claude Code가 사용자 스코프(`~/.claude.json`)에서도 접속 시 `${VAR}`를 확장하는 것을 확인했다(변수 있음 → `√ Connected`, 없음 → `! Needs authentication`, 파일에는 평문 키 없음). 새 셸·VS Code 창은 `-Persist` 이후 재시작해야 변수를 상속한다.
+- `web/components.json`(shadcn 스키마, `cssVariables:false`, baseColor zinc) + `web/lib/utils.ts`(`cn`) + **`registries."@21st"`**(`https://21st.dev/r/{name}`, `params.api_key = ${API_KEY_21ST}`) → `npx shadcn@latest add @21st/<author>/<slug>`가 `web/components/ui/`에 컴포넌트를 떨어뜨린다(레지스트리 자체가 무키 403이라 참조 확장이 필수; 변수 없으면 shadcn이 "requires the following environment variables"로 거부 = fail-closed). 검색 결과가 주는 `https://21st.dev/r/<author>/<slug>?api_key=…` 직접 URL도 그대로 동작한다.
   `cssVariables:false`라 레지스트리 컴포넌트는 순수 Tailwind 팔레트 클래스로 재작성되어 UNITAS 토큰 레이어를 건드리지 않는다.
-- 2026-09 변경: `@21st-dev/magic` stdio 프록시·콘솔 키는 폐기, 단일 HTTP MCP `https://21st.dev/api/mcp` + `x-api-key`(`21st_sk_…`, <https://21st.dev/settings/api-keys>). 무료 계정: search/search_logo/get_theme/get_usage, get_component 2회/일; generate 계열은 Builder/AI 플랜.
+- 2026-09 변경: `@21st-dev/magic` stdio 프록시·콘솔 키는 폐기, 단일 HTTP MCP `https://21st.dev/api/mcp` + `x-api-key`(`21st_sk_…`, <https://21st.dev/settings/api-keys>). 실측 도구 33종 — 무료: search/search_picker/get_inspiration/search_logo/get_theme/북마크/팀/프로필 계열; **get_component는 무료 티어 2회/일**(shadcn `view`/`add` 1회도 이 쿼터에서 차감, 2026-09-10 검증 1회로 당일 소진 확인); generate/iterate_generation은 Builder/AI 플랜(`aiGenerationEnabled=false`). 쿼터는 `get_usage`로 확인.
+- 에이전트 사용 규칙: `search`(무료)로 후보를 고른 뒤 UNITAS 브랜드(보이드/골드/네온, Cinzel)와 맞는 것만 `get_component` 또는 `@21st/…` 설치 → 가져온 코드는 `web/tailwind.config.ts` 토큰으로 재염색. 팔레트를 그대로 들여오지 않는다(10번 항목과 동일 원칙).
 
 ## 창립자 후속 조치(선택)
 
-1. `$env:API_KEY_21ST = '21st_sk_…'` → `scripts/agent/setup-21st.ps1` (MCP 등록)
+1. ~~`API_KEY_21ST` → `setup-21st.ps1`~~ **완료(2026-09-10)** — 키 회전 시 `$env:API_KEY_21ST = '<new>'` 후 `scripts/agent/setup-21st.ps1 -Persist` 재실행
 2. `gh auth login` (Agent-Reach GitHub 채널 완전 개방)
 3. OmniRoute 대시보드에서 Ollama 프로바이더 + `oma_live_` 키 발급 → `$env:OMNIROUTE_API_KEY`
 4. 로컬 추론 사용 전 브라우저/IDE를 닫아 가용 RAM ≥ 3.5 GB 확보

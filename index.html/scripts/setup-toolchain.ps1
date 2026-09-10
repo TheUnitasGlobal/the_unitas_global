@@ -132,10 +132,12 @@ if ($Install) {
     if ($PullModel) {
         Invoke-Step "Ollama model pull $($PIN.localModel)" { & (Join-Path $ollamaDir 'ollama.exe') pull $PIN.localModel }
     }
-    if (-not [string]::IsNullOrWhiteSpace($env:API_KEY_21ST)) {
-        Invoke-Step '21st.dev MCP (user scope, key present)' { & (Join-Path $PSScriptRoot 'agent\setup-21st.ps1') }
+    $key21 = $env:API_KEY_21ST
+    if ([string]::IsNullOrWhiteSpace($key21)) { $key21 = [Environment]::GetEnvironmentVariable('API_KEY_21ST', 'User') }
+    if (-not [string]::IsNullOrWhiteSpace($key21)) {
+        Invoke-Step '21st.dev MCP (user scope, env-referenced key)' { & (Join-Path $PSScriptRoot 'agent\setup-21st.ps1') -Persist }
     } else {
-        Write-Host '-- 21st.dev MCP skipped: set $env:API_KEY_21ST then run scripts/agent/setup-21st.ps1 (fail-closed).' -ForegroundColor Yellow
+        Write-Host '-- 21st.dev MCP skipped: set $env:API_KEY_21ST then run scripts/agent/setup-21st.ps1 -Persist (fail-closed).' -ForegroundColor Yellow
     }
 }
 
@@ -178,15 +180,25 @@ foreach ($name in $expected) {
 }
 
 Write-Host ''
-$mcp21 = $false
-try { $list = & claude mcp list 2>$null | Out-String; $mcp21 = $list -match '(?m)^21st' } catch {}
-$mcpState = 'not registered - needs API_KEY_21ST (scripts/agent/setup-21st.ps1)'
-if ($mcp21) { $mcpState = 'registered (user scope)' }
-Write-Host "21st.dev MCP: $mcpState"
+$key21User = [Environment]::GetEnvironmentVariable('API_KEY_21ST', 'User')
+$keyState = if ([string]::IsNullOrWhiteSpace($key21User)) { 'API_KEY_21ST: missing (User env)' } else { "API_KEY_21ST: User env (tail $($key21User.Substring($key21User.Length - 4)))" }
+if (-not [string]::IsNullOrWhiteSpace($key21User)) { $env:API_KEY_21ST = $key21User }
+$mcpState = 'not registered - run scripts/agent/setup-21st.ps1 -Persist'
+try {
+    $get21 = & claude mcp get 21st 2>$null | Out-String
+    if ($get21 -match 'Connected') { $mcpState = 'registered (user scope, ${API_KEY_21ST} header) - connected' }
+    elseif ($get21 -match 'Needs authentication') { $mcpState = 'registered but API_KEY_21ST unresolved - Needs authentication (fail-closed)' }
+    elseif ($get21 -match 'Scope') { $mcpState = 'registered but not connected - check network / key' }
+} catch {}
+Write-Host "21st.dev MCP: $mcpState  [$keyState]"
+$reg21 = 'missing'
+try { $cj = Get-Content (Join-Path $PSScriptRoot '..\web\components.json') -Raw | ConvertFrom-Json; if ($cj.registries.'@21st') { $reg21 = 'web/components.json @21st -> npx shadcn@latest add @21st/<author>/<slug>' } } catch {}
+Write-Host "21st.dev shadcn registry: $reg21"
 Write-Host ''
 Write-Host 'Launchers (per-process routing, nothing persisted):'
 Write-Host '  scripts/agent/claude-headroom.ps1    Claude Code via Headroom compression proxy (127.0.0.1:8787)'
 Write-Host '  scripts/agent/claude-local.ps1       Claude Code on local Ollama qwen3:4b (private, $0)'
 Write-Host '  scripts/agent/omniroute-gateway.ps1  start/stop/status OmniRoute (127.0.0.1:20128)'
 Write-Host '  scripts/agent/claude-omniroute.ps1   Claude Code via OmniRoute combos (needs OMNIROUTE_API_KEY)'
+Write-Host '  scripts/agent/setup-21st.ps1         register/remove the 21st.dev HTTP MCP (key stays in User env, -Persist / -Remove)'
 Write-Host 'No ~/.claude/settings.json, CLAUDE.md, Supabase or Vercel settings were modified.'

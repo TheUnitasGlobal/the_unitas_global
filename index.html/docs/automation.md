@@ -75,7 +75,7 @@ npm run setup:toolchain                        # status board
 npm run setup:toolchain -- -Install -PullModel # full install on a new machine
 ```
 
-Model routing is opt-in per process through `scripts/agent/*.ps1` (Headroom proxy, local Ollama, OmniRoute); nothing edits `~/.claude/settings.json`, `CLAUDE.md`, or `.mcp.json`. Full matrix, measured limits (7.6 GB laptop, 4B model ceiling), and founder follow-ups: `docs/toolchain/README.md`.
+Model routing is opt-in per process through `scripts/agent/*.ps1` (Headroom proxy, local Ollama, OmniRoute); nothing edits `~/.claude/settings.json`, `CLAUDE.md`, or `.mcp.json`. The 21st.dev HTTP MCP is registered at user scope with an `${API_KEY_21ST}` header reference (`scripts/agent/setup-21st.ps1 -Persist`), and `web/components.json` exposes the same key to the shadcn CLI as the `@21st` registry namespace; the key itself lives only in the Windows User environment. Full matrix, measured limits (7.6 GB laptop, 4B model ceiling), and founder follow-ups: `docs/toolchain/README.md`.
 
 ## Local agent toolkit
 

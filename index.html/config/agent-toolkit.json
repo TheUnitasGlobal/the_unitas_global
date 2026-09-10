@@ -157,10 +157,13 @@
       "21st-dev": {
         "transport": "http",
         "url": "https://21st.dev/api/mcp",
-        "auth": "x-api-key (API_KEY_21ST, never committed)",
-        "manager": "scripts/agent/setup-21st.ps1 (fail-closed without key)",
-        "registry": "npx shadcn@latest add \"https://21st.dev/r/<author>/<slug>\" via web/components.json + web/lib/utils.ts (cssVariables:false)",
-        "status": "not registered until key provided"
+        "auth": "x-api-key: ${API_KEY_21ST} (env reference expanded by Claude Code at connect time; key lives only in the Windows User env, never in ~/.claude.json or the repo)",
+        "manager": "scripts/agent/setup-21st.ps1 -Persist (pre-flight initialize probe, ${VAR} registration, Connected check with rollback; -Remove to unregister)",
+        "registry": "web/components.json registries.@21st = https://21st.dev/r/{name} + params.api_key=${API_KEY_21ST} -> npx shadcn@latest add @21st/<author>/<slug> (registry returns 403 without key; shadcn refuses when the env var is unset)",
+        "tools": 33,
+        "tier": "free (get_component 2/day; generate disabled)",
+        "status": "registered 2026-09-10, user scope, claude mcp get 21st = Connected",
+        "verify": "npm run setup:toolchain (status board) | claude mcp get 21st | MCP get_usage"
       },
       "auxiliary": {
         "mcporter": "0.13.10 (npm -g, openclaw/mcporter, Exa search backend for agent-reach)",
