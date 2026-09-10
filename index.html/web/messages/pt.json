@@ -1859,7 +1859,7 @@
         "cta": "Garantir acesso antecipado",
         "title": "Seu passe de criador",
         "lede": "Os uploads abrem junto com o beta do U-Messenger. Reserve seu passe agora e seu nome será o primeiro da fila no instante em que as portas do estúdio se abrirem.",
-        "handleLabel": "Nome de criador",
+        "handleLabel": "Handle de criador",
         "handlePlaceholder": "yourname",
         "invalidHandle": "De 3 a 20 caracteres: a–z, 0–9, ponto, hífen e sublinhado",
         "reserve": "Reservar meu passe",
@@ -1892,13 +1892,13 @@
       "reservedFor": "Reservado: {handle}",
       "eyebrow": "Endereço fundador",
       "checking": "Verificando disponibilidade…",
-      "taken": "Outra conta já reservou esse nome; tente outro",
+      "taken": "Esse handle já foi reservado por outra conta; tente outro",
       "unchecked": "Formato válido · a disponibilidade é confirmada ao entrar",
       "sealed": "Reservado",
-      "claimed": "Vinculado à sua conta · a caixa de entrada ativa quando o UNITAS Mail abrir",
-      "lost": "Outra conta reservou {handle} primeiro; você pode reservar um novo nome quando quiser",
-      "perk1": "Caixa de entrada prioritária quando o UNITAS Mail abrir",
-      "perk2": "Um só nome para Mail, Shorts e U-Messenger"
+      "claimed": "Vinculado à sua conta · a caixa de entrada é ativada quando o UNITAS Mail for lançado",
+      "lost": "Outra conta reservou {handle} primeiro; você pode reservar um novo handle quando quiser",
+      "perk1": "Caixa de entrada prioritária no lançamento do UNITAS Mail",
+      "perk2": "Um só handle para Mail, Shorts e U-Messenger"
     },
     "legal": {
       "eyebrow": "Aviso",

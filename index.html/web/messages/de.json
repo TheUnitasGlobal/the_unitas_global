@@ -1859,7 +1859,7 @@
         "cta": "Early Access sichern",
         "title": "Dein Creator-Pass",
         "lede": "Uploads starten mit der U-Messenger-Beta. Reserviere deinen Pass jetzt, und dein Name steht ganz vorn, sobald sich die Studiotüren öffnen.",
-        "handleLabel": "Creator-Name",
+        "handleLabel": "Creator-Handle",
         "handlePlaceholder": "yourname",
         "invalidHandle": "3–20 Zeichen: a–z, 0–9, Punkt, Bindestrich, Unterstrich",
         "reserve": "Meinen Pass reservieren",
@@ -1873,7 +1873,7 @@
         "perks": {
           "p1": "Bevorzugter Upload-Slot am Eröffnungstag",
           "p2": "Gründungs-Creator-Abzeichen in deinem Profil",
-          "p3": "Direkt in U-Messenger-Unterhaltungen teilen"
+          "p3": "Direkt in U-Messenger-Chats teilen"
         },
         "signedIn": "Mit deinem Konto verknüpft",
         "guest": "Melde dich an, und dein Pass wird zusätzlich mit deinem Konto verknüpft.",
@@ -1892,12 +1892,12 @@
       "reservedFor": "Reserviert: {handle}",
       "eyebrow": "Gründungsadresse",
       "checking": "Verfügbarkeit wird geprüft…",
-      "taken": "Dieser Name ist bereits von einem anderen Konto reserviert – probiere einen anderen",
-      "unchecked": "Format geprüft · die Verfügbarkeit wird bei der Anmeldung bestätigt",
+      "taken": "Dieser Name ist bereits von einem anderen Konto reserviert – bitte wählen Sie einen anderen",
+      "unchecked": "Format geprüft · die Verfügbarkeit wird bestätigt, sobald Sie sich anmelden",
       "sealed": "Reserviert",
-      "claimed": "Mit deinem Konto verknüpft · das Postfach wird mit dem Start von UNITAS Mail aktiviert",
-      "lost": "{handle} wurde zuerst von einem anderen Konto reserviert – du kannst jederzeit einen neuen Namen reservieren",
-      "perk1": "Bevorzugter Posteingang zum Start von UNITAS Mail",
+      "claimed": "Mit Ihrem Konto verknüpft · das Postfach wird mit dem Start von UNITAS Mail aktiviert",
+      "lost": "{handle} wurde zuerst von einem anderen Konto reserviert – Sie können jederzeit einen neuen Namen reservieren",
+      "perk1": "Bevorzugter Posteingang ab dem Start von UNITAS Mail",
       "perk2": "Ein Name für Mail, Shorts und U-Messenger"
     },
     "legal": {

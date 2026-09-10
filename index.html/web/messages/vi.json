@@ -1892,13 +1892,13 @@
       "reservedFor": "Đã giữ trước: {handle}",
       "eyebrow": "Địa chỉ sáng lập",
       "checking": "Đang kiểm tra tính khả dụng…",
-      "taken": "Tên này đã được một tài khoản khác đặt trước — hãy thử tên khác",
+      "taken": "Tên định danh này đã được một tài khoản khác giữ trước — hãy thử tên khác",
       "unchecked": "Định dạng hợp lệ · tính khả dụng được xác nhận khi bạn đăng nhập",
-      "sealed": "Đã đặt",
+      "sealed": "Đã giữ trước",
       "claimed": "Đã liên kết với tài khoản của bạn · hộp thư sẽ kích hoạt khi UNITAS Mail ra mắt",
-      "lost": "{handle} đã được một tài khoản khác đặt trước — bạn có thể đặt tên mới bất cứ lúc nào",
+      "lost": "{handle} đã được một tài khoản khác giữ trước — bạn có thể giữ trước tên định danh mới bất cứ lúc nào",
       "perk1": "Hộp thư ưu tiên khi UNITAS Mail ra mắt",
-      "perk2": "Một tên duy nhất cho Mail, Shorts và U-Messenger"
+      "perk2": "Một tên định danh duy nhất cho Mail, Shorts và U-Messenger"
     },
     "legal": {
       "eyebrow": "Thông báo",

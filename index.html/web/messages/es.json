@@ -1859,7 +1859,7 @@
         "cta": "Conseguir acceso anticipado",
         "title": "Tu pase de creador",
         "lede": "Las subidas se abren con la beta de U-Messenger. Reserva tu pase ahora y tu nombre será el primero de la fila en cuanto se abran las puertas del estudio.",
-        "handleLabel": "Nombre de creador",
+        "handleLabel": "Alias de creador",
         "handlePlaceholder": "yourname",
         "invalidHandle": "De 3 a 20 caracteres: a–z, 0–9, punto, guion y guion bajo",
         "reserve": "Reservar mi pase",
@@ -1867,17 +1867,17 @@
         "reservedAt": "Reservado el {time}",
         "serial": "Pase {serial}",
         "currentWave": "Reservando ahora",
-        "wave1": "Ola 1 · Creadores fundadores",
-        "wave2": "Ola 2 · Herramientas de estudio",
-        "wave3": "Ola 3 · Apertura global",
+        "wave1": "Oleada 1 · Creadores fundadores",
+        "wave2": "Oleada 2 · Herramientas de estudio",
+        "wave3": "Oleada 3 · Apertura global",
         "perks": {
-          "p1": "Turno prioritario de subida el día de apertura",
+          "p1": "Franja de subida prioritaria el día de apertura",
           "p2": "Insignia de creador fundador en tu perfil",
           "p3": "Compartir directo en las conversaciones de U-Messenger"
         },
         "signedIn": "Vinculado a tu cuenta",
         "guest": "Inicia sesión y tu pase quedará vinculado también a tu cuenta.",
-        "honest": "Tu pase vive en este dispositivo y, si has iniciado sesión, también en tu cuenta. Todavía no se sube ni se guarda ningún vídeo."
+        "honest": "Tu pase se guarda en este dispositivo y, si has iniciado sesión, también en tu cuenta. Todavía no se sube ni se almacena ningún vídeo."
       }
     },
     "mail": {
@@ -1892,13 +1892,13 @@
       "reservedFor": "Reservado: {handle}",
       "eyebrow": "Dirección fundadora",
       "checking": "Comprobando disponibilidad…",
-      "taken": "Otra cuenta ya reservó ese nombre; prueba con otro",
+      "taken": "Ese alias ya está reservado por otra cuenta: prueba con otro",
       "unchecked": "Formato válido · la disponibilidad se confirma al iniciar sesión",
       "sealed": "Reservado",
       "claimed": "Vinculado a tu cuenta · el buzón se activa cuando abra UNITAS Mail",
-      "lost": "Otra cuenta reservó antes {handle}; puedes reservar otro nombre cuando quieras",
+      "lost": "Otra cuenta reservó {handle} antes que tú: puedes reservar otro alias cuando quieras",
       "perk1": "Bandeja prioritaria cuando abra UNITAS Mail",
-      "perk2": "Un solo nombre para Mail, Shorts y U-Messenger"
+      "perk2": "Un solo alias para Mail, Shorts y U-Messenger"
     },
     "legal": {
       "eyebrow": "Aviso",

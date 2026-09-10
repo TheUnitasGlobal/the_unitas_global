@@ -1859,7 +1859,7 @@
         "cta": "Dapatkan akses awal",
         "title": "Pas kreator Anda",
         "lede": "Unggahan dibuka bersama beta U-Messenger. Pesan pas Anda sekarang, dan nama Anda berada di barisan terdepan saat pintu studio terbuka.",
-        "handleLabel": "Nama kreator",
+        "handleLabel": "Handle kreator",
         "handlePlaceholder": "yourname",
         "invalidHandle": "3–20 karakter: a–z, 0–9, titik, tanda hubung, garis bawah",
         "reserve": "Pesan pas saya",
@@ -1892,13 +1892,13 @@
       "reservedFor": "Dipesan: {handle}",
       "eyebrow": "Alamat pendiri",
       "checking": "Memeriksa ketersediaan…",
-      "taken": "Nama ini sudah dipesan akun lain — coba nama yang berbeda",
+      "taken": "Handle ini sudah dipesan akun lain — coba yang lain",
       "unchecked": "Format terverifikasi · ketersediaan dikonfirmasi saat Anda masuk",
       "sealed": "Dipesan",
       "claimed": "Terhubung ke akun Anda · kotak surat aktif saat UNITAS Mail dibuka",
-      "lost": "{handle} lebih dulu dipesan akun lain — Anda bisa memesan nama baru kapan saja",
+      "lost": "{handle} lebih dulu dipesan akun lain — Anda bisa memesan handle baru kapan saja",
       "perk1": "Kotak masuk prioritas saat UNITAS Mail dibuka",
-      "perk2": "Satu nama untuk Mail, Shorts, dan U-Messenger"
+      "perk2": "Satu handle untuk Mail, Shorts, dan U-Messenger"
     },
     "legal": {
       "eyebrow": "Pemberitahuan",

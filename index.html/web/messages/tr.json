@@ -1856,10 +1856,10 @@
       "followers": "{count} takipçi",
       "pass": {
         "eyebrow": "İçerik üreticileri için erken erişim",
-        "cta": "Erken erişim al",
-        "title": "Üretici pasonuz",
+        "cta": "Erken erişim alın",
+        "title": "İçerik üreticisi pasonuz",
         "lede": "Yüklemeler U-Messenger betasıyla birlikte açılıyor. Pasonuzu şimdi ayırtın; stüdyo kapıları açıldığı an adınız sıranın en önünde olsun.",
-        "handleLabel": "Üretici adı",
+        "handleLabel": "İçerik üreticisi kullanıcı adı",
         "handlePlaceholder": "yourname",
         "invalidHandle": "3–20 karakter: a–z, 0–9, nokta, tire, alt çizgi",
         "reserve": "Pasomu ayırt",
@@ -1867,12 +1867,12 @@
         "reservedAt": "{time} tarihinde ayrıldı",
         "serial": "Paso {serial}",
         "currentWave": "Şu an ayırtılıyor",
-        "wave1": "1. Dalga · Kurucu üreticiler",
+        "wave1": "1. Dalga · Kurucu içerik üreticileri",
         "wave2": "2. Dalga · Stüdyo araçları",
         "wave3": "3. Dalga · Küresel açılış",
         "perks": {
           "p1": "Açılış günü öncelikli yükleme yeri",
-          "p2": "Profilinizde kurucu üretici rozeti",
+          "p2": "Profilinizde kurucu içerik üreticisi rozeti",
           "p3": "U-Messenger sohbetlerine doğrudan paylaşım"
         },
         "signedIn": "Hesabınıza bağlı",
@@ -1892,13 +1892,13 @@
       "reservedFor": "Ayrılmış: {handle}",
       "eyebrow": "Kurucu adres",
       "checking": "Uygunluk kontrol ediliyor…",
-      "taken": "Bu ad başka bir hesap tarafından zaten ayrıldı; başka bir ad deneyin",
+      "taken": "Bu kullanıcı adı başka bir hesap tarafından zaten ayrıldı; başka bir ad deneyin",
       "unchecked": "Biçim doğrulandı · uygunluk giriş yaptığınızda kesinleşir",
       "sealed": "Ayrıldı",
       "claimed": "Hesabınıza bağlı · posta kutusu UNITAS Mail açıldığında etkinleşir",
-      "lost": "{handle} başka bir hesap tarafından daha önce ayrıldı; istediğiniz zaman yeni bir ad ayırtabilirsiniz",
+      "lost": "{handle} daha önce başka bir hesap tarafından ayrıldı; istediğiniz zaman yeni bir kullanıcı adı ayırtabilirsiniz",
       "perk1": "UNITAS Mail açıldığında öncelikli gelen kutusu",
-      "perk2": "Mail, Shorts ve U-Messenger için tek bir ad"
+      "perk2": "Mail, Shorts ve U-Messenger için tek bir kullanıcı adı"
     },
     "legal": {
       "eyebrow": "Bildirim",

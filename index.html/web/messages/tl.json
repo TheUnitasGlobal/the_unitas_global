@@ -1892,13 +1892,13 @@
       "reservedFor": "Nakalaan: {handle}",
       "eyebrow": "Founding address",
       "checking": "Sinusuri kung available…",
-      "taken": "Na-reserve na ng ibang account ang handle na ito — sumubok ng iba",
+      "taken": "Nakalaan na ng ibang account ang username na ito — sumubok ng iba",
       "unchecked": "Tama ang format · kukumpirmahin ang availability kapag nag-sign in ka",
-      "sealed": "Naka-reserve",
-      "claimed": "Nakakabit sa iyong account · magiging aktibo ang mailbox kapag bumukas ang UNITAS Mail",
-      "lost": "Naunang ma-reserve ng ibang account ang {handle} — puwede kang mag-reserve ng bagong handle anumang oras",
-      "perk1": "Priority inbox kapag bumukas ang UNITAS Mail",
-      "perk2": "Isang handle para sa Mail, Shorts at U-Messenger"
+      "sealed": "Nakalaan",
+      "claimed": "Nakakabit sa iyong account · ma-a-activate ang mailbox kapag nagbukas ang UNITAS Mail",
+      "lost": "Naunang ilaan ng ibang account ang {handle} — puwede kang maglaan ng bagong username anumang oras",
+      "perk1": "Priority inbox kapag nagbukas ang UNITAS Mail",
+      "perk2": "Isang username para sa Mail, Shorts at U-Messenger"
     },
     "legal": {
       "eyebrow": "Abiso",
