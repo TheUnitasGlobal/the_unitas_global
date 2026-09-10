@@ -11,6 +11,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { X, ChevronLeft } from 'lucide-react';
 import { ModalPortal } from '@/components/ui/ModalPortal';
+import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 import { releaseGate } from '@/lib/uiGate';
 import { playHapticTic } from '@/lib/audio/haptics';
 import type { ClusterModule, SingularityCluster } from '@/lib/quantumWhite/clusters';
@@ -31,6 +32,8 @@ interface ClusterPopoutProps {
   /** REV-17: the module id to open straight into on this cluster's FIRST mount (a restored or deep-linked surface) -- consumed once, ignored on any later re-open of the same cluster. */
   initialModuleId: string | null;
   precache: Precache;
+  /** REV-19 §1: URL for a surface level's own history entry (`#core/<cluster>[/<moduleId>]`). */
+  surfaceHrefFor: (moduleId: string | null) => string;
 }
 
 function resolveModuleTitle(m: ClusterModule, tFull: ReturnType<typeof useTranslations>): string {
@@ -52,7 +55,7 @@ function resolveModuleTitle(m: ClusterModule, tFull: ReturnType<typeof useTransl
  * that swaps a cluster title for a back button + module identity, rather
  * than sliding a side panel in next to the grid.
  */
-export function ClusterPopout({ cluster, onClose, onModuleChange, initialModuleId, precache }: ClusterPopoutProps) {
+export function ClusterPopout({ cluster, onClose, onModuleChange, initialModuleId, precache, surfaceHrefFor }: ClusterPopoutProps) {
   const t = useTranslations('QuantumWhite');
   const tFull = useTranslations();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -66,6 +69,22 @@ export function ClusterPopout({ cluster, onClose, onModuleChange, initialModuleI
   const activeModule = useMemo(
     () => (cluster && activeModuleId ? cluster.modules.find((m) => m.id === activeModuleId) ?? null : null),
     [cluster, activeModuleId],
+  );
+
+  // REV-19 §1: two layers on the deep modal history stack -- the pop-out
+  // itself (level 1) and the Entry Gate view inside it (level 2). The device
+  // back gesture therefore steps Entry Gate -> tile grid -> home, exactly
+  // the reverse of how the visitor got there; the header's own back / X
+  // buttons release the matching layer so no dead entry is left behind.
+  const clusterLayer = useHistoryLayer(cluster !== null, 'qw:cluster', () => onCloseRef.current(), () => surfaceHrefFor(null));
+  const entryLayer = useHistoryLayer(
+    cluster !== null && activeModuleId !== null,
+    'qw:entry',
+    () => {
+      setActiveModuleId(null);
+      onModuleChangeRef.current(null);
+    },
+    () => surfaceHrefFor(activeModuleId),
   );
 
   // A different cluster (or a fresh open of the same one) starts on the
@@ -97,6 +116,9 @@ export function ClusterPopout({ cluster, onClose, onModuleChange, initialModuleI
     function onKeyDown(event: KeyboardEvent) {
       if (event.defaultPrevented) return;
       if (event.key === 'Escape') {
+        // REV-19: a layer opened ABOVE the pop-out (the inline legal notice
+        // from the Entry Gate) owns this press; the pop-out stays.
+        if (!(clusterLayer.isTop() || entryLayer.isTop())) return;
         event.stopPropagation();
         // Always closes the whole dialog (matches components/ui/Modal.tsx) --
         // the dedicated "Back" button is the one-level-back affordance for

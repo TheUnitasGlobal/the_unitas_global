@@ -61,20 +61,44 @@ export function SingularityCoreGrid() {
    * history write, while every OTHER key already on the entry (in
    * particular ExitGuard's sentinel marker/depth) is preserved untouched.
    */
-  const commitSurface = useCallback((next: SurfaceState | null) => {
+  const writeSurfaceRecord = useCallback((next: SurfaceState | null) => {
     try {
       sessionStorage.setItem(SURFACE_MIRROR_KEY, next ? encodeSurface(next) : SURFACE_TOMBSTONE);
     } catch {
       /* non-fatal -- the mirror is a restore convenience only. */
     }
-    try {
-      const href = surfaceHref(window.location, next);
-      window.history.replaceState(stripRouterKeys(window.history.state), '', href);
-    } catch {
-      /* history unavailable -- nothing further to do. */
-    }
     writeVisitLedger({ surface: next ? encodeSurface(next) : undefined });
   }, []);
+
+  const commitSurface = useCallback(
+    (next: SurfaceState | null) => {
+      writeSurfaceRecord(next);
+      try {
+        const href = surfaceHref(window.location, next);
+        window.history.replaceState(stripRouterKeys(window.history.state), '', href);
+      } catch {
+        /* history unavailable -- nothing further to do. */
+      }
+    },
+    [writeSurfaceRecord],
+  );
+
+  /** REV-19 §1: the URL of a surface belongs to that surface's OWN history
+   *  entry on the deep modal stack (ClusterPopout pushes it), so the entry
+   *  beneath keeps the URL it had -- a back press then lands on a URL that
+   *  matches what is on screen. Opening therefore writes the mirror/ledger
+   *  only; closing still rewrites the (now current) entry. */
+  const surfaceHrefFor = useCallback(
+    (moduleId: string | null) => {
+      if (!openKey) return '';
+      try {
+        return surfaceHref(window.location, { cluster: openKey, moduleId: moduleId ?? undefined });
+      } catch {
+        return '';
+      }
+    },
+    [openKey],
+  );
 
   // REV-17 (SPEC.md §3.4): restore whatever surface was open the moment the
   // curtain releases -- same commit as the home itself, so there is no
@@ -109,7 +133,7 @@ export function SingularityCoreGrid() {
     playHapticTic();
     initialModuleIdRef.current = null;
     setOpenKey(cluster.key);
-    commitSurface({ cluster: cluster.key });
+    writeSurfaceRecord({ cluster: cluster.key });
   }
 
   function handleClose() {
@@ -119,7 +143,8 @@ export function SingularityCoreGrid() {
 
   function handleModuleChange(moduleId: string | null) {
     if (!openKey) return;
-    commitSurface({ cluster: openKey, moduleId: moduleId ?? undefined });
+    if (moduleId) writeSurfaceRecord({ cluster: openKey, moduleId });
+    else commitSurface({ cluster: openKey });
   }
 
   return (
@@ -154,6 +179,7 @@ export function SingularityCoreGrid() {
         onModuleChange={handleModuleChange}
         initialModuleId={initialModuleIdRef.current}
         precache={precache}
+        surfaceHrefFor={surfaceHrefFor}
       />
     </section>
   );

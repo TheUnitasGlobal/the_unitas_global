@@ -24,6 +24,11 @@ import {
   ExternalLink,
   Globe,
   Loader2,
+  Flame,
+  Compass,
+  History,
+  Radio,
+  Sparkles,
 } from 'lucide-react';
 import { sceneInteraction } from '@/lib/sceneInteraction';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
@@ -32,8 +37,18 @@ import { useUai } from '@/lib/uai/useUai';
 import { UaiDashboard } from '@/components/uai/UaiDashboard';
 import { CanvasDrawInput } from '@/components/interaction/CanvasDrawInput';
 import { HotShortcutMatrixStrip } from '@/components/home/HotShortcutMatrixStrip';
-import { LiveLadderExplorer } from '@/components/home/LiveLadderExplorer';
 import { DialogTower } from '@/components/ui/DialogTower';
+import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
+import { SEARCH_LAYER_IDS } from '@/lib/uai/searchLevels';
+import {
+  pickCuriosityCards,
+  pushRecent,
+  readRecentQueries,
+  risingSeeds,
+  writeRecentQueries,
+} from '@/lib/uai/discovery';
+import { HUB_ROTATE_MS, HUB_THEMES, rotateIndex } from '@/lib/live/hubThemes';
+import { useHubHeadlines } from '@/lib/live/hubNewsClient';
 import { AppLoopRow } from '@/components/interaction/AppLoopRow';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
@@ -78,8 +93,10 @@ type VisualAttachment = UaiImageAttachment & { id: string; label: string };
  * in debounced, keyless own-language Wikipedia prefix suggestions, each row
  * carrying title, one-line description and category. The old ecosystem /
  * module / protocol catalog cards are gone from here on purpose (they live
- * on the module walls below). Beneath the rows sits the live ladder
- * explorer (LiveLadderExplorer) and, untouched, the shortcut matrix strip.
+ * on the module walls below). REV-19 §13: the ladder explorer and the nested
+ * shortcut strip left the typing popup too -- beneath the rows sit three
+ * discovery widgets (live hub signals, curiosity cards, the visitor's
+ * recent trail), and the base strip belongs to the focused-empty level only.
  * Submitting still runs the client-side heuristic across the 11 ecosystems
  * -- see lib/omniSynapse.ts -- not a real search index or LLM call.
  *
@@ -134,6 +151,14 @@ export function OmniSynapseSearch({
     }
   });
   const [focused, setFocused] = useState(false);
+  /** REV-19 §3: the typing session (level 2). Starts on the first typed
+   *  character, ends on a hand-emptied input or on the back gesture from
+   *  the empty suggestion popup -- NOT on a back-driven clear of the text,
+   *  which is what keeps the popup open at level 2. */
+  const [typing, setTyping] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [recent, setRecent] = useState<string[]>([]);
+  const [clock, setClock] = useState(() => Date.now());
   const [dragActive, setDragActive] = useState(false);
   const [attachments, setAttachments] = useState<Array<{ id: string; label: string; content: string }>>([]);
   const [visualAttachments, setVisualAttachments] = useState<VisualAttachment[]>([]);
@@ -166,6 +191,23 @@ export function OmniSynapseSearch({
       // the ouroboros sync degrades to "not restored" rather than erroring.
     }
   }, [value]);
+
+  useEffect(() => {
+    setRecent(readRecentQueries());
+  }, []);
+
+  function rememberQuery(q: string) {
+    setRecent((prev) => {
+      const next = pushRecent(prev, q);
+      writeRecentQueries(next);
+      return next;
+    });
+  }
+
+  function clearRecent() {
+    setRecent([]);
+    writeRecentQueries([]);
+  }
 
   function addAttachment(label: string, content: string) {
     setAttachments((prev) => [...prev.slice(-3), { id: `${Date.now()}-${label}`, label, content }]);
@@ -423,6 +465,18 @@ export function OmniSynapseSearch({
     playSearchFocusSfx();
   }
 
+  // REV-19 §3: three layers on the deep modal history stack, opened in
+  // this order -- focus (L1), typing session (L2), text present (L3). The
+  // device back gesture unwinds them one at a time: clear the text, close
+  // the suggestion popup, leave the bar; the fourth press reaches ExitGuard.
+  const hasText = value.length > 0;
+  useHistoryLayer(focused, SEARCH_LAYER_IDS.focus, () => closeBrowseHub());
+  useHistoryLayer(focused && typing, SEARCH_LAYER_IDS.typing, () => {
+    setValue('');
+    setTyping(false);
+  });
+  useHistoryLayer(focused && typing && hasText, SEARCH_LAYER_IDS.text, () => setValue(''));
+
   /** Root-level blur: fires for the search input AND every focusable inside
    *  the dropdown (weather city box, ladder chips). Focus merely moving
    *  between two of them is not a leave; only focus escaping the subtree
@@ -434,6 +488,7 @@ export function OmniSynapseSearch({
     cancelPendingBlur();
     blurTimeoutRef.current = setTimeout(() => {
       setFocused(false);
+      setTyping(false);
       sceneInteraction.focusBoost = 0;
     }, 150);
   }
@@ -441,7 +496,13 @@ export function OmniSynapseSearch({
   function closeBrowseHub() {
     cancelPendingBlur();
     setFocused(false);
+    setTyping(false);
     sceneInteraction.focusBoost = 0;
+    try {
+      if (document.activeElement === inputRef.current) inputRef.current?.blur();
+    } catch {
+      // nothing focused
+    }
   }
 
   /** A live result row: matrix axis -> the knowledge-ladder tower; direct
@@ -470,13 +531,18 @@ export function OmniSynapseSearch({
   }
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setValue(e.target.value);
+    const next = e.target.value;
+    setValue(next);
+    // A hand-typed character opens the typing session; a hand-emptied
+    // input ends it at once so the base widgets return instantly (§13).
+    setTyping(next.length > 0);
     if (uai.phase !== 'idle') uai.reset();
     playTypingTick();
   }
 
   function runSearch(query: string) {
     const context = attachments.map((a) => a.content).join(' ');
+    rememberQuery(query);
     uai.runSurface(query, { tEcosystems: (k) => tEcosystems(k), context });
   }
 
@@ -521,11 +587,28 @@ export function OmniSynapseSearch({
   // Browse hub surfaces only once the visitor is actually searching (a
   // non-empty query typed in) -- the bare home screen stays clean, the
   // ecosystem/module lists appear on search only (owner instruction 2026-08-30).
-  const browsing = focused && query.length > 0 && uai.phase === 'idle';
+  // REV-19 §3/§13: the suggestion popup is the TYPING SESSION (levels 2-3),
+  // with or without text; the base strip is level 1 only.
+  const browsing = focused && typing && uai.phase === 'idle';
   // "The Living Knowledge Ouroboros": focused on a *clean* (empty) search bar
   // -- shows the 16-axis Governance shortcut marquee instead, and tells
   // HomeContent to sink Sections 1-3 behind it (Focus Isolation).
-  const ouroboros = focused && query.length === 0 && uai.phase === 'idle';
+  const ouroboros = focused && !typing && uai.phase === 'idle';
+
+  // Discovery data (REV-19 §13): rising seeds + curiosity cards rotate on a
+  // 6h clock, live signals follow the hub's 7s theme rotation while the
+  // popup is open.
+  useEffect(() => {
+    if (!browsing) return;
+    setClock(Date.now());
+    const id = window.setInterval(() => setClock(Date.now()), HUB_ROTATE_MS);
+    return () => window.clearInterval(id);
+  }, [browsing]);
+  const rising = useMemo(() => risingSeeds(liveIndex, clock, 8), [liveIndex, clock]);
+  const curiosityIds = useMemo(() => pickCuriosityCards(clock), [clock]);
+  const signalTheme = HUB_THEMES[rotateIndex(clock, HUB_THEMES.length)];
+  const signals = useHubHeadlines(browsing ? signalTheme.key : null, locale);
+  const tRev = useTranslations('Rev19');
   const fullReportHref = getPathname({
     locale,
     href: value.trim() ? { pathname: '/u-ai', query: { q: value.trim() } } : '/u-ai',
@@ -540,12 +623,13 @@ export function OmniSynapseSearch({
       ref={rootRef}
       onFocus={cancelPendingBlur}
       onBlur={handleRootBlur}
-      className="relative mx-auto -mt-[19px] w-full max-w-7xl px-6"
+      className="qw-search-wrap relative mx-auto w-full max-w-7xl px-6"
     >
       <form onSubmit={handleSubmit}>
         <div
           id="omni-synapse-search"
           data-state={dragActive ? 'drag' : focused ? 'focus' : 'idle'}
+          data-typing={value.trim() ? '1' : '0'}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
@@ -555,6 +639,7 @@ export function OmniSynapseSearch({
         >
           <Search size={20} className="h-4 w-4 shrink-0 text-accent sm:h-5 sm:w-5" aria-hidden="true" />
           <input
+            ref={inputRef}
             type="text"
             value={value}
             onChange={handleChange}
@@ -620,9 +705,9 @@ export function OmniSynapseSearch({
             title={t('searchSubmitAria')}
             aria-label={t('searchSubmitAria')}
             disabled={(!value.trim() && attachments.length === 0) || uai.phase === 'surface-loading'}
-            className="flex shrink-0 items-center justify-center border border-accent/50 p-1 text-accent transition-colors hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-40 sm:p-1.5"
+            className="qw-enter-key flex shrink-0 items-center justify-center border border-accent/50 p-1 text-accent transition-colors hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-40 sm:p-1.5"
           >
-            <CornerDownLeft size={20} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
+            <CornerDownLeft size={20} strokeWidth={2.75} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -686,7 +771,8 @@ export function OmniSynapseSearch({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
             onMouseDown={(e) => e.preventDefault()}
-            className="absolute left-6 right-6 top-full z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-sm border border-white/15 bg-white/[0.045] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
+            className="qw-search-dropdown absolute left-6 right-6 top-full z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-sm border border-white/15 bg-white/[0.045] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
+            data-search-level={hasText ? '3' : '2'}
           >
             {/* Section 1 -- "글자 조합별 실시간 검색": one row per live hit
                 (matched span lit, one-line description, category chip),
@@ -694,8 +780,12 @@ export function OmniSynapseSearch({
                 The legacy ecosystem/module/protocol catalog cards are gone
                 (owner instruction 2026-09-03). */}
             <section className="mb-6">
-              <p className="mb-2.5 flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-gray-500">
-                {t('liveKeywordsLabel')}
+              {/* REV-19 §13: the label reads as a real heading (15px ink,
+                  was 9px grey), and with no text yet (level 2) the row shows
+                  the clock-rotated "rising" seeds instead of an empty list. */}
+              <p className="qw-discovery-label mb-2.5 flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest text-gray-500">
+                {hasText ? <Search size={15} aria-hidden="true" /> : <Flame size={15} aria-hidden="true" />}
+                {hasText ? t('liveKeywordsLabel') : tRev('search.trending')}
                 {suggestLoading && (
                   <span className="flex items-center gap-1 normal-case tracking-normal text-accent">
                     <Loader2 size={11} className="animate-spin" aria-hidden="true" />
@@ -703,11 +793,12 @@ export function OmniSynapseSearch({
                   </span>
                 )}
               </p>
+              {!hasText && <p className="mb-3 text-[13px] text-gray-500">{tRev('search.emptyHint')}</p>}
               {hasNoMatches ? (
-                <p className="py-6 text-center text-xs text-gray-500">{t('noBrowseMatches')}</p>
+                <p className="py-6 text-center text-[13px] text-gray-500">{t('noBrowseMatches')}</p>
               ) : (
-                <ul className="grid grid-cols-1 gap-1.5 md:grid-cols-2" role="listbox" aria-label={t('liveKeywordsLabel')}>
-                    {liveResults.map((result) => {
+                <ul className="grid grid-cols-1 gap-1.5 md:grid-cols-2" role="listbox" aria-label={hasText ? t('liveKeywordsLabel') : tRev('search.trending')}>
+                    {(hasText ? liveResults : rising).map((result) => {
                       const Icon = result.icon ?? Globe;
                       const color = result.color ?? '#d4af37';
                       const inner = (
@@ -733,7 +824,7 @@ export function OmniSynapseSearch({
                         </>
                       );
                       const rowClass =
-                        'flex w-full items-start gap-3 border border-white/10 bg-void/50 px-3 py-2.5 text-left transition-colors hover:border-white/30 hover:bg-void/70';
+                        'qw-live-result flex w-full items-start gap-3 border border-white/10 bg-void/50 px-3 py-2.5 text-left transition-colors hover:border-white/30 hover:bg-void/70';
                       return (
                         <motion.li
                           key={result.id}
@@ -774,29 +865,95 @@ export function OmniSynapseSearch({
               )}
             </section>
 
-            {/* Section 2 -- "실시간 사다리 탐색": climb from the typed root
-                through matrix / constitution / lens / live-keyword vectors to
-                a composed result. */}
-            <section className="mb-6">
-              <p className="mb-2.5 text-[9px] font-bold uppercase tracking-widest text-gray-500">
-                {t('liveLadderLabel')}
+            {/* REV-19 §13 discovery widgets -- the ladder explorer and the
+                nested shortcut strip are gone from the typing popup (the
+                base widgets live at level 1 only). Three sparks instead:
+                live signals from the rotating hub theme, clock-rotated
+                curiosity cards, and the visitor's own recent trail. */}
+            <section className="mb-6" data-discovery="signals">
+              <p className="qw-discovery-label">
+                <Radio size={15} aria-hidden="true" />
+                {tRev('search.signals')}
+                <span className="ml-1 text-[12px] font-bold uppercase tracking-[0.2em]" style={{ color: signalTheme.color }}>
+                  · {tRev(`hub.themes.${signalTheme.key}.title`)}
+                </span>
               </p>
-              <LiveLadderExplorer
-                query={query}
-                axisT={axisT}
-                onOpenAxis={(axis) => {
-                  closeBrowseHub();
-                  onOpenShortcut(axis);
-                }}
-                onRunQuery={runFollowupQuery}
-              />
+              <div className="flex flex-wrap gap-2">
+                {signals.items.slice(0, 4).map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className="qw-discovery-chip"
+                    onMouseEnter={() => playHoverSfx()}
+                    onClick={() => runFollowupQuery(item.title)}
+                    title={item.domain ?? item.title}
+                  >
+                    <signalTheme.icon size={14} style={{ color: signalTheme.color }} aria-hidden="true" />
+                    <span className="truncate">{item.title}</span>
+                  </button>
+                ))}
+                {signals.items.length === 0 && (
+                  <span className="text-[13px] text-gray-500">{signals.loading ? tRev('hub.loading') : tRev('hub.empty')}</span>
+                )}
+              </div>
             </section>
 
-            {/* Section 3 -- the shortcut matrix strip, exactly as before:
-                governance through the app/asset launchers, untouched. */}
-            <section>
-              <HotShortcutMatrixStrip onOpenShortcut={onOpenShortcut} />
+            <section className="mb-6" data-discovery="curiosity">
+              <p className="qw-discovery-label">
+                <Sparkles size={15} aria-hidden="true" />
+                {tRev('search.curiosity')}
+              </p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {curiosityIds.map((id) => {
+                  const question = tRev(`search.cards.c${id}`);
+                  return (
+                    <button
+                      key={id}
+                      type="button"
+                      className="qw-curiosity-card"
+                      onMouseEnter={() => playHoverSfx()}
+                      onClick={() => runFollowupQuery(question)}
+                    >
+                      <span>{question}</span>
+                      <span className="qw-curiosity-ask flex items-center gap-1">
+                        <Compass size={12} aria-hidden="true" />
+                        {tRev('search.ask')}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </section>
+
+            {recent.length > 0 && (
+              <section data-discovery="recent">
+                <p className="qw-discovery-label">
+                  <History size={15} aria-hidden="true" />
+                  {tRev('search.recent')}
+                  <button
+                    type="button"
+                    onClick={clearRecent}
+                    className="ml-auto text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500 hover:text-accent"
+                  >
+                    {tRev('search.clearRecent')}
+                  </button>
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {recent.map((q) => (
+                    <button
+                      key={q}
+                      type="button"
+                      className="qw-discovery-chip"
+                      onMouseEnter={() => playHoverSfx()}
+                      onClick={() => runFollowupQuery(q)}
+                    >
+                      <History size={13} className="text-gray-500" aria-hidden="true" />
+                      <span className="truncate">{q}</span>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
           </motion.div>
       )}
 

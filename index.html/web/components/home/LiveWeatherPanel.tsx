@@ -784,7 +784,7 @@ export function LiveWeatherPanel() {
           reads identically to the country of the same name: the admin1
           qualifier and the country are both always visible. */}
       <div className="mb-3 flex flex-wrap items-center gap-2">
-        <p className="flex min-w-0 items-center gap-1.5 text-[14px] font-bold text-white sm:text-[15px]">
+        <p className="flex min-w-0 items-center gap-1.5 text-[16px] font-bold text-white sm:text-[17px]">
           <MapPin size={14} className="shrink-0 text-accent" aria-hidden="true" />
           <span className="truncate">
             {place.country && <span className="text-gray-400">{place.country} / </span>}
@@ -919,13 +919,13 @@ export function LiveWeatherPanel() {
         <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)]">
           {/* Current */}
           <div className="flex items-center gap-4 border border-white/10 bg-void/50 px-4 py-4">
-            <CondIcon size={52} className="shrink-0 text-accent" aria-hidden="true" />
+            <CondIcon size={60} className="shrink-0 text-accent" aria-hidden="true" />
             <div className="min-w-0">
-              <p className="text-3xl font-bold leading-none text-white sm:text-4xl">
+              <p className="qw-weather-big text-4xl font-bold leading-none text-white sm:text-5xl">
                 {Math.round(forecast.current.temp)}°
               </p>
-              <p className="mt-1 text-[13px] font-bold text-gray-200">{t(`condition.${cond}`)}</p>
-              <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-gray-400">
+              <p className="mt-1 text-[15px] font-bold text-gray-200">{t(`condition.${cond}`)}</p>
+              <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[13px] text-gray-400">
                 <span className="flex items-center gap-1">
                   <Thermometer size={11} aria-hidden="true" />
                   {t('feelsLike')} {Math.round(forecast.current.feelsLike)}°
@@ -944,17 +944,17 @@ export function LiveWeatherPanel() {
 
           {/* 5-day outlook */}
           <div className="border border-white/10 bg-void/50 px-3 py-3">
-            <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-gray-500">{t('forecastLabel')}</p>
+            <p className="mb-2 text-[12px] font-bold uppercase tracking-widest text-gray-500">{t('forecastLabel')}</p>
             <ul className="grid grid-cols-5 gap-1.5">
               {forecast.daily.map((d) => {
                 const c = conditionOf(d.code);
                 const Icon = CONDITION_ICON[c];
                 return (
                   <li key={d.date} className="flex flex-col items-center gap-1 text-center" title={t(`condition.${c}`)}>
-                    <span className="text-[10px] text-gray-400">{dayFormatter.format(new Date(`${d.date}T12:00:00`))}</span>
+                    <span className="text-[12px] text-gray-400">{dayFormatter.format(new Date(`${d.date}T12:00:00`))}</span>
                     <Icon size={20} className="text-accent" aria-hidden="true" />
-                    <span className="text-[12px] font-bold text-white">{Math.round(d.max)}°</span>
-                    <span className="text-[11px] text-gray-500">{Math.round(d.min)}°</span>
+                    <span className="text-[14px] font-bold text-white">{Math.round(d.max)}°</span>
+                    <span className="text-[13px] text-gray-500">{Math.round(d.min)}°</span>
                   </li>
                 );
               })}
@@ -964,7 +964,7 @@ export function LiveWeatherPanel() {
       )}
 
       {fetchedAt && (
-        <p className="mt-2 text-[10px] text-gray-500">
+        <p className="qw-hub-meta mt-2 text-[13px] font-semibold text-gray-500">
           {t('updated')} {timeFormatter.format(new Date(fetchedAt))} · {t('source')}
         </p>
       )}

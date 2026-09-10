@@ -106,3 +106,35 @@ export const FOOTER_SECTIONS: FooterSection[] = [
     ],
   },
 ];
+
+/**
+ * REV-19 §12: institutional pages open as an INLINE modal over the current
+ * screen (`components/layout/SiteLinkModalHost.tsx`) instead of routing
+ * away -- the routes above stay for SEO / deep links / the "open the full
+ * page" affordance. Any surface (footer, Entry Gate legal link, sign-up
+ * form) opens one by dispatching this event on `window`.
+ */
+export const SITE_PAGE_EVENT = 'unitas:site-page';
+
+export interface SitePageRequest {
+  group: SiteGroup;
+  slug: SiteSlug;
+}
+
+/** Resolve `/legal/terms`-style hrefs (with or without a locale prefix)
+ *  into a validated page request; null for anything that is not one. */
+export function parseSitePageHref(href: string): SitePageRequest | null {
+  const parts = href.split(/[?#]/)[0].split('/').filter(Boolean);
+  const idx = parts.findIndex((p) => p === 'company' || p === 'legal' || p === 'support');
+  if (idx === -1 || idx > 1) return null; // at most one (locale) segment before the group
+  const group = parts[idx] as SiteGroup;
+  const slug = parts[idx + 1];
+  if (!slug || !isSiteSlug(group, slug)) return null;
+  return { group, slug: slug as SiteSlug };
+}
+
+/** Client helper: open an institutional page inline. No-op on the server. */
+export function openSitePage(request: SitePageRequest): void {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new CustomEvent<SitePageRequest>(SITE_PAGE_EVENT, { detail: request }));
+}

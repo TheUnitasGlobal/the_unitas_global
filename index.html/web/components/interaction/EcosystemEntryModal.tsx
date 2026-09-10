@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useRouter } from '@/i18n/navigation';
+import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
@@ -34,6 +35,8 @@ export function EcosystemEntryModal({ ecosystem, onClose }: EcosystemEntryModalP
   const [spendError, setSpendError] = useState<string | null>(null);
 
   const open = ecosystem !== null;
+  // REV-19 §1: one layer on the deep modal history stack while open.
+  useHistoryLayer(open, 'home:ecosystem', onClose);
   const cost = ecosystem?.coinCost ?? 0;
   const hasBalanceInfo = configured && Boolean(session) && balance !== null && !loading;
   const insufficient = hasBalanceInfo && (balance as number) < cost;

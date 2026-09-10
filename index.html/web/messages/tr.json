@@ -1773,5 +1773,133 @@
     "enter": "Gir",
     "signInToEnter": "Girmek için oturum açın",
     "guestEnter": "U-COIN tutmak ve girmek için tam bir hesap oluşturun."
+  },
+  "Rev19": {
+    "hub": {
+      "label": "Canlı Merkez",
+      "themesLabel": "Dönüşümlü keşif temaları",
+      "rotating": "Otomatik dönüyor · sabitlemek için bir temaya dokunun",
+      "held": "Sabitlendi · bıraktığınızda dönüş devam eder",
+      "openAria": "{theme} canlı derinlemesine incelemesini aç",
+      "modalTitle": "{theme} · canlı derinlemesine inceleme",
+      "modalLede": "{term} hakkında taze başlıklar — bu pencere açık kaldığı sürece her dakika yenilenir.",
+      "refreshIn": "Sonraki yenileme: {seconds} sn",
+      "refreshNow": "Şimdi yenile",
+      "loading": "Canlı sinyaller toplanıyor…",
+      "empty": "Henüz canlı başlık ulaşmadı — birazdan tekrar deneyin.",
+      "sources": "Kaynaklar: Google News RSS · Bing News RSS · anahtarsız, 10 dakikalık uç önbellek",
+      "updated": "Güncellendi: {time}",
+      "cadence": "Kart yenileme: her 10 dakikada · derinlemesine inceleme: her 60 saniyede",
+      "readMore": "Kaynağı oku",
+      "themes": {
+        "game": {
+          "title": "Oyun",
+          "tag": "Şu anda oynanan dünyalar"
+        },
+        "sports": {
+          "title": "Spor",
+          "tag": "Skorlar, rekorlar ve bir sonraki başlangıç düdüğü"
+        },
+        "movie": {
+          "title": "Film",
+          "tag": "Bu gece perdelerin fısıldadığı şey"
+        },
+        "bestseller": {
+          "title": "Çok Satan",
+          "tag": "Herkesin çevirdiği sayfalar"
+        },
+        "shopping": {
+          "title": "Alışveriş",
+          "tag": "Fırsatlar, yeni çıkanlar ve sessiz fiyat değişimleri"
+        },
+        "stock": {
+          "title": "Borsa",
+          "tag": "Bugün paranın yöneldiği yer"
+        },
+        "webtoon": {
+          "title": "Webtoon",
+          "tag": "Dünyanın kaydırarak okuduğu kareler"
+        },
+        "fashion": {
+          "title": "Moda",
+          "tag": "Sezondan önce gelen silüetler"
+        },
+        "food": {
+          "title": "Lezzet",
+          "tag": "Sofralar, tatlar ve saatin yemeği"
+        }
+      }
+    },
+    "discovery": {
+      "label": "Ötesini keşfet",
+      "wikipedia": "Vikipedi",
+      "news": "Haberler",
+      "youtube": "YouTube",
+      "search": "Ara"
+    },
+    "shorts": {
+      "label": "UNITAS Shorts",
+      "lede": "Ağdaki dikey anlar — U-Messenger'ın tohumu.",
+      "views": "{count} görüntülenme",
+      "like": "Beğen",
+      "liked": "Beğenildi",
+      "follow": "Takip Et",
+      "following": "Takip Ediliyor",
+      "upload": "Yükle",
+      "uploadSoon": "Yüklemeler U-Messenger beta sürümüyle açılır",
+      "seedNote": "Önizleme olarak gösterilen tohum klipler · gerçek yüklemeler U-Messenger beta sürümüyle gelir",
+      "share": "U-Messenger'a paylaş",
+      "shareHint": "Beta açıldığında paylaşım bağlantıları bu klibi doğrudan bir U-Messenger sohbetine aktarır.",
+      "openAria": "{title} kısa videosunu aç",
+      "creator": "Yaratıcı",
+      "duration": "{seconds} sn",
+      "followers": "{count} takipçi"
+    },
+    "mail": {
+      "label": "UNITAS Mail kullanıcı adı (opsiyonel)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "Adresinizi şimdi ayırtın — UNITAS Mail açıldığı anda posta kutunuz etkinleşir.",
+      "available": "Kullanılabilir",
+      "invalid": "3–20 karakter: a–z, 0–9, nokta, tire, alt çizgi",
+      "reservedWord": "Bu kullanıcı adı ayrılmış",
+      "reserved": "Ayrılmış · UNITAS Mail açıldığında posta kutusu etkinleşir",
+      "reservedFor": "Ayrılmış: {handle}"
+    },
+    "legal": {
+      "eyebrow": "Bildirim",
+      "openFull": "Tam sayfayı aç",
+      "close": "Kapat"
+    },
+    "search": {
+      "trending": "Şu an yükselenler",
+      "curiosity": "Merak kartları",
+      "recent": "Keşfetmeye devam et",
+      "signals": "Canlı sinyaller",
+      "emptyHint": "Yazmaya başlayın — ya da aşağıdan bir kıvılcım seçin.",
+      "clearRecent": "Temizle",
+      "ask": "Sor",
+      "cards": {
+        "c1": "Bir şehir geceleri neden daha hızlı hissettirir?",
+        "c2": "Paranın hafızası olsaydı neye benzerdi?",
+        "c3": "Tek bir fikir bir günde ne kadar uzağa gidebilir?",
+        "c4": "On yıl boyunca hangi alışkanlık katlanarak büyür?",
+        "c5": "Okyanus yarının havası hakkında ne biliyor?",
+        "c6": "En iyi oyunlar neden başta haksız hissettirir?",
+        "c7": "Bugünün piyasalarını hâlâ hareket ettiren en eski hikaye nedir?",
+        "c8": "Kuşlar sürüyü kimin yöneteceğine nasıl karar verir?",
+        "c9": "Şehrinizde mükemmel bir sabah nasıl görünürdü?",
+        "c10": "Şarkıları neden hatırlarız ama konuşmaları unuturuz?",
+        "c11": "Küçük bir dükkânın bir devden daha uzun ayakta kalmasını sağlayan nedir?",
+        "c12": "Işık bir elmasın içinden nasıl geçer?"
+      }
+    },
+    "enter": {
+      "hint": "U-AI'ya sormak için Enter'a basın"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · Korumalı içerik · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

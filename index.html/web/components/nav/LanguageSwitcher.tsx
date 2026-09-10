@@ -7,6 +7,7 @@ import { routing } from '@/i18n/routing';
 import { ChevronDown } from 'lucide-react';
 import { useGatedSurface } from '@/components/ui/useGatedSurface';
 import { ModalPortal } from '@/components/ui/ModalPortal';
+import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 import { LOCALE_NATIVE_NAME } from '@/components/i18n/GlobalLanguagePicker';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { isAppLocale, persistUserLocale } from '@/lib/countryLocale';
@@ -34,6 +35,8 @@ export function LanguageSwitcher() {
   const router = useRouter();
   const { session } = useWallet();
   const { open, blocked, setOpen, toggle } = useGatedSurface('nav:language');
+  // REV-19 §1: the dropdown is a level on the deep modal history stack.
+  useHistoryLayer(open, 'nav:language', () => setOpen(false));
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [menuPos, setMenuPos] = useState<{ top: number; left: number } | null>(null);
 

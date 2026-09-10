@@ -1773,5 +1773,133 @@
     "enter": "Enter",
     "signInToEnter": "Sign in to enter",
     "guestEnter": "Create a full account to hold U-COIN and enter."
+  },
+  "Rev19": {
+    "hub": {
+      "label": "Live Hub",
+      "themesLabel": "Rotating discovery themes",
+      "rotating": "Auto-rotating · tap a theme to hold it",
+      "held": "Held · rotation resumes on release",
+      "openAria": "Open the {theme} live deep dive",
+      "modalTitle": "{theme} · live deep dive",
+      "modalLede": "Fresh headlines about {term}, refreshed every minute while this window stays open.",
+      "refreshIn": "Next refresh in {seconds}s",
+      "refreshNow": "Refresh now",
+      "loading": "Gathering live signals…",
+      "empty": "No live headlines reached us — try again in a moment.",
+      "sources": "Sources: Google News RSS · Bing News RSS · keyless, 10-minute edge cache",
+      "updated": "Updated {time}",
+      "cadence": "Card refresh: every 10 minutes · deep dive: every 60 seconds",
+      "readMore": "Read the source",
+      "themes": {
+        "game": {
+          "title": "Game",
+          "tag": "Worlds being played right now"
+        },
+        "sports": {
+          "title": "Sports",
+          "tag": "Scores, records, and the next kick-off"
+        },
+        "movie": {
+          "title": "Movie",
+          "tag": "What the screens are whispering tonight"
+        },
+        "bestseller": {
+          "title": "Bestseller",
+          "tag": "The pages everyone is turning"
+        },
+        "shopping": {
+          "title": "Shopping",
+          "tag": "Deals, drops, and quiet price shifts"
+        },
+        "stock": {
+          "title": "Stock",
+          "tag": "Where the money is leaning today"
+        },
+        "webtoon": {
+          "title": "Webtoon",
+          "tag": "Panels the world scrolls through"
+        },
+        "fashion": {
+          "title": "Fashion",
+          "tag": "Silhouettes arriving before the season"
+        },
+        "food": {
+          "title": "Food",
+          "tag": "Tables, tastes, and the dish of the hour"
+        }
+      }
+    },
+    "discovery": {
+      "label": "Explore beyond",
+      "wikipedia": "Wikipedia",
+      "news": "News",
+      "youtube": "YouTube",
+      "search": "Search"
+    },
+    "shorts": {
+      "label": "UNITAS Shorts",
+      "lede": "Vertical moments from the network — the seed of U-Messenger.",
+      "views": "{count} views",
+      "like": "Like",
+      "liked": "Liked",
+      "follow": "Follow",
+      "following": "Following",
+      "upload": "Upload",
+      "uploadSoon": "Uploads open with the U-Messenger beta",
+      "seedNote": "Seed clips shown as a preview · real uploads arrive with the U-Messenger beta",
+      "share": "Share to U-Messenger",
+      "shareHint": "Sharing links will hand this clip straight into a U-Messenger thread once the beta opens.",
+      "openAria": "Open the short {title}",
+      "creator": "Creator",
+      "duration": "{seconds}s",
+      "followers": "{count} followers"
+    },
+    "mail": {
+      "label": "UNITAS mail handle (optional)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "Reserve your address now — the mailbox activates the moment UNITAS Mail opens.",
+      "available": "Available",
+      "invalid": "3–20 characters: a–z, 0–9, dot, dash, underscore",
+      "reservedWord": "That handle is reserved",
+      "reserved": "Reserved · mailbox activates when UNITAS Mail opens",
+      "reservedFor": "Reserved: {handle}"
+    },
+    "legal": {
+      "eyebrow": "Notice",
+      "openFull": "Open the full page",
+      "close": "Close"
+    },
+    "search": {
+      "trending": "Rising now",
+      "curiosity": "Curiosity cards",
+      "recent": "Continue exploring",
+      "signals": "Live signals",
+      "emptyHint": "Start typing — or pick a spark below.",
+      "clearRecent": "Clear",
+      "ask": "Ask",
+      "cards": {
+        "c1": "Why does a city feel faster at night?",
+        "c2": "What would money look like if it had memory?",
+        "c3": "How far can a single idea travel in one day?",
+        "c4": "Which habit compounds the most over a decade?",
+        "c5": "What does the ocean know about tomorrow's weather?",
+        "c6": "Why do the best games feel unfair at first?",
+        "c7": "What is the oldest story still moving today's markets?",
+        "c8": "How do birds decide who leads the flock?",
+        "c9": "What would a perfect morning look like in your city?",
+        "c10": "Why do we remember songs but forget speeches?",
+        "c11": "What lets a small shop outlast a giant?",
+        "c12": "How does light travel through a diamond?"
+      }
+    },
+    "enter": {
+      "hint": "Press Enter to ask U-AI"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · Protected content · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

@@ -14,7 +14,30 @@ import { CoinBalanceBadge } from '@/components/wallet/CoinBalanceBadge';
 export function NavBar() {
   const t = useTranslations('Nav');
   const scrollRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
   const [edgeHint, setEdgeHint] = useState({ left: false, right: false });
+
+  // REV-19 §7: publish the nav's live bottom edge (screen px) as a CSS
+  // variable so the Quantum White hero can make "nav -> UNITAS" and
+  // "UNITAS -> search bar" the same distance on every device, whatever
+  // height the nav wraps to (app/quantum-white.css §12).
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const root = document.documentElement;
+    const publish = () => {
+      const bottom = nav.getBoundingClientRect().bottom;
+      root.style.setProperty('--unitas-nav-bottom', `${Math.max(0, Math.round(bottom * 100) / 100)}px`);
+    };
+    publish();
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(publish);
+    observer?.observe(nav);
+    window.addEventListener('resize', publish);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', publish);
+    };
+  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -45,7 +68,7 @@ export function NavBar() {
   const installTrigger = { [PWA_INSTALL_TRIGGER_ATTR]: 'nav' } as Record<string, string>;
 
   return (
-    <nav id="unitas-nav" className="fixed left-0 top-0 z-50 w-full border-b border-accent/20 bg-void/80 py-5 backdrop-blur-md">
+    <nav ref={navRef} id="unitas-nav" className="fixed left-0 top-0 z-50 w-full border-b border-accent/20 bg-void/80 py-5 backdrop-blur-md">
       <div className="flex items-center gap-6 px-4 lg:justify-between lg:gap-0 lg:px-6">
         {/* Brand anchor: always shrink-0, never inside the scroll container below --
             stays put on screen through any swipe on the menu cluster. */}

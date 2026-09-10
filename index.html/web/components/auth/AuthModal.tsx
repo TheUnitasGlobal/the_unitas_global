@@ -4,6 +4,13 @@ import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 're
 import { useLocale, useTranslations } from 'next-intl';
 import { ChevronDown } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import {
+  UNITAS_MAIL_METADATA_KEY,
+  handleAddress,
+  normalizeHandle,
+  validateHandle,
+  writeReservation,
+} from '@/lib/auth/unitasHandle';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { isPasswordValid } from '@/lib/passwordPolicy';
@@ -67,6 +74,11 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [profileInput, setProfileInput] = useState<CognitiveProfileInput>(EMPTY_COGNITIVE_PROFILE);
+  /** REV-19 §8: optional `@theunitas.global` handle reserved at sign-up
+   *  (Supabase user_metadata + per-device note; no schema change). */
+  const [mailHandle, setMailHandle] = useState('');
+  const tRev = useTranslations('Rev19.mail');
+  const mailVerdict = validateHandle(mailHandle);
   const [showOptional, setShowOptional] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -211,6 +223,13 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
     const detected = detectBrowserCountryLocale();
     if (detected.country) metadata.country = detected.country;
     metadata.locale = detected.locale ?? locale;
+    // REV-19 §8: the reserved mail handle rides the auth metadata -- an
+    // invalid / reserved handle simply is not sent (the form already shows
+    // the verdict inline, and reservation is optional).
+    if (mailVerdict === 'ok') {
+      metadata[UNITAS_MAIL_METADATA_KEY] = normalizeHandle(mailHandle);
+      writeReservation(mailHandle);
+    }
 
     setBusy(true);
     const supabase = getSupabaseBrowserClient();
@@ -409,6 +428,43 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
               className={INPUT_CLASS}
             />
             <p className="text-[10px] text-gray-600">{t('realNameLockNotice')}</p>
+
+            {/* REV-19 §8: optional UNITAS mail handle reservation. */}
+            <div className="space-y-1" data-mail-handle="">
+              <label className="block text-[11px] font-bold uppercase tracking-widest text-gray-500" htmlFor="unitas-mail-handle">
+                {tRev('label')}
+              </label>
+              <div className="flex items-center gap-1">
+                <input
+                  id="unitas-mail-handle"
+                  type="text"
+                  autoComplete="off"
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  maxLength={32}
+                  value={mailHandle}
+                  onChange={(e) => setMailHandle(e.target.value)}
+                  placeholder={tRev('placeholder')}
+                  aria-invalid={mailVerdict === 'invalid' || mailVerdict === 'reserved'}
+                  className={`${INPUT_CLASS} min-w-0 flex-1`}
+                />
+                <span className="shrink-0 text-[12px] font-bold text-accent">{tRev('domain')}</span>
+              </div>
+              <p
+                className={`text-[10px] ${
+                  mailVerdict === 'ok' ? 'text-emerald-300' : mailVerdict === 'empty' ? 'text-gray-600' : 'text-amber-300'
+                }`}
+                aria-live="polite"
+              >
+                {mailVerdict === 'ok'
+                  ? `${tRev('available')} · ${handleAddress(mailHandle)} · ${tRev('reserved')}`
+                  : mailVerdict === 'reserved'
+                    ? tRev('reservedWord')
+                    : mailVerdict === 'invalid'
+                      ? tRev('invalid')
+                      : tRev('hint')}
+              </p>
+            </div>
 
             <div className="grid grid-cols-2 gap-3">
               <input

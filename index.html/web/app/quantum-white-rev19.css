@@ -1,0 +1,710 @@
+/* ==========================================================================
+   REV-19 "Master Architecture & UX Overhaul" -- Quantum White scope, part 2.
+
+   Same contract as app/quantum-white.css: every painting rule is prefixed
+   with `html[data-unitas-surface='quantum-white']` (stamped by
+   QuantumWhiteHome.tsx for exactly as long as the home is mounted), so
+   nothing here leaks onto a dark route; bare @keyframes / @media blocks
+   cannot paint by themselves. Imported once, from QuantumWhiteHome.tsx,
+   right after quantum-white.css. Sections follow docs/rev19/SPEC.md.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   12. Tokens (SPEC §2, §4, §5, §7, §9-11)
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] {
+  /* §7 vertical symmetry: A (nav bottom -> cap top of UNITAS) == B (baseline
+     -> search bar top). CSS px inside the 0.75 zoom tree. */
+  --qw-hero-gap: clamp(44px, 5.8vw, 80px);
+  /* Cinzel 700 metrics, measured 2026-09-10 (docs/rev19/measure/fontmetrics.js):
+     line top -> cap top = 0.064em, line top -> baseline = 0.77em, line-height 0.95. */
+  --qw-title-cap-ratio: 0.064;
+  --qw-title-descend-ratio: 0.18; /* line-height 0.95 - baseline 0.77 */
+  /* §2 optical centre: "IT" centre sits 0.18em right of the glyph-run centre. */
+  --qw-title-optical-shift: -0.18em;
+
+  /* cybernetic silver */
+  --qw-silver: #cfd6e2;
+  --qw-silver-hi: #eef1f6;
+  --qw-silver-deep: #9aa4b5;
+
+  /* §9-11 portal glass */
+  --qw-modal-backdrop: rgba(12, 14, 24, 0.34);
+  --qw-modal-panel: rgba(255, 255, 255, 0.84);
+  --qw-modal-panel-strong: rgba(255, 255, 255, 0.94);
+  --qw-modal-edge: inset 0 1px 0 rgba(255, 255, 255, 0.96), inset 0 -1px 0 rgba(10, 10, 12, 0.06);
+  --qw-modal-shadow: 0 30px 80px -24px rgba(11, 92, 255, 0.28), 0 18px 44px rgba(10, 10, 12, 0.16);
+  --qw-modal-radius: 20px;
+  --qw-modal-blur: blur(28px) saturate(1.6);
+
+  /* §5 footer glass */
+  --qw-footer-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(246, 247, 250, 0.74) 100%);
+  --qw-footer-shadow:
+    0 -24px 60px -30px rgba(11, 92, 255, 0.22),
+    0 -1px 0 rgba(207, 214, 226, 0.9),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 rgba(10, 10, 12, 0.06);
+  --qw-footer-card: rgba(255, 255, 255, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   13. Hero geometry (SPEC §2 + §7) -- Hero.tsx / QuantumWhiteHome.tsx
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-hero-wrap {
+  /* nav bottom (screen px, NavBar publishes --unitas-nav-bottom) converted
+     into this zoomed tree, plus the gap, minus the cap-top offset so the
+     gap is measured to the INK, not the line box. */
+  padding-top: calc(
+    var(--unitas-nav-bottom, 64px) / var(--unitas-zoom, 0.75) + var(--qw-hero-gap) -
+      var(--qw-title-size) * var(--qw-title-cap-ratio)
+  );
+  padding-bottom: 0;
+}
+html[data-unitas-surface='quantum-white'] .qw-hero-title-wrap {
+  margin-top: 0;
+}
+html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 {
+  /* fit-content: box = indent + glyph run + trailing tracking, so the gold
+     hairline (::after, centred in the box) is centred on the glyph run in
+     every viewport -- the old block box was narrower than the word at the
+     8.5rem clamp and left the run start-aligned. */
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  white-space: nowrap;
+  /* No indent: the fit-content box must equal the tracked glyph run exactly
+     (measured 2026-09-10 -- an inherited indent lands on BOTH the h1 line
+     and the inline-block word, pushing the run a full tracking unit right
+     of the hairline). The optical shift below is the only offset. */
+  text-indent: 0;
+}
+html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 .qw-title-word {
+  display: inline-block;
+  text-indent: 0;
+  transform: translateX(var(--qw-title-optical-shift));
+}
+html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 .qw-title-mark {
+  letter-spacing: 0;
+}
+/* B: baseline -> search bar top == --qw-hero-gap. The h1 box ends at line
+   bottom + 1.1rem + 1px (the hairline); the baseline sits 0.18em above the
+   line bottom. */
+html[data-unitas-surface='quantum-white'] .qw-search-wrap {
+  margin-top: calc(var(--qw-hero-gap) - var(--qw-title-size) * var(--qw-title-descend-ratio) - 1.1rem - 1px);
+}
+
+/* --------------------------------------------------------------------------
+   14. Enter key (SPEC §4) -- OmniSynapseSearch.tsx `.qw-enter-key`
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-enter-key {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-width: 2px;
+  border-color: var(--qw-blue);
+  border-radius: 9px;
+  background: var(--qw-blue-soft);
+  color: var(--qw-blue-deep);
+  box-shadow: 0 0 0 2px rgba(11, 92, 255, 0.12), 0 6px 16px -8px rgba(11, 92, 255, 0.55);
+  transition: box-shadow 0.25s ease, transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, opacity 0.25s ease;
+}
+@media (min-width: 640px) {
+  html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-enter-key {
+    width: 38px;
+    height: 38px;
+  }
+}
+html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-enter-key:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+html[data-unitas-surface='quantum-white'] #omni-synapse-search[data-typing='1'] .qw-enter-key {
+  color: #fff;
+  background-color: var(--qw-blue);
+  border-color: transparent;
+  animation: qw-enter-flux 2.6s linear infinite;
+}
+@keyframes qw-enter-flux {
+  0% {
+    background-color: #0b5cff;
+    box-shadow: 0 0 0 3px rgba(11, 92, 255, 0.32), 0 0 22px rgba(11, 92, 255, 0.75);
+    transform: scale(1);
+  }
+  33% {
+    background-color: #b8962e;
+    box-shadow: 0 0 0 3px rgba(184, 150, 46, 0.32), 0 0 26px rgba(184, 150, 46, 0.8);
+    transform: scale(1.06);
+  }
+  66% {
+    background-color: #19b2c8;
+    box-shadow: 0 0 0 3px rgba(25, 178, 200, 0.32), 0 0 26px rgba(25, 178, 200, 0.8);
+    transform: scale(1);
+  }
+  100% {
+    background-color: #0b5cff;
+    box-shadow: 0 0 0 3px rgba(11, 92, 255, 0.32), 0 0 22px rgba(11, 92, 255, 0.75);
+    transform: scale(1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   15. Footer glass (SPEC §5) -- components/layout/Footer.tsx
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-footer {
+  position: relative;
+  border-top: 1px solid rgba(207, 214, 226, 0.9);
+  background: var(--qw-footer-bg);
+  -webkit-backdrop-filter: blur(22px) saturate(1.5);
+  backdrop-filter: blur(22px) saturate(1.5);
+  box-shadow: var(--qw-footer-shadow);
+}
+/* silver sheen band along the top edge */
+html[data-unitas-surface='quantum-white'] .qw-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 120px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(238, 241, 246, 0.75), rgba(238, 241, 246, 0));
+}
+html[data-unitas-surface='quantum-white'] .qw-footer-inner {
+  position: relative;
+}
+html[data-unitas-surface='quantum-white'] .qw-footer-col {
+  padding: 18px 18px 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: var(--qw-footer-card);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 10px 30px -18px rgba(10, 10, 12, 0.22), 0 0 0 1px rgba(207, 214, 226, 0.55);
+}
+html[data-unitas-surface='quantum-white'] .qw-footer-head {
+  font-size: 14px;
+  letter-spacing: 0.24em;
+  color: var(--qw-gold-deep);
+  text-shadow: 0 1px 0 #fff;
+}
+html[data-unitas-surface='quantum-white'] .qw-footer-link {
+  font-size: 16px;
+  color: var(--qw-ink-2);
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+html[data-unitas-surface='quantum-white'] .qw-footer-link:hover,
+html[data-unitas-surface='quantum-white'] .qw-footer-link:focus-visible {
+  color: var(--qw-blue-deep);
+  text-decoration: underline;
+}
+html[data-unitas-surface='quantum-white'] .qw-footer-brand {
+  border-top-color: rgba(207, 214, 226, 0.9);
+}
+html[data-unitas-surface='quantum-white'] .qw-footer-wordmark {
+  font-size: 20px;
+  color: var(--qw-gold-deep);
+  text-shadow: 0 1px 0 #fff, 0 0 18px rgba(184, 150, 46, 0.25);
+}
+html[data-unitas-surface='quantum-white'] .qw-footer-copy {
+  color: var(--qw-ink-3);
+}
+
+/* --------------------------------------------------------------------------
+   16. Anti-piracy watermark (SPEC §6) -- SovereignWatermark.tsx
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-watermark {
+  opacity: 0.07;
+  transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+  transform-origin: bottom right;
+}
+html[data-unitas-surface='quantum-white'] .qw-watermark[data-reveal='1'] {
+  opacity: 1;
+  color: var(--qw-gold-deep) !important;
+  mix-blend-mode: normal !important;
+  transform: scale(1.35);
+  filter: drop-shadow(0 0 10px rgba(184, 150, 46, 0.55));
+}
+html[data-unitas-surface='quantum-white'] .qw-print-mark {
+  display: none;
+}
+@media print {
+  html[data-unitas-surface='quantum-white'] .qw-watermark {
+    opacity: 1 !important;
+    color: #000 !important;
+    transform: none;
+  }
+  html[data-unitas-surface='quantum-white'] .qw-print-mark {
+    display: grid;
+    position: fixed;
+    inset: 0;
+    z-index: 2147483000;
+    grid-template-rows: repeat(12, 1fr);
+    align-items: center;
+    pointer-events: none;
+    font-family: var(--font-cinzel), serif;
+    font-size: 28px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.22);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  html[data-unitas-surface='quantum-white'] .qw-print-mark span {
+    display: block;
+    transform: rotate(-24deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   17. Portal surfaces: modals, towers, sheets (SPEC §9-11)
+       Scope: released home only -- the exit confirm over the sealed
+       Coming-Soon screen keeps its dark glass. Every rule below re-keys the
+       dark-route utility classes the portaled components are written in,
+       mirroring quantum-white.css §3's `.dashboard-zoom` remap.
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .glow-box {
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: var(--qw-modal-radius);
+  background: var(--qw-modal-panel);
+  -webkit-backdrop-filter: var(--qw-modal-blur);
+  backdrop-filter: var(--qw-modal-blur);
+  box-shadow: var(--qw-modal-edge), var(--qw-modal-shadow), 0 0 0 1px rgba(207, 214, 226, 0.7);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-void\/80,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-void\/85 {
+  background-color: var(--qw-modal-backdrop);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-void\/40,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-void\/50,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-void\/60,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-void\/90 {
+  background-color: rgba(255, 255, 255, 0.62);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-quantum,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-quantum\/95,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-quantum\/80 {
+  background-color: var(--qw-modal-panel-strong);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-white\/5,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-white\/\[0\.03\],
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-white\/\[0\.04\],
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-white\/\[0\.045\] {
+  background-color: rgba(10, 10, 12, 0.04);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .hover\:bg-white\/5:hover,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .hover\:bg-void\/70:hover,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .hover\:bg-void\/80:hover {
+  background-color: rgba(11, 92, 255, 0.07);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-white,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .hover\:text-white:hover,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-red-50 {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-gray-200,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-gray-300,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-gray-400 {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-gray-500,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-gray-600 {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .placeholder\:text-gray-500::placeholder,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .placeholder\:text-gray-400::placeholder {
+  color: var(--qw-ink-3);
+  opacity: 1;
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .border-white\/10,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .border-white\/15,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .border-white\/20 {
+  border-color: var(--qw-line-strong);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .hover\:border-white\/25:hover,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .hover\:border-white\/30:hover,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .hover\:border-white\/40:hover {
+  border-color: var(--qw-blue);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-accent,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-accent\/80,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-accent\/70,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-accent\/60 {
+  color: var(--qw-gold-deep);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .border-accent,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .border-accent\/40,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .border-accent\/50 {
+  border-color: var(--qw-gold-deep);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-accent\/10,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-accent\/15,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .hover\:bg-accent\/10:hover {
+  background-color: rgba(184, 150, 46, 0.12);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-neon,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-cyan-300 {
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-red-200,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-red-300 {
+  color: #b42318;
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-red-500\/15,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-red-500\/30 {
+  background-color: rgba(180, 35, 24, 0.1);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .bg-amber-500\/10 {
+  background-color: rgba(184, 150, 46, 0.12);
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-amber-200,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .text-amber-300 {
+  color: var(--qw-gold-deep);
+}
+/* dialog tower panel: the frosted slab under the nav */
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .z-\[120\] > .absolute.bg-quantum\/95,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] [role='dialog'].bg-quantum\/95 {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(246, 247, 250, 0.96));
+  -webkit-backdrop-filter: var(--qw-modal-blur);
+  backdrop-filter: var(--qw-modal-blur);
+  box-shadow: var(--qw-modal-edge), 0 -24px 90px rgba(11, 92, 255, 0.16) !important;
+}
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] input,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] textarea,
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] select {
+  color: var(--qw-ink);
+  caret-color: var(--qw-blue);
+}
+/* the exit confirm (top layer) keeps a white glass panel too, once the home is released */
+html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] [data-unitas-portal] .z-\[680\] .glow-box {
+  background: var(--qw-modal-panel-strong);
+}
+
+/* --------------------------------------------------------------------------
+   18. Search dropdown + discovery widgets (SPEC §13) -- OmniSynapseSearch.tsx
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-search-dropdown {
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(246, 247, 250, 0.96));
+  -webkit-backdrop-filter: var(--qw-modal-blur);
+  backdrop-filter: var(--qw-modal-blur);
+  box-shadow: var(--qw-modal-edge), 0 30px 80px -24px rgba(11, 92, 255, 0.28), 0 18px 44px rgba(10, 10, 12, 0.12), 0 0 0 1px rgba(207, 214, 226, 0.7);
+}
+html[data-unitas-surface='quantum-white'] .qw-discovery-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-discovery-label svg {
+  color: var(--qw-blue);
+}
+html[data-unitas-surface='quantum-white'] .qw-discovery-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--qw-line-strong);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--qw-ink);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: left;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+html[data-unitas-surface='quantum-white'] .qw-discovery-chip:hover,
+html[data-unitas-surface='quantum-white'] .qw-discovery-chip:focus-visible {
+  border-color: var(--qw-blue);
+  background: #fff;
+  box-shadow: 0 8px 22px -12px rgba(11, 92, 255, 0.55);
+  transform: translateY(-1px);
+  outline: none;
+}
+html[data-unitas-surface='quantum-white'] .qw-discovery-chip span.truncate {
+  min-width: 0;
+}
+html[data-unitas-surface='quantum-white'] .qw-curiosity-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 112px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(238, 241, 246, 0.9));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 12px 30px -18px rgba(10, 10, 12, 0.25), 0 0 0 1px rgba(207, 214, 226, 0.6);
+  color: var(--qw-ink);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: left;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+html[data-unitas-surface='quantum-white'] .qw-curiosity-card:hover,
+html[data-unitas-surface='quantum-white'] .qw-curiosity-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(11, 92, 255, 0.5);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 20px 40px -18px rgba(11, 92, 255, 0.4), 0 0 0 1px rgba(11, 92, 255, 0.35);
+  outline: none;
+}
+html[data-unitas-surface='quantum-white'] .qw-curiosity-card .qw-curiosity-ask {
+  align-self: flex-end;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-live-result {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+/* --------------------------------------------------------------------------
+   19. Live hub, shorts, discovery links (SPEC §8) -- LiveHubPanel.tsx,
+       UnitasShortsPanel.tsx, DiscoveryLinks.tsx
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-hub-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-strip::-webkit-scrollbar {
+  display: none;
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 9px 14px;
+  border: 1.5px solid var(--qw-line-strong);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--qw-ink-2);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-chip[data-active='1'] {
+  color: var(--qw-ink);
+  background: #fff;
+  border-color: var(--qw-hub-accent, var(--qw-blue));
+  box-shadow: 0 10px 26px -14px var(--qw-hub-accent, var(--qw-blue));
+  transform: translateY(-1px);
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-chip .qw-hub-progress {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 3px;
+  transform-origin: left;
+  background: var(--qw-hub-accent, var(--qw-blue));
+  transform: scaleX(0);
+  animation: qw-hub-progress-fill 7s linear forwards;
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-chip .qw-hub-progress[data-held='1'] {
+  animation: none;
+  transform: scaleX(1);
+}
+@keyframes qw-hub-progress-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-card {
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(246, 247, 250, 0.92));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 14px 34px -20px rgba(10, 10, 12, 0.28), 0 0 0 1px rgba(207, 214, 226, 0.6);
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-headline {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--qw-ink);
+  transition: background-color 0.2s ease;
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-headline:hover,
+html[data-unitas-surface='quantum-white'] .qw-hub-headline:focus-visible {
+  background: rgba(11, 92, 255, 0.07);
+  outline: none;
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-meta {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-source {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-weather-big {
+  font-size: 44px;
+}
+html[data-unitas-surface='quantum-white'] .qw-shorts-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(148px, 1fr);
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+html[data-unitas-surface='quantum-white'] .qw-shorts-rail::-webkit-scrollbar {
+  display: none;
+}
+html[data-unitas-surface='quantum-white'] .qw-short-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  aspect-ratio: 9 / 16;
+  padding: 12px;
+  border-radius: 16px;
+  overflow: hidden;
+  color: #fff;
+  text-align: left;
+  box-shadow: 0 14px 34px -18px rgba(10, 10, 12, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+html[data-unitas-surface='quantum-white'] .qw-short-card:hover,
+html[data-unitas-surface='quantum-white'] .qw-short-card:focus-visible {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 22px 44px -18px rgba(11, 92, 255, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  outline: none;
+}
+html[data-unitas-surface='quantum-white'] .qw-short-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+html[data-unitas-surface='quantum-white'] .qw-short-card > * {
+  position: relative;
+  z-index: 1;
+}
+html[data-unitas-surface='quantum-white'] .qw-short-title {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.25;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+html[data-unitas-surface='quantum-white'] .qw-short-meta {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.92;
+}
+html[data-unitas-surface='quantum-white'] .qw-short-poster {
+  aspect-ratio: 9 / 16;
+  border-radius: 16px;
+  max-height: 46vh;
+  margin-inline: auto;
+}
+html[data-unitas-surface='quantum-white'] .qw-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--qw-line-strong);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--qw-ink);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+html[data-unitas-surface='quantum-white'] .qw-pill-btn[data-on='1'] {
+  border-color: var(--qw-blue);
+  background: var(--qw-blue);
+  color: #fff;
+}
+html[data-unitas-surface='quantum-white'] .qw-pill-btn:hover {
+  border-color: var(--qw-blue);
+}
+html[data-unitas-surface='quantum-white'] .qw-discovery-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+html[data-unitas-surface='quantum-white'] .qw-discovery-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border: 1px solid var(--qw-line-strong);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--qw-blue-deep);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+html[data-unitas-surface='quantum-white'] .qw-discovery-link:hover {
+  border-color: var(--qw-blue);
+  background: #fff;
+}
+
+/* --------------------------------------------------------------------------
+   20. Entry Gate legal buttons (SPEC §12)
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-entry-legal-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] button.qw-entry-legal-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  color: var(--qw-blue-deep);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   21. Reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html[data-unitas-surface='quantum-white'] #omni-synapse-search[data-typing='1'] .qw-enter-key {
+    animation: none;
+    box-shadow: 0 0 0 3px rgba(11, 92, 255, 0.32), 0 0 22px rgba(11, 92, 255, 0.75);
+  }
+  html[data-unitas-surface='quantum-white'] .qw-hub-chip .qw-hub-progress {
+    animation: none;
+    transform: scaleX(1);
+  }
+}

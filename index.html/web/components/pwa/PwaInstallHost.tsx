@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Download, Share, X } from 'lucide-react';
 import { ModalPortal } from '@/components/ui/ModalPortal';
 import { useGatedSurface } from '@/components/ui/useGatedSurface';
+import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 import { usePwaInstall } from '@/lib/hooks/usePwaInstall';
 import { attemptInAppEscape, currentInAppBrowser } from '@/lib/pwa/inAppBrowser';
 import {
@@ -58,6 +59,8 @@ export function PwaInstallHost() {
   const t = useTranslations('Nav');
   const { canInstall, isInstalled, isIos, isDesktop } = usePwaInstall();
   const { open, setOpen } = useGatedSurface('pwa:install-guide', { lockScroll: true });
+  // REV-19 §1: the guide sheet is a level on the deep modal history stack.
+  useHistoryLayer(open, 'pwa:install', () => setOpen(false));
   const liveRef = useRef({ canInstall, isInstalled });
   liveRef.current = { canInstall, isInstalled };
 

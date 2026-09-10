@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, Home, RefreshCw, Sparkles, X } from 'lucide-react';
 import { ModalPortal } from '@/components/ui/ModalPortal';
+import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 
 export interface DialogTowerLabels {
   refresh: string;
@@ -92,34 +93,27 @@ export function DialogTower({
     };
   }, [open]);
 
-  // Mobile/desktop hardware & browser back: opening the tower parks one
-  // same-URL history entry, so the device's own back gesture closes the
-  // tower instead of ejecting the visitor off the site entirely. The marker
-  // check keeps repeated open/close cycles from stacking entries.
-  useEffect(() => {
-    if (!open) return;
-    try {
-      const state = window.history.state as Record<string, unknown> | null;
-      if (!state?.[historyMarker]) {
-        window.history.pushState({ ...(state ?? {}), [historyMarker]: true }, '');
-      }
-    } catch {
-      // history unavailable (embedded webview edge cases) -- the toolbar's
-      // back/home buttons still cover navigation.
-    }
-    const onPop = () => onCloseRef.current();
-    window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
-  }, [open, historyMarker]);
+  // Mobile/desktop hardware & browser back (REV-19 §1): the tower is one
+  // layer on the site-wide deep modal history stack -- the device's own
+  // back gesture closes it (and only it), an explicit toolbar close walks
+  // history back over its entry so no dead entry is left behind, and a
+  // popup opened on top of it (a ranking detail, a legal notice) closes
+  // first on the next back press.
+  const layer = useHistoryLayer(open, historyMarker, () => onCloseRef.current());
 
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onCloseRef.current();
+      // REV-19: only the topmost layer answers Escape (a ranking profile
+      // or legal notice opened inside the tower closes first), and the exit
+      // confirm's consumed press (defaultPrevented) is left alone.
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      if (!layer.isTop()) return;
+      onCloseRef.current();
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [open]);
+  }, [open, layer]);
 
   const buttonClass =
     'flex h-9 w-9 shrink-0 items-center justify-center border transition-colors hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50';

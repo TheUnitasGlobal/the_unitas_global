@@ -1773,5 +1773,133 @@
     "enter": "Entrar",
     "signInToEnter": "Faça login para entrar",
     "guestEnter": "Crie uma conta completa para guardar U-COIN e entrar."
+  },
+  "Rev19": {
+    "hub": {
+      "label": "Hub ao Vivo",
+      "themesLabel": "Temas de descoberta rotativos",
+      "rotating": "Rotação automática · toque em um tema para fixá-lo",
+      "held": "Fixado · a rotação retoma ao soltar",
+      "openAria": "Abrir o mergulho ao vivo de {theme}",
+      "modalTitle": "{theme} · mergulho ao vivo",
+      "modalLede": "Manchetes recentes sobre {term}, atualizadas a cada minuto enquanto esta janela estiver aberta.",
+      "refreshIn": "Próxima atualização em {seconds}s",
+      "refreshNow": "Atualizar agora",
+      "loading": "Reunindo sinais ao vivo…",
+      "empty": "Nenhuma manchete ao vivo chegou até nós — tente novamente em instantes.",
+      "sources": "Fontes: Google News RSS · Bing News RSS · sem chave, cache de borda de 10 minutos",
+      "updated": "Atualizado {time}",
+      "cadence": "Atualização dos cartões: a cada 10 minutos · mergulho: a cada 60 segundos",
+      "readMore": "Ler a fonte",
+      "themes": {
+        "game": {
+          "title": "Jogos",
+          "tag": "Mundos sendo jogados agora mesmo"
+        },
+        "sports": {
+          "title": "Esportes",
+          "tag": "Placares, recordes e o próximo pontapé inicial"
+        },
+        "movie": {
+          "title": "Cinema",
+          "tag": "O que as telas sussurram esta noite"
+        },
+        "bestseller": {
+          "title": "Mais Vendidos",
+          "tag": "As páginas que todos estão virando"
+        },
+        "shopping": {
+          "title": "Compras",
+          "tag": "Ofertas, lançamentos e mudanças silenciosas de preço"
+        },
+        "stock": {
+          "title": "Bolsa",
+          "tag": "Para onde o dinheiro está pendendo hoje"
+        },
+        "webtoon": {
+          "title": "Webtoon",
+          "tag": "Quadros que o mundo rola sem parar"
+        },
+        "fashion": {
+          "title": "Moda",
+          "tag": "Silhuetas que chegam antes da estação"
+        },
+        "food": {
+          "title": "Gastronomia",
+          "tag": "Mesas, sabores e o prato da hora"
+        }
+      }
+    },
+    "discovery": {
+      "label": "Explore além",
+      "wikipedia": "Wikipédia",
+      "news": "Notícias",
+      "youtube": "YouTube",
+      "search": "Buscar"
+    },
+    "shorts": {
+      "label": "UNITAS Shorts",
+      "lede": "Momentos verticais da rede — a semente do U-Messenger.",
+      "views": "{count} visualizações",
+      "like": "Curtir",
+      "liked": "Curtido",
+      "follow": "Seguir",
+      "following": "Seguindo",
+      "upload": "Enviar",
+      "uploadSoon": "Os envios abrem com o beta do U-Messenger",
+      "seedNote": "Clipes semente exibidos como prévia · envios reais chegam com o beta do U-Messenger",
+      "share": "Compartilhar no U-Messenger",
+      "shareHint": "Os links compartilhados entregarão este clipe direto em uma conversa do U-Messenger assim que o beta abrir.",
+      "openAria": "Abrir o short {title}",
+      "creator": "Criador",
+      "duration": "{seconds}s",
+      "followers": "{count} seguidores"
+    },
+    "mail": {
+      "label": "Handle de e-mail UNITAS (opcional)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "Reserve seu endereço agora — a caixa de entrada é ativada no momento em que o UNITAS Mail for lançado.",
+      "available": "Disponível",
+      "invalid": "3–20 caracteres: a–z, 0–9, ponto, hífen, sublinhado",
+      "reservedWord": "Esse handle está reservado",
+      "reserved": "Reservado · caixa de entrada ativa quando o UNITAS Mail for lançado",
+      "reservedFor": "Reservado: {handle}"
+    },
+    "legal": {
+      "eyebrow": "Aviso",
+      "openFull": "Abrir a página completa",
+      "close": "Fechar"
+    },
+    "search": {
+      "trending": "Em alta agora",
+      "curiosity": "Cartões de curiosidade",
+      "recent": "Continue explorando",
+      "signals": "Sinais ao vivo",
+      "emptyHint": "Comece a digitar — ou escolha uma faísca abaixo.",
+      "clearRecent": "Limpar",
+      "ask": "Perguntar",
+      "cards": {
+        "c1": "Por que uma cidade parece mais rápida à noite?",
+        "c2": "Como seria o dinheiro se tivesse memória?",
+        "c3": "Até onde uma única ideia pode viajar em um dia?",
+        "c4": "Qual hábito rende mais juros compostos ao longo de uma década?",
+        "c5": "O que o oceano sabe sobre o tempo de amanhã?",
+        "c6": "Por que os melhores jogos parecem injustos no início?",
+        "c7": "Qual é a história mais antiga que ainda move os mercados de hoje?",
+        "c8": "Como os pássaros decidem quem lidera o bando?",
+        "c9": "Como seria uma manhã perfeita na sua cidade?",
+        "c10": "Por que lembramos canções, mas esquecemos discursos?",
+        "c11": "O que permite que uma pequena loja sobreviva mais que um gigante?",
+        "c12": "Como a luz viaja através de um diamante?"
+      }
+    },
+    "enter": {
+      "hint": "Pressione Enter para perguntar à U-AI"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · Conteúdo protegido · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

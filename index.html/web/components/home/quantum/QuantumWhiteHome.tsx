@@ -1,6 +1,7 @@
 'use client';
 
 import '@/app/quantum-white.css';
+import '@/app/quantum-white-rev19.css';
 
 import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -148,7 +149,7 @@ export function QuantumWhiteHome() {
     <Fragment>
       <QuantumVoid />
       <main className="qw-main pb-24">
-        <div className="qw-hero-wrap flex flex-col items-center pt-24 pb-12">
+        <div className="qw-hero-wrap flex flex-col items-center">
           <SectionShield zone="home-hero">
             <Hero />
           </SectionShield>

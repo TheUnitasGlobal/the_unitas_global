@@ -18,6 +18,12 @@
   --u-gate-title: clamp(2.25rem, 8.5vmin, 6rem);
   --u-gate-sub: clamp(0.875rem, 0.5rem + 1.6vmin, 1.25rem);
   --u-cin-head: clamp(1.05rem, min(5.4vw, 9svh), 4.5rem);
+  /* REV-19 §7: the `.dashboard-zoom` factor, readable from CSS so layout
+     maths inside the zoomed tree can convert screen px (the nav's live
+     bottom edge, published by NavBar as --unitas-nav-bottom) back into the
+     tree's own px. Keep in sync with `.dashboard-zoom { zoom }` below. */
+  --unitas-zoom: 0.75;
+  --unitas-nav-bottom: 64px;
   --u-cin-sub: clamp(0.72rem, min(3.2vw, 4svh), 1.5rem);
   --u-cin-gap: clamp(0.75rem, 2.5svh, 1.5rem);
   --u-seal-title: clamp(2rem, min(11vw, 9svh), 5.25rem);

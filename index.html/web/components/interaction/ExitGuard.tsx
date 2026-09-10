@@ -36,6 +36,7 @@ import {
   type ExitConfirmStep,
 } from '@/lib/exit/exitConfirmFlow';
 import { CINEMA_PHASE_EVENT } from '@/lib/foundersGate';
+import { claimModalPop } from '@/lib/history/modalStack';
 
 // Re-exported so existing callers keep their import path; the primitive now
 // lives with the pure confirm-flow state machine (round 17).
@@ -429,6 +430,11 @@ export function ExitGuard() {
 
     function onPop(e: PopStateEvent) {
       if (leavingRef.current || isExitInProgress()) return;
+      // REV-19 §1: a traversal that closed (or skipped) a deep-modal layer
+      // belongs to the modal history stack -- popups close one at a time
+      // in reverse order, and only a press with nothing left open reaches
+      // the sentinel buffer below.
+      if (claimModalPop(e)) return;
       const depth = readSentinelDepth(e.state, GUARD_MARKER, GUARD_DEPTH);
       // Landed on the TOP sentinel: a tower/popup that had pushed its own
       // entry above us just closed (or a forward traversal walked back up
@@ -634,7 +640,7 @@ export function ExitGuard() {
   const body = t(copyKeys.body);
 
   return (
-    <Modal open={gate.open} onClose={close} labelledBy={titleId} hideCloseButton layer="top">
+    <Modal open={gate.open} onClose={close} labelledBy={titleId} hideCloseButton layer="top" historyLayer={false}>
       {/* Keyed on the step so every advance (logout -> exit -> final) plays
           as a fresh dialog sliding into the same glass panel -- the App
           channel's second confirm reads as a NEW popup opening in sequence,

@@ -15,6 +15,7 @@ import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
 import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 import { useRankingDetail } from '@/lib/uai/rankingDetailClient';
+import { DiscoveryLinks } from '@/components/home/DiscoveryLinks';
 
 /**
  * 핫이슈 탭의 "하이브리드 테마 랭킹 위젯" (owner instruction 2026-09-04, deepened
@@ -164,7 +165,7 @@ export function GlobalThemeRankings() {
                       : undefined
                   }
                   aria-label={clickable ? t('entryDetailAria', { name: entry.name }) : undefined}
-                  className={`flex items-center gap-3 border border-white/10 bg-void/50 px-3 py-2 text-[13px] ${
+                  className={`flex items-center gap-3 border border-white/10 bg-void/50 px-3 py-2 text-[15px] ${
                     clickable ? 'cursor-pointer transition-colors hover:border-white/25 hover:bg-void/80' : ''
                   }`}
                 >
@@ -175,7 +176,7 @@ export function GlobalThemeRankings() {
                     {entry.rank}
                   </span>
                   <span className="min-w-0 flex-1 truncate font-bold text-white">{entry.name}</span>
-                  <span className="shrink-0 text-[11px] text-gray-500">{entry.note}</span>
+                  <span className="shrink-0 text-[12px] text-gray-500">{entry.note}</span>
                 </li>
               );
             })}
@@ -263,7 +264,10 @@ export function GlobalThemeRankings() {
               </>
             )}
 
-            <p className="text-[10px] uppercase tracking-widest text-gray-600">
+            {/* REV-19 §9: outbound discovery for the entry (keyless, new tab). */}
+            <DiscoveryLinks subject={detailReport?.localizedName ?? detail.entry.name} locale={locale} />
+
+            <p className="text-[11px] uppercase tracking-widest text-gray-600">
               {t(`themes.${detail.theme.key}.title`)}
             </p>
           </div>

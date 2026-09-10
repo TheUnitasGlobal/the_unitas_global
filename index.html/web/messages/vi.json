@@ -1773,5 +1773,133 @@
     "enter": "Vào",
     "signInToEnter": "Đăng nhập để vào",
     "guestEnter": "Tạo tài khoản đầy đủ để giữ U-COIN và vào."
+  },
+  "Rev19": {
+    "hub": {
+      "label": "Trung tâm trực tiếp",
+      "themesLabel": "Chủ đề khám phá xoay vòng",
+      "rotating": "Tự động xoay vòng · chạm vào một chủ đề để giữ lại",
+      "held": "Đã giữ · vòng xoay tiếp tục khi thả ra",
+      "openAria": "Mở phần tìm hiểu sâu trực tiếp về {theme}",
+      "modalTitle": "{theme} · tìm hiểu sâu trực tiếp",
+      "modalLede": "Tin tức mới nhất về {term}, được cập nhật mỗi phút khi cửa sổ này còn mở.",
+      "refreshIn": "Cập nhật tiếp theo sau {seconds} giây",
+      "refreshNow": "Cập nhật ngay",
+      "loading": "Đang thu thập tín hiệu trực tiếp…",
+      "empty": "Chưa có tin tức trực tiếp nào đến — vui lòng thử lại sau chốc lát.",
+      "sources": "Nguồn: Google News RSS · Bing News RSS · không cần khóa, bộ nhớ đệm biên 10 phút",
+      "updated": "Cập nhật {time}",
+      "cadence": "Cập nhật thẻ: mỗi 10 phút · tìm hiểu sâu: mỗi 60 giây",
+      "readMore": "Xem nguồn",
+      "themes": {
+        "game": {
+          "title": "Game",
+          "tag": "Những thế giới đang được chơi ngay lúc này"
+        },
+        "sports": {
+          "title": "Thể thao",
+          "tag": "Tỷ số, kỷ lục và trận đấu tiếp theo"
+        },
+        "movie": {
+          "title": "Phim",
+          "tag": "Những gì màn ảnh đang thì thầm đêm nay"
+        },
+        "bestseller": {
+          "title": "Bán chạy",
+          "tag": "Những trang sách ai cũng đang lật"
+        },
+        "shopping": {
+          "title": "Mua sắm",
+          "tag": "Ưu đãi, hàng mới và những biến động giá thầm lặng"
+        },
+        "stock": {
+          "title": "Chứng khoán",
+          "tag": "Dòng tiền đang nghiêng về đâu hôm nay"
+        },
+        "webtoon": {
+          "title": "Webtoon",
+          "tag": "Những khung tranh cả thế giới đang lướt qua"
+        },
+        "fashion": {
+          "title": "Thời trang",
+          "tag": "Những dáng vóc đến trước cả mùa"
+        },
+        "food": {
+          "title": "Ẩm thực",
+          "tag": "Bàn ăn, hương vị và món ngon của giờ này"
+        }
+      }
+    },
+    "discovery": {
+      "label": "Khám phá thêm",
+      "wikipedia": "Wikipedia",
+      "news": "Tin tức",
+      "youtube": "YouTube",
+      "search": "Tìm kiếm"
+    },
+    "shorts": {
+      "label": "UNITAS Shorts",
+      "lede": "Những khoảnh khắc dọc từ mạng lưới — hạt giống của U-Messenger.",
+      "views": "{count} lượt xem",
+      "like": "Thích",
+      "liked": "Đã thích",
+      "follow": "Theo dõi",
+      "following": "Đang theo dõi",
+      "upload": "Tải lên",
+      "uploadSoon": "Tính năng tải lên mở cùng bản beta U-Messenger",
+      "seedNote": "Clip khởi tạo hiển thị làm bản xem trước · nội dung tải lên thật sẽ đến cùng bản beta U-Messenger",
+      "share": "Chia sẻ đến U-Messenger",
+      "shareHint": "Liên kết chia sẻ sẽ đưa clip này thẳng vào một cuộc trò chuyện U-Messenger ngay khi bản beta mở.",
+      "openAria": "Mở video ngắn {title}",
+      "creator": "Người sáng tạo",
+      "duration": "{seconds} giây",
+      "followers": "{count} người theo dõi"
+    },
+    "mail": {
+      "label": "Tên định danh email UNITAS (tùy chọn)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "Đặt trước địa chỉ của bạn ngay bây giờ — hộp thư sẽ kích hoạt ngay khi UNITAS Mail ra mắt.",
+      "available": "Khả dụng",
+      "invalid": "3–20 ký tự: a–z, 0–9, dấu chấm, dấu gạch ngang, dấu gạch dưới",
+      "reservedWord": "Tên định danh này đã được giữ trước",
+      "reserved": "Đã giữ trước · hộp thư kích hoạt khi UNITAS Mail ra mắt",
+      "reservedFor": "Đã giữ trước: {handle}"
+    },
+    "legal": {
+      "eyebrow": "Thông báo",
+      "openFull": "Mở trang đầy đủ",
+      "close": "Đóng"
+    },
+    "search": {
+      "trending": "Đang nổi lên",
+      "curiosity": "Thẻ khơi gợi tò mò",
+      "recent": "Tiếp tục khám phá",
+      "signals": "Tín hiệu trực tiếp",
+      "emptyHint": "Bắt đầu gõ — hoặc chọn một tia sáng bên dưới.",
+      "clearRecent": "Xóa",
+      "ask": "Hỏi",
+      "cards": {
+        "c1": "Vì sao thành phố về đêm lại có cảm giác nhanh hơn?",
+        "c2": "Tiền sẽ trông ra sao nếu nó có trí nhớ?",
+        "c3": "Một ý tưởng có thể đi xa đến đâu trong một ngày?",
+        "c4": "Thói quen nào tích lũy lãi kép mạnh nhất sau một thập kỷ?",
+        "c5": "Đại dương biết gì về thời tiết ngày mai?",
+        "c6": "Vì sao những trò chơi hay nhất lại có cảm giác bất công lúc ban đầu?",
+        "c7": "Câu chuyện cổ xưa nào vẫn đang chi phối thị trường hôm nay?",
+        "c8": "Loài chim quyết định ai dẫn đầu đàn như thế nào?",
+        "c9": "Một buổi sáng hoàn hảo ở thành phố của bạn sẽ trông ra sao?",
+        "c10": "Vì sao ta nhớ những bài hát nhưng lại quên những bài diễn văn?",
+        "c11": "Điều gì giúp một cửa hàng nhỏ tồn tại lâu hơn cả một gã khổng lồ?",
+        "c12": "Ánh sáng di chuyển qua viên kim cương như thế nào?"
+      }
+    },
+    "enter": {
+      "hint": "Nhấn Enter để hỏi U-AI"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · Nội dung được bảo vệ · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

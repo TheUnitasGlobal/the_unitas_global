@@ -1773,5 +1773,133 @@
     "enter": "Pumasok",
     "signInToEnter": "Mag-sign in para makapasok",
     "guestEnter": "Gumawa ng buong account upang hawakan ang U-COIN at makapasok."
+  },
+  "Rev19": {
+    "hub": {
+      "label": "Live Hub",
+      "themesLabel": "Umiikot na mga tema ng paggalugad",
+      "rotating": "Awtomatikong umiikot · i-tap ang isang tema para ihinto ito",
+      "held": "Nakahinto · magpapatuloy ang pag-ikot pagkabitaw",
+      "openAria": "Buksan ang live na malalim na tingin sa {theme}",
+      "modalTitle": "{theme} · live na malalim na tingin",
+      "modalLede": "Sariwang mga balita tungkol sa {term}, ina-update bawat minuto habang bukas ang window na ito.",
+      "refreshIn": "Susunod na pag-refresh sa {seconds}s",
+      "refreshNow": "I-refresh ngayon",
+      "loading": "Kinokolekta ang mga live na senyales…",
+      "empty": "Wala pang live na balita ang dumating — subukan muli sandali.",
+      "sources": "Pinagmulan: Google News RSS · Bing News RSS · walang key, 10-minutong edge cache",
+      "updated": "Na-update {time}",
+      "cadence": "Pag-refresh ng card: bawat 10 minuto · malalim na tingin: bawat 60 segundo",
+      "readMore": "Basahin ang pinagmulan",
+      "themes": {
+        "game": {
+          "title": "Laro",
+          "tag": "Mga mundong nilalaro ngayon mismo"
+        },
+        "sports": {
+          "title": "Sports",
+          "tag": "Mga score, rekord, at ang susunod na kick-off"
+        },
+        "movie": {
+          "title": "Pelikula",
+          "tag": "Ang ibinubulong ng mga screen ngayong gabi"
+        },
+        "bestseller": {
+          "title": "Bestseller",
+          "tag": "Ang mga pahinang binubuklat ng lahat"
+        },
+        "shopping": {
+          "title": "Shopping",
+          "tag": "Mga deal, bagong labas, at tahimik na pagbabago ng presyo"
+        },
+        "stock": {
+          "title": "Stock Market",
+          "tag": "Kung saan humihilig ang pera ngayon"
+        },
+        "webtoon": {
+          "title": "Webtoon",
+          "tag": "Mga panel na sini-scroll ng buong mundo"
+        },
+        "fashion": {
+          "title": "Fashion",
+          "tag": "Mga hugis na dumarating bago pa man ang season"
+        },
+        "food": {
+          "title": "Pagkain",
+          "tag": "Mga mesa, lasa, at ang putahe ng oras na ito"
+        }
+      }
+    },
+    "discovery": {
+      "label": "Galugarin pa",
+      "wikipedia": "Wikipedia",
+      "news": "Balita",
+      "youtube": "YouTube",
+      "search": "Hanapin"
+    },
+    "shorts": {
+      "label": "UNITAS Shorts",
+      "lede": "Mga vertical na sandali mula sa network — ang binhi ng U-Messenger.",
+      "views": "{count} views",
+      "like": "I-like",
+      "liked": "Na-like",
+      "follow": "Sundan",
+      "following": "Sinusundan",
+      "upload": "I-upload",
+      "uploadSoon": "Magbubukas ang pag-upload kasabay ng U-Messenger beta",
+      "seedNote": "Mga panimulang clip na ipinapakita bilang preview · darating ang tunay na mga upload kasabay ng U-Messenger beta",
+      "share": "I-share sa U-Messenger",
+      "shareHint": "Kapag nabuksan na ang beta, direktang ihahatid ng mga link ng pagbabahagi ang clip na ito sa isang thread ng U-Messenger.",
+      "openAria": "Buksan ang short na {title}",
+      "creator": "Creator",
+      "duration": "{seconds}s",
+      "followers": "{count} na tagasunod"
+    },
+    "mail": {
+      "label": "Username ng UNITAS Mail (opsyonal)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "I-reserve na ang iyong address ngayon — ma-a-activate ang mailbox sa sandaling magbukas ang UNITAS Mail.",
+      "available": "Available",
+      "invalid": "3–20 na karakter: a–z, 0–9, tuldok, gitling, underscore",
+      "reservedWord": "Nakalaan na ang username na iyon",
+      "reserved": "Nakalaan · ma-a-activate ang mailbox kapag nagbukas ang UNITAS Mail",
+      "reservedFor": "Nakalaan: {handle}"
+    },
+    "legal": {
+      "eyebrow": "Abiso",
+      "openFull": "Buksan ang buong pahina",
+      "close": "Isara"
+    },
+    "search": {
+      "trending": "Umuusbong ngayon",
+      "curiosity": "Mga kard ng kuryusidad",
+      "recent": "Ipagpatuloy ang paggalugad",
+      "signals": "Live na senyales",
+      "emptyHint": "Simulan ang pag-type — o pumili ng kislap sa ibaba.",
+      "clearRecent": "Burahin",
+      "ask": "Tanungin",
+      "cards": {
+        "c1": "Bakit parang mas mabilis ang isang lungsod kapag gabi na?",
+        "c2": "Ano kaya ang hitsura ng pera kung ito ay may alaala?",
+        "c3": "Gaano kalayo maaabot ng isang ideya sa loob ng isang araw?",
+        "c4": "Aling ugali ang pinakatumutubo sa loob ng isang dekada?",
+        "c5": "Ano ang alam ng karagatan tungkol sa panahon bukas?",
+        "c6": "Bakit parang hindi patas ang pinakamahuhusay na laro sa simula?",
+        "c7": "Ano ang pinakalumang kuwento na gumagalaw pa rin sa mga merkado ngayon?",
+        "c8": "Paano napagpapasyahan ng mga ibon kung sino ang mamumuno sa kawan?",
+        "c9": "Ano kaya ang hitsura ng isang perpektong umaga sa iyong lungsod?",
+        "c10": "Bakit natatandaan natin ang mga kanta pero nakakalimutan ang mga talumpati?",
+        "c11": "Ano ang nagpapatagal sa isang maliit na tindahan kaysa sa isang higante?",
+        "c12": "Paano naglalakbay ang liwanag sa loob ng diyamante?"
+      }
+    },
+    "enter": {
+      "hint": "Pindutin ang Enter para magtanong sa U-AI"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · Protektadong nilalaman · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

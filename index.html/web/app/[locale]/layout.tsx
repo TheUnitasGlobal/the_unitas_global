@@ -14,6 +14,7 @@ import { PwaInstallHost } from '@/components/pwa/PwaInstallHost';
 import { InAppBrowserEscape } from '@/components/pwa/InAppBrowserEscape';
 import { SovereignDebugPanel } from '@/components/sovereign/SovereignDebugPanel';
 import { ExitGuard } from '@/components/interaction/ExitGuard';
+import { SiteLinkModalHost } from '@/components/layout/SiteLinkModalHost';
 import { SovereignShield } from '@/components/system/SovereignShield';
 import { SealedFallback } from '@/components/system/SealedFallback';
 import { PageShield } from '@/components/system/PageShield';
@@ -141,6 +142,12 @@ export default async function LocaleLayout({
             above the curtain. */}
         <SovereignShield zone="exit-guard">
           <ExitGuard />
+        </SovereignShield>
+        {/* REV-19 §12: Terms / Privacy / every institutional page opens as an
+            inline modal over the current screen (deep-modal history layer)
+            instead of routing away -- one host serves every route. */}
+        <SovereignShield zone="site-link-modal">
+          <SiteLinkModalHost />
         </SovereignShield>
         {/* Global one-click PWA install handler (z-650) -- serves every route,
             including the sealed cinema screen. Any `data-pwa-install` element

@@ -38,7 +38,20 @@ async function openFirstEntryGate(page) {
   await page.waitForSelector('.qw-tile', { timeout: 15_000 });
   await page.evaluate(() => document.querySelector('.qw-tile').click());
   await page.waitForSelector("[data-view='entry']", { timeout: 10_000 });
-  await page.waitForTimeout(400);
+  // The panel narrows through a 0.28s max-width transition that only starts
+  // on the next rendering frame -- on a software-rendered headless run the
+  // frame can arrive 300-450ms after the attribute flips (measured
+  // 2026-09-10, REV-19), so wait for the narrowed value itself instead of a
+  // fixed delay.
+  await page.waitForFunction(
+    () => {
+      const panel = document.querySelector('.qw-popout-panel');
+      return !!panel && parseFloat(getComputedStyle(panel).maxWidth) <= 648;
+    },
+    null,
+    { timeout: 10_000 },
+  );
+  await page.waitForTimeout(150);
 }
 
 test.describe('REV-17 Entry Gate view', () => {
@@ -81,7 +94,10 @@ test.describe('REV-17 Entry Gate view', () => {
         videoSlot: stage.getAttribute('data-video-slot'),
         guideCount: guide.length,
         noticeCount: notice.length,
-        hasLink: Boolean(link && link.getAttribute('href')),
+        // REV-19 §12: the notice's Terms / Privacy affordances are buttons
+        // that open the inline legal modal over the gate (no routing away);
+        // an anchor with an href is the pre-REV-19 shape.
+        hasLink: Boolean(link && (link.getAttribute('href') || link.tagName === 'BUTTON')),
         scenarioText: scenario ? scenario.textContent.trim() : '',
       };
     });

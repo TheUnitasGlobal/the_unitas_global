@@ -1773,5 +1773,133 @@
     "enter": "Betreden",
     "signInToEnter": "Log in om binnen te gaan",
     "guestEnter": "Maak een volledig account aan om U-COIN te bezitten en binnen te gaan."
+  },
+  "Rev19": {
+    "hub": {
+      "label": "Live-hub",
+      "themesLabel": "Roterende ontdekkingsthema's",
+      "rotating": "Automatisch roterend · tik op een thema om het vast te zetten",
+      "held": "Vastgezet · rotatie hervat bij loslaten",
+      "openAria": "Open de live-verdieping over {theme}",
+      "modalTitle": "{theme} · live-verdieping",
+      "modalLede": "Verse koppen over {term}, elke minuut vernieuwd zolang dit venster open blijft.",
+      "refreshIn": "Volgende vernieuwing over {seconds} s",
+      "refreshNow": "Nu vernieuwen",
+      "loading": "Live signalen verzamelen…",
+      "empty": "Er zijn nog geen live koppen binnengekomen — probeer het straks opnieuw.",
+      "sources": "Bronnen: Google News RSS · Bing News RSS · zonder sleutel, 10 minuten edge-cache",
+      "updated": "Bijgewerkt {time}",
+      "cadence": "Kaartvernieuwing: elke 10 minuten · verdieping: elke 60 seconden",
+      "readMore": "Lees de bron",
+      "themes": {
+        "game": {
+          "title": "Game",
+          "tag": "Werelden die op dit moment worden gespeeld"
+        },
+        "sports": {
+          "title": "Sport",
+          "tag": "Standen, records en de volgende aftrap"
+        },
+        "movie": {
+          "title": "Film",
+          "tag": "Wat de schermen vanavond fluisteren"
+        },
+        "bestseller": {
+          "title": "Bestseller",
+          "tag": "De pagina's die iedereen omslaat"
+        },
+        "shopping": {
+          "title": "Shopping",
+          "tag": "Deals, nieuwe releases en stille prijsverschuivingen"
+        },
+        "stock": {
+          "title": "Beurs",
+          "tag": "Waar het geld vandaag naartoe neigt"
+        },
+        "webtoon": {
+          "title": "Webtoon",
+          "tag": "Panelen waar de wereld doorheen scrolt"
+        },
+        "fashion": {
+          "title": "Mode",
+          "tag": "Silhouetten die aankomen vóór het seizoen"
+        },
+        "food": {
+          "title": "Culinair",
+          "tag": "Tafels, smaken en het gerecht van dit uur"
+        }
+      }
+    },
+    "discovery": {
+      "label": "Verken verder",
+      "wikipedia": "Wikipedia",
+      "news": "Nieuws",
+      "youtube": "YouTube",
+      "search": "Zoeken"
+    },
+    "shorts": {
+      "label": "UNITAS Shorts",
+      "lede": "Verticale momenten uit het netwerk — de kiem van U-Messenger.",
+      "views": "{count} weergaven",
+      "like": "Liken",
+      "liked": "Geliked",
+      "follow": "Volgen",
+      "following": "Volgend",
+      "upload": "Uploaden",
+      "uploadSoon": "Uploaden wordt geopend met de U-Messenger-bèta",
+      "seedNote": "Startclips getoond als voorbeeld · echte uploads komen met de U-Messenger-bèta",
+      "share": "Delen naar U-Messenger",
+      "shareHint": "Zodra de bèta opent, brengen deellinks deze clip direct naar een U-Messenger-gesprek.",
+      "openAria": "Open de short {title}",
+      "creator": "Maker",
+      "duration": "{seconds} s",
+      "followers": "{count} volgers"
+    },
+    "mail": {
+      "label": "UNITAS Mail-handle (optioneel)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "Reserveer nu je adres — de mailbox wordt geactiveerd zodra UNITAS Mail opent.",
+      "available": "Beschikbaar",
+      "invalid": "3–20 tekens: a–z, 0–9, punt, streepje, underscore",
+      "reservedWord": "Die handle is gereserveerd",
+      "reserved": "Gereserveerd · mailbox wordt geactiveerd zodra UNITAS Mail opent",
+      "reservedFor": "Gereserveerd: {handle}"
+    },
+    "legal": {
+      "eyebrow": "Kennisgeving",
+      "openFull": "Open de volledige pagina",
+      "close": "Sluiten"
+    },
+    "search": {
+      "trending": "Nu in opkomst",
+      "curiosity": "Nieuwsgierigheidskaarten",
+      "recent": "Blijf verkennen",
+      "signals": "Live signalen",
+      "emptyHint": "Begin met typen — of kies hieronder een vonk.",
+      "clearRecent": "Wissen",
+      "ask": "Vraag",
+      "cards": {
+        "c1": "Waarom voelt een stad 's nachts sneller aan?",
+        "c2": "Hoe zou geld eruitzien als het een geheugen had?",
+        "c3": "Hoe ver kan één idee in één dag reizen?",
+        "c4": "Welke gewoonte levert over een decennium het meeste op?",
+        "c5": "Wat weet de oceaan over het weer van morgen?",
+        "c6": "Waarom voelen de beste games in het begin oneerlijk aan?",
+        "c7": "Wat is het oudste verhaal dat de markten van vandaag nog steeds beweegt?",
+        "c8": "Hoe beslissen vogels wie de zwerm leidt?",
+        "c9": "Hoe zou een perfecte ochtend eruitzien in jouw stad?",
+        "c10": "Waarom onthouden we liedjes maar vergeten we toespraken?",
+        "c11": "Wat zorgt ervoor dat een kleine winkel een gigant overleeft?",
+        "c12": "Hoe reist licht door een diamant?"
+      }
+    },
+    "enter": {
+      "hint": "Druk op Enter om U-AI iets te vragen"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · Beschermde inhoud · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

@@ -1773,5 +1773,133 @@
     "enter": "入场",
     "signInToEnter": "登录以入场",
     "guestEnter": "请创建正式账户,以持有 U-COIN 并入场。"
+  },
+  "Rev19": {
+    "hub": {
+      "label": "实时中心",
+      "themesLabel": "轮播探索主题",
+      "rotating": "自动轮播中 · 点击主题可固定",
+      "held": "已固定 · 松开后恢复轮播",
+      "openAria": "打开{theme}实时深度解读",
+      "modalTitle": "{theme} · 实时深度解读",
+      "modalLede": "关于{term}的最新头条,只要此窗口保持打开,每分钟刷新一次。",
+      "refreshIn": "{seconds}秒后刷新",
+      "refreshNow": "立即刷新",
+      "loading": "正在收集实时信号…",
+      "empty": "暂未收到实时头条 — 请稍后重试。",
+      "sources": "来源:Google 新闻 RSS · Bing 新闻 RSS · 无需密钥 · 10 分钟边缘缓存",
+      "updated": "更新于 {time}",
+      "cadence": "卡片刷新:每 10 分钟 · 深度解读:每 60 秒",
+      "readMore": "查看原文",
+      "themes": {
+        "game": {
+          "title": "游戏",
+          "tag": "此刻正在被玩的世界"
+        },
+        "sports": {
+          "title": "体育",
+          "tag": "比分、纪录,以及下一次开球"
+        },
+        "movie": {
+          "title": "电影",
+          "tag": "今夜银幕正在低语的事"
+        },
+        "bestseller": {
+          "title": "畅销榜",
+          "tag": "人人都在翻阅的书页"
+        },
+        "shopping": {
+          "title": "购物",
+          "tag": "折扣、新品,与悄然变动的价格"
+        },
+        "stock": {
+          "title": "股市",
+          "tag": "今天资金正在倾向何方"
+        },
+        "webtoon": {
+          "title": "网络漫画",
+          "tag": "全世界都在滑动阅读的画格"
+        },
+        "fashion": {
+          "title": "时尚",
+          "tag": "先于季节到来的轮廓"
+        },
+        "food": {
+          "title": "美食",
+          "tag": "餐桌、滋味,与此刻的这一道菜"
+        }
+      }
+    },
+    "discovery": {
+      "label": "探索更多",
+      "wikipedia": "维基百科",
+      "news": "新闻",
+      "youtube": "YouTube",
+      "search": "搜索"
+    },
+    "shorts": {
+      "label": "UNITAS Shorts",
+      "lede": "来自网络的竖屏瞬间 — U-Messenger 的种子。",
+      "views": "{count} 次观看",
+      "like": "点赞",
+      "liked": "已点赞",
+      "follow": "关注",
+      "following": "已关注",
+      "upload": "上传",
+      "uploadSoon": "上传功能将随 U-Messenger 测试版开放",
+      "seedNote": "当前展示的是预览用种子短片 · 真正的上传将随 U-Messenger 测试版到来",
+      "share": "分享至 U-Messenger",
+      "shareHint": "测试版开放后,分享链接会将这段短片直接送入 U-Messenger 的对话串。",
+      "openAria": "打开短片《{title}》",
+      "creator": "创作者",
+      "duration": "{seconds}秒",
+      "followers": "{count} 位粉丝"
+    },
+    "mail": {
+      "label": "UNITAS 邮箱账号(可选)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "现在就预留您的地址 — UNITAS Mail 开通的瞬间,邮箱即刻生效。",
+      "available": "可用",
+      "invalid": "3–20 个字符: a–z, 0–9, 点, 连字符, 下划线",
+      "reservedWord": "该账号已被保留",
+      "reserved": "已保留 · UNITAS Mail 开通时邮箱生效",
+      "reservedFor": "已保留:{handle}"
+    },
+    "legal": {
+      "eyebrow": "公告",
+      "openFull": "查看完整页面",
+      "close": "关闭"
+    },
+    "search": {
+      "trending": "飙升中",
+      "curiosity": "好奇心卡片",
+      "recent": "继续探索",
+      "signals": "实时信号",
+      "emptyHint": "开始输入,或在下方选一个灵感。",
+      "clearRecent": "清除",
+      "ask": "提问",
+      "cards": {
+        "c1": "为什么城市在夜晚感觉更快?",
+        "c2": "如果金钱拥有记忆,它会是什么样子?",
+        "c3": "一个想法一天之内能传播多远?",
+        "c4": "哪种习惯在十年间复利效应最强?",
+        "c5": "海洋对明天的天气知道些什么?",
+        "c6": "为什么最好的游戏一开始总让人觉得不公平?",
+        "c7": "至今仍在左右市场的,是哪个最古老的故事?",
+        "c8": "鸟群如何决定由谁来领飞?",
+        "c9": "在你的城市,完美的早晨会是什么样子?",
+        "c10": "为什么我们记得住歌曲,却记不住演讲?",
+        "c11": "是什么让一家小店比巨头存活得更久?",
+        "c12": "光是如何穿过钻石的?"
+      }
+    },
+    "enter": {
+      "hint": "按 Enter 向 U-AI 提问"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · 受保护内容 · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

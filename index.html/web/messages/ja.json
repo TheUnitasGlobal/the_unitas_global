@@ -1773,5 +1773,133 @@
     "enter": "入場",
     "signInToEnter": "入場するにはサインイン",
     "guestEnter": "U-COINを保有し入場するには、正式なアカウントを作成してください。"
+  },
+  "Rev19": {
+    "hub": {
+      "label": "ライブハブ",
+      "themesLabel": "回転するディスカバリーテーマ",
+      "rotating": "自動ローテーション中 · テーマをタップすると固定されます",
+      "held": "固定中 · 解除すると再び回転します",
+      "openAria": "{theme}のライブ深掘りを開く",
+      "modalTitle": "{theme} · ライブ深掘り",
+      "modalLede": "{term}に関する最新ヘッドライン。このウィンドウが開いている間、1分ごとに更新されます。",
+      "refreshIn": "次の更新まで{seconds}秒",
+      "refreshNow": "今すぐ更新",
+      "loading": "ライブシグナルを収集中…",
+      "empty": "ライブヘッドラインが届きませんでした。しばらくしてから再度お試しください。",
+      "sources": "出典: Google News RSS · Bing News RSS · キー不要 · 10分間のエッジキャッシュ",
+      "updated": "更新 {time}",
+      "cadence": "カード更新: 10分ごと · 深掘り: 60秒ごと",
+      "readMore": "元記事を読む",
+      "themes": {
+        "game": {
+          "title": "ゲーム",
+          "tag": "今この瞬間、プレイされている世界"
+        },
+        "sports": {
+          "title": "スポーツ",
+          "tag": "スコア、記録、そして次のキックオフ"
+        },
+        "movie": {
+          "title": "映画",
+          "tag": "今夜、スクリーンがささやくもの"
+        },
+        "bestseller": {
+          "title": "ベストセラー",
+          "tag": "誰もがめくっているページ"
+        },
+        "shopping": {
+          "title": "ショッピング",
+          "tag": "セール、新着、静かな価格の変化"
+        },
+        "stock": {
+          "title": "株式",
+          "tag": "今日、お金が傾く方向"
+        },
+        "webtoon": {
+          "title": "ウェブトゥーン",
+          "tag": "世界がスクロールするコマ"
+        },
+        "fashion": {
+          "title": "ファッション",
+          "tag": "季節より先に届くシルエット"
+        },
+        "food": {
+          "title": "グルメ",
+          "tag": "食卓、味わい、そして今この時間の一皿"
+        }
+      }
+    },
+    "discovery": {
+      "label": "さらに探る",
+      "wikipedia": "ウィキペディア",
+      "news": "ニュース",
+      "youtube": "YouTube",
+      "search": "検索"
+    },
+    "shorts": {
+      "label": "UNITAS Shorts",
+      "lede": "ネットワークから届く縦型の瞬間 — U-Messengerの種。",
+      "views": "{count}回視聴",
+      "like": "いいね",
+      "liked": "いいね済み",
+      "follow": "フォロー",
+      "following": "フォロー中",
+      "upload": "アップロード",
+      "uploadSoon": "アップロードはU-Messengerベータと共に開放されます",
+      "seedNote": "プレビューとして表示されるシードクリップ · 実際のアップロードはU-Messengerベータと共に登場します",
+      "share": "U-Messengerで共有",
+      "shareHint": "ベータが開始されると、共有リンクはこのクリップをU-Messengerのスレッドに直接届けます。",
+      "openAria": "ショート「{title}」を開く",
+      "creator": "クリエイター",
+      "duration": "{seconds}秒",
+      "followers": "フォロワー{count}人"
+    },
+    "mail": {
+      "label": "UNITAS メールハンドル(任意)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "今すぐアドレスを予約 — UNITAS Mailが開設される瞬間、メールボックスが有効になります。",
+      "available": "利用可能",
+      "invalid": "3〜20文字: a–z, 0–9, ドット, ハイフン, アンダースコア",
+      "reservedWord": "そのハンドルは予約されています",
+      "reserved": "予約済み · UNITAS Mail開設時にメールボックスが有効になります",
+      "reservedFor": "予約済み: {handle}"
+    },
+    "legal": {
+      "eyebrow": "お知らせ",
+      "openFull": "全文ページを開く",
+      "close": "閉じる"
+    },
+    "search": {
+      "trending": "急上昇中",
+      "curiosity": "好奇心カード",
+      "recent": "探索を続ける",
+      "signals": "ライブシグナル",
+      "emptyHint": "入力を始めるか、下のひらめきを選んでください。",
+      "clearRecent": "クリア",
+      "ask": "質問",
+      "cards": {
+        "c1": "なぜ都市は夜になると速く感じるのか?",
+        "c2": "お金に記憶があったら、どんな姿をしているだろう?",
+        "c3": "一つのアイデアは一日でどれほど遠くまで届くのか?",
+        "c4": "10年で最も複利のように積み重なる習慣とは?",
+        "c5": "海は明日の天気について何を知っているのか?",
+        "c6": "最高のゲームは、なぜ最初は不公平に感じるのか?",
+        "c7": "今日の市場を動かし続ける、最も古い物語とは?",
+        "c8": "鳥たちはどうやって群れのリーダーを決めるのか?",
+        "c9": "あなたの街の完璧な朝は、どんな姿をしているだろう?",
+        "c10": "なぜ私たちは歌を覚えていて、スピーチは忘れてしまうのか?",
+        "c11": "小さな店が巨大企業より長く生き残る理由とは?",
+        "c12": "光はダイヤモンドの中をどのように進むのか?"
+      }
+    },
+    "enter": {
+      "hint": "Enterを押してU-AIに質問"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · 保護されたコンテンツ · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

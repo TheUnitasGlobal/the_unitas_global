@@ -491,8 +491,8 @@
     "privacyPolicy": "개인정보 처리방침",
     "cookiePolicy": "쿠키 정책",
     "termsOfService": "이용약관",
-    "legal": "법적 고지",
-    "patentNotice": "특허 고지",
+    "legal": "법률 안내",
+    "patentNotice": "특허 안내",
     "compliance": "컴플라이언스",
     "security": "보안",
     "company": "회사 소개",
@@ -863,10 +863,10 @@
       ]
     },
     "patent-notice": {
-      "title": "특허 고지",
+      "title": "특허 안내",
       "lede": "일부 UNITAS 방법 및 시스템은 출원 계류 중인 특허의 대상입니다.",
       "body": [
-        "UNITAS 인지 및 시그니처 프로토콜의 일부 측면에 대해 미국 가출원(제64/023,911호)이 접수되었습니다. 해당 출원은 계류 중이며, 특허는 부여되지 않았고, 본 고지의 어떤 내용도 부여된 권리의 주장으로 해석되어서는 안 됩니다.",
+        "UNITAS 인지 및 시그니처 프로토콜의 일부 측면에 대해 미국 가출원(제64/023,911호)이 접수되었습니다. 해당 출원은 계류 중이며, 특허는 부여되지 않았고, 본 안내의 어떤 내용도 부여된 권리의 주장으로 해석되어서는 안 됩니다.",
         "계류 상태는 특허가 실제로 등록되기 전까지 어떠한 집행 가능한 배타권도 부여하지 않습니다. 제품명과 Sovereign Codex 시스템 명칭은 출처 식별자로 사용됩니다."
       ]
     },
@@ -1732,13 +1732,13 @@
     "entry": {
       "eyebrowScenario": "시나리오",
       "eyebrowGuide": "진행 방식",
-      "eyebrowNotice": "고지",
+      "eyebrowNotice": "공지사항",
       "stageStandby": "송신 대기",
       "back": "뒤로",
       "notice": {
         "n1": "U-COIN은 접근 권한을 여는 선불 유틸리티 크레딧입니다. 투자·증권·수익 상품이 아니며 어떠한 금전적 수익도 약속하지 않습니다.",
         "n2": "문이 열리는 즉시 소모된 U-COIN은 확정되며 환불되지 않습니다. 입장 1회당 접근 권한은 30분간 유지됩니다.",
-        "n3": "모든 입장은 U-Signature 행동 서명과 제로트러스트 검증을 거칩니다. 세션 공유·자동화 도구·변조는 사전 고지 없이 거부됩니다.",
+        "n3": "모든 입장은 U-Signature 행동 서명과 제로트러스트 검증을 거칩니다. 세션 공유·자동화 도구·변조는 사전 안내 없이 거부됩니다.",
         "n4": "입장은 이용약관 및 개인정보 처리방침에 대한 동의로 간주됩니다. 현지 법령이 선불 디지털 크레딧을 제한하는 지역에서는 입장이 제한될 수 있습니다.",
         "legalLink": "이용약관 · 개인정보 처리방침"
       },
@@ -1773,5 +1773,133 @@
     "enter": "입장하기",
     "signInToEnter": "입장하려면 로그인하세요",
     "guestEnter": "U-COIN을 보유하고 입장하려면 정식 계정을 만들어 주세요."
+  },
+  "Rev19": {
+    "hub": {
+      "label": "라이브 허브",
+      "themesLabel": "회전 디스커버리 테마",
+      "rotating": "자동 회전 중 · 테마를 누르면 고정됩니다",
+      "held": "고정됨 · 해제하면 다시 회전합니다",
+      "openAria": "{theme} 실시간 딥다이브 열기",
+      "modalTitle": "{theme} · 실시간 딥다이브",
+      "modalLede": "{term}에 관한 최신 헤드라인. 이 창이 열려 있는 동안 1분마다 갱신됩니다.",
+      "refreshIn": "다음 갱신까지 {seconds}초",
+      "refreshNow": "지금 갱신",
+      "loading": "실시간 신호를 모으는 중…",
+      "empty": "실시간 헤드라인이 도착하지 않았습니다. 잠시 후 다시 시도해 주세요.",
+      "sources": "출처: Google 뉴스 RSS · Bing 뉴스 RSS · 무키 · 10분 엣지 캐시",
+      "updated": "갱신 {time}",
+      "cadence": "카드 갱신: 10분마다 · 딥다이브: 60초마다",
+      "readMore": "원문 보기",
+      "themes": {
+        "game": {
+          "title": "게임",
+          "tag": "지금 이 순간 플레이되는 세계들"
+        },
+        "sports": {
+          "title": "스포츠",
+          "tag": "스코어, 기록, 그리고 다음 킥오프"
+        },
+        "movie": {
+          "title": "영화",
+          "tag": "오늘 밤 스크린이 속삭이는 것"
+        },
+        "bestseller": {
+          "title": "베스트셀러",
+          "tag": "모두가 넘기고 있는 페이지"
+        },
+        "shopping": {
+          "title": "쇼핑",
+          "tag": "특가, 신상, 조용한 가격 변동"
+        },
+        "stock": {
+          "title": "주식",
+          "tag": "오늘 돈이 기우는 방향"
+        },
+        "webtoon": {
+          "title": "웹툰",
+          "tag": "세계가 스크롤하는 컷들"
+        },
+        "fashion": {
+          "title": "패션",
+          "tag": "시즌보다 먼저 도착한 실루엣"
+        },
+        "food": {
+          "title": "맛집",
+          "tag": "식탁, 취향, 그리고 이 시간의 한 접시"
+        }
+      }
+    },
+    "discovery": {
+      "label": "더 깊이 탐색",
+      "wikipedia": "위키백과",
+      "news": "뉴스",
+      "youtube": "YouTube",
+      "search": "검색"
+    },
+    "shorts": {
+      "label": "UNITAS 쇼츠",
+      "lede": "네트워크의 세로형 순간들 — U-메신저의 씨앗.",
+      "views": "조회 {count}",
+      "like": "좋아요",
+      "liked": "좋아요 완료",
+      "follow": "팔로우",
+      "following": "팔로잉",
+      "upload": "업로드",
+      "uploadSoon": "업로드는 U-메신저 베타와 함께 열립니다",
+      "seedNote": "미리보기용 시드 클립 · 실제 업로드는 U-메신저 베타와 함께 도착합니다",
+      "share": "U-메신저로 공유",
+      "shareHint": "베타가 열리면 공유 링크가 이 클립을 U-메신저 대화로 바로 전달합니다.",
+      "openAria": "쇼츠 {title} 열기",
+      "creator": "크리에이터",
+      "duration": "{seconds}초",
+      "followers": "팔로워 {count}"
+    },
+    "mail": {
+      "label": "UNITAS 메일 핸들 (선택)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "지금 주소를 예약하세요. UNITAS 메일이 열리는 순간 메일함이 활성화됩니다.",
+      "available": "사용 가능",
+      "invalid": "3~20자: a–z, 0–9, 점, 대시, 밑줄",
+      "reservedWord": "예약된 핸들입니다",
+      "reserved": "예약됨 · UNITAS 메일 개통 시 메일함 활성화",
+      "reservedFor": "예약 완료: {handle}"
+    },
+    "legal": {
+      "eyebrow": "공지사항",
+      "openFull": "전체 페이지로 보기",
+      "close": "닫기"
+    },
+    "search": {
+      "trending": "지금 뜨는 탐색",
+      "curiosity": "호기심 카드",
+      "recent": "이어서 탐색",
+      "signals": "실시간 신호",
+      "emptyHint": "입력을 시작하거나, 아래 불씨를 골라 보세요.",
+      "clearRecent": "지우기",
+      "ask": "질문",
+      "cards": {
+        "c1": "도시는 왜 밤에 더 빠르게 느껴질까?",
+        "c2": "돈에 기억이 있다면 어떤 모습일까?",
+        "c3": "하나의 아이디어는 하루에 얼마나 멀리 갈 수 있을까?",
+        "c4": "10년 동안 가장 크게 복리로 쌓이는 습관은?",
+        "c5": "바다는 내일 날씨를 얼마나 알고 있을까?",
+        "c6": "최고의 게임은 왜 처음엔 불공평하게 느껴질까?",
+        "c7": "오늘의 시장을 움직이는 가장 오래된 이야기는?",
+        "c8": "새들은 누가 무리를 이끌지 어떻게 정할까?",
+        "c9": "당신의 도시에서 완벽한 아침은 어떤 모습일까?",
+        "c10": "노래는 기억하는데 연설은 왜 잊을까?",
+        "c11": "작은 가게가 거인보다 오래 살아남는 비결은?",
+        "c12": "빛은 다이아몬드 속을 어떻게 지나갈까?"
+      }
+    },
+    "enter": {
+      "hint": "Enter를 누르면 U-AI에게 질문합니다"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · 보호된 콘텐츠 · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

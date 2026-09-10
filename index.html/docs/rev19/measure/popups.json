@@ -1,0 +1,144 @@
+{
+  "home": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 0
+  },
+  "popout": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 1
+  },
+  "entryGate": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 1
+  },
+  "afterBack1": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=11",
+    "dialogs": 2,
+    "entryOpen": 1,
+    "popoutOpen": 1,
+    "exitDialog": 1
+  },
+  "afterBack2": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=10",
+    "dialogs": 2,
+    "popoutOpen": 1,
+    "exitDialog": 1
+  },
+  "navButtons": [
+    {
+      "label": "UNITAS 앱 다운로드",
+      "cls": "app-download-pulse unitas-install-cta flex min-w-0 flex-col "
+    },
+    {
+      "label": "사운드 켜짐",
+      "cls": "flex h-11 w-11 items-center justify-center text-accent/60 tr"
+    },
+    {
+      "label": "U-COIN 잔액",
+      "cls": "flex items-center gap-1.5 py-2 text-xs text-gray-300 transit"
+    },
+    {
+      "label": "코인 충전",
+      "cls": "flex items-center gap-1.5 py-2 text-xs font-bold uppercase t"
+    },
+    {
+      "label": "언어",
+      "cls": "flex items-center gap-2 py-2 text-sm font-bold uppercase tra"
+    },
+    {
+      "label": "로그인",
+      "cls": "flex items-center gap-2 py-2 text-sm font-bold uppercase tra"
+    },
+    {
+      "label": "계정 설정",
+      "cls": "relative flex h-11 w-11 items-center justify-center text-acc"
+    }
+  ],
+  "nav-3": {
+    "label": "코인 충전",
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 1
+  },
+  "nav-3-after": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 0
+  },
+  "nav-4": {
+    "label": "언어",
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 0
+  },
+  "nav-4-after": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 0
+  },
+  "nav-5": {
+    "label": "로그인",
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 0
+  },
+  "nav-5-after": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 1
+  },
+  "nav-6": {
+    "label": "계정 설정",
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 1
+  },
+  "nav-6-after": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 0
+  },
+  "afterReload": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 0
+  },
+  "rankingTheme": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 0
+  },
+  "rankingRows": 10,
+  "rankingDetail": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 1
+  },
+  "unitasProfile": {
+    "len": 14,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 1
+  },
+  "shortcutTower": {
+    "len": 15,
+    "state": "unitasExitGuard=true,unitasExitDepth=12,unitasShortcutModal=true",
+    "dialogs": 1
+  },
+  "shortcutTowerAfterBack": {
+    "len": 15,
+    "state": "unitasExitGuard=true,unitasExitDepth=12",
+    "dialogs": 1,
+    "exitDialog": 0
+  },
+  "uaiTower": {
+    "len": 15,
+    "state": "unitasExitGuard=true,unitasExitDepth=12,unitasUaiSearchTower=true",
+    "dialogs": 1
+  },
+  "termsUrl": "http://127.0.0.1:3123/ko/legal/terms"
+}

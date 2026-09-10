@@ -1,9 +1,10 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useId, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { ModalPortal } from './ModalPortal';
+import { useHistoryLayer } from './useHistoryLayer';
 
 interface ModalProps {
   open: boolean;
@@ -27,6 +28,11 @@ interface ModalProps {
    *  instruction 2026-09-05, round 10 -- the dialog opening invisibly
    *  beneath the curtain was the "'X' 무반응" / "진입 시 팝업" root cause). */
   layer?: 'base' | 'top';
+  /** REV-19 §1: every dialog parks one entry on the deep modal history
+   *  stack while open, so the device back gesture closes it (and only it).
+   *  Opt out for the one dialog that IS the back gesture's destination --
+   *  the exit confirm. Default: true. */
+  historyLayer?: boolean;
 }
 
 /** Shared overlay/dialog shell used by the wallet, quest, and inquiry modals. */
@@ -38,19 +44,27 @@ export function Modal({
   size = 'md',
   hideCloseButton = false,
   layer = 'base',
+  historyLayer = true,
 }: ModalProps) {
+  const generatedId = useId();
+  const historyLevel = useHistoryLayer(open && historyLayer, `modal:${labelledBy ?? generatedId}`, onClose);
+
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
       // `defaultPrevented`: ExitGuard's global ESC toggle (capture phase,
       // owner instruction 2026-09-05, 7-point hardening, item 3) marks the
       // key press it already consumed, so one press never closes the exit
-      // confirm here AND re-opens it there.
-      if (e.key === 'Escape' && !e.defaultPrevented) onClose();
+      // confirm here AND re-opens it there. REV-19: with dialogs stacking
+      // (a legal notice over a tower over the hub), Escape closes only the
+      // topmost one -- this dialog stands down when another sits above it.
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      if (!historyLevel.isTop()) return;
+      onClose();
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [open, onClose]);
+  }, [open, onClose, historyLevel]);
 
   return (
     <ModalPortal>

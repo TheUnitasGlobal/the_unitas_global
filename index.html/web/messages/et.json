@@ -1773,5 +1773,133 @@
     "enter": "Sisene",
     "signInToEnter": "Sisenemiseks logi sisse",
     "guestEnter": "Loo täisväärtuslik konto, et hoida U-COIN'e ja siseneda."
+  },
+  "Rev19": {
+    "hub": {
+      "label": "Otsekeskus",
+      "themesLabel": "Vahelduvad avastusteemad",
+      "rotating": "Automaatne vaheldumine · puuduta teemat, et see peatada",
+      "held": "Peatatud · vaheldumine jätkub, kui vabastad",
+      "openAria": "Ava {theme} otsesüvenemine",
+      "modalTitle": "{theme} · otsesüvenemine",
+      "modalLede": "Värsked pealkirjad teemal {term} — värskendatakse iga minut, kuni see aken on avatud.",
+      "refreshIn": "Järgmine värskendus {seconds} s pärast",
+      "refreshNow": "Värskenda kohe",
+      "loading": "Kogume reaalajas signaale…",
+      "empty": "Ühtegi otsepealkirja ei jõudnud kohale — proovi hetke pärast uuesti.",
+      "sources": "Allikad: Google News RSS · Bing News RSS · võtmeta, 10-minutiline vahemälu",
+      "updated": "Värskendatud {time}",
+      "cadence": "Kaardi värskendus: iga 10 minuti järel · süvenemine: iga 60 sekundi järel",
+      "readMore": "Loe allikat",
+      "themes": {
+        "game": {
+          "title": "Mäng",
+          "tag": "Maailmad, mida just praegu mängitakse"
+        },
+        "sports": {
+          "title": "Sport",
+          "tag": "Tulemused, rekordid ja järgmine avavile"
+        },
+        "movie": {
+          "title": "Film",
+          "tag": "Mida ekraanid täna õhtul sosistavad"
+        },
+        "bestseller": {
+          "title": "Bestseller",
+          "tag": "Leheküljed, mida kõik just praegu keeravad"
+        },
+        "shopping": {
+          "title": "Ostlemine",
+          "tag": "Pakkumised, uued tooted ja vaiksed hinnamuutused"
+        },
+        "stock": {
+          "title": "Aktsiad",
+          "tag": "Kuhu raha täna kaldub"
+        },
+        "webtoon": {
+          "title": "Webtoon",
+          "tag": "Pildiruudud, mida maailm kerib"
+        },
+        "fashion": {
+          "title": "Mood",
+          "tag": "Siluetid, mis jõuavad kohale enne hooaega"
+        },
+        "food": {
+          "title": "Toit",
+          "tag": "Lauad, maitsed ja selle tunni roog"
+        }
+      }
+    },
+    "discovery": {
+      "label": "Avasta enamat",
+      "wikipedia": "Vikipeedia",
+      "news": "Uudised",
+      "youtube": "YouTube",
+      "search": "Otsing"
+    },
+    "shorts": {
+      "label": "UNITAS Shorts",
+      "lede": "Püstised hetked võrgustikust — U-Messengeri seeme.",
+      "views": "{count} vaatamist",
+      "like": "Meeldib",
+      "liked": "Meeldis",
+      "follow": "Jälgi",
+      "following": "Jälgid",
+      "upload": "Laadi üles",
+      "uploadSoon": "Üleslaadimine avaneb koos U-Messengeri beetaversiooniga",
+      "seedNote": "Kuvatavad seemneklipid on eelvaade · päris üleslaadimised saabuvad koos U-Messengeri beetaversiooniga",
+      "share": "Jaga U-Messengerisse",
+      "shareHint": "Kui beetaversioon avaneb, viivad jagamislingid selle klipi otse U-Messengeri vestlusesse.",
+      "openAria": "Ava lühivideo {title}",
+      "creator": "Looja",
+      "duration": "{seconds} s",
+      "followers": "{count} jälgijat"
+    },
+    "mail": {
+      "label": "UNITAS meiliaadressi nimi (valikuline)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "Broneeri oma aadress juba praegu — postkast aktiveerub hetkel, mil UNITAS Mail avaneb.",
+      "available": "Saadaval",
+      "invalid": "3–20 tähemärki: a–z, 0–9, punkt, sidekriips, alakriips",
+      "reservedWord": "See nimi on juba reserveeritud",
+      "reserved": "Reserveeritud · postkast aktiveerub, kui UNITAS Mail avaneb",
+      "reservedFor": "Reserveeritud: {handle}"
+    },
+    "legal": {
+      "eyebrow": "Teade",
+      "openFull": "Ava kogu leht",
+      "close": "Sulge"
+    },
+    "search": {
+      "trending": "Praegu tõusuteel",
+      "curiosity": "Uudishimukaardid",
+      "recent": "Jätka avastamist",
+      "signals": "Otsesignaalid",
+      "emptyHint": "Hakka kirjutama — või vali säde allpool.",
+      "clearRecent": "Tühjenda",
+      "ask": "Küsi",
+      "cards": {
+        "c1": "Miks tundub linn öösel kiirem?",
+        "c2": "Milline näeks välja raha, kui sel oleks mälu?",
+        "c3": "Kui kaugele võib üks idee ühe päevaga jõuda?",
+        "c4": "Milline harjumus kasvab aastakümne jooksul kõige rohkem?",
+        "c5": "Mida teab ookean homsest ilmast?",
+        "c6": "Miks tunduvad parimad mängud alguses ebaõiglased?",
+        "c7": "Milline on vanim lugu, mis liigutab tänaseid turge siiani?",
+        "c8": "Kuidas otsustavad linnud, kes juhib parve?",
+        "c9": "Milline näeks välja täiuslik hommik sinu linnas?",
+        "c10": "Miks me mäletame laule, aga unustame kõned?",
+        "c11": "Mis aitab väikepoel üle elada hiiglast?",
+        "c12": "Kuidas liigub valgus läbi teemandi?"
+      }
+    },
+    "enter": {
+      "hint": "Vajuta Enter, et küsida U-AI-lt"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · Kaitstud sisu · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

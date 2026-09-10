@@ -15,7 +15,7 @@ import { EMAIL_SHORTCUTS, SOCIAL_SHORTCUTS, type DirectAppShortcut } from '@/lib
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 import { HotIssueNewsList } from '@/components/home/HotIssueNewsList';
-import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
+import { LiveHubPanel } from '@/components/home/LiveHubPanel';
 import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
 import { AppDetailCard } from '@/components/interaction/AppDetailCard';
@@ -244,9 +244,11 @@ export function HotShortcutMatrixStrip({ onOpenShortcut }: HotShortcutMatrixStri
               onOpen={() => setExpandedApp(null)}
             />
           )}
+          {/* REV-19 §8: the weather tab is the LIVE HUB -- weather on top,
+              the nine rotating discovery themes + UNITAS Shorts beneath. */}
           {activeTab === 'weather' && (
-            <SectionShield zone="live-weather">
-              <LiveWeatherPanel />
+            <SectionShield zone="live-hub">
+              <LiveHubPanel />
             </SectionShield>
           )}
           {activeTab !== 'email' &&

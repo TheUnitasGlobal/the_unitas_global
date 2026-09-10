@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Crown, UsersRound } from 'lucide-react';
 import {
   MODULE_REGISTRY,
@@ -13,6 +13,7 @@ import {
 } from '@/lib/unitasRankings';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
+import { DiscoveryLinks } from '@/components/home/DiscoveryLinks';
 import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 
 const TIER_COLOR: Record<UnitasRankingTier, string> = {
@@ -32,6 +33,7 @@ const TIER_COLOR: Record<UnitasRankingTier, string> = {
  */
 export function UnitasModuleRankings() {
   const t = useTranslations('UnitasRankings');
+  const locale = useLocale();
   const tEco = useTranslations('Ecosystems');
   const tModules = useTranslations('Modules');
   const { playHoverSfx } = useSpatialAudio();
@@ -141,7 +143,9 @@ export function UnitasModuleRankings() {
             <p className="text-[14px] leading-relaxed text-gray-300">
               {t(`bio.${profile.entry.bioIndex}`, { module: titleFor(profile.module) })}
             </p>
-            <p className="text-[10px] text-gray-500">{t('disclaimer')}</p>
+            {/* REV-19 §10: outbound discovery for the module itself. */}
+            <DiscoveryLinks subject={titleFor(profile.module)} locale={locale} />
+            <p className="text-[11px] text-gray-500">{t('disclaimer')}</p>
           </div>
         )}
       </Modal>

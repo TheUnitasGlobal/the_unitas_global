@@ -1773,5 +1773,133 @@
     "enter": "Masuk",
     "signInToEnter": "Masuk untuk mengakses",
     "guestEnter": "Buat akun penuh untuk menyimpan U-COIN dan masuk."
+  },
+  "Rev19": {
+    "hub": {
+      "label": "Hub Langsung",
+      "themesLabel": "Tema jelajah yang berganti",
+      "rotating": "Berganti otomatis · ketuk tema untuk menahannya",
+      "held": "Ditahan · perputaran berlanjut saat dilepas",
+      "openAria": "Buka pendalaman langsung {theme}",
+      "modalTitle": "{theme} · pendalaman langsung",
+      "modalLede": "Berita terbaru tentang {term}, diperbarui setiap menit selama jendela ini tetap terbuka.",
+      "refreshIn": "Pembaruan berikutnya dalam {seconds} detik",
+      "refreshNow": "Perbarui sekarang",
+      "loading": "Mengumpulkan sinyal langsung…",
+      "empty": "Belum ada berita langsung yang masuk — coba lagi sesaat lagi.",
+      "sources": "Sumber: Google News RSS · Bing News RSS · tanpa kunci, cache tepi 10 menit",
+      "updated": "Diperbarui {time}",
+      "cadence": "Pembaruan kartu: setiap 10 menit · pendalaman: setiap 60 detik",
+      "readMore": "Baca sumber",
+      "themes": {
+        "game": {
+          "title": "Game",
+          "tag": "Dunia yang sedang dimainkan saat ini"
+        },
+        "sports": {
+          "title": "Olahraga",
+          "tag": "Skor, rekor, dan kick-off berikutnya"
+        },
+        "movie": {
+          "title": "Film",
+          "tag": "Apa yang dibisikkan layar malam ini"
+        },
+        "bestseller": {
+          "title": "Terlaris",
+          "tag": "Halaman yang sedang dibuka semua orang"
+        },
+        "shopping": {
+          "title": "Belanja",
+          "tag": "Promo, rilis baru, dan pergeseran harga diam-diam"
+        },
+        "stock": {
+          "title": "Saham",
+          "tag": "Ke mana uang condong hari ini"
+        },
+        "webtoon": {
+          "title": "Webtoon",
+          "tag": "Panel yang digulir dunia"
+        },
+        "fashion": {
+          "title": "Fesyen",
+          "tag": "Siluet yang tiba sebelum musimnya"
+        },
+        "food": {
+          "title": "Kuliner",
+          "tag": "Meja, rasa, dan hidangan jam ini"
+        }
+      }
+    },
+    "discovery": {
+      "label": "Jelajahi lagi",
+      "wikipedia": "Wikipedia",
+      "news": "Berita",
+      "youtube": "YouTube",
+      "search": "Cari"
+    },
+    "shorts": {
+      "label": "UNITAS Shorts",
+      "lede": "Momen vertikal dari jaringan — benih dari U-Messenger.",
+      "views": "{count} tontonan",
+      "like": "Suka",
+      "liked": "Disukai",
+      "follow": "Ikuti",
+      "following": "Mengikuti",
+      "upload": "Unggah",
+      "uploadSoon": "Unggahan dibuka bersama beta U-Messenger",
+      "seedNote": "Klip awal ditampilkan sebagai pratinjau · unggahan sungguhan hadir bersama beta U-Messenger",
+      "share": "Bagikan ke U-Messenger",
+      "shareHint": "Tautan berbagi akan mengirim klip ini langsung ke utas U-Messenger begitu beta dibuka.",
+      "openAria": "Buka short {title}",
+      "creator": "Kreator",
+      "duration": "{seconds} detik",
+      "followers": "{count} pengikut"
+    },
+    "mail": {
+      "label": "Handle email UNITAS (opsional)",
+      "placeholder": "yourname",
+      "domain": "@theunitas.global",
+      "hint": "Amankan alamat Anda sekarang — kotak surat aktif begitu UNITAS Mail dibuka.",
+      "available": "Tersedia",
+      "invalid": "3–20 karakter: a–z, 0–9, titik, tanda hubung, garis bawah",
+      "reservedWord": "Handle itu sudah dipesan",
+      "reserved": "Dipesan · kotak surat aktif saat UNITAS Mail dibuka",
+      "reservedFor": "Dipesan: {handle}"
+    },
+    "legal": {
+      "eyebrow": "Pemberitahuan",
+      "openFull": "Buka halaman lengkap",
+      "close": "Tutup"
+    },
+    "search": {
+      "trending": "Sedang naik",
+      "curiosity": "Kartu rasa ingin tahu",
+      "recent": "Lanjutkan menjelajah",
+      "signals": "Sinyal langsung",
+      "emptyHint": "Mulai mengetik — atau pilih percikan di bawah.",
+      "clearRecent": "Hapus",
+      "ask": "Tanya",
+      "cards": {
+        "c1": "Mengapa kota terasa lebih cepat di malam hari?",
+        "c2": "Seperti apa uang jika ia memiliki ingatan?",
+        "c3": "Seberapa jauh satu ide bisa menyebar dalam sehari?",
+        "c4": "Kebiasaan mana yang tumbuh berlipat paling besar dalam satu dekade?",
+        "c5": "Apa yang diketahui laut tentang cuaca besok?",
+        "c6": "Mengapa game terbaik terasa tidak adil di awal?",
+        "c7": "Apa kisah tertua yang masih menggerakkan pasar hari ini?",
+        "c8": "Bagaimana burung memutuskan siapa yang memimpin kawanan?",
+        "c9": "Seperti apa pagi yang sempurna di kota Anda?",
+        "c10": "Mengapa kita mengingat lagu tapi melupakan pidato?",
+        "c11": "Apa yang membuat toko kecil bertahan lebih lama dari raksasa?",
+        "c12": "Bagaimana cahaya merambat melalui berlian?"
+      }
+    },
+    "enter": {
+      "hint": "Tekan Enter untuk bertanya ke U-AI"
+    },
+    "watermark": {
+      "copyTrailer": "© THE UNITAS GLOBAL OÜ · Konten dilindungi · www.theunitas.global",
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+    }
   }
 }

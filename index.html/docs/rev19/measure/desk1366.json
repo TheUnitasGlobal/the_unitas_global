@@ -1,0 +1,529 @@
+{
+  "name": "desk1366",
+  "viewport": {
+    "width": 1366,
+    "height": 768
+  },
+  "hero": {
+    "navBottom": 64,
+    "h1": {
+      "x": 433.3,
+      "y": 129,
+      "w": 499.4,
+      "h": 110.8,
+      "cx": 683,
+      "b": 239.8
+    },
+    "fontSize": "136px",
+    "letterSpacing": "19.04px",
+    "textIndent": "19.04px",
+    "font": "__Cinzel_98406a, __Cinzel_Fallback_98406a, serif",
+    "glyphs": [
+      {
+        "ch": "U",
+        "x": 447.5,
+        "y": 108,
+        "w": 96.6,
+        "h": 138,
+        "cx": 495.8,
+        "b": 246
+      },
+      {
+        "ch": "N",
+        "x": 544.1,
+        "y": 108,
+        "w": 100.9,
+        "h": 138,
+        "cx": 594.6,
+        "b": 246
+      },
+      {
+        "ch": "I",
+        "x": 645,
+        "y": 108,
+        "w": 53.8,
+        "h": 138,
+        "cx": 671.9,
+        "b": 246
+      },
+      {
+        "ch": "T",
+        "x": 698.7,
+        "y": 108,
+        "w": 73.3,
+        "h": 138,
+        "cx": 735.4,
+        "b": 246
+      },
+      {
+        "ch": "A",
+        "x": 772,
+        "y": 108,
+        "w": 87.4,
+        "h": 138,
+        "cx": 815.8,
+        "b": 246
+      },
+      {
+        "ch": "S",
+        "x": 859.5,
+        "y": 108,
+        "w": 73.3,
+        "h": 138,
+        "cx": 896.1,
+        "b": 246
+      }
+    ],
+    "it": {
+      "x": 645,
+      "y": 108,
+      "w": 127.1,
+      "h": 138,
+      "cx": 708.5,
+      "b": 246
+    },
+    "whole": {
+      "x": 447.5,
+      "y": 108,
+      "w": 485.2,
+      "h": 138,
+      "cx": 690.1,
+      "b": 246
+    },
+    "underline": {
+      "width": "112px",
+      "marginTop": "17.6px",
+      "cx": 683
+    },
+    "search": {
+      "x": 221,
+      "y": 261.6,
+      "w": 924,
+      "h": 58,
+      "cx": 683,
+      "b": 319.6
+    },
+    "heroWrap": {
+      "x": 0,
+      "y": 0,
+      "w": 1366,
+      "h": 275.8,
+      "cx": 683,
+      "b": 275.8
+    },
+    "heroInner": {
+      "x": 415.3,
+      "y": 129,
+      "w": 535.4,
+      "h": 110.8,
+      "cx": 683,
+      "b": 239.8
+    }
+  },
+  "watermark": {
+    "x": 1161.640625,
+    "y": 732,
+    "w": 184.359375,
+    "h": 20,
+    "color": "rgba(10, 10, 12, 0.28)",
+    "opacity": "1",
+    "blend": "multiply",
+    "text": "THE UNITAS GLOBAL OÜ"
+  },
+  "footer": {
+    "bg": "rgba(3, 3, 5, 0.6)",
+    "border": "rgba(10, 10, 12, 0.08)",
+    "h3": {
+      "color": "rgb(212, 175, 55)",
+      "size": "15px"
+    },
+    "link": {
+      "color": "rgb(42, 44, 51)",
+      "size": "18px"
+    },
+    "brand": {
+      "color": "rgb(212, 175, 55)"
+    },
+    "headers": [
+      "회사 소개",
+      "법적 고지",
+      "정책",
+      "고객 지원"
+    ],
+    "links": [
+      "소개",
+      "채용",
+      "보도자료",
+      "특허 고지",
+      "컴플라이언스",
+      "보안",
+      "개인정보 처리방침",
+      "쿠키 정책",
+      "이용약관",
+      "고객센터",
+      "문의하기",
+      "시스템 상태"
+    ]
+  },
+  "basePopup": {
+    "strip": {
+      "x": 221,
+      "y": 319.578125,
+      "w": 924,
+      "h": 643.875
+    },
+    "tabs": [
+      {
+        "text": "실시간 날씨",
+        "size": "15px"
+      },
+      {
+        "text": "소셜",
+        "size": "15px"
+      },
+      {
+        "text": "이메일",
+        "size": "15px"
+      },
+      {
+        "text": "금융",
+        "size": "15px"
+      },
+      {
+        "text": "부동산",
+        "size": "15px"
+      },
+      {
+        "text": "연애",
+        "size": "15px"
+      },
+      {
+        "text": "커리어",
+        "size": "15px"
+      },
+      {
+        "text": "문명",
+        "size": "15px"
+      },
+      {
+        "text": "소셜",
+        "size": "15px"
+      },
+      {
+        "text": "이메일",
+        "size": "15px"
+      },
+      {
+        "text": "금융",
+        "size": "15px"
+      },
+      {
+        "text": "부동산",
+        "size": "15px"
+      },
+      {
+        "text": "연애",
+        "size": "15px"
+      },
+      {
+        "text": "커리어",
+        "size": "15px"
+      },
+      {
+        "text": "문명",
+        "size": "15px"
+      },
+      {
+        "text": "전체",
+        "size": "16px"
+      },
+      {
+        "text": "세계실시간",
+        "size": "16px"
+      },
+      {
+        "text": "세계정치",
+        "size": "16px"
+      },
+      {
+        "text": "세계경제",
+        "size": "16px"
+      },
+      {
+        "text": "세계과학",
+        "size": "16px"
+      },
+      {
+        "text": "세계기술",
+        "size": "16px"
+      },
+      {
+        "text": "세계공학",
+        "size": "16px"
+      },
+      {
+        "text": "세계스포츠",
+        "size": "16px"
+      },
+      {
+        "text": "세계문화",
+        "size": "16px"
+      },
+      {
+        "text": "세계예술",
+        "size": "16px"
+      },
+      {
+        "text": "세계표현",
+        "size": "16px"
+      },
+      {
+        "text": "세계언어",
+        "size": "16px"
+      },
+      {
+        "text": "세계사회",
+        "size": "16px"
+      },
+      {
+        "text": "세계구조",
+        "size": "16px"
+      },
+      {
+        "text": "세계실용",
+        "size": "16px"
+      },
+      {
+        "text": "세계법률",
+        "size": "16px"
+      },
+      {
+        "text": "세계제도",
+        "size": "16px"
+      },
+      {
+        "text": "세계교육",
+        "size": "16px"
+      },
+      {
+        "text": "세계복지·보건",
+        "size": "16px"
+      },
+      {
+        "text": "세계안보·분쟁",
+        "size": "16px"
+      },
+      {
+        "text": "세계전략",
+        "size": "16px"
+      },
+      {
+        "text": "세계재난",
+        "size": "16px"
+      },
+      {
+        "text": "세계실시간",
+        "size": "16px"
+      },
+      {
+        "text": "세계정치",
+        "size": "16px"
+      },
+      {
+        "text": "세계경제",
+        "size": "16px"
+      },
+      {
+        "text": "세계과학",
+        "size": "16px"
+      },
+      {
+        "text": "세계기술",
+        "size": "16px"
+      },
+      {
+        "text": "세계공학",
+        "size": "16px"
+      },
+      {
+        "text": "세계스포츠",
+        "size": "16px"
+      },
+      {
+        "text": "세계문화",
+        "size": "16px"
+      },
+      {
+        "text": "세계예술",
+        "size": "16px"
+      },
+      {
+        "text": "세계표현",
+        "size": "16px"
+      },
+      {
+        "text": "세계언어",
+        "size": "16px"
+      },
+      {
+        "text": "세계사회",
+        "size": "16px"
+      },
+      {
+        "text": "세계구조",
+        "size": "16px"
+      },
+      {
+        "text": "세계실용",
+        "size": "16px"
+      },
+      {
+        "text": "세계법률",
+        "size": "16px"
+      },
+      {
+        "text": "세계제도",
+        "size": "16px"
+      },
+      {
+        "text": "세계교육",
+        "size": "16px"
+      },
+      {
+        "text": "세계복지·보건",
+        "size": "16px"
+      },
+      {
+        "text": "세계안보·분쟁",
+        "size": "16px"
+      },
+      {
+        "text": "세계전략",
+        "size": "16px"
+      },
+      {
+        "text": "세계재난",
+        "size": "16px"
+      }
+    ],
+    "labels": [
+      {
+        "text": "실시간 숏컷",
+        "size": "18px",
+        "color": "rgb(212, 175, 55)"
+      },
+      {
+        "text": "대한민국 / 서울특별시",
+        "size": "15px",
+        "color": "rgb(10, 10, 12)"
+      },
+      {
+        "text": "22°",
+        "size": "36px",
+        "color": "rgb(10, 10, 12)"
+      },
+      {
+        "text": "맑음",
+        "size": "13px",
+        "color": "rgb(42, 44, 51)"
+      },
+      {
+        "text": "체감 22°습도 53%바람 4 km/h",
+        "size": "11px",
+        "color": "rgb(42, 44, 51)"
+      },
+      {
+        "text": "5일 예보",
+        "size": "10px",
+        "color": "rgb(93, 97, 107)"
+      },
+      {
+        "text": "갱신 오전 05:06 · 출처: Open-Meteo",
+        "size": "10px",
+        "color": "rgb(93, 97, 107)"
+      },
+      {
+        "text": "실시간 세계 랭킹",
+        "size": "18px",
+        "color": "rgb(212, 175, 55)"
+      },
+      {
+        "text": "실시간 유니타스 랭킹",
+        "size": "18px",
+        "color": "rgb(212, 175, 55)"
+      },
+      {
+        "text": "실시간 뉴스",
+        "size": "18px",
+        "color": "rgb(212, 175, 55)"
+      },
+      {
+        "text": "실시간 뉴스 불러오는 중…",
+        "size": "13px",
+        "color": "rgb(42, 44, 51)"
+      }
+    ],
+    "historyState": "{\"__NA\":true,\"__PRIVATE_NEXTJS_INTERNALS_TREE\":[\"\",{\"children\":[[\"locale\",\"ko\",\"d\"],{\"children\":[\"__PAGE__?{\\\"locale\\\":\\\"ko\\\"}\",{},\"/ko?splash=0\",\"refresh\"]}]},null,null,true],\"unitasExitGuard\":true,\"unitasExitDepth\":12}",
+    "historyLength": 14
+  },
+  "typingPopup": {
+    "dropdown": {
+      "x": 221,
+      "y": 328.578125,
+      "w": 924,
+      "h": 403.1875
+    },
+    "sections": [
+      {
+        "label": "실시간 검색 키워드",
+        "labelSize": "9px",
+        "h": 220.625
+      },
+      {
+        "label": "실시간 사다리 탐색",
+        "labelSize": "9px",
+        "h": 295.5
+      },
+      {
+        "label": "실시간 숏컷",
+        "labelSize": "18px",
+        "h": 1400.625
+      }
+    ],
+    "enter": {
+      "rect": {
+        "x": 1100,
+        "y": 277.578125,
+        "w": 26,
+        "h": 26
+      },
+      "color": "rgb(11, 92, 255)",
+      "border": "rgb(11, 92, 255)",
+      "bg": "rgba(0, 0, 0, 0)",
+      "shadow": "none",
+      "opacity": "1"
+    },
+    "historyState": "{\"__NA\":true,\"__PRIVATE_NEXTJS_INTERNALS_TREE\":[\"\",{\"children\":[[\"locale\",\"ko\",\"d\"],{\"children\":[\"__PAGE__?{\\\"locale\\\":\\\"ko\\\"}\",{},\"/ko?splash=0\",\"refresh\"]}]},null,null,true],\"unitasExitGuard\":true,\"unitasExitDepth\":12}",
+    "historyLength": 14
+  },
+  "enterIdle": {
+    "color": "rgb(11, 92, 255)",
+    "border": "rgb(11, 92, 255)",
+    "opacity": "0.4",
+    "disabled": true
+  },
+  "stripHeadings": [
+    "실시간 숏컷",
+    "미국 / LaGrange(조지아)· ≈ 네트워크 추정",
+    "21°",
+    "맑음",
+    "체감 23°습도 91%바람 7 km/h",
+    "5일 예보",
+    "갱신 오전 05:06 · 출처: Open-Meteo",
+    "실시간 세계 랭킹",
+    "실시간 유니타스 랭킹",
+    "실시간 뉴스· 2026-09-10",
+    "출처: Wikimedia 피처드 피드 · Google 뉴스 RSS · Bing 뉴스 RSS · 10~15분마다 갱신"
+  ],
+  "themeButtonCount": 0
+}

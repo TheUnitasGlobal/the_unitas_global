@@ -1,5 +1,6 @@
 'use client';
 
+import { openSitePage } from '@/lib/sitePages';
 import { useEffect, useState, type CSSProperties } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
@@ -46,6 +47,7 @@ const ENTRY_AUTO_PROCEED_MS = 700;
  */
 export function EntryGate({ module }: EntryGateProps) {
   const t = useTranslations('QuantumWhite');
+  const tFooter = useTranslations('Footer');
   const tFull = useTranslations();
   const router = useRouter();
 
@@ -136,9 +138,19 @@ export function EntryGate({ module }: EntryGateProps) {
             <li>{t('entry.notice.n3')}</li>
             <li>{t('entry.notice.n4')}</li>
           </ol>
-          <a href="/legal/terms" className="qw-entry-legal-link">
-            {t('entry.notice.legalLink')}
-          </a>
+          {/* REV-19 §12: the legal notice opens INLINE (a third layer on the
+              deep modal history stack, over this Entry Gate) -- routing away
+              used to drop the visitor out of the pop-out and, without a
+              locale prefix, through a redirect. Two buttons: terms, privacy. */}
+          <span className="qw-entry-legal-links">
+            <button type="button" className="qw-entry-legal-link" onClick={() => openSitePage({ group: 'legal', slug: 'terms' })}>
+              {tFooter('termsOfService')}
+            </button>
+            <span aria-hidden="true"> · </span>
+            <button type="button" className="qw-entry-legal-link" onClick={() => openSitePage({ group: 'legal', slug: 'privacy' })}>
+              {tFooter('privacyPolicy')}
+            </button>
+          </span>
         </div>
       </div>
 
