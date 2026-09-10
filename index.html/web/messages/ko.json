@@ -1853,7 +1853,32 @@
       "openAria": "쇼츠 {title} 열기",
       "creator": "크리에이터",
       "duration": "{seconds}초",
-      "followers": "팔로워 {count}"
+      "followers": "팔로워 {count}",
+      "pass": {
+        "eyebrow": "크리에이터 얼리 액세스",
+        "cta": "얼리 액세스 받기",
+        "title": "당신의 크리에이터 패스",
+        "lede": "업로드는 U-메신저 베타와 함께 열립니다. 지금 패스를 예약하면, 스튜디오 문이 열리는 순간 당신의 핸들이 가장 앞줄에 섭니다.",
+        "handleLabel": "크리에이터 핸들",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3~20자: a–z, 0–9, 점, 대시, 밑줄",
+        "reserve": "내 패스 예약하기",
+        "reserved": "패스 예약 완료",
+        "reservedAt": "{time} 예약",
+        "serial": "패스 {serial}",
+        "currentWave": "지금 예약 중",
+        "wave1": "1차 · 파운딩 크리에이터",
+        "wave2": "2차 · 스튜디오 도구",
+        "wave3": "3차 · 글로벌 오픈",
+        "perks": {
+          "p1": "오픈 당일 우선 업로드 슬롯",
+          "p2": "프로필에 새겨지는 파운딩 크리에이터 배지",
+          "p3": "U-메신저 대화로 바로 공유"
+        },
+        "signedIn": "계정에 연결됨",
+        "guest": "로그인하면 이 패스가 계정에도 함께 연결됩니다.",
+        "honest": "패스는 이 기기에, 로그인 시에는 계정에도 보관됩니다. 아직 어떤 영상도 업로드되거나 저장되지 않습니다."
+      }
     },
     "mail": {
       "label": "UNITAS 메일 핸들 (선택)",
@@ -1864,7 +1889,16 @@
       "invalid": "3~20자: a–z, 0–9, 점, 대시, 밑줄",
       "reservedWord": "예약된 핸들입니다",
       "reserved": "예약됨 · UNITAS 메일 개통 시 메일함 활성화",
-      "reservedFor": "예약 완료: {handle}"
+      "reservedFor": "예약 완료: {handle}",
+      "eyebrow": "파운딩 주소",
+      "checking": "사용 가능 여부 확인 중…",
+      "taken": "다른 계정이 먼저 예약한 핸들입니다. 다른 핸들을 시도해 보세요",
+      "unchecked": "형식 확인 완료 · 사용 가능 여부는 로그인 시 확정됩니다",
+      "sealed": "예약됨",
+      "claimed": "계정에 연결됨 · UNITAS 메일 개통 시 메일함 활성화",
+      "lost": "{handle}은(는) 다른 계정이 먼저 예약했습니다. 언제든 새 핸들을 예약할 수 있습니다",
+      "perk1": "UNITAS 메일 개통 시 우선 받은편지함",
+      "perk2": "메일, 쇼츠, U-메신저를 아우르는 하나의 핸들"
     },
     "legal": {
       "eyebrow": "공지사항",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · 보호된 콘텐츠 · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "보호된 콘텐츠 · 모든 사본에는 UNITAS 지문이 남습니다",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · 소유권 안내: 이 인터페이스와 문구, 코드는 보호받는 저작물입니다 · www.theunitas.global"
     }
   }
 }

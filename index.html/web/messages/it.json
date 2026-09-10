@@ -1853,7 +1853,32 @@
       "openAria": "Apri lo short {title}",
       "creator": "Creator",
       "duration": "{seconds}s",
-      "followers": "{count} follower"
+      "followers": "{count} follower",
+      "pass": {
+        "eyebrow": "Accesso anticipato per creator",
+        "cta": "Ottieni l’accesso anticipato",
+        "title": "Il tuo pass da creator",
+        "lede": "I caricamenti si aprono con la beta di U-Messenger. Prenota ora il tuo pass e il tuo nome sarà il primo della fila nell’istante in cui le porte dello studio si apriranno.",
+        "handleLabel": "Nome creator",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "Da 3 a 20 caratteri: a–z, 0–9, punto, trattino e trattino basso",
+        "reserve": "Prenota il mio pass",
+        "reserved": "Pass prenotato",
+        "reservedAt": "Prenotato il {time}",
+        "serial": "Pass {serial}",
+        "currentWave": "Prenotazioni aperte",
+        "wave1": "Ondata 1 · Creator fondatori",
+        "wave2": "Ondata 2 · Strumenti da studio",
+        "wave3": "Ondata 3 · Apertura globale",
+        "perks": {
+          "p1": "Slot di caricamento prioritario il giorno dell’apertura",
+          "p2": "Badge di creator fondatore sul tuo profilo",
+          "p3": "Condivisione diretta nelle conversazioni di U-Messenger"
+        },
+        "signedIn": "Collegato al tuo account",
+        "guest": "Accedi e il tuo pass verrà collegato anche al tuo account.",
+        "honest": "Il tuo pass vive su questo dispositivo e, quando hai effettuato l’accesso, anche sul tuo account. Nessun video viene ancora caricato o conservato."
+      }
     },
     "mail": {
       "label": "Handle mail UNITAS (facoltativo)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 caratteri: a–z, 0–9, punto, trattino, underscore",
       "reservedWord": "Questo handle è riservato",
       "reserved": "Riservato · la casella si attiva quando UNITAS Mail apre",
-      "reservedFor": "Riservato: {handle}"
+      "reservedFor": "Riservato: {handle}",
+      "eyebrow": "Indirizzo fondatore",
+      "checking": "Verifica della disponibilità…",
+      "taken": "Questo nome è già prenotato da un altro account: provane un altro",
+      "unchecked": "Formato verificato · la disponibilità viene confermata all’accesso",
+      "sealed": "Prenotato",
+      "claimed": "Collegato al tuo account · la casella si attiva con l’apertura di UNITAS Mail",
+      "lost": "{handle} è stato prenotato prima da un altro account: puoi prenotare un nuovo nome quando vuoi",
+      "perk1": "Casella prioritaria all’apertura di UNITAS Mail",
+      "perk2": "Un solo nome per Mail, Shorts e U-Messenger"
     },
     "legal": {
       "eyebrow": "Avviso",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · Contenuto protetto · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "Contenuto protetto · ogni copia porta l’impronta UNITAS",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · Avviso di titolarità: questa interfaccia, i suoi testi e il suo codice sono opere protette · www.theunitas.global"
     }
   }
 }

@@ -224,6 +224,71 @@ html[data-unitas-surface='quantum-white'] .qw-watermark[data-reveal='1'] {
 html[data-unitas-surface='quantum-white'] .qw-print-mark {
   display: none;
 }
+/* REV-19 follow-up: the diagonal mark also flashes ON SCREEN for the
+   reveal window -- immediately, strongly, without blocking a single
+   pointer event -- whenever a capture / copy / context-menu / selection /
+   drag / developer-tools signal fires (SovereignWatermark.tsx). */
+html[data-unitas-surface='quantum-white'] .qw-print-mark[data-screen='1'] {
+  display: grid;
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  grid-template-rows: repeat(12, 1fr);
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-cinzel), serif;
+  font-size: clamp(16px, 2.6vw, 30px);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(184, 150, 46, 0.34);
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.9), 0 0 18px rgba(184, 150, 46, 0.35);
+  white-space: nowrap;
+  overflow: hidden;
+  mix-blend-mode: multiply;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(11, 92, 255, 0.05), transparent 70%),
+    repeating-linear-gradient(-24deg, rgba(184, 150, 46, 0.045) 0 2px, transparent 2px 54px);
+  animation: qw-mark-flash var(--qw-mark-reveal, 2.8s) cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+html[data-unitas-surface='quantum-white'] .qw-print-mark[data-screen='1'] span {
+  display: block;
+  transform: rotate(-24deg);
+}
+html[data-unitas-surface='quantum-white'] .qw-print-mark[data-screen='1'] .qw-print-caption {
+  position: absolute;
+  left: 50%;
+  bottom: max(14vh, 96px);
+  transform: translateX(-50%);
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(184, 150, 46, 0.55);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 18px 44px -18px rgba(184, 150, 46, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--qw-gold-deep);
+  text-shadow: none;
+  white-space: normal;
+  text-align: center;
+  max-width: min(88vw, 560px);
+  mix-blend-mode: normal;
+}
+html[data-unitas-surface='quantum-white'] .qw-print-mark .qw-print-caption {
+  display: none;
+}
+html[data-unitas-surface='quantum-white'] .qw-print-mark[data-screen='1'] .qw-print-caption {
+  display: block;
+}
+@keyframes qw-mark-flash {
+  0% { opacity: 0; transform: scale(1.04); }
+  6% { opacity: 1; transform: scale(1); }
+  78% { opacity: 1; }
+  100% { opacity: 0; }
+}
 @media print {
   html[data-unitas-surface='quantum-white'] .qw-watermark {
     opacity: 1 !important;
@@ -699,6 +764,10 @@ html[data-unitas-surface='quantum-white'] button.qw-entry-legal-link {
    21. Reduced motion
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
+  html[data-unitas-surface='quantum-white'] .qw-print-mark[data-screen='1'] {
+    animation: none;
+    opacity: 1;
+  }
   html[data-unitas-surface='quantum-white'] #omni-synapse-search[data-typing='1'] .qw-enter-key {
     animation: none;
     box-shadow: 0 0 0 3px rgba(11, 92, 255, 0.32), 0 0 22px rgba(11, 92, 255, 0.75);

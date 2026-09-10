@@ -15,6 +15,7 @@ import { STANDALONE_LAUNCH_BOOTSTRAP } from '@/lib/pwa/standaloneLaunch';
 import { PWA_ICON_VERSION, PWA_MANIFEST_HREF, pwaIconHref } from '@/lib/pwa/iconVersion';
 import './globals.css';
 import './splash.css';
+import './waitlist.css';
 
 const cinzel = Cinzel({
   subsets: ['latin'],

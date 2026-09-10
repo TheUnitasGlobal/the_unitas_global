@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { releaseHandlesOf } from '@/lib/auth/mailHandleServer';
 
 /**
  * Soft-deletes the caller's account: anonymizes public.profiles and bans +
@@ -45,6 +46,10 @@ export async function POST(req: Request) {
   if (profileError) {
     return NextResponse.json({ error: 'Failed to anonymize profile' }, { status: 500 });
   }
+
+  // REV-19 follow-up: free the account's `@theunitas.global` handle in the
+  // uniqueness ledger so the address can be reserved again later.
+  await releaseHandlesOf(supabaseAdmin, user.id);
 
   const { error: banError } = await supabaseAdmin.auth.admin.updateUserById(user.id, {
     email: `deleted-${user.id}@deleted.unitas.invalid`,

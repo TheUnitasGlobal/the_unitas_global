@@ -4,13 +4,8 @@ import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 're
 import { useLocale, useTranslations } from 'next-intl';
 import { ChevronDown } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
-import {
-  UNITAS_MAIL_METADATA_KEY,
-  handleAddress,
-  normalizeHandle,
-  validateHandle,
-  writeReservation,
-} from '@/lib/auth/unitasHandle';
+import { UNITAS_MAIL_METADATA_KEY, normalizeHandle, validateHandle, writeReservation } from '@/lib/auth/unitasHandle';
+import { MailHandleField } from './MailHandleField';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { isPasswordValid } from '@/lib/passwordPolicy';
@@ -77,6 +72,7 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
   /** REV-19 §8: optional `@theunitas.global` handle reserved at sign-up
    *  (Supabase user_metadata + per-device note; no schema change). */
   const [mailHandle, setMailHandle] = useState('');
+  const [mailBlocking, setMailBlocking] = useState(false);
   const tRev = useTranslations('Rev19.mail');
   const mailVerdict = validateHandle(mailHandle);
   const [showOptional, setShowOptional] = useState(false);
@@ -200,6 +196,12 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
     const p = profileValidation.value;
     if (!profileValidation.ok || !p) {
       setError(t('errorProfileInvalid'));
+      return;
+    }
+    // REV-19 follow-up: a handle that is malformed, reserved, still being
+    // checked or already taken never reaches sign-up (the field says why).
+    if (mailBlocking) {
+      setError(mailVerdict === 'ok' ? tRev('taken') : mailVerdict === 'reserved' ? tRev('reservedWord') : tRev('invalid'));
       return;
     }
 
@@ -429,42 +431,10 @@ export function AuthModal({ open, onClose }: AuthModalProps) {
             />
             <p className="text-[10px] text-gray-600">{t('realNameLockNotice')}</p>
 
-            {/* REV-19 §8: optional UNITAS mail handle reservation. */}
-            <div className="space-y-1" data-mail-handle="">
-              <label className="block text-[11px] font-bold uppercase tracking-widest text-gray-500" htmlFor="unitas-mail-handle">
-                {tRev('label')}
-              </label>
-              <div className="flex items-center gap-1">
-                <input
-                  id="unitas-mail-handle"
-                  type="text"
-                  autoComplete="off"
-                  autoCapitalize="none"
-                  spellCheck={false}
-                  maxLength={32}
-                  value={mailHandle}
-                  onChange={(e) => setMailHandle(e.target.value)}
-                  placeholder={tRev('placeholder')}
-                  aria-invalid={mailVerdict === 'invalid' || mailVerdict === 'reserved'}
-                  className={`${INPUT_CLASS} min-w-0 flex-1`}
-                />
-                <span className="shrink-0 text-[12px] font-bold text-accent">{tRev('domain')}</span>
-              </div>
-              <p
-                className={`text-[10px] ${
-                  mailVerdict === 'ok' ? 'text-emerald-300' : mailVerdict === 'empty' ? 'text-gray-600' : 'text-amber-300'
-                }`}
-                aria-live="polite"
-              >
-                {mailVerdict === 'ok'
-                  ? `${tRev('available')} · ${handleAddress(mailHandle)} · ${tRev('reserved')}`
-                  : mailVerdict === 'reserved'
-                    ? tRev('reservedWord')
-                    : mailVerdict === 'invalid'
-                      ? tRev('invalid')
-                      : tRev('hint')}
-              </p>
-            </div>
+            {/* REV-19 §8 (+ follow-up): the founding-address field -- live
+                uniqueness probe, premium glass preview, blocks submit when
+                the handle is taken / reserved / malformed. */}
+            <MailHandleField value={mailHandle} onChange={setMailHandle} onBlockingChange={setMailBlocking} disabled={busy} />
 
             <div className="grid grid-cols-2 gap-3">
               <input

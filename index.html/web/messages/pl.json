@@ -1853,7 +1853,32 @@
       "openAria": "Otwórz krótki film {title}",
       "creator": "Twórca",
       "duration": "{seconds} s",
-      "followers": "{count} obserwujących"
+      "followers": "{count} obserwujących",
+      "pass": {
+        "eyebrow": "Wczesny dostęp dla twórców",
+        "cta": "Zdobądź wczesny dostęp",
+        "title": "Twoja przepustka twórcy",
+        "lede": "Przesyłanie ruszy razem z betą U-Messenger. Zarezerwuj przepustkę już teraz, a Twoja nazwa będzie pierwsza w kolejce, gdy tylko otworzą się drzwi studia.",
+        "handleLabel": "Nazwa twórcy",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 znaków: a–z, 0–9, kropka, myślnik, podkreślenie",
+        "reserve": "Zarezerwuj moją przepustkę",
+        "reserved": "Przepustka zarezerwowana",
+        "reservedAt": "Zarezerwowano {time}",
+        "serial": "Przepustka {serial}",
+        "currentWave": "Trwa rezerwacja",
+        "wave1": "Fala 1 · Twórcy założyciele",
+        "wave2": "Fala 2 · Narzędzia studia",
+        "wave3": "Fala 3 · Otwarcie globalne",
+        "perks": {
+          "p1": "Priorytetowe miejsce na przesyłanie w dniu otwarcia",
+          "p2": "Odznaka twórcy założyciela na Twoim profilu",
+          "p3": "Bezpośrednie udostępnianie w rozmowach U-Messenger"
+        },
+        "signedIn": "Powiązana z Twoim kontem",
+        "guest": "Zaloguj się, a przepustka zostanie powiązana także z Twoim kontem.",
+        "honest": "Przepustka zapisana jest na tym urządzeniu, a po zalogowaniu także na Twoim koncie. Żadne wideo nie jest jeszcze przesyłane ani przechowywane."
+      }
     },
     "mail": {
       "label": "Nazwa użytkownika UNITAS Mail (opcjonalnie)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 znaków: a–z, 0–9, kropka, myślnik, podkreślnik",
       "reservedWord": "Ta nazwa jest zarezerwowana",
       "reserved": "Zarezerwowane · skrzynka aktywuje się po uruchomieniu UNITAS Mail",
-      "reservedFor": "Zarezerwowane: {handle}"
+      "reservedFor": "Zarezerwowane: {handle}",
+      "eyebrow": "Adres założycielski",
+      "checking": "Sprawdzanie dostępności…",
+      "taken": "Ta nazwa jest już zarezerwowana przez inne konto – spróbuj innej",
+      "unchecked": "Format poprawny · dostępność potwierdzimy po zalogowaniu",
+      "sealed": "Zarezerwowano",
+      "claimed": "Powiązana z Twoim kontem · skrzynka aktywuje się wraz ze startem UNITAS Mail",
+      "lost": "{handle} zarezerwowało wcześniej inne konto – w każdej chwili możesz zarezerwować nową nazwę",
+      "perk1": "Priorytetowa skrzynka po starcie UNITAS Mail",
+      "perk2": "Jedna nazwa dla Mail, Shorts i U-Messenger"
     },
     "legal": {
       "eyebrow": "Informacja",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · Treść chroniona · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "Treść chroniona · każda kopia nosi odcisk UNITAS",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · Informacja o prawach: ten interfejs, jego teksty i kod są utworami chronionymi · www.theunitas.global"
     }
   }
 }

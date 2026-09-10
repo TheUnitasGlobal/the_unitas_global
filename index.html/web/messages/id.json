@@ -1853,7 +1853,32 @@
       "openAria": "Buka short {title}",
       "creator": "Kreator",
       "duration": "{seconds} detik",
-      "followers": "{count} pengikut"
+      "followers": "{count} pengikut",
+      "pass": {
+        "eyebrow": "Akses awal untuk kreator",
+        "cta": "Dapatkan akses awal",
+        "title": "Pas kreator Anda",
+        "lede": "Unggahan dibuka bersama beta U-Messenger. Pesan pas Anda sekarang, dan nama Anda berada di barisan terdepan saat pintu studio terbuka.",
+        "handleLabel": "Nama kreator",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 karakter: a–z, 0–9, titik, tanda hubung, garis bawah",
+        "reserve": "Pesan pas saya",
+        "reserved": "Pas sudah dipesan",
+        "reservedAt": "Dipesan {time}",
+        "serial": "Pas {serial}",
+        "currentWave": "Sedang dibuka",
+        "wave1": "Gelombang 1 · Kreator pendiri",
+        "wave2": "Gelombang 2 · Perangkat studio",
+        "wave3": "Gelombang 3 · Terbuka global",
+        "perks": {
+          "p1": "Slot unggah prioritas di hari pembukaan",
+          "p2": "Lencana kreator pendiri di profil Anda",
+          "p3": "Bagikan langsung ke percakapan U-Messenger"
+        },
+        "signedIn": "Terhubung ke akun Anda",
+        "guest": "Masuk, dan pas Anda juga akan terhubung ke akun Anda.",
+        "honest": "Pas tersimpan di perangkat ini dan, saat Anda masuk, juga di akun Anda. Belum ada video yang diunggah atau disimpan."
+      }
     },
     "mail": {
       "label": "Handle email UNITAS (opsional)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 karakter: a–z, 0–9, titik, tanda hubung, garis bawah",
       "reservedWord": "Handle itu sudah dipesan",
       "reserved": "Dipesan · kotak surat aktif saat UNITAS Mail dibuka",
-      "reservedFor": "Dipesan: {handle}"
+      "reservedFor": "Dipesan: {handle}",
+      "eyebrow": "Alamat pendiri",
+      "checking": "Memeriksa ketersediaan…",
+      "taken": "Nama ini sudah dipesan akun lain — coba nama yang berbeda",
+      "unchecked": "Format terverifikasi · ketersediaan dikonfirmasi saat Anda masuk",
+      "sealed": "Dipesan",
+      "claimed": "Terhubung ke akun Anda · kotak surat aktif saat UNITAS Mail dibuka",
+      "lost": "{handle} lebih dulu dipesan akun lain — Anda bisa memesan nama baru kapan saja",
+      "perk1": "Kotak masuk prioritas saat UNITAS Mail dibuka",
+      "perk2": "Satu nama untuk Mail, Shorts, dan U-Messenger"
     },
     "legal": {
       "eyebrow": "Pemberitahuan",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · Konten dilindungi · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "Konten dilindungi · setiap salinan membawa sidik jari UNITAS",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · Pemberitahuan kepemilikan: antarmuka ini, teksnya, dan kodenya adalah karya yang dilindungi · www.theunitas.global"
     }
   }
 }

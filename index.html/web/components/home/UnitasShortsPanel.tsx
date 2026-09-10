@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { Eye, Heart, MessageCircle, Play, Upload, UserPlus } from 'lucide-react';
+import { Eye, Heart, MessageCircle, Play, Sparkles, Ticket, Upload, UserPlus } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
+import { ShortsCreatorPass } from '@/components/home/ShortsCreatorPass';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { DiscoveryLinks } from '@/components/home/DiscoveryLinks';
 import { findHubTheme } from '@/lib/live/hubThemes';
@@ -29,18 +30,21 @@ function posterStyle(short: ShortSeed) {
  * follows, share-to-U-Messenger) that seeds the U-Messenger ecosystem.
  * Honest posture: the rail is a labelled SEED catalogue with deterministic
  * counters (lib/live/shortsSeed.ts) and per-device like / follow toggles;
- * the upload CTA says plainly that uploads open with the U-Messenger beta.
- * A card opens the short's deep modal (a level on the deep modal history
- * stack) with the poster, counters, the toggles and outbound discovery
- * links for its theme.
+ * the upload CTA and the rail-end card open the CREATOR PASS
+ * (ShortsCreatorPass.tsx) -- a premium pre-reservation surface that says
+ * plainly that uploads open with the U-Messenger beta. A card opens the
+ * short's deep modal (a level on the deep modal history stack) with the
+ * poster, counters, the toggles and outbound discovery links for its theme.
  */
 export function UnitasShortsPanel() {
   const t = useTranslations('Rev19.shorts');
   const tHub = useTranslations('Rev19.hub');
   const locale = useLocale();
   const { playHoverSfx } = useSpatialAudio();
+  const tPass = useTranslations('Rev19.shorts.pass');
   const [prefs, setPrefs] = useState<ShortsPrefs>({ liked: [], followed: [] });
   const [openId, setOpenId] = useState<string | null>(null);
+  const [passOpen, setPassOpen] = useState(false);
 
   useEffect(() => {
     setPrefs(readShortsPrefs());
@@ -95,9 +99,10 @@ export function UnitasShortsPanel() {
           type="button"
           className="qw-pill-btn ml-auto border border-white/20 text-gray-200"
           title={t('uploadSoon')}
-          aria-label={t('uploadSoon')}
+          aria-label={`${t('upload')} · ${tPass('eyebrow')}`}
           onMouseEnter={() => playHoverSfx()}
-          onClick={() => undefined}
+          onClick={() => setPassOpen(true)}
+          data-shorts-upload=""
         >
           <Upload size={13} aria-hidden="true" />
           {t('upload')}
@@ -144,8 +149,27 @@ export function UnitasShortsPanel() {
             </button>
           );
         })}
+        <button
+          type="button"
+          className="u-wl-rail-card"
+          onMouseEnter={() => playHoverSfx()}
+          onClick={() => setPassOpen(true)}
+          aria-label={tPass('cta')}
+          data-shorts-pass-card=""
+        >
+          <span className="u-wl-rail-plus" aria-hidden="true">
+            <Ticket size={18} />
+          </span>
+          <span className="u-wl-rail-sub">
+            <Sparkles size={11} aria-hidden="true" style={{ display: 'inline', marginRight: 4, verticalAlign: '-1px' }} />
+            {tPass('eyebrow')}
+          </span>
+          <span className="u-wl-rail-title">{tPass('cta')}</span>
+        </button>
       </div>
       <p className="mt-2 text-[11px] uppercase tracking-widest text-gray-600">{t('seedNote')}</p>
+
+      <ShortsCreatorPass open={passOpen} onClose={() => setPassOpen(false)} />
 
       <Modal open={open !== null} onClose={() => setOpenId(null)} labelledBy="unitas-short-title" size="lg">
         {open &&

@@ -1853,7 +1853,32 @@
       "openAria": "Abrir o short {title}",
       "creator": "Criador",
       "duration": "{seconds}s",
-      "followers": "{count} seguidores"
+      "followers": "{count} seguidores",
+      "pass": {
+        "eyebrow": "Acesso antecipado para criadores",
+        "cta": "Garantir acesso antecipado",
+        "title": "Seu passe de criador",
+        "lede": "Os uploads abrem junto com o beta do U-Messenger. Reserve seu passe agora e seu nome será o primeiro da fila no instante em que as portas do estúdio se abrirem.",
+        "handleLabel": "Nome de criador",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "De 3 a 20 caracteres: a–z, 0–9, ponto, hífen e sublinhado",
+        "reserve": "Reservar meu passe",
+        "reserved": "Passe reservado",
+        "reservedAt": "Reservado em {time}",
+        "serial": "Passe {serial}",
+        "currentWave": "Reservando agora",
+        "wave1": "Onda 1 · Criadores fundadores",
+        "wave2": "Onda 2 · Ferramentas de estúdio",
+        "wave3": "Onda 3 · Abertura global",
+        "perks": {
+          "p1": "Vaga prioritária de upload no dia da abertura",
+          "p2": "Selo de criador fundador no seu perfil",
+          "p3": "Compartilhamento direto nas conversas do U-Messenger"
+        },
+        "signedIn": "Vinculado à sua conta",
+        "guest": "Entre na sua conta e o passe ficará vinculado a ela também.",
+        "honest": "Seu passe fica neste dispositivo e, quando você está conectado, também na sua conta. Nenhum vídeo é enviado ou armazenado ainda."
+      }
     },
     "mail": {
       "label": "Handle de e-mail UNITAS (opcional)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 caracteres: a–z, 0–9, ponto, hífen, sublinhado",
       "reservedWord": "Esse handle está reservado",
       "reserved": "Reservado · caixa de entrada ativa quando o UNITAS Mail for lançado",
-      "reservedFor": "Reservado: {handle}"
+      "reservedFor": "Reservado: {handle}",
+      "eyebrow": "Endereço fundador",
+      "checking": "Verificando disponibilidade…",
+      "taken": "Outra conta já reservou esse nome; tente outro",
+      "unchecked": "Formato válido · a disponibilidade é confirmada ao entrar",
+      "sealed": "Reservado",
+      "claimed": "Vinculado à sua conta · a caixa de entrada ativa quando o UNITAS Mail abrir",
+      "lost": "Outra conta reservou {handle} primeiro; você pode reservar um novo nome quando quiser",
+      "perk1": "Caixa de entrada prioritária quando o UNITAS Mail abrir",
+      "perk2": "Um só nome para Mail, Shorts e U-Messenger"
     },
     "legal": {
       "eyebrow": "Aviso",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · Conteúdo protegido · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "Conteúdo protegido · cada cópia carrega a impressão digital da UNITAS",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · Aviso de titularidade: esta interface, seus textos e seu código são obras protegidas · www.theunitas.global"
     }
   }
 }

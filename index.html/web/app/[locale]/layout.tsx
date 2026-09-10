@@ -15,6 +15,7 @@ import { InAppBrowserEscape } from '@/components/pwa/InAppBrowserEscape';
 import { SovereignDebugPanel } from '@/components/sovereign/SovereignDebugPanel';
 import { ExitGuard } from '@/components/interaction/ExitGuard';
 import { SiteLinkModalHost } from '@/components/layout/SiteLinkModalHost';
+import { MailHandleClaimer } from '@/components/auth/MailHandleClaimer';
 import { SovereignShield } from '@/components/system/SovereignShield';
 import { SealedFallback } from '@/components/system/SealedFallback';
 import { PageShield } from '@/components/system/PageShield';
@@ -148,6 +149,12 @@ export default async function LocaleLayout({
             instead of routing away -- one host serves every route. */}
         <SovereignShield zone="site-link-modal">
           <SiteLinkModalHost />
+        </SovereignShield>
+        {/* REV-19 follow-up: binds a signed-in account's reserved
+            @theunitas.global handle in the uniqueness ledger (one attempt per
+            load) and reports the outcome as a glass toast. */}
+        <SovereignShield zone="mail-handle-claim">
+          <MailHandleClaimer />
         </SovereignShield>
         {/* Global one-click PWA install handler (z-650) -- serves every route,
             including the sealed cinema screen. Any `data-pwa-install` element

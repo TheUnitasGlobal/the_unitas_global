@@ -1853,7 +1853,32 @@
       "openAria": "Ava lühivideo {title}",
       "creator": "Looja",
       "duration": "{seconds} s",
-      "followers": "{count} jälgijat"
+      "followers": "{count} jälgijat",
+      "pass": {
+        "eyebrow": "Loojate varajane ligipääs",
+        "cta": "Saa varajane ligipääs",
+        "title": "Sinu loojapass",
+        "lede": "Üleslaadimine avaneb koos U-Messengeri beetaga. Broneeri pass kohe ja sinu nimi on esimesena järjekorras hetkel, mil stuudio uksed avanevad.",
+        "handleLabel": "Looja nimi",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 märki: a–z, 0–9, punkt, sidekriips, alakriips",
+        "reserve": "Broneeri minu pass",
+        "reserved": "Pass broneeritud",
+        "reservedAt": "Broneeritud {time}",
+        "serial": "Pass {serial}",
+        "currentWave": "Broneerimine käib",
+        "wave1": "1. laine · Asutajaloojad",
+        "wave2": "2. laine · Stuudiotööriistad",
+        "wave3": "3. laine · Avatud kogu maailmale",
+        "perks": {
+          "p1": "Eelisjärjekorras üleslaadimiskoht avamispäeval",
+          "p2": "Asutajalooja märk sinu profiilil",
+          "p3": "Jagamine otse U-Messengeri vestlustesse"
+        },
+        "signedIn": "Seotud sinu kontoga",
+        "guest": "Logi sisse ja sinu pass seotakse ka sinu kontoga.",
+        "honest": "Pass on salvestatud selles seadmes ja sisselogituna ka sinu kontol. Ühtegi videot veel üles ei laadita ega salvestata."
+      }
     },
     "mail": {
       "label": "UNITAS meiliaadressi nimi (valikuline)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 tähemärki: a–z, 0–9, punkt, sidekriips, alakriips",
       "reservedWord": "See nimi on juba reserveeritud",
       "reserved": "Reserveeritud · postkast aktiveerub, kui UNITAS Mail avaneb",
-      "reservedFor": "Reserveeritud: {handle}"
+      "reservedFor": "Reserveeritud: {handle}",
+      "eyebrow": "Asutaja aadress",
+      "checking": "Kontrollime saadavust…",
+      "taken": "See nimi on juba teise konto poolt broneeritud – proovi mõnda muud",
+      "unchecked": "Vorming kontrollitud · saadavus kinnitatakse sisselogimisel",
+      "sealed": "Broneeritud",
+      "claimed": "Seotud sinu kontoga · postkast aktiveerub, kui UNITAS Mail avaneb",
+      "lost": "{handle} broneeris varem teine konto – uue nime saad broneerida igal ajal",
+      "perk1": "Eelisjärjekorras postkast, kui UNITAS Mail avaneb",
+      "perk2": "Üks nimi Maili, Shortsi ja U-Messengeri jaoks"
     },
     "legal": {
       "eyebrow": "Teade",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · Kaitstud sisu · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "Kaitstud sisu · iga koopia kannab UNITASe sõrmejälge",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · Omandiõiguse teade: see liides, selle tekstid ja kood on kaitstud teosed · www.theunitas.global"
     }
   }
 }

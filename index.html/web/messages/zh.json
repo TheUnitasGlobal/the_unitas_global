@@ -1853,7 +1853,32 @@
       "openAria": "打开短片《{title}》",
       "creator": "创作者",
       "duration": "{seconds}秒",
-      "followers": "{count} 位粉丝"
+      "followers": "{count} 位粉丝",
+      "pass": {
+        "eyebrow": "创作者抢先体验",
+        "cta": "获取抢先体验",
+        "title": "你的创作者通行证",
+        "lede": "上传功能将随 U-Messenger 测试版一同开放。现在预留通行证，工作室大门开启的那一刻，你的账号名将站在最前排。",
+        "handleLabel": "创作者账号名",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 个字符：a–z、0–9、点、短横线、下划线",
+        "reserve": "预留我的通行证",
+        "reserved": "通行证已预留",
+        "reservedAt": "预留于 {time}",
+        "serial": "通行证 {serial}",
+        "currentWave": "正在预留",
+        "wave1": "第一波 · 创始创作者",
+        "wave2": "第二波 · 工作室工具",
+        "wave3": "第三波 · 全球开放",
+        "perks": {
+          "p1": "开放首日的优先上传席位",
+          "p2": "个人主页上的创始创作者徽章",
+          "p3": "直接分享到 U-Messenger 会话"
+        },
+        "signedIn": "已绑定到你的账户",
+        "guest": "登录后，这张通行证也会绑定到你的账户。",
+        "honest": "通行证保存在此设备上；登录后也会保存在你的账户中。目前尚未上传或存储任何视频。"
+      }
     },
     "mail": {
       "label": "UNITAS 邮箱账号(可选)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 个字符: a–z, 0–9, 点, 连字符, 下划线",
       "reservedWord": "该账号已被保留",
       "reserved": "已保留 · UNITAS Mail 开通时邮箱生效",
-      "reservedFor": "已保留:{handle}"
+      "reservedFor": "已保留:{handle}",
+      "eyebrow": "创始地址",
+      "checking": "正在检查是否可用…",
+      "taken": "该账号名已被其他账户预留，请换一个试试",
+      "unchecked": "格式已通过 · 登录后确认是否可用",
+      "sealed": "已预留",
+      "claimed": "已绑定到你的账户 · UNITAS Mail 上线时邮箱即刻启用",
+      "lost": "{handle} 已被其他账户抢先预留，你可以随时预留新的账号名",
+      "perk1": "UNITAS Mail 上线时的优先收件箱",
+      "perk2": "一个账号名，通行 Mail、Shorts 与 U-Messenger"
     },
     "legal": {
       "eyebrow": "公告",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · 受保护内容 · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "受保护内容 · 每一份副本都带有 UNITAS 指纹",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · 所有权声明：本界面、其文案与代码均为受保护作品 · www.theunitas.global"
     }
   }
 }

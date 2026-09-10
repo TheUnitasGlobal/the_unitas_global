@@ -1853,7 +1853,32 @@
       "openAria": "Mở video ngắn {title}",
       "creator": "Người sáng tạo",
       "duration": "{seconds} giây",
-      "followers": "{count} người theo dõi"
+      "followers": "{count} người theo dõi",
+      "pass": {
+        "eyebrow": "Truy cập sớm cho nhà sáng tạo",
+        "cta": "Nhận truy cập sớm",
+        "title": "Thẻ nhà sáng tạo của bạn",
+        "lede": "Tính năng tải lên sẽ mở cùng bản beta của U-Messenger. Đặt thẻ ngay hôm nay và tên của bạn sẽ đứng đầu hàng ngay khoảnh khắc cánh cửa studio mở ra.",
+        "handleLabel": "Tên nhà sáng tạo",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 ký tự: a–z, 0–9, dấu chấm, gạch ngang, gạch dưới",
+        "reserve": "Đặt thẻ của tôi",
+        "reserved": "Đã đặt thẻ",
+        "reservedAt": "Đã đặt lúc {time}",
+        "serial": "Thẻ {serial}",
+        "currentWave": "Đang nhận đặt thẻ",
+        "wave1": "Đợt 1 · Nhà sáng tạo sáng lập",
+        "wave2": "Đợt 2 · Công cụ studio",
+        "wave3": "Đợt 3 · Mở toàn cầu",
+        "perks": {
+          "p1": "Suất tải lên ưu tiên trong ngày khai mở",
+          "p2": "Huy hiệu nhà sáng tạo sáng lập trên hồ sơ của bạn",
+          "p3": "Chia sẻ thẳng vào các cuộc trò chuyện U-Messenger"
+        },
+        "signedIn": "Đã liên kết với tài khoản của bạn",
+        "guest": "Đăng nhập để thẻ này cũng được liên kết với tài khoản của bạn.",
+        "honest": "Thẻ được lưu trên thiết bị này và, khi bạn đã đăng nhập, cả trên tài khoản của bạn. Chưa có video nào được tải lên hay lưu trữ."
+      }
     },
     "mail": {
       "label": "Tên định danh email UNITAS (tùy chọn)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 ký tự: a–z, 0–9, dấu chấm, dấu gạch ngang, dấu gạch dưới",
       "reservedWord": "Tên định danh này đã được giữ trước",
       "reserved": "Đã giữ trước · hộp thư kích hoạt khi UNITAS Mail ra mắt",
-      "reservedFor": "Đã giữ trước: {handle}"
+      "reservedFor": "Đã giữ trước: {handle}",
+      "eyebrow": "Địa chỉ sáng lập",
+      "checking": "Đang kiểm tra tính khả dụng…",
+      "taken": "Tên này đã được một tài khoản khác đặt trước — hãy thử tên khác",
+      "unchecked": "Định dạng hợp lệ · tính khả dụng được xác nhận khi bạn đăng nhập",
+      "sealed": "Đã đặt",
+      "claimed": "Đã liên kết với tài khoản của bạn · hộp thư sẽ kích hoạt khi UNITAS Mail ra mắt",
+      "lost": "{handle} đã được một tài khoản khác đặt trước — bạn có thể đặt tên mới bất cứ lúc nào",
+      "perk1": "Hộp thư ưu tiên khi UNITAS Mail ra mắt",
+      "perk2": "Một tên duy nhất cho Mail, Shorts và U-Messenger"
     },
     "legal": {
       "eyebrow": "Thông báo",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · Nội dung được bảo vệ · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "Nội dung được bảo vệ · mọi bản sao đều mang dấu vân tay UNITAS",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · Thông báo quyền sở hữu: giao diện này, nội dung và mã nguồn của nó là tác phẩm được bảo hộ · www.theunitas.global"
     }
   }
 }

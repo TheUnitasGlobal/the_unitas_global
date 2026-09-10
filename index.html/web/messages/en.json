@@ -1853,7 +1853,32 @@
       "openAria": "Open the short {title}",
       "creator": "Creator",
       "duration": "{seconds}s",
-      "followers": "{count} followers"
+      "followers": "{count} followers",
+      "pass": {
+        "eyebrow": "Creator early access",
+        "cta": "Get early access",
+        "title": "Your creator pass",
+        "lede": "Uploads open with the U-Messenger beta. Reserve a pass now and your handle is first in line the moment the studio doors open.",
+        "handleLabel": "Creator handle",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 characters: a–z, 0–9, dot, dash, underscore",
+        "reserve": "Reserve my pass",
+        "reserved": "Pass reserved",
+        "reservedAt": "Reserved {time}",
+        "serial": "Pass {serial}",
+        "currentWave": "Now reserving",
+        "wave1": "Wave 1 · Founding creators",
+        "wave2": "Wave 2 · Studio tools",
+        "wave3": "Wave 3 · Global open",
+        "perks": {
+          "p1": "Priority upload slot on opening day",
+          "p2": "Founding creator badge on your profile",
+          "p3": "Direct share into U-Messenger threads"
+        },
+        "signedIn": "Bound to your account",
+        "guest": "Sign in and your pass is bound to your account as well.",
+        "honest": "Your pass lives on this device and, when you are signed in, on your account. No video is uploaded or stored yet."
+      }
     },
     "mail": {
       "label": "UNITAS mail handle (optional)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 characters: a–z, 0–9, dot, dash, underscore",
       "reservedWord": "That handle is reserved",
       "reserved": "Reserved · mailbox activates when UNITAS Mail opens",
-      "reservedFor": "Reserved: {handle}"
+      "reservedFor": "Reserved: {handle}",
+      "eyebrow": "Founding address",
+      "checking": "Checking availability…",
+      "taken": "Already reserved by another account — try a different handle",
+      "unchecked": "Format verified · availability is confirmed when you sign in",
+      "sealed": "Reserved",
+      "claimed": "Bound to your account · mailbox activates when UNITAS Mail opens",
+      "lost": "{handle} was claimed first by another account — reserve a new handle any time",
+      "perk1": "Priority inbox when UNITAS Mail opens",
+      "perk2": "One handle across Mail, Shorts and U-Messenger"
     },
     "legal": {
       "eyebrow": "Notice",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · Protected content · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "Protected content · every copy carries the UNITAS fingerprint",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · Ownership notice: this interface, its copy and its code are protected works · www.theunitas.global"
     }
   }
 }

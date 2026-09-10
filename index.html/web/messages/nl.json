@@ -1853,7 +1853,32 @@
       "openAria": "Open de short {title}",
       "creator": "Maker",
       "duration": "{seconds} s",
-      "followers": "{count} volgers"
+      "followers": "{count} volgers",
+      "pass": {
+        "eyebrow": "Vroege toegang voor makers",
+        "cta": "Vroege toegang krijgen",
+        "title": "Jouw makerspas",
+        "lede": "Uploaden gaat open met de bèta van U-Messenger. Reserveer je pas nu en jouw naam staat vooraan zodra de studiodeuren opengaan.",
+        "handleLabel": "Makersnaam",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 tekens: a–z, 0–9, punt, streepje, laag streepje",
+        "reserve": "Mijn pas reserveren",
+        "reserved": "Pas gereserveerd",
+        "reservedAt": "Gereserveerd op {time}",
+        "serial": "Pas {serial}",
+        "currentWave": "Nu te reserveren",
+        "wave1": "Golf 1 · Oprichtende makers",
+        "wave2": "Golf 2 · Studiotools",
+        "wave3": "Golf 3 · Wereldwijd open",
+        "perks": {
+          "p1": "Voorrang bij uploaden op de openingsdag",
+          "p2": "Badge van oprichtend maker op je profiel",
+          "p3": "Direct delen in U-Messenger-gesprekken"
+        },
+        "signedIn": "Gekoppeld aan je account",
+        "guest": "Log in en je pas wordt ook aan je account gekoppeld.",
+        "honest": "Je pas staat op dit apparaat en, wanneer je bent ingelogd, ook op je account. Er wordt nog geen video geüpload of opgeslagen."
+      }
     },
     "mail": {
       "label": "UNITAS Mail-handle (optioneel)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 tekens: a–z, 0–9, punt, streepje, underscore",
       "reservedWord": "Die handle is gereserveerd",
       "reserved": "Gereserveerd · mailbox wordt geactiveerd zodra UNITAS Mail opent",
-      "reservedFor": "Gereserveerd: {handle}"
+      "reservedFor": "Gereserveerd: {handle}",
+      "eyebrow": "Oprichtersadres",
+      "checking": "Beschikbaarheid controleren…",
+      "taken": "Deze naam is al gereserveerd door een ander account – probeer een andere",
+      "unchecked": "Formaat gecontroleerd · beschikbaarheid wordt bevestigd bij het inloggen",
+      "sealed": "Gereserveerd",
+      "claimed": "Gekoppeld aan je account · de mailbox gaat open zodra UNITAS Mail start",
+      "lost": "{handle} is eerder gereserveerd door een ander account – je kunt altijd een nieuwe naam reserveren",
+      "perk1": "Voorrang in je inbox zodra UNITAS Mail start",
+      "perk2": "Eén naam voor Mail, Shorts en U-Messenger"
     },
     "legal": {
       "eyebrow": "Kennisgeving",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · Beschermde inhoud · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "Beschermde inhoud · elke kopie draagt de vingerafdruk van UNITAS",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · Eigendomsverklaring: deze interface, de teksten en de code zijn beschermde werken · www.theunitas.global"
     }
   }
 }

@@ -1853,7 +1853,32 @@
       "openAria": "{title} kısa videosunu aç",
       "creator": "Yaratıcı",
       "duration": "{seconds} sn",
-      "followers": "{count} takipçi"
+      "followers": "{count} takipçi",
+      "pass": {
+        "eyebrow": "İçerik üreticileri için erken erişim",
+        "cta": "Erken erişim al",
+        "title": "Üretici pasonuz",
+        "lede": "Yüklemeler U-Messenger betasıyla birlikte açılıyor. Pasonuzu şimdi ayırtın; stüdyo kapıları açıldığı an adınız sıranın en önünde olsun.",
+        "handleLabel": "Üretici adı",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 karakter: a–z, 0–9, nokta, tire, alt çizgi",
+        "reserve": "Pasomu ayırt",
+        "reserved": "Paso ayrıldı",
+        "reservedAt": "{time} tarihinde ayrıldı",
+        "serial": "Paso {serial}",
+        "currentWave": "Şu an ayırtılıyor",
+        "wave1": "1. Dalga · Kurucu üreticiler",
+        "wave2": "2. Dalga · Stüdyo araçları",
+        "wave3": "3. Dalga · Küresel açılış",
+        "perks": {
+          "p1": "Açılış günü öncelikli yükleme yeri",
+          "p2": "Profilinizde kurucu üretici rozeti",
+          "p3": "U-Messenger sohbetlerine doğrudan paylaşım"
+        },
+        "signedIn": "Hesabınıza bağlı",
+        "guest": "Giriş yapın, pasonuz hesabınıza da bağlansın.",
+        "honest": "Pasonuz bu cihazda, giriş yaptığınızda ise hesabınızda da saklanır. Henüz hiçbir video yüklenmiyor ya da depolanmıyor."
+      }
     },
     "mail": {
       "label": "UNITAS Mail kullanıcı adı (opsiyonel)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 karakter: a–z, 0–9, nokta, tire, alt çizgi",
       "reservedWord": "Bu kullanıcı adı ayrılmış",
       "reserved": "Ayrılmış · UNITAS Mail açıldığında posta kutusu etkinleşir",
-      "reservedFor": "Ayrılmış: {handle}"
+      "reservedFor": "Ayrılmış: {handle}",
+      "eyebrow": "Kurucu adres",
+      "checking": "Uygunluk kontrol ediliyor…",
+      "taken": "Bu ad başka bir hesap tarafından zaten ayrıldı; başka bir ad deneyin",
+      "unchecked": "Biçim doğrulandı · uygunluk giriş yaptığınızda kesinleşir",
+      "sealed": "Ayrıldı",
+      "claimed": "Hesabınıza bağlı · posta kutusu UNITAS Mail açıldığında etkinleşir",
+      "lost": "{handle} başka bir hesap tarafından daha önce ayrıldı; istediğiniz zaman yeni bir ad ayırtabilirsiniz",
+      "perk1": "UNITAS Mail açıldığında öncelikli gelen kutusu",
+      "perk2": "Mail, Shorts ve U-Messenger için tek bir ad"
     },
     "legal": {
       "eyebrow": "Bildirim",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · Korumalı içerik · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "Korumalı içerik · her kopya UNITAS parmak izini taşır",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · Mülkiyet bildirimi: bu arayüz, metinleri ve kodu korunan eserlerdir · www.theunitas.global"
     }
   }
 }

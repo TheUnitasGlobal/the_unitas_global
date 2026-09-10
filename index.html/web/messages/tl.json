@@ -1853,7 +1853,32 @@
       "openAria": "Buksan ang short na {title}",
       "creator": "Creator",
       "duration": "{seconds}s",
-      "followers": "{count} na tagasunod"
+      "followers": "{count} na tagasunod",
+      "pass": {
+        "eyebrow": "Early access para sa mga creator",
+        "cta": "Kumuha ng early access",
+        "title": "Ang iyong creator pass",
+        "lede": "Magbubukas ang pag-upload kasabay ng U-Messenger beta. I-reserve ang pass mo ngayon, at mauuna ang pangalan mo sa pila sa sandaling bumukas ang pinto ng studio.",
+        "handleLabel": "Creator handle",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 character: a–z, 0–9, tuldok, gitling, underscore",
+        "reserve": "I-reserve ang pass ko",
+        "reserved": "Na-reserve ang pass",
+        "reservedAt": "Na-reserve noong {time}",
+        "serial": "Pass {serial}",
+        "currentWave": "Bukas ang reservation",
+        "wave1": "Wave 1 · Founding creators",
+        "wave2": "Wave 2 · Mga studio tool",
+        "wave3": "Wave 3 · Bukas sa buong mundo",
+        "perks": {
+          "p1": "Priority upload slot sa araw ng pagbubukas",
+          "p2": "Founding creator badge sa iyong profile",
+          "p3": "Direktang share sa mga U-Messenger thread"
+        },
+        "signedIn": "Nakakabit sa iyong account",
+        "guest": "Mag-sign in at ikakabit din ang pass mo sa iyong account.",
+        "honest": "Nasa device na ito ang pass mo at, kapag naka-sign in, nasa account mo rin. Wala pang video na ina-upload o iniimbak."
+      }
     },
     "mail": {
       "label": "Username ng UNITAS Mail (opsyonal)",
@@ -1864,7 +1889,16 @@
       "invalid": "3–20 na karakter: a–z, 0–9, tuldok, gitling, underscore",
       "reservedWord": "Nakalaan na ang username na iyon",
       "reserved": "Nakalaan · ma-a-activate ang mailbox kapag nagbukas ang UNITAS Mail",
-      "reservedFor": "Nakalaan: {handle}"
+      "reservedFor": "Nakalaan: {handle}",
+      "eyebrow": "Founding address",
+      "checking": "Sinusuri kung available…",
+      "taken": "Na-reserve na ng ibang account ang handle na ito — sumubok ng iba",
+      "unchecked": "Tama ang format · kukumpirmahin ang availability kapag nag-sign in ka",
+      "sealed": "Naka-reserve",
+      "claimed": "Nakakabit sa iyong account · magiging aktibo ang mailbox kapag bumukas ang UNITAS Mail",
+      "lost": "Naunang ma-reserve ng ibang account ang {handle} — puwede kang mag-reserve ng bagong handle anumang oras",
+      "perk1": "Priority inbox kapag bumukas ang UNITAS Mail",
+      "perk2": "Isang handle para sa Mail, Shorts at U-Messenger"
     },
     "legal": {
       "eyebrow": "Abiso",
@@ -1899,7 +1933,9 @@
     },
     "watermark": {
       "copyTrailer": "© THE UNITAS GLOBAL OÜ · Protektadong nilalaman · www.theunitas.global",
-      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED"
+      "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
+      "screenCaption": "Protektadong nilalaman · bawat kopya ay may UNITAS fingerprint",
+      "consoleNotice": "THE UNITAS GLOBAL OÜ · Abiso ng pagmamay-ari: ang interface na ito, ang mga teksto at code nito ay mga protektadong akda · www.theunitas.global"
     }
   }
 }
