@@ -16,13 +16,36 @@ import {
 // Pure helpers only -- no fixtures shared with other __tests__/** files
 // (see CLAUDE.md "Module-level test isolation").
 const TOKEN = SOVEREIGN_AUTH_TOKEN_DEFAULT;
-const SECRET = resolveSovereignSigningSecret({});
+// Non-null: dev/test env ({}) always resolves a signing secret (see the
+// production-fail-closed tests below for the `null` case).
+const SECRET = resolveSovereignSigningSecret({}) as string;
 
 describe('sovereign auth -- token param', () => {
   it('uses the owner token by default and honours the env override', () => {
     expect(resolveSovereignToken({})).toBe('unitas_master_dooyeong_2026_secure_key');
     expect(resolveSovereignToken({ SOVEREIGN_AUTH_TOKEN: ' rotated ' })).toBe('rotated');
     expect(resolveSovereignToken({ SOVEREIGN_AUTH_TOKEN: '' })).toBe(TOKEN);
+  });
+
+  // REV-18 security hardening: the already-public dev-default token must
+  // never be trusted in production (mirrors
+  // lib/security/uShieldServer.ts's resolveUShieldSecret fail-closed test).
+  it('fails closed (null) in production with SOVEREIGN_AUTH_TOKEN unset -- never the public dev default', () => {
+    expect(resolveSovereignToken({ VERCEL_ENV: 'production' })).toBeNull();
+    expect(resolveSovereignToken({ VERCEL_ENV: 'production', SOVEREIGN_AUTH_TOKEN: 'rotated-prod-secret' })).toBe(
+      'rotated-prod-secret',
+    );
+  });
+
+  it('falls back to the dev default outside production (preview, test, local)', () => {
+    expect(resolveSovereignToken({ VERCEL_ENV: 'preview' })).toBe(TOKEN);
+    expect(resolveSovereignToken({ VERCEL_ENV: 'development' })).toBe(TOKEN);
+  });
+
+  it('evaluateSovereignParam rejects every candidate (except revoke) when the token is null', () => {
+    expect(evaluateSovereignParam(`?${SOVEREIGN_AUTH_PARAM}=anything`, null)).toBe('reject');
+    expect(evaluateSovereignParam(`?${SOVEREIGN_AUTH_PARAM}=${TOKEN}`, null)).toBe('reject');
+    expect(evaluateSovereignParam(`?${SOVEREIGN_AUTH_PARAM}=off`, null)).toBe('revoke');
   });
 
   it('grants only on an exact token match', () => {
@@ -96,6 +119,18 @@ describe('sovereign auth -- signed session', () => {
     expect(resolveSovereignSigningSecret({ SOVEREIGN_AUTH_TOKEN: 'other' })).not.toBe(
       resolveSovereignSigningSecret({}),
     );
+  });
+
+  it('fails closed (null) in production when neither secret nor token is configured', () => {
+    expect(resolveSovereignSigningSecret({ VERCEL_ENV: 'production' })).toBeNull();
+    // An explicit signing secret alone is still enough, independent of the token.
+    expect(resolveSovereignSigningSecret({ VERCEL_ENV: 'production', SOVEREIGN_AUTH_SIGNING_SECRET: 'x' })).toBe('x');
+  });
+
+  it('verifySovereignSession rejects everything when the secret is null (production, bypass disabled)', async () => {
+    const exp = Math.floor(Date.now() / 1000) + 3600;
+    const cookie = await signSovereignSession(exp, SECRET);
+    expect((await verifySovereignSession(cookie, null)).ok).toBe(false);
   });
 });
 

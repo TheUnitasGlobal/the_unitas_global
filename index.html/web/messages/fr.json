@@ -1560,218 +1560,218 @@
     "clusters": {
       "cognitive": {
         "title": "Noyau Cognitif",
-        "tagline": "The engines that think before you ask.",
-        "enigma": "Every answer here was waiting for its question."
+        "tagline": "Les moteurs qui pensent avant que vous ne demandiez.",
+        "enigma": "Ici, chaque réponse attendait sa question."
       },
       "live": {
         "title": "Services en Direct",
-        "tagline": "Services that answer within the first breath.",
-        "enigma": "Some doors open the moment you look at them."
+        "tagline": "Des services qui répondent au premier souffle.",
+        "enigma": "Certaines portes s'ouvrent à l'instant où on les regarde."
       },
       "lockin": {
         "title": "Réseau de Fidélisation",
-        "tagline": "The network that remembers you back.",
-        "enigma": "What holds you here is not a lock."
+        "tagline": "Le réseau qui se souvient de vous en retour.",
+        "enigma": "Ce qui vous retient ici n'est pas un verrou."
       },
       "enterprise": {
         "title": "Infrastructure Entreprise",
-        "tagline": "Rails beneath identity, keys and value.",
-        "enigma": "Three rails. One current."
+        "tagline": "Des rails sous l'identité, les clés et la valeur.",
+        "enigma": "Trois rails. Un seul courant."
       }
     },
     "openCluster": "Ouvrir {title}",
     "closeCluster": "Fermer",
     "back": "Retour",
-    "costLabel": "Entry",
+    "costLabel": "Entrée",
     "coinUnit": "U-COIN",
-    "executing": "Opening the gate…",
-    "successTitle": "Access granted",
-    "successBody": "The gate is open for the next thirty minutes.",
-    "enterModule": "Step inside",
+    "executing": "Ouverture de la porte…",
+    "successTitle": "Accès accordé",
+    "successBody": "La porte reste ouverte pour les trente prochaines minutes.",
+    "enterModule": "Entrer",
     "activated": "Activé sur cet appareil",
     "activateModule": "Activer",
-    "balanceLabel": "Your balance",
-    "insufficient": "Not enough U-COIN to open this gate.",
+    "balanceLabel": "Votre solde",
+    "insufficient": "Pas assez de U-COIN pour ouvrir cette porte.",
     "chargeCoins": "Ajouter des U-COIN",
     "shieldBlocked": "La vérification de sécurité a échoué. Bougez naturellement et réessayez.",
-    "unlisted": "This gate opens soon.",
+    "unlisted": "Cette porte s'ouvrira bientôt.",
     "failed": "La transaction n'a pas abouti. Réessayez.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Prêt instantanément",
-    "phoneRequired": "Verify your phone to enter.",
+    "phoneRequired": "Vérifiez votre téléphone pour entrer.",
     "modules": {
       "ecosystem:echo": {
-        "riddle": "Ask once. Hear what your question was hiding.",
-        "scenario": "You type a single line. It comes back layered, each layer holding a part of what you meant."
+        "riddle": "Demandez une fois. Entendez ce que votre question cachait.",
+        "scenario": "Vous tapez une seule ligne. Elle revient en couches, chacune portant une part de ce que vous vouliez dire."
       },
       "ecosystem:void": {
-        "riddle": "The answer is in what was never written.",
-        "scenario": "You describe what you have. It answers with what is missing, and the gap turns out to be the plan."
+        "riddle": "La réponse est dans ce qui n'a jamais été écrit.",
+        "scenario": "Vous décrivez ce que vous avez. La réponse pointe ce qui manque, et ce manque devient le plan."
       },
       "ecosystem:mirror": {
-        "riddle": "It shows the pattern you keep looking past.",
-        "scenario": "You bring a decision you keep circling. It shows the loop from outside, then the exit."
+        "riddle": "Il révèle le schéma que vous continuez d'ignorer.",
+        "scenario": "Vous apportez une décision autour de laquelle vous tournez. Il montre la boucle de l'extérieur, puis la sortie."
       },
       "ecosystem:oracle": {
-        "riddle": "Tomorrow, weighted before it arrives.",
-        "scenario": "You name a choice with a long horizon. Futures come back weighted, not promised."
+        "riddle": "Demain, pesé avant même d'arriver.",
+        "scenario": "Vous nommez un choix à long horizon. Les avenirs reviennent pesés, jamais promis."
       },
       "ecosystem:pulse": {
-        "riddle": "The world has a heartbeat. This is where it's felt.",
-        "scenario": "You watch a market, a mood, a momentum. The screen breathes with it before the headlines do."
+        "riddle": "Le monde a un battement de cœur. C'est ici qu'on le sent.",
+        "scenario": "Vous observez un marché, une humeur, un élan. L'écran en respire avant même les gros titres."
       },
       "ecosystem:apex": {
-        "riddle": "Run the stakes before you place them.",
-        "scenario": "You set the stakes as if they were real. The simulation spends them, so you don't have to."
+        "riddle": "Faites tourner la mise avant de la poser.",
+        "scenario": "Vous fixez la mise comme si elle était réelle. La simulation la dépense, pas vous."
       },
       "ecosystem:genesis": {
-        "riddle": "Start from nothing. Keep what survives.",
-        "scenario": "You start with one claim and no assumptions. What stands at the end is yours to build."
+        "riddle": "Partez de rien. Gardez ce qui survit.",
+        "scenario": "Vous commencez avec une seule affirmation, sans aucune hypothèse. Ce qui tient debout à la fin est à vous de bâtir."
       },
       "ecosystem:syndicate": {
-        "riddle": "Every hidden alliance leaves a trace.",
-        "scenario": "You name the players. The hidden lines between them appear, and one of them leads to you."
+        "riddle": "Toute alliance cachée laisse une trace.",
+        "scenario": "Vous nommez les acteurs. Les liens cachés entre eux apparaissent, et l'un d'eux mène jusqu'à vous."
       },
       "ecosystem:aura": {
-        "riddle": "The presence you project, measured.",
-        "scenario": "You show how you appear. It tells you how you are received, and what a single change would do."
+        "riddle": "La présence que vous projetez, mesurée.",
+        "scenario": "Vous montrez comment vous apparaissez. On vous dit comment vous êtes perçu, et ce qu'un seul changement ferait."
       },
       "ecosystem:paradox": {
-        "riddle": "Hold both sides until one gives way.",
-        "scenario": "You bring two truths that cannot coexist. You leave with the one that was load-bearing."
+        "riddle": "Tenez les deux côtés jusqu'à ce que l'un cède.",
+        "scenario": "Vous apportez deux vérités qui ne peuvent coexister. Vous repartez avec celle qui portait tout le poids."
       },
       "ecosystem:chronos": {
-        "riddle": "Time, folded so you can read it.",
-        "scenario": "You lay your timeline down. It folds, and the moments that mattered line up."
+        "riddle": "Le temps, plié pour que vous puissiez le lire.",
+        "scenario": "Vous déroulez votre chronologie. Elle se replie, et les moments qui comptaient s'alignent."
       },
       "lifeos:life-dashboard": {
-        "riddle": "Your whole life, one silent panel.",
-        "scenario": "Everything you run, on one quiet surface. Nothing shouts; the thing that needs you glows."
+        "riddle": "Toute votre vie, un seul panneau silencieux.",
+        "scenario": "Tout ce que vous menez, sur une seule surface silencieuse. Rien ne crie ; ce qui a besoin de vous s'illumine."
       },
       "lifeos:second-brain": {
-        "riddle": "It remembers so you can forget.",
-        "scenario": "You drop a thought in without filing it. Months later it returns, exactly when it fits."
+        "riddle": "Il se souvient pour que vous puissiez oublier.",
+        "scenario": "Vous y déposez une pensée sans la classer. Des mois plus tard, elle revient, exactement quand il faut."
       },
       "lifeos:review-agent": {
-        "riddle": "Someone reads it back to you, honestly.",
-        "scenario": "You hand over a week. It comes back as a reading of what you actually did."
+        "riddle": "Quelqu'un vous la relit, honnêtement.",
+        "scenario": "Vous remettez une semaine. Elle revient sous la forme d'une lecture de ce que vous avez vraiment fait."
       },
       "lifeos:brand-kit": {
-        "riddle": "A face that stays the same everywhere.",
-        "scenario": "You set the face once. Every place you appear inherits it without asking."
+        "riddle": "Un visage qui reste le même partout.",
+        "scenario": "Vous fixez le visage une fois. Chaque lieu où vous apparaissez l'hérite sans le demander."
       },
       "lifeos:life-library": {
-        "riddle": "What you kept, finally in order.",
-        "scenario": "What you saved is finally shelved. The shelf knows what you’ll reach for next."
+        "riddle": "Ce que vous avez gardé, enfin en ordre.",
+        "scenario": "Ce que vous avez sauvegardé trouve enfin sa place. L'étagère sait ce que vous chercherez ensuite."
       },
       "b2c:arche": {
-        "riddle": "The first principle, before the first line.",
-        "scenario": "Before the plan, the principle. It finds the one line the rest must obey."
+        "riddle": "Le premier principe, avant la première ligne.",
+        "scenario": "Avant le plan, le principe. Il trouve la ligne unique que le reste doit suivre."
       },
       "b2c:score": {
-        "riddle": "A number that knows more than you told it.",
-        "scenario": "You answer a few things honestly. A number appears that you'll argue with, then trust."
+        "riddle": "Un chiffre qui en sait plus que ce que vous lui avez dit.",
+        "scenario": "Vous répondez honnêtement à quelques questions. Un chiffre apparaît, que vous contesterez, puis auquel vous ferez confiance."
       },
       "b2c:arena": {
-        "riddle": "Enter unarmed. Leave sharper.",
-        "scenario": "You step in with an idea. It is tested against pressure until only the strong part remains."
+        "riddle": "Entrez sans armes. Repartez plus affûté.",
+        "scenario": "Vous entrez avec une idée. Elle est mise à l'épreuve jusqu'à ce qu'il n'en reste que la part solide."
       },
       "b2c:fate": {
-        "riddle": "The path is drawn. The turns are yours.",
-        "scenario": "You choose a destination. The path draws itself, and every fork shows its cost."
+        "riddle": "Le chemin est tracé. Les virages vous appartiennent.",
+        "scenario": "Vous choisissez une destination. Le chemin se trace seul, et chaque bifurcation révèle son coût."
       },
       "b2c:codex22": {
-        "riddle": "Twenty-two keys. One is already turning.",
-        "scenario": "Twenty-two principles, one at a time. Each unlocks a way of seeing you didn't have yesterday."
+        "riddle": "Vingt-deux clés. L'une d'elles tourne déjà.",
+        "scenario": "Vingt-deux principes, un à la fois. Chacun ouvre un regard que vous n'aviez pas hier."
       },
       "lockin:nexus": {
-        "riddle": "One identity. Every door recognises it.",
-        "scenario": "One identity, carried everywhere. No door asks who you are twice."
+        "riddle": "Une seule identité. Chaque porte la reconnaît.",
+        "scenario": "Une identité, portée partout. Aucune porte ne vous demande deux fois qui vous êtes."
       },
       "lockin:aegis": {
-        "riddle": "A shield that never has to be raised.",
-        "scenario": "It watches while you don’t. When something moves, you already know."
+        "riddle": "Un bouclier qu'on n'a jamais besoin de lever.",
+        "scenario": "Il veille pendant que vous ne le faites pas. Quand quelque chose bouge, vous le savez déjà."
       },
       "lockin:uTwin": {
-        "riddle": "A second you, learning while you rest.",
-        "scenario": "A twin built from your data, growing while you rest. Ask it what you would have said."
+        "riddle": "Un second vous, qui apprend pendant que vous vous reposez.",
+        "scenario": "Un jumeau construit à partir de vos données, qui grandit pendant que vous vous reposez. Demandez-lui ce que vous auriez dit."
       },
       "lockin:infinity": {
-        "riddle": "What was answered once never costs again.",
-        "scenario": "Every answer you've earned is kept. Ask again and it costs nothing."
+        "riddle": "Ce qui a déjà reçu une réponse ne coûte plus jamais.",
+        "scenario": "Chaque réponse que vous avez gagnée est conservée. Redemandez, et cela ne coûte rien."
       },
       "lockin:panopticon": {
-        "riddle": "The whole world, held on a single screen.",
-        "scenario": "The world's motion on one screen. You don't search; you notice."
+        "riddle": "Le monde entier, tenu sur un seul écran.",
+        "scenario": "Le mouvement du monde sur un seul écran. Vous ne cherchez pas, vous remarquez."
       },
       "lockin:oracle": {
-        "riddle": "Probability, read before the coin lands.",
-        "scenario": "You describe the moment before it happens. It returns the odds, and what shifts them."
+        "riddle": "La probabilité, lue avant que la pièce ne retombe.",
+        "scenario": "Vous décrivez l'instant avant qu'il n'arrive. Cela vous rend les probabilités, et ce qui les déplace."
       },
       "lockin:syndicateX": {
-        "riddle": "Borrow the factory. Keep the output.",
-        "scenario": "You rent a factory that runs itself. What it makes is yours; what it learns stays with the network."
+        "riddle": "Empruntez l'usine. Gardez le résultat.",
+        "scenario": "Vous louez une usine qui fonctionne seule. Ce qu'elle produit est à vous ; ce qu'elle apprend reste au réseau."
       },
       "lockin:fateMatrix": {
-        "riddle": "Change the cause. Watch the effect follow.",
-        "scenario": "You set the goal. It traces the causes backward and tells you which one to touch."
+        "riddle": "Changez la cause. Regardez l'effet suivre.",
+        "scenario": "Vous fixez l'objectif. Il remonte les causes et vous indique laquelle toucher."
       },
       "b2b:u-signature": {
-        "riddle": "You are the password you never type.",
-        "scenario": "You never type a password again. The way you move is the proof, and it cannot be copied."
+        "riddle": "Vous êtes le mot de passe que vous ne tapez jamais.",
+        "scenario": "Vous ne tapez plus jamais de mot de passe. Votre façon de bouger en est la preuve, et elle ne peut être copiée."
       },
       "b2b:u-key": {
-        "riddle": "One key, cut for every lock you own.",
-        "scenario": "One key that fits every lock you issue. Rotate it, and every door follows."
+        "riddle": "Une clé, taillée pour chaque serrure que vous possédez.",
+        "scenario": "Une clé qui ouvre chaque serrure que vous émettez. Faites-la pivoter, et chaque porte suit."
       },
       "b2b:u-pay": {
-        "riddle": "Value moves the moment you decide.",
-        "scenario": "Value moves the instant you decide, with no page in between. What you meant to pay, paid."
+        "riddle": "La valeur se déplace à l'instant où vous décidez.",
+        "scenario": "La valeur se déplace à l'instant où vous décidez, sans aucune page entre les deux. Ce que vous vouliez payer est payé."
       }
     },
     "entry": {
-      "eyebrowScenario": "Scenario",
-      "eyebrowGuide": "How It Unfolds",
-      "eyebrowNotice": "Notice",
-      "stageStandby": "Transmission · Standby",
-      "back": "Back",
+      "eyebrowScenario": "Scénario",
+      "eyebrowGuide": "Comment cela se déroule",
+      "eyebrowNotice": "Avis",
+      "stageStandby": "Transmission · En attente",
+      "back": "Retour",
       "notice": {
-        "n1": "U-COIN is a prepaid utility credit that opens access. It is not an investment, a security, or a promise of any financial return.",
-        "n2": "Once the gate opens, the U-COIN spent is final and non-refundable. Access stays open for 30 minutes per entry.",
-        "n3": "Every entry is checked by U-Signature behavioural attestation and zero-trust verification. Shared sessions, automation, or tampering are refused without notice.",
-        "n4": "Entering means you accept the Terms of Service and Privacy Policy. Where local law restricts prepaid digital credits, entry may be unavailable.",
-        "legalLink": "Terms · Privacy"
+        "n1": "U-COIN est un crédit utilitaire prépayé qui ouvre l'accès. Ce n'est ni un investissement, ni un titre financier, ni la promesse d'un quelconque rendement.",
+        "n2": "Une fois la porte ouverte, les U-COIN dépensés sont définitifs et non remboursables. L'accès reste ouvert pendant 30 minutes par entrée.",
+        "n3": "Chaque entrée est vérifiée par l'attestation comportementale U-Signature et une vérification zero-trust. Les sessions partagées, l'automatisation ou toute altération sont refusées sans préavis.",
+        "n4": "Entrer signifie que vous acceptez les Conditions d'utilisation et la Politique de confidentialité. Là où la loi locale restreint les crédits numériques prépayés, l'entrée peut être indisponible.",
+        "legalLink": "Conditions · Confidentialité"
       },
       "guide": {
         "ecosystem": {
-          "g1": "One entry opens one engine for thirty minutes.",
-          "g2": "Ask in your own words; the engine answers in yours.",
-          "g3": "Answers you accept are kept for you in Genesis Memory."
+          "g1": "Une entrée ouvre un moteur pour trente minutes.",
+          "g2": "Posez la question avec vos mots ; le moteur répond avec les vôtres.",
+          "g3": "Les réponses que vous acceptez sont conservées pour vous dans Genesis Memory."
         },
         "lifeos": {
-          "g1": "Founder-verified surfaces only; the gate confirms before it opens.",
-          "g2": "Your data stays yours and leaves only when you export it.",
-          "g3": "Sessions close silently after thirty minutes."
+          "g1": "Uniquement des surfaces vérifiées par le fondateur ; la porte confirme avant de s'ouvrir.",
+          "g2": "Vos données restent les vôtres et ne partent que lorsque vous les exportez.",
+          "g3": "Les sessions se referment silencieusement après trente minutes."
         },
         "b2c": {
-          "g1": "Enter once; the service runs for thirty minutes.",
-          "g2": "Nothing is charged twice for the same open door.",
-          "g3": "Leave and return within the window at no cost."
+          "g1": "Entrez une fois ; le service tourne pendant trente minutes.",
+          "g2": "Rien n'est facturé deux fois pour la même porte ouverte.",
+          "g3": "Sortez et revenez dans le délai imparti, sans frais."
         },
         "lockin": {
-          "g1": "Activation lives on this device until you turn it off.",
-          "g2": "It works while you sleep; nothing runs without your data.",
-          "g3": "Deactivate anytime; nothing is deleted."
+          "g1": "L'activation demeure sur cet appareil jusqu'à ce que vous la désactiviez.",
+          "g2": "Cela fonctionne pendant que vous dormez ; rien ne tourne sans vos données.",
+          "g3": "Désactivez à tout moment ; rien n'est supprimé."
         },
         "b2b": {
-          "g1": "Enterprise rails open to a preview surface first.",
-          "g2": "Keys, signatures and settlements are simulated until a contract is live.",
-          "g3": "Your access is logged for audit; nothing else is."
+          "g1": "Les rails entreprise s'ouvrent d'abord sur une surface d'aperçu.",
+          "g2": "Clés, signatures et règlements sont simulés jusqu'à ce qu'un contrat soit actif.",
+          "g3": "Votre accès est enregistré à des fins d'audit ; rien d'autre ne l'est."
         }
       }
     },
-    "enter": "Enter",
-    "signInToEnter": "Sign in to enter",
-    "guestEnter": "Create a full account to hold U-COIN and enter."
+    "enter": "Entrer",
+    "signInToEnter": "Connectez-vous pour entrer",
+    "guestEnter": "Créez un compte complet pour détenir des U-COIN et entrer."
   }
 }

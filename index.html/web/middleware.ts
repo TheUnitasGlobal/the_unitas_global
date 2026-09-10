@@ -72,22 +72,32 @@ export async function middleware(request: NextRequest) {
     response.headers.set('Cache-Control', 'no-store');
 
     if (verdict === 'grant') {
-      const expiresAt = Math.floor(Date.now() / 1000) + SOVEREIGN_SESSION_TTL_SEC;
-      const session = await signSovereignSession(expiresAt, resolveSovereignSigningSecret());
-      response.cookies.set(SOVEREIGN_SESSION_COOKIE, session, {
-        httpOnly: true,
-        secure,
-        sameSite: 'lax',
-        path: '/',
-        maxAge: SOVEREIGN_SESSION_TTL_SEC,
-      });
-      response.cookies.set(SOVEREIGN_HINT_COOKIE, SOVEREIGN_HINT_VALUE, {
-        httpOnly: false,
-        secure,
-        sameSite: 'lax',
-        path: '/',
-        maxAge: SOVEREIGN_SESSION_TTL_SEC,
-      });
+      // `grant` is only reachable when resolveSovereignToken() returned a
+      // non-null token (evaluateSovereignParam fails closed on null), and
+      // resolveSovereignSigningSecret() derives from that same token when no
+      // explicit signing secret is set -- so this is non-null in practice.
+      // The check stays explicit (rather than a non-null assertion) so a
+      // future refactor that decouples the two resolutions fails closed
+      // instead of signing a cookie with an empty secret.
+      const secret = resolveSovereignSigningSecret();
+      if (secret) {
+        const expiresAt = Math.floor(Date.now() / 1000) + SOVEREIGN_SESSION_TTL_SEC;
+        const session = await signSovereignSession(expiresAt, secret);
+        response.cookies.set(SOVEREIGN_SESSION_COOKIE, session, {
+          httpOnly: true,
+          secure,
+          sameSite: 'lax',
+          path: '/',
+          maxAge: SOVEREIGN_SESSION_TTL_SEC,
+        });
+        response.cookies.set(SOVEREIGN_HINT_COOKIE, SOVEREIGN_HINT_VALUE, {
+          httpOnly: false,
+          secure,
+          sameSite: 'lax',
+          path: '/',
+          maxAge: SOVEREIGN_SESSION_TTL_SEC,
+        });
+      }
     } else if (verdict === 'revoke') {
       response.cookies.set(SOVEREIGN_SESSION_COOKIE, '', { path: '/', maxAge: 0 });
       response.cookies.set(SOVEREIGN_HINT_COOKIE, '', { path: '/', maxAge: 0 });

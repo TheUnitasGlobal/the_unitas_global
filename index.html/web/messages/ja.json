@@ -1560,218 +1560,218 @@
     "clusters": {
       "cognitive": {
         "title": "コグニティブ・コア",
-        "tagline": "The engines that think before you ask.",
-        "enigma": "Every answer here was waiting for its question."
+        "tagline": "問う前に、すでに考え始めているエンジン。",
+        "enigma": "ここにある答えは、みな己の問いを待っていた。"
       },
       "live": {
         "title": "ライブサービス",
-        "tagline": "Services that answer within the first breath.",
-        "enigma": "Some doors open the moment you look at them."
+        "tagline": "息をのむ間に応えるサービス。",
+        "enigma": "見つめた瞬間に開く扉がある。"
       },
       "lockin": {
         "title": "ロックインネットワーク",
-        "tagline": "The network that remembers you back.",
-        "enigma": "What holds you here is not a lock."
+        "tagline": "あなたを覚え返すネットワーク。",
+        "enigma": "あなたを留めるものは、錠ではない。"
       },
       "enterprise": {
         "title": "エンタープライズ・レール",
-        "tagline": "Rails beneath identity, keys and value.",
-        "enigma": "Three rails. One current."
+        "tagline": "身元・鍵・価値の下を流れるレール。",
+        "enigma": "三本のレール、一つの電流。"
       }
     },
     "openCluster": "{title}を開く",
     "closeCluster": "閉じる",
     "back": "戻る",
-    "costLabel": "Entry",
+    "costLabel": "入場料",
     "coinUnit": "U-COIN",
-    "executing": "Opening the gate…",
-    "successTitle": "Access granted",
-    "successBody": "The gate is open for the next thirty minutes.",
-    "enterModule": "Step inside",
+    "executing": "扉を開いています…",
+    "successTitle": "入場が承認されました",
+    "successBody": "これより三十分間、扉は開かれています。",
+    "enterModule": "中へ進む",
     "activated": "このデバイスで有効化済み",
     "activateModule": "有効化する",
-    "balanceLabel": "Your balance",
-    "insufficient": "Not enough U-COIN to open this gate.",
+    "balanceLabel": "保有 U-COIN",
+    "insufficient": "この扉を開くにはU-COINが足りません。",
     "chargeCoins": "U-COINを追加",
     "shieldBlocked": "セキュリティチェックに通りませんでした。自然に操作してもう一度お試しください。",
-    "unlisted": "This gate opens soon.",
+    "unlisted": "この扉はまもなく開きます。",
     "failed": "取引が完了しませんでした。もう一度お試しください。",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "即座に利用可能",
-    "phoneRequired": "Verify your phone to enter.",
+    "phoneRequired": "入場には電話認証が必要です。",
     "modules": {
       "ecosystem:echo": {
-        "riddle": "Ask once. Hear what your question was hiding.",
-        "scenario": "You type a single line. It comes back layered, each layer holding a part of what you meant."
+        "riddle": "一度だけ問え。問いが隠していたものを聞く。",
+        "scenario": "一行を書き込む。それは幾重にも折り重なって返り、層ごとにあなたの意図の断片が宿る。"
       },
       "ecosystem:void": {
-        "riddle": "The answer is in what was never written.",
-        "scenario": "You describe what you have. It answers with what is missing, and the gap turns out to be the plan."
+        "riddle": "答えは、書かれなかった場所にある。",
+        "scenario": "持っているものを語る。欠けているものが返り、その隙間こそが計画になる。"
       },
       "ecosystem:mirror": {
-        "riddle": "It shows the pattern you keep looking past.",
-        "scenario": "You bring a decision you keep circling. It shows the loop from outside, then the exit."
+        "riddle": "見過ごし続けてきた型を映し出す。",
+        "scenario": "堂々巡りの決断を持ち込む。外から見た軌道を示し、その後に出口を示す。"
       },
       "ecosystem:oracle": {
-        "riddle": "Tomorrow, weighted before it arrives.",
-        "scenario": "You name a choice with a long horizon. Futures come back weighted, not promised."
+        "riddle": "届く前に、重みを量られた明日。",
+        "scenario": "長い地平を持つ選択を名指す。未来は約束としてではなく、重みとして返る。"
       },
       "ecosystem:pulse": {
-        "riddle": "The world has a heartbeat. This is where it's felt.",
-        "scenario": "You watch a market, a mood, a momentum. The screen breathes with it before the headlines do."
+        "riddle": "世界には鼓動がある。ここで感じ取る。",
+        "scenario": "市場と気分と勢いを見つめる。見出しより先に、画面がそれと共に息づく。"
       },
       "ecosystem:apex": {
-        "riddle": "Run the stakes before you place them.",
-        "scenario": "You set the stakes as if they were real. The simulation spends them, so you don't have to."
+        "riddle": "賭ける前に、盤面を回してみる。",
+        "scenario": "本物のように賭け金を置く。シミュレーションが代わりに費やし、あなたは失わない。"
       },
       "ecosystem:genesis": {
-        "riddle": "Start from nothing. Keep what survives.",
-        "scenario": "You start with one claim and no assumptions. What stands at the end is yours to build."
+        "riddle": "無から始め、生き残ったものだけを残す。",
+        "scenario": "前提を持たず、ひとつの主張から始める。最後に立っているものを、あなたが築く。"
       },
       "ecosystem:syndicate": {
-        "riddle": "Every hidden alliance leaves a trace.",
-        "scenario": "You name the players. The hidden lines between them appear, and one of them leads to you."
+        "riddle": "隠れた結びつきは、必ず跡を残す。",
+        "scenario": "参加者の名を挙げる。隠れた線が現れ、そのひとつはあなたへとつながる。"
       },
       "ecosystem:aura": {
-        "riddle": "The presence you project, measured.",
-        "scenario": "You show how you appear. It tells you how you are received, and what a single change would do."
+        "riddle": "あなたが放つ気配、それが測られる。",
+        "scenario": "あなたの見え方を差し出す。どう受け取られているか、何を変えれば何が動くかを知る。"
       },
       "ecosystem:paradox": {
-        "riddle": "Hold both sides until one gives way.",
-        "scenario": "You bring two truths that cannot coexist. You leave with the one that was load-bearing."
+        "riddle": "両方を握り続けよ、一方が崩れるまで。",
+        "scenario": "共存し得ない二つの真実を持ち込む。荷重を支えていた一つだけを持ち帰る。"
       },
       "ecosystem:chronos": {
-        "riddle": "Time, folded so you can read it.",
-        "scenario": "You lay your timeline down. It folds, and the moments that mattered line up."
+        "riddle": "読めるように折りたたまれた時間。",
+        "scenario": "時間軸を広げる。それが折りたたまれ、大切だった瞬間が一列に並ぶ。"
       },
       "lifeos:life-dashboard": {
-        "riddle": "Your whole life, one silent panel.",
-        "scenario": "Everything you run, on one quiet surface. Nothing shouts; the thing that needs you glows."
+        "riddle": "あなたの人生すべてが、静かな一枚の画面に。",
+        "scenario": "動かすものすべてが、静かな一面の上に。何も叫ばず、あなたを必要とするものだけが光る。"
       },
       "lifeos:second-brain": {
-        "riddle": "It remembers so you can forget.",
-        "scenario": "You drop a thought in without filing it. Months later it returns, exactly when it fits."
+        "riddle": "あなたが忘れられるよう、代わりに記憶する。",
+        "scenario": "整理せずに考えを落とし込む。数か月後、ちょうど合う瞬間に返ってくる。"
       },
       "lifeos:review-agent": {
-        "riddle": "Someone reads it back to you, honestly.",
-        "scenario": "You hand over a week. It comes back as a reading of what you actually did."
+        "riddle": "誰かがそれを、偽りなく読み返してくれる。",
+        "scenario": "一週間を差し出す。実際に何をしたかの読解となって返る。"
       },
       "lifeos:brand-kit": {
-        "riddle": "A face that stays the same everywhere.",
-        "scenario": "You set the face once. Every place you appear inherits it without asking."
+        "riddle": "どこでも変わらない、ひとつの顔。",
+        "scenario": "顔を一度決める。あなたが現れるすべての場所が、問わずにそれを受け継ぐ。"
       },
       "lifeos:life-library": {
-        "riddle": "What you kept, finally in order.",
-        "scenario": "What you saved is finally shelved. The shelf knows what you’ll reach for next."
+        "riddle": "残してきたものが、ようやく然るべき場所に。",
+        "scenario": "保存してきたものが、ついに棚に収まる。棚は、あなたが次に手を伸ばすものを知っている。"
       },
       "b2c:arche": {
-        "riddle": "The first principle, before the first line.",
-        "scenario": "Before the plan, the principle. It finds the one line the rest must obey."
+        "riddle": "最初の一行より先にある、第一原理。",
+        "scenario": "計画より先に、原理がある。他のすべてが従うべき一行を見つけ出す。"
       },
       "b2c:score": {
-        "riddle": "A number that knows more than you told it.",
-        "scenario": "You answer a few things honestly. A number appears that you'll argue with, then trust."
+        "riddle": "語った以上のことを知っている、ひとつの数字。",
+        "scenario": "いくつかに正直に答える。最初は反論し、やがて信じることになる数字が現れる。"
       },
       "b2c:arena": {
-        "riddle": "Enter unarmed. Leave sharper.",
-        "scenario": "You step in with an idea. It is tested against pressure until only the strong part remains."
+        "riddle": "丸腰で入り、より鋭くなって出る。",
+        "scenario": "ひとつの案を携えて踏み込む。圧力にさらされ、強い部分だけが残るまで試される。"
       },
       "b2c:fate": {
-        "riddle": "The path is drawn. The turns are yours.",
-        "scenario": "You choose a destination. The path draws itself, and every fork shows its cost."
+        "riddle": "道はすでに描かれている。曲がり角はあなたのもの。",
+        "scenario": "行き先を選ぶ。道が自ら描かれ、分かれ道ごとに代償が見える。"
       },
       "b2c:codex22": {
-        "riddle": "Twenty-two keys. One is already turning.",
-        "scenario": "Twenty-two principles, one at a time. Each unlocks a way of seeing you didn't have yesterday."
+        "riddle": "二十二の鍵。ひとつはすでに回り始めている。",
+        "scenario": "二十二の原理を、ひとつずつ。それぞれが、昨日はなかった見方を開く。"
       },
       "lockin:nexus": {
-        "riddle": "One identity. Every door recognises it.",
-        "scenario": "One identity, carried everywhere. No door asks who you are twice."
+        "riddle": "ひとつの身元。すべての扉がそれを見分ける。",
+        "scenario": "ひとつの身元を、どこへでも携える。どの扉も二度とは問わない。"
       },
       "lockin:aegis": {
-        "riddle": "A shield that never has to be raised.",
-        "scenario": "It watches while you don’t. When something moves, you already know."
+        "riddle": "掲げる必要のない盾。",
+        "scenario": "あなたが見ていない間、それが見ている。何かが動けば、あなたはすでに知っている。"
       },
       "lockin:uTwin": {
-        "riddle": "A second you, learning while you rest.",
-        "scenario": "A twin built from your data, growing while you rest. Ask it what you would have said."
+        "riddle": "あなたが休む間に学ぶ、もう一人のあなた。",
+        "scenario": "あなたのデータから生まれた分身が、休む間に育つ。あなたなら何と言ったかを、それに問う。"
       },
       "lockin:infinity": {
-        "riddle": "What was answered once never costs again.",
-        "scenario": "Every answer you've earned is kept. Ask again and it costs nothing."
+        "riddle": "一度答えられたものは、二度と代償を求めない。",
+        "scenario": "あなたが得た答えはすべて保たれる。再び問えば、代償はない。"
       },
       "lockin:panopticon": {
-        "riddle": "The whole world, held on a single screen.",
-        "scenario": "The world's motion on one screen. You don't search; you notice."
+        "riddle": "世界のすべてが、一枚の画面に収まる。",
+        "scenario": "世界の動きが一枚の画面に。探すのではなく、気づく。"
       },
       "lockin:oracle": {
-        "riddle": "Probability, read before the coin lands.",
-        "scenario": "You describe the moment before it happens. It returns the odds, and what shifts them."
+        "riddle": "硬貨が落ちる前に読む確率。",
+        "scenario": "起こる前の瞬間を描写する。確率と、それを動かすものが返る。"
       },
       "lockin:syndicateX": {
-        "riddle": "Borrow the factory. Keep the output.",
-        "scenario": "You rent a factory that runs itself. What it makes is yours; what it learns stays with the network."
+        "riddle": "工場を借り、成果だけを持ち帰る。",
+        "scenario": "自ら動く工場を借りる。作られたものはあなたのもの、学ばれたものはネットワークに残る。"
       },
       "lockin:fateMatrix": {
-        "riddle": "Change the cause. Watch the effect follow.",
-        "scenario": "You set the goal. It traces the causes backward and tells you which one to touch."
+        "riddle": "原因を変えれば、結果がついてくる。",
+        "scenario": "目標を定める。原因を遡ってたどり、どこに触れるべきかを教える。"
       },
       "b2b:u-signature": {
-        "riddle": "You are the password you never type.",
-        "scenario": "You never type a password again. The way you move is the proof, and it cannot be copied."
+        "riddle": "あなた自身が、一度も打ち込まない暗証番号。",
+        "scenario": "二度とパスワードを打たない。あなたの動き方そのものが証明であり、複製されない。"
       },
       "b2b:u-key": {
-        "riddle": "One key, cut for every lock you own.",
-        "scenario": "One key that fits every lock you issue. Rotate it, and every door follows."
+        "riddle": "あなたの持つすべての錠に合う、ひとつの鍵。",
+        "scenario": "あなたが発行したすべての錠に合う、ひとつの鍵。それを回せば、すべての扉が従う。"
       },
       "b2b:u-pay": {
-        "riddle": "Value moves the moment you decide.",
-        "scenario": "Value moves the instant you decide, with no page in between. What you meant to pay, paid."
+        "riddle": "決めた瞬間に、価値が動く。",
+        "scenario": "決めた瞬間に価値が動く、その間に一枚の画面もない。払おうとした額が、そのまま払われる。"
       }
     },
     "entry": {
-      "eyebrowScenario": "Scenario",
-      "eyebrowGuide": "How It Unfolds",
-      "eyebrowNotice": "Notice",
-      "stageStandby": "Transmission · Standby",
-      "back": "Back",
+      "eyebrowScenario": "シナリオ",
+      "eyebrowGuide": "進行の仕方",
+      "eyebrowNotice": "告知",
+      "stageStandby": "送信・待機",
+      "back": "戻る",
       "notice": {
-        "n1": "U-COIN is a prepaid utility credit that opens access. It is not an investment, a security, or a promise of any financial return.",
-        "n2": "Once the gate opens, the U-COIN spent is final and non-refundable. Access stays open for 30 minutes per entry.",
-        "n3": "Every entry is checked by U-Signature behavioural attestation and zero-trust verification. Shared sessions, automation, or tampering are refused without notice.",
-        "n4": "Entering means you accept the Terms of Service and Privacy Policy. Where local law restricts prepaid digital credits, entry may be unavailable.",
-        "legalLink": "Terms · Privacy"
+        "n1": "U-COINは、アクセスを開く前払い式のユーティリティ・クレジットです。投資、証券、いかなる金銭的リターンの約束でもありません。",
+        "n2": "扉が開いた時点で、消費されたU-COINは確定し、返金されません。アクセスは一回の入場につき三十分間保たれます。",
+        "n3": "すべての入場は、U-Signatureによる行動署名とゼロトラスト検証によって確認されます。セッションの共有、自動化ツール、改ざんは、予告なく拒否されます。",
+        "n4": "入場は、利用規約およびプライバシーポリシーへの同意を意味します。現地の法律が前払い式デジタル・クレジットを制限する地域では、入場できない場合があります。",
+        "legalLink": "利用規約・プライバシーポリシー"
       },
       "guide": {
         "ecosystem": {
-          "g1": "One entry opens one engine for thirty minutes.",
-          "g2": "Ask in your own words; the engine answers in yours.",
-          "g3": "Answers you accept are kept for you in Genesis Memory."
+          "g1": "入場一回で、エンジンひとつが三十分間開かれる。",
+          "g2": "あなたの言葉で問い、あなたの言葉で答えを受け取る。",
+          "g3": "受け入れた答えは、ジェネシス・メモリにあなたの分として保管される。"
         },
         "lifeos": {
-          "g1": "Founder-verified surfaces only; the gate confirms before it opens.",
-          "g2": "Your data stays yours and leaves only when you export it.",
-          "g3": "Sessions close silently after thirty minutes."
+          "g1": "創立者検証済みの表面のみ。扉は開く前に確かめる。",
+          "g2": "データはあなたのものであり続け、書き出したときだけ外へ出る。",
+          "g3": "セッションは三十分後、静かに閉じる。"
         },
         "b2c": {
-          "g1": "Enter once; the service runs for thirty minutes.",
-          "g2": "Nothing is charged twice for the same open door.",
-          "g3": "Leave and return within the window at no cost."
+          "g1": "一度入場すれば、サービスは三十分間動き続ける。",
+          "g2": "すでに開いた扉に、二度は値を課さない。",
+          "g3": "時間内であれば、出て戻っても代償はない。"
         },
         "lockin": {
-          "g1": "Activation lives on this device until you turn it off.",
-          "g2": "It works while you sleep; nothing runs without your data.",
-          "g3": "Deactivate anytime; nothing is deleted."
+          "g1": "起動は、切るまでこの端末にとどまる。",
+          "g2": "あなたが眠る間も動き、あなたのデータなしには何も動かない。",
+          "g3": "いつでも停止でき、何も消去されない。"
         },
         "b2b": {
-          "g1": "Enterprise rails open to a preview surface first.",
-          "g2": "Keys, signatures and settlements are simulated until a contract is live.",
-          "g3": "Your access is logged for audit; nothing else is."
+          "g1": "エンタープライズ・レールは、まずプレビュー表面として開く。",
+          "g2": "契約が有効になるまで、鍵・署名・決済はシミュレーションである。",
+          "g3": "あなたのアクセスは監査のために記録され、それ以外は記録されない。"
         }
       }
     },
-    "enter": "Enter",
-    "signInToEnter": "Sign in to enter",
-    "guestEnter": "Create a full account to hold U-COIN and enter."
+    "enter": "入場",
+    "signInToEnter": "入場するにはサインイン",
+    "guestEnter": "U-COINを保有し入場するには、正式なアカウントを作成してください。"
   }
 }

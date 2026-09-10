@@ -1,0 +1,26 @@
+{
+  "coinUnit": {
+    "en": "U-COIN",
+    "ko": "U-COIN"
+  },
+  "watermark": {
+    "en": "THE UNITAS GLOBAL OÜ",
+    "ko": "THE UNITAS GLOBAL OÜ"
+  },
+  "entry.eyebrowScenario": {
+    "en": "Scenario",
+    "ko": "시나리오"
+  },
+  "clusters.cognitive.title": {
+    "en": "Cognitive Core",
+    "ko": "코그니티브 코어"
+  },
+  "clusters.lockin.title": {
+    "en": "Lock-in Network",
+    "ko": "락인 네트워크"
+  },
+  "clusters.enterprise.title": {
+    "en": "Enterprise Rails",
+    "ko": "엔터프라이즈 레일"
+  }
+}

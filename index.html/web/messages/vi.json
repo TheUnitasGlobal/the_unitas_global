@@ -1560,218 +1560,218 @@
     "clusters": {
       "cognitive": {
         "title": "Lõi Nhận Thức",
-        "tagline": "The engines that think before you ask.",
-        "enigma": "Every answer here was waiting for its question."
+        "tagline": "Những cỗ máy suy nghĩ trước khi bạn hỏi.",
+        "enigma": "Mỗi câu trả lời ở đây đã chờ sẵn câu hỏi của mình."
       },
       "live": {
         "title": "Dịch Vụ Trực Tiếp",
-        "tagline": "Services that answer within the first breath.",
-        "enigma": "Some doors open the moment you look at them."
+        "tagline": "Những dịch vụ hồi đáp trong hơi thở đầu tiên.",
+        "enigma": "Có những cánh cửa mở ra ngay khoảnh khắc bạn nhìn vào."
       },
       "lockin": {
         "title": "Mạng Lưới Giữ Chân",
-        "tagline": "The network that remembers you back.",
-        "enigma": "What holds you here is not a lock."
+        "tagline": "Mạng lưới nhớ lại bạn.",
+        "enigma": "Điều giữ bạn lại đây không phải là ổ khóa."
       },
       "enterprise": {
         "title": "Hạ Tầng Doanh Nghiệp",
-        "tagline": "Rails beneath identity, keys and value.",
-        "enigma": "Three rails. One current."
+        "tagline": "Những đường ray bên dưới danh tính, chìa khóa và giá trị.",
+        "enigma": "Ba đường ray. Một dòng chảy."
       }
     },
     "openCluster": "Mở {title}",
     "closeCluster": "Đóng",
     "back": "Quay lại",
-    "costLabel": "Entry",
+    "costLabel": "Phí vào",
     "coinUnit": "U-COIN",
-    "executing": "Opening the gate…",
-    "successTitle": "Access granted",
-    "successBody": "The gate is open for the next thirty minutes.",
-    "enterModule": "Step inside",
+    "executing": "Đang mở cổng…",
+    "successTitle": "Đã được cấp quyền vào",
+    "successBody": "Cổng sẽ mở trong ba mươi phút tới.",
+    "enterModule": "Bước vào trong",
     "activated": "Đã kích hoạt trên thiết bị này",
     "activateModule": "Kích hoạt",
-    "balanceLabel": "Your balance",
-    "insufficient": "Not enough U-COIN to open this gate.",
+    "balanceLabel": "Số dư của bạn",
+    "insufficient": "Không đủ U-COIN để mở cổng này.",
     "chargeCoins": "Nạp U-COIN",
     "shieldBlocked": "Kiểm tra bảo mật không đạt. Hãy thao tác tự nhiên và thử lại.",
-    "unlisted": "This gate opens soon.",
+    "unlisted": "Cổng này sắp mở.",
     "failed": "Giao dịch chưa hoàn tất. Vui lòng thử lại.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Sẵn sàng tức thì",
-    "phoneRequired": "Verify your phone to enter.",
+    "phoneRequired": "Xác minh số điện thoại để vào.",
     "modules": {
       "ecosystem:echo": {
-        "riddle": "Ask once. Hear what your question was hiding.",
-        "scenario": "You type a single line. It comes back layered, each layer holding a part of what you meant."
+        "riddle": "Hỏi một lần. Lắng nghe điều câu hỏi của bạn đang giấu.",
+        "scenario": "Bạn gõ một dòng duy nhất. Nó quay lại thành từng lớp, mỗi lớp giữ một phần điều bạn muốn nói."
       },
       "ecosystem:void": {
-        "riddle": "The answer is in what was never written.",
-        "scenario": "You describe what you have. It answers with what is missing, and the gap turns out to be the plan."
+        "riddle": "Câu trả lời nằm trong điều chưa từng được viết ra.",
+        "scenario": "Bạn mô tả những gì bạn có. Nó trả lời bằng những gì còn thiếu, và khoảng trống ấy hóa ra chính là kế hoạch."
       },
       "ecosystem:mirror": {
-        "riddle": "It shows the pattern you keep looking past.",
-        "scenario": "You bring a decision you keep circling. It shows the loop from outside, then the exit."
+        "riddle": "Nó chỉ ra khuôn mẫu mà bạn cứ mãi nhìn lướt qua.",
+        "scenario": "Bạn mang đến một quyết định mà bạn cứ mãi vòng quanh. Nó cho thấy vòng lặp ấy từ bên ngoài, rồi đến lối thoát."
       },
       "ecosystem:oracle": {
-        "riddle": "Tomorrow, weighted before it arrives.",
-        "scenario": "You name a choice with a long horizon. Futures come back weighted, not promised."
+        "riddle": "Ngày mai, được cân đo trước khi nó đến.",
+        "scenario": "Bạn nêu tên một lựa chọn có tầm nhìn xa. Những tương lai quay về đã được cân đo, không phải lời hứa."
       },
       "ecosystem:pulse": {
-        "riddle": "The world has a heartbeat. This is where it's felt.",
-        "scenario": "You watch a market, a mood, a momentum. The screen breathes with it before the headlines do."
+        "riddle": "Thế giới có một nhịp tim. Đây là nơi nó được cảm nhận.",
+        "scenario": "Bạn quan sát một thị trường, một tâm trạng, một đà chuyển động. Màn hình thở theo nó trước cả khi tin tức lên trang nhất."
       },
       "ecosystem:apex": {
-        "riddle": "Run the stakes before you place them.",
-        "scenario": "You set the stakes as if they were real. The simulation spends them, so you don't have to."
+        "riddle": "Chạy thử ván cược trước khi bạn đặt nó.",
+        "scenario": "Bạn đặt cược như thể chúng là thật. Mô phỏng sẽ tiêu chúng thay bạn."
       },
       "ecosystem:genesis": {
-        "riddle": "Start from nothing. Keep what survives.",
-        "scenario": "You start with one claim and no assumptions. What stands at the end is yours to build."
+        "riddle": "Bắt đầu từ hư không. Giữ lại những gì còn sống sót.",
+        "scenario": "Bạn bắt đầu với một tuyên bố duy nhất và không có giả định nào. Điều còn đứng vững ở cuối cùng là của bạn để xây tiếp."
       },
       "ecosystem:syndicate": {
-        "riddle": "Every hidden alliance leaves a trace.",
-        "scenario": "You name the players. The hidden lines between them appear, and one of them leads to you."
+        "riddle": "Mọi liên minh ẩn giấu đều để lại dấu vết.",
+        "scenario": "Bạn nêu tên những người chơi. Những đường dây ẩn giữa họ hiện ra, và một trong số đó dẫn đến bạn."
       },
       "ecosystem:aura": {
-        "riddle": "The presence you project, measured.",
-        "scenario": "You show how you appear. It tells you how you are received, and what a single change would do."
+        "riddle": "Sự hiện diện bạn tỏa ra, được đo lường.",
+        "scenario": "Bạn cho thấy mình xuất hiện thế nào. Nó cho bạn biết mình được tiếp nhận ra sao, và một thay đổi duy nhất sẽ làm được gì."
       },
       "ecosystem:paradox": {
-        "riddle": "Hold both sides until one gives way.",
-        "scenario": "You bring two truths that cannot coexist. You leave with the one that was load-bearing."
+        "riddle": "Giữ cả hai phía cho đến khi một bên nhượng bộ.",
+        "scenario": "Bạn mang đến hai sự thật không thể cùng tồn tại. Bạn rời đi với điều đã gánh chịu sức nặng."
       },
       "ecosystem:chronos": {
-        "riddle": "Time, folded so you can read it.",
-        "scenario": "You lay your timeline down. It folds, and the moments that mattered line up."
+        "riddle": "Thời gian, được gấp lại để bạn có thể đọc được.",
+        "scenario": "Bạn đặt dòng thời gian của mình xuống. Nó gấp lại, và những khoảnh khắc quan trọng xếp thành hàng."
       },
       "lifeos:life-dashboard": {
-        "riddle": "Your whole life, one silent panel.",
-        "scenario": "Everything you run, on one quiet surface. Nothing shouts; the thing that needs you glows."
+        "riddle": "Cả cuộc đời bạn, trên một bảng điều khiển lặng thinh.",
+        "scenario": "Mọi thứ bạn vận hành, trên một bề mặt tĩnh lặng. Không có gì la hét; thứ cần đến bạn sẽ phát sáng."
       },
       "lifeos:second-brain": {
-        "riddle": "It remembers so you can forget.",
-        "scenario": "You drop a thought in without filing it. Months later it returns, exactly when it fits."
+        "riddle": "Nó ghi nhớ để bạn có thể quên.",
+        "scenario": "Bạn thả một ý nghĩ vào mà không cần sắp xếp nó. Nhiều tháng sau nó trở lại, đúng lúc nó phù hợp."
       },
       "lifeos:review-agent": {
-        "riddle": "Someone reads it back to you, honestly.",
-        "scenario": "You hand over a week. It comes back as a reading of what you actually did."
+        "riddle": "Ai đó đọc lại cho bạn nghe, một cách thành thật.",
+        "scenario": "Bạn giao lại một tuần. Nó trở về như một bài đọc về những gì bạn thực sự đã làm."
       },
       "lifeos:brand-kit": {
-        "riddle": "A face that stays the same everywhere.",
-        "scenario": "You set the face once. Every place you appear inherits it without asking."
+        "riddle": "Một gương mặt vẫn như vậy ở mọi nơi.",
+        "scenario": "Bạn định hình gương mặt một lần. Mọi nơi bạn xuất hiện đều thừa hưởng nó mà không cần hỏi."
       },
       "lifeos:life-library": {
-        "riddle": "What you kept, finally in order.",
-        "scenario": "What you saved is finally shelved. The shelf knows what you’ll reach for next."
+        "riddle": "Những gì bạn đã giữ, cuối cùng cũng vào trật tự.",
+        "scenario": "Những gì bạn đã lưu cuối cùng cũng được xếp lên kệ. Chiếc kệ biết bạn sẽ với tới thứ gì tiếp theo."
       },
       "b2c:arche": {
-        "riddle": "The first principle, before the first line.",
-        "scenario": "Before the plan, the principle. It finds the one line the rest must obey."
+        "riddle": "Nguyên lý đầu tiên, trước cả dòng đầu tiên.",
+        "scenario": "Trước kế hoạch là nguyên lý. Nó tìm ra dòng duy nhất mà phần còn lại phải tuân theo."
       },
       "b2c:score": {
-        "riddle": "A number that knows more than you told it.",
-        "scenario": "You answer a few things honestly. A number appears that you'll argue with, then trust."
+        "riddle": "Một con số biết nhiều hơn những gì bạn đã kể cho nó.",
+        "scenario": "Bạn trả lời trung thực vài điều. Một con số xuất hiện mà bạn sẽ tranh cãi, rồi sẽ tin."
       },
       "b2c:arena": {
-        "riddle": "Enter unarmed. Leave sharper.",
-        "scenario": "You step in with an idea. It is tested against pressure until only the strong part remains."
+        "riddle": "Bước vào tay không. Rời đi sắc bén hơn.",
+        "scenario": "Bạn bước vào với một ý tưởng. Nó bị thử thách dưới áp lực cho đến khi chỉ còn lại phần vững chắc."
       },
       "b2c:fate": {
-        "riddle": "The path is drawn. The turns are yours.",
-        "scenario": "You choose a destination. The path draws itself, and every fork shows its cost."
+        "riddle": "Con đường đã được vẽ ra. Những khúc rẽ là của bạn.",
+        "scenario": "Bạn chọn một điểm đến. Con đường tự vẽ ra, và mỗi ngã rẽ hiện rõ cái giá của nó."
       },
       "b2c:codex22": {
-        "riddle": "Twenty-two keys. One is already turning.",
-        "scenario": "Twenty-two principles, one at a time. Each unlocks a way of seeing you didn't have yesterday."
+        "riddle": "Hai mươi hai chiếc chìa khóa. Một chiếc đã đang xoay.",
+        "scenario": "Hai mươi hai nguyên lý, từng cái một. Mỗi nguyên lý mở ra một cách nhìn mà hôm qua bạn chưa từng có."
       },
       "lockin:nexus": {
-        "riddle": "One identity. Every door recognises it.",
-        "scenario": "One identity, carried everywhere. No door asks who you are twice."
+        "riddle": "Một danh tính. Mọi cánh cửa đều nhận ra nó.",
+        "scenario": "Một danh tính, mang theo khắp nơi. Không cánh cửa nào hỏi bạn là ai đến lần thứ hai."
       },
       "lockin:aegis": {
-        "riddle": "A shield that never has to be raised.",
-        "scenario": "It watches while you don’t. When something moves, you already know."
+        "riddle": "Một tấm khiên không bao giờ cần được giương lên.",
+        "scenario": "Nó canh chừng khi bạn không làm vậy. Khi có gì đó chuyển động, bạn đã biết rồi."
       },
       "lockin:uTwin": {
-        "riddle": "A second you, learning while you rest.",
-        "scenario": "A twin built from your data, growing while you rest. Ask it what you would have said."
+        "riddle": "Một bản thể thứ hai của bạn, học hỏi khi bạn nghỉ ngơi.",
+        "scenario": "Một bản sao được dựng từ dữ liệu của bạn, lớn lên khi bạn nghỉ ngơi. Hãy hỏi nó điều bạn lẽ ra đã nói."
       },
       "lockin:infinity": {
-        "riddle": "What was answered once never costs again.",
-        "scenario": "Every answer you've earned is kept. Ask again and it costs nothing."
+        "riddle": "Điều đã được trả lời một lần sẽ không bao giờ tốn phí nữa.",
+        "scenario": "Mọi câu trả lời bạn đã đạt được đều được lưu giữ. Hỏi lại và nó không tốn gì cả."
       },
       "lockin:panopticon": {
-        "riddle": "The whole world, held on a single screen.",
-        "scenario": "The world's motion on one screen. You don't search; you notice."
+        "riddle": "Cả thế giới, gói gọn trên một màn hình duy nhất.",
+        "scenario": "Chuyển động của thế giới trên một màn hình. Bạn không tìm kiếm; bạn nhận ra."
       },
       "lockin:oracle": {
-        "riddle": "Probability, read before the coin lands.",
-        "scenario": "You describe the moment before it happens. It returns the odds, and what shifts them."
+        "riddle": "Xác suất, được đọc trước khi đồng xu rơi xuống.",
+        "scenario": "Bạn mô tả khoảnh khắc trước khi nó xảy ra. Nó trả về tỷ lệ, và những gì làm thay đổi chúng."
       },
       "lockin:syndicateX": {
-        "riddle": "Borrow the factory. Keep the output.",
-        "scenario": "You rent a factory that runs itself. What it makes is yours; what it learns stays with the network."
+        "riddle": "Mượn nhà máy. Giữ lại thành quả.",
+        "scenario": "Bạn thuê một nhà máy tự vận hành. Những gì nó tạo ra là của bạn; những gì nó học được ở lại với mạng lưới."
       },
       "lockin:fateMatrix": {
-        "riddle": "Change the cause. Watch the effect follow.",
-        "scenario": "You set the goal. It traces the causes backward and tells you which one to touch."
+        "riddle": "Thay đổi nguyên nhân. Xem kết quả theo sau.",
+        "scenario": "Bạn đặt ra mục tiêu. Nó truy ngược các nguyên nhân và cho bạn biết nên chạm vào cái nào."
       },
       "b2b:u-signature": {
-        "riddle": "You are the password you never type.",
-        "scenario": "You never type a password again. The way you move is the proof, and it cannot be copied."
+        "riddle": "Bạn chính là mật khẩu mà bạn không bao giờ gõ.",
+        "scenario": "Bạn không bao giờ phải gõ mật khẩu nữa. Cách bạn di chuyển chính là bằng chứng, và nó không thể bị sao chép."
       },
       "b2b:u-key": {
-        "riddle": "One key, cut for every lock you own.",
-        "scenario": "One key that fits every lock you issue. Rotate it, and every door follows."
+        "riddle": "Một chiếc chìa khóa, được cắt cho mọi ổ khóa bạn sở hữu.",
+        "scenario": "Một chiếc chìa khóa vừa khít mọi ổ khóa bạn phát hành. Xoay nó, và mọi cánh cửa sẽ theo sau."
       },
       "b2b:u-pay": {
-        "riddle": "Value moves the moment you decide.",
-        "scenario": "Value moves the instant you decide, with no page in between. What you meant to pay, paid."
+        "riddle": "Giá trị chuyển động ngay khoảnh khắc bạn quyết định.",
+        "scenario": "Giá trị chuyển động ngay khi bạn quyết định, không có trang nào chen giữa. Điều bạn định trả, đã được trả."
       }
     },
     "entry": {
-      "eyebrowScenario": "Scenario",
-      "eyebrowGuide": "How It Unfolds",
-      "eyebrowNotice": "Notice",
-      "stageStandby": "Transmission · Standby",
-      "back": "Back",
+      "eyebrowScenario": "Kịch bản",
+      "eyebrowGuide": "Cách nó diễn ra",
+      "eyebrowNotice": "Thông báo",
+      "stageStandby": "Truyền tín hiệu · Chờ",
+      "back": "Quay lại",
       "notice": {
-        "n1": "U-COIN is a prepaid utility credit that opens access. It is not an investment, a security, or a promise of any financial return.",
-        "n2": "Once the gate opens, the U-COIN spent is final and non-refundable. Access stays open for 30 minutes per entry.",
-        "n3": "Every entry is checked by U-Signature behavioural attestation and zero-trust verification. Shared sessions, automation, or tampering are refused without notice.",
-        "n4": "Entering means you accept the Terms of Service and Privacy Policy. Where local law restricts prepaid digital credits, entry may be unavailable.",
-        "legalLink": "Terms · Privacy"
+        "n1": "U-COIN là khoản tín dụng tiện ích trả trước dùng để mở quyền truy cập. Đây không phải là khoản đầu tư, chứng khoán, hay lời hứa về bất kỳ lợi nhuận tài chính nào.",
+        "n2": "Một khi cổng đã mở, số U-COIN đã dùng là cuối cùng và không hoàn lại. Quyền truy cập giữ mở trong 30 phút cho mỗi lần vào.",
+        "n3": "Mỗi lần vào đều được kiểm tra bằng xác thực hành vi U-Signature và xác minh zero-trust. Các phiên dùng chung, tự động hóa, hoặc can thiệp sẽ bị từ chối mà không báo trước.",
+        "n4": "Việc vào đồng nghĩa với việc bạn chấp nhận Điều khoản Dịch vụ và Chính sách Bảo mật. Ở những nơi luật pháp địa phương hạn chế tín dụng số trả trước, việc vào có thể không khả dụng.",
+        "legalLink": "Điều khoản · Bảo mật"
       },
       "guide": {
         "ecosystem": {
-          "g1": "One entry opens one engine for thirty minutes.",
-          "g2": "Ask in your own words; the engine answers in yours.",
-          "g3": "Answers you accept are kept for you in Genesis Memory."
+          "g1": "Một lần vào mở một cỗ máy trong ba mươi phút.",
+          "g2": "Hỏi bằng lời của chính bạn; cỗ máy trả lời bằng lời của bạn.",
+          "g3": "Những câu trả lời bạn chấp nhận được lưu giữ cho bạn trong Genesis Memory."
         },
         "lifeos": {
-          "g1": "Founder-verified surfaces only; the gate confirms before it opens.",
-          "g2": "Your data stays yours and leaves only when you export it.",
-          "g3": "Sessions close silently after thirty minutes."
+          "g1": "Chỉ những bề mặt đã được nhà sáng lập xác minh; cổng xác nhận trước khi mở.",
+          "g2": "Dữ liệu của bạn vẫn thuộc về bạn và chỉ rời đi khi bạn xuất nó ra.",
+          "g3": "Các phiên đóng lại lặng lẽ sau ba mươi phút."
         },
         "b2c": {
-          "g1": "Enter once; the service runs for thirty minutes.",
-          "g2": "Nothing is charged twice for the same open door.",
-          "g3": "Leave and return within the window at no cost."
+          "g1": "Vào một lần; dịch vụ chạy trong ba mươi phút.",
+          "g2": "Không có gì bị tính phí hai lần cho cùng một cánh cửa đang mở.",
+          "g3": "Rời đi và quay lại trong khoảng thời gian đó mà không mất phí."
         },
         "lockin": {
-          "g1": "Activation lives on this device until you turn it off.",
-          "g2": "It works while you sleep; nothing runs without your data.",
-          "g3": "Deactivate anytime; nothing is deleted."
+          "g1": "Kích hoạt tồn tại trên thiết bị này cho đến khi bạn tắt nó.",
+          "g2": "Nó hoạt động khi bạn ngủ; không gì chạy mà thiếu dữ liệu của bạn.",
+          "g3": "Ngừng kích hoạt bất cứ lúc nào; không có gì bị xóa."
         },
         "b2b": {
-          "g1": "Enterprise rails open to a preview surface first.",
-          "g2": "Keys, signatures and settlements are simulated until a contract is live.",
-          "g3": "Your access is logged for audit; nothing else is."
+          "g1": "Các đường ray doanh nghiệp mở ra bề mặt xem trước trước tiên.",
+          "g2": "Chìa khóa, chữ ký và thanh toán được mô phỏng cho đến khi hợp đồng có hiệu lực.",
+          "g3": "Quyền truy cập của bạn được ghi lại để kiểm toán; không gì khác được ghi lại."
         }
       }
     },
-    "enter": "Enter",
-    "signInToEnter": "Sign in to enter",
-    "guestEnter": "Create a full account to hold U-COIN and enter."
+    "enter": "Vào",
+    "signInToEnter": "Đăng nhập để vào",
+    "guestEnter": "Tạo tài khoản đầy đủ để giữ U-COIN và vào."
   }
 }

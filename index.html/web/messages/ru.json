@@ -1560,218 +1560,218 @@
     "clusters": {
       "cognitive": {
         "title": "Когнитивное Ядро",
-        "tagline": "The engines that think before you ask.",
-        "enigma": "Every answer here was waiting for its question."
+        "tagline": "Двигатели, что думают раньше вопроса.",
+        "enigma": "Здесь каждый ответ ждал своего вопроса."
       },
       "live": {
         "title": "Живые Сервисы",
-        "tagline": "Services that answer within the first breath.",
-        "enigma": "Some doors open the moment you look at them."
+        "tagline": "Сервисы, отвечающие на первом вдохе.",
+        "enigma": "Иные двери открываются в миг, когда на них посмотрят."
       },
       "lockin": {
         "title": "Сеть Удержания",
-        "tagline": "The network that remembers you back.",
-        "enigma": "What holds you here is not a lock."
+        "tagline": "Сеть, которая помнит вас в ответ.",
+        "enigma": "То, что держит вас здесь, — не замок."
       },
       "enterprise": {
         "title": "Корпоративная Инфраструктура",
-        "tagline": "Rails beneath identity, keys and value.",
-        "enigma": "Three rails. One current."
+        "tagline": "Рельсы под личностью, ключами и ценностью.",
+        "enigma": "Три рельса. Один ток."
       }
     },
     "openCluster": "Открыть {title}",
     "closeCluster": "Закрыть",
     "back": "Назад",
-    "costLabel": "Entry",
+    "costLabel": "Вход",
     "coinUnit": "U-COIN",
-    "executing": "Opening the gate…",
-    "successTitle": "Access granted",
-    "successBody": "The gate is open for the next thirty minutes.",
-    "enterModule": "Step inside",
+    "executing": "Врата открываются…",
+    "successTitle": "Доступ разрешён",
+    "successBody": "Врата останутся открытыми на ближайшие тридцать минут.",
+    "enterModule": "Войти",
     "activated": "Активировано на этом устройстве",
     "activateModule": "Активировать",
-    "balanceLabel": "Your balance",
-    "insufficient": "Not enough U-COIN to open this gate.",
+    "balanceLabel": "Ваш баланс",
+    "insufficient": "Недостаточно U-COIN, чтобы открыть эти врата.",
     "chargeCoins": "Пополнить U-COIN",
     "shieldBlocked": "Проверка безопасности не пройдена. Двигайтесь естественно и попробуйте снова.",
-    "unlisted": "This gate opens soon.",
+    "unlisted": "Эти врата скоро откроются.",
     "failed": "Транзакция не завершена. Попробуйте снова.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Готово мгновенно",
-    "phoneRequired": "Verify your phone to enter.",
+    "phoneRequired": "Подтвердите телефон, чтобы войти.",
     "modules": {
       "ecosystem:echo": {
-        "riddle": "Ask once. Hear what your question was hiding.",
-        "scenario": "You type a single line. It comes back layered, each layer holding a part of what you meant."
+        "riddle": "Спросите однажды. Услышьте, что скрывал ваш вопрос.",
+        "scenario": "Вы вводите одну строку. Она возвращается слоями, и каждый слой хранит часть того, что вы имели в виду."
       },
       "ecosystem:void": {
-        "riddle": "The answer is in what was never written.",
-        "scenario": "You describe what you have. It answers with what is missing, and the gap turns out to be the plan."
+        "riddle": "Ответ — в том, что никогда не было написано.",
+        "scenario": "Вы описываете то, что у вас есть. Ответ приходит в виде того, чего не хватает, и этот пробел оказывается планом."
       },
       "ecosystem:mirror": {
-        "riddle": "It shows the pattern you keep looking past.",
-        "scenario": "You bring a decision you keep circling. It shows the loop from outside, then the exit."
+        "riddle": "Он показывает узор, мимо которого вы всё время проходите.",
+        "scenario": "Вы приносите решение, вокруг которого ходите кругами. Он показывает этот круг со стороны, а затем — выход."
       },
       "ecosystem:oracle": {
-        "riddle": "Tomorrow, weighted before it arrives.",
-        "scenario": "You name a choice with a long horizon. Futures come back weighted, not promised."
+        "riddle": "Завтра, взвешенное прежде, чем наступит.",
+        "scenario": "Вы называете выбор с дальним горизонтом. Будущее возвращается взвешенным, но не обещанным."
       },
       "ecosystem:pulse": {
-        "riddle": "The world has a heartbeat. This is where it's felt.",
-        "scenario": "You watch a market, a mood, a momentum. The screen breathes with it before the headlines do."
+        "riddle": "У мира есть пульс. Здесь он ощутим.",
+        "scenario": "Вы наблюдаете за рынком, настроением, движением. Экран дышит вместе с ними прежде заголовков."
       },
       "ecosystem:apex": {
-        "riddle": "Run the stakes before you place them.",
-        "scenario": "You set the stakes as if they were real. The simulation spends them, so you don't have to."
+        "riddle": "Разыграйте ставку прежде, чем её сделать.",
+        "scenario": "Вы устанавливаете ставки так, будто они настоящие. Симуляция тратит их вместо вас."
       },
       "ecosystem:genesis": {
-        "riddle": "Start from nothing. Keep what survives.",
-        "scenario": "You start with one claim and no assumptions. What stands at the end is yours to build."
+        "riddle": "Начните с ничего. Оставьте то, что выживет.",
+        "scenario": "Вы начинаете с одного утверждения и без допущений. То, что устоит в конце, — ваше, чтобы строить дальше."
       },
       "ecosystem:syndicate": {
-        "riddle": "Every hidden alliance leaves a trace.",
-        "scenario": "You name the players. The hidden lines between them appear, and one of them leads to you."
+        "riddle": "Каждый скрытый союз оставляет след.",
+        "scenario": "Вы называете участников. Скрытые связи между ними проявляются, и одна из них ведёт к вам."
       },
       "ecosystem:aura": {
-        "riddle": "The presence you project, measured.",
-        "scenario": "You show how you appear. It tells you how you are received, and what a single change would do."
+        "riddle": "Присутствие, которое вы излучаете, измеренное.",
+        "scenario": "Вы показываете, как выглядите. Он говорит, как вас воспринимают, и что изменит одна деталь."
       },
       "ecosystem:paradox": {
-        "riddle": "Hold both sides until one gives way.",
-        "scenario": "You bring two truths that cannot coexist. You leave with the one that was load-bearing."
+        "riddle": "Держите обе стороны, пока одна не уступит.",
+        "scenario": "Вы приносите две истины, которые не могут сосуществовать. Уходите с той, что держала вес."
       },
       "ecosystem:chronos": {
-        "riddle": "Time, folded so you can read it.",
-        "scenario": "You lay your timeline down. It folds, and the moments that mattered line up."
+        "riddle": "Время, сложенное так, чтобы его можно было прочесть.",
+        "scenario": "Вы раскладываете свою временную линию. Она складывается, и важные моменты выстраиваются в ряд."
       },
       "lifeos:life-dashboard": {
-        "riddle": "Your whole life, one silent panel.",
-        "scenario": "Everything you run, on one quiet surface. Nothing shouts; the thing that needs you glows."
+        "riddle": "Вся ваша жизнь — одна безмолвная панель.",
+        "scenario": "Всё, чем вы управляете, — на одной тихой поверхности. Ничто не кричит; светится лишь то, что нуждается в вас."
       },
       "lifeos:second-brain": {
-        "riddle": "It remembers so you can forget.",
-        "scenario": "You drop a thought in without filing it. Months later it returns, exactly when it fits."
+        "riddle": "Он помнит, чтобы вы могли забыть.",
+        "scenario": "Вы оставляете мысль, не раскладывая её по полочкам. Месяцы спустя она возвращается — именно тогда, когда нужна."
       },
       "lifeos:review-agent": {
-        "riddle": "Someone reads it back to you, honestly.",
-        "scenario": "You hand over a week. It comes back as a reading of what you actually did."
+        "riddle": "Кто-то честно зачитывает это вам обратно.",
+        "scenario": "Вы отдаёте неделю. Она возвращается прочтением того, что вы действительно сделали."
       },
       "lifeos:brand-kit": {
-        "riddle": "A face that stays the same everywhere.",
-        "scenario": "You set the face once. Every place you appear inherits it without asking."
+        "riddle": "Лицо, остающееся неизменным повсюду.",
+        "scenario": "Вы задаёте лицо однажды. Каждое место, где вы появляетесь, наследует его без вопросов."
       },
       "lifeos:life-library": {
-        "riddle": "What you kept, finally in order.",
-        "scenario": "What you saved is finally shelved. The shelf knows what you’ll reach for next."
+        "riddle": "То, что вы сохранили, наконец на своём месте.",
+        "scenario": "То, что вы сберегли, наконец расставлено по полкам. Полка знает, что вы возьмёте следующим."
       },
       "b2c:arche": {
-        "riddle": "The first principle, before the first line.",
-        "scenario": "Before the plan, the principle. It finds the one line the rest must obey."
+        "riddle": "Первый принцип — прежде первой строки.",
+        "scenario": "Прежде плана — принцип. Он находит ту единственную строку, которой должно подчиняться всё остальное."
       },
       "b2c:score": {
-        "riddle": "A number that knows more than you told it.",
-        "scenario": "You answer a few things honestly. A number appears that you'll argue with, then trust."
+        "riddle": "Число, знающее больше, чем вы ему сказали.",
+        "scenario": "Вы честно отвечаете на несколько вопросов. Появляется число, с которым вы сперва поспорите, а после — доверитесь."
       },
       "b2c:arena": {
-        "riddle": "Enter unarmed. Leave sharper.",
-        "scenario": "You step in with an idea. It is tested against pressure until only the strong part remains."
+        "riddle": "Войдите безоружным. Выйдите острее.",
+        "scenario": "Вы входите с идеей. Её испытывают давлением, пока не останется только сильная часть."
       },
       "b2c:fate": {
-        "riddle": "The path is drawn. The turns are yours.",
-        "scenario": "You choose a destination. The path draws itself, and every fork shows its cost."
+        "riddle": "Путь уже начертан. Повороты — ваши.",
+        "scenario": "Вы выбираете пункт назначения. Путь прокладывается сам, и на каждой развилке видна его цена."
       },
       "b2c:codex22": {
-        "riddle": "Twenty-two keys. One is already turning.",
-        "scenario": "Twenty-two principles, one at a time. Each unlocks a way of seeing you didn't have yesterday."
+        "riddle": "Двадцать два ключа. Один уже поворачивается.",
+        "scenario": "Двадцать два принципа, по одному за раз. Каждый открывает взгляд, которого у вас не было вчера."
       },
       "lockin:nexus": {
-        "riddle": "One identity. Every door recognises it.",
-        "scenario": "One identity, carried everywhere. No door asks who you are twice."
+        "riddle": "Одна личность. Её узнаёт каждая дверь.",
+        "scenario": "Одна личность, которую вы носите повсюду. Ни одна дверь не спрашивает, кто вы, дважды."
       },
       "lockin:aegis": {
-        "riddle": "A shield that never has to be raised.",
-        "scenario": "It watches while you don’t. When something moves, you already know."
+        "riddle": "Щит, который никогда не нужно поднимать.",
+        "scenario": "Он наблюдает, пока вы — нет. Когда что-то движется, вы уже знаете."
       },
       "lockin:uTwin": {
-        "riddle": "A second you, learning while you rest.",
-        "scenario": "A twin built from your data, growing while you rest. Ask it what you would have said."
+        "riddle": "Второй вы, обучающийся, пока вы отдыхаете.",
+        "scenario": "Двойник, построенный из ваших данных, растёт, пока вы отдыхаете. Спросите его, что сказали бы вы."
       },
       "lockin:infinity": {
-        "riddle": "What was answered once never costs again.",
-        "scenario": "Every answer you've earned is kept. Ask again and it costs nothing."
+        "riddle": "Однажды данный ответ больше не стоит ничего.",
+        "scenario": "Каждый заслуженный вами ответ сохраняется. Спросите снова — и это ничего не будет стоить."
       },
       "lockin:panopticon": {
-        "riddle": "The whole world, held on a single screen.",
-        "scenario": "The world's motion on one screen. You don't search; you notice."
+        "riddle": "Весь мир на одном экране.",
+        "scenario": "Движение мира — на одном экране. Вы не ищете; вы замечаете."
       },
       "lockin:oracle": {
-        "riddle": "Probability, read before the coin lands.",
-        "scenario": "You describe the moment before it happens. It returns the odds, and what shifts them."
+        "riddle": "Вероятность, прочитанная прежде, чем упадёт монета.",
+        "scenario": "Вы описываете момент до того, как он наступит. В ответ — шансы и то, что их меняет."
       },
       "lockin:syndicateX": {
-        "riddle": "Borrow the factory. Keep the output.",
-        "scenario": "You rent a factory that runs itself. What it makes is yours; what it learns stays with the network."
+        "riddle": "Возьмите фабрику взаймы. Оставьте себе результат.",
+        "scenario": "Вы арендуете фабрику, работающую сама по себе. То, что она производит, — ваше; то, чему она учится, остаётся у сети."
       },
       "lockin:fateMatrix": {
-        "riddle": "Change the cause. Watch the effect follow.",
-        "scenario": "You set the goal. It traces the causes backward and tells you which one to touch."
+        "riddle": "Измените причину. Смотрите, как следует следствие.",
+        "scenario": "Вы задаёте цель. Он прослеживает причины в обратном порядке и говорит, какую из них тронуть."
       },
       "b2b:u-signature": {
-        "riddle": "You are the password you never type.",
-        "scenario": "You never type a password again. The way you move is the proof, and it cannot be copied."
+        "riddle": "Вы — пароль, который никогда не вводите.",
+        "scenario": "Вы больше никогда не вводите пароль. Ваша манера двигаться — и есть доказательство, и её нельзя скопировать."
       },
       "b2b:u-key": {
-        "riddle": "One key, cut for every lock you own.",
-        "scenario": "One key that fits every lock you issue. Rotate it, and every door follows."
+        "riddle": "Один ключ, выточенный под каждый ваш замок.",
+        "scenario": "Один ключ подходит к каждому замку, что вы выпускаете. Поверните его — и каждая дверь последует."
       },
       "b2b:u-pay": {
-        "riddle": "Value moves the moment you decide.",
-        "scenario": "Value moves the instant you decide, with no page in between. What you meant to pay, paid."
+        "riddle": "Ценность движется в миг вашего решения.",
+        "scenario": "Ценность движется в тот же миг, что и решение, без единой страницы между ними. То, что вы хотели заплатить, — уплачено."
       }
     },
     "entry": {
-      "eyebrowScenario": "Scenario",
-      "eyebrowGuide": "How It Unfolds",
-      "eyebrowNotice": "Notice",
-      "stageStandby": "Transmission · Standby",
-      "back": "Back",
+      "eyebrowScenario": "Сценарий",
+      "eyebrowGuide": "Как это происходит",
+      "eyebrowNotice": "Уведомление",
+      "stageStandby": "Передача · Ожидание",
+      "back": "Назад",
       "notice": {
-        "n1": "U-COIN is a prepaid utility credit that opens access. It is not an investment, a security, or a promise of any financial return.",
-        "n2": "Once the gate opens, the U-COIN spent is final and non-refundable. Access stays open for 30 minutes per entry.",
-        "n3": "Every entry is checked by U-Signature behavioural attestation and zero-trust verification. Shared sessions, automation, or tampering are refused without notice.",
-        "n4": "Entering means you accept the Terms of Service and Privacy Policy. Where local law restricts prepaid digital credits, entry may be unavailable.",
-        "legalLink": "Terms · Privacy"
+        "n1": "U-COIN — это предоплаченный служебный кредит, открывающий доступ. Это не инвестиция, не ценная бумага и не обещание какой-либо финансовой выгоды.",
+        "n2": "После открытия врат потраченный U-COIN окончателен и не подлежит возврату. Доступ остаётся открытым 30 минут на каждый вход.",
+        "n3": "Каждый вход проверяется поведенческим подтверждением U-Signature и проверкой нулевого доверия. Общие сеансы, автоматизация или вмешательство отклоняются без предупреждения.",
+        "n4": "Вход означает согласие с Условиями использования и Политикой конфиденциальности. Там, где местное законодательство ограничивает предоплаченные цифровые кредиты, вход может быть недоступен.",
+        "legalLink": "Условия · Конфиденциальность"
       },
       "guide": {
         "ecosystem": {
-          "g1": "One entry opens one engine for thirty minutes.",
-          "g2": "Ask in your own words; the engine answers in yours.",
-          "g3": "Answers you accept are kept for you in Genesis Memory."
+          "g1": "Один вход открывает один движок на тридцать минут.",
+          "g2": "Спрашивайте своими словами; движок отвечает вашими.",
+          "g3": "Принятые вами ответы сохраняются для вас в Genesis Memory."
         },
         "lifeos": {
-          "g1": "Founder-verified surfaces only; the gate confirms before it opens.",
-          "g2": "Your data stays yours and leaves only when you export it.",
-          "g3": "Sessions close silently after thirty minutes."
+          "g1": "Только поверхности, проверенные основателем; врата подтверждают это перед открытием.",
+          "g2": "Ваши данные остаются вашими и покидают систему лишь тогда, когда вы их экспортируете.",
+          "g3": "Сеансы беззвучно закрываются через тридцать минут."
         },
         "b2c": {
-          "g1": "Enter once; the service runs for thirty minutes.",
-          "g2": "Nothing is charged twice for the same open door.",
-          "g3": "Leave and return within the window at no cost."
+          "g1": "Войдите однажды; сервис работает тридцать минут.",
+          "g2": "За одну и ту же открытую дверь дважды не платят.",
+          "g3": "Выходите и возвращайтесь в пределах этого времени бесплатно."
         },
         "lockin": {
-          "g1": "Activation lives on this device until you turn it off.",
-          "g2": "It works while you sleep; nothing runs without your data.",
-          "g3": "Deactivate anytime; nothing is deleted."
+          "g1": "Активация живёт на этом устройстве, пока вы её не отключите.",
+          "g2": "Он работает, пока вы спите; ничего не запускается без ваших данных.",
+          "g3": "Отключите в любой момент; ничего не удаляется."
         },
         "b2b": {
-          "g1": "Enterprise rails open to a preview surface first.",
-          "g2": "Keys, signatures and settlements are simulated until a contract is live.",
-          "g3": "Your access is logged for audit; nothing else is."
+          "g1": "Корпоративные рельсы сперва открываются в виде демонстрационной поверхности.",
+          "g2": "Ключи, подписи и расчёты симулируются, пока контракт не станет действующим.",
+          "g3": "Ваш доступ фиксируется для аудита; больше — ничего."
         }
       }
     },
-    "enter": "Enter",
-    "signInToEnter": "Sign in to enter",
-    "guestEnter": "Create a full account to hold U-COIN and enter."
+    "enter": "Войти",
+    "signInToEnter": "Авторизуйтесь, чтобы войти",
+    "guestEnter": "Создайте полноценный аккаунт, чтобы хранить U-COIN и войти."
   }
 }

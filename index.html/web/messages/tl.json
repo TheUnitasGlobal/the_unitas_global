@@ -1556,222 +1556,222 @@
     }
   },
   "QuantumWhite": {
-    "surfaceLabel": "Quantum White dashboard",
+    "surfaceLabel": "Dashboard ng Quantum White",
     "clusters": {
       "cognitive": {
         "title": "Cognitive Core",
-        "tagline": "The engines that think before you ask.",
-        "enigma": "Every answer here was waiting for its question."
+        "tagline": "Ang mga makinang nag-iisip bago ka pa magtanong.",
+        "enigma": "Bawat sagot dito ay naghihintay na sa tanong na para sa kanya."
       },
       "live": {
         "title": "Live na mga Serbisyo",
-        "tagline": "Services that answer within the first breath.",
-        "enigma": "Some doors open the moment you look at them."
+        "tagline": "Mga serbisyong sumasagot sa unang hininga.",
+        "enigma": "May mga pintong bumubukas sa sandaling tumingin ka lang."
       },
       "lockin": {
         "title": "Lock-in Network",
-        "tagline": "The network that remembers you back.",
-        "enigma": "What holds you here is not a lock."
+        "tagline": "Ang network na naaalala ka rin.",
+        "enigma": "Ang humahawak sa iyo dito ay hindi isang kandado."
       },
       "enterprise": {
         "title": "Enterprise Rails",
-        "tagline": "Rails beneath identity, keys and value.",
-        "enigma": "Three rails. One current."
+        "tagline": "Mga riles sa ilalim ng pagkakakilanlan, mga susi, at halaga.",
+        "enigma": "Tatlong riles. Isang agos."
       }
     },
     "openCluster": "Buksan ang {title}",
     "closeCluster": "Isara",
     "back": "Bumalik",
-    "costLabel": "Entry",
+    "costLabel": "Bayad sa Pagpasok",
     "coinUnit": "U-COIN",
-    "executing": "Opening the gate…",
-    "successTitle": "Access granted",
-    "successBody": "The gate is open for the next thirty minutes.",
-    "enterModule": "Step inside",
+    "executing": "Binubuksan ang tarangkahan…",
+    "successTitle": "Pinahintulutan ang pagpasok",
+    "successBody": "Bukas ang tarangkahan sa susunod na tatlumpung minuto.",
+    "enterModule": "Pumasok",
     "activated": "Aktibo sa device na ito",
     "activateModule": "I-activate",
-    "balanceLabel": "Your balance",
-    "insufficient": "Not enough U-COIN to open this gate.",
+    "balanceLabel": "Ang Balanse Mo",
+    "insufficient": "Hindi sapat ang U-COIN para buksan ang tarangkahang ito.",
     "chargeCoins": "Magdagdag ng U-COIN",
     "shieldBlocked": "Hindi nakapasa ang secure na pagsusuri. Kumilos nang natural at subukan muli.",
-    "unlisted": "This gate opens soon.",
+    "unlisted": "Malapit nang bumukas ang tarangkahang ito.",
     "failed": "Hindi natapos ang transaksyon. Subukan muli.",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "Handa Agad",
-    "phoneRequired": "Verify your phone to enter.",
+    "phoneRequired": "Patunayan ang iyong telepono para makapasok.",
     "modules": {
       "ecosystem:echo": {
-        "riddle": "Ask once. Hear what your question was hiding.",
-        "scenario": "You type a single line. It comes back layered, each layer holding a part of what you meant."
+        "riddle": "Magtanong nang minsan. Pakinggan ang itinatago ng iyong tanong.",
+        "scenario": "Nagta-type ka ng isang linya lamang. Nagbabalik ito nang may mga patong, bawat patong may hawak na bahagi ng ibig mong sabihin."
       },
       "ecosystem:void": {
-        "riddle": "The answer is in what was never written.",
-        "scenario": "You describe what you have. It answers with what is missing, and the gap turns out to be the plan."
+        "riddle": "Nasa hindi kailanman nasulat ang sagot.",
+        "scenario": "Inilalarawan mo ang mayroon ka. Sumasagot ito ng kulang, at ang puwang na iyon ang nagiging plano."
       },
       "ecosystem:mirror": {
-        "riddle": "It shows the pattern you keep looking past.",
-        "scenario": "You bring a decision you keep circling. It shows the loop from outside, then the exit."
+        "riddle": "Ipinapakita nito ang padrong lagi mong nalalampasan ng tingin.",
+        "scenario": "Dinadala mo ang desisyong paulit-ulit mong pinagpapaligiran. Ipinapakita nito ang ikot mula sa labas, saka ang labasan."
       },
       "ecosystem:oracle": {
-        "riddle": "Tomorrow, weighted before it arrives.",
-        "scenario": "You name a choice with a long horizon. Futures come back weighted, not promised."
+        "riddle": "Bukas, tinimbang bago pa ito dumating.",
+        "scenario": "Pinapangalanan mo ang isang pagpipiliang may malayong abot-tanaw. Nagbabalik ang mga kinabukasan nang tinimbang, hindi ipinangako."
       },
       "ecosystem:pulse": {
-        "riddle": "The world has a heartbeat. This is where it's felt.",
-        "scenario": "You watch a market, a mood, a momentum. The screen breathes with it before the headlines do."
+        "riddle": "May tibok ang mundo. Dito ito nadarama.",
+        "scenario": "Pinagmamasdan mo ang isang merkado, isang kalooban, isang takbo. Humihinga ang screen kasabay nito bago pa man ito maging balita."
       },
       "ecosystem:apex": {
-        "riddle": "Run the stakes before you place them.",
-        "scenario": "You set the stakes as if they were real. The simulation spends them, so you don't have to."
+        "riddle": "Patakbuhin ang taya bago mo pa ito ilagay.",
+        "scenario": "Itinatakda mo ang taya na parang totoo. Ginagasta ito ng simulasyon, kaya hindi mo na kailangan."
       },
       "ecosystem:genesis": {
-        "riddle": "Start from nothing. Keep what survives.",
-        "scenario": "You start with one claim and no assumptions. What stands at the end is yours to build."
+        "riddle": "Magsimula sa wala. Itago ang nakaligtas.",
+        "scenario": "Nagsisimula ka sa isang pahayag lamang, walang haka-haka. Ang natitirang nakatayo sa dulo ay sa iyo na upang itayo."
       },
       "ecosystem:syndicate": {
-        "riddle": "Every hidden alliance leaves a trace.",
-        "scenario": "You name the players. The hidden lines between them appear, and one of them leads to you."
+        "riddle": "Bawat lihim na alyansa ay may naiiwang bakas.",
+        "scenario": "Pinapangalanan mo ang mga manlalaro. Lumilitaw ang lihim na mga ugnayan sa pagitan nila, at isa sa mga ito ay patungo sa iyo."
       },
       "ecosystem:aura": {
-        "riddle": "The presence you project, measured.",
-        "scenario": "You show how you appear. It tells you how you are received, and what a single change would do."
+        "riddle": "Ang presensyang ipinapakita mo, sinusukat.",
+        "scenario": "Ipinapakita mo kung paano ka lumalabas. Sinasabi nito sa iyo kung paano ka tinatanggap, at kung ano ang magagawa ng isang pagbabago."
       },
       "ecosystem:paradox": {
-        "riddle": "Hold both sides until one gives way.",
-        "scenario": "You bring two truths that cannot coexist. You leave with the one that was load-bearing."
+        "riddle": "Hawakan ang magkabilang panig hanggang sumuko ang isa.",
+        "scenario": "Dinadala mo ang dalawang katotohanang hindi maaaring magkasabay. Aalis ka dala ang isang nagdala ng bigat."
       },
       "ecosystem:chronos": {
-        "riddle": "Time, folded so you can read it.",
-        "scenario": "You lay your timeline down. It folds, and the moments that mattered line up."
+        "riddle": "Oras, nakatiklop upang mabasa mo ito.",
+        "scenario": "Inilalatag mo ang iyong timeline. Natitiklop ito, at nahahanay ang mga sandaling mahalaga."
       },
       "lifeos:life-dashboard": {
-        "riddle": "Your whole life, one silent panel.",
-        "scenario": "Everything you run, on one quiet surface. Nothing shouts; the thing that needs you glows."
+        "riddle": "Ang buong buhay mo, sa isang tahimik na panel.",
+        "scenario": "Lahat ng pinapatakbo mo, sa isang tahimik na ibabaw. Walang sumisigaw; ang kailangan sa iyo ang nagliliwanag."
       },
       "lifeos:second-brain": {
-        "riddle": "It remembers so you can forget.",
-        "scenario": "You drop a thought in without filing it. Months later it returns, exactly when it fits."
+        "riddle": "Ito ang nag-aalaala para makalimot ka.",
+        "scenario": "Inihuhulog mo ang isang kaisipan nang hindi ito inaayos. Pagkalipas ng ilang buwan, babalik ito, eksakto sa tamang saglit."
       },
       "lifeos:review-agent": {
-        "riddle": "Someone reads it back to you, honestly.",
-        "scenario": "You hand over a week. It comes back as a reading of what you actually did."
+        "riddle": "May bumabasa nito pabalik sa iyo, nang tapat.",
+        "scenario": "Ibinibigay mo ang isang linggo. Bumabalik ito bilang isang pagbasa ng talagang ginawa mo."
       },
       "lifeos:brand-kit": {
-        "riddle": "A face that stays the same everywhere.",
-        "scenario": "You set the face once. Every place you appear inherits it without asking."
+        "riddle": "Isang mukhang pareho saanman.",
+        "scenario": "Itinatakda mo ang mukha nang isang beses. Bawat lugar na lalabasan mo ay nagmamana nito nang hindi nagtatanong."
       },
       "lifeos:life-library": {
-        "riddle": "What you kept, finally in order.",
-        "scenario": "What you saved is finally shelved. The shelf knows what you’ll reach for next."
+        "riddle": "Ang iningatan mo, sa wakas ay nasa ayos na.",
+        "scenario": "Ang iniligtas mo ay nasa istante na sa wakas. Alam ng istante kung ano ang aabutin mo susunod."
       },
       "b2c:arche": {
-        "riddle": "The first principle, before the first line.",
-        "scenario": "Before the plan, the principle. It finds the one line the rest must obey."
+        "riddle": "Ang unang simulain, bago pa ang unang linya.",
+        "scenario": "Bago ang plano, ang simulain. Hinahanap nito ang isang linyang dapat sundin ng lahat ng iba pa."
       },
       "b2c:score": {
-        "riddle": "A number that knows more than you told it.",
-        "scenario": "You answer a few things honestly. A number appears that you'll argue with, then trust."
+        "riddle": "Isang numerong alam ang higit pa sa sinabi mo rito.",
+        "scenario": "Sumasagot ka nang tapat sa ilang bagay. May lilitaw na numero na tututulan mo, saka pagkatiwalaan."
       },
       "b2c:arena": {
-        "riddle": "Enter unarmed. Leave sharper.",
-        "scenario": "You step in with an idea. It is tested against pressure until only the strong part remains."
+        "riddle": "Pumasok nang walang dala. Umalis nang matalas pa.",
+        "scenario": "Pumapasok ka dala ang isang ideya. Sinusubok ito sa presyon hanggang matira lamang ang matibay na bahagi."
       },
       "b2c:fate": {
-        "riddle": "The path is drawn. The turns are yours.",
-        "scenario": "You choose a destination. The path draws itself, and every fork shows its cost."
+        "riddle": "Nakaguhit na ang landas. Ang mga liko ay iyo.",
+        "scenario": "Pumipili ka ng patutunguhan. Nagguhit ang landas sa sarili nito, at ipinapakita ng bawat sanga ang halaga nito."
       },
       "b2c:codex22": {
-        "riddle": "Twenty-two keys. One is already turning.",
-        "scenario": "Twenty-two principles, one at a time. Each unlocks a way of seeing you didn't have yesterday."
+        "riddle": "Dalawampu't dalawang susi. Isa na ang umiikot.",
+        "scenario": "Dalawampu't dalawang simulain, isa-isa. Bawat isa ay nagbubukas ng paraan ng pagtingin na wala ka pang kahapon."
       },
       "lockin:nexus": {
-        "riddle": "One identity. Every door recognises it.",
-        "scenario": "One identity, carried everywhere. No door asks who you are twice."
+        "riddle": "Isang pagkakakilanlan. Nakikilala ito ng bawat pinto.",
+        "scenario": "Isang pagkakakilanlan, dala saanman. Walang pintong magtatanong kung sino ka nang makalawa."
       },
       "lockin:aegis": {
-        "riddle": "A shield that never has to be raised.",
-        "scenario": "It watches while you don’t. When something moves, you already know."
+        "riddle": "Isang kalasag na hindi na kailangang itaas.",
+        "scenario": "Nagbabantay ito habang hindi ka. Kapag may gumalaw, alam mo na agad."
       },
       "lockin:uTwin": {
-        "riddle": "A second you, learning while you rest.",
-        "scenario": "A twin built from your data, growing while you rest. Ask it what you would have said."
+        "riddle": "Isang pangalawang ikaw, natututo habang ikaw ay nagpapahinga.",
+        "scenario": "Isang kambal na ginawa mula sa datos mo, lumalaki habang ikaw ay nagpapahinga. Tanungin ito kung ano ang sasabihin mo sana."
       },
       "lockin:infinity": {
-        "riddle": "What was answered once never costs again.",
-        "scenario": "Every answer you've earned is kept. Ask again and it costs nothing."
+        "riddle": "Ang nasagot na minsan ay hindi na muling magkakahalaga.",
+        "scenario": "Naitatago ang bawat sagot na nakamtan mo. Magtanong ulit at wala itong halaga."
       },
       "lockin:panopticon": {
-        "riddle": "The whole world, held on a single screen.",
-        "scenario": "The world's motion on one screen. You don't search; you notice."
+        "riddle": "Ang buong mundo, nasa iisang screen.",
+        "scenario": "Ang galaw ng mundo sa iisang screen. Hindi ka naghahanap; napapansin mo na lang."
       },
       "lockin:oracle": {
-        "riddle": "Probability, read before the coin lands.",
-        "scenario": "You describe the moment before it happens. It returns the odds, and what shifts them."
+        "riddle": "Probabilidad, nabasa bago pa tumapat ang barya.",
+        "scenario": "Inilalarawan mo ang sandali bago ito mangyari. Ibinabalik nito ang tsansa, at kung ano ang nagbabago nito."
       },
       "lockin:syndicateX": {
-        "riddle": "Borrow the factory. Keep the output.",
-        "scenario": "You rent a factory that runs itself. What it makes is yours; what it learns stays with the network."
+        "riddle": "Humiram ng pabrika. Panatilihin ang ani.",
+        "scenario": "Umuupa ka ng pabrikang tumatakbo mag-isa. Ang ginagawa nito ay sa iyo; ang natututuhan nito ay nananatili sa network."
       },
       "lockin:fateMatrix": {
-        "riddle": "Change the cause. Watch the effect follow.",
-        "scenario": "You set the goal. It traces the causes backward and tells you which one to touch."
+        "riddle": "Baguhin ang sanhi. Panoorin ang bunga na sumusunod.",
+        "scenario": "Itinatakda mo ang layunin. Sinusubaybayan nito ang mga sanhi pabalik at sinasabi sa iyo kung alin ang dapat hawakan."
       },
       "b2b:u-signature": {
-        "riddle": "You are the password you never type.",
-        "scenario": "You never type a password again. The way you move is the proof, and it cannot be copied."
+        "riddle": "Ikaw ang password na hindi mo kailanman kailangang i-type.",
+        "scenario": "Hindi ka na muling mag-i-type ng password. Ang paraan ng iyong paggalaw ang patunay, at hindi ito maaaring gayahin."
       },
       "b2b:u-key": {
-        "riddle": "One key, cut for every lock you own.",
-        "scenario": "One key that fits every lock you issue. Rotate it, and every door follows."
+        "riddle": "Isang susi, ginawa para sa bawat kandadong pag-aari mo.",
+        "scenario": "Isang susing tumutugma sa bawat kandadong inilalabas mo. Ikutin ito, at susunod ang bawat pinto."
       },
       "b2b:u-pay": {
-        "riddle": "Value moves the moment you decide.",
-        "scenario": "Value moves the instant you decide, with no page in between. What you meant to pay, paid."
+        "riddle": "Gumagalaw ang halaga sa sandaling magpasya ka.",
+        "scenario": "Gumagalaw ang halaga sa sandaling magpasya ka, walang pahinang nasa gitna. Ang nilayon mong bayaran, nabayaran na."
       }
     },
     "entry": {
-      "eyebrowScenario": "Scenario",
-      "eyebrowGuide": "How It Unfolds",
-      "eyebrowNotice": "Notice",
-      "stageStandby": "Transmission · Standby",
-      "back": "Back",
+      "eyebrowScenario": "Senaryo",
+      "eyebrowGuide": "Kung Paano Ito Maganap",
+      "eyebrowNotice": "Paalala",
+      "stageStandby": "Transmisyon · Nakaabang",
+      "back": "Bumalik",
       "notice": {
-        "n1": "U-COIN is a prepaid utility credit that opens access. It is not an investment, a security, or a promise of any financial return.",
-        "n2": "Once the gate opens, the U-COIN spent is final and non-refundable. Access stays open for 30 minutes per entry.",
-        "n3": "Every entry is checked by U-Signature behavioural attestation and zero-trust verification. Shared sessions, automation, or tampering are refused without notice.",
-        "n4": "Entering means you accept the Terms of Service and Privacy Policy. Where local law restricts prepaid digital credits, entry may be unavailable.",
-        "legalLink": "Terms · Privacy"
+        "n1": "Ang U-COIN ay isang prepaid na utility credit na nagbubukas ng access. Hindi ito isang investment, securities, o pangako ng anumang kitang pinansyal.",
+        "n2": "Kapag nabuksan na ang tarangkahan, ang nagastos na U-COIN ay pinal at hindi na maisasauli. Nananatiling bukas ang access nang 30 minuto sa bawat pagpasok.",
+        "n3": "Sinusuri ang bawat pagpasok gamit ang U-Signature behavioral attestation at zero-trust verification. Tinatanggihan nang walang paunang abiso ang mga shared session, automation, o panghihimasok.",
+        "n4": "Ang pagpasok ay nangangahulugang tinatanggap mo ang Mga Tuntunin ng Serbisyo at Patakaran sa Privacy. Sa mga lugar na pinaghihigpitan ng lokal na batas ang prepaid digital credits, maaaring hindi available ang pagpasok.",
+        "legalLink": "Mga Tuntunin · Privacy"
       },
       "guide": {
         "ecosystem": {
-          "g1": "One entry opens one engine for thirty minutes.",
-          "g2": "Ask in your own words; the engine answers in yours.",
-          "g3": "Answers you accept are kept for you in Genesis Memory."
+          "g1": "Isang pagpasok, isang makinang bumubukas nang tatlumpung minuto.",
+          "g2": "Magtanong sa sarili mong mga salita; sumasagot ang makina sa iyo ring mga salita.",
+          "g3": "Ang mga sagot na tinatanggap mo ay itinatago para sa iyo sa Genesis Memory."
         },
         "lifeos": {
-          "g1": "Founder-verified surfaces only; the gate confirms before it opens.",
-          "g2": "Your data stays yours and leaves only when you export it.",
-          "g3": "Sessions close silently after thirty minutes."
+          "g1": "Mga surface lamang na beripikado ng founder; kinukumpirma ng tarangkahan bago ito magbukas.",
+          "g2": "Ang datos mo ay nananatiling sa iyo, at aalis lamang kapag ini-export mo ito.",
+          "g3": "Nagsasara nang tahimik ang session pagkalipas ng tatlumpung minuto."
         },
         "b2c": {
-          "g1": "Enter once; the service runs for thirty minutes.",
-          "g2": "Nothing is charged twice for the same open door.",
-          "g3": "Leave and return within the window at no cost."
+          "g1": "Pumasok nang minsan; tatakbo ang serbisyo nang tatlumpung minuto.",
+          "g2": "Walang sisingilin nang dalawang beses para sa parehong bukas na pinto.",
+          "g3": "Umalis at bumalik sa loob ng saklaw na oras nang walang bayad."
         },
         "lockin": {
-          "g1": "Activation lives on this device until you turn it off.",
-          "g2": "It works while you sleep; nothing runs without your data.",
-          "g3": "Deactivate anytime; nothing is deleted."
+          "g1": "Nananatili ang activation sa device na ito hanggang sa patayin mo ito.",
+          "g2": "Gumagana ito habang natutulog ka; walang tumatakbo nang wala ang datos mo.",
+          "g3": "I-deactivate anumang oras; walang mabubura."
         },
         "b2b": {
-          "g1": "Enterprise rails open to a preview surface first.",
-          "g2": "Keys, signatures and settlements are simulated until a contract is live.",
-          "g3": "Your access is logged for audit; nothing else is."
+          "g1": "Bumubukas muna ang enterprise rails sa isang preview surface.",
+          "g2": "Sinisimulate ang mga susi, lagda, at settlement hanggang maging live ang kontrata.",
+          "g3": "Nagta-tala lamang ang access mo para sa audit; wala nang iba."
         }
       }
     },
-    "enter": "Enter",
-    "signInToEnter": "Sign in to enter",
-    "guestEnter": "Create a full account to hold U-COIN and enter."
+    "enter": "Pumasok",
+    "signInToEnter": "Mag-sign in para makapasok",
+    "guestEnter": "Gumawa ng buong account upang hawakan ang U-COIN at makapasok."
   }
 }

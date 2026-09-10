@@ -1560,218 +1560,218 @@
     "clusters": {
       "cognitive": {
         "title": "कॉग्निटिव कोर",
-        "tagline": "The engines that think before you ask.",
-        "enigma": "Every answer here was waiting for its question."
+        "tagline": "वे इंजन जो आपके पूछने से पहले सोचते हैं।",
+        "enigma": "यहाँ हर उत्तर अपने प्रश्न की प्रतीक्षा कर रहा था।"
       },
       "live": {
         "title": "लाइव सेवाएं",
-        "tagline": "Services that answer within the first breath.",
-        "enigma": "Some doors open the moment you look at them."
+        "tagline": "वे सेवाएँ जो पहली साँस में ही उत्तर देती हैं।",
+        "enigma": "कुछ दरवाज़े देखते ही खुल जाते हैं।"
       },
       "lockin": {
         "title": "लॉक-इन नेटवर्क",
-        "tagline": "The network that remembers you back.",
-        "enigma": "What holds you here is not a lock."
+        "tagline": "वह नेटवर्क जो आपको भी याद रखता है।",
+        "enigma": "जो आपको यहाँ थामे रखता है, वह ताला नहीं है।"
       },
       "enterprise": {
         "title": "एंटरप्राइज़ रेल्स",
-        "tagline": "Rails beneath identity, keys and value.",
-        "enigma": "Three rails. One current."
+        "tagline": "पहचान, कुंजी और मूल्य के नीचे बहती रेलें।",
+        "enigma": "तीन रेलें। एक ही धारा।"
       }
     },
     "openCluster": "{title} खोलें",
     "closeCluster": "बंद करें",
     "back": "वापस",
-    "costLabel": "Entry",
+    "costLabel": "प्रवेश",
     "coinUnit": "U-COIN",
-    "executing": "Opening the gate…",
-    "successTitle": "Access granted",
-    "successBody": "The gate is open for the next thirty minutes.",
-    "enterModule": "Step inside",
+    "executing": "द्वार खुल रहा है…",
+    "successTitle": "प्रवेश स्वीकृत",
+    "successBody": "अगले तीस मिनट तक द्वार खुला है।",
+    "enterModule": "भीतर कदम रखें",
     "activated": "इस डिवाइस पर सक्रिय",
     "activateModule": "सक्रिय करें",
-    "balanceLabel": "Your balance",
-    "insufficient": "Not enough U-COIN to open this gate.",
+    "balanceLabel": "आपका शेष",
+    "insufficient": "यह द्वार खोलने के लिए U-COIN पर्याप्त नहीं है।",
     "chargeCoins": "U-COIN जोड़ें",
     "shieldBlocked": "सुरक्षा जांच पास नहीं हुई। सामान्य रूप से मूव करें और फिर से कोशिश करें।",
-    "unlisted": "This gate opens soon.",
+    "unlisted": "यह द्वार शीघ्र खुलेगा।",
     "failed": "लेनदेन पूरा नहीं हुआ। फिर से कोशिश करें।",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "तुरंत तैयार",
-    "phoneRequired": "Verify your phone to enter.",
+    "phoneRequired": "प्रवेश के लिए अपना फ़ोन सत्यापित करें।",
     "modules": {
       "ecosystem:echo": {
-        "riddle": "Ask once. Hear what your question was hiding.",
-        "scenario": "You type a single line. It comes back layered, each layer holding a part of what you meant."
+        "riddle": "एक बार पूछें। सुनें कि आपके प्रश्न ने क्या छुपाया था।",
+        "scenario": "आप एक पंक्ति लिखते हैं। वह परतों में लौटती है, हर परत में आपके आशय का एक अंश।"
       },
       "ecosystem:void": {
-        "riddle": "The answer is in what was never written.",
-        "scenario": "You describe what you have. It answers with what is missing, and the gap turns out to be the plan."
+        "riddle": "उत्तर वहीं है जो कभी लिखा नहीं गया।",
+        "scenario": "आप बताते हैं कि आपके पास क्या है। वह बताता है कि क्या नहीं है, और वही रिक्ति योजना बन जाती है।"
       },
       "ecosystem:mirror": {
-        "riddle": "It shows the pattern you keep looking past.",
-        "scenario": "You bring a decision you keep circling. It shows the loop from outside, then the exit."
+        "riddle": "यह वह पैटर्न दिखाता है जिसे आप बार-बार अनदेखा करते हैं।",
+        "scenario": "आप वह निर्णय लाते हैं जिसके इर्द-गिर्द आप घूमते रहे हैं। यह बाहर से वह चक्र दिखाता है, फिर उसका निकास।"
       },
       "ecosystem:oracle": {
-        "riddle": "Tomorrow, weighted before it arrives.",
-        "scenario": "You name a choice with a long horizon. Futures come back weighted, not promised."
+        "riddle": "कल, पहुँचने से पहले ही तौला गया।",
+        "scenario": "आप दूर क्षितिज वाला एक चुनाव नाम देते हैं। भविष्य लौटते हैं, तौले हुए — वादा किए बिना।"
       },
       "ecosystem:pulse": {
-        "riddle": "The world has a heartbeat. This is where it's felt.",
-        "scenario": "You watch a market, a mood, a momentum. The screen breathes with it before the headlines do."
+        "riddle": "संसार की एक धड़कन है। यहाँ वह महसूस होती है।",
+        "scenario": "आप एक बाज़ार, एक मनोदशा, एक गति देखते हैं। सुर्खियों से पहले स्क्रीन उसके साथ साँस लेती है।"
       },
       "ecosystem:apex": {
-        "riddle": "Run the stakes before you place them.",
-        "scenario": "You set the stakes as if they were real. The simulation spends them, so you don't have to."
+        "riddle": "दाँव लगाने से पहले उसे चला लें।",
+        "scenario": "आप दाँव इस तरह लगाते हैं जैसे वे असली हों। सिमुलेशन उन्हें खर्च करता है, ताकि आपको न करना पड़े।"
       },
       "ecosystem:genesis": {
-        "riddle": "Start from nothing. Keep what survives.",
-        "scenario": "You start with one claim and no assumptions. What stands at the end is yours to build."
+        "riddle": "शून्य से शुरू करें। जो बचे, उसे रखें।",
+        "scenario": "आप बिना किसी मान्यता के एक दावे से शुरू करते हैं। अंत में जो खड़ा रहे, वह आपका बनाया हुआ है।"
       },
       "ecosystem:syndicate": {
-        "riddle": "Every hidden alliance leaves a trace.",
-        "scenario": "You name the players. The hidden lines between them appear, and one of them leads to you."
+        "riddle": "हर छिपा गठबंधन एक निशान छोड़ता है।",
+        "scenario": "आप खिलाड़ियों के नाम बताते हैं। उनके बीच की छिपी रेखाएँ उभरती हैं, और उनमें से एक आप तक पहुँचती है।"
       },
       "ecosystem:aura": {
-        "riddle": "The presence you project, measured.",
-        "scenario": "You show how you appear. It tells you how you are received, and what a single change would do."
+        "riddle": "आप जो उपस्थिति बिखेरते हैं, वह मापी जाती है।",
+        "scenario": "आप दिखाते हैं कि आप कैसे प्रस्तुत होते हैं। यह बताता है कि आप कैसे ग्रहण किए जाते हैं, और एक बदलाव से क्या बदलेगा।"
       },
       "ecosystem:paradox": {
-        "riddle": "Hold both sides until one gives way.",
-        "scenario": "You bring two truths that cannot coexist. You leave with the one that was load-bearing."
+        "riddle": "दोनों पक्षों को तब तक थामें जब तक एक न झुके।",
+        "scenario": "आप दो सत्य लाते हैं जो साथ नहीं रह सकते। आप वही लेकर जाते हैं जो भार सह रहा था।"
       },
       "ecosystem:chronos": {
-        "riddle": "Time, folded so you can read it.",
-        "scenario": "You lay your timeline down. It folds, and the moments that mattered line up."
+        "riddle": "समय, पढ़े जाने के लिए मोड़ा गया।",
+        "scenario": "आप अपनी समयरेखा बिछाते हैं। वह मुड़ती है, और जो क्षण मायने रखते थे, वे पंक्तिबद्ध हो जाते हैं।"
       },
       "lifeos:life-dashboard": {
-        "riddle": "Your whole life, one silent panel.",
-        "scenario": "Everything you run, on one quiet surface. Nothing shouts; the thing that needs you glows."
+        "riddle": "आपका पूरा जीवन, एक मौन पटल पर।",
+        "scenario": "जो कुछ आप चलाते हैं, एक शांत सतह पर। कुछ भी चिल्लाता नहीं; जो आपको चाहिए, वही चमकता है।"
       },
       "lifeos:second-brain": {
-        "riddle": "It remembers so you can forget.",
-        "scenario": "You drop a thought in without filing it. Months later it returns, exactly when it fits."
+        "riddle": "यह याद रखता है ताकि आप भूल सकें।",
+        "scenario": "आप बिना फ़ाइल किए एक विचार छोड़ देते हैं। महीनों बाद वह लौटता है, ठीक तब जब वह फ़िट बैठता है।"
       },
       "lifeos:review-agent": {
-        "riddle": "Someone reads it back to you, honestly.",
-        "scenario": "You hand over a week. It comes back as a reading of what you actually did."
+        "riddle": "कोई इसे आपको सच्चाई से वापस पढ़ता है।",
+        "scenario": "आप एक सप्ताह सौंपते हैं। वह इस पठन के रूप में लौटता है कि आपने वास्तव में क्या किया।"
       },
       "lifeos:brand-kit": {
-        "riddle": "A face that stays the same everywhere.",
-        "scenario": "You set the face once. Every place you appear inherits it without asking."
+        "riddle": "एक चेहरा जो हर जगह वही रहता है।",
+        "scenario": "आप चेहरा एक बार तय करते हैं। जहाँ भी आप प्रकट होते हैं, वह बिना पूछे उसे अपना लेता है।"
       },
       "lifeos:life-library": {
-        "riddle": "What you kept, finally in order.",
-        "scenario": "What you saved is finally shelved. The shelf knows what you’ll reach for next."
+        "riddle": "जो आपने सहेजा, अंततः अपने स्थान पर।",
+        "scenario": "जो आपने सहेजा वह अंततः सजाया गया है। शेल्फ़ जानती है कि आप आगे क्या उठाएँगे।"
       },
       "b2c:arche": {
-        "riddle": "The first principle, before the first line.",
-        "scenario": "Before the plan, the principle. It finds the one line the rest must obey."
+        "riddle": "पहली पंक्ति से पहले का पहला सिद्धांत।",
+        "scenario": "योजना से पहले, सिद्धांत। यह वह एक पंक्ति खोजता है जिसका बाकी सबको पालन करना है।"
       },
       "b2c:score": {
-        "riddle": "A number that knows more than you told it.",
-        "scenario": "You answer a few things honestly. A number appears that you'll argue with, then trust."
+        "riddle": "एक संख्या जो आपके बताए से ज़्यादा जानती है।",
+        "scenario": "आप कुछ बातों का ईमानदारी से उत्तर देते हैं। एक संख्या प्रकट होती है जिससे आप बहस करेंगे, फिर भरोसा करेंगे।"
       },
       "b2c:arena": {
-        "riddle": "Enter unarmed. Leave sharper.",
-        "scenario": "You step in with an idea. It is tested against pressure until only the strong part remains."
+        "riddle": "निहत्थे प्रवेश करें। तीक्ष्ण होकर निकलें।",
+        "scenario": "आप एक विचार लेकर कदम रखते हैं। उसे दबाव में परखा जाता है जब तक केवल मज़बूत हिस्सा न बचे।"
       },
       "b2c:fate": {
-        "riddle": "The path is drawn. The turns are yours.",
-        "scenario": "You choose a destination. The path draws itself, and every fork shows its cost."
+        "riddle": "रास्ता खींचा जा चुका है। मोड़ आपके हैं।",
+        "scenario": "आप एक गंतव्य चुनते हैं। रास्ता स्वयं खिंचता है, और हर मोड़ अपनी कीमत दिखाता है।"
       },
       "b2c:codex22": {
-        "riddle": "Twenty-two keys. One is already turning.",
-        "scenario": "Twenty-two principles, one at a time. Each unlocks a way of seeing you didn't have yesterday."
+        "riddle": "बाईस कुंजियाँ। एक पहले से घूम रही है।",
+        "scenario": "बाईस सिद्धांत, एक-एक करके। हर एक एक ऐसा दृष्टिकोण खोलता है जो कल आपके पास नहीं था।"
       },
       "lockin:nexus": {
-        "riddle": "One identity. Every door recognises it.",
-        "scenario": "One identity, carried everywhere. No door asks who you are twice."
+        "riddle": "एक पहचान। हर द्वार उसे पहचानता है।",
+        "scenario": "एक पहचान, हर जगह साथ ले जाई गई। कोई द्वार दो बार नहीं पूछता कि आप कौन हैं।"
       },
       "lockin:aegis": {
-        "riddle": "A shield that never has to be raised.",
-        "scenario": "It watches while you don’t. When something moves, you already know."
+        "riddle": "एक ढाल जिसे कभी उठाना नहीं पड़ता।",
+        "scenario": "जब आप नहीं देखते, तब यह देखता है। कुछ हिले, तो आप पहले से ही जानते हैं।"
       },
       "lockin:uTwin": {
-        "riddle": "A second you, learning while you rest.",
-        "scenario": "A twin built from your data, growing while you rest. Ask it what you would have said."
+        "riddle": "एक दूसरा आप, जो आपके विश्राम में सीखता है।",
+        "scenario": "आपके डेटा से बना एक जुड़वाँ, जो आपके विश्राम में बढ़ता है। उससे पूछें कि आप क्या कहते।"
       },
       "lockin:infinity": {
-        "riddle": "What was answered once never costs again.",
-        "scenario": "Every answer you've earned is kept. Ask again and it costs nothing."
+        "riddle": "जो एक बार उत्तरित हुआ, वह फिर कभी कीमत नहीं माँगता।",
+        "scenario": "आपने जो भी उत्तर अर्जित किया, वह सुरक्षित रहता है। फिर पूछें, और कोई कीमत नहीं।"
       },
       "lockin:panopticon": {
-        "riddle": "The whole world, held on a single screen.",
-        "scenario": "The world's motion on one screen. You don't search; you notice."
+        "riddle": "पूरा संसार, एक ही स्क्रीन पर समाया।",
+        "scenario": "संसार की गति एक स्क्रीन पर। आप खोजते नहीं; आप ध्यान देते हैं।"
       },
       "lockin:oracle": {
-        "riddle": "Probability, read before the coin lands.",
-        "scenario": "You describe the moment before it happens. It returns the odds, and what shifts them."
+        "riddle": "संभावना, सिक्का गिरने से पहले पढ़ी गई।",
+        "scenario": "आप उस पल का वर्णन करते हैं जो अभी घटित नहीं हुआ। यह संभावनाएँ लौटाता है, और वह भी जो उन्हें बदलता है।"
       },
       "lockin:syndicateX": {
-        "riddle": "Borrow the factory. Keep the output.",
-        "scenario": "You rent a factory that runs itself. What it makes is yours; what it learns stays with the network."
+        "riddle": "फ़ैक्टरी उधार लें। परिणाम रखें।",
+        "scenario": "आप एक फ़ैक्टरी किराए पर लेते हैं जो स्वयं चलती है। जो वह बनाती है वह आपका है; जो वह सीखती है वह नेटवर्क के साथ रहता है।"
       },
       "lockin:fateMatrix": {
-        "riddle": "Change the cause. Watch the effect follow.",
-        "scenario": "You set the goal. It traces the causes backward and tells you which one to touch."
+        "riddle": "कारण बदलें। प्रभाव को पीछे आते देखें।",
+        "scenario": "आप लक्ष्य तय करते हैं। यह कारणों को पीछे तक खोजता है और बताता है कि किसे छूना है।"
       },
       "b2b:u-signature": {
-        "riddle": "You are the password you never type.",
-        "scenario": "You never type a password again. The way you move is the proof, and it cannot be copied."
+        "riddle": "आप वह पासवर्ड हैं जिसे आप कभी टाइप नहीं करते।",
+        "scenario": "आप फिर कभी पासवर्ड नहीं टाइप करते। आपके चलने का ढंग ही प्रमाण है, और उसकी नकल नहीं हो सकती।"
       },
       "b2b:u-key": {
-        "riddle": "One key, cut for every lock you own.",
-        "scenario": "One key that fits every lock you issue. Rotate it, and every door follows."
+        "riddle": "एक कुंजी, आपके हर ताले के लिए ढली।",
+        "scenario": "एक कुंजी जो आपके जारी किए हर ताले में फ़िट बैठती है। इसे घुमाएँ, और हर द्वार उसका अनुसरण करता है।"
       },
       "b2b:u-pay": {
-        "riddle": "Value moves the moment you decide.",
-        "scenario": "Value moves the instant you decide, with no page in between. What you meant to pay, paid."
+        "riddle": "आपके निर्णय लेते ही मूल्य चल पड़ता है।",
+        "scenario": "आपके निर्णय लेते ही मूल्य उसी क्षण चल पड़ता है, बीच में कोई पृष्ठ नहीं। जो आप देना चाहते थे, वह दे दिया गया।"
       }
     },
     "entry": {
-      "eyebrowScenario": "Scenario",
-      "eyebrowGuide": "How It Unfolds",
-      "eyebrowNotice": "Notice",
-      "stageStandby": "Transmission · Standby",
-      "back": "Back",
+      "eyebrowScenario": "परिदृश्य",
+      "eyebrowGuide": "यह कैसे सामने आता है",
+      "eyebrowNotice": "सूचना",
+      "stageStandby": "प्रेषण · प्रतीक्षा",
+      "back": "वापस",
       "notice": {
-        "n1": "U-COIN is a prepaid utility credit that opens access. It is not an investment, a security, or a promise of any financial return.",
-        "n2": "Once the gate opens, the U-COIN spent is final and non-refundable. Access stays open for 30 minutes per entry.",
-        "n3": "Every entry is checked by U-Signature behavioural attestation and zero-trust verification. Shared sessions, automation, or tampering are refused without notice.",
-        "n4": "Entering means you accept the Terms of Service and Privacy Policy. Where local law restricts prepaid digital credits, entry may be unavailable.",
-        "legalLink": "Terms · Privacy"
+        "n1": "U-COIN एक प्रीपेड उपयोगिता क्रेडिट है जो प्रवेश खोलता है। यह निवेश, प्रतिभूति, या किसी वित्तीय लाभ का वादा नहीं है।",
+        "n2": "द्वार खुलते ही खर्च किया गया U-COIN अंतिम है और वापसी योग्य नहीं। प्रत्येक प्रवेश के साथ पहुँच 30 मिनट तक खुली रहती है।",
+        "n3": "हर प्रवेश U-Signature व्यवहार प्रमाणन और ज़ीरो-ट्रस्ट सत्यापन से जाँचा जाता है। साझा सत्र, स्वचालन, या छेड़छाड़ बिना सूचना के अस्वीकृत किए जाते हैं।",
+        "n4": "प्रवेश करने का अर्थ है सेवा की शर्तें और गोपनीयता नीति स्वीकार करना। जहाँ स्थानीय कानून प्रीपेड डिजिटल क्रेडिट को सीमित करता है, वहाँ प्रवेश उपलब्ध न हो सकता है।",
+        "legalLink": "शर्तें · गोपनीयता"
       },
       "guide": {
         "ecosystem": {
-          "g1": "One entry opens one engine for thirty minutes.",
-          "g2": "Ask in your own words; the engine answers in yours.",
-          "g3": "Answers you accept are kept for you in Genesis Memory."
+          "g1": "एक प्रवेश से एक इंजन तीस मिनट के लिए खुलता है।",
+          "g2": "अपने शब्दों में पूछें; इंजन आपके शब्दों में उत्तर देता है।",
+          "g3": "जो उत्तर आप स्वीकार करते हैं, वे जेनेसिस मेमोरी में आपके लिए सहेजे जाते हैं।"
         },
         "lifeos": {
-          "g1": "Founder-verified surfaces only; the gate confirms before it opens.",
-          "g2": "Your data stays yours and leaves only when you export it.",
-          "g3": "Sessions close silently after thirty minutes."
+          "g1": "केवल संस्थापक-सत्यापित सतहें; द्वार खुलने से पहले पुष्टि करता है।",
+          "g2": "आपका डेटा आपका ही रहता है और तभी जाता है जब आप उसे निर्यात करते हैं।",
+          "g3": "सत्र तीस मिनट बाद चुपचाप बंद हो जाते हैं।"
         },
         "b2c": {
-          "g1": "Enter once; the service runs for thirty minutes.",
-          "g2": "Nothing is charged twice for the same open door.",
-          "g3": "Leave and return within the window at no cost."
+          "g1": "एक बार प्रवेश करें; सेवा तीस मिनट तक चलती है।",
+          "g2": "एक ही खुले द्वार के लिए दो बार शुल्क नहीं लिया जाता।",
+          "g3": "उसी अवधि में जाकर लौटें, बिना किसी कीमत के।"
         },
         "lockin": {
-          "g1": "Activation lives on this device until you turn it off.",
-          "g2": "It works while you sleep; nothing runs without your data.",
-          "g3": "Deactivate anytime; nothing is deleted."
+          "g1": "सक्रियण इस डिवाइस पर तब तक रहता है जब तक आप इसे बंद न करें।",
+          "g2": "यह आपकी नींद में भी काम करता है; आपके डेटा के बिना कुछ नहीं चलता।",
+          "g3": "कभी भी निष्क्रिय करें; कुछ भी मिटता नहीं।"
         },
         "b2b": {
-          "g1": "Enterprise rails open to a preview surface first.",
-          "g2": "Keys, signatures and settlements are simulated until a contract is live.",
-          "g3": "Your access is logged for audit; nothing else is."
+          "g1": "एंटरप्राइज़ रेलें पहले एक पूर्वावलोकन सतह पर खुलती हैं।",
+          "g2": "कुंजियाँ, हस्ताक्षर और निपटान अनुबंध सक्रिय होने तक अनुकरणित होते हैं।",
+          "g3": "आपकी पहुँच का लेखा-परीक्षा के लिए अभिलेख रखा जाता है; और कुछ नहीं।"
         }
       }
     },
-    "enter": "Enter",
-    "signInToEnter": "Sign in to enter",
-    "guestEnter": "Create a full account to hold U-COIN and enter."
+    "enter": "प्रवेश करें",
+    "signInToEnter": "प्रवेश हेतु साइन इन करें",
+    "guestEnter": "U-COIN रखने और प्रवेश के लिए पूर्ण खाता बनाएँ।"
   }
 }

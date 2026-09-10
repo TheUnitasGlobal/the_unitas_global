@@ -1560,218 +1560,218 @@
     "clusters": {
       "cognitive": {
         "title": "认知核心",
-        "tagline": "The engines that think before you ask.",
-        "enigma": "Every answer here was waiting for its question."
+        "tagline": "在你开口之前,已先行思考的引擎。",
+        "enigma": "此处每一个答案,都在等候它的问题。"
       },
       "live": {
         "title": "实时服务",
-        "tagline": "Services that answer within the first breath.",
-        "enigma": "Some doors open the moment you look at them."
+        "tagline": "在第一息之间应答的服务。",
+        "enigma": "有些门,在你凝视的瞬间开启。"
       },
       "lockin": {
         "title": "锁定网络",
-        "tagline": "The network that remembers you back.",
-        "enigma": "What holds you here is not a lock."
+        "tagline": "记得住你的网络。",
+        "enigma": "留住你的,并非锁。"
       },
       "enterprise": {
         "title": "企业级基础设施",
-        "tagline": "Rails beneath identity, keys and value.",
-        "enigma": "Three rails. One current."
+        "tagline": "流淌于身份、密钥与价值之下的轨道。",
+        "enigma": "三条轨道,一股电流。"
       }
     },
     "openCluster": "打开{title}",
     "closeCluster": "关闭",
     "back": "返回",
-    "costLabel": "Entry",
+    "costLabel": "入场费",
     "coinUnit": "U-COIN",
-    "executing": "Opening the gate…",
-    "successTitle": "Access granted",
-    "successBody": "The gate is open for the next thirty minutes.",
-    "enterModule": "Step inside",
+    "executing": "正在开门…",
+    "successTitle": "入场已获批准",
+    "successBody": "此刻起,大门将开启三十分钟。",
+    "enterModule": "步入其中",
     "activated": "已在此设备上激活",
     "activateModule": "激活",
-    "balanceLabel": "Your balance",
-    "insufficient": "Not enough U-COIN to open this gate.",
+    "balanceLabel": "持有 U-COIN",
+    "insufficient": "U-COIN 不足,无法开启此门。",
     "chargeCoins": "充值 U-COIN",
     "shieldBlocked": "安全校验未通过，请自然操作后重试。",
-    "unlisted": "This gate opens soon.",
+    "unlisted": "此门即将开启。",
     "failed": "交易未完成，请重试。",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "即时就绪",
-    "phoneRequired": "Verify your phone to enter.",
+    "phoneRequired": "入场需验证手机。",
     "modules": {
       "ecosystem:echo": {
-        "riddle": "Ask once. Hear what your question was hiding.",
-        "scenario": "You type a single line. It comes back layered, each layer holding a part of what you meant."
+        "riddle": "只问一次。听问题所隐藏的。",
+        "scenario": "写下一行字。它层层叠叠地归来,每一层都藏着你意图的一片。"
       },
       "ecosystem:void": {
-        "riddle": "The answer is in what was never written.",
-        "scenario": "You describe what you have. It answers with what is missing, and the gap turns out to be the plan."
+        "riddle": "答案,在未曾写下之处。",
+        "scenario": "说出你拥有的。缺失的部分归来,那空隙便是计划。"
       },
       "ecosystem:mirror": {
-        "riddle": "It shows the pattern you keep looking past.",
-        "scenario": "You bring a decision you keep circling. It shows the loop from outside, then the exit."
+        "riddle": "映出你一再略过的那个模式。",
+        "scenario": "带来一个你反复徘徊的决定。它从外部映出那个循环,继而映出出口。"
       },
       "ecosystem:oracle": {
-        "riddle": "Tomorrow, weighted before it arrives.",
-        "scenario": "You name a choice with a long horizon. Futures come back weighted, not promised."
+        "riddle": "尚未到来,便已被称量的明日。",
+        "scenario": "说出一个远景的抉择。未来归来时带着重量,而非承诺。"
       },
       "ecosystem:pulse": {
-        "riddle": "The world has a heartbeat. This is where it's felt.",
-        "scenario": "You watch a market, a mood, a momentum. The screen breathes with it before the headlines do."
+        "riddle": "世界有脉搏。在此可感知。",
+        "scenario": "你注视市场、情绪与势头。屏幕先于头条与之共振呼吸。"
       },
       "ecosystem:apex": {
-        "riddle": "Run the stakes before you place them.",
-        "scenario": "You set the stakes as if they were real. The simulation spends them, so you don't have to."
+        "riddle": "下注之前,先演算一局。",
+        "scenario": "如真实一般押下赌注。模拟替你耗尽它,你便无所损失。"
       },
       "ecosystem:genesis": {
-        "riddle": "Start from nothing. Keep what survives.",
-        "scenario": "You start with one claim and no assumptions. What stands at the end is yours to build."
+        "riddle": "从无开始,只留存活下来的。",
+        "scenario": "不设前提,只以一个论断起步。最终屹立的,由你来建造。"
       },
       "ecosystem:syndicate": {
-        "riddle": "Every hidden alliance leaves a trace.",
-        "scenario": "You name the players. The hidden lines between them appear, and one of them leads to you."
+        "riddle": "每一段隐秘的联盟,都会留下痕迹。",
+        "scenario": "列出所有参与者。隐藏的连线浮现,其中一条通向你。"
       },
       "ecosystem:aura": {
-        "riddle": "The presence you project, measured.",
-        "scenario": "You show how you appear. It tells you how you are received, and what a single change would do."
+        "riddle": "你散发的气场,被度量。",
+        "scenario": "呈现你被看见的方式。它告诉你如何被接受,以及一处改变会带来什么。"
       },
       "ecosystem:paradox": {
-        "riddle": "Hold both sides until one gives way.",
-        "scenario": "You bring two truths that cannot coexist. You leave with the one that was load-bearing."
+        "riddle": "同握两端,直至一方让步。",
+        "scenario": "带来两个无法并存的真相。你带走的,是那个承重的。"
       },
       "ecosystem:chronos": {
-        "riddle": "Time, folded so you can read it.",
-        "scenario": "You lay your timeline down. It folds, and the moments that mattered line up."
+        "riddle": "被折叠得可供阅读的时间。",
+        "scenario": "铺开你的时间线。它自行折叠,重要的时刻便排成一列。"
       },
       "lifeos:life-dashboard": {
-        "riddle": "Your whole life, one silent panel.",
-        "scenario": "Everything you run, on one quiet surface. Nothing shouts; the thing that needs you glows."
+        "riddle": "你的整个人生,归于一面静默的屏。",
+        "scenario": "你所经营的一切,汇聚于一面静默之上。无一喧哗,唯需要你的那件事发光。"
       },
       "lifeos:second-brain": {
-        "riddle": "It remembers so you can forget.",
-        "scenario": "You drop a thought in without filing it. Months later it returns, exactly when it fits."
+        "riddle": "它替你记住,好让你遗忘。",
+        "scenario": "不加归档,随手放下一个念头。数月之后,恰逢其时地归来。"
       },
       "lifeos:review-agent": {
-        "riddle": "Someone reads it back to you, honestly.",
-        "scenario": "You hand over a week. It comes back as a reading of what you actually did."
+        "riddle": "有人诚实地,把它读还给你。",
+        "scenario": "交出一周。归来时,是对你真正所为的一次解读。"
       },
       "lifeos:brand-kit": {
-        "riddle": "A face that stays the same everywhere.",
-        "scenario": "You set the face once. Every place you appear inherits it without asking."
+        "riddle": "一张脸,无论何处皆不变。",
+        "scenario": "只需定一次脸。你出现的每一处,都会不问自取地承袭它。"
       },
       "lifeos:life-library": {
-        "riddle": "What you kept, finally in order.",
-        "scenario": "What you saved is finally shelved. The shelf knows what you’ll reach for next."
+        "riddle": "你留下的一切,终于各归其位。",
+        "scenario": "你保存的一切,终于上架。书架知道你下一次会伸手取哪一本。"
       },
       "b2c:arche": {
-        "riddle": "The first principle, before the first line.",
-        "scenario": "Before the plan, the principle. It finds the one line the rest must obey."
+        "riddle": "先于第一行的,第一原理。",
+        "scenario": "计划之前,先有原理。它寻出其余一切都必须遵循的那一行。"
       },
       "b2c:score": {
-        "riddle": "A number that knows more than you told it.",
-        "scenario": "You answer a few things honestly. A number appears that you'll argue with, then trust."
+        "riddle": "一个数字,知道的比你说出的更多。",
+        "scenario": "如实回答几个问题。一个数字浮现,你先与它争辩,终将信任它。"
       },
       "b2c:arena": {
-        "riddle": "Enter unarmed. Leave sharper.",
-        "scenario": "You step in with an idea. It is tested against pressure until only the strong part remains."
+        "riddle": "空手而入,锋芒而出。",
+        "scenario": "带着一个想法踏入其中。它在压力下受试,直到只剩坚固的那部分。"
       },
       "b2c:fate": {
-        "riddle": "The path is drawn. The turns are yours.",
-        "scenario": "You choose a destination. The path draws itself, and every fork shows its cost."
+        "riddle": "路已绘就。转折,由你决定。",
+        "scenario": "选定一个目的地。道路自行铺展,每一处岔口都显出代价。"
       },
       "b2c:codex22": {
-        "riddle": "Twenty-two keys. One is already turning.",
-        "scenario": "Twenty-two principles, one at a time. Each unlocks a way of seeing you didn't have yesterday."
+        "riddle": "二十二把钥匙,已有一把在转动。",
+        "scenario": "二十二条原理,逐一展开。每一条,都开启一种昨日尚不曾有的视野。"
       },
       "lockin:nexus": {
-        "riddle": "One identity. Every door recognises it.",
-        "scenario": "One identity, carried everywhere. No door asks who you are twice."
+        "riddle": "一个身份,每一扇门都能识得。",
+        "scenario": "一个身份,随处携带。没有一扇门会问你两次。"
       },
       "lockin:aegis": {
-        "riddle": "A shield that never has to be raised.",
-        "scenario": "It watches while you don’t. When something moves, you already know."
+        "riddle": "一面从不需举起的盾。",
+        "scenario": "你不曾察看之时,它在察看。有所动静,你已然知晓。"
       },
       "lockin:uTwin": {
-        "riddle": "A second you, learning while you rest.",
-        "scenario": "A twin built from your data, growing while you rest. Ask it what you would have said."
+        "riddle": "另一个你,在你休憩时学习。",
+        "scenario": "一个由你的数据造就的分身,在你休憩时成长。问它,你本会怎么说。"
       },
       "lockin:infinity": {
-        "riddle": "What was answered once never costs again.",
-        "scenario": "Every answer you've earned is kept. Ask again and it costs nothing."
+        "riddle": "曾经答过的,不再收取第二次代价。",
+        "scenario": "你所赢得的每一个答案,都被留存。再度发问,分文不取。"
       },
       "lockin:panopticon": {
-        "riddle": "The whole world, held on a single screen.",
-        "scenario": "The world's motion on one screen. You don't search; you notice."
+        "riddle": "整个世界,安放于一屏之上。",
+        "scenario": "世界的动向,尽在一屏。你无需搜寻,只需察觉。"
       },
       "lockin:oracle": {
-        "riddle": "Probability, read before the coin lands.",
-        "scenario": "You describe the moment before it happens. It returns the odds, and what shifts them."
+        "riddle": "硬币落地之前,已读出的概率。",
+        "scenario": "描述事情发生前的那一刻。归来的是概率,以及左右它的因素。"
       },
       "lockin:syndicateX": {
-        "riddle": "Borrow the factory. Keep the output.",
-        "scenario": "You rent a factory that runs itself. What it makes is yours; what it learns stays with the network."
+        "riddle": "借来工厂,留下产出。",
+        "scenario": "租一座自行运转的工厂。它造出的归你,它学到的留在网络之中。"
       },
       "lockin:fateMatrix": {
-        "riddle": "Change the cause. Watch the effect follow.",
-        "scenario": "You set the goal. It traces the causes backward and tells you which one to touch."
+        "riddle": "改变起因,结果随之而来。",
+        "scenario": "设定目标。它逆向追溯起因,告知你该触动哪一处。"
       },
       "b2b:u-signature": {
-        "riddle": "You are the password you never type.",
-        "scenario": "You never type a password again. The way you move is the proof, and it cannot be copied."
+        "riddle": "你自己,便是那从不曾键入的密码。",
+        "scenario": "从此不再键入密码。你行动的方式便是证明,无法被复制。"
       },
       "b2b:u-key": {
-        "riddle": "One key, cut for every lock you own.",
-        "scenario": "One key that fits every lock you issue. Rotate it, and every door follows."
+        "riddle": "一把钥匙,为你所有的锁量身而铸。",
+        "scenario": "一把钥匙,适配你签发的每一把锁。旋动它,每一扇门随之而动。"
       },
       "b2b:u-pay": {
-        "riddle": "Value moves the moment you decide.",
-        "scenario": "Value moves the instant you decide, with no page in between. What you meant to pay, paid."
+        "riddle": "你决定的瞬间,价值随之流动。",
+        "scenario": "你决定的瞬间,价值随即流动,中间不隔一页。你本欲支付的,如数支付。"
       }
     },
     "entry": {
-      "eyebrowScenario": "Scenario",
-      "eyebrowGuide": "How It Unfolds",
-      "eyebrowNotice": "Notice",
-      "stageStandby": "Transmission · Standby",
-      "back": "Back",
+      "eyebrowScenario": "情境",
+      "eyebrowGuide": "运作方式",
+      "eyebrowNotice": "告知",
+      "stageStandby": "传输·待命",
+      "back": "返回",
       "notice": {
-        "n1": "U-COIN is a prepaid utility credit that opens access. It is not an investment, a security, or a promise of any financial return.",
-        "n2": "Once the gate opens, the U-COIN spent is final and non-refundable. Access stays open for 30 minutes per entry.",
-        "n3": "Every entry is checked by U-Signature behavioural attestation and zero-trust verification. Shared sessions, automation, or tampering are refused without notice.",
-        "n4": "Entering means you accept the Terms of Service and Privacy Policy. Where local law restricts prepaid digital credits, entry may be unavailable.",
-        "legalLink": "Terms · Privacy"
+        "n1": "U-COIN 是开启准入的预付式实用点数,并非投资、证券,亦不承诺任何金钱回报。",
+        "n2": "大门开启之时,所耗用的 U-COIN 即告确定,不予退还。每次入场,准入维持三十分钟。",
+        "n3": "每一次入场均经由 U-Signature 行为签名与零信任验证核查。会话共享、自动化工具或篡改行为,将被拒绝,恕不另行通知。",
+        "n4": "入场即视为接受服务条款与隐私政策。若当地法律限制预付式数字点数,入场或将不可用。",
+        "legalLink": "服务条款·隐私政策"
       },
       "guide": {
         "ecosystem": {
-          "g1": "One entry opens one engine for thirty minutes.",
-          "g2": "Ask in your own words; the engine answers in yours.",
-          "g3": "Answers you accept are kept for you in Genesis Memory."
+          "g1": "入场一次,开启一台引擎,为时三十分钟。",
+          "g2": "以你自己的话发问,以你自己的话得到回答。",
+          "g3": "你所接受的答案,以你之名存于创世记忆(Genesis Memory)之中。"
         },
         "lifeos": {
-          "g1": "Founder-verified surfaces only; the gate confirms before it opens.",
-          "g2": "Your data stays yours and leaves only when you export it.",
-          "g3": "Sessions close silently after thirty minutes."
+          "g1": "唯创立者验证之界面方可开启;门,在开启前先行确认。",
+          "g2": "数据始终属于你,唯有导出之时方才离去。",
+          "g3": "会话于三十分钟后静默关闭。"
         },
         "b2c": {
-          "g1": "Enter once; the service runs for thirty minutes.",
-          "g2": "Nothing is charged twice for the same open door.",
-          "g3": "Leave and return within the window at no cost."
+          "g1": "入场一次,服务运行三十分钟。",
+          "g2": "同一扇已开之门,不作二次收费。",
+          "g3": "在时限之内离去又归来,分文不取。"
         },
         "lockin": {
-          "g1": "Activation lives on this device until you turn it off.",
-          "g2": "It works while you sleep; nothing runs without your data.",
-          "g3": "Deactivate anytime; nothing is deleted."
+          "g1": "启用状态留存于此设备,直至你将其关闭。",
+          "g2": "它在你安眠时运作;没有你的数据,便无一物运转。",
+          "g3": "随时可以停用,一切均不会被删除。"
         },
         "b2b": {
-          "g1": "Enterprise rails open to a preview surface first.",
-          "g2": "Keys, signatures and settlements are simulated until a contract is live.",
-          "g3": "Your access is logged for audit; nothing else is."
+          "g1": "企业级轨道,首先以预览界面开启。",
+          "g2": "在合约生效之前,密钥、签名与结算皆为模拟。",
+          "g3": "你的访问被记录以备审计,此外别无留存。"
         }
       }
     },
-    "enter": "Enter",
-    "signInToEnter": "Sign in to enter",
-    "guestEnter": "Create a full account to hold U-COIN and enter."
+    "enter": "入场",
+    "signInToEnter": "登录以入场",
+    "guestEnter": "请创建正式账户,以持有 U-COIN 并入场。"
   }
 }

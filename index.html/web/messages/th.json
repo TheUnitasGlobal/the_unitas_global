@@ -1560,218 +1560,218 @@
     "clusters": {
       "cognitive": {
         "title": "แกนความคิด",
-        "tagline": "The engines that think before you ask.",
-        "enigma": "Every answer here was waiting for its question."
+        "tagline": "เครื่องยนต์ที่คิดก่อนคุณจะถาม",
+        "enigma": "ทุกคำตอบที่นี่รอคอยคำถามของมันอยู่แล้ว"
       },
       "live": {
         "title": "บริการสด",
-        "tagline": "Services that answer within the first breath.",
-        "enigma": "Some doors open the moment you look at them."
+        "tagline": "บริการที่ตอบกลับในลมหายใจแรก",
+        "enigma": "บางประตูเปิดในวินาทีที่คุณมองมัน"
       },
       "lockin": {
         "title": "เครือข่ายรักษาผู้ใช้",
-        "tagline": "The network that remembers you back.",
-        "enigma": "What holds you here is not a lock."
+        "tagline": "เครือข่ายที่จดจำคุณกลับ",
+        "enigma": "สิ่งที่ยึดคุณไว้ที่นี่ไม่ใช่กุญแจล็อก"
       },
       "enterprise": {
         "title": "โครงสร้างพื้นฐานองค์กร",
-        "tagline": "Rails beneath identity, keys and value.",
-        "enigma": "Three rails. One current."
+        "tagline": "รางที่อยู่ใต้ตัวตน กุญแจ และมูลค่า",
+        "enigma": "สามราง กระแสเดียว"
       }
     },
     "openCluster": "เปิด {title}",
     "closeCluster": "ปิด",
     "back": "ย้อนกลับ",
-    "costLabel": "Entry",
+    "costLabel": "ค่าเข้า",
     "coinUnit": "U-COIN",
-    "executing": "Opening the gate…",
-    "successTitle": "Access granted",
-    "successBody": "The gate is open for the next thirty minutes.",
-    "enterModule": "Step inside",
+    "executing": "กำลังเปิดประตู…",
+    "successTitle": "ได้รับอนุญาตให้เข้า",
+    "successBody": "ประตูจะเปิดอยู่เป็นเวลาสามสิบนาทีจากนี้",
+    "enterModule": "ก้าวเข้าไป",
     "activated": "เปิดใช้งานบนอุปกรณ์นี้แล้ว",
     "activateModule": "เปิดใช้งาน",
-    "balanceLabel": "Your balance",
-    "insufficient": "Not enough U-COIN to open this gate.",
+    "balanceLabel": "ยอดคงเหลือของคุณ",
+    "insufficient": "U-COIN ไม่พอสำหรับเปิดประตูนี้",
     "chargeCoins": "เติม U-COIN",
     "shieldBlocked": "การตรวจสอบความปลอดภัยไม่ผ่าน โปรดเคลื่อนไหวตามปกติแล้วลองใหม่อีกครั้ง",
-    "unlisted": "This gate opens soon.",
+    "unlisted": "ประตูนี้จะเปิดในไม่ช้า",
     "failed": "การทำธุรกรรมไม่สำเร็จ โปรดลองอีกครั้ง",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "พร้อมใช้งานทันที",
-    "phoneRequired": "Verify your phone to enter.",
+    "phoneRequired": "ยืนยันหมายเลขโทรศัพท์เพื่อเข้า",
     "modules": {
       "ecosystem:echo": {
-        "riddle": "Ask once. Hear what your question was hiding.",
-        "scenario": "You type a single line. It comes back layered, each layer holding a part of what you meant."
+        "riddle": "ถามครั้งเดียว แล้วฟังสิ่งที่คำถามของคุณซ่อนไว้",
+        "scenario": "คุณพิมพ์เพียงบรรทัดเดียว มันย้อนกลับมาเป็นชั้นๆ แต่ละชั้นถือส่วนหนึ่งของสิ่งที่คุณหมายถึง"
       },
       "ecosystem:void": {
-        "riddle": "The answer is in what was never written.",
-        "scenario": "You describe what you have. It answers with what is missing, and the gap turns out to be the plan."
+        "riddle": "คำตอบอยู่ในสิ่งที่ไม่เคยถูกเขียน",
+        "scenario": "คุณอธิบายสิ่งที่คุณมี มันตอบด้วยสิ่งที่ขาดไป และช่องว่างนั้นกลายเป็นแผนการ"
       },
       "ecosystem:mirror": {
-        "riddle": "It shows the pattern you keep looking past.",
-        "scenario": "You bring a decision you keep circling. It shows the loop from outside, then the exit."
+        "riddle": "มันแสดงรูปแบบที่คุณมองข้ามอยู่เสมอ",
+        "scenario": "คุณนำการตัดสินใจที่คุณวนเวียนอยู่มา มันแสดงวงวนนั้นจากภายนอก แล้วจึงแสดงทางออก"
       },
       "ecosystem:oracle": {
-        "riddle": "Tomorrow, weighted before it arrives.",
-        "scenario": "You name a choice with a long horizon. Futures come back weighted, not promised."
+        "riddle": "วันพรุ่งนี้ถูกชั่งน้ำหนักก่อนจะมาถึง",
+        "scenario": "คุณตั้งชื่อทางเลือกที่มีขอบฟ้ายาวไกล อนาคตย้อนกลับมาพร้อมน้ำหนัก ไม่ใช่คำสัญญา"
       },
       "ecosystem:pulse": {
-        "riddle": "The world has a heartbeat. This is where it's felt.",
-        "scenario": "You watch a market, a mood, a momentum. The screen breathes with it before the headlines do."
+        "riddle": "โลกมีจังหวะหัวใจ ที่นี่คือที่ที่สัมผัสมันได้",
+        "scenario": "คุณเฝ้าดูตลาด อารมณ์ และแรงส่ง หน้าจอหายใจไปพร้อมมันก่อนที่พาดหัวข่าวจะทำ"
       },
       "ecosystem:apex": {
-        "riddle": "Run the stakes before you place them.",
-        "scenario": "You set the stakes as if they were real. The simulation spends them, so you don't have to."
+        "riddle": "ทดลองเดิมพันก่อนที่คุณจะวางมันจริง",
+        "scenario": "คุณตั้งเดิมพันราวกับว่ามันเป็นของจริง การจำลองใช้มันแทนคุณ"
       },
       "ecosystem:genesis": {
-        "riddle": "Start from nothing. Keep what survives.",
-        "scenario": "You start with one claim and no assumptions. What stands at the end is yours to build."
+        "riddle": "เริ่มจากความว่างเปล่า เก็บไว้เฉพาะสิ่งที่รอดมาได้",
+        "scenario": "คุณเริ่มด้วยข้ออ้างเดียวโดยไม่มีสมมติฐาน สิ่งที่ยืนหยัดอยู่ในตอนท้ายคือสิ่งที่คุณจะสร้างต่อ"
       },
       "ecosystem:syndicate": {
-        "riddle": "Every hidden alliance leaves a trace.",
-        "scenario": "You name the players. The hidden lines between them appear, and one of them leads to you."
+        "riddle": "พันธมิตรที่ซ่อนอยู่ทุกฝ่ายทิ้งร่องรอยไว้เสมอ",
+        "scenario": "คุณระบุชื่อผู้เล่น เส้นสายที่ซ่อนอยู่ระหว่างพวกเขาจะปรากฏขึ้น และเส้นหนึ่งนำมาถึงคุณ"
       },
       "ecosystem:aura": {
-        "riddle": "The presence you project, measured.",
-        "scenario": "You show how you appear. It tells you how you are received, and what a single change would do."
+        "riddle": "การประทับตัวตนที่คุณเปล่งออกมา ถูกวัดค่า",
+        "scenario": "คุณแสดงว่าคุณปรากฏตัวอย่างไร มันบอกคุณว่าคุณถูกรับรู้อย่างไร และการเปลี่ยนแปลงเพียงหนึ่งเดียวจะส่งผลอย่างไร"
       },
       "ecosystem:paradox": {
-        "riddle": "Hold both sides until one gives way.",
-        "scenario": "You bring two truths that cannot coexist. You leave with the one that was load-bearing."
+        "riddle": "ยึดทั้งสองด้านไว้จนกว่าด้านหนึ่งจะพ่ายแพ้",
+        "scenario": "คุณนำความจริงสองอย่างที่อยู่ร่วมกันไม่ได้มา คุณจากไปพร้อมกับความจริงที่แบกรับน้ำหนักไว้"
       },
       "ecosystem:chronos": {
-        "riddle": "Time, folded so you can read it.",
-        "scenario": "You lay your timeline down. It folds, and the moments that mattered line up."
+        "riddle": "เวลาถูกพับไว้ให้คุณอ่านได้",
+        "scenario": "คุณวางเส้นเวลาของคุณลง มันพับตัวเอง และช่วงเวลาสำคัญเรียงตัวกัน"
       },
       "lifeos:life-dashboard": {
-        "riddle": "Your whole life, one silent panel.",
-        "scenario": "Everything you run, on one quiet surface. Nothing shouts; the thing that needs you glows."
+        "riddle": "ชีวิตทั้งหมดของคุณ บนแผงเดียวที่เงียบงัน",
+        "scenario": "ทุกสิ่งที่คุณดูแลอยู่บนพื้นผิวเดียวที่สงบ ไม่มีสิ่งใดตะโกน สิ่งที่ต้องการคุณเท่านั้นที่เปล่งแสง"
       },
       "lifeos:second-brain": {
-        "riddle": "It remembers so you can forget.",
-        "scenario": "You drop a thought in without filing it. Months later it returns, exactly when it fits."
+        "riddle": "มันจดจำแทนเพื่อให้คุณลืมได้",
+        "scenario": "คุณทิ้งความคิดไว้โดยไม่ต้องจัดเก็บ หลายเดือนต่อมามันย้อนกลับมาในจังหวะที่พอดี"
       },
       "lifeos:review-agent": {
-        "riddle": "Someone reads it back to you, honestly.",
-        "scenario": "You hand over a week. It comes back as a reading of what you actually did."
+        "riddle": "มีใครบางคนอ่านมันย้อนกลับให้คุณฟังอย่างตรงไปตรงมา",
+        "scenario": "คุณส่งมอบหนึ่งสัปดาห์ มันย้อนกลับมาเป็นบทอ่านของสิ่งที่คุณทำจริง"
       },
       "lifeos:brand-kit": {
-        "riddle": "A face that stays the same everywhere.",
-        "scenario": "You set the face once. Every place you appear inherits it without asking."
+        "riddle": "ใบหน้าที่คงเดิมทุกที่",
+        "scenario": "คุณกำหนดใบหน้าเพียงครั้งเดียว ทุกที่ที่คุณปรากฏตัวรับช่วงต่อโดยไม่ต้องถาม"
       },
       "lifeos:life-library": {
-        "riddle": "What you kept, finally in order.",
-        "scenario": "What you saved is finally shelved. The shelf knows what you’ll reach for next."
+        "riddle": "สิ่งที่คุณเก็บไว้ ในที่สุดก็เป็นระเบียบ",
+        "scenario": "สิ่งที่คุณบันทึกไว้ในที่สุดก็ถูกจัดวางบนชั้น ชั้นวางรู้ว่าคุณจะหยิบสิ่งใดต่อไป"
       },
       "b2c:arche": {
-        "riddle": "The first principle, before the first line.",
-        "scenario": "Before the plan, the principle. It finds the one line the rest must obey."
+        "riddle": "หลักการแรก ก่อนบรรทัดแรก",
+        "scenario": "ก่อนแผนการ คือหลักการ มันค้นหาบรรทัดเดียวที่ทุกอย่างต้องปฏิบัติตาม"
       },
       "b2c:score": {
-        "riddle": "A number that knows more than you told it.",
-        "scenario": "You answer a few things honestly. A number appears that you'll argue with, then trust."
+        "riddle": "ตัวเลขที่รู้มากกว่าที่คุณบอกมัน",
+        "scenario": "คุณตอบไม่กี่ข้ออย่างตรงไปตรงมา ตัวเลขหนึ่งปรากฏขึ้น ซึ่งคุณจะโต้แย้งก่อนจะเชื่อมัน"
       },
       "b2c:arena": {
-        "riddle": "Enter unarmed. Leave sharper.",
-        "scenario": "You step in with an idea. It is tested against pressure until only the strong part remains."
+        "riddle": "เข้ามาโดยไม่มีอาวุธ ออกไปอย่างคมกว่าเดิม",
+        "scenario": "คุณก้าวเข้ามาพร้อมความคิดหนึ่ง มันถูกทดสอบภายใต้แรงกดดันจนเหลือเพียงส่วนที่แข็งแกร่ง"
       },
       "b2c:fate": {
-        "riddle": "The path is drawn. The turns are yours.",
-        "scenario": "You choose a destination. The path draws itself, and every fork shows its cost."
+        "riddle": "เส้นทางถูกวาดไว้แล้ว ทางแยกเป็นของคุณ",
+        "scenario": "คุณเลือกจุดหมายปลายทาง เส้นทางวาดตัวมันเอง และทุกทางแยกแสดงราคาของมัน"
       },
       "b2c:codex22": {
-        "riddle": "Twenty-two keys. One is already turning.",
-        "scenario": "Twenty-two principles, one at a time. Each unlocks a way of seeing you didn't have yesterday."
+        "riddle": "กุญแจยี่สิบสองดอก หนึ่งในนั้นกำลังหมุนอยู่แล้ว",
+        "scenario": "หลักการยี่สิบสองข้อ ทีละข้อ แต่ละข้อปลดล็อกมุมมองที่คุณไม่เคยมีเมื่อวานนี้"
       },
       "lockin:nexus": {
-        "riddle": "One identity. Every door recognises it.",
-        "scenario": "One identity, carried everywhere. No door asks who you are twice."
+        "riddle": "ตัวตนเดียว ทุกประตูจดจำมันได้",
+        "scenario": "ตัวตนเดียวที่พกพาไปทุกที่ ไม่มีประตูใดถามว่าคุณเป็นใครซ้ำสอง"
       },
       "lockin:aegis": {
-        "riddle": "A shield that never has to be raised.",
-        "scenario": "It watches while you don’t. When something moves, you already know."
+        "riddle": "โล่ที่ไม่จำเป็นต้องยกขึ้นเลย",
+        "scenario": "มันเฝ้าดูในขณะที่คุณไม่ได้ทำ เมื่อบางสิ่งขยับ คุณก็รู้แล้ว"
       },
       "lockin:uTwin": {
-        "riddle": "A second you, learning while you rest.",
-        "scenario": "A twin built from your data, growing while you rest. Ask it what you would have said."
+        "riddle": "ตัวคุณคนที่สอง ที่เรียนรู้ในขณะคุณพักผ่อน",
+        "scenario": "ฝาแฝดที่สร้างจากข้อมูลของคุณ เติบโตในขณะคุณพักผ่อน ถามมันว่าคุณจะพูดอะไร"
       },
       "lockin:infinity": {
-        "riddle": "What was answered once never costs again.",
-        "scenario": "Every answer you've earned is kept. Ask again and it costs nothing."
+        "riddle": "สิ่งที่ถูกตอบไปแล้วครั้งหนึ่งจะไม่มีค่าใช้จ่ายอีก",
+        "scenario": "ทุกคำตอบที่คุณได้มาแล้วจะถูกเก็บไว้ ถามอีกครั้งโดยไม่มีค่าใช้จ่าย"
       },
       "lockin:panopticon": {
-        "riddle": "The whole world, held on a single screen.",
-        "scenario": "The world's motion on one screen. You don't search; you notice."
+        "riddle": "โลกทั้งใบ อยู่บนหน้าจอเดียว",
+        "scenario": "การเคลื่อนไหวของโลกบนหน้าจอเดียว คุณไม่ต้องค้นหา แค่สังเกตเห็น"
       },
       "lockin:oracle": {
-        "riddle": "Probability, read before the coin lands.",
-        "scenario": "You describe the moment before it happens. It returns the odds, and what shifts them."
+        "riddle": "ความน่าจะเป็นที่ถูกอ่านก่อนเหรียญจะตกถึงพื้น",
+        "scenario": "คุณบรรยายช่วงเวลาก่อนที่มันจะเกิดขึ้น มันคืนโอกาสกลับมา พร้อมสิ่งที่จะเปลี่ยนแปลงมัน"
       },
       "lockin:syndicateX": {
-        "riddle": "Borrow the factory. Keep the output.",
-        "scenario": "You rent a factory that runs itself. What it makes is yours; what it learns stays with the network."
+        "riddle": "ยืมโรงงาน เก็บผลผลิตไว้",
+        "scenario": "คุณเช่าโรงงานที่ทำงานด้วยตัวเอง สิ่งที่มันผลิตเป็นของคุณ สิ่งที่มันเรียนรู้อยู่กับเครือข่าย"
       },
       "lockin:fateMatrix": {
-        "riddle": "Change the cause. Watch the effect follow.",
-        "scenario": "You set the goal. It traces the causes backward and tells you which one to touch."
+        "riddle": "เปลี่ยนสาเหตุ แล้วดูผลลัพธ์ตามมา",
+        "scenario": "คุณตั้งเป้าหมาย มันสืบสาเหตุย้อนกลับและบอกคุณว่าควรแตะจุดใด"
       },
       "b2b:u-signature": {
-        "riddle": "You are the password you never type.",
-        "scenario": "You never type a password again. The way you move is the proof, and it cannot be copied."
+        "riddle": "คุณคือรหัสผ่านที่ไม่เคยต้องพิมพ์",
+        "scenario": "คุณไม่ต้องพิมพ์รหัสผ่านอีกเลย วิธีที่คุณเคลื่อนไหวคือหลักฐาน และไม่มีใครลอกเลียนแบบได้"
       },
       "b2b:u-key": {
-        "riddle": "One key, cut for every lock you own.",
-        "scenario": "One key that fits every lock you issue. Rotate it, and every door follows."
+        "riddle": "กุญแจดอกเดียว ตัดมาเพื่อล็อกทุกดอกที่คุณมี",
+        "scenario": "กุญแจดอกเดียวที่พอดีกับทุกล็อกที่คุณออกให้ หมุนมันแล้วทุกประตูจะตามมา"
       },
       "b2b:u-pay": {
-        "riddle": "Value moves the moment you decide.",
-        "scenario": "Value moves the instant you decide, with no page in between. What you meant to pay, paid."
+        "riddle": "มูลค่าเคลื่อนไหวในวินาทีที่คุณตัดสินใจ",
+        "scenario": "มูลค่าเคลื่อนไหวทันทีที่คุณตัดสินใจ โดยไม่มีหน้าใดคั่นกลาง สิ่งที่คุณตั้งใจจะจ่าย ก็ถูกจ่ายไปแล้ว"
       }
     },
     "entry": {
-      "eyebrowScenario": "Scenario",
-      "eyebrowGuide": "How It Unfolds",
-      "eyebrowNotice": "Notice",
-      "stageStandby": "Transmission · Standby",
-      "back": "Back",
+      "eyebrowScenario": "สถานการณ์",
+      "eyebrowGuide": "วิธีการดำเนินไป",
+      "eyebrowNotice": "ประกาศ",
+      "stageStandby": "การส่งสัญญาณ · รอสถานะ",
+      "back": "ย้อนกลับ",
       "notice": {
-        "n1": "U-COIN is a prepaid utility credit that opens access. It is not an investment, a security, or a promise of any financial return.",
-        "n2": "Once the gate opens, the U-COIN spent is final and non-refundable. Access stays open for 30 minutes per entry.",
-        "n3": "Every entry is checked by U-Signature behavioural attestation and zero-trust verification. Shared sessions, automation, or tampering are refused without notice.",
-        "n4": "Entering means you accept the Terms of Service and Privacy Policy. Where local law restricts prepaid digital credits, entry may be unavailable.",
-        "legalLink": "Terms · Privacy"
+        "n1": "U-COIN คือเครดิตอเนกประสงค์แบบชำระล่วงหน้าที่ใช้เปิดสิทธิ์การเข้าถึง ไม่ใช่การลงทุน หลักทรัพย์ หรือคำมั่นสัญญาผลตอบแทนทางการเงินใดๆ",
+        "n2": "เมื่อประตูเปิดแล้ว U-COIN ที่ใช้ไปถือเป็นที่สิ้นสุดและไม่สามารถขอคืนได้ สิทธิ์การเข้าถึงจะเปิดอยู่ 30 นาทีต่อการเข้าหนึ่งครั้ง",
+        "n3": "ทุกการเข้าจะถูกตรวจสอบด้วยการรับรองพฤติกรรม U-Signature และการยืนยันแบบ zero-trust เซสชันที่ใช้ร่วมกัน การใช้ระบบอัตโนมัติ หรือการแทรกแซงจะถูกปฏิเสธโดยไม่แจ้งล่วงหน้า",
+        "n4": "การเข้าถือว่าคุณยอมรับข้อกำหนดการให้บริการและนโยบายความเป็นส่วนตัว ในพื้นที่ที่กฎหมายท้องถิ่นจำกัดเครดิตดิจิทัลแบบชำระล่วงหน้า การเข้าอาจไม่สามารถทำได้",
+        "legalLink": "ข้อกำหนด · ความเป็นส่วนตัว"
       },
       "guide": {
         "ecosystem": {
-          "g1": "One entry opens one engine for thirty minutes.",
-          "g2": "Ask in your own words; the engine answers in yours.",
-          "g3": "Answers you accept are kept for you in Genesis Memory."
+          "g1": "การเข้าหนึ่งครั้งเปิดเครื่องยนต์หนึ่งตัวเป็นเวลาสามสิบนาที",
+          "g2": "ถามด้วยคำพูดของคุณเอง เครื่องยนต์จะตอบด้วยคำพูดของคุณเช่นกัน",
+          "g3": "คำตอบที่คุณยอมรับจะถูกเก็บไว้ให้คุณใน Genesis Memory"
         },
         "lifeos": {
-          "g1": "Founder-verified surfaces only; the gate confirms before it opens.",
-          "g2": "Your data stays yours and leaves only when you export it.",
-          "g3": "Sessions close silently after thirty minutes."
+          "g1": "เฉพาะพื้นที่ที่ผ่านการยืนยันจากผู้ก่อตั้งเท่านั้น ประตูจะยืนยันก่อนเปิด",
+          "g2": "ข้อมูลของคุณยังคงเป็นของคุณ และจะออกไปก็ต่อเมื่อคุณส่งออกเท่านั้น",
+          "g3": "เซสชันจะปิดลงอย่างเงียบๆ หลังจากสามสิบนาที"
         },
         "b2c": {
-          "g1": "Enter once; the service runs for thirty minutes.",
-          "g2": "Nothing is charged twice for the same open door.",
-          "g3": "Leave and return within the window at no cost."
+          "g1": "เข้าเพียงครั้งเดียว บริการจะทำงานเป็นเวลาสามสิบนาที",
+          "g2": "จะไม่มีการเรียกเก็บซ้ำสำหรับประตูบานเดียวกันที่เปิดอยู่",
+          "g3": "ออกไปแล้วกลับมาภายในช่วงเวลานั้นได้โดยไม่มีค่าใช้จ่าย"
         },
         "lockin": {
-          "g1": "Activation lives on this device until you turn it off.",
-          "g2": "It works while you sleep; nothing runs without your data.",
-          "g3": "Deactivate anytime; nothing is deleted."
+          "g1": "การเปิดใช้งานจะอยู่บนอุปกรณ์นี้จนกว่าคุณจะปิดมัน",
+          "g2": "มันทำงานในขณะที่คุณหลับ ไม่มีสิ่งใดทำงานได้หากไม่มีข้อมูลของคุณ",
+          "g3": "ปิดใช้งานได้ทุกเมื่อ ไม่มีสิ่งใดถูกลบ"
         },
         "b2b": {
-          "g1": "Enterprise rails open to a preview surface first.",
-          "g2": "Keys, signatures and settlements are simulated until a contract is live.",
-          "g3": "Your access is logged for audit; nothing else is."
+          "g1": "รางระดับองค์กรจะเปิดสู่พื้นผิวตัวอย่างก่อนเป็นอันดับแรก",
+          "g2": "กุญแจ ลายเซ็น และการชำระบัญชีจะถูกจำลองไว้จนกว่าสัญญาจะมีผลบังคับใช้",
+          "g3": "การเข้าถึงของคุณถูกบันทึกไว้เพื่อการตรวจสอบเท่านั้น ไม่มีสิ่งอื่นใดถูกบันทึก"
         }
       }
     },
-    "enter": "Enter",
-    "signInToEnter": "Sign in to enter",
-    "guestEnter": "Create a full account to hold U-COIN and enter."
+    "enter": "เข้า",
+    "signInToEnter": "เข้าสู่ระบบเพื่อเข้า",
+    "guestEnter": "สร้างบัญชีแบบเต็มรูปแบบเพื่อถือครอง U-COIN และเข้าได้"
   }
 }

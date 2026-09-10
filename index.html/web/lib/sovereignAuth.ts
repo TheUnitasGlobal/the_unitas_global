@@ -25,10 +25,13 @@
 export const SOVEREIGN_AUTH_PARAM = 'sovereign_auth';
 
 /**
- * Default founder token (owner-specified). SOVEREIGN_AUTH_TOKEN in the
- * environment overrides it without a code change; rotating either value
- * invalidates every outstanding session (the signing secret derives from it
- * unless SOVEREIGN_AUTH_SIGNING_SECRET is set explicitly).
+ * Local-development-only fallback token (REV-18 security hardening, owner
+ * instruction 2026-09-10). This string is already public -- it has been
+ * committed to git history -- so it must never be trusted in production;
+ * `resolveSovereignToken` only returns it outside `VERCEL_ENV === 'production'`.
+ * In production, SOVEREIGN_AUTH_TOKEN (and, for the signing secret,
+ * SOVEREIGN_AUTH_SIGNING_SECRET) must come from the environment or the
+ * sovereign bypass fails closed entirely (see resolveSovereignToken below).
  */
 export const SOVEREIGN_AUTH_TOKEN_DEFAULT = 'unitas_master_dooyeong_2026_secure_key';
 
@@ -47,15 +50,28 @@ export type SovereignParamVerdict = 'grant' | 'revoke' | 'reject' | 'none';
 
 type EnvLike = Record<string, string | undefined>;
 
-export function resolveSovereignToken(env: EnvLike = process.env): string {
+/**
+ * Production fail-closed gate (REV-18, mirrors
+ * lib/security/uShieldServer.ts's resolveUShieldSecret): with
+ * SOVEREIGN_AUTH_TOKEN unset, production gets `null` -- never the
+ * already-public dev default -- so the sovereign bypass is fully disabled
+ * rather than silently running on a leaked secret. Every environment other
+ * than production (local dev, preview, tests) keeps the dev-default
+ * fallback so the founder flow keeps working without extra setup there.
+ */
+export function resolveSovereignToken(env: EnvLike = process.env): string | null {
   const fromEnv = env.SOVEREIGN_AUTH_TOKEN?.trim();
-  return fromEnv && fromEnv.length > 0 ? fromEnv : SOVEREIGN_AUTH_TOKEN_DEFAULT;
+  if (fromEnv && fromEnv.length > 0) return fromEnv;
+  if (env.VERCEL_ENV === 'production') return null;
+  return SOVEREIGN_AUTH_TOKEN_DEFAULT;
 }
 
-export function resolveSovereignSigningSecret(env: EnvLike = process.env): string {
+export function resolveSovereignSigningSecret(env: EnvLike = process.env): string | null {
   const explicit = env.SOVEREIGN_AUTH_SIGNING_SECRET?.trim();
   if (explicit && explicit.length > 0) return explicit;
-  return `${resolveSovereignToken(env)}::unitas-sovereign-hmac-${SESSION_VERSION}`;
+  const token = resolveSovereignToken(env);
+  if (!token) return null;
+  return `${token}::unitas-sovereign-hmac-${SESSION_VERSION}`;
 }
 
 /** Constant-time string comparison (no early exit on the first mismatch). */
@@ -71,8 +87,15 @@ export function timingSafeEqualString(a: string, b: string): boolean {
   return diff === 0;
 }
 
-/** What a `?sovereign_auth=` value asks for. Fail-closed on anything odd. */
-export function evaluateSovereignParam(search: string, token: string): SovereignParamVerdict {
+/**
+ * What a `?sovereign_auth=` value asks for. Fail-closed on anything odd --
+ * including a `null` token, which `resolveSovereignToken` returns in
+ * production when SOVEREIGN_AUTH_TOKEN is unset: no candidate value can ever
+ * compare equal to "no token", so `grant` is unreachable and the bypass is
+ * fully disabled. `revoke` still works with a null token (clearing a cookie
+ * is harmless even when the bypass itself is disabled).
+ */
+export function evaluateSovereignParam(search: string, token: string | null): SovereignParamVerdict {
   let params: URLSearchParams;
   try {
     params = new URLSearchParams(search || '');
@@ -84,6 +107,7 @@ export function evaluateSovereignParam(search: string, token: string): Sovereign
   const value = raw.trim();
   if (REVOKE_VALUES.has(value.toLowerCase())) return 'revoke';
   if (value.length === 0) return 'reject';
+  if (!token) return 'reject';
   return timingSafeEqualString(value, token) ? 'grant' : 'reject';
 }
 
@@ -127,12 +151,18 @@ export interface SovereignSessionCheck {
   expiresAt: number | null;
 }
 
-/** Verifies a session cookie value: shape, signature (constant-time), expiry. */
+/**
+ * Verifies a session cookie value: shape, signature (constant-time), expiry.
+ * A `null` secret (production, sovereign bypass disabled -- see
+ * resolveSovereignSigningSecret) always fails closed: no cookie, however it
+ * was minted, can verify against "no secret".
+ */
 export async function verifySovereignSession(
   value: string | null | undefined,
-  secret: string,
+  secret: string | null,
   nowSec: number = Date.now() / 1000,
 ): Promise<SovereignSessionCheck> {
+  if (!secret) return { ok: false, expiresAt: null };
   if (!value || typeof value !== 'string') return { ok: false, expiresAt: null };
   const parts = value.split('.');
   if (parts.length !== 3 || parts[0] !== SESSION_VERSION) return { ok: false, expiresAt: null };
