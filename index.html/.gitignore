@@ -11,3 +11,5 @@ test-results/
 .vercel
 .env*
 .aider*
+skill-observations/
+.claude/.headroom_wrap_marker.json

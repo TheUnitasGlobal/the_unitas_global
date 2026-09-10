@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "scope": "workspace-local",
   "sources": {
     "claude-mem": {
@@ -39,7 +39,13 @@
       "note": "Minimal-code coding-agent skill/ruleset (MIT) -- a 7-step decision ladder biasing Claude Code/etc. toward stdlib/native/existing-dependency solutions over new code. Verified 2026-09-08 via web research: NOT a pipeline-automation tool, correcting this repo's earlier internal naming. Confirm the exact install subcommand in the package's own README before first run -- not executed automatically here, same convention as claude-mem's official install flow above."
     }
   },
-  "revenueModules": ["Arche", "Arena", "Score", "Fate", "Codex22"],
+  "revenueModules": [
+    "Arche",
+    "Arena",
+    "Score",
+    "Fate",
+    "Codex22"
+  ],
   "checkoutContract": {
     "productionFunction": "create-coin-checkout-session",
     "requestField": "bundle",
@@ -48,5 +54,119 @@
     "clientMaySendAmount": false,
     "deprecatedFunction": "create-checkout-session",
     "deprecatedNote": "Rev 0 coin-core: module access is gated by spend_coins balance debit, not subscriptions. create-checkout-session is retained live/dormant, not the active contract."
+  },
+  "toolchain": {
+    "installedOn": "2026-09-10",
+    "installer": "scripts/setup-toolchain.ps1",
+    "doc": "docs/toolchain/README.md",
+    "principle": "user-scope skills + per-process launchers; no ~/.claude/settings.json, CLAUDE.md, .mcp.json or global routing changes",
+    "tools": {
+      "headroom": {
+        "package": "headroom-ai[proxy]",
+        "version": "0.37.0",
+        "manager": "pip",
+        "repository": "https://github.com/headroomlabs-ai/headroom",
+        "license": "Apache-2.0",
+        "role": "context compression proxy 127.0.0.1:8787",
+        "launcher": "scripts/agent/claude-headroom.ps1",
+        "verify": "headroom doctor; GET /health"
+      },
+      "task-observer": {
+        "repository": "https://github.com/rebelytics/one-skill-to-rule-them-all",
+        "license": "CC-BY-4.0",
+        "manager": "npx skills add --copy -g",
+        "path": "~/.claude/skills/task-observer",
+        "role": "meta-skill: logs workflow observations to skill-observations/ (NOT a token monitor)",
+        "note": "not force-activated per session (token diet + codex immutability); invoke /task-observer manually"
+      },
+      "omniroute": {
+        "package": "omniroute",
+        "version": "3.8.50",
+        "manager": "npm -g",
+        "repository": "https://github.com/diegosouzapw/OmniRoute",
+        "license": "MIT",
+        "role": "multi-provider gateway 127.0.0.1:20128 (Anthropic + OpenAI compatible, combos)",
+        "dataDir": "~/.omniroute",
+        "launcher": "scripts/agent/omniroute-gateway.ps1 -> scripts/agent/claude-omniroute.ps1",
+        "verify": "GET /api/monitoring/health (measured cold start 195s)",
+        "allowScripts": "omniroute,keytar,onnxruntime-node,tls-client-node,sharp,@parcel/watcher,@swc/core,protobufjs,koffi,esbuild"
+      },
+      "ollama": {
+        "package": "Ollama.Ollama",
+        "version": "0.34.0",
+        "manager": "winget",
+        "repository": "https://github.com/ollama/ollama",
+        "license": "MIT",
+        "role": "local model server 127.0.0.1:11434 with Anthropic Messages API",
+        "model": "qwen3:4b (Q4_K_M 2.5 GB; laptop ceiling 4B)",
+        "userEnv": {
+          "OLLAMA_CONTEXT_LENGTH": "32768",
+          "OLLAMA_MAX_LOADED_MODELS": "1",
+          "OLLAMA_NUM_PARALLEL": "1",
+          "OLLAMA_FLASH_ATTENTION": "1",
+          "OLLAMA_KV_CACHE_TYPE": "q8_0",
+          "OLLAMA_KEEP_ALIVE": "5m"
+        },
+        "launcher": "scripts/agent/claude-local.ps1",
+        "verify": "GET /api/version; POST /v1/messages smoke test passed 2026-09-10"
+      },
+      "agent-reach": {
+        "version": "v1.5.0",
+        "manager": "uv tool install (pinned tag zip)",
+        "repository": "https://github.com/Panniantong/agent-reach",
+        "license": "MIT",
+        "path": "~/.local/bin/agent-reach.exe + ~/.claude/skills/agent-reach",
+        "role": "internet reach layer (13 channels; 4 zero-config active)",
+        "verify": "agent-reach doctor --json"
+      },
+      "find-skills": {
+        "repository": "https://github.com/vercel-labs/skills",
+        "manager": "npx skills add --copy -g",
+        "path": "~/.claude/skills/find-skills"
+      },
+      "agent-browser": {
+        "package": "agent-browser",
+        "version": "0.37.1",
+        "manager": "npm -g + agent-browser install (Chrome 153)",
+        "repository": "https://github.com/vercel-labs/agent-browser",
+        "license": "Apache-2.0",
+        "path": "~/.claude/skills/agent-browser",
+        "verify": "agent-browser doctor --json"
+      },
+      "systematic-debugging": {
+        "repository": "https://github.com/obra/superpowers",
+        "manager": "npx skills add --copy -g",
+        "path": "~/.claude/skills/systematic-debugging",
+        "note": "supersedes the stale .agents/skills/superpowers-systematic-debugging copy (never loaded)"
+      },
+      "skill-creator": {
+        "repository": "https://github.com/anthropics/skills",
+        "manager": "npx skills add --copy -g",
+        "path": "~/.claude/skills/skill-creator",
+        "note": "eval loop (run_eval.py) needs WSL; validate/package work natively"
+      },
+      "ui-ux-pro-max": {
+        "package": "ui-ux-pro-max-cli",
+        "version": "2.15.0",
+        "manager": "npx ... init --ai claude --global",
+        "repository": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+        "license": "MIT",
+        "path": "~/.claude/skills/{ui-ux-pro-max,banner-design,brand,design,design-system,slides,ui-styling}",
+        "rule": "UX/motion/chart guidance only - palette/typography stay UNITAS canonical (tailwind.config.ts, quantum-white*.css, unitas-component skill)"
+      },
+      "21st-dev": {
+        "transport": "http",
+        "url": "https://21st.dev/api/mcp",
+        "auth": "x-api-key (API_KEY_21ST, never committed)",
+        "manager": "scripts/agent/setup-21st.ps1 (fail-closed without key)",
+        "registry": "npx shadcn@latest add \"https://21st.dev/r/<author>/<slug>\" via web/components.json + web/lib/utils.ts (cssVariables:false)",
+        "status": "not registered until key provided"
+      },
+      "auxiliary": {
+        "mcporter": "0.13.10 (npm -g, openclaw/mcporter, Exa search backend for agent-reach)",
+        "yt-dlp": "2026.8.19 (uv tool)",
+        "gh": "GitHub.cli (winget) - run gh auth login"
+      }
+    }
   }
 }

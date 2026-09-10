@@ -45,6 +45,9 @@ next-env.d.ts
 .agents/
 graphify-out/
 .aider*
+# task-observer skill observation log (runtime, per machine) + Headroom wrap sidecar
+skill-observations/
+.claude/.headroom_wrap_marker.json
 
 # ── 테스트 / 커버리지 산출물 ─────────────────────────────────────────
 test-results/

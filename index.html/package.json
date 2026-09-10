@@ -11,7 +11,8 @@
     "setup:agents": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-agents.ps1",
     "mock:checkout": "node scripts/mock-checkout-server.mjs",
     "validate:stripe": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stripe.ps1",
-    "deploy:supabase": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-supabase.ps1"
+    "deploy:supabase": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-supabase.ps1",
+    "setup:toolchain": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-toolchain.ps1"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",

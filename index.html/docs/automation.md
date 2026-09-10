@@ -66,6 +66,17 @@ npm run check:ai
 
 The values are referenced through secret placeholders and are never committed. Roo Code uses `.roo/rules/unitas.md` for the same project constraints. VS Code tasks expose build, test, release, agent review, and provider checks from one command palette.
 
+## Sovereign agent toolchain (2026-09-10)
+
+Twelve tools (Headroom, task-observer, OmniRoute, Ollama + qwen3:4b, Agent-Reach, find-skills, agent-browser, systematic-debugging, skill-creator, UI/UX Pro Max, 21st.dev, mcporter/yt-dlp/gh) are installed at user scope with version pins recorded in `config/agent-toolkit.json` (`toolchain` block). Reinstall or audit with:
+
+```powershell
+npm run setup:toolchain                        # status board
+npm run setup:toolchain -- -Install -PullModel # full install on a new machine
+```
+
+Model routing is opt-in per process through `scripts/agent/*.ps1` (Headroom proxy, local Ollama, OmniRoute); nothing edits `~/.claude/settings.json`, `CLAUDE.md`, or `.mcp.json`. Full matrix, measured limits (7.6 GB laptop, 4B model ceiling), and founder follow-ups: `docs/toolchain/README.md`.
+
 ## Local agent toolkit
 
 The checked-in manifest is `config/agent-toolkit.json`. Local source checkouts are kept outside the tracked application in `.agent-tools/`; project skills are generated under `.agents/skills/`.
