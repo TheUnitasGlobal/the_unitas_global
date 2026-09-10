@@ -1,32 +1,22 @@
 const { test, expect } = require('@playwright/test');
 
-// REV-15 cluster pop-out regression guard (SPEC.md §4, §6-4): permanent
-// proof that the four Singularity Core cluster pop-outs (Cognitive Core /
-// Live Services / Lock-in Network / Enterprise Rails, 16+5+8+3 = 32
-// modules total) render every module tile with a real icon, a non-empty
-// description, and no content spilling out of the tile -- the three field
-// defects this file guards against were:
-//
-//   1. Mobile grid collapse: `.qw-popout-body`'s `items-start` gave the
-//      tile grid a fit-content cross-axis size under a column flex
-//      direction, so `grid-template-columns: repeat(auto-fill,
-//      minmax(150px,1fr))` only ever repeated once -- a single 155px-wide
-//      column on a 375px-wide phone instead of a full-width layout.
-//   2. Desktop last-row clipping: the same `items-start` left the grid's
-//      OWN height unconstrained under a row flex direction, so
-//      `overflow-y: auto` never had a bounded box to scroll and the
-//      panel's `overflow-hidden` permanently clipped the last row with no
-//      way to reach it.
-//   3. Tile content collapse: inside a definite-height scroll container, a
-//      `min-h-[44px]` grid item's `auto` row track sized to that 44px
-//      minimum, so a title + coin chip that needed ~100px+ overflowed the
-//      tile and rendered underneath/behind the next tile.
+// REV-15 cluster pop-out regression guard (SPEC.md §4, §6-4), UPDATED
+// REV-17 (docs/rev17/SPEC.md §5, §9-4): permanent proof that the four
+// Singularity Core cluster pop-outs (Cognitive Core / Live Services /
+// Lock-in Network / Enterprise Rails, 16+5+8+3 = 32 modules total) render
+// every module tile with a real icon and non-empty riddle copy, with the
+// title sitting to the medallion's right and no content spilling out of
+// the tile. REV-15's original three field defects (mobile grid collapse,
+// desktop last-row clipping, tile content collapse) are unchanged and
+// still guarded below; the kind-badge/coin-chip tile interior and its
+// single-column mobile list were retired REV-17 (SPEC.md §5.3) in favour
+// of a center-aligned riddle tile and a 2-column mobile grid.
 //
 // `__tests__/quantumWhite/clusters.test.ts` proves every module HAS an
-// icon/description/kind-badge translation at the data layer; this file
-// proves the pop-out actually RENDERS them, reachably, in a real layout.
+// icon/riddle/scenario translation at the data layer; this file proves the
+// pop-out actually RENDERS them, reachably, in a real layout.
 
-const TOKEN = 'unitas_master_dooyeong_2026_secure_key';
+const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();
 const skipButton = (page) => page.locator('button:has(.cs-skip-aurora)');
 
@@ -78,15 +68,21 @@ async function inspectOpenPopout(page) {
     const cols = new Set(tiles.map((t) => Math.round(t.getBoundingClientRect().x))).size;
 
     const tileReports = tiles.map((t) => {
-      const chip = t.querySelector('.qw-upay-chip');
-      const desc = t.querySelector('.qw-tile-desc');
+      const medallion = t.querySelector('.qw-tile-medallion');
+      const title = t.querySelector('.qw-tile-title');
+      const riddle = t.querySelector('.qw-tile-riddle');
+      const cue = t.querySelector('.qw-tile-cue');
       const tileRect = t.getBoundingClientRect();
-      const chipRect = chip.getBoundingClientRect();
+      const medallionRect = medallion.getBoundingClientRect();
+      const titleRect = title.getBoundingClientRect();
+      const cueRect = cue.getBoundingClientRect();
       return {
-        hasIcon: Boolean(t.querySelector('.qw-tile-medallion svg')),
-        hasDescription: Boolean(desc && desc.textContent.trim().length > 0),
-        hasKindBadge: Boolean(t.querySelector('.qw-tile-kind') && t.querySelector('.qw-tile-kind').textContent.trim().length > 0),
-        chipWithinTile: chipRect.bottom <= tileRect.bottom + 0.5,
+        hasIcon: Boolean(medallion.querySelector('svg')),
+        hasRiddle: Boolean(riddle && riddle.textContent.trim().length > 0),
+        noKindBadge: !t.querySelector('.qw-tile-kind'),
+        noCoinChip: !t.querySelector('.qw-upay-chip'),
+        titleRightOfMedallion: titleRect.left >= medallionRect.right - 1,
+        cueWithinTile: cueRect.bottom <= tileRect.bottom + 0.5,
       };
     });
 
@@ -96,18 +92,22 @@ async function inspectOpenPopout(page) {
       cols,
       tileCount: tiles.length,
       allHaveIcon: tileReports.every((r) => r.hasIcon),
-      allHaveDescription: tileReports.every((r) => r.hasDescription),
-      allHaveKindBadge: tileReports.every((r) => r.hasKindBadge),
-      allChipsWithinTile: tileReports.every((r) => r.chipWithinTile),
+      allHaveRiddle: tileReports.every((r) => r.hasRiddle),
+      noneHaveKindBadge: tileReports.every((r) => r.noKindBadge),
+      noneHaveCoinChip: tileReports.every((r) => r.noCoinChip),
+      allTitlesRightOfMedallion: tileReports.every((r) => r.titleRightOfMedallion),
+      allCuesWithinTile: tileReports.every((r) => r.cueWithinTile),
     };
   });
 }
 
-test.describe('REV-15 cluster pop-out -- mobile (single-column list)', () => {
+test.describe('REV-17 cluster pop-out -- mobile (2-column curiosity grid)', () => {
   test.use({ viewport: { width: 375, height: 667 } });
 
   for (const cluster of CLUSTERS) {
-    test(`${cluster.key}: every tile has an icon, description and kind badge, none overflow`, async ({ page }) => {
+    test(`${cluster.key}: every tile has an icon + riddle, no kind badge/coin chip, title right of medallion`, async ({
+      page,
+    }) => {
       await reachHome(page);
       await page.evaluate((i) => document.querySelectorAll('.qw-cluster-card')[i].click(), cluster.index);
       await page.waitForSelector('.qw-popout-panel .qw-tile', { timeout: 15_000 });
@@ -116,14 +116,18 @@ test.describe('REV-15 cluster pop-out -- mobile (single-column list)', () => {
       const report = await inspectOpenPopout(page);
       expect(report.tileCount).toBe(cluster.moduleCount);
       expect(report.panelWithinViewport).toBe(true);
-      // Mobile media query (SPEC.md §4.1): a single full-width column, not
-      // the pre-REV-15 155px sliver.
-      expect(report.cols).toBe(1);
+      // REV-17 (SPEC.md §5.3): a 2-column grid, not the REV-15 single
+      // full-width list row (whose own layout bug this file used to guard).
+      if (cluster.moduleCount >= 2) {
+        expect(report.cols).toBe(2);
+      }
       expect(report.gridWidthRatio).toBeGreaterThan(0.85);
       expect(report.allHaveIcon).toBe(true);
-      expect(report.allHaveDescription).toBe(true);
-      expect(report.allHaveKindBadge).toBe(true);
-      expect(report.allChipsWithinTile).toBe(true);
+      expect(report.allHaveRiddle).toBe(true);
+      expect(report.noneHaveKindBadge).toBe(true);
+      expect(report.noneHaveCoinChip).toBe(true);
+      expect(report.allTitlesRightOfMedallion).toBe(true);
+      expect(report.allCuesWithinTile).toBe(true);
 
       await page.keyboard.press('Escape');
       await expect(page.locator('.qw-popout-panel')).toHaveCount(0);
@@ -131,11 +135,13 @@ test.describe('REV-15 cluster pop-out -- mobile (single-column list)', () => {
   }
 });
 
-test.describe('REV-15 cluster pop-out -- desktop (multi-column grid)', () => {
+test.describe('REV-17 cluster pop-out -- desktop (multi-column grid)', () => {
   test.use({ viewport: { width: 1366, height: 768 } });
 
   for (const cluster of CLUSTERS) {
-    test(`${cluster.key}: every tile has an icon, description and kind badge, none overflow`, async ({ page }) => {
+    test(`${cluster.key}: every tile has an icon + riddle, no kind badge/coin chip, title right of medallion`, async ({
+      page,
+    }) => {
       await reachHome(page);
       await page.evaluate((i) => document.querySelectorAll('.qw-cluster-card')[i].click(), cluster.index);
       await page.waitForSelector('.qw-popout-panel .qw-tile', { timeout: 15_000 });
@@ -144,17 +150,18 @@ test.describe('REV-15 cluster pop-out -- desktop (multi-column grid)', () => {
       const report = await inspectOpenPopout(page);
       expect(report.tileCount).toBe(cluster.moduleCount);
       expect(report.panelWithinViewport).toBe(true);
-      // Desktop media query (SPEC.md §4.1): `minmax(196px, 1fr)` in an
-      // 840px-ish grid body fits several columns, never the pre-REV-15
-      // single unconstrained column.
+      // Desktop media query (SPEC.md §4.1, unchanged): `minmax(196px, 1fr)`
+      // in an 840px-ish grid body fits several columns.
       if (cluster.moduleCount >= 3) {
         expect(report.cols).toBeGreaterThanOrEqual(3);
       }
       expect(report.gridWidthRatio).toBeGreaterThan(0.9);
       expect(report.allHaveIcon).toBe(true);
-      expect(report.allHaveDescription).toBe(true);
-      expect(report.allHaveKindBadge).toBe(true);
-      expect(report.allChipsWithinTile).toBe(true);
+      expect(report.allHaveRiddle).toBe(true);
+      expect(report.noneHaveKindBadge).toBe(true);
+      expect(report.noneHaveCoinChip).toBe(true);
+      expect(report.allTitlesRightOfMedallion).toBe(true);
+      expect(report.allCuesWithinTile).toBe(true);
 
       await page.keyboard.press('Escape');
       await expect(page.locator('.qw-popout-panel')).toHaveCount(0);

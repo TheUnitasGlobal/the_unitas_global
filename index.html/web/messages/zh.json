@@ -1560,52 +1560,218 @@
     "clusters": {
       "cognitive": {
         "title": "认知核心",
-        "tagline": "十六个将问题转化为收益的智能引擎。"
+        "tagline": "The engines that think before you ask.",
+        "enigma": "Every answer here was waiting for its question."
       },
       "live": {
         "title": "实时服务",
-        "tagline": "五项即时接入服务，从首次使用起就能获得回报。"
+        "tagline": "Services that answer within the first breath.",
+        "enigma": "Some doors open the moment you look at them."
       },
       "lockin": {
         "title": "锁定网络",
-        "tagline": "八个留存引擎，让每一次访问的价值持续叠加。"
+        "tagline": "The network that remembers you back.",
+        "enigma": "What holds you here is not a lock."
       },
       "enterprise": {
         "title": "企业级基础设施",
-        "tagline": "三条基础设施通道，覆盖身份、密钥与支付。"
+        "tagline": "Rails beneath identity, keys and value.",
+        "enigma": "Three rails. One current."
       }
     },
-    "moduleCount": "{count} 个模块",
     "openCluster": "打开{title}",
     "closeCluster": "关闭",
     "back": "返回",
-    "selectModule": "选择一个模块，查看其回报情况并一键投资。",
-    "costLabel": "接入权限",
+    "costLabel": "Entry",
     "coinUnit": "U-COIN",
-    "investNow": "立即投资",
-    "executing": "正在确认您的持仓...",
-    "successTitle": "投资已完成",
-    "successBody": "您的权限已生效。立即进入，开始创造价值。",
-    "enterModule": "立即进入",
+    "executing": "Opening the gate…",
+    "successTitle": "Access granted",
+    "successBody": "The gate is open for the next thirty minutes.",
+    "enterModule": "Step inside",
     "activated": "已在此设备上激活",
     "activateModule": "激活",
-    "balanceLabel": "您的余额",
-    "insufficient": "余额不足，无法完成此项投资。",
+    "balanceLabel": "Your balance",
+    "insufficient": "Not enough U-COIN to open this gate.",
     "chargeCoins": "充值 U-COIN",
-    "signInToInvest": "登录以投资",
-    "guestInvest": "创建完整账户以持有资产并进行投资。",
     "shieldBlocked": "安全校验未通过，请自然操作后重试。",
-    "unlisted": "该项目即将开放投资。",
+    "unlisted": "This gate opens soon.",
     "failed": "交易未完成，请重试。",
     "watermark": "THE UNITAS GLOBAL OÜ",
     "precached": "即时就绪",
-    "phoneRequired": "请验证您的手机号以进行投资。",
-    "kind": {
-      "ecosystem": "生态系统",
-      "lifeos": "Life-OS",
-      "b2c": "实时",
-      "lockin": "锁定",
-      "b2b": "轨道"
-    }
+    "phoneRequired": "Verify your phone to enter.",
+    "modules": {
+      "ecosystem:echo": {
+        "riddle": "Ask once. Hear what your question was hiding.",
+        "scenario": "You type a single line. It comes back layered, each layer holding a part of what you meant."
+      },
+      "ecosystem:void": {
+        "riddle": "The answer is in what was never written.",
+        "scenario": "You describe what you have. It answers with what is missing, and the gap turns out to be the plan."
+      },
+      "ecosystem:mirror": {
+        "riddle": "It shows the pattern you keep looking past.",
+        "scenario": "You bring a decision you keep circling. It shows the loop from outside, then the exit."
+      },
+      "ecosystem:oracle": {
+        "riddle": "Tomorrow, weighted before it arrives.",
+        "scenario": "You name a choice with a long horizon. Futures come back weighted, not promised."
+      },
+      "ecosystem:pulse": {
+        "riddle": "The world has a heartbeat. This is where it's felt.",
+        "scenario": "You watch a market, a mood, a momentum. The screen breathes with it before the headlines do."
+      },
+      "ecosystem:apex": {
+        "riddle": "Run the stakes before you place them.",
+        "scenario": "You set the stakes as if they were real. The simulation spends them, so you don't have to."
+      },
+      "ecosystem:genesis": {
+        "riddle": "Start from nothing. Keep what survives.",
+        "scenario": "You start with one claim and no assumptions. What stands at the end is yours to build."
+      },
+      "ecosystem:syndicate": {
+        "riddle": "Every hidden alliance leaves a trace.",
+        "scenario": "You name the players. The hidden lines between them appear, and one of them leads to you."
+      },
+      "ecosystem:aura": {
+        "riddle": "The presence you project, measured.",
+        "scenario": "You show how you appear. It tells you how you are received, and what a single change would do."
+      },
+      "ecosystem:paradox": {
+        "riddle": "Hold both sides until one gives way.",
+        "scenario": "You bring two truths that cannot coexist. You leave with the one that was load-bearing."
+      },
+      "ecosystem:chronos": {
+        "riddle": "Time, folded so you can read it.",
+        "scenario": "You lay your timeline down. It folds, and the moments that mattered line up."
+      },
+      "lifeos:life-dashboard": {
+        "riddle": "Your whole life, one silent panel.",
+        "scenario": "Everything you run, on one quiet surface. Nothing shouts; the thing that needs you glows."
+      },
+      "lifeos:second-brain": {
+        "riddle": "It remembers so you can forget.",
+        "scenario": "You drop a thought in without filing it. Months later it returns, exactly when it fits."
+      },
+      "lifeos:review-agent": {
+        "riddle": "Someone reads it back to you, honestly.",
+        "scenario": "You hand over a week. It comes back as a reading of what you actually did."
+      },
+      "lifeos:brand-kit": {
+        "riddle": "A face that stays the same everywhere.",
+        "scenario": "You set the face once. Every place you appear inherits it without asking."
+      },
+      "lifeos:life-library": {
+        "riddle": "What you kept, finally in order.",
+        "scenario": "What you saved is finally shelved. The shelf knows what you’ll reach for next."
+      },
+      "b2c:arche": {
+        "riddle": "The first principle, before the first line.",
+        "scenario": "Before the plan, the principle. It finds the one line the rest must obey."
+      },
+      "b2c:score": {
+        "riddle": "A number that knows more than you told it.",
+        "scenario": "You answer a few things honestly. A number appears that you'll argue with, then trust."
+      },
+      "b2c:arena": {
+        "riddle": "Enter unarmed. Leave sharper.",
+        "scenario": "You step in with an idea. It is tested against pressure until only the strong part remains."
+      },
+      "b2c:fate": {
+        "riddle": "The path is drawn. The turns are yours.",
+        "scenario": "You choose a destination. The path draws itself, and every fork shows its cost."
+      },
+      "b2c:codex22": {
+        "riddle": "Twenty-two keys. One is already turning.",
+        "scenario": "Twenty-two principles, one at a time. Each unlocks a way of seeing you didn't have yesterday."
+      },
+      "lockin:nexus": {
+        "riddle": "One identity. Every door recognises it.",
+        "scenario": "One identity, carried everywhere. No door asks who you are twice."
+      },
+      "lockin:aegis": {
+        "riddle": "A shield that never has to be raised.",
+        "scenario": "It watches while you don’t. When something moves, you already know."
+      },
+      "lockin:uTwin": {
+        "riddle": "A second you, learning while you rest.",
+        "scenario": "A twin built from your data, growing while you rest. Ask it what you would have said."
+      },
+      "lockin:infinity": {
+        "riddle": "What was answered once never costs again.",
+        "scenario": "Every answer you've earned is kept. Ask again and it costs nothing."
+      },
+      "lockin:panopticon": {
+        "riddle": "The whole world, held on a single screen.",
+        "scenario": "The world's motion on one screen. You don't search; you notice."
+      },
+      "lockin:oracle": {
+        "riddle": "Probability, read before the coin lands.",
+        "scenario": "You describe the moment before it happens. It returns the odds, and what shifts them."
+      },
+      "lockin:syndicateX": {
+        "riddle": "Borrow the factory. Keep the output.",
+        "scenario": "You rent a factory that runs itself. What it makes is yours; what it learns stays with the network."
+      },
+      "lockin:fateMatrix": {
+        "riddle": "Change the cause. Watch the effect follow.",
+        "scenario": "You set the goal. It traces the causes backward and tells you which one to touch."
+      },
+      "b2b:u-signature": {
+        "riddle": "You are the password you never type.",
+        "scenario": "You never type a password again. The way you move is the proof, and it cannot be copied."
+      },
+      "b2b:u-key": {
+        "riddle": "One key, cut for every lock you own.",
+        "scenario": "One key that fits every lock you issue. Rotate it, and every door follows."
+      },
+      "b2b:u-pay": {
+        "riddle": "Value moves the moment you decide.",
+        "scenario": "Value moves the instant you decide, with no page in between. What you meant to pay, paid."
+      }
+    },
+    "entry": {
+      "eyebrowScenario": "Scenario",
+      "eyebrowGuide": "How It Unfolds",
+      "eyebrowNotice": "Notice",
+      "stageStandby": "Transmission · Standby",
+      "back": "Back",
+      "notice": {
+        "n1": "U-COIN is a prepaid utility credit that opens access. It is not an investment, a security, or a promise of any financial return.",
+        "n2": "Once the gate opens, the U-COIN spent is final and non-refundable. Access stays open for 30 minutes per entry.",
+        "n3": "Every entry is checked by U-Signature behavioural attestation and zero-trust verification. Shared sessions, automation, or tampering are refused without notice.",
+        "n4": "Entering means you accept the Terms of Service and Privacy Policy. Where local law restricts prepaid digital credits, entry may be unavailable.",
+        "legalLink": "Terms · Privacy"
+      },
+      "guide": {
+        "ecosystem": {
+          "g1": "One entry opens one engine for thirty minutes.",
+          "g2": "Ask in your own words; the engine answers in yours.",
+          "g3": "Answers you accept are kept for you in Genesis Memory."
+        },
+        "lifeos": {
+          "g1": "Founder-verified surfaces only; the gate confirms before it opens.",
+          "g2": "Your data stays yours and leaves only when you export it.",
+          "g3": "Sessions close silently after thirty minutes."
+        },
+        "b2c": {
+          "g1": "Enter once; the service runs for thirty minutes.",
+          "g2": "Nothing is charged twice for the same open door.",
+          "g3": "Leave and return within the window at no cost."
+        },
+        "lockin": {
+          "g1": "Activation lives on this device until you turn it off.",
+          "g2": "It works while you sleep; nothing runs without your data.",
+          "g3": "Deactivate anytime; nothing is deleted."
+        },
+        "b2b": {
+          "g1": "Enterprise rails open to a preview surface first.",
+          "g2": "Keys, signatures and settlements are simulated until a contract is live.",
+          "g3": "Your access is logged for audit; nothing else is."
+        }
+      }
+    },
+    "enter": "Enter",
+    "signInToEnter": "Sign in to enter",
+    "guestEnter": "Create a full account to hold U-COIN and enter."
   }
 }

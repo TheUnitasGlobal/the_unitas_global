@@ -233,6 +233,7 @@
 
 import { resetSovereignCache } from '@/lib/foundersGate';
 import { PWA_ICON_VERSION } from '@/lib/pwa/iconVersion';
+import { clearVisitLedger } from '@/lib/entry/visitLedgerWriter';
 
 export type ExitChannel = 'app' | 'online';
 
@@ -663,6 +664,17 @@ function clearSession(): void {
   }
   try {
     resetSovereignCache();
+  } catch {
+    /* no-op */
+  }
+  // REV-17 (SPEC.md §3.2): the visit ledger LIVES in localStorage (so it can
+  // survive the sessionStorage wipe an installed App's cold relaunch always
+  // gets) but it encodes SESSION state -- which curtain phase/surface was
+  // open -- not a visitor preference, so a confirmed exit clears it too.
+  // Round 19's "localStorage preferences survive" policy above is about
+  // audio/locale settings; this is deliberately the one exception.
+  try {
+    clearVisitLedger();
   } catch {
     /* no-op */
   }

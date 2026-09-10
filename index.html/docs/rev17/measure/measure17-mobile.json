@@ -1,0 +1,864 @@
+[
+ {
+  "name": "pixel7",
+  "viewport": {
+   "width": 412,
+   "height": 915
+  },
+  "gate": {
+   "btn": {
+    "x": 55.5,
+    "y": 515.1007080078125,
+    "w": 301,
+    "h": 46
+   },
+   "noteText": null,
+   "note": null,
+   "noteClass": null
+  },
+  "nav": {
+   "rect": {
+    "x": 51,
+    "y": 20.0625,
+    "w": 60,
+    "h": 22.875
+   },
+   "border": "0px none rgba(212, 175, 55, 0.384)",
+   "boxShadow": "rgba(212, 175, 55, 0.204) 0px 0px 15.7682px 0px, rgba(212, 175, 55, 0.067) 0px 0px 10.8841px 0px inset",
+   "bg": "rgba(0, 0, 0, 0)",
+   "radius": "12px",
+   "anim": "app-download-pulse",
+   "navBg": "color(srgb 0.949941 0.949941 0.949941 / 0.940059)",
+   "brand": "rgb(10, 10, 12)",
+   "label": "rgb(8, 71, 201)",
+   "brandSize": "10px",
+   "labelSize": "8px"
+  },
+  "clusters": [
+   {
+    "rect": {
+     "x": 18,
+     "y": 47.7,
+     "w": 376,
+     "h": 209.1
+    },
+    "orbit": {
+     "x": 174.5,
+     "y": 72.7,
+     "w": 63,
+     "h": 63
+    },
+    "title": {
+     "text": "Cognitive Core",
+     "rect": {
+      "x": 142.9,
+      "y": 144.7,
+      "w": 126.2,
+      "h": 21.6
+     },
+     "size": "19.2px",
+     "color": "rgb(10, 10, 12)",
+     "weight": "700"
+    },
+    "tagline": {
+     "text": "Sixteen intelligence engines that turn questions into revenue.",
+     "rect": {
+      "x": 129.3,
+      "y": 169.3,
+      "w": 153.5,
+      "h": 44.3
+     },
+     "size": "13.12px",
+     "color": "rgb(93, 97, 107)"
+    },
+    "count": {
+     "text": "16 modules",
+     "rect": {
+      "x": 174.2,
+      "y": 222.6,
+      "w": 63.7,
+      "h": 12.2
+     },
+     "size": "10.88px",
+     "color": "rgb(184, 150, 46)"
+    },
+    "dots": 16
+   },
+   {
+    "rect": {
+     "x": 18,
+     "y": 271.9,
+     "w": 376,
+     "h": 209.1
+    },
+    "orbit": {
+     "x": 174.5,
+     "y": 296.9,
+     "w": 63,
+     "h": 63
+    },
+    "title": {
+     "text": "Live Services",
+     "rect": {
+      "x": 155.1,
+      "y": 368.9,
+      "w": 101.8,
+      "h": 21.6
+     },
+     "size": "19.2px",
+     "color": "rgb(10, 10, 12)",
+     "weight": "700"
+    },
+    "tagline": {
+     "text": "Five instant-access services that pay back from the first session.",
+     "rect": {
+      "x": 129.3,
+      "y": 393.5,
+      "w": 153.5,
+      "h": 44.3
+     },
+     "size": "13.12px",
+     "color": "rgb(93, 97, 107)"
+    },
+    "count": {
+     "text": "5 modules",
+     "rect": {
+      "x": 177.3,
+      "y": 446.8,
+      "w": 57.3,
+      "h": 12.2
+     },
+     "size": "10.88px",
+     "color": "rgb(184, 150, 46)"
+    },
+    "dots": 5
+   },
+   {
+    "rect": {
+     "x": 18,
+     "y": 496,
+     "w": 376,
+     "h": 209.1
+    },
+    "orbit": {
+     "x": 174.5,
+     "y": 521,
+     "w": 63,
+     "h": 63
+    },
+    "title": {
+     "text": "Lock-in Network",
+     "rect": {
+      "x": 136.7,
+      "y": 593,
+      "w": 138.6,
+      "h": 21.6
+     },
+     "size": "19.2px",
+     "color": "rgb(10, 10, 12)",
+     "weight": "700"
+    },
+    "tagline": {
+     "text": "Eight retention engines that compound the value of every visit.",
+     "rect": {
+      "x": 129.3,
+      "y": 617.6,
+      "w": 153.5,
+      "h": 44.3
+     },
+     "size": "13.12px",
+     "color": "rgb(93, 97, 107)"
+    },
+    "count": {
+     "text": "8 modules",
+     "rect": {
+      "x": 177.3,
+      "y": 670.9,
+      "w": 57.3,
+      "h": 12.2
+     },
+     "size": "10.88px",
+     "color": "rgb(184, 150, 46)"
+    },
+    "dots": 8
+   },
+   {
+    "rect": {
+     "x": 18,
+     "y": 717.2,
+     "w": 376,
+     "h": 209.1
+    },
+    "orbit": {
+     "x": 174.5,
+     "y": 742.2,
+     "w": 63,
+     "h": 63
+    },
+    "title": {
+     "text": "Enterprise Rails",
+     "rect": {
+      "x": 140.5,
+      "y": 814.2,
+      "w": 131.1,
+      "h": 21.6
+     },
+     "size": "19.2px",
+     "color": "rgb(10, 10, 12)",
+     "weight": "700"
+    },
+    "tagline": {
+     "text": "Three infrastructure rails for identity, keys and payments.",
+     "rect": {
+      "x": 129.3,
+      "y": 838.8,
+      "w": 153.5,
+      "h": 44.3
+     },
+     "size": "13.12px",
+     "color": "rgb(93, 97, 107)"
+    },
+    "count": {
+     "text": "3 modules",
+     "rect": {
+      "x": 177.3,
+      "y": 892.1,
+      "w": 57.3,
+      "h": 12.2
+     },
+     "size": "10.88px",
+     "color": "rgb(184, 150, 46)"
+    },
+    "dots": 3
+   }
+  ],
+  "popout": {
+   "panel": {
+    "x": 0,
+    "y": 0,
+    "w": 412,
+    "h": 915,
+    "right": 412
+   },
+   "headerCount": {
+    "text": "16 modules",
+    "rect": {
+     "x": 28,
+     "y": 56,
+     "w": 172.4,
+     "h": 17.3,
+     "right": 200.4
+    }
+   },
+   "hint": {
+    "text": "Select a module to see its return profile and invest in one click.",
+    "rect": {
+     "x": 0,
+     "y": 94.3,
+     "w": 412,
+     "h": 56,
+     "right": 412
+    }
+   },
+   "grid": {
+    "x": 28,
+    "y": 166.3,
+    "w": 356,
+    "h": 720.7,
+    "right": 384
+   },
+   "gridCols": "352px",
+   "tiles": [
+    {
+     "tile": {
+      "x": 28,
+      "y": 166.3,
+      "w": 352,
+      "h": 194.1,
+      "right": 380
+     },
+     "med": {
+      "x": 97,
+      "y": 183.3,
+      "w": 40,
+      "h": 40,
+      "right": 137
+     },
+     "kind": {
+      "text": "Ecosystem",
+      "rect": {
+       "x": 145,
+       "y": 196.1,
+       "w": 65.7,
+       "h": 14.4,
+       "right": 210.7
+      }
+     },
+     "title": {
+      "text": "Echo",
+      "rect": {
+       "x": 97,
+       "y": 227.3,
+       "w": 266,
+       "h": 19,
+       "right": 363
+      }
+     },
+     "desc": {
+      "text": "Resonant signal analysis that reflects your query back throu",
+      "rect": {
+       "x": 97,
+       "y": 250.3,
+       "w": 266,
+       "h": 55.6,
+       "right": 363
+      }
+     },
+     "chip": {
+      "text": "1 U-COIN",
+      "rect": {
+       "x": 97,
+       "y": 315.9,
+       "w": 78,
+       "h": 27.5,
+       "right": 175
+      }
+     },
+     "chev": {
+      "x": 349,
+      "y": 322.7,
+      "w": 14,
+      "h": 14,
+      "right": 363
+     },
+     "display": "grid",
+     "pad": "16px"
+    },
+    {
+     "tile": {
+      "x": 28,
+      "y": 374.4,
+      "w": 352,
+      "h": 194.1,
+      "right": 380
+     },
+     "med": {
+      "x": 97,
+      "y": 391.4,
+      "w": 40,
+      "h": 40,
+      "right": 137
+     },
+     "kind": {
+      "text": "Ecosystem",
+      "rect": {
+       "x": 145,
+       "y": 404.2,
+       "w": 65.7,
+       "h": 14.4,
+       "right": 210.7
+      }
+     },
+     "title": {
+      "text": "Void",
+      "rect": {
+       "x": 97,
+       "y": 435.4,
+       "w": 266,
+       "h": 19,
+       "right": 363
+      }
+     },
+     "desc": {
+      "text": "Strips a problem down to its negative space -- what is missi",
+      "rect": {
+       "x": 97,
+       "y": 458.4,
+       "w": 266,
+       "h": 55.6,
+       "right": 363
+      }
+     },
+     "chip": {
+      "text": "2 U-COIN",
+      "rect": {
+       "x": 97,
+       "y": 524,
+       "w": 78,
+       "h": 27.5,
+       "right": 175
+      }
+     },
+     "chev": {
+      "x": 349,
+      "y": 530.8,
+      "w": 14,
+      "h": 14,
+      "right": 363
+     },
+     "display": "grid",
+     "pad": "16px"
+    },
+    {
+     "tile": {
+      "x": 28,
+      "y": 582.5,
+      "w": 352,
+      "h": 194.1,
+      "right": 380
+     },
+     "med": {
+      "x": 97,
+      "y": 599.5,
+      "w": 40,
+      "h": 40,
+      "right": 137
+     },
+     "kind": {
+      "text": "Ecosystem",
+      "rect": {
+       "x": 145,
+       "y": 612.3,
+       "w": 65.7,
+       "h": 14.4,
+       "right": 210.7
+      }
+     },
+     "title": {
+      "text": "Mirror",
+      "rect": {
+       "x": 97,
+       "y": 643.5,
+       "w": 266,
+       "h": 19,
+       "right": 363
+      }
+     },
+     "desc": {
+      "text": "A full-spectrum self-diagnostic scan of behavioral and cogni",
+      "rect": {
+       "x": 97,
+       "y": 666.5,
+       "w": 266,
+       "h": 55.6,
+       "right": 363
+      }
+     },
+     "chip": {
+      "text": "2 U-COIN",
+      "rect": {
+       "x": 97,
+       "y": 732.2,
+       "w": 78,
+       "h": 27.5,
+       "right": 175
+      }
+     },
+     "chev": {
+      "x": 349,
+      "y": 738.9,
+      "w": 14,
+      "h": 14,
+      "right": 363
+     },
+     "display": "grid",
+     "pad": "16px"
+    },
+    {
+     "tile": {
+      "x": 28,
+      "y": 790.7,
+      "w": 352,
+      "h": 194.1,
+      "right": 380
+     },
+     "med": {
+      "x": 97,
+      "y": 807.7,
+      "w": 40,
+      "h": 40,
+      "right": 137
+     },
+     "kind": {
+      "text": "Ecosystem",
+      "rect": {
+       "x": 145,
+       "y": 820.5,
+       "w": 65.7,
+       "h": 14.4,
+       "right": 210.7
+      }
+     },
+     "title": {
+      "text": "Oracle",
+      "rect": {
+       "x": 97,
+       "y": 851.7,
+       "w": 266,
+       "h": 19,
+       "right": 363
+      }
+     },
+     "desc": {
+      "text": "Probabilistic foresight modeling for decisions with long, un",
+      "rect": {
+       "x": 97,
+       "y": 874.7,
+       "w": 266,
+       "h": 55.6,
+       "right": 363
+      }
+     },
+     "chip": {
+      "text": "3 U-COIN",
+      "rect": {
+       "x": 97,
+       "y": 940.3,
+       "w": 78,
+       "h": 27.5,
+       "right": 175
+      }
+     },
+     "chev": {
+      "x": 349,
+      "y": 947.1,
+      "w": 14,
+      "h": 14,
+      "right": 363
+     },
+     "display": "grid",
+     "pad": "16px"
+    },
+    {
+     "tile": {
+      "x": 28,
+      "y": 998.8,
+      "w": 352,
+      "h": 194.1,
+      "right": 380
+     },
+     "med": {
+      "x": 97,
+      "y": 1015.8,
+      "w": 40,
+      "h": 40,
+      "right": 137
+     },
+     "kind": {
+      "text": "Ecosystem",
+      "rect": {
+       "x": 145,
+       "y": 1028.6,
+       "w": 65.7,
+       "h": 14.4,
+       "right": 210.7
+      }
+     },
+     "title": {
+      "text": "Pulse",
+      "rect": {
+       "x": 97,
+       "y": 1059.8,
+       "w": 266,
+       "h": 19,
+       "right": 363
+      }
+     },
+     "desc": {
+      "text": "Real-time vitals for markets, sentiment, and momentum -- rea",
+      "rect": {
+       "x": 97,
+       "y": 1082.8,
+       "w": 266,
+       "h": 55.6,
+       "right": 363
+      }
+     },
+     "chip": {
+      "text": "1 U-COIN",
+      "rect": {
+       "x": 97,
+       "y": 1148.5,
+       "w": 78,
+       "h": 27.5,
+       "right": 175
+      }
+     },
+     "chev": {
+      "x": 349,
+      "y": 1155.2,
+      "w": 14,
+      "h": 14,
+      "right": 363
+     },
+     "display": "grid",
+     "pad": "16px"
+    },
+    {
+     "tile": {
+      "x": 28,
+      "y": 1207,
+      "w": 352,
+      "h": 175.6,
+      "right": 380
+     },
+     "med": {
+      "x": 97,
+      "y": 1224,
+      "w": 40,
+      "h": 40,
+      "right": 137
+     },
+     "kind": {
+      "text": "Ecosystem",
+      "rect": {
+       "x": 145,
+       "y": 1236.8,
+       "w": 65.7,
+       "h": 14.4,
+       "right": 210.7
+      }
+     },
+     "title": {
+      "text": "Apex",
+      "rect": {
+       "x": 97,
+       "y": 1268,
+       "w": 266,
+       "h": 19,
+       "right": 363
+      }
+     },
+     "desc": {
+      "text": "High-stakes performance simulation under a hard countdown cl",
+      "rect": {
+       "x": 97,
+       "y": 1291,
+       "w": 266,
+       "h": 37.1,
+       "right": 363
+      }
+     },
+     "chip": {
+      "text": "4 U-COIN",
+      "rect": {
+       "x": 97,
+       "y": 1338.1,
+       "w": 78,
+       "h": 27.5,
+       "right": 175
+      }
+     },
+     "chev": {
+      "x": 349,
+      "y": 1344.8,
+      "w": 14,
+      "h": 14,
+      "right": 363
+     },
+     "display": "grid",
+     "pad": "16px"
+    },
+    {
+     "tile": {
+      "x": 28,
+      "y": 1396.6,
+      "w": 352,
+      "h": 194.1,
+      "right": 380
+     },
+     "med": {
+      "x": 97,
+      "y": 1413.6,
+      "w": 40,
+      "h": 40,
+      "right": 137
+     },
+     "kind": {
+      "text": "Ecosystem",
+      "rect": {
+       "x": 145,
+       "y": 1426.4,
+       "w": 65.7,
+       "h": 14.4,
+       "right": 210.7
+      }
+     },
+     "title": {
+      "text": "Genesis",
+      "rect": {
+       "x": 97,
+       "y": 1457.6,
+       "w": 266,
+       "h": 19,
+       "right": 363
+      }
+     },
+     "desc": {
+      "text": "First-principles construction: build an idea up from nothing",
+      "rect": {
+       "x": 97,
+       "y": 1480.6,
+       "w": 266,
+       "h": 55.6,
+       "right": 363
+      }
+     },
+     "chip": {
+      "text": "5 U-COIN",
+      "rect": {
+       "x": 97,
+       "y": 1546.2,
+       "w": 78,
+       "h": 27.5,
+       "right": 175
+      }
+     },
+     "chev": {
+      "x": 349,
+      "y": 1553,
+      "w": 14,
+      "h": 14,
+      "right": 363
+     },
+     "display": "grid",
+     "pad": "16px"
+    },
+    {
+     "tile": {
+      "x": 28,
+      "y": 1604.7,
+      "w": 352,
+      "h": 194.1,
+      "right": 380
+     },
+     "med": {
+      "x": 97,
+      "y": 1621.7,
+      "w": 40,
+      "h": 40,
+      "right": 137
+     },
+     "kind": {
+      "text": "Ecosystem",
+      "rect": {
+       "x": 145,
+       "y": 1634.5,
+       "w": 65.7,
+       "h": 14.4,
+       "right": 210.7
+      }
+     },
+     "title": {
+      "text": "Syndicate",
+      "rect": {
+       "x": 97,
+       "y": 1665.7,
+       "w": 266,
+       "h": 19,
+       "right": 363
+      }
+     },
+     "desc": {
+      "text": "Coalition-mapping across hidden networks of influence and af",
+      "rect": {
+       "x": 97,
+       "y": 1688.7,
+       "w": 266,
+       "h": 55.6,
+       "right": 363
+      }
+     },
+     "chip": {
+      "text": "3 U-COIN",
+      "rect": {
+       "x": 97,
+       "y": 1754.3,
+       "w": 78,
+       "h": 27.5,
+       "right": 175
+      }
+     },
+     "chev": {
+      "x": 349,
+      "y": 1761.1,
+      "w": 14,
+      "h": 14,
+      "right": 363
+     },
+     "display": "grid",
+     "pad": "16px"
+    }
+   ]
+  },
+  "modulePanel": {
+   "slide": {
+    "x": 0,
+    "y": 536.4,
+    "w": 412,
+    "h": 378.6
+   },
+   "panel": {
+    "x": 20,
+    "y": 584.4,
+    "w": 372,
+    "h": 310.6
+   },
+   "gateway": {
+    "x": 20,
+    "y": 747.1,
+    "w": 372,
+    "h": 147.9
+   },
+   "btn": {
+    "text": "Invest now",
+    "rect": {
+     "x": 21.5,
+     "y": 822.2,
+     "w": 369,
+     "h": 44
+    },
+    "state": "idle",
+    "cs": {
+     "bg": "rgba(255, 255, 255, 0.96)",
+     "color": "rgb(10, 10, 12)",
+     "fontSize": "14.4px"
+    }
+   },
+   "chips": [
+    "Access1 U-COIN",
+    "Your balance— "
+   ],
+   "status": "",
+   "gridHidden": "none",
+   "h3": "Echo",
+   "desc": "Resonant signal analysis that reflects your query back through layered cognitive echoes."
+  },
+  "reload": {
+   "before": {
+    "phase": "released",
+    "href": "http://127.0.0.1:3123/?splash=0",
+    "histLen": 14,
+    "state": "{\"__NA\":true,\"__PRIVATE_NEXTJS_INTERNALS_TREE\":[\"\",{\"children\":[[\"locale\",\"en\",\"d\"],{\"children\":[\"__PAGE__?{\\\"locale\\\":\\\"en\\\"}\",{},\"/?splash=0\",\"refresh\"]}]},null,null,true],\"unitasExitGuard\":true,\"unitasExitDepth\":12}"
+   },
+   "after": {
+    "phase": "released",
+    "href": "http://127.0.0.1:3123/?splash=0",
+    "navType": "reload",
+    "curtain": false,
+    "popout": false,
+    "modulePanel": false,
+    "cinemaPhase": "released",
+    "scrollY": 331
+   }
+  },
+  "backForward": {
+   "navType": "back_forward",
+   "phase": "released",
+   "curtain": false,
+   "cinemaPhase": "released",
+   "wasDiscarded": false,
+   "splash": "off"
+  }
+ }
+]

@@ -16,7 +16,8 @@ import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '
 import { attachActivationUnlock, scheduleAutoUnlockRetries } from '@/lib/audio/activationUnlock';
 import { isAppLocale } from '@/lib/countryLocale';
 import { readLocalePreference } from '@/lib/i18n/localePreference';
-import { CINEMA_PHASE_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
+import { CINEMA_PHASE_STORAGE_KEY, CINEMA_SEGMENT_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
+import { touchVisitLedger, writeVisitLedger } from '@/lib/entry/visitLedgerWriter';
 import {
   CINEMA_PHASE_EVENT,
   hasSovereignHint,
@@ -50,7 +51,8 @@ const PHASE_KEY = CINEMA_PHASE_STORAGE_KEY;
 // Which of the 5 cinema segments is on screen -- persisted so an in-place
 // refresh (F5) during the ad resumes at THAT stage instead of rewinding to
 // stage 1 (owner instruction 2026-09-05, 7-point hardening, item 6).
-const SEGMENT_KEY = 'unitas_cinema_segment';
+// REV-17: promoted to CINEMA_SEGMENT_STORAGE_KEY (lib/splash/splashTimeline.ts)
+// so the visit ledger can restore it too.
 const LOCALE_AUTO_KEY = 'unitas_locale_autodetected';
 // components/audio/AudioGate.tsx STORAGE_KEY -- once the founder has crossed
 // THIS gate + sat through the cinema, don't make them clear a second entry
@@ -250,7 +252,7 @@ export function ComingSoonCinema() {
       // Item 6: resume the ad at the stage that was on screen, not stage 1.
       let savedSeg: string | null = null;
       try {
-        savedSeg = sessionStorage.getItem(SEGMENT_KEY);
+        savedSeg = sessionStorage.getItem(CINEMA_SEGMENT_STORAGE_KEY);
       } catch {
         /* no-op */
       }
@@ -332,17 +334,43 @@ export function ComingSoonCinema() {
     document.documentElement.dataset.cinemaPhase = phase;
     // Founder debug panel + ExitGuard mirror the live curtain phase.
     window.dispatchEvent(new CustomEvent(CINEMA_PHASE_EVENT, { detail: phase }));
-  }, [phase]);
+    // REV-17 (SPEC.md §3.2): mirror the phase into the visit ledger under the
+    // SAME skip guards as the sessionStorage write above, so an installed
+    // App's cold relaunch (lib/entry/loadClass.ts's R3 branch) can restore
+    // to this exact phase instead of always replaying the logo page.
+    if (!skipInitialGate && !(verifyingReleasedRef.current && phase === 'sealed')) {
+      writeVisitLedger({ phase, locale });
+    }
+  }, [phase, locale]);
 
   // Item 6: remember the ad stage on screen so an F5 resumes right there.
   useEffect(() => {
     try {
-      if (phase === 'cinema') sessionStorage.setItem(SEGMENT_KEY, String(segId));
-      else sessionStorage.removeItem(SEGMENT_KEY);
+      if (phase === 'cinema') sessionStorage.setItem(CINEMA_SEGMENT_STORAGE_KEY, String(segId));
+      else sessionStorage.removeItem(CINEMA_SEGMENT_STORAGE_KEY);
     } catch {
       /* no-op */
     }
+    writeVisitLedger({ segment: phase === 'cinema' ? String(segId) : undefined });
   }, [phase, segId]);
+
+  // REV-17 (SPEC.md §3.2): heartbeat -- keep the ledger's `at` timestamp
+  // fresh while the tab is genuinely alive, so an App backgrounded for 20
+  // minutes and then foregrounded again still falls inside the restore
+  // window, not just a snapshot taken once at the last phase change.
+  useEffect(() => {
+    function heartbeat() {
+      touchVisitLedger();
+    }
+    document.addEventListener('visibilitychange', heartbeat);
+    window.addEventListener('pagehide', heartbeat);
+    window.addEventListener('freeze', heartbeat);
+    return () => {
+      document.removeEventListener('visibilitychange', heartbeat);
+      window.removeEventListener('pagehide', heartbeat);
+      window.removeEventListener('freeze', heartbeat);
+    };
+  }, []);
 
   // --- global locale restore + auto-localization to navigator.language ----
   // Owner instruction 2026-09-06 (item 5): a previously chosen language must
@@ -1217,11 +1245,6 @@ export function ComingSoonCinema() {
                   >
                     {tGate('button')}
                   </button>
-                  {isFounder && (
-                    <p className="mt-6 text-[10px] uppercase tracking-[0.3em] text-accent/50">
-                      founder · full sequential QA
-                    </p>
-                  )}
                 </motion.div>
               </motion.div>
             )}

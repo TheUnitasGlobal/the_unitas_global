@@ -43,12 +43,23 @@ describe('SINGULARITY_CLUSTERS', () => {
     }
   });
 
-  it('resolves every cluster titleKey/taglineKey to a non-empty string in en.json', () => {
+  it('resolves every cluster titleKey/taglineKey/enigmaKey to a non-empty string in en.json', () => {
     for (const cluster of SINGULARITY_CLUSTERS) {
       expect(typeof resolveKey(MESSAGES, cluster.titleKey)).toBe('string');
       expect(resolveKey(MESSAGES, cluster.titleKey)).not.toBe('');
       expect(typeof resolveKey(MESSAGES, cluster.taglineKey)).toBe('string');
       expect(resolveKey(MESSAGES, cluster.taglineKey)).not.toBe('');
+      expect(typeof resolveKey(MESSAGES, cluster.enigmaKey)).toBe('string');
+      expect(resolveKey(MESSAGES, cluster.enigmaKey)).not.toBe('');
+    }
+  });
+
+  it('REV-17 (SPEC.md §4.1): tagline/enigma never contain an Arabic numeral (no module-count leak)', () => {
+    for (const cluster of SINGULARITY_CLUSTERS) {
+      const tagline = resolveKey(MESSAGES, cluster.taglineKey) as string;
+      const enigma = resolveKey(MESSAGES, cluster.enigmaKey) as string;
+      expect(tagline, cluster.taglineKey).not.toMatch(/\d/);
+      expect(enigma, cluster.enigmaKey).not.toMatch(/\d/);
     }
   });
 
@@ -142,10 +153,18 @@ describe('ALL_CLUSTER_MODULES', () => {
     }
   });
 
-  it('REV-15 (SPEC.md §4.2): resolves every module.kind to a non-empty QuantumWhite.kind.* badge label in en.json', () => {
+  it('REV-17 (SPEC.md §5.2): resolves every module riddleKey to a non-empty string in en.json (kind badges retired)', () => {
     for (const m of ALL_CLUSTER_MODULES) {
-      const resolved = resolveKey(MESSAGES, `QuantumWhite.kind.${m.kind}`);
-      expect(typeof resolved, `QuantumWhite.kind.${m.kind}`).toBe('string');
+      const resolved = resolveKey(MESSAGES, m.i18n.riddleKey);
+      expect(typeof resolved, m.i18n.riddleKey).toBe('string');
+      expect(resolved).not.toBe('');
+    }
+  });
+
+  it('REV-17 (SPEC.md §6.1): resolves every module scenarioKey to a non-empty string in en.json', () => {
+    for (const m of ALL_CLUSTER_MODULES) {
+      const resolved = resolveKey(MESSAGES, m.i18n.scenarioKey);
+      expect(typeof resolved, m.i18n.scenarioKey).toBe('string');
       expect(resolved).not.toBe('');
     }
   });

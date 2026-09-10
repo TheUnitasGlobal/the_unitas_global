@@ -462,6 +462,14 @@ body {
   -webkit-touch-callout: none;
   cursor: pointer;
   color: #d4af37;
+  /* REV-17 (SPEC.md §2.3): a real, always-visible border -- the pulse
+     keyframe's animated box-shadow used to be the CTA's only edge, which
+     read as pure glow with no border at rest (0px computed border-width).
+     Deliberately no padding/min-height override here: NavBar.tsx already
+     sizes the button responsively via Tailwind utilities (px-2.5/py-1 ->
+     sm:px-4/py-1.5) -- duplicating that in plain CSS this late in the
+     cascade would fight those utility classes' own media-scoped rules. */
+  border: 1px solid var(--u-cta-line, rgba(212, 175, 55, 0.42));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

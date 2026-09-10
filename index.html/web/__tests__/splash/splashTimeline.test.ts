@@ -27,7 +27,6 @@ import {
   isSplashActiveFlag,
   letterDrawStart,
   letterFillStart,
-  shouldResetEntrySession,
   shouldRunSplash,
   shouldRunSplashForPhase,
 } from '../../lib/splash/splashTimeline';
@@ -144,20 +143,11 @@ describe('splash timeline', () => {
     expect(shouldRunSplashForPhase('', 'released', false)).toBe(false);
   });
 
-  it('resets the session on every document load except an in-place reload (round 11, item 3)', () => {
-    // Re-entries: PWA launch / typed URL / external link / session restore / history traversal.
-    expect(shouldResetEntrySession('navigate', '')).toBe(true);
-    expect(shouldResetEntrySession('back_forward', '')).toBe(true);
-    expect(shouldResetEntrySession('prerender', '')).toBe(true);
-    expect(shouldResetEntrySession(null, '')).toBe(true);
-    expect(shouldResetEntrySession(undefined, '?dev=skip')).toBe(true);
-    // An F5 parked on any page keeps the "refresh in place" rule.
-    expect(shouldResetEntrySession('reload', '')).toBe(false);
-    expect(shouldResetEntrySession(' Reload ', '')).toBe(false);
-    // The QA harness (?splash=0) keeps its pre-seeded session state.
-    expect(shouldResetEntrySession('navigate', '?splash=0')).toBe(false);
-    expect(shouldResetEntrySession('back_forward', '?a=1&splash=off')).toBe(false);
-  });
+  // The old binary "wipe on every non-reload navigation" rule that used to
+  // live here (`shouldResetEntrySession`) was replaced REV-17 by the
+  // three-way `classifyDocumentLoad()` in `lib/entry/loadClass.ts` -- see
+  // `__tests__/entry/loadClass.test.ts` for its full case table (it had
+  // zero runtime callers, so nothing else needed updating).
 
   it('sweeps the single-tone gold light U -> S for the WHOLE 3s hold, no parked rest (checklist item 1)', () => {
     expect(SPLASH_GOLD_LOOP_S).toBe(3);

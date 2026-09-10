@@ -185,16 +185,16 @@ export function UPayGateway({ module, founder = false, onSuccess }: UPayGatewayP
         return { label: t('chargeCoins'), disabled: false, onClick: () => chargeGate.setOpen(true, { force: true }) };
       }
       if (state.reason === 'signin' || state.reason === 'guest' || state.reason === 'phone') {
-        return { label: t('signInToInvest'), disabled: false, onClick: () => authGate.setOpen(true, { force: true }) };
+        return { label: t('signInToEnter'), disabled: false, onClick: () => authGate.setOpen(true, { force: true }) };
       }
       if (state.reason === 'unlisted') {
-        return { label: t('investNow'), disabled: true, onClick: undefined };
+        return { label: t('enter'), disabled: true, onClick: undefined };
       }
       // 'shield' -- let the visitor simply try again.
-      return { label: t('investNow'), disabled: false, onClick: handleInvest };
+      return { label: t('enter'), disabled: false, onClick: handleInvest };
     }
     if (state.status === 'failed') {
-      return { label: t('investNow'), disabled: false, onClick: handleInvest };
+      return { label: t('enter'), disabled: false, onClick: handleInvest };
     }
     if (state.status === 'success') {
       return { label: t('successTitle'), disabled: true, onClick: undefined };
@@ -203,16 +203,16 @@ export function UPayGateway({ module, founder = false, onSuccess }: UPayGatewayP
       return { label: t('executing'), disabled: true, onClick: undefined };
     }
     // 'idle' | 'arming'
-    return { label: t('investNow'), disabled: state.status === 'arming', onClick: handleInvest };
+    return { label: t('enter'), disabled: state.status === 'arming', onClick: handleInvest };
   }, [authGate, chargeGate, handleInvest, state, t]);
 
   const statusText = useMemo(() => {
     if (state.status === 'blocked') {
       switch (state.reason) {
         case 'signin':
-          return t('signInToInvest');
+          return t('signInToEnter');
         case 'guest':
-          return t('guestInvest');
+          return t('guestEnter');
         case 'insufficient':
           return t('insufficient');
         case 'shield':

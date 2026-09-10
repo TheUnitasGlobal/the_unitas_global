@@ -1,25 +1,28 @@
 'use client';
 
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { useTranslations } from 'next-intl';
 import { useRouter } from '@/i18n/navigation';
 import { SINGULARITY_CLUSTERS, type ClusterKey, type SingularityCluster } from '@/lib/quantumWhite/clusters';
+import { ClusterSigil } from '@/lib/quantumWhite/clusterSigils';
+import {
+  SURFACE_MIRROR_KEY,
+  SURFACE_TOMBSTONE,
+  encodeSurface,
+  resolveInitialSurface,
+  stripRouterKeys,
+  surfaceHref,
+  type SurfaceState,
+} from '@/lib/quantumWhite/surfaceState';
 import { createPrecache, type Precache } from '@/lib/quantumWhite/precache';
 import { acquireGate } from '@/lib/uiGate';
 import { playHapticTic } from '@/lib/audio/haptics';
+import { writeVisitLedger } from '@/lib/entry/visitLedgerWriter';
+import { useCurtainReleased } from './useCurtainReleased';
 import { ClusterPopout } from './ClusterPopout';
 
 /** Single-popup gate id this cluster grid (and its popout) coordinates on. */
 const CLUSTER_GATE_ID = 'qw-cluster';
-
-/** Orbit dot position, driven by CSS custom properties consumed in quantum-white.css. */
-function orbitDotStyle(color: string, index: number, total: number): CSSProperties {
-  return {
-    backgroundColor: color,
-    '--qw-i': index,
-    '--qw-n': total,
-  } as CSSProperties;
-}
 
 /**
  * REV-13 Singularity Core: the four cluster cores that replace the old
@@ -27,26 +30,96 @@ function orbitDotStyle(color: string, index: number, total: number): CSSProperti
  * (spec §3, §10.20). Each core is a single white-glass button; opening one
  * acquires the site-wide UI gate and hands off to `ClusterPopout`, which
  * renders through `ModalPortal` so it escapes `.dashboard-zoom`'s 0.75 zoom.
+ *
+ * REV-17 (SPEC.md §3.3-3.4): this component is now the SOLE writer of the
+ * "which cluster / module pop-out is open" surface state, mirrored into
+ * sessionStorage (`SURFACE_MIRROR_KEY`), the URL hash (`#core/<cluster>
+ * [/<moduleId>]`) and the visit ledger -- see `commitSurface` below. On the
+ * first render after the curtain releases, it also RESTORES that state (a
+ * refresh, a same-document App cold-relaunch restore, or a deep link no
+ * longer drops the visitor back at a bare home with no popup open).
  */
 export function SingularityCoreGrid() {
   const t = useTranslations('QuantumWhite');
   const tFull = useTranslations();
   const router = useRouter();
+  const released = useCurtainReleased();
   const precache = useMemo<Precache>(() => createPrecache(router), [router]);
   const [openKey, setOpenKey] = useState<ClusterKey | null>(null);
+  const initialModuleIdRef = useRef<string | null>(null);
+  const restoredRef = useRef(false);
 
   useEffect(() => () => precache.dispose(), [precache]);
 
   const openCluster = openKey ? SINGULARITY_CLUSTERS.find((c) => c.key === openKey) ?? null : null;
 
+  /**
+   * The one place `SURFACE_MIRROR_KEY` / the URL hash / the visit ledger's
+   * `surface` field are ever written. Deliberately a `replaceState` with
+   * Next's own router-private keys stripped out (see `stripRouterKeys`'s
+   * doc comment) so the hash actually survives the router's own next
+   * history write, while every OTHER key already on the entry (in
+   * particular ExitGuard's sentinel marker/depth) is preserved untouched.
+   */
+  const commitSurface = useCallback((next: SurfaceState | null) => {
+    try {
+      sessionStorage.setItem(SURFACE_MIRROR_KEY, next ? encodeSurface(next) : SURFACE_TOMBSTONE);
+    } catch {
+      /* non-fatal -- the mirror is a restore convenience only. */
+    }
+    try {
+      const href = surfaceHref(window.location, next);
+      window.history.replaceState(stripRouterKeys(window.history.state), '', href);
+    } catch {
+      /* history unavailable -- nothing further to do. */
+    }
+    writeVisitLedger({ surface: next ? encodeSurface(next) : undefined });
+  }, []);
+
+  // REV-17 (SPEC.md §3.4): restore whatever surface was open the moment the
+  // curtain releases -- same commit as the home itself, so there is no
+  // "bare home, then popup" flash. A `useLayoutEffect` (not `useEffect`)
+  // because that "same commit" property is the whole point; harmless on the
+  // server since `released` only ever flips true client-side.
+  useLayoutEffect(() => {
+    if (!released || restoredRef.current) return;
+    restoredRef.current = true;
+    let mirror: string | null = null;
+    try {
+      mirror = sessionStorage.getItem(SURFACE_MIRROR_KEY);
+    } catch {
+      /* no-op -- falls through to the URL hash below. */
+    }
+    let hash = '';
+    try {
+      hash = window.location.hash;
+    } catch {
+      /* no-op */
+    }
+    const resolved = resolveInitialSurface({ hash, mirror }, SINGULARITY_CLUSTERS);
+    if (!resolved) return;
+    if (!acquireGate(CLUSTER_GATE_ID)) return; // another surface already owns the single-popup gate.
+    playHapticTic();
+    initialModuleIdRef.current = resolved.moduleId ?? null;
+    setOpenKey(resolved.cluster);
+  }, [released]);
+
   function handleOpen(cluster: SingularityCluster) {
     if (!acquireGate(CLUSTER_GATE_ID)) return;
     playHapticTic();
+    initialModuleIdRef.current = null;
     setOpenKey(cluster.key);
+    commitSurface({ cluster: cluster.key });
   }
 
   function handleClose() {
     setOpenKey(null);
+    commitSurface(null);
+  }
+
+  function handleModuleChange(moduleId: string | null) {
+    if (!openKey) return;
+    commitSurface({ cluster: openKey, moduleId: moduleId ?? undefined });
   }
 
   return (
@@ -65,30 +138,23 @@ export function SingularityCoreGrid() {
               aria-haspopup="dialog"
               aria-label={t('openCluster', { title })}
             >
-              <span className="qw-cluster-orbit relative mb-2 h-[84px] w-[84px]" aria-hidden="true">
-                {cluster.modules.map((m, i) => (
-                  <span
-                    key={m.id}
-                    className="qw-cluster-dot absolute left-1/2 top-1/2 h-[7px] w-[7px] rounded-full shadow-[0_0_0_3px_#fff]"
-                    style={orbitDotStyle(m.color, i, cluster.modules.length)}
-                  />
-                ))}
+              <span className="qw-cluster-sigil" style={{ '--qw-sigil-accent': cluster.accent } as CSSProperties} aria-hidden="true">
+                <ClusterSigil cluster={cluster.key} />
               </span>
-              <span className="font-serif text-[1.2rem] font-bold tracking-[0.01em] text-[var(--qw-ink)]">
-                {title}
-              </span>
-              <span className="max-w-[26ch] text-[0.82rem] text-[var(--qw-ink-3)]">
-                {tFull(cluster.taglineKey)}
-              </span>
-              <span className="mt-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[var(--qw-gold)]">
-                {t('moduleCount', { count: cluster.modules.length })}
-              </span>
+              <span className="qw-cluster-title font-serif text-[var(--qw-ink)]">{title}</span>
+              <span className="qw-cluster-tagline text-[var(--qw-ink-3)]">{tFull(cluster.taglineKey)}</span>
             </button>
           );
         })}
       </div>
 
-      <ClusterPopout cluster={openCluster} onClose={handleClose} precache={precache} />
+      <ClusterPopout
+        cluster={openCluster}
+        onClose={handleClose}
+        onModuleChange={handleModuleChange}
+        initialModuleId={initialModuleIdRef.current}
+        precache={precache}
+      />
     </section>
   );
 }

@@ -28,6 +28,38 @@ export const SPLASH_EXIT_MS = 450;
 export const CINEMA_PHASE_STORAGE_KEY = 'unitas_cinema_phase';
 
 /**
+ * sessionStorage key the curtain persists which of the 5 cinema ad segments
+ * was on screen (components/ComingSoonCinema.tsx's `SEGMENT_KEY`, owner
+ * instruction 2026-09-05, 7-point hardening, item 6). Promoted here (REV-17)
+ * so the visit ledger (lib/entry/visitLedger.ts) can restore it on an App
+ * cold-relaunch the same way the curtain restores it on a plain reload.
+ */
+export const CINEMA_SEGMENT_STORAGE_KEY = 'unitas_cinema_segment';
+
+/**
+ * sessionStorage key the pre-hydration bootstrap (lib/pwa/installPrompt.ts)
+ * stamps on `pagehide` -- its PRESENCE means the previous document on this
+ * tab exited through a normal navigation. Its ABSENCE alongside a live
+ * `CINEMA_PHASE_STORAGE_KEY` record means the document never got the chance
+ * to fire `pagehide` at all (a WebKit process purge, a crash, an OS process
+ * kill) -- the R2 branch of `lib/entry/loadClass.ts`'s `classifyDocumentLoad`
+ * treats that as "restore in place", not "wipe and show the logo page".
+ * Consumed (removed) the moment a load is classified, then re-armed for the
+ * next unload.
+ */
+export const LEAVE_STAMP_STORAGE_KEY = 'unitas_leave_at';
+
+/**
+ * sessionStorage key a same-tab, self-initiated document REPLACEMENT sets
+ * immediately before it fires (currently only the standalone locale
+ * prefetch redirect, lib/pwa/standaloneLaunch.ts's `location.replace`).
+ * Its presence tells the next document's bootstrap "this load is a
+ * continuation of the one before it, not an arrival" (R0 in
+ * `classifyDocumentLoad`) -- consumed (removed) on read.
+ */
+export const HANDOFF_STORAGE_KEY = 'unitas_handoff';
+
+/**
  * Every curtain phase a tab can be parked on: the entry gate, the 30s ad
  * cinema (ad stages 1-5), the sealed Coming-Soon screen and
  * the released MAIN HOME. A refresh while parked on ANY of these re-renders
@@ -86,26 +118,22 @@ export function shouldRunSplashForPhase(
 }
 
 /**
- * Re-entry reset doctrine (owner instruction 2026-09-05, round 11, item 3).
+ * Re-entry reset doctrine (owner instruction 2026-09-05, round 11, item 3;
+ * refined REV-17, SPEC.md §3 -- see `lib/entry/loadClass.ts`).
  *
- * Every DOCUMENT LOAD that is not an in-place refresh is a (re-)entry: a
- * PWA launch, a typed/bookmarked URL, an external link, a browser session
- * restore, a history traversal back onto the site. On every one of those --
- * on every device, online and App -- the tab's session state (curtain phase,
- * sub-view UI state, open popups) is wiped BEFORE anything reads it, so the
- * visitor always starts from the very first "logo page" splash instead of
- * being restored into whatever sub-view they left. Only `reload` is exempt:
- * an F5 parked on any page re-renders that page in place, because a refresh
- * is not a re-entry.
- *
- * `search` carries the QA opt-out: the Playwright harness drives the funnel
- * with `?splash=0`, and that flag keeps session state as well (a harness
- * that pre-seeds a phase and then navigates must not be wiped).
+ * The original rule here was a binary: any document load that isn't an
+ * in-place `reload` wipes the tab's session so the visitor always starts
+ * from the "logo page" splash. That missed three loads that carry a
+ * non-`reload` `navigationType` but are NOT a genuine re-entry -- a browser
+ * tab discarded for memory and restored, a WebKit process purge/restore,
+ * and an installed App's cold relaunch shortly after being backgrounded --
+ * so a visitor who never left the tab was replayed the entry gate and ad
+ * cinema from scratch. `classifyDocumentLoad()` in `lib/entry/loadClass.ts`
+ * is the corrected, three-way successor (`refresh` / `restore` / `entry`);
+ * `lib/pwa/installPrompt.ts`'s `PWA_CAPTURE_BOOTSTRAP` is its ES5
+ * pre-hydration implementation (this function itself has no runtime caller
+ * -- it was superseded before ever being wired in).
  */
-export function shouldResetEntrySession(navigationType: string | null | undefined, search: string): boolean {
-  if (!shouldRunSplash(search)) return false;
-  return (navigationType ?? '').trim().toLowerCase() !== 'reload';
-}
 
 /** Title glyphs, filled U -> S in order. */
 export const SPLASH_LETTERS = ['U', 'N', 'I', 'T', 'A', 'S'] as const;

@@ -28,7 +28,7 @@ function makeModule(
     hasRoute: true,
     color: '#0b5cff',
     icon: Circle,
-    i18n: { titleKey: 'Test.title', descriptionKey: 'Test.description' },
+    i18n: { titleKey: 'Test.title', descriptionKey: 'Test.description', riddleKey: 'Test.riddle', scenarioKey: 'Test.scenario' },
     ...overrides,
   };
 }

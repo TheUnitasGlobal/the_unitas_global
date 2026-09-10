@@ -65,8 +65,17 @@ export interface ClusterModule {
    * FULL next-intl keys ('Ecosystems.echo.title'). Lock-in titles are
    * owner-named brand marks rendered verbatim in every locale, so their
    * `titleKey` is '' and `literalTitle` carries the mark instead.
+   *
+   * REV-17 (SPEC.md §5.2, §6.1) adds two module-scoped copy keys, both
+   * rooted at `QuantumWhite.modules.<id>.*` (`id` is the tier-qualified
+   * `${kind}:${key}` -- a colon is a valid JSON object key, next-intl only
+   * splits on '.'): `riddleKey` is the short, curiosity-inducing tile copy
+   * (replaces the old kind badge + coin-cost chip on the tile face);
+   * `scenarioKey` is the longer abstract scenario shown in the Entry Gate's
+   * top half. `descriptionKey` is UNCHANGED and keeps being consumed by the
+   * Entry Gate's cost/legal context and the destination module page.
    */
-  i18n: { titleKey: string; descriptionKey: string };
+  i18n: { titleKey: string; descriptionKey: string; riddleKey: string; scenarioKey: string };
   /** Untranslated brand mark; only set when `i18n.titleKey` is ''. */
   literalTitle?: string;
 }
@@ -77,6 +86,11 @@ export interface SingularityCluster {
   titleKey: string;
   /** 'QuantumWhite.clusters.<key>.tagline' */
   taglineKey: string;
+  /**
+   * REV-17 (SPEC.md §5.1): 'QuantumWhite.clusters.<key>.enigma' -- the
+   * pop-out header subtitle that replaces the "N MODULES" counter line.
+   */
+  enigmaKey: string;
   /** Cluster accent hex (Quantum White palette). */
   accent: string;
   modules: ClusterModule[];
@@ -98,6 +112,11 @@ const CLUSTER_ACCENTS: Readonly<Record<ClusterKey, string>> = {
 
 function moduleId(kind: ModuleKind, key: string): string {
   return `${kind}:${key}`;
+}
+
+/** REV-17 (SPEC.md §5.2, §6.1): the tile-riddle + entry-gate-scenario key pair, shared by every builder below. */
+function moduleCopyKeys(id: string): { riddleKey: string; scenarioKey: string } {
+  return { riddleKey: `QuantumWhite.modules.${id}.riddle`, scenarioKey: `QuantumWhite.modules.${id}.scenario` };
 }
 
 /**
@@ -150,6 +169,7 @@ const ECOSYSTEM_MODULES: ClusterModule[] = ECOSYSTEMS.map((m): ClusterModule => 
   i18n: {
     titleKey: `Ecosystems.${m.messageKey}.title`,
     descriptionKey: `Ecosystems.${m.messageKey}.description`,
+    ...moduleCopyKeys(moduleId('ecosystem', m.key)),
   },
 }));
 
@@ -168,6 +188,7 @@ const LIFE_OS_CLUSTER_MODULES: ClusterModule[] = LIFE_OS_MODULES.map((m): Cluste
     i18n: {
       titleKey: `LifeOs.${m.messageKey}.title`,
       descriptionKey: `LifeOs.${m.messageKey}.description`,
+      ...moduleCopyKeys(id),
     },
   };
 });
@@ -187,6 +208,7 @@ const B2C_CLUSTER_MODULES: ClusterModule[] = B2C_MODULES.map((m): ClusterModule 
   i18n: {
     titleKey: `Modules.${m.messageKey}.title`,
     descriptionKey: `Modules.${m.messageKey}.description`,
+    ...moduleCopyKeys(moduleId('b2c', m.key)),
   },
 }));
 
@@ -205,6 +227,7 @@ const LOCK_IN_CLUSTER_MODULES: ClusterModule[] = LOCK_IN_MODULES.map((m): Cluste
     i18n: {
       titleKey: '',
       descriptionKey: `LockIn.modules.${m.key}.tagline`,
+      ...moduleCopyKeys(id),
     },
     literalTitle: m.brand,
   };
@@ -225,6 +248,7 @@ const B2B_CLUSTER_MODULES: ClusterModule[] = B2B_PROTOCOLS.map((m): ClusterModul
     i18n: {
       titleKey: `Modules.${m.messageKey}.title`,
       descriptionKey: `Modules.${m.messageKey}.description`,
+      ...moduleCopyKeys(id),
     },
   };
 });
@@ -234,6 +258,7 @@ function cluster(key: ClusterKey, modules: ClusterModule[]): SingularityCluster 
     key,
     titleKey: `QuantumWhite.clusters.${key}.title`,
     taglineKey: `QuantumWhite.clusters.${key}.tagline`,
+    enigmaKey: `QuantumWhite.clusters.${key}.enigma`,
     accent: CLUSTER_ACCENTS[key],
     modules,
   };

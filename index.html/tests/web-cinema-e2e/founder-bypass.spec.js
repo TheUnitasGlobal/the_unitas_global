@@ -12,7 +12,7 @@ const { test, expect } = require('@playwright/test');
 // web/lib/sovereignAuth.ts is the live token. `splash=0` skips the 5s intro
 // splash so the gate button is clickable immediately.
 
-const TOKEN = 'unitas_master_dooyeong_2026_secure_key';
+const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const AUTH_URL = `/en?sovereign_auth=${TOKEN}&splash=0`;
 
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();

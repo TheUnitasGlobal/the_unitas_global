@@ -30,39 +30,12 @@ describe('REV-15 quantum-white.css tokens (SPEC.md §1, §4, §5)', () => {
     expect(bodyRuleMatch![1]).not.toMatch(/\bfilter\s*:/);
   });
 
-  it('declares the REV-15 rich tile interior tokens (SPEC.md §4.2)', () => {
-    const tileTokens = [
-      '--qw-tile-min-w',
-      '--qw-tile-gap',
-      '--qw-tile-pad',
-      '--qw-tile-min-h',
-      '--qw-tile-medallion',
-      '--qw-tile-icon',
-      '--qw-tile-title-size',
-      '--qw-tile-desc-size',
-      '--qw-tile-desc-lines',
-      '--qw-tile-kind-size',
-    ];
-    for (const token of tileTokens) {
-      expect(QW_CSS, token).toContain(`${token}:`);
-    }
-  });
+  // The REV-15 "rich tile interior" token/selector list (--qw-tile-desc-*,
+  // --qw-tile-kind-size, .qw-tile-kind, .qw-tile-desc, .qw-tile-foot) was
+  // retired REV-17 along with the kind badge / coin-chip tile interior --
+  // see __tests__/quantumWhite/rev17Tokens.test.ts for its successor.
 
-  it('declares the rich tile interior selectors (SPEC.md §4.2)', () => {
-    const selectors = [
-      '.qw-tile-head',
-      '.qw-tile-medallion',
-      '.qw-tile-kind',
-      '.qw-tile-title',
-      '.qw-tile-desc',
-      '.qw-tile-foot',
-    ];
-    for (const selector of selectors) {
-      expect(QW_CSS, selector).toContain(selector);
-    }
-  });
-
-  it('gives .qw-popout-body/.qw-tile-grid/.qw-module-slide an explicit stretch/min-height:0 geometry fix (SPEC.md §4.1)', () => {
+  it('gives .qw-popout-body/.qw-tile-grid an explicit stretch/min-height:0 geometry fix (SPEC.md §4.1)', () => {
     const bodyRule = QW_CSS.match(/html\[data-unitas-surface='quantum-white'\] \.qw-popout-body \{([^}]*)\}/);
     expect(bodyRule, '.qw-popout-body base rule').not.toBeNull();
     expect(bodyRule![1]).toMatch(/align-items:\s*stretch/);

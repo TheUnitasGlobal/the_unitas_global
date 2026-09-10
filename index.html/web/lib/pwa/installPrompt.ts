@@ -24,11 +24,17 @@
 
 import {
   CINEMA_PHASE_STORAGE_KEY,
+  CINEMA_SEGMENT_STORAGE_KEY,
+  HANDOFF_STORAGE_KEY,
+  LEAVE_STAMP_STORAGE_KEY,
   SPLASH_ACTIVE_STORAGE_KEY,
   SPLASH_ACTIVE_VALUE,
   SPLASH_IN_PLACE_PHASES,
 } from '@/lib/splash/splashTimeline';
 import { CONSOLE_LOAD_ES5 } from '@/lib/sovereign/consoleTrigger';
+import { VISIT_LEDGER_TTL_MS } from '@/lib/entry/loadClass';
+import { VISIT_LEDGER_STORAGE_KEY, VISIT_LEDGER_VERSION } from '@/lib/entry/visitLedger';
+import { SURFACE_MIRROR_KEY } from '@/lib/quantumWhite/surfaceState';
 
 export interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -102,18 +108,30 @@ export const SPLASH_OFF_QUERY = /[?&]splash=(0|off|false)(&|$)/;
  *    lands and the more likely the visitor's FIRST tap meets a live prompt
  *  - stamps `data-splash="off"` on <html> for `?splash=0` so the SSR'd intro
  *    splash never paints on a QA/E2E run (pure CSS gate, no JS race)
- *  - RE-ENTRY RESET (owner instruction 2026-09-05, round 11, item 3): on
- *    every document load that is not an in-place `reload` -- a PWA launch,
- *    a typed / bookmarked URL, an external link, a browser session restore,
- *    a history traversal back onto the site -- the tab's session state
- *    (curtain phase, sub-view UI state, open popups) is wiped BEFORE any of
- *    it is read, so PC, mobile and tablet, online and App alike, always
- *    re-enter through the very first "logo page" splash instead of being
- *    restored into the login / main / ad / Coming-Soon sub-view they left.
- *    A bfcache restore (`pageshow` with `persisted`) is a re-entry too: the
- *    state is wiped and the document reloads so the same bootstrap runs
- *    again. `?splash=0` (QA harness) keeps state. Mirrors the pure predicate
- *    `shouldResetEntrySession()` in lib/splash/splashTimeline.ts.
+ *  - RE-ENTRY RESET, three-way (owner instruction 2026-09-05, round 11, item
+ *    3; refined REV-17, SPEC.md §3.1): every document load is classified
+ *    `refresh` / `restore` / `entry` (mirrors the pure `classifyDocumentLoad()`
+ *    in lib/entry/loadClass.ts -- this block is its ES5 pre-hydration twin,
+ *    tested for parity in __tests__/entry/loadClass.test.ts). A genuine
+ *    ENTRY -- a typed / bookmarked URL, an external link, a fresh tab, a
+ *    history traversal after a normal exit -- wipes the tab's session state
+ *    (curtain phase, sub-view UI state, open popups) BEFORE any of it is
+ *    read, so the visitor starts from the "logo page" splash instead of
+ *    being restored into a sub-view they never actually left. But three
+ *    loads that are NOT a genuine re-entry used to be wiped anyway because
+ *    their `navigationType` isn't `reload`: a Chromium tab discarded for
+ *    memory and restored (`document.wasDiscarded`), a WebKit process
+ *    purge/restore (no `pagehide` ever fired, so `unitas_leave_at` never got
+ *    written), and an installed App cold-relaunching within 30 minutes (no
+ *    sessionStorage survives that at all -- recovered from the
+ *    `unitas_visit_ledger` localStorage record instead, see
+ *    lib/entry/visitLedger.ts). All three now RESTORE in place. A same-tab
+ *    hand-off (`unitas_handoff`, e.g. the standalone locale prefetch
+ *    redirect in lib/pwa/standaloneLaunch.ts) is treated as a continuation,
+ *    same as a `reload`. A bfcache restore (`pageshow` with `persisted`) is
+ *    still always treated as a re-entry: the state is wiped and the document
+ *    reloads so the same bootstrap runs again from scratch. `?splash=0` (QA
+ *    harness) keeps state, as before.
  *  - stamps the same attribute when the tab carries ANY persisted Coming-Soon
  *    curtain phase (gate / cinema / sealed / released): a refresh parked on
  *    any of those pages -- the entry gate, an ad stage, the sealed
@@ -149,9 +167,38 @@ window.addEventListener('appinstalled',function(){window.__unitasPwaInstalled=tr
 if('serviceWorker' in navigator){try{navigator.serviceWorker.register('/sw.js').catch(function(){});}catch(_){}}
 var qa=/[?&]splash=(0|off|false)(&|$)/.test(location.search);
 if(qa){document.documentElement.setAttribute('data-splash','off');}
-try{var nt='navigate';try{var en=performance.getEntriesByType&&performance.getEntriesByType('navigation');if(en&&en[0]&&en[0].type){nt=String(en[0].type);}else if(performance.navigation&&performance.navigation.type===1){nt='reload';}}catch(_){}
-if(!qa&&nt.toLowerCase()!=='reload'){try{sessionStorage.clear();}catch(_){}}
-var rl=false;window.addEventListener('pageshow',function(e){if(!e||!e.persisted||qa||rl)return;rl=true;try{sessionStorage.clear();}catch(_){}try{location.reload();}catch(_){}});}catch(_){}
+try{
+var nt='navigate';
+try{var en=performance.getEntriesByType&&performance.getEntriesByType('navigation');if(en&&en[0]&&en[0].type){nt=String(en[0].type);}else if(performance.navigation&&performance.navigation.type===1){nt='reload';}}catch(_){}
+var wasDiscarded=false;try{wasDiscarded=document.wasDiscarded===true;}catch(_){}
+var phaseVal=null;try{phaseVal=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');}catch(_){}
+var hasPhase=!!phaseVal;
+var leaveStamp=false;try{leaveStamp=!!sessionStorage.getItem('${LEAVE_STAMP_STORAGE_KEY}');}catch(_){}
+var handoff=false;try{handoff=!!sessionStorage.getItem('${HANDOFF_STORAGE_KEY}');if(handoff){sessionStorage.removeItem('${HANDOFF_STORAGE_KEY}');}}catch(_){}
+var standalone=false;try{var mm=window.matchMedia;standalone=!!((mm&&(mm.call(window,'(display-mode: standalone)').matches||mm.call(window,'(display-mode: minimal-ui)').matches||mm.call(window,'(display-mode: window-controls-overlay)').matches))||navigator.standalone===true);}catch(_){}
+var ledger=null;var ledgerAge=null;
+try{var ls=window.localStorage;var raw=ls&&ls.getItem('${VISIT_LEDGER_STORAGE_KEY}');if(raw){var parsed=JSON.parse(raw);if(parsed&&parsed.v===${VISIT_LEDGER_VERSION}&&typeof parsed.at==='number'){var age=Date.now()-parsed.at;if(age>=0&&age<${VISIT_LEDGER_TTL_MS}){ledgerAge=age;ledger=parsed;}}}}catch(_){}
+var cls='entry';
+if(qa){cls='refresh';}
+else if(handoff){cls='refresh';}
+else if(nt.toLowerCase()==='reload'){cls='refresh';}
+else if(wasDiscarded&&hasPhase){cls='restore';}
+else if(hasPhase&&!leaveStamp){cls='restore';}
+else if(!hasPhase&&standalone&&ledgerAge!==null){cls='restore';}
+if(cls==='entry'){
+try{sessionStorage.clear();}catch(_){}
+try{window.localStorage&&window.localStorage.removeItem('${VISIT_LEDGER_STORAGE_KEY}');}catch(_){}
+}else if(cls==='restore'&&ledger){
+try{
+sessionStorage.setItem('${CINEMA_PHASE_STORAGE_KEY}',String(ledger.phase));
+if(ledger.segment){sessionStorage.setItem('${CINEMA_SEGMENT_STORAGE_KEY}',String(ledger.segment));}
+if(ledger.surface){sessionStorage.setItem('${SURFACE_MIRROR_KEY}',String(ledger.surface));}
+}catch(_){}
+}
+try{sessionStorage.removeItem('${LEAVE_STAMP_STORAGE_KEY}');}catch(_){}
+window.addEventListener('pagehide',function(){try{sessionStorage.setItem('${LEAVE_STAMP_STORAGE_KEY}',String(Date.now()));}catch(_){}});
+var rl=false;window.addEventListener('pageshow',function(e){if(!e||!e.persisted||qa||rl)return;rl=true;try{sessionStorage.clear();}catch(_){}try{location.reload();}catch(_){}});
+}catch(_){}
 try{var sa=sessionStorage.getItem('${SPLASH_ACTIVE_STORAGE_KEY}');var p=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(!(sa&&String(sa).trim()==='${SPLASH_ACTIVE_VALUE}')&&p&&${JSON.stringify([...SPLASH_IN_PLACE_PHASES])}.indexOf(String(p).trim())!==-1){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
 ${CONSOLE_LOAD_ES5}
 try{if(consoleLoad()){document.documentElement.setAttribute('data-splash','off');}}catch(_){}

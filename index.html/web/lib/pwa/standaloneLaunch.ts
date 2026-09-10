@@ -19,6 +19,7 @@
 
 import { routing } from '@/i18n/routing';
 import { LOCALE_PREF_COOKIE } from '@/lib/i18n/localePreference';
+import { HANDOFF_STORAGE_KEY } from '@/lib/splash/splashTimeline';
 
 export interface StandaloneLaunchInput {
   /** `display-mode: standalone` / `minimal-ui`, or iOS `navigator.standalone`. */
@@ -65,5 +66,6 @@ pref=String(pref).trim().toLowerCase();
 if(!pref||pref==='${routing.defaultLocale}')return;
 if(${JSON.stringify([...routing.locales])}.indexOf(pref)===-1)return;
 try{document.documentElement.setAttribute('data-standalone-launch',pref);}catch(_){}
+try{sessionStorage.setItem('${HANDOFF_STORAGE_KEY}','1');}catch(_){}
 location.replace('/'+pref+String(location.search||'')+String(location.hash||''));
 }catch(_){}})();`;

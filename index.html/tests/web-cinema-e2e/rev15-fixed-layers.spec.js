@@ -22,7 +22,7 @@ const { test, expect } = require('@playwright/test');
 // legible on its own and isn't buried inside unrelated cinema/founder
 // assertions.
 
-const TOKEN = 'unitas_master_dooyeong_2026_secure_key';
+const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();
 const skipButton = (page) => page.locator('button:has(.cs-skip-aurora)');
 

@@ -34,7 +34,7 @@ const { test, expect } = require('@playwright/test');
 // `routing.locales` has no `fil` entry, so detection finds nothing and the
 // requested `/tl` URL sticks for the same reason.
 
-const TOKEN = 'unitas_master_dooyeong_2026_secure_key';
+const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();
 const skipButton = (page) => page.locator('button:has(.cs-skip-aurora)');
 

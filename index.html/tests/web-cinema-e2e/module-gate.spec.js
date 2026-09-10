@@ -9,7 +9,7 @@
 // gated route must NOT render module content, it must 307 to /{locale}/locked.
 // The server-verified sovereign founder session is the one way through.
 
-const TOKEN = 'unitas_master_dooyeong_2026_secure_key';
+const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const GATED_PATH = '/en/arche?splash=0';
 
 test.describe('page-level module coin gate', () => {

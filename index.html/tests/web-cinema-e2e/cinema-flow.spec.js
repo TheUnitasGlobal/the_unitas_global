@@ -5,7 +5,7 @@ const { test, expect } = require('@playwright/test');
 // web/lib/sovereignAuth.ts is live). middleware.ts strips the token via a
 // 303 and keeps `splash=0`, which skips the forced 5s intro splash so the
 // gate button is clickable immediately (see intro-splash.spec.js for it).
-const TOKEN = 'unitas_master_dooyeong_2026_secure_key';
+const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const GATE_URL = `/en?sovereign_auth=${TOKEN}&splash=0`;
 
 // Both <AudioGate/> (z-300) and the <ComingSoonCinema/> curtain (z-400) render

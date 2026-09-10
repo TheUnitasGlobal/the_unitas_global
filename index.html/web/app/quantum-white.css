@@ -77,20 +77,34 @@ html[data-unitas-surface='quantum-white'] {
   --qw-card-shadow-hover: 0 18px 40px rgba(10, 10, 12, 0.12);
 
   /* --------------------------------------------------------------------
-     REV-15 rich tile interior tokens (SPEC.md §4.2). Desktop defaults;
-     the `@media (max-width: 767px)` block near the tile rules re-keys
-     several of these into a compact list-row layout.
+     REV-17 curiosity-tile interior tokens (SPEC.md §5.3). Desktop
+     defaults; the `@media (max-width: 767px)` block near the tile rules
+     re-keys several of these into a compact 2-column layout. Supersedes
+     the REV-15 kind-badge/coin-chip tile tokens (`--qw-tile-desc-*`,
+     `--qw-tile-kind-size`), retired along with that interior.
      -------------------------------------------------------------------- */
   --qw-tile-min-w: 196px;
   --qw-tile-gap: 14px;
-  --qw-tile-pad: 16px;
-  --qw-tile-min-h: 168px;
+  --qw-tile-pad: 18px 14px 14px;
+  --qw-tile-min-h: 148px;
   --qw-tile-medallion: 36px;
   --qw-tile-icon: 18px;
-  --qw-tile-title-size: 0.92rem;
-  --qw-tile-desc-size: 0.78rem;
-  --qw-tile-desc-lines: 3;
-  --qw-tile-kind-size: 0.6rem;
+  --qw-tile-head-gap: 10px;
+  --qw-tile-title-size: 0.95rem;
+  --qw-tile-riddle-size: 0.78rem;
+  --qw-tile-riddle-lines: 2;
+  --qw-tile-cue-w: 20px;
+  --qw-tile-cue-w-hover: 40px;
+
+  /* REV-17 Singularity Core sigils (SPEC.md §4.2). */
+  --qw-sigil-size: 64px;
+  --qw-sigil-stroke: 1.25px;
+  --qw-cluster-title: 1.45rem;
+
+  /* REV-17 Entry Gate (SPEC.md §6.8). */
+  --qw-entry-max-w: 640px;
+  --qw-entry-stage-h: min(34vh, 300px);
+  --qw-entry-eyebrow: 0.62rem;
 }
 
 /* REV-15 (SPEC.md §1.3): chrono-luminance via color-mix(), not filter().
@@ -161,10 +175,42 @@ html[data-unitas-surface='quantum-white'] #unitas-nav .text-cyan-300\/90 {
 /* Install CTA: `-webkit-text-fill-color` on `.unitas-install-cta__brand`/
    `__label` (globals.css) outranks a plain `color` remap in Blink/WebKit, so
    both custom properties are set directly rather than relying on the
-   `.text-accent` rule above. */
+   `.text-accent` rule above.
+   REV-17 (SPEC.md §2.4): the CTA needed a real border, not just a glow --
+   `.app-download-pulse`'s keyframe animates `box-shadow`, which outranks
+   any static `box-shadow` declared here (cascade order inside the same
+   property), so the border comes from a genuine `border-color` + a
+   REPLACEMENT keyframe (`qw-cta-breathe`, below) scoped to this surface
+   instead of trying to out-shadow the dark-theme one. */
+html[data-unitas-surface='quantum-white'] {
+  --qw-cta-line: rgba(10, 10, 12, 0.45);
+  --qw-cta-line-peak: rgba(10, 10, 12, 0.62);
+  --qw-cta-bg: rgba(255, 255, 255, 0.72);
+  --qw-cta-ring: rgba(184, 150, 46, 0.14);
+}
 html[data-unitas-surface='quantum-white'] #unitas-nav .unitas-install-cta {
   color: var(--qw-ink);
-  box-shadow: 0 0 0 1px var(--qw-nav-line);
+  border-color: var(--qw-cta-line);
+  background: var(--qw-cta-bg);
+  animation-name: qw-cta-breathe;
+  animation-duration: 6s;
+}
+html[data-unitas-surface='quantum-white'] #unitas-nav .unitas-install-cta:hover,
+html[data-unitas-surface='quantum-white'] #unitas-nav .unitas-install-cta:focus-visible {
+  border-color: var(--qw-blue-deep);
+  box-shadow: 0 1px 2px rgba(10, 10, 12, 0.06), 0 0 0 3px rgba(11, 92, 255, 0.14);
+  animation-play-state: paused;
+}
+@keyframes qw-cta-breathe {
+  0%,
+  100% {
+    box-shadow: 0 1px 2px rgba(10, 10, 12, 0.06), 0 0 0 0 var(--qw-cta-ring);
+    border-color: var(--qw-cta-line);
+  }
+  50% {
+    box-shadow: 0 1px 2px rgba(10, 10, 12, 0.06), 0 0 0 3px var(--qw-cta-ring);
+    border-color: var(--qw-cta-line-peak);
+  }
 }
 html[data-unitas-surface='quantum-white'] #unitas-nav .unitas-install-cta__brand {
   color: var(--qw-ink);
@@ -478,19 +524,13 @@ html[data-unitas-surface='quantum-white'] .qw-void-ring-6 { top: 48%; left: 40%;
 }
 
 /* --------------------------------------------------------------------------
-   6. Singularity Core grid + orbit dots (spec §3)
+   6. Singularity Core grid + sigils (spec §3, §4 -- REV-17 SPEC.md §4)
    -------------------------------------------------------------------------- */
 html[data-unitas-surface='quantum-white'] .qw-cluster-section {
   position: relative;
   z-index: 1;
   content-visibility: auto;
   contain-intrinsic-size: 900px;
-}
-html[data-unitas-surface='quantum-white'] .qw-cluster-dot {
-  transform: translate(-50%, -50%)
-    rotate(calc(360deg / max(var(--qw-n, 1), 1) * var(--qw-i, 0)))
-    translate(36px)
-    rotate(calc(-360deg / max(var(--qw-n, 1), 1) * var(--qw-i, 0)));
 }
 /* Cluster cards (SingularityCoreGrid.tsx `.qw-cluster-card`): the hook
    existed but no rule targeted it, so its `border-[var(--qw-line)]` (8%
@@ -508,6 +548,71 @@ html[data-unitas-surface='quantum-white'] .qw-cluster-card:hover,
 html[data-unitas-surface='quantum-white'] .qw-cluster-card:focus-visible {
   border-color: var(--qw-ink-3);
   box-shadow: var(--qw-card-shadow-hover), inset 0 1px 0 #fff;
+}
+/* REV-17 (SPEC.md §4.2): the four abstract sigils that replace the
+   orbit-dot rings -- whose dot COUNT doubled as an unintentional module
+   counter, exactly the curiosity-killer the mandate calls out. Geometry
+   lives in lib/quantumWhite/clusterSigils.tsx; this file only styles the
+   wrapper (size, rest/hover ink) and the shared rotation keyframes. */
+html[data-unitas-surface='quantum-white'] .qw-cluster-sigil {
+  display: block;
+  width: var(--qw-sigil-size);
+  height: var(--qw-sigil-size);
+  margin-bottom: 14px;
+  color: var(--qw-ink-2);
+  transition: color 0.25s ease;
+}
+html[data-unitas-surface='quantum-white'] .qw-cluster-card:hover .qw-cluster-sigil,
+html[data-unitas-surface='quantum-white'] .qw-cluster-card:focus-visible .qw-cluster-sigil {
+  color: var(--qw-sigil-accent, var(--qw-ink-2));
+}
+html[data-unitas-surface='quantum-white'] .qw-sigil-spin {
+  transform-origin: 50% 50%;
+  animation: qw-sigil-spin var(--qw-sigil-period, 90s) linear infinite;
+}
+html[data-unitas-surface='quantum-white'] .qw-sigil-spin-reverse {
+  animation-direction: reverse;
+}
+@keyframes qw-sigil-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* REV-17 (SPEC.md §4.3): title promoted for visibility (was 1.2rem/700,
+   effectively 0.9rem inside `.dashboard-zoom`'s 0.75 scale) + a short gold
+   rule beneath it; tagline unchanged in size, just re-copied numeral-free. */
+html[data-unitas-surface='quantum-white'] .qw-cluster-title {
+  font-size: var(--qw-cluster-title);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+html[data-unitas-surface='quantum-white'] .qw-cluster-title::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  margin: 8px auto 0;
+  background: var(--qw-gold);
+}
+html[data-unitas-surface='quantum-white'] .qw-cluster-tagline {
+  display: block;
+  max-width: 24ch;
+  margin-top: 10px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+@media (max-width: 767px) {
+  html[data-unitas-surface='quantum-white'] {
+    --qw-cluster-title: 1.3rem;
+    --qw-sigil-size: 56px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-unitas-surface='quantum-white'] .qw-sigil-spin {
+    animation: none;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -529,6 +634,28 @@ html[data-unitas-surface='quantum-white'] .qw-popout-panel header {
 html[data-unitas-surface='quantum-white'] .qw-popout-panel header button {
   border-color: var(--qw-line-strong);
 }
+/* REV-17 (SPEC.md §5.1, §6.1): the header is shared chrome between the tile
+   grid view (cluster title + enigma subtitle) and the Entry Gate view (a
+   back button + medallion + module title, cluster name as a small eyebrow
+   above it) -- `ClusterPopout.tsx` swaps the composition, not the element. */
+html[data-unitas-surface='quantum-white'] .qw-popout-enigma {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-ident .qw-entry-eyebrow {
+  margin-bottom: 2px;
+}
+/* max-width: 640px on the entry view narrows the whole panel around its
+   two-half content -- the grid view keeps the wider 4xl Tailwind max-width. */
+html[data-unitas-surface='quantum-white'] .qw-popout-panel {
+  transition: max-width 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+html[data-unitas-surface='quantum-white'] .qw-popout-panel[data-view='entry'] {
+  max-width: var(--qw-entry-max-w);
+}
 @keyframes qw-popout-enter {
   from {
     opacity: 0;
@@ -539,13 +666,20 @@ html[data-unitas-surface='quantum-white'] .qw-popout-panel header button {
     transform: perspective(1200px) rotateX(0deg) translateZ(0);
   }
 }
+/* REV-17 (SPEC.md §5.3) -- curiosity tile: a medallion + title head row
+   (centered as a group, title reading to the medallion's right within that
+   group), a 2-line riddle below it, and a short heat-line "cue" pinned to
+   the tile's bottom via `margin-top: auto`. Supersedes the REV-15 kind
+   badge / description-clamp / coin-chip footer interior entirely. */
 html[data-unitas-surface='quantum-white'] .qw-tile {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
   min-height: var(--qw-tile-min-h);
   padding: var(--qw-tile-pad);
+  text-align: center;
   border-width: var(--qw-tile-border-w);
   border-color: var(--qw-line-strong);
   box-shadow: var(--qw-card-shadow-rest);
@@ -567,18 +701,13 @@ html[data-unitas-surface='quantum-white'] .qw-tile:focus-visible {
   border-color: var(--qw-tile-accent, var(--qw-ink-3));
   outline: none;
 }
-/* REV-15 (SPEC.md §4.2) -- rich tile interior: a fixed-height icon-badge
-   header row, a 2-line-minimum title, a clamped description (every one of
-   the 32 modules' `descriptionKey` strings, 20 locales x 32 modules, none
-   empty -- see clusters.test.ts), and a footer pinned to the tile bottom
-   via `margin-top: auto` so the coin chip lines up across every tile in a
-   row regardless of how many lines its neighbours' title/description used. */
 html[data-unitas-surface='quantum-white'] .qw-tile-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  height: var(--qw-tile-medallion);
+  justify-content: center;
+  gap: var(--qw-tile-head-gap);
+  width: 100%;
+  min-height: var(--qw-tile-medallion);
 }
 html[data-unitas-surface='quantum-white'] .qw-tile-medallion {
   display: grid;
@@ -600,67 +729,58 @@ html[data-unitas-surface='quantum-white'] .qw-tile-medallion svg {
   width: var(--qw-tile-icon);
   height: var(--qw-tile-icon);
 }
-html[data-unitas-surface='quantum-white'] .qw-tile-kind {
-  font-size: var(--qw-tile-kind-size);
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--qw-ink-3);
-  white-space: nowrap;
-}
+/* Title sits to the medallion's RIGHT within the centered head group
+   (SPEC.md §5.2 M4: "로고 우측") -- left-aligned text inside that group,
+   the group itself centered as a whole by `.qw-tile-head`. */
 html[data-unitas-surface='quantum-white'] .qw-tile-title {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: calc(100% - var(--qw-tile-medallion) - var(--qw-tile-head-gap));
+  text-align: left;
   font-size: var(--qw-tile-title-size);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.2;
   color: var(--qw-ink);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-  min-height: calc(2 * var(--qw-tile-title-size) * 1.25);
+  overflow-wrap: anywhere;
 }
-html[data-unitas-surface='quantum-white'] .qw-tile-desc {
-  font-size: var(--qw-tile-desc-size);
+html[data-unitas-surface='quantum-white'] .qw-tile-riddle {
+  font-size: var(--qw-tile-riddle-size);
   line-height: 1.45;
   color: var(--qw-ink-3);
+  text-wrap: balance;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--qw-tile-desc-lines);
+  -webkit-line-clamp: var(--qw-tile-riddle-lines);
   overflow: hidden;
+  min-height: calc(var(--qw-tile-riddle-lines) * 1.45em);
 }
-html[data-unitas-surface='quantum-white'] .qw-tile-foot {
+html[data-unitas-surface='quantum-white'] .qw-tile-cue {
   margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--qw-ink-3);
+  width: var(--qw-tile-cue-w);
+  height: 1px;
+  background: var(--qw-tile-ink);
+  opacity: 0.55;
+  transition: width 0.2s ease, opacity 0.2s ease;
 }
-html[data-unitas-surface='quantum-white'] .qw-tile:hover .qw-tile-foot,
-html[data-unitas-surface='quantum-white'] .qw-tile:focus-visible .qw-tile-foot {
-  color: var(--qw-tile-ink);
+html[data-unitas-surface='quantum-white'] .qw-tile:hover .qw-tile-cue,
+html[data-unitas-surface='quantum-white'] .qw-tile:focus-visible .qw-tile-cue {
+  width: var(--qw-tile-cue-w-hover);
+  opacity: 1;
 }
 html[data-unitas-surface='quantum-white'] .qw-module-success {
   border-width: 1.5px;
   border-color: var(--qw-line-strong);
 }
 
-/* REV-15 (SPEC.md §4.1) -- the mobile 1-column-155px collapse and the
-   desktop last-row clipping shared ONE root cause: `.qw-popout-body` was
-   `items-start` (a `flex-start` cross-axis alignment), which under a
-   COLUMN flex direction (mobile, media query below) gives the grid a
-   fit-content cross-axis size instead of the parent's full width -- CSS
-   Grid's `repeat(auto-fill, minmax(150px,1fr))` only repeats once inside
-   an indefinite track, collapsing to one narrow column -- and under a ROW
-   flex direction (desktop) leaves the grid's own height unconstrained, so
-   `overflow-y: auto` never had a bounded box to scroll and the last row
-   was clipped by the panel's own `overflow-hidden` instead. `stretch`
-   (the flex default, restored here explicitly) fixes both at once: full
-   cross-axis width on mobile, a real bounded height on desktop.
-   `grid-auto-rows: max-content` is the second half of the mobile fix --
-   inside a definite-height scroll container, an `auto` grid row's track
-   sizes to each item's OWN minimum contribution (`min-h-[44px]` collapsed
-   every tile to 44px, spilling titles/chips into the next tile); this
-   keeps rows sized to their actual (now much taller) content. */
+/* REV-15 (SPEC.md §4.1) fix retained as-is -- see the historical note it
+   originally shipped with: `.qw-popout-body`'s `align-items: stretch` +
+   `.qw-tile-grid`'s `grid-auto-rows: max-content` are still what give the
+   grid a real, scrollable bounded height on desktop and full cross-axis
+   width on mobile. */
 html[data-unitas-surface='quantum-white'] .qw-popout-body {
   align-items: stretch;
   min-height: 0;
@@ -674,25 +794,23 @@ html[data-unitas-surface='quantum-white'] .qw-tile-grid {
   gap: var(--qw-tile-gap);
   padding-right: 4px;
 }
-html[data-unitas-surface='quantum-white'] .qw-module-slide {
-  align-self: stretch;
-  min-height: 0;
-}
 
-/* Mobile: the pop-out becomes a full-height sheet, the tile grid becomes a
-   single-column list of rows (icon left, copy right), and the module panel
-   becomes a bottom sheet over it (spec §9). */
+/* Mobile: the pop-out becomes a full-height sheet; the tile grid becomes a
+   2-column grid of compact cards (REV-17 SPEC.md §5.3 -- the REV-15
+   `grid-template-areas` single-column list row is retired: it silently
+   depended on the medallion being the tile's DIRECT child, which the
+   REV-17 head-group markup no longer is). */
 @media (max-width: 767px) {
   html[data-unitas-surface='quantum-white'] {
-    --qw-tile-min-h: 0px;
-    --qw-tile-medallion: 40px;
-    --qw-tile-icon: 20px;
-    --qw-tile-title-size: 0.95rem;
-    --qw-tile-desc-size: 0.8rem;
-    /* No clamp on mobile: each module is its own full-width row (not a
-       grid cell competing for height with neighbours), so the full
-       description reads without truncation. */
-    --qw-tile-desc-lines: 99;
+    --qw-tile-min-w: 140px;
+    --qw-tile-gap: 10px;
+    --qw-tile-pad: 16px 12px 12px;
+    --qw-tile-min-h: 136px;
+    --qw-tile-medallion: 32px;
+    --qw-tile-icon: 16px;
+    --qw-tile-head-gap: 8px;
+    --qw-tile-title-size: 0.9rem;
+    --qw-tile-riddle-size: 0.76rem;
   }
   html[data-unitas-surface='quantum-white'] .qw-popout-backdrop {
     padding: 0;
@@ -707,56 +825,176 @@ html[data-unitas-surface='quantum-white'] .qw-module-slide {
     flex-direction: column;
   }
   html[data-unitas-surface='quantum-white'] .qw-tile-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--qw-tile-min-w)), 1fr));
   }
-  html[data-unitas-surface='quantum-white'] .qw-tile {
-    display: grid;
-    grid-template-columns: var(--qw-tile-medallion) 1fr;
-    grid-template-areas: 'medal head' 'medal title' 'medal desc' 'medal foot';
-    column-gap: 12px;
-    row-gap: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   7b. Entry Gate (REV-17, SPEC.md §6) -- the module detail + one-click
+       investment VIEW the pop-out panel switches into (`data-view="entry"`,
+       see section 7 above). `components/home/quantum/EntryGate.tsx` renders
+       exactly this markup; the panel's shared header (back/close, module
+       identity) is styled alongside the grid-view header, also above.
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-entry-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 28px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-eyebrow {
+  font-size: var(--qw-entry-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--qw-ink-3);
+  margin-bottom: 6px;
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-scenario-text {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--qw-ink-2);
+  text-wrap: pretty;
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-guide ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-guide li {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-guide li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-top: 0.5em;
+  border-radius: 50%;
+  background: var(--qw-tile-ink, var(--qw-gold));
+  justify-self: center;
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-notice {
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--qw-ink-3);
+  border-left: 2px solid var(--qw-gold);
+  padding: 8px 12px;
+  background: var(--qw-bg-2);
+  border-radius: 0 10px 10px 0;
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-notice ol {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-notice li::before {
+  content: '§ ';
+  font-weight: 700;
+  color: var(--qw-gold-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-legal-link {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--qw-blue-deep);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-pay {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background: var(--qw-bg);
+  border-top: 1px solid var(--qw-line-strong);
+  padding: 14px 28px calc(14px + var(--u-safe-bottom, 0px));
+}
+/* Video/animation placeholder stage: a plain gradient + the module's
+   cluster sigil until a real asset is wired to `data-video-src`. */
+html[data-unitas-surface='quantum-white'] .qw-entry-stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  max-height: var(--qw-entry-stage-h);
+  width: 100%;
+  /* Without this, `.qw-entry-scroll`'s flex-shrink algorithm (its content
+     often exceeds the scroll container's own height) crushes this the
+     only aspect-ratio'd flex child down toward 0 instead of letting the
+     TEXT content below it overflow into the scroll area, which is what
+     `.qw-entry-scroll { overflow-y: auto }` exists for in the first place. */
+  flex-shrink: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: radial-gradient(120% 90% at 50% 100%, rgba(11, 92, 255, 0.1), transparent 60%), var(--qw-bg-2);
+  border: 1px solid var(--qw-line-strong);
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.55) 50%, transparent 60%);
+  background-size: 250% 100%;
+  animation: qw-entry-stage-sweep 14s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes qw-entry-stage-sweep {
+  0%,
+  100% {
+    background-position: 200% 0;
   }
-  html[data-unitas-surface='quantum-white'] .qw-tile-head {
-    grid-area: head;
-    height: auto;
-    justify-content: flex-start;
+  50% {
+    background-position: -100% 0;
   }
-  html[data-unitas-surface='quantum-white'] .qw-tile-medallion {
-    grid-area: medal;
-    align-self: start;
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-stage-sigil {
+  position: relative;
+  z-index: 1;
+  width: 96px;
+  height: 96px;
+  color: var(--qw-tile-ink, var(--qw-ink-2));
+  opacity: 0.7;
+}
+html[data-unitas-surface='quantum-white'] .qw-entry-stage-caption {
+  position: relative;
+  z-index: 1;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--qw-ink-3);
+}
+@media (max-width: 767px) {
+  html[data-unitas-surface='quantum-white'] .qw-entry-scroll {
+    padding: 0 18px 16px;
   }
-  html[data-unitas-surface='quantum-white'] .qw-tile-title {
-    grid-area: title;
-    min-height: 0;
-    -webkit-line-clamp: 3;
+  html[data-unitas-surface='quantum-white'] .qw-entry-pay {
+    padding-inline: 18px;
   }
-  html[data-unitas-surface='quantum-white'] .qw-tile-desc {
-    grid-area: desc;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-unitas-surface='quantum-white'] .qw-entry-stage::before {
+    animation: none;
   }
-  html[data-unitas-surface='quantum-white'] .qw-tile-foot {
-    grid-area: foot;
-    margin-top: 6px;
-  }
-  html[data-unitas-surface='quantum-white'] .qw-tile-grid-hidden {
-    display: none;
-  }
-  html[data-unitas-surface='quantum-white'] .qw-module-slide {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    max-width: none;
-    max-height: 82vh;
-    padding: 1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));
-    background: var(--qw-bg);
-    border-radius: 20px 20px 0 0;
-    box-shadow: 0 -14px 40px rgba(10, 10, 12, 0.16);
-    animation: qw-sheet-enter 0.28s ease-out;
-  }
-  @keyframes qw-sheet-enter {
-    from { transform: translate3d(0, 100%, 0); }
-    to { transform: translate3d(0, 0, 0); }
+  html[data-unitas-surface='quantum-white'] .qw-tile-cue {
+    transition: none;
   }
 }
 
@@ -879,7 +1117,7 @@ html[data-unitas-surface='quantum-white'] .qw-watermark-invisible {
   html[data-unitas-surface='quantum-white'] .qw-popout-panel {
     animation: qw-popout-enter-reduced 0.18s ease-out;
   }
-  html[data-unitas-surface='quantum-white'] .qw-module-slide {
+  html[data-unitas-surface='quantum-white'] .qw-entry-stage::before {
     animation: none;
   }
   html[data-unitas-surface='quantum-white'] .qw-upay-ring::before {
