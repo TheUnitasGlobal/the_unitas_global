@@ -369,21 +369,46 @@ export function createModalStack(host: ModalHistoryHost): ModalStack {
       closeLayers(close);
       deadSkips = { count: 0, since: 0 };
     }
-    if (pending) {
-      settle();
-    }
-    if (dead && !pending) {
+    // Whether this popstate settles a traversal WE issued -- decided before
+    // any settling happens, since settle() itself clears `pending`.
+    const wasPending = pending !== null;
+    if (dead) {
       // Landed on an entry nothing open owns -> step over it. Finite: the
-      // walk stops at the first entry without the key, and a hostile
-      // storm of dead landings parks at the budget instead of looping.
+      // walk stops at the first entry without the key, and a hostile storm
+      // of dead landings parks at the budget instead of looping.
+      //
+      // This decision -- and, when it fires, the corrective traverse --
+      // MUST happen before settle()/drain() gets a chance to flush any
+      // push that was queued behind this same traversal. Draining first
+      // would let that push land its own fresh entry on top of the dead
+      // one, and the corrective `go(-1)` below would then overshoot past
+      // THAT entry too, closing a layer that had only just legitimately
+      // opened (the "open a keyword result while its dropdown collapses"
+      // race REV-20 uncovered: three nested search layers releasing in the
+      // same tick leave two dead tokens on the landing the new layer's
+      // queued push would otherwise ride in on).
       const t = now();
-      if (!deadSkipAllowed(deadSkips.count, deadSkips.since, t)) return;
-      if (t - deadSkips.since >= DEAD_SKIP_WINDOW_MS) deadSkips = { count: 0, since: t };
-      deadSkips.count += 1;
-      traverse(-1);
-      return;
+      if (deadSkipAllowed(deadSkips.count, deadSkips.since, t)) {
+        if (t - deadSkips.since >= DEAD_SKIP_WINDOW_MS) deadSkips = { count: 0, since: t };
+        deadSkips.count += 1;
+        if (wasPending) {
+          // Clear the settled traversal's bookkeeping WITHOUT draining --
+          // queued work stays parked for the corrective traverse's own
+          // landing (still consistent with "a push mid-traversal waits
+          // for that landing", just one landing later than usual here).
+          host.clearTimeout(pending!.timer);
+          pending = null;
+          ownTraversalsExpected = 0;
+        }
+        traverse(-1);
+        return;
+      }
+      // Budget exhausted this window -- give up skipping for now rather
+      // than loop; fall through so queued work is not stranded forever.
+    } else {
+      deadSkips = { count: 0, since: 0 };
     }
-    if (!dead) deadSkips = { count: 0, since: 0 };
+    if (wasPending) settle();
     // The landing released every lock: replay parked pushes / releases in
     // order, then give deferred layers their entry if a gesture is live.
     void claimed;

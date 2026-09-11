@@ -222,6 +222,48 @@ describe('createModalStack', () => {
     expect(readModalStack(h.state())).toEqual([b.token]);
   });
 
+  it('a new push queued behind three nested layers releasing in the same tick survives the dead-entry skip that unwinds them (REV-20 keyword-panel race)', () => {
+    // Reproduces the search dropdown's L1/L2/L3 layers (focus -> typing ->
+    // text) all collapsing in one React commit -- exactly what
+    // OmniSynapseSearch's closeBrowseHub() does -- while, in that SAME
+    // commit, a brand new layer (the keyword-result panel) is pushed. Only
+    // the topmost release actually starts a real traversal; the other two
+    // leave dead tokens on the landings that traversal unwinds through, and
+    // the fresh push must not get swept up by the corrective skips that
+    // clear those dead tokens.
+    const h = fakeHistory();
+    const stack = createModalStack(h);
+    let closedD = false;
+    const a = stack.push('search:focus', () => undefined);
+    const b = stack.push('search:typing', () => undefined);
+    const c = stack.push('search:text', () => undefined);
+    expect(h.entries).toHaveLength(4);
+
+    // React's effect-cleanup batch: all three release synchronously, in
+    // HOOK DECLARATION ORDER (React runs changed-dependency cleanups top
+    // to bottom, not reversed -- reversal is only for unmount) -- so the
+    // OUTERMOST layer (focus) releases first, same as OmniSynapseSearch's
+    // three `useHistoryLayer(focused, ...)` / `(focused && typing, ...)` /
+    // `(focused && typing && hasText, ...)` calls -- then the new layer
+    // pushes from the newly-rendered sibling's own effect.
+    a.release();
+    b.release();
+    c.release();
+    const d = stack.push('unitasKeywordPanel', () => {
+      closedD = true;
+    });
+    expect(stack.openCount()).toBe(1); // only d is tracked as open
+
+    // Land every traversal the unwind needs (real releases + dead-entry
+    // skips) until nothing is left pending -- exactly what a real browser
+    // delivers, one popstate per go() call.
+    for (let i = 0; i < 10 && h.pendingDelta !== null; i += 1) h.land();
+
+    expect(closedD).toBe(false);
+    expect(stack.openCount()).toBe(1);
+    expect(readModalStack(h.state())).toEqual([d.token]);
+  });
+
   it('proceeds without the popstate after the traversal timeout', () => {
     const h = fakeHistory();
     const stack = createModalStack(h);
