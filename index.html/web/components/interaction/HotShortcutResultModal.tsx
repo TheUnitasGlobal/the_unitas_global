@@ -1,26 +1,12 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { AnimatePresence, motion } from 'framer-motion';
-import {
-  Search,
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-  CornerDownLeft,
-  ExternalLink,
-  Activity,
-  TrendingUp,
-  Minus,
-  TrendingDown,
-  type LucideIcon,
-} from 'lucide-react';
-import { DialogTower } from '@/components/ui/DialogTower';
-import { AppLoopRow } from '@/components/interaction/AppLoopRow';
+import { motion } from 'framer-motion';
+import { Search, ArrowRight, ExternalLink, X, type LucideIcon } from 'lucide-react';
+import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import {
-  itemsInGroup,
   findShortcutAxis,
   axisTitle,
   axisDescription,
@@ -59,7 +45,7 @@ interface ChainTier {
   /** the query this tier's engine pass runs on. */
   query: string;
   title: string;
-  /** static doctrine copy for axis tiers; the parent title for nested ones. */
+  /** the parent tier's title, for nested (query/keyword) tiers only. */
   description: string;
   color: string;
   glow: string;
@@ -71,9 +57,7 @@ interface ChainTier {
 interface PersistedLadder {
   group: ShortcutGroup;
   key: string;
-  cursorIndex: number;
   tiers: TierDescriptor[];
-  draft: string;
 }
 
 /** sessionStorage slot for the whole ladder (HomeContent keeps the coarser
@@ -101,12 +85,6 @@ function writeLadder(next: PersistedLadder | null): void {
   }
 }
 
-const TREND_ICON: Record<ShortcutAnalysis['pulse']['trend'], LucideIcon> = {
-  rising: TrendingUp,
-  stable: Minus,
-  cooling: TrendingDown,
-};
-
 /** Whole hours since the served snapshot was synthesized (null = local pass). */
 function hoursSince(ts: number | null): number | null {
   if (!ts) return null;
@@ -114,32 +92,29 @@ function hoursSince(ts: number | null): number | null {
 }
 
 /**
- * The multi-tier chained U-AI popup opened by HotShortcutMatrixStrip -- the
- * "infinite knowledge ladder". Tier 0 is the tapped tile; every later tier
- * is appended (never replaced) so the whole reading history stays in one
- * scroll. Four ways to grow it, all endless:
+ * REV-20 §4 -- the keyword-click deep dive. Anchored to the search bar's own
+ * width (rendered by OmniSynapseSearch.tsx as a `.qw-keyword-panel` sibling
+ * of the typing dropdown, NOT a portal, NEVER fullscreen -- the founder's
+ * explicit boundary). Every generic/navigational block REV-19 carried
+ * (sibling-axis stepper, the "restored" banner, the clickable 6-axis score
+ * grid, sibling-axis keyword chips, the free-text chain-query form, the
+ * pinned AppLoopRow) is gone; only content strictly about the clicked
+ * keyword remains: its live web sources (up to 24 now, §6.1), the LLM-forged
+ * 6-axis UNITAS deep report, and real entity keyword chips that keep
+ * nesting new tiers -- the "infinite knowledge ladder" itself, now inside a
+ * constrained, scrollable box instead of a fullscreen tower.
  *
- * 1. prev/next steps to the sibling axis in the same group, wrapping forever.
- * 2. the chain-query box at the bottom stacks a free-text tier.
- * 3. every tier's keyword chips (real entities from the live feed + the
- *    doctrine axes the engine scored) nest a new tier beneath it -- and that
- *    tier yields its own chips, so depth is unbounded.
- * 4. the app/asset loop row hands the visitor out to a webmail / social app
- *    or a UNITAS asset download and back without losing a single tier.
+ * Four ways to grow it, all endless:
+ * 1. every tier's keyword chips (real entities from the live feed) nest a
+ *    new tier beneath it -- and that tier yields its own chips, unbounded.
+ * 2. reopening the same keyword restores exactly where the ladder left off.
  *
  * Every tier is served by the 24h sovereign caching engine (GET
- * /api/u-ai/shortcut-cache via lib/uai/shortcutCacheClient.ts): the snapshot
- * the nightly batch parked in Postgres + the Vercel CDN, plus the LLM-forged
- * 6-axis UNITAS deep analysis from Genesis Memory -- 0초 to render, 0원 per
- * visit, no browser-side synthesis. The newest tier is "in focus"; its HUD
- * shows the cache state and hosts the manual refresh launcher
- * (useShortcutFeed.refreshNow, cooldown-guarded server-side).
+ * /api/u-ai/shortcut-cache via lib/uai/shortcutCacheClient.ts) -- 0초 to
+ * render, 0원 per visit, no browser-side synthesis.
  */
 export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultModalProps) {
   const locale = useLocale();
-  // Generic ladder-nav labels (prev/next/indexLabel) live under 'Governance'
-  // for historical reasons -- kept for that, no longer for axis lookups.
-  const tGovernance = useTranslations('Governance');
   const tCivic = useTranslations('Civic');
   const tHotIssue = useTranslations('HotIssue');
   const tFinance = useTranslations('Finance');
@@ -149,7 +124,7 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
   const tUai = useTranslations('UAI');
   const tEcosystems = useTranslations('Ecosystems');
   const tModal = useTranslations('HotShortcutModal');
-  const { playHoverSfx, playQuestEnterSfx, playTypingTick } = useSpatialAudio();
+  const { playHoverSfx, playQuestEnterSfx } = useSpatialAudio();
 
   const axisT: AxisTranslators = {
     civic: tCivic,
@@ -174,15 +149,7 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
   labelsRef.current = labels;
 
   const [chain, setChain] = useState<ChainTier[]>([]);
-  const [chainQuery, setChainQuery] = useState('');
-  const [cursorIndex, setCursorIndex] = useState(0);
-  const [restored, setRestored] = useState(false);
   const bottomRef = useRef<HTMLDivElement | null>(null);
-  /** Mirrors `cursorIndex` but read/written synchronously -- `stepLadder`
-   *  reads this instead of the `cursorIndex` state so back-to-back clicks in
-   *  the same tick each see the previous click's result instead of all
-   *  computing from the same stale render's value. */
-  const cursorRef = useRef(0);
   /** Monotonic counter for tier ids -- two tiers appended within the same
    *  millisecond would otherwise collide as duplicate React keys. */
   const tierSeqRef = useRef(0);
@@ -191,8 +158,20 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
   const seededForRef = useRef<string | null>(null);
 
   const open = shortcut !== null;
-  const groupItems = shortcut ? itemsInGroup(shortcut.group) : [];
   const focus = chain.length > 0 ? chain[chain.length - 1] : null;
+
+  const layer = useHistoryLayer(open, 'unitasKeywordPanel', onClose);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      if (!layer.isTop()) return;
+      onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [open, layer, onClose]);
 
   const feed = useShortcutFeed(open && focus ? focus.query : null, locale, labels);
 
@@ -241,13 +220,11 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     if (!shortcut) {
       // Only an explicit close (was open -> null) discards the persisted
       // ladder. The very first render after a locale remount is ALSO null
-      // (HomeContent restores the open shortcut in an effect), and wiping
+      // (the parent restores the open shortcut in an effect), and wiping
       // here would destroy the ladder we are about to re-hydrate.
       if (seededForRef.current !== null) writeLadder(null);
       seededForRef.current = null;
       setChain([]);
-      setChainQuery('');
-      setRestored(false);
       return;
     }
     const identity = `${shortcut.group}:${shortcut.key}`;
@@ -256,26 +233,16 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
       saved !== null && saved.group === shortcut.group && saved.key === shortcut.key && saved.tiers.length > 0;
 
     let tiers: ChainTier[] = [];
-    let idx = 0;
     if (canRestore && saved) {
       tiers = saved.tiers
         .map((d) => materialize(d, shortcut.color, shortcut.glow))
         .filter((t): t is ChainTier => t !== null);
-      idx = Math.min(Math.max(0, saved.cursorIndex), Math.max(0, groupItems.length - 1));
-      setChainQuery(saved.draft ?? '');
-      setRestored(tiers.length > 1);
     }
     if (tiers.length === 0) {
       const seed = materialize({ kind: 'seed', group: shortcut.group, key: shortcut.key, depth: 0 }, shortcut.color, shortcut.glow);
       tiers = seed ? [seed] : [];
-      const found = groupItems.findIndex((a) => a.key === shortcut.key);
-      idx = found === -1 ? 0 : found;
-      setChainQuery('');
-      setRestored(false);
     }
     seededForRef.current = identity;
-    cursorRef.current = idx;
-    setCursorIndex(idx);
     setChain(tiers);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shortcut]);
@@ -287,17 +254,9 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     writeLadder({
       group: shortcut.group,
       key: shortcut.key,
-      cursorIndex,
       tiers: chain.slice(-MAX_PERSISTED_TIERS).map((t) => t.descriptor),
-      draft: chainQuery,
     });
-  }, [shortcut, chain, cursorIndex, chainQuery]);
-
-  useEffect(() => {
-    if (!restored) return;
-    const timer = window.setTimeout(() => setRestored(false), 4200);
-    return () => window.clearTimeout(timer);
-  }, [restored]);
+  }, [shortcut, chain]);
 
   // Every non-focused tier without an analysis (i.e. restored ones) is
   // re-read from the 24h cache, sequentially so a long restored ladder is a
@@ -322,8 +281,8 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, chain.length, locale]);
 
-  // Fold the feed's latest pass into the focused tier so it keeps its chips,
-  // pulse and sources after the focus moves on to a deeper tier.
+  // Fold the feed's latest pass into the focused tier so it keeps its chips
+  // and sources after the focus moves on to a deeper tier.
   useEffect(() => {
     if (!feed.analysis) return;
     const landed = feed.analysis;
@@ -342,204 +301,79 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     setChain((prev) => [...prev, tier]);
   }
 
-  function stepLadder(delta: number) {
-    if (groupItems.length === 0 || !shortcut) return;
-    playHoverSfx();
-    const nextIndex = (cursorRef.current + delta + groupItems.length) % groupItems.length;
-    const nextAxis = groupItems[nextIndex];
-    cursorRef.current = nextIndex;
-    setCursorIndex(nextIndex);
-    appendTier({ kind: 'ladder', group: shortcut.group, key: nextAxis.key, depth: 0 });
-  }
-
   function nestKeyword(parent: ChainTier, query: string) {
     playQuestEnterSfx();
     appendTier({ kind: 'keyword', query, depth: parent.depth + 1, parent: parent.title });
   }
 
-  function handleChainSubmit(e: FormEvent) {
-    e.preventDefault();
-    const trimmed = chainQuery.trim();
-    if (!trimmed || !focus) return;
-    playQuestEnterSfx();
-    appendTier({ kind: 'query', query: trimmed, depth: focus.depth + 1, parent: focus.title });
-    setChainQuery('');
-  }
-
-  /** [← 뒤로 가기]: steps one tier back up the ladder; on the last tier it
-   *  closes the tower (same effect as the device back gesture). */
-  function goBackTier() {
+  /** Tapping a tier's own header steps back to it (a compact substitute for
+   *  the removed toolbar back-button -- see the header close button below
+   *  for the one remaining explicit control). */
+  function goBackTo(index: number) {
     playHoverSfx();
-    if (chain.length <= 1) {
-      onClose();
-      return;
-    }
-    const next = chain.slice(0, -1);
-    const landing = next[next.length - 1];
-    if (landing && 'group' in landing.descriptor) {
-      const idx = groupItems.findIndex((a) => a.key === (landing.descriptor as { key: string }).key);
-      if (idx !== -1) {
-        cursorRef.current = idx;
-        setCursorIndex(idx);
-      }
-    }
-    setChain(next);
+    setChain((prev) => prev.slice(0, index + 1));
   }
 
-  /** [⌂ 홈으로 복귀]: collapses the whole tower back to the home screen. */
-  function goHome() {
-    playHoverSfx();
-    onClose();
-  }
+  if (!shortcut) return null;
 
-  const accent = shortcut?.color ?? '#22d3ee';
-  const accentGlow = shortcut?.glow ?? '#67e8f9';
+  const accent = shortcut.color;
+  const accentGlow = shortcut.glow;
+  const ShortcutIcon = shortcut.icon;
 
   return (
-    <DialogTower
-      open={open && shortcut !== null}
-      title="U-AI SEARCH RESULT"
-      titleId="hot-shortcut-result-title"
-      accent={accent}
-      accentGlow={accentGlow}
-      historyMarker="unitasShortcutModal"
-      labels={{
-        refresh: tModal('refreshAria'),
-        home: tModal('homeButton'),
-        back: tModal('backButton'),
-        close: tModal('closeAria'),
-      }}
-      refreshing={feed.refreshing}
-      onRefresh={() => {
-        playHoverSfx();
-        feed.refreshNow();
-      }}
-      onBack={goBackTier}
-      onHome={goHome}
-      onClose={onClose}
-      onButtonHover={playHoverSfx}
+    <div
+      className="qw-keyword-panel absolute top-full z-40 mt-3 flex flex-col overflow-hidden rounded-sm border bg-quantum/95 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
+      style={{ borderColor: `${accent}55` }}
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="hot-shortcut-result-title"
     >
-      {shortcut && (
-        <>
-            {/* Sibling ladder -- steps to the prev/next axis in the same
-                group, wrapping endlessly, stacking each stop below. The page
-                counter is dead-centered regardless of button widths. */}
-            {groupItems.length > 1 && (
-              <div
-                className="relative flex shrink-0 items-center justify-between border-b px-2.5 py-2 sm:px-4"
-                style={{ borderColor: `${accent}22` }}
-              >
-                <button
-                  type="button"
-                  onClick={() => stepLadder(-1)}
-                  className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-gray-400 transition-colors hover:text-accent"
-                >
-                  <ChevronLeft size={14} aria-hidden="true" />
-                  {tGovernance('prev')}
-                </button>
-                <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-[10px] uppercase tracking-[0.25em] text-gray-500">
-                  {tGovernance('indexLabel', { current: cursorIndex + 1, total: groupItems.length })}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => stepLadder(1)}
-                  className="flex items-center gap-1.5 text-[11px] uppercase tracking-widest text-gray-400 transition-colors hover:text-accent"
-                >
-                  {tGovernance('next')}
-                  <ChevronRight size={14} aria-hidden="true" />
-                </button>
-              </div>
-            )}
+      <div className="flex shrink-0 items-center gap-2 border-b px-4 py-3" style={{ borderColor: `${accent}33` }}>
+        {ShortcutIcon && <ShortcutIcon size={16} className="shrink-0" style={{ color: accent }} aria-hidden="true" />}
+        <p
+          id="hot-shortcut-result-title"
+          title={shortcut ? axisTitle(shortcut, axisT) : ''}
+          className="min-w-0 flex-1 truncate text-[14px] font-bold text-white"
+        >
+          {shortcut ? axisTitle(shortcut, axisT) : ''}
+        </p>
+        <button
+          type="button"
+          onClick={onClose}
+          onMouseEnter={() => playHoverSfx()}
+          title={tModal('closeAria')}
+          aria-label={tModal('closeAria')}
+          className="flex h-8 w-8 shrink-0 items-center justify-center border transition-colors hover:bg-white/5"
+          style={{ borderColor: `${accent}55`, color: accent }}
+        >
+          <X size={15} aria-hidden="true" />
+        </button>
+      </div>
 
-            <AnimatePresence>
-              {restored && (
-                <motion.p
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="shrink-0 overflow-hidden border-b px-2.5 py-2 text-[11px] text-gray-300 sm:px-4"
-                  style={{ borderColor: `${accent}22`, backgroundColor: `${accent}12` }}
-                >
-                  {tModal('restoredNote')}
-                </motion.p>
-              )}
-            </AnimatePresence>
-
-            {/* Chained tier stack -- tier 0 is the tapped axis, every tier
-                after it is a ladder step, a nested keyword or a free-tier
-                query result, all stacked below in one continuous scroll. */}
-            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-2.5 py-4 sm:px-4">
-              {chain.map((tier, index) => (
-                <TierCard
-                  key={tier.id}
-                  tier={tier}
-                  focused={index === chain.length - 1}
-                  feed={index === chain.length - 1 ? feed : null}
-                  tModal={tModal}
-                  tUai={tUai}
-                  extraChips={
-                    'group' in tier.descriptor
-                      ? groupItems
-                          .filter((a) => a.key !== (tier.descriptor as { key: string }).key)
-                          .map((a) => ({ label: axisTitle(a, axisT), query: axisTitle(a, axisT) }))
-                      : []
-                  }
-                  onNest={(q) => nestKeyword(tier, q)}
-                  onHover={playHoverSfx}
-                />
-              ))}
-              <div ref={bottomRef} />
-            </div>
-
-            {/* 추가검색 bar -- the "다단 연쇄" entry point: a compact label
-                chip + input + a real keyboard-Enter submit key. Each submit
-                stacks a new tier above, all inside this one popup (the old
-                hint sentence was cleansed per owner instruction 2026-09-02). */}
-            <form
-              onSubmit={handleChainSubmit}
-              className="shrink-0 border-t px-2.5 pb-2 pt-3 sm:px-4"
-              style={{ borderColor: `${accent}33` }}
-            >
-              <div className="flex items-stretch gap-2">
-                <span
-                  className="flex shrink-0 items-center border px-2.5 text-[11px] font-bold uppercase tracking-widest"
-                  style={{ borderColor: `${accent}55`, color: accent }}
-                >
-                  {tModal('chainLabel')}
-                </span>
-                <input
-                  type="text"
-                  value={chainQuery}
-                  onChange={(e) => {
-                    setChainQuery(e.target.value);
-                    playTypingTick();
-                  }}
-                  placeholder={tModal('chainPlaceholder')}
-                  className="w-full border border-white/15 bg-void/60 px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-white/30 focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  onMouseEnter={() => playHoverSfx()}
-                  disabled={!chainQuery.trim()}
-                  title={tModal('chainSubmitAria')}
-                  aria-label={tModal('chainSubmitAria')}
-                  className="flex shrink-0 items-center justify-center border px-3 transition-colors disabled:cursor-not-allowed disabled:opacity-40"
-                  style={{ borderColor: `${accent}66`, color: accent }}
-                >
-                  <CornerDownLeft size={16} aria-hidden="true" />
-                </button>
-              </div>
-            </form>
-
-            {/* Pinned app loop -- out to a webmail / social app and straight
-                back; the ladder above is persisted so nothing is lost on the
-                round trip. Shared with OmniSynapseSearch's U-AI search tower
-                (owner instruction 2026-09-03: pinned across every U-AI
-                popup). */}
-            <AppLoopRow accent={accent} label={tModal('appLoopLabel')} onHover={playHoverSfx} />
-        </>
-      )}
-    </DialogTower>
+      {/* Chained tier stack -- tier 0 is the tapped axis, every tier after it
+          a nested keyword result, all stacked in one continuous, internally
+          scrolled column (REV-20 §4.3: 우아한 내부 스크롤, never a fullscreen
+          takeover). */}
+      <div
+        className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-4"
+        style={{ maxHeight: 'min(72vh, calc(100svh - var(--unitas-nav-bottom, 64px) / var(--unitas-zoom, .75) - 140px))' }}
+      >
+        {chain.map((tier, index) => (
+          <TierCard
+            key={tier.id}
+            tier={tier}
+            focused={index === chain.length - 1}
+            feed={index === chain.length - 1 ? feed : null}
+            tModal={tModal}
+            tUai={tUai}
+            onNest={(q) => nestKeyword(tier, q)}
+            onFocusTier={() => goBackTo(index)}
+            onHover={playHoverSfx}
+          />
+        ))}
+        <div ref={bottomRef} />
+      </div>
+    </div>
   );
 }
 
@@ -549,24 +383,21 @@ interface TierCardProps {
   feed: ReturnType<typeof useShortcutFeed> | null;
   tModal: ReturnType<typeof useTranslations>;
   tUai: ReturnType<typeof useTranslations>;
-  /** Sibling-axis ladder chips (the rest of the tier's group) -- merged into
-   *  the keyword chip wall so every tier offers dozens of onward clicks. */
-  extraChips: Array<{ label: string; query: string }>;
   onNest: (query: string) => void;
+  /** Tapping a non-focused tier's header collapses the ladder back to it. */
+  onFocusTier: () => void;
   onHover: () => void;
 }
 
-function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHover }: TierCardProps) {
+function TierCard({ tier, focused, feed, tModal, tUai, onNest, onFocusTier, onHover }: TierCardProps) {
   const TierIcon = tier.icon;
   const analysis = focused && feed?.analysis ? feed.analysis : tier.analysis;
   // Every tier carries its own parked deep report now (the cache route
   // returns it with the snapshot), so a restored / stepped-past tier keeps
   // showing it -- not only the one in focus.
   const report: ConstitutionRedesignReport | null = focused && feed ? feed.report : (analysis?.deep ?? null);
-  const hits = focused && feed ? feed.hits : (analysis?.hits ?? 0);
   const leadSnippet = analysis?.web.sources[0]?.snippet ?? '';
   const isNested = tier.kind === 'query' || tier.kind === 'keyword';
-  const TrendIcon = analysis ? TREND_ICON[analysis.pulse.trend] : Activity;
   const cachedHours = analysis && analysis.source !== 'local' ? hoursSince(analysis.synthesizedAt) : null;
 
   return (
@@ -581,9 +412,13 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
         boxShadow: focused ? `0 0 28px ${tier.glow}22` : undefined,
       }}
     >
-      {/* The "깊이 N" badge and its icon were cleansed per owner instruction
-          2026-09-02 -- the indent already communicates nesting. */}
-      <div className="mb-2 flex min-w-0 items-center gap-2">
+      <button
+        type="button"
+        onClick={onFocusTier}
+        onMouseEnter={onHover}
+        disabled={focused}
+        className="mb-2 flex min-w-0 items-center gap-2 text-left disabled:cursor-default"
+      >
         {isNested && <Search size={14} className="shrink-0" style={{ color: tier.color }} aria-hidden="true" />}
         {TierIcon && <TierIcon size={18} className="shrink-0" style={{ color: tier.color }} aria-hidden="true" />}
         <h2
@@ -592,13 +427,10 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
         >
           {tier.title}
         </h2>
-      </div>
+      </button>
 
       {analysis && (
         <div className="mb-2 flex flex-wrap gap-1.5">
-          {/* The doctrine-axis chip ("예술 · 철학" 등) and the shield-verdict
-              chip ("중립" 등) were deleted wholesale per owner instruction
-              2026-09-02 -- only provenance chips remain. */}
           {analysis.web.sourced && (
             <span className="border border-white/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-gray-400">
               {tUai('webSourcedBadge', { count: analysis.web.sources.length })}
@@ -615,19 +447,18 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
         </div>
       )}
 
-      {/* Highlighted keyword description: the axis's doctrine copy, or -- for
-          a nested keyword -- the parent breadcrumb, then the lead live
-          snippet (real online text) once the engine pass lands. */}
+      {/* Strictly keyword-relevant text: for a nested tier, the breadcrumb of
+          what it was nested from; then the lead LIVE snippet (real online
+          text) once the engine pass lands. No static generic doctrine copy
+          (REV-20 §4.2 -- removed). */}
       <div className="border-l-2 pl-3" style={{ borderColor: `${tier.color}88` }}>
-        {isNested ? (
+        {isNested && (
           <p className="text-[13px] uppercase tracking-widest text-gray-500">
             {tModal('nestedFrom', { parent: tier.description })}
           </p>
-        ) : (
-          <p className="text-[14px] leading-relaxed text-gray-300 sm:text-[16px]">{tier.description}</p>
         )}
         {analysis ? (
-          <p className={`text-[14px] leading-relaxed text-gray-200 sm:text-[16px] ${isNested ? 'mt-1' : 'mt-2'}`}>
+          <p className={`text-[14px] leading-relaxed text-gray-200 sm:text-[16px] ${isNested ? 'mt-1' : ''}`}>
             {leadSnippet || tUai('constitutionAxisNote', { axis: tUai(`constitution.${analysis.report.redesignAxis}`) })}
           </p>
         ) : (
@@ -638,10 +469,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
       {analysis && (
         <div className="mt-3 space-y-3">
           {/* UNITAS deep analysis -- the LLM-forged 6-axis sovereign redesign
-              the nightly batch parks in Genesis Memory. Relocated to the very
-              top, ABOVE the global pulse area, and the "제네시스 메모리에서
-              제공 · 엔진 원가 $0" line permanently deleted (owner instruction
-              2026-09-02). */}
+              the nightly batch parks in Genesis Memory. */}
           {report && (
             <div className="border p-3" style={{ borderColor: `${tier.color}33`, backgroundColor: `${tier.color}0a` }}>
               <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.3em]" style={{ color: tier.color }}>
@@ -650,7 +478,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
               <div className="space-y-2">
                 <p className="text-[13px] italic leading-relaxed text-gray-100 [text-wrap:balance]">{report.vector}</p>
                 <p className="text-[12px] leading-relaxed text-gray-300">{report.synthesis}</p>
-                <ul className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
+                <ul className="grid gap-1.5 sm:grid-cols-2">
                   {report.axes.map((ax) => (
                     <li key={ax.axis} className="border border-white/10 p-2">
                       <p className="text-[11px] font-bold uppercase tracking-widest" style={{ color: tier.color }}>
@@ -664,44 +492,19 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
             </div>
           )}
 
-          {/* Global pulse gauge */}
-          <div>
-            <div className="mb-1 flex items-center justify-between text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500">
-              <span className="flex items-center gap-1.5">
-                <Activity size={10} aria-hidden="true" />
-                {tModal('pulseLabel')}
-              </span>
-              <span className="flex items-center gap-1.5" style={{ color: tier.color }}>
-                <TrendIcon size={11} aria-hidden="true" />
-                {tModal(`pulse.${analysis.pulse.trend}`)}
-                <span className="text-gray-500">· {analysis.pulse.momentum}%</span>
-                {hits > 0 && <span className="text-gray-500">· {tModal('hitsLabel', { count: hits })}</span>}
-              </span>
-            </div>
-            <div className="h-1 w-full bg-white/10">
-              <motion.div
-                className="h-full"
-                style={{ backgroundColor: tier.color, boxShadow: `0 0 10px ${tier.glow}88` }}
-                initial={{ width: 0 }}
-                animate={{ width: `${analysis.pulse.momentum}%` }}
-                transition={{ duration: 0.6, ease: 'easeOut' }}
-              />
-            </div>
-          </div>
-
-          {/* PRIMARY live trend feed -- real titles + URLs from the open web,
-              directly tied to this tier's main description. */}
-          <div>
-            <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500">{tModal('feedLabel')}</p>
-            {analysis.web.sources.length > 0 ? (
+          {/* Live sources -- up to 24 now (REV-20 §6.1's widened cap flows
+              straight through the 24h cache into every tier here). */}
+          {analysis.web.sources.length > 0 && (
+            <div>
+              <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500">{tModal('feedLabel')}</p>
               <ul className="space-y-1">
-                {analysis.web.sources.slice(0, 5).map((source) => (
+                {analysis.web.sources.slice(0, 11).map((source) => (
                   <li key={source.url}>
                     <a
                       href={source.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onMouseEnter={() => onHover()}
+                      onMouseEnter={onHover}
                       className="group flex items-start gap-1.5 text-[13px] text-gray-300 transition-colors hover:text-white"
                     >
                       <ExternalLink size={11} className="mt-0.5 shrink-0 text-gray-500 group-hover:text-accent" aria-hidden="true" />
@@ -709,75 +512,19 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
                         <span className="font-bold" style={{ color: tier.color }}>
                           {source.title}
                         </span>
-                        {source.snippet && <span className="text-gray-400"> — {source.snippet.slice(0, 110)}</span>}
+                        {source.snippet && <span className="text-gray-400"> — {source.snippet.slice(0, 160)}</span>}
                       </span>
                     </a>
                   </li>
                 ))}
               </ul>
-            ) : (
-              <p className="text-[11px] text-gray-500">{tModal('feedEmpty')}</p>
-            )}
-          </div>
-
-          {/* SECONDARY multi-angle feed -- the same subject re-read through
-              every scored doctrine axis (each angle nests a new tier), plus
-              any live sources beyond the primary five. */}
-          <div>
-            <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500">
-              {tModal('multiFeedLabel')}
-            </p>
-            <div className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
-              {analysis.report.constitution.slice(0, 6).map((cs) => (
-                <button
-                  key={cs.axis}
-                  type="button"
-                  onMouseEnter={() => onHover()}
-                  onClick={() => onNest(`${tier.title} ${tUai(`constitution.${cs.axis}`)}`)}
-                  title={tModal('keywordHint')}
-                  className="flex items-center justify-between gap-2 border border-white/10 px-2.5 py-1.5 text-left transition-colors hover:bg-white/5"
-                >
-                  <span className="truncate text-[12px] font-bold text-gray-200">
-                    {tUai(`constitution.${cs.axis}`)}
-                  </span>
-                  <span className="flex shrink-0 items-center gap-1.5">
-                    <span className="h-1 w-10 bg-white/10">
-                      <span
-                        className="block h-full"
-                        style={{ width: `${cs.score}%`, backgroundColor: tier.color }}
-                      />
-                    </span>
-                    <span className="text-[10px] font-bold" style={{ color: tier.color }}>
-                      {cs.score}
-                    </span>
-                  </span>
-                </button>
-              ))}
             </div>
-            {analysis.web.sources.length > 5 && (
-              <ul className="mt-2 space-y-1">
-                {analysis.web.sources.slice(5, 11).map((source) => (
-                  <li key={source.url}>
-                    <a
-                      href={source.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onMouseEnter={() => onHover()}
-                      className="group flex items-start gap-1.5 text-[12px] text-gray-400 transition-colors hover:text-white"
-                    >
-                      <ExternalLink size={10} className="mt-0.5 shrink-0 text-gray-600 group-hover:text-accent" aria-hidden="true" />
-                      <span className="line-clamp-1">{source.title}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          )}
 
-          {/* Keyword expansion wall -- live-feed entities, doctrine axes AND
-              every sibling axis of this tier's group: each chip nests a new
-              tier beneath, so the ladder invites endless clicking. */}
-          {(analysis.keywords.length > 0 || extraChips.length > 0) && (
+          {/* Keyword expansion -- real entities from the live feed only
+              (sibling-axis chips removed, REV-20 §4.2): each nests a new
+              tier beneath, unbounded depth. */}
+          {analysis.keywords.length > 0 && (
             <div>
               <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500">
                 {tModal('keywordsLabel')}
@@ -787,7 +534,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
                   <button
                     key={`${chip.kind}-${chip.query}`}
                     type="button"
-                    onMouseEnter={() => onHover()}
+                    onMouseEnter={onHover}
                     onClick={() => onNest(chip.query)}
                     title={tModal('keywordHint')}
                     className="flex items-center gap-1 border px-2.5 py-1.5 text-[12px] font-bold transition-colors hover:bg-white/5"
@@ -800,23 +547,9 @@ function TierCard({ tier, focused, feed, tModal, tUai, extraChips, onNest, onHov
                     <ArrowRight size={10} className="opacity-60" aria-hidden="true" />
                   </button>
                 ))}
-                {extraChips.map((chip) => (
-                  <button
-                    key={`sibling-${chip.query}`}
-                    type="button"
-                    onMouseEnter={() => onHover()}
-                    onClick={() => onNest(chip.query)}
-                    title={tModal('keywordHint')}
-                    className="flex items-center gap-1 border border-white/15 px-2.5 py-1.5 text-[12px] font-bold text-gray-400 transition-colors hover:bg-white/5 hover:text-white"
-                  >
-                    {chip.label}
-                    <ArrowRight size={10} className="opacity-60" aria-hidden="true" />
-                  </button>
-                ))}
               </div>
             </div>
           )}
-
         </div>
       )}
     </motion.article>

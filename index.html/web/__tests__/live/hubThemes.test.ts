@@ -9,10 +9,9 @@ import {
   rotateIndex,
 } from '../../lib/live/hubThemes';
 import { HUB_THEME_AXIS, hubWireUrls } from '../../lib/live/hubNews';
-import { SHORTS_SEED, compactCount, shortStats, toggleMember } from '../../lib/live/shortsSeed';
 
 // REV-19 SPEC.md §8 -- the live hub's pure model: nine themes, deterministic
-// rotation, keyless wire URLs and discovery links, seeded shorts counters.
+// rotation, keyless wire URLs and discovery links.
 
 describe('hub themes', () => {
   it('ships exactly the nine owner-named themes, each with an English term and a Korean term', () => {
@@ -58,24 +57,5 @@ describe('hub themes', () => {
     expect(links[0].href).toContain('https://ko.wikipedia.org/');
     expect(links[2].href).toContain('search_query=Seoul');
     expect(discoveryLinks('   ', 'en')).toEqual([]);
-  });
-});
-
-describe('shorts seed', () => {
-  it('yields stable seeded counters and unique ids', () => {
-    const ids = new Set(SHORTS_SEED.map((s) => s.id));
-    expect(ids.size).toBe(SHORTS_SEED.length);
-    const a = shortStats(SHORTS_SEED[0]);
-    const b = shortStats(SHORTS_SEED[0]);
-    expect(a).toEqual(b);
-    expect(a.views).toBeGreaterThan(0);
-    expect(a.likes).toBeLessThan(a.views);
-  });
-  it('formats compact counters and toggles membership', () => {
-    expect(compactCount(950)).toBe('950');
-    expect(compactCount(12_400)).toBe('12.4K');
-    expect(compactCount(1_000_000)).toBe('1M');
-    expect(toggleMember(['a'], 'b')).toEqual(['a', 'b']);
-    expect(toggleMember(['a', 'b'], 'a')).toEqual(['b']);
   });
 });

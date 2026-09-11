@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "Otsing"
     },
-    "shorts": {
-      "label": "UNITAS Shorts",
-      "lede": "Püstised hetked võrgustikust — U-Messengeri seeme.",
-      "views": "{count} vaatamist",
-      "like": "Meeldib",
-      "liked": "Meeldis",
-      "follow": "Jälgi",
-      "following": "Jälgid",
-      "upload": "Laadi üles",
-      "uploadSoon": "Üleslaadimine avaneb koos U-Messengeri beetaversiooniga",
-      "seedNote": "Kuvatavad seemneklipid on eelvaade · päris üleslaadimised saabuvad koos U-Messengeri beetaversiooniga",
-      "share": "Jaga U-Messengerisse",
-      "shareHint": "Kui beetaversioon avaneb, viivad jagamislingid selle klipi otse U-Messengeri vestlusesse.",
-      "openAria": "Ava lühivideo {title}",
-      "creator": "Looja",
-      "duration": "{seconds} s",
-      "followers": "{count} jälgijat",
-      "pass": {
-        "eyebrow": "Loojate varajane ligipääs",
-        "cta": "Saa varajane ligipääs",
-        "title": "Sinu loojapass",
-        "lede": "Üleslaadimine avaneb koos U-Messengeri beetaga. Broneeri pass kohe ja sinu nimi on esimesena järjekorras hetkel, mil stuudio uksed avanevad.",
-        "handleLabel": "Looja nimi",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "3–20 märki: a–z, 0–9, punkt, sidekriips, alakriips",
-        "reserve": "Broneeri minu pass",
-        "reserved": "Pass broneeritud",
-        "reservedAt": "Broneeritud {time}",
-        "serial": "Pass {serial}",
-        "currentWave": "Broneerimine käib",
-        "wave1": "1. laine · Asutajaloojad",
-        "wave2": "2. laine · Stuudiotööriistad",
-        "wave3": "3. laine · Avatud kogu maailmale",
-        "perks": {
-          "p1": "Eelisjärjekorras üleslaadimiskoht avamispäeval",
-          "p2": "Asutajalooja märk sinu profiilil",
-          "p3": "Jagamine otse U-Messengeri vestlustesse"
-        },
-        "signedIn": "Seotud sinu kontoga",
-        "guest": "Logi sisse ja sinu pass seotakse ka sinu kontoga.",
-        "honest": "Pass on salvestatud selles seadmes ja sisselogituna ka sinu kontol. Ühtegi videot veel üles ei laadita ega salvestata."
-      }
-    },
     "mail": {
       "label": "UNITAS meiliaadressi nimi (valikuline)",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "Seotud sinu kontoga · postkast aktiveerub, kui UNITAS Mail avaneb",
       "lost": "{handle} reserveeris varem teine konto – uue nime saad reserveerida igal ajal",
       "perk1": "Eelisjärjekorras postkast, kui UNITAS Mail avaneb",
-      "perk2": "Üks nimi Maili, Shortsi ja U-Messengeri jaoks"
+      "perk2": "Üks nimi Maili ja U-Messengeri jaoks"
     },
     "legal": {
       "eyebrow": "Teade",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "Kaitstud sisu · iga koopia kannab UNITASe sõrmejälge",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · Omandiõiguse teade: see liides, selle tekstid ja kood on kaitstud teosed · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "Avastuskarusell",
+      "weather": {
+        "title": "Ilm",
+        "tag": "Reaalajas ilmaolud, olenemata sinu asukohast"
+      },
+      "history": {
+        "title": "Täna Ajaloos",
+        "tag": "Mis juhtus sel kuupäeval"
+      },
+      "quake": {
+        "title": "Maa Pulss",
+        "tag": "Reaalajas seismiline aktiivsus kogu maailmas"
+      },
+      "mostRead": {
+        "title": "Enim Loetud",
+        "tag": "Mida maailm eile otsis"
+      },
+      "fx": {
+        "title": "FX Kompass",
+        "tag": "Sinu raha kaal täna"
+      },
+      "crypto": {
+        "title": "Mündi Pulss",
+        "tag": "Detsentraliseeritud turgude pulss"
+      },
+      "devPulse": {
+        "title": "Arendajate Pulss",
+        "tag": "Mille üle arendajad praegu vaidlevad"
+      },
+      "paper": {
+        "title": "Päeva Teadusartikkel",
+        "tag": "Mida inimkond just teada sai"
+      },
+      "library": {
+        "title": "Riiul",
+        "tag": "Riiul raamatuid, mida tasub tunda"
+      },
+      "art": {
+        "title": "Üks Teos",
+        "tag": "Üks teos, mis täna pilku püüab"
+      },
+      "air": {
+        "title": "Õhk",
+        "tag": "Mida sa praegu hingad"
+      },
+      "nation": {
+        "title": "Riigi Näitajad",
+        "tag": "Sinu riik arvudes"
+      },
+      "nearby": {
+        "title": "Lähedal",
+        "tag": "Lood 10 km raadiuses sinust"
+      },
+      "facts": {
+        "city": "Linn",
+        "tempNow": "Praegu",
+        "hiLo": "Kõrgeim / Madalaim",
+        "feelsLike": "Tundub nagu",
+        "topHeadline": "Peauudis",
+        "headlineCount": "Uudised",
+        "todayDate": "Täna",
+        "firstEvent": "Esiletõstetud sündmus",
+        "eventCount": "Registreeritud sündmused",
+        "maxMag": "Tugevaim täna",
+        "quakePlace": "Asukoht",
+        "quakeCount": "Maavärinad täna",
+        "rank1": "#1 täna",
+        "rank1Views": "Vaatamised",
+        "fxBase": "Baasvaluuta",
+        "fxRate": "Kurss",
+        "fxDate": "Seisuga",
+        "btcPrice": "BTC hind",
+        "btc24h": "24h muutus",
+        "topStory": "Populaarseim lugu",
+        "storyPoints": "Punktid",
+        "paperTitle": "Uusim artikkel",
+        "paperCitations": "Tsiteeringud",
+        "paperOa": "Juurdepääs",
+        "shelfSubject": "Teema",
+        "bookTitle": "Esiletõstetud raamat",
+        "bookEditions": "Väljaanded",
+        "artTitle": "Teos",
+        "artArtist": "Kunstnik",
+        "artDate": "Kuupäev",
+        "artDept": "Osakond",
+        "aqi": {
+          "good": "Hea õhk",
+          "fair": "Rahuldav õhk",
+          "moderate": "Mõõdukas õhk",
+          "poor": "Halb õhk",
+          "veryPoor": "Väga halb õhk",
+          "extreme": "Äärmuslik õhk"
+        },
+        "aqiValue": "AQI",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "Riik",
+        "nationGdp": "SKT",
+        "nationPop": "Rahvaarv",
+        "nationNet": "Internetiühendus",
+        "nearbyTitle": "Lähim artikkel",
+        "nearbyDist": "Kaugus",
+        "nearbyCount": "Lähedalasuvad artiklid"
+      }
     }
   }
 }

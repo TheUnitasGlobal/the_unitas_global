@@ -9,7 +9,6 @@ import { motion } from 'framer-motion';
 import { Hero } from '../Hero';
 import { OmniSynapseSearch } from '../OmniSynapseSearch';
 import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModal';
-import { HotShortcutResultModal } from '@/components/interaction/HotShortcutResultModal';
 import { Footer } from '@/components/layout/Footer';
 import { SovereignShield } from '@/components/system/SovereignShield';
 import { SectionShield } from '@/components/system/PageShield';
@@ -159,7 +158,9 @@ export function QuantumWhiteHome() {
           <OmniSynapseSearch
             uai={uai}
             onSelectEcosystem={setActiveEcosystem}
+            activeShortcut={activeShortcut}
             onOpenShortcut={setActiveShortcut}
+            onCloseShortcut={() => setActiveShortcut(null)}
             onOuroborosChange={setIsOuroboros}
           />
         </SectionShield>
@@ -191,9 +192,6 @@ export function QuantumWhiteHome() {
 
         <SovereignShield zone="modal-ecosystem" resetKeys={[activeEcosystem]}>
           <EcosystemEntryModal ecosystem={activeEcosystem} onClose={() => setActiveEcosystem(null)} />
-        </SovereignShield>
-        <SovereignShield zone="modal-shortcut" resetKeys={[activeShortcut]}>
-          <HotShortcutResultModal shortcut={activeShortcut} onClose={() => setActiveShortcut(null)} />
         </SovereignShield>
       </main>
 

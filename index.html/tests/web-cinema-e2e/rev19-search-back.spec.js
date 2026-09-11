@@ -55,7 +55,11 @@ test.describe('REV-19 U-AI search back routing', () => {
     expect(await stack(page)).toHaveLength(3);
     // §13: the typing popup carries no ladder and no nested shortcut strip
     await expect(page.locator('.qw-search-dropdown [data-live-hub]')).toHaveCount(0);
-    await expect(page.locator('.qw-search-dropdown [data-discovery="curiosity"]')).toBeVisible();
+    // REV-20 §4.4: signals + curiosity cards are gone from the typing
+    // dropdown entirely -- they now inject into the post-submit fullscreen
+    // stream instead (see rev20-fullscreen.spec.js).
+    await expect(page.locator('.qw-search-dropdown [data-discovery="curiosity"]')).toHaveCount(0);
+    await expect(page.locator('.qw-search-dropdown [data-discovery="signals"]')).toHaveCount(0);
     const labelSize = await page.locator('.qw-search-dropdown .qw-discovery-label').first().evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
     expect(labelSize).toBeGreaterThanOrEqual(14);
 

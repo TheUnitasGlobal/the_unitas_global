@@ -1,0 +1,94 @@
+{
+  "search": {
+    "x": 18,
+    "y": 168,
+    "w": 354,
+    "h": 51.5,
+    "r": 372,
+    "b": 219.5
+  },
+  "searchTyping": "1",
+  "dropdown": {
+    "x": 18,
+    "y": 228.5,
+    "w": 354,
+    "h": 443.09,
+    "r": 372,
+    "b": 671.59,
+    "level": "3",
+    "maxHeight": "590.8px",
+    "overflowY": "auto",
+    "scrollHeight": 1279,
+    "position": "absolute",
+    "zIndex": "40",
+    "left": "24px",
+    "right": "24px",
+    "padding": "24px"
+  },
+  "dropdownX_minus_searchX": 0,
+  "sections": [
+    {
+      "discovery": null,
+      "label": "실시간 검색 키워드",
+      "labelSize": "15px",
+      "x": 37,
+      "y": 247.5,
+      "w": 316,
+      "h": 425.88,
+      "r": 353,
+      "b": 673.38
+    },
+    {
+      "discovery": "signals",
+      "label": "실시간 신호· 쇼핑",
+      "labelSize": "15px",
+      "x": 37,
+      "y": 691.38,
+      "w": 316,
+      "h": 148.75,
+      "r": 353,
+      "b": 840.13
+    },
+    {
+      "discovery": "curiosity",
+      "label": "호기심 카드",
+      "labelSize": "15px",
+      "x": 37,
+      "y": 858.13,
+      "w": 316,
+      "h": 294.38,
+      "r": 353,
+      "b": 1152.5
+    }
+  ],
+  "discovery": [
+    {
+      "key": "signals",
+      "label": "실시간 신호· 쇼핑",
+      "itemCount": 4,
+      "x": 37,
+      "y": 691.38,
+      "w": 316,
+      "h": 148.75,
+      "r": 353,
+      "b": 840.13
+    },
+    {
+      "key": "curiosity",
+      "label": "호기심 카드",
+      "itemCount": 3,
+      "x": 37,
+      "y": 858.13,
+      "w": 316,
+      "h": 294.38,
+      "r": 353,
+      "b": 1152.5
+    }
+  ],
+  "historyState": "{\"__NA\":true,\"__PRIVATE_NEXTJS_INTERNALS_TREE\":[\"\",{\"children\":[[\"locale\",\"ko\",\"d\"],{\"children\":[\"__PAGE__?{\\\"locale\\\":\\\"ko\\\"}\",{},\"/ko?splash=0\",\"refresh\"]}]},null,null,true],\"unitasExitGuard\":true,\"unitasExitDepth\":12,\"unitasModalStack\":[\"search:focus#3\",\"search:typing#4\",\"search:text#5\"]}",
+  "historyLength": 17,
+  "before": {
+    "liveHub": true,
+    "historyState": "{\"__NA\":true,\"__PRIVATE_NEXTJS_INTERNALS_TREE\":[\"\",{\"children\":[[\"locale\",\"ko\",\"d\"],{\"children\":[\"__PAGE__?{\\\"locale\\\":\\\"ko\\\"}\",{},\"/ko?splash=0\",\"refresh\"]}]},null,null,true],\"unitasExitGuard\":true,\"unitasExitDepth\":12,\"unitasModalStack\":[\"search:focus#3\"]}"
+  }
+}

@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "Ara"
     },
-    "shorts": {
-      "label": "UNITAS Shorts",
-      "lede": "Ağdaki dikey anlar — U-Messenger'ın tohumu.",
-      "views": "{count} görüntülenme",
-      "like": "Beğen",
-      "liked": "Beğenildi",
-      "follow": "Takip Et",
-      "following": "Takip Ediliyor",
-      "upload": "Yükle",
-      "uploadSoon": "Yüklemeler U-Messenger beta sürümüyle açılır",
-      "seedNote": "Önizleme olarak gösterilen tohum klipler · gerçek yüklemeler U-Messenger beta sürümüyle gelir",
-      "share": "U-Messenger'a paylaş",
-      "shareHint": "Beta açıldığında paylaşım bağlantıları bu klibi doğrudan bir U-Messenger sohbetine aktarır.",
-      "openAria": "{title} kısa videosunu aç",
-      "creator": "Yaratıcı",
-      "duration": "{seconds} sn",
-      "followers": "{count} takipçi",
-      "pass": {
-        "eyebrow": "İçerik üreticileri için erken erişim",
-        "cta": "Erken erişim alın",
-        "title": "İçerik üreticisi pasonuz",
-        "lede": "Yüklemeler U-Messenger betasıyla birlikte açılıyor. Pasonuzu şimdi ayırtın; stüdyo kapıları açıldığı an adınız sıranın en önünde olsun.",
-        "handleLabel": "İçerik üreticisi kullanıcı adı",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "3–20 karakter: a–z, 0–9, nokta, tire, alt çizgi",
-        "reserve": "Pasomu ayırt",
-        "reserved": "Paso ayrıldı",
-        "reservedAt": "{time} tarihinde ayrıldı",
-        "serial": "Paso {serial}",
-        "currentWave": "Şu an ayırtılıyor",
-        "wave1": "1. Dalga · Kurucu içerik üreticileri",
-        "wave2": "2. Dalga · Stüdyo araçları",
-        "wave3": "3. Dalga · Küresel açılış",
-        "perks": {
-          "p1": "Açılış günü öncelikli yükleme yeri",
-          "p2": "Profilinizde kurucu içerik üreticisi rozeti",
-          "p3": "U-Messenger sohbetlerine doğrudan paylaşım"
-        },
-        "signedIn": "Hesabınıza bağlı",
-        "guest": "Giriş yapın, pasonuz hesabınıza da bağlansın.",
-        "honest": "Pasonuz bu cihazda, giriş yaptığınızda ise hesabınızda da saklanır. Henüz hiçbir video yüklenmiyor ya da depolanmıyor."
-      }
-    },
     "mail": {
       "label": "UNITAS Mail kullanıcı adı (opsiyonel)",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "Hesabınıza bağlı · posta kutusu UNITAS Mail açıldığında etkinleşir",
       "lost": "{handle} daha önce başka bir hesap tarafından ayrıldı; istediğiniz zaman yeni bir kullanıcı adı ayırtabilirsiniz",
       "perk1": "UNITAS Mail açıldığında öncelikli gelen kutusu",
-      "perk2": "Mail, Shorts ve U-Messenger için tek bir kullanıcı adı"
+      "perk2": "Mail ve U-Messenger için tek bir kullanıcı adı"
     },
     "legal": {
       "eyebrow": "Bildirim",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "Korumalı içerik · her kopya UNITAS parmak izini taşır",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · Mülkiyet bildirimi: bu arayüz, metinleri ve kodu korunan eserlerdir · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "Keşif karuseli",
+      "weather": {
+        "title": "Hava Durumu",
+        "tag": "Nerede olursanız olun, anlık hava koşulları"
+      },
+      "history": {
+        "title": "Tarihte Bugün",
+        "tag": "Bu tarihte neler oldu"
+      },
+      "quake": {
+        "title": "Dünya Nabzı",
+        "tag": "Dünya genelinde canlı sismik hareketlilik"
+      },
+      "mostRead": {
+        "title": "En Çok Okunan",
+        "tag": "Dün dünya ne aradı"
+      },
+      "fx": {
+        "title": "Döviz Pusulası",
+        "tag": "Paranızın bugünkü değeri"
+      },
+      "crypto": {
+        "title": "Kripto Nabzı",
+        "tag": "Merkeziyetsiz piyasaların nabzı"
+      },
+      "devPulse": {
+        "title": "Geliştirici Nabzı",
+        "tag": "Geliştiricilerin şu an tartıştığı konular"
+      },
+      "paper": {
+        "title": "Günün Makalesi",
+        "tag": "İnsanlığın az önce öğrendiği şey"
+      },
+      "library": {
+        "title": "Raf",
+        "tag": "Bilinmeye değer kitaplardan bir raf"
+      },
+      "art": {
+        "title": "Günün Eseri",
+        "tag": "Bugün gözünüze çarpacak bir eser"
+      },
+      "air": {
+        "title": "Hava",
+        "tag": "Şu anda soluduğunuz hava"
+      },
+      "nation": {
+        "title": "Ülke İstatistikleri",
+        "tag": "Ülkeniz, rakamlarla"
+      },
+      "nearby": {
+        "title": "Yakınlarda",
+        "tag": "Sizden 10 km uzaklıktaki makaleler"
+      },
+      "facts": {
+        "city": "Şehir",
+        "tempNow": "Şu An",
+        "hiLo": "Yüksek / Düşük",
+        "feelsLike": "Hissedilen",
+        "topHeadline": "Öne çıkan başlık",
+        "headlineCount": "Başlıklar",
+        "todayDate": "Bugün",
+        "firstEvent": "Öne çıkan olay",
+        "eventCount": "Kayıtlı olaylar",
+        "maxMag": "Bugünkü en güçlü",
+        "quakePlace": "Konum",
+        "quakeCount": "Bugünkü depremler",
+        "rank1": "Bugün #1",
+        "rank1Views": "Görüntülenme",
+        "fxBase": "Baz para birimi",
+        "fxRate": "Kur",
+        "fxDate": "Güncelleme tarihi",
+        "btcPrice": "BTC fiyatı",
+        "btc24h": "24s değişim",
+        "topStory": "Öne çıkan konu",
+        "storyPoints": "Puan",
+        "paperTitle": "Son makale",
+        "paperCitations": "Atıflar",
+        "paperOa": "Erişim",
+        "shelfSubject": "Konu",
+        "bookTitle": "Öne çıkan kitap",
+        "bookEditions": "Baskılar",
+        "artTitle": "Eser",
+        "artArtist": "Sanatçı",
+        "artDate": "Tarih",
+        "artDept": "Bölüm",
+        "aqi": {
+          "good": "İyi hava",
+          "fair": "Makul hava",
+          "moderate": "Orta hava",
+          "poor": "Kötü hava",
+          "veryPoor": "Çok kötü hava",
+          "extreme": "Aşırı kötü hava"
+        },
+        "aqiValue": "AQI",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "Ülke",
+        "nationGdp": "GSYİH",
+        "nationPop": "Nüfus",
+        "nationNet": "İnternet erişimi",
+        "nearbyTitle": "En yakın makale",
+        "nearbyDist": "Mesafe",
+        "nearbyCount": "Yakındaki makaleler"
+      }
     }
   }
 }

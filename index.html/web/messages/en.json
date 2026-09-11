@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "Search"
     },
-    "shorts": {
-      "label": "UNITAS Shorts",
-      "lede": "Vertical moments from the network — the seed of U-Messenger.",
-      "views": "{count} views",
-      "like": "Like",
-      "liked": "Liked",
-      "follow": "Follow",
-      "following": "Following",
-      "upload": "Upload",
-      "uploadSoon": "Uploads open with the U-Messenger beta",
-      "seedNote": "Seed clips shown as a preview · real uploads arrive with the U-Messenger beta",
-      "share": "Share to U-Messenger",
-      "shareHint": "Sharing links will hand this clip straight into a U-Messenger thread once the beta opens.",
-      "openAria": "Open the short {title}",
-      "creator": "Creator",
-      "duration": "{seconds}s",
-      "followers": "{count} followers",
-      "pass": {
-        "eyebrow": "Creator early access",
-        "cta": "Get early access",
-        "title": "Your creator pass",
-        "lede": "Uploads open with the U-Messenger beta. Reserve a pass now and your handle is first in line the moment the studio doors open.",
-        "handleLabel": "Creator handle",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "3–20 characters: a–z, 0–9, dot, dash, underscore",
-        "reserve": "Reserve my pass",
-        "reserved": "Pass reserved",
-        "reservedAt": "Reserved {time}",
-        "serial": "Pass {serial}",
-        "currentWave": "Now reserving",
-        "wave1": "Wave 1 · Founding creators",
-        "wave2": "Wave 2 · Studio tools",
-        "wave3": "Wave 3 · Global open",
-        "perks": {
-          "p1": "Priority upload slot on opening day",
-          "p2": "Founding creator badge on your profile",
-          "p3": "Direct share into U-Messenger threads"
-        },
-        "signedIn": "Bound to your account",
-        "guest": "Sign in and your pass is bound to your account as well.",
-        "honest": "Your pass lives on this device and, when you are signed in, on your account. No video is uploaded or stored yet."
-      }
-    },
     "mail": {
       "label": "UNITAS mail handle (optional)",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "Bound to your account · mailbox activates when UNITAS Mail opens",
       "lost": "{handle} was claimed first by another account — reserve a new handle any time",
       "perk1": "Priority inbox when UNITAS Mail opens",
-      "perk2": "One handle across Mail, Shorts and U-Messenger"
+      "perk2": "One handle across Mail and U-Messenger"
     },
     "legal": {
       "eyebrow": "Notice",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "Protected content · every copy carries the UNITAS fingerprint",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · Ownership notice: this interface, its copy and its code are protected works · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "Discovery carousel",
+      "weather": {
+        "title": "Weather",
+        "tag": "Live conditions, wherever you are"
+      },
+      "history": {
+        "title": "Today in History",
+        "tag": "What happened on this date"
+      },
+      "quake": {
+        "title": "Earth Pulse",
+        "tag": "Live seismic activity worldwide"
+      },
+      "mostRead": {
+        "title": "Most Read",
+        "tag": "What the world searched yesterday"
+      },
+      "fx": {
+        "title": "FX Compass",
+        "tag": "The weight of your money today"
+      },
+      "crypto": {
+        "title": "Coin Pulse",
+        "tag": "The pulse of decentralized markets"
+      },
+      "devPulse": {
+        "title": "Dev Pulse",
+        "tag": "What builders are debating right now"
+      },
+      "paper": {
+        "title": "Paper of the Day",
+        "tag": "What humanity just learned"
+      },
+      "library": {
+        "title": "The Shelf",
+        "tag": "A shelf of books worth knowing"
+      },
+      "art": {
+        "title": "One Artwork",
+        "tag": "One piece to catch your eye today"
+      },
+      "air": {
+        "title": "The Air",
+        "tag": "What you're breathing right now"
+      },
+      "nation": {
+        "title": "Nation Metrics",
+        "tag": "Your country, in numbers"
+      },
+      "nearby": {
+        "title": "Nearby",
+        "tag": "Stories within 10km of you"
+      },
+      "facts": {
+        "city": "City",
+        "tempNow": "Now",
+        "hiLo": "High / Low",
+        "feelsLike": "Feels like",
+        "topHeadline": "Top headline",
+        "headlineCount": "Headlines",
+        "todayDate": "Today",
+        "firstEvent": "Featured event",
+        "eventCount": "Events recorded",
+        "maxMag": "Strongest today",
+        "quakePlace": "Location",
+        "quakeCount": "Quakes today",
+        "rank1": "#1 today",
+        "rank1Views": "Views",
+        "fxBase": "Base currency",
+        "fxRate": "Rate",
+        "fxDate": "As of",
+        "btcPrice": "BTC price",
+        "btc24h": "24h change",
+        "topStory": "Top story",
+        "storyPoints": "Points",
+        "paperTitle": "Latest paper",
+        "paperCitations": "Citations",
+        "paperOa": "Access",
+        "shelfSubject": "Subject",
+        "bookTitle": "Featured book",
+        "bookEditions": "Editions",
+        "artTitle": "Artwork",
+        "artArtist": "Artist",
+        "artDate": "Date",
+        "artDept": "Department",
+        "aqi": {
+          "good": "Good air",
+          "fair": "Fair air",
+          "moderate": "Moderate air",
+          "poor": "Poor air",
+          "veryPoor": "Very poor air",
+          "extreme": "Extreme air"
+        },
+        "aqiValue": "AQI",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "Country",
+        "nationGdp": "GDP",
+        "nationPop": "Population",
+        "nationNet": "Internet access",
+        "nearbyTitle": "Nearest article",
+        "nearbyDist": "Distance",
+        "nearbyCount": "Nearby articles"
+      }
     }
   }
 }

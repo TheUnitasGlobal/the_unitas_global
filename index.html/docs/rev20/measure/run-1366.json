@@ -1,0 +1,24 @@
+{
+  "tag": "1366",
+  "viewport": {
+    "width": 1366,
+    "height": 768
+  },
+  "steps": {
+    "hero": {
+      "ok": true,
+      "itCx_minus_vwCx": 0.02
+    },
+    "enter": {
+      "title": "UNITAS",
+      "panelW_over_viewportW": 1,
+      "closeMethod": "goBack (TimeoutError: locator.click: Timeout 3000ms exceeded.\nCall l)"
+    }
+  },
+  "errors": {
+    "reachHome": "TimeoutError: locator.click: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('button:has(.cs-skip-aurora)')\u001b[22m\n",
+    "l1": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#omni-synapse-search input[type=\"text\"]')\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" placeholder=\"U-AI에게 무엇이든 물어보세요...\" class=\"w-full min-w-0 bg-transparent text-white placeholder:text-gray-400 focus:outline-none\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for elem",
+    "keyword": "TimeoutError: locator.textContent: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[role=\"tablist\"] .flex-nowrap > div').first().locator('button')\u001b[22m\n",
+    "typing": "TimeoutError: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#omni-synapse-search input[type=\"text\"]')\u001b[22m\n\u001b[2m    - locator resolved to <input value=\"\" type=\"text\" placeholder=\"U-AI에게 무엇이든 물어보세요...\" class=\"w-full min-w-0 bg-transparent text-white placeholder:text-gray-400 focus:outline-none\"/>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for elemen"
+  }
+}

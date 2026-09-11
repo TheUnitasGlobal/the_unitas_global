@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "Tìm kiếm"
     },
-    "shorts": {
-      "label": "UNITAS Shorts",
-      "lede": "Những khoảnh khắc dọc từ mạng lưới — hạt giống của U-Messenger.",
-      "views": "{count} lượt xem",
-      "like": "Thích",
-      "liked": "Đã thích",
-      "follow": "Theo dõi",
-      "following": "Đang theo dõi",
-      "upload": "Tải lên",
-      "uploadSoon": "Tính năng tải lên mở cùng bản beta U-Messenger",
-      "seedNote": "Clip khởi tạo hiển thị làm bản xem trước · nội dung tải lên thật sẽ đến cùng bản beta U-Messenger",
-      "share": "Chia sẻ đến U-Messenger",
-      "shareHint": "Liên kết chia sẻ sẽ đưa clip này thẳng vào một cuộc trò chuyện U-Messenger ngay khi bản beta mở.",
-      "openAria": "Mở video ngắn {title}",
-      "creator": "Người sáng tạo",
-      "duration": "{seconds} giây",
-      "followers": "{count} người theo dõi",
-      "pass": {
-        "eyebrow": "Truy cập sớm cho nhà sáng tạo",
-        "cta": "Nhận truy cập sớm",
-        "title": "Thẻ nhà sáng tạo của bạn",
-        "lede": "Tính năng tải lên sẽ mở cùng bản beta của U-Messenger. Đặt thẻ ngay hôm nay và tên của bạn sẽ đứng đầu hàng ngay khoảnh khắc cánh cửa studio mở ra.",
-        "handleLabel": "Tên nhà sáng tạo",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "3–20 ký tự: a–z, 0–9, dấu chấm, gạch ngang, gạch dưới",
-        "reserve": "Đặt thẻ của tôi",
-        "reserved": "Đã đặt thẻ",
-        "reservedAt": "Đã đặt lúc {time}",
-        "serial": "Thẻ {serial}",
-        "currentWave": "Đang nhận đặt thẻ",
-        "wave1": "Đợt 1 · Nhà sáng tạo sáng lập",
-        "wave2": "Đợt 2 · Công cụ studio",
-        "wave3": "Đợt 3 · Mở toàn cầu",
-        "perks": {
-          "p1": "Suất tải lên ưu tiên trong ngày khai mở",
-          "p2": "Huy hiệu nhà sáng tạo sáng lập trên hồ sơ của bạn",
-          "p3": "Chia sẻ thẳng vào các cuộc trò chuyện U-Messenger"
-        },
-        "signedIn": "Đã liên kết với tài khoản của bạn",
-        "guest": "Đăng nhập để thẻ này cũng được liên kết với tài khoản của bạn.",
-        "honest": "Thẻ được lưu trên thiết bị này và, khi bạn đã đăng nhập, cả trên tài khoản của bạn. Chưa có video nào được tải lên hay lưu trữ."
-      }
-    },
     "mail": {
       "label": "Tên định danh email UNITAS (tùy chọn)",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "Đã liên kết với tài khoản của bạn · hộp thư sẽ kích hoạt khi UNITAS Mail ra mắt",
       "lost": "{handle} đã được một tài khoản khác giữ trước — bạn có thể giữ trước tên định danh mới bất cứ lúc nào",
       "perk1": "Hộp thư ưu tiên khi UNITAS Mail ra mắt",
-      "perk2": "Một tên định danh duy nhất cho Mail, Shorts và U-Messenger"
+      "perk2": "Một tên định danh duy nhất cho Mail và U-Messenger"
     },
     "legal": {
       "eyebrow": "Thông báo",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "Nội dung được bảo vệ · mọi bản sao đều mang dấu vân tay UNITAS",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · Thông báo quyền sở hữu: giao diện này, nội dung và mã nguồn của nó là tác phẩm được bảo hộ · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "Băng chuyền khám phá",
+      "weather": {
+        "title": "Thời tiết",
+        "tag": "Điều kiện thời tiết trực tiếp, dù bạn ở đâu"
+      },
+      "history": {
+        "title": "Hôm nay trong lịch sử",
+        "tag": "Những gì đã xảy ra vào ngày này"
+      },
+      "quake": {
+        "title": "Nhịp đập Trái Đất",
+        "tag": "Hoạt động địa chấn trực tiếp toàn cầu"
+      },
+      "mostRead": {
+        "title": "Đọc nhiều nhất",
+        "tag": "Những gì thế giới tìm kiếm hôm qua"
+      },
+      "fx": {
+        "title": "La bàn FX",
+        "tag": "Sức nặng đồng tiền của bạn hôm nay"
+      },
+      "crypto": {
+        "title": "Nhịp đập Coin",
+        "tag": "Nhịp đập của thị trường phi tập trung"
+      },
+      "devPulse": {
+        "title": "Nhịp đập Dev",
+        "tag": "Những gì giới lập trình đang bàn luận ngay lúc này"
+      },
+      "paper": {
+        "title": "Nghiên cứu trong ngày",
+        "tag": "Những gì nhân loại vừa khám phá"
+      },
+      "library": {
+        "title": "Giá sách",
+        "tag": "Những cuốn sách đáng để biết đến"
+      },
+      "art": {
+        "title": "Một tác phẩm",
+        "tag": "Một tác phẩm thu hút ánh nhìn hôm nay"
+      },
+      "air": {
+        "title": "Không khí",
+        "tag": "Những gì bạn đang hít thở ngay lúc này"
+      },
+      "nation": {
+        "title": "Chỉ số quốc gia",
+        "tag": "Đất nước bạn, qua những con số"
+      },
+      "nearby": {
+        "title": "Gần bạn",
+        "tag": "Câu chuyện trong bán kính 10km quanh bạn"
+      },
+      "facts": {
+        "city": "Thành phố",
+        "tempNow": "Hiện tại",
+        "hiLo": "Cao / Thấp",
+        "feelsLike": "Cảm giác như",
+        "topHeadline": "Tin nổi bật",
+        "headlineCount": "Số tin",
+        "todayDate": "Hôm nay",
+        "firstEvent": "Sự kiện nổi bật",
+        "eventCount": "Sự kiện ghi nhận",
+        "maxMag": "Mạnh nhất hôm nay",
+        "quakePlace": "Vị trí",
+        "quakeCount": "Động đất hôm nay",
+        "rank1": "#1 hôm nay",
+        "rank1Views": "Lượt xem",
+        "fxBase": "Tiền tệ gốc",
+        "fxRate": "Tỷ giá",
+        "fxDate": "Cập nhật lúc",
+        "btcPrice": "Giá BTC",
+        "btc24h": "Thay đổi 24h",
+        "topStory": "Tin hàng đầu",
+        "storyPoints": "Điểm",
+        "paperTitle": "Nghiên cứu mới nhất",
+        "paperCitations": "Trích dẫn",
+        "paperOa": "Truy cập",
+        "shelfSubject": "Chủ đề",
+        "bookTitle": "Sách nổi bật",
+        "bookEditions": "Ấn bản",
+        "artTitle": "Tác phẩm",
+        "artArtist": "Nghệ sĩ",
+        "artDate": "Ngày",
+        "artDept": "Bộ sưu tập",
+        "aqi": {
+          "good": "Không khí tốt",
+          "fair": "Không khí khá",
+          "moderate": "Không khí trung bình",
+          "poor": "Không khí kém",
+          "veryPoor": "Không khí rất kém",
+          "extreme": "Không khí nguy hại"
+        },
+        "aqiValue": "AQI",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "Quốc gia",
+        "nationGdp": "GDP",
+        "nationPop": "Dân số",
+        "nationNet": "Truy cập Internet",
+        "nearbyTitle": "Bài viết gần nhất",
+        "nearbyDist": "Khoảng cách",
+        "nearbyCount": "Bài viết lân cận"
+      }
     }
   }
 }

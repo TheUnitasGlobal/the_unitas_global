@@ -37,6 +37,8 @@ import { useUai } from '@/lib/uai/useUai';
 import { UaiDashboard } from '@/components/uai/UaiDashboard';
 import { CanvasDrawInput } from '@/components/interaction/CanvasDrawInput';
 import { HotShortcutMatrixStrip } from '@/components/home/HotShortcutMatrixStrip';
+import { HotShortcutResultModal } from '@/components/interaction/HotShortcutResultModal';
+import { SovereignShield } from '@/components/system/SovereignShield';
 import { DialogTower } from '@/components/ui/DialogTower';
 import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 import { SEARCH_LAYER_IDS } from '@/lib/uai/searchLevels';
@@ -49,7 +51,6 @@ import {
 } from '@/lib/uai/discovery';
 import { HUB_ROTATE_MS, HUB_THEMES, rotateIndex } from '@/lib/live/hubThemes';
 import { useHubHeadlines } from '@/lib/live/hubNewsClient';
-import { AppLoopRow } from '@/components/interaction/AppLoopRow';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
 import { buildLiveIndex, mergeLiveResults, searchLiveIndex, type LiveResult } from '@/lib/uai/liveSearchIndex';
@@ -63,8 +64,13 @@ interface OmniSynapseSearchProps {
   uai: ReturnType<typeof useUai>;
   onSelectEcosystem: (eco: EcosystemTheme) => void;
   /** Governance + hot-issue shortcuts (The Living Knowledge Ouroboros, now a
-      multi-dimensional matrix) open HomeContent's HotShortcutResultModal. */
+      multi-dimensional matrix) open the keyword panel below. REV-20 §4: the
+      panel itself now renders INSIDE this component (search-bar-anchored,
+      not a portal), so the open shortcut and its close handler are lifted
+      props rather than owned entirely by the parent. */
+  activeShortcut: HotShortcutAxis | null;
   onOpenShortcut: (axis: HotShortcutAxis) => void;
+  onCloseShortcut: () => void;
   /** True while the search bar is focused on an empty query -- HomeContent
       uses this to sink (Focus Isolation) Sections 1-3 behind the ladder. */
   onOuroborosChange?: (active: boolean) => void;
@@ -122,7 +128,9 @@ type VisualAttachment = UaiImageAttachment & { id: string; label: string };
 export function OmniSynapseSearch({
   uai,
   onSelectEcosystem,
+  activeShortcut,
   onOpenShortcut,
+  onCloseShortcut,
   onOuroborosChange,
 }: OmniSynapseSearchProps) {
   const t = useTranslations('OmniSynapse');
@@ -595,19 +603,22 @@ export function OmniSynapseSearch({
   // HomeContent to sink Sections 1-3 behind it (Focus Isolation).
   const ouroboros = focused && !typing && uai.phase === 'idle';
 
-  // Discovery data (REV-19 §13): rising seeds + curiosity cards rotate on a
-  // 6h clock, live signals follow the hub's 7s theme rotation while the
-  // popup is open.
+  // Discovery data (REV-19 §13, REV-20 §5.3): rising seeds + curiosity cards
+  // rotate on a 6h clock, live signals follow the hub's 7s theme rotation.
+  // REV-20: this clock now also drives the fullscreen post-submit stream
+  // (signals/curiosity moved there from the typing dropdown), not only the
+  // typing popup -- `discoveryActive` covers both.
+  const discoveryActive = browsing || uai.phase !== 'idle';
   useEffect(() => {
-    if (!browsing) return;
+    if (!discoveryActive) return;
     setClock(Date.now());
     const id = window.setInterval(() => setClock(Date.now()), HUB_ROTATE_MS);
     return () => window.clearInterval(id);
-  }, [browsing]);
+  }, [discoveryActive]);
   const rising = useMemo(() => risingSeeds(liveIndex, clock, 8), [liveIndex, clock]);
   const curiosityIds = useMemo(() => pickCuriosityCards(clock), [clock]);
   const signalTheme = HUB_THEMES[rotateIndex(clock, HUB_THEMES.length)];
-  const signals = useHubHeadlines(browsing ? signalTheme.key : null, locale);
+  const signals = useHubHeadlines(discoveryActive ? signalTheme.key : null, locale);
   const tRev = useTranslations('Rev19');
   const fullReportHref = getPathname({
     locale,
@@ -771,7 +782,7 @@ export function OmniSynapseSearch({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
             onMouseDown={(e) => e.preventDefault()}
-            className="qw-search-dropdown absolute left-6 right-6 top-full z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-sm border border-white/15 bg-white/[0.045] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
+            className="qw-search-dropdown absolute top-full z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-sm border border-white/15 bg-white/[0.045] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
             data-search-level={hasText ? '3' : '2'}
           >
             {/* Section 1 -- "글자 조합별 실시간 검색": one row per live hit
@@ -865,66 +876,10 @@ export function OmniSynapseSearch({
               )}
             </section>
 
-            {/* REV-19 §13 discovery widgets -- the ladder explorer and the
-                nested shortcut strip are gone from the typing popup (the
-                base widgets live at level 1 only). Three sparks instead:
-                live signals from the rotating hub theme, clock-rotated
-                curiosity cards, and the visitor's own recent trail. */}
-            <section className="mb-6" data-discovery="signals">
-              <p className="qw-discovery-label">
-                <Radio size={15} aria-hidden="true" />
-                {tRev('search.signals')}
-                <span className="ml-1 text-[12px] font-bold uppercase tracking-[0.2em]" style={{ color: signalTheme.color }}>
-                  · {tRev(`hub.themes.${signalTheme.key}.title`)}
-                </span>
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {signals.items.slice(0, 4).map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    className="qw-discovery-chip"
-                    onMouseEnter={() => playHoverSfx()}
-                    onClick={() => runFollowupQuery(item.title)}
-                    title={item.domain ?? item.title}
-                  >
-                    <signalTheme.icon size={14} style={{ color: signalTheme.color }} aria-hidden="true" />
-                    <span className="truncate">{item.title}</span>
-                  </button>
-                ))}
-                {signals.items.length === 0 && (
-                  <span className="text-[13px] text-gray-500">{signals.loading ? tRev('hub.loading') : tRev('hub.empty')}</span>
-                )}
-              </div>
-            </section>
-
-            <section className="mb-6" data-discovery="curiosity">
-              <p className="qw-discovery-label">
-                <Sparkles size={15} aria-hidden="true" />
-                {tRev('search.curiosity')}
-              </p>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                {curiosityIds.map((id) => {
-                  const question = tRev(`search.cards.c${id}`);
-                  return (
-                    <button
-                      key={id}
-                      type="button"
-                      className="qw-curiosity-card"
-                      onMouseEnter={() => playHoverSfx()}
-                      onClick={() => runFollowupQuery(question)}
-                    >
-                      <span>{question}</span>
-                      <span className="qw-curiosity-ask flex items-center gap-1">
-                        <Compass size={12} aria-hidden="true" />
-                        {tRev('search.ask')}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
-
+            {/* REV-20 §4.4: live signals + curiosity cards are gone from the
+                typing dropdown (founder directive) -- they now inject into
+                the post-submit fullscreen stream instead (§5, below). Only
+                the visitor's own recent trail stays here. */}
             {recent.length > 0 && (
               <section data-discovery="recent">
                 <p className="qw-discovery-label">
@@ -957,17 +912,32 @@ export function OmniSynapseSearch({
           </motion.div>
       )}
 
+      {/* REV-20 §4: the keyword-click deep dive, search-bar-width-anchored
+          (NOT a portal -- same `.qw-search-wrap` containing block as the
+          dropdown above it, so its left/right edges are pixel-identical to
+          the search bar, never a fullscreen overlay). A crash inside it
+          (a bad cache payload, a malformed analysis) can never take the
+          search bar itself down. */}
+      <SovereignShield zone="modal-shortcut" resetKeys={[activeShortcut]}>
+        <HotShortcutResultModal shortcut={activeShortcut} onClose={onCloseShortcut} />
+      </SovereignShield>
+
       <AnimatePresence>
-        {ouroboros && <HotShortcutMatrixStrip onOpenShortcut={onOpenShortcut} />}
+        {ouroboros && <HotShortcutMatrixStrip />}
       </AnimatePresence>
 
       <CanvasDrawInput open={drawOpen} onClose={() => setDrawOpen(false)} onAttach={handleCanvasAttach} />
 
-      {/* U-AI live search result tower -- the same full-size popup frame and
-          [U-AI SEARCH RESULT / 갱신 / 홈으로 복귀 / 뒤로 가기 / 창닫기]
-          toolbar as the shortcut ladder, hosting the full (non-compact)
-          report in split architecture: 상단 = live results/feed, 하단 = the
-          new sovereign design structures (owner instruction 2026-09-02). */}
+      {/* REV-20 §5 -- the U-AI hyper-search engine: true 100vw/100svh
+          fullscreen (variant="fullscreen" covers the nav, unlike every other
+          tower), triggered by Enter/submit only. Founder directive: clear
+          every inherited chrome piece down to query-relevant content -- the
+          pinned AppLoopRow is gone (D-2, founder override) for a clean
+          canvas. Real-time signals + curiosity cards, removed from the
+          typing dropdown in §4, live here instead: every card/chip re-runs
+          a fresh surface search in place via runFollowupQuery, so exploring
+          never leaves this fullscreen surface -- a self-sustaining
+          discovery loop instead of one static report. */}
       <DialogTower
         open={uai.phase !== 'idle'}
         title="U-AI SEARCH RESULT"
@@ -975,6 +945,7 @@ export function OmniSynapseSearch({
         accent="#d4af37"
         accentGlow="#f2d675"
         historyMarker="unitasUaiSearchTower"
+        variant="fullscreen"
         labels={{
           refresh: tTower('refreshAria'),
           home: tTower('homeButton'),
@@ -988,7 +959,7 @@ export function OmniSynapseSearch({
         onClose={closeSearchTower}
         onButtonHover={playHoverSfx}
       >
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2.5 pb-6 sm:px-4">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2.5 pb-16 sm:px-4">
           <UaiDashboard
             phase={uai.phase}
             surface={uai.surface}
@@ -1009,10 +980,66 @@ export function OmniSynapseSearch({
             split
             fullReportHref={fullReportHref}
           />
+
+          {uai.phase !== 'idle' && (
+            <div className="mx-auto mt-10 max-w-5xl space-y-8 border-t border-white/10 pt-8">
+              <section data-discovery="signals">
+                <p className="qw-discovery-label">
+                  <Radio size={15} aria-hidden="true" />
+                  {tRev('search.signals')}
+                  <span className="ml-1 text-[12px] font-bold uppercase tracking-[0.2em]" style={{ color: signalTheme.color }}>
+                    · {tRev(`hub.themes.${signalTheme.key}.title`)}
+                  </span>
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {signals.items.slice(0, 4).map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="qw-discovery-chip"
+                      onMouseEnter={() => playHoverSfx()}
+                      onClick={() => runFollowupQuery(item.title)}
+                      title={item.domain ?? item.title}
+                    >
+                      <signalTheme.icon size={14} style={{ color: signalTheme.color }} aria-hidden="true" />
+                      <span className="truncate">{item.title}</span>
+                    </button>
+                  ))}
+                  {signals.items.length === 0 && (
+                    <span className="text-[13px] text-gray-500">{signals.loading ? tRev('hub.loading') : tRev('hub.empty')}</span>
+                  )}
+                </div>
+              </section>
+
+              <section data-discovery="curiosity">
+                <p className="qw-discovery-label">
+                  <Sparkles size={15} aria-hidden="true" />
+                  {tRev('search.curiosity')}
+                </p>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                  {curiosityIds.map((id) => {
+                    const question = tRev(`search.cards.c${id}`);
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        className="qw-curiosity-card"
+                        onMouseEnter={() => playHoverSfx()}
+                        onClick={() => runFollowupQuery(question)}
+                      >
+                        <span>{question}</span>
+                        <span className="qw-curiosity-ask flex items-center gap-1">
+                          <Compass size={12} aria-hidden="true" />
+                          {tRev('search.ask')}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+            </div>
+          )}
         </div>
-        {/* Pinned app loop -- same fixed bottom bar as the shortcut ladder
-            tower (owner instruction 2026-09-03: 모든 U-AI 팝업 공통 고정). */}
-        <AppLoopRow accent="#d4af37" label={tTower('appLoopLabel')} onHover={playHoverSfx} />
       </DialogTower>
     </div>
   );

@@ -1,0 +1,77 @@
+{
+  "title": "U-AI SEARCH RESULT",
+  "toolbarButtons": [
+    "지금 분석 갱신",
+    "홈으로 복귀",
+    "뒤로 가기",
+    "닫기"
+  ],
+  "outer": {
+    "x": 0,
+    "y": 74.5,
+    "w": 390,
+    "h": 769.5,
+    "r": 390,
+    "b": 844,
+    "top": "74.5px",
+    "position": "fixed",
+    "zIndex": "120"
+  },
+  "panel": {
+    "x": 0,
+    "y": 74.5,
+    "w": 390,
+    "h": 769.5,
+    "r": 390,
+    "b": 844,
+    "bg": "rgba(0, 0, 0, 0)",
+    "borderTop": "rgba(232, 121, 249, 0.4)",
+    "borderTopWidth": "1px"
+  },
+  "toolbar": {
+    "x": 0,
+    "y": 75.5,
+    "w": 390,
+    "h": 61,
+    "r": 390,
+    "b": 136.5
+  },
+  "body": {
+    "x": 0,
+    "y": 136.5,
+    "w": 390,
+    "h": 33.5,
+    "r": 390,
+    "b": 170,
+    "overflowY": "visible",
+    "scrollHeight": 33,
+    "textSample": "이전1 / 7다음"
+  },
+  "nav": {
+    "x": 0,
+    "y": 0,
+    "w": 390,
+    "h": 74.5,
+    "r": 390,
+    "b": 74.5
+  },
+  "search": {
+    "x": 18,
+    "y": 168,
+    "w": 354,
+    "h": 51.5,
+    "r": 372,
+    "b": 219.5
+  },
+  "bodyOverflow": "hidden",
+  "viewport": {
+    "w": 390,
+    "h": 844
+  },
+  "panelW_over_viewportW": 1,
+  "panelTop_minus_navBottom": 0,
+  "panelX_minus_searchX": -18,
+  "historyState": "{\"__NA\":true,\"__PRIVATE_NEXTJS_INTERNALS_TREE\":[\"\",{\"children\":[[\"locale\",\"ko\",\"d\"],{\"children\":[\"__PAGE__?{\\\"locale\\\":\\\"ko\\\"}\",{},\"/ko?splash=0\",\"refresh\"]}]},null,null,true],\"unitasExitGuard\":true,\"unitasExitDepth\":12,\"unitasModalStack\":[\"search:focus#1\",\"unitasShortcutModal#2\"]}",
+  "historyLength": 16,
+  "clickedLabel": "게임"
+}

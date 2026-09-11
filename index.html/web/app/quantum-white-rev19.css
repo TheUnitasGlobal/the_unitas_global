@@ -20,8 +20,12 @@ html[data-unitas-surface='quantum-white'] {
      line top -> cap top = 0.064em, line top -> baseline = 0.77em, line-height 0.95. */
   --qw-title-cap-ratio: 0.064;
   --qw-title-descend-ratio: 0.18; /* line-height 0.95 - baseline 0.77 */
-  /* §2 optical centre: "IT" centre sits 0.18em right of the glyph-run centre. */
-  --qw-title-optical-shift: -0.18em;
+  /* REV-20 §1: the -0.18em "IT" optical shift is retired -- it fought the
+     founder's absolute-centre mandate. Ink-run centre = viewport centre is
+     now the contract; measured residual after the REV-20 fit-content fix
+     below is <1px at both 1366 and 390 (docs/rev20/measure/hero-geometry.json),
+     so no compensating shift is needed. */
+  --qw-title-optical-shift: 0em;
 
   /* cybernetic silver */
   --qw-silver: #cfd6e2;
@@ -81,6 +85,14 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 {
 html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 .qw-title-word {
   display: inline-block;
   text-indent: 0;
+  /* REV-20 §1.2: the base stylesheet's `letter-spacing: var(--qw-title-track)`
+     adds tracking after the LAST glyph too, so the fit-content box (parent
+     h1) is wider than the ink run by one tracking unit and the run sits
+     ~0.07em left of the box/hairline centre. Pulling the box's trailing edge
+     in by that same amount makes box centre == ink centre, with zero DOM
+     change and zero effect on inter-letter spacing (tracking between glyphs
+     is untouched -- only the box's own end margin is compensated). */
+  margin-inline-end: calc(-1 * var(--qw-title-track));
   transform: translateX(var(--qw-title-optical-shift));
 }
 html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 .qw-title-mark {
@@ -91,6 +103,55 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 .qw-title-mark {
    line bottom. */
 html[data-unitas-surface='quantum-white'] .qw-search-wrap {
   margin-top: calc(var(--qw-hero-gap) - var(--qw-title-size) * var(--qw-title-descend-ratio) - 1.1rem - 1px);
+}
+
+/* --------------------------------------------------------------------------
+   13b. REV-20 §2 hero underline -- brand kill-line (安 A, founder-approved).
+   Supersedes quantum-white.css's fixed 112px hairline: same selector, later
+   in the cascade (this file loads after quantum-white.css), so no !important
+   needed. Width now scales with the title (100% of the fit-content ink box,
+   see §13 above) instead of a fixed px, and gains an animated glow sweep.
+   DOM additions: 0. Hero.tsx: unchanged.
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1::after {
+  content: '';
+  display: block;
+  width: 100%;
+  min-width: 220px;
+  max-width: 92vw;
+  height: 3px;
+  margin: 1.1rem auto 0;
+  border-radius: 2px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%, 38% 100%;
+  background-position: 0 0, -45% 0;
+  background-image:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--qw-gold) 18%,
+      var(--qw-gold-deep) 38%,
+      var(--qw-blue) 50%,
+      var(--qw-gold-deep) 62%,
+      var(--qw-gold) 82%,
+      transparent 100%
+    ),
+    linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.95) 50%, transparent 100%);
+  box-shadow:
+    0 0 18px rgba(184, 150, 46, 0.45),
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 6px 22px -8px rgba(11, 92, 255, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1::after {
+    animation: qw-rule-sweep 4.5s ease-in-out infinite;
+  }
+}
+@keyframes qw-rule-sweep {
+  0%, 12% { background-position: 0 0, -45% 0; }
+  70%, 100% { background-position: 0 0, 145% 0; }
 }
 
 /* --------------------------------------------------------------------------
@@ -452,6 +513,29 @@ html[data-unitas-surface='quantum-white'] .qw-search-dropdown {
   backdrop-filter: var(--qw-modal-blur);
   box-shadow: var(--qw-modal-edge), 0 30px 80px -24px rgba(11, 92, 255, 0.28), 0 18px 44px rgba(10, 10, 12, 0.12), 0 0 0 1px rgba(207, 214, 226, 0.7);
 }
+/* REV-20 §4.1: single source of truth for the popup's left/right edges --
+   both the typing dropdown and the keyword panel below read the SAME
+   variable here (defined and consumed together, so there is no cascade-order
+   risk from a Tailwind `left-6 right-6` utility of equal specificity landing
+   after this rule). Their offset intentionally equals `.qw-search-wrap`'s own
+   `px-6` Tailwind padding -- the popups' containing block is `.qw-search-wrap`
+   itself, so this makes their edges pixel-identical to the search bar. */
+html[data-unitas-surface='quantum-white'] .qw-search-dropdown,
+html[data-unitas-surface='quantum-white'] .qw-keyword-panel {
+  --qw-search-inset: 1.5rem;
+  left: var(--qw-search-inset);
+  right: var(--qw-search-inset);
+}
+/* REV-20 §4: the keyword panel reuses the dropdown's exact glass shell so
+   the two read as the SAME popup language, just different content -- never
+   fullscreen, width-locked to the search bar via the rule above. */
+html[data-unitas-surface='quantum-white'] .qw-keyword-panel {
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(246, 247, 250, 0.96));
+  -webkit-backdrop-filter: var(--qw-modal-blur);
+  backdrop-filter: var(--qw-modal-blur);
+  box-shadow: var(--qw-modal-edge), 0 30px 80px -24px rgba(11, 92, 255, 0.28), 0 18px 44px rgba(10, 10, 12, 0.12), 0 0 0 1px rgba(207, 214, 226, 0.7);
+}
 html[data-unitas-surface='quantum-white'] .qw-discovery-label {
   display: flex;
   align-items: center;
@@ -531,8 +615,11 @@ html[data-unitas-surface='quantum-white'] .qw-live-result {
 }
 
 /* --------------------------------------------------------------------------
-   19. Live hub, shorts, discovery links (SPEC §8) -- LiveHubPanel.tsx,
-       UnitasShortsPanel.tsx, DiscoveryLinks.tsx
+   19. Discovery carousel, discovery links (SPEC §8, REV-20 §3) --
+       DiscoveryCarousel.tsx (formerly LiveHubPanel.tsx, retired), DiscoveryLinks.tsx.
+       REV-20 §7.1: the UNITAS Shorts rail this section used to style
+       (.qw-shorts-rail / .qw-short-* / .qw-pill-btn) was deleted along with
+       the component.
    -------------------------------------------------------------------------- */
 html[data-unitas-surface='quantum-white'] .qw-hub-strip {
   display: flex;
@@ -576,7 +663,10 @@ html[data-unitas-surface='quantum-white'] .qw-hub-chip .qw-hub-progress {
   transform-origin: left;
   background: var(--qw-hub-accent, var(--qw-blue));
   transform: scaleX(0);
-  animation: qw-hub-progress-fill 7s linear forwards;
+  /* REV-20 §3.4: single source of truth for the rotation period -- the
+     component passes --qw-slot-rotate inline (ROTATE_MS), CSS no longer
+     hardcodes its own 7s that could drift from the TS timer. */
+  animation: qw-hub-progress-fill var(--qw-slot-rotate, 7s) linear forwards;
 }
 html[data-unitas-surface='quantum-white'] .qw-hub-chip .qw-hub-progress[data-held='1'] {
   animation: none;
@@ -625,91 +715,6 @@ html[data-unitas-surface='quantum-white'] .qw-hub-source {
 }
 html[data-unitas-surface='quantum-white'] .qw-weather-big {
   font-size: 44px;
-}
-html[data-unitas-surface='quantum-white'] .qw-shorts-rail {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(148px, 1fr);
-  gap: 12px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 4px;
-}
-html[data-unitas-surface='quantum-white'] .qw-shorts-rail::-webkit-scrollbar {
-  display: none;
-}
-html[data-unitas-surface='quantum-white'] .qw-short-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  aspect-ratio: 9 / 16;
-  padding: 12px;
-  border-radius: 16px;
-  overflow: hidden;
-  color: #fff;
-  text-align: left;
-  box-shadow: 0 14px 34px -18px rgba(10, 10, 12, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
-}
-html[data-unitas-surface='quantum-white'] .qw-short-card:hover,
-html[data-unitas-surface='quantum-white'] .qw-short-card:focus-visible {
-  transform: translateY(-3px) scale(1.01);
-  box-shadow: 0 22px 44px -18px rgba(11, 92, 255, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
-  outline: none;
-}
-html[data-unitas-surface='quantum-white'] .qw-short-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.55) 100%);
-  pointer-events: none;
-}
-html[data-unitas-surface='quantum-white'] .qw-short-card > * {
-  position: relative;
-  z-index: 1;
-}
-html[data-unitas-surface='quantum-white'] .qw-short-title {
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 1.25;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
-}
-html[data-unitas-surface='quantum-white'] .qw-short-meta {
-  display: flex;
-  gap: 10px;
-  margin-top: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  opacity: 0.92;
-}
-html[data-unitas-surface='quantum-white'] .qw-short-poster {
-  aspect-ratio: 9 / 16;
-  border-radius: 16px;
-  max-height: 46vh;
-  margin-inline: auto;
-}
-html[data-unitas-surface='quantum-white'] .qw-pill-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border: 1.5px solid var(--qw-line-strong);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.8);
-  color: var(--qw-ink);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-}
-html[data-unitas-surface='quantum-white'] .qw-pill-btn[data-on='1'] {
-  border-color: var(--qw-blue);
-  background: var(--qw-blue);
-  color: #fff;
-}
-html[data-unitas-surface='quantum-white'] .qw-pill-btn:hover {
-  border-color: var(--qw-blue);
 }
 html[data-unitas-surface='quantum-white'] .qw-discovery-links {
   display: flex;

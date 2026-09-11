@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "검색"
     },
-    "shorts": {
-      "label": "UNITAS 쇼츠",
-      "lede": "네트워크의 세로형 순간들 — U-메신저의 씨앗.",
-      "views": "조회 {count}",
-      "like": "좋아요",
-      "liked": "좋아요 완료",
-      "follow": "팔로우",
-      "following": "팔로잉",
-      "upload": "업로드",
-      "uploadSoon": "업로드는 U-메신저 베타와 함께 열립니다",
-      "seedNote": "미리보기용 시드 클립 · 실제 업로드는 U-메신저 베타와 함께 도착합니다",
-      "share": "U-메신저로 공유",
-      "shareHint": "베타가 열리면 공유 링크가 이 클립을 U-메신저 대화로 바로 전달합니다.",
-      "openAria": "쇼츠 {title} 열기",
-      "creator": "크리에이터",
-      "duration": "{seconds}초",
-      "followers": "팔로워 {count}",
-      "pass": {
-        "eyebrow": "크리에이터 얼리 액세스",
-        "cta": "얼리 액세스 받기",
-        "title": "당신의 크리에이터 패스",
-        "lede": "업로드는 U-메신저 베타와 함께 열립니다. 지금 패스를 예약하면, 스튜디오 문이 열리는 순간 당신의 핸들이 가장 앞줄에 섭니다.",
-        "handleLabel": "크리에이터 핸들",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "3~20자: a–z, 0–9, 점, 대시, 밑줄",
-        "reserve": "내 패스 예약하기",
-        "reserved": "패스 예약 완료",
-        "reservedAt": "{time} 예약",
-        "serial": "패스 {serial}",
-        "currentWave": "지금 예약 중",
-        "wave1": "1차 · 파운딩 크리에이터",
-        "wave2": "2차 · 스튜디오 도구",
-        "wave3": "3차 · 글로벌 오픈",
-        "perks": {
-          "p1": "오픈 당일 우선 업로드 슬롯",
-          "p2": "프로필에 새겨지는 파운딩 크리에이터 배지",
-          "p3": "U-메신저 대화로 바로 공유"
-        },
-        "signedIn": "계정에 연결됨",
-        "guest": "로그인하면 이 패스가 계정에도 함께 연결됩니다.",
-        "honest": "패스는 이 기기에, 로그인 시에는 계정에도 보관됩니다. 아직 어떤 영상도 업로드되거나 저장되지 않습니다."
-      }
-    },
     "mail": {
       "label": "UNITAS 메일 핸들 (선택)",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "계정에 연결됨 · UNITAS 메일 개통 시 메일함 활성화",
       "lost": "{handle}은(는) 다른 계정이 먼저 예약했습니다. 언제든 새 핸들을 예약할 수 있습니다",
       "perk1": "UNITAS 메일 개통 시 우선 받은편지함",
-      "perk2": "메일, 쇼츠, U-메신저를 아우르는 하나의 핸들"
+      "perk2": "메일과 U-메신저를 아우르는 하나의 핸들"
     },
     "legal": {
       "eyebrow": "공지사항",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "보호된 콘텐츠 · 모든 사본에는 UNITAS 지문이 남습니다",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · 소유권 안내: 이 인터페이스와 문구, 코드는 보호받는 저작물입니다 · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "디스커버리 캐러셀",
+      "weather": {
+        "title": "날씨",
+        "tag": "지금 이 순간, 당신이 있는 곳의 날씨"
+      },
+      "history": {
+        "title": "역사 속 오늘",
+        "tag": "이날 있었던 일들"
+      },
+      "quake": {
+        "title": "지구 펄스",
+        "tag": "전 세계 실시간 지진 활동"
+      },
+      "mostRead": {
+        "title": "최다 조회",
+        "tag": "어제 전 세계가 검색한 것"
+      },
+      "fx": {
+        "title": "환율 나침반",
+        "tag": "오늘, 당신의 돈이 지닌 무게"
+      },
+      "crypto": {
+        "title": "코인 펄스",
+        "tag": "탈중앙화 시장의 맥박"
+      },
+      "devPulse": {
+        "title": "개발자 펄스",
+        "tag": "지금 개발자들이 논쟁 중인 주제"
+      },
+      "paper": {
+        "title": "오늘의 논문",
+        "tag": "인류가 방금 알아낸 것"
+      },
+      "library": {
+        "title": "책장",
+        "tag": "한 번쯤 읽어볼 만한 책들"
+      },
+      "art": {
+        "title": "오늘의 작품",
+        "tag": "오늘 당신의 시선을 사로잡을 작품 하나"
+      },
+      "air": {
+        "title": "공기",
+        "tag": "지금 당신이 마시고 있는 공기"
+      },
+      "nation": {
+        "title": "국가 지표",
+        "tag": "숫자로 보는 당신의 나라"
+      },
+      "nearby": {
+        "title": "내 주변",
+        "tag": "반경 10km 이내의 이야기"
+      },
+      "facts": {
+        "city": "도시",
+        "tempNow": "현재",
+        "hiLo": "최고 / 최저",
+        "feelsLike": "체감 온도",
+        "topHeadline": "주요 헤드라인",
+        "headlineCount": "헤드라인 수",
+        "todayDate": "오늘",
+        "firstEvent": "주요 사건",
+        "eventCount": "기록된 사건 수",
+        "maxMag": "오늘 최대 규모",
+        "quakePlace": "발생 위치",
+        "quakeCount": "오늘 발생 지진",
+        "rank1": "오늘의 1위",
+        "rank1Views": "조회수",
+        "fxBase": "기준 통화",
+        "fxRate": "환율",
+        "fxDate": "기준일",
+        "btcPrice": "BTC 가격",
+        "btc24h": "24시간 변동률",
+        "topStory": "인기 게시글",
+        "storyPoints": "포인트",
+        "paperTitle": "최신 논문",
+        "paperCitations": "인용 수",
+        "paperOa": "공개 여부",
+        "shelfSubject": "분야",
+        "bookTitle": "추천 도서",
+        "bookEditions": "출간 판수",
+        "artTitle": "작품명",
+        "artArtist": "작가",
+        "artDate": "제작 시기",
+        "artDept": "소장 부서",
+        "aqi": {
+          "good": "좋음",
+          "fair": "양호",
+          "moderate": "보통",
+          "poor": "나쁨",
+          "veryPoor": "매우 나쁨",
+          "extreme": "위험"
+        },
+        "aqiValue": "AQI",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "국가",
+        "nationGdp": "GDP",
+        "nationPop": "인구",
+        "nationNet": "인터넷 보급률",
+        "nearbyTitle": "가장 가까운 문서",
+        "nearbyDist": "거리",
+        "nearbyCount": "주변 문서 수"
+      }
     }
   }
 }

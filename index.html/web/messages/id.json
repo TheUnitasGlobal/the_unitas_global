@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "Cari"
     },
-    "shorts": {
-      "label": "UNITAS Shorts",
-      "lede": "Momen vertikal dari jaringan — benih dari U-Messenger.",
-      "views": "{count} tontonan",
-      "like": "Suka",
-      "liked": "Disukai",
-      "follow": "Ikuti",
-      "following": "Mengikuti",
-      "upload": "Unggah",
-      "uploadSoon": "Unggahan dibuka bersama beta U-Messenger",
-      "seedNote": "Klip awal ditampilkan sebagai pratinjau · unggahan sungguhan hadir bersama beta U-Messenger",
-      "share": "Bagikan ke U-Messenger",
-      "shareHint": "Tautan berbagi akan mengirim klip ini langsung ke utas U-Messenger begitu beta dibuka.",
-      "openAria": "Buka short {title}",
-      "creator": "Kreator",
-      "duration": "{seconds} detik",
-      "followers": "{count} pengikut",
-      "pass": {
-        "eyebrow": "Akses awal untuk kreator",
-        "cta": "Dapatkan akses awal",
-        "title": "Pas kreator Anda",
-        "lede": "Unggahan dibuka bersama beta U-Messenger. Pesan pas Anda sekarang, dan nama Anda berada di barisan terdepan saat pintu studio terbuka.",
-        "handleLabel": "Handle kreator",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "3–20 karakter: a–z, 0–9, titik, tanda hubung, garis bawah",
-        "reserve": "Pesan pas saya",
-        "reserved": "Pas sudah dipesan",
-        "reservedAt": "Dipesan {time}",
-        "serial": "Pas {serial}",
-        "currentWave": "Sedang dibuka",
-        "wave1": "Gelombang 1 · Kreator pendiri",
-        "wave2": "Gelombang 2 · Perangkat studio",
-        "wave3": "Gelombang 3 · Terbuka global",
-        "perks": {
-          "p1": "Slot unggah prioritas di hari pembukaan",
-          "p2": "Lencana kreator pendiri di profil Anda",
-          "p3": "Bagikan langsung ke percakapan U-Messenger"
-        },
-        "signedIn": "Terhubung ke akun Anda",
-        "guest": "Masuk, dan pas Anda juga akan terhubung ke akun Anda.",
-        "honest": "Pas tersimpan di perangkat ini dan, saat Anda masuk, juga di akun Anda. Belum ada video yang diunggah atau disimpan."
-      }
-    },
     "mail": {
       "label": "Handle email UNITAS (opsional)",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "Terhubung ke akun Anda · kotak surat aktif saat UNITAS Mail dibuka",
       "lost": "{handle} lebih dulu dipesan akun lain — Anda bisa memesan handle baru kapan saja",
       "perk1": "Kotak masuk prioritas saat UNITAS Mail dibuka",
-      "perk2": "Satu handle untuk Mail, Shorts, dan U-Messenger"
+      "perk2": "Satu handle untuk Mail dan U-Messenger"
     },
     "legal": {
       "eyebrow": "Pemberitahuan",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "Konten dilindungi · setiap salinan membawa sidik jari UNITAS",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · Pemberitahuan kepemilikan: antarmuka ini, teksnya, dan kodenya adalah karya yang dilindungi · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "Karusel penemuan",
+      "weather": {
+        "title": "Cuaca",
+        "tag": "Kondisi langsung, di mana pun Anda berada"
+      },
+      "history": {
+        "title": "Hari Ini dalam Sejarah",
+        "tag": "Apa yang terjadi pada tanggal ini"
+      },
+      "quake": {
+        "title": "Denyut Bumi",
+        "tag": "Aktivitas seismik langsung di seluruh dunia"
+      },
+      "mostRead": {
+        "title": "Paling Banyak Dibaca",
+        "tag": "Apa yang dicari dunia kemarin"
+      },
+      "fx": {
+        "title": "Kompas FX",
+        "tag": "Bobot uang Anda hari ini"
+      },
+      "crypto": {
+        "title": "Denyut Koin",
+        "tag": "Denyut pasar terdesentralisasi"
+      },
+      "devPulse": {
+        "title": "Denyut Dev",
+        "tag": "Apa yang sedang diperdebatkan para developer saat ini"
+      },
+      "paper": {
+        "title": "Makalah Hari Ini",
+        "tag": "Apa yang baru saja dipelajari umat manusia"
+      },
+      "library": {
+        "title": "Rak Buku",
+        "tag": "Sederet buku yang layak diketahui"
+      },
+      "art": {
+        "title": "Satu Karya Seni",
+        "tag": "Satu karya yang menarik perhatian Anda hari ini"
+      },
+      "air": {
+        "title": "Udara",
+        "tag": "Apa yang Anda hirup saat ini"
+      },
+      "nation": {
+        "title": "Metrik Negara",
+        "tag": "Negara Anda, dalam angka"
+      },
+      "nearby": {
+        "title": "Terdekat",
+        "tag": "Artikel dalam radius 10 km dari Anda"
+      },
+      "facts": {
+        "city": "Kota",
+        "tempNow": "Sekarang",
+        "hiLo": "Tertinggi / Terendah",
+        "feelsLike": "Terasa seperti",
+        "topHeadline": "Berita Utama",
+        "headlineCount": "Jumlah Berita",
+        "todayDate": "Hari Ini",
+        "firstEvent": "Peristiwa Pilihan",
+        "eventCount": "Peristiwa Tercatat",
+        "maxMag": "Terkuat Hari Ini",
+        "quakePlace": "Lokasi",
+        "quakeCount": "Gempa Hari Ini",
+        "rank1": "#1 Hari Ini",
+        "rank1Views": "Dilihat",
+        "fxBase": "Mata Uang Dasar",
+        "fxRate": "Kurs",
+        "fxDate": "Per",
+        "btcPrice": "Harga BTC",
+        "btc24h": "Perubahan 24 Jam",
+        "topStory": "Topik Teratas",
+        "storyPoints": "Poin",
+        "paperTitle": "Makalah Terbaru",
+        "paperCitations": "Sitasi",
+        "paperOa": "Akses",
+        "shelfSubject": "Subjek",
+        "bookTitle": "Buku Pilihan",
+        "bookEditions": "Edisi",
+        "artTitle": "Karya Seni",
+        "artArtist": "Seniman",
+        "artDate": "Tanggal",
+        "artDept": "Departemen",
+        "aqi": {
+          "good": "Udara Baik",
+          "fair": "Udara Cukup",
+          "moderate": "Udara Sedang",
+          "poor": "Udara Buruk",
+          "veryPoor": "Udara Sangat Buruk",
+          "extreme": "Udara Ekstrem"
+        },
+        "aqiValue": "AQI",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "Negara",
+        "nationGdp": "PDB",
+        "nationPop": "Populasi",
+        "nationNet": "Akses Internet",
+        "nearbyTitle": "Artikel Terdekat",
+        "nearbyDist": "Jarak",
+        "nearbyCount": "Artikel di Sekitar"
+      }
     }
   }
 }

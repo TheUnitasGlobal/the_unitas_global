@@ -1,0 +1,392 @@
+{
+  "generated": "2026-09-11T04:05:09.010Z",
+  "base": "http://127.0.0.1:3124",
+  "desktop1366": {
+    "viewport": {
+      "w": 1366,
+      "h": 768,
+      "dpr": 1,
+      "center": 683
+    },
+    "zoom": 0.75,
+    "nav": {
+      "x": 0,
+      "y": 0,
+      "w": 1366,
+      "h": 64,
+      "cx": 683,
+      "right": 1366,
+      "bottom": 64
+    },
+    "h1": {
+      "x": 440.4,
+      "y": 116.9,
+      "w": 485.2,
+      "h": 110.8,
+      "cx": 683,
+      "right": 925.6,
+      "bottom": 227.7
+    },
+    "h1Style": {
+      "fontSize": "136px",
+      "fontSizeScreenPx": 102,
+      "fontFamily": "__Cinzel_98406a, __Cinzel_Fallback_98406a, serif",
+      "letterSpacing": "19.04px",
+      "textIndent": "0px",
+      "lineHeight": "129.2px",
+      "color": "rgb(10, 10, 12)",
+      "textAlign": "center",
+      "paddingLeft": "0px",
+      "paddingRight": "0px"
+    },
+    "titleWord": {
+      "x": 422,
+      "y": 116.9,
+      "w": 485.2,
+      "h": 96.9,
+      "cx": 664.6,
+      "right": 907.2,
+      "bottom": 213.8
+    },
+    "titleWordStyle": {
+      "letterSpacing": "19.04px",
+      "textIndent": "0px",
+      "marginRight": "0px",
+      "paddingRight": "0px",
+      "display": "inline-block"
+    },
+    "glyphs": [
+      {
+        "ch": "U",
+        "x": 422,
+        "y": 95.9,
+        "w": 96.6,
+        "h": 138,
+        "cx": 470.3,
+        "right": 518.6
+      },
+      {
+        "ch": "N",
+        "x": 518.6,
+        "y": 95.9,
+        "w": 100.9,
+        "h": 138,
+        "cx": 569.1,
+        "right": 619.5
+      },
+      {
+        "ch": "I",
+        "x": 619.5,
+        "y": 95.9,
+        "w": 53.8,
+        "h": 138,
+        "cx": 646.4,
+        "right": 673.2
+      },
+      {
+        "ch": "T",
+        "x": 673.2,
+        "y": 95.9,
+        "w": 73.3,
+        "h": 138,
+        "cx": 709.9,
+        "right": 746.6
+      },
+      {
+        "ch": "A",
+        "x": 746.5,
+        "y": 95.9,
+        "w": 87.4,
+        "h": 138,
+        "cx": 790.3,
+        "right": 834
+      },
+      {
+        "ch": "S",
+        "x": 834,
+        "y": 95.9,
+        "w": 73.3,
+        "h": 138,
+        "cx": 870.6,
+        "right": 907.2
+      }
+    ],
+    "glyphRun": {
+      "x": 422,
+      "y": 95.9,
+      "w": 485.2,
+      "h": 138,
+      "cx": 664.6,
+      "right": 907.2
+    },
+    "it": {
+      "x": 619.5,
+      "y": 95.9,
+      "w": 127.1,
+      "h": 138,
+      "cx": 683,
+      "right": 746.6
+    },
+    "underline": {
+      "content": "\"\"",
+      "width": "112px",
+      "height": "1px",
+      "left": "auto",
+      "right": "auto",
+      "top": "auto",
+      "bottom": "auto",
+      "position": "static",
+      "transform": "none",
+      "marginTop": "17.6px",
+      "marginLeft": "267.438px",
+      "marginRight": "267.458px",
+      "backgroundImage": "linear-gradient(90deg, rgba(0, 0, 0, 0), rgb(184, 150, 46) 35%, rgb(138, 109, 20) 50%, rgb(184, 150, 46) 65%, rgba(0, 0, 0, 0))",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "opacity": "1",
+      "display": "block",
+      "derived": {
+        "widthScreen": 84,
+        "heightScreen": 0.8,
+        "cxScreen": 683,
+        "topScreen": 240.9,
+        "note": "block ::after with auto side margins => centred on h1 content box"
+      }
+    },
+    "search": {
+      "x": 221,
+      "y": 254.8,
+      "w": 924,
+      "h": 60.5,
+      "cx": 683,
+      "right": 1145,
+      "bottom": 315.3
+    },
+    "searchStyle": {
+      "maxWidth": "none",
+      "width": "1232px",
+      "marginLeft": "0px",
+      "marginRight": "0px"
+    },
+    "heroWrap": {
+      "x": 0,
+      "y": 0,
+      "w": 1366,
+      "h": 227.7,
+      "cx": 683,
+      "right": 1366,
+      "bottom": 227.7
+    },
+    "calc": {
+      "viewportCenter": 683,
+      "glyphRunCx": 664.6,
+      "glyphRunOffsetPx": -18.4,
+      "glyphRunOffsetEm": -0.1804,
+      "itCx": 683,
+      "itOffsetPx": 0,
+      "itOffsetEm": 0,
+      "h1CxOffsetPx": 0,
+      "underlineCxOffsetPx": 0,
+      "underlineVsGlyphRunCxPx": 18.4,
+      "underlineVsItCxPx": 0,
+      "underlineWidthOverGlyphRun": 0.1731,
+      "underlineWidthOverH1": 0.1731,
+      "searchCxOffsetPx": 0,
+      "navBottomToH1Top": 52.9,
+      "h1BottomToSearchTop": 27.1
+    }
+  },
+  "mobile390": {
+    "viewport": {
+      "w": 390,
+      "h": 844,
+      "dpr": 3,
+      "center": 195
+    },
+    "zoom": 0.75,
+    "nav": {
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 74.5,
+      "cx": 195,
+      "right": 390,
+      "bottom": 74.5
+    },
+    "h1": {
+      "x": 102.2,
+      "y": 105,
+      "w": 185.5,
+      "h": 51,
+      "cx": 195,
+      "right": 287.8,
+      "bottom": 156
+    },
+    "h1Style": {
+      "fontSize": "52px",
+      "fontSizeScreenPx": 39,
+      "fontFamily": "__Cinzel_98406a, __Cinzel_Fallback_98406a, serif",
+      "letterSpacing": "7.28px",
+      "textIndent": "0px",
+      "lineHeight": "49.4px",
+      "color": "rgb(10, 10, 12)",
+      "textAlign": "center",
+      "paddingLeft": "0px",
+      "paddingRight": "0px"
+    },
+    "titleWord": {
+      "x": 95.2,
+      "y": 105,
+      "w": 185.5,
+      "h": 37,
+      "cx": 188,
+      "right": 280.7,
+      "bottom": 142
+    },
+    "titleWordStyle": {
+      "letterSpacing": "7.28px",
+      "textIndent": "0px",
+      "marginRight": "0px",
+      "paddingRight": "0px",
+      "display": "inline-block"
+    },
+    "glyphs": [
+      {
+        "ch": "U",
+        "x": 95.2,
+        "y": 97,
+        "w": 36.9,
+        "h": 53,
+        "cx": 113.7,
+        "right": 132.2
+      },
+      {
+        "ch": "N",
+        "x": 132.1,
+        "y": 97,
+        "w": 38.6,
+        "h": 53,
+        "cx": 151.4,
+        "right": 170.7
+      },
+      {
+        "ch": "I",
+        "x": 170.7,
+        "y": 97,
+        "w": 20.6,
+        "h": 53,
+        "cx": 181,
+        "right": 191.3
+      },
+      {
+        "ch": "T",
+        "x": 191.2,
+        "y": 97,
+        "w": 28.1,
+        "h": 53,
+        "cx": 205.3,
+        "right": 219.3
+      },
+      {
+        "ch": "A",
+        "x": 219.3,
+        "y": 97,
+        "w": 33.4,
+        "h": 53,
+        "cx": 236,
+        "right": 252.7
+      },
+      {
+        "ch": "S",
+        "x": 252.7,
+        "y": 97,
+        "w": 28,
+        "h": 53,
+        "cx": 266.7,
+        "right": 280.7
+      }
+    ],
+    "glyphRun": {
+      "x": 95.2,
+      "y": 97,
+      "w": 185.5,
+      "h": 53,
+      "cx": 188,
+      "right": 280.7
+    },
+    "it": {
+      "x": 170.7,
+      "y": 97,
+      "w": 48.6,
+      "h": 53,
+      "cx": 195,
+      "right": 219.3
+    },
+    "underline": {
+      "content": "\"\"",
+      "width": "112px",
+      "height": "1px",
+      "left": "auto",
+      "right": "auto",
+      "top": "auto",
+      "bottom": "auto",
+      "position": "static",
+      "transform": "none",
+      "marginTop": "17.6px",
+      "marginLeft": "67.6667px",
+      "marginRight": "67.6875px",
+      "backgroundImage": "linear-gradient(90deg, rgba(0, 0, 0, 0), rgb(184, 150, 46) 35%, rgb(138, 109, 20) 50%, rgb(184, 150, 46) 65%, rgba(0, 0, 0, 0))",
+      "backgroundColor": "rgba(0, 0, 0, 0)",
+      "opacity": "1",
+      "display": "block",
+      "derived": {
+        "widthScreen": 84,
+        "heightScreen": 0.8,
+        "cxScreen": 195,
+        "topScreen": 169.2,
+        "note": "block ::after with auto side margins => centred on h1 content box"
+      }
+    },
+    "search": {
+      "x": 18,
+      "y": 168,
+      "w": 354,
+      "h": 51.5,
+      "cx": 195,
+      "right": 372,
+      "bottom": 219.5
+    },
+    "searchStyle": {
+      "maxWidth": "none",
+      "width": "472px",
+      "marginLeft": "0px",
+      "marginRight": "0px"
+    },
+    "heroWrap": {
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 156,
+      "cx": 195,
+      "right": 390,
+      "bottom": 156
+    },
+    "calc": {
+      "viewportCenter": 195,
+      "glyphRunCx": 188,
+      "glyphRunOffsetPx": -7,
+      "glyphRunOffsetEm": -0.1795,
+      "itCx": 195,
+      "itOffsetPx": 0,
+      "itOffsetEm": 0,
+      "h1CxOffsetPx": 0,
+      "underlineCxOffsetPx": 0,
+      "underlineVsGlyphRunCxPx": 7,
+      "underlineVsItCxPx": 0,
+      "underlineWidthOverGlyphRun": 0.4528,
+      "underlineWidthOverH1": 0.4528,
+      "searchCxOffsetPx": 0,
+      "navBottomToH1Top": 30.5,
+      "h1BottomToSearchTop": 12
+    }
+  }
+}

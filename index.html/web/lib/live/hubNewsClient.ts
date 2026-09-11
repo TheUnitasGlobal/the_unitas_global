@@ -10,7 +10,7 @@ import type { HubThemeKey } from '@/lib/live/hubThemes';
  *  theme twice inside the CDN window. */
 const CLIENT_TTL_MS = 10 * 60 * 1000;
 
-interface Cached {
+export interface Cached {
   items: HotNewsItem[];
   term: string;
   fetchedAt: number;
@@ -27,7 +27,10 @@ export interface HubHeadlines {
   refresh: () => void;
 }
 
-async function load(locale: string, theme: HubThemeKey, force: boolean): Promise<Cached> {
+/** REV-20 §3.3: exported so the unified discovery-slot news adapter
+ *  (lib/live/discoverySlots.ts) shares this exact module-level cache instead
+ *  of hitting /api/live/hub-news a second time for the same (locale, theme). */
+export async function loadHubNews(locale: string, theme: HubThemeKey, force: boolean): Promise<Cached> {
   const key = `${locale}:${theme}`;
   const hit = cache.get(key);
   if (!force && hit && Date.now() - hit.fetchedAt < CLIENT_TTL_MS) return hit;
@@ -68,7 +71,7 @@ export function useHubHeadlines(theme: HubThemeKey | null, locale: string, refre
     const cached = cache.get(`${locale}:${theme}`);
     if (cached) setState(cached);
     setLoading(!cached);
-    void load(locale, theme, tick > 0).then((next) => {
+    void loadHubNews(locale, theme, tick > 0).then((next) => {
       if (cancelled) return;
       setState(next);
       setLoading(false);

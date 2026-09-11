@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "搜索"
     },
-    "shorts": {
-      "label": "UNITAS Shorts",
-      "lede": "来自网络的竖屏瞬间 — U-Messenger 的种子。",
-      "views": "{count} 次观看",
-      "like": "点赞",
-      "liked": "已点赞",
-      "follow": "关注",
-      "following": "已关注",
-      "upload": "上传",
-      "uploadSoon": "上传功能将随 U-Messenger 测试版开放",
-      "seedNote": "当前展示的是预览用种子短片 · 真正的上传将随 U-Messenger 测试版到来",
-      "share": "分享至 U-Messenger",
-      "shareHint": "测试版开放后,分享链接会将这段短片直接送入 U-Messenger 的对话串。",
-      "openAria": "打开短片《{title}》",
-      "creator": "创作者",
-      "duration": "{seconds}秒",
-      "followers": "{count} 位粉丝",
-      "pass": {
-        "eyebrow": "创作者抢先体验",
-        "cta": "获取抢先体验",
-        "title": "你的创作者通行证",
-        "lede": "上传功能将随 U-Messenger 测试版一同开放。现在预留通行证，工作室大门开启的那一刻，你的账号名将站在最前排。",
-        "handleLabel": "创作者账号名",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "3–20 个字符：a–z、0–9、点、短横线、下划线",
-        "reserve": "预留我的通行证",
-        "reserved": "通行证已预留",
-        "reservedAt": "预留于 {time}",
-        "serial": "通行证 {serial}",
-        "currentWave": "正在预留",
-        "wave1": "第一波 · 创始创作者",
-        "wave2": "第二波 · 工作室工具",
-        "wave3": "第三波 · 全球开放",
-        "perks": {
-          "p1": "开放首日的优先上传席位",
-          "p2": "个人主页上的创始创作者徽章",
-          "p3": "直接分享到 U-Messenger 会话"
-        },
-        "signedIn": "已绑定到你的账户",
-        "guest": "登录后，这张通行证也会绑定到你的账户。",
-        "honest": "通行证保存在此设备上；登录后也会保存在你的账户中。目前尚未上传或存储任何视频。"
-      }
-    },
     "mail": {
       "label": "UNITAS 邮箱账号名（可选）",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "已绑定到你的账户 · UNITAS Mail 上线时邮箱即刻启用",
       "lost": "{handle} 已被其他账户抢先一步保留，你可以随时改用新的账号名",
       "perk1": "UNITAS Mail 上线时的优先收件箱",
-      "perk2": "一个账号名，通行 Mail、Shorts 与 U-Messenger"
+      "perk2": "一个账号名，通行 Mail 与 U-Messenger"
     },
     "legal": {
       "eyebrow": "公告",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "受保护内容 · 每一份副本都带有 UNITAS 指纹",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · 所有权声明：本界面、其文案与代码均为受保护作品 · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "发现轮播",
+      "weather": {
+        "title": "天气",
+        "tag": "无论身在何处，实时天气"
+      },
+      "history": {
+        "title": "历史上的今天",
+        "tag": "这一天，发生过什么"
+      },
+      "quake": {
+        "title": "地球脉动",
+        "tag": "全球实时地震动态"
+      },
+      "mostRead": {
+        "title": "热门阅读",
+        "tag": "昨天，全世界都在搜索什么"
+      },
+      "fx": {
+        "title": "汇率罗盘",
+        "tag": "今天，你的钱值多少"
+      },
+      "crypto": {
+        "title": "币圈脉动",
+        "tag": "去中心化市场的脉搏"
+      },
+      "devPulse": {
+        "title": "开发者脉动",
+        "tag": "此刻，开发者们在讨论什么"
+      },
+      "paper": {
+        "title": "今日论文",
+        "tag": "人类刚刚发现了什么"
+      },
+      "library": {
+        "title": "书架",
+        "tag": "一架值得一读的好书"
+      },
+      "art": {
+        "title": "一件艺术品",
+        "tag": "今天，一件值得驻足的作品"
+      },
+      "air": {
+        "title": "空气",
+        "tag": "此刻，你呼吸的空气"
+      },
+      "nation": {
+        "title": "国家数据",
+        "tag": "用数字读懂你的国家"
+      },
+      "nearby": {
+        "title": "附近",
+        "tag": "身边10公里内的故事"
+      },
+      "facts": {
+        "city": "城市",
+        "tempNow": "现在",
+        "hiLo": "最高/最低",
+        "feelsLike": "体感温度",
+        "topHeadline": "头条新闻",
+        "headlineCount": "头条数",
+        "todayDate": "今天",
+        "firstEvent": "精选事件",
+        "eventCount": "事件记录数",
+        "maxMag": "今日最强",
+        "quakePlace": "地点",
+        "quakeCount": "今日地震次数",
+        "rank1": "今日第一",
+        "rank1Views": "浏览量",
+        "fxBase": "基准货币",
+        "fxRate": "汇率",
+        "fxDate": "截至",
+        "btcPrice": "BTC 价格",
+        "btc24h": "24小时涨跌",
+        "topStory": "热门话题",
+        "storyPoints": "得分",
+        "paperTitle": "最新论文",
+        "paperCitations": "引用次数",
+        "paperOa": "访问方式",
+        "shelfSubject": "主题",
+        "bookTitle": "精选图书",
+        "bookEditions": "版本数",
+        "artTitle": "作品",
+        "artArtist": "艺术家",
+        "artDate": "年代",
+        "artDept": "部门",
+        "aqi": {
+          "good": "优",
+          "fair": "良",
+          "moderate": "轻度污染",
+          "poor": "中度污染",
+          "veryPoor": "重度污染",
+          "extreme": "严重污染"
+        },
+        "aqiValue": "AQI",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "国家",
+        "nationGdp": "GDP",
+        "nationPop": "人口",
+        "nationNet": "互联网普及率",
+        "nearbyTitle": "最近文章",
+        "nearbyDist": "距离",
+        "nearbyCount": "附近文章数"
+      }
     }
   }
 }

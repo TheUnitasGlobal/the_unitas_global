@@ -11,7 +11,6 @@ import { B2BProtocolCard } from '@/components/cards/B2BProtocolCard';
 import { LockInModuleCarousel } from '@/components/home/LockInModuleCarousel';
 import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModal';
 import { ModuleQuestModal } from '@/components/interaction/ModuleQuestModal';
-import { HotShortcutResultModal } from '@/components/interaction/HotShortcutResultModal';
 import { LockInModuleModal } from '@/components/interaction/LockInModuleModal';
 import { Footer } from '@/components/layout/Footer';
 import { SovereignShield } from '@/components/system/SovereignShield';
@@ -144,7 +143,9 @@ export function HomeContent() {
         <OmniSynapseSearch
           uai={uai}
           onSelectEcosystem={setActiveEcosystem}
+          activeShortcut={activeShortcut}
           onOpenShortcut={setActiveShortcut}
+          onCloseShortcut={() => setActiveShortcut(null)}
           onOuroborosChange={setIsOuroboros}
         />
       </SectionShield>
@@ -271,9 +272,6 @@ export function HomeContent() {
       </SovereignShield>
       <SovereignShield zone="modal-module" resetKeys={[activeModule]}>
         <ModuleQuestModal module={activeModule} onClose={() => setActiveModule(null)} />
-      </SovereignShield>
-      <SovereignShield zone="modal-shortcut" resetKeys={[activeShortcut]}>
-        <HotShortcutResultModal shortcut={activeShortcut} onClose={() => setActiveShortcut(null)} />
       </SovereignShield>
       <SovereignShield zone="modal-lockin" resetKeys={[activeLockIn]}>
         <LockInModuleModal

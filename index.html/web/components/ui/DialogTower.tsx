@@ -20,6 +20,15 @@ interface DialogTowerProps {
   titleId?: string;
   accent: string;
   accentGlow: string;
+  /** REV-20 §5.1: `nav-anchored` (default, unchanged REV-19 behaviour) spans
+   *  nav-bottom -> screen-bottom, same as every other tower. `fullscreen`
+   *  spans the true viewport top -> bottom, covering the nav -- reserved for
+   *  the post-submit U-AI search result. The class names this relies on
+   *  (`z-[120]`, the panel's `bg-quantum/95` + `role="dialog"`) are
+   *  deliberately left untouched by this prop so the Quantum White portal
+   *  remap in quantum-white-rev19.css (§17, keyed on those exact classes)
+   *  keeps matching both variants without modification. */
+  variant?: 'nav-anchored' | 'fullscreen';
   /** history.state marker so the device back gesture closes this tower
    *  without ejecting the visitor off the site (unique per tower kind). */
   historyMarker: string;
@@ -54,6 +63,7 @@ export function DialogTower({
   accentGlow,
   historyMarker,
   labels,
+  variant = 'nav-anchored',
   refreshing = false,
   onRefresh,
   onBack,
@@ -73,6 +83,10 @@ export function DialogTower({
 
   useEffect(() => {
     if (!open) return;
+    if (variant === 'fullscreen') {
+      setTop(0);
+      return;
+    }
     const measure = () => {
       const nav = document.getElementById('unitas-nav');
       setTop(nav ? Math.max(0, nav.getBoundingClientRect().bottom) : 0);
@@ -80,7 +94,7 @@ export function DialogTower({
     measure();
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
-  }, [open]);
+  }, [open, variant]);
 
   // The tower is fixed and fills the viewport below the nav -- freeze the
   // page behind it so the backdrop and panel never drift mid-interaction.
@@ -136,9 +150,12 @@ export function DialogTower({
                 wired to onClose. The nav bar above stays live. */}
             <div className="absolute inset-0 bg-void/85 backdrop-blur-md" role="presentation" aria-hidden="true" />
 
-            {/* Full-size panel: nav bottom -> screen bottom, 전폭 100%. */}
+            {/* Full-size panel: nav-anchored spans nav bottom -> screen
+                bottom; fullscreen spans true viewport top -> bottom (top is
+                forced to 0 above), covering the nav entirely. 전폭 100%
+                either way. */}
             <motion.div
-              className="absolute inset-0 flex flex-col overflow-hidden border-t bg-quantum/95"
+              className={`absolute inset-0 flex flex-col overflow-hidden bg-quantum/95 ${variant === 'fullscreen' ? '' : 'border-t'}`}
               style={{
                 borderColor: `${accent}66`,
                 boxShadow: `0 -24px 90px ${accentGlow}22, inset 0 0 40px ${accent}0d`,

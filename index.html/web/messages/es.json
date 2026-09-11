@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "Buscar"
     },
-    "shorts": {
-      "label": "UNITAS Shorts",
-      "lede": "Momentos verticales de la red — la semilla de U-Messenger.",
-      "views": "{count} visualizaciones",
-      "like": "Me gusta",
-      "liked": "Me gustó",
-      "follow": "Seguir",
-      "following": "Siguiendo",
-      "upload": "Subir",
-      "uploadSoon": "Las subidas se habilitan con la beta de U-Messenger",
-      "seedNote": "Clips semilla mostrados como vista previa · las subidas reales llegan con la beta de U-Messenger",
-      "share": "Compartir en U-Messenger",
-      "shareHint": "Al abrirse la beta, los enlaces compartidos llevarán este clip directo a una conversación de U-Messenger.",
-      "openAria": "Abrir el short {title}",
-      "creator": "Creador",
-      "duration": "{seconds}s",
-      "followers": "{count} seguidores",
-      "pass": {
-        "eyebrow": "Acceso anticipado para creadores",
-        "cta": "Conseguir acceso anticipado",
-        "title": "Tu pase de creador",
-        "lede": "Las subidas se abren con la beta de U-Messenger. Reserva tu pase ahora y tu nombre será el primero de la fila en cuanto se abran las puertas del estudio.",
-        "handleLabel": "Alias de creador",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "De 3 a 20 caracteres: a–z, 0–9, punto, guion y guion bajo",
-        "reserve": "Reservar mi pase",
-        "reserved": "Pase reservado",
-        "reservedAt": "Reservado el {time}",
-        "serial": "Pase {serial}",
-        "currentWave": "Reservando ahora",
-        "wave1": "Oleada 1 · Creadores fundadores",
-        "wave2": "Oleada 2 · Herramientas de estudio",
-        "wave3": "Oleada 3 · Apertura global",
-        "perks": {
-          "p1": "Franja de subida prioritaria el día de apertura",
-          "p2": "Insignia de creador fundador en tu perfil",
-          "p3": "Compartir directo en las conversaciones de U-Messenger"
-        },
-        "signedIn": "Vinculado a tu cuenta",
-        "guest": "Inicia sesión y tu pase quedará vinculado también a tu cuenta.",
-        "honest": "Tu pase se guarda en este dispositivo y, si has iniciado sesión, también en tu cuenta. Todavía no se sube ni se almacena ningún vídeo."
-      }
-    },
     "mail": {
       "label": "Alias de correo UNITAS (opcional)",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "Vinculado a tu cuenta · el buzón se activa cuando abra UNITAS Mail",
       "lost": "Otra cuenta reservó {handle} antes que tú: puedes reservar otro alias cuando quieras",
       "perk1": "Bandeja prioritaria cuando abra UNITAS Mail",
-      "perk2": "Un solo alias para Mail, Shorts y U-Messenger"
+      "perk2": "Un solo alias para Mail y U-Messenger"
     },
     "legal": {
       "eyebrow": "Aviso",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "Contenido protegido · cada copia lleva la huella de UNITAS",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · Aviso de titularidad: esta interfaz, sus textos y su código son obras protegidas · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "Carrusel de descubrimiento",
+      "weather": {
+        "title": "Clima",
+        "tag": "Condiciones en vivo, estés donde estés"
+      },
+      "history": {
+        "title": "Hoy en la Historia",
+        "tag": "Qué pasó en este día"
+      },
+      "quake": {
+        "title": "Pulso Terrestre",
+        "tag": "Actividad sísmica en vivo en todo el mundo"
+      },
+      "mostRead": {
+        "title": "Lo Más Leído",
+        "tag": "Lo que el mundo buscó ayer"
+      },
+      "fx": {
+        "title": "Brújula FX",
+        "tag": "El valor de tu dinero hoy"
+      },
+      "crypto": {
+        "title": "Pulso Cripto",
+        "tag": "El pulso de los mercados descentralizados"
+      },
+      "devPulse": {
+        "title": "Pulso Dev",
+        "tag": "De qué debaten los desarrolladores ahora mismo"
+      },
+      "paper": {
+        "title": "Estudio del Día",
+        "tag": "Lo que la humanidad acaba de aprender"
+      },
+      "library": {
+        "title": "La Estantería",
+        "tag": "Una estantería de libros que vale la pena conocer"
+      },
+      "art": {
+        "title": "Una Obra de Arte",
+        "tag": "Una pieza que te llamará la atención hoy"
+      },
+      "air": {
+        "title": "El Aire",
+        "tag": "Lo que estás respirando ahora mismo"
+      },
+      "nation": {
+        "title": "Métricas Nacionales",
+        "tag": "Tu país, en cifras"
+      },
+      "nearby": {
+        "title": "Cerca de Ti",
+        "tag": "Noticias a menos de 10 km de ti"
+      },
+      "facts": {
+        "city": "Ciudad",
+        "tempNow": "Ahora",
+        "hiLo": "Máx. / Mín.",
+        "feelsLike": "Sensación térmica",
+        "topHeadline": "Titular principal",
+        "headlineCount": "Titulares",
+        "todayDate": "Hoy",
+        "firstEvent": "Evento destacado",
+        "eventCount": "Eventos registrados",
+        "maxMag": "Más fuerte hoy",
+        "quakePlace": "Ubicación",
+        "quakeCount": "Sismos hoy",
+        "rank1": "N.º 1 hoy",
+        "rank1Views": "Vistas",
+        "fxBase": "Moneda base",
+        "fxRate": "Tasa",
+        "fxDate": "Actualizado al",
+        "btcPrice": "Precio de BTC",
+        "btc24h": "Cambio 24 h",
+        "topStory": "Historia principal",
+        "storyPoints": "Puntos",
+        "paperTitle": "Último estudio",
+        "paperCitations": "Citas",
+        "paperOa": "Acceso",
+        "shelfSubject": "Tema",
+        "bookTitle": "Libro destacado",
+        "bookEditions": "Ediciones",
+        "artTitle": "Obra",
+        "artArtist": "Artista",
+        "artDate": "Fecha",
+        "artDept": "Departamento",
+        "aqi": {
+          "good": "Aire bueno",
+          "fair": "Aire aceptable",
+          "moderate": "Aire moderado",
+          "poor": "Aire malo",
+          "veryPoor": "Aire muy malo",
+          "extreme": "Aire extremo"
+        },
+        "aqiValue": "ICA",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "País",
+        "nationGdp": "PIB",
+        "nationPop": "Población",
+        "nationNet": "Acceso a internet",
+        "nearbyTitle": "Artículo más cercano",
+        "nearbyDist": "Distancia",
+        "nearbyCount": "Artículos cercanos"
+      }
     }
   }
 }

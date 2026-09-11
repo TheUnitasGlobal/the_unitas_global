@@ -1,0 +1,76 @@
+{
+  "title": "U-AI SEARCH RESULT",
+  "toolbarButtons": [
+    "지금 분석 갱신",
+    "홈으로 복귀",
+    "뒤로 가기",
+    "닫기"
+  ],
+  "outer": {
+    "x": 0,
+    "y": 74.5,
+    "w": 390,
+    "h": 769.5,
+    "r": 390,
+    "b": 844,
+    "top": "74.5px",
+    "position": "fixed",
+    "zIndex": "120"
+  },
+  "panel": {
+    "x": 0,
+    "y": 74.5,
+    "w": 390,
+    "h": 769.5,
+    "r": 390,
+    "b": 844,
+    "bg": "rgba(0, 0, 0, 0)",
+    "borderTop": "rgba(212, 175, 55, 0.4)",
+    "borderTopWidth": "1px"
+  },
+  "toolbar": {
+    "x": 0,
+    "y": 75.5,
+    "w": 390,
+    "h": 61,
+    "r": 390,
+    "b": 136.5
+  },
+  "body": {
+    "x": 0,
+    "y": 136.5,
+    "w": 390,
+    "h": 627,
+    "r": 390,
+    "b": 763.5,
+    "overflowY": "auto",
+    "scrollHeight": 2326,
+    "textSample": "무료 리포터유료 리포터 · 로그인U-AI SEARCH RESULT 웹 실시간 종합글로벌 빅테크 수준 웹 종합 90% + 유니타스 100대 초-헌법 재설계 10%.로컬 휴리스틱 종합 · 외부 호출 03초 입체 관점기술14경제14여론14 100대 초-헌법 입체 해체예술 · 철학36보안 · 무결29논리 · 설계19미래 · 혁신16소버린 · 탈중앙13경제 · 효율9재설계 기준 축 · 경제 · 효율 "
+  },
+  "nav": {
+    "x": 0,
+    "y": 0,
+    "w": 390,
+    "h": 74.5,
+    "r": 390,
+    "b": 74.5
+  },
+  "search": {
+    "x": 18,
+    "y": 168,
+    "w": 354,
+    "h": 51.5,
+    "r": 372,
+    "b": 219.5
+  },
+  "bodyOverflow": "hidden",
+  "viewport": {
+    "w": 390,
+    "h": 844
+  },
+  "panelW_over_viewportW": 1,
+  "panelTop_minus_navBottom": 0,
+  "panelX_minus_searchX": -18,
+  "historyState": "{\"__NA\":true,\"__PRIVATE_NEXTJS_INTERNALS_TREE\":[\"\",{\"children\":[[\"locale\",\"ko\",\"d\"],{\"children\":[\"__PAGE__?{\\\"locale\\\":\\\"ko\\\"}\",{},\"/ko?splash=0\",\"refresh\"]}]},null,null,true],\"unitasExitGuard\":true,\"unitasExitDepth\":12,\"unitasModalStack\":[\"search:focus#3\",\"search:typing#4\",\"search:text#5\",\"unitasUaiSearchTower#6\"]}",
+  "historyLength": 18
+}

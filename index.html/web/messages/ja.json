@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "検索"
     },
-    "shorts": {
-      "label": "UNITAS Shorts",
-      "lede": "ネットワークに生まれる縦型の瞬間 — U-Messengerの種。",
-      "views": "{count}回再生",
-      "like": "いいね",
-      "liked": "いいね済み",
-      "follow": "フォロー",
-      "following": "フォロー中",
-      "upload": "アップロード",
-      "uploadSoon": "アップロードはU-Messengerベータの開始と同時に開放されます",
-      "seedNote": "プレビュー用のシードクリップを表示中 · 本番のアップロードはU-Messengerベータとともに始まります",
-      "share": "U-Messengerへ共有",
-      "shareHint": "ベータ開始後は、共有リンクからこのクリップをU-Messengerのスレッドへそのまま送れるようになります。",
-      "openAria": "ショート「{title}」を開く",
-      "creator": "クリエイター",
-      "duration": "{seconds}秒",
-      "followers": "フォロワー{count}人",
-      "pass": {
-        "eyebrow": "クリエイター先行アクセス",
-        "cta": "先行アクセスを予約",
-        "title": "あなたのクリエイターパス",
-        "lede": "アップロードはU-Messengerベータの開始と同時に開放されます。今パスを予約しておけば、スタジオの扉が開くその瞬間、あなたのハンドルが最前列に並びます。",
-        "handleLabel": "クリエイターハンドル",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "3〜20文字: a–z, 0–9、ドット、ハイフン、アンダースコア",
-        "reserve": "パスを予約する",
-        "reserved": "パス予約済み",
-        "reservedAt": "{time} 予約",
-        "serial": "パス {serial}",
-        "currentWave": "現在予約受付中",
-        "wave1": "第1弾 · 創設クリエイター",
-        "wave2": "第2弾 · スタジオツール",
-        "wave3": "第3弾 · グローバル公開",
-        "perks": {
-          "p1": "公開初日の優先アップロード枠",
-          "p2": "プロフィールに刻まれる創設クリエイターバッジ",
-          "p3": "U-Messengerのスレッドへ直接共有"
-        },
-        "signedIn": "アカウントに紐づけ済み",
-        "guest": "サインインすると、このパスはアカウントにも紐づけられます。",
-        "honest": "パスはこの端末に保存され、サインイン中はアカウントにも保存されます。動画のアップロードや保存は、まだ一切行われません。"
-      }
-    },
     "mail": {
       "label": "UNITAS メールハンドル（任意）",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "アカウントに紐づけ済み · UNITAS Mail開設時にメールボックスが有効になります",
       "lost": "{handle} は別のアカウントに先に予約されました。新しいハンドルはいつでも予約できます",
       "perk1": "UNITAS Mail開設時の優先受信トレイ",
-      "perk2": "Mail、Shorts、U-Messengerで共通のひとつのハンドル"
+      "perk2": "MailとU-Messengerで共通のひとつのハンドル"
     },
     "legal": {
       "eyebrow": "お知らせ",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "保護されたコンテンツ · すべての複製にUNITASの指紋が刻まれます",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · 所有権に関する告知：このインターフェース、その文言およびコードは保護された著作物です · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "発見カルーセル",
+      "weather": {
+        "title": "天気",
+        "tag": "どこにいても、リアルタイムの天気"
+      },
+      "history": {
+        "title": "今日は何の日",
+        "tag": "この日に起きた出来事"
+      },
+      "quake": {
+        "title": "アースパルス",
+        "tag": "世界の地震活動をリアルタイムで"
+      },
+      "mostRead": {
+        "title": "アクセスランキング",
+        "tag": "昨日、世界が検索したもの"
+      },
+      "fx": {
+        "title": "FXコンパス",
+        "tag": "今日のお金の重み"
+      },
+      "crypto": {
+        "title": "コインパルス",
+        "tag": "分散型市場の鼓動"
+      },
+      "devPulse": {
+        "title": "デベロッパーパルス",
+        "tag": "開発者たちが今、議論していること"
+      },
+      "paper": {
+        "title": "今日の論文",
+        "tag": "人類が今、学んだばかりのこと"
+      },
+      "library": {
+        "title": "本棚",
+        "tag": "知っておく価値のある本棚"
+      },
+      "art": {
+        "title": "今日の一作品",
+        "tag": "今日、目に留まる一作品"
+      },
+      "air": {
+        "title": "空気",
+        "tag": "今、あなたが吸っている空気"
+      },
+      "nation": {
+        "title": "国の指標",
+        "tag": "数字で見るあなたの国"
+      },
+      "nearby": {
+        "title": "近く",
+        "tag": "現在地から10km以内の記事"
+      },
+      "facts": {
+        "city": "都市",
+        "tempNow": "現在",
+        "hiLo": "最高 / 最低",
+        "feelsLike": "体感温度",
+        "topHeadline": "トップヘッドライン",
+        "headlineCount": "見出し数",
+        "todayDate": "今日",
+        "firstEvent": "注目の出来事",
+        "eventCount": "出来事数",
+        "maxMag": "本日の最大",
+        "quakePlace": "震源地",
+        "quakeCount": "本日の地震数",
+        "rank1": "本日1位",
+        "rank1Views": "閲覧数",
+        "fxBase": "基準通貨",
+        "fxRate": "レート",
+        "fxDate": "基準日",
+        "btcPrice": "BTC価格",
+        "btc24h": "24時間変動",
+        "topStory": "トップストーリー",
+        "storyPoints": "ポイント",
+        "paperTitle": "最新の論文",
+        "paperCitations": "被引用数",
+        "paperOa": "アクセス",
+        "shelfSubject": "分野",
+        "bookTitle": "注目の本",
+        "bookEditions": "版数",
+        "artTitle": "作品",
+        "artArtist": "作者",
+        "artDate": "制作年",
+        "artDept": "部門",
+        "aqi": {
+          "good": "良好な空気",
+          "fair": "やや良好な空気",
+          "moderate": "普通の空気",
+          "poor": "悪い空気",
+          "veryPoor": "かなり悪い空気",
+          "extreme": "極めて悪い空気"
+        },
+        "aqiValue": "AQI",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "国",
+        "nationGdp": "GDP",
+        "nationPop": "人口",
+        "nationNet": "インターネット普及率",
+        "nearbyTitle": "最寄りの記事",
+        "nearbyDist": "距離",
+        "nearbyCount": "近くの記事数"
+      }
     }
   }
 }

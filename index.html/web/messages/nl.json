@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "Zoeken"
     },
-    "shorts": {
-      "label": "UNITAS Shorts",
-      "lede": "Verticale momenten uit het netwerk — de kiem van U-Messenger.",
-      "views": "{count} weergaven",
-      "like": "Liken",
-      "liked": "Geliked",
-      "follow": "Volgen",
-      "following": "Volgend",
-      "upload": "Uploaden",
-      "uploadSoon": "Uploaden wordt geopend met de U-Messenger-bèta",
-      "seedNote": "Startclips getoond als voorbeeld · echte uploads komen met de U-Messenger-bèta",
-      "share": "Delen naar U-Messenger",
-      "shareHint": "Zodra de bèta opent, brengen deellinks deze clip direct naar een U-Messenger-gesprek.",
-      "openAria": "Open de short {title}",
-      "creator": "Maker",
-      "duration": "{seconds} s",
-      "followers": "{count} volgers",
-      "pass": {
-        "eyebrow": "Early access voor creators",
-        "cta": "Early access aanvragen",
-        "title": "Jouw creatorpas",
-        "lede": "Uploaden gaat open met de bèta van U-Messenger. Reserveer je pas nu en jouw naam staat vooraan zodra de studiodeuren opengaan.",
-        "handleLabel": "Creator-handle",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "3–20 tekens: a–z, 0–9, punt, streepje, underscore",
-        "reserve": "Mijn pas reserveren",
-        "reserved": "Pas gereserveerd",
-        "reservedAt": "Gereserveerd op {time}",
-        "serial": "Pas {serial}",
-        "currentWave": "Nu te reserveren",
-        "wave1": "Golf 1 · Founding creators",
-        "wave2": "Golf 2 · Studiotools",
-        "wave3": "Golf 3 · Wereldwijd open",
-        "perks": {
-          "p1": "Voorrang bij uploaden op de openingsdag",
-          "p2": "Founding-creatorbadge op je profiel",
-          "p3": "Direct delen in U-Messenger-gesprekken"
-        },
-        "signedIn": "Gekoppeld aan je account",
-        "guest": "Log in en je pas wordt ook aan je account gekoppeld.",
-        "honest": "Je pas staat op dit apparaat en, wanneer je bent ingelogd, ook op je account. Er wordt nog geen video geüpload of opgeslagen."
-      }
-    },
     "mail": {
       "label": "UNITAS Mail-handle (optioneel)",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "Gekoppeld aan je account · de mailbox gaat open zodra UNITAS Mail start",
       "lost": "{handle} is eerder gereserveerd door een ander account – je kunt altijd een nieuwe handle reserveren",
       "perk1": "Prioriteitsinbox zodra UNITAS Mail start",
-      "perk2": "Eén handle voor Mail, Shorts en U-Messenger"
+      "perk2": "Eén handle voor Mail en U-Messenger"
     },
     "legal": {
       "eyebrow": "Kennisgeving",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "Beschermde inhoud · elke kopie draagt de vingerafdruk van UNITAS",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · Eigendomsverklaring: deze interface, de teksten en de code zijn beschermde werken · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "Ontdekkingscarrousel",
+      "weather": {
+        "title": "Weer",
+        "tag": "Actuele omstandigheden, waar je ook bent"
+      },
+      "history": {
+        "title": "Vandaag in de geschiedenis",
+        "tag": "Wat er op deze dag gebeurde"
+      },
+      "quake": {
+        "title": "Aardpuls",
+        "tag": "Actuele seismische activiteit, wereldwijd"
+      },
+      "mostRead": {
+        "title": "Meest gelezen",
+        "tag": "Wat de wereld gisteren zocht"
+      },
+      "fx": {
+        "title": "FX-kompas",
+        "tag": "Het gewicht van je geld vandaag"
+      },
+      "crypto": {
+        "title": "Cryptopuls",
+        "tag": "De puls van gedecentraliseerde markten"
+      },
+      "devPulse": {
+        "title": "Devpuls",
+        "tag": "Waar developers het nu over hebben"
+      },
+      "paper": {
+        "title": "Paper van de dag",
+        "tag": "Wat de mensheid zojuist heeft geleerd"
+      },
+      "library": {
+        "title": "De boekenplank",
+        "tag": "Boeken die het kennen waard zijn"
+      },
+      "art": {
+        "title": "Eén kunstwerk",
+        "tag": "Eén werk dat vandaag opvalt"
+      },
+      "air": {
+        "title": "De lucht",
+        "tag": "Wat je nu inademt"
+      },
+      "nation": {
+        "title": "Landstatistieken",
+        "tag": "Jouw land, in cijfers"
+      },
+      "nearby": {
+        "title": "In de buurt",
+        "tag": "Verhalen binnen 10 km van jou"
+      },
+      "facts": {
+        "city": "Stad",
+        "tempNow": "Nu",
+        "hiLo": "Max / Min",
+        "feelsLike": "Gevoelstemperatuur",
+        "topHeadline": "Topnieuws",
+        "headlineCount": "Nieuwskoppen",
+        "todayDate": "Vandaag",
+        "firstEvent": "Uitgelichte gebeurtenis",
+        "eventCount": "Geregistreerde gebeurtenissen",
+        "maxMag": "Sterkste vandaag",
+        "quakePlace": "Locatie",
+        "quakeCount": "Bevingen vandaag",
+        "rank1": "#1 vandaag",
+        "rank1Views": "Weergaven",
+        "fxBase": "Basisvaluta",
+        "fxRate": "Koers",
+        "fxDate": "Per",
+        "btcPrice": "BTC-koers",
+        "btc24h": "24u verandering",
+        "topStory": "Topverhaal",
+        "storyPoints": "Punten",
+        "paperTitle": "Nieuwste paper",
+        "paperCitations": "Citaties",
+        "paperOa": "Toegang",
+        "shelfSubject": "Onderwerp",
+        "bookTitle": "Uitgelicht boek",
+        "bookEditions": "Edities",
+        "artTitle": "Kunstwerk",
+        "artArtist": "Kunstenaar",
+        "artDate": "Datum",
+        "artDept": "Afdeling",
+        "aqi": {
+          "good": "Goede lucht",
+          "fair": "Redelijke lucht",
+          "moderate": "Matige lucht",
+          "poor": "Slechte lucht",
+          "veryPoor": "Zeer slechte lucht",
+          "extreme": "Extreme lucht"
+        },
+        "aqiValue": "AQI",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "Land",
+        "nationGdp": "BBP",
+        "nationPop": "Bevolking",
+        "nationNet": "Internettoegang",
+        "nearbyTitle": "Dichtstbijzijnde artikel",
+        "nearbyDist": "Afstand",
+        "nearbyCount": "Artikelen in de buurt"
+      }
     }
   }
 }

@@ -27,7 +27,11 @@ const SEARXNG = (process.env.NEXT_PUBLIC_UAI_SEARXNG || '').replace(/\/+$/, '');
 const CACHE_KEY = 'unitas.uai.websynth.v3';
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const CACHE_MAX = 40;
-const ABORT_MS = 3000;
+// REV-20 §6.1: raised 3000 -> 5000 alongside the new full-extracts leg in
+// webSynthesisCore.ts (one more round-trip in the same Promise.all batch,
+// not a new sequential hop) so the extra depth doesn't get starved by the
+// original 3s budget on a slow connection.
+const ABORT_MS = 5000;
 
 type CacheShape = Record<string, { data: WebSynthesis; ts: number }>;
 

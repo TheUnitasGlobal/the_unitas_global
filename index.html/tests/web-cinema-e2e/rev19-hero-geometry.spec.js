@@ -1,10 +1,13 @@
 const { test, expect } = require('@playwright/test');
 
-// REV-19 SPEC.md §2 + §5 + §6 + §7 -- typography optics and vertical rhythm
-// of the released Quantum White home, measured in real pixels: the centre
-// of "IT" sits on the gold hairline's centre, nav -> UNITAS equals UNITAS ->
-// search bar (ink-based), the footer is glass (no dark band), and the
-// watermark rests near-invisible but reveals on a copy gesture.
+// REV-19 SPEC.md §5 + §6 + §7 (vertical rhythm/footer/watermark) + REV-20
+// SPEC.md §1.3 (horizontal centring, superseding REV-19 §2's "IT" regime):
+// the title's INK RUN centre sits on the viewport centre (and, since the
+// gold hairline is centred on the same h1 box as the ink run per REV-20
+// §1.2's fit-content fix, that check also proves the hairline is centred),
+// nav -> UNITAS equals UNITAS -> search bar (ink-based), the footer is
+// glass (no dark band), and the watermark rests near-invisible but reveals
+// on a copy gesture.
 
 const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();
@@ -38,18 +41,34 @@ async function geometry(page) {
     const hb = h1.getBoundingClientRect();
     const zoom = parseFloat(getComputedStyle(document.querySelector('.dashboard-zoom')).zoom || '1');
     const f = parseFloat(getComputedStyle(h1).fontSize) * zoom; // screen px
-    const text = h1.querySelector('.qw-title-word').firstChild;
-    const it = document.createRange();
-    it.setStart(text, 2);
-    it.setEnd(text, 4);
-    const itr = it.getBoundingClientRect();
+    const word = h1.querySelector('.qw-title-word');
+    const text = word.firstChild;
+    // REV-20 §1.3: ink-run centre = first glyph's left edge to the last
+    // glyph's right edge MINUS the trailing tracking unit (letter-spacing
+    // adds a unit after the last glyph too, inflating a naive full-range
+    // measurement by half a tracking unit on the right).
+    const track = parseFloat(getComputedStyle(word).letterSpacing || '0') * zoom;
+    const first = document.createRange();
+    first.setStart(text, 0);
+    first.setEnd(text, 1);
+    const last = document.createRange();
+    last.setStart(text, 5);
+    last.setEnd(text, 6);
+    const firstRect = first.getBoundingClientRect();
+    const lastRect = last.getBoundingClientRect();
+    const inkCx = (firstRect.left + (lastRect.right - track)) / 2;
     const search = document.querySelector('#omni-synapse-search').getBoundingClientRect();
     // Cinzel 700: line top -> cap top 0.064em, line top -> baseline 0.77em (docs/rev19/measure)
     const capTop = hb.top + 0.064 * f;
     const baseline = hb.top + 0.77 * f;
     return {
+      // h1's own box centre -- the gold hairline (::after, margin-inline:auto)
+      // is centred on THIS, so comparing it to inkCx also proves the
+      // hairline is centred on the ink run (REV-20 §1.2's fit-content fix
+      // makes the box and the ink run coincide).
       h1Cx: hb.left + hb.width / 2,
-      itCx: itr.left + itr.width / 2,
+      inkCx,
+      viewportCx: document.documentElement.clientWidth / 2,
       A: capTop - nav.bottom,
       B: search.top - baseline,
     };
@@ -62,11 +81,12 @@ test.beforeEach(async ({ browserName }) => {
   test.slow(browserName === 'webkit', 'headless WebKit software WebGL');
 });
 
-test.describe('REV-19 hero geometry', () => {
-  test('"IT" is centred on the hairline and nav->UNITAS equals UNITAS->search bar', async ({ page }) => {
+test.describe('REV-19/20 hero geometry', () => {
+  test('UNITAS ink run is centred on the viewport and nav->UNITAS equals UNITAS->search bar', async ({ page }) => {
     await reachHome(page);
     const g = await geometry(page);
-    expect(Math.abs(g.itCx - g.h1Cx)).toBeLessThanOrEqual(1);
+    expect(Math.abs(g.inkCx - g.viewportCx)).toBeLessThanOrEqual(1);
+    expect(Math.abs(g.h1Cx - g.viewportCx)).toBeLessThanOrEqual(1);
     expect(Math.abs(g.A - g.B)).toBeLessThanOrEqual(1.5);
     expect(g.A).toBeGreaterThan(20);
   });

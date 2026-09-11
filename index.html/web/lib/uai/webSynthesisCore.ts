@@ -38,9 +38,19 @@ export const WIKI_LANG: Record<string, string> = {
   tl: 'tl',
 };
 
-export const MAX_DIGEST = 2800;
-const MAX_SNIPPET = 260;
-const MAX_SOURCES = 8;
+// REV-20 §6.1: these were an artificial ceiling, not a source limitation --
+// docs/rev20/measure/sources.md proved a single extra Action API leg
+// (`generator=search&prop=extracts`) alone returns 10 full intro extracts
+// per call, `gsroffset`-continuable. Raising the caps here (zero new paid
+// APIs, zero new round-trips beyond the one leg added below) takes a
+// keyword's real digest text from ~820 chars to 10,000+.
+export const MAX_DIGEST = 6000;
+const MAX_SNIPPET = 600;
+const MAX_SOURCES = 24;
+/** Per-document cap for the full-extract leg's contribution to the digest --
+ *  bounds any single long article from crowding out every other source
+ *  while still carrying real body text, not just a headline snippet. */
+const MAX_EXTRACT_DIGEST = 1000;
 
 export const EMPTY_SYNTHESIS = (lang: string | null): WebSynthesis => ({
   sourced: false,
@@ -91,6 +101,14 @@ interface DdgResponse {
 interface SearxResponse {
   results?: Array<{ title?: string; url?: string; content?: string }>;
 }
+interface ActionExtractPage {
+  pageid?: number;
+  title?: string;
+  extract?: string;
+}
+interface ActionGeneratorResponse {
+  query?: { pages?: Record<string, ActionExtractPage> };
+}
 
 /** Identifies the server-side batch synthesizer to the public endpoints,
  *  per Wikimedia's User-Agent policy (browsers set their own UA). */
@@ -111,6 +129,21 @@ async function fetchJson<T>(url: string, signal: AbortSignal): Promise<T | null>
 function wikiSearch(lang: string, query: string, limit: number, signal: AbortSignal) {
   return fetchJson<RestSearchResponse>(
     `https://${lang}.wikipedia.org/w/rest.php/v1/search/page?q=${encodeURIComponent(query)}&limit=${limit}`,
+    signal,
+  );
+}
+
+/** REV-20 §6.1: Wikipedia Action API, `generator=search` + `prop=extracts`
+ *  -- one keyless CORS `*` call returns the FULL plaintext intro of up to
+ *  `limit` matching articles (verified live, docs/rev20/measure/sources.md
+ *  row "wiki.action.extracts"). This is the single biggest lever against
+ *  "정보가 빈약하면 U-AI는 실패": the REST search above only returns a short
+ *  excerpt per hit, this leg gets the real opening section of each. */
+function wikiGeneratorExtracts(lang: string, query: string, limit: number, signal: AbortSignal) {
+  return fetchJson<ActionGeneratorResponse>(
+    `https://${lang}.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(
+      query,
+    )}&gsrlimit=${limit}&prop=extracts&exintro=1&explaintext=1&format=json&origin=*`,
     signal,
   );
 }
@@ -172,7 +205,7 @@ export async function collectWebSynthesis(
 
   try {
     // ---- Batch 1: wide net (parallel) --------------------------------------
-    const [primary, cross, wikidata, ddg, searxRes] = await Promise.all([
+    const [primary, cross, wikidata, ddg, searxRes, extracts] = await Promise.all([
       wikiSearch(lang, trimmed, 10, controller.signal),
       lang === 'en'
         ? Promise.resolve<RestSearchResponse | null>(null)
@@ -185,6 +218,7 @@ export async function collectWebSynthesis(
       ),
       ddgSearch(trimmed, controller.signal),
       searxSearch(searxBase, trimmed, lang, controller.signal),
+      wikiGeneratorExtracts(lang, trimmed, 10, controller.signal),
     ]);
 
     const pages = (primary?.pages ?? []).filter((p) => p.title);
@@ -193,6 +227,7 @@ export async function collectWebSynthesis(
     const ddgTopics = flattenDdgTopics(ddg?.RelatedTopics);
     const ddgAbstract = stripControl(ddg?.AbstractText || ddg?.Abstract || ddg?.Answer || ddg?.Definition || '');
     const searxResults = (searxRes?.results ?? []).filter((r) => r.title && r.content);
+    const extractPages = Object.values(extracts?.query?.pages ?? {}).filter((p) => p.title && p.extract);
 
     if (
       pages.length === 0 &&
@@ -200,7 +235,8 @@ export async function collectWebSynthesis(
       entities.length === 0 &&
       ddgTopics.length === 0 &&
       !ddgAbstract &&
-      searxResults.length === 0
+      searxResults.length === 0 &&
+      extractPages.length === 0
     ) {
       clearTimeout(timer);
       return EMPTY_SYNTHESIS(lang);
@@ -296,6 +332,23 @@ export async function collectWebSynthesis(
       if (snippet) digestParts.push(`${stripControl(r.title ?? '')} ${snippet}`);
       if (r.url && sources.length < MAX_SOURCES) {
         sources.push({ title: stripControl(r.title ?? ''), url: r.url, snippet });
+      }
+    });
+
+    // REV-20 §6.1: full intro extracts -- the real depth leg. Each article's
+    // opening section (capped per-doc so no single long page crowds out the
+    // rest) becomes both a digest slab and its own source with a fuller
+    // (MAX_SNIPPET, not per-doc-capped) preview.
+    extractPages.slice(0, 10).forEach((p) => {
+      const full = stripControl(p.extract ?? '');
+      if (!full) return;
+      digestParts.push(full.slice(0, MAX_EXTRACT_DIGEST));
+      if (sources.length < MAX_SOURCES) {
+        sources.push({
+          title: stripControl(p.title ?? ''),
+          url: `https://${lang}.wikipedia.org/wiki/${encodeURIComponent((p.title ?? '').replace(/ /g, '_'))}`,
+          snippet: full.slice(0, MAX_SNIPPET),
+        });
       }
     });
 

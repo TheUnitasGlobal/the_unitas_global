@@ -1,0 +1,46 @@
+{
+  "tag": "390",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "steps": {
+    "reachHome": {
+      "url": "http://127.0.0.1:3123/ko?splash=0"
+    },
+    "hero": {
+      "ok": true,
+      "itCx_minus_vwCx": 0
+    },
+    "l1": {
+      "strip": {
+        "x": 18,
+        "y": 219.5,
+        "w": 354,
+        "h": 1543.27,
+        "r": 372,
+        "b": 1762.77
+      },
+      "carouselItems": 14
+    },
+    "keyword": {
+      "title": "U-AI SEARCH RESULT",
+      "clickedLabel": "게임",
+      "panelW_over_viewportW": 1,
+      "closeMethod": "goBack (TimeoutError: page.waitForFunction: Timeout 5000ms exceeded.)"
+    },
+    "typing": {
+      "level": "3",
+      "discovery": [
+        "signals",
+        "curiosity"
+      ]
+    },
+    "enter": {
+      "title": "U-AI SEARCH RESULT",
+      "panelW_over_viewportW": 1,
+      "closeMethod": "goBack (TimeoutError: page.waitForFunction: Timeout 5000ms exceeded.)"
+    }
+  },
+  "errors": {}
+}

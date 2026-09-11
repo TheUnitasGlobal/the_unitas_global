@@ -1,0 +1,73 @@
+{
+  "title": "UNITAS",
+  "toolbarButtons": [
+    "Language"
+  ],
+  "outer": {
+    "x": 0,
+    "y": -221,
+    "w": 1366,
+    "h": 988.94,
+    "r": 1366,
+    "b": 767.94,
+    "top": "auto",
+    "position": "static",
+    "zIndex": "auto"
+  },
+  "panel": {
+    "x": 0,
+    "y": 0,
+    "w": 1366,
+    "h": 768,
+    "r": 1366,
+    "b": 768,
+    "bg": "rgb(3, 3, 5)",
+    "borderTop": "rgb(229, 231, 235)",
+    "borderTopWidth": "0px"
+  },
+  "toolbar": {
+    "x": 1248.59,
+    "y": 16,
+    "w": 93.41,
+    "h": 31,
+    "r": 1342,
+    "b": 47
+  },
+  "body": {
+    "x": 0,
+    "y": 0,
+    "w": 1366,
+    "h": 768,
+    "r": 1366,
+    "b": 768,
+    "overflowY": "visible",
+    "scrollHeight": 768,
+    "textSample": ""
+  },
+  "nav": {
+    "x": 0,
+    "y": 0,
+    "w": 1366,
+    "h": 64,
+    "r": 1366,
+    "b": 64
+  },
+  "search": {
+    "x": 221,
+    "y": 33.83,
+    "w": 924,
+    "h": 60.5,
+    "r": 1145,
+    "b": 94.33
+  },
+  "bodyOverflow": "hidden auto",
+  "viewport": {
+    "w": 1366,
+    "h": 768
+  },
+  "panelW_over_viewportW": 1,
+  "panelTop_minus_navBottom": -64,
+  "panelX_minus_searchX": -221,
+  "historyState": "{\"__NA\":true,\"unitasExitGuard\":true,\"unitasExitDepth\":12,\"__PRIVATE_NEXTJS_INTERNALS_TREE\":[\"\",{\"children\":[[\"locale\",\"ko\",\"d\"],{\"children\":[\"__PAGE__?{\\\"locale\\\":\\\"ko\\\"}\",{},\"/ko?splash=0\",\"refresh\"]}]},null,null,true]}",
+  "historyLength": 14
+}

@@ -1837,49 +1837,6 @@
       "youtube": "YouTube",
       "search": "Recherche"
     },
-    "shorts": {
-      "label": "UNITAS Shorts",
-      "lede": "Des instants verticaux venus du réseau — la graine de U-Messenger.",
-      "views": "{count} vues",
-      "like": "J'aime",
-      "liked": "Aimé",
-      "follow": "Suivre",
-      "following": "Abonné",
-      "upload": "Téléverser",
-      "uploadSoon": "Le téléversement s'ouvre avec la bêta de U-Messenger",
-      "seedNote": "Clips d'amorce affichés en aperçu · les vrais téléversements arrivent avec la bêta de U-Messenger",
-      "share": "Partager vers U-Messenger",
-      "shareHint": "Une fois la bêta ouverte, les liens de partage enverront ce clip directement dans une conversation U-Messenger.",
-      "openAria": "Ouvrir le short {title}",
-      "creator": "Créateur",
-      "duration": "{seconds} s",
-      "followers": "{count} abonnés",
-      "pass": {
-        "eyebrow": "Accès anticipé créateurs",
-        "cta": "Obtenir l’accès anticipé",
-        "title": "Votre pass créateur",
-        "lede": "Les mises en ligne s’ouvrent avec la bêta de U-Messenger. Réservez votre pass dès maintenant : votre nom sera en tête de file à l’instant où les portes du studio s’ouvriront.",
-        "handleLabel": "Identifiant créateur",
-        "handlePlaceholder": "yourname",
-        "invalidHandle": "3 à 20 caractères : a–z, 0–9, point, tiret et tiret bas",
-        "reserve": "Réserver mon pass",
-        "reserved": "Pass réservé",
-        "reservedAt": "Réservé le {time}",
-        "serial": "Pass {serial}",
-        "currentWave": "Réservations ouvertes",
-        "wave1": "Vague 1 · Créateurs fondateurs",
-        "wave2": "Vague 2 · Outils de studio",
-        "wave3": "Vague 3 · Ouverture mondiale",
-        "perks": {
-          "p1": "Créneau de mise en ligne prioritaire le jour de l’ouverture",
-          "p2": "Badge de créateur fondateur sur votre profil",
-          "p3": "Partage direct dans les conversations U-Messenger"
-        },
-        "signedIn": "Lié à votre compte",
-        "guest": "Connectez-vous et votre pass sera aussi lié à votre compte.",
-        "honest": "Votre pass reste sur cet appareil et, lorsque vous êtes connecté, sur votre compte. Aucune vidéo n’est encore envoyée ni stockée."
-      }
-    },
     "mail": {
       "label": "Identifiant mail UNITAS (facultatif)",
       "placeholder": "yourname",
@@ -1898,7 +1855,7 @@
       "claimed": "Lié à votre compte · la boîte s’active à l’ouverture de UNITAS Mail",
       "lost": "{handle} a été réservé en premier par un autre compte : vous pouvez réserver un nouvel identifiant à tout moment",
       "perk1": "Boîte de réception prioritaire à l’ouverture de UNITAS Mail",
-      "perk2": "Un seul identifiant pour Mail, Shorts et U-Messenger"
+      "perk2": "Un seul identifiant pour Mail et U-Messenger"
     },
     "legal": {
       "eyebrow": "Avis",
@@ -1936,6 +1893,114 @@
       "printMark": "THE UNITAS GLOBAL OÜ · PROTECTED",
       "screenCaption": "Contenu protégé · chaque copie porte l’empreinte UNITAS",
       "consoleNotice": "THE UNITAS GLOBAL OÜ · Avis de propriété : cette interface, ses textes et son code sont des œuvres protégées · www.theunitas.global"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "railLabel": "Carrousel de découverte",
+      "weather": {
+        "title": "Météo",
+        "tag": "Conditions en direct, où que vous soyez"
+      },
+      "history": {
+        "title": "Aujourd'hui dans l'histoire",
+        "tag": "Ce qui s'est passé ce jour-là"
+      },
+      "quake": {
+        "title": "Pouls de la Terre",
+        "tag": "Activité sismique en direct dans le monde"
+      },
+      "mostRead": {
+        "title": "Les plus lus",
+        "tag": "Ce que le monde a recherché hier"
+      },
+      "fx": {
+        "title": "Boussole FX",
+        "tag": "Le poids de votre argent aujourd'hui"
+      },
+      "crypto": {
+        "title": "Pouls des cryptos",
+        "tag": "Le pouls des marchés décentralisés"
+      },
+      "devPulse": {
+        "title": "Pouls des développeurs",
+        "tag": "Ce dont débattent les développeurs en ce moment"
+      },
+      "paper": {
+        "title": "Étude du jour",
+        "tag": "Ce que l'humanité vient d'apprendre"
+      },
+      "library": {
+        "title": "L'étagère",
+        "tag": "Une étagère de livres à connaître"
+      },
+      "art": {
+        "title": "Une œuvre d'art",
+        "tag": "Une œuvre à découvrir aujourd'hui"
+      },
+      "air": {
+        "title": "L'air",
+        "tag": "Ce que vous respirez en ce moment"
+      },
+      "nation": {
+        "title": "Statistiques nationales",
+        "tag": "Votre pays, en chiffres"
+      },
+      "nearby": {
+        "title": "À proximité",
+        "tag": "Actualités à moins de 10 km de vous"
+      },
+      "facts": {
+        "city": "Ville",
+        "tempNow": "Maintenant",
+        "hiLo": "Max / Min",
+        "feelsLike": "Ressenti",
+        "topHeadline": "Titre principal",
+        "headlineCount": "Titres",
+        "todayDate": "Aujourd'hui",
+        "firstEvent": "Événement à la une",
+        "eventCount": "Événements recensés",
+        "maxMag": "Le plus fort aujourd'hui",
+        "quakePlace": "Lieu",
+        "quakeCount": "Séismes aujourd'hui",
+        "rank1": "N°1 aujourd'hui",
+        "rank1Views": "Vues",
+        "fxBase": "Devise de base",
+        "fxRate": "Taux",
+        "fxDate": "Au",
+        "btcPrice": "Prix du BTC",
+        "btc24h": "Variation 24h",
+        "topStory": "Article principal",
+        "storyPoints": "Points",
+        "paperTitle": "Dernière étude",
+        "paperCitations": "Citations",
+        "paperOa": "Accès",
+        "shelfSubject": "Sujet",
+        "bookTitle": "Livre à la une",
+        "bookEditions": "Éditions",
+        "artTitle": "Œuvre",
+        "artArtist": "Artiste",
+        "artDate": "Date",
+        "artDept": "Département",
+        "aqi": {
+          "good": "Air bon",
+          "fair": "Air moyen",
+          "moderate": "Air dégradé",
+          "poor": "Air mauvais",
+          "veryPoor": "Air très mauvais",
+          "extreme": "Air extrêmement mauvais"
+        },
+        "aqiValue": "AQI",
+        "pm25": "PM2.5",
+        "pm10": "PM10",
+        "nationCountry": "Pays",
+        "nationGdp": "PIB",
+        "nationPop": "Population",
+        "nationNet": "Accès à Internet",
+        "nearbyTitle": "Article le plus proche",
+        "nearbyDist": "Distance",
+        "nearbyCount": "Articles à proximité"
+      }
     }
   }
 }
