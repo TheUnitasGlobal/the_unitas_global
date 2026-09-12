@@ -48,6 +48,14 @@ const BASE64_RE = /^[A-Za-z0-9+/]+={0,2}$/;
  *            Claude call, so a failed/insufficient burn never reaches the
  *            paid API. On a Genesis Memory cache hit the coin is still burned
  *            (the margin is the product), but the Anthropic call is skipped.
+ *            This is finalized governance (REV-20 SPEC.md §12 D-6, founder
+ *            ruling 2026-09-11), not an open question: the visitor gets the
+ *            exact same full report on a cache hit, so exempting the burn
+ *            there would give the product away free with zero benefit to the
+ *            payer. What WAS a genuine gap -- a burn with nothing delivered
+ *            when generation itself fails after the burn -- is refunded via
+ *            refund_coins() in the catch block below (supabase/migrations/
+ *            20260915000000_u_ai_deep_insight_refund.sql).
  *
  * BYOK (user-supplied API keys) is never accepted -- the key lives only in
  * the server environment.
@@ -218,11 +226,24 @@ export async function POST(req: Request): Promise<NextResponse<DeepInsightApiRes
 
     return NextResponse.json({ ok: true, ...report } as DeepInsightApiResponse);
   } catch {
-    // NOTE: the U-COIN was burned just above and there is no clean auto-refund
-    // path (credit_coins() is Stripe-webhook-only + idempotent on a
-    // payment-intent id). Documented known gap -- see CLAUDE.md "Known gaps".
-    // The burn is server-side and strictly 1:1 with the request, so this is
-    // an honest "paid, generation failed", not a margin exploit.
+    // REV-20 SPEC.md §12 D-6 (founder-finalized 2026-09-11): the U-COIN was
+    // burned just above and the generation itself then genuinely failed --
+    // the payer received nothing, so it is refunded via the dedicated
+    // service_role-only refund_coins() RPC (supabase/migrations/
+    // 20260915000000_u_ai_deep_insight_refund.sql). Deliberately NOT
+    // credit_coins() (Stripe-webhook-only, idempotent on a payment-intent id
+    // this failure has none of). Best-effort: if the refund itself fails
+    // (DB unreachable), the payer still sees the honest generation_failed
+    // error rather than a silently swallowed double-fault -- support can
+    // reconcile from the ledger, which still records the original burn.
+    await admin
+      .rpc('refund_coins', {
+        p_user_id: user.id,
+        p_amount: UAI_DEEP_INSIGHT_COST,
+        p_module: UAI_MODULE,
+        p_reason: 'generation_failed',
+      })
+      .then(() => undefined, () => undefined);
     return NextResponse.json({ ok: false, error: 'generation_failed' }, { status: 502 });
   }
 }

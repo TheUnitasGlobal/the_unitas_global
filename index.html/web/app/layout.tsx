@@ -7,6 +7,7 @@ import { TerminationBoundary } from '@/components/exit/TerminationBoundary';
 import { CinematicIntroSplash } from '@/components/splash/CinematicIntroSplash';
 import { RuntimeShield } from '@/components/system/RuntimeShield';
 import { SovereignShield } from '@/components/system/SovereignShield';
+import { ShortsOrphanCleanup } from '@/components/system/ShortsOrphanCleanup';
 import { ENTRY_CHIME_BOOTSTRAP } from '@/lib/audio/logoEntryChime';
 import { EXIT_GUARD_BOOTSTRAP } from '@/lib/exit/appExit';
 import { PWA_CAPTURE_BOOTSTRAP } from '@/lib/pwa/installPrompt';
@@ -159,6 +160,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               RuntimeShield catches the window-level faults no boundary sees.
               See components/system/*. */}
           <RuntimeShield />
+          <ShortsOrphanCleanup />
           {/* Forced 3s SILENT cinematic intro ("logo page") -- SSR'd visible,
               top of the stack (z-700); runs only on a cold entry, never on a
               refresh of any page. */}

@@ -786,3 +786,17 @@ body {
   .cs-replay-aurora::before,
   .cs-skip-aurora::before { animation: none; }
 }
+
+/* --------------------------------------------------------------------
+   REV-20 SPEC.md §12 D-4 -- DialogTower's `fullscreen` variant (the
+   post-submit U-AI search) spans true viewport top -> bottom at z-[120],
+   which otherwise sits over #unitas-nav's z-50 and makes the nav dead
+   (invisible, unclickable: no home/logo, no language switch) for as long
+   as that one panel is open. DialogTower.tsx sets this flag on <body> only
+   for that variant's open lifetime; the ID selector's specificity beats
+   NavBar's `.z-50` utility class regardless of source order, without
+   touching the tower's own z-[120] (which must stay below the legal
+   modal / exit confirm / language dropdown that answer at z-[200]+). */
+body[data-fullscreen-tower-open='true'] #unitas-nav {
+  z-index: 125;
+}

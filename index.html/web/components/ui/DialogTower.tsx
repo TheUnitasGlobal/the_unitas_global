@@ -107,6 +107,22 @@ export function DialogTower({
     };
   }, [open]);
 
+  // D-4 (REV-20 SPEC §12): `fullscreen`'s `top: 0` puts the panel's own
+  // z-[120] stacking context over the nav's rectangle -- the nav is only
+  // z-50, so without this it goes visually and functionally dead (no
+  // home/logo, no language switch) while the panel is up. A body flag lets
+  // globals.css lift #unitas-nav above the tower for exactly this variant's
+  // lifetime, restoring the nav as a live layer instead of widening the
+  // panel's own z-index (which would then out-rank the legal modal / exit
+  // confirm / language dropdown that must stay above BOTH).
+  useEffect(() => {
+    if (!open || variant !== 'fullscreen') return;
+    document.body.setAttribute('data-fullscreen-tower-open', 'true');
+    return () => {
+      document.body.removeAttribute('data-fullscreen-tower-open');
+    };
+  }, [open, variant]);
+
   // Mobile/desktop hardware & browser back (REV-19 §1): the tower is one
   // layer on the site-wide deep modal history stack -- the device's own
   // back gesture closes it (and only it), an explicit toolbar close walks

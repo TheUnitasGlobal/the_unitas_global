@@ -513,6 +513,15 @@ npx playwright test --config tests/web-cinema.config.js
 
 ---
 
+### §12 후속. D-3~D-6 해결 완료 (2026-09-11, 창립자 지시로 표의 권장/대안과 다른 선택 포함)
+
+- **D-3 (표의 "무해, 그대로 둔다"를 창립자가 명시적으로 뒤집음 — 정리 실행 지시)**: `components/system/ShortsOrphanCleanup.tsx` 신설, `app/layout.tsx`에서 `RuntimeShield` 옆에 마운트. 디바이스 로컬 `localStorage['unitas.shorts.pass.v1']`/`['unitas.device.v1']`는 무조건 삭제(순수 클라이언트 상태, 참조 0건 확인 완료 — grep 스윕으로 검증). 로그인 계정의 `user_metadata.unitas_shorts_pass`는 `supabase.auth.updateUser({ data: { unitas_shorts_pass: null } })`로 최선노력 정리(오프라인·비로그인 시 무해 스킵). `unitas.shorts.orphanCleanup.v1.done` 플래그로 기기당 1회만 실행 — 이후 방문마다 불필요한 API 호출 반복 방지.
+- **D-4 (표의 "권장" 그대로 채택 — 내비 승계)**: 풀스크린 타워(`variant="fullscreen"`)가 열려 있는 동안 `#unitas-nav`가 여전히 최상위 히트테스트 대상이 되도록 `DialogTower.tsx`가 `document.body`에 `data-fullscreen-tower-open` 플래그를 세팅하고, `globals.css`의 `body[data-fullscreen-tower-open='true'] #unitas-nav { z-index: 125 }`가 ID 선택자 특이성으로 nav의 `.z-50`을 이긴다. 타워 자체 `z-[120]`은 불변 — 언어 드롭다운(`z-[140]`)·범례 모달·종료 확인(`z-[200]`+)이 여전히 그 위에 있음. `tests/web-cinema-e2e/rev20-fullscreen-nav.spec.js` 신설(§13 항목 9의 "키워드 패널/타워 E2E 공백" 일부 해소) — `elementFromPoint`로 nav 사각형이 nav 자신에게 히트하는지, 닫힌 뒤 플래그가 확실히 걷히는지(다른 nav-anchored 타워에 누수 방지) 검증.
+- **D-5 (이미 PHASE 2에서 "권장"과 동일한 방향으로 구현되어 있었음을 확인)**: `lib/live/discoverySlots.ts`의 `librarySlot`이 `LIBRARY_SUBJECTS`(7개 주제, `dayOfYear() % 7`) 일자 로테이션으로 OpenLibrary 실데이터를 공급 — `bestseller`는 뉴스 RSS 그대로 유지, 21슬롯 병합 없이 22슬롯 유지(표의 "대안"과 실질적으로 동일한 결과이나 데이터원 자체가 달라 육안 중복이 없음을 코드 확인으로 검증). **잔여 폴리시 항목(신규 발견, 범위 외로 명시)**: `shelfSubject` fact의 `value`(주제명)는 영문 원문이 20로케일 전체에 그대로 노출됨 — 7개 주제 × 20로케일 번역 테이블은 이번 라운드에 포함하지 않음(창립자 지시 범위 밖 확장 방지).
+- **D-6 (표의 "권장"과 "대안"을 절충 — 마진 정책은 대안대로 유지, 환불 결함만 해소)**: 창립자의 후속 지시("zero cost and maximum margin 보장")를 헌법 제1장의 절대마진 원칙에 맞춰 "캐시 히트도 계속 차감"으로 확정(표의 "대안"과 동일 — 캐시 히트도 방문자는 동일한 전체 리포트를 받으므로 면제는 대가 없는 매출 포기). 실제 결함이었던 "생성 실패 시 환불 없음"만 신규 `supabase/migrations/20260915000000_u_ai_deep_insight_refund.sql`의 `refund_coins()`(service_role 전용, `credit_coins()`와 별도 — Stripe 웹훅 idempotency 키가 없는 케이스라 재사용 불가)로 해소, `app/api/u-ai/insight/route.ts` 실패 캐치에 결선. `CLAUDE.md` "Known gaps"를 이 확정 내용으로 갱신.
+
+---
+
 ## §13. 미결 · 리스크
 
 1. **데스크톱 타워 실측 공백**: §0.1 참조. 히어로·L1·모바일 타워는 실측됐고, 데스크톱 키워드·타이핑 단계만 `ExitGuard` 종료 확인 팝업 간섭으로 실패했다. PHASE 2 첫 단계에서 보강한다.
