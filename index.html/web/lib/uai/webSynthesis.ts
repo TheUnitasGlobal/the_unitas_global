@@ -24,7 +24,9 @@ const ENABLED = FLAG === '1' || FLAG === 'true';
 
 const SEARXNG = (process.env.NEXT_PUBLIC_UAI_SEARXNG || '').replace(/\/+$/, '');
 
-const CACHE_KEY = 'unitas.uai.websynth.v3';
+// v4 (REV-21 §2.2): entity-anchored synthesis -- a v3 entry may hold
+// same-label English strays, so the old key is simply never read again.
+const CACHE_KEY = 'unitas.uai.websynth.v4';
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 const CACHE_MAX = 40;
 // REV-20 §6.1: raised 3000 -> 5000 alongside the new full-extracts leg in

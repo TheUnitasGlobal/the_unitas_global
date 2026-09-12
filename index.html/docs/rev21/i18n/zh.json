@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "实时世界排行榜",
+  "slots.worldRanking.tag": "十二个全球主题——打开一行，看看排名背后的故事。",
+  "slots.unitasRanking.title": "实时Unitas排行榜",
+  "slots.unitasRanking.tag": "覆盖所有 UNITAS 模块的匿名活跃度指数。",
+  "slots.facts.topRank": "第1名",
+  "slots.facts.rankedEntries": "排名条目",
+  "slots.facts.topOperator": "顶级运营者",
+  "slots.facts.moduleCount": "个模块",
+  "hub.tabsAria": "选择主题",
+  "hub.swipeHint": "左右滑动切换主题"
+}

@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "लाइव विश्व रैंकिंग",
+  "slots.worldRanking.tag": "बारह वैश्विक थीम — रैंक के पीछे की कहानी के लिए कोई पंक्ति खोलें।",
+  "slots.unitasRanking.title": "रियल-टाइम यूनिटास रैंकिंग",
+  "slots.unitasRanking.tag": "सभी UNITAS मॉड्यूल में छद्मनाम गतिविधि सूचकांक।",
+  "slots.facts.topRank": "रैंक 1",
+  "slots.facts.rankedEntries": "रैंक की गई प्रविष्टियाँ",
+  "slots.facts.topOperator": "शीर्ष ऑपरेटर",
+  "slots.facts.moduleCount": "मॉड्यूल",
+  "hub.tabsAria": "थीम चुनें",
+  "hub.swipeHint": "थीम बदलने के लिए बाएँ या दाएँ स्वाइप करें"
+}

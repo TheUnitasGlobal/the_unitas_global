@@ -1,13 +1,17 @@
 /**
  * REV-19 §13 -- discovery widgets inside the U-AI suggestion popup:
- * "rising now" seeds from the local index, deterministic curiosity-card
- * rotation, and the visitor's recent queries (localStorage, this device
- * only). Pure helpers + a thin storage layer; no network.
+ * "rising now" seeds from the local index and deterministic curiosity-card
+ * rotation. Pure helpers; no network.
+ *
+ * REV-21 §5.2: the visitor's "recent queries" trail (이어서 탐색) is gone for
+ * good (founder directive). Only `purgeLegacyRecentQueries` survives so a
+ * device that still carries the old localStorage list wipes it on the next
+ * visit -- the key string is kept here, in one place, for exactly that.
  */
 import type { LiveIndexEntry, LiveResult } from '@/lib/uai/liveSearchIndex';
 
-export const RECENT_QUERIES_KEY = 'unitas.search.recent.v1';
-export const RECENT_QUERIES_MAX = 6;
+/** Storage key of the retired recent-queries trail (REV-19 §13 → REV-21 §5.2). */
+export const LEGACY_RECENT_QUERIES_KEY = 'unitas.search.recent.v1';
 /** Number of curiosity questions authored per locale (Rev19.search.cards.c1..cN). */
 export const CURIOSITY_CARD_POOL = 12;
 export const CURIOSITY_CARDS_SHOWN = 3;
@@ -48,33 +52,13 @@ export function risingSeeds(index: readonly LiveIndexEntry[], now: number, take 
   return out;
 }
 
-/** Pure: fold a new query into the recent list (newest first, de-duped,
- *  capped). Blank queries are ignored. */
-export function pushRecent(list: readonly string[], query: string, max = RECENT_QUERIES_MAX): string[] {
-  const q = query.trim();
-  if (!q) return [...list];
-  const rest = list.filter((x) => x.toLowerCase() !== q.toLowerCase());
-  return [q, ...rest].slice(0, max);
-}
-
-export function readRecentQueries(): string[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    const raw = window.localStorage.getItem(RECENT_QUERIES_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as unknown;
-    return Array.isArray(parsed) ? parsed.filter((x): x is string => typeof x === 'string').slice(0, RECENT_QUERIES_MAX) : [];
-  } catch {
-    return [];
-  }
-}
-
-export function writeRecentQueries(list: readonly string[]): void {
+/** One-shot privacy cleanup: remove the retired recent-queries list from
+ *  this device. Safe to call on every mount; no-op on the server. */
+export function purgeLegacyRecentQueries(): void {
   if (typeof window === 'undefined') return;
   try {
-    if (list.length === 0) window.localStorage.removeItem(RECENT_QUERIES_KEY);
-    else window.localStorage.setItem(RECENT_QUERIES_KEY, JSON.stringify(list.slice(0, RECENT_QUERIES_MAX)));
+    window.localStorage.removeItem(LEGACY_RECENT_QUERIES_KEY);
   } catch {
-    // private mode / quota -- recents are a convenience only.
+    // private mode / quota -- nothing to purge.
   }
 }

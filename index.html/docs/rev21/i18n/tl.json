@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Live na Pandaigdigang Ranggo",
+  "slots.worldRanking.tag": "Labindalawang pandaigdigang tema — buksan ang isang hilera para sa kuwento sa likod ng ranggo.",
+  "slots.unitasRanking.title": "Real-Time na Ranggo ng Unitas",
+  "slots.unitasRanking.tag": "Pseudonymous na indeks ng aktibidad sa lahat ng UNITAS module.",
+  "slots.facts.topRank": "Ranggo 1",
+  "slots.facts.rankedEntries": "nirangkong entry",
+  "slots.facts.topOperator": "Nangungunang operator",
+  "slots.facts.moduleCount": "module",
+  "hub.tabsAria": "Pumili ng tema",
+  "hub.swipeHint": "Mag-swipe pakaliwa o pakanan para magpalit ng tema"
+}

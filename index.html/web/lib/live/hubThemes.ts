@@ -141,6 +141,8 @@ export function rotateIndex(now: number, count: number, periodMs = HUB_ROTATE_MS
   return slot % count;
 }
 
+import { WIKI_LANG } from '@/lib/uai/webSynthesisCore';
+
 export type DiscoveryLinkKind = 'wikipedia' | 'news' | 'youtube' | 'search';
 
 export interface DiscoveryLink {
@@ -148,21 +150,26 @@ export interface DiscoveryLink {
   href: string;
 }
 
-/** Wikipedia language subdomain per site locale (`tl` -> Tagalog wiki). */
-const WIKI_LANG: Record<string, string> = {
-  en: 'en', ko: 'ko', et: 'et', ja: 'ja', zh: 'zh', es: 'es', km: 'km', fr: 'fr', de: 'de', pt: 'pt', vi: 'vi',
-  id: 'id', ru: 'ru', hi: 'hi', it: 'it', tr: 'tr', th: 'th', pl: 'pl', nl: 'nl', tl: 'tl',
-};
+export interface DiscoveryLinkOptions {
+  /** REV-21 §2.2: the exact Wikipedia page title on the locale wiki. When
+   *  known, the wikipedia link is a DIRECT page link, not a search -- a
+   *  string search is exactly the homonym path this revision closes. */
+  wikiTitle?: string;
+}
 
 /** Keyless outbound exploration links for any subject (ranking entry,
  *  headline, theme). Every link opens in a new tab; nothing is fetched. */
-export function discoveryLinks(subject: string, locale: string): DiscoveryLink[] {
+export function discoveryLinks(subject: string, locale: string, options: DiscoveryLinkOptions = {}): DiscoveryLink[] {
   const q = subject.trim();
   if (!q) return [];
   const lang = WIKI_LANG[locale] ?? 'en';
   const enc = encodeURIComponent(q);
+  const wikiTitle = options.wikiTitle?.trim();
+  const wikipedia = wikiTitle
+    ? `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(wikiTitle.replace(/ /g, '_'))}`
+    : `https://${lang}.wikipedia.org/w/index.php?search=${enc}`;
   return [
-    { kind: 'wikipedia', href: `https://${lang}.wikipedia.org/w/index.php?search=${enc}` },
+    { kind: 'wikipedia', href: wikipedia },
     { kind: 'news', href: `https://news.google.com/search?q=${enc}&hl=${encodeURIComponent(lang)}` },
     { kind: 'youtube', href: `https://www.youtube.com/results?search_query=${enc}` },
     { kind: 'search', href: `https://www.google.com/search?q=${enc}&hl=${encodeURIComponent(lang)}` },

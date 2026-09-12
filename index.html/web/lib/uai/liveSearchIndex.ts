@@ -15,6 +15,15 @@ import type { LiveSuggestion } from './liveSuggest';
  * dropdown used to render (owner instruction 2026-09-03: "기존 Echo/Chronos/
  * U-Key 레거시 카드를 완전히 삭제") -- those stay reachable from the module
  * walls below the search bar, where they belong.
+ *
+ * REV-21 §5.2 (founder directive "'사'를 치면 '임대'가 뜨는 연관성 파괴"):
+ * a row is a candidate ONLY when the query progressively matches its title
+ * at a word start (prefix first, then any later word boundary) or one of
+ * its explicit, locale-authored aliases. The old description tier -- which
+ * let a single syllable surface an entry because that syllable happened to
+ * sit inside "사람" / "살아" / "서사" in the blurb -- and the English
+ * message-key aliases ('rental', 'realEstate') are gone: only context-
+ * matching keywords may ever appear.
  */
 
 export type LiveResultKind = 'axis' | 'app' | 'web';
@@ -43,6 +52,9 @@ export interface LiveIndexLabels {
   tabLabel: (tab: string) => string;
   /** Localized description for a direct-app tile (e.g. "Open Gmail in a new tab"). */
   appDescription: (app: DirectAppShortcut) => string;
+  /** Optional locale-authored synonyms for an axis (e.g. ko rental ->
+   *  ['월세', '전세']). Never the English message key. Default: none. */
+  axisAliases?: (axis: HotShortcutAxis) => readonly string[];
 }
 
 export interface LiveIndexEntry {
@@ -55,7 +67,7 @@ export interface LiveIndexEntry {
   color: string;
   axis?: HotShortcutAxis;
   url?: string;
-  /** Extra strings the matcher may also hit (description words, brand key). */
+  /** Extra locale-authored strings the matcher may also hit at a word start. */
   aliases: string[];
 }
 
@@ -73,7 +85,7 @@ export function buildLiveIndex(labels: LiveIndexLabels): LiveIndexEntry[] {
       icon: axis.icon,
       color: axis.color,
       axis,
-      aliases: [axis.key, axis.messageKey],
+      aliases: [...(labels.axisAliases?.(axis) ?? [])].map((a) => a.trim()).filter(Boolean),
     };
   });
   const apps: LiveIndexEntry[] = [...EMAIL_SHORTCUTS, ...SOCIAL_SHORTCUTS].map((app) => ({
@@ -85,32 +97,36 @@ export function buildLiveIndex(labels: LiveIndexLabels): LiveIndexEntry[] {
     icon: app.icon,
     color: app.color,
     url: app.url,
-    aliases: [app.key],
+    aliases: [],
   }));
   return [...axes, ...apps];
 }
 
+const SCORE_TITLE_PREFIX = 1000;
+const SCORE_TITLE_WORD = 800;
+const SCORE_ALIAS = 500;
+
 /**
- * Filter the local corpus with the progressive matcher. Title hits rank
- * first (earliest match position wins), then alias/description hits.
+ * Filter the local corpus with the progressive matcher. Ranking:
+ * title prefix (1000) > title at a later word boundary (800 − offset) >
+ * locale alias at a word start (500). Nothing else is a candidate.
  */
 export function searchLiveIndex(index: LiveIndexEntry[], query: string, limit = 10): LiveResult[] {
   const q = query.trim();
   if (!q) return [];
   const scored: Array<{ entry: LiveIndexEntry; range: MatchRange | null; score: number }> = [];
   for (const entry of index) {
-    const titleRange = progressiveMatch(q, entry.title);
+    const titleRange = progressiveMatch(q, entry.title, { mode: 'word' });
     if (titleRange) {
-      scored.push({ entry, range: titleRange, score: 1000 - titleRange.start });
+      scored.push({
+        entry,
+        range: titleRange,
+        score: titleRange.start === 0 ? SCORE_TITLE_PREFIX : SCORE_TITLE_WORD - Math.min(199, titleRange.start),
+      });
       continue;
     }
-    const aliasHit = entry.aliases.some((alias) => progressiveMatch(q, alias) !== null);
-    if (aliasHit) {
-      scored.push({ entry, range: null, score: 500 });
-      continue;
-    }
-    const descRange = progressiveMatch(q, entry.description);
-    if (descRange) scored.push({ entry, range: null, score: 100 - Math.min(99, descRange.start) });
+    const aliasHit = entry.aliases.some((alias) => progressiveMatch(q, alias, { mode: 'word' }) !== null);
+    if (aliasHit) scored.push({ entry, range: null, score: SCORE_ALIAS });
   }
   return scored
     .sort((a, b) => b.score - a.score)
@@ -129,7 +145,9 @@ export function searchLiveIndex(index: LiveIndexEntry[], query: string, limit = 
     }));
 }
 
-/** Fold live-web suggestions in after the local hits, skipping duplicates. */
+/** Fold live-web suggestions in after the local hits, skipping duplicates.
+ *  Web rows are already prefix-scoped by the wiki (prefixsearch); the range
+ *  here is highlight-only, so the substring matcher is fine. */
 export function mergeLiveResults(
   local: LiveResult[],
   web: LiveSuggestion[],

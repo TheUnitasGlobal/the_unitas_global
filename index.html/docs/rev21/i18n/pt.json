@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Ranking Mundial ao Vivo",
+  "slots.worldRanking.tag": "Doze temas globais — abra uma linha para ver a história por trás da posição.",
+  "slots.unitasRanking.title": "Ranking Unitas em Tempo Real",
+  "slots.unitasRanking.tag": "Índice de atividade pseudônimo em todos os módulos UNITAS.",
+  "slots.facts.topRank": "1º lugar",
+  "slots.facts.rankedEntries": "entradas classificadas",
+  "slots.facts.topOperator": "Operador líder",
+  "slots.facts.moduleCount": "módulos",
+  "hub.tabsAria": "Escolha um tema",
+  "hub.swipeHint": "Deslize para a esquerda ou direita para mudar de tema"
+}

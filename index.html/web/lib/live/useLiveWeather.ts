@@ -602,8 +602,10 @@ export function useLiveWeather(locale: string, opts: UseLiveWeatherOptions) {
       locateAbortRef.current?.abort();
       background.abort();
     };
+    // REV-21 §2.1: re-run on a locale change (the default place and the
+    // localized city label follow the language); a cached place survives it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [locale]);
 
   async function runCitySearch() {
     const q = cityQuery.trim();

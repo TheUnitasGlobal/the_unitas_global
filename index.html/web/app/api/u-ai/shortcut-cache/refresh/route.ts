@@ -269,7 +269,8 @@ export async function GET(req: Request): Promise<NextResponse<RefreshReport>> {
         const snapshot = await buildSnapshot(item.query, item.locale, item.tier, messages);
         if (await upsertSnapshot(admin, snapshot, item.cacheKey)) {
           report.synthesized += 1;
-          freshDigests.set(item.cacheKey, snapshot.web.digest);
+          // REV-21 §2.2: the LLM grounds on the entity-safe subset only.
+          freshDigests.set(item.cacheKey, snapshot.web.grounding || snapshot.web.digest);
         } else {
           report.errors.push(`park failed: ${item.locale}/${item.query}`);
         }
@@ -298,7 +299,7 @@ export async function GET(req: Request): Promise<NextResponse<RefreshReport>> {
       if (budget > 0) {
         const { data, error } = await admin
           .from(SHORTCUT_CACHE_TABLE)
-          .select('cache_key, locale, query, tier, hit_count, payload->web->>digest')
+          .select('cache_key, locale, query, tier, hit_count, digest:payload->web->>digest, grounding:payload->web->>grounding')
           .or(`tier.eq.seed,hit_count.gte.${TREND_THRESHOLD}`)
           .order('hit_count', { ascending: false })
           .limit(400);
@@ -310,6 +311,7 @@ export async function GET(req: Request): Promise<NextResponse<RefreshReport>> {
           tier: ShortcutTier;
           hit_count: number;
           digest?: string | null;
+          grounding?: string | null;
         }>;
 
         // Drop the ones Genesis Memory already holds (chunked `in` lookups).
@@ -326,7 +328,7 @@ export async function GET(req: Request): Promise<NextResponse<RefreshReport>> {
             locale: r.locale,
             query: r.query,
             hits: r.hit_count,
-            digest: freshDigests.get(r.cache_key) ?? r.digest ?? '',
+            digest: freshDigests.get(r.cache_key) ?? r.grounding ?? r.digest ?? '',
           }));
         report.forgeRemaining = Math.max(0, candidates.length - budget);
 

@@ -24,6 +24,8 @@ import {
   MapPinned,
   Palette,
   Terminal,
+  Trophy,
+  UsersRound,
   Wind,
   type LucideIcon,
 } from 'lucide-react';
@@ -31,12 +33,18 @@ import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import { DEFAULT_PLACE, conditionOf, fetchForecast, readWeatherCache, writeWeatherCache, type Place } from '@/lib/live/useLiveWeather';
 import { HUB_CARD_ITEMS, HUB_THEMES, findHubTheme, type HubThemeKey } from '@/lib/live/hubThemes';
 import { loadHubNews } from '@/lib/live/hubNewsClient';
+import { GLOBAL_RANKING_THEMES, type GlobalRankingThemeKey } from '@/lib/globalRankings';
+import { MODULE_REGISTRY, moduleTitleNamespace, unitasRankingFor } from '@/lib/unitasRankings';
 
 /* ------------------------------------------------------------------ */
 /* Contract                                                             */
 /* ------------------------------------------------------------------ */
 
-export type SlotKind = 'weather' | 'news' | 'feed';
+/** REV-21 §1.3 adds `ranking` -- the two REV-19 ranking widgets ("실시간
+ *  세계 랭킹", "실시간 유니타스 랭킹") absorbed as slots of this carousel. */
+export type SlotKind = 'weather' | 'news' | 'feed' | 'ranking';
+
+export type RankingSlotKey = 'worldRanking' | 'unitasRanking';
 
 export type FeedSlotKey =
   | 'history'
@@ -52,16 +60,23 @@ export type FeedSlotKey =
   | 'nation'
   | 'nearby';
 
-export type SlotKey = 'weather' | HubThemeKey | FeedSlotKey;
+export type SlotKey = 'weather' | HubThemeKey | FeedSlotKey | RankingSlotKey;
 
 export interface SlotFact {
-  /** Rev20.slots.facts.* dot-path -- the component owns translation. */
+  /** Rev20.slots.facts.* (or Rev21.slots.facts.*) dot-path -- the component
+   *  owns translation. */
   labelKey: string;
   value: string;
   unit?: string;
   /** At most one fact per card should be emphasised (rendered large). */
   emphasis?: boolean;
 }
+
+/** REV-21 §1.3: what tapping an item does when it has no outbound URL --
+ *  a ranking row opens its detail inside the slot's deep modal. */
+export type SlotItemAction =
+  | { kind: 'rankingDetail'; theme: GlobalRankingThemeKey; rank: number }
+  | { kind: 'unitasProfile'; moduleKey: string; rank: number };
 
 export interface SlotItem {
   id: string;
@@ -70,6 +85,26 @@ export interface SlotItem {
   url?: string;
   /** Short secondary line (points, distance, price...). */
   meta?: string;
+  action?: SlotItemAction;
+  rank?: number;
+  color?: string;
+}
+
+/** REV-21 §1.3: a sub-tab inside a card (ranking theme / module). */
+export interface SlotTab {
+  key: string;
+  /** Fully-qualified message path the component resolves with the root `t`. */
+  labelKey: string;
+  color: string;
+}
+
+/** REV-21 §2.2 / §3.1: the entity a card is ABOUT, carried as an identifier
+ *  so outbound links and Explore Deeper never re-search a translated title. */
+export interface SlotSubject {
+  term: string;
+  wikiTitle?: string;
+  qid?: string;
+  lang?: string;
 }
 
 /** Opaque continuation token an adapter understands on its own next call.
@@ -81,10 +116,17 @@ export interface SlotCard {
   items: SlotItem[];
   updatedAt: number;
   cursor: DeepCursor;
+  tabs?: SlotTab[];
+  activeTab?: string;
+  subject?: SlotSubject;
 }
 
 export interface SlotContext {
   locale: string;
+  /** REV-21 §2.1: the visitor's selected country (ISO 3166-1 alpha-2) --
+   *  the SECOND output scope after global. Optional only for callers that
+   *  predate REV-21; adapters fall back to the locale's default place. */
+  country?: string;
   signal?: AbortSignal;
 }
 
@@ -701,6 +743,76 @@ const nearbySlot: DiscoverySlot = {
 };
 
 /* ------------------------------------------------------------------ */
+/* Slots 22-23: the two REV-19 ranking widgets, absorbed (REV-21 §1.3)   */
+/* ------------------------------------------------------------------ */
+
+/** Ranking data is curated / deterministic -- no network, so a card is
+ *  instant. The cursor's `tab` selects the theme (world) or module
+ *  (UNITAS); the deep modal owns the full lists and the rank-detail
+ *  popups (which DO reach the encyclopedic detail route on demand -- never
+ *  from the rotating card). */
+const worldRankingSlot: DiscoverySlot = {
+  key: 'worldRanking',
+  kind: 'ranking',
+  icon: Trophy,
+  color: '#facc15',
+  async load(_ctx, cursor) {
+    const requested = typeof cursor?.tab === 'string' ? cursor.tab : undefined;
+    const theme = GLOBAL_RANKING_THEMES.find((t) => t.key === requested) ?? GLOBAL_RANKING_THEMES[0];
+    const top = theme.entries[0];
+    return {
+      facts: [
+        { labelKey: 'Rev21.slots.facts.topRank', value: top ? top.name : '', emphasis: true },
+        { labelKey: 'Rev21.slots.facts.rankedEntries', value: String(theme.entries.length) },
+      ],
+      items: theme.entries.slice(0, HUB_CARD_ITEMS).map((entry) => ({
+        id: `${theme.key}:${entry.rank}`,
+        title: entry.name,
+        meta: entry.note,
+        rank: entry.rank,
+        color: theme.color,
+        action: { kind: 'rankingDetail', theme: theme.key, rank: entry.rank },
+      })),
+      updatedAt: Date.now(),
+      cursor: null,
+      tabs: GLOBAL_RANKING_THEMES.map((t) => ({ key: t.key, labelKey: `GlobalRankings.themes.${t.key}.title`, color: t.color })),
+      activeTab: theme.key,
+      subject: top ? { term: top.name, lang: 'en' } : undefined,
+    };
+  },
+};
+
+const unitasRankingSlot: DiscoverySlot = {
+  key: 'unitasRanking',
+  kind: 'ranking',
+  icon: UsersRound,
+  color: '#d4af37',
+  async load(_ctx, cursor) {
+    const requested = typeof cursor?.tab === 'string' ? cursor.tab : undefined;
+    const module = MODULE_REGISTRY.find((m) => m.key === requested) ?? MODULE_REGISTRY[0];
+    const rows = unitasRankingFor(module);
+    return {
+      facts: [
+        { labelKey: 'Rev21.slots.facts.topOperator', value: rows[0]?.handle ?? '', emphasis: true },
+        { labelKey: 'Rev21.slots.facts.moduleCount', value: String(MODULE_REGISTRY.length) },
+      ],
+      items: rows.slice(0, HUB_CARD_ITEMS).map((entry) => ({
+        id: `${module.key}:${entry.rank}`,
+        title: entry.handle,
+        meta: entry.score.toLocaleString(),
+        rank: entry.rank,
+        color: '#d4af37',
+        action: { kind: 'unitasProfile', moduleKey: module.key, rank: entry.rank },
+      })),
+      updatedAt: Date.now(),
+      cursor: null,
+      tabs: MODULE_REGISTRY.map((m) => ({ key: m.key, labelKey: `${moduleTitleNamespace(m)}.${m.messageKey}.title`, color: '#d4af37' })),
+      activeTab: module.key,
+    };
+  },
+};
+
+/* ------------------------------------------------------------------ */
 /* Registry + rotation order                                            */
 /* ------------------------------------------------------------------ */
 
@@ -721,16 +833,20 @@ const feedSlots: readonly DiscoverySlot[] = [
 
 const newsSlots: readonly DiscoverySlot[] = HUB_THEMES.map((t) => newsSlotFor(t.key));
 
+const rankingSlots: readonly DiscoverySlot[] = [worldRankingSlot, unitasRankingSlot];
+
 const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>([
   [weatherSlot.key, weatherSlot],
   ...newsSlots.map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
   ...feedSlots.map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
+  ...rankingSlots.map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
 ]);
 
 /** REV-20 §3.4/§3.5: weather first, then the 9 news + 12 feed themes
  *  interleaved so two "newsy" or two "data" slots never sit back to back
  *  (colour-wheel adjacency is handled by the component, order here only
- *  guards content-kind adjacency). 22 slots total. */
+ *  guards content-kind adjacency). REV-21 §1.3: the two ranking slots join
+ *  at the two natural "data" seams (after nation, after nearby). 24 slots. */
 export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'weather',
   'mostRead',
@@ -750,11 +866,67 @@ export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'devPulse',
   'fashion',
   'nation',
+  'worldRanking',
   'bestseller',
   'air',
   'library',
   'nearby',
+  'unitasRanking',
 ];
+
+/** REV-21 §3.2: the REAL name of the engine behind each slot, for the
+ *  source-attribution row. Static -- `load()` is untouched. */
+export const SLOT_PROVIDER: Record<SlotKey, { name: string; url: string }> = {
+  weather: { name: 'Open-Meteo', url: 'https://open-meteo.com/' },
+  game: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
+  sports: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
+  movie: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
+  bestseller: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
+  shopping: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
+  stock: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
+  webtoon: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
+  fashion: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
+  food: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
+  history: { name: 'Wikipedia', url: 'https://www.wikipedia.org/' },
+  quake: { name: 'USGS Earthquake Hazards Program', url: 'https://earthquake.usgs.gov/' },
+  mostRead: { name: 'Wikimedia Pageviews', url: 'https://wikimedia.org/api/rest_v1/' },
+  fx: { name: 'Frankfurter (ECB reference rates)', url: 'https://www.frankfurter.app/' },
+  crypto: { name: 'CoinGecko', url: 'https://www.coingecko.com/' },
+  devPulse: { name: 'Hacker News (Algolia)', url: 'https://hn.algolia.com/' },
+  paper: { name: 'OpenAlex', url: 'https://openalex.org/' },
+  library: { name: 'Open Library', url: 'https://openlibrary.org/' },
+  art: { name: 'The Met Collection', url: 'https://www.metmuseum.org/art/collection' },
+  air: { name: 'Open-Meteo Air Quality', url: 'https://open-meteo.com/en/docs/air-quality-api' },
+  nation: { name: 'World Bank Open Data', url: 'https://data.worldbank.org/' },
+  nearby: { name: 'Wikipedia', url: 'https://www.wikipedia.org/' },
+  worldRanking: { name: 'UNITAS curated dataset', url: 'https://www.theunitas.global/' },
+  unitasRanking: { name: 'UNITAS activity index (pseudonymous)', url: 'https://www.theunitas.global/' },
+};
+
+/** REV-21 §2.2 (H-9) / §3.1: the Wikidata item each slot is ABOUT -- the
+ *  anchor Explore Deeper and the outbound wiki link use instead of the
+ *  slot's translated title (which is how '공기' became a string search). */
+export const SLOT_QID: Partial<Record<SlotKey, string>> = {
+  weather: 'Q11663', // weather
+  game: 'Q7889', // video game
+  sports: 'Q349', // sport
+  movie: 'Q11424', // film
+  bestseller: 'Q571', // book
+  shopping: 'Q830036', // shopping
+  stock: 'Q11691', // stock exchange
+  webtoon: 'Q1211714', // webtoon
+  fashion: 'Q12684', // fashion
+  food: 'Q2095', // food
+  quake: 'Q7944', // earthquake
+  fx: 'Q8142', // currency
+  crypto: 'Q13479982', // cryptocurrency
+  devPulse: 'Q11660', // artificial intelligence -- the pulse's centre of gravity
+  paper: 'Q13442814', // scholarly article
+  library: 'Q571', // book
+  art: 'Q838948', // work of art
+  air: 'Q7391292', // air
+  nation: 'Q6256', // country
+};
 
 export const DISCOVERY_SLOTS: readonly DiscoverySlot[] = DISCOVERY_ROTATION.map((k) => SLOT_BY_KEY.get(k)!).filter(Boolean);
 
@@ -772,5 +944,6 @@ export function findDiscoverySlot(key: SlotKey): DiscoverySlot | undefined {
 export function slotTtlMs(kind: SlotKind): number {
   if (kind === 'weather') return 10 * 60 * 1000;
   if (kind === 'news') return 10 * 60 * 1000;
+  if (kind === 'ranking') return 6 * 60 * 60 * 1000; // curated / deterministic data
   return 15 * 60 * 1000;
 }

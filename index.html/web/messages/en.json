@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "Rising now",
       "curiosity": "Curiosity cards",
-      "recent": "Continue exploring",
       "signals": "Live signals",
       "emptyHint": "Start typing — or pick a spark below.",
-      "clearRecent": "Clear",
       "ask": "Ask",
       "cards": {
         "c1": "Why does a city feel faster at night?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "Distance",
         "nearbyCount": "Nearby articles"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "Live World Rankings",
+        "tag": "Twelve global themes — open a row for the story behind the rank."
+      },
+      "unitasRanking": {
+        "title": "Real-Time Unitas Rankings",
+        "tag": "Pseudonymous activity index across every UNITAS module."
+      },
+      "facts": {
+        "topRank": "Rank 1",
+        "rankedEntries": "ranked entries",
+        "topOperator": "Top operator",
+        "moduleCount": "modules"
+      }
+    },
+    "hub": {
+      "tabsAria": "Choose a theme",
+      "swipeHint": "Swipe left or right to change theme"
     }
   }
 }

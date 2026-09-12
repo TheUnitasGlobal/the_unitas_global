@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { routing } from '@/i18n/routing';
 import { WIKI_LANG } from '@/lib/uai/webSynthesisCore';
 import { foldFeed, mergeNewsFeeds, ymd, type FeaturedFeed, type HotNewsItem, type HotNewsResponse } from '@/lib/live/hotNews';
+import { orderFeaturedFeeds } from '@/lib/live/contextPriority';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -56,9 +57,11 @@ async function fetchFirstAvailable(
  * global picks (mergeNewsFeeds, interleaved + de-duped) rather than only
  * falling back to English when the local board is empty -- this is what
  * keeps a Korean, Thai, or Estonian visitor seeing broad international
- * coverage, not just locally-curated news. No API key, no provider contract,
- * 0원; CDN-cached 15 min so the upstream sees at most a handful of requests
- * an hour per locale.
+ * coverage, not just locally-curated news. REV-21 §2.1: the GLOBAL board
+ * leads the interleave and the local board follows (lib/live/contextPriority
+ * .ts -- output priority 1 = worldwide, 2 = the selected country). No API
+ * key, no provider contract, 0원; CDN-cached 15 min so the upstream sees at
+ * most a handful of requests an hour per locale.
  */
 
 export async function GET(request: Request) {
@@ -82,7 +85,7 @@ export async function GET(request: Request) {
     ]);
     const localItems = localFeed ? foldFeed(localFeed.feed, lang) : [];
     const globalItems = globalFeed ? foldFeed(globalFeed.feed, 'en') : [];
-    items = lang === 'en' ? localItems : mergeNewsFeeds(localItems, globalItems);
+    items = lang === 'en' ? localItems : mergeNewsFeeds(...orderFeaturedFeeds({ global: globalItems, local: localItems }));
 
     if (localFeed) usedDate = localFeed.date;
     else if (globalFeed) usedDate = globalFeed.date;

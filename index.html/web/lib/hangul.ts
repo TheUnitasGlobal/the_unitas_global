@@ -169,15 +169,43 @@ function matchAt(query: string[], target: string[], at: number): number {
 }
 
 /**
+ * Where inside `target` a progressive match may start (REV-21 §5.2):
+ *  - `anywhere` (default) -- every code-point offset, i.e. a substring
+ *    match. Right for highlighting a title the user already chose.
+ *  - `word` -- only at offset 0 or right after a word boundary (space,
+ *    middle dot, bracket, slash, dash). Right for RANKING candidates: a
+ *    one-syllable query must not surface an entry because that syllable
+ *    happens to sit in the middle of some other word.
+ *  - `prefix` -- only at offset 0.
+ */
+export type MatchMode = 'anywhere' | 'word' | 'prefix';
+
+export interface ProgressiveMatchOptions {
+  mode?: MatchMode;
+}
+
+const WORD_BOUNDARY_RE = /[\s·•\-–—_/\\|,.;:!?()[\]{}"'“”‘’「」『』〈〉《》]/;
+
+/** True when a match starting at code-point `at` sits on a word boundary. */
+export function isWordStart(target: readonly string[], at: number): boolean {
+  if (at === 0) return true;
+  const prev = target[at - 1];
+  return prev !== undefined && WORD_BOUNDARY_RE.test(prev);
+}
+
+/**
  * Find the first progressive match of `query` inside `target`. Returns the
  * matched code-point range (for highlighting) or null. An empty query never
  * matches -- the caller decides what an empty search bar shows.
  */
-export function progressiveMatch(query: string, target: string): MatchRange | null {
+export function progressiveMatch(query: string, target: string, options: ProgressiveMatchOptions = {}): MatchRange | null {
   const q = Array.from(query.trim());
   if (q.length === 0) return null;
   const t = Array.from(target);
-  for (let at = 0; at + q.length <= t.length + 1 && at < t.length; at += 1) {
+  const mode = options.mode ?? 'anywhere';
+  const last = mode === 'prefix' ? 1 : t.length;
+  for (let at = 0; at + q.length <= t.length + 1 && at < last; at += 1) {
+    if (mode === 'word' && !isWordStart(t, at)) continue;
     const len = matchAt(q, t, at);
     if (len > 0) return { start: at, end: at + len };
   }

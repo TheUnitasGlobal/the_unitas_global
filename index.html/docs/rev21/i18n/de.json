@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Live-Weltrangliste",
+  "slots.worldRanking.tag": "Zwölf globale Themen – öffnen Sie eine Zeile für die Geschichte hinter dem Rang.",
+  "slots.unitasRanking.title": "Echtzeit-Unitas-Rangliste",
+  "slots.unitasRanking.tag": "Pseudonymer Aktivitätsindex über alle UNITAS-Module.",
+  "slots.facts.topRank": "Rang 1",
+  "slots.facts.rankedEntries": "gelistete Einträge",
+  "slots.facts.topOperator": "Top-Operator",
+  "slots.facts.moduleCount": "Module",
+  "hub.tabsAria": "Thema wählen",
+  "hub.swipeHint": "Nach links oder rechts wischen, um das Thema zu wechseln"
+}

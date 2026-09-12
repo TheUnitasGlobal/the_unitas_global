@@ -123,6 +123,8 @@ describe('mergeAxisWires', () => {
     const merged = mergeAxisWires([[mk('L1'), mk('L2')], [mk('B1')], [mk('G1'), mk('L1')]], 10);
     expect(merged.map((i) => i.title)).toEqual(['L1', 'B1', 'G1', 'L2']);
   });
+  // REV-21 §2.1: the routes hand the wires over global-first
+  // (lib/live/contextPriority.ts -- pinned in contextPriority.test.ts).
   it('honours the cap and tolerates empty wires', () => {
     const merged = mergeAxisWires([[mk('a'), mk('b'), mk('c')], [], [mk('d'), mk('e')]], 3);
     expect(merged).toHaveLength(3);

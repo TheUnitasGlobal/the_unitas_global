@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Canlı Dünya Sıralaması",
+  "slots.worldRanking.tag": "On iki küresel tema — sıranın arkasındaki hikâye için bir satırı açın.",
+  "slots.unitasRanking.title": "Gerçek Zamanlı Unitas Sıralaması",
+  "slots.unitasRanking.tag": "Tüm UNITAS modüllerinde takma adlı etkinlik endeksi.",
+  "slots.facts.topRank": "1. sıra",
+  "slots.facts.rankedEntries": "sıralanmış kayıt",
+  "slots.facts.topOperator": "Lider operatör",
+  "slots.facts.moduleCount": "modül",
+  "hub.tabsAria": "Tema seçin",
+  "hub.swipeHint": "Temayı değiştirmek için sola veya sağa kaydırın"
+}

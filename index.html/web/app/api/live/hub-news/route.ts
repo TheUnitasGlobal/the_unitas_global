@@ -4,6 +4,7 @@ import type { HotNewsItem } from '@/lib/live/hotNews';
 import { foldGoogleNews, mergeAxisWires, parseRss } from '@/lib/live/axisNews';
 import { HUB_THEME_AXIS, hubWireUrls, type HubNewsResponse } from '@/lib/live/hubNews';
 import { HUB_MODAL_ITEMS, hubThemeTerm, isHubThemeKey } from '@/lib/live/hubThemes';
+import { orderNewsWires } from '@/lib/live/contextPriority';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -37,8 +38,8 @@ async function fetchRss(url: string | null, signal: AbortSignal): Promise<string
  * REV-19 §8: the live hub's theme wire -- one plain own-language term per
  * theme on four keyless RSS legs (locale Google News, en-US Google News,
  * locale Bing News, en-US Bing News) racing under one 8s budget, merged
- * round-robin so the visitor's language leads but never monopolises, capped
- * to the deep modal's list length. Same fail-open posture as axis-news: a
+ * round-robin with the worldwide legs leading and the visitor's own
+ * language following (REV-21 §2.1), capped to the deep modal's list length. Same fail-open posture as axis-news: a
  * leg that errors or times out contributes nothing, and an empty answer is
  * `ok:false` with an empty list rather than an error page.
  */
@@ -70,7 +71,8 @@ export async function GET(request: Request) {
     const worldwide = globalXml ? foldGoogleNews(parseRss(globalXml), axis, 'en') : [];
     const bing = bingXml ? foldGoogleNews(parseRss(bingXml), axis, locale, 'bing') : [];
     const bingGlobal = bingGlobalXml ? foldGoogleNews(parseRss(bingGlobalXml), axis, 'en', 'bing') : [];
-    items = mergeAxisWires([own, bing, worldwide, bingGlobal], HUB_MODAL_ITEMS);
+    // REV-21 §2.1: worldwide legs lead, the selected country's legs follow.
+    items = mergeAxisWires(orderNewsWires({ worldwide, bingGlobal, own, bing }), HUB_MODAL_ITEMS);
   } finally {
     clearTimeout(timer);
   }

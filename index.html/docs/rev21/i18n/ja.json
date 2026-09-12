@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "リアルタイム世界ランキング",
+  "slots.worldRanking.tag": "12のグローバルテーマ — 行を開くと順位の背景がわかります。",
+  "slots.unitasRanking.title": "リアルタイム・ユニタスランキング",
+  "slots.unitasRanking.tag": "UNITAS全モジュールを横断する匿名アクティビティ指数。",
+  "slots.facts.topRank": "1位",
+  "slots.facts.rankedEntries": "ランキング項目",
+  "slots.facts.topOperator": "トップオペレーター",
+  "slots.facts.moduleCount": "モジュール",
+  "hub.tabsAria": "テーマを選択",
+  "hub.swipeHint": "左右にスワイプしてテーマを切り替え"
+}

@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "Đang nổi lên",
       "curiosity": "Thẻ khơi gợi tò mò",
-      "recent": "Tiếp tục khám phá",
       "signals": "Tín hiệu trực tiếp",
       "emptyHint": "Bắt đầu gõ — hoặc chọn một tia sáng bên dưới.",
-      "clearRecent": "Xóa",
       "ask": "Hỏi",
       "cards": {
         "c1": "Vì sao thành phố về đêm lại có cảm giác nhanh hơn?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "Khoảng cách",
         "nearbyCount": "Bài viết lân cận"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "Bảng Xếp Hạng Thế Giới Trực Tiếp",
+        "tag": "Mười hai chủ đề toàn cầu — mở một hàng để xem câu chuyện đằng sau thứ hạng."
+      },
+      "unitasRanking": {
+        "title": "Bảng Xếp Hạng Unitas Thời Gian Thực",
+        "tag": "Chỉ số hoạt động ẩn danh trên mọi mô-đun UNITAS."
+      },
+      "facts": {
+        "topRank": "Hạng 1",
+        "rankedEntries": "mục xếp hạng",
+        "topOperator": "Nhà vận hành hàng đầu",
+        "moduleCount": "mô-đun"
+      }
+    },
+    "hub": {
+      "tabsAria": "Chọn chủ đề",
+      "swipeHint": "Vuốt sang trái hoặc phải để đổi chủ đề"
     }
   }
 }

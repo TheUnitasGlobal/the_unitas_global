@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Мировой рейтинг в реальном времени",
+  "slots.worldRanking.tag": "Двенадцать глобальных тем — откройте строку, чтобы узнать историю места.",
+  "slots.unitasRanking.title": "Рейтинг Unitas в реальном времени",
+  "slots.unitasRanking.tag": "Псевдонимный индекс активности по всем модулям UNITAS.",
+  "slots.facts.topRank": "1-е место",
+  "slots.facts.rankedEntries": "позиций в рейтинге",
+  "slots.facts.topOperator": "Лучший оператор",
+  "slots.facts.moduleCount": "модулей",
+  "hub.tabsAria": "Выберите тему",
+  "hub.swipeHint": "Проведите влево или вправо, чтобы сменить тему"
+}

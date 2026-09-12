@@ -106,9 +106,13 @@ export function UaiDashboard({
       `${q} · ${t(`constitution.${surface.topConstitutionAxis}`)}`,
       `${q} · ${t(`constitution.${surface.redesignAxis}`)}`,
     ];
-    surface.web.sources.slice(0, 3).forEach((s) => {
-      if (s.title && s.title.toLowerCase() !== q.toLowerCase()) out.push(s.title);
-    });
+    // REV-21 §2.2: only own-language pages may become follow-up queries.
+    surface.web.sources
+      .filter((s) => s.origin !== 'wiki-en' && s.origin !== 'ddg' && s.origin !== 'searx' && (!s.lang || !surface.web.lang || s.lang === surface.web.lang))
+      .slice(0, 3)
+      .forEach((s) => {
+        if (s.title && s.title.toLowerCase() !== q.toLowerCase()) out.push(s.title);
+      });
     return Array.from(new Set(out)).slice(0, 5);
   }, [surface, t]);
 

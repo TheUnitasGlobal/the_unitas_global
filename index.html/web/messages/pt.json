@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "Em alta agora",
       "curiosity": "Cartões de curiosidade",
-      "recent": "Continue explorando",
       "signals": "Sinais ao vivo",
       "emptyHint": "Comece a digitar — ou escolha uma faísca abaixo.",
-      "clearRecent": "Limpar",
       "ask": "Perguntar",
       "cards": {
         "c1": "Por que uma cidade parece mais rápida à noite?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "Distância",
         "nearbyCount": "Artigos próximos"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "Ranking Mundial ao Vivo",
+        "tag": "Doze temas globais — abra uma linha para ver a história por trás da posição."
+      },
+      "unitasRanking": {
+        "title": "Ranking Unitas em Tempo Real",
+        "tag": "Índice de atividade pseudônimo em todos os módulos UNITAS."
+      },
+      "facts": {
+        "topRank": "1º lugar",
+        "rankedEntries": "entradas classificadas",
+        "topOperator": "Operador líder",
+        "moduleCount": "módulos"
+      }
+    },
+    "hub": {
+      "tabsAria": "Escolha um tema",
+      "swipeHint": "Deslize para a esquerda ou direita para mudar de tema"
     }
   }
 }

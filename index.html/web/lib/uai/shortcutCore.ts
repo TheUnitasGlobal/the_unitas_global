@@ -17,6 +17,10 @@ export interface KeywordChip {
   /** the query the next tier is seeded with when this chip is tapped. */
   query: string;
   kind: KeywordChipKind;
+  /** REV-21 §2.2: the entity behind an `entity` chip, when known -- so the
+   *  ladder follows the knowledge graph, not a bare string. */
+  qid?: string;
+  lang?: string;
 }
 
 /** Label resolvers the engine needs for locale-native chips -- passed in
@@ -29,8 +33,9 @@ export interface AnalyticsLabels {
 }
 
 /** Bump when the snapshot shape / synthesis maths change so a stale row is
- *  re-synthesized instead of re-served. */
-export const SHORTCUT_CACHE_VERSION = 'sc-v1';
+ *  re-synthesized instead of re-served. sc-v2 (REV-21 §2.2): entity-anchored
+ *  synthesis -- every sc-v1 row may carry same-label English strays. */
+export const SHORTCUT_CACHE_VERSION = 'sc-v2';
 
 /** The sovereign caching cadence: one background synthesis per tier per
  *  24h. Visitors are served the parked snapshot for the whole window. */
@@ -128,11 +133,21 @@ export function deriveKeywords(
     chips.push(chip);
   }
 
-  web.sources.slice(0, MAX_ENTITY_CHIPS + 2).forEach((source) => {
+  // REV-21 §2.2: entity chips come from the visitor's OWN-LANGUAGE pages
+  // only. A cross-language or meta-search row ('Signal (South Korean TV
+  // series)' from the old English pass, a DDG topic) must never seed the
+  // next tier -- that is how one homonym drifted into a whole ladder. The
+  // chip's query keeps the full page title (its parenthetical context);
+  // only the visible label is trimmed.
+  const ownLanguage = web.sources.filter((source) => {
+    if (source.origin === 'wiki-en' || source.origin === 'ddg' || source.origin === 'searx') return false;
+    return !source.lang || !web.lang || source.lang === web.lang;
+  });
+  ownLanguage.slice(0, MAX_ENTITY_CHIPS + 2).forEach((source) => {
     if (chips.length >= MAX_ENTITY_CHIPS) return;
     const label = source.title.replace(/\s*\(.*?\)\s*$/, '').trim().slice(0, 48);
     if (label.length < 2) return;
-    push({ label, query: label, kind: 'entity' });
+    push({ label, query: source.title.trim().slice(0, 96), kind: 'entity', qid: source.qid, lang: source.lang });
   });
 
   const axes: ConstitutionAxis[] = [

@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Classement mondial en direct",
+  "slots.worldRanking.tag": "Douze thèmes mondiaux — ouvrez une ligne pour l’histoire derrière le rang.",
+  "slots.unitasRanking.title": "Classement Unitas en temps réel",
+  "slots.unitasRanking.tag": "Indice d’activité pseudonyme sur l’ensemble des modules UNITAS.",
+  "slots.facts.topRank": "Rang 1",
+  "slots.facts.rankedEntries": "entrées classées",
+  "slots.facts.topOperator": "Opérateur en tête",
+  "slots.facts.moduleCount": "modules",
+  "hub.tabsAria": "Choisir un thème",
+  "hub.swipeHint": "Glissez vers la gauche ou la droite pour changer de thème"
+}

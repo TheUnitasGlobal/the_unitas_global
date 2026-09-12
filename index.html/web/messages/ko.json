@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "지금 뜨는 탐색",
       "curiosity": "호기심 카드",
-      "recent": "이어서 탐색",
       "signals": "실시간 신호",
       "emptyHint": "입력을 시작하거나, 아래 불씨를 골라 보세요.",
-      "clearRecent": "지우기",
       "ask": "질문",
       "cards": {
         "c1": "도시는 왜 밤에 더 빠르게 느껴질까?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "거리",
         "nearbyCount": "주변 문서 수"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "실시간 세계 랭킹",
+        "tag": "12개 글로벌 테마 — 행을 열면 순위 뒤의 이야기가 펼쳐집니다."
+      },
+      "unitasRanking": {
+        "title": "실시간 유니타스 랭킹",
+        "tag": "모든 UNITAS 모듈을 아우르는 가명 활동 지수."
+      },
+      "facts": {
+        "topRank": "1위",
+        "rankedEntries": "순위 항목",
+        "topOperator": "1위 운영자",
+        "moduleCount": "모듈"
+      }
+    },
+    "hub": {
+      "tabsAria": "테마 선택",
+      "swipeHint": "좌우로 밀어 테마를 바꾸세요"
     }
   }
 }

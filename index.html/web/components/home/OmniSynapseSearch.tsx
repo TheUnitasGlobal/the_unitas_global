@@ -2,6 +2,7 @@
 
 import {
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -26,7 +27,6 @@ import {
   Loader2,
   Flame,
   Compass,
-  History,
   Radio,
   Sparkles,
 } from 'lucide-react';
@@ -42,13 +42,7 @@ import { SovereignShield } from '@/components/system/SovereignShield';
 import { DialogTower } from '@/components/ui/DialogTower';
 import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 import { SEARCH_LAYER_IDS } from '@/lib/uai/searchLevels';
-import {
-  pickCuriosityCards,
-  pushRecent,
-  readRecentQueries,
-  risingSeeds,
-  writeRecentQueries,
-} from '@/lib/uai/discovery';
+import { pickCuriosityCards, purgeLegacyRecentQueries, risingSeeds } from '@/lib/uai/discovery';
 import { HUB_ROTATE_MS, HUB_THEMES, rotateIndex } from '@/lib/live/hubThemes';
 import { useHubHeadlines } from '@/lib/live/hubNewsClient';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
@@ -86,7 +80,21 @@ const QUERY_STORAGE_KEY = 'unitas.ouroboros.query.v1';
  *  intermediate shapes ('ㅅ' → '사' → '살') mostly never hit the network. */
 const LIVE_SUGGEST_DEBOUNCE_MS = 180;
 
+// useLayoutEffect has no server-side equivalent and React warns if it's
+// called during SSR; swap to the plain (async) useEffect there instead.
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
 type VisualAttachment = UaiImageAttachment & { id: string; label: string };
+
+/** Live-web rows tagged with the query they answer (REV-21 §5.2, SI-2): a
+ *  list that arrived for '임' must never be folded under '사' while the
+ *  next fetch is still in flight -- that stale merge is how an unrelated
+ *  keyword shows up under a fresh keystroke. */
+interface WebSuggestionBatch {
+  query: string;
+  list: LiveSuggestion[];
+}
+const EMPTY_WEB_BATCH: WebSuggestionBatch = { query: '', list: [] };
 
 /**
  * The OMNI-SYNAPSE search bar + live-typing hub + UNITAS ARCHITECT result
@@ -150,14 +158,12 @@ export function OmniSynapseSearch({
   const locale = useLocale();
   const { session } = useWallet();
 
-  const [value, setValue] = useState(() => {
-    if (typeof window === 'undefined') return '';
-    try {
-      return sessionStorage.getItem(QUERY_STORAGE_KEY) ?? '';
-    } catch {
-      return '';
-    }
-  });
+  // REV-21 §4.2 (R-4): the server always renders an empty bar, so the saved
+  // query is restored in a layout effect AFTER hydration -- a lazy useState
+  // initializer here would leave the DOM input at "" while React state held
+  // the saved text (React 18 does not assign `value` during hydration),
+  // i.e. a bar that looks empty but submits yesterday's query.
+  const [value, setValue] = useState('');
   const [focused, setFocused] = useState(false);
   /** REV-19 §3: the typing session (level 2). Starts on the first typed
    *  character, ends on a hand-emptied input or on the back gesture from
@@ -165,15 +171,15 @@ export function OmniSynapseSearch({
    *  which is what keeps the popup open at level 2. */
   const [typing, setTyping] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const [recent, setRecent] = useState<string[]>([]);
   const [clock, setClock] = useState(() => Date.now());
   const [dragActive, setDragActive] = useState(false);
   const [attachments, setAttachments] = useState<Array<{ id: string; label: string; content: string }>>([]);
   const [visualAttachments, setVisualAttachments] = useState<VisualAttachment[]>([]);
   const [attachError, setAttachError] = useState<string | null>(null);
   const [drawOpen, setDrawOpen] = useState(false);
-  const [webSuggestions, setWebSuggestions] = useState<LiveSuggestion[]>([]);
+  const [webSuggestions, setWebSuggestions] = useState<WebSuggestionBatch>(EMPTY_WEB_BATCH);
   const [suggestLoading, setSuggestLoading] = useState(false);
+  const restoredQueryRef = useRef(false);
   const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const videoInputRef = useRef<HTMLInputElement | null>(null);
@@ -191,7 +197,23 @@ export function OmniSynapseSearch({
   const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
   const VIDEO_CAPTURE_TIMEOUT_MS = 5000;
 
+  // Restore the saved query before first paint (same frame as hydration),
+  // then keep the store in sync. The ref keeps the first, empty `value`
+  // from overwriting the saved text before it has been read back.
+  useIsomorphicLayoutEffect(() => {
+    if (restoredQueryRef.current) return;
+    restoredQueryRef.current = true;
+    purgeLegacyRecentQueries();
+    try {
+      const saved = sessionStorage.getItem(QUERY_STORAGE_KEY);
+      if (saved) setValue(saved);
+    } catch {
+      // sessionStorage unavailable (private mode / disabled) -- non-fatal.
+    }
+  }, []);
+
   useEffect(() => {
+    if (!restoredQueryRef.current) return;
     try {
       sessionStorage.setItem(QUERY_STORAGE_KEY, value);
     } catch {
@@ -199,23 +221,6 @@ export function OmniSynapseSearch({
       // the ouroboros sync degrades to "not restored" rather than erroring.
     }
   }, [value]);
-
-  useEffect(() => {
-    setRecent(readRecentQueries());
-  }, []);
-
-  function rememberQuery(q: string) {
-    setRecent((prev) => {
-      const next = pushRecent(prev, q);
-      writeRecentQueries(next);
-      return next;
-    });
-  }
-
-  function clearRecent() {
-    setRecent([]);
-    writeRecentQueries([]);
-  }
 
   function addAttachment(label: string, content: string) {
     setAttachments((prev) => [...prev.slice(-3), { id: `${Date.now()}-${label}`, label, content }]);
@@ -418,8 +423,10 @@ export function OmniSynapseSearch({
 
   const localResults = useMemo(() => searchLiveIndex(liveIndex, query), [liveIndex, query]);
 
+  // Only a batch fetched for THIS query may merge (SI-2); anything else is
+  // the previous keystroke's answer still on its way out.
   const liveResults: LiveResult[] = useMemo(
-    () => mergeLiveResults(localResults, webSuggestions, query, t('liveWebCategory')),
+    () => mergeLiveResults(localResults, webSuggestions.query === query ? webSuggestions.list : [], query, t('liveWebCategory')),
     [localResults, webSuggestions, query, t],
   );
 
@@ -430,13 +437,13 @@ export function OmniSynapseSearch({
   const suggestActive = focused && query.length > 0 && uai.phase === 'idle';
   useEffect(() => {
     if (!suggestActive) {
-      setWebSuggestions([]);
+      setWebSuggestions(EMPTY_WEB_BATCH);
       setSuggestLoading(false);
       return;
     }
     const chars = Array.from(query);
     if (chars.every((c) => isChoseongJamo(c) || c === ' ')) {
-      setWebSuggestions([]);
+      setWebSuggestions(EMPTY_WEB_BATCH);
       setSuggestLoading(false);
       return;
     }
@@ -445,7 +452,7 @@ export function OmniSynapseSearch({
     const timer = setTimeout(() => {
       fetchLiveSuggestions(query, locale, controller.signal)
         .then((list) => {
-          if (!controller.signal.aborted) setWebSuggestions(list);
+          if (!controller.signal.aborted) setWebSuggestions({ query, list });
         })
         .finally(() => {
           if (!controller.signal.aborted) setSuggestLoading(false);
@@ -550,7 +557,6 @@ export function OmniSynapseSearch({
 
   function runSearch(query: string) {
     const context = attachments.map((a) => a.content).join(' ');
-    rememberQuery(query);
     uai.runSurface(query, { tEcosystems: (k) => tEcosystems(k), context });
   }
 
@@ -876,39 +882,10 @@ export function OmniSynapseSearch({
               )}
             </section>
 
-            {/* REV-20 §4.4: live signals + curiosity cards are gone from the
-                typing dropdown (founder directive) -- they now inject into
-                the post-submit fullscreen stream instead (§5, below). Only
-                the visitor's own recent trail stays here. */}
-            {recent.length > 0 && (
-              <section data-discovery="recent">
-                <p className="qw-discovery-label">
-                  <History size={15} aria-hidden="true" />
-                  {tRev('search.recent')}
-                  <button
-                    type="button"
-                    onClick={clearRecent}
-                    className="ml-auto text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500 hover:text-accent"
-                  >
-                    {tRev('search.clearRecent')}
-                  </button>
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {recent.map((q) => (
-                    <button
-                      key={q}
-                      type="button"
-                      className="qw-discovery-chip"
-                      onMouseEnter={() => playHoverSfx()}
-                      onClick={() => runFollowupQuery(q)}
-                    >
-                      <History size={13} className="text-gray-500" aria-hidden="true" />
-                      <span className="truncate">{q}</span>
-                    </button>
-                  ))}
-                </div>
-              </section>
-            )}
+            {/* REV-20 §4.4 moved live signals + curiosity cards into the
+                post-submit stream; REV-21 §5.2 retired the visitor's recent
+                trail ("이어서 탐색") for good. While typing, the dropdown is
+                the live keyword list above and nothing else. */}
           </motion.div>
       )}
 

@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Live Wereldranglijst",
+  "slots.worldRanking.tag": "Twaalf wereldwijde thema’s — open een rij voor het verhaal achter de positie.",
+  "slots.unitasRanking.title": "Realtime Unitas-ranglijst",
+  "slots.unitasRanking.tag": "Pseudonieme activiteitsindex over alle UNITAS-modules.",
+  "slots.facts.topRank": "Plaats 1",
+  "slots.facts.rankedEntries": "gerangschikte items",
+  "slots.facts.topOperator": "Topoperator",
+  "slots.facts.moduleCount": "modules",
+  "hub.tabsAria": "Kies een thema",
+  "hub.swipeHint": "Veeg naar links of rechts om van thema te wisselen"
+}

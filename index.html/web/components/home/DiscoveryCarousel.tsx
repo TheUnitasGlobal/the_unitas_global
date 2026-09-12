@@ -10,11 +10,14 @@ import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
 import { DiscoveryLinks } from '@/components/home/DiscoveryLinks';
 import { useHubHeadlines } from '@/lib/live/hubNewsClient';
 import { HUB_MODAL_ITEMS, HUB_MODAL_REFRESH_MS, HUB_ROTATE_MS, findHubTheme, isHubThemeKey } from '@/lib/live/hubThemes';
+import { slotCacheKey } from '@/lib/live/slotContext';
+import { useSlotContext } from '@/lib/live/useSlotContext';
 import {
   DISCOVERY_SLOTS,
   discoverySlotAt,
   slotTtlMs,
   type SlotCard,
+  type SlotContext,
   type SlotKey,
 } from '@/lib/live/discoverySlots';
 
@@ -34,8 +37,11 @@ import {
 
 /** Session-scoped, module-level so a slot revisited within its TTL (even
  *  across a close/reopen of the search popup) renders instantly -- same
- *  "초지능 캐싱" contract as hubNewsClient.ts's own cache. */
-const cardCache = new Map<SlotKey, { card: SlotCard; at: number }>();
+ *  "초지능 캐싱" contract as hubNewsClient.ts's own cache. REV-21 §2.1
+ *  (L1-04): keyed on `locale:country:slot` (slotCacheKey), never on the slot
+ *  alone -- a language switch must re-render that language's data at once,
+ *  not serve the previous locale's card until the TTL runs out. */
+const cardCache = new Map<string, { card: SlotCard; at: number }>();
 
 function slotTitleKey(key: SlotKey): string {
   return isHubThemeKey(key) ? `Rev19.hub.themes.${key}.title` : `Rev20.slots.${key}.title`;
@@ -49,6 +55,7 @@ export function DiscoveryCarousel() {
   const tHub = useTranslations('Rev19.hub');
   const tSlots = useTranslations('Rev20.slots');
   const locale = useLocale();
+  const ctx = useSlotContext();
   const { playHoverSfx } = useSpatialAudio();
 
   const [held, setHeld] = useState<SlotKey | null>(null);
@@ -69,29 +76,33 @@ export function DiscoveryCarousel() {
     return () => window.clearInterval(id);
   }, [held]);
 
-  // Load the active slot's card, honouring its per-kind TTL cache.
+  // Load the active slot's card, honouring its per-kind TTL cache (keyed on
+  // locale + country + slot, so a language switch never shows stale text).
   useEffect(() => {
     let cancelled = false;
-    const cached = cardCache.get(activeKey);
+    const controller = new AbortController();
+    const cacheKey = slotCacheKey(ctx, activeKey);
+    const cached = cardCache.get(cacheKey);
     const ttl = slotTtlMs(activeSlot.kind);
     if (cached && Date.now() - cached.at < ttl) {
       setCard(cached.card);
       setCardLoading(false);
     } else {
       setCardLoading(!cached);
-      if (cached) setCard(cached.card);
-      void activeSlot.load({ locale }).then((next) => {
+      setCard(cached ? cached.card : null);
+      void activeSlot.load({ ...ctx, signal: controller.signal }).then((next) => {
         if (cancelled) return;
-        cardCache.set(activeKey, { card: next, at: Date.now() });
+        cardCache.set(cacheKey, { card: next, at: Date.now() });
         setCard(next);
         setCardLoading(false);
       });
     }
     return () => {
       cancelled = true;
+      controller.abort();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeKey, locale]);
+  }, [activeKey, ctx]);
 
   // Keep the active chip scrolled into view -- 22 chips reliably overflow.
   useEffect(() => {
@@ -229,7 +240,7 @@ export function DiscoveryCarousel() {
         </p>
       </div>
 
-      <SlotDeepModal slotKey={openKey} onClose={() => setOpenKey(null)} />
+      <SlotDeepModal slotKey={openKey} ctx={ctx} onClose={() => setOpenKey(null)} />
     </div>
   );
 }
@@ -244,8 +255,7 @@ export function DiscoveryCarousel() {
  *  toggles, per-kind) rather than an if/else branch returning different JSX
  *  -- so closing one plays `Modal`'s own exit transition instead of an
  *  abrupt unmount, matching every other modal in this codebase. */
-function SlotDeepModal({ slotKey, onClose }: { slotKey: SlotKey | null; onClose: () => void }) {
-  const locale = useLocale();
+function SlotDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx: SlotContext; onClose: () => void }) {
   return (
     <>
       <Modal open={slotKey === 'weather'} onClose={onClose} labelledBy="slot-weather-title" size="xl">
@@ -259,7 +269,7 @@ function SlotDeepModal({ slotKey, onClose }: { slotKey: SlotKey | null; onClose:
         </div>
       </Modal>
       <NewsDeepModal slotKey={slotKey} onClose={onClose} />
-      <FeedDeepModal slotKey={slotKey} locale={locale} onClose={onClose} />
+      <FeedDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
     </>
   );
 }
@@ -361,9 +371,10 @@ function NewsDeepModal({ slotKey, onClose }: { slotKey: SlotKey | null; onClose:
   );
 }
 
-function FeedDeepModal({ slotKey, locale, onClose }: { slotKey: SlotKey | null; locale: string; onClose: () => void }) {
+function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx: SlotContext; onClose: () => void }) {
   const t = useTranslations();
   const tHub = useTranslations('Rev19.hub');
+  const locale = ctx.locale;
   const { playHoverSfx } = useSpatialAudio();
   const [card, setCard] = useState<SlotCard | null>(null);
   const [loading, setLoading] = useState(true);
@@ -375,17 +386,19 @@ function FeedDeepModal({ slotKey, locale, onClose }: { slotKey: SlotKey | null; 
     // data here as well, purely to fill a modal that must stay closed.
     if (!slot || slot.kind !== 'feed') return;
     let cancelled = false;
+    const controller = new AbortController();
     setLoading(true);
-    void slot.load({ locale }).then((next) => {
+    void slot.load({ ...ctx, signal: controller.signal }).then((next) => {
       if (cancelled) return;
-      cardCache.set(slotKey, { card: next, at: Date.now() });
+      cardCache.set(slotCacheKey(ctx, slotKey), { card: next, at: Date.now() });
       setCard(next);
       setLoading(false);
     });
     return () => {
       cancelled = true;
+      controller.abort();
     };
-  }, [slotKey, locale]);
+  }, [slotKey, ctx]);
 
   // DISCOVERY_SLOTS holds all 22 slots -- weather and the nine news themes
   // included -- so an unfiltered lookup opened THIS modal on top of the

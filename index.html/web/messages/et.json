@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "Praegu tõusuteel",
       "curiosity": "Uudishimukaardid",
-      "recent": "Jätka avastamist",
       "signals": "Otsesignaalid",
       "emptyHint": "Hakka kirjutama — või vali säde allpool.",
-      "clearRecent": "Tühjenda",
       "ask": "Küsi",
       "cards": {
         "c1": "Miks tundub linn öösel kiirem?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "Kaugus",
         "nearbyCount": "Lähedalasuvad artiklid"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "Otsepilt: Maailma Edetabel",
+        "tag": "Kaksteist globaalset teemat — ava rida, et näha koha tagamaad."
+      },
+      "unitasRanking": {
+        "title": "Reaalajas Unitase Edetabel",
+        "tag": "Pseudonüümne aktiivsusindeks üle kõigi UNITASe moodulite."
+      },
+      "facts": {
+        "topRank": "1. koht",
+        "rankedEntries": "pingerea kirjet",
+        "topOperator": "Tippoperaator",
+        "moduleCount": "moodulit"
+      }
+    },
+    "hub": {
+      "tabsAria": "Vali teema",
+      "swipeHint": "Teema vahetamiseks libista vasakule või paremale"
     }
   }
 }

@@ -73,11 +73,31 @@ export interface ConstitutionScore {
   band: Band;
 }
 
+/** Which keyless engine a source came from (REV-21 §3.2 source attribution
+ *  and §2.2 language gating). `wiki` = the visitor's own-language Wikipedia,
+ *  `wiki-en` = the English Wikipedia reached through the entity anchor. */
+export type WebSourceOrigin = 'wiki' | 'wiki-en' | 'wikidata' | 'ddg' | 'searx';
+
 /** One real online reference folded into the free-tier synthesis. */
 export interface WebSource {
   title: string;
   url: string;
   snippet: string;
+  /** Language of the page (`ko`, `en`, ...). Optional for pre-REV-21 rows. */
+  lang?: string;
+  /** Wikidata item when known -- the entity, not the string. */
+  qid?: string;
+  origin?: WebSourceOrigin;
+}
+
+/** REV-21 §2.2: the resolved entity every cross-language leg was anchored
+ *  on. Absent when the locale wiki had no hit (the pass then ran on the
+ *  locale wiki only -- never on a raw-string English search). */
+export interface WebAnchor {
+  qid?: string;
+  localeTitle: string;
+  enTitle?: string;
+  disambiguation: boolean;
 }
 
 /**
@@ -92,6 +112,12 @@ export interface WebSynthesis {
   sources: WebSource[];
   /** concatenated, control-stripped excerpt text fed into the heuristics. */
   digest: string;
+  /** REV-21 §2.2: the entity-safe subset of `digest` -- own-language wiki
+   *  summaries + the anchored English summary only. This is what the LLM
+   *  grounding context and the English lexicon read; never DDG topics or
+   *  same-label Wikidata strays. */
+  grounding?: string;
+  anchor?: WebAnchor;
   lang: string | null;
   fetchedAt: number;
 }

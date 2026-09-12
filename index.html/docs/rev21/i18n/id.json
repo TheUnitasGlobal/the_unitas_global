@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Peringkat Dunia Langsung",
+  "slots.worldRanking.tag": "Dua belas tema global — buka satu baris untuk kisah di balik peringkatnya.",
+  "slots.unitasRanking.title": "Peringkat Unitas Real-Time",
+  "slots.unitasRanking.tag": "Indeks aktivitas anonim di seluruh modul UNITAS.",
+  "slots.facts.topRank": "Peringkat 1",
+  "slots.facts.rankedEntries": "entri berperingkat",
+  "slots.facts.topOperator": "Operator teratas",
+  "slots.facts.moduleCount": "modul",
+  "hub.tabsAria": "Pilih tema",
+  "hub.swipeHint": "Geser ke kiri atau kanan untuk mengganti tema"
+}

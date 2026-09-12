@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "Gerade im Trend",
       "curiosity": "Neugier-Karten",
-      "recent": "Erkundung fortsetzen",
       "signals": "Live-Signale",
       "emptyHint": "Beginnen Sie zu tippen — oder wählen Sie unten einen Funken.",
-      "clearRecent": "Löschen",
       "ask": "Fragen",
       "cards": {
         "c1": "Warum wirkt eine Stadt nachts schneller?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "Entfernung",
         "nearbyCount": "Artikel in der Nähe"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "Live-Weltrangliste",
+        "tag": "Zwölf globale Themen – öffnen Sie eine Zeile für die Geschichte hinter dem Rang."
+      },
+      "unitasRanking": {
+        "title": "Echtzeit-Unitas-Rangliste",
+        "tag": "Pseudonymer Aktivitätsindex über alle UNITAS-Module."
+      },
+      "facts": {
+        "topRank": "Rang 1",
+        "rankedEntries": "gelistete Einträge",
+        "topOperator": "Top-Operator",
+        "moduleCount": "Module"
+      }
+    },
+    "hub": {
+      "tabsAria": "Thema wählen",
+      "swipeHint": "Nach links oder rechts wischen, um das Thema zu wechseln"
     }
   }
 }

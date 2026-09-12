@@ -10,6 +10,7 @@ import {
   mergeAxisWires,
   parseRss,
 } from '@/lib/live/axisNews';
+import { orderNewsWires } from '@/lib/live/contextPriority';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -124,9 +125,9 @@ export async function GET(request: Request) {
     stats.googleGlobal.items = worldwide.length;
     stats.bing.items = bing.length;
     stats.bingGlobal.items = bingGlobal.length;
-    // Own-language legs lead (the locale's Google edition and Bing market),
-    // the worldwide legs follow.
-    items = mergeAxisWires([board, bing, worldwide, bingGlobal]);
+    // REV-21 §2.1: the worldwide legs lead, the selected country's own
+    // Google edition and Bing market follow (lib/live/contextPriority.ts).
+    items = mergeAxisWires(orderNewsWires({ worldwide, bingGlobal, own: board, bing }));
   } finally {
     clearTimeout(timer);
   }

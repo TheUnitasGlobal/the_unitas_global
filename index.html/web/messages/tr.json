@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "Şu an yükselenler",
       "curiosity": "Merak kartları",
-      "recent": "Keşfetmeye devam et",
       "signals": "Canlı sinyaller",
       "emptyHint": "Yazmaya başlayın — ya da aşağıdan bir kıvılcım seçin.",
-      "clearRecent": "Temizle",
       "ask": "Sor",
       "cards": {
         "c1": "Bir şehir geceleri neden daha hızlı hissettirir?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "Mesafe",
         "nearbyCount": "Yakındaki makaleler"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "Canlı Dünya Sıralaması",
+        "tag": "On iki küresel tema — sıranın arkasındaki hikâye için bir satırı açın."
+      },
+      "unitasRanking": {
+        "title": "Gerçek Zamanlı Unitas Sıralaması",
+        "tag": "Tüm UNITAS modüllerinde takma adlı etkinlik endeksi."
+      },
+      "facts": {
+        "topRank": "1. sıra",
+        "rankedEntries": "sıralanmış kayıt",
+        "topOperator": "Lider operatör",
+        "moduleCount": "modül"
+      }
+    },
+    "hub": {
+      "tabsAria": "Tema seçin",
+      "swipeHint": "Temayı değiştirmek için sola veya sağa kaydırın"
     }
   }
 }

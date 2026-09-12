@@ -112,8 +112,12 @@ export function analyzeSurface(
   const trimmed = query.trim();
   const digest = web.digest ?? '';
   // The live web digest joins the haystack, so every score below reflects the
-  // real online material -- not just the raw query.
-  const haystack = `${trimmed} ${context} ${digest}`.trim();
+  // real online material -- not just the raw query. REV-21 §2.2: when the
+  // synthesis carries an entity-safe `grounding` slab, the English lexicon
+  // reads THAT (own-language summaries + the anchored English summary), so
+  // a same-label stray can no longer tilt an axis.
+  const lexiconText = web.grounding !== undefined ? web.grounding : digest;
+  const haystack = `${trimmed} ${context} ${lexiconText}`.trim();
   const lower = haystack.toLowerCase();
   const wordCount = trimmed ? trimmed.split(/\s+/).filter(Boolean).length : 0;
   const digestWords = digest ? digest.split(/\s+/).filter(Boolean).length : 0;
@@ -155,7 +159,7 @@ export function analyzeSurface(
   // fingerprint (so non-English queries still decompose distinctly) + a bonus
   // when the axis is actually attested in the live web digest.
   const seed = hashString(trimmed.toLowerCase() || 'unitas');
-  const digestLower = digest.toLowerCase();
+  const digestLower = lexiconText.toLowerCase();
   const rawConstitution = CONSTITUTION_AXES.map((axis) => {
     const hits = countMatches(lower, CONSTITUTION_LEXICON[axis]);
     const digestHits = digestLower ? countMatches(digestLower, CONSTITUTION_LEXICON[axis]) : 0;

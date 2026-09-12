@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "อันดับโลกแบบเรียลไทม์",
+  "slots.worldRanking.tag": "สิบสองธีมระดับโลก — เปิดแถวเพื่อดูเรื่องราวเบื้องหลังอันดับ",
+  "slots.unitasRanking.title": "อันดับ Unitas แบบเรียลไทม์",
+  "slots.unitasRanking.tag": "ดัชนีกิจกรรมแบบนามแฝงครอบคลุมทุกโมดูล UNITAS",
+  "slots.facts.topRank": "อันดับ 1",
+  "slots.facts.rankedEntries": "รายการจัดอันดับ",
+  "slots.facts.topOperator": "ผู้ดำเนินการอันดับสูงสุด",
+  "slots.facts.moduleCount": "โมดูล",
+  "hub.tabsAria": "เลือกธีม",
+  "hub.swipeHint": "ปัดซ้ายหรือขวาเพื่อเปลี่ยนธีม"
+}

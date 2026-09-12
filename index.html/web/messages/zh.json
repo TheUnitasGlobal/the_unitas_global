@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "飙升中",
       "curiosity": "好奇心卡片",
-      "recent": "继续探索",
       "signals": "实时信号",
       "emptyHint": "开始输入,或在下方选一个灵感。",
-      "clearRecent": "清除",
       "ask": "提问",
       "cards": {
         "c1": "为什么城市在夜晚感觉更快?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "距离",
         "nearbyCount": "附近文章数"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "实时世界排行榜",
+        "tag": "十二个全球主题——打开一行，看看排名背后的故事。"
+      },
+      "unitasRanking": {
+        "title": "实时Unitas排行榜",
+        "tag": "覆盖所有 UNITAS 模块的匿名活跃度指数。"
+      },
+      "facts": {
+        "topRank": "第1名",
+        "rankedEntries": "排名条目",
+        "topOperator": "顶级运营者",
+        "moduleCount": "个模块"
+      }
+    },
+    "hub": {
+      "tabsAria": "选择主题",
+      "swipeHint": "左右滑动切换主题"
     }
   }
 }

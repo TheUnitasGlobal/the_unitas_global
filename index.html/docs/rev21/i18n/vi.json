@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Bảng Xếp Hạng Thế Giới Trực Tiếp",
+  "slots.worldRanking.tag": "Mười hai chủ đề toàn cầu — mở một hàng để xem câu chuyện đằng sau thứ hạng.",
+  "slots.unitasRanking.title": "Bảng Xếp Hạng Unitas Thời Gian Thực",
+  "slots.unitasRanking.tag": "Chỉ số hoạt động ẩn danh trên mọi mô-đun UNITAS.",
+  "slots.facts.topRank": "Hạng 1",
+  "slots.facts.rankedEntries": "mục xếp hạng",
+  "slots.facts.topOperator": "Nhà vận hành hàng đầu",
+  "slots.facts.moduleCount": "mô-đun",
+  "hub.tabsAria": "Chọn chủ đề",
+  "hub.swipeHint": "Vuốt sang trái hoặc phải để đổi chủ đề"
+}

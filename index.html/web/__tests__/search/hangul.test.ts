@@ -41,6 +41,27 @@ describe('hangul progressive matcher', () => {
     expect(splitHighlight('법', '헌법 개정')).toEqual(['헌', '법', ' 개정']);
   });
 
+  // REV-21 §5.2: ranking candidates must match at a word start, so a single
+  // syllable cannot surface an entry because it sits inside another word.
+  it("'word' mode only matches at offset 0 or after a word boundary", () => {
+    expect(progressiveMatch('사', '부동산 사기', { mode: 'word' })).toEqual({ start: 4, end: 5 });
+    expect(progressiveMatch('사', '매칭 (사람)', { mode: 'word' })).toEqual({ start: 4, end: 5 });
+    // '서사' (narrative) contains '사' mid-word -- not a word-mode hit.
+    expect(progressiveMatch('사', '영화 서사', { mode: 'word' })).toBeNull();
+    // '살아' inside '함께 살아가는' is fine only because it starts a word.
+    expect(progressiveMatch('사', '함께 살아가는', { mode: 'word' })).toEqual({ start: 3, end: 4 });
+    expect(progressiveMatch('ㅅ', '스포츠', { mode: 'word' })).toEqual({ start: 0, end: 1 });
+    expect(progressiveMatch('rent', 'Real-time Rental Market', { mode: 'word' })).toEqual({ start: 10, end: 14 });
+    expect(progressiveMatch('ime', 'Real-time Rental Market', { mode: 'word' })).toBeNull();
+  });
+
+  it("'prefix' mode only matches at offset 0", () => {
+    expect(progressiveMatch('사', '사회', { mode: 'prefix' })).toEqual({ start: 0, end: 1 });
+    expect(progressiveMatch('사', '부동산 사기', { mode: 'prefix' })).toBeNull();
+    expect(progressiveMatch('uni', 'UNITAS', { mode: 'prefix' })).toEqual({ start: 0, end: 3 });
+    expect(progressiveMatch('uni', 'The UNITAS', { mode: 'prefix' })).toBeNull();
+  });
+
   it('falls back to case-insensitive substring for non-Hangul text', () => {
     expect(progressiveMatch('uni', 'The UNITAS Global')).toEqual({ start: 4, end: 7 });
     expect(progressiveMatch('xyz', 'The UNITAS Global')).toBeNull();

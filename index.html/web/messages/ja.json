@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "急上昇",
       "curiosity": "好奇心カード",
-      "recent": "探索を続ける",
       "signals": "ライブシグナル",
       "emptyHint": "入力を始めるか、下のひらめきをひとつ選んでください。",
-      "clearRecent": "クリア",
       "ask": "質問",
       "cards": {
         "c1": "都市は、なぜ夜のほうが速く感じるのだろう？",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "距離",
         "nearbyCount": "近くの記事数"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "リアルタイム世界ランキング",
+        "tag": "12のグローバルテーマ — 行を開くと順位の背景がわかります。"
+      },
+      "unitasRanking": {
+        "title": "リアルタイム・ユニタスランキング",
+        "tag": "UNITAS全モジュールを横断する匿名アクティビティ指数。"
+      },
+      "facts": {
+        "topRank": "1位",
+        "rankedEntries": "ランキング項目",
+        "topOperator": "トップオペレーター",
+        "moduleCount": "モジュール"
+      }
+    },
+    "hub": {
+      "tabsAria": "テーマを選択",
+      "swipeHint": "左右にスワイプしてテーマを切り替え"
     }
   }
 }

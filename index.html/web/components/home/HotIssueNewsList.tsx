@@ -84,6 +84,9 @@ export function HotIssueNewsList() {
       return;
     }
     const controller = new AbortController();
+    // REV-21 §2.1: never show the previous locale's board while the new one
+    // loads -- a language switch must re-render that language's data.
+    setData(hit?.data ?? null);
     setLoading(true);
     setFailed(false);
     fetch(`/api/live/hot-news?locale=${encodeURIComponent(locale)}`, {

@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Live World Rankings",
+  "slots.worldRanking.tag": "Twelve global themes — open a row for the story behind the rank.",
+  "slots.unitasRanking.title": "Real-Time Unitas Rankings",
+  "slots.unitasRanking.tag": "Pseudonymous activity index across every UNITAS module.",
+  "slots.facts.topRank": "Rank 1",
+  "slots.facts.rankedEntries": "ranked entries",
+  "slots.facts.topOperator": "Top operator",
+  "slots.facts.moduleCount": "modules",
+  "hub.tabsAria": "Choose a theme",
+  "hub.swipeHint": "Swipe left or right to change theme"
+}

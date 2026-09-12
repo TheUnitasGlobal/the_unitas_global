@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "Umuusbong ngayon",
       "curiosity": "Mga kard ng kuryusidad",
-      "recent": "Ipagpatuloy ang paggalugad",
       "signals": "Live na senyales",
       "emptyHint": "Simulan ang pag-type — o pumili ng kislap sa ibaba.",
-      "clearRecent": "Burahin",
       "ask": "Tanungin",
       "cards": {
         "c1": "Bakit parang mas mabilis ang isang lungsod kapag gabi na?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "Distansya",
         "nearbyCount": "Mga Kalapit na Artikulo"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "Live na Pandaigdigang Ranggo",
+        "tag": "Labindalawang pandaigdigang tema — buksan ang isang hilera para sa kuwento sa likod ng ranggo."
+      },
+      "unitasRanking": {
+        "title": "Real-Time na Ranggo ng Unitas",
+        "tag": "Pseudonymous na indeks ng aktibidad sa lahat ng UNITAS module."
+      },
+      "facts": {
+        "topRank": "Ranggo 1",
+        "rankedEntries": "nirangkong entry",
+        "topOperator": "Nangungunang operator",
+        "moduleCount": "module"
+      }
+    },
+    "hub": {
+      "tabsAria": "Pumili ng tema",
+      "swipeHint": "Mag-swipe pakaliwa o pakanan para magpalit ng tema"
     }
   }
 }

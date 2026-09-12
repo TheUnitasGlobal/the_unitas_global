@@ -17,6 +17,7 @@ import {
 import { useShortcutFeed } from '@/lib/uai/useShortcutFeed';
 import { loadShortcutAnalysis } from '@/lib/uai/shortcutCacheClient';
 import type { AnalyticsLabels, ShortcutAnalysis } from '@/lib/uai/shortcutAnalytics';
+import { formatSourceName, sourceNameOf } from '@/lib/uai/sourceName';
 import type { ConstitutionAxis, ConstitutionRedesignReport, LensKey } from '@/lib/uai/types';
 
 interface HotShortcutResultModalProps {
@@ -511,6 +512,10 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onFocusTier, onHo
                       <span className="line-clamp-2">
                         <span className="font-bold" style={{ color: tier.color }}>
                           {source.title}
+                        </span>
+                        {/* REV-21 §3.2: the engine's real name, from the URL. */}
+                        <span className="ml-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500" data-source-origin>
+                          {formatSourceName(sourceNameOf(source.url))}
                         </span>
                         {source.snippet && <span className="text-gray-400"> — {source.snippet.slice(0, 160)}</span>}
                       </span>

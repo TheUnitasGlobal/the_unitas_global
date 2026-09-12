@@ -1,0 +1,12 @@
+{
+  "slots.worldRanking.title": "Otsepilt: Maailma Edetabel",
+  "slots.worldRanking.tag": "Kaksteist globaalset teemat — ava rida, et näha koha tagamaad.",
+  "slots.unitasRanking.title": "Reaalajas Unitase Edetabel",
+  "slots.unitasRanking.tag": "Pseudonüümne aktiivsusindeks üle kõigi UNITASe moodulite.",
+  "slots.facts.topRank": "1. koht",
+  "slots.facts.rankedEntries": "pingerea kirjet",
+  "slots.facts.topOperator": "Tippoperaator",
+  "slots.facts.moduleCount": "moodulit",
+  "hub.tabsAria": "Vali teema",
+  "hub.swipeHint": "Teema vahetamiseks libista vasakule või paremale"
+}

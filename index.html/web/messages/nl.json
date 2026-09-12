@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "Nu in opkomst",
       "curiosity": "Nieuwsgierigheidskaarten",
-      "recent": "Blijf verkennen",
       "signals": "Live signalen",
       "emptyHint": "Begin met typen — of kies hieronder een vonk.",
-      "clearRecent": "Wissen",
       "ask": "Vraag",
       "cards": {
         "c1": "Waarom voelt een stad 's nachts sneller aan?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "Afstand",
         "nearbyCount": "Artikelen in de buurt"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "Live Wereldranglijst",
+        "tag": "Twaalf wereldwijde thema’s — open een rij voor het verhaal achter de positie."
+      },
+      "unitasRanking": {
+        "title": "Realtime Unitas-ranglijst",
+        "tag": "Pseudonieme activiteitsindex over alle UNITAS-modules."
+      },
+      "facts": {
+        "topRank": "Plaats 1",
+        "rankedEntries": "gerangschikte items",
+        "topOperator": "Topoperator",
+        "moduleCount": "modules"
+      }
+    },
+    "hub": {
+      "tabsAria": "Kies een thema",
+      "swipeHint": "Veeg naar links of rechts om van thema te wisselen"
     }
   }
 }

@@ -1865,10 +1865,8 @@
     "search": {
       "trending": "Sedang naik",
       "curiosity": "Kartu rasa ingin tahu",
-      "recent": "Lanjutkan menjelajah",
       "signals": "Sinyal langsung",
       "emptyHint": "Mulai mengetik — atau pilih percikan di bawah.",
-      "clearRecent": "Hapus",
       "ask": "Tanya",
       "cards": {
         "c1": "Mengapa kota terasa lebih cepat di malam hari?",
@@ -2001,6 +1999,28 @@
         "nearbyDist": "Jarak",
         "nearbyCount": "Artikel di Sekitar"
       }
+    }
+  },
+  "Rev21": {
+    "slots": {
+      "worldRanking": {
+        "title": "Peringkat Dunia Langsung",
+        "tag": "Dua belas tema global — buka satu baris untuk kisah di balik peringkatnya."
+      },
+      "unitasRanking": {
+        "title": "Peringkat Unitas Real-Time",
+        "tag": "Indeks aktivitas anonim di seluruh modul UNITAS."
+      },
+      "facts": {
+        "topRank": "Peringkat 1",
+        "rankedEntries": "entri berperingkat",
+        "topOperator": "Operator teratas",
+        "moduleCount": "modul"
+      }
+    },
+    "hub": {
+      "tabsAria": "Pilih tema",
+      "swipeHint": "Geser ke kiri atau kanan untuk mengganti tema"
     }
   }
 }
