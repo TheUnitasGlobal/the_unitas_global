@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { ChevronDown, ExternalLink, Flame, LayoutGrid, Loader2, Newspaper, Radio, RefreshCw, TrendingUp } from 'lucide-react';
 import {
@@ -13,6 +13,7 @@ import {
 import { HOT_NEWS_AXES } from '@/lib/live/hotNewsAxes';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
+import { useDragScroll } from '@/components/ui/useDragScroll';
 
 /** Per-locale in-memory cache: a tab flick back and forth must not refetch. */
 const CLIENT_TTL_MS = 10 * 60 * 1000;
@@ -62,14 +63,23 @@ function relativeTime(iso: string | undefined, locale: string): string | null {
  * spec as the two ranking widgets directly above, so the three rows read as
  * one system. "전체" shows the Wikimedia featured feed; tapping an axis
  * keeps that feed's own matches on top and then streams the worldwide live
- * wire for the axis beneath (GET /api/live/axis-news: the locale's Google
- * News board/search + Bing News market, then the en-US legs of both), paged
- * back through the archive endlessly via "더 불러오기". 0원 throughout.
+ * wire for the axis beneath (GET /api/live/axis-news: the worldwide legs
+ * first, then the locale's own -- REV-21 §2.1), paged back through the
+ * archive endlessly via "더 불러오기". 0원 throughout.
+ *
+ * REV-21 §1.2 / §1.4: the headline boxes are one horizontal snap rail with
+ * mouse grab-drag (touch keeps native momentum) -- the same physics as the
+ * discovery carousel's chip rail -- and the axis chips share the carousel's
+ * `.qw-hub-chip` language so the two rows read as one system. A headline
+ * click goes straight to the article (§1.4: news never opens a primary
+ * popup); "더 불러오기" is the rail's last card.
  */
 export function HotIssueNewsList() {
   const t = useTranslations('HotNews');
   const locale = useLocale();
   const { playHoverSfx } = useSpatialAudio();
+  const railRef = useRef<HTMLUListElement>(null);
+  const { handlers: railHandlers } = useDragScroll(railRef);
   const [data, setData] = useState<HotNewsResponse | null>(() => cache.get(locale)?.data ?? null);
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -200,13 +210,6 @@ export function HotIssueNewsList() {
     }
   }
 
-  /** Box + typography spec shared 1:1 with GlobalThemeRankings /
-   *  UnitasModuleRankings chips (owner instruction 2026-09-04 round 6:
-   *  "박스/글자 크기와 100% 동일"). */
-  const chipBase =
-    'flex shrink-0 items-center gap-2.5 border px-4 py-3 text-left transition-colors hover:border-white/30';
-  const chipText = 'whitespace-nowrap text-[13px] font-bold uppercase tracking-widest sm:text-[15px]';
-
   function renderBadge(it: HotNewsItem) {
     if (it.source === 'live') {
       return (
@@ -236,25 +239,30 @@ export function HotIssueNewsList() {
     const stamp = relativeTime(it.publishedAt, locale);
     const meta = [it.domain, stamp, it.lang].filter(Boolean).join(' · ');
     return (
-      <li key={it.id}>
+      <li key={it.id} data-news-item="">
         <a
           href={it.url}
           target="_blank"
           rel="noopener noreferrer"
           onMouseEnter={() => playHoverSfx()}
+          // A mouse drag on the rail must never turn into a spurious link
+          // drag; useDragScroll swallows the click that tails a drag.
+          draggable={false}
           className="flex items-start gap-3 border border-white/10 bg-void/50 px-3 py-2.5 transition-colors hover:border-white/30 hover:bg-void/70"
         >
           {renderBadge(it)}
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">
             <span className="flex min-w-0 items-center gap-2">
-              <span className="truncate text-[14px] font-bold text-white sm:text-[15px]">{it.title}</span>
-              <span className="shrink-0 border border-white/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-gray-400">
-                {t(`category.${it.category}`)}
-              </span>
+              <span className="line-clamp-2 text-[14px] font-bold text-white sm:text-[15px]">{it.title}</span>
               <ExternalLink size={12} className="ml-auto shrink-0 text-gray-500" aria-hidden="true" />
             </span>
             {it.summary && <span className="line-clamp-2 text-[12px] leading-snug text-gray-400">{it.summary}</span>}
-            {meta && <span className="truncate text-[10px] text-gray-500">{meta}</span>}
+            <span className="flex min-w-0 items-center gap-2">
+              <span className="shrink-0 border border-white/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-gray-400">
+                {t(`category.${it.category}`)}
+              </span>
+              {meta && <span className="truncate text-[10px] text-gray-500">{meta}</span>}
+            </span>
             {typeof it.views === 'number' && it.views > 0 && (
               <span className="text-[10px] text-gray-500">{t('views', { count: it.views })}</span>
             )}
@@ -289,22 +297,22 @@ export function HotIssueNewsList() {
         </button>
       </div>
 
-      {/* Pinned "전체" lead chip + the 21-axis rotating carousel beside it --
-          the same fixed-lead + drifting-row composition as the 실시간 날씨
-          tab row at the top of this strip, sized 1:1 with the ranking chips. */}
-      <div className="mb-3 flex items-center gap-2.5" role="tablist">
+      {/* Pinned "전체" lead chip + the 21-axis drag rail beside it -- the
+          discovery carousel's own chip language (.qw-hub-chip, REV-21 §1.2)
+          so the strip's two rows read as one system. */}
+      <div className="mb-3 flex items-center gap-2.5" role="tablist" data-news-axes="">
         <button
           type="button"
           role="tab"
           aria-selected={filter === 'all'}
+          data-active={filter === 'all' ? '1' : '0'}
+          data-axis="all"
           onMouseEnter={() => playHoverSfx()}
           onClick={() => selectFilter('all')}
-          className={`${chipBase} ${
-            filter === 'all' ? 'border-accent bg-accent/15 text-white' : 'border-white/15 text-gray-400 hover:text-white'
-          }`}
+          className="qw-hub-chip"
         >
-          <LayoutGrid size={18} className="text-accent" aria-hidden="true" />
-          <span className={chipText}>{t('all')}</span>
+          <LayoutGrid size={15} className="text-accent" aria-hidden="true" />
+          {t('all')}
           {items.length > 0 && (
             <span className="border border-white/15 px-1.5 py-0.5 text-[10px] font-bold text-gray-400">{items.length}</span>
           )}
@@ -321,16 +329,15 @@ export function HotIssueNewsList() {
                   type="button"
                   role="tab"
                   aria-selected={active}
+                  data-active={active ? '1' : '0'}
+                  data-axis={axis.key}
                   onMouseEnter={() => playHoverSfx()}
                   onClick={() => selectFilter(axis.key)}
-                  style={{
-                    borderColor: active ? axis.color : `${axis.color}44`,
-                    backgroundColor: active ? `${axis.color}14` : undefined,
-                  }}
-                  className={`${chipBase} ${active ? 'text-white' : 'text-gray-400 hover:text-white'}`}
+                  style={{ '--qw-hub-accent': axis.color } as CSSProperties}
+                  className="qw-hub-chip"
                 >
-                  <axis.icon size={18} style={{ color: axis.color }} aria-hidden="true" />
-                  <span className={chipText}>{t(`category.${axis.key}`)}</span>
+                  <axis.icon size={15} style={{ color: axis.color }} aria-hidden="true" />
+                  {t(`category.${axis.key}`)}
                   {count > 0 && (
                     <span className="border border-white/15 px-1.5 py-0.5 text-[10px] font-bold text-gray-400">{count}</span>
                   )}
@@ -357,29 +364,39 @@ export function HotIssueNewsList() {
         </p>
       )}
       {showAxisEmpty && <p className="py-4 text-[13px] text-gray-500">{t('axisEmpty')}</p>}
-      {visible.length > 0 && <ul className="grid grid-cols-1 gap-1.5 lg:grid-cols-2">{visible.map(renderItem)}</ul>}
-
-      {filter !== 'all' && visible.length > 0 && (
-        <div className="mt-3 flex flex-wrap items-center gap-3">
-          {activeFeed.hasMore ? (
-            <button
-              type="button"
-              onMouseEnter={() => playHoverSfx()}
-              onClick={() => loadAxisPage(filter, activeFeed.nextPage)}
-              disabled={activeFeed.loading}
-              className="flex items-center gap-1.5 border border-accent/40 px-3 py-1.5 text-[12px] font-bold uppercase tracking-widest text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
-            >
-              {activeFeed.loading ? (
-                <Loader2 size={13} className="animate-spin" aria-hidden="true" />
+      {visible.length > 0 && (
+        <ul
+          ref={railRef}
+          {...railHandlers}
+          className="qw-news-rail u-hscroll cursor-grab select-none"
+          data-news-rail=""
+          aria-label={t('label')}
+        >
+          {visible.map(renderItem)}
+          {/* §1.2: paging lives at the END of the rail, where a drag lands. */}
+          {filter !== 'all' && (
+            <li className="flex items-center" data-news-more="">
+              {activeFeed.hasMore ? (
+                <button
+                  type="button"
+                  onMouseEnter={() => playHoverSfx()}
+                  onClick={() => loadAxisPage(filter, activeFeed.nextPage)}
+                  disabled={activeFeed.loading}
+                  className="flex h-full min-h-[96px] w-full flex-col items-center justify-center gap-2 border border-accent/40 px-4 text-[12px] font-bold uppercase tracking-widest text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                >
+                  {activeFeed.loading ? (
+                    <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+                  ) : (
+                    <ChevronDown size={16} className="-rotate-90" aria-hidden="true" />
+                  )}
+                  {t('loadMore', { axis: axisLabel })}
+                </button>
               ) : (
-                <ChevronDown size={13} aria-hidden="true" />
+                <p className="px-4 text-center text-[11px] text-gray-500">{t('endOfFeed')}</p>
               )}
-              {t('loadMore', { axis: axisLabel })}
-            </button>
-          ) : (
-            <p className="text-[11px] text-gray-500">{t('endOfFeed')}</p>
+            </li>
           )}
-        </div>
+        </ul>
       )}
 
       {(items.length > 0 || activeFeed.items.length > 0) && (

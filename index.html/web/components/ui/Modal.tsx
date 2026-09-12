@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useId, type ReactNode } from 'react';
+import { useEffect, useId, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react';
 import { X } from 'lucide-react';
 import { ModalPortal } from './ModalPortal';
 import { useHistoryLayer } from './useHistoryLayer';
@@ -49,6 +49,36 @@ export function Modal({
   const generatedId = useId();
   const historyLevel = useHistoryLayer(open && historyLayer, `modal:${labelledBy ?? generatedId}`, onClose);
 
+  /** REV-21 §1.7 (L1-11): keep Tab inside the dialog. A dialog opened from
+   *  the search hub lives in a body portal; a Tab that walked out of it
+   *  would land focus outside the hub's root, and 150ms later the hub --
+   *  and this dialog with it -- would unmount. Each panel traps its own
+   *  Tab (stopPropagation), so a nested dialog never leaks to its host. */
+  function trapTab(e: ReactKeyboardEvent<HTMLDivElement>) {
+    if (e.key !== 'Tab') return;
+    const panel = e.currentTarget;
+    const focusable = Array.from(
+      panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter((el) => !el.hidden && el.getClientRects().length > 0);
+    e.stopPropagation();
+    if (focusable.length === 0) {
+      e.preventDefault();
+      return;
+    }
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+    if (e.shiftKey && (active === first || !panel.contains(active))) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && (active === last || !panel.contains(active))) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -95,6 +125,7 @@ export function Modal({
                 exit={{ opacity: 0, scale: 0.95, y: 12 }}
                 transition={{ type: 'spring', stiffness: 320, damping: 28 }}
                 onClick={(e) => e.stopPropagation()}
+                onKeyDown={trapTab}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby={labelledBy}

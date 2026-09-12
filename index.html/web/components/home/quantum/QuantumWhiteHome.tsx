@@ -176,14 +176,14 @@ export function QuantumWhiteHome() {
         {/* Focus Isolation (The Living Knowledge Ouroboros): the Singularity
             Core grid sinks -- dim/blur/settle back -- while the search bar is
             focused on an empty query and showing the shortcut marquee. */}
+        {/* REV-21 §4 / PERF-02: opacity + scale only -- an animated `filter:
+            blur()` on the whole cluster grid re-rasterised the grid on every
+            frame of the strip's open/close, the single largest source of the
+            popup-transition lag on mobile. */}
         <motion.div
-          animate={
-            isOuroboros
-              ? { opacity: 0.35, scale: 0.985, filter: 'blur(2px)' }
-              : { opacity: 1, scale: 1, filter: 'blur(0px)' }
-          }
+          animate={isOuroboros ? { opacity: 0.35, scale: 0.985 } : { opacity: 1, scale: 1 }}
           transition={{ duration: 0.35, ease: 'easeOut' }}
-          style={{ pointerEvents: isOuroboros ? 'none' : 'auto' }}
+          style={{ pointerEvents: isOuroboros ? 'none' : 'auto', willChange: 'opacity, transform' }}
         >
           <SectionShield zone="home-singularity">
             <SingularityCoreGrid />

@@ -81,31 +81,53 @@ test.describe('REV-19 deep modal history stack', () => {
     await expect(page.locator('#exit-guard-title')).toBeVisible({ timeout: 5_000 });
   });
 
-  test('a ranking detail modal opened over the search hub is its own level above the hub', async ({ page }) => {
+  // REV-21 §1.3: the world-ranking widget is now the carousel's `worldRanking`
+  // slot. Tapping a rank row on the card opens the ranking deep modal AND,
+  // one tick later, the identical rank-detail popup on top of it -- two
+  // levels above the hub, parked in that order (deep modal first, detail on
+  // top) even though React mounts the nested dialog's effect first.
+  test('a ranking detail modal opened from the carousel card stacks above the ranking deep modal', async ({ page }) => {
     await reachHome(page);
     await page.locator('#omni-synapse-search input[type="text"]').click();
     await page.waitForTimeout(600);
+    await page.locator('[data-slot="worldRanking"]').click();
+    await page.waitForTimeout(400);
+    await expect(page.locator('[data-slot-card="worldRanking"]')).toBeVisible();
     await page.evaluate(() => {
-      const b = Array.from(document.querySelectorAll('.relative.z-30 button')).find((x) => x.textContent.includes('유네스코'));
-      b && b.click();
+      const row = document.querySelector('[data-slot-card="worldRanking"] .qw-hub-headline');
+      row && row.click();
     });
-    await page.waitForTimeout(600);
-    await page.evaluate(() => {
-      const r = document.querySelector('.relative.z-30 [role="button"]');
-      r && r.click();
-    });
+    await expect(page.locator('#ranking-deep-title')).toBeVisible({ timeout: 5_000 });
     await expect(page.locator('#global-ranking-detail-title')).toBeVisible({ timeout: 5_000 });
     await page.waitForTimeout(300);
     const before = await stack(page);
-    expect(before.length).toBeGreaterThanOrEqual(2);
+    expect(before.length).toBeGreaterThanOrEqual(3);
     expect(before[before.length - 1]).toMatch(/^modal:global-ranking-detail-title/);
-    await expect(page.locator('[data-discovery-links]')).toBeVisible();
+    expect(before[before.length - 2]).toMatch(/^modal:ranking-deep-title/);
+    await expect(page.locator('[data-discovery-links]').first()).toBeVisible();
 
+    // Back closes the detail only; the deep modal (and the hub) stay.
     await page.goBack();
     await page.waitForTimeout(500);
     await expect(page.locator('#global-ranking-detail-title')).toHaveCount(0);
+    await expect(page.locator('#ranking-deep-title')).toBeVisible();
     await expect(page.locator('#exit-guard-title')).toHaveCount(0);
     expect((await stack(page)).length).toBe(before.length - 1);
+
+    // Inside the deep modal the embedded panel is the old widget verbatim:
+    // a theme chip switches the list, a row reopens the detail.
+    await page.evaluate(() => {
+      const r = document.querySelector('[data-global-rankings="embedded"] [data-rank="2"]');
+      r && r.click();
+    });
+    await expect(page.locator('#global-ranking-detail-title')).toBeVisible({ timeout: 5_000 });
+    await page.goBack();
+    await page.waitForTimeout(500);
+    await page.goBack();
+    await page.waitForTimeout(500);
+    await expect(page.locator('#ranking-deep-title')).toHaveCount(0);
+    await expect(page.locator('[data-live-hub]')).toBeVisible();
+    await expect(page.locator('#exit-guard-title')).toHaveCount(0);
   });
 
   // REV-20 §3 replaced REV-19's live-hub card wall with the 22-slot discovery

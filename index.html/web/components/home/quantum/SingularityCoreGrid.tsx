@@ -156,7 +156,7 @@ export function SingularityCoreGrid() {
             <button
               key={cluster.key}
               type="button"
-              className="qw-cluster-card unitas-tap flex min-h-[44px] flex-col items-center gap-1 rounded-[20px] border border-[var(--qw-line)] bg-[var(--qw-glass)] px-6 pb-7 pt-8 text-center backdrop-blur-md transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1 hover:border-[rgba(10,10,12,.16)] hover:shadow-[0_18px_40px_rgba(10,10,12,.08)] focus-visible:-translate-y-1 focus-visible:outline-none"
+              className="qw-cluster-card unitas-tap flex min-h-[44px] flex-col items-center gap-1 rounded-[20px] border border-[var(--qw-line)] bg-[var(--qw-glass)] px-6 pb-7 pt-8 text-center transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-1 hover:border-[rgba(10,10,12,.16)] hover:shadow-[0_18px_40px_rgba(10,10,12,.08)] focus-visible:-translate-y-1 focus-visible:outline-none"
               onPointerEnter={() => precache.warmCluster(cluster)}
               onFocus={() => precache.warmCluster(cluster)}
               onClick={() => handleOpen(cluster)}

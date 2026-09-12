@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Crown, UsersRound } from 'lucide-react';
 import {
@@ -22,23 +22,54 @@ const TIER_COLOR: Record<UnitasRankingTier, string> = {
   gold: '#facc15',
 };
 
+interface UnitasModuleRankingsProps {
+  /** REV-21 §1.3: rendered inside the discovery carousel's ranking deep
+   *  modal -- no section label / divider (the modal has its own header) and
+   *  a module is always expanded. */
+  embedded?: boolean;
+  /** Module to open on mount (the card's active tab). */
+  initialModule?: string;
+  /** Rank whose operator profile opens on mount (the card row that was tapped). */
+  initialProfileRank?: number;
+}
+
+function resolveModule(key: string | undefined): ModuleRegistryEntry | null {
+  return MODULE_REGISTRY.find((m) => m.key === key) ?? null;
+}
+
 /**
  * "실시간 유니타스 랭킹" (owner instruction 2026-09-04 round 2): a
- * cross-module leaderboard mounted twice -- once inside the U-AI report
- * popup (UaiDashboard) and once at the very bottom of the home page
- * (HotShortcutMatrixStrip's hotIssue tab), per the owner's literal "팝업 및
- * 페이지 최하단" instruction. Same component both places; data comes from
- * lib/unitasRankings.ts's deterministic, pseudonymous generator -- see that
- * file's banner for why this isn't wired to real user records.
+ * cross-module leaderboard mounted in the U-AI report popup (UaiDashboard)
+ * and -- REV-21 §1.3 -- embedded in the discovery carousel's `unitasRanking`
+ * deep modal (the standalone strip row is retired). Same component both
+ * places; data comes from lib/unitasRankings.ts's deterministic,
+ * pseudonymous generator -- see that file's banner for why this isn't wired
+ * to real user records.
  */
-export function UnitasModuleRankings() {
+export function UnitasModuleRankings({ embedded = false, initialModule, initialProfileRank }: UnitasModuleRankingsProps = {}) {
   const t = useTranslations('UnitasRankings');
   const locale = useLocale();
   const tEco = useTranslations('Ecosystems');
   const tModules = useTranslations('Modules');
   const { playHoverSfx } = useSpatialAudio();
-  const [activeModule, setActiveModule] = useState<ModuleRegistryEntry | null>(null);
+  const [activeModule, setActiveModule] = useState<ModuleRegistryEntry | null>(
+    () => resolveModule(initialModule) ?? (embedded ? MODULE_REGISTRY[0] : null),
+  );
   const [profile, setProfile] = useState<{ entry: UnitasRankingEntry; module: ModuleRegistryEntry } | null>(null);
+
+  // REV-21 §1.3: land on the tapped operator's profile -- deferred one tick
+  // so the host modal's history layer parks before this nested one (see
+  // GlobalThemeRankings for the effect-order rationale).
+  useEffect(() => {
+    if (!initialProfileRank) return;
+    const module = resolveModule(initialModule) ?? MODULE_REGISTRY[0];
+    const entry = unitasRankingFor(module).find((row) => row.rank === initialProfileRank);
+    if (!entry) return;
+    const id = window.setTimeout(() => setProfile({ entry, module }), 80);
+    return () => window.clearTimeout(id);
+    // mount-only by design
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function titleFor(module: ModuleRegistryEntry): string {
     const tt = moduleTitleNamespace(module) === 'Ecosystems' ? tEco : tModules;
@@ -46,17 +77,19 @@ export function UnitasModuleRankings() {
   }
 
   function openModule(module: ModuleRegistryEntry) {
-    setActiveModule((prev) => (prev?.key === module.key ? null : module));
+    setActiveModule((prev) => (prev?.key === module.key && !embedded ? null : module));
   }
 
   const rows = activeModule ? unitasRankingFor(activeModule) : [];
 
   return (
-    <div className="mt-2 w-full border-t border-white/10 pt-4">
-      <p className="mb-2 flex items-center gap-1.5 text-[16px] font-bold uppercase tracking-[0.3em] text-accent sm:text-[18px]">
-        <UsersRound size={18} aria-hidden="true" />
-        {t('label')}
-      </p>
+    <div className={embedded ? 'w-full' : 'mt-2 w-full border-t border-white/10 pt-4'} data-unitas-rankings={embedded ? 'embedded' : 'standalone'}>
+      {!embedded && (
+        <p className="mb-2 flex items-center gap-1.5 text-[16px] font-bold uppercase tracking-[0.3em] text-accent sm:text-[18px]">
+          <UsersRound size={18} aria-hidden="true" />
+          {t('label')}
+        </p>
+      )}
 
       <DraggableCarouselRow
         items={MODULE_REGISTRY.map((module) => ({
@@ -65,6 +98,7 @@ export function UnitasModuleRankings() {
             <button
               type="button"
               aria-expanded={activeModule?.key === module.key}
+              data-ranking-module={module.key}
               onMouseEnter={() => playHoverSfx()}
               onClick={() => openModule(module)}
               className={`whitespace-nowrap border px-4 py-3 text-[13px] font-bold uppercase tracking-widest transition-colors sm:text-[15px] ${
@@ -87,6 +121,7 @@ export function UnitasModuleRankings() {
               <li key={entry.rank}>
                 <button
                   type="button"
+                  data-rank={entry.rank}
                   onMouseEnter={() => playHoverSfx()}
                   onClick={() => setProfile({ entry, module: activeModule })}
                   aria-label={t('viewProfileAria', { handle: entry.handle })}
@@ -107,7 +142,7 @@ export function UnitasModuleRankings() {
         </div>
       )}
 
-      <Modal open={profile !== null} onClose={() => setProfile(null)} labelledBy="unitas-ranking-profile-title">
+      <Modal open={profile !== null} onClose={() => setProfile(null)} labelledBy="unitas-ranking-profile-title" size="xl">
         {profile && (
           <div className="space-y-4">
             <div className="flex items-start gap-3">

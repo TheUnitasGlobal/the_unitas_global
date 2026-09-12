@@ -22,8 +22,11 @@ describe('rail drag physics', () => {
     expect(classifyGesture(8, 30)).toBe('vertical');
     expect(classifyGesture(-SWIPE_THRESHOLD_PX, 4)).toBe('swipe-left');
     expect(classifyGesture(SWIPE_THRESHOLD_PX + 20, -10)).toBe('swipe-right');
-    // Equal travel is not a swipe -- vertical wins the tie so the page scrolls.
+    // A diagonal that reaches the threshold is still a drag (a swipe needs a
+    // clearly horizontal travel); one more px of vertical hands the page back.
     expect(classifyGesture(50, 50)).toBe('drag');
+    expect(classifyGesture(60, 31)).toBe('drag');
+    expect(classifyGesture(60, 30)).toBe('swipe-right');
     expect(classifyGesture(50, 51)).toBe('vertical');
   });
 

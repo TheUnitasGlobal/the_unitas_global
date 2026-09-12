@@ -17,20 +17,43 @@ import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 import { useRankingDetail } from '@/lib/uai/rankingDetailClient';
 import { DiscoveryLinks } from '@/components/home/DiscoveryLinks';
 
+interface GlobalThemeRankingsProps {
+  /** REV-21 §1.3: rendered inside the discovery carousel's ranking deep
+   *  modal -- no section label (the modal has its own header), a theme is
+   *  always expanded (never collapsible to an empty dialog). */
+  embedded?: boolean;
+  /** Theme to open on mount (the card's active tab). Unknown keys fall back
+   *  to the first theme when embedded, to "nothing expanded" otherwise. */
+  initialTheme?: string;
+  /** Rank whose detail popup opens on mount (the card row that was tapped). */
+  initialDetailRank?: number;
+}
+
+function resolveTheme(key: string | undefined): GlobalRankingThemeKey | null {
+  return GLOBAL_RANKING_THEMES.find((theme) => theme.key === key)?.key ?? null;
+}
+
 /**
- * 핫이슈 탭의 "하이브리드 테마 랭킹 위젯" (owner instruction 2026-09-04, deepened
- * same day): a row of global theme chips (UNESCO heritage, GDP benchmark,
- * human-history milestones, ...) sitting directly above HotIssueNewsList's
- * live feed. Tapping a chip expands its top-10 countdown inline; "11~50위
- * 보기" / "51~100위 보기" step through LOAD_MORE_TIERS until the curated
- * dataset runs out, at which point the panel says so plainly rather than
- * padding with unsourced filler ranks (see lib/globalRankings.ts banner).
+ * "실시간 세계 랭킹" (owner instruction 2026-09-04, deepened same day): a row
+ * of global theme chips (UNESCO heritage, GDP benchmark, human-history
+ * milestones, ...). Tapping a chip expands its top-10 countdown inline;
+ * "11~50위 보기" / "51~100위 보기" step through LOAD_MORE_TIERS until the
+ * curated dataset runs out, at which point the panel says so plainly rather
+ * than padding with unsourced filler ranks (see lib/globalRankings.ts
+ * banner).
+ *
+ * REV-21 §1.3: no longer a standalone strip row -- it lives inside the
+ * discovery carousel as the `worldRanking` slot, and this panel is what
+ * that slot's deep modal embeds (`embedded`), keeping the rank-detail popup
+ * (`#global-ranking-detail-title`) byte-identical.
  */
-export function GlobalThemeRankings() {
+export function GlobalThemeRankings({ embedded = false, initialTheme, initialDetailRank }: GlobalThemeRankingsProps = {}) {
   const t = useTranslations('GlobalRankings');
   const locale = useLocale();
   const { playHoverSfx } = useSpatialAudio();
-  const [expandedKey, setExpandedKey] = useState<GlobalRankingThemeKey | null>(null);
+  const [expandedKey, setExpandedKey] = useState<GlobalRankingThemeKey | null>(
+    () => resolveTheme(initialTheme) ?? (embedded ? GLOBAL_RANKING_THEMES[0].key : null),
+  );
   const [visibleTiers, setVisibleTiers] = useState<Record<string, number>>({});
   const listRef = useRef<HTMLOListElement>(null);
   /** Rank the list was cut off at *before* the last "더 보기" click -- lets the
@@ -49,9 +72,24 @@ export function GlobalThemeRankings() {
   const expandedTheme = GLOBAL_RANKING_THEMES.find((theme) => theme.key === expandedKey) ?? null;
   const visibleTier = expandedKey ? (visibleTiers[expandedKey] ?? LOAD_MORE_TIERS[0]) : LOAD_MORE_TIERS[0];
 
+  // REV-21 §1.3: land on the tapped row's detail. Deferred one tick so the
+  // host modal's own history layer is parked BEFORE this nested one -- React
+  // runs a child's mount effect before the parent's update effect, and the
+  // wrong order would put the detail level under the deep modal's.
+  useEffect(() => {
+    if (!initialDetailRank) return;
+    const theme = GLOBAL_RANKING_THEMES.find((th) => th.key === (resolveTheme(initialTheme) ?? GLOBAL_RANKING_THEMES[0].key));
+    const entry = theme?.entries.find((e) => e.rank === initialDetailRank);
+    if (!theme || !entry || entry.rank > ENTRY_DETAIL_MAX_RANK) return;
+    const id = window.setTimeout(() => setDetail({ entry, theme }), 80);
+    return () => window.clearTimeout(id);
+    // mount-only by design
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   function openTheme(key: GlobalRankingThemeKey) {
     revealBoundaryRef.current = null;
-    setExpandedKey((prev) => (prev === key ? null : key));
+    setExpandedKey((prev) => (prev === key && !embedded ? null : key));
   }
 
   function loadMore() {
@@ -79,11 +117,13 @@ export function GlobalThemeRankings() {
     : 0;
 
   return (
-    <div className="mb-4 w-full">
-      <p className="mb-3 flex items-center gap-1.5 text-[16px] font-bold uppercase tracking-[0.3em] text-accent sm:text-[18px]">
-        <Globe2 size={18} aria-hidden="true" />
-        {t('label')}
-      </p>
+    <div className={embedded ? 'w-full' : 'mb-4 w-full'} data-global-rankings={embedded ? 'embedded' : 'standalone'}>
+      {!embedded && (
+        <p className="mb-3 flex items-center gap-1.5 text-[16px] font-bold uppercase tracking-[0.3em] text-accent sm:text-[18px]">
+          <Globe2 size={18} aria-hidden="true" />
+          {t('label')}
+        </p>
+      )}
 
       <DraggableCarouselRow
         items={GLOBAL_RANKING_THEMES.map((theme) => ({
@@ -94,6 +134,7 @@ export function GlobalThemeRankings() {
               <button
                 type="button"
                 aria-expanded={active}
+                data-ranking-theme={theme.key}
                 onMouseEnter={() => playHoverSfx()}
                 onClick={() => openTheme(theme.key)}
                 style={{
@@ -122,24 +163,26 @@ export function GlobalThemeRankings() {
               <p className="text-[15px] font-bold text-white">{t(`themes.${expandedTheme.key}.title`)}</p>
               <p className="mt-0.5 text-[12px] text-gray-400">{t(`themes.${expandedTheme.key}.description`)}</p>
             </div>
-            <button
-              type="button"
-              onMouseEnter={() => playHoverSfx()}
-              onClick={() => setExpandedKey(null)}
-              title={t('collapseAria')}
-              aria-label={t('collapseAria')}
-              className="flex h-7 w-7 shrink-0 items-center justify-center border border-white/15 text-gray-400 transition-colors hover:border-white/30 hover:text-white"
-            >
-              <X size={13} aria-hidden="true" />
-            </button>
+            {!embedded && (
+              <button
+                type="button"
+                onMouseEnter={() => playHoverSfx()}
+                onClick={() => setExpandedKey(null)}
+                title={t('collapseAria')}
+                aria-label={t('collapseAria')}
+                className="flex h-7 w-7 shrink-0 items-center justify-center border border-white/15 text-gray-400 transition-colors hover:border-white/30 hover:text-white"
+              >
+                <X size={13} aria-hidden="true" />
+              </button>
+            )}
           </div>
 
           {/* Capped-height, self-scrolling list (rather than letting 50-100
-              rows grow the whole 70vh browse-hub panel taller and bury the
-              load-more control or the sections below it -- owner instruction
-              2026-09-04: "가림 현상 없이"). scroll-smooth pairs with the
-              boundary-tracking effect above so paging in more ranks reads as
-              one continuous glide, not a jump-cut. */}
+              rows grow the whole panel taller and bury the load-more control
+              or the sections below it -- owner instruction 2026-09-04: "가림
+              현상 없이"). scroll-smooth pairs with the boundary-tracking
+              effect above so paging in more ranks reads as one continuous
+              glide, not a jump-cut. */}
           <ol
             ref={listRef}
             className="grid max-h-[22rem] grid-cols-1 gap-1.5 overflow-y-auto overscroll-contain scroll-smooth pr-1 sm:grid-cols-2"

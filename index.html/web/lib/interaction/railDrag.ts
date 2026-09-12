@@ -19,13 +19,16 @@ export type GestureKind = 'none' | 'drag' | 'swipe-left' | 'swipe-right' | 'vert
 
 /** Classify a pointer travel. Vertical-dominant travel is handed back to the
  *  browser (page scroll); horizontal travel below the swipe threshold is a
- *  drag, above it a swipe in the direction of travel. */
+ *  drag; above it, and only when the travel is CLEARLY horizontal (at least
+ *  twice the vertical component), a swipe in the direction of travel. A
+ *  diagonal that merely reaches the threshold stays a drag so a sloppy
+ *  thumb never flips the carousel. */
 export function classifyGesture(dx: number, dy: number, swipeThreshold = SWIPE_THRESHOLD_PX): GestureKind {
   const ax = Math.abs(dx);
   const ay = Math.abs(dy);
   if (ax < DRAG_THRESHOLD_PX && ay < DRAG_THRESHOLD_PX) return 'none';
   if (ay > ax) return 'vertical';
-  if (ax >= swipeThreshold) return dx < 0 ? 'swipe-left' : 'swipe-right';
+  if (ax >= swipeThreshold && ax >= ay * 2) return dx < 0 ? 'swipe-left' : 'swipe-right';
   return 'drag';
 }
 
