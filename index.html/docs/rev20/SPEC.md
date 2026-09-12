@@ -64,6 +64,14 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 .qw-title-word {
 
 **왜 Flexbox가 아니라 이 방식인가**: `h1`은 `globals.css`의 `.title-breathe { display:inline-block }`을 상속한다. `display:flex`로 바꾸면 그 규칙과 충돌하고, `::after` 밑줄이 flex 아이템이 되어 `margin: 1.1rem auto 0` 센터링이 깨지며, REV-19 §7의 수직 대칭 계산(`.qw-search-wrap`의 `- 1.1rem - 1px` 항)까지 재보정해야 한다. 위 2줄은 레이아웃 체계를 건드리지 않고 박스 정의만 고친다. 바깥 센터링은 이미 `.qw-hero-title-wrap`의 `text-center`와 `.qw-hero-wrap`의 `items-center`가 담당하므로 추가 컨테이너가 필요 없다.
 
+> **후속 정정 (2026-09-11, PHASE 2 E2E 실행 검증)**: 위 문단이 근거로 삼은 `display:inline-block` 상속은 **수평**으로는 무해하지만 **수직**으로는 유해했다. 인라인 레벨 박스인 h1 아래에 부모 `.qw-hero-title-wrap`의 16px/24px strut 디센더(1280 기준 6.64px)가 유령 밴드로 깔려 REV-19 §7의 B 구간에 그대로 섞여 들어간다. h1 자신의 rect에는 잡히지 않아 그동안 미검출. 또한 §2가 밑줄을 1px→3px로 키우면서 `.qw-search-wrap`의 `- 1px` 항이 2px 부족해졌다. 합계 8.64px(CSS) = 6.48px(화면) 초과로 `rev19-hero-geometry` 수직 대칭 단언이 실패했다.
+>
+> 확정 처방(플렉스 전환 없음, 박스 정의만 유지):
+> - `.qw-hero-wrap h1`에 `display: block`을 **명시**(센터링은 그대로 `width:fit-content` + `margin-inline:auto`가 담당 — 라인박스 자체를 없애 유령 밴드 소멸).
+> - `--qw-title-rule-h: 3px` 변수를 신설해 `::after`의 `height`와 `.qw-search-wrap` 보정식이 **같은 값**을 참조(밑줄 두께를 다시 바꿔도 대칭이 자동 추종).
+>
+> 실측 결과 `|A−B|` = 0.02px (1280 Chromium/WebKit, 412 모바일 전부).
+
 ### 1.3 완료 조건과 측정 규약
 기존 E2E는 `Range`로 잰 "IT" 중심을 쓰는데, 이 값은 **T 뒤 자간을 포함**하므로 잉크 기준이 아니다. REV-20은 측정 규약을 잉크로 바꾼다.
 

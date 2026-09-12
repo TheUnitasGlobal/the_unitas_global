@@ -26,6 +26,11 @@ html[data-unitas-surface='quantum-white'] {
      below is <1px at both 1366 and 390 (docs/rev20/measure/hero-geometry.json),
      so no compensating shift is needed. */
   --qw-title-optical-shift: 0em;
+  /* REV-20 §2 grew the brand kill-line from the REV-19 hairline's 1px to 3px.
+     It is part of the h1 box, so the B-side compensation below must subtract
+     the SAME value -- hard-coding 1px there silently broke §7's |A-B| <= 1.5px
+     (measured 2026-09-11: B ran 2px long on that count alone). Single source. */
+  --qw-title-rule-h: 3px;
 
   /* cybernetic silver */
   --qw-silver: #cfd6e2;
@@ -72,6 +77,13 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 {
      hairline (::after, centred in the box) is centred on the glyph run in
      every viewport -- the old block box was narrower than the word at the
      8.5rem clamp and left the run start-aligned. */
+  /* globals.css's `.title-breathe` sets display:inline-block for the dark
+     route; here that makes the h1 an inline-level box, so the parent's
+     16px/24px strut contributes its descent (6.6px at 1280) BELOW the title.
+     That phantom band sits inside B (baseline -> search bar) and is invisible
+     to any rect measurement of the h1 itself. Block removes the line box
+     entirely; fit-content + margin-inline:auto keep the centring identical. */
+  display: block;
   width: fit-content;
   max-width: 100%;
   margin-inline: auto;
@@ -99,10 +111,13 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 .qw-title-mark {
   letter-spacing: 0;
 }
 /* B: baseline -> search bar top == --qw-hero-gap. The h1 box ends at line
-   bottom + 1.1rem + 1px (the hairline); the baseline sits 0.18em above the
-   line bottom. */
+   bottom + 1.1rem (the rule's margin) + the rule's own height; the baseline
+   sits 0.18em above the line bottom. */
 html[data-unitas-surface='quantum-white'] .qw-search-wrap {
-  margin-top: calc(var(--qw-hero-gap) - var(--qw-title-size) * var(--qw-title-descend-ratio) - 1.1rem - 1px);
+  margin-top: calc(
+    var(--qw-hero-gap) - var(--qw-title-size) * var(--qw-title-descend-ratio) - 1.1rem -
+      var(--qw-title-rule-h)
+  );
 }
 
 /* --------------------------------------------------------------------------
@@ -119,7 +134,7 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1::after {
   width: 100%;
   min-width: 220px;
   max-width: 92vw;
-  height: 3px;
+  height: var(--qw-title-rule-h);
   margin: 1.1rem auto 0;
   border-radius: 2px;
   background-repeat: no-repeat;

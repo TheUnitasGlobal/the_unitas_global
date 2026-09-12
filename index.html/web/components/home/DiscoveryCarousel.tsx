@@ -371,7 +371,9 @@ function FeedDeepModal({ slotKey, locale, onClose }: { slotKey: SlotKey | null; 
   useEffect(() => {
     if (!slotKey) return;
     const slot = DISCOVERY_SLOTS.find((s) => s.key === slotKey);
-    if (!slot) return;
+    // Feed kinds only -- otherwise a weather/news open re-fetched that slot's
+    // data here as well, purely to fill a modal that must stay closed.
+    if (!slot || slot.kind !== 'feed') return;
     let cancelled = false;
     setLoading(true);
     void slot.load({ locale }).then((next) => {
@@ -385,7 +387,13 @@ function FeedDeepModal({ slotKey, locale, onClose }: { slotKey: SlotKey | null; 
     };
   }, [slotKey, locale]);
 
-  const slot = slotKey ? DISCOVERY_SLOTS.find((s) => s.key === slotKey) : undefined;
+  // DISCOVERY_SLOTS holds all 22 slots -- weather and the nine news themes
+  // included -- so an unfiltered lookup opened THIS modal on top of the
+  // weather / news modal that SlotDeepModal already opened for the same key:
+  // two dialogs, two history levels, one back press short of closed.
+  // Each deep modal answers for its own kind only.
+  const found = slotKey ? DISCOVERY_SLOTS.find((s) => s.key === slotKey) : undefined;
+  const slot = found && found.kind === 'feed' ? found : undefined;
   const title = slotKey ? t(slotTitleKey(slotKey)) : '';
   const timeFormatter = new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' });
 

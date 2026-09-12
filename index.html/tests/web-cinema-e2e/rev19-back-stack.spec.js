@@ -108,29 +108,51 @@ test.describe('REV-19 deep modal history stack', () => {
     expect((await stack(page)).length).toBe(before.length - 1);
   });
 
-  test('the live hub deep dive and a short open as levels and close on back', async ({ page }) => {
+  // REV-20 §3 replaced REV-19's live-hub card wall with the 22-slot discovery
+  // carousel (DiscoveryCarousel.tsx keeps `data-live-hub`, but the card is now
+  // `[data-slot-card]`), and REV-20 §2 deleted UNITAS Shorts outright -- so the
+  // shorts half of this level test is gone, replaced by a guard proving the
+  // retired surface cannot come back as an unmanaged history level.
+  test('the discovery carousel deep dive opens as a level and closes on back', async ({ page }) => {
     await reachHome(page);
     await page.locator('#omni-synapse-search input[type="text"]').click();
     await page.waitForTimeout(600);
     await expect(page.locator('[data-live-hub]')).toBeVisible();
-    await page.evaluate(() => {
-      const b = document.querySelector('[data-hub-card] button[aria-label]');
-      b && b.click();
-    });
-    await expect(page.locator('#hub-deep-title')).toBeVisible({ timeout: 5_000 });
+
+    // The rail auto-rotates, so pin a slot of each kind by holding its chip --
+    // a free-running carousel would make WHICH deep modal opens a race.
+    const openActive = () =>
+      page.evaluate(() => {
+        const b = document.querySelector('[data-slot-card] button[aria-label]');
+        b && b.click();
+      });
+
+    // A news slot opens the news deep modal -- and ONLY that one.
+    await page.locator('[data-slot="game"]').click();
+    await page.waitForTimeout(300);
+    await openActive();
+    await expect(page.locator('#hub-deep-title')).toBeVisible({ timeout: 8_000 });
+    await expect(page.locator('#feed-deep-title')).toHaveCount(0);
     await page.goBack();
     await page.waitForTimeout(500);
     await expect(page.locator('#hub-deep-title')).toHaveCount(0);
     await expect(page.locator('[data-live-hub]')).toBeVisible();
+    await expect(page.locator('#exit-guard-title')).toHaveCount(0);
 
-    await page.evaluate(() => {
-      const b = document.querySelector('[data-short]');
-      b && b.click();
-    });
-    await expect(page.locator('#unitas-short-title')).toBeVisible({ timeout: 5_000 });
+    // A REV-20 feed slot opens the feed deep modal -- and ONLY that one.
+    await page.locator('[data-slot="history"]').click();
+    await page.waitForTimeout(300);
+    await openActive();
+    await expect(page.locator('#feed-deep-title')).toBeVisible({ timeout: 8_000 });
+    await expect(page.locator('#hub-deep-title')).toHaveCount(0);
     await page.goBack();
     await page.waitForTimeout(500);
-    await expect(page.locator('#unitas-short-title')).toHaveCount(0);
+    await expect(page.locator('#feed-deep-title')).toHaveCount(0);
+    await expect(page.locator('[data-live-hub]')).toBeVisible();
     await expect(page.locator('#exit-guard-title')).toHaveCount(0);
+
+    // REV-20 §2: the shorts rail and its modal are retired, not hidden.
+    await expect(page.locator('[data-short]')).toHaveCount(0);
+    await expect(page.locator('#unitas-short-title')).toHaveCount(0);
   });
 });
