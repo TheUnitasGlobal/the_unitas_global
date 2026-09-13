@@ -21,7 +21,10 @@ const DEPTH = 'unitasExitDepth';
 const SENTINEL_DEPTH = 12;
 
 const exitDialog = (page) => page.locator('#exit-guard-title');
-const sealedX = (page) => page.locator('button[aria-label]').filter({ has: page.locator('svg.lucide-x') }).first();
+// The sealed screen's own exit control. Addressed by its data hook rather
+// than 'the first button with an X glyph': since M7 the attach menu renders a
+// hidden close button earlier in the document, which that filter matched first.
+const sealedX = (page) => page.locator('button[data-sealed-exit]');
 /** The exit confirm dialog itself (the site's audio gate is ALSO a
  *  role="dialog", parked beneath the curtain -- scope by the title). */
 const exitPanel = (page) => page.locator('[role="dialog"]', { has: page.locator('#exit-guard-title') });

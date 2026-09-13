@@ -100,7 +100,11 @@ test.describe('REV-19/20 hero geometry', () => {
       return { bg: cs.backgroundImage, blur: cs.backdropFilter || cs.webkitBackdropFilter, h3: h3.color, link: a.color };
     });
     expect(f.bg).toContain('linear-gradient');
-    expect(f.blur).toContain('blur');
+    // REV-21 §4.3 (one-layer blur budget, M6 7b4da3f) spends the page's single
+    // backdrop-filter on the nav and took it off the footer, which now carries
+    // the slab as a near-opaque gradient instead. The look is asserted above;
+    // here we hold the budget itself -- the footer must NOT re-acquire a blur.
+    expect(f.blur === 'none' || f.blur === '').toBe(true);
     expect(f.h3).toBe('rgb(138, 109, 20)');
     expect(f.link).toBe('rgb(42, 44, 51)');
   });

@@ -47,7 +47,7 @@ test.describe('sub-view refresh keeps the current view (no logo page)', () => {
     expect(flag).toBe('off');
     await expect(splash(page)).toHaveCount(0, { timeout: 3000 });
     // Sealed screen: the 'X' close control is present, the gate button is not.
-    await expect(page.locator('button[aria-label]').filter({ has: page.locator('svg.lucide-x') })).toBeVisible({
+    await expect(page.locator('button[data-sealed-exit]')).toBeVisible({
       timeout: 5000,
     });
     expect(await page.evaluate(() => document.documentElement.dataset.cinemaPhase)).toBe('sealed');
@@ -110,7 +110,7 @@ test.describe("sealed screen 'X' -> confirm -> 종료 ends the session IN PLACE 
     await page.evaluate(() => sessionStorage.setItem('unitas_cinema_phase', 'sealed'));
     await page.goto('/en?splash=0');
     const sealedUrl = page.url();
-    const closeX = page.locator('button[aria-label]').filter({ has: page.locator('svg.lucide-x') }).first();
+    const closeX = page.locator('button[data-sealed-exit]');
     await expect(closeX).toBeVisible({ timeout: 5000 });
 
     // A genuine activation gesture first (arms the sentinel buffer, like a

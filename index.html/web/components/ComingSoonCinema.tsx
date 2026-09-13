@@ -1616,6 +1616,11 @@ export function ComingSoonCinema() {
                         exitFromSealed();
                       }}
                       aria-label={tExit('exitTitle')}
+                      /* Stable E2E hook: the sealed screen's exit control. Added
+                         2026-09-13 (M10c) because 'the first button carrying an
+                         X glyph' stopped identifying it -- M7's attach menu
+                         renders a hidden close button earlier in the document. */
+                      data-sealed-exit=""
                       style={{ pointerEvents: 'auto', touchAction: 'manipulation' }}
                       className="flex items-center gap-2 whitespace-nowrap text-[10px] uppercase tracking-[0.16em] text-white/45 transition-colors hover:text-white/90 sm:gap-2.5 sm:text-[11px] sm:tracking-[0.22em]"
                     >
