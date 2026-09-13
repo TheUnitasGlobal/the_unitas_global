@@ -415,3 +415,47 @@ SeznamBot은 이미 `*` 블록으로 동일 권한을 받고 있다 — **얻는
 창립자가 Seznam 콘솔에서 [Ověřit doménu]를 눌러야 한다. 얀덱스 사이트맵 등록 여부도 여전히
 미확인 상태다(소유권 화면만 확인됨). `robots.txt`의 `Sitemap:` 지시어로 자동 발견은 가능하나
 명시 등록이 빠르다.
+
+---
+
+## SEO-CONSOLES — 5대 콘솔 소유권 전부 성립 (2026-09-13, 창립자 실측 보고)
+
+**Seznam.cz [Ověřit doménu] 통과 확인.** 창립자 화면: `reporter.seznam.cz/wm/web/prehled`가
+`theunitas.global` 속성으로 열림 — 개요 페이지 접근 자체가 소유권 성립의 증거다.
+**저장소 측 검색 콘솔 인증 공사 전면 완결.**
+
+| 콘솔 | 배선 | 소유권 | 사이트맵 |
+| --- | --- | --- | --- |
+| 구글 | `verification.google` | ✓ | **성공 / 340 발견** |
+| 빙 | 코드 없음 (GSC 연동 상속) | ✓ | **Success / 340 발견** |
+| 네이버 | `other['naver-site-verification']` | ✓ | 등록됨 |
+| 얀덱스 | `verification.yandex` | ✓ Owner | Indexing 탭 미확인 |
+| Seznam | `other['seznam-wmt']` | **✓** | **제출 UI 없음 — robots.txt 자동 발견** |
+
+**Seznam 수치가 전부 0인 것은 정상이다.** Objevené robotem / Uložené v databázi robota /
+V indexu / S přesměrováním / S chybou 모두 0 — 방금 검증된 속성이며 SeznamBot이 아직 크롤하지
+않았다. 주목할 값은 **S chybou 0**과 **S přesměrováním 0**으로, 나중에 이 둘이 오르면
+진단 대상이다(현재는 분모가 0이라 무의미).
+
+**Seznam에는 사이트맵 제출 메뉴가 없다 (실측).** 사이드바가 Přehled / API / Popis a
+dokumentace / Klíč k API / Správa uživatelů / Pokusné stažení / Kontaktovat podporu뿐이다.
+Seznam은 `robots.txt`의 `Sitemap:` 지시어로 발견하며, 그 줄은 이미 라이브에 있다:
+`Sitemap: https://www.theunitas.global/sitemap.xml`. SeznamBot은 `*` 블록의 `Allow: /`로
+통과하고 robots.txt 어디에도 `seznam` 문자열이 없다(차단 0건) — **즉 Seznam 쪽에 남은 조치는
+없다.**
+
+**apex/www 표기 확인:** Seznam 사이드바는 `theunitas.global`(www 없음)로 표시되지만,
+등록 화면은 `https://www.theunitas.global/`였고 **apex는 www로 308 영구 리디렉션**된다
+(`https://theunitas.global/` → `308` → `https://www.theunitas.global/`). apex로 도달해도
+동일 자산에 착지하며 seznam 태그가 그대로 서빙되므로, 어느 쪽으로 등록됐든 결과는 같다.
+표기상의 차이일 뿐 조치 불요.
+
+**검색 엔진 커버리지 정리 (별도 콘솔이 불필요한 엔진):** DuckDuckGo · Ecosia · Qwant ·
+Yahoo는 **자체 색인 제출 콘솔을 운영하지 않으며** 빙 또는 구글의 결과를 공급받는다. 두 원천이
+이미 검증·제출 완료이므로 **추가 조치가 없다** — 이들 사이트에서 소유확인 메뉴를 찾는 것은
+헛수고다.
+
+**남은 실질 레버는 IndexNow 하나다.** 크롤러가 찾아오기를 기다리는 대신 URL 변경을 즉시
+푸시하는 프로토콜로, **빙 · 얀덱스 · Seznam · 네이버가 참여**한다(구글은 불참).
+도입 시 필요한 것: 랜덤 키 파일 1개를 `public/`에 두고, 배포 후 변경 URL을 엔드포인트에
+POST. 현재 미도입 상태이며, 도입 여부는 창립자 판단 사안이다.
