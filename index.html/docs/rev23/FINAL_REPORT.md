@@ -43,6 +43,24 @@ MISSION 1의 요구가 아니고 **퍼널 통과**가 요구이므로 307 리다
 (`Cache-Control: no-store`, `Vary: Cookie, User-Agent`). `generateStaticParams`는
 그대로 살아 SSG가 유지된다(레이아웃에서 `headers()`를 읽지 않는다).
 
+### ⚠ 창립자 비상 복구 경로 (반드시 숙지)
+
+M1 이후 **창립자 세션이 없으면 창립자도 다른 방문자와 동일하게 봉인**된다.
+기존 진입은 그대로다 — `https://www.theunitas.global/?sovereign_auth=<토큰>`.
+라이브에서 그 기계장치가 살아 있음을 실측 확인했다:
+`/sovereign` → **404**(펜스 작동), `/api/sovereign/verify` → **200
+`{"founder":false}`**, 토큰 핸드오프 블록은 REV-23이 손대지 않았고 게이트보다
+**먼저** 실행된다(쿠키 읽기 위치만 위로 올림).
+
+만약 어떤 이유로든 토큰 진입이 실패하면, **Vercel 환경변수에
+`UNITAS_GATE_BYPASS=1`을 추가하고 재배포**하면 게이트 전체가 열린다. 대시보드
+접근 권한은 창립자만 가지므로 이것이 유일하고 안전한 비상구다. 복구 후 반드시
+제거할 것.
+
+> 참고: `vercel env pull`은 Secret 타입 변수를 `[SENSITIVE]`로만 내려주므로,
+> 이 세션에서 프로덕션 토큰 자체로는 진입을 실측할 수 없었다. 대신 위의 세
+> 가지 실측으로 세션 검증 경로가 프로덕션에서 정상 작동함을 증명했다.
+
 ### 통과 경로 — 정확히 셋, 전부 fail-closed
 1. 검증된 소버린 세션(HMAC HttpOnly 쿠키)
 2. 검색엔진 인덱서 UA(제13장 SEO 주권 — 340 URL 사이트맵 보존)
@@ -256,7 +274,22 @@ Rich Black 평문이었다. 이제:
 
 ---
 
-## 8. 후속 과제
+## 8. 라이브 실측 (배포 후, `www.theunitas.global`)
+
+배포 커밋 `4879b45` = 라이브 `ownership-manifest.json`의 `gitCommit` 일치.
+
+| 검사 | 결과 |
+|---|---|
+| 사람 → `/`, `/ko`, `/ko/company/about`, `/u-ai` | **307 → `/<locale>/gateway`, `x-unitas-gate: seal`** (전부) |
+| 봉인 응답 본문 | gateway 마커 1 · **검색바 0 · 히어로 0** |
+| Googlebot → `/` | **200, `pass`**, 히어로 1 |
+| `/sitemap.xml` | 200, **`<loc>` 340개** (REV-22 규모 그대로) |
+| `/robots.txt` | 200, 5,539B |
+| `/sovereign` (쿠키 없음) | **404** — 소버린 펜스 정상 |
+
+---
+
+## 9. 후속 과제
 
 1. **U-COIN 번 표면** — §2.2의 창립자 확인 요청. U-AI 유료 티어를 다시 세울지,
    코인 경제를 모듈 게이트로 단일화할지 결정 필요.
