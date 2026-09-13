@@ -46,3 +46,29 @@
 **복구한 결함:** `8ecd592`가 루트 정본 3파일만 갱신하고 운영 사본 4개를 v20.0(`02cd3339…`)에 남겨, `web/package.json`의 `prebuild`에 물린 `sync-codex.mjs`가 4/4 FAIL → **로컬 프로덕션 빌드가 fail-closed로 차단된 상태**였다. Vercel은 ENOENT 폴백으로 사본끼리만 대조하므로 통과한다 — 배포 성공만으로 안심하면 놓친다.
 
 **v23.0 실제 개정 3건:** ① 구 제21장 삭제 + 제22~24장 전면 재작성(제23장에 이 파일 강제 Flush 규칙과 정확한 브레이크 문구, 제24장에 [최종 완결 종합 보고서] 규칙 신설) ② 1000대 리스트 오탈자 3슬롯 교정(`194.초고속파이적`→`초고속파이프적`, `558.초만류인력중력장적`→`…장포스적`, `559.초삼강오륜기강적`→`…기강퍼펙트적`) ③ 버전 표기.
+
+---
+
+## REV-21 최종 프로덕션 배포 완결 (2026-09-13, 창립자 배포 승인 집행)
+
+정본 종합 보고서: `docs/rev21/FINAL_REPORT.md` (제24장 산출물)
+
+| 항목 | 값 | 실측 시점 |
+| --- | --- | --- |
+| 배포 커밋 | `05c5cfb` (= HEAD, origin/main과 ahead 0 / behind 0) | 2026-09-13 |
+| 배포 ID | `dpl_HCyahZw3K4681MLXxM7PzoxDLJEx`, readyState `READY` | 2026-09-13 |
+| 알리아스 | `www.theunitas.global` · `theunitas.global` 전환 완료 | 2026-09-13 |
+| `tsc --noEmit` | EXIT 0 (11.3s) | 배포 직전 재실측 |
+| `vitest` | 75 파일 / 1122 테스트 통과, EXIT 0 (18.8s) | 배포 직전 재실측 |
+| `next build` | EXIT 0 (132.1s), 지문 `632c59de6817b47c…`, sync-codex drift 0 | 배포 직전 재실측 |
+| Playwright (chromium + mobile-chrome) | **228 passed / 0 failed / 2 skipped (230), EXIT 0, 17.0분** | **배포한 프로덕션 빌드 위에서 재실측** |
+| 라이브 `gitCommit` | `05c5cfb5ae6ccab2…` — 로컬 HEAD와 일치 | 배포 직후 HTTPS 실호출 |
+| 라이브 `buildFingerprint` | `632c59de6817b47cda7b…` — 로컬 빌드와 일치 | 배포 직후 HTTPS 실호출 |
+| 라이브 20로케일 | **20 / 20 HTTP 200, 실패 0건** | 배포 직후 HTTPS 실호출 |
+| 소버린 IP 헤더 | `X-Unitas-Owner` / `X-Unitas-License` 라이브 응답에 존재 | 배포 직후 HTTPS 실호출 |
+
+**스코프 정정**: 창립자 지침 원문 `--scope the-unitas-global-ou-ei` → `vercel teams ls` 실측상 정본은
+`the-unitas-global-ou-e`(말미 `i` 없음). 검증된 슬러그로 집행했다.
+
+**새로 발견한 갭**: `/sitemap.xml`·`/robots.txt`가 라이브 404이고 소스에도 부재(0건) — 제12장 익스트림 SEO 미충족.
+상세와 권고는 `FINAL_REPORT.md` §7-1.
