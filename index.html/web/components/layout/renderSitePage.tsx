@@ -5,8 +5,9 @@ import { ArrowLeft } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { SurfaceScope } from './SurfaceScope';
 import { SiteArticle } from './SiteArticle';
-import { DISCLAIMER_SLUGS, isSiteSlug, readSitePageDocument, type SiteGroup, type SiteSlug } from '@/lib/sitePages';
+import { DISCLAIMER_SLUGS, groupOfSlug, isSiteSlug, readSitePageDocument, type SiteGroup, type SiteSlug } from '@/lib/sitePages';
 import { readRegistryLabels, registrySectionsFor } from '@/lib/sitePagesRegistry';
+import { seoAlternates } from '@/lib/seo/routes';
 
 const GROUP_HEADER_KEY: Record<SiteGroup, string> = {
   company: 'company',
@@ -68,7 +69,21 @@ export async function renderSitePage({
   );
 }
 
+/**
+ * Metadata for one company/legal/support page.
+ *
+ * REV-22 M_SEO: `alternates` is built OUTSIDE the try/catch and returned on
+ * both paths on purpose. Next merges metadata shallowly down the segment
+ * tree, so a page that omits `alternates` silently inherits
+ * app/[locale]/layout.tsx's LOCALE-ROOT canonical -- which is what the
+ * REV-21 build actually shipped: `/ko/legal/terms` declared
+ * `<link rel="canonical" href="https://www.theunitas.global/ko"/>`, telling
+ * Google all 240 of these pages were duplicates of the 20 home pages. The
+ * translation-lookup failure path must not be able to reintroduce that.
+ */
 export async function sitePageMetadata(locale: string, slug: string): Promise<Metadata> {
+  const group = groupOfSlug(slug);
+  const alternates = group ? seoAlternates(locale, `/${group}/${slug}`) : undefined;
   const t = await getTranslations({ locale, namespace: 'SitePages' });
   try {
     const title = t(`${slug}.title`);
@@ -76,10 +91,17 @@ export async function sitePageMetadata(locale: string, slug: string): Promise<Me
     return {
       title,
       description,
-      openGraph: { title, description, type: 'article', siteName: 'UNITAS' },
+      alternates,
+      openGraph: {
+        title,
+        description,
+        type: 'article',
+        siteName: 'UNITAS',
+        url: alternates?.canonical,
+      },
       twitter: { card: 'summary', title, description },
     };
   } catch {
-    return {};
+    return { alternates };
   }
 }

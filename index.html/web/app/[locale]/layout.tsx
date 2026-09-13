@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
+import { absoluteUrl, seoAlternates } from '@/lib/seo/routes';
 import { HtmlLangSync } from '@/components/i18n/HtmlLangSync';
 import { LocaleAutoSwitch } from '@/components/i18n/LocaleAutoSwitch';
 import { NavBar } from '@/components/nav/NavBar';
@@ -23,8 +24,6 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-const SITE_URL = 'https://www.theunitas.global';
-
 export async function generateMetadata({
   params,
 }: {
@@ -38,19 +37,21 @@ export async function generateMetadata({
   // localePrefix is 'as-needed', so the default locale (English) lives at
   // the bare root, not `/en` -- canonical/hreflang must point there too, or
   // Google indexes a phantom `/en` alongside the real, unprefixed page.
-  const localizedUrl = (loc: string) =>
-    loc === routing.defaultLocale ? SITE_URL : `${SITE_URL}/${loc}`;
-  const url = localizedUrl(locale);
+  // REV-22 M_SEO moved that rule into lib/seo/routes.ts so the sitemap, the
+  // robots directives and this tag are all generated from one helper.
+  //
+  // NOTE: these alternates describe the LOCALE ROOT ('/'). Next merges
+  // metadata shallowly down the segment tree, so any descendant page that
+  // does not declare its own `alternates` inherits this canonical verbatim --
+  // which is exactly the defect REV-22 repaired. Every indexable sub-page
+  // (company / legal / support, u-ai, u-key, u-pay, u-signature) now calls
+  // `seoAlternates` with its own path; the non-indexable ones (the 16 gated
+  // modules, /locked, /sovereign) carry `robots: noindex` instead.
+  const url = absoluteUrl(locale, '/');
 
   return {
     description,
-    alternates: {
-      canonical: url,
-      languages: {
-        ...Object.fromEntries(routing.locales.map((loc) => [loc, localizedUrl(loc)])),
-        'x-default': SITE_URL,
-      },
-    },
+    alternates: seoAlternates(locale, '/'),
     openGraph: {
       title,
       description,

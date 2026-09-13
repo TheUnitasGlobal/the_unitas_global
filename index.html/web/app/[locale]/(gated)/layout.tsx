@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { cookies, headers } from 'next/headers';
 import { redirect } from '@/i18n/navigation';
@@ -10,6 +11,17 @@ import { moduleForPathname } from '@/lib/moduleAccess';
 import { moduleAccessName } from '@/lib/module-registry';
 import { getSupabaseServerComponentClient } from '@/lib/supabase/serverComponent';
 import type { ModuleLockReason } from '@/components/modules/ModuleLockPanel';
+import { NOINDEX } from '@/lib/seo/pageMetadata';
+
+/**
+ * REV-22 M_SEO: every route in this group 307-redirects an ungranted visitor
+ * to /locked, so none of the 16 coin-gated modules may be indexed. Declared
+ * once on the group layout rather than 16 times, and inherited by every child
+ * page (none of which declares its own `robots`). This is the second of three
+ * layers, alongside the robots.txt `Disallow:` block generated from the same
+ * registry and the sitemap's exclusion of these paths.
+ */
+export const metadata: Metadata = { robots: NOINDEX };
 
 /**
  * Page-level coin gate for every route under app/[locale]/(gated)/ -- the 16

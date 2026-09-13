@@ -1,6 +1,15 @@
+import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ModuleLockPanel, type ModuleLockReason } from '@/components/modules/ModuleLockPanel';
 import { moduleForRoute } from '@/lib/module-registry';
+import { NOINDEX } from '@/lib/seo/pageMetadata';
+
+/**
+ * REV-22 M_SEO: the coin gate's redirect target. It has no standalone content
+ * -- every visit is a rejected module request -- so it must never enter an
+ * index, or a search for a module name would land on the lock screen.
+ */
+export const metadata: Metadata = { robots: NOINDEX };
 
 /**
  * Landing page for a fail-closed coin gate rejection. app/[locale]/(gated)/
