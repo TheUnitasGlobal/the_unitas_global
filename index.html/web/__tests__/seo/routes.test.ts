@@ -2,8 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { routing } from '@/i18n/routing';
 import { COMPANY_SLUGS, LEGAL_SLUGS, SUPPORT_SLUGS } from '@/lib/sitePages';
 import { MODULE_REGISTRY } from '@/lib/module-registry';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   GATED_MODULE_ROUTES,
+  GOOGLE_SITE_VERIFICATION,
   NAMED_CRAWLERS,
   PRIVATE_PATHS,
   PUBLIC_ROUTES,
@@ -279,5 +282,27 @@ describe('robots.txt', () => {
         expect(isDisallowed(localePath(locale, route.path))).toBe(false);
       }
     }
+  });
+});
+
+describe('search console ownership', () => {
+  it('pins the exact Google Search Console token issued for the canonical property', () => {
+    expect(GOOGLE_SITE_VERIFICATION).toBe('VJzwePjEl-VFppwMQJXBCJ4tl5tGCJQQx3obko8Lw44');
+    // Google's HTML-tag tokens are 43 URL-safe base64 characters. A truncated
+    // or whitespace-padded paste still type-checks and still builds -- it just
+    // silently fails verification later, in a console this repo cannot see.
+    // Pin the shape as well as the value.
+    expect(GOOGLE_SITE_VERIFICATION).toMatch(/^[A-Za-z0-9_-]{43}$/);
+  });
+
+  it('is wired into the ROOT layout, so every page inherits the tag', () => {
+    // Next's metadata merge is shallow: a descendant declaring its own
+    // `verification` would silently drop this from that entire subtree, and
+    // declaring it anywhere but the root would leave most pages untagged.
+    // The rendered proof only exists after a build, so guard it in source.
+    const layout = readFileSync(join(__dirname, '../..', 'app/layout.tsx'), 'utf8');
+    expect(layout).toContain('verification: {');
+    expect(layout).toContain('google: GOOGLE_SITE_VERIFICATION,');
+    expect(layout).toContain("from '@/lib/seo/routes'");
   });
 });

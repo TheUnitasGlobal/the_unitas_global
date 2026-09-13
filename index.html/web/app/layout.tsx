@@ -16,6 +16,7 @@ import { PWA_CAPTURE_BOOTSTRAP } from '@/lib/pwa/installPrompt';
 import { IN_APP_ESCAPE_BOOTSTRAP } from '@/lib/pwa/inAppBrowser';
 import { STANDALONE_LAUNCH_BOOTSTRAP } from '@/lib/pwa/standaloneLaunch';
 import { PWA_ICON_VERSION, PWA_MANIFEST_HREF, pwaIconHref } from '@/lib/pwa/iconVersion';
+import { GOOGLE_SITE_VERIFICATION } from '@/lib/seo/routes';
 import './globals.css';
 import './splash.css';
 import './waitlist.css';
@@ -71,6 +72,18 @@ const ORGANIZATION_JSON_LD = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  // Google Search Console ownership proof (founder directive 2026-09-13),
+  // declared FIRST so it reads as the head's highest-priority imprint. Next
+  // emits it as <meta name="google-site-verification" content="..." /> -- via
+  // the Metadata API rather than a hand-written <meta> in the <head> JSX
+  // below, because Next owns head de-duplication and streaming for metadata
+  // tags and documents the manual form as unsupported in a root layout. No
+  // route redeclares `verification`, so the shallow metadata merge carries
+  // this to every one of the 340 indexable URLs. The token itself lives in
+  // lib/seo/routes.ts, beside SITE_URL / SITEMAP_URL.
+  verification: {
+    google: GOOGLE_SITE_VERIFICATION,
+  },
   title: {
     template: '%s | UNITAS',
     default: 'UNITAS',

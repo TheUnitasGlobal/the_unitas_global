@@ -228,3 +228,25 @@ export const NAMED_CRAWLERS: readonly string[] = [
 
 /** Absolute URL of the sitemap, for the robots.txt `Sitemap:` directive. */
 export const SITEMAP_URL = `${SITE_URL}/sitemap.xml`;
+
+/**
+ * Google Search Console HTML-tag ownership proof (founder directive
+ * 2026-09-13), issued against the canonical property `SITE_URL`.
+ *
+ * It belongs in THIS module rather than beside the layout's JSX because
+ * ownership and the sitemap are one fact, not two: verifying the property is
+ * the precondition for submitting `/sitemap.xml` at all, and a token that
+ * drifts away from the canonical host silently un-verifies the property --
+ * after which Search Console stops reporting on the 340 URLs `sitemapEntries`
+ * emits, with no error anywhere in the build.
+ *
+ * Consumed by `app/layout.tsx` as `metadata.verification.google`, which Next
+ * renders as `<meta name="google-site-verification" content="..." />` in
+ * `<head>`. Because Next's metadata merge is SHALLOW -- a child only replaces
+ * the fields it actually declares -- and no route under `app/` declares
+ * `verification`, the tag is inherited by every page rather than living on the
+ * home page alone. (That same shallow merge is what broke 320 pages' canonical
+ * tags in REV-21; here it works in our favour, and
+ * __tests__/seo/routes.test.ts pins the wiring so it stays that way.)
+ */
+export const GOOGLE_SITE_VERIFICATION = 'VJzwePjEl-VFppwMQJXBCJ4tl5tGCJQQx3obko8Lw44';
