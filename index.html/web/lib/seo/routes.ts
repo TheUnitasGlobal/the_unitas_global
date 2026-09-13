@@ -283,3 +283,18 @@ export const NAVER_SITE_VERIFICATION = '4ecc1c574f7004b05f19488c8d2f5a783fb3b5b1
  * declaration and the crawl directives disagreeing about who is welcome.
  */
 export const YANDEX_SITE_VERIFICATION = 'd742cced34827f97';
+
+/**
+ * Seznam.cz Webmaster ownership proof (founder directive 2026-09-13).
+ *
+ * Seznam is the Czech-market search engine, and like Naver it has no
+ * first-class field in Next's `Verification` type, so it rides in
+ * `verification.other` under its literal meta name `seznam-wmt`.
+ *
+ * Note the asymmetry with Yandex, which was accompanied by a `YandexBot`
+ * entry in `NAMED_CRAWLERS`: that was justified by `ru` being one of the 20
+ * locales served. There is no `cs` locale here, so `SeznamBot` is NOT named --
+ * the `*` block already allows it everything the named blocks allow, and a
+ * named block would only add a payload to keep in sync for no gain.
+ */
+export const SEZNAM_SITE_VERIFICATION = 'AiQoeITKNJgAuikys4HSeqSWtUkyLZfL';

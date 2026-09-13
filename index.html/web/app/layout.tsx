@@ -19,6 +19,7 @@ import { PWA_ICON_VERSION, PWA_MANIFEST_HREF, pwaIconHref } from '@/lib/pwa/icon
 import {
   GOOGLE_SITE_VERIFICATION,
   NAVER_SITE_VERIFICATION,
+  SEZNAM_SITE_VERIFICATION,
   YANDEX_SITE_VERIFICATION,
 } from '@/lib/seo/routes';
 import './globals.css';
@@ -101,6 +102,8 @@ export const metadata: Metadata = {
     // the later one would silently erase the Google token.
     other: {
       'naver-site-verification': NAVER_SITE_VERIFICATION,
+      // Seznam.cz (Czech market) -- another console with no first-class field.
+      'seznam-wmt': SEZNAM_SITE_VERIFICATION,
     },
   },
   title: {

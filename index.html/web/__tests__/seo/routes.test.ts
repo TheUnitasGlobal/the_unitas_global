@@ -8,6 +8,7 @@ import {
   GATED_MODULE_ROUTES,
   GOOGLE_SITE_VERIFICATION,
   NAVER_SITE_VERIFICATION,
+  SEZNAM_SITE_VERIFICATION,
   YANDEX_SITE_VERIFICATION,
   NAMED_CRAWLERS,
   PRIVATE_PATHS,
@@ -310,12 +311,21 @@ describe('search console ownership', () => {
     expect(YANDEX_SITE_VERIFICATION).toMatch(/^[0-9a-f]{16}$/);
   });
 
+  it('pins the exact Seznam.cz token', () => {
+    expect(SEZNAM_SITE_VERIFICATION).toBe('AiQoeITKNJgAuikys4HSeqSWtUkyLZfL');
+    // Seznam issues a 32-char mixed-case alphanumeric key. The shape check is
+    // worth more here than elsewhere: this token mixes I / l / 1-lookalikes,
+    // so a transcription slip is easy and invisible until the console rejects.
+    expect(SEZNAM_SITE_VERIFICATION).toMatch(/^[A-Za-z0-9]{32}$/);
+  });
+
   it('keeps every console token distinct', () => {
     // Cheap guard against a copy-paste that points one console at another's
     // token -- both would then verify as "present" and neither would pass.
     const tokens = [
       GOOGLE_SITE_VERIFICATION,
       NAVER_SITE_VERIFICATION,
+      SEZNAM_SITE_VERIFICATION,
       YANDEX_SITE_VERIFICATION,
     ];
     expect(new Set(tokens).size).toBe(tokens.length);
@@ -335,6 +345,7 @@ describe('search console ownership', () => {
     // `naver` field. Pin the literal meta name AND the single-`verification`
     // shape: a second `verification:` key would erase the Google token.
     expect(layout).toContain("'naver-site-verification': NAVER_SITE_VERIFICATION,");
+    expect(layout).toContain("'seznam-wmt': SEZNAM_SITE_VERIFICATION,");
     expect(layout.split('verification: {').length - 1).toBe(1);
     expect(layout).toContain("from '@/lib/seo/routes'");
   });
