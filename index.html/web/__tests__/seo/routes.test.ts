@@ -7,6 +7,7 @@ import { join } from 'node:path';
 import {
   GATED_MODULE_ROUTES,
   GOOGLE_SITE_VERIFICATION,
+  NAVER_SITE_VERIFICATION,
   NAMED_CRAWLERS,
   PRIVATE_PATHS,
   PUBLIC_ROUTES,
@@ -295,6 +296,18 @@ describe('search console ownership', () => {
     expect(GOOGLE_SITE_VERIFICATION).toMatch(/^[A-Za-z0-9_-]{43}$/);
   });
 
+  it('pins the exact Naver Search Advisor token', () => {
+    expect(NAVER_SITE_VERIFICATION).toBe('4ecc1c574f7004b05f19488c8d2f5a783fb3b5b1');
+    // Naver issues a 40-char lowercase hex digest.
+    expect(NAVER_SITE_VERIFICATION).toMatch(/^[0-9a-f]{40}$/);
+  });
+
+  it('keeps the two tokens distinct', () => {
+    // Cheap guard against a copy-paste that points one console at the other's
+    // token -- both would then verify as "present" and neither would pass.
+    expect(GOOGLE_SITE_VERIFICATION).not.toBe(NAVER_SITE_VERIFICATION);
+  });
+
   it('is wired into the ROOT layout, so every page inherits the tag', () => {
     // Next's metadata merge is shallow: a descendant declaring its own
     // `verification` would silently drop this from that entire subtree, and
@@ -303,6 +316,11 @@ describe('search console ownership', () => {
     const layout = readFileSync(join(__dirname, '../..', 'app/layout.tsx'), 'utf8');
     expect(layout).toContain('verification: {');
     expect(layout).toContain('google: GOOGLE_SITE_VERIFICATION,');
+    // Naver rides in `verification.other` -- Next's Verification type has no
+    // `naver` field. Pin the literal meta name AND the single-`verification`
+    // shape: a second `verification:` key would erase the Google token.
+    expect(layout).toContain("'naver-site-verification': NAVER_SITE_VERIFICATION,");
+    expect(layout.split('verification: {').length - 1).toBe(1);
     expect(layout).toContain("from '@/lib/seo/routes'");
   });
 });

@@ -250,3 +250,19 @@ export const SITEMAP_URL = `${SITE_URL}/sitemap.xml`;
  * __tests__/seo/routes.test.ts pins the wiring so it stays that way.)
  */
 export const GOOGLE_SITE_VERIFICATION = 'VJzwePjEl-VFppwMQJXBCJ4tl5tGCJQQx3obko8Lw44';
+
+/**
+ * Naver Search Advisor (`사이트 소유확인`) HTML-tag ownership proof
+ * (founder directive 2026-09-13), the second of the three consoles ch.12
+ * names. Naver is the search engine `NAMED_CRAWLERS` already fences a
+ * dedicated `Yeti` robots block for, so ownership here is what turns that
+ * block into actual indexing.
+ *
+ * Unlike Google, Naver has NO first-class field in Next's `Verification` type
+ * -- it is exactly `{ google, yahoo, yandex, me, other }` (next/dist/lib/
+ * metadata/types/metadata-types.d.ts). A `naver:` key there is a compile
+ * error, not a silently-ignored one, so this goes through `verification.other`
+ * under its literal meta name, which Next emits verbatim as
+ * `<meta name="naver-site-verification" content="..." />`.
+ */
+export const NAVER_SITE_VERIFICATION = '4ecc1c574f7004b05f19488c8d2f5a783fb3b5b1';
