@@ -1181,6 +1181,17 @@ html[data-unitas-surface='quantum-white'] .qw-stream {
   --qw-stream-accent: var(--qw-gold-deep);
   --qw-stream-neon: var(--qw-blue-deep);
 }
+
+/* REV-21 §5C stage 2 (M10): picture tiles on the white surface -- the dark
+   credit scrim would read as a bruise here, so it inverts with the theme. */
+html[data-unitas-surface=quantum-white] .qw-stream-gallery-cell {
+  background: rgba(15, 23, 42, 0.06);
+  border: 1px solid var(--qw-line);
+}
+html[data-unitas-surface=quantum-white] .qw-stream-gallery-credit {
+  color: rgba(255, 255, 255, 0.94);
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0));
+}
 html[data-unitas-surface='quantum-white'] .qw-stream-spine {
   background: rgba(246, 247, 250, 0.98);
 }

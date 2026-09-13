@@ -7,7 +7,8 @@
  *
  * Page 0 needs no network at all (it is rendered from the surface report
  * in the component); this module produces the NETWORK cards of pages ≥ 1
- * plus the deterministic COGS card. Wikimedia legs are serialized by
+ * plus the deterministic COGS card. Stage 2's eleven legs live in
+ * `dataLadder2.ts` and are dispatched from the same recipe. Wikimedia legs are serialized by
  * deeperFetch (≤ 2 per page by construction of the recipe).
  */
 import type { DeeperAnchor } from '../deeperAnchor';
@@ -15,6 +16,20 @@ import { compactNumber, daysAgo, deeperFetchJson, isoDate, quoted, wikiPageUrl, 
 import { parseWikiLinks, wikiLinksUrl } from '../entityResolve';
 import type { ConstitutionScore } from '../types';
 import { cogsCardFor } from './cogsMatrix';
+import {
+  artLeg,
+  backlinksLeg,
+  earthEventsLeg,
+  extractsLeg,
+  globalLeg,
+  graphLeg,
+  numberLeg,
+  papersLeg,
+  shelfLeg,
+  siblingsLeg,
+  visualLeg,
+  type Stage2Context,
+} from './dataLadder2';
 import { STREAM_PAGE_CAP, streamRecipe, type StreamCard, type StreamCardKind, type StreamItem, type StreamPage } from './streamTypes';
 
 export interface StreamContext {
@@ -279,9 +294,59 @@ export interface LadderCursor {
   timeline?: string;
   timelineDone: boolean;
   conceptsDone: boolean;
+  /* stage 2 (M10) */
+  visual: number;
+  visualDone: boolean;
+  graph: number;
+  graphDone: boolean;
+  papers: number;
+  papersDone: boolean;
+  backlinks?: string;
+  backlinksDone: boolean;
+  extracts: number;
+  extractsDone: boolean;
+  globalOffset: number;
+  globalDone: boolean;
+  siblings: { category?: string; cont?: string };
+  siblingsDone: boolean;
+  shelf: number;
+  shelfDone: boolean;
+  art: { ids?: number[]; offset: number };
+  artDone: boolean;
+  numberIndicator: number;
+  numberDone: boolean;
 }
 
-export const INITIAL_LADDER_CURSOR: LadderCursor = { sitesOffset: 0, newsGlobal: 0, newsCountry: 0, derived: 0, attentionMonths: 0, hn: 0, hnMore: true, timelineDone: false, conceptsDone: false };
+export const INITIAL_LADDER_CURSOR: LadderCursor = {
+  sitesOffset: 0,
+  newsGlobal: 0,
+  newsCountry: 0,
+  derived: 0,
+  attentionMonths: 0,
+  hn: 0,
+  hnMore: true,
+  timelineDone: false,
+  conceptsDone: false,
+  visual: 0,
+  visualDone: false,
+  graph: 0,
+  graphDone: false,
+  papers: 0,
+  papersDone: false,
+  backlinksDone: false,
+  extracts: 0,
+  extractsDone: false,
+  globalOffset: 0,
+  globalDone: false,
+  siblings: {},
+  siblingsDone: false,
+  shelf: 0,
+  shelfDone: false,
+  art: { offset: 0 },
+  artDone: false,
+  numberIndicator: 0,
+  numberDone: false,
+};
 
 export interface BuiltPage {
   page: StreamPage;
@@ -348,6 +413,71 @@ export async function buildStreamPage(query: string, page: number, anchor: Deepe
       push(r.card);
       if (r.next) next.timeline = r.next;
       else next.timelineDone = true;
+    }
+    /* ---- stage 2 (M10) ---- */
+    const s2: Stage2Context = { locale: ctx.locale, lang: ctx.lang, country: ctx.country, signal: ctx.signal, origin: ctx.origin };
+    if (wants('visual') && !next.visualDone) {
+      const r = await visualLeg(anchor, s2, page, next.visual);
+      push(r.card);
+      next.visual = r.next;
+      next.visualDone = r.done;
+    }
+    if (wants('graph') && !next.graphDone) {
+      const r = await graphLeg(anchor, s2, page, next.graph);
+      push(r.card);
+      next.graph = r.next;
+      next.graphDone = r.done;
+    }
+    if (wants('papers') && !next.papersDone) {
+      const r = await papersLeg(anchor, s2, page, next.papers);
+      push(r.card);
+      next.papers = r.next;
+      next.papersDone = r.done;
+    }
+    if (wants('backlinks') && !next.backlinksDone) {
+      const r = await backlinksLeg(anchor, s2, page, next.backlinks);
+      push(r.card);
+      next.backlinks = r.next;
+      next.backlinksDone = r.done;
+    }
+    if (wants('extracts') && !next.extractsDone) {
+      const r = await extractsLeg(anchor, s2, page, next.extracts);
+      push(r.card);
+      next.extracts = r.next;
+      next.extractsDone = r.done;
+    }
+    if (wants('global') && !next.globalDone) {
+      const r = await globalLeg(anchor, s2, page, next.globalOffset);
+      push(r.card);
+      next.globalOffset = r.next;
+      next.globalDone = r.done;
+    }
+    if (wants('siblings') && !next.siblingsDone) {
+      const r = await siblingsLeg(anchor, s2, page, next.siblings);
+      push(r.card);
+      next.siblings = r.next;
+      next.siblingsDone = r.done;
+    }
+    if (wants('shelf') && !next.shelfDone) {
+      const r = await shelfLeg(anchor, s2, page, next.shelf);
+      push(r.card);
+      next.shelf = r.next;
+      next.shelfDone = r.done;
+    }
+    if (wants('art') && !next.artDone) {
+      const r = await artLeg(anchor, s2, page, next.art);
+      push(r.card);
+      next.art = r.next;
+      next.artDone = r.done;
+    }
+    if (wants('number') && !next.numberDone) {
+      const r = await numberLeg(anchor, s2, page, next.numberIndicator);
+      push(r.card);
+      next.numberIndicator = r.next;
+      next.numberDone = r.done;
+    }
+    if (wants('earthEvents')) {
+      push(await earthEventsLeg(anchor, s2, page));
     }
   } catch {
     // fail-open: whatever landed is the page

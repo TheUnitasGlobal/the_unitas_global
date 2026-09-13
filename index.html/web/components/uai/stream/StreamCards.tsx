@@ -2,7 +2,7 @@
 
 /**
  * REV-21 §5C / SPEC §12.7 -- the infinity stream's NETWORK and STATUS cards
- * (stage 1, D-37). Every card names its real source through the omni-tech
+ * (stage 1 + stage 2, D-37). Every card names its real source through the omni-tech
  * registry, every follow-up re-runs the stream on the entity, and nothing
  * here uses backdrop-filter or animates anything but transform / opacity.
  * The engagement charter (§12.7 ①-⑤) is visible in the copy: the rare mark
@@ -11,10 +11,36 @@
  */
 import type { ReactNode } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ArrowRight, ExternalLink, Fingerprint, Link2, Newspaper, Layers, Activity, MessageSquare, History, BookOpen, Hexagon, PauseCircle, RotateCcw, Flag } from 'lucide-react';
+import {
+  ArrowRight,
+  ExternalLink,
+  Fingerprint,
+  Link2,
+  Newspaper,
+  Layers,
+  Activity,
+  MessageSquare,
+  History,
+  BookOpen,
+  Hexagon,
+  PauseCircle,
+  RotateCcw,
+  Flag,
+  ImageIcon,
+  Workflow,
+  FileText,
+  CornerUpLeft,
+  AlignLeft,
+  Globe2,
+  Boxes,
+  Library,
+  Palette,
+  Sigma,
+  Waves,
+} from 'lucide-react';
 import { OUTBOUND_BRAND_ROW, outboundSearchUrl, sourceById, sourceLabel, type SourceId } from '@/lib/uai/sourceRegistry';
 import { COGS_LENS_KEYS, LENS_AXES, type CogsCard } from '@/lib/uai/stream/cogsMatrix';
-import type { StreamCard, StreamCardKind, StreamFact, StreamItem } from '@/lib/uai/stream/streamTypes';
+import type { StreamCard, StreamCardKind, StreamFact, StreamImage, StreamItem } from '@/lib/uai/stream/streamTypes';
 import type { ConstitutionAxis } from '@/lib/uai/types';
 
 export const AXIS_COLOR: Record<ConstitutionAxis, string> = {
@@ -39,6 +65,17 @@ const KIND_ICON: Partial<Record<StreamCardKind, typeof Fingerprint>> = {
   community: MessageSquare,
   timeline: History,
   deeper: Layers,
+  visual: ImageIcon,
+  graph: Workflow,
+  papers: FileText,
+  backlinks: CornerUpLeft,
+  extracts: AlignLeft,
+  global: Globe2,
+  siblings: Boxes,
+  shelf: Library,
+  art: Palette,
+  number: Sigma,
+  earthEvents: Waves,
 };
 
 export function Bar({ value, color }: { value: number; color: string }) {
@@ -277,6 +314,26 @@ export function CogsCardView({ card, term, onQuery }: { card: StreamCard & { cog
   );
 }
 
+/** Pictures with their license line. Lazy, aspect-boxed (no layout shift),
+ *  and every tile links back to the file page that carries the full terms. */
+export function Gallery({ images }: { images: StreamImage[] }) {
+  return (
+    <ul className="qw-stream-gallery">
+      {images.map((img, i) => (
+        <li key={`${img.src}-${i}`} className="qw-stream-gallery-cell">
+          <a href={img.pageUrl ?? img.src} target="_blank" rel="noopener noreferrer nofollow">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={img.src} alt={img.alt} loading="lazy" decoding="async" width={img.width} height={img.height} />
+            {(img.license || img.author) && (
+              <span className="qw-stream-gallery-credit">{[img.author, img.license].filter(Boolean).join(' · ')}</span>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function NetworkCard({ card, term, lang, onQuery }: { card: StreamCard; term: string; lang: string; onQuery: RunQuery }) {
   switch (card.kind) {
     case 'identity':
@@ -345,6 +402,71 @@ export function NetworkCard({ card, term, lang, onQuery }: { card: StreamCard; t
               ))}
             </ol>
           )}
+        </CardShell>
+      );
+    /* ---- stage 2 (M10) ---- */
+    case 'visual':
+    case 'art':
+      return (
+        <CardShell kind={card.kind} page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
+          {card.images && card.images.length > 0 && <Gallery images={card.images} />}
+          {card.items && card.items.length > 0 && <Items items={card.items} onQuery={onQuery} dense />}
+        </CardShell>
+      );
+    case 'shelf':
+      return (
+        <CardShell kind="shelf" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
+          {card.images && card.images.length > 0 && <Gallery images={card.images} />}
+          {card.items && <Items items={card.items} onQuery={onQuery} />}
+        </CardShell>
+      );
+    case 'graph':
+    case 'siblings':
+    case 'backlinks':
+      return (
+        <CardShell kind={card.kind} page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
+          {card.facts && card.facts.length > 0 && <Facts facts={card.facts} />}
+          {card.items && <Chips items={card.items} onQuery={onQuery} />}
+        </CardShell>
+      );
+    case 'papers':
+    case 'global':
+      return (
+        <CardShell kind={card.kind} page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
+          {card.facts && card.facts.length > 0 && <Facts facts={card.facts} />}
+          {card.items && <Items items={card.items} onQuery={onQuery} />}
+        </CardShell>
+      );
+    case 'extracts':
+      return (
+        <CardShell kind="extracts" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
+          {card.text &&
+            card.text.split('\n\n').map((p, i) => (
+              <p key={i} className="qw-stream-text">
+                {p}
+              </p>
+            ))}
+          {card.facts && <Facts facts={card.facts} />}
+        </CardShell>
+      );
+    case 'number':
+      return (
+        <CardShell kind="number" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
+          {card.series && <Spark points={card.series.points} color="#a78bfa" />}
+          {card.series?.dates && card.series.dates.length > 1 && (
+            <p className="qw-stream-spark-dates">
+              <span>{card.series.dates[0]}</span>
+              <span>{card.series.dates[card.series.dates.length - 1]}</span>
+            </p>
+          )}
+          {card.facts && <Facts facts={card.facts} />}
+        </CardShell>
+      );
+    case 'earthEvents':
+      return (
+        <CardShell kind="earthEvents" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
+          {card.facts && <Facts facts={card.facts} />}
+          {card.items && <Items items={card.items} onQuery={onQuery} />}
         </CardShell>
       );
     case 'cogs':

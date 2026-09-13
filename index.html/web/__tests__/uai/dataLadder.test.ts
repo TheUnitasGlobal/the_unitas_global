@@ -109,8 +109,10 @@ describe('buildStreamPage', () => {
     expect((await buildStreamPage('공기', STREAM_PAGE_CAP + 1, air, ctxBase)).page.cards).toEqual([]);
   });
 
-  it('p4: timeline masks IP authors and stops paging once the history is exhausted', async () => {
-    const { page, cursor } = await buildStreamPage('공기', 4, air, ctxBase);
+  it('timeline masks IP authors and stops paging once the history is exhausted', async () => {
+    // M10 moved timeline off p4 (visual is a two-step Wikimedia leg, so
+    // p4 has no budget left for it); it now returns on the p9+ round-robin.
+    const { page, cursor } = await buildStreamPage('공기', 11, air, ctxBase);
     const timeline = page.cards.find((c) => c.kind === 'timeline')!;
     expect(timeline.items?.[0].meta).toContain('·····');
     expect(cursor.timelineDone).toBe(true);
