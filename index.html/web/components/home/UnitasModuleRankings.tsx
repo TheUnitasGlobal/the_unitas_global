@@ -44,7 +44,7 @@ function resolveModule(key: string | undefined): ModuleRegistryEntry | null {
 
 /**
  * "실시간 유니타스 랭킹" (owner instruction 2026-09-04 round 2): a
- * cross-module leaderboard mounted in the U-AI report popup (UaiDashboard)
+ * cross-module leaderboard mounted in the U-AI result stream (UaiHyperStream)
  * and -- REV-21 §1.3 -- embedded in the discovery carousel's `unitasRanking`
  * deep modal (the standalone strip row is retired). Same component both
  * places; data comes from lib/unitasRankings.ts's deterministic,

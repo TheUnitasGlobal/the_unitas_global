@@ -6,13 +6,14 @@ import { Search, Trash2 } from 'lucide-react';
 import { useRouter } from '@/i18n/navigation';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useUai } from '@/lib/uai/useUai';
-import { UaiDashboard } from './UaiDashboard';
+import { UaiHyperStream } from './UaiHyperStream';
 
 /**
  * Full-page U-AI dashboard (app/[locale]/u-ai). Standalone search + the
- * modular analysis report + the Brain-Grid cognitive history strip. The home
- * search bar (components/home/OmniSynapseSearch) embeds the same
- * <UaiDashboard> in `compact` mode and deep-links here via `?q=`.
+ * infinity stream (REV-21 §5C, shared with the home tower per D-10) + the
+ * Brain-Grid cognitive history strip. The home search bar
+ * (components/home/OmniSynapseSearch) opens the same stream in its
+ * fullscreen tower and deep-links here via `?q=`.
  */
 export function UaiWorkspace({ initialQuery = '' }: { initialQuery?: string }) {
   const t = useTranslations('UAI');
@@ -65,7 +66,8 @@ export function UaiWorkspace({ initialQuery = '' }: { initialQuery?: string }) {
         </div>
       </form>
 
-      <UaiDashboard
+      <UaiHyperStream
+        key={uai.surfaceEpoch}
         phase={uai.phase}
         surface={uai.surface}
         deep={uai.deep}
@@ -76,12 +78,15 @@ export function UaiWorkspace({ initialQuery = '' }: { initialQuery?: string }) {
         canDeep={uai.canDeep}
         deepAvailable={uai.deepAvailable}
         hasSession={Boolean(session)}
-        onRunDeep={uai.runDeep}
+        onRunDeep={() => void uai.runDeep()}
         onSelectEcosystem={(key) => router.push(`/${key}`)}
-        onRunQuery={(q) => {
+        onRunQuery={(q, qid) => {
           setValue(q);
-          run(q);
+          runSurfaceRef.current(q, { tEcosystems: (k) => tEcosystems(k), qid });
         }}
+        host="uaiPage"
+        submittedQid={uai.submittedQid}
+        className="mt-4"
       />
 
       {uai.history.length > 0 && (

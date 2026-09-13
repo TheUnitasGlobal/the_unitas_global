@@ -1052,3 +1052,70 @@ html[data-unitas-surface='quantum-white'] button.qw-entry-legal-link {
     transition: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   24. U-AI infinity stream (REV-21 §5C / SPEC §12.7) -- white-surface
+       painting for the fullscreen tower. Layout + dark painting live in
+       globals.css; the portal remap re-keys the Tailwind utilities, these
+       re-key the stream's own tokens. No backdrop-filter (§4 one-layer).
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-stream {
+  --qw-stream-line: var(--qw-line);
+  --qw-stream-line-strong: var(--qw-line-strong);
+  --qw-stream-card: rgba(255, 255, 255, 0.72);
+  --qw-stream-ink: var(--qw-ink);
+  --qw-stream-ink-2: var(--qw-ink-2);
+  --qw-stream-ink-3: var(--qw-ink-3);
+  --qw-stream-accent: var(--qw-gold-deep);
+  --qw-stream-neon: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-stream-spine {
+  background: rgba(246, 247, 250, 0.98);
+}
+html[data-unitas-surface='quantum-white'] .qw-stream-spine-cta:hover,
+html[data-unitas-surface='quantum-white'] .qw-stream-spine-cta:focus-visible,
+html[data-unitas-surface='quantum-white'] .qw-stream-reporter-paid:hover,
+html[data-unitas-surface='quantum-white'] .qw-stream-deep-cta:hover:not(:disabled) {
+  background: var(--qw-gold-deep);
+  color: #fff;
+}
+html[data-unitas-surface='quantum-white'] .qw-stream-cogs-prompt,
+html[data-unitas-surface='quantum-white'] .qw-stream-synthesis,
+html[data-unitas-surface='quantum-white'] .qw-stream-vector-text,
+html[data-unitas-surface='quantum-white'] .qw-stream-void-text,
+html[data-unitas-surface='quantum-white'] .qw-stream-fact--big .qw-stream-fact-value,
+html[data-unitas-surface='quantum-white'] .qw-stream-item-title {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] a.qw-stream-item-link:hover .qw-stream-item-title,
+html[data-unitas-surface='quantum-white'] .qw-stream-sources a:hover,
+html[data-unitas-surface='quantum-white'] .qw-stream-chip:hover,
+html[data-unitas-surface='quantum-white'] .qw-stream-chip:focus-visible,
+html[data-unitas-surface='quantum-white'] .qw-stream-outbound-link:hover {
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-stream-chip,
+html[data-unitas-surface='quantum-white'] .qw-stream-axis-card,
+html[data-unitas-surface='quantum-white'] .qw-stream-deep-locked {
+  background: rgba(255, 255, 255, 0.75);
+}
+html[data-unitas-surface='quantum-white'] .qw-stream-vector,
+html[data-unitas-surface='quantum-white'] .qw-stream-void {
+  background: rgba(255, 255, 255, 0.6);
+}
+html[data-unitas-surface='quantum-white'] .qw-stream-bar {
+  background: rgba(10, 10, 12, 0.08);
+}
+html[data-unitas-surface='quantum-white'] .qw-stream-skeleton > span {
+  background: rgba(10, 10, 12, 0.08);
+}
+html[data-unitas-surface='quantum-white'] .qw-stream-binary-option[data-picked='1'] {
+  color: var(--qw-ink);
+  background: rgba(11, 92, 255, 0.08);
+}
+html[data-unitas-surface='quantum-white'] .qw-stream-check-box {
+  border-color: var(--qw-line-strong);
+}
+html[data-unitas-surface='quantum-white'] .qw-stream-model {
+  color: var(--qw-ink-3);
+}

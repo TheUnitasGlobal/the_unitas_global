@@ -13,7 +13,6 @@ import {
   type FormEvent,
 } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { getPathname } from '@/i18n/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search,
@@ -27,9 +26,6 @@ import {
   Globe2,
   Loader2,
   Flame,
-  Compass,
-  Radio,
-  Sparkles,
 } from 'lucide-react';
 import { AttachMenu } from '@/components/home/AttachMenu';
 import { InTowerComposer } from '@/components/uai/InTowerComposer';
@@ -38,7 +34,7 @@ import { sceneInteraction } from '@/lib/sceneInteraction';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useUai } from '@/lib/uai/useUai';
-import { UaiDashboard } from '@/components/uai/UaiDashboard';
+import { UaiHyperStream } from '@/components/uai/UaiHyperStream';
 import { CanvasDrawInput } from '@/components/interaction/CanvasDrawInput';
 import { HotShortcutMatrixStrip } from '@/components/home/HotShortcutMatrixStrip';
 import { HotShortcutResultModal } from '@/components/interaction/HotShortcutResultModal';
@@ -46,9 +42,8 @@ import { SovereignShield } from '@/components/system/SovereignShield';
 import { DialogTower } from '@/components/ui/DialogTower';
 import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 import { SEARCH_LAYER_IDS } from '@/lib/uai/searchLevels';
-import { pickCuriosityCards, purgeLegacyRecentQueries, risingSeeds } from '@/lib/uai/discovery';
-import { HUB_ROTATE_MS, HUB_THEMES, rotateIndex } from '@/lib/live/hubThemes';
-import { useHubHeadlines } from '@/lib/live/hubNewsClient';
+import { purgeLegacyRecentQueries, risingSeeds } from '@/lib/uai/discovery';
+import { HUB_ROTATE_MS } from '@/lib/live/hubThemes';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
 import { buildLiveIndex, mergeLiveResults, searchLiveIndex, type LiveResult } from '@/lib/uai/liveSearchIndex';
@@ -623,7 +618,8 @@ export function OmniSynapseSearch({
     // A hand-typed character opens the typing session; a hand-emptied
     // input ends it at once so the base widgets return instantly (§13).
     setTyping(next.length > 0);
-    if (uai.phase !== 'idle') uai.reset();
+    // REV-21 §12.7 (SR-2): editing the bar never tears the open result down
+    // -- the stream renders `submittedQuery`, not the live text.
     playTypingTick();
   }
 
@@ -699,12 +695,11 @@ export function OmniSynapseSearch({
     return () => io.disconnect();
   }, [browsing, hasText, ladder.query, ladder.done, ladder.page, query, loadMoreLadder]);
 
-  // Discovery data (REV-19 §13, REV-20 §5.3): rising seeds + curiosity cards
-  // rotate on a 6h clock, live signals follow the hub's 7s theme rotation.
-  // REV-20: this clock now also drives the fullscreen post-submit stream
-  // (signals/curiosity moved there from the typing dropdown), not only the
-  // typing popup -- `discoveryActive` covers both.
-  const discoveryActive = browsing || uai.phase !== 'idle';
+  // Discovery data (REV-19 §13, REV-20 §5.3): the rising seeds of the empty
+  // typing popup rotate on a 6h clock. REV-21 §5C: the post-submit tower no
+  // longer carries the REV-20 signals / curiosity blocks -- the infinity
+  // stream's own news / chain / COGS cards took their place.
+  const discoveryActive = browsing;
   useEffect(() => {
     if (!discoveryActive) return;
     setClock(Date.now());
@@ -712,14 +707,7 @@ export function OmniSynapseSearch({
     return () => window.clearInterval(id);
   }, [discoveryActive]);
   const rising = useMemo(() => risingSeeds(liveIndex, clock, 8), [liveIndex, clock]);
-  const curiosityIds = useMemo(() => pickCuriosityCards(clock), [clock]);
-  const signalTheme = HUB_THEMES[rotateIndex(clock, HUB_THEMES.length)];
-  const signals = useHubHeadlines(discoveryActive ? signalTheme.key : null, locale);
   const tRev = useTranslations('Rev19');
-  const fullReportHref = getPathname({
-    locale,
-    href: value.trim() ? { pathname: '/u-ai', query: { q: value.trim() } } : '/u-ai',
-  });
 
   useEffect(() => {
     onOuroborosChange?.(ouroboros);
@@ -1089,88 +1077,34 @@ export function OmniSynapseSearch({
             submit: t('searchSubmitAria'),
           }}
         />
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2.5 pb-16 sm:px-4">
-          <UaiDashboard
-            phase={uai.phase}
-            surface={uai.surface}
-            deep={uai.deep}
-            insight={uai.insight}
-            trendHits={uai.trendHits}
-            insightForging={uai.insightForging}
-            error={uai.error}
-            canDeep={uai.canDeep}
-            deepAvailable={uai.deepAvailable}
-            hasSession={Boolean(session)}
-            onRunDeep={handleRunDeep}
-            onSelectEcosystem={(key) => {
-              uai.reset();
-              selectEcosystemByKey(key);
-            }}
-            onRunQuery={runFollowupQuery}
-            split
-            fullReportHref={fullReportHref}
-            deeperHost="tower"
-          />
-
-          {uai.phase !== 'idle' && (
-            <div className="mx-auto mt-10 max-w-5xl space-y-8 border-t border-white/10 pt-8">
-              <section data-discovery="signals">
-                <p className="qw-discovery-label">
-                  <Radio size={15} aria-hidden="true" />
-                  {tRev('search.signals')}
-                  <span className="ml-1 text-[12px] font-bold uppercase tracking-[0.2em]" style={{ color: signalTheme.color }}>
-                    · {tRev(`hub.themes.${signalTheme.key}.title`)}
-                  </span>
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {signals.items.slice(0, 4).map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className="qw-discovery-chip"
-                      onMouseEnter={() => playHoverSfx()}
-                      onClick={() => runFollowupQuery(item.title)}
-                      title={item.domain ?? item.title}
-                    >
-                      <signalTheme.icon size={14} style={{ color: signalTheme.color }} aria-hidden="true" />
-                      <span className="truncate">{item.title}</span>
-                    </button>
-                  ))}
-                  {signals.items.length === 0 && (
-                    <span className="text-[13px] text-gray-500">{signals.loading ? tRev('hub.loading') : tRev('hub.empty')}</span>
-                  )}
-                </div>
-              </section>
-
-              <section data-discovery="curiosity">
-                <p className="qw-discovery-label">
-                  <Sparkles size={15} aria-hidden="true" />
-                  {tRev('search.curiosity')}
-                </p>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                  {curiosityIds.map((id) => {
-                    const question = tRev(`search.cards.c${id}`);
-                    return (
-                      <button
-                        key={id}
-                        type="button"
-                        className="qw-curiosity-card"
-                        onMouseEnter={() => playHoverSfx()}
-                        onClick={() => runFollowupQuery(question)}
-                      >
-                        <span>{question}</span>
-                        <span className="qw-curiosity-ask flex items-center gap-1">
-                          <Compass size={12} aria-hidden="true" />
-                          {tRev('search.ask')}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </section>
-            </div>
-          )}
-        </div>
+        {/* REV-21 §5C / SPEC §12.7: the infinity stream IS the tower body --
+            the feed root is the scroll box, the spine sticks inside it,
+            and every card / chip re-runs the search in place (the REV-20
+            signals + curiosity blocks are folded into the stream's own
+            news / chain / COGS cards). `key` remounts per submit so a new
+            question always starts at page 0, scrolled to the top. */}
+        <UaiHyperStream
+          key={uai.surfaceEpoch}
+          phase={uai.phase}
+          surface={uai.surface}
+          deep={uai.deep}
+          insight={uai.insight}
+          trendHits={uai.trendHits}
+          insightForging={uai.insightForging}
+          error={uai.error}
+          canDeep={uai.canDeep}
+          deepAvailable={uai.deepAvailable}
+          hasSession={Boolean(session)}
+          onRunDeep={handleRunDeep}
+          onSelectEcosystem={(key) => {
+            uai.reset();
+            selectEcosystemByKey(key);
+          }}
+          onRunQuery={runFollowupQuery}
+          host="tower"
+          submittedQid={uai.submittedQid}
+          className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2.5 pb-16 sm:px-4"
+        />
       </DialogTower>
     </div>
   );
