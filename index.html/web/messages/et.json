@@ -2193,6 +2193,26 @@
           "f6": "Kaugus"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Otsingutoimingud",
+      "attachMenuAria": "Lisa fail, video või visand",
+      "attachSheetTitle": "Manusta",
+      "close": "Sulge"
+    },
+    "ladder": {
+      "global": "Kogu maailm",
+      "local": "Sinu keeles",
+      "related": "Seotud",
+      "more": "Rohkem märksõnu",
+      "loading": "Laadimine…",
+      "end": "Märksõnaredel lõpeb siin."
+    },
+    "tower": {
+      "composerPlaceholder": "Täpsusta või otsi midagi uut…",
+      "composerAria": "Otsi tulemuse seest uuesti",
+      "suggestLabel": "Soovitused",
+      "scopeProduct": "UNITAS"
     }
   }
 }

@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "Portata fluviale",
   "deeper.themes.terraPulse.f4": "Altezza delle onde",
   "deeper.themes.terraPulse.f5": "Allerte meteo",
-  "deeper.themes.terraPulse.f6": "Distanza"
+  "deeper.themes.terraPulse.f6": "Distanza",
+  "composer.omniKeyAria": "Azioni di ricerca",
+  "composer.attachMenuAria": "Allega un file, un video o uno schizzo",
+  "composer.attachSheetTitle": "Allega",
+  "composer.close": "Chiudi",
+  "ladder.global": "Tutto il mondo",
+  "ladder.local": "Nella tua lingua",
+  "ladder.related": "Correlati",
+  "ladder.more": "Altre parole chiave",
+  "ladder.loading": "Caricamento…",
+  "ladder.end": "La scala di parole chiave finisce qui.",
+  "tower.composerPlaceholder": "Affina o cerca qualcosa di nuovo…",
+  "tower.composerAria": "Cerca di nuovo all'interno del risultato",
+  "tower.suggestLabel": "Suggerimenti",
+  "tower.scopeProduct": "UNITAS"
 }

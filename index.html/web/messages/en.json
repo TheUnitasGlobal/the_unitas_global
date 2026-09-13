@@ -1099,7 +1099,7 @@
       },
       "security": {
         "title": "Security",
-        "description": "The defense that keeps sovereignty from being borrowed."
+        "description": "The defense that keeps sovereign standing from being borrowed."
       },
       "strategy": {
         "title": "Strategy",
@@ -1386,7 +1386,7 @@
       },
       "security": {
         "title": "Security",
-        "description": "The defense that keeps sovereignty from being borrowed."
+        "description": "The defense that keeps sovereign standing from being borrowed."
       }
     }
   },
@@ -2193,6 +2193,26 @@
           "f6": "Distance"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Search actions",
+      "attachMenuAria": "Attach a file, video or sketch",
+      "attachSheetTitle": "Attach",
+      "close": "Close"
+    },
+    "ladder": {
+      "global": "Worldwide",
+      "local": "In your language",
+      "related": "Related",
+      "more": "More keywords",
+      "loading": "Loading…",
+      "end": "The keyword ladder ends here."
+    },
+    "tower": {
+      "composerPlaceholder": "Refine or search something new…",
+      "composerAria": "Search again inside the result",
+      "suggestLabel": "Suggestions",
+      "scopeProduct": "UNITAS"
     }
   }
 }

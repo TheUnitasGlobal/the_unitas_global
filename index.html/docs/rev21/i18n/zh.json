@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "河流流量",
   "deeper.themes.terraPulse.f4": "浪高",
   "deeper.themes.terraPulse.f5": "气象预警",
-  "deeper.themes.terraPulse.f6": "距离"
+  "deeper.themes.terraPulse.f6": "距离",
+  "composer.omniKeyAria": "搜索操作",
+  "composer.attachMenuAria": "附加文件、视频或草图",
+  "composer.attachSheetTitle": "附加",
+  "composer.close": "关闭",
+  "ladder.global": "全球",
+  "ladder.local": "你的语言",
+  "ladder.related": "相关",
+  "ladder.more": "更多关键词",
+  "ladder.loading": "加载中…",
+  "ladder.end": "关键词阶梯到此为止。",
+  "tower.composerPlaceholder": "细化查询或搜索新内容…",
+  "tower.composerAria": "在结果中再次搜索",
+  "tower.suggestLabel": "建议",
+  "tower.scopeProduct": "UNITAS"
 }

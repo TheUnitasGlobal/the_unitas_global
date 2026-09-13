@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "Jõe vooluhulk",
   "deeper.themes.terraPulse.f4": "Lainekõrgus",
   "deeper.themes.terraPulse.f5": "Ilmahoiatused",
-  "deeper.themes.terraPulse.f6": "Kaugus"
+  "deeper.themes.terraPulse.f6": "Kaugus",
+  "composer.omniKeyAria": "Otsingutoimingud",
+  "composer.attachMenuAria": "Lisa fail, video või visand",
+  "composer.attachSheetTitle": "Manusta",
+  "composer.close": "Sulge",
+  "ladder.global": "Kogu maailm",
+  "ladder.local": "Sinu keeles",
+  "ladder.related": "Seotud",
+  "ladder.more": "Rohkem märksõnu",
+  "ladder.loading": "Laadimine…",
+  "ladder.end": "Märksõnaredel lõpeb siin.",
+  "tower.composerPlaceholder": "Täpsusta või otsi midagi uut…",
+  "tower.composerAria": "Otsi tulemuse seest uuesti",
+  "tower.suggestLabel": "Soovitused",
+  "tower.scopeProduct": "UNITAS"
 }

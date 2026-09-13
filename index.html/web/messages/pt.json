@@ -2193,6 +2193,26 @@
           "f6": "Distância"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Ações de busca",
+      "attachMenuAria": "Anexar um arquivo, vídeo ou esboço",
+      "attachSheetTitle": "Anexar",
+      "close": "Fechar"
+    },
+    "ladder": {
+      "global": "Mundo todo",
+      "local": "No seu idioma",
+      "related": "Relacionados",
+      "more": "Mais palavras-chave",
+      "loading": "Carregando…",
+      "end": "A escada de palavras-chave termina aqui."
+    },
+    "tower": {
+      "composerPlaceholder": "Refine ou busque algo novo…",
+      "composerAria": "Buscar novamente dentro do resultado",
+      "suggestLabel": "Sugestões",
+      "scopeProduct": "UNITAS"
     }
   }
 }

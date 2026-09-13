@@ -2193,6 +2193,26 @@
           "f6": "Distanza"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Azioni di ricerca",
+      "attachMenuAria": "Allega un file, un video o uno schizzo",
+      "attachSheetTitle": "Allega",
+      "close": "Chiudi"
+    },
+    "ladder": {
+      "global": "Tutto il mondo",
+      "local": "Nella tua lingua",
+      "related": "Correlati",
+      "more": "Altre parole chiave",
+      "loading": "Caricamento…",
+      "end": "La scala di parole chiave finisce qui."
+    },
+    "tower": {
+      "composerPlaceholder": "Affina o cerca qualcosa di nuovo…",
+      "composerAria": "Cerca di nuovo all'interno del risultato",
+      "suggestLabel": "Suggerimenti",
+      "scopeProduct": "UNITAS"
     }
   }
 }

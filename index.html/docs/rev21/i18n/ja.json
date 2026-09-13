@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "河川流量",
   "deeper.themes.terraPulse.f4": "波高",
   "deeper.themes.terraPulse.f5": "気象警報",
-  "deeper.themes.terraPulse.f6": "距離"
+  "deeper.themes.terraPulse.f6": "距離",
+  "composer.omniKeyAria": "検索アクション",
+  "composer.attachMenuAria": "ファイル・動画・スケッチを添付",
+  "composer.attachSheetTitle": "添付",
+  "composer.close": "閉じる",
+  "ladder.global": "世界全体",
+  "ladder.local": "あなたの言語で",
+  "ladder.related": "関連",
+  "ladder.more": "キーワードをもっと見る",
+  "ladder.loading": "読み込み中…",
+  "ladder.end": "キーワードラダーはここで終わりです。",
+  "tower.composerPlaceholder": "絞り込むか、新しく検索…",
+  "tower.composerAria": "結果の中でもう一度検索",
+  "tower.suggestLabel": "候補",
+  "tower.scopeProduct": "UNITAS"
 }

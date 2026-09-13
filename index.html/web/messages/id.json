@@ -2193,6 +2193,26 @@
           "f6": "Jarak"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Tindakan pencarian",
+      "attachMenuAria": "Lampirkan file, video, atau sketsa",
+      "attachSheetTitle": "Lampirkan",
+      "close": "Tutup"
+    },
+    "ladder": {
+      "global": "Seluruh dunia",
+      "local": "Dalam bahasa Anda",
+      "related": "Terkait",
+      "more": "Kata kunci lainnya",
+      "loading": "Memuat…",
+      "end": "Tangga kata kunci berakhir di sini."
+    },
+    "tower": {
+      "composerPlaceholder": "Persempit atau cari hal baru…",
+      "composerAria": "Cari lagi di dalam hasil",
+      "suggestLabel": "Saran",
+      "scopeProduct": "UNITAS"
     }
   }
 }

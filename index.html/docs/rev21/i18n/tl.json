@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "Daloy ng ilog",
   "deeper.themes.terraPulse.f4": "Taas ng alon",
   "deeper.themes.terraPulse.f5": "Mga babala sa panahon",
-  "deeper.themes.terraPulse.f6": "Distansya"
+  "deeper.themes.terraPulse.f6": "Distansya",
+  "composer.omniKeyAria": "Mga aksyon sa paghahanap",
+  "composer.attachMenuAria": "Mag-attach ng file, video o sketch",
+  "composer.attachSheetTitle": "Mag-attach",
+  "composer.close": "Isara",
+  "ladder.global": "Buong mundo",
+  "ladder.local": "Sa iyong wika",
+  "ladder.related": "Kaugnay",
+  "ladder.more": "Higit pang keyword",
+  "ladder.loading": "Naglo-load…",
+  "ladder.end": "Dito nagtatapos ang hagdan ng mga keyword.",
+  "tower.composerPlaceholder": "Pinuhin o maghanap ng bago…",
+  "tower.composerAria": "Maghanap muli sa loob ng resulta",
+  "tower.suggestLabel": "Mga mungkahi",
+  "tower.scopeProduct": "UNITAS"
 }

@@ -2193,6 +2193,26 @@
           "f6": "距离"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "搜索操作",
+      "attachMenuAria": "附加文件、视频或草图",
+      "attachSheetTitle": "附加",
+      "close": "关闭"
+    },
+    "ladder": {
+      "global": "全球",
+      "local": "你的语言",
+      "related": "相关",
+      "more": "更多关键词",
+      "loading": "加载中…",
+      "end": "关键词阶梯到此为止。"
+    },
+    "tower": {
+      "composerPlaceholder": "细化查询或搜索新内容…",
+      "composerAria": "在结果中再次搜索",
+      "suggestLabel": "建议",
+      "scopeProduct": "UNITAS"
     }
   }
 }

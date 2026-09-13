@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "Vazão dos rios",
   "deeper.themes.terraPulse.f4": "Altura das ondas",
   "deeper.themes.terraPulse.f5": "Alertas meteorológicos",
-  "deeper.themes.terraPulse.f6": "Distância"
+  "deeper.themes.terraPulse.f6": "Distância",
+  "composer.omniKeyAria": "Ações de busca",
+  "composer.attachMenuAria": "Anexar um arquivo, vídeo ou esboço",
+  "composer.attachSheetTitle": "Anexar",
+  "composer.close": "Fechar",
+  "ladder.global": "Mundo todo",
+  "ladder.local": "No seu idioma",
+  "ladder.related": "Relacionados",
+  "ladder.more": "Mais palavras-chave",
+  "ladder.loading": "Carregando…",
+  "ladder.end": "A escada de palavras-chave termina aqui.",
+  "tower.composerPlaceholder": "Refine ou busque algo novo…",
+  "tower.composerAria": "Buscar novamente dentro do resultado",
+  "tower.suggestLabel": "Sugestões",
+  "tower.scopeProduct": "UNITAS"
 }

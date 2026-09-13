@@ -194,6 +194,45 @@ html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-enter-key:dis
   opacity: 0.72;
   cursor: not-allowed;
 }
+/* REV-21 §5A: the attach half of the action box shares the ⏎ key's box. */
+html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-attach-toggle {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid var(--qw-line-strong);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--qw-ink-2);
+  transition: border-color 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+}
+@media (min-width: 640px) {
+  html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-attach-toggle {
+    width: 38px;
+    height: 38px;
+  }
+}
+html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-attach-toggle:hover,
+html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-attach-toggle[aria-expanded='true'] {
+  border-color: var(--qw-blue);
+  background: #fff;
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-attach-menu {
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: var(--qw-modal-edge), 0 18px 44px rgba(10, 10, 12, 0.14), 0 0 0 1px rgba(207, 214, 226, 0.7);
+}
+html[data-unitas-surface='quantum-white'] .qw-attach-item {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-attach-item:hover,
+html[data-unitas-surface='quantum-white'] .qw-attach-item:focus-visible {
+  background: rgba(11, 92, 255, 0.07);
+}
+html[data-unitas-surface='quantum-white'] .qw-attach-sheet-title,
+html[data-unitas-surface='quantum-white'] .qw-attach-close {
+  color: var(--qw-ink-3);
+  border-color: var(--qw-line-strong);
+}
 html[data-unitas-surface='quantum-white'] #omni-synapse-search[data-typing='1'] .qw-enter-key {
   color: #fff;
   background-color: var(--qw-blue);

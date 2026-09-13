@@ -1099,7 +1099,7 @@
       },
       "security": {
         "title": "안보",
-        "description": "주권이 대여되지 않도록 지키는 방어 층위."
+        "description": "소버린 지위가 대여되지 않도록 지키는 방어 층위."
       },
       "strategy": {
         "title": "전략",
@@ -1386,7 +1386,7 @@
       },
       "security": {
         "title": "안보",
-        "description": "주권이 대여되지 않도록 지키는 방어 층위."
+        "description": "소버린 지위가 대여되지 않도록 지키는 방어 층위."
       }
     }
   },
@@ -2193,6 +2193,26 @@
           "f6": "거리"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "검색 동작",
+      "attachMenuAria": "파일·동영상·스케치 첨부",
+      "attachSheetTitle": "첨부",
+      "close": "닫기"
+    },
+    "ladder": {
+      "global": "전 세계",
+      "local": "내 언어",
+      "related": "연관 주제",
+      "more": "키워드 더 보기",
+      "loading": "불러오는 중…",
+      "end": "키워드 사다리의 끝입니다."
+    },
+    "tower": {
+      "composerPlaceholder": "다듬거나 새로 검색해 보세요…",
+      "composerAria": "결과 안에서 다시 검색",
+      "suggestLabel": "제안",
+      "scopeProduct": "UNITAS"
     }
   }
 }

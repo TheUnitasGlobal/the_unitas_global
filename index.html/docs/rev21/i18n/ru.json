@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "Расход реки",
   "deeper.themes.terraPulse.f4": "Высота волн",
   "deeper.themes.terraPulse.f5": "Погодные предупреждения",
-  "deeper.themes.terraPulse.f6": "Расстояние"
+  "deeper.themes.terraPulse.f6": "Расстояние",
+  "composer.omniKeyAria": "Действия поиска",
+  "composer.attachMenuAria": "Прикрепить файл, видео или набросок",
+  "composer.attachSheetTitle": "Прикрепить",
+  "composer.close": "Закрыть",
+  "ladder.global": "Весь мир",
+  "ladder.local": "На вашем языке",
+  "ladder.related": "Связанные",
+  "ladder.more": "Ещё ключевые слова",
+  "ladder.loading": "Загрузка…",
+  "ladder.end": "Лестница ключевых слов заканчивается здесь.",
+  "tower.composerPlaceholder": "Уточните или найдите что-то новое…",
+  "tower.composerAria": "Искать снова внутри результата",
+  "tower.suggestLabel": "Подсказки",
+  "tower.scopeProduct": "UNITAS"
 }

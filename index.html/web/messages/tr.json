@@ -2193,6 +2193,26 @@
           "f6": "Uzaklık"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Arama eylemleri",
+      "attachMenuAria": "Dosya, video veya eskiz ekle",
+      "attachSheetTitle": "Ekle",
+      "close": "Kapat"
+    },
+    "ladder": {
+      "global": "Tüm dünya",
+      "local": "Kendi dilinizde",
+      "related": "İlgili",
+      "more": "Daha fazla anahtar kelime",
+      "loading": "Yükleniyor…",
+      "end": "Anahtar kelime merdiveni burada bitiyor."
+    },
+    "tower": {
+      "composerPlaceholder": "Aramayı daraltın veya yeni bir şey arayın…",
+      "composerAria": "Sonucun içinde yeniden ara",
+      "suggestLabel": "Öneriler",
+      "scopeProduct": "UNITAS"
     }
   }
 }

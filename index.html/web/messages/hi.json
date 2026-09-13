@@ -2193,6 +2193,26 @@
           "f6": "दूरी"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "खोज क्रियाएँ",
+      "attachMenuAria": "फ़ाइल, वीडियो या स्केच संलग्न करें",
+      "attachSheetTitle": "संलग्न करें",
+      "close": "बंद करें"
+    },
+    "ladder": {
+      "global": "पूरी दुनिया",
+      "local": "आपकी भाषा में",
+      "related": "संबंधित",
+      "more": "और कीवर्ड",
+      "loading": "लोड हो रहा है…",
+      "end": "कीवर्ड सीढ़ी यहीं समाप्त होती है।"
+    },
+    "tower": {
+      "composerPlaceholder": "खोज को निखारें या कुछ नया खोजें…",
+      "composerAria": "परिणाम के भीतर फिर से खोजें",
+      "suggestLabel": "सुझाव",
+      "scopeProduct": "UNITAS"
     }
   }
 }

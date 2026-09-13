@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "Caudal fluvial",
   "deeper.themes.terraPulse.f4": "Altura de las olas",
   "deeper.themes.terraPulse.f5": "Alertas meteorológicas",
-  "deeper.themes.terraPulse.f6": "Distancia"
+  "deeper.themes.terraPulse.f6": "Distancia",
+  "composer.omniKeyAria": "Acciones de búsqueda",
+  "composer.attachMenuAria": "Adjuntar un archivo, video o boceto",
+  "composer.attachSheetTitle": "Adjuntar",
+  "composer.close": "Cerrar",
+  "ladder.global": "Todo el mundo",
+  "ladder.local": "En tu idioma",
+  "ladder.related": "Relacionados",
+  "ladder.more": "Más palabras clave",
+  "ladder.loading": "Cargando…",
+  "ladder.end": "La escalera de palabras clave termina aquí.",
+  "tower.composerPlaceholder": "Afina o busca algo nuevo…",
+  "tower.composerAria": "Buscar de nuevo dentro del resultado",
+  "tower.suggestLabel": "Sugerencias",
+  "tower.scopeProduct": "UNITAS"
 }

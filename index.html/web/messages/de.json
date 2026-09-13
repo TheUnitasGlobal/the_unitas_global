@@ -2193,6 +2193,26 @@
           "f6": "Entfernung"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Suchaktionen",
+      "attachMenuAria": "Datei, Video oder Skizze anhängen",
+      "attachSheetTitle": "Anhängen",
+      "close": "Schließen"
+    },
+    "ladder": {
+      "global": "Weltweit",
+      "local": "In Ihrer Sprache",
+      "related": "Verwandt",
+      "more": "Weitere Stichwörter",
+      "loading": "Wird geladen …",
+      "end": "Die Stichwortleiter endet hier."
+    },
+    "tower": {
+      "composerPlaceholder": "Verfeinern oder etwas Neues suchen …",
+      "composerAria": "Innerhalb des Ergebnisses erneut suchen",
+      "suggestLabel": "Vorschläge",
+      "scopeProduct": "UNITAS"
     }
   }
 }

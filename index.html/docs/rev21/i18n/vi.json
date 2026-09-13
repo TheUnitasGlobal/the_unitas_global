@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "Lưu lượng sông",
   "deeper.themes.terraPulse.f4": "Độ cao sóng",
   "deeper.themes.terraPulse.f5": "Cảnh báo thời tiết",
-  "deeper.themes.terraPulse.f6": "Khoảng cách"
+  "deeper.themes.terraPulse.f6": "Khoảng cách",
+  "composer.omniKeyAria": "Thao tác tìm kiếm",
+  "composer.attachMenuAria": "Đính kèm tệp, video hoặc bản phác thảo",
+  "composer.attachSheetTitle": "Đính kèm",
+  "composer.close": "Đóng",
+  "ladder.global": "Toàn thế giới",
+  "ladder.local": "Bằng ngôn ngữ của bạn",
+  "ladder.related": "Liên quan",
+  "ladder.more": "Thêm từ khóa",
+  "ladder.loading": "Đang tải…",
+  "ladder.end": "Thang từ khóa kết thúc tại đây.",
+  "tower.composerPlaceholder": "Tinh chỉnh hoặc tìm điều gì mới…",
+  "tower.composerAria": "Tìm kiếm lại bên trong kết quả",
+  "tower.suggestLabel": "Gợi ý",
+  "tower.scopeProduct": "UNITAS"
 }

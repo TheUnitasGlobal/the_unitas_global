@@ -859,6 +859,164 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
 }
 
 /* --------------------------------------------------------------------
+   REV-21 §5A / SPEC §5.1 -- the attach split-button + menu (LAYOUT). The
+   three icons roll through a one-icon-high window for display only; under
+   reduced motion or on hover-less devices they sit as a static stack so
+   every attach path is visible at once. ≤767px the menu is a bottom sheet
+   that rides above the soft keyboard (--qw-sheet-offset from
+   VisualViewport). Painting for the white surface: quantum-white-rev19.css. */
+.qw-attach-roll {
+  display: block;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+}
+.qw-attach-roll-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 20px;
+  animation: qw-attach-roll 7.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+.qw-attach-roll-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  padding: 1px;
+}
+@keyframes qw-attach-roll {
+  0%,
+  28% {
+    transform: translateY(0);
+  }
+  33%,
+  61% {
+    transform: translateY(-20px);
+  }
+  66%,
+  94% {
+    transform: translateY(-40px);
+  }
+  100% {
+    transform: translateY(-60px);
+  }
+}
+.qw-attach-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #0b5cff;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 16px;
+  text-align: center;
+}
+.qw-attach-badge[hidden] {
+  display: none;
+}
+.qw-attach-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 45;
+  min-width: 200px;
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  background: rgba(10, 10, 12, 0.96);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+}
+.qw-attach-menu[hidden] {
+  display: none;
+}
+.qw-attach-sheet-head {
+  display: none;
+}
+.qw-attach-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  color: #e5e7eb;
+}
+.qw-attach-item:hover,
+.qw-attach-item:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+  outline: none;
+}
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  /* static stack: all three icons visible, no motion */
+  .qw-attach-roll {
+    width: 22px;
+    height: 22px;
+  }
+  .qw-attach-roll-track {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 22px;
+    animation: none;
+    transform: none;
+  }
+  .qw-attach-roll-icon {
+    width: 11px;
+    height: 11px;
+    flex-basis: auto;
+    padding: 0;
+  }
+  .qw-attach-roll-icon:nth-child(4) {
+    display: none;
+  }
+}
+@media (max-width: 767px) {
+  .qw-attach-menu {
+    position: fixed;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: var(--qw-sheet-offset, 0px);
+    z-index: 150;
+    min-width: 0;
+    padding: 8px 12px calc(12px + env(safe-area-inset-bottom));
+    border-radius: 16px 16px 0 0;
+    border-bottom: 0;
+  }
+  .qw-attach-sheet-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 4px 8px;
+  }
+  .qw-attach-sheet-title {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9ca3af;
+  }
+  .qw-attach-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #9ca3af;
+  }
+}
+
+/* --------------------------------------------------------------------
    REV-21 §3 / SPEC §12.2 -- Explore Deeper block: LAYOUT only (unscoped,
    so the dark /u-ai route and every Quantum White popup share one grid).
    Painting lives in quantum-white-rev19.css §22 for the white surface and

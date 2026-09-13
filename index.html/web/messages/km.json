@@ -2193,6 +2193,26 @@
           "f6": "ចម្ងាយ"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "សកម្មភាពស្វែងរក",
+      "attachMenuAria": "ភ្ជាប់ឯកសារ វីដេអូ ឬគំនូរព្រាង",
+      "attachSheetTitle": "ភ្ជាប់",
+      "close": "បិទ"
+    },
+    "ladder": {
+      "global": "ទូទាំងពិភពលោក",
+      "local": "ជាភាសារបស់អ្នក",
+      "related": "ពាក់ព័ន្ធ",
+      "more": "ពាក្យគន្លឹះបន្ថែម",
+      "loading": "កំពុងផ្ទុក…",
+      "end": "ជណ្ដើរពាក្យគន្លឹះបញ្ចប់ត្រឹមនេះ។"
+    },
+    "tower": {
+      "composerPlaceholder": "កែសម្រួល ឬស្វែងរកអ្វីថ្មី…",
+      "composerAria": "ស្វែងរកម្ដងទៀតក្នុងលទ្ធផល",
+      "suggestLabel": "ការណែនាំ",
+      "scopeProduct": "UNITAS"
     }
   }
 }

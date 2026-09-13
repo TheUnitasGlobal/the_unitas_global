@@ -2193,6 +2193,26 @@
           "f6": "Afstand"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Zoekacties",
+      "attachMenuAria": "Bestand, video of schets bijvoegen",
+      "attachSheetTitle": "Bijvoegen",
+      "close": "Sluiten"
+    },
+    "ladder": {
+      "global": "Wereldwijd",
+      "local": "In jouw taal",
+      "related": "Gerelateerd",
+      "more": "Meer trefwoorden",
+      "loading": "Laden…",
+      "end": "De trefwoordenladder eindigt hier."
+    },
+    "tower": {
+      "composerPlaceholder": "Verfijn of zoek iets nieuws…",
+      "composerAria": "Opnieuw zoeken binnen het resultaat",
+      "suggestLabel": "Suggesties",
+      "scopeProduct": "UNITAS"
     }
   }
 }

@@ -2193,6 +2193,26 @@
           "f6": "Khoảng cách"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Thao tác tìm kiếm",
+      "attachMenuAria": "Đính kèm tệp, video hoặc bản phác thảo",
+      "attachSheetTitle": "Đính kèm",
+      "close": "Đóng"
+    },
+    "ladder": {
+      "global": "Toàn thế giới",
+      "local": "Bằng ngôn ngữ của bạn",
+      "related": "Liên quan",
+      "more": "Thêm từ khóa",
+      "loading": "Đang tải…",
+      "end": "Thang từ khóa kết thúc tại đây."
+    },
+    "tower": {
+      "composerPlaceholder": "Tinh chỉnh hoặc tìm điều gì mới…",
+      "composerAria": "Tìm kiếm lại bên trong kết quả",
+      "suggestLabel": "Gợi ý",
+      "scopeProduct": "UNITAS"
     }
   }
 }

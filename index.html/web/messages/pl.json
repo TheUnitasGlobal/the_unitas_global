@@ -2193,6 +2193,26 @@
           "f6": "Odległość"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Akcje wyszukiwania",
+      "attachMenuAria": "Załącz plik, wideo lub szkic",
+      "attachSheetTitle": "Załącz",
+      "close": "Zamknij"
+    },
+    "ladder": {
+      "global": "Cały świat",
+      "local": "W Twoim języku",
+      "related": "Powiązane",
+      "more": "Więcej słów kluczowych",
+      "loading": "Wczytywanie…",
+      "end": "Drabina słów kluczowych kończy się tutaj."
+    },
+    "tower": {
+      "composerPlaceholder": "Doprecyzuj lub wyszukaj coś nowego…",
+      "composerAria": "Wyszukaj ponownie w obrębie wyniku",
+      "suggestLabel": "Sugestie",
+      "scopeProduct": "UNITAS"
     }
   }
 }

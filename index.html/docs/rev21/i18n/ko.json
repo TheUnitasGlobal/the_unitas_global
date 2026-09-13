@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "하천 유량",
   "deeper.themes.terraPulse.f4": "파고",
   "deeper.themes.terraPulse.f5": "기상 경보",
-  "deeper.themes.terraPulse.f6": "거리"
+  "deeper.themes.terraPulse.f6": "거리",
+  "composer.omniKeyAria": "검색 동작",
+  "composer.attachMenuAria": "파일·동영상·스케치 첨부",
+  "composer.attachSheetTitle": "첨부",
+  "composer.close": "닫기",
+  "ladder.global": "전 세계",
+  "ladder.local": "내 언어",
+  "ladder.related": "연관 주제",
+  "ladder.more": "키워드 더 보기",
+  "ladder.loading": "불러오는 중…",
+  "ladder.end": "키워드 사다리의 끝입니다.",
+  "tower.composerPlaceholder": "다듬거나 새로 검색해 보세요…",
+  "tower.composerAria": "결과 안에서 다시 검색",
+  "tower.suggestLabel": "제안",
+  "tower.scopeProduct": "UNITAS"
 }

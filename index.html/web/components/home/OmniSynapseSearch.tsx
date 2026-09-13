@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -16,7 +17,6 @@ import { getPathname } from '@/i18n/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Search,
-  Paperclip,
   Video,
   PenTool,
   X,
@@ -24,12 +24,16 @@ import {
   CornerDownLeft,
   ExternalLink,
   Globe,
+  Globe2,
   Loader2,
   Flame,
   Compass,
   Radio,
   Sparkles,
 } from 'lucide-react';
+import { AttachMenu } from '@/components/home/AttachMenu';
+import { InTowerComposer } from '@/components/uai/InTowerComposer';
+import { INITIAL_SUGGEST_CURSOR, ladderRowKey, loadLadderPage, type LadderRow, type SuggestCursor } from '@/lib/uai/suggestLadder';
 import { sceneInteraction } from '@/lib/sceneInteraction';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { useWallet } from '@/components/wallet/WalletProvider';
@@ -48,7 +52,7 @@ import { useHubHeadlines } from '@/lib/live/hubNewsClient';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
 import { buildLiveIndex, mergeLiveResults, searchLiveIndex, type LiveResult } from '@/lib/uai/liveSearchIndex';
-import { fetchLiveSuggestions, type LiveSuggestion } from '@/lib/uai/liveSuggest';
+import type { LiveSuggestion } from '@/lib/uai/liveSuggest';
 import { isChoseongJamo } from '@/lib/hangul';
 import type { AxisTranslators, HotShortcutAxis } from '@/lib/hotIssues';
 
@@ -95,6 +99,19 @@ interface WebSuggestionBatch {
   list: LiveSuggestion[];
 }
 const EMPTY_WEB_BATCH: WebSuggestionBatch = { query: '', list: [] };
+
+/** REV-21 §5B (SI-5): the keyword ladder's paging state for one query --
+ *  page 0's GLOBAL tier in `rows`, every later page's rows in `extra`. */
+interface LadderState {
+  query: string;
+  page: number;
+  cursor: SuggestCursor;
+  rows: LadderRow[];
+  extra: LadderRow[];
+  done: boolean;
+  loading: boolean;
+}
+const EMPTY_LADDER: LadderState = { query: '', page: 0, cursor: INITIAL_SUGGEST_CURSOR, rows: [], extra: [], done: false, loading: false };
 
 /**
  * The OMNI-SYNAPSE search bar + live-typing hub + UNITAS ARCHITECT result
@@ -179,6 +196,11 @@ export function OmniSynapseSearch({
   const [drawOpen, setDrawOpen] = useState(false);
   const [webSuggestions, setWebSuggestions] = useState<WebSuggestionBatch>(EMPTY_WEB_BATCH);
   const [suggestLoading, setSuggestLoading] = useState(false);
+  /** REV-21 §5B: the global tier (page 0) + every later ladder page. */
+  const [ladder, setLadder] = useState<LadderState>(EMPTY_LADDER);
+  const ladderSentinelRef = useRef<HTMLLIElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const tRev21 = useTranslations('Rev21');
   const restoredQueryRef = useRef(false);
   const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -430,29 +452,37 @@ export function OmniSynapseSearch({
     [localResults, webSuggestions, query, t],
   );
 
-  // Live-web half of the dropdown: debounced, abortable prefix search on the
-  // visitor's own-language Wikipedia. A query made only of lone 초성 ('ㅅ')
-  // is skipped -- nothing meaningful prefix-matches half a syllable, and the
-  // local index already answers it.
+  // Live-web half of the dropdown (REV-21 §5B / SPEC §12.6, D-27): ONE
+  // ladder page per keystroke -- the GLOBAL entity tier (Wikidata labels in
+  // the visitor's language, ranked by language editions) and the
+  // own-language prefix pages -- debounced and abortable. A query made only
+  // of lone 초성 ('ㅅ') is skipped -- nothing meaningful prefix-matches half
+  // a syllable, and the local index already answers it. Later pages append
+  // through the sentinel below (SI-5), three dry legs end the ladder.
   const suggestActive = focused && query.length > 0 && uai.phase === 'idle';
   useEffect(() => {
     if (!suggestActive) {
       setWebSuggestions(EMPTY_WEB_BATCH);
+      setLadder(EMPTY_LADDER);
       setSuggestLoading(false);
       return;
     }
     const chars = Array.from(query);
     if (chars.every((c) => isChoseongJamo(c) || c === ' ')) {
       setWebSuggestions(EMPTY_WEB_BATCH);
+      setLadder(EMPTY_LADDER);
       setSuggestLoading(false);
       return;
     }
     const controller = new AbortController();
     setSuggestLoading(true);
     const timer = setTimeout(() => {
-      fetchLiveSuggestions(query, locale, controller.signal)
-        .then((list) => {
-          if (!controller.signal.aborted) setWebSuggestions({ query, list });
+      loadLadderPage(query, locale, 0, INITIAL_SUGGEST_CURSOR, controller.signal)
+        .then((page) => {
+          if (controller.signal.aborted) return;
+          const local = page.rows.filter((r) => r.scope === 'local');
+          setWebSuggestions({ query, list: local.map((r) => ({ title: r.title, description: r.description, url: r.url })) });
+          setLadder({ query, page: 0, cursor: page.cursor, rows: page.rows.filter((r) => r.scope === 'global'), extra: [], done: page.done, loading: false });
         })
         .finally(() => {
           if (!controller.signal.aborted) setSuggestLoading(false);
@@ -464,7 +494,31 @@ export function OmniSynapseSearch({
     };
   }, [suggestActive, query, locale]);
 
-  const hasNoMatches = query.length > 0 && liveResults.length === 0 && !suggestLoading;
+  /** SI-5: the next ladder page (p1+), appended below the first page's
+   *  rows; de-duplicated against everything already on screen. */
+  const loadMoreLadder = useCallback(() => {
+    setLadder((prev) => {
+      if (prev.query !== query || prev.done || prev.loading) return prev;
+      const nextPage = prev.page + 1;
+      const controller = new AbortController();
+      void loadLadderPage(query, locale, nextPage, prev.cursor, controller.signal).then((page) => {
+        setLadder((cur) => {
+          if (cur.query !== query || cur.page !== prev.page) return cur;
+          const seen = new Set([...liveResults.map((r) => ladderRowKey(r)), ...cur.rows.map(ladderRowKey), ...cur.extra.map(ladderRowKey)]);
+          const fresh = page.rows.filter((r) => {
+            const k = ladderRowKey(r);
+            if (seen.has(k)) return false;
+            seen.add(k);
+            return true;
+          });
+          return { ...cur, page: nextPage, cursor: page.cursor, extra: [...cur.extra, ...fresh], done: page.done, loading: false };
+        });
+      });
+      return { ...prev, loading: true };
+    });
+  }, [query, locale, liveResults]);
+
+  const hasNoMatches = query.length > 0 && liveResults.length === 0 && ladder.rows.length === 0 && !suggestLoading;
 
   function cancelPendingBlur() {
     if (blurTimeoutRef.current) {
@@ -522,15 +576,33 @@ export function OmniSynapseSearch({
 
   /** A live result row: matrix axis -> the knowledge-ladder tower; direct
    *  app -> its own page (rendered as a link, never lands here); live web
-   *  hit -> re-run the free U-AI pass on that exact title. */
+   *  hit -> re-run the free U-AI pass on that exact title; a GLOBAL entity
+   *  row (REV-21 §5B) re-runs it pinned on the entity's Wikidata item. */
   function activateLiveResult(result: LiveResult) {
     if (result.kind === 'axis' && result.axis) {
       closeBrowseHub();
       onOpenShortcut(result.axis);
       return;
     }
-    runFollowupQuery(result.title);
+    const qid = result.id.startsWith('global:') ? result.id.slice('global:'.length) : undefined;
+    runFollowupQuery(result.title, qid);
   }
+
+  /** A global-tier ladder row rendered through the same row shell. */
+  const ladderToLiveResult = useCallback(
+    (row: LadderRow): LiveResult => ({
+      kind: 'web',
+      id: `global:${row.qid ?? row.title}`,
+      title: row.title,
+      description: row.description,
+      category: tRev21('ladder.global'),
+      icon: Globe2,
+      color: '#0b5cff',
+      url: row.url,
+      range: null,
+    }),
+    [tRev21],
+  );
 
   /** Title with the progressively-matched span lit in accent. */
   function renderHighlighted(result: LiveResult) {
@@ -555,9 +627,9 @@ export function OmniSynapseSearch({
     playTypingTick();
   }
 
-  function runSearch(query: string) {
+  function runSearch(query: string, qid?: string) {
     const context = attachments.map((a) => a.content).join(' ');
-    uai.runSurface(query, { tEcosystems: (k) => tEcosystems(k), context });
+    uai.runSurface(query, { tEcosystems: (k) => tEcosystems(k), context, qid });
   }
 
   function handleSubmit(e: FormEvent) {
@@ -586,11 +658,12 @@ export function OmniSynapseSearch({
     setValue('');
   }
 
-  /** Follow-up chips inside the tower re-run the free pass in place. */
-  function runFollowupQuery(q: string) {
+  /** Follow-up chips inside the tower re-run the free pass in place. REV-21
+   *  §5B: a ladder row carries its entity, so the re-run is pinned on it. */
+  function runFollowupQuery(q: string, qid?: string) {
     playQuestEnterSfx();
     setValue(q);
-    runSearch(q);
+    runSearch(q, qid);
   }
 
   function selectEcosystemByKey(key: string) {
@@ -608,6 +681,23 @@ export function OmniSynapseSearch({
   // -- shows the 16-axis Governance shortcut marquee instead, and tells
   // HomeContent to sink Sections 1-3 behind it (Focus Isolation).
   const ouroboros = focused && !typing && uai.phase === 'idle';
+
+  // SI-5: the sentinel sits at the end of the dropdown's list; the dropdown
+  // is the IO root (SPEC §12.9). A reduced-motion / keyboard visitor has the
+  // plain "more" button right beside it.
+  useEffect(() => {
+    const el = ladderSentinelRef.current;
+    const root = dropdownRef.current;
+    if (!el || !root || !browsing || !hasText || ladder.query !== query || ladder.done || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) loadMoreLadder();
+      },
+      { root, rootMargin: '120px 0px' },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [browsing, hasText, ladder.query, ladder.done, ladder.page, query, loadMoreLadder]);
 
   // Discovery data (REV-19 §13, REV-20 §5.3): rising seeds + curiosity cards
   // rotate on a 6h clock, live signals follow the hub's 7s theme rotation.
@@ -687,45 +777,37 @@ export function OmniSynapseSearch({
             onChange={handleVideoInputChange}
             className="hidden"
           />
-          <button
-            type="button"
-            title={t('dropZoneHint')}
-            aria-label={t('attachImageAria')}
-            onClick={() => fileInputRef.current?.click()}
-            className="shrink-0 text-gray-600 transition-colors hover:text-neon"
-          >
-            <Paperclip size={20} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            title={t('attachVideoAria')}
-            aria-label={t('attachVideoAria')}
-            onClick={() => videoInputRef.current?.click()}
-            className="shrink-0 text-gray-600 transition-colors hover:text-neon"
-          >
-            <Video size={20} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            title={t('attachCanvasAria')}
-            aria-label={t('attachCanvasAria')}
-            onClick={() => setDrawOpen(true)}
-            className="shrink-0 text-gray-600 transition-colors hover:text-neon"
-          >
-            <PenTool size={20} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
-          </button>
-          {/* Real keyboard-Enter submit key (same ⏎ symbol as the tower's
-              추가검색 bar), so running the search is a visible control, not
-              only an implicit form submit. */}
-          <button
-            type="submit"
-            title={t('searchSubmitAria')}
-            aria-label={t('searchSubmitAria')}
-            disabled={(!value.trim() && attachments.length === 0) || uai.phase === 'surface-loading'}
-            className="qw-enter-key flex shrink-0 items-center justify-center border border-accent/50 p-1 text-accent transition-colors hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-40 sm:p-1.5"
-          >
-            <CornerDownLeft size={20} strokeWidth={2.75} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
-          </button>
+          {/* REV-21 §5A / SPEC §5.1: ONE action box -- the real ⏎ submit key
+              (class, disabled rule and icon unchanged: the E2E contract) plus
+              the attach split-button whose menu holds file / video / sketch.
+              The three attach icons roll through the toggle for display only;
+              under reduced motion / on touch they sit as a static stack. */}
+          <div className="qw-omni-key flex shrink-0 items-center gap-1.5 sm:gap-2" role="group" aria-label={tRev21('composer.omniKeyAria')}>
+            <button
+              type="submit"
+              title={t('searchSubmitAria')}
+              aria-label={t('searchSubmitAria')}
+              disabled={(!value.trim() && attachments.length === 0) || uai.phase === 'surface-loading'}
+              className="qw-enter-key flex shrink-0 items-center justify-center border border-accent/50 p-1 text-accent transition-colors hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-40 sm:p-1.5"
+            >
+              <CornerDownLeft size={20} strokeWidth={2.75} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
+            </button>
+            <AttachMenu
+              count={attachments.length + visualAttachments.length}
+              labels={{
+                toggle: tRev21('composer.attachMenuAria'),
+                file: t('attachImageAria'),
+                video: t('attachVideoAria'),
+                sketch: t('attachCanvasAria'),
+                sheetTitle: tRev21('composer.attachSheetTitle'),
+                close: tRev21('composer.close'),
+              }}
+              onFile={() => fileInputRef.current?.click()}
+              onVideo={() => videoInputRef.current?.click()}
+              onSketch={() => setDrawOpen(true)}
+              onHover={playHoverSfx}
+            />
+          </div>
         </div>
 
         {attachError && <p className="mt-2 text-[11px] font-bold text-red-400">{attachError}</p>}
@@ -784,6 +866,7 @@ export function OmniSynapseSearch({
           popup's edges align pixel-exactly with the search box above. */}
       {browsing && (
           <motion.div
+            ref={dropdownRef}
             initial={{ opacity: 0, y: -10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
@@ -815,7 +898,10 @@ export function OmniSynapseSearch({
                 <p className="py-6 text-center text-[13px] text-gray-500">{t('noBrowseMatches')}</p>
               ) : (
                 <ul className="grid grid-cols-1 gap-1.5 md:grid-cols-2" role="listbox" aria-label={hasText ? t('liveKeywordsLabel') : tRev('search.trending')}>
-                    {(hasText ? liveResults : rising).map((result) => {
+                    {/* REV-21 §5B (D-27 order): product corpus -> GLOBAL
+                        entities -> own-language pages. The global rows are
+                        spliced between the local kinds of the merged list. */}
+                    {(hasText ? [...liveResults.filter((r) => r.kind !== 'web'), ...ladder.rows.map(ladderToLiveResult), ...liveResults.filter((r) => r.kind === 'web')] : rising).map((result) => {
                       const Icon = result.icon ?? Globe;
                       const color = result.color ?? '#d4af37';
                       const inner = (
@@ -847,6 +933,7 @@ export function OmniSynapseSearch({
                           key={result.id}
                           role="option"
                           aria-selected={false}
+                          data-scope={result.id.startsWith('global:') ? 'global' : result.kind === 'web' ? 'local' : 'product'}
                           initial={{ opacity: 0, y: -4 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.14 }}
@@ -878,6 +965,52 @@ export function OmniSynapseSearch({
                         </motion.li>
                       );
                     })}
+                    {/* SI-5: later ladder pages (global continue, local offset,
+                        `morelike:` neighbours), then the sentinel + the plain
+                        "more" button / end badge. */}
+                    {hasText &&
+                      ladder.query === query &&
+                      ladder.extra.map((row) => (
+                        <li key={row.id} role="option" aria-selected={false} data-scope={row.scope}>
+                          <button
+                            type="button"
+                            onMouseEnter={() => playHoverSfx()}
+                            onClick={() => runFollowupQuery(row.title, row.qid)}
+                            title={t('liveOpenHint')}
+                            className="qw-live-result flex w-full items-start gap-3 border border-white/10 bg-void/50 px-3 py-2.5 text-left transition-colors hover:border-white/30 hover:bg-void/70"
+                            style={{ borderLeftColor: row.scope === 'global' ? '#0b5cff' : row.scope === 'related' ? '#b8962e' : '#19b2c8', borderLeftWidth: 3 }}
+                          >
+                            {row.scope === 'global' ? <Globe2 size={16} className="mt-0.5 shrink-0 text-accent" aria-hidden="true" /> : <Globe size={16} className="mt-0.5 shrink-0 text-gray-400" aria-hidden="true" />}
+                            <span className="flex min-w-0 flex-1 flex-col">
+                              <span className="flex min-w-0 items-center gap-2">
+                                <span className="truncate text-[14px] font-bold text-white sm:text-[15px]">{row.title}</span>
+                                <span className="shrink-0 border border-white/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-gray-400">{tRev21(`ladder.${row.scope}`)}</span>
+                              </span>
+                              {row.description && <span className="line-clamp-1 text-[12px] text-gray-400">{row.description}</span>}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    {hasText && ladder.query === query && !ladder.done && (
+                      <li ref={ladderSentinelRef} data-sentinel="" className="md:col-span-2" aria-hidden={ladder.loading ? undefined : 'true'}>
+                        <button
+                          type="button"
+                          onMouseEnter={() => playHoverSfx()}
+                          onClick={loadMoreLadder}
+                          disabled={ladder.loading}
+                          data-ladder-more=""
+                          className="flex w-full items-center justify-center gap-2 border border-white/15 py-2 text-[11px] font-bold uppercase tracking-widest text-gray-400 transition-colors hover:border-white/40 hover:text-white disabled:opacity-50"
+                        >
+                          {ladder.loading ? <Loader2 size={12} className="animate-spin" aria-hidden="true" /> : null}
+                          {ladder.loading ? tRev21('ladder.loading') : tRev21('ladder.more')}
+                        </button>
+                      </li>
+                    )}
+                    {hasText && ladder.query === query && ladder.done && (ladder.extra.length > 0 || ladder.page > 0) && (
+                      <li className="py-1 text-center text-[11px] text-gray-500 md:col-span-2" data-ladder-end="">
+                        {tRev21('ladder.end')}
+                      </li>
+                    )}
                 </ul>
               )}
             </section>
@@ -936,6 +1069,26 @@ export function OmniSynapseSearch({
         onClose={closeSearchTower}
         onButtonHover={playHoverSfx}
       >
+        {/* REV-21 SPEC §12.6 (D-38): the in-tower composer + suggestion
+            strip -- the ladder stays reachable while the tower covers the
+            home bar; a chip or Enter re-runs the search in place. */}
+        <InTowerComposer
+          query={uai.submittedQuery ?? value}
+          locale={locale}
+          productRows={(prefix) => searchLiveIndex(liveIndex, prefix).map((r) => ({ id: r.id, title: r.title, description: r.description }))}
+          onSubmit={(q, qid) => runFollowupQuery(q, qid)}
+          onHover={playHoverSfx}
+          accent="#d4af37"
+          labels={{
+            placeholder: tRev21('tower.composerPlaceholder'),
+            aria: tRev21('tower.composerAria'),
+            suggestLabel: tRev21('tower.suggestLabel'),
+            scopeProduct: tRev21('tower.scopeProduct'),
+            scopeGlobal: tRev21('ladder.global'),
+            scopeLocal: tRev21('ladder.local'),
+            submit: t('searchSubmitAria'),
+          }}
+        />
         <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-2.5 pb-16 sm:px-4">
           <UaiDashboard
             phase={uai.phase}

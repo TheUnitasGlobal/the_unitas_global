@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "อัตราการไหลของแม่น้ำ",
   "deeper.themes.terraPulse.f4": "ความสูงของคลื่น",
   "deeper.themes.terraPulse.f5": "การเตือนภัยสภาพอากาศ",
-  "deeper.themes.terraPulse.f6": "ระยะทาง"
+  "deeper.themes.terraPulse.f6": "ระยะทาง",
+  "composer.omniKeyAria": "การดำเนินการค้นหา",
+  "composer.attachMenuAria": "แนบไฟล์ วิดีโอ หรือภาพร่าง",
+  "composer.attachSheetTitle": "แนบ",
+  "composer.close": "ปิด",
+  "ladder.global": "ทั่วโลก",
+  "ladder.local": "ในภาษาของคุณ",
+  "ladder.related": "ที่เกี่ยวข้อง",
+  "ladder.more": "คำสำคัญเพิ่มเติม",
+  "ladder.loading": "กำลังโหลด…",
+  "ladder.end": "บันไดคำสำคัญสิ้นสุดตรงนี้",
+  "tower.composerPlaceholder": "ปรับแต่งหรือค้นหาสิ่งใหม่…",
+  "tower.composerAria": "ค้นหาอีกครั้งภายในผลลัพธ์",
+  "tower.suggestLabel": "คำแนะนำ",
+  "tower.scopeProduct": "UNITAS"
 }

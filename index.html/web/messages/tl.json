@@ -2193,6 +2193,26 @@
           "f6": "Distansya"
         }
       }
+    },
+    "composer": {
+      "omniKeyAria": "Mga aksyon sa paghahanap",
+      "attachMenuAria": "Mag-attach ng file, video o sketch",
+      "attachSheetTitle": "Mag-attach",
+      "close": "Isara"
+    },
+    "ladder": {
+      "global": "Buong mundo",
+      "local": "Sa iyong wika",
+      "related": "Kaugnay",
+      "more": "Higit pang keyword",
+      "loading": "Naglo-load…",
+      "end": "Dito nagtatapos ang hagdan ng mga keyword."
+    },
+    "tower": {
+      "composerPlaceholder": "Pinuhin o maghanap ng bago…",
+      "composerAria": "Maghanap muli sa loob ng resulta",
+      "suggestLabel": "Mga mungkahi",
+      "scopeProduct": "UNITAS"
     }
   }
 }

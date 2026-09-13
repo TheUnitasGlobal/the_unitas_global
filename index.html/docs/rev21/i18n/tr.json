@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "Nehir debisi",
   "deeper.themes.terraPulse.f4": "Dalga yüksekliği",
   "deeper.themes.terraPulse.f5": "Hava durumu uyarıları",
-  "deeper.themes.terraPulse.f6": "Uzaklık"
+  "deeper.themes.terraPulse.f6": "Uzaklık",
+  "composer.omniKeyAria": "Arama eylemleri",
+  "composer.attachMenuAria": "Dosya, video veya eskiz ekle",
+  "composer.attachSheetTitle": "Ekle",
+  "composer.close": "Kapat",
+  "ladder.global": "Tüm dünya",
+  "ladder.local": "Kendi dilinizde",
+  "ladder.related": "İlgili",
+  "ladder.more": "Daha fazla anahtar kelime",
+  "ladder.loading": "Yükleniyor…",
+  "ladder.end": "Anahtar kelime merdiveni burada bitiyor.",
+  "tower.composerPlaceholder": "Aramayı daraltın veya yeni bir şey arayın…",
+  "tower.composerAria": "Sonucun içinde yeniden ara",
+  "tower.suggestLabel": "Öneriler",
+  "tower.scopeProduct": "UNITAS"
 }

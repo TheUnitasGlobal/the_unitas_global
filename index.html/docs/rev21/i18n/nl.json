@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "Rivierafvoer",
   "deeper.themes.terraPulse.f4": "Golfhoogte",
   "deeper.themes.terraPulse.f5": "Weerwaarschuwingen",
-  "deeper.themes.terraPulse.f6": "Afstand"
+  "deeper.themes.terraPulse.f6": "Afstand",
+  "composer.omniKeyAria": "Zoekacties",
+  "composer.attachMenuAria": "Bestand, video of schets bijvoegen",
+  "composer.attachSheetTitle": "Bijvoegen",
+  "composer.close": "Sluiten",
+  "ladder.global": "Wereldwijd",
+  "ladder.local": "In jouw taal",
+  "ladder.related": "Gerelateerd",
+  "ladder.more": "Meer trefwoorden",
+  "ladder.loading": "Laden…",
+  "ladder.end": "De trefwoordenladder eindigt hier.",
+  "tower.composerPlaceholder": "Verfijn of zoek iets nieuws…",
+  "tower.composerAria": "Opnieuw zoeken binnen het resultaat",
+  "tower.suggestLabel": "Suggesties",
+  "tower.scopeProduct": "UNITAS"
 }

@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "नदी प्रवाह",
   "deeper.themes.terraPulse.f4": "लहर की ऊँचाई",
   "deeper.themes.terraPulse.f5": "मौसम चेतावनियाँ",
-  "deeper.themes.terraPulse.f6": "दूरी"
+  "deeper.themes.terraPulse.f6": "दूरी",
+  "composer.omniKeyAria": "खोज क्रियाएँ",
+  "composer.attachMenuAria": "फ़ाइल, वीडियो या स्केच संलग्न करें",
+  "composer.attachSheetTitle": "संलग्न करें",
+  "composer.close": "बंद करें",
+  "ladder.global": "पूरी दुनिया",
+  "ladder.local": "आपकी भाषा में",
+  "ladder.related": "संबंधित",
+  "ladder.more": "और कीवर्ड",
+  "ladder.loading": "लोड हो रहा है…",
+  "ladder.end": "कीवर्ड सीढ़ी यहीं समाप्त होती है।",
+  "tower.composerPlaceholder": "खोज को निखारें या कुछ नया खोजें…",
+  "tower.composerAria": "परिणाम के भीतर फिर से खोजें",
+  "tower.suggestLabel": "सुझाव",
+  "tower.scopeProduct": "UNITAS"
 }

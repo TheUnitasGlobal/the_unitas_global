@@ -24,6 +24,9 @@ export type UaiError = 'signin' | DeepInsightError;
 interface RunSurfaceOptions {
   tEcosystems: (key: string) => string;
   context?: string;
+  /** REV-21 §5B / §12.6: the entity behind a ladder row the visitor tapped
+   *  -- pins the synthesis anchor so a homonym title never drifts. */
+  qid?: string;
 }
 
 /**
@@ -48,6 +51,13 @@ export function useUai() {
   const [error, setError] = useState<UaiError | null>(null);
   const [deepAvailable, setDeepAvailable] = useState(false);
   const [history, setHistory] = useState<BrainGridEntry[]>([]);
+  /** REV-21 §12.7 (SR-2): the query the result surface is showing -- kept
+   *  apart from the search bar's live text so editing the bar never tears
+   *  the open result down. */
+  const [submittedQuery, setSubmittedQuery] = useState<string | null>(null);
+  const [submittedQid, setSubmittedQid] = useState<string | null>(null);
+  /** Increments on every submit -- the stream's remount key. */
+  const [surfaceEpoch, setSurfaceEpoch] = useState(0);
   const surfaceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   /** the most recent query runSurface was called with -- guards against a
    *  slow web-synthesis fetch resolving after a newer query started. */
@@ -78,7 +88,7 @@ export function useUai() {
   );
 
   const runSurface = useCallback(
-    (query: string, { tEcosystems, context = '' }: RunSurfaceOptions) => {
+    (query: string, { tEcosystems, context = '', qid }: RunSurfaceOptions) => {
       const trimmed = query.trim();
       if (!trimmed) return;
       if (surfaceTimer.current) clearTimeout(surfaceTimer.current);
@@ -90,13 +100,16 @@ export function useUai() {
       setTrendHits(0);
       setInsightForging(false);
       setPhase('surface-loading');
+      setSubmittedQuery(trimmed);
+      setSubmittedQid(qid ?? null);
+      setSurfaceEpoch((n) => n + 1);
       const startedFor = trimmed;
       surfaceTimer.current = setTimeout(() => {
         // Live web synthesis (keyless Wikipedia/Wikimedia REST, client-side,
         // behind NEXT_PUBLIC_UAI_WEB_SYNTHESIS + localStorage cache). Resolves
         // to a `sourced: false` synthesis when disabled / timed out / failed
         // -- analyzeSurface then runs on the query alone, no error surfaced.
-        void synthesizeWeb(trimmed, locale)
+        void synthesizeWeb(trimmed, locale, qid)
           .then(
             (web) => analyzeSurface(trimmed, tEcosystems, context, web),
             () => analyzeSurface(trimmed, tEcosystems, context),
@@ -203,6 +216,8 @@ export function useUai() {
     setTrendHits(0);
     setInsightForging(false);
     setError(null);
+    setSubmittedQuery(null);
+    setSubmittedQid(null);
   }, []);
 
   const wipeHistory = useCallback(() => setHistory(clearBrainGrid()), []);
@@ -218,6 +233,9 @@ export function useUai() {
     deepAvailable,
     history,
     canDeep: Boolean(session) && deepAvailable,
+    submittedQuery,
+    submittedQid,
+    surfaceEpoch,
     runSurface,
     runDeep,
     reset,

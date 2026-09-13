@@ -146,5 +146,19 @@
   "deeper.themes.terraPulse.f3": "Debit sungai",
   "deeper.themes.terraPulse.f4": "Tinggi gelombang",
   "deeper.themes.terraPulse.f5": "Peringatan cuaca",
-  "deeper.themes.terraPulse.f6": "Jarak"
+  "deeper.themes.terraPulse.f6": "Jarak",
+  "composer.omniKeyAria": "Tindakan pencarian",
+  "composer.attachMenuAria": "Lampirkan file, video, atau sketsa",
+  "composer.attachSheetTitle": "Lampirkan",
+  "composer.close": "Tutup",
+  "ladder.global": "Seluruh dunia",
+  "ladder.local": "Dalam bahasa Anda",
+  "ladder.related": "Terkait",
+  "ladder.more": "Kata kunci lainnya",
+  "ladder.loading": "Memuat…",
+  "ladder.end": "Tangga kata kunci berakhir di sini.",
+  "tower.composerPlaceholder": "Persempit atau cari hal baru…",
+  "tower.composerAria": "Cari lagi di dalam hasil",
+  "tower.suggestLabel": "Saran",
+  "tower.scopeProduct": "UNITAS"
 }
