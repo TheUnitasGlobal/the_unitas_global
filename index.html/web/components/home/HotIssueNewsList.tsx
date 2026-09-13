@@ -10,10 +10,14 @@ import {
   type HotNewsItem,
   type HotNewsResponse,
 } from '@/lib/live/hotNews';
+import { AXIS_QID } from '@/lib/live/hotNews';
 import { HOT_NEWS_AXES } from '@/lib/live/hotNewsAxes';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 import { useDragScroll } from '@/components/ui/useDragScroll';
+import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { qidAnchor } from '@/lib/uai/deeperAnchor';
+import { wikiLangFor } from '@/lib/uai/liveSuggest';
 
 /** Per-locale in-memory cache: a tab flick back and forth must not refetch. */
 const CLIENT_TTL_MS = 10 * 60 * 1000;
@@ -86,6 +90,11 @@ export function HotIssueNewsList() {
   const [filter, setFilter] = useState<Filter>('all');
   const [reloadTick, setReloadTick] = useState(0);
   const [axisFeeds, setAxisFeeds] = useState<Record<string, AxisFeed>>({});
+  // REV-21 SPEC §12.2 newsRail host (D-19): a collapsed in-flow block under
+  // the rail, anchored on the active axis's Wikidata item. Collapsed by
+  // default (strip height preserved); toggling never touches history.
+  const [deeperOpen, setDeeperOpen] = useState(false);
+  const tDeeper = useTranslations('Rev21.deeper');
 
   useEffect(() => {
     const hit = cache.get(locale);
@@ -401,6 +410,28 @@ export function HotIssueNewsList() {
 
       {(items.length > 0 || activeFeed.items.length > 0) && (
         <p className="mt-2 text-[14px] font-medium text-gray-400">{t('source')}</p>
+      )}
+
+      {filter !== 'all' && (
+        <div className="mt-2" data-news-deeper={deeperOpen ? 'open' : 'collapsed'}>
+          <button
+            type="button"
+            aria-expanded={deeperOpen}
+            aria-controls="news-rail-deeper"
+            onMouseEnter={() => playHoverSfx()}
+            onClick={() => setDeeperOpen((v) => !v)}
+            className="qw-hub-chip"
+            data-news-deeper-toggle=""
+          >
+            <ChevronDown size={14} className={`transition-transform ${deeperOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
+            {tDeeper('label')} · {axisLabel}
+          </button>
+          {deeperOpen && (
+            <div id="news-rail-deeper">
+              <ExploreDeeper anchor={qidAnchor(AXIS_QID[filter], axisLabel, wikiLangFor(locale))} host="newsRail" />
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

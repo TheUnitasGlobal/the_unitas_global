@@ -830,3 +830,111 @@ body {
 body[data-fullscreen-tower-open='true'] #unitas-nav {
   z-index: 125;
 }
+
+/* --------------------------------------------------------------------
+   REV-21 §3 / SPEC §12.2 -- Explore Deeper block: LAYOUT only (unscoped,
+   so the dark /u-ai route and every Quantum White popup share one grid).
+   Painting lives in quantum-white-rev19.css §22 for the white surface and
+   in the components' Tailwind utilities for the dark routes. No
+   backdrop-filter anywhere in this block; entrances are transform/opacity
+   only (§4 new-surface rule). */
+.qw-deeper-block {
+  contain: content;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.qw-deeper-block--compact {
+  margin-top: 12px;
+  padding-top: 10px;
+}
+.qw-deeper-themes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qw-deeper-themes--compact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.qw-deeper-theme {
+  border-radius: 12px;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.qw-deeper-theme:hover,
+.qw-deeper-theme:focus-visible {
+  transform: translateY(-1px);
+  border-color: var(--qw-deeper-accent, #22d3ee);
+  box-shadow: 0 10px 24px -16px var(--qw-deeper-accent, #22d3ee);
+  outline: none;
+}
+.qw-deeper-card {
+  contain: layout paint;
+  border-radius: 12px;
+  animation: qw-deeper-in 0.2s ease both;
+}
+@keyframes qw-deeper-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.qw-deeper-spark {
+  display: block;
+  width: 100%;
+  height: 44px;
+}
+.qw-deeper-img {
+  display: block;
+  border-radius: 10px;
+  max-width: 100%;
+}
+.qw-deeper-chip,
+.qw-deeper-more,
+.qw-deeper-reanchor {
+  border-radius: 999px;
+}
+.qw-deeper-more {
+  border-radius: 10px;
+}
+@media (max-width: 767px) {
+  /* one snap rail instead of a grid (SPEC §12.9) */
+  .qw-deeper-themes {
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 4px;
+  }
+  .qw-deeper-themes::-webkit-scrollbar {
+    display: none;
+  }
+  .qw-deeper-themes > li {
+    flex: 0 0 156px;
+    scroll-snap-align: start;
+  }
+  .qw-deeper-themes--compact > li {
+    flex-basis: 140px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qw-deeper-card {
+    animation: none;
+  }
+  .qw-deeper-theme {
+    transition: none;
+  }
+  .qw-deeper-theme:hover,
+  .qw-deeper-theme:focus-visible {
+    transform: none;
+  }
+}

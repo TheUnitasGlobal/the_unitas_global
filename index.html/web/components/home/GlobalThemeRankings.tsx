@@ -17,7 +17,10 @@ import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
 import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 import { useRankingDetail } from '@/lib/uai/rankingDetailClient';
-import { DiscoveryLinks } from '@/components/home/DiscoveryLinks';
+import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { entityAnchor, qidAnchor, textAnchor, type DeeperAnchor } from '@/lib/uai/deeperAnchor';
+import { resolveEntity } from '@/lib/uai/entityResolve';
+import { wikiLangFor } from '@/lib/uai/liveSuggest';
 
 interface GlobalThemeRankingsProps {
   /** REV-21 §1.3: rendered inside the discovery carousel's ranking deep
@@ -29,6 +32,33 @@ interface GlobalThemeRankingsProps {
   initialTheme?: string;
   /** Rank whose detail popup opens on mount (the card row that was tapped). */
   initialDetailRank?: number;
+  /** REV-21 SPEC §12.2 (D-20): the host reads the active theme for its own
+   *  Explore Deeper anchor. */
+  onThemeChange?: (theme: GlobalRankingThemeKey | null) => void;
+}
+
+/** SPEC §12.2 globalRankingDetail host: the curated rank 1-10 item, else a
+ *  one-call English resolve of the entry name (memoised per entry). */
+function useEntryAnchor(entry: GlobalRankingEntry | null, themeKey: GlobalRankingThemeKey | null, localizedName: string | undefined, locale: string): DeeperAnchor | null {
+  const lang = wikiLangFor(locale);
+  const curated = entry && themeKey ? entry.qid ?? rankingEntryQid(themeKey, entry.rank) : undefined;
+  const [fallback, setFallback] = useState<DeeperAnchor | null>(null);
+  useEffect(() => {
+    setFallback(null);
+    if (!entry || curated) return;
+    const controller = new AbortController();
+    resolveEntity(entry.name, 'en', controller.signal, { wikidataFallback: false })
+      .then((r) => {
+        if (!controller.signal.aborted && r && !r.disambiguation) setFallback(entityAnchor(r, 'en', entry.name));
+      })
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, [entry, curated]);
+  if (!entry) return null;
+  const term = localizedName ?? entry.name;
+  if (curated) return qidAnchor(curated, term, lang, entry.name);
+  if (fallback) return { ...fallback, term, lang };
+  return textAnchor(term, lang);
 }
 
 function resolveTheme(key: string | undefined): GlobalRankingThemeKey | null {
@@ -49,13 +79,16 @@ function resolveTheme(key: string | undefined): GlobalRankingThemeKey | null {
  * that slot's deep modal embeds (`embedded`), keeping the rank-detail popup
  * (`#global-ranking-detail-title`) byte-identical.
  */
-export function GlobalThemeRankings({ embedded = false, initialTheme, initialDetailRank }: GlobalThemeRankingsProps = {}) {
+export function GlobalThemeRankings({ embedded = false, initialTheme, initialDetailRank, onThemeChange }: GlobalThemeRankingsProps = {}) {
   const t = useTranslations('GlobalRankings');
   const locale = useLocale();
   const { playHoverSfx } = useSpatialAudio();
   const [expandedKey, setExpandedKey] = useState<GlobalRankingThemeKey | null>(
     () => resolveTheme(initialTheme) ?? (embedded ? GLOBAL_RANKING_THEMES[0].key : null),
   );
+  useEffect(() => {
+    onThemeChange?.(expandedKey);
+  }, [expandedKey, onThemeChange]);
   const [visibleTiers, setVisibleTiers] = useState<Record<string, number>>({});
   const listRef = useRef<HTMLOListElement>(null);
   /** Rank the list was cut off at *before* the last "더 보기" click -- lets the
@@ -73,6 +106,7 @@ export function GlobalThemeRankings({ embedded = false, initialTheme, initialDet
 
   const expandedTheme = GLOBAL_RANKING_THEMES.find((theme) => theme.key === expandedKey) ?? null;
   const visibleTier = expandedKey ? (visibleTiers[expandedKey] ?? LOAD_MORE_TIERS[0]) : LOAD_MORE_TIERS[0];
+  const detailAnchor = useEntryAnchor(detail?.entry ?? null, detail?.theme.key ?? null, detailReport?.localizedName, locale);
 
   // REV-21 §1.3: land on the tapped row's detail. Deferred one tick so the
   // host modal's own history layer is parked BEFORE this nested one -- React
@@ -314,8 +348,9 @@ export function GlobalThemeRankings({ embedded = false, initialTheme, initialDet
               </>
             )}
 
-            {/* REV-19 §9: outbound discovery for the entry (keyless, new tab). */}
-            <DiscoveryLinks subject={detailReport?.localizedName ?? detail.entry.name} locale={locale} />
+            {/* REV-21 SPEC §12.2 globalRankingDetail host (depth 2): the entry's
+                own Wikidata item, never a string search of a translated name. */}
+            <ExploreDeeper anchor={detailAnchor} host="globalRankingDetail" />
 
             <p className="text-[11px] uppercase tracking-widest text-gray-600">
               {t(`themes.${detail.theme.key}.title`)}

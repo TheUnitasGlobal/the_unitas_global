@@ -33,7 +33,26 @@ function flatten(obj: unknown, prefix: string, out: Record<string, string>): Rec
 const icu = (s: string) => (s.match(/\{[^}]*\}/g) ?? []).slice().sort().join('|');
 
 /** Keys whose English value is a proper noun / number that legitimately stays identical. */
-const IDENTICAL_ALLOWED = new Set<string>([]);
+const IDENTICAL_ALLOWED = new Set<string>([
+  // REV-21 §12.5 brand-like lens names kept verbatim by several locales.
+  'deeper.themes.omniPress.title',
+  'deeper.themes.terraPulse.title',
+  // Latin-alphabet cognates identical in French / Dutch / Italian / Filipino.
+  'deeper.viaSource',
+  'deeper.sourcesLabel',
+  'deeper.attributionLabel',
+  'deeper.themes.omniWave.f2',
+  'deeper.themes.evolutionArc.f6',
+  'deeper.themes.dataTwin.f3',
+  'deeper.themes.dataTwin.f5',
+  'deeper.themes.causalHack.f1',
+  'deeper.themes.valueCycle.f5',
+  'deeper.themes.zeroPoint.f2',
+  'deeper.themes.ventureSignal.f2',
+  'deeper.themes.ventureSignal.f4',
+  'deeper.themes.marketMoat.f4',
+  'deeper.themes.terraPulse.f6',
+]);
 
 describe('REV-21 i18n', () => {
   const en = flatten(load('en').Rev21, '', {});

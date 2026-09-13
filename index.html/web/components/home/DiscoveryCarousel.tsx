@@ -16,9 +16,13 @@ import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { SectionShield } from '@/components/system/PageShield';
 import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
-import { DiscoveryLinks } from '@/components/home/DiscoveryLinks';
+import { ExploreDeeper } from '@/components/home/ExploreDeeper';
 import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
+import { THEME_QID, type GlobalRankingThemeKey } from '@/lib/globalRankings';
+import { readWeatherCache } from '@/lib/live/useLiveWeather';
+import { entityAnchor, resolveDeeperPlace } from '@/lib/uai/deeperAnchor';
+import { resolveEntity } from '@/lib/uai/entityResolve';
 import { useDragScroll } from '@/components/ui/useDragScroll';
 import { useHorizontalSwipe } from '@/components/ui/useHorizontalSwipe';
 import { centeredScrollLeft } from '@/lib/interaction/railDrag';
@@ -508,6 +512,11 @@ function SlotDeepModal({ target, ctx, onClose }: { target: DeepTarget | null; ct
           <SectionShield zone="live-weather">
             <LiveWeatherPanel onPlaceChange={setWeatherPlace} />
           </SectionShield>
+          {/* SPEC §12.2 weather host: a sibling OUTSIDE the panel's shield, with
+              its own zone, anchored on the place the panel is showing. */}
+          <SectionShield zone="explore-deeper">
+            <ExploreDeeper anchor={weatherAnchor} host="weather" />
+          </SectionShield>
         </div>
       </Modal>
       <NewsDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
@@ -608,13 +617,39 @@ function NewsDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
           )}
         </ol>
 
-        <DiscoveryLinks subject={feed.term || title} locale={locale} />
-
-        <p className="text-[11px] uppercase tracking-widest text-gray-600">{t('sources')}</p>
+        {/* SPEC §12.2 hubNews host: replaces the REV-19 outbound row and its
+            static sources line -- every wire is now named inside the block. */}
+        <ExploreDeeper anchor={anchor} host="hubNews" />
       </div>
       )}
     </Modal>
   );
+}
+
+/** SPEC §12.2 feed row (D-23): history / mostRead resolve the tapped card's
+ *  first item to an entity ONCE on open; nearby anchors on the visitor's
+ *  place; the rest use the slot's own Wikidata item. */
+function useFeedAnchor(slotKey: SlotKey | null, card: SlotCard | null, ctx: SlotContext): DeeperAnchor | null {
+  const [resolved, setResolved] = useState<DeeperAnchor | null>(null);
+  const lang = wikiLangFor(ctx.locale);
+  const firstTitle = card?.items[0]?.title ?? null;
+  useEffect(() => {
+    setResolved(null);
+    if (!slotKey || (slotKey !== 'history' && slotKey !== 'mostRead') || !firstTitle) return;
+    const controller = new AbortController();
+    resolveEntity(firstTitle, lang, controller.signal, { wikidataFallback: false })
+      .then((r) => {
+        if (!controller.signal.aborted && r && !r.disambiguation) setResolved(entityAnchor(r, lang, firstTitle));
+      })
+      .catch(() => undefined);
+    return () => controller.abort();
+  }, [slotKey, firstTitle, lang]);
+  return useMemo(() => {
+    if (!slotKey) return null;
+    if (slotKey === 'nearby') return placeAnchor(resolveDeeperPlace(ctx, readWeatherCache()?.place), lang);
+    if (resolved) return resolved;
+    return null;
+  }, [slotKey, resolved, ctx, lang]);
 }
 
 function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx: SlotContext; onClose: () => void }) {
@@ -655,9 +690,11 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
   const slot = found && found.kind === 'feed' ? found : undefined;
   const title = slotKey ? t(slotTitleKey(slotKey)) : '';
   const timeFormatter = new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' });
-  // SPEC §12.2 feed row: the slot's Wikidata item when it has one, else the
-  // card's subject (sources-only mode, D-23).
-  const anchor = slotKey && slot ? slotAnchor(slotKey, ctx.locale, card?.subject?.term || title, null) : null;
+  // SPEC §12.2 feed row: the slot's Wikidata item when it has one; the
+  // resolved first item (history / mostRead) or the visitor's place (nearby)
+  // otherwise; else the card's subject in sources-only mode (D-23).
+  const feedAnchor = useFeedAnchor(slotKey && slot ? slotKey : null, card, ctx);
+  const anchor = slotKey && slot ? (SLOT_QID[slotKey] ? slotAnchor(slotKey, ctx.locale, card?.subject?.term || title, null) : feedAnchor ?? textAnchor(card?.subject?.term || title, wikiLangFor(ctx.locale))) : null;
 
   return (
     <Modal open={Boolean(slotKey && slot)} onClose={onClose} labelledBy="feed-deep-title" size="xl">
@@ -736,7 +773,7 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
           </>
         )}
 
-        <DiscoveryLinks subject={card?.subject?.term || card?.facts.find((f) => f.emphasis)?.value || title} locale={locale} />
+        <ExploreDeeper anchor={anchor} host="feed" />
 
         {card?.updatedAt && (
           <p className="text-[12px] text-gray-500">{tHub('updated', { time: timeFormatter.format(new Date(card.updatedAt)) })}</p>
@@ -755,10 +792,24 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
  *  in so the modal lands exactly where the visitor was looking. */
 function RankingDeepModal({ target, onClose }: { target: DeepTarget | null; onClose: () => void }) {
   const t = useTranslations();
+  const locale = useLocale();
   const key = target && isRankingKey(target.key) ? target.key : null;
   const slot = key ? findDiscoverySlot(key) : undefined;
   const action = target?.action;
   const title = key ? t(slotTitleKey(key)) : '';
+  // SPEC §12.2 rankingDeep host (D-20): the ACTIVE theme tab's Wikidata item
+  // (THEME_QID) -- the embedded panel reports tab changes up here.
+  const [activeTheme, setActiveTheme] = useState<GlobalRankingThemeKey | null>(null);
+  const [activeModuleTitle, setActiveModuleTitle] = useState<string>('');
+  const lang = wikiLangFor(locale);
+  const rankingAnchor: DeeperAnchor | null =
+    key === 'worldRanking'
+      ? activeTheme
+        ? qidAnchor(THEME_QID[activeTheme], t(`GlobalRankings.themes.${activeTheme}.title`), lang)
+        : null
+      : key === 'unitasRanking'
+        ? textAnchor(activeModuleTitle || title, lang)
+        : null;
 
   return (
     <Modal open={key !== null} onClose={onClose} labelledBy="ranking-deep-title" size="xl">
@@ -778,14 +829,17 @@ function RankingDeepModal({ target, onClose }: { target: DeepTarget | null; onCl
               embedded
               initialTheme={action?.kind === 'rankingDetail' ? action.theme : target?.tab}
               initialDetailRank={action?.kind === 'rankingDetail' ? action.rank : undefined}
+              onThemeChange={setActiveTheme}
             />
           ) : (
             <UnitasModuleRankings
               embedded
               initialModule={action?.kind === 'unitasProfile' ? action.moduleKey : target?.tab}
               initialProfileRank={action?.kind === 'unitasProfile' ? action.rank : undefined}
+              onModuleChange={setActiveModuleTitle}
             />
           )}
+          <ExploreDeeper anchor={rankingAnchor} host="rankingDeep" compact />
         </div>
       )}
     </Modal>

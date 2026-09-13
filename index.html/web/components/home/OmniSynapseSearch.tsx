@@ -956,6 +956,7 @@ export function OmniSynapseSearch({
             onRunQuery={runFollowupQuery}
             split
             fullReportHref={fullReportHref}
+            deeperHost="tower"
           />
 
           {uai.phase !== 'idle' && (

@@ -13,8 +13,10 @@ import {
 } from '@/lib/unitasRankings';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
-import { DiscoveryLinks } from '@/components/home/DiscoveryLinks';
+import { ExploreDeeper } from '@/components/home/ExploreDeeper';
 import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
+import { textAnchor } from '@/lib/uai/deeperAnchor';
+import { wikiLangFor } from '@/lib/uai/liveSuggest';
 
 const TIER_COLOR: Record<UnitasRankingTier, string> = {
   sovereign: '#d4af37',
@@ -31,6 +33,9 @@ interface UnitasModuleRankingsProps {
   initialModule?: string;
   /** Rank whose operator profile opens on mount (the card row that was tapped). */
   initialProfileRank?: number;
+  /** REV-21 SPEC §12.2: the host reads the active module's title for its
+   *  sources-only Explore Deeper block. */
+  onModuleChange?: (title: string) => void;
 }
 
 function resolveModule(key: string | undefined): ModuleRegistryEntry | null {
@@ -46,7 +51,7 @@ function resolveModule(key: string | undefined): ModuleRegistryEntry | null {
  * pseudonymous generator -- see that file's banner for why this isn't wired
  * to real user records.
  */
-export function UnitasModuleRankings({ embedded = false, initialModule, initialProfileRank }: UnitasModuleRankingsProps = {}) {
+export function UnitasModuleRankings({ embedded = false, initialModule, initialProfileRank, onModuleChange }: UnitasModuleRankingsProps = {}) {
   const t = useTranslations('UnitasRankings');
   const locale = useLocale();
   const tEco = useTranslations('Ecosystems');
@@ -75,6 +80,11 @@ export function UnitasModuleRankings({ embedded = false, initialModule, initialP
     const tt = moduleTitleNamespace(module) === 'Ecosystems' ? tEco : tModules;
     return tt(`${module.messageKey}.title`);
   }
+
+  const activeTitle = activeModule ? titleFor(activeModule) : '';
+  useEffect(() => {
+    onModuleChange?.(activeTitle);
+  }, [activeTitle, onModuleChange]);
 
   function openModule(module: ModuleRegistryEntry) {
     setActiveModule((prev) => (prev?.key === module.key && !embedded ? null : module));
@@ -178,8 +188,9 @@ export function UnitasModuleRankings({ embedded = false, initialModule, initialP
             <p className="text-[14px] leading-relaxed text-gray-300">
               {t(`bio.${profile.entry.bioIndex}`, { module: titleFor(profile.module) })}
             </p>
-            {/* REV-19 §10: outbound discovery for the module itself. */}
-            <DiscoveryLinks subject={titleFor(profile.module)} locale={locale} />
+            {/* REV-21 SPEC §12.2 unitasProfile host (D-23): no entity behind a
+                pseudonymous operator -- sources-only mode on the module title. */}
+            <ExploreDeeper anchor={textAnchor(titleFor(profile.module), wikiLangFor(locale))} host="unitasProfile" compact />
             <p className="text-[11px] text-gray-500">{t('disclaimer')}</p>
           </div>
         )}

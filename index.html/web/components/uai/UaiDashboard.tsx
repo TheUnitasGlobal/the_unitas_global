@@ -12,6 +12,11 @@ import {
 } from '@/lib/uai/types';
 import type { UaiError, UaiPhase } from '@/lib/uai/useUai';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
+import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { entityAnchor, textAnchor } from '@/lib/uai/deeperAnchor';
+import type { DeeperHost } from '@/lib/uai/deeperThemes';
+import { wikiLangFor } from '@/lib/uai/liveSuggest';
+import { useLocale } from 'next-intl';
 
 interface UaiDashboardProps {
   phase: UaiPhase;
@@ -39,6 +44,9 @@ interface UaiDashboardProps {
    *  structures (insight, doctrine deconstruction, redesign, deep gate). */
   split?: boolean;
   fullReportHref?: string;
+  /** REV-21 SPEC §12.2 / D-22: which surface hosts the Explore Deeper block
+   *  at the end of the report -- the fullscreen tower or the /u-ai page. */
+  deeperHost?: DeeperHost;
 }
 
 const BAND_COLOR: Record<string, string> = { low: '#64748b', mid: '#22d3ee', high: '#d4af37' };
@@ -83,9 +91,18 @@ export function UaiDashboard({
   compact = false,
   split = false,
   fullReportHref,
+  deeperHost = 'uaiPage',
 }: UaiDashboardProps) {
   const t = useTranslations('UAI');
   const tEco = useTranslations('Ecosystems');
+  const locale = useLocale();
+  // SPEC §12.2 tower / uaiPage hosts (D-22 interim block): the surface
+  // report's own entity anchor; sources-only until the synthesis lands.
+  const deeperAnchor = useMemo(() => {
+    if (!surface) return null;
+    const lang = wikiLangFor(locale);
+    return surface.web.anchor ? entityAnchor(surface.web.anchor, lang, surface.query) : textAnchor(surface.query, lang);
+  }, [surface, locale]);
   const [checked, setChecked] = useState<Record<number, boolean>>({});
   const [swarmOpen, setSwarmOpen] = useState(false);
   const deepGateRef = useRef<HTMLDivElement | null>(null);
@@ -582,6 +599,14 @@ export function UaiDashboard({
           {!compact && (
             <div className={split ? 'order-2' : ''}>
               <UnitasModuleRankings />
+            </div>
+          )}
+
+          {/* REV-21 SPEC §12.2 / D-22: until the infinity stream (M8) carries
+              its own 'deeper' card, the report ends with the block itself. */}
+          {!compact && surface && (
+            <div className={split ? 'order-2' : ''}>
+              <ExploreDeeper anchor={deeperAnchor} host={deeperHost} report={surface} />
             </div>
           )}
         </>

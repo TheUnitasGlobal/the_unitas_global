@@ -2021,6 +2021,178 @@
     "hub": {
       "tabsAria": "Thema wählen",
       "swipeHint": "Nach links oder rechts wischen, um das Thema zu wechseln"
+    },
+    "deeper": {
+      "label": "Tiefer erkunden",
+      "anchorAria": "{term} vertieft erkunden",
+      "sourcesLabel": "Quellen",
+      "outboundLabel": "Anderswo öffnen",
+      "scope": {
+        "global": "Weltweit",
+        "country": "Ihr Land"
+      },
+      "more": "Mehr laden",
+      "end": "Sie haben das Ende dieser Linse erreicht.",
+      "retry": "Erneut versuchen",
+      "retryHint": "Diese Seite konnte nicht geladen werden.",
+      "loading": "Wird geladen …",
+      "chooseMeaning": "Welche Bedeutung meinten Sie?",
+      "noAnchor": "Noch keine verknüpfte Entität – prüfen Sie das Thema in den Quellen unten.",
+      "allThemes": "Alle Linsen",
+      "moreThemes": "+{count} weitere",
+      "reAnchor": "Stattdessen dies erkunden",
+      "loginHint": "erfordert ggf. eine Anmeldung",
+      "licenseLabel": "Lizenz",
+      "authorLabel": "Urheber",
+      "viaSource": "über {source}",
+      "emptyPage": "Für diese Linse gibt es noch nichts anzuzeigen.",
+      "closeTheme": "Linse schließen",
+      "themeAria": "Linse „{theme}“ öffnen",
+      "wikiLink": "Wikipedia-Artikel",
+      "wikidataLink": "Wikidata-Objekt",
+      "attributionLabel": "Namensnennung",
+      "themes": {
+        "dataTwin": {
+          "title": "Datenzwilling aller Dinge",
+          "hook": "Gäbe es dies als Daten – wie viele Eigenschaften bräuchte es, um es nachzubauen?",
+          "f1": "Angegebene Eigenschaften",
+          "f2": "Sprachversionen",
+          "f3": "Beschreibung",
+          "f4": "Eigenschaftsseite",
+          "f5": "Bild",
+          "f6": "Externe Kennungen"
+        },
+        "causalHack": {
+          "title": "Kausalitäts-Hack",
+          "hook": "Was hat dies verursacht, und was verursacht es – bis hin zur Ursache der Ursache?",
+          "f1": "Ursachen",
+          "f2": "Wirkungen",
+          "f3": "Unmittelbare Ursache",
+          "f4": "Mitwirkende Faktoren",
+          "f5": "Oberklassen und Ganzes",
+          "f6": "Teile und Facetten"
+        },
+        "valueCycle": {
+          "title": "Post-Knappheits-Wertkreislauf",
+          "hook": "Woher strömt dieses Wissen herein, und wohin geht der Wert, den es kostenlos weitergibt?",
+          "f1": "Strömt herein von",
+          "f2": "Strömt hinaus zu",
+          "f3": "Eingehende Links",
+          "f4": "Ausgehende Links",
+          "f5": "Seite",
+          "f6": "Reichweite"
+        },
+        "omniWave": {
+          "title": "Omni-Wellen-Aufmerksamkeit",
+          "hook": "Beschleunigt sich die Aufmerksamkeit der Welt auf dies zu – oder kühlt sie ab?",
+          "f1": "Aufrufe in 30 Tagen",
+          "f2": "Trend",
+          "f3": "Spitzentag",
+          "f4": "Weltweit (Englisch)",
+          "f5": "Ihre Sprache",
+          "f6": "Zeitfenster"
+        },
+        "zeroPoint": {
+          "title": "Nullbasis-Wahrheit",
+          "hook": "Die minimale Wahrheit, auf die sich zwanzig Sprachen einigen – und die Wurzel des Wortes selbst.",
+          "f1": "Namen in zwanzig Sprachen",
+          "f2": "Beschreibung",
+          "f3": "Auch bekannt als",
+          "f4": "Bedeutungen in Ihrer Sprache",
+          "f5": "Etymologie",
+          "f6": "Bedeutungen im Englischen"
+        },
+        "hologramField": {
+          "title": "Hologrammfeld",
+          "hook": "Dies ohne Worte sehen – wer hat es festgehalten, und unter welchen Rechten?",
+          "f1": "Aus dem Artikel",
+          "f2": "Lizenz",
+          "f3": "Urheber",
+          "f4": "Auflösung",
+          "f5": "Weitere Medien",
+          "f6": "Kategorie"
+        },
+        "evolutionArc": {
+          "title": "Evolutionsbogen",
+          "hook": "Wann ist die Forschung dazu explodiert, und wo beschleunigt sie sich jetzt?",
+          "f1": "Arbeiten pro Jahr",
+          "f2": "Meistzitiert",
+          "f3": "Neueste",
+          "f4": "Arbeiten gesamt",
+          "f5": "Spitzenjahr",
+          "f6": "Open Access"
+        },
+        "ventureSignal": {
+          "title": "Venture-Signal",
+          "hook": "Wer bringt gerade jetzt etwas rund um dieses Thema auf den Markt?",
+          "f1": "Markteinführungen",
+          "f2": "Diskussionen",
+          "f3": "Blue-Ocean-Index",
+          "f4": "Punkte",
+          "f5": "Kommentare",
+          "f6": "Veröffentlicht"
+        },
+        "marketMoat": {
+          "title": "Markt-Burggraben",
+          "hook": "Wer hat die Mauer schon gebaut, und welches Land ist noch offen?",
+          "f1": "Akteure in diesem Feld",
+          "f2": "Nach Land",
+          "f3": "Wirtschaft (BIP)",
+          "f4": "Bevölkerung",
+          "f5": "Online-Bevölkerung",
+          "f6": "Ausgewähltes Land"
+        },
+        "timeFlux": {
+          "title": "Zeitfluss-Klima",
+          "hook": "Wie anders war dieser Himmel am selben Tag vor dreißig Jahren – und 2050?",
+          "f1": "Derselbe Tag, Jahre zuvor",
+          "f2": "Höchst- / Tiefstwert",
+          "f3": "Niederschlag",
+          "f4": "Derselbe Tag, prognostiziert",
+          "f5": "Veränderung gegenüber heute",
+          "f6": "Klimamodelle"
+        },
+        "fractalDim": {
+          "title": "Fraktale Dimensionen",
+          "hook": "Geschwister derselben Art – eine Ebene hinauf, dann wieder hinab.",
+          "f1": "Kategorien",
+          "f2": "Geschwister in dieser Kategorie",
+          "f3": "Verwandte Seiten",
+          "f4": "Tiefe",
+          "f5": "Oberkategorie",
+          "f6": "Mitglieder"
+        },
+        "chronosGate": {
+          "title": "Chronos-Tor",
+          "hook": "Wann, und in wessen Händen, hat sich dieses Wissen verändert?",
+          "f1": "Erstmals geschrieben",
+          "f2": "Erster Autor",
+          "f3": "Letzte Bearbeitungen",
+          "f4": "Bearbeitungen pro Woche",
+          "f5": "Bot-Anteil",
+          "f6": "Wachstum seit Entstehung"
+        },
+        "omniPress": {
+          "title": "Omni-Presse",
+          "hook": "Wie nennen die Redaktionen der Welt – und die Ihres Landes – dies gerade jetzt?",
+          "f1": "Weltweite Redaktionen",
+          "f2": "Redaktionen Ihres Landes",
+          "f3": "Medium",
+          "f4": "Veröffentlicht",
+          "f5": "Agenturmeldung",
+          "f6": "Berichterstattung"
+        },
+        "terraPulse": {
+          "title": "Terra-Puls",
+          "hook": "Was durchlebt die Erde unter diesem Himmel gerade jetzt?",
+          "f1": "Naturereignisse in der Nähe",
+          "f2": "Erdbeben im Umkreis von 800 km",
+          "f3": "Flussabfluss",
+          "f4": "Wellenhöhe",
+          "f5": "Wetterwarnungen",
+          "f6": "Entfernung"
+        }
+      }
     }
   }
 }

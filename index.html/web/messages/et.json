@@ -2021,6 +2021,178 @@
     "hub": {
       "tabsAria": "Vali teema",
       "swipeHint": "Teema vahetamiseks libista vasakule või paremale"
+    },
+    "deeper": {
+      "label": "Uuri sügavamalt",
+      "anchorAria": "Süvitsi uurimine: {term}",
+      "sourcesLabel": "Allikad",
+      "outboundLabel": "Ava mujal",
+      "scope": {
+        "global": "Kogu maailm",
+        "country": "Sinu riik"
+      },
+      "more": "Laadi rohkem",
+      "end": "Oled jõudnud selle läätse lõppu.",
+      "retry": "Proovi uuesti",
+      "retryHint": "Seda lehte ei õnnestunud laadida.",
+      "loading": "Laadimine…",
+      "chooseMeaning": "Millist tähendust sa silmas pidasid?",
+      "noAnchor": "Seotud olemit veel pole — kontrolli teemat allolevatest allikatest.",
+      "allThemes": "Kõik läätsed",
+      "moreThemes": "+{count} veel",
+      "reAnchor": "Uuri hoopis seda",
+      "loginHint": "võib nõuda sisselogimist",
+      "licenseLabel": "Litsents",
+      "authorLabel": "Autor",
+      "viaSource": "{source} kaudu",
+      "emptyPage": "Selles läätses pole veel midagi näidata.",
+      "closeTheme": "Sulge lääts",
+      "themeAria": "Ava lääts „{theme}“",
+      "wikiLink": "Vikipeedia artikkel",
+      "wikidataLink": "Wikidata üksus",
+      "attributionLabel": "Autorile viitamine",
+      "themes": {
+        "dataTwin": {
+          "title": "Kõiksuse andmekaksik",
+          "hook": "Kui see eksisteeriks andmetena, mitu omadust kuluks selle taasloomiseks?",
+          "f1": "Kirjeldatud omadused",
+          "f2": "Keeleversioonid",
+          "f3": "Kirjeldus",
+          "f4": "Omaduse leht",
+          "f5": "Pilt",
+          "f6": "Välised identifikaatorid"
+        },
+        "causalHack": {
+          "title": "Põhjuslikkuse häkk",
+          "hook": "Mis selle põhjustas ja mida see ise põhjustab — kuni põhjuse põhjuseni välja?",
+          "f1": "Põhjused",
+          "f2": "Tagajärjed",
+          "f3": "Vahetu põhjus",
+          "f4": "Kaasmõjurid",
+          "f5": "Ülemklassid ja tervikud",
+          "f6": "Osad ja tahud"
+        },
+        "valueCycle": {
+          "title": "Nappusejärgne väärtusring",
+          "hook": "Kust see teadmine sisse voolab ja kuhu läheb väärtus, mille ta tasuta ära annab?",
+          "f1": "Voolab sisse",
+          "f2": "Voolab välja",
+          "f3": "Sissetulevad lingid",
+          "f4": "Väljuvad lingid",
+          "f5": "Leht",
+          "f6": "Ulatus"
+        },
+        "omniWave": {
+          "title": "Omnilaine tähelepanu",
+          "hook": "Kas maailma tähelepanu kiireneb selle poole või jahtub?",
+          "f1": "Vaatamisi 30 päevaga",
+          "f2": "Trend",
+          "f3": "Tipp-päev",
+          "f4": "Kogu maailm (inglise)",
+          "f5": "Sinu keel",
+          "f6": "Ajaaken"
+        },
+        "zeroPoint": {
+          "title": "Nullbaasi tõde",
+          "hook": "Vähim tõde, milles kakskümmend keelt nõustuvad — ja sõna enda juur.",
+          "f1": "Nimed kahekümnes keeles",
+          "f2": "Kirjeldus",
+          "f3": "Tuntud ka kui",
+          "f4": "Tähendused sinu keeles",
+          "f5": "Etümoloogia",
+          "f6": "Tähendused inglise keeles"
+        },
+        "hologramField": {
+          "title": "Hologrammiväli",
+          "hook": "Näha seda ilma sõnadeta — kes selle jäädvustas ja milliste õigustega?",
+          "f1": "Artiklist",
+          "f2": "Litsents",
+          "f3": "Autor",
+          "f4": "Eraldusvõime",
+          "f5": "Rohkem meediat",
+          "f6": "Kategooria"
+        },
+        "evolutionArc": {
+          "title": "Evolutsioonikaar",
+          "hook": "Millal selle uurimine plahvatas ja kus see praegu kiireneb?",
+          "f1": "Töid aastas",
+          "f2": "Enim viidatud",
+          "f3": "Uusimad",
+          "f4": "Töid kokku",
+          "f5": "Tippaasta",
+          "f6": "Avatud juurdepääs"
+        },
+        "ventureSignal": {
+          "title": "Ettevõtlussignaal",
+          "hook": "Kes praegu just selle ümber midagi käivitab?",
+          "f1": "Turuletulekud",
+          "f2": "Arutelud",
+          "f3": "Sinise ookeani indeks",
+          "f4": "Punktid",
+          "f5": "Kommentaarid",
+          "f6": "Postitatud"
+        },
+        "marketMoat": {
+          "title": "Turu vallikraav",
+          "hook": "Kes on müüri juba püstitanud ja milline riik on veel vaba?",
+          "f1": "Tegijad selles valdkonnas",
+          "f2": "Riigiti",
+          "f3": "Majandus (SKP)",
+          "f4": "Rahvaarv",
+          "f5": "Internetikasutajad",
+          "f6": "Valitud riik"
+        },
+        "timeFlux": {
+          "title": "Ajavoo kliima",
+          "hook": "Kui erinev oli see taevas samal päeval kolmkümmend aastat tagasi — ja 2050. aastal?",
+          "f1": "Sama päev aastaid tagasi",
+          "f2": "Kõrgeim / madalaim",
+          "f3": "Sademed",
+          "f4": "Sama päev, prognoos",
+          "f5": "Muutus võrreldes tänasega",
+          "f6": "Kliimamudelid"
+        },
+        "fractalDim": {
+          "title": "Fraktaalsed mõõtmed",
+          "hook": "Sama liiki õed-vennad — üks tasand üles, siis tagasi alla.",
+          "f1": "Kategooriad",
+          "f2": "Õed-vennad selles kategoorias",
+          "f3": "Seotud lehed",
+          "f4": "Sügavus",
+          "f5": "Ülemkategooria",
+          "f6": "Liikmed"
+        },
+        "chronosGate": {
+          "title": "Kronose värav",
+          "hook": "Millal ja kelle käes on see teadmine muutunud?",
+          "f1": "Esmakordselt kirjutatud",
+          "f2": "Esimene autor",
+          "f3": "Viimased muudatused",
+          "f4": "Muudatusi nädalas",
+          "f5": "Robotite osakaal",
+          "f6": "Kasv sünnist saadik"
+        },
+        "omniPress": {
+          "title": "Omni Press",
+          "hook": "Kuidas maailma — ja sinu riigi — uudistetoimetused seda praegu nimetavad?",
+          "f1": "Maailma uudistetoimetus",
+          "f2": "Sinu riigi uudistetoimetus",
+          "f3": "Väljaanne",
+          "f4": "Avaldatud",
+          "f5": "Uudisteagentuur",
+          "f6": "Kajastus"
+        },
+        "terraPulse": {
+          "title": "Terra Pulss",
+          "hook": "Mida Maa selle taeva all praegu läbi elab?",
+          "f1": "Loodusnähtused lähikonnas",
+          "f2": "Maavärinad 800 km raadiuses",
+          "f3": "Jõe vooluhulk",
+          "f4": "Lainekõrgus",
+          "f5": "Ilmahoiatused",
+          "f6": "Kaugus"
+        }
+      }
     }
   }
 }

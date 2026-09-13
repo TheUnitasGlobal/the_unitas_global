@@ -17,6 +17,8 @@ import {
 import { useShortcutFeed } from '@/lib/uai/useShortcutFeed';
 import { loadShortcutAnalysis } from '@/lib/uai/shortcutCacheClient';
 import type { AnalyticsLabels, KeywordChip, ShortcutAnalysis } from '@/lib/uai/shortcutAnalytics';
+import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { entityAnchor, textAnchor } from '@/lib/uai/deeperAnchor';
 import { isQid, sitelinkTitle } from '@/lib/uai/entityResolve';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import { formatSourceName, sourceNameOf } from '@/lib/uai/sourceName';
@@ -452,8 +454,17 @@ interface TierCardProps {
 }
 
 function TierCard({ tier, focused, feed, tModal, tUai, onNest, onFocusTier, onHover }: TierCardProps) {
+  const locale = useLocale();
   const TierIcon = tier.icon;
   const analysis = focused && feed?.analysis ? feed.analysis : tier.analysis;
+  // SPEC §12.2 keywordTier host (D-35): the FOCUSED tier only, compact, on
+  // the snapshot's own anchor (or sources-only until it lands).
+  const lang = wikiLangFor(locale);
+  const deeperAnchor = analysis?.web.anchor
+    ? entityAnchor(analysis.web.anchor, lang, tier.title)
+    : tier.qid
+      ? { kind: 'entity' as const, term: tier.title, lang, qid: tier.qid, localeTitle: tier.query }
+      : textAnchor(tier.title, lang);
   // Every tier carries its own parked deep report now (the cache route
   // returns it with the snapshot), so a restored / stepped-past tier keeps
   // showing it -- not only the one in focus.
@@ -619,6 +630,8 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onFocusTier, onHo
               </div>
             </div>
           )}
+
+          {focused && <ExploreDeeper anchor={deeperAnchor} host="keywordTier" compact report={analysis.report} />}
         </div>
       )}
     </motion.article>

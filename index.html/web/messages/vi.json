@@ -2021,6 +2021,178 @@
     "hub": {
       "tabsAria": "Chọn chủ đề",
       "swipeHint": "Vuốt sang trái hoặc phải để đổi chủ đề"
+    },
+    "deeper": {
+      "label": "Khám phá sâu hơn",
+      "anchorAria": "Đang khám phá sâu về {term}",
+      "sourcesLabel": "Nguồn",
+      "outboundLabel": "Mở ở nơi khác",
+      "scope": {
+        "global": "Toàn thế giới",
+        "country": "Quốc gia của bạn"
+      },
+      "more": "Tải thêm",
+      "end": "Bạn đã đến cuối lăng kính này.",
+      "retry": "Thử lại",
+      "retryHint": "Không tải được trang này.",
+      "loading": "Đang tải…",
+      "chooseMeaning": "Bạn muốn nói đến nghĩa nào?",
+      "noAnchor": "Chưa có thực thể nào được liên kết — hãy xác minh chủ đề tại các nguồn bên dưới.",
+      "allThemes": "Tất cả lăng kính",
+      "moreThemes": "+{count} nữa",
+      "reAnchor": "Khám phá mục này thay thế",
+      "loginHint": "có thể yêu cầu đăng nhập",
+      "licenseLabel": "Giấy phép",
+      "authorLabel": "Tác giả",
+      "viaSource": "qua {source}",
+      "emptyPage": "Lăng kính này chưa có gì để hiển thị.",
+      "closeTheme": "Đóng lăng kính",
+      "themeAria": "Mở lăng kính {theme}",
+      "wikiLink": "Bài viết Wikipedia",
+      "wikidataLink": "Mục Wikidata",
+      "attributionLabel": "Ghi công",
+      "themes": {
+        "dataTwin": {
+          "title": "Bản Sao Dữ Liệu Vạn Vật",
+          "hook": "Nếu thứ này tồn tại dưới dạng dữ liệu, cần bao nhiêu thuộc tính để tái dựng nó?",
+          "f1": "Thuộc tính đã khai báo",
+          "f2": "Phiên bản ngôn ngữ",
+          "f3": "Mô tả",
+          "f4": "Trang thuộc tính",
+          "f5": "Hình ảnh",
+          "f6": "Mã định danh ngoài"
+        },
+        "causalHack": {
+          "title": "Hack Nhân Quả",
+          "hook": "Điều gì đã tạo ra nó, và nó tạo ra điều gì — cho tới tận nguyên nhân của nguyên nhân?",
+          "f1": "Nguyên nhân",
+          "f2": "Hệ quả",
+          "f3": "Nguyên nhân trực tiếp",
+          "f4": "Yếu tố góp phần",
+          "f5": "Lớp cha và tổng thể",
+          "f6": "Thành phần và khía cạnh"
+        },
+        "valueCycle": {
+          "title": "Vòng Giá Trị Hậu Khan Hiếm",
+          "hook": "Tri thức này chảy đến từ đâu, và giá trị nó trao đi miễn phí sẽ đi về đâu?",
+          "f1": "Chảy đến từ",
+          "f2": "Chảy đi tới",
+          "f3": "Liên kết đến",
+          "f4": "Liên kết đi",
+          "f5": "Trang",
+          "f6": "Phạm vi"
+        },
+        "omniWave": {
+          "title": "Làn Sóng Chú Ý Omni",
+          "hook": "Sự chú ý của thế giới đang tăng tốc hướng về nó, hay đang nguội dần?",
+          "f1": "Lượt xem 30 ngày",
+          "f2": "Xu hướng",
+          "f3": "Ngày đỉnh",
+          "f4": "Toàn thế giới (tiếng Anh)",
+          "f5": "Ngôn ngữ của bạn",
+          "f6": "Khung thời gian"
+        },
+        "zeroPoint": {
+          "title": "Chân Lý Điểm Không",
+          "hook": "Chân lý tối giản mà hai mươi ngôn ngữ cùng đồng thuận — và gốc rễ của chính từ ấy.",
+          "f1": "Tên trong hai mươi ngôn ngữ",
+          "f2": "Mô tả",
+          "f3": "Còn gọi là",
+          "f4": "Nghĩa trong ngôn ngữ của bạn",
+          "f5": "Từ nguyên",
+          "f6": "Nghĩa trong tiếng Anh"
+        },
+        "hologramField": {
+          "title": "Trường Hologram",
+          "hook": "Nhìn nó mà không cần lời — ai đã ghi lại, và dưới quyền nào?",
+          "f1": "Từ bài viết",
+          "f2": "Giấy phép",
+          "f3": "Tác giả",
+          "f4": "Độ phân giải",
+          "f5": "Thêm phương tiện",
+          "f6": "Thể loại"
+        },
+        "evolutionArc": {
+          "title": "Quỹ Đạo Tiến Hóa",
+          "hook": "Nghiên cứu về nó bùng nổ khi nào, và đang tăng tốc ở đâu lúc này?",
+          "f1": "Công trình mỗi năm",
+          "f2": "Được trích dẫn nhiều nhất",
+          "f3": "Mới nhất",
+          "f4": "Tổng số công trình",
+          "f5": "Năm đỉnh",
+          "f6": "Truy cập mở"
+        },
+        "ventureSignal": {
+          "title": "Tín Hiệu Khởi Nghiệp",
+          "hook": "Ngay lúc này, ai đang ra mắt điều gì xoay quanh nó?",
+          "f1": "Ra mắt",
+          "f2": "Thảo luận",
+          "f3": "Chỉ số đại dương xanh",
+          "f4": "Điểm",
+          "f5": "Bình luận",
+          "f6": "Đăng lúc"
+        },
+        "marketMoat": {
+          "title": "Hào Lũy Thị Trường",
+          "hook": "Ai đã dựng xong bức tường, và quốc gia nào vẫn còn bỏ ngỏ?",
+          "f1": "Người chơi trong lĩnh vực này",
+          "f2": "Theo quốc gia",
+          "f3": "Kinh tế (GDP)",
+          "f4": "Dân số",
+          "f5": "Dân số trực tuyến",
+          "f6": "Quốc gia đã chọn"
+        },
+        "timeFlux": {
+          "title": "Khí Hậu Dòng Thời Gian",
+          "hook": "Bầu trời này khác biệt thế nào vào cùng ngày ba mươi năm trước — và vào năm 2050?",
+          "f1": "Cùng ngày, nhiều năm trước",
+          "f2": "Cao nhất / thấp nhất",
+          "f3": "Lượng mưa",
+          "f4": "Cùng ngày, dự phóng",
+          "f5": "Thay đổi so với hôm nay",
+          "f6": "Mô hình khí hậu"
+        },
+        "fractalDim": {
+          "title": "Chiều Kích Fractal",
+          "hook": "Những anh em cùng loại — lên một bậc, rồi trở xuống.",
+          "f1": "Thể loại",
+          "f2": "Anh em trong thể loại này",
+          "f3": "Trang liên quan",
+          "f4": "Độ sâu",
+          "f5": "Thể loại cha",
+          "f6": "Thành viên"
+        },
+        "chronosGate": {
+          "title": "Cổng Chronos",
+          "hook": "Tri thức này đã thay đổi khi nào, và trong tay ai?",
+          "f1": "Viết lần đầu",
+          "f2": "Tác giả đầu tiên",
+          "f3": "Chỉnh sửa gần đây",
+          "f4": "Chỉnh sửa mỗi tuần",
+          "f5": "Tỷ lệ bot",
+          "f6": "Tăng trưởng từ khi ra đời"
+        },
+        "omniPress": {
+          "title": "Omni Press",
+          "hook": "Các tòa soạn trên thế giới — và ở quốc gia bạn — đang gọi tên nó thế nào ngay lúc này?",
+          "f1": "Tòa soạn toàn cầu",
+          "f2": "Tòa soạn quốc gia bạn",
+          "f3": "Cơ quan báo chí",
+          "f4": "Đã đăng",
+          "f5": "Hãng tin",
+          "f6": "Mức độ đưa tin"
+        },
+        "terraPulse": {
+          "title": "Nhịp Đập Địa Cầu",
+          "hook": "Dưới bầu trời này, Trái Đất đang trải qua điều gì ngay lúc này?",
+          "f1": "Sự kiện tự nhiên lân cận",
+          "f2": "Động đất trong bán kính 800 km",
+          "f3": "Lưu lượng sông",
+          "f4": "Độ cao sóng",
+          "f5": "Cảnh báo thời tiết",
+          "f6": "Khoảng cách"
+        }
+      }
     }
   }
 }

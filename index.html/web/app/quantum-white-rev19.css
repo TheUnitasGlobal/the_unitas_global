@@ -890,6 +890,66 @@ html[data-unitas-surface='quantum-white'] .qw-discovery-link:hover {
 }
 
 /* --------------------------------------------------------------------------
+   22. Explore Deeper (REV-21 §3 / SPEC §12.2) -- white-surface painting for
+       the block that sits under every popup. Layout is in globals.css.
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-deeper-block {
+  border-top-color: var(--qw-line);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-label {
+  color: var(--qw-gold-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-subject {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-theme {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.72);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-theme:hover,
+html[data-unitas-surface='quantum-white'] .qw-deeper-theme:focus-visible {
+  background: #fff;
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-theme--more {
+  border-style: dashed;
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-hook {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-card {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.7);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-chip {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-sources,
+html[data-unitas-surface='quantum-white'] .qw-deeper-outbound,
+html[data-unitas-surface='quantum-white'] .qw-deeper-card-source,
+html[data-unitas-surface='quantum-white'] .qw-deeper-page-sources {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-sources a,
+html[data-unitas-surface='quantum-white'] .qw-deeper-outbound a,
+html[data-unitas-surface='quantum-white'] .qw-deeper-page-sources a {
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-more {
+  border-color: var(--qw-line-strong);
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-more:hover {
+  border-color: var(--qw-blue);
+  background: #fff;
+}
+html[data-unitas-surface='quantum-white'] .qw-deeper-img {
+  background: rgba(10, 10, 12, 0.04);
+}
+
+/* --------------------------------------------------------------------------
    20. Entry Gate legal buttons (SPEC §12)
    -------------------------------------------------------------------------- */
 html[data-unitas-surface='quantum-white'] .qw-entry-legal-links {

@@ -2021,6 +2021,178 @@
     "hub": {
       "tabsAria": "Elige un tema",
       "swipeHint": "Desliza a izquierda o derecha para cambiar de tema"
+    },
+    "deeper": {
+      "label": "Explora más a fondo",
+      "anchorAria": "Explorando {term} en profundidad",
+      "sourcesLabel": "Fuentes",
+      "outboundLabel": "Abrir en otro sitio",
+      "scope": {
+        "global": "Todo el mundo",
+        "country": "Tu país"
+      },
+      "more": "Cargar más",
+      "end": "Has llegado al final de esta lente.",
+      "retry": "Reintentar",
+      "retryHint": "Esa página no se pudo cargar.",
+      "loading": "Cargando…",
+      "chooseMeaning": "¿A qué significado te referías?",
+      "noAnchor": "Aún no hay una entidad vinculada: verifica el tema en las fuentes de abajo.",
+      "allThemes": "Todas las lentes",
+      "moreThemes": "+{count} más",
+      "reAnchor": "Explorar esto en su lugar",
+      "loginHint": "puede pedirte iniciar sesión",
+      "licenseLabel": "Licencia",
+      "authorLabel": "Autor",
+      "viaSource": "vía {source}",
+      "emptyPage": "Esta lente aún no tiene nada que mostrar.",
+      "closeTheme": "Cerrar lente",
+      "themeAria": "Abrir la lente {theme}",
+      "wikiLink": "Artículo de Wikipedia",
+      "wikidataLink": "Elemento de Wikidata",
+      "attributionLabel": "Atribución",
+      "themes": {
+        "dataTwin": {
+          "title": "Gemelo de datos universal",
+          "hook": "Si esto existiera como datos, ¿cuántas propiedades harían falta para reconstruirlo?",
+          "f1": "Propiedades declaradas",
+          "f2": "Ediciones por idioma",
+          "f3": "Descripción",
+          "f4": "Página de la propiedad",
+          "f5": "Imagen",
+          "f6": "Identificadores externos"
+        },
+        "causalHack": {
+          "title": "Hackeo de la causalidad",
+          "hook": "¿Qué lo causó y qué causa a su vez, hasta llegar a la causa de la causa?",
+          "f1": "Causas",
+          "f2": "Efectos",
+          "f3": "Causa inmediata",
+          "f4": "Factores contribuyentes",
+          "f5": "Clases superiores y conjuntos",
+          "f6": "Partes y facetas"
+        },
+        "valueCycle": {
+          "title": "Ciclo de valor posescasez",
+          "hook": "¿De dónde fluye este conocimiento y adónde va el valor que regala gratis?",
+          "f1": "Fluye desde",
+          "f2": "Fluye hacia",
+          "f3": "Enlaces entrantes",
+          "f4": "Enlaces salientes",
+          "f5": "Página",
+          "f6": "Alcance"
+        },
+        "omniWave": {
+          "title": "Atención omni-onda",
+          "hook": "¿La atención del mundo se acelera hacia esto o se está enfriando?",
+          "f1": "Vistas en 30 días",
+          "f2": "Tendencia",
+          "f3": "Día pico",
+          "f4": "Todo el mundo (inglés)",
+          "f5": "Tu idioma",
+          "f6": "Ventana"
+        },
+        "zeroPoint": {
+          "title": "Verdad base cero",
+          "hook": "La verdad mínima en la que coinciden veinte idiomas, y la raíz de la propia palabra.",
+          "f1": "Nombres en veinte idiomas",
+          "f2": "Descripción",
+          "f3": "También conocido como",
+          "f4": "Acepciones en tu idioma",
+          "f5": "Etimología",
+          "f6": "Acepciones en inglés"
+        },
+        "hologramField": {
+          "title": "Campo holográfico",
+          "hook": "Ver esto sin palabras: ¿quién lo capturó y bajo qué derechos?",
+          "f1": "Del artículo",
+          "f2": "Licencia",
+          "f3": "Autor",
+          "f4": "Resolución",
+          "f5": "Más medios",
+          "f6": "Categoría"
+        },
+        "evolutionArc": {
+          "title": "Arco evolutivo",
+          "hook": "¿Cuándo explotó la investigación sobre esto y dónde se acelera ahora?",
+          "f1": "Trabajos por año",
+          "f2": "Más citados",
+          "f3": "Más recientes",
+          "f4": "Trabajos totales",
+          "f5": "Año pico",
+          "f6": "Acceso abierto"
+        },
+        "ventureSignal": {
+          "title": "Señal emprendedora",
+          "hook": "Ahora mismo, ¿quién está lanzando algo en torno a esto?",
+          "f1": "Lanzamientos",
+          "f2": "Debates",
+          "f3": "Índice de océano azul",
+          "f4": "Puntos",
+          "f5": "Comentarios",
+          "f6": "Publicado"
+        },
+        "marketMoat": {
+          "title": "Foso de mercado",
+          "hook": "¿Quién ya levantó el muro y qué país sigue abierto?",
+          "f1": "Actores en este campo",
+          "f2": "Por país",
+          "f3": "Economía (PIB)",
+          "f4": "Población",
+          "f5": "Población conectada",
+          "f6": "País seleccionado"
+        },
+        "timeFlux": {
+          "title": "Clima en flujo temporal",
+          "hook": "¿Cuán distinto era este cielo el mismo día hace treinta años, y cómo será en 2050?",
+          "f1": "Mismo día, años atrás",
+          "f2": "Máxima / mínima",
+          "f3": "Precipitación",
+          "f4": "Mismo día, proyección",
+          "f5": "Cambio respecto a hoy",
+          "f6": "Modelos climáticos"
+        },
+        "fractalDim": {
+          "title": "Dimensiones fractales",
+          "hook": "Hermanos de la misma clase: un nivel arriba y de vuelta abajo.",
+          "f1": "Categorías",
+          "f2": "Hermanos en esta categoría",
+          "f3": "Páginas relacionadas",
+          "f4": "Profundidad",
+          "f5": "Categoría superior",
+          "f6": "Miembros"
+        },
+        "chronosGate": {
+          "title": "Puerta de Cronos",
+          "hook": "¿Cuándo, y en manos de quién, ha cambiado este conocimiento?",
+          "f1": "Primera redacción",
+          "f2": "Primer autor",
+          "f3": "Ediciones recientes",
+          "f4": "Ediciones por semana",
+          "f5": "Proporción de bots",
+          "f6": "Crecimiento desde su origen"
+        },
+        "omniPress": {
+          "title": "Omni Press",
+          "hook": "¿Cómo están nombrando esto ahora mismo las redacciones del mundo, y las de tu país?",
+          "f1": "Redacción mundial",
+          "f2": "Redacción de tu país",
+          "f3": "Medio",
+          "f4": "Publicado",
+          "f5": "Agencia",
+          "f6": "Cobertura"
+        },
+        "terraPulse": {
+          "title": "Pulso terrestre",
+          "hook": "Bajo este cielo, ¿qué está atravesando la Tierra ahora mismo?",
+          "f1": "Eventos naturales cercanos",
+          "f2": "Sismos en 800 km",
+          "f3": "Caudal fluvial",
+          "f4": "Altura de las olas",
+          "f5": "Alertas meteorológicas",
+          "f6": "Distancia"
+        }
+      }
     }
   }
 }
