@@ -12,9 +12,9 @@ import {
  * One shared allow/disallow payload, emitted once for `*` and once per named
  * crawler. The repetition is deliberate and load-bearing: a robots.txt agent
  * block REPLACES the `*` block for that agent rather than layering on top of
- * it, so naming Googlebot / Bingbot / Yeti (Naver) / Daumoa (Daum) without
- * restating the disallows would hand exactly those four engines the coin-gated
- * and sovereign paths the `*` block fences off.
+ * it, so naming Googlebot / Bingbot / Yeti (Naver) / Daumoa (Daum) /
+ * YandexBot without restating the disallows would hand exactly those engines
+ * the coin-gated and sovereign paths the `*` block fences off.
  *
  * `Allow: /` is stated explicitly ahead of the disallows so the intent reads
  * unambiguously to a human auditing the file, even though an absent Allow

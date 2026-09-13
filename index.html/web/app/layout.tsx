@@ -16,7 +16,11 @@ import { PWA_CAPTURE_BOOTSTRAP } from '@/lib/pwa/installPrompt';
 import { IN_APP_ESCAPE_BOOTSTRAP } from '@/lib/pwa/inAppBrowser';
 import { STANDALONE_LAUNCH_BOOTSTRAP } from '@/lib/pwa/standaloneLaunch';
 import { PWA_ICON_VERSION, PWA_MANIFEST_HREF, pwaIconHref } from '@/lib/pwa/iconVersion';
-import { GOOGLE_SITE_VERIFICATION, NAVER_SITE_VERIFICATION } from '@/lib/seo/routes';
+import {
+  GOOGLE_SITE_VERIFICATION,
+  NAVER_SITE_VERIFICATION,
+  YANDEX_SITE_VERIFICATION,
+} from '@/lib/seo/routes';
 import './globals.css';
 import './splash.css';
 import './waitlist.css';
@@ -83,6 +87,10 @@ export const metadata: Metadata = {
   // lib/seo/routes.ts, beside SITE_URL / SITEMAP_URL.
   verification: {
     google: GOOGLE_SITE_VERIFICATION,
+    // Yandex Webmaster (founder directive 2026-09-13). Yandex, unlike Naver,
+    // IS a first-class field on Next's `Verification` type, so it needs no
+    // `other` escape hatch.
+    yandex: YANDEX_SITE_VERIFICATION,
     // Naver Search Advisor (founder directive 2026-09-13). Next's
     // `Verification` type is exactly { google, yahoo, yandex, me, other } --
     // there is no `naver` field, and writing one is a compile error rather

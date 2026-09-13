@@ -216,7 +216,9 @@ export function robotsDisallow(): string[] {
  * Search engines that get their OWN rule block. A named block REPLACES the `*`
  * block for that agent -- it does not layer on top of it -- so each one is
  * emitted with the identical allow/disallow payload. Naver (`Yeti`) and Daum
- * (`Daumoa`) are named explicitly per ch.12's Google / Naver / Bing mandate.
+ * (`Daumoa`) are named explicitly per ch.12's Google / Naver / Bing mandate;
+ * `YandexBot` joins them alongside the Yandex Webmaster ownership proof above,
+ * covering the `ru` locale's search market.
  */
 export const NAMED_CRAWLERS: readonly string[] = [
   'Googlebot',
@@ -224,6 +226,7 @@ export const NAMED_CRAWLERS: readonly string[] = [
   'Bingbot',
   'Yeti',
   'Daumoa',
+  'YandexBot',
 ];
 
 /** Absolute URL of the sitemap, for the robots.txt `Sitemap:` directive. */
@@ -266,3 +269,17 @@ export const GOOGLE_SITE_VERIFICATION = 'VJzwePjEl-VFppwMQJXBCJ4tl5tGCJQQx3obko8
  * `<meta name="naver-site-verification" content="..." />`.
  */
 export const NAVER_SITE_VERIFICATION = '4ecc1c574f7004b05f19488c8d2f5a783fb3b5b1';
+
+/**
+ * Yandex Webmaster HTML-tag ownership proof (founder directive 2026-09-13).
+ *
+ * Unlike Naver, Yandex IS a first-class field in Next's `Verification` type,
+ * so this needs no `other` escape hatch -- `verification.yandex` renders
+ * `<meta name="yandex-verification" content="..." />` directly.
+ *
+ * Yandex is the reason `NAMED_CRAWLERS` below now carries `YandexBot`: the
+ * `ru` locale is one of the 20 this site serves, and claiming ownership of a
+ * property whose robots.txt never names that engine's crawler leaves the
+ * declaration and the crawl directives disagreeing about who is welcome.
+ */
+export const YANDEX_SITE_VERIFICATION = 'd742cced34827f97';

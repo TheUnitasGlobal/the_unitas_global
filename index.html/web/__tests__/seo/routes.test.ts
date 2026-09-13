@@ -8,6 +8,7 @@ import {
   GATED_MODULE_ROUTES,
   GOOGLE_SITE_VERIFICATION,
   NAVER_SITE_VERIFICATION,
+  YANDEX_SITE_VERIFICATION,
   NAMED_CRAWLERS,
   PRIVATE_PATHS,
   PUBLIC_ROUTES,
@@ -248,6 +249,7 @@ describe('robots.txt', () => {
     }
     expect(rules.map((r) => r.userAgent)).toContain('Yeti'); // Naver
     expect(rules.map((r) => r.userAgent)).toContain('Daumoa'); // Daum
+    expect(rules.map((r) => r.userAgent)).toContain('YandexBot'); // Yandex
   });
 
   it('disallows the API, both URL forms of every gated module, /locked, /sovereign and the bypass token', () => {
@@ -302,10 +304,21 @@ describe('search console ownership', () => {
     expect(NAVER_SITE_VERIFICATION).toMatch(/^[0-9a-f]{40}$/);
   });
 
-  it('keeps the two tokens distinct', () => {
-    // Cheap guard against a copy-paste that points one console at the other's
+  it('pins the exact Yandex Webmaster token', () => {
+    expect(YANDEX_SITE_VERIFICATION).toBe('d742cced34827f97');
+    // Yandex issues a 16-char lowercase hex digest.
+    expect(YANDEX_SITE_VERIFICATION).toMatch(/^[0-9a-f]{16}$/);
+  });
+
+  it('keeps every console token distinct', () => {
+    // Cheap guard against a copy-paste that points one console at another's
     // token -- both would then verify as "present" and neither would pass.
-    expect(GOOGLE_SITE_VERIFICATION).not.toBe(NAVER_SITE_VERIFICATION);
+    const tokens = [
+      GOOGLE_SITE_VERIFICATION,
+      NAVER_SITE_VERIFICATION,
+      YANDEX_SITE_VERIFICATION,
+    ];
+    expect(new Set(tokens).size).toBe(tokens.length);
   });
 
   it('is wired into the ROOT layout, so every page inherits the tag', () => {
@@ -316,6 +329,8 @@ describe('search console ownership', () => {
     const layout = readFileSync(join(__dirname, '../..', 'app/layout.tsx'), 'utf8');
     expect(layout).toContain('verification: {');
     expect(layout).toContain('google: GOOGLE_SITE_VERIFICATION,');
+    // Yandex is a first-class Verification field -- no `other` indirection.
+    expect(layout).toContain('yandex: YANDEX_SITE_VERIFICATION,');
     // Naver rides in `verification.other` -- Next's Verification type has no
     // `naver` field. Pin the literal meta name AND the single-`verification`
     // shape: a second `verification:` key would erase the Google token.
