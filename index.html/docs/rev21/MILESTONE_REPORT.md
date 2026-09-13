@@ -318,3 +318,47 @@ EXIT 0으로 통과하고 **소유확인 버튼에서만 조용히 실패**한�
 **남은 것은 소유권이 아니라 제출이다.** 소유 확인과 사이트맵 제출은 별개 동작이며,
 340개 URL의 색인은 각 콘솔에 `/sitemap.xml`이 등록되어야 개시된다. 빙의 경우 GSC 연동이
 사이트맵까지 함께 가져왔는지 **빙의 Sitemaps 섹션에서 별도 확인이 필요**하다.
+
+---
+
+## SEO-SUBMIT — 4대 콘솔 소유권 전부 성립 · 제출 직전 라이브 적격성 실측 (2026-09-13)
+
+**창립자 보고:** 네이버·얀덱스 [소유확인] 클릭 완료. 구글은 빙 GSC 연동 성공이 증거,
+빙은 그 연동으로 상속. **4대 콘솔 소유권 전부 성립 — 저장소 측 인증 공사 완결.**
+
+**제출 직전 실측을 한 이유:** 소유권과 색인은 별개다. 사이트맵에 실린 URL이 리디렉션되거나
+자기 자신이 아닌 canonical을 선언하면, 제출은 성공하고 **색인 단계에서 "Page with redirect" /
+"Duplicate, submitted URL not selected as canonical"로 조용히 배제**된다. REV-21이 실제로
+이 상태였다(320페이지). 제출 전에 잡는 것이 가장 싸다.
+
+| 검사 | 결과 |
+| --- | --- |
+| XML 적격성 | well-formed, 네임스페이스 `sitemaps.org/schemas/sitemap/0.9` |
+| `<url>` 수 | **340** |
+| `lastmod` / `priority` / `changefreq` | **340 / 340 / 340** (전수 보유) |
+| `xhtml:link` alternates | **전 URL 정확히 21개** (20 로케일 + x-default), min=max=21 |
+| 중복 `<loc>` | **0** |
+| 비-HTTPS·타 호스트 | **0** |
+| 표본 25개 URL 직접 호출 | **200 = 25 / 리디렉션 0 / 오류 0** (`-L` 미사용, 리디렉션 검출 목적) |
+| 자기 canonical | `/ko/legal/terms` `/ja/u-pay` `/es/company/careers` 전부 **자기 URL 선언** (REV-21 결함 미재발) |
+| 사이트맵의 비공개 경로 | `sovereign` **0건**, `locked` **0건** |
+| `/ko/locked` robots | `noindex, nofollow` |
+| 엔드포인트 | `/sitemap.xml` 200 `application/xml` 751,782 B · `/robots.txt` 200 `text/plain` 5,539 B |
+
+**정직 표기 — 측정 실패 2회와 그 원인:** 표본 검사 1·2차에서 전 URL이 `HTTP 000`으로 나와
+장애를 의심했으나, **사이트가 아니라 측정 도구의 결함**이었다. Python이 Windows 텍스트 모드로
+URL 목록 파일을 쓰면서 각 줄 끝에 `\r`을 붙였고, 그것이 URL 끝에 딸려 들어가
+`curl: (3) URL rejected: Malformed input to a URL function`을 유발했다. 1차에서는 curl이
+에러 문구를 삼켜 `000`만 보였기 때문에 "연결 고갈"로 오진했다.
+**교훈 두 가지: (1) Windows에서 파일을 쓸 때는 `newline=''`를 명시할 것 — 이 저장소는 파일마다
+줄바꿈이 달라 이미 여러 차례 사고를 냈다. (2) `curl -s`는 에러를 숨긴다. 배치 검증에는
+반드시 `-sS`를 써서 실패 사유를 보이게 할 것 — `000`을 HTTP 응답으로 오독하면 존재하지 않는
+장애를 보고하게 된다.** 교정 후 25/25 200.
+
+**남은 것은 전부 창립자 콘솔 동작이며 코드로 대행 불가:**
+1. 구글 서치 콘솔 — 사이트맵 제출
+2. 빙 — GSC 연동이 사이트맵까지 가져왔는지 Sitemaps 섹션 확인 (누락 시 수동 제출)
+3. 네이버 서치어드바이저 — 사이트맵 제출
+4. 얀덱스 웹마스터 — 사이트맵 제출
+
+제출 URL은 4곳 모두 동일: `https://www.theunitas.global/sitemap.xml`
