@@ -141,7 +141,21 @@ async function main() {
     const label = `batch ${i + 1}/${batches.length} (${urlList.length} URLs)`;
     if (!OK_STATUS.includes(res.status)) {
       // 400 bad format, 403 bad key, 422 host/URL mismatch, 429 rate-limited.
-      fail(`${label} rejected with HTTP ${res.status} ${text.slice(0, 200)}`);
+      //
+      // One 403 is NOT a defect and was hit on this site's very first run: the
+      // engine fetches the key file asynchronously after a newly deployed key
+      // appears, and rejects submissions until that finishes. Measured here:
+      // rejected at first attempt, accepted by all four endpoints minutes
+      // later with no change to the site. Say so, so the operator waits
+      // instead of hunting a bug that is not there.
+      const pending = res.status === 403 && text.includes('SiteVerificationNotCompleted');
+      fail(
+        `${label} rejected with HTTP ${res.status} ${text.slice(0, 200)}` +
+          (pending
+            ? '\n           ^ transient: the engine is still fetching the key file.' +
+              ' Nothing is wrong -- wait a few minutes and run this again.'
+            : ''),
+      );
     }
     submitted += urlList.length;
     console.log(
