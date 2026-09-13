@@ -132,38 +132,37 @@ test.describe('REV-19 deep modal history stack', () => {
     await expect(page.locator('#exit-guard-title')).toHaveCount(0);
   });
 
-  // REV-20 §3 replaced REV-19's live-hub card wall with the 22-slot discovery
+  // REV-20 §3 replaced REV-19's live-hub card wall with the discovery
   // carousel (DiscoveryCarousel.tsx keeps `data-live-hub`, but the card is now
   // `[data-slot-card]`), and REV-20 §2 deleted UNITAS Shorts outright -- so the
   // shorts half of this level test is gone, replaced by a guard proving the
   // retired surface cannot come back as an unmanaged history level.
+  //
+  // REV-23 changed two things here: M2.3 made the card TITLE the only way to
+  // open a deep dive (two clicks, not one anywhere), and M3.1 removed the
+  // nine news slots from this rail entirely -- so the news deep modal
+  // (`#hub-deep-title`) no longer exists to be a level. What remains is the
+  // feed deep modal, plus a guard that the retired news modal stays gone.
   test('the discovery carousel deep dive opens as a level and closes on back', async ({ page }) => {
     await reachHome(page);
     await page.locator('#omni-synapse-search input[type="text"]').click();
     await page.waitForTimeout(600);
     await expect(page.locator('[data-live-hub]')).toBeVisible();
 
-    // The rail auto-rotates, so pin a slot of each kind by holding its chip --
-    // a free-running carousel would make WHICH deep modal opens a race.
-    const openActive = () =>
-      page.evaluate(() => {
-        const b = document.querySelector('[data-slot-card] button[aria-label]');
-        b && b.click();
-      });
+    // The rail auto-rotates, so pin the slot by holding its chip -- a
+    // free-running carousel would make WHICH deep modal opens a race.
+    const openActive = async () => {
+      const title = page.locator('[data-slot-card] .qw-hub-card-title .qw-two-step-hit');
+      await expect(title).toBeVisible({ timeout: 20_000 });
+      await title.click();
+      await title.click();
+    };
 
-    // A news slot opens the news deep modal -- and ONLY that one.
-    await page.locator('[data-slot="game"]').click();
-    await page.waitForTimeout(300);
-    await openActive();
-    await expect(page.locator('#hub-deep-title')).toBeVisible({ timeout: 8_000 });
-    await expect(page.locator('#feed-deep-title')).toHaveCount(0);
-    await page.goBack();
-    await page.waitForTimeout(500);
+    // M3.1: the nine RSS news slots are off this rail, and so is their modal.
+    await expect(page.locator('[data-slot="game"]')).toHaveCount(0);
     await expect(page.locator('#hub-deep-title')).toHaveCount(0);
-    await expect(page.locator('[data-live-hub]')).toBeVisible();
-    await expect(page.locator('#exit-guard-title')).toHaveCount(0);
 
-    // A REV-20 feed slot opens the feed deep modal -- and ONLY that one.
+    // A feed slot opens the feed deep modal -- and ONLY that one.
     await page.locator('[data-slot="history"]').click();
     await page.waitForTimeout(300);
     await openActive();

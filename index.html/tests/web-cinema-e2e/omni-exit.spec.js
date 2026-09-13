@@ -130,9 +130,14 @@ test.describe("sealed screen 'X' -> confirm -> 종료 ends the session IN PLACE 
     await expect(exitDialog(page)).toHaveCount(0);
 
     // Never left the document, never landed on the earlier site page, never
-    // reset to the entry page.
+    // reset to the entry page. Round 19 rewrites the collapse landing entry
+    // to `sealedLaunchUrl` (origin + locale root) with replaceState, so the
+    // URL may legitimately be that rather than the one the seal was shown on
+    // -- what must never happen is landing back on the earlier site page.
     await page.waitForTimeout(1200);
-    expect(page.url().split('?')[0]).toBe(sealedUrl.split('?')[0]);
+    const landed = page.url().split('?')[0];
+    expect(landed).not.toBe(earlierSitePage.split('?')[0]);
+    expect([sealedUrl.split('?')[0], new URL('/', sealedUrl).toString(), new URL('/', sealedUrl).toString().replace(/\/$/, '')]).toContain(landed);
     expect(page.url()).not.toBe(earlierSitePage);
     expect(page.url()).not.toContain('about:blank');
     await expect(page.locator('button.event-horizon-btn')).toHaveCount(0);

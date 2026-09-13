@@ -15,9 +15,12 @@ import {
 import { HOT_NEWS_CATEGORIES, classifyNews, isHotNewsCategory, type HotNewsItem } from '@/lib/live/hotNews';
 
 describe('hotNews categories', () => {
-  it('exposes the 21 fused axes exactly once each', () => {
-    expect(HOT_NEWS_CATEGORIES).toHaveLength(21);
-    expect(new Set(HOT_NEWS_CATEGORIES).size).toBe(21);
+  // REV-23 M3.2: 21 -> 20. The catch-all 'world' axis and its
+  // "세계실시간 / World" chip are deleted; the individual themes absorb it.
+  it('exposes the 20 fused axes exactly once each, and no catch-all', () => {
+    expect(HOT_NEWS_CATEGORIES).toHaveLength(20);
+    expect(new Set(HOT_NEWS_CATEGORIES).size).toBe(20);
+    expect(isHotNewsCategory('world')).toBe(false);
     for (const axis of ['language', 'culture', 'society', 'structure', 'art', 'expression', 'pragma', 'economy', 'engineering', 'technology', 'law', 'institution', 'education', 'welfare', 'security', 'strategy']) {
       expect(isHotNewsCategory(axis)).toBe(true);
     }
@@ -30,7 +33,9 @@ describe('hotNews categories', () => {
     expect(classifyNews('Missile strike breaks ceasefire as troops advance')).toBe('security');
     expect(classifyNews('Supreme court verdict overturns lower ruling')).toBe('law');
     expect(classifyNews('대학 입시 개편안 발표')).toBe('education');
-    expect(classifyNews('Nothing in particular happened')).toBe('world');
+    // M3.2: the unmatched fallback is the broadest REAL axis now, so no
+    // story is stranded in a box that no longer exists.
+    expect(classifyNews('Nothing in particular happened')).toBe('society');
   });
 });
 
@@ -118,7 +123,7 @@ describe('Google News RSS', () => {
 });
 
 describe('mergeAxisWires', () => {
-  const mk = (title: string): HotNewsItem => ({ id: title, title, summary: '', url: 'https://x/' + title, category: 'world', source: 'live' });
+  const mk = (title: string): HotNewsItem => ({ id: title, title, summary: '', url: 'https://x/' + title, category: 'society', source: 'live' });
   it('round-robins the wires in the order given and de-dupes', () => {
     const merged = mergeAxisWires([[mk('L1'), mk('L2')], [mk('B1')], [mk('G1'), mk('L1')]], 10);
     expect(merged.map((i) => i.title)).toEqual(['L1', 'B1', 'G1', 'L2']);

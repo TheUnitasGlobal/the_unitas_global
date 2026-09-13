@@ -1635,26 +1635,26 @@
     "refresh": "Värskenda uudiseid",
     "source": "Allikad: Wikimedia esiletõstetud voog · Google Newsi RSS · Bing Newsi RSS · uuendatakse iga 10–15 min",
     "category": {
-      "politics": "Maailma poliitika",
-      "economy": "Maailma majandus",
-      "science": "Maailma teadus",
-      "technology": "Maailma tehnoloogia",
-      "engineering": "Maailma inseneeria",
-      "sports": "Maailma sport",
-      "culture": "Maailma kultuur",
-      "art": "Maailma kunst",
-      "expression": "Maailma väljendus",
-      "language": "Maailma keel",
-      "society": "Maailma ühiskond",
-      "structure": "Maailma struktuur",
-      "pragma": "Maailma praktika",
-      "law": "Maailma õigus",
-      "institution": "Maailma institutsioonid",
-      "education": "Maailma haridus",
-      "welfare": "Maailma heaolu · tervis",
-      "security": "Maailma julgeolek · konfliktid",
-      "strategy": "Maailma strateegia",
-      "disaster": "Maailma katastroofid"
+      "politics": "Poliitika",
+      "economy": "Majandus",
+      "science": "Teadus",
+      "technology": "Tehnoloogia",
+      "engineering": "Inseneeria",
+      "sports": "Sport",
+      "culture": "Kultuur",
+      "art": "Kunst",
+      "expression": "Väljendus",
+      "language": "Keel",
+      "society": "Ühiskond",
+      "structure": "Struktuur",
+      "pragma": "Praktika",
+      "law": "Õigus",
+      "institution": "Institutsioonid",
+      "education": "Haridus",
+      "welfare": "Heaolu · Tervis",
+      "security": "Julgeolek · Konflikt",
+      "strategy": "Strateegia",
+      "disaster": "Katastroofid"
     },
     "live": "Otseliin",
     "loadMore": "Laadi veel: {axis}",
@@ -2553,6 +2553,18 @@
           "f4": "Lainekõrgus",
           "f5": "Ilmahoiatused",
           "f6": "Kaugus"
+        },
+        "bigTechPulse": {
+          "title": "Omni-Tech pulss",
+          "hook": "Võta lahti: mida see organisatsioon omab, toodab ja millel ta töötab?",
+          "f1": "Tegevusala",
+          "f2": "Emaorganisatsioon",
+          "f3": "Tütarettevõtted",
+          "f4": "Tooted",
+          "f5": "Asutajad",
+          "f6": "Tegevjuht",
+          "scaleEmployees": "Töötajaid",
+          "scaleRevenue": "Käive"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "Sellel terminil on mitu tähendust. Voog järgib kõige levinumat — vali seotud mõiste, et vahetada."
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "Maailma auhinnad",
+      "tag": "Keda maailm viimati austas",
+      "facts": {
+        "laureateCount": "Kuvatud laureaadid"
+      },
+      "note": "Kõige värskemad Wikidata tuntuimate laureaatide seast.",
+      "names": {
+        "nobelPhysics": "Nobeli füüsikaauhind",
+        "nobelChemistry": "Nobeli keemiaauhind",
+        "nobelMedicine": "Nobeli meditsiiniauhind",
+        "nobelLiterature": "Nobeli kirjandusauhind",
+        "nobelPeace": "Nobeli rahuauhind",
+        "nobelEconomics": "Nobeli majandusauhind",
+        "turing": "Turingi auhind",
+        "fields": "Fieldsi medal",
+        "academyBestPicture": "Oscar parima filmi eest",
+        "palmeDor": "Kuldne Palmioks",
+        "grammyRecord": "Grammy aasta salvestis",
+        "pulitzer": "Pulitzeri preemia",
+        "booker": "Bookeri auhind",
+        "pritzker": "Pritzkeri arhitektuuripreemia",
+        "ballonDor": "Kuldpall",
+        "timePerson": "Time aasta inimene"
       }
     }
   }

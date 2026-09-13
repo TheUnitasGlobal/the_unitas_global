@@ -2446,3 +2446,18 @@ body:has([data-unitas-gateway]) .dashboard-zoom {
     transition: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   REV-23 M3.3 -- scroll-jump suppression on the rotating rails.
+   The browser's own scroll anchoring has no stable node to hold on to inside
+   a container that re-mounts its subtree on every rotation, so it guesses --
+   and the guess is the lurch the founder reported. Turning it off here hands
+   the job to lib/ui/scrollAnchor.ts, which snapshots and restores the exact
+   position instead of estimating it.
+   -------------------------------------------------------------------------- */
+.qw-no-anchor {
+  overflow-anchor: none;
+}
+.qw-no-anchor * {
+  overflow-anchor: none;
+}

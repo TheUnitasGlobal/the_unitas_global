@@ -16,7 +16,6 @@ import { stripControl } from '@/lib/uai/webSynthesisCore';
  * Order here is the carousel order under the pinned "전체" chip.
  */
 export type HotNewsCategory =
-  | 'world'
   | 'politics'
   | 'economy'
   | 'science'
@@ -98,7 +97,6 @@ export interface FeaturedFeed {
 }
 
 export const HOT_NEWS_CATEGORIES: HotNewsCategory[] = [
-  'world',
   'politics',
   'economy',
   'science',
@@ -129,7 +127,6 @@ export function isHotNewsCategory(value: string): value is HotNewsCategory {
  *  21 axes is ABOUT -- the Explore Deeper anchor of the live news rail's
  *  collapsed block. Verified live 2026-09-12 (en.wikipedia pageprops). */
 export const AXIS_QID: Record<HotNewsCategory, string> = {
-  world: 'Q16502', // world
   politics: 'Q7163', // politics
   economy: 'Q159810', // economy
   science: 'Q336', // science
@@ -159,8 +156,13 @@ const MAX_TRENDING = 8;
 /** Keyword classifier -- deliberately multilingual-light: English stems
  *  cover the en fallback and most loanwords; the CJK/ko/ja/zh/ru/es/fr/de
  *  stems catch the local boards. Rule order matters (first match wins), so
- *  the sharper axes come first and the broad ones (society/pragma/world)
- *  last. Anything unmatched is 'world'. */
+ *  the sharper axes come first and the broad ones (society/pragma) last.
+ *
+ *  REV-23 M3.2 (founder directive 2026-09-13): the catch-all 'world' axis is
+ *  DELETED along with its "세계실시간 / World" chip -- the founder's
+ *  instruction was that its content be absorbed by the individual themes
+ *  rather than pooled in a box of its own. Anything unmatched now falls to
+ *  'society', the broadest real axis, so no story becomes unreachable. */
 const CATEGORY_RULES: Array<[HotNewsCategory, RegExp]> = [
   ['sports', /\b(olympic|world cup|championship|tournament|league|grand prix|final|match|football|soccer|tennis|golf|basketball|baseball|cricket|rugby|marathon|medal|f1|nba|nfl|mlb|uefa|fifa)\b|올림픽|월드컵|선수권|리그|축구|야구|농구|테니스|골프|경기|대회|우승|オリンピック|サッカー|野球|選手権|奥运|世界杯|联赛|足球|fútbol|campeonato|championnat|meisterschaft|чемпионат/i],
   ['disaster', /\b(earthquake|hurricane|typhoon|cyclone|flood|wildfire|tsunami|volcano|eruption|landslide|storm|tornado|heatwave|drought|crash|derail|collapse)\b|지진|태풍|홍수|산불|쓰나미|화산|폭우|폭염|추락|붕괴|地震|台風|洪水|噴火|台风|terremoto|huracán|inundaci|séisme|inondation|erdbeben|землетрясение|наводнение/i],
@@ -188,7 +190,7 @@ export function classifyNews(text: string): HotNewsCategory {
   for (const [category, re] of CATEGORY_RULES) {
     if (re.test(text)) return category;
   }
-  return 'world';
+  return 'society';
 }
 
 export function clipText(s: string, max: number): string {

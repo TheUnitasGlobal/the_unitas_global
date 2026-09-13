@@ -19,6 +19,7 @@ import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
 import { ExploreDeeper } from '@/components/home/ExploreDeeper';
 import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
 import { TwoStepTitle } from '@/components/uai/stream/StreamCards';
+import { captureScroll, reserveHeight } from '@/lib/ui/scrollAnchor';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
 import { THEME_QID, type GlobalRankingThemeKey } from '@/lib/globalRankings';
 import { readWeatherCache } from '@/lib/live/useLiveWeather';
@@ -27,8 +28,7 @@ import { resolveEntity } from '@/lib/uai/entityResolve';
 import { useDragScroll } from '@/components/ui/useDragScroll';
 import { useHorizontalSwipe } from '@/components/ui/useHorizontalSwipe';
 import { centeredScrollLeft } from '@/lib/interaction/railDrag';
-import { useHubHeadlines } from '@/lib/live/hubNewsClient';
-import { HUB_MODAL_ITEMS, HUB_MODAL_REFRESH_MS, HUB_ROTATE_MS, findHubTheme, isHubThemeKey } from '@/lib/live/hubThemes';
+import { DISCOVERY_ROTATE_MS } from '@/lib/live/discoverySlots';
 import { slotCacheKey } from '@/lib/live/slotContext';
 import { useSlotContext } from '@/lib/live/useSlotContext';
 import type { Place } from '@/lib/live/useLiveWeather';
@@ -101,12 +101,12 @@ function isRankingKey(key: SlotKey): boolean {
 }
 
 function slotTitleKey(key: SlotKey): string {
-  if (isHubThemeKey(key)) return `Rev19.hub.themes.${key}.title`;
+  if (key === 'awards') return 'Rev23.awards.title';
   if (isRankingKey(key)) return `Rev21.slots.${key}.title`;
   return `Rev20.slots.${key}.title`;
 }
 function slotTagKey(key: SlotKey): string {
-  if (isHubThemeKey(key)) return `Rev19.hub.themes.${key}.tag`;
+  if (key === 'awards') return 'Rev23.awards.tag';
   if (isRankingKey(key)) return `Rev21.slots.${key}.tag`;
   return `Rev20.slots.${key}.tag`;
 }
@@ -150,6 +150,11 @@ export function DiscoveryCarousel() {
   const chipRefs = useRef<Map<SlotKey, HTMLButtonElement>>(new Map());
   const railRef = useRef<HTMLDivElement>(null);
   const tabRailRef = useRef<HTMLDivElement>(null);
+  /** REV-23 M3.3: the card box and the tallest payload it has held. The
+   *  reservation only ever grows within a session, so a shorter card can
+   *  never shrink the document under whatever the visitor is reading. */
+  const cardBoxRef = useRef<HTMLDivElement>(null);
+  const [reserved, setReserved] = useState<number | null>(null);
 
   const activeSlot = held ? findDiscoverySlot(held) ?? discoverySlotAt(0) : discoverySlotAt(tick);
   const activeKey = activeSlot.key;
@@ -185,15 +190,32 @@ export function DiscoveryCarousel() {
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, []);
 
-  // Advance one slot every HUB_ROTATE_MS while nothing pauses it. A resume
+  // Advance one slot every DISCOVERY_ROTATE_MS while nothing pauses it. A resume
   // restarts the full period AND bumps `epoch`, which remounts the progress
   // bar so the bar and the timer always start together.
   useEffect(() => {
     if (rotationPaused) return;
     setEpoch((n) => n + 1);
-    const id = window.setInterval(() => setTick((n) => n + 1), HUB_ROTATE_MS);
+    const id = window.setInterval(() => {
+      // REV-23 M3.3: an auto-advance must never move the viewport. Snapshot
+      // the page (and any scroll container above the rail) before the swap
+      // and put it back on the next frame -- see lib/ui/scrollAnchor.ts for
+      // why the browser's own anchoring cannot do this on a keyed subtree.
+      const snap = captureScroll(cardBoxRef.current);
+      setTick((n) => n + 1);
+      snap.restore();
+    }, DISCOVERY_ROTATE_MS);
     return () => window.clearInterval(id);
   }, [rotationPaused]);
+
+  // Measure the card AFTER every commit and grow the reservation. Reading
+  // offsetHeight here is the one place layout is already up to date.
+  useEffect(() => {
+    const box = cardBoxRef.current;
+    if (!box) return;
+    const measured = box.offsetHeight;
+    setReserved((seen) => reserveHeight(seen, measured));
+  }, [activeKey, card, cardLoading]);
 
   // Load the active slot's card (and, for ranking slots, the selected tab),
   // honouring its per-kind TTL cache keyed on locale + country + slot + tab.
@@ -343,7 +365,7 @@ export function DiscoveryCarousel() {
               onMouseEnter={() => playHoverSfx()}
               onClick={() => toggleHold(slot.key)}
               className="qw-hub-chip"
-              style={{ '--qw-hub-accent': slot.color, '--qw-slot-rotate': `${HUB_ROTATE_MS}ms` } as CSSProperties}
+              style={{ '--qw-hub-accent': slot.color, '--qw-slot-rotate': `${DISCOVERY_ROTATE_MS}ms` } as CSSProperties}
             >
               <slot.icon size={15} style={{ color: slot.color }} aria-hidden="true" />
               {t(slotTitleKey(slot.key))}
@@ -369,11 +391,12 @@ export function DiscoveryCarousel() {
           founder ordered removed. The container is now inert; the TITLE is
           the only way in, and it takes two steps (select, then open). */}
       <div
-        className="qw-hub-card mt-3 border border-white/10 bg-void/40 p-4"
+        ref={cardBoxRef}
+        className="qw-hub-card qw-no-anchor mt-3 border border-white/10 bg-void/40 p-4"
         data-slot-card={activeKey}
         data-slot-kind={activeSlot.kind}
         tabIndex={0}
-        style={{ '--qw-hub-accent': activeSlot.color } as CSSProperties}
+        style={{ '--qw-hub-accent': activeSlot.color, ...(reserved ? { minHeight: reserved } : null) } as CSSProperties}
         onKeyDown={onCardKeyDown}
         onPointerEnter={(e: ReactPointerEvent<HTMLDivElement>) => {
           if (e.pointerType === 'mouse') setHovering(true);
@@ -577,110 +600,9 @@ function SlotDeepModal({ target, ctx, onClose }: { target: DeepTarget | null; ct
           </SectionShield>
         </div>
       </Modal>
-      <NewsDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
       <FeedDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
       <RankingDeepModal target={target} onClose={onClose} />
     </>
-  );
-}
-
-function NewsDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx: SlotContext; onClose: () => void }) {
-  const t = useTranslations('Rev19.hub');
-  const locale = useLocale();
-  const { playHoverSfx } = useSpatialAudio();
-  const key = slotKey !== null && isHubThemeKey(slotKey) ? slotKey : null;
-  const feed = useHubHeadlines(key, locale, key ? HUB_MODAL_REFRESH_MS : undefined);
-  const [seconds, setSeconds] = useState(HUB_MODAL_REFRESH_MS / 1000);
-  const fetchedRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (!key) return;
-    const id = window.setInterval(() => {
-      const base = feed.fetchedAt ?? fetchedRef.current ?? Date.now();
-      const elapsed = Date.now() - base;
-      setSeconds(Math.max(0, Math.ceil((HUB_MODAL_REFRESH_MS - (elapsed % HUB_MODAL_REFRESH_MS)) / 1000)));
-    }, 1000);
-    return () => window.clearInterval(id);
-  }, [key, feed.fetchedAt]);
-
-  useEffect(() => {
-    if (feed.fetchedAt) fetchedRef.current = feed.fetchedAt;
-  }, [feed.fetchedAt]);
-
-  const meta = key ? findHubTheme(key) : null;
-  const timeFormatter = new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' });
-  const title = key ? t(`themes.${key}.title`) : '';
-  // SPEC §12.3 (b): the news host anchors on the slot's own Wikidata item
-  // (every hub key has one) under the visitor's selected country.
-  const anchor = key ? slotAnchor(key, ctx.locale, feed.term || title, null) : null;
-
-  return (
-    <Modal open={key !== null} onClose={onClose} labelledBy="hub-deep-title" size="xl">
-      {key && meta && (
-      <div className="space-y-5" data-hub-modal={key} data-context-country={ctx.country} {...anchorDataAttrs(anchor)}>
-        <div className="flex items-start gap-3">
-          <meta.icon size={26} style={{ color: meta.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
-          <div className="min-w-0 flex-1">
-            <p id="hub-deep-title" className="text-[20px] font-bold text-white">
-              {t('modalTitle', { theme: title })}
-            </p>
-            <p className="mt-0.5 text-[14px] text-gray-400">{t('modalLede', { term: feed.term || title })}</p>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="flex items-center gap-1.5 text-[13px] font-bold text-gray-300">
-            <Timer size={14} className="text-accent" aria-hidden="true" />
-            {t('refreshIn', { seconds })}
-          </span>
-          <button
-            type="button"
-            onMouseEnter={() => playHoverSfx()}
-            onClick={() => feed.refresh()}
-            className="flex items-center gap-1.5 border border-accent/40 px-3 py-1.5 text-[12px] font-bold uppercase tracking-widest text-accent transition-colors hover:bg-accent/10"
-          >
-            <RefreshCw size={12} className={feed.loading ? 'animate-spin' : ''} aria-hidden="true" />
-            {t('refreshNow')}
-          </button>
-          {feed.fetchedAt && (
-            <span className="text-[12px] text-gray-500">{t('updated', { time: timeFormatter.format(new Date(feed.fetchedAt)) })}</span>
-          )}
-        </div>
-
-        <ol className="max-h-[42vh] space-y-1 overflow-y-auto overscroll-contain pr-1">
-          {feed.items.slice(0, HUB_MODAL_ITEMS).map((item, i) => (
-            <li key={item.id}>
-              <a
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onMouseEnter={() => playHoverSfx()}
-                className="qw-hub-headline text-white"
-              >
-                <span className="w-6 shrink-0 text-[12px] font-bold" style={{ color: meta.color }}>
-                  {i + 1}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block">{item.title}</span>
-                  <span className="qw-hub-source mt-0.5 flex items-center gap-1 text-gray-500">
-                    {item.domain ?? t('readMore')}
-                    <ExternalLink size={10} aria-hidden="true" />
-                  </span>
-                </span>
-              </a>
-            </li>
-          ))}
-          {feed.items.length === 0 && (
-            <li className="py-4 text-[14px] text-gray-500">{feed.loading ? t('loading') : t('empty')}</li>
-          )}
-        </ol>
-
-        {/* SPEC §12.2 hubNews host: replaces the REV-19 outbound row and its
-            static sources line -- every wire is now named inside the block. */}
-        <ExploreDeeper anchor={anchor} host="hubNews" />
-      </div>
-      )}
-    </Modal>
   );
 }
 

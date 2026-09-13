@@ -56,11 +56,12 @@ import {
 //      overlay on top of a fully-rendered page, so any deep link (a Bing
 //      result, a shared URL, an in-app browser, a reader mode) shipped the
 //      real interface and only *covered* it. Now an ungated request is
-//      rewritten onto `/<locale>/gateway`, whose body is empty -- the main
-//      markup is never serialized at all. Rewrite, not redirect: the deep
-//      link stays in the address bar and there is no loop. Only a verified
-//      sovereign session, a search-engine indexer (Codex ch.13 SEO) or the
-//      explicit local `UNITAS_GATE_BYPASS=1` passes.
+//      redirected onto `/<locale>/gateway`, whose body is empty -- the main
+//      markup is never serialized at all. Only a verified sovereign session,
+//      a search-engine indexer (Codex ch.13 SEO) or the explicit local
+//      `UNITAS_GATE_BYPASS=1` passes. (A rewrite would have kept the deep
+//      link in the address bar, but measurably broke hydration -- see the
+//      note at the seal itself.)
 //
 // Composition order: sovereign token hand-off and 404 fencing run first
 // (locale-independent, early-return). Then next-intl's middleware resolves
@@ -204,15 +205,38 @@ export async function middleware(request: NextRequest) {
     bypass: isGateBypassed(process.env),
   });
 
-  const sealTarget = new URL(gatewayPathFor(activeLocale), url);
-  sealTarget.search = url.search;
+  // A REDIRECT, not a rewrite. The first cut rewrote the sealed request onto
+  // the gateway so the deep link stayed in the address bar -- and measured
+  // (2026-09-13, chromium, built server) that the App Router client cannot
+  // reconcile a route-changing middleware rewrite on the initial document:
+  // every sealed load threw React #418 then #423 and fell back to a FULL
+  // client re-render. Navigating to `/<locale>/gateway` directly threw
+  // nothing, which is what isolated the rewrite as the cause. That fallback
+  // wiped the pre-paint `data-splash="off"` stamp the head bootstrap sets --
+  // i.e. it broke the founder's round-14 "a refresh on a sub-view does not
+  // replay the logo page" rule -- on top of paying for the whole tree twice.
+  // The deep link's URL is not part of MISSION 1; the funnel is. So the
+  // visitor is redirected, lands on the funnel, and hydration is clean.
+  if (gateVerdict === 'seal') {
+    const sealTarget = new URL(gatewayPathFor(activeLocale), url);
+    sealTarget.search = url.search;
+    const sealed = NextResponse.redirect(sealTarget, 307);
+    sealed.headers.set(GATE_HEADER, gateVerdict);
+    // Never let a CDN cache one visitor's verdict for another: the answer
+    // depends on a cookie and a user agent.
+    sealed.headers.set('Cache-Control', 'no-store');
+    sealed.headers.set('Vary', 'Cookie, User-Agent');
+    sealed.headers.set('X-Unitas-Owner', 'THE UNITAS GLOBAL OU');
+    sealed.headers.set(
+      'X-Unitas-License',
+      'Proprietary -- All Rights Reserved. See /legal/terms.',
+    );
+    return sealed;
+  }
 
-  const response =
-    gateVerdict === 'seal'
-      ? NextResponse.rewrite(sealTarget, { request: { headers: requestHeaders } })
-      : rewriteTarget
-        ? NextResponse.rewrite(new URL(rewriteTarget), { request: { headers: requestHeaders } })
-        : NextResponse.next({ request: { headers: requestHeaders } });
+  const response = rewriteTarget
+    ? NextResponse.rewrite(new URL(rewriteTarget), { request: { headers: requestHeaders } })
+    : NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set(GATE_HEADER, gateVerdict);
 
   intlResponse.cookies.getAll().forEach((cookie) => response.cookies.set(cookie));

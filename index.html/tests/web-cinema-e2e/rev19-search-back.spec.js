@@ -41,7 +41,13 @@ test.beforeEach(async ({ browserName }) => {
 });
 
 test.describe('REV-19 U-AI search back routing', () => {
-  test('back @ text clears the text (popup stays), back again closes the popup, back leaves the bar, back opens the exit confirm', async ({ page }) => {
+  // REV-23 M2.4 collapsed the tail from four presses to three. The founder's
+  // requirement is exact: from any popup depth, back unwinds in reverse order
+  // of opening and ends [clear the box] -> [main home] -> [exit confirm]. The
+  // separate `search:typing` history layer that used to sit between `text`
+  // and `focus` is gone -- clearing the box also closes the dropdown, in one
+  // press. The bar therefore owns TWO layers, not three.
+  test('back clears the box (dropdown closes with it), back leaves the bar, back opens the exit confirm', async ({ page }) => {
     await reachHome(page);
     await input(page).click();
     await page.waitForTimeout(500);
@@ -52,7 +58,7 @@ test.describe('REV-19 U-AI search back routing', () => {
     await page.waitForTimeout(700);
     await expect(page.locator('.qw-search-dropdown')).toHaveAttribute('data-search-level', '3');
     await expect(page.locator('#omni-synapse-search')).toHaveAttribute('data-typing', '1');
-    expect(await stack(page)).toHaveLength(3);
+    expect(await stack(page)).toHaveLength(2);
     // §13: the typing popup carries no ladder and no nested shortcut strip
     await expect(page.locator('.qw-search-dropdown [data-live-hub]')).toHaveCount(0);
     // REV-20 §4.4: signals + curiosity cards are gone from the typing
@@ -63,19 +69,17 @@ test.describe('REV-19 U-AI search back routing', () => {
     const labelSize = await page.locator('.qw-search-dropdown .qw-discovery-label').first().evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
     expect(labelSize).toBeGreaterThanOrEqual(14);
 
+    // M2.4 step 1 -- one press empties the box AND closes the dropdown, and
+    // the base popup (with the live-news strip) is back.
     await page.goBack();
     await page.waitForTimeout(500);
     await expect(input(page)).toHaveValue('');
-    await expect(page.locator('.qw-search-dropdown')).toHaveAttribute('data-search-level', '2');
-    await expect(page.locator('#omni-synapse-search')).toHaveAttribute('data-typing', '0');
-    expect(await stack(page)).toHaveLength(2);
-
-    await page.goBack();
-    await page.waitForTimeout(500);
     await expect(page.locator('.qw-search-dropdown')).toHaveCount(0);
+    await expect(page.locator('#omni-synapse-search')).toHaveAttribute('data-typing', '0');
     await expect(page.locator('[data-live-hub]')).toBeVisible();
     expect(await stack(page)).toHaveLength(1);
 
+    // M2.4 step 2 -- the bar is left, the main home is what is on screen.
     await page.goBack();
     await page.waitForTimeout(500);
     await expect(page.locator('[data-live-hub]')).toHaveCount(0);
@@ -99,24 +103,39 @@ test.describe('REV-19 U-AI search back routing', () => {
     expect(await stack(page)).toHaveLength(1);
   });
 
-  test('the Enter key reads bold at rest and flares while typing', async ({ page }) => {
+  // REV-23 M5 INVERTS this. The founder's instruction was to LOWER the enter
+  // key's emphasis until it balances the three-shortcut toggle beside it: at
+  // rest it is now the same quiet neutral box, and while typing it goes a
+  // steady blue instead of running the 2.6s `qw-enter-flux` colour strobe.
+  test('the Enter key rests quiet, matches the shortcut toggle, and arms without strobing', async ({ page }) => {
     await reachHome(page);
     const key = page.locator('#omni-synapse-search .qw-enter-key');
     const rest = await key.evaluate((el) => {
       const cs = getComputedStyle(el);
-      return { opacity: parseFloat(cs.opacity), borderWidth: parseFloat(cs.borderTopWidth), borderColor: cs.borderTopColor, animation: cs.animationName };
+      const attach = getComputedStyle(document.querySelector('#omni-synapse-search .qw-attach-toggle'));
+      return {
+        opacity: parseFloat(cs.opacity),
+        borderWidth: parseFloat(cs.borderTopWidth),
+        borderColor: cs.borderTopColor,
+        animation: cs.animationName,
+        attachBorderWidth: parseFloat(attach.borderTopWidth),
+        attachBorderColor: attach.borderTopColor,
+      };
     });
     expect(rest.opacity).toBeGreaterThanOrEqual(0.7);
-    // 2 CSS px inside the 0.75 zoom tree snaps to one device pixel, which
-    // Chromium reports back as 1.33 CSS px -- anything above the old 1px
-    // hairline (0.67 after the same snap) proves the bold ring.
-    expect(rest.borderWidth).toBeGreaterThanOrEqual(1.3);
-    expect(rest.borderColor).toBe('rgb(11, 92, 255)');
     expect(rest.animation).toBe('none');
+    // The pair now shares one box: same rim weight, same rim colour.
+    expect(rest.borderWidth).toBeCloseTo(rest.attachBorderWidth, 1);
+    expect(rest.borderColor).toBe(rest.attachBorderColor);
+    // Saturated blue is EARNED, never worn at rest.
+    expect(rest.borderColor).not.toBe('rgb(11, 92, 255)');
     await input(page).click();
     await page.keyboard.type('x');
-    await page.waitForTimeout(200);
-    const typing = await key.evaluate((el) => getComputedStyle(el).animationName);
-    expect(typing).toBe('qw-enter-flux');
+    // The armed fill arrives through a 250ms background-color transition;
+    // reading it earlier returns the interpolating value, not the contract.
+    await expect
+      .poll(async () => key.evaluate((el) => getComputedStyle(el).backgroundColor), { timeout: 4_000 })
+      .toBe('rgb(11, 92, 255)');
+    expect(await key.evaluate((el) => getComputedStyle(el).animationName)).toBe('none');
   });
 });

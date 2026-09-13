@@ -1635,26 +1635,26 @@
     "refresh": "Haberleri yenile",
     "source": "Kaynaklar: Wikimedia öne çıkan akış · Google Haberler RSS · Bing Haberler RSS · her 10–15 dakikada güncellenir",
     "category": {
-      "politics": "Dünya siyaseti",
-      "economy": "Dünya ekonomisi",
-      "science": "Dünya bilimi",
-      "technology": "Dünya teknolojisi",
-      "engineering": "Dünya mühendisliği",
-      "sports": "Dünya sporu",
-      "culture": "Dünya kültürü",
-      "art": "Dünya sanatı",
-      "expression": "Dünya ifadesi",
-      "language": "Dünya dili",
-      "society": "Dünya toplumu",
-      "structure": "Dünya yapısı",
-      "pragma": "Dünya pratiği",
-      "law": "Dünya hukuku",
-      "institution": "Dünya kurumları",
-      "education": "Dünya eğitimi",
+      "politics": "Siyaset",
+      "economy": "Ekonomi",
+      "science": "Bilim",
+      "technology": "Teknoloji",
+      "engineering": "Mühendislik",
+      "sports": "Spor",
+      "culture": "Kültür",
+      "art": "Sanat",
+      "expression": "İfade",
+      "language": "Dil",
+      "society": "Toplum",
+      "structure": "Yapı",
+      "pragma": "Pratik",
+      "law": "Hukuk",
+      "institution": "Kurumlar",
+      "education": "Eğitim",
       "welfare": "Refah · Sağlık",
       "security": "Güvenlik · Çatışma",
-      "strategy": "Dünya stratejisi",
-      "disaster": "Dünya afetleri"
+      "strategy": "Strateji",
+      "disaster": "Afetler"
     },
     "live": "Canlı hat",
     "loadMore": "Daha fazla {axis} yükle",
@@ -2553,6 +2553,18 @@
           "f4": "Dalga yüksekliği",
           "f5": "Hava durumu uyarıları",
           "f6": "Uzaklık"
+        },
+        "bigTechPulse": {
+          "title": "Omni-Tech nabzı",
+          "hook": "Parçalarına ayıralım: bu kuruluş neye sahip, ne üretiyor ve ne üzerinde çalışıyor?",
+          "f1": "Sektör",
+          "f2": "Ana kuruluş",
+          "f3": "Bağlı kuruluşlar",
+          "f4": "Ürünler",
+          "f5": "Kurucular",
+          "f6": "Genel müdür",
+          "scaleEmployees": "Çalışan sayısı",
+          "scaleRevenue": "Gelir"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "Bu terimin birden çok anlamı var. Akış en yaygın olanı izler — değiştirmek için bağlantılı bir kavram seçin."
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "Dünya ödülleri",
+      "tag": "Dünyanın en son onurlandırdığı isimler",
+      "facts": {
+        "laureateCount": "Gösterilen ödül sahipleri"
+      },
+      "note": "Wikidata'da en iyi belgelenmiş ödül sahipleri arasından en yenileri.",
+      "names": {
+        "nobelPhysics": "Nobel Fizik Ödülü",
+        "nobelChemistry": "Nobel Kimya Ödülü",
+        "nobelMedicine": "Nobel Tıp Ödülü",
+        "nobelLiterature": "Nobel Edebiyat Ödülü",
+        "nobelPeace": "Nobel Barış Ödülü",
+        "nobelEconomics": "Nobel Ekonomi Ödülü",
+        "turing": "Turing Ödülü",
+        "fields": "Fields Madalyası",
+        "academyBestPicture": "En İyi Film Oscarı",
+        "palmeDor": "Altın Palmiye",
+        "grammyRecord": "Grammy Yılın Kaydı",
+        "pulitzer": "Pulitzer Ödülü",
+        "booker": "Booker Ödülü",
+        "pritzker": "Pritzker Mimarlık Ödülü",
+        "ballonDor": "Ballon d’Or",
+        "timePerson": "Time Yılın Kişisi"
       }
     }
   }

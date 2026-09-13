@@ -14,7 +14,7 @@ import {
   parseFrankfurterV2,
   slotTtlMs,
 } from '../../lib/live/discoverySlots';
-import { HUB_THEME_KEYS } from '../../lib/live/hubThemes';
+import { AWARD_KEYS } from '../../lib/live/awardsThemes';
 import { GLOBAL_RANKING_THEMES } from '../../lib/globalRankings';
 import { MODULE_REGISTRY } from '../../lib/unitasRankings';
 import { sourceById } from '../../lib/uai/sourceRegistry';
@@ -24,9 +24,11 @@ import { sourceById } from '../../lib/uai/sourceRegistry';
 // REV-21 SPEC.md §1.3 -- the two REV-19 ranking widgets join as slots (24).
 
 describe('discovery slots registry', () => {
-  it('ships exactly 24 slots: weather + 9 news + 12 feed + 2 ranking', () => {
-    expect(DISCOVERY_SLOTS.length).toBe(24);
-    expect(DISCOVERY_ROTATION.length).toBe(24);
+  // REV-23 M3.1: 24 -> 16. The nine RSS news wires left the rail and the
+  // new `awards` theme joined it.
+  it('ships exactly 16 slots: weather + 13 feed (incl. awards) + 2 ranking', () => {
+    expect(DISCOVERY_SLOTS.length).toBe(16);
+    expect(DISCOVERY_ROTATION.length).toBe(16);
   });
 
   it('every rotation key resolves to a registered slot with a matching key, no duplicates', () => {
@@ -46,16 +48,26 @@ describe('discovery slots registry', () => {
     expect(DISCOVERY_SLOTS[0].kind).toBe('weather');
   });
 
-  it('every REV-19 hub theme still has a slot, each kind "news"', () => {
-    for (const key of HUB_THEME_KEYS) {
-      const slot = findDiscoverySlot(key);
-      expect(slot).toBeTruthy();
-      expect(slot?.kind).toBe('news');
+  // REV-23 M3.1: the nine RSS news wires are OFF this rail -- they were the
+  // same Google/Bing material the 실시간 뉴스 rail below already carried.
+  it('carries no news wire any more: the nine hub themes have no slot', () => {
+    for (const key of ['game', 'sports', 'movie', 'bestseller', 'shopping', 'stock', 'webtoon', 'fashion', 'food']) {
+      expect(findDiscoverySlot(key as never), key).toBeUndefined();
+      expect(DISCOVERY_ROTATION as readonly string[]).not.toContain(key);
     }
+    expect(DISCOVERY_SLOTS.some((s) => (s.kind as string) === 'news')).toBe(false);
   });
 
-  it('exactly 12 feed-kind slots (the REV-20 themes) and 2 ranking-kind slots (REV-21)', () => {
-    expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'feed').length).toBe(12);
+  it('M3.4: the awards theme is on the rail and knows all sixteen prizes', () => {
+    const slot = findDiscoverySlot('awards');
+    expect(slot?.kind).toBe('feed');
+    expect(DISCOVERY_ROTATION).toContain('awards');
+    expect(AWARD_KEYS).toHaveLength(16);
+    expect(new Set(AWARD_KEYS).size).toBe(16);
+  });
+
+  it('exactly 13 feed-kind slots (12 REV-20 themes + awards) and 2 ranking-kind slots', () => {
+    expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'feed').length).toBe(13);
     expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'ranking').map((s) => s.key)).toEqual(['worldRanking', 'unitasRanking']);
   });
 
@@ -99,16 +111,15 @@ describe('discovery slots registry', () => {
     expect(SLOT_QID.air).toBe('Q7391292');
   });
 
-  it('TTL is kind-scoped: weather/news 10min, feed 15min, ranking 6h', () => {
+  it('TTL is kind-scoped: weather 10min, feed 15min, ranking 6h', () => {
     expect(slotTtlMs('weather')).toBe(10 * 60 * 1000);
-    expect(slotTtlMs('news')).toBe(10 * 60 * 1000);
     expect(slotTtlMs('feed')).toBe(15 * 60 * 1000);
     expect(slotTtlMs('ranking')).toBe(6 * 60 * 60 * 1000);
   });
 
-  // REV-21 SPEC §12.4: the provider row derives from the source registry --
-  // the two news wires are named individually, never as one synthetic label.
-  it('derives every provider from the source registry, news slots naming both wires', () => {
+  // The provider row derives from the source registry -- never a synthetic
+  // hand-written label.
+  it('derives every provider from the source registry', () => {
     for (const slot of DISCOVERY_SLOTS) {
       const ids = SLOT_SOURCES[slot.key];
       expect(ids.length, slot.key).toBeGreaterThan(0);
@@ -116,8 +127,7 @@ describe('discovery slots registry', () => {
       expect(SLOT_PROVIDER[slot.key].sources).toBe(ids);
       expect(SLOT_PROVIDER[slot.key].url).toBe(sourceById(ids[0]).homepage);
     }
-    expect(SLOT_PROVIDER.game.sources).toEqual(['googleNews', 'bingNews']);
-    expect(SLOT_PROVIDER.game.name).toBe('Google News · Bing News');
+    expect(SLOT_PROVIDER.awards.sources).toEqual(['wikidata']);
     expect(SLOT_PROVIDER.fx.name).toBe('Frankfurter (ECB)');
     expect(SLOT_PROVIDER.fx.url).toBe('https://frankfurter.dev/');
   });

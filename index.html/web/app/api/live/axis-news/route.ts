@@ -65,7 +65,7 @@ async function fetchRss(url: string | null, signal: AbortSignal, stat: LegStat):
 /**
  * GET /api/live/axis-news?locale=ko&axis=economy&page=0[&debug=1]
  *
- * One page of the worldwide live wire for one of the 21 news axes (the 16
+ * One page of the worldwide live wire for one of the 20 news axes (the 16
  * founder management axes fused with the world categories -- see
  * lib/live/hotNews.ts). Keyless, 0원 RSS wires only, four legs racing in
  * parallel under one 8s budget: the locale's Google News board/keyword
@@ -94,7 +94,7 @@ export async function GET(request: Request) {
   const debug = searchParams.get('debug') === '1';
 
   if (!isHotNewsCategory(axisParam)) {
-    const bad: AxisNewsResponse = { ok: false, locale, axis: 'world', page, items: [], hasMore: false, fetchedAt: Date.now() };
+    const bad: AxisNewsResponse = { ok: false, locale, axis: 'society', page, items: [], hasMore: false, fetchedAt: Date.now() };
     return NextResponse.json(bad, { status: 400, headers: { 'cache-control': 'no-store' } });
   }
   const axis = axisParam;

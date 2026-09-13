@@ -43,7 +43,7 @@ import { DialogTower } from '@/components/ui/DialogTower';
 import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 import { SEARCH_LAYER_IDS } from '@/lib/uai/searchLevels';
 import { purgeLegacyRecentQueries, risingSeeds } from '@/lib/uai/discovery';
-import { HUB_ROTATE_MS } from '@/lib/live/hubThemes';
+import { DISCOVERY_ROTATE_MS } from '@/lib/live/discoverySlots';
 import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
 import { buildLiveIndex, mergeLiveResults, searchLiveIndex, type LiveResult } from '@/lib/uai/liveSearchIndex';
@@ -715,7 +715,7 @@ export function OmniSynapseSearch({
   useEffect(() => {
     if (!discoveryActive) return;
     setClock(Date.now());
-    const id = window.setInterval(() => setClock(Date.now()), HUB_ROTATE_MS);
+    const id = window.setInterval(() => setClock(Date.now()), DISCOVERY_ROTATE_MS);
     return () => window.clearInterval(id);
   }, [discoveryActive]);
   const rising = useMemo(() => risingSeeds(liveIndex, clock, 8), [liveIndex, clock]);

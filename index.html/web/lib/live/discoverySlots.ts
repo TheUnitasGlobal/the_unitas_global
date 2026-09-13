@@ -1,8 +1,16 @@
 /**
- * REV-20 §3 -- the unified 22-slot discovery carousel's data layer.
+ * The unified discovery carousel's data layer.
  *
- * Every slot (weather, the nine REV-19 news themes, twelve new REV-20 feed
- * themes) implements the SAME `DiscoverySlot.load()` contract and returns
+ * REV-23 M3.1 (founder directive 2026-09-13): the nine REV-19 "news themes"
+ * (game · sports · movie · bestseller · shopping · stock · webtoon · fashion
+ * · food) are GONE from this rail. Every one of them was a Google/Bing news
+ * RSS wire -- the same kind of content, from the same engines, as the
+ * 실시간 뉴스 rail sitting directly beneath it. That is the 0% overlap the
+ * founder ordered: the shortcut rail is live DATA and utility, the news rail
+ * is news, and neither carries the other's material. Their replacement at
+ * the head of the rotation is the new `awards` theme (M3.4).
+ *
+ * Every slot implements the SAME `DiscoverySlot.load()` contract and returns
  * the SAME `SlotCard` shape, so the carousel component renders one card
  * shell regardless of kind -- the founder's requirement that weather be
  * visually indistinguishable from any other theme. All twelve new feed
@@ -14,6 +22,7 @@
 import {
   Activity,
   ArrowLeftRight,
+  Award,
   Bitcoin,
   CloudSun,
   Eye,
@@ -33,23 +42,31 @@ import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import { resolveDeeperPlace } from '@/lib/uai/deeperAnchor';
 import { sourceById, type SourceId } from '@/lib/uai/sourceRegistry';
 import { DEFAULT_PLACE, conditionOf, fetchForecast, readWeatherCache, writeWeatherCache, type Place } from '@/lib/live/useLiveWeather';
-import { HUB_CARD_ITEMS, HUB_THEMES, findHubTheme, type HubThemeKey } from '@/lib/live/hubThemes';
-import { loadHubNews } from '@/lib/live/hubNewsClient';
+import { AWARD_CARD_ITEMS, awardOfDay, loadAwardRoll } from '@/lib/live/awardsThemes';
+
+/** Rows a ranking slot shows on the inline card. */
+const RANKING_CARD_ITEMS = 4;
+
+/** Auto-rotation cadence of the discovery rail (ms). Lived in hubThemes.ts
+ *  until REV-23 M3.1 deleted that module with the news wires it served. */
+export const DISCOVERY_ROTATE_MS = 7000;
 import { GLOBAL_RANKING_THEMES, type GlobalRankingThemeKey } from '@/lib/globalRankings';
 import { MODULE_REGISTRY, moduleTitleNamespace, unitasRankingFor } from '@/lib/unitasRankings';
-import { fxCountryQuote, newsItemScope, withSlotSections } from '@/lib/live/slotSections';
+import { fxCountryQuote, withSlotSections } from '@/lib/live/slotSections';
 
 /* ------------------------------------------------------------------ */
 /* Contract                                                             */
 /* ------------------------------------------------------------------ */
 
-/** REV-21 §1.3 adds `ranking` -- the two REV-19 ranking widgets ("실시간
- *  세계 랭킹", "실시간 유니타스 랭킹") absorbed as slots of this carousel. */
-export type SlotKind = 'weather' | 'news' | 'feed' | 'ranking';
+/** `ranking` holds the two ranking widgets ("실시간 세계 랭킹", "실시간
+ *  유니타스 랭킹") absorbed as slots of this carousel. REV-23 M3.1 retired
+ *  the `news` kind: no slot on this rail carries a news wire any more. */
+export type SlotKind = 'weather' | 'feed' | 'ranking';
 
 export type RankingSlotKey = 'worldRanking' | 'unitasRanking';
 
 export type FeedSlotKey =
+  | 'awards'
   | 'history'
   | 'quake'
   | 'mostRead'
@@ -63,7 +80,7 @@ export type FeedSlotKey =
   | 'nation'
   | 'nearby';
 
-export type SlotKey = 'weather' | HubThemeKey | FeedSlotKey | RankingSlotKey;
+export type SlotKey = 'weather' | FeedSlotKey | RankingSlotKey;
 
 /** REV-21 §2.1(§2A.3): the two output scopes a card renders in, global
  *  first and the visitor's country second. */
@@ -229,36 +246,45 @@ const weatherSlot: DiscoverySlot = {
 };
 
 /* ------------------------------------------------------------------ */
-/* Slots 1-9: the REV-19 news themes (unchanged data source)            */
+/* REV-23 M3.4: 전 세계 최고 수상                                        */
 /* ------------------------------------------------------------------ */
 
-function newsSlotFor(theme: HubThemeKey): DiscoverySlot {
-  const meta = findHubTheme(theme);
-  return {
-    key: theme,
-    kind: 'news',
-    icon: meta.icon,
-    color: meta.color,
-    async load({ locale }) {
-      const news = await loadHubNews(locale, theme, false).catch(() => null);
-      if (!news || news.items.length === 0) return EMPTY_CARD;
-      const top = news.items[0];
-      return {
-        facts: [
-          { labelKey: 'Rev20.slots.facts.topHeadline', value: top.title, emphasis: true },
-          { labelKey: 'Rev20.slots.facts.headlineCount', value: String(news.items.length) },
-        ],
-        // REV-21 §2.1: the worldwide legs fold as `en`, the visitor's own
-        // legs as the locale -- that is the global / country split.
-        items: news.items
-          .slice(0, HUB_CARD_ITEMS)
-          .map((it) => ({ id: it.id, title: it.title, domain: it.domain, url: it.url, scope: newsItemScope(it.lang, locale) })),
-        updatedAt: news.fetchedAt,
-        cursor: null,
-      };
-    },
-  };
-}
+/**
+ * One world-class prize a day, with its most recent laureates. Replaces the
+ * nine news wires this rail used to carry (M3.1) with something the news
+ * rail structurally cannot duplicate: an award roll is a record, not a
+ * headline. Two keyless Wikidata API calls, 0원 -- see
+ * lib/live/awardsThemes.ts for why this cannot use SPARQL.
+ */
+const awardsSlot: DiscoverySlot = {
+  key: 'awards',
+  kind: 'feed',
+  icon: Award,
+  color: '#d4af37',
+  async load({ locale, signal }) {
+    const award = awardOfDay(dayOfYear());
+    const roll = await loadAwardRoll(award, wikiLangFor(locale), signal).catch(() => null);
+    if (!roll) return EMPTY_CARD;
+    return {
+      facts: [
+        // The award's own name is the fact LABEL and its most recent year the
+        // value, so the card leads with "노벨 물리학상 · 2022" rather than a
+        // generic header the visitor has to read past.
+        { labelKey: `Rev23.awards.names.${award.key}`, value: roll.latestYear ?? '', emphasis: true },
+        { labelKey: 'Rev23.awards.facts.laureateCount', value: String(roll.laureates.length) },
+      ],
+      items: roll.laureates.slice(0, AWARD_CARD_ITEMS).map((l) => ({
+        id: `award:${award.key}:${l.qid}`,
+        title: l.name,
+        meta: l.year,
+        url: l.url,
+        scope: 'global' as const,
+      })),
+      updatedAt: Date.now(),
+      cursor: null,
+    };
+  },
+};
 
 /* ------------------------------------------------------------------ */
 /* Slots 10-21: the twelve REV-20 feed themes                           */
@@ -866,7 +892,7 @@ const worldRankingSlot: DiscoverySlot = {
         { labelKey: 'Rev21.slots.facts.topRank', value: top ? top.name : '', emphasis: true },
         { labelKey: 'Rev21.slots.facts.rankedEntries', value: String(theme.entries.length) },
       ],
-      items: theme.entries.slice(0, HUB_CARD_ITEMS).map((entry) => ({
+      items: theme.entries.slice(0, RANKING_CARD_ITEMS).map((entry) => ({
         id: `${theme.key}:${entry.rank}`,
         title: entry.name,
         meta: entry.note,
@@ -897,7 +923,7 @@ const unitasRankingSlot: DiscoverySlot = {
         { labelKey: 'Rev21.slots.facts.topOperator', value: rows[0]?.handle ?? '', emphasis: true },
         { labelKey: 'Rev21.slots.facts.moduleCount', value: String(MODULE_REGISTRY.length) },
       ],
-      items: rows.slice(0, HUB_CARD_ITEMS).map((entry) => ({
+      items: rows.slice(0, RANKING_CARD_ITEMS).map((entry) => ({
         id: `${module.key}:${entry.rank}`,
         title: entry.handle,
         meta: entry.score.toLocaleString(),
@@ -932,7 +958,6 @@ const feedSlots: readonly DiscoverySlot[] = [
   nearbySlot,
 ];
 
-const newsSlots: readonly DiscoverySlot[] = HUB_THEMES.map((t) => newsSlotFor(t.key));
 
 const rankingSlots: readonly DiscoverySlot[] = [worldRankingSlot, unitasRankingSlot];
 
@@ -947,37 +972,30 @@ function withScopeSections(slot: DiscoverySlot): DiscoverySlot {
 }
 
 const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>(
-  [weatherSlot, ...newsSlots, ...feedSlots, ...rankingSlots]
+  [weatherSlot, awardsSlot, ...feedSlots, ...rankingSlots]
     .map(withScopeSections)
     .map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
 );
 
 /** REV-20 §3.4/§3.5: weather first, then the 9 news + 12 feed themes
- *  interleaved so two "newsy" or two "data" slots never sit back to back
+ *  interleaved so two slots of the same texture never sit back to back
  *  (colour-wheel adjacency is handled by the component, order here only
- *  guards content-kind adjacency). REV-21 §1.3: the two ranking slots join
- *  at the two natural "data" seams (after nation, after nearby). 24 slots. */
+ *  guards content-kind adjacency). The two ranking slots join at the two
+ *  natural "data" seams. REV-23 M3.1: 24 slots -> 16, the nine news wires
+ *  out and `awards` in. */
 export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'weather',
   'mostRead',
-  'stock',
+  'awards',
   'history',
-  'sports',
   'crypto',
-  'movie',
   'quake',
-  'shopping',
   'paper',
-  'game',
   'fx',
-  'food',
   'art',
-  'webtoon',
   'devPulse',
-  'fashion',
   'nation',
   'worldRanking',
-  'bestseller',
   'air',
   'library',
   'nearby',
@@ -989,19 +1007,9 @@ export const DISCOVERY_ROTATION: readonly SlotKey[] = [
  *  the privacy page all derive from lib/uai/sourceRegistry.ts, so the
  *  synthetic 'Google News · Bing News' label of the first cut is now two
  *  individually named sources. Static -- `load()` is untouched. */
-const NEWS_SOURCES: readonly SourceId[] = ['googleNews', 'bingNews'];
-
 export const SLOT_SOURCES: Record<SlotKey, readonly SourceId[]> = {
   weather: ['openMeteo'],
-  game: NEWS_SOURCES,
-  sports: NEWS_SOURCES,
-  movie: NEWS_SOURCES,
-  bestseller: NEWS_SOURCES,
-  shopping: NEWS_SOURCES,
-  stock: NEWS_SOURCES,
-  webtoon: NEWS_SOURCES,
-  fashion: NEWS_SOURCES,
-  food: NEWS_SOURCES,
+  awards: ['wikidata'],
   history: ['wikipedia'],
   quake: ['usgs'],
   mostRead: ['wikimediaPageviews'],
@@ -1045,15 +1053,7 @@ export const SLOT_PROVIDER: Record<SlotKey, SlotProvider> = Object.fromEntries(
  *  slot's translated title (which is how '공기' became a string search). */
 export const SLOT_QID: Partial<Record<SlotKey, string>> = {
   weather: 'Q11663', // weather
-  game: 'Q7889', // video game
-  sports: 'Q349', // sport
-  movie: 'Q11424', // film
-  bestseller: 'Q571', // book
-  shopping: 'Q830036', // shopping
-  stock: 'Q11691', // stock exchange
-  webtoon: 'Q1211714', // webtoon
-  fashion: 'Q12684', // fashion
-  food: 'Q2095', // food
+  awards: 'Q618779', // award
   quake: 'Q7944', // earthquake
   fx: 'Q8142', // currency
   crypto: 'Q13479982', // cryptocurrency
@@ -1080,7 +1080,6 @@ export function findDiscoverySlot(key: SlotKey): DiscoverySlot | undefined {
  *  갱신" honours the same per-kind freshness weather already used. */
 export function slotTtlMs(kind: SlotKind): number {
   if (kind === 'weather') return 10 * 60 * 1000;
-  if (kind === 'news') return 10 * 60 * 1000;
   if (kind === 'ranking') return 6 * 60 * 60 * 1000; // curated / deterministic data
   return 15 * 60 * 1000;
 }

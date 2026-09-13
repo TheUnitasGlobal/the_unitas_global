@@ -1635,26 +1635,26 @@
     "refresh": "Actualizar noticias",
     "source": "Fuentes: feed destacado de Wikimedia · RSS de Google News · RSS de Bing News · se actualiza cada 10–15 min",
     "category": {
-      "politics": "Política mundial",
-      "economy": "Economía mundial",
-      "science": "Ciencia mundial",
-      "technology": "Tecnología mundial",
-      "engineering": "Ingeniería mundial",
-      "sports": "Deportes mundiales",
-      "culture": "Cultura mundial",
-      "art": "Arte mundial",
-      "expression": "Expresión mundial",
-      "language": "Lengua mundial",
-      "society": "Sociedad mundial",
-      "structure": "Estructura mundial",
-      "pragma": "Pragmática mundial",
-      "law": "Derecho mundial",
-      "institution": "Instituciones mundiales",
-      "education": "Educación mundial",
-      "welfare": "Bienestar · Salud mundial",
-      "security": "Seguridad · Conflictos",
-      "strategy": "Estrategia mundial",
-      "disaster": "Desastres mundiales"
+      "politics": "Política",
+      "economy": "Economía",
+      "science": "Ciencia",
+      "technology": "Tecnología",
+      "engineering": "Ingeniería",
+      "sports": "Deportes",
+      "culture": "Cultura",
+      "art": "Arte",
+      "expression": "Expresión",
+      "language": "Lengua",
+      "society": "Sociedad",
+      "structure": "Estructura",
+      "pragma": "Práctica",
+      "law": "Derecho",
+      "institution": "Instituciones",
+      "education": "Educación",
+      "welfare": "Bienestar · Salud",
+      "security": "Seguridad · Conflicto",
+      "strategy": "Estrategia",
+      "disaster": "Desastres"
     },
     "live": "Cable en vivo",
     "loadMore": "Cargar más de {axis}",
@@ -2553,6 +2553,18 @@
           "f4": "Altura de las olas",
           "f5": "Alertas meteorológicas",
           "f6": "Distancia"
+        },
+        "bigTechPulse": {
+          "title": "Pulso omnitecnológico",
+          "hook": "Desmóntalo: ¿qué posee, qué fabrica y sobre qué funciona esta organización?",
+          "f1": "Industria",
+          "f2": "Matriz",
+          "f3": "Filiales",
+          "f4": "Productos",
+          "f5": "Fundadores",
+          "f6": "Director ejecutivo",
+          "scaleEmployees": "Empleados",
+          "scaleRevenue": "Ingresos"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "Este término tiene varios significados. El flujo sigue el más común: elige un concepto vinculado para cambiarlo."
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "Premios del mundo",
+      "tag": "A quién ha honrado el mundo más recientemente",
+      "facts": {
+        "laureateCount": "Galardonados mostrados"
+      },
+      "note": "Los más recientes entre los galardonados mejor documentados en Wikidata.",
+      "names": {
+        "nobelPhysics": "Premio Nobel de Física",
+        "nobelChemistry": "Premio Nobel de Química",
+        "nobelMedicine": "Premio Nobel de Medicina",
+        "nobelLiterature": "Premio Nobel de Literatura",
+        "nobelPeace": "Premio Nobel de la Paz",
+        "nobelEconomics": "Premio Nobel de Economía",
+        "turing": "Premio Turing",
+        "fields": "Medalla Fields",
+        "academyBestPicture": "Óscar a la mejor película",
+        "palmeDor": "Palma de Oro",
+        "grammyRecord": "Grammy a la grabación del año",
+        "pulitzer": "Premio Pulitzer",
+        "booker": "Premio Booker",
+        "pritzker": "Premio Pritzker",
+        "ballonDor": "Balón de Oro",
+        "timePerson": "Persona del Año de Time"
       }
     }
   }

@@ -1635,26 +1635,26 @@
     "refresh": "Nieuws vernieuwen",
     "source": "Bronnen: Wikimedia featured feed · Google Nieuws RSS · Bing Nieuws RSS · elke 10–15 min vernieuwd",
     "category": {
-      "politics": "Wereldpolitiek",
-      "economy": "Wereldeconomie",
-      "science": "Wereldwetenschap",
-      "technology": "Wereldtechnologie",
-      "engineering": "Wereldtechniek",
-      "sports": "Wereldsport",
-      "culture": "Wereldcultuur",
-      "art": "Wereldkunst",
-      "expression": "Wereldexpressie",
-      "language": "Wereldtaal",
-      "society": "Wereldsamenleving",
-      "structure": "Wereldstructuur",
-      "pragma": "Wereldpragmatiek",
-      "law": "Wereldrecht",
-      "institution": "Wereldinstituties",
-      "education": "Wereldonderwijs",
+      "politics": "Politiek",
+      "economy": "Economie",
+      "science": "Wetenschap",
+      "technology": "Technologie",
+      "engineering": "Techniek",
+      "sports": "Sport",
+      "culture": "Cultuur",
+      "art": "Kunst",
+      "expression": "Expressie",
+      "language": "Taal",
+      "society": "Samenleving",
+      "structure": "Structuur",
+      "pragma": "Praktijk",
+      "law": "Recht",
+      "institution": "Instellingen",
+      "education": "Onderwijs",
       "welfare": "Welzijn · Gezondheid",
-      "security": "Veiligheid · Conflicten",
-      "strategy": "Wereldstrategie",
-      "disaster": "Wereldrampen"
+      "security": "Veiligheid · Conflict",
+      "strategy": "Strategie",
+      "disaster": "Rampen"
     },
     "live": "Live-feed",
     "loadMore": "Meer laden: {axis}",
@@ -2553,6 +2553,18 @@
           "f4": "Golfhoogte",
           "f5": "Weerwaarschuwingen",
           "f6": "Afstand"
+        },
+        "bigTechPulse": {
+          "title": "Omni-tech-puls",
+          "hook": "Haal het uit elkaar: wat bezit, maakt en draait deze organisatie?",
+          "f1": "Branche",
+          "f2": "Moederorganisatie",
+          "f3": "Dochterondernemingen",
+          "f4": "Producten",
+          "f5": "Oprichters",
+          "f6": "Bestuursvoorzitter",
+          "scaleEmployees": "Medewerkers",
+          "scaleRevenue": "Omzet"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "Deze term heeft meerdere betekenissen. De stroom volgt de meest gangbare — kies een gekoppeld begrip om te wisselen."
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "Wereldprijzen",
+      "tag": "Wie de wereld het laatst eerde",
+      "facts": {
+        "laureateCount": "Getoonde laureaten"
+      },
+      "note": "De recentste onder de best gedocumenteerde laureaten op Wikidata.",
+      "names": {
+        "nobelPhysics": "Nobelprijs voor Natuurkunde",
+        "nobelChemistry": "Nobelprijs voor Scheikunde",
+        "nobelMedicine": "Nobelprijs voor Geneeskunde",
+        "nobelLiterature": "Nobelprijs voor Literatuur",
+        "nobelPeace": "Nobelprijs voor de Vrede",
+        "nobelEconomics": "Nobelprijs voor de Economie",
+        "turing": "Turingprijs",
+        "fields": "Fields-medaille",
+        "academyBestPicture": "Oscar voor beste film",
+        "palmeDor": "Gouden Palm",
+        "grammyRecord": "Grammy voor opname van het jaar",
+        "pulitzer": "Pulitzerprijs",
+        "booker": "Bookerprijs",
+        "pritzker": "Pritzkerprijs",
+        "ballonDor": "Gouden Bal",
+        "timePerson": "Time Persoon van het Jaar"
       }
     }
   }

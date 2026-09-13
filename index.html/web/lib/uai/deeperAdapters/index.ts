@@ -8,6 +8,7 @@ import { EMPTY_DEEPER_PAGE, deeperTheme, type DeeperAdapter, type DeeperContext,
 import { causalHackAdapter, dataTwinAdapter, marketMoatAdapter, zeroPointAdapter } from './wikidata';
 import { chronosGateAdapter, fractalDimAdapter, hologramFieldAdapter, omniWaveAdapter, valueCycleAdapter } from './wikipedia';
 import { evolutionArcAdapter, omniPressAdapter, terraPulseAdapter, timeFluxAdapter, ventureSignalAdapter } from './open';
+import { bigTechPulseAdapter } from './omniTech';
 
 export const DEEPER_ADAPTERS: Record<DeeperThemeKey, DeeperAdapter> = {
   dataTwin: dataTwinAdapter,
@@ -24,6 +25,7 @@ export const DEEPER_ADAPTERS: Record<DeeperThemeKey, DeeperAdapter> = {
   chronosGate: chronosGateAdapter,
   omniPress: omniPressAdapter,
   terraPulse: terraPulseAdapter,
+  bigTechPulse: bigTechPulseAdapter,
 };
 
 /** Run one theme page. Never throws: an adapter error is an empty page

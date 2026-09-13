@@ -20,9 +20,9 @@
 
    PERFORMANCE. Codex ch.4 / REV-21 4.3 "one layer": the plate's
    `backdrop-filter` is desktop-only -- phones get the same look from an
-   opaque-enough gradient with no re-rasterisation. The sheen is a single
-   GPU-composited `background-position` sweep, paused under
-   `prefers-reduced-motion`.
+   opaque-enough gradient with no re-rasterisation -- and the mark does not
+   animate at rest at all. The sheen sweeps on hover only; see the measured
+   reason at the sheen block below.
    ========================================================================== */
 
 :root {
@@ -131,15 +131,20 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 {
 }
 
 /* -- the sheen ------------------------------------------------------------ */
-/* One extra gradient stop travelling across the SAME background, so the sweep
-   costs a background-position animation and nothing else: no second layer, no
-   repaint of the plate, no filter animation. It does repaint the glyph run
-   (background-position is a paint-tier property), but it strictly REPLACES
-   the `qw-title-luster` text-shadow breathe it supersedes -- which repainted
-   the same area plus its 64px shadow spread, continuously, every 6s. Gated to
-   pointer devices at >= 640px so phones pay nothing at all. */
+/* ON HOVER ONLY, and that is a measurement, not a preference.
+   `background-position` is a paint-tier property, so sweeping it across a
+   text-clipped 136px glyph run repaints that run every frame. Measured
+   2026-09-13 on the built page (chromium, 1280x720): running it idle took the
+   page's rAF p95 from 50.1ms to 83.2ms and the mean from 36.5ms to 42.8ms.
+   A hero flourish that costs a third of the frame budget while the visitor is
+   doing something else fails Codex ch.4's own restraint rule -- and it broke
+   the REV-21 §1A rail-drag budget in the E2E suite, which is how it was
+   caught. So the mark is STATIC at rest (the plate, the gradient and the neon
+   rim are the identity; they cost nothing) and the sweep is the reward for
+   touching it. Idle cost: zero. */
 @media (prefers-reduced-motion: no-preference) and (min-width: 640px) and (hover: hover) {
-  .qw-hero-wrap h1 .qw-title-word {
+  .qw-hero-wrap h1:hover .qw-title-word,
+  .qw-hero-wrap h1:focus-within .qw-title-word {
     background-image:
       linear-gradient(
         100deg,
@@ -158,15 +163,14 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 {
     background-repeat: no-repeat, no-repeat;
     background-size: 220% 100%, 100% 100%;
     background-position: -140% 0, 0 0;
-    animation: uw-sheen 7.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    animation: uw-sheen 1.6s cubic-bezier(0.65, 0, 0.35, 1) 1;
   }
 }
 @keyframes uw-sheen {
-  0%,
-  62% {
+  from {
     background-position: -140% 0, 0 0;
   }
-  100% {
+  to {
     background-position: 240% 0, 0 0;
   }
 }

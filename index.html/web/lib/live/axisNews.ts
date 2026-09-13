@@ -38,7 +38,6 @@ const AXIS_NEWS_WINDOW_LAG_DAYS = 3;
  *  Bing ignores them), so the list length is the length of one paging
  *  cycle. Quotes are stripped before use. */
 export const AXIS_NEWS_QUERY: Record<HotNewsCategory, string[]> = {
-  world: ['international', '"United Nations"', 'global', 'summit', 'worldwide'],
   politics: ['election', 'president', 'parliament', '"prime minister"', 'government', 'minister'],
   economy: ['economy', 'inflation', '"central bank"', '"stock market"', 'tariff', 'GDP'],
   science: ['scientists', 'NASA', 'research', 'discovery', 'climate', 'telescope'],
@@ -115,7 +114,6 @@ export const BING_NEWS_MARKET: Record<string, { cc: string; setlang: string }> =
 /** Google News topic board per axis where one exists; the rest use the
  *  keyword search feed instead. */
 export const GOOGLE_NEWS_TOPIC: Partial<Record<HotNewsCategory, string>> = {
-  world: 'WORLD',
   politics: 'NATION',
   economy: 'BUSINESS',
   science: 'SCIENCE',

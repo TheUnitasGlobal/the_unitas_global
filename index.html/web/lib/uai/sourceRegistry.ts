@@ -80,6 +80,9 @@ export type SourceId =
   | 'tiktok'
   | 'reddit'
   | 'github'
+  | 'googleScholar'
+  | 'wolframAlpha'
+  | 'arxiv'
   // first party
   | 'unitasCurated'
   | 'unitasIndex';
@@ -563,6 +566,45 @@ export const SOURCE_REGISTRY: readonly OmniSource[] = [
     anchorKind: ['entity', 'text'],
     notes: 'Search API rejected (homonym noise, 10 req/min) -- outbound only.',
   },
+  // REV-23 M6: three research destinations added to the outbound brand row
+  // so "다른 곳에서 탐색" reaches past the social platforms. All three are
+  // keyless, login-free search URLs; none is ever fetched.
+  {
+    id: 'googleScholar',
+    displayName: { en: 'Google Scholar', ko: 'Google Scholar' },
+    owner: 'Google',
+    homepage: 'https://scholar.google.com/',
+    hosts: ['scholar.google.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Google Scholar'),
+    anchorKind: ['entity', 'text'],
+    notes: 'No public API; outbound search only.',
+  },
+  {
+    id: 'wolframAlpha',
+    displayName: { en: 'Wolfram Alpha', ko: 'Wolfram Alpha' },
+    owner: 'Wolfram Research',
+    homepage: 'https://www.wolframalpha.com/',
+    hosts: ['wolframalpha.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Wolfram Alpha'),
+    anchorKind: ['entity', 'text'],
+    notes: 'API requires an AppID -- outbound only.',
+  },
+  {
+    id: 'arxiv',
+    displayName: { en: 'arXiv', ko: 'arXiv' },
+    owner: 'Cornell University',
+    homepage: 'https://arxiv.org/',
+    hosts: ['arxiv.org'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('arXiv'),
+    anchorKind: ['entity', 'text'],
+    notes: 'Atom API has no CORS header -- outbound only.',
+  },
 
   /* ---------------------------------------------------------------- */
   /* first party                                                        */
@@ -630,7 +672,31 @@ export function sourceAttribution(id: SourceId, locale = 'en'): string {
 /** The outbound brand row (SPEC §12.7 `sites` card / D-25): every outbound
  *  source in registry order. Plain text only -- the renderer must not add
  *  logos, glyphs or brand colours. */
-export const OUTBOUND_BRAND_ROW: readonly SourceId[] = ['googleSearch', 'bingSearch', 'youtube', 'facebook', 'instagram', 'threads', 'x', 'linkedin', 'tiktok'];
+/**
+ * REV-23 M2/M6 (founder directive 2026-09-13): "다른 곳에서 탐색" is now the
+ * result's ONE outbound surface -- the separate "다른 곳에서 검색" row inside
+ * the sources card is gone -- so the row absorbed it and then widened past
+ * the social platforms into the research and code destinations the founder
+ * named ("MS 등 신규 테마 확장 추가"): Microsoft Bing, Google Scholar,
+ * Wolfram Alpha, arXiv, GitHub, Reddit. Every one is a keyless, login-free
+ * search URL; none is fetched, ever.
+ */
+export const OUTBOUND_BRAND_ROW: readonly SourceId[] = [
+  'googleSearch',
+  'bingSearch',
+  'googleScholar',
+  'wolframAlpha',
+  'arxiv',
+  'github',
+  'youtube',
+  'reddit',
+  'x',
+  'linkedin',
+  'facebook',
+  'instagram',
+  'threads',
+  'tiktok',
+];
 
 /** Keyless search URL an outbound source opens for a term (new tab,
  *  `rel="noopener noreferrer nofollow"`). `null` = the vendor has no
@@ -665,6 +731,12 @@ export function outboundSearchUrl(id: SourceId, term: string, lang = 'en'): stri
       return `https://www.reddit.com/search/?q=${q}`;
     case 'github':
       return `https://github.com/search?q=${q}&type=repositories`;
+    case 'googleScholar':
+      return `https://scholar.google.com/scholar?q=${q}&hl=${hl}`;
+    case 'wolframAlpha':
+      return `https://www.wolframalpha.com/input?i=${q}`;
+    case 'arxiv':
+      return `https://arxiv.org/abs/?searchtype=all&query=${q}`;
     default:
       return sourceById(id).homepage;
   }

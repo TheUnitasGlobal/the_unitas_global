@@ -1,8 +1,13 @@
 const { test, expect } = require('@playwright/test');
 
-// REV-21 SPEC.md §1.5 (§1D) -- the WHOLE card is the hitbox: a click at the
-// centre or at ANY of the four corners opens that slot's deep dive, and the
-// inner controls that stop propagation never double-fire.
+// REV-23 M2.3 SUPERSEDES REV-21 §1D. The whole card WAS the hitbox: a click
+// anywhere in it -- padding, gaps, corners -- opened that slot's deep dive,
+// and a shortcut arrow in the top-right corner opened it a second way. The
+// founder's 2026-09-13 directive removes both: only the TITLE is a target,
+// and it takes two steps (first click selects, second opens). The tests
+// below assert that inverted contract -- the corners must NOT open -- while
+// §1.4 (held on close) and §2A.3 (scope order) are unchanged behaviours
+// simply driven through the new gesture.
 // SPEC §1.4 -- closing a deep modal pins the slot it was opened from
 // (`held = openKey`), so the visitor never comes back out onto a different
 // slot.
@@ -14,7 +19,7 @@ const enterButton = (page) => page.locator('button.event-horizon-btn').last();
 const skipButton = (page) => page.locator('button:has(.cs-skip-aurora)');
 const card = (page) => page.locator('[data-live-hub] [data-slot-card]');
 
-/** Longer than one rotation period (HUB_ROTATE_MS = 7000). */
+/** Longer than one rotation period (DISCOVERY_ROTATE_MS = 7000). */
 const PAST_ONE_ROTATION_MS = 8_200;
 
 async function reachHome(page) {
@@ -66,23 +71,24 @@ test.beforeEach(async ({ browserName }) => {
   test.slow(browserName === 'webkit', 'headless WebKit software WebGL');
 });
 
-test.describe('REV-21 §1D whole-card hitbox', () => {
-  test('the centre and all four corners of the card open the deep dive', async ({ page }) => {
+/** REV-23 M2.3: the title is the only way in, and it takes two clicks. */
+async function openViaTitle(page, slot) {
+  const title = page.locator(`[data-slot-card="${slot}"] .qw-hub-card-title .qw-two-step-hit`);
+  await expect(title).toBeVisible({ timeout: 20_000 });
+  await title.click();
+  await expect(title).toHaveAttribute('data-selected', '1');
+  await title.click();
+}
+
+test.describe('REV-23 M2.3 title-only, two-step hitbox', () => {
+  test('the corners and the padding no longer open anything', async ({ page }) => {
     await reachHome(page);
     await openHub(page);
     await pin(page, 'history');
 
-    // 4px inside each edge: still the card root (its own padding is 16px),
-    // never an inner control. Measured 2026-09-13: on a 1280x720 desktop the
-    // card runs to y=726, i.e. its last 6px sit BELOW the fold (the home is a
-    // single non-scrolling viewport), so the corners are taken on the card's
-    // visible rectangle -- what a visitor can actually reach.
-    // The "centre" is taken on the title line, not the geometric middle: on a
-    // phone the middle of the card is an item headline, and §1.5 reserves
-    // those (and the arrow, the sub-tabs, the ranking rows) for their own
-    // action -- see the double-fire test below.
+    // The exact spots that used to open it. 4px inside each edge is still the
+    // card root (its own padding is 16px), never an inner control.
     const spots = [
-      ['title line', (b) => ({ x: b.x + b.width / 2, y: b.y + 28 })],
       ['top-left', (b) => ({ x: b.x + 4, y: b.y + 4 })],
       ['top-right', (b) => ({ x: b.x + b.width - 4, y: b.y + 4 })],
       ['bottom-left', (b) => ({ x: b.x + 4, y: b.bottom - 4 })],
@@ -106,12 +112,29 @@ test.describe('REV-21 §1D whole-card hitbox', () => {
       );
       expect(onCard, `${name} must land on the card chrome`).toBe('ok');
       await page.mouse.click(x, y);
-      await expect(page.locator('#feed-deep-title'), `${name} must open the deep dive`).toBeVisible({ timeout: 8_000 });
-      await page.goBack();
-      await page.waitForTimeout(500);
-      await expect(page.locator('#feed-deep-title')).toHaveCount(0);
-      await expect(page.locator('#exit-guard-title')).toHaveCount(0);
+      await page.waitForTimeout(600);
+      await expect(page.locator('#feed-deep-title'), `${name} must NOT open anything`).toHaveCount(0);
     }
+    // And the shortcut arrow that offered a third way in is gone.
+    await expect(page.locator('[data-slot-card="history"] button[aria-label]')).toHaveCount(0);
+  });
+
+  test('the title opens it on the SECOND click, never the first', async ({ page }) => {
+    await reachHome(page);
+    await openHub(page);
+    await pin(page, 'history');
+    const title = page.locator('[data-slot-card="history"] .qw-hub-card-title .qw-two-step-hit');
+    await expect(title).toBeVisible({ timeout: 20_000 });
+    await title.click();
+    await expect(title).toHaveAttribute('data-selected', '1');
+    await page.waitForTimeout(400);
+    await expect(page.locator('#feed-deep-title')).toHaveCount(0);
+    await title.click();
+    await expect(page.locator('#feed-deep-title')).toBeVisible({ timeout: 8_000 });
+    await page.goBack();
+    await page.waitForTimeout(500);
+    await expect(page.locator('#feed-deep-title')).toHaveCount(0);
+    await expect(page.locator('#exit-guard-title')).toHaveCount(0);
   });
 
   test('an item headline does its own thing and does NOT also open the card (no double fire)', async ({ page, context }) => {
@@ -131,11 +154,20 @@ test.describe('REV-21 §1D whole-card hitbox', () => {
     if (opened) await opened.close();
   });
 
-  test('the card answers Enter and Space as a button', async ({ page }) => {
+  test('the keyboard follows the same two steps on the title, not the card', async ({ page }) => {
     await reachHome(page);
     await openHub(page);
     await pin(page, 'history');
+    // The card container itself no longer answers Enter.
     await card(page).focus();
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(500);
+    await expect(page.locator('#feed-deep-title')).toHaveCount(0);
+    // The title does -- on the second press.
+    const title = page.locator('[data-slot-card="history"] .qw-hub-card-title .qw-two-step-hit');
+    await title.focus();
+    await page.keyboard.press('Enter');
+    await expect(title).toHaveAttribute('data-selected', '1');
     await page.keyboard.press('Enter');
     await expect(page.locator('#feed-deep-title')).toBeVisible({ timeout: 8_000 });
     await page.goBack();
@@ -150,11 +182,9 @@ test.describe('REV-21 §1.4 held on close', () => {
     await openHub(page);
 
     // Deliberately do NOT pin first: this is about a modal opened from a
-    // freely rotating carousel.
-    await page.evaluate(() => {
-      const b = document.querySelector('[data-slot-card] button[aria-label]');
-      b && b.click();
-    });
+    // freely rotating carousel. M2.3: opened through the title's two steps.
+    const liveSlot = await card(page).getAttribute('data-slot-card');
+    await openViaTitle(page, liveSlot);
     await page.waitForTimeout(600);
     const opened = await card(page).getAttribute('data-slot-card');
     expect(opened).toBeTruthy();
@@ -183,11 +213,13 @@ test.describe('REV-21 §2A.3 scope sections', () => {
     await expect(group.first()).toHaveAttribute('data-scope', 'country');
   });
 
+  // REV-23 M3.1 removed the nine news slots, which were the two-scope ones;
+  // `fx` (the world rate, then the visitor's own currency) is the survivor.
   test('a two-scope slot renders global before country, never country alone', async ({ page }) => {
     await reachHome(page);
     await openHub(page);
-    await pin(page, 'game');
-    const group = page.locator('[data-slot-card="game"] [data-scope]');
+    await pin(page, 'fx');
+    const group = page.locator('[data-slot-card="fx"] [data-scope]');
     await expect(group.first()).toBeVisible({ timeout: 20_000 });
     const scopes = await group.evaluateAll((els) => els.map((el) => el.getAttribute('data-scope')));
     expect(scopes.length).toBeGreaterThan(0);

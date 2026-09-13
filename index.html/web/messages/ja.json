@@ -1635,26 +1635,26 @@
     "refresh": "ニュースを更新",
     "source": "出典: Wikimedia フィーチャードフィード · Google ニュース RSS · Bing ニュース RSS · 10〜15分ごとに更新",
     "category": {
-      "politics": "世界政治",
-      "economy": "世界経済",
-      "science": "世界科学",
-      "technology": "世界技術",
-      "engineering": "世界工学",
-      "sports": "世界スポーツ",
-      "culture": "世界文化",
-      "art": "世界芸術",
-      "expression": "世界表現",
-      "language": "世界言語",
-      "society": "世界社会",
-      "structure": "世界構造",
-      "pragma": "世界実用",
-      "law": "世界法律",
-      "institution": "世界制度",
-      "education": "世界教育",
-      "welfare": "世界福祉·保健",
-      "security": "世界安全保障·紛争",
-      "strategy": "世界戦略",
-      "disaster": "世界災害"
+      "politics": "政治",
+      "economy": "経済",
+      "science": "科学",
+      "technology": "技術",
+      "engineering": "工学",
+      "sports": "スポーツ",
+      "culture": "文化",
+      "art": "芸術",
+      "expression": "表現",
+      "language": "言語",
+      "society": "社会",
+      "structure": "構造",
+      "pragma": "実用",
+      "law": "法律",
+      "institution": "制度",
+      "education": "教育",
+      "welfare": "福祉・保健",
+      "security": "安全保障・紛争",
+      "strategy": "戦略",
+      "disaster": "災害"
     },
     "live": "ライブワイヤー",
     "loadMore": "{axis}をもっと読み込む",
@@ -2553,6 +2553,18 @@
           "f4": "波高",
           "f5": "気象警報",
           "f6": "距離"
+        },
+        "bigTechPulse": {
+          "title": "オムニテック・パルス",
+          "hook": "分解してみる — この組織は何を所有し、何をつくり、何の上で動いているのか。",
+          "f1": "業種",
+          "f2": "親組織",
+          "f3": "子会社",
+          "f4": "製品・サービス",
+          "f5": "創業者",
+          "f6": "最高経営責任者",
+          "scaleEmployees": "従業員数",
+          "scaleRevenue": "売上高"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "この用語には複数の意味があります。ストリームは最も一般的な意味をたどります — 関連概念を選ぶと切り替えられます。"
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "世界最高の賞",
+      "tag": "世界が最も新しく讃えた人々",
+      "facts": {
+        "laureateCount": "表示中の受賞者"
+      },
+      "note": "Wikidata で最も広く記録された受賞者のうち、最新のものです。",
+      "names": {
+        "nobelPhysics": "ノーベル物理学賞",
+        "nobelChemistry": "ノーベル化学賞",
+        "nobelMedicine": "ノーベル生理学・医学賞",
+        "nobelLiterature": "ノーベル文学賞",
+        "nobelPeace": "ノーベル平和賞",
+        "nobelEconomics": "ノーベル経済学賞",
+        "turing": "チューリング賞",
+        "fields": "フィールズ賞",
+        "academyBestPicture": "アカデミー作品賞",
+        "palmeDor": "パルム・ドール",
+        "grammyRecord": "グラミー賞 年間最優秀レコード",
+        "pulitzer": "ピューリッツァー賞",
+        "booker": "ブッカー賞",
+        "pritzker": "プリツカー賞",
+        "ballonDor": "バロンドール",
+        "timePerson": "タイム誌 今年の人"
       }
     }
   }

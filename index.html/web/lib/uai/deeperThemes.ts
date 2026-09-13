@@ -1,8 +1,8 @@
 /**
  * REV-21 §3 / SPEC §3.3 + §12.5 -- the "더 깊이 탐색" (Explore Deeper) theme
- * registry: fourteen multi-dimensional lenses on ONE anchored entity, place
- * or country (twelve from the PHASE 1 review + the two omni-tech themes of
- * the founder's v2 directive, Codex ch.22). Every theme:
+ * registry: fifteen multi-dimensional lenses on ONE anchored entity, place
+ * or country (twelve from the PHASE 1 review, the two omni-tech themes of
+ * the founder's v2 directive, and REV-23 M6's `bigTechPulse`). Every theme:
  *  - takes an anchor, never a search string (§3.1);
  *  - names its real sources from the omni-tech registry (§12.4);
  *  - pages forever through an opaque cursor, global scope before the
@@ -18,6 +18,7 @@ import {
   Boxes,
   Clock3,
   Compass,
+  Cpu,
   Globe2,
   Image as ImageIcon,
   Landmark,
@@ -47,7 +48,8 @@ export type DeeperThemeKey =
   | 'fractalDim'
   | 'chronosGate'
   | 'omniPress'
-  | 'terraPulse';
+  | 'terraPulse'
+  | 'bigTechPulse';
 
 /** SPEC §12.2 host registry -- which surface the block is placed on. */
 export type DeeperHost =
@@ -100,6 +102,11 @@ export const DEEPER_THEMES: readonly DeeperTheme[] = [
   { key: 'chronosGate', icon: Clock3, color: '#eab308', needs: 'entity', sources: ['wikipedia'], ttlMs: 6 * H, constitution: [84, 136, 241] },
   { key: 'timeFlux', icon: Waves, color: '#3b82f6', needs: 'place', sources: ['openMeteo'], ttlMs: 24 * H, constitution: [4, 66, 136, 227], axes: ['future'] },
   { key: 'terraPulse', icon: Globe2, color: '#ef4444', needs: 'place', sources: ['nasaEonet', 'usgs', 'openMeteo', 'noaaNws'], ttlMs: 10 * 60 * 1000, constitution: [213] },
+  // REV-23 M6 (founder directive 2026-09-13): the omni-tech absorption lens
+  // -- an organisation decomposed into the modules Wikidata holds about it
+  // (industry, parent, subsidiaries, products, founders, executives, scale),
+  // every one of them a chip that re-anchors the block on itself.
+  { key: 'bigTechPulse', icon: Cpu, color: '#38bdf8', needs: 'entity', sources: ['wikidata'], ttlMs: 12 * H, constitution: [94, 170, 302, 388], axes: ['economy', 'future'] },
 ];
 
 const BY_KEY = new Map<DeeperThemeKey, DeeperTheme>(DEEPER_THEMES.map((t) => [t.key, t]));
@@ -115,6 +122,7 @@ export function isDeeperThemeKey(value: unknown): value is DeeperThemeKey {
 /** SPEC §12.5 host default orders. Place hosts lead with the place themes;
  *  entity hosts lead with the market / press signals. */
 const ENTITY_ORDER: readonly DeeperThemeKey[] = [
+  'bigTechPulse',
   'ventureSignal',
   'omniPress',
   'causalHack',
@@ -143,6 +151,7 @@ const PLACE_ORDER: readonly DeeperThemeKey[] = [
   'fractalDim',
   'chronosGate',
   'ventureSignal',
+  'bigTechPulse',
 ];
 
 /** D-16: how many theme tiles a host shows before the '+N' chip. */

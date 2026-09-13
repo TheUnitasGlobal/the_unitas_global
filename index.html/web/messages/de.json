@@ -1635,26 +1635,26 @@
     "refresh": "Nachrichten aktualisieren",
     "source": "Quellen: Wikimedia Featured Feed · Google News RSS · Bing News RSS · alle 10–15 Min. aktualisiert",
     "category": {
-      "politics": "Weltpolitik",
-      "economy": "Weltwirtschaft",
-      "science": "Weltwissenschaft",
-      "technology": "Welttechnologie",
-      "engineering": "Weltingenieurwesen",
-      "sports": "Weltsport",
-      "culture": "Weltkultur",
-      "art": "Weltkunst",
-      "expression": "Weltausdruck",
-      "language": "Weltsprache",
-      "society": "Weltgesellschaft",
-      "structure": "Weltstruktur",
-      "pragma": "Weltpragmatik",
-      "law": "Weltrecht",
-      "institution": "Weltinstitutionen",
-      "education": "Weltbildung",
+      "politics": "Politik",
+      "economy": "Wirtschaft",
+      "science": "Wissenschaft",
+      "technology": "Technologie",
+      "engineering": "Ingenieurwesen",
+      "sports": "Sport",
+      "culture": "Kultur",
+      "art": "Kunst",
+      "expression": "Ausdruck",
+      "language": "Sprache",
+      "society": "Gesellschaft",
+      "structure": "Struktur",
+      "pragma": "Praxis",
+      "law": "Recht",
+      "institution": "Institutionen",
+      "education": "Bildung",
       "welfare": "Wohlfahrt · Gesundheit",
-      "security": "Sicherheit · Konflikte",
-      "strategy": "Weltstrategie",
-      "disaster": "Weltkatastrophen"
+      "security": "Sicherheit · Konflikt",
+      "strategy": "Strategie",
+      "disaster": "Katastrophen"
     },
     "live": "Live-Ticker",
     "loadMore": "Mehr laden: {axis}",
@@ -2553,6 +2553,18 @@
           "f4": "Wellenhöhe",
           "f5": "Wetterwarnungen",
           "f6": "Entfernung"
+        },
+        "bigTechPulse": {
+          "title": "Omni-Tech-Puls",
+          "hook": "Auseinandernehmen: Was besitzt, was baut und worauf läuft diese Organisation?",
+          "f1": "Branche",
+          "f2": "Mutterorganisation",
+          "f3": "Tochtergesellschaften",
+          "f4": "Produkte",
+          "f5": "Gründer",
+          "f6": "Vorstandsvorsitz",
+          "scaleEmployees": "Beschäftigte",
+          "scaleRevenue": "Umsatz"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "Dieser Begriff hat mehrere Bedeutungen. Der Stream folgt der gängigsten — wählen Sie einen verknüpften Begriff, um zu wechseln."
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "Weltpreise",
+      "tag": "Wen die Welt zuletzt geehrt hat",
+      "facts": {
+        "laureateCount": "Gezeigte Preisträger"
+      },
+      "note": "Die neuesten unter den auf Wikidata am besten dokumentierten Preisträgern.",
+      "names": {
+        "nobelPhysics": "Nobelpreis für Physik",
+        "nobelChemistry": "Nobelpreis für Chemie",
+        "nobelMedicine": "Nobelpreis für Medizin",
+        "nobelLiterature": "Nobelpreis für Literatur",
+        "nobelPeace": "Friedensnobelpreis",
+        "nobelEconomics": "Wirtschaftsnobelpreis",
+        "turing": "Turing Award",
+        "fields": "Fields-Medaille",
+        "academyBestPicture": "Oscar für den besten Film",
+        "palmeDor": "Goldene Palme",
+        "grammyRecord": "Grammy für die Aufnahme des Jahres",
+        "pulitzer": "Pulitzer-Preis",
+        "booker": "Booker Prize",
+        "pritzker": "Pritzker-Architekturpreis",
+        "ballonDor": "Ballon d’Or",
+        "timePerson": "Time-Person des Jahres"
       }
     }
   }

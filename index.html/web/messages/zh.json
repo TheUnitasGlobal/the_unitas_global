@@ -1635,26 +1635,26 @@
     "refresh": "刷新新闻",
     "source": "来源: Wikimedia 精选源 · Google 新闻 RSS · Bing 新闻 RSS · 每 10–15 分钟更新",
     "category": {
-      "politics": "全球政治",
-      "economy": "全球经济",
-      "science": "全球科学",
-      "technology": "全球技术",
-      "engineering": "全球工程",
-      "sports": "全球体育",
-      "culture": "全球文化",
-      "art": "全球艺术",
-      "expression": "全球表达",
-      "language": "全球语言",
-      "society": "全球社会",
-      "structure": "全球结构",
-      "pragma": "全球实用",
-      "law": "全球法律",
-      "institution": "全球制度",
-      "education": "全球教育",
-      "welfare": "全球福利·健康",
-      "security": "全球安全·冲突",
-      "strategy": "全球战略",
-      "disaster": "全球灾害"
+      "politics": "政治",
+      "economy": "经济",
+      "science": "科学",
+      "technology": "技术",
+      "engineering": "工程",
+      "sports": "体育",
+      "culture": "文化",
+      "art": "艺术",
+      "expression": "表达",
+      "language": "语言",
+      "society": "社会",
+      "structure": "结构",
+      "pragma": "实用",
+      "law": "法律",
+      "institution": "制度",
+      "education": "教育",
+      "welfare": "福利·卫生",
+      "security": "安全·冲突",
+      "strategy": "战略",
+      "disaster": "灾害"
     },
     "live": "实时线报",
     "loadMore": "加载更多{axis}",
@@ -2553,6 +2553,18 @@
           "f4": "浪高",
           "f5": "气象预警",
           "f6": "距离"
+        },
+        "bigTechPulse": {
+          "title": "全域科技脉动",
+          "hook": "把它拆开：这个组织拥有什么、生产什么、依托什么运转？",
+          "f1": "所属行业",
+          "f2": "母公司",
+          "f3": "子公司",
+          "f4": "产品与服务",
+          "f5": "创始人",
+          "f6": "首席执行官",
+          "scaleEmployees": "员工人数",
+          "scaleRevenue": "营业收入"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "这个词有多种含义。流会沿最常见的一种展开 — 选择一个关联概念即可切换。"
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "世界最高奖项",
+      "tag": "世界最近致敬的人",
+      "facts": {
+        "laureateCount": "显示的获奖者"
+      },
+      "note": "取自维基数据中记载最广的获奖者，按最新排序。",
+      "names": {
+        "nobelPhysics": "诺贝尔物理学奖",
+        "nobelChemistry": "诺贝尔化学奖",
+        "nobelMedicine": "诺贝尔生理学或医学奖",
+        "nobelLiterature": "诺贝尔文学奖",
+        "nobelPeace": "诺贝尔和平奖",
+        "nobelEconomics": "诺贝尔经济学奖",
+        "turing": "图灵奖",
+        "fields": "菲尔兹奖",
+        "academyBestPicture": "奥斯卡最佳影片奖",
+        "palmeDor": "金棕榈奖",
+        "grammyRecord": "格莱美年度制作",
+        "pulitzer": "普利策奖",
+        "booker": "布克奖",
+        "pritzker": "普利兹克建筑奖",
+        "ballonDor": "金球奖",
+        "timePerson": "《时代》年度风云人物"
       }
     }
   }

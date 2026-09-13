@@ -1635,26 +1635,26 @@
     "refresh": "I-refresh ang balita",
     "source": "Pinagmulan: Wikimedia featured feed · Google News RSS · Bing News RSS · ina-update tuwing 10–15 min",
     "category": {
-      "politics": "Pulitika ng mundo",
-      "economy": "Ekonomiya ng mundo",
-      "science": "Agham ng mundo",
-      "technology": "Teknolohiya ng mundo",
-      "engineering": "Inhinyeriya ng mundo",
-      "sports": "Sports ng mundo",
-      "culture": "Kultura ng mundo",
-      "art": "Sining ng mundo",
-      "expression": "Pagpapahayag ng mundo",
-      "language": "Wika ng mundo",
-      "society": "Lipunan ng mundo",
-      "structure": "Estruktura ng mundo",
-      "pragma": "Praktikal ng mundo",
-      "law": "Batas ng mundo",
-      "institution": "Institusyon ng mundo",
-      "education": "Edukasyon ng mundo",
+      "politics": "Pulitika",
+      "economy": "Ekonomiya",
+      "science": "Agham",
+      "technology": "Teknolohiya",
+      "engineering": "Inhinyeriya",
+      "sports": "Sports",
+      "culture": "Kultura",
+      "art": "Sining",
+      "expression": "Pagpapahayag",
+      "language": "Wika",
+      "society": "Lipunan",
+      "structure": "Istruktura",
+      "pragma": "Praktikal",
+      "law": "Batas",
+      "institution": "Institusyon",
+      "education": "Edukasyon",
       "welfare": "Kapakanan · Kalusugan",
-      "security": "Seguridad · Salungatan",
-      "strategy": "Estratehiya ng mundo",
-      "disaster": "Sakuna ng mundo"
+      "security": "Seguridad · Sigalot",
+      "strategy": "Estratehiya",
+      "disaster": "Sakuna"
     },
     "live": "Live wire",
     "loadMore": "Mag-load pa ng {axis}",
@@ -2553,6 +2553,18 @@
           "f4": "Taas ng alon",
           "f5": "Mga babala sa panahon",
           "f6": "Distansya"
+        },
+        "bigTechPulse": {
+          "title": "Pulso ng Omni-Tech",
+          "hook": "Buksan natin: ano ang pag-aari, ginagawa, at pinatatakbo ng organisasyong ito?",
+          "f1": "Industriya",
+          "f2": "Punong organisasyon",
+          "f3": "Mga subsidiary",
+          "f4": "Mga produkto",
+          "f5": "Mga tagapagtatag",
+          "f6": "Punong tagapagpaganap",
+          "scaleEmployees": "Mga empleyado",
+          "scaleRevenue": "Kita"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "Maraming kahulugan ang terminong ito. Sinusundan ng stream ang pinakakaraniwan — pumili ng kaugnay na konsepto para lumipat."
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "Mga gantimpala ng mundo",
+      "tag": "Sino ang pinakahuling pinarangalan ng mundo",
+      "facts": {
+        "laureateCount": "Mga laureate na ipinapakita"
+      },
+      "note": "Pinakabago sa mga pinakadokumentadong nagwagi sa Wikidata.",
+      "names": {
+        "nobelPhysics": "Nobel sa Pisika",
+        "nobelChemistry": "Nobel sa Kimika",
+        "nobelMedicine": "Nobel sa Medisina",
+        "nobelLiterature": "Nobel sa Panitikan",
+        "nobelPeace": "Nobel sa Kapayapaan",
+        "nobelEconomics": "Nobel sa Ekonomiks",
+        "turing": "Gantimpalang Turing",
+        "fields": "Medalyang Fields",
+        "academyBestPicture": "Oscar para sa Pinakamahusay na Pelikula",
+        "palmeDor": "Palme d’Or",
+        "grammyRecord": "Grammy Record of the Year",
+        "pulitzer": "Gantimpalang Pulitzer",
+        "booker": "Gantimpalang Booker",
+        "pritzker": "Gantimpalang Pritzker",
+        "ballonDor": "Ballon d’Or",
+        "timePerson": "Time Person of the Year"
       }
     }
   }

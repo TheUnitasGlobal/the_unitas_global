@@ -12,7 +12,6 @@
  * Pure module -- no React, no window, no fetch -- so the whole scope contract
  * is unit-testable and the adapters stay free of presentation concerns.
  */
-import { HUB_THEMES } from '@/lib/live/hubThemes';
 import type { SlotCard, SlotKey, SlotScope, SlotSection } from '@/lib/live/discoverySlots';
 
 /** Worldwide-only: the feed itself has no national edition. `history` (the
@@ -44,10 +43,9 @@ const BOTH: readonly SlotScope[] = ['global', 'country'];
 export const SLOT_SCOPES: Record<string, readonly SlotScope[]> = {
   ...Object.fromEntries(GLOBAL_ONLY.map((k) => [k, GLOBAL])),
   ...Object.fromEntries(COUNTRY_ONLY.map((k) => [k, COUNTRY])),
-  // The nine news themes race a worldwide leg and the visitor's own-language
-  // leg (app/api/live/hub-news); fx quotes the world and then the visitor's
-  // own currency.
-  ...Object.fromEntries(HUB_THEMES.map((t) => [t.key, BOTH])),
+  // REV-23 M3.1: the nine news themes that raced a worldwide leg against the
+  // visitor's own-language leg are gone from this rail. `fx` is the one slot
+  // left that quotes the world and then the visitor's own currency.
   fx: BOTH,
 };
 

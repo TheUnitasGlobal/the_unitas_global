@@ -1635,26 +1635,26 @@
     "refresh": "Odśwież wiadomości",
     "source": "Źródła: Wikimedia featured feed · RSS Google News · RSS Bing News · odświeżane co 10–15 min",
     "category": {
-      "politics": "Polityka światowa",
-      "economy": "Gospodarka światowa",
-      "science": "Nauka światowa",
-      "technology": "Technologia światowa",
-      "engineering": "Inżynieria światowa",
-      "sports": "Sport światowy",
-      "culture": "Kultura światowa",
-      "art": "Sztuka światowa",
-      "expression": "Ekspresja światowa",
-      "language": "Język światowy",
-      "society": "Społeczeństwo światowe",
-      "structure": "Struktura światowa",
-      "pragma": "Pragmatyka światowa",
-      "law": "Prawo światowe",
-      "institution": "Instytucje światowe",
-      "education": "Edukacja światowa",
-      "welfare": "Dobrobyt · Zdrowie",
-      "security": "Bezpieczeństwo · Konflikty",
-      "strategy": "Strategia światowa",
-      "disaster": "Katastrofy światowe"
+      "politics": "Polityka",
+      "economy": "Gospodarka",
+      "science": "Nauka",
+      "technology": "Technologia",
+      "engineering": "Inżynieria",
+      "sports": "Sport",
+      "culture": "Kultura",
+      "art": "Sztuka",
+      "expression": "Ekspresja",
+      "language": "Język",
+      "society": "Społeczeństwo",
+      "structure": "Struktura",
+      "pragma": "Praktyka",
+      "law": "Prawo",
+      "institution": "Instytucje",
+      "education": "Edukacja",
+      "welfare": "Dobrostan · Zdrowie",
+      "security": "Bezpieczeństwo · Konflikt",
+      "strategy": "Strategia",
+      "disaster": "Katastrofy"
     },
     "live": "Serwis na żywo",
     "loadMore": "Wczytaj więcej: {axis}",
@@ -2553,6 +2553,18 @@
           "f4": "Wysokość fal",
           "f5": "Ostrzeżenia pogodowe",
           "f6": "Odległość"
+        },
+        "bigTechPulse": {
+          "title": "Puls omni-tech",
+          "hook": "Rozłóż to na części: co ta organizacja posiada, co wytwarza i na czym działa?",
+          "f1": "Branża",
+          "f2": "Podmiot dominujący",
+          "f3": "Spółki zależne",
+          "f4": "Produkty",
+          "f5": "Założyciele",
+          "f6": "Dyrektor generalny",
+          "scaleEmployees": "Zatrudnieni",
+          "scaleRevenue": "Przychód"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "Ten termin ma kilka znaczeń. Strumień podąża za najczęstszym — wybierz powiązane pojęcie, aby przełączyć."
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "Światowe nagrody",
+      "tag": "Kogo świat uhonorował ostatnio",
+      "facts": {
+        "laureateCount": "Pokazani laureaci"
+      },
+      "note": "Najnowsi spośród najlepiej udokumentowanych laureatów w Wikidanych.",
+      "names": {
+        "nobelPhysics": "Nagroda Nobla w dziedzinie fizyki",
+        "nobelChemistry": "Nagroda Nobla w dziedzinie chemii",
+        "nobelMedicine": "Nagroda Nobla w dziedzinie medycyny",
+        "nobelLiterature": "Literacka Nagroda Nobla",
+        "nobelPeace": "Pokojowa Nagroda Nobla",
+        "nobelEconomics": "Nagroda Nobla w dziedzinie ekonomii",
+        "turing": "Nagroda Turinga",
+        "fields": "Medal Fieldsa",
+        "academyBestPicture": "Oscar dla najlepszego filmu",
+        "palmeDor": "Złota Palma",
+        "grammyRecord": "Grammy dla nagrania roku",
+        "pulitzer": "Nagroda Pulitzera",
+        "booker": "Nagroda Bookera",
+        "pritzker": "Nagroda Pritzkera",
+        "ballonDor": "Złota Piłka",
+        "timePerson": "Człowiek Roku tygodnika Time"
       }
     }
   }

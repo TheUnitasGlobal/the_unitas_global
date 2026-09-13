@@ -1,5 +1,4 @@
 import {
-  Globe2,
   Vote,
   TrendingUp,
   FlaskConical,
@@ -25,13 +24,14 @@ import {
 import { HOT_NEWS_CATEGORIES, type HotNewsCategory } from './hotNews';
 
 /**
- * Client-side presentation metadata for the 21 news filter axes -- icon +
+ * Client-side presentation metadata for the 20 news filter axes -- icon +
  * colour per chip so the filter row reads exactly like the two ranking
  * carousels above it (icon 18px + bold uppercase label, owner instruction
  * 2026-09-04 round 6). The 16 doctrine axes reuse the very same icons and
  * palette as lib/governance.ts so a 언어/법/전략 chip here is visually the
- * same entity as the matching shortcut tile; the five world categories get
- * their own icons in the same palette family. Kept out of lib/live/hotNews.ts
+ * same entity as the matching shortcut tile; the four world categories get
+ * their own icons in the same palette family. REV-23 M3.2 removed the
+ * catch-all 'world' axis with its "세계실시간" chip. Kept out of lib/live/hotNews.ts
  * so the server routes never import lucide.
  */
 export interface HotNewsAxisMeta {
@@ -41,7 +41,6 @@ export interface HotNewsAxisMeta {
 }
 
 const META: Record<HotNewsCategory, { icon: LucideIcon; color: string }> = {
-  world: { icon: Globe2, color: '#22d3ee' },
   politics: { icon: Vote, color: '#f43f5e' },
   economy: { icon: TrendingUp, color: '#f97316' },
   science: { icon: FlaskConical, color: '#a855f7' },

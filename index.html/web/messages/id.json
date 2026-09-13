@@ -1635,26 +1635,26 @@
     "refresh": "Segarkan berita",
     "source": "Sumber: Wikimedia featured feed · Google News RSS · Bing News RSS · diperbarui tiap 10–15 menit",
     "category": {
-      "politics": "Politik dunia",
-      "economy": "Ekonomi dunia",
-      "science": "Sains dunia",
-      "technology": "Teknologi dunia",
-      "engineering": "Rekayasa dunia",
-      "sports": "Olahraga dunia",
-      "culture": "Budaya dunia",
-      "art": "Seni dunia",
-      "expression": "Ekspresi dunia",
-      "language": "Bahasa dunia",
-      "society": "Masyarakat dunia",
-      "structure": "Struktur dunia",
-      "pragma": "Pragmatik dunia",
-      "law": "Hukum dunia",
-      "institution": "Institusi dunia",
-      "education": "Pendidikan dunia",
+      "politics": "Politik",
+      "economy": "Ekonomi",
+      "science": "Sains",
+      "technology": "Teknologi",
+      "engineering": "Rekayasa",
+      "sports": "Olahraga",
+      "culture": "Budaya",
+      "art": "Seni",
+      "expression": "Ekspresi",
+      "language": "Bahasa",
+      "society": "Masyarakat",
+      "structure": "Struktur",
+      "pragma": "Praktis",
+      "law": "Hukum",
+      "institution": "Institusi",
+      "education": "Pendidikan",
       "welfare": "Kesejahteraan · Kesehatan",
       "security": "Keamanan · Konflik",
-      "strategy": "Strategi dunia",
-      "disaster": "Bencana dunia"
+      "strategy": "Strategi",
+      "disaster": "Bencana"
     },
     "live": "Kawat langsung",
     "loadMore": "Muat lebih banyak {axis}",
@@ -2553,6 +2553,18 @@
           "f4": "Tinggi gelombang",
           "f5": "Peringatan cuaca",
           "f6": "Jarak"
+        },
+        "bigTechPulse": {
+          "title": "Denyut Omni-Tech",
+          "hook": "Bongkar: apa yang dimiliki, dibuat, dan dijalankan organisasi ini?",
+          "f1": "Industri",
+          "f2": "Induk",
+          "f3": "Anak usaha",
+          "f4": "Produk",
+          "f5": "Pendiri",
+          "f6": "Direktur utama",
+          "scaleEmployees": "Karyawan",
+          "scaleRevenue": "Pendapatan"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "Istilah ini punya beberapa makna. Aliran mengikuti makna yang paling umum — pilih konsep terkait untuk beralih."
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "Penghargaan dunia",
+      "tag": "Siapa yang paling baru dihormati dunia",
+      "facts": {
+        "laureateCount": "Peraih yang ditampilkan"
+      },
+      "note": "Terbaru di antara peraih yang paling terdokumentasi di Wikidata.",
+      "names": {
+        "nobelPhysics": "Nobel Fisika",
+        "nobelChemistry": "Nobel Kimia",
+        "nobelMedicine": "Nobel Kedokteran",
+        "nobelLiterature": "Nobel Sastra",
+        "nobelPeace": "Nobel Perdamaian",
+        "nobelEconomics": "Nobel Ekonomi",
+        "turing": "Penghargaan Turing",
+        "fields": "Medali Fields",
+        "academyBestPicture": "Oscar Film Terbaik",
+        "palmeDor": "Palme d’Or",
+        "grammyRecord": "Grammy Rekaman Terbaik Tahun Ini",
+        "pulitzer": "Penghargaan Pulitzer",
+        "booker": "Penghargaan Booker",
+        "pritzker": "Penghargaan Arsitektur Pritzker",
+        "ballonDor": "Ballon d’Or",
+        "timePerson": "Tokoh Tahun Ini versi Time"
       }
     }
   }

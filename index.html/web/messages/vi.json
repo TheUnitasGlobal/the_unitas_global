@@ -1635,26 +1635,26 @@
     "refresh": "Làm mới tin tức",
     "source": "Nguồn: Wikimedia featured feed · Google News RSS · Bing News RSS · cập nhật mỗi 10–15 phút",
     "category": {
-      "politics": "Chính trị thế giới",
-      "economy": "Kinh tế thế giới",
-      "science": "Khoa học thế giới",
-      "technology": "Công nghệ thế giới",
-      "engineering": "Kỹ thuật thế giới",
-      "sports": "Thể thao thế giới",
-      "culture": "Văn hóa thế giới",
-      "art": "Nghệ thuật thế giới",
-      "expression": "Biểu đạt thế giới",
-      "language": "Ngôn ngữ thế giới",
-      "society": "Xã hội thế giới",
-      "structure": "Cấu trúc thế giới",
-      "pragma": "Thực dụng thế giới",
-      "law": "Pháp luật thế giới",
-      "institution": "Thể chế thế giới",
-      "education": "Giáo dục thế giới",
+      "politics": "Chính trị",
+      "economy": "Kinh tế",
+      "science": "Khoa học",
+      "technology": "Công nghệ",
+      "engineering": "Kỹ thuật",
+      "sports": "Thể thao",
+      "culture": "Văn hóa",
+      "art": "Nghệ thuật",
+      "expression": "Biểu đạt",
+      "language": "Ngôn ngữ",
+      "society": "Xã hội",
+      "structure": "Cấu trúc",
+      "pragma": "Thực dụng",
+      "law": "Pháp luật",
+      "institution": "Thể chế",
+      "education": "Giáo dục",
       "welfare": "Phúc lợi · Y tế",
       "security": "An ninh · Xung đột",
-      "strategy": "Chiến lược thế giới",
-      "disaster": "Thảm họa thế giới"
+      "strategy": "Chiến lược",
+      "disaster": "Thảm họa"
     },
     "live": "Dòng tin trực tiếp",
     "loadMore": "Tải thêm {axis}",
@@ -2553,6 +2553,18 @@
           "f4": "Độ cao sóng",
           "f5": "Cảnh báo thời tiết",
           "f6": "Khoảng cách"
+        },
+        "bigTechPulse": {
+          "title": "Nhịp Omni-Tech",
+          "hook": "Tháo rời ra: tổ chức này sở hữu gì, làm ra gì và vận hành trên nền gì?",
+          "f1": "Ngành",
+          "f2": "Công ty mẹ",
+          "f3": "Công ty con",
+          "f4": "Sản phẩm",
+          "f5": "Người sáng lập",
+          "f6": "Giám đốc điều hành",
+          "scaleEmployees": "Nhân sự",
+          "scaleRevenue": "Doanh thu"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "Thuật ngữ này có nhiều nghĩa. Dòng đi theo nghĩa phổ biến nhất — chọn một khái niệm liên kết để chuyển."
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "Giải thưởng thế giới",
+      "tag": "Những người thế giới vừa vinh danh",
+      "facts": {
+        "laureateCount": "Người đoạt giải hiển thị"
+      },
+      "note": "Mới nhất trong số những người đoạt giải được ghi nhận rõ nhất trên Wikidata.",
+      "names": {
+        "nobelPhysics": "Giải Nobel Vật lý",
+        "nobelChemistry": "Giải Nobel Hóa học",
+        "nobelMedicine": "Giải Nobel Y học",
+        "nobelLiterature": "Giải Nobel Văn học",
+        "nobelPeace": "Giải Nobel Hòa bình",
+        "nobelEconomics": "Giải Nobel Kinh tế",
+        "turing": "Giải Turing",
+        "fields": "Huy chương Fields",
+        "academyBestPicture": "Oscar Phim hay nhất",
+        "palmeDor": "Cành cọ vàng",
+        "grammyRecord": "Grammy Bản thu của năm",
+        "pulitzer": "Giải Pulitzer",
+        "booker": "Giải Booker",
+        "pritzker": "Giải Pritzker",
+        "ballonDor": "Quả bóng vàng",
+        "timePerson": "Nhân vật của năm của Time"
       }
     }
   }

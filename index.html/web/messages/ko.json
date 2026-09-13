@@ -1635,26 +1635,26 @@
     "refresh": "뉴스 새로고침",
     "source": "출처: Wikimedia 피처드 피드 · Google 뉴스 RSS · Bing 뉴스 RSS · 10~15분마다 갱신",
     "category": {
-      "politics": "세계정치",
-      "economy": "세계경제",
-      "science": "세계과학",
-      "technology": "세계기술",
-      "engineering": "세계공학",
-      "sports": "세계스포츠",
-      "culture": "세계문화",
-      "art": "세계예술",
-      "expression": "세계표현",
-      "language": "세계언어",
-      "society": "세계사회",
-      "structure": "세계구조",
-      "pragma": "세계실용",
-      "law": "세계법률",
-      "institution": "세계제도",
-      "education": "세계교육",
-      "welfare": "세계복지·보건",
-      "security": "세계안보·분쟁",
-      "strategy": "세계전략",
-      "disaster": "세계재난"
+      "politics": "정치",
+      "economy": "경제",
+      "science": "과학",
+      "technology": "기술",
+      "engineering": "공학",
+      "sports": "스포츠",
+      "culture": "문화",
+      "art": "예술",
+      "expression": "표현",
+      "language": "언어",
+      "society": "사회",
+      "structure": "구조",
+      "pragma": "실용",
+      "law": "법률",
+      "institution": "제도",
+      "education": "교육",
+      "welfare": "복지·보건",
+      "security": "안보·분쟁",
+      "strategy": "전략",
+      "disaster": "재난"
     },
     "live": "실시간 웹",
     "loadMore": "{axis} 더 불러오기",
@@ -2553,6 +2553,18 @@
           "f4": "파고",
           "f5": "기상 경보",
           "f6": "거리"
+        },
+        "bigTechPulse": {
+          "title": "옴니 테크 펄스",
+          "hook": "해체해 봅니다 — 이 조직은 무엇을 소유하고, 무엇을 만들며, 무엇 위에서 돌아가는가?",
+          "f1": "산업 분야",
+          "f2": "모회사",
+          "f3": "자회사",
+          "f4": "제품·서비스",
+          "f5": "창립자",
+          "f6": "최고경영자",
+          "scaleEmployees": "임직원 수",
+          "scaleRevenue": "매출"
         }
       }
     },
@@ -2633,6 +2645,34 @@
       },
       "disambiguation": {
         "body": "이 용어에는 여러 의미가 있습니다. 스트림은 가장 흔한 의미를 따르니, 연결된 개념을 골라 바꿔 보세요."
+      }
+    }
+  },
+  "Rev23": {
+    "awards": {
+      "title": "세계 최고 수상",
+      "tag": "세계가 가장 최근에 예우한 사람들",
+      "facts": {
+        "laureateCount": "표시된 수상자"
+      },
+      "note": "위키데이터에 가장 널리 기록된 수상자 가운데 최신 순입니다.",
+      "names": {
+        "nobelPhysics": "노벨 물리학상",
+        "nobelChemistry": "노벨 화학상",
+        "nobelMedicine": "노벨 생리의학상",
+        "nobelLiterature": "노벨 문학상",
+        "nobelPeace": "노벨 평화상",
+        "nobelEconomics": "노벨 경제학상",
+        "turing": "튜링상",
+        "fields": "필즈상",
+        "academyBestPicture": "아카데미 작품상",
+        "palmeDor": "칸 황금종려상",
+        "grammyRecord": "그래미 올해의 레코드",
+        "pulitzer": "퓰리처상",
+        "booker": "부커상",
+        "pritzker": "프리츠커 건축상",
+        "ballonDor": "발롱도르",
+        "timePerson": "타임 올해의 인물"
       }
     }
   }

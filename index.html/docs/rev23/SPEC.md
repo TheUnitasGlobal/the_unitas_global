@@ -17,19 +17,26 @@
 
 ### 조치 (서버 강제 · fail-closed)
 1. `lib/gate/funnelGate.ts` (신규, 순수 함수):
-   - `GATE_PATH_SEGMENT = '__gateway'`
+   - `GATE_PATH_SEGMENT = 'gateway'` (Next는 `_` 접두 폴더를 라우팅에서 제외하므로 `__gateway` 불가)
    - `isGateExemptPath(pathname)` — `/api/*`, `/_next/*`, 정적 자산, `sitemap`,
-     `robots`, IndexNow 키, `/__gateway` 자신.
+     `robots`, IndexNow 키, `/gateway` 자신.
    - `isIndexerAgent(ua)` — Googlebot / bingbot / YandexBot / NaverBot(Yeti) /
      SeznamBot / DuckDuckBot / Applebot / Slurp / facebookexternalhit /
      Twitterbot / LinkedInBot + `IndexNow`. SEO 제국(제13장) 보존용.
    - `resolveGateVerdict({pathname, ua, hasSovereign, bypass})`
      → `'pass' | 'seal'`.
-2. `middleware.ts`: 로케일 재작성 **이후**, `seal` 판정이면
-   `NextResponse.rewrite('/<locale>/__gateway')` — **리다이렉트가 아니라 재작성**
-   이라 주소창 URL은 보존되고, 본문 HTML은 절대 전송되지 않는다.
-   응답에 `x-unitas-gate: seal|pass` 헤더를 각인한다.
-3. `app/[locale]/__gateway/page.tsx` (신규): 정적 생성(20 로케일),
+2. `middleware.ts`: 로케일 확정 **이후**, `seal` 판정이면
+   `/<locale>/gateway`로 이동시키고 `x-unitas-gate: seal|pass`를 각인한다.
+   **[구현 중 정정]** 최초 설계는 주소창 URL 보존을 위해 `rewrite`였으나,
+   빌드된 서버에서 실측한 결과 App Router 클라이언트가 라우트를 바꾸는
+   미들웨어 재작성을 초기 문서에서 조정하지 못해 **모든 봉인 로드가 React
+   #418 → #423을 던지고 전체 클라이언트 재렌더로 폴백**했다(gateway 직접
+   진입은 오류 0으로, 재작성이 원인임을 분리 확인). 그 폴백이 헤드 부트스트랩의
+   `data-splash="off"` 사전 각인을 지워 창립자의 round-14 "서브뷰 새로고침 시
+   로고 페이지 재생 금지" 규칙까지 깨뜨렸다. 딥링크 URL 보존은 MISSION 1의
+   요구가 아니고 퍼널 통과가 요구이므로 **307 리다이렉트**로 확정했다
+   (`Cache-Control: no-store`, `Vary: Cookie, User-Agent`).
+3. `app/[locale]/gateway/page.tsx` (신규): 정적 생성(20 로케일),
    본문 0바이트 — 레이아웃의 커튼만 그린다. `robots: noindex`.
 4. `app/[locale]/layout.tsx`: `__gateway` 재작성 시 NavBar 등 크롬이 커튼
    아래에 남지 않도록 `data-unitas-sealed` 스탬프. (커튼은 이미 불투명)
@@ -173,3 +180,16 @@ Wikidata SPARQL/`wbgetentities` 무키 호출 + 24h 소버린 캐싱. 0원.
 ## 무결성 게이트 (제25장)
 `npm --prefix web run typecheck` · `cd web && npx vitest run` ·
 `npm --prefix web run build` — 3종 EXIT 0 아니면 커밋·푸시·배포 전면 금지.
+
+
+---
+
+## 구현 중 확정된 정정 (실측 기반)
+
+| 항목 | SPEC 초안 | 확정 | 근거 |
+|---|---|---|---|
+| M1 봉인 방식 | rewrite (URL 보존) | **307 redirect** | 재작성이 히드레이션을 깨뜨림(React #418/#423 → 전체 재렌더 → `data-splash` 각인 소실). gateway 직접 진입은 오류 0 |
+| M1 라우트명 | `__gateway` | `gateway` | Next가 `_` 접두 폴더를 라우팅에서 제외 |
+| M3.4 수상 소스 | Wikidata SPARQL | **CirrusSearch `haswbstatement` + `wbgetentities`** | 2026-09-13 실측 WDQS 전면 `429 … 1 req/min … active wdqs outage` |
+| M6 신규 테마 | 6종 | **1종(`bigTechPulse`) + 수상 테마 + 아웃바운드 14종** | patentOrbit·standardsGrid·talentFlux는 키 없는 공개 API가 존재하지 않음; codeGenome은 소스 레지스트리에 GitHub 검색 API 반려 선행 판단이 기록되어 있어 뒤집지 않음 |
+| M2.4 백 사다리 | focus/typing/text/tower/card 5층 | **focus/text/tower/card 4층** | 창립자 요구 꼬리가 정확히 3단(초기화→홈→종료)이므로 `typing` 히스토리 층 폐기 |

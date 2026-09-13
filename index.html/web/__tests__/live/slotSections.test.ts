@@ -9,7 +9,6 @@ import {
   withSlotSections,
 } from '../../lib/live/slotSections';
 import { DISCOVERY_ROTATION, FX_BASE, findDiscoverySlot, type SlotCard, type SlotKey } from '../../lib/live/discoverySlots';
-import { HUB_THEME_KEYS } from '../../lib/live/hubThemes';
 import { localeCountry } from '../../lib/live/slotContext';
 import { routing } from '../../i18n/routing';
 
@@ -45,7 +44,12 @@ describe('slot scope declaration', () => {
     }
     // fx is worldwide AND carries the visitor's own currency second.
     expect(SLOT_SCOPES.fx).toEqual(['global', 'country']);
-    for (const key of HUB_THEME_KEYS) expect(SLOT_SCOPES[key]).toEqual(['global', 'country']);
+    // REV-23 M3.1: fx is the ONLY two-scope slot left -- the nine news
+    // themes that used to race a worldwide leg against the visitor's own
+    // are off this rail entirely.
+    for (const key of ['game', 'sports', 'movie', 'food'] as string[]) {
+      expect(SLOT_SCOPES[key], key).toBeUndefined();
+    }
   });
 });
 
@@ -69,7 +73,7 @@ describe('buildSlotSections', () => {
 
   it('splits a two-scope card global first, country second', () => {
     const sections = buildSlotSections(
-      'game',
+      'fx',
       card({
         items: [
           { id: 'c', title: 'own', scope: 'country' },
@@ -83,13 +87,13 @@ describe('buildSlotSections', () => {
   });
 
   it('drops an empty country section rather than painting an empty header', () => {
-    const sections = buildSlotSections('game', card({ items: [{ id: 'g', title: 'world', scope: 'global' }] }));
+    const sections = buildSlotSections('fx', card({ items: [{ id: 'g', title: 'world', scope: 'global' }] }));
     expect(sections).toHaveLength(1);
     expect(sections[0].scope).toBe('global');
   });
 
   it('treats unmarked facts and items as the first scope of the slot', () => {
-    const sections = buildSlotSections('game', card({ facts: [{ labelKey: 'a', value: '1' }], items: [{ id: 'g', title: 'x' }] }));
+    const sections = buildSlotSections('fx', card({ facts: [{ labelKey: 'a', value: '1' }], items: [{ id: 'g', title: 'x' }] }));
     expect(sections).toHaveLength(1);
     expect(sections[0].scope).toBe('global');
     expect(sections[0].facts).toHaveLength(1);

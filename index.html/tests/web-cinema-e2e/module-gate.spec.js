@@ -8,33 +8,37 @@
 // everyone -- which is exactly the property under test: a direct hit on a
 // gated route must NOT render module content, it must 307 to /{locale}/locked.
 // The server-verified sovereign founder session is the one way through.
+//
+// REV-23 M1 layered a SECOND gate in front of this one. The pre-launch funnel
+// gate (lib/gate/funnelGate.ts) seals an ordinary visitor at the edge, before
+// the coin gate is ever consulted -- so a plain browser hitting /arche now
+// lands on the funnel, not on /locked. That is strictly safer and it is what
+// the first test below asserts. To keep testing the COIN gate itself, the
+// second test drives it with an indexer user agent, which the funnel gate
+// passes through (Codex ch.13) and the coin gate then fences exactly as
+// before. Both layers are covered, in the order a request meets them.
 
 const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const GATED_PATH = '/en/arche?splash=0';
 
 test.describe('page-level module coin gate', () => {
-  test('direct navigation to a gated route redirects to the locked page', async ({ page }) => {
+  test('REV-23: a plain visitor never even reaches the coin gate -- the funnel seals first', async ({ page }) => {
     const response = await page.goto(GATED_PATH, { waitUntil: 'domcontentloaded' });
-
-    // Landed on /en/locked, not /en/arche.
-    expect(page.url()).toMatch(/\/(en\/)?locked/); // English lives at the bare root (single-URL SEO, 2026-09-06)
     expect(response?.status()).toBe(200); // after following the 307
-
-    // The lock panel rendered...
-    await expect(page.getByText(/Access Sealed|Sign-In Required/i)).toBeVisible();
-    await expect(page.getByRole('link', { name: /Return to Catalog/i })).toBeVisible();
-
-    // ...and the module's own scene did NOT (its <main> uses `isolate`).
+    expect(page.url()).toMatch(/\/gateway/);
+    // The module's own scene is absent, which is the property that matters.
     await expect(page.locator('main.isolate')).toHaveCount(0);
+    await expect(page.locator('[data-unitas-gateway]')).toHaveCount(1);
   });
 
-  test('the raw response for a gated route is a 307, carrying no module payload', async ({
-    request,
-  }) => {
-    // The bare-root spelling: `/en/...` first 307s to the canonical
-    // unprefixed English URL (single-URL SEO, 2026-09-06), and with
-    // maxRedirects 0 that hop would be the one inspected here.
-    const res = await request.get(GATED_PATH.replace(/^\/en\//, '/'), { maxRedirects: 0 });
+  test('the coin gate still 307s to /locked, carrying no module payload', async ({ browser }) => {
+    // An indexer passes the funnel gate (Codex ch.13) and therefore meets the
+    // coin gate -- the only way to exercise this layer now that the funnel
+    // seals ordinary traffic ahead of it.
+    const ctx = await browser.newContext({
+      userAgent: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+    });
+    const res = await ctx.request.get(GATED_PATH.replace(/^\/en\//, '/'), { maxRedirects: 0 });
     expect(res.status()).toBe(307);
     expect(res.headers()['location']).toMatch(/\/(en\/)?locked/);
     // Next 14 answers a layout redirect() with its generic `__next_error__`
@@ -45,12 +49,15 @@ test.describe('page-level module coin gate', () => {
     expect(body).not.toMatch(/<main[^>]*isolate/);
     expect(body).not.toContain('ARCHE');
     expect(body).not.toContain('module_access_grants');
+    await ctx.close();
   });
 
-  test('a forged legacy dev cookie no longer opens the gate', async ({ page, context }) => {
+  test('a forged legacy dev cookie opens neither gate', async ({ page, context }) => {
     await context.addCookies([{ name: 'unitas_dev', value: '1', url: 'http://127.0.0.1:3123' }]);
     await page.goto(GATED_PATH, { waitUntil: 'domcontentloaded' });
-    expect(page.url()).toMatch(/\/(en\/)?locked/); // English lives at the bare root (single-URL SEO, 2026-09-06)
+    // Sealed by the funnel gate; the module scene never renders either way.
+    expect(page.url()).toMatch(/\/gateway/);
+    await expect(page.locator('main.isolate')).toHaveCount(0);
   });
 
   test('verified sovereign founder session reaches the real module page', async ({ page }) => {

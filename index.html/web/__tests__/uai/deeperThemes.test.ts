@@ -14,7 +14,7 @@ import { DEEPER_ADAPTERS } from '@/lib/uai/deeperAdapters';
 import { entityAnchor, placeAnchor, textAnchor } from '@/lib/uai/deeperAnchor';
 import { sourceById } from '@/lib/uai/sourceRegistry';
 import { DISCOVERY_ROTATION } from '@/lib/live/discoverySlots';
-import { HUB_THEME_KEYS } from '@/lib/live/hubThemes';
+import { AWARD_KEYS } from '@/lib/live/awardsThemes';
 import { GLOBAL_RANKING_THEMES } from '@/lib/globalRankings';
 import { HOT_NEWS_CATEGORIES } from '@/lib/live/hotNews';
 
@@ -26,10 +26,11 @@ const air = entityAnchor({ localeTitle: '공기', enTitle: 'Air', qid: 'Q7391292
 const seoul = placeAnchor({ name: 'Seoul', countryCode: 'KR', lat: 37.5665, lon: 126.978, qid: 'Q8684' }, 'ko');
 
 describe('deeper theme registry', () => {
-  it('ships exactly 14 themes with unique keys, real sources and a positive TTL', () => {
-    expect(DEEPER_THEMES.length).toBe(14);
+  // REV-23 M6 added `bigTechPulse`, the omni-tech absorption lens.
+  it('ships exactly 15 themes with unique keys, real sources and a positive TTL', () => {
+    expect(DEEPER_THEMES.length).toBe(15);
     const keys = DEEPER_THEMES.map((t) => t.key);
-    expect(new Set(keys).size).toBe(14);
+    expect(new Set(keys).size).toBe(15);
     for (const theme of DEEPER_THEMES) {
       expect(theme.sources.length, theme.key).toBeGreaterThan(0);
       for (const id of theme.sources) expect(sourceById(id), `${theme.key}:${id}`).toBeTruthy();
@@ -43,8 +44,8 @@ describe('deeper theme registry', () => {
     expect(isDeeperThemeKey('nation')).toBe(false);
   });
 
-  it('collides with no slot, hub theme, ranking theme or news axis key', () => {
-    const others = new Set<string>([...DISCOVERY_ROTATION, ...HUB_THEME_KEYS, ...GLOBAL_RANKING_THEMES.map((t) => t.key), ...HOT_NEWS_CATEGORIES]);
+  it('collides with no slot, award, ranking theme or news axis key', () => {
+    const others = new Set<string>([...DISCOVERY_ROTATION, ...AWARD_KEYS, ...GLOBAL_RANKING_THEMES.map((t) => t.key), ...HOT_NEWS_CATEGORIES]);
     for (const theme of DEEPER_THEMES) expect(others.has(theme.key), theme.key).toBe(false);
   });
 
@@ -66,10 +67,11 @@ describe('themesFor', () => {
     expect(weather.slice(0, 2)).toEqual(['timeFlux', 'terraPulse']);
     expect(weather).toContain('dataTwin'); // the city has a QID, so entity lenses stay on
     const feed = themesFor('feed', air).map((t) => t.key);
-    expect(feed.slice(0, 2)).toEqual(['ventureSignal', 'omniPress']);
+    // M6: the omni-tech lens leads the entity order.
+    expect(feed.slice(0, 3)).toEqual(['bigTechPulse', 'ventureSignal', 'omniPress']);
     expect(feed).not.toContain('timeFlux'); // no coordinate -> no place lens
     expect(feed).not.toContain('terraPulse');
-    expect(feed.length).toBe(12);
+    expect(feed.length).toBe(13);
   });
 
   it('offers nothing for a text anchor, a missing anchor or a disambiguated subject', () => {
@@ -81,7 +83,9 @@ describe('themesFor', () => {
   it('lifts the leading axis themes when the surface report leans that way', () => {
     const report = { constitution: [{ axis: 'economy' as const, score: 88, band: 'high' as const }, { axis: 'logic' as const, score: 40, band: 'mid' as const }] };
     const lifted = themesFor('keywordTier', air, report).map((t) => t.key);
-    expect(lifted.slice(0, 2)).toEqual(['ventureSignal', 'marketMoat']);
+    // M6: bigTechPulse also declares the economy axis, and it leads the
+    // entity order, so an economy-leaning report floats all three.
+    expect(lifted.slice(0, 3)).toEqual(['bigTechPulse', 'ventureSignal', 'marketMoat']);
     // a weak report leaves the host order untouched
     const weak = { constitution: [{ axis: 'art' as const, score: 30, band: 'low' as const }] };
     expect(themesFor('keywordTier', air, weak).map((t) => t.key)).toEqual(themesFor('keywordTier', air).map((t) => t.key));

@@ -8,7 +8,7 @@ import { mergeNewsFeeds, type HotNewsItem } from '@/lib/live/hotNews';
 // REV-21 SPEC.md §2.1 -- output priority 1 = global (worldwide), 2 = the
 // visitor's selected country, for every locale including en.
 
-const mk = (title: string): HotNewsItem => ({ id: title, title, summary: '', url: `https://x/${title}`, category: 'world', source: 'live' });
+const mk = (title: string): HotNewsItem => ({ id: title, title, summary: '', url: `https://x/${title}`, category: 'society', source: 'live' });
 
 describe('context priority', () => {
   it('is global first, country second, for all 20 locales', () => {
