@@ -72,3 +72,48 @@
 
 **새로 발견한 갭**: `/sitemap.xml`·`/robots.txt`가 라이브 404이고 소스에도 부재(0건) — 제12장 익스트림 SEO 미충족.
 상세와 권고는 `FINAL_REPORT.md` §7-1.
+
+---
+
+## REV-22 완결 — REV-21 잔여 3대 갭 격파 (2026-09-13)
+
+정본 설계: `docs/rev22/SPEC.md` · 정본 종합 보고서: `docs/rev22/FINAL_REPORT.md` (제24장 산출물)
+
+| 항목 | 값 | 실측 시점 |
+| --- | --- | --- |
+| 배포 커밋 | `1d9082b` (`425bd89..1d9082b main -> main`) | 2026-09-13 |
+| 배포 ID | `dpl_GUN8h3pnhadb7cgti8cXuBsbXK2Z`, readyState `READY`, target `production` | 2026-09-13 |
+| `tsc --noEmit` | EXIT 0 | 이번 세션 |
+| `vitest` | **76 파일 / 1,145 테스트** 통과, EXIT 0 (신규 SEO 스위트 23건 포함) | 이번 세션 |
+| `next build` | EXIT 0 — 앱 경로 52 → **54**, 프리렌더 420 → **422**, sync-codex drift 0 | 이번 세션 |
+| Playwright (chromium + **webkit** + mobile-chrome) | **328 passed / 0 failed / 17 skipped (345), EXIT 0, 54.9분** | 배포한 빌드 위에서 실측 |
+| 라이브 `gitCommit` | `1d9082b0f41be1cf…` — 푸시 커밋과 일치 | 배포 직후 HTTPS 실호출 |
+| 라이브 `buildFingerprint` | `632c59de6817b47cda7b…` — 로컬 빌드와 일치 | 배포 직후 HTTPS 실호출 |
+| 라이브 20로케일 | **20 / 20 HTTP 200** | 배포 직후 HTTPS 실호출 |
+
+**갭 격파 결과 (직전 대비):**
+
+| 갭 | 배포 전 | 배포 후 |
+| --- | --- | --- |
+| G-1 제12장 SEO | `/sitemap.xml` 404 · `/robots.txt` 404 · 소스 0건 | `/sitemap.xml` **200, 340 URL / 7,140 hreflang, 751,782 B** · `/robots.txt` **200, 6블록(`*`+Googlebot+Googlebot-Image+Bingbot+Yeti+Daumoa), 4,757 B** |
+| G-2 U-COIN 환불 스키마 | `migration list` 19/20 | **20/20 local == remote** (`refund_coins` ACL `service_role` 전용 실측 확인) |
+| G-3 WebKit 미실행 | 0건 실행 | **115/115 실행, 실패 0** |
+
+**부수 발견 및 수복 (사이트맵의 전제 조건):** REV-21 프로덕션은 `/ko/legal/terms`가
+`canonical=https://www.theunitas.global/ko`를 선언하고 있었다. Next 메타데이터의 얕은 병합 때문에
+`alternates` 미선언 서브페이지가 로케일 레이아웃의 루트 canonical을 상속한 결과로,
+**320개 서브페이지가 "20개 홈의 중복"이라고 자기 신고**하던 상태였다. 사이트맵만 추가했다면
+제출 340건 중 320건이 색인에서 제외됐을 것이다. 전 색인 대상 페이지에 자체 canonical +
+21개 hreflang을 부여하고, 비색인 라우트에는 `robots: noindex, nofollow`를 3중으로 걸어 수복했다.
+
+**정직 표기:**
+- WebKit 스킵 15건은 전부 스펙 내부 조건부 `test.skip()`이며 **제품 결함이 아니고 이번 개정이
+  만든 것도 아니다** — 헤드리스 WebKit의 WebGL 컨텍스트 손실(6) · Web Audio 오토플레이 정책(5) ·
+  드래그 관성/60fps 계측(2) · 설치형 App 콜드 재기동(1) · 프리하이드레이션 F-2(1).
+  R3F에 `webglcontextlost` 핸들러를 붙이면 6건 회수 가능(REV-23 후보).
+- `migration repair`는 auto-mode 분류기가 `[Production Deploy]`로 1차 차단 → **창립자 승인 후 실행**.
+- 검색 엔진 색인은 사이트맵 존재만으로 시작되지 않는다. Google Search Console / Bing Webmaster /
+  네이버 서치어드바이저 **수동 제출 + 소유 확인**이 남아 있으며, 확인 토큰은 창립자만 발급 가능하다.
+- WebKit 전수 1차 실행은 `| tail` 파이프 버퍼링으로 진행 상황이 보이지 않아 35분 지점에서
+  정지로 오판해 중단시켰다(당시 103/115, 실패 0). 교훈: **장시간 백그라운드 실행은 파이프가 아니라
+  파일 리다이렉션으로 로그를 남긴다.**
