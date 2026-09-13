@@ -328,7 +328,7 @@
     "title": "Protokoły korporacyjne",
     "subtitle": "Suwerenna infrastruktura w trakcie aktywnych badań i rozwoju.",
     "rdNotice": "Protokół B2B wyłącznie dla przedsiębiorstw, w trakcie aktywnych prac B+R (subskrypcja Enterprise SaaS).",
-    "patentBadge": "Zgłoszenie patentowe USPTO w toku #64/023,911",
+    "patentBadge": "Zgłoszenie patentowe w toku",
     "viewSpec": "Zobacz specyfikację techniczną",
     "hideSpec": "Ukryj specyfikację techniczną",
     "earlyAccess": "Wczesny dostęp / zapytanie korporacyjne",
@@ -342,7 +342,7 @@
     "inquiryThanksBody": "Dziękujemy -- nasz zespół ds. korporacyjnych wkrótce się z Tobą skontaktuje.",
     "close": "Zamknij",
     "manifesto": "Poziom Protokołów Korporacyjnych przekłada suwerenną doktrynę THE UNITAS GLOBAL OÜ na infrastrukturę korporacyjną. Trzy protokoły odpowiadają każdy za jeden filar suwerenności — tożsamość (U-Signature), sekrety (U-Key), wartość (U-Pay) — i działają jako jeden organizm nad 11 Rdzeniami Kognitywnymi oraz autonomicznym silnikiem decyzyjnym U-AI. Celem nie jest kolejny SaaS, lecz zdecentralizowana infrastruktura zastępująca banki, urzędy certyfikacji i sieci płatnicze, działająca bezkapitałowo, prowadzona przez jedną osobę, w pełni zautomatyzowana.",
-    "patentAnchorNote": "Wszystkie informacje o własności intelektualnej i zgłoszeniach patentowych w toku (USPTO #64/023,911) dotyczą wyłącznie tego poziomu Enterprise R&D.",
+    "patentAnchorNote": "Wszystkie informacje o własności intelektualnej i zgłoszeniach patentowych w toku dotyczą wyłącznie tego poziomu Enterprise R&D.",
     "doctrineLabel": "Doktryna projektowa"
   },
   "ErrorBoundary": {
@@ -836,102 +836,537 @@
   "SitePages": {
     "common": {
       "back": "Powrót do UNITAS",
-      "disclaimer": "Ta strona ma charakter wyłącznie informacyjny. Nie stanowi porady prawnej i nie tworzy żadnej umowy ani gwarancji. Tam, gdzie opisuje plany lub sprawy w toku, mogą one ulec zmianie. THE UNITAS GLOBAL OÜ, Estonia."
+      "disclaimer": "Ta strona służy wyłącznie celom informacyjnym. Nie stanowi porady prawnej i nie tworzy żadnej umowy ani gwarancji. Opisane tu plany lub sprawy w toku mogą ulec zmianie. THE UNITAS GLOBAL OÜ, Estonia.",
+      "corporateNotice": "UNITAS jest prowadzony przez THE UNITAS GLOBAL OÜ, spółkę zarejestrowaną w Estonii. Opisy produktu na tej stronie odzwierciedlają aktualny projekt platformy i mogą się zmieniać.",
+      "updatedLabel": "Ostatnia aktualizacja",
+      "contentsLabel": "Na tej stronie",
+      "thirdPartyLabel": "Źródła zewnętrzne, z których korzysta ta witryna",
+      "storageLabel": "Klucze, które ta witryna przechowuje w Twojej przeglądarce",
+      "fetchedIntro": "Gdy korzystasz z funkcji na żywo, nasze serwery lub Twoja przeglądarka wywołują poniższe publiczne usługi. Każda jest wskazana pod nazwą swojego rzeczywistego operatora; wysyłamy wyłącznie zapytanie potrzebne do działania funkcji, nigdy tożsamość Twojego konta.",
+      "browserIntro": "Poniższe usługi są wywoływane bezpośrednio z Twojej przeglądarki, dlatego ich operatorzy widzą Twój adres IP jako część żądania. Żadna z nich nie otrzymuje tożsamości Twojego konta UNITAS.",
+      "storageIntro": "Te wartości istnieją wyłącznie w pamięci lokalnej Twojej przeglądarki. Żadna z nich nie jest wysyłana na serwery UNITAS, a wyczyszczenie danych witryny usuwa je wszystkie.",
+      "sideServer": "wywoływane z naszych serwerów",
+      "sideBrowser": "wywoływane z Twojej przeglądarki",
+      "loginWall": "może wymagać zalogowania",
+      "cookiesLabel": "Pliki cookie ustawiane przez tę witrynę",
+      "cookiesIntro": "W odróżnieniu od kluczy powyżej pliki cookie są wysyłane do UNITAS przy każdym żądaniu. Wszystkie, których używamy, wymieniono tutaj i żaden nie służy reklamie ani śledzeniu między witrynami. Plików oznaczonych jako HttpOnly nie mogą odczytać skrypty strony."
     },
     "about": {
       "title": "O UNITAS",
-      "lede": "THE UNITAS GLOBAL OÜ buduje zdecentralizowany, suwerenny ekosystem SaaS — zaprojektowany przez jednego założyciela i prowadzony w pełnej automatyzacji AI.",
-      "body": [
-        "UNITAS to estońska spółka realizująca jedną ideę: infrastrukturę kognitywną służącą ludziom na całym świecie można zaprojektować, wdrożyć i prowadzić bez kapitałochłonnych zespołów czy zależności od finansowania venture. Każdy moduł ekosystemu jest budowany zgodnie z tym standardem.",
-        "Platforma jest zorganizowana wokół struktur kognitywnych — jedenastoczęściowego ekosystemu na żywo, pięciu usług konsumenckich i trzech protokołów korporacyjnych — które współdzielą jedną warstwę tożsamości, jeden rejestr i jeden język projektowy."
+      "lede": "THE UNITAS GLOBAL OÜ buduje zdecentralizowany, suwerenny ekosystem SaaS — zaprojektowany przez jednego założyciela i prowadzony w pełni przez automatyzację AI.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Jedna idea",
+          "paragraphs": [
+            "UNITAS to estońska spółka realizująca jedną ideę: infrastrukturę poznawczą służącą ludziom na całym świecie można zaprojektować, wdrożyć i prowadzić bez kapitałochłonnych zespołów i zależności od funduszy venture.",
+            "Każdy moduł ekosystemu powstaje według tego standardu — na tyle mały, by jeden założyciel odpowiadał za niego od początku do końca, i na tyle zautomatyzowany, by działał całą dobę."
+          ]
+        },
+        {
+          "heading": "Suwerenny ekosystem SaaS",
+          "paragraphs": [
+            "Platforma jest zorganizowana wokół struktur poznawczych — jedenastoczęściowego ekosystemu na żywo, pięciu usług konsumenckich i trzech protokołów dla przedsiębiorstw — które dzielą jedną warstwę tożsamości, jeden rejestr i jeden język projektowy.",
+            "Suwerenny oznacza, że ekosystem nie zależy od żadnego pojedynczego dostawcy w zakresie swojej tożsamości, swojego rejestru ani renderowania. Każda usługa zewnętrzna, z której korzysta, jest publiczna, nazwana i wymienna."
+          ]
+        },
+        {
+          "heading": "Autonomiczne fabryki do wynajęcia",
+          "paragraphs": [
+            "Członkowie subskrybują moduły tak, jak firma wynajmuje warsztat: każdy moduł to autonomiczna fabryka agentów, która przejmuje pracę, do której tradycyjna firma zatrudniałaby ludzi.",
+            "Cyfrowi nomadzi i małe firmy mogą uruchamiać te fabryki z dowolnego urządzenia, w każdym z dwudziestu języków, bez zatrudniania kogokolwiek i bez utrzymywania własnej infrastruktury."
+          ]
+        },
+        {
+          "heading": "Rozliczane obliczenia, ponownie wykorzystywane wyniki",
+          "paragraphs": [
+            "Praca agentów jest rozliczana za każde zadanie. Wynik raz zweryfikowany trafia do pamięci podręcznej i jest dostarczany ponownie bez kosztu silnika, dzięki czemu platforma staje się tym wydajniejsza, im więcej jest używana.",
+            "Dostęp do modułów płatnych reguluje U-COIN, przedpłacony kredyt dostępu na Twoim koncie. Nie jest on papierem wartościowym ani środkiem przechowywania wartości."
+          ]
+        },
+        {
+          "heading": "Prowadzony przez założyciela, obsługiwany przez AI",
+          "paragraphs": [
+            "UNITAS został zaprojektowany przez swojego założyciela i jest przez niego prowadzony. Rozwój, weryfikacja i wdrażanie przebiegają przez zautomatyzowany potok agentów z bramką integralności działającą w trybie fail-closed: nic nie zostaje wdrożone, dopóki nie przejdzie każdej kontroli.",
+            "Dzięki temu ekosystem pozostaje niezależny, oszczędny i odporny — a za każdą decyzją stoi jedna odpowiedzialna osoba."
+          ]
+        },
+        {
+          "heading": "Estońska spółka",
+          "paragraphs": [
+            "THE UNITAS GLOBAL OÜ jest zarejestrowana w Estonii i dostosowuje swoje praktyki do zasad ochrony danych i ochrony konsumentów obowiązujących w Unii Europejskiej. Prawem właściwym dla usługi jest prawo Estonii."
+          ]
+        }
       ]
     },
     "careers": {
       "title": "Kariera",
-      "lede": "UNITAS działa jako operacja prowadzona przez założyciela, zautomatyzowana przez AI. Obecnie nie ma otwartych stanowisk etatowych.",
-      "body": [
-        "Ten model jest celowy: odchudzona, suwerenna struktura, w której automatyzacja przejmuje obciążenie, jakim w konwencjonalnej firmie obsadzałoby się personel. Dzięki temu ekosystem pozostaje niezależny i odporny.",
-        "Jeśli ten model się zmieni, oferty pracy zostaną opublikowane najpierw tutaj. Zapytania dotyczące partnerstwa i współpracy można kierować przez stronę Kontakt."
+      "lede": "UNITAS działa jako operacja prowadzona przez założyciela i zautomatyzowana przez AI. Obecnie nie ma otwartych etatowych stanowisk.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Dlaczego nie ma strony rekrutacyjnej",
+          "paragraphs": [
+            "Ten model jest zamierzony: oszczędna, suwerenna struktura, w której automatyzacja przejmuje pracę, do której tradycyjna firma zatrudniałaby ludzi. Dzięki temu ekosystem pozostaje niezależny i odporny.",
+            "Jeśli ten model się zmieni, oferty pracy pojawią się najpierw tutaj."
+          ]
+        },
+        {
+          "heading": "Jak tu wygląda praca",
+          "paragraphs": [
+            "Każda zmiana w UNITAS przechodzi przez potok agentów: brief projektowy, implementację, kontrolę typów, zestaw testów, kompilację produkcyjną i przebieg end-to-end. Zmiana, która nie przejdzie któregokolwiek etapu, nie zostaje wdrożona.",
+            "Ten sam potok dokumentuje sam siebie, dzięki czemu historia platformy jest czytelna dla kolejnego agenta — lub kolejnej osoby."
+          ]
+        },
+        {
+          "heading": "Zdalnie z założenia",
+          "paragraphs": [
+            "UNITAS nie ma biura. Jest budowany i prowadzony stamtąd, gdzie akurat przebywa założyciel, na skromnym sprzęcie, w różnych strefach czasowych.",
+            "Każda przyszła współpraca będzie miała ten sam kształt: asynchroniczna, pisemna, przede wszystkim zdalna."
+          ]
+        },
+        {
+          "heading": "Jak można pomóc już dziś",
+          "paragraphs": [
+            "Badacze bezpieczeństwa mogą zgłaszać podatności przez stronę Bezpieczeństwo. Autorzy i tłumacze, którzy zauważą błąd w którymkolwiek z dwudziestu języków, mogą przesłać poprawki przez stronę Kontakt.",
+            "Zapytania o partnerstwo i integrację również są mile widziane przez stronę Kontakt; prosimy opisać, co tworzysz i komu to służy."
+          ]
+        },
+        {
+          "heading": "Czego szukamy",
+          "paragraphs": [
+            "Gdyby otworzyły się stanowiska, pierwszeństwo będą miały osoby, które potrafią wziąć odpowiedzialność za problem od początku do końca, jasno piszą i dobrze czują się, pracując u boku zautomatyzowanych agentów, a nie zarządzając zespołami."
+          ]
+        }
       ]
     },
     "press": {
       "title": "Prasa",
-      "lede": "Materiały medialne i informacje o firmie dla dziennikarzy i analityków.",
-      "body": [
-        "W sprawie wywiadów, briefingów lub weryfikacji faktów skontaktuj się z nami przez stronę Kontakt, podając nazwę swojego medium i termin.",
-        "Prosimy o przypisywanie firmy jako „THE UNITAS GLOBAL OÜ”, a produktu jako „UNITAS”. Logotypy i wytyczne marki dostępne są na życzenie."
+      "lede": "Materiały dla mediów i informacje o firmie dla dziennikarzy i analityków.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Fakty o firmie",
+          "paragraphs": [
+            "Firma: THE UNITAS GLOBAL OÜ, zarejestrowana w Estonii. Produkt: UNITAS, suwerenny ekosystem SaaS dla autonomicznych fabryk agentów. Prowadzony przez założyciela; obsługiwany przez automatyzację AI; dostępny w dwudziestu językach.",
+            "Platforma znajduje się obecnie w fazie przedpremierowej za publiczną bramką „Coming Soon”."
+          ]
+        },
+        {
+          "heading": "Jak o nas pisać",
+          "paragraphs": [
+            "Prosimy podawać firmę jako „THE UNITAS GLOBAL OÜ”, a produkt jako „UNITAS”. Nazwy modułów można cytować w brzmieniu, w jakim występują w interfejsie.",
+            "Prosimy nie opisywać żadnej funkcji UNITAS jako opatentowanej; tam, gdzie ma to znaczenie, właściwym określeniem jest „zgłoszenie patentowe w toku”."
+          ]
+        },
+        {
+          "heading": "Użycie marki",
+          "paragraphs": [
+            "Logotyp i znak UNITAS mogą być wykorzystywane w materiałach redakcyjnych bez modyfikacji. Nie należy łączyć ich z innymi znakami, sugerować poparcia ani umieszczać na produktach.",
+            "Pliki z logo i wytyczne dotyczące marki są dostępne na życzenie."
+          ]
+        },
+        {
+          "heading": "Wywiady i weryfikacja faktów",
+          "paragraphs": [
+            "W sprawie wywiadów, briefingów tła lub weryfikacji faktów prosimy o kontakt przez stronę Kontakt z podaniem redakcji i terminu. Zapytania z podanym terminem są obsługiwane w pierwszej kolejności."
+          ]
+        },
+        {
+          "heading": "Dane zewnętrzne w publikacjach",
+          "paragraphs": [
+            "Dane na żywo wyświetlane w UNITAS — pogoda, rankingi, nagłówki wiadomości, kursy walut — pochodzą z nazwanych źródeł publicznych i powinny być przypisywane tym źródłom, a nie UNITAS."
+          ]
+        }
       ]
     },
     "patent-notice": {
       "title": "Informacja patentowa",
       "lede": "Niektóre metody i systemy UNITAS są przedmiotem zgłoszenia patentowego w toku.",
-      "body": [
-        "Złożono tymczasowe zgłoszenie patentowe w Stanach Zjednoczonych (nr 64/023,911) obejmujące aspekty protokołów kognitywnych i podpisowych UNITAS. Zgłoszenie jest w toku; żaden patent nie został jeszcze przyznany i nic w tym miejscu nie powinno być odczytywane jako roszczenie przyznanych praw.",
-        "Status zgłoszenia w toku nie nadaje żadnej egzekwowalnej wyłączności, dopóki i o ile patent nie zostanie wydany. Nazwy produktów i nazwy systemu Sovereign Codex są używane jako identyfikatory pochodzenia."
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Status zgłoszenia",
+          "paragraphs": [
+            "W Stanach Zjednoczonych złożono tymczasowe zgłoszenie patentowe obejmujące aspekty protokołów poznawczych i protokołów podpisu UNITAS. Zgłoszenie jest w toku; żaden patent nie został przyznany i nic na tej stronie nie powinno być odczytywane jako roszczenie do przyznanych praw.",
+            "Status zgłoszenia w toku nie daje żadnej egzekwowalnej wyłączności, dopóki patent nie zostanie udzielony."
+          ]
+        },
+        {
+          "heading": "Co opisuje zgłoszenie",
+          "paragraphs": [
+            "W ogólnym ujęciu zgłoszenie opisuje, jak niezależne moduły dzielą jedną warstwę tożsamości i jeden rejestr tylko do dopisywania, jak praca agentów jest rozliczana za każde zadanie i ponownie wykorzystywana ze zweryfikowanej pamięci podręcznej oraz jak protokół podpisu wiąże pracę członka z jego kontem bez ujawniania jego tożsamości.",
+            "Powyższy opis jest streszczeniem dla czytelników, a nie określeniem zakresu ochrony."
+          ]
+        },
+        {
+          "heading": "Nazwy i znaki",
+          "paragraphs": [
+            "Nazwy produktów i nazwy systemów UNITAS są używane jako oznaczenia pochodzenia. Nie są zgłaszane jako zarejestrowane znaki towarowe, chyba że wskazano to na tej stronie."
+          ]
+        },
+        {
+          "heading": "Zgłoszenie zastrzeżeń",
+          "paragraphs": [
+            "Jeśli uważasz, że UNITAS narusza przysługujące Ci prawa lub że osoba trzecia w nieprawdziwy sposób przedstawia technologię UNITAS, skontaktuj się z nami przez stronę Kontakt, podając szczegóły. Zgłoszenia rozpatruje założyciel."
+          ]
+        },
+        {
+          "heading": "Zmiany tej informacji",
+          "paragraphs": [
+            "Ta informacja zostanie zaktualizowana, jeśli zgłoszenie zostanie opublikowane, uwzględnione, porzucone lub rozszerzone na inne jurysdykcje."
+          ]
+        }
       ]
     },
     "compliance": {
-      "title": "Zgodność",
-      "lede": "Jak UNITAS podchodzi do swoich obowiązków regulacyjnych w jurysdykcjach, które obsługuje.",
-      "body": [
-        "UNITAS jest prowadzony przez estońską spółkę i dostosowuje swoje praktyki do zasad ochrony danych i ochrony konsumentów Unii Europejskiej. Przetwarzanie płatności jest realizowane przez zewnętrznych dostawców w ramach ich własnych regulowanych struktur.",
-        "Nie deklarujemy certyfikacji zgodnej z żadnym konkretnym standardem. Pytania dotyczące zgodności, w tym wnioski osób, których dane dotyczą, można zgłaszać przez stronę Kontakt."
+      "title": "Zgodność z przepisami",
+      "lede": "Jak UNITAS podchodzi do swoich obowiązków regulacyjnych w jurysdykcjach, w których świadczy usługi.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Gdzie podlegamy regulacjom",
+          "paragraphs": [
+            "UNITAS jest prowadzony przez estońską spółkę i dostosowuje swoje praktyki do zasad ochrony danych i ochrony konsumentów obowiązujących w Unii Europejskiej, w tym do ogólnego rozporządzenia o ochronie danych (RODO).",
+            "Nie deklarujemy certyfikacji według żadnej konkretnej normy."
+          ]
+        },
+        {
+          "heading": "Minimalizacja danych",
+          "paragraphs": [
+            "Gromadzimy minimum niezbędne do prowadzenia konta i przechowujemy je tylko tak długo, jak konto istnieje. Sesje gościa nigdy nie opuszczają przeglądarki.",
+            "Funkcje na żywo opierają się na identyfikatorach publicznych — miejscu, temacie, podmiocie publicznym — nigdy na tym, kto pyta."
+          ]
+        },
+        {
+          "heading": "Płatności i kredyty",
+          "paragraphs": [
+            "Przetwarzanie płatności wykonują zewnętrzni dostawcy w ramach własnych regulowanych systemów; dane kart i rachunków bankowych nigdy nie trafiają do UNITAS.",
+            "U-COIN to przedpłacony kredyt dostępu do modułów wewnątrz UNITAS. Nie jest papierem wartościowym, środkiem przechowywania wartości ani instrumentem płatniczym i nie może być przenoszony między kontami."
+          ]
+        },
+        {
+          "heading": "Ścieżka audytu",
+          "paragraphs": [
+            "Każda zmiana salda jest zapisywana w rejestrze tylko do dopisywania przez audytowaną funkcję po stronie serwera. Nic w przeglądarce nie może bezpośrednio zmienić salda."
+          ]
+        },
+        {
+          "heading": "Finanse i rozliczenia podatkowe",
+          "paragraphs": [
+            "Księgowość spółki, bankowość i estońskie rozliczenia podatkowe są prowadzone przez regulowanych europejskich dostawców usług pod nadzorem założyciela."
+          ]
+        },
+        {
+          "heading": "Wnioski i skargi",
+          "paragraphs": [
+            "Pytania dotyczące zgodności z przepisami, w tym wnioski osób, których dane dotyczą, można kierować przez stronę Kontakt. Mieszkańcy Unii Europejskiej mogą również złożyć skargę do swojego krajowego organu nadzorczego."
+          ]
+        }
       ]
     },
     "security": {
       "title": "Bezpieczeństwo",
-      "lede": "Mechanizmy chroniące konta, salda i dane tożsamości.",
-      "body": [
-        "Tożsamość konta jest egzekwowana w bazie danych, nie w przeglądarce: zweryfikowany numer telefonu jest unikalny wśród aktywnych kont, zmiany salda przechodzą wyłącznie przez audytowane funkcje po stronie serwera, a rejestr transakcji jest wyłącznie do dopisywania.",
-        "Sekrety, takie jak klucze płatnicze, nigdy nie trafiają do kodu klienckiego. Aby zgłosić lukę bezpieczeństwa, skorzystaj ze strony Kontakt, podając wystarczające szczegóły do odtworzenia problemu, i prosimy o nieujawnianie jej publicznie, zanim nie odpowiemy."
+      "lede": "Mechanizmy kontroli chroniące konta, salda i dane tożsamości.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Tożsamość egzekwowana po stronie serwera",
+          "paragraphs": [
+            "Tożsamość konta jest egzekwowana w bazie danych, a nie w przeglądarce: zweryfikowany numer telefonu jest unikalny wśród aktywnych kont, zmiany salda przechodzą wyłącznie przez audytowane funkcje po stronie serwera, a rejestr transakcji jest rejestrem tylko do dopisywania."
+          ]
+        },
+        {
+          "heading": "Zero trust jako zasada domyślna",
+          "paragraphs": [
+            "Każde żądanie jest weryfikowane samodzielnie. Sekrety, takie jak klucze płatnicze, nigdy nie trafiają do kodu klienta, a dostęp założyciela do powierzchni przedpremierowych jest weryfikowany po stronie serwera przy każdej wizycie."
+          ]
+        },
+        {
+          "heading": "Kierunek projektowy: odporność kwantowa",
+          "paragraphs": [
+            "Warstwy podpisu i sesji są zaprojektowane tak, aby ich algorytmy można było wymienić bez zmiany rejestru — to warunek wstępny przyjęcia kryptografii postkwantowej, gdy ustabilizują się standardy. Jest to kierunek projektowy, a nie certyfikacja."
+          ]
+        },
+        {
+          "heading": "Automatyczna kwarantanna",
+          "paragraphs": [
+            "Moduł, który nie przejdzie kontroli integralności, jest automatycznie izolowany: przechodzi w zapieczętowany stan tylko do odczytu, zamiast serwować częściowe dane. Reszta ekosystemu działa dalej."
+          ]
+        },
+        {
+          "heading": "Integralność klienta",
+          "paragraphs": [
+            "Wdrażane zasoby noszą odcisk własności, a interfejs jest zbudowany tak, aby zachować sesję w przeglądarkach wbudowanych w aplikacje i po przeładowaniu strony, dzięki czemu uszkodzone osadzenie nigdy nie wyloguje Cię po cichu."
+          ]
+        },
+        {
+          "heading": "Zgłaszanie podatności",
+          "paragraphs": [
+            "Aby zgłosić podatność, skorzystaj ze strony Kontakt i podaj wystarczająco dużo szczegółów, by odtworzyć problem; prosimy też nie ujawniać go publicznie, zanim odpowiemy. Zgłoszenia dotyczące bezpieczeństwa mają pierwszeństwo przed wszystkimi innymi zapytaniami."
+          ]
+        }
       ]
     },
     "privacy": {
       "title": "Polityka prywatności",
-      "lede": "Co UNITAS gromadzi, dlaczego i jakie masz wybory.",
-      "body": [
-        "UNITAS gromadzi minimum potrzebne do prowadzenia konta: identyfikator (e-mail lub telefon) do uwierzytelniania, saldo monet wraz z jego rejestrem oraz podstawowe preferencje językowe i urządzenia przechowywane na Twoim urządzeniu. Sesje gościa pozostają lokalne dla Twojej przeglądarki.",
-        "Dane są przetwarzane w celu obsługi usługi, a nie budowania profili reklamowych. Możesz zażądać dostępu do danych swojego konta lub ich usunięcia przez stronę Kontakt lub ustawienia konta w aplikacji."
+      "lede": "Co UNITAS gromadzi, dlaczego i jakie masz możliwości wyboru.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Co gromadzimy",
+          "paragraphs": [
+            "UNITAS gromadzi minimum niezbędne do prowadzenia konta: identyfikator (adres e-mail lub numer telefonu) do uwierzytelniania, saldo monet i jego rejestr oraz podstawowe preferencje językowe i ustawienia urządzenia przechowywane na Twoim urządzeniu.",
+            "Sesje gościa pozostają lokalnie w Twojej przeglądarce i nigdy nie są przesyłane."
+          ]
+        },
+        {
+          "heading": "Dlaczego je przetwarzamy",
+          "paragraphs": [
+            "Dane są przetwarzane w celu świadczenia usługi — aby Cię zalogować, utrzymać prawidłowe saldo i zapamiętać Twój język. Nie służą do budowania profili reklamowych i nie są sprzedawane."
+          ]
+        },
+        {
+          "heading": "Jak długo je przechowujemy",
+          "paragraphs": [
+            "Dane konta są przechowywane tak długo, jak istnieje konto. Rejestr jest zachowywany tak długo, jak wymagają tego przepisy o rachunkowości. Ustawienia urządzenia istnieją wyłącznie na Twoim urządzeniu."
+          ]
+        },
+        {
+          "heading": "Funkcje na żywo i źródła publiczne",
+          "paragraphs": [
+            "Pogoda, rankingi, wiadomości i strumień wyszukiwania są tworzone ze źródeł publicznych wymienionych poniżej. Żądania do tych źródeł zawierają temat, który przeglądasz, nigdy tożsamość Twojego konta. Niektóre są wywoływane z naszych serwerów, a niektóre bezpośrednio z Twojej przeglądarki; poniższe listy wskazują, które."
+          ]
+        },
+        {
+          "heading": "Lokalizacja",
+          "paragraphs": [
+            "Pogoda i funkcje „w pobliżu” korzystają z wybranego przez Ciebie miejsca lub — tylko za Twoją zgodą — z lokalizacji Twojego urządzenia. Jeśli żadne z nich nie jest dostępne, przybliżona lokalizacja jest wyznaczana na podstawie Twojego adresu IP przez publiczną usługę geolokalizacji wskazaną poniżej. Twoje współrzędne nigdy nie są przechowywane na serwerach UNITAS."
+          ]
+        },
+        {
+          "heading": "Twoje prawa",
+          "paragraphs": [
+            "Możesz zażądać dostępu do danych swojego konta, ich sprostowania lub usunięcia przez stronę Kontakt lub ustawienia konta w aplikacji. Mieszkańcy Unii Europejskiej mogą również złożyć skargę do swojego organu nadzorczego."
+          ]
+        },
+        {
+          "heading": "Pliki cookie i pamięć lokalna",
+          "paragraphs": [
+            "Witryna przechowuje w Twojej przeglądarce niewielki zestaw wartości opisany w Polityce plików cookie. Nie są ustawiane żadne zewnętrzne pliki cookie reklamowe ani śledzące między witrynami."
+          ]
+        }
       ]
     },
     "cookies": {
-      "title": "Polityka cookies",
-      "lede": "UNITAS wykorzystuje pamięć lokalną i pliki cookie oszczędnie i wyłącznie funkcjonalnie.",
-      "body": [
-        "Strona przechowuje niewielki zestaw wartości — Twój język, preferencję dźwięku, tokeny sesji i uwierzytelniania oraz flagę dostępu przed premierą. Są one niezbędne do prawidłowego działania interfejsu.",
-        "Nie są ustawiane żadne pliki cookie reklam zewnętrznych ani śledzenia międzywitrynowego. Wyczyszczenie pamięci przeglądarki resetuje te preferencje przy następnej wizycie."
+      "title": "Polityka plików cookie",
+      "lede": "UNITAS korzysta z pamięci lokalnej i plików cookie oszczędnie i wyłącznie w celach funkcjonalnych.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Ściśle niezbędne",
+          "paragraphs": [
+            "Tokeny sesji i uwierzytelniania, flaga dostępu przedpremierowego oraz zabezpieczenie sesji w aplikacji są wymagane do prawidłowego działania interfejsu. Są ustawiane tylko wtedy, gdy się logujesz lub przechodzisz przez bramkę wejściową."
+          ]
+        },
+        {
+          "heading": "Preferencje",
+          "paragraphs": [
+            "Twój język, ustawienie dźwięku, ostatnio wybrane miejsce i pozycja otwartego panelu są zapamiętywane, aby po powrocie interfejs wyglądał dokładnie tak, jak go zostawiono."
+          ]
+        },
+        {
+          "heading": "Pamięć podręczna",
+          "paragraphs": [
+            "Wyniki ze źródeł publicznych — odczyt pogody, strona rankingu, strona strumienia wyszukiwania — są przechowywane w pamięci podręcznej Twojej przeglądarki przez ograniczony czas, aby powrót do tematu nie wymagał połączenia z siecią. Zawierają wyłącznie dane publiczne."
+          ]
+        },
+        {
+          "heading": "Bez analityki, bez reklam",
+          "paragraphs": [
+            "Nie są ustawiane żadne zewnętrzne pliki cookie analityczne, reklamowe ani śledzące między witrynami. UNITAS nie uczestniczy w sieciach reklamowych."
+          ]
+        },
+        {
+          "heading": "Jak nimi zarządzać",
+          "paragraphs": [
+            "Wyczyszczenie w przeglądarce danych witryny UNITAS usuwa każdą wartość wymienioną poniżej. Powoduje to wylogowanie i zresetowanie preferencji przy następnej wizycie; nigdy nie wpływa na saldo Twojego konta, które znajduje się na serwerze."
+          ]
+        }
       ]
     },
     "terms": {
-      "title": "Regulamin",
-      "lede": "Podstawowe warunki korzystania z UNITAS w fazie przed premierą.",
-      "body": [
-        "UNITAS jest udostępniany na zasadzie „tak jak jest” podczas aktywnego rozwoju. Dostęp do modułów płatnych jest regulowany saldem monet na Twoim koncie; monety stanowią przedpłacony kredyt dostępu — nie są papierem wartościowym ani instrumentem przechowywania wartości — i są nieprzenoszalne.",
-        "Funkcje mogą ulec zmianie lub zostać zawieszone w miarę rozwoju platformy. Dalsze korzystanie po wprowadzeniu zmiany oznacza akceptację zaktualizowanych warunków. Prawem właściwym jest prawo Estonii."
+      "title": "Regulamin usługi",
+      "lede": "Podstawowe warunki korzystania z UNITAS w fazie przedpremierowej.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Usługa",
+          "paragraphs": [
+            "UNITAS jest udostępniany w stanie „takim, w jakim jest” („as is”) w okresie aktywnego rozwoju. Funkcje mogą się zmieniać lub zostać zawieszone w miarę rozwoju platformy. Dalsze korzystanie po zmianie oznacza akceptację zaktualizowanych warunków."
+          ]
+        },
+        {
+          "heading": "Konta",
+          "paragraphs": [
+            "Z UNITAS możesz korzystać jako gość lub z kontem zweryfikowanym adresem e-mail lub numerem telefonu. Jeden zweryfikowany numer telefonu może być powiązany z jednym aktywnym kontem. Odpowiadasz za zachowanie swoich danych logowania w tajemnicy."
+          ]
+        },
+        {
+          "heading": "Kredyty dostępu U-COIN",
+          "paragraphs": [
+            "Dostęp do modułów płatnych reguluje saldo monet na Twoim koncie. U-COIN to przedpłacony kredyt dostępu — nie papier wartościowy, instrument przechowywania wartości ani waluta — i nie podlega przeniesieniu.",
+            "Kredyty są zużywane w chwili dostarczenia funkcji płatnej. Jeśli funkcja płatna nie wygeneruje wyniku, kredyty zużyte na to żądanie są automatycznie zwracane na Twoje saldo."
+          ]
+        },
+        {
+          "heading": "Zwroty",
+          "paragraphs": [
+            "Niewykorzystane kredyty podlegają zwrotowi na pierwotną metodę płatności w terminie wymaganym przez prawo konsumenckie, które ma do Ciebie zastosowanie. Kredyty już zużyte na dostarczone funkcje nie podlegają zwrotowi."
+          ]
+        },
+        {
+          "heading": "Dozwolone użycie",
+          "paragraphs": [
+            "Nie wolno podejmować prób zmiany salda, obchodzenia bramki dostępu, sondowania lub przeciążania usługi, masowego pobierania jej treści ani używania jej do wyrządzania szkody innym. Konta uczestniczące w takich działaniach mogą zostać zawieszone."
+          ]
+        },
+        {
+          "heading": "Treści osób trzecich",
+          "paragraphs": [
+            "Funkcje na żywo wyświetlają treści ze źródeł publicznych wskazanych w interfejsie. UNITAS nie kontroluje tych treści i nie gwarantuje ich poprawności. Linki otwierające inne usługi podlegają warunkom tych usług."
+          ]
+        },
+        {
+          "heading": "Ograniczenie odpowiedzialności",
+          "paragraphs": [
+            "W zakresie dozwolonym przez prawo THE UNITAS GLOBAL OÜ nie ponosi odpowiedzialności za straty pośrednie ani następcze wynikające z korzystania z usługi, a jej łączna odpowiedzialność jest ograniczona do kwoty zapłaconej przez Ciebie za kredyty w ciągu dwunastu miesięcy poprzedzających roszczenie. Żadne z postanowień nie ogranicza odpowiedzialności, której nie można ograniczyć na mocy prawa."
+          ]
+        },
+        {
+          "heading": "Prawo właściwe",
+          "paragraphs": [
+            "Niniejsze warunki podlegają prawu Estonii. Konsumenci zachowują wszelką bezwzględnie obowiązującą ochronę wynikającą z prawa kraju swojego zamieszkania."
+          ]
+        }
       ]
     },
     "help-center": {
       "title": "Centrum pomocy",
-      "lede": "Odpowiedzi na najczęściej pojawiające się pytania.",
-      "body": [
-        "Dźwięk: dźwięk otoczenia jest domyślnie włączony na każdym urządzeniu i zachowuje się po odświeżeniu strony; przełącz go za pomocą ikony głośnika w górnej nawigacji. Język: zmień w dowolnym momencie z menu flagi — Twój wybór zostanie zapamiętany.",
-        "Dostęp: moduł otwiera się, gdy na Twoim koncie dostępne jest wymagane saldo monet. Jeśli coś wygląda na zablokowane, odśwież stronę; stan konta i salda zostaną przywrócone automatycznie."
+      "lede": "Odpowiedzi na najczęściej zadawane pytania.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Pierwsze kroki",
+          "paragraphs": [
+            "Naciśnij Start na ekranie wejściowym, aby przejść do strony głównej. Przy pierwszej wizycie odtwarzane jest krótkie wprowadzenie; możesz je pominąć, a po przeładowaniu strony nie odtworzy się ponownie."
+          ]
+        },
+        {
+          "heading": "Wyszukiwanie",
+          "paragraphs": [
+            "Wpisz zapytanie w pasku wyszukiwania, aby zobaczyć podpowiedzi słów kluczowych — najpierw funkcje produktu, potem podmioty z całego świata, a na końcu strony w Twoim języku. Naciśnij Enter, aby otworzyć pełny wynik: strumień, który wydłuża się w miarę przewijania, a każda karta wskazuje swoje źródło.",
+            "Co dziesięć stron strumień zatrzymuje się i pyta, czy chcesz kontynuować; limit dla jednego pytania wynosi sześćdziesiąt stron."
+          ]
+        },
+        {
+          "heading": "Skróty i rankingi",
+          "paragraphs": [
+            "Pod paskiem wyszukiwania pasek skrótów i paski rankingów otwierają widoki szczegółowe bez opuszczania strony. Pod większością z nich znajdziesz „Odkryj głębiej” — zestaw soczewek, które pobierają dane na żywo o danym temacie ze źródeł publicznych."
+          ]
+        },
+        {
+          "heading": "Język",
+          "paragraphs": [
+            "Język możesz zmienić w dowolnym momencie z menu w górnej nawigacji. Strona pozostaje w tym samym miejscu, a Twój wybór jest zapamiętywany na tym urządzeniu oraz, po zalogowaniu, na Twoim koncie."
+          ]
+        },
+        {
+          "heading": "Dźwięk",
+          "paragraphs": [
+            "Dźwięk otoczenia jest domyślnie włączony i pozostaje włączony po odświeżeniu strony. Przełącz go ikoną głośnika w górnej nawigacji."
+          ]
+        },
+        {
+          "heading": "Instalacja aplikacji",
+          "paragraphs": [
+            "UNITAS można zainstalować jako aplikację z monitu pobierania w nawigacji. W przeglądarce wbudowanej w inną aplikację monit instalacji może się nie pojawić; w takim przypadku otwórz stronę w swojej głównej przeglądarce."
+          ]
+        },
+        {
+          "heading": "Rozwiązywanie problemów",
+          "paragraphs": [
+            "Jeśli coś wygląda na zablokowane, przeładuj stronę; Twoje konto, saldo i otwarte panele zostaną przywrócone automatycznie. Jeśli karta na żywo nie pokazuje danych, stojące za nią źródło publiczne może być chwilowo niedostępne — karta podaje jego nazwę, więc możesz to sprawdzić."
+          ]
+        }
       ]
     },
     "contact": {
       "title": "Kontakt",
-      "lede": "Jeden kanał łączy bezpośrednio z założycielem.",
-      "body": [
-        "Zapytania ogólne, partnerskie, prasowe, dotyczące bezpieczeństwa i ochrony danych są obsługiwane przez założyciela. Skorzystaj z panelu ustawień konta w aplikacji, aby rozpocząć rozmowę, lub skontaktuj się pod adresem podanym na oficjalnych kanałach THE UNITAS GLOBAL OÜ.",
-        "Nie ma infolinii telefonicznej. Czas odpowiedzi zależy od liczby zgłoszeń; zgłoszenia bezpieczeństwa mają priorytet."
+      "lede": "Jeden kanał prowadzi bezpośrednio do założyciela.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Jak się z nami skontaktować",
+          "paragraphs": [
+            "Zapytania ogólne, partnerskie, prasowe, dotyczące bezpieczeństwa i ochrony danych obsługuje założyciel. Skorzystaj z panelu ustawień konta w aplikacji, aby rozpocząć rozmowę, lub napisz na adres podany w oficjalnych kanałach THE UNITAS GLOBAL OÜ."
+          ]
+        },
+        {
+          "heading": "Czas odpowiedzi",
+          "paragraphs": [
+            "Nie prowadzimy telefonicznej linii wsparcia. Czas odpowiedzi zależy od liczby zgłoszeń; zgłoszenia dotyczące bezpieczeństwa mają pierwszeństwo, następnie wnioski dotyczące ochrony danych, a potem wszystkie pozostałe."
+          ]
+        },
+        {
+          "heading": "Co podać",
+          "paragraphs": [
+            "W pytaniach o konto podaj adres e-mail lub numer telefonu przypisany do konta. W zgłoszeniu błędu podaj stronę, urządzenie i oczekiwany rezultat. W zgłoszeniu dotyczącym bezpieczeństwa podaj kroki pozwalające odtworzyć problem."
+          ]
+        },
+        {
+          "heading": "Informacje o firmie",
+          "paragraphs": [
+            "THE UNITAS GLOBAL OÜ jest spółką zarejestrowaną w Estonii. Dane rejestrowe są dostępne w estońskim rejestrze przedsiębiorców; ta witryna nie publikuje adresu siedziby."
+          ]
+        }
       ]
     },
     "system-status": {
       "title": "Status systemu",
       "lede": "Aktualny stan operacyjny platformy UNITAS.",
-      "body": [
-        "UNITAS znajduje się w fazie przed premierą. Publiczny interfejs jest celowo zapieczętowany za bramą „Wkrótce”, podczas gdy założyciel kończy sekwencyjną weryfikację przebiegu wejścia.",
-        "Planowane prace konserwacyjne oraz wszelkie incydenty wpływające na konta lub salda zostaną tu podsumowane, gdy platforma stanie się publicznie dostępna."
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Stan obecny",
+          "paragraphs": [
+            "UNITAS znajduje się w fazie przedpremierowej. Publiczny interfejs jest celowo zamknięty za bramką „Coming Soon”, podczas gdy założyciel kończy sekwencyjną weryfikację ścieżki wejścia."
+          ]
+        },
+        {
+          "heading": "Jak działamy",
+          "paragraphs": [
+            "Wydania przechodzą przez potok działający w trybie fail-closed — kontrolę typów, zestaw testów, kompilację produkcyjną i przebieg end-to-end — i są wdrażane tylko wtedy, gdy każdy etap zakończy się pomyślnie. Wydania nie wymagają planowanych przerw w działaniu."
+          ]
+        },
+        {
+          "heading": "Tryb offline i ponowne połączenie",
+          "paragraphs": [
+            "Interfejs jest zaprojektowany tak, aby działał dalej z danych w pamięci podręcznej, gdy zniknie połączenie sieciowe, i aby po jego powrocie uzgadniał stan deterministycznie — te same dane wejściowe zawsze dają ten sam stan, więc nic nie ginie ani się nie dubluje."
+          ]
+        },
+        {
+          "heading": "Źródła publiczne",
+          "paragraphs": [
+            "Karty na żywo zależą od usług publicznych wskazanych w interfejsie. Gdy jedna z nich jest niedostępna, karta to sygnalizuje, a reszta strony działa dalej; UNITAS nie ma wpływu na dostępność tych usług."
+          ]
+        },
+        {
+          "heading": "Komunikaty o incydentach",
+          "paragraphs": [
+            "Planowane prace konserwacyjne oraz wszelkie incydenty wpływające na konta lub salda będą podsumowywane tutaj po publicznym uruchomieniu platformy, z podaniem czasu rozpoczęcia, zakresu wpływu i czasu rozwiązania."
+          ]
+        }
       ]
     }
   },
@@ -2213,6 +2648,107 @@
       "composerAria": "Wyszukaj ponownie w obrębie wyniku",
       "suggestLabel": "Sugestie",
       "scopeProduct": "UNITAS"
+    },
+    "stream": {
+      "feedAria": "Nieskończony strumień dla {term}",
+      "page": "Strona {page}",
+      "ghost": "Strona {page} · już przewinięta",
+      "spine": {
+        "depth": "Głębokość",
+        "cards": "Karty",
+        "sources": "Źródła",
+        "tier": "Grawer",
+        "deepCta": "Głęboki wgląd"
+      },
+      "tier": {
+        "spark": "Iskra",
+        "orbit": "Orbita",
+        "nexus": "Nexus",
+        "singularity": "Osobliwość"
+      },
+      "kinds": {
+        "essence": "Esencja",
+        "axisSpectrum": "Sześcioosiowe spektrum",
+        "sources": "Źródła",
+        "chain": "Łańcuch pytań",
+        "deepGate": "Głęboki wgląd",
+        "identity": "Tożsamość",
+        "redesign": "Suwerenne przeprojektowanie",
+        "deeper": "Zgłęb dalej",
+        "concepts": "Powiązane pojęcia",
+        "sites": "Powiązane strony",
+        "news": "Wiadomości",
+        "cogs": "Sześcioosiowa soczewka",
+        "derived": "Dzieła pochodne",
+        "attention": "Fala uwagi",
+        "community": "Społeczność",
+        "timeline": "Oś czasu edycji"
+      },
+      "fields": {
+        "editions": "Wersje językowe",
+        "instanceOf": "Rodzaj",
+        "entity": "Encja",
+        "views30": "Wyświetlenia w 30 dni",
+        "trend": "Tendencja",
+        "window": "Okres"
+      },
+      "rare": "Rzadka soczewka",
+      "rareHint": "Stała soczewka dla tego pytania i tej strony — taka sama dla wszystkich, zawsze bezpłatna.",
+      "thin": "Uboga strona",
+      "loading": "Zbieramy kolejną stronę…",
+      "teaser": "Dalej",
+      "more": "Wczytaj kolejną stronę",
+      "softPause": {
+        "title": "Chwila na oddech",
+        "body": "Masz za sobą już {pages} stron na ten temat. Na tej głębokości trafność zwykle słabnie — idź dalej tylko wtedy, gdy to nadal pomaga.",
+        "badge": "Trafność maleje",
+        "continue": "Odkrywaj dalej"
+      },
+      "end": {
+        "title": "Strumień kończy się tutaj",
+        "body": "Sześćdziesiąt stron to limit dla jednego pytania. Zadaj nowe, aby otworzyć kolejny strumień."
+      },
+      "retry": {
+        "title": "Nic więcej nie wróciło",
+        "body": "Otwarte źródła nie miały nic więcej na ten temat. Spróbuj ponownie lub poszerz pytanie.",
+        "action": "Spróbuj ponownie"
+      },
+      "disambiguation": {
+        "body": "Ten termin ma kilka znaczeń. Strumień podąża za najczęstszym — wybierz powiązane pojęcie, aby przełączyć."
+      },
+      "deepCreditNote": "{cost} U-COIN za każdy głęboki wgląd — przedpłacony kredyt dostępu, a nie papier wartościowy ani środek przechowywania wartości.",
+      "outbound": "Szukaj gdzie indziej",
+      "swarmMore": "Wszystkie ekosystemy",
+      "swarmLess": "Trzy najważniejsze"
+    },
+    "cogs": {
+      "prompt": "Spójrz na {term} przez soczewkę {group}",
+      "seed": "Ziarno",
+      "resonance": "Rezonans",
+      "follow": "Zapytaj o to",
+      "groups": {
+        "origin": "Początki",
+        "element": "Żywioły",
+        "civilization": "Cywilizacja",
+        "cosmos": "Kosmos",
+        "chronos": "Czas",
+        "consciousness": "Świadomość",
+        "nexus": "Nexus"
+      },
+      "lenses": {
+        "mechanism": "Mechanizm",
+        "flow": "Przepływ",
+        "scale": "Skala",
+        "tension": "Napięcie",
+        "horizon": "Horyzont"
+      },
+      "ask": {
+        "mechanism": "Co sprawia, że {term} działa — i co mogłoby to zepsuć?",
+        "flow": "Skąd napływa wartość wokół {term} i dokąd odpływa?",
+        "scale": "Jak wyglądałoby {term} dziesięć razy większe — i dziesięć razy mniejsze?",
+        "tension": "Jakie siły rozrywają {term}, a co trzyma to w całości?",
+        "horizon": "Dokąd zmierza {term} i kto dotrze tam pierwszy?"
+      }
     }
   }
 }

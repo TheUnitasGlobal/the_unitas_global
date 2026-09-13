@@ -328,7 +328,7 @@
     "title": "Enterprise Protocols",
     "subtitle": "Sovereign infrastructure na kasalukuyang inaaral at dinedebelop.",
     "rdNotice": "Enterprise-only B2B protocol na kasalukuyang inaaral at dinedebelop (Enterprise SaaS Subscription).",
-    "patentBadge": "USPTO Patent Pending #64/023,911",
+    "patentBadge": "Patent Pending",
     "viewSpec": "Tingnan ang Technical Specification",
     "hideSpec": "Itago ang Technical Specification",
     "earlyAccess": "Early Access / Enterprise Inquiry",
@@ -342,7 +342,7 @@
     "inquiryThanksBody": "Salamat -- makikipag-ugnayan sa iyo ang aming enterprise team sa lalong madaling panahon.",
     "close": "Isara",
     "manifesto": "Isinasalin ng Enterprise Protocol tier ang sovereign doctrine ng THE UNITAS GLOBAL OÜ tungo sa corporate infrastructure. Ang bawat isa sa tatlong protocol ay may hawak na isang haligi ng sovereignty — identity (U-Signature), sekreto (U-Key), halaga (U-Pay) — at gumagana bilang iisang organismo sa ibabaw ng 11 Cognitive Cores at ng U-AI autonomous decision engine. Ang layunin ay hindi isa pang SaaS, kundi decentralised infrastructure na papalit sa mga bangko, certificate authorities, at payment networks habang pinapatakbo nang zero-capital, ng iisang tao, at ganap na automated.",
-    "patentAnchorNote": "Lahat ng abiso ng intellectual-property at patent-pending (USPTO #64/023,911) ay saklaw lamang ng Enterprise R&D tier na ito.",
+    "patentAnchorNote": "Lahat ng abiso ng intellectual-property at patent-pending ay saklaw lamang ng Enterprise R&D tier na ito.",
     "doctrineLabel": "Disenyo ng doktrina"
   },
   "ErrorBoundary": {
@@ -836,102 +836,537 @@
   "SitePages": {
     "common": {
       "back": "Bumalik sa UNITAS",
-      "disclaimer": "Ang pahinang ito ay ibinibigay para sa pangkalahatang impormasyon lamang. Hindi ito legal na payo at hindi lumilikha ng anumang kontrata o warranty. Kung saan inilalarawan nito ang mga plano o nakabinbing usapin, maaari itong magbago. THE UNITAS GLOBAL OÜ, Estonia."
+      "disclaimer": "Ang pahinang ito ay ibinibigay para sa pangkalahatang impormasyon lamang. Hindi ito payong legal at hindi ito lumilikha ng anumang kontrata o warranty. Kung naglalarawan ito ng mga plano o nakabinbing usapin, maaaring magbago ang mga iyon. THE UNITAS GLOBAL OÜ, Estonia.",
+      "corporateNotice": "Ang UNITAS ay pinatatakbo ng THE UNITAS GLOBAL OÜ, isang kumpanyang nakarehistro sa Estonia. Ang mga paglalarawan ng produkto sa pahinang ito ay sumasalamin sa kasalukuyang disenyo ng platform at maaaring magbago habang ito ay umuunlad.",
+      "updatedLabel": "Huling na-update",
+      "contentsLabel": "Sa pahinang ito",
+      "thirdPartyLabel": "Mga third-party na pinagmulang inaabot ng site na ito",
+      "storageLabel": "Mga key na itinatago ng site na ito sa iyong browser",
+      "fetchedIntro": "Kapag gumamit ka ng mga live na feature, tinatawag ng aming mga server o ng iyong browser ang mga sumusunod na pampublikong serbisyo. Ang bawat isa ay pinangalanan ayon sa tunay nitong operator; ipinapadala lamang namin ang query na kailangan para sa feature, hindi kailanman ang pagkakakilanlan ng iyong account.",
+      "browserIntro": "Ang mga sumusunod na serbisyo ay direktang tinatawag mula sa iyong browser, kaya nakikita ng kanilang mga operator ang iyong IP address bilang bahagi ng kahilingan. Wala sa mga ito ang tumatanggap ng pagkakakilanlan ng iyong UNITAS account.",
+      "storageIntro": "Ang mga halagang ito ay nananatili lamang sa lokal na storage ng iyong browser. Wala sa mga ito ang ipinapadala sa mga server ng UNITAS, at ang pagbura ng site data ay nag-aalis sa lahat ng ito.",
+      "sideServer": "tinatawag mula sa aming mga server",
+      "sideBrowser": "tinatawag mula sa iyong browser",
+      "loginWall": "maaaring hilingin na mag-sign in ka",
+      "cookiesLabel": "Mga cookie na itinatakda ng site na ito",
+      "cookiesIntro": "Hindi tulad ng mga key sa itaas, ipinapadala ang mga cookie sa UNITAS kasama ng bawat kahilingan. Nakalista rito ang lahat ng ginagamit namin at wala ni isa sa mga ito ang para sa advertising o cross-site tracking. Ang mga may markang HttpOnly ay hindi mababasa ng mga script ng pahina."
     },
     "about": {
       "title": "Tungkol sa UNITAS",
-      "lede": "Binubuo ng THE UNITAS GLOBAL OÜ ang isang decentralized, sovereign SaaS ecosystem — dinisenyo ng isang founder at pinapatakbo sa pamamagitan ng ganap na AI automation.",
-      "body": [
-        "Ang UNITAS ay isang kumpanyang Estonian na naghahangad ng iisang ideya: ang isang cognitive infrastructure na naglilingkod sa mga tao sa buong mundo ay maaaring disenyuhin, ilunsad, at patakbuhin nang walang capital-heavy na mga team o venture dependency. Ang bawat module sa ecosystem ay itinayo sa pamantayang iyon.",
-        "Nakaayos ang platform sa paligid ng mga cognitive structure — isang labing-isang-bahaging live ecosystem, limang consumer service, at tatlong enterprise protocol — na may iisang identity layer, iisang ledger, at iisang design language."
+      "lede": "Bumubuo ang THE UNITAS GLOBAL OÜ ng isang desentralisado at nagsasariling SaaS ecosystem — dinisenyo ng iisang tagapagtatag at pinatatakbo sa pamamagitan ng ganap na AI automation.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Isang ideya",
+          "paragraphs": [
+            "Ang UNITAS ay isang kumpanyang Estonian na nagtataguyod ng iisang ideya: ang isang cognitive infrastructure na naglilingkod sa mga tao sa buong mundo ay maaaring idisenyo, ilunsad at patakbuhin nang walang mga team na nangangailangan ng malaking kapital o pag-asa sa venture capital.",
+            "Ang bawat module sa ecosystem ay ginawa ayon sa pamantayang iyon — sapat na maliit upang ganap na pangasiwaan ng isang tagapagtatag mula simula hanggang wakas, at sapat na awtomatiko upang tumakbo nang dalawampu't apat na oras bawat araw."
+          ]
+        },
+        {
+          "heading": "Isang nagsasariling SaaS ecosystem",
+          "paragraphs": [
+            "Ang platform ay nakaayos sa paligid ng mga cognitive na istruktura — isang live ecosystem na may labing-isang bahagi, limang serbisyo para sa mga consumer at tatlong enterprise protocol — na nagbabahagi ng iisang layer ng pagkakakilanlan, iisang ledger at iisang wika ng disenyo.",
+            "Ang ibig sabihin ng nagsasarili ay hindi umaasa ang ecosystem sa iisang vendor para sa pagkakakilanlan, ledger o rendering nito. Ang bawat panlabas na serbisyong inaabot nito ay pampubliko, may pangalan at maaaring palitan."
+          ]
+        },
+        {
+          "heading": "Mga awtonomong agent factory na mauupahan",
+          "paragraphs": [
+            "Nagsu-subscribe ang mga miyembro sa mga module tulad ng pag-upa ng isang negosyo sa isang workshop: ang bawat module ay isang awtonomong agent factory na bumubuhat sa workload na tatauhan sana ng isang karaniwang kumpanya.",
+            "Maaaring patakbuhin ng mga digital nomad at maliliit na negosyo ang mga factory na ito mula sa anumang device, sa alinman sa dalawampung wika, nang hindi kailangang kumuha ng tauhan o mag-host ng anuman sa kanilang sarili."
+          ]
+        },
+        {
+          "heading": "Sinusukat na compute, muling ginagamit na mga resulta",
+          "paragraphs": [
+            "Ang gawain ng ahente ay sinusukat kada task. Ang isang resultang nabalidate na nang isang beses ay ini-cache at muling inihahain nang walang gastos sa engine, kaya lalong nagiging mahusay ang platform habang mas ginagamit ito.",
+            "Ang access sa mga bayad na module ay pinamamahalaan ng U-COIN, isang prepaid na kredito sa pag-access sa iyong account. Hindi ito isang pinansyal na security o isang imbakan ng halaga."
+          ]
+        },
+        {
+          "heading": "Pinangungunahan ng tagapagtatag, pinatatakbo ng AI",
+          "paragraphs": [
+            "Ang UNITAS ay dinisenyo at pinatatakbo ng tagapagtatag nito. Ang development, beripikasyon at deployment ay dumadaan sa isang awtomatikong agent pipeline na may fail-closed na gate ng integridad: walang inilalabas maliban kung pumasa ang bawat pagsusuri.",
+            "Pinapanatili nitong malaya, magaan at matatag ang ecosystem — at pinapanatili nitong may isang taong mananagot sa likod ng bawat desisyon."
+          ]
+        },
+        {
+          "heading": "Isang kumpanyang Estonian",
+          "paragraphs": [
+            "Ang THE UNITAS GLOBAL OÜ ay nakarehistro sa Estonia at iniaayon ang mga gawain nito sa mga prinsipyo ng European Union sa proteksyon ng datos at proteksyon ng consumer. Ang namamahalang batas para sa serbisyo ay ang batas ng Estonia."
+          ]
+        }
       ]
     },
     "careers": {
       "title": "Mga Karera",
-      "lede": "Pinapatakbo ang UNITAS bilang isang founder-led, AI-automated na operasyon. Wala pang bukas na sinasahurang posisyon sa ngayon.",
-      "body": [
-        "Sinadya ang modelo: isang payat na sovereign structure kung saan dinadala ng automation ang workload na kadalasang tinatauhan ng isang tradisyunal na kumpanya. Pinananatili nitong independiyente at matatag ang ecosystem.",
-        "Kung magbabago ang modelong ito, dito muna ilalathala ang mga bakanteng posisyon. Ang mga inquiry ukol sa partnership at contributor ay maaaring ipadala sa pamamagitan ng Contact page."
+      "lede": "Ang UNITAS ay tumatakbo bilang isang operasyong pinangungunahan ng tagapagtatag at awtomatiko sa pamamagitan ng AI. Wala pang bukas na may-suwelduhang posisyon sa kasalukuyan.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Bakit walang pahina ng pagkuha ng tauhan",
+          "paragraphs": [
+            "Sinadya ang modelong ito: isang magaan at nagsasariling istruktura kung saan ang automation ang bumubuhat sa workload na tatauhan sana ng isang karaniwang kumpanya. Pinapanatili nitong malaya at matatag ang ecosystem.",
+            "Kung magbago ang modelong iyon, dito unang ipo-post ang mga bakanteng posisyon."
+          ]
+        },
+        {
+          "heading": "Paano isinasagawa ang trabaho rito",
+          "paragraphs": [
+            "Ang bawat pagbabago sa UNITAS ay dumadaan sa isang agent pipeline: isang design brief, isang implementasyon, isang type check, isang test suite, isang production build at isang end-to-end run. Ang pagbabagong bumagsak sa alinmang hakbang ay hindi inilalabas.",
+            "Ang parehong pipeline ay nagdodokumento sa sarili nito, kaya nababasa ng susunod na ahente — o ng susunod na tao — ang kasaysayan ng platform."
+          ]
+        },
+        {
+          "heading": "Remote ayon sa disenyo",
+          "paragraphs": [
+            "Walang opisina ang UNITAS. Binubuo at pinatatakbo ito mula saanman naroroon ang tagapagtatag nito, sa katamtamang hardware, sa iba't ibang time zone.",
+            "Ang anumang kolaborasyon sa hinaharap ay susunod sa parehong hugis: asynchronous, nakasulat, remote-first."
+          ]
+        },
+        {
+          "heading": "Mga paraan para makapag-ambag ngayon",
+          "paragraphs": [
+            "Maaaring mag-ulat ng mga kahinaan sa seguridad ang mga security researcher sa pamamagitan ng pahina ng Seguridad. Ang mga manunulat at tagasalin na makakapansin ng pagkakamali sa alinman sa dalawampung wika ay maaaring magpadala ng mga pagwawasto sa pamamagitan ng pahina ng Makipag-ugnayan.",
+            "Malugod ding tinatanggap ang mga katanungan tungkol sa partnership at integration sa pamamagitan ng pahina ng Makipag-ugnayan; pakilarawan kung ano ang iyong binubuo at kung sino ang pinaglilingkuran nito."
+          ]
+        },
+        {
+          "heading": "Ano ang aming hinahanap",
+          "paragraphs": [
+            "Sakaling magbukas ng mga posisyon, bibigyang-priyoridad ang mga taong kayang pangasiwaan ang isang problema mula simula hanggang wakas, nakakasulat nang malinaw, at komportableng makipagtulungan sa mga awtomatikong ahente sa halip na mamahala ng mga team."
+          ]
+        }
       ]
     },
     "press": {
-      "title": "Press",
-      "lede": "Mga media resource at background ng kumpanya para sa mga mamamahayag at analyst.",
-      "body": [
-        "Para sa mga interview, background briefing, o fact-checking, kontakin kami sa pamamagitan ng Contact page at ipahayag ang inyong outlet at deadline.",
-        "Mangyaring i-attribute ang kumpanya bilang \"THE UNITAS GLOBAL OÜ\" at ang produkto bilang \"UNITAS\". Available ang mga logo at brand guidance kung hihilingin."
+      "title": "Pamamahayag",
+      "lede": "Mga mapagkukunang pang-media at background ng kumpanya para sa mga mamamahayag at analyst.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Mga datos tungkol sa kumpanya",
+          "paragraphs": [
+            "Kumpanya: THE UNITAS GLOBAL OÜ, nakarehistro sa Estonia. Produkto: UNITAS, isang nagsasariling SaaS ecosystem para sa mga awtonomong agent factory. Pinangungunahan ng tagapagtatag; pinatatakbo sa pamamagitan ng AI automation; available sa dalawampung wika.",
+            "Ang platform ay kasalukuyang nasa yugto bago ang paglulunsad, sa likod ng isang pampublikong \"Coming Soon\" na gate."
+          ]
+        },
+        {
+          "heading": "Paano kami tutukuyin",
+          "paragraphs": [
+            "Pakitukoy ang kumpanya bilang \"THE UNITAS GLOBAL OÜ\" at ang produkto bilang \"UNITAS\". Ang mga pangalan ng module ay maaaring sipiin ayon sa kung paano lumilitaw ang mga ito sa interface.",
+            "Pakiusap na huwag ilarawan ang anumang feature ng UNITAS bilang may patent na; kung naaangkop, ang tumpak na termino ay \"nakabinbin ang patent\" (patent pending)."
+          ]
+        },
+        {
+          "heading": "Paggamit ng brand",
+          "paragraphs": [
+            "Ang wordmark at marka ng UNITAS ay maaaring gamitin sa editoryal na pagbabalita nang walang pagbabago. Huwag pagsamahin ang mga ito sa ibang marka, magpahiwatig ng pag-endorso, o gamitin ang mga ito sa merchandise.",
+            "Ang mga logo file at gabay sa brand ay available kapag hiniling."
+          ]
+        },
+        {
+          "heading": "Mga panayam at pagbeberipika ng datos",
+          "paragraphs": [
+            "Para sa mga panayam, background briefing o pagbeberipika ng datos, abutin kami sa pamamagitan ng pahina ng Makipag-ugnayan at tukuyin ang iyong media outlet at deadline. Unang sinasagot ang mga kahilingang may nakasaad na deadline."
+          ]
+        },
+        {
+          "heading": "Third-party na datos sa pagbabalita",
+          "paragraphs": [
+            "Ang mga live na numerong ipinapakita sa loob ng UNITAS — lagay ng panahon, mga ranking, mga headline ng balita, mga halaga ng palitan — ay nagmumula sa mga pinangalanang pampublikong pinagmulan at dapat iugnay sa mga pinagmulang iyon, hindi sa UNITAS."
+          ]
+        }
       ]
     },
     "patent-notice": {
-      "title": "Patent Notice",
-      "lede": "Ilang paraan at sistema ng UNITAS ay paksa ng isang nakabinbing patent application.",
-      "body": [
-        "May naisumiteng United States provisional patent application (No. 64/023,911) na sumasaklaw sa mga aspeto ng UNITAS cognitive at signature protocols. Nakabinbin pa ang aplikasyon; wala pang naibigay na patent, at walang dapat basahin dito bilang isang claim ng naibigay na karapatan.",
-        "Ang pending status ay hindi nagbibigay ng enforceable exclusivity maliban kung at hanggang maglabas ng patent. Ang mga pangalan ng produkto at ng Sovereign Codex system ay ginagamit bilang identifiers ng pinagmulan."
+      "title": "Abiso sa Patent",
+      "lede": "Ang ilang pamamaraan at sistema ng UNITAS ay paksa ng isang nakabinbing aplikasyon ng patent.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Nakabinbing katayuan",
+          "paragraphs": [
+            "Isang pansamantalang aplikasyon ng patent ang naihain sa Estados Unidos na sumasaklaw sa ilang aspekto ng mga cognitive at signature protocol ng UNITAS. Nakabinbin ang aplikasyon; walang patent na naipagkaloob, at walang anuman dito ang dapat basahin bilang pag-aangkin ng mga ipinagkaloob na karapatan.",
+            "Ang nakabinbing katayuan ay hindi nagbibigay ng anumang maipapatupad na eksklusibidad maliban at hanggang sa maipagkaloob ang isang patent."
+          ]
+        },
+        {
+          "heading": "Ano ang inilalarawan ng aplikasyon",
+          "paragraphs": [
+            "Sa pangkalahatang termino, inilalarawan ng aplikasyon kung paano nagbabahagi ang mga independiyenteng module ng iisang layer ng pagkakakilanlan at iisang append-only na ledger, kung paano sinusukat kada task ang gawain ng ahente at muling ginagamit mula sa isang nabalidate na cache, at kung paano iniuugnay ng isang signature protocol ang gawain ng isang miyembro sa kanilang account nang hindi inilalantad ang kanilang pagkakakilanlan.",
+            "Ang paglalarawan sa itaas ay isang buod para sa mga mambabasa, hindi isang pag-aangkin ng saklaw."
+          ]
+        },
+        {
+          "heading": "Mga pangalan at marka",
+          "paragraphs": [
+            "Ang mga pangalan ng produkto at ang mga pangalan ng sistema ng UNITAS ay ginagamit bilang mga pantukoy ng pinagmulan. Hindi inaangkin ang mga ito bilang mga rehistradong trademark maliban kung nakasaad sa pahinang ito."
+          ]
+        },
+        {
+          "heading": "Pag-uulat ng alalahanin",
+          "paragraphs": [
+            "Kung naniniwala kang nilalabag ng UNITAS ang mga karapatang hawak mo, o na may isang third party na maling naglalarawan sa teknolohiya ng UNITAS, makipag-ugnayan sa amin sa pamamagitan ng pahina ng Makipag-ugnayan kasama ang mga detalye. Sinusuri ng tagapagtatag ang mga ulat."
+          ]
+        },
+        {
+          "heading": "Mga pagbabago sa abisong ito",
+          "paragraphs": [
+            "Ia-update ang abisong ito kung mailathala, maipagkaloob, iurong o mapalawig sa ibang mga hurisdiksyon ang aplikasyon."
+          ]
+        }
       ]
     },
     "compliance": {
-      "title": "Compliance",
-      "lede": "Kung paano lumalapit ang UNITAS sa mga obligasyong regulatory sa buong hurisdiksyong pinaglilingkuran nito.",
-      "body": [
-        "Pinapatakbo ang UNITAS ng isang kumpanyang Estonian at inaayon ang mga gawain nito sa mga prinsipyo ng European Union sa data-protection at consumer-protection. Isinasagawa ang payment processing ng mga third-party provider sa ilalim ng kanilang sariling regulated frameworks.",
-        "Hindi kami nagcla-claim ng certification sa ilalim ng anumang partikular na standard. Ang mga tanong tungkol sa compliance, kabilang ang mga data-subject request, ay maaaring itaas sa pamamagitan ng Contact page."
+      "title": "Pagsunod sa Regulasyon",
+      "lede": "Kung paano tinutugunan ng UNITAS ang mga obligasyon nito sa regulasyon sa lahat ng hurisdiksyong pinaglilingkuran nito.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Saan kami nireregula",
+          "paragraphs": [
+            "Ang UNITAS ay pinatatakbo ng isang kumpanyang Estonian at iniaayon ang mga gawain nito sa mga prinsipyo ng European Union sa proteksyon ng datos at proteksyon ng consumer, kabilang ang Pangkalahatang Regulasyon sa Proteksyon ng Datos (GDPR).",
+            "Hindi kami umaangkin ng sertipikasyon sa ilalim ng anumang partikular na pamantayan."
+          ]
+        },
+        {
+          "heading": "Minimisasyon ng datos",
+          "paragraphs": [
+            "Kinokolekta namin ang pinakamaliit na kailangan upang patakbuhin ang isang account at itinatago lamang ito habang umiiral ang account. Hindi kailanman umaalis sa browser ang mga session ng bisita.",
+            "Ang mga live na feature ay nakabatay sa mga pampublikong pantukoy — isang lugar, isang paksa, isang pampublikong entidad — hindi kailanman sa kung sino ang nagtatanong."
+          ]
+        },
+        {
+          "heading": "Mga pagbabayad at kredito",
+          "paragraphs": [
+            "Ang pagpoproseso ng pagbabayad ay isinasagawa ng mga third-party na provider sa ilalim ng sarili nilang reguladong balangkas; hindi kailanman umaabot sa UNITAS ang mga detalye ng card at bangko.",
+            "Ang U-COIN ay isang prepaid na kredito sa pag-access para sa mga module sa loob ng UNITAS. Hindi ito isang pinansyal na security, imbakan ng halaga o instrumento ng pagbabayad, at hindi ito maililipat sa pagitan ng mga account."
+          ]
+        },
+        {
+          "heading": "Tala ng pag-audit",
+          "paragraphs": [
+            "Ang bawat pagbabago sa isang balanse ay isinusulat sa isang append-only na ledger ng isang na-audit na server-side function. Walang anuman sa browser ang makapagbabago nang direkta sa isang balanse."
+          ]
+        },
+        {
+          "heading": "Pananalapi at pangangasiwa ng buwis",
+          "paragraphs": [
+            "Ang accounting ng kumpanya, pagbabangko at paghahain ng buwis sa Estonia ay pinangangasiwaan sa pamamagitan ng mga reguladong European service provider sa ilalim ng awtoridad ng tagapagtatag."
+          ]
+        },
+        {
+          "heading": "Mga kahilingan at reklamo",
+          "paragraphs": [
+            "Ang mga tanong tungkol sa pagsunod sa regulasyon, kabilang ang mga kahilingan ng data subject, ay maaaring itaas sa pamamagitan ng pahina ng Makipag-ugnayan. Maaari ring maghain ng reklamo ang mga residente ng European Union sa kanilang pambansang awtoridad sa pangangasiwa."
+          ]
+        }
       ]
     },
     "security": {
       "title": "Seguridad",
-      "lede": "Ang mga control na nagpoprotekta sa mga account, balanse, at identity data.",
-      "body": [
-        "Ipinapatupad ang account identity sa database, hindi sa browser: ang isang na-verify na numero ng telepono ay natatangi sa lahat ng aktibong account, ang mga pagbabago sa balanse ay dumadaan lamang sa mga naaudit na server-side function, at ang transaction ledger ay append-only.",
-        "Hindi kailanman umaabot ang mga sekreto tulad ng payment keys sa client code. Para mag-ulat ng vulnerability, gamitin ang Contact page nang may sapat na detalye para maireproduce ang isyu, at mangyaring huwag itong isiwalat nang pampubliko hanggang sa kami ay tumugon."
+      "lede": "Ang mga kontrol na nagpoprotekta sa mga account, balanse at datos ng pagkakakilanlan.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Pagkakakilanlang ipinapatupad sa server-side",
+          "paragraphs": [
+            "Ang pagkakakilanlan ng account ay ipinapatupad sa database, hindi sa browser: ang isang beripikadong numero ng telepono ay natatangi sa lahat ng aktibong account, ang mga pagbabago sa balanse ay dumadaan lamang sa mga na-audit na server-side function, at ang ledger ng transaksyon ay append-only."
+          ]
+        },
+        {
+          "heading": "Zero trust bilang default",
+          "paragraphs": [
+            "Ang bawat kahilingan ay bineberipika ayon sa sarili nitong merito. Ang mga lihim tulad ng mga payment key ay hindi kailanman umaabot sa client code, at ang access ng tagapagtatag sa mga surface bago ang paglulunsad ay bineberipika sa server-side sa bawat pagbisita."
+          ]
+        },
+        {
+          "heading": "Direksyon ng disenyo: resistensya sa quantum",
+          "paragraphs": [
+            "Ang mga layer ng signature at session ay dinisenyo upang mapalitan ang kanilang mga algorithm nang hindi binabago ang ledger — isang paunang kondisyon para sa paggamit ng post-quantum na kriptograpiya kapag naitakda na ang mga pamantayan. Ito ay isang direksyon ng disenyo, hindi isang sertipikasyon."
+          ]
+        },
+        {
+          "heading": "Awtomatikong kuwarantina",
+          "paragraphs": [
+            "Ang isang module na bumagsak sa pagsusuri ng integridad nito ay awtomatikong ibinubukod: bumabalik ito sa isang selyado at read-only na estado sa halip na maghain ng hindi kumpletong datos. Patuloy na tumatakbo ang natitirang bahagi ng ecosystem."
+          ]
+        },
+        {
+          "heading": "Integridad ng client",
+          "paragraphs": [
+            "Ang mga inilabas na asset ay may dalang fingerprint ng pagmamay-ari, at ang interface ay ginawa upang mapanatiling buo ang session nito sa loob ng mga in-app na browser at sa bawat pag-reload, kaya hindi ka kailanman tahimik na masa-sign out ng isang sirang embed."
+          ]
+        },
+        {
+          "heading": "Pag-uulat ng kahinaan sa seguridad",
+          "paragraphs": [
+            "Upang mag-ulat ng kahinaan sa seguridad, gamitin ang pahina ng Makipag-ugnayan na may sapat na detalye upang maulit ang isyu, at pakiusap na huwag itong isapubliko bago kami makatugon. Ang mga ulat sa seguridad ay binibigyang-priyoridad kaysa sa lahat ng iba pang katanungan."
+          ]
+        }
       ]
     },
     "privacy": {
-      "title": "Privacy Policy",
-      "lede": "Kung ano ang kinokolekta ng UNITAS, bakit, at ang mga pagpipiliang mayroon ka.",
-      "body": [
-        "Kinokolekta ng UNITAS ang minimum na kailangan para patakbuhin ang isang account: isang identifier (email o telepono) para sa authentication, isang coin balance at ang ledger nito, at pangunahing preference ng locale at device na naka-store sa iyong device. Ang mga guest session ay nananatiling lokal sa iyong browser.",
-        "Ang datos ay pinoproseso para patakbuhin ang serbisyo, hindi para bumuo ng mga advertising profile. Maaari kang humiling ng access sa o pagbura ng iyong data ng account sa pamamagitan ng Contact page o ng in-app account settings."
+      "title": "Patakaran sa Privacy",
+      "lede": "Ano ang kinokolekta ng UNITAS, bakit, at ang mga pagpipiliang mayroon ka.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Ano ang aming kinokolekta",
+          "paragraphs": [
+            "Kinokolekta ng UNITAS ang pinakamaliit na kailangan upang patakbuhin ang isang account: isang pantukoy (email o telepono) para sa authentication, isang balanse ng coin at ang ledger nito, at mga pangunahing kagustuhan sa wika at device na nakaimbak sa iyong device.",
+            "Ang mga session ng bisita ay nananatiling lokal sa iyong browser at hindi kailanman ina-upload."
+          ]
+        },
+        {
+          "heading": "Bakit namin ito pinoproseso",
+          "paragraphs": [
+            "Pinoproseso ang datos upang patakbuhin ang serbisyo — upang i-sign in ka, upang panatilihing tama ang iyong balanse at upang tandaan ang iyong wika. Hindi ito ginagamit upang bumuo ng mga advertising profile, at hindi ito ibinebenta."
+          ]
+        },
+        {
+          "heading": "Gaano katagal namin itong itinatago",
+          "paragraphs": [
+            "Ang datos ng account ay itinatago habang umiiral ang account. Ang ledger ay pinapanatili hangga't legal na kinakailangan para sa accounting. Ang mga kagustuhan sa device ay nananatili lamang sa iyong device."
+          ]
+        },
+        {
+          "heading": "Mga live na feature at pampublikong pinagmulan",
+          "paragraphs": [
+            "Ang lagay ng panahon, mga ranking, balita at ang search stream ay binubuo mula sa mga pampublikong pinagmulang nakalista sa ibaba. Ang mga kahilingan sa mga pinagmulang iyon ay naglalaman ng paksang iyong tinutuklas, hindi kailanman ng pagkakakilanlan ng iyong account. Ang ilan ay tinatawag mula sa aming mga server at ang ilan ay direkta mula sa iyong browser; sinasabi ng mga listahan sa ibaba kung alin."
+          ]
+        },
+        {
+          "heading": "Lokasyon",
+          "paragraphs": [
+            "Ang lagay ng panahon at mga feature na malapit sa iyo ay gumagamit ng lugar na iyong pinili, o — kung papayagan mo lamang — ng lokasyon ng iyong device. Kung wala sa dalawa ang available, isang tinatayang lokasyon ang kinukuha mula sa iyong IP address ng isang pampublikong serbisyo ng geolocation na pinangalanan sa ibaba. Hindi kailanman iniimbak ang iyong mga coordinate sa mga server ng UNITAS."
+          ]
+        },
+        {
+          "heading": "Ang iyong mga karapatan",
+          "paragraphs": [
+            "Maaari kang humiling ng access, pagwawasto o pagbura ng datos ng iyong account sa pamamagitan ng pahina ng Makipag-ugnayan o ng mga setting ng account sa loob ng app. Maaari ring maghain ng reklamo ang mga residente ng European Union sa kanilang awtoridad sa pangangasiwa."
+          ]
+        },
+        {
+          "heading": "Mga cookie at lokal na storage",
+          "paragraphs": [
+            "Nagtatago ang site ng maliit na hanay ng mga halaga sa iyong browser, na inilarawan sa Patakaran sa Cookie. Walang itinatakdang third-party na advertising o cross-site tracking cookie."
+          ]
+        }
       ]
     },
     "cookies": {
-      "title": "Cookie Policy",
-      "lede": "Ginagamit ng UNITAS ang local storage at cookies nang bihira at functional lamang.",
-      "body": [
-        "Nagsto-store ang site ng maliit na hanay ng mga value — ang iyong wika, ang iyong audio preference, mga session at authentication token, at isang pre-launch access flag. Kinakailangan ang mga ito para tamang gumana ang interface.",
-        "Walang third-party advertising o cross-site tracking cookies na itinatakda. Ang pag-clear ng iyong browser storage ay nire-reset ang mga preference na ito sa susunod mong pagbisita."
+      "title": "Patakaran sa Cookie",
+      "lede": "Gumagamit ang UNITAS ng lokal na storage at mga cookie nang matipid at para sa function lamang.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Mahigpit na kinakailangan",
+          "paragraphs": [
+            "Ang mga session at authentication token, ang flag ng access bago ang paglulunsad at ang in-app na session guard ay kinakailangan upang gumana nang tama ang interface. Itinatakda lamang ang mga ito kapag nag-sign in ka o dumaan sa gate ng pagpasok."
+          ]
+        },
+        {
+          "heading": "Mga kagustuhan",
+          "paragraphs": [
+            "Ang iyong wika, ang iyong setting ng audio, ang huling lugar na iyong pinili at ang posisyon ng isang bukas na panel ay tinatandaan upang bumalik ang interface nang eksakto kung paano mo ito iniwan."
+          ]
+        },
+        {
+          "heading": "Mga cache",
+          "paragraphs": [
+            "Ang mga resulta mula sa mga pampublikong pinagmulan — isang pagbasa ng lagay ng panahon, isang pahina ng ranking, isang pahina ng search stream — ay ini-cache sa iyong browser sa loob ng limitadong panahon upang ang muling pagbisita sa isang paksa ay hindi na mangailangan ng network. Pampublikong datos lamang ang nilalaman ng mga ito."
+          ]
+        },
+        {
+          "heading": "Walang analytics, walang advertising",
+          "paragraphs": [
+            "Walang itinatakdang third-party na analytics, advertising o cross-site tracking cookie. Hindi lumalahok ang UNITAS sa mga advertising network."
+          ]
+        },
+        {
+          "heading": "Paano kontrolin ang mga ito",
+          "paragraphs": [
+            "Ang pagbura ng site data ng iyong browser para sa UNITAS ay nag-aalis sa bawat halagang nakalista sa ibaba. Ang paggawa nito ay magsa-sign out sa iyo at magre-reset ng iyong mga kagustuhan sa susunod na pagbisita; hindi ito kailanman nakakaapekto sa balanse ng iyong account, na nananatili sa server."
+          ]
+        }
       ]
     },
     "terms": {
-      "title": "Terms of Service",
-      "lede": "Ang mga batayang termino para sa paggamit ng UNITAS habang ito ay nasa yugto ng pre-launch.",
-      "body": [
-        "Ibinibigay ang UNITAS nang \"as is\" habang aktibong dinedebelop. Ang access sa mga bayad na module ay pinangangasiwaan ng coin balance sa iyong account; ang mga coin ay prepaid access credit — hindi isang security o stored-value instrument — at hindi maaaring ilipat.",
-        "Maaaring magbago o masuspinde ang mga feature habang umuunlad ang platform. Ang patuloy na paggamit matapos ang isang pagbabago ay nangangahulugang tinatanggap mo ang na-update na termino. Batas ng Estonia ang namamahala."
+      "title": "Mga Tuntunin ng Serbisyo",
+      "lede": "Ang mga pangunahing tuntunin sa paggamit ng UNITAS habang nasa yugto ito bago ang paglulunsad.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Ang serbisyo",
+          "paragraphs": [
+            "Ang UNITAS ay ibinibigay sa batayang \"as is\" (kung ano ito sa kasalukuyan) habang aktibo ang development. Maaaring magbago o masuspinde ang mga feature habang umuunlad ang platform. Ang patuloy na paggamit pagkatapos ng isang pagbabago ay nangangahulugang tinatanggap mo ang mga na-update na tuntunin."
+          ]
+        },
+        {
+          "heading": "Mga account",
+          "paragraphs": [
+            "Maaari mong gamitin ang UNITAS bilang bisita o gamit ang isang account na beripikado sa pamamagitan ng email o telepono. Ang isang beripikadong numero ng telepono ay maaaring ikabit sa isang aktibong account lamang. Ikaw ang may pananagutan sa pagpapanatiling sarilinin ang iyong mga detalye sa pag-sign in."
+          ]
+        },
+        {
+          "heading": "Mga kredito sa pag-access na U-COIN",
+          "paragraphs": [
+            "Ang access sa mga bayad na module ay pinamamahalaan ng balanse ng coin sa iyong account. Ang U-COIN ay isang prepaid na kredito sa pag-access — hindi isang pinansyal na security, isang instrumento ng stored value o isang pera — at hindi ito maililipat.",
+            "Nauubos ang mga kredito kapag naihatid ang isang bayad na feature. Kung mabigo ang isang bayad na feature na makabuo ng resulta, ang mga kreditong naubos para sa kahilingang iyon ay awtomatikong ibinabalik sa iyong balanse."
+          ]
+        },
+        {
+          "heading": "Mga refund",
+          "paragraphs": [
+            "Ang mga hindi nagamit na kredito ay maaaring i-refund sa orihinal na paraan ng pagbabayad sa loob ng panahong hinihingi ng batas ng consumer na nalalapat sa iyo. Ang mga kreditong naubos na para sa mga naihatid na feature ay hindi na maaaring i-refund."
+          ]
+        },
+        {
+          "heading": "Katanggap-tanggap na paggamit",
+          "paragraphs": [
+            "Hindi mo maaaring subukang baguhin ang isang balanse, lampasan ang isang gate ng access, mag-probe o mag-overload sa serbisyo, mag-scrape nito nang malakihan, o gamitin ito upang makapinsala sa iba. Maaaring masuspinde ang mga account na sangkot sa gayong gawain."
+          ]
+        },
+        {
+          "heading": "Third-party na nilalaman",
+          "paragraphs": [
+            "Ang mga live na feature ay nagpapakita ng nilalaman mula sa mga pampublikong pinagmulang pinangalanan sa interface. Hindi kinokontrol ng UNITAS ang nilalamang iyon at hindi nito ginagarantiya ang katumpakan nito. Ang mga link na nagbubukas ng ibang mga serbisyo ay napapailalim sa sariling mga tuntunin ng mga serbisyong iyon."
+          ]
+        },
+        {
+          "heading": "Limitasyon ng pananagutan",
+          "paragraphs": [
+            "Hanggang sa pinahihintulutan ng batas, ang THE UNITAS GLOBAL OÜ ay hindi mananagot sa hindi direkta o kinahinatnang pagkalugi na nagmumula sa paggamit ng serbisyo, at ang kabuuang pananagutan nito ay limitado sa halagang binayaran mo para sa mga kredito sa labindalawang buwan bago ang paghahabol. Walang anuman dito ang naglilimita sa pananagutang hindi maaaring limitahan ng batas."
+          ]
+        },
+        {
+          "heading": "Namamahalang batas",
+          "paragraphs": [
+            "Ang mga tuntuning ito ay pinamamahalaan ng batas ng Estonia. Pinapanatili ng mga consumer ang anumang mandatoryong proteksyon ng batas ng kanilang sariling bansang tinitirhan."
+          ]
+        }
       ]
     },
     "help-center": {
-      "title": "Help Center",
-      "lede": "Mga sagot sa mga tanong na pinakamadalas lumitaw.",
-      "body": [
-        "Tunog: naka-on bilang default ang ambient audio sa bawat device at nananatili sa buong refresh; i-toggle ito mula sa speaker icon sa itaas na navigation. Wika: lumipat anumang oras mula sa flag menu — natatandaan ang iyong pinili.",
-        "Access: nabubuksan ang isang module kapag available na ang kinakailangang coin balance sa iyong account. Kung may mukhang natigil, i-reload ang pahina; awtomatikong nare-restore ang estado ng account at balanse."
+      "title": "Sentro ng Tulong",
+      "lede": "Mga sagot sa mga tanong na pinakamadalas itanong.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Pagsisimula",
+          "paragraphs": [
+            "Pindutin ang Simulan sa screen ng pagpasok upang marating ang home page. Sa unang pagbisita ay tumutugtog ang isang maikling pagpapakilala; maaari mo itong laktawan, at hindi ito muling tutugtog sa pag-reload."
+          ]
+        },
+        {
+          "heading": "Paghahanap",
+          "paragraphs": [
+            "Mag-type sa search bar para sa mga mungkahing keyword — mga feature ng produkto muna, pagkatapos ay mga entidad sa buong mundo, pagkatapos ay mga pahina sa iyong wika. Pindutin ang Enter upang buksan ang buong resulta: isang stream na patuloy na humahaba habang nag-i-scroll ka, kung saan pinangangalanan ng bawat card ang pinagmulan nito.",
+            "Bawat sampung pahina ay humihinto ang stream at nagtatanong kung nais mong magpatuloy; animnapung pahina ang limitasyon para sa isang tanong."
+          ]
+        },
+        {
+          "heading": "Mga shortcut at ranking",
+          "paragraphs": [
+            "Sa ibaba ng search bar, binubuksan ng hanay ng mga shortcut at ng mga hanay ng ranking ang mga detalyadong view nang hindi umaalis sa pahina. Sa ilalim ng karamihan sa mga ito ay makikita mo ang Tuklasin Nang Mas Malalim, isang hanay ng mga lente na kumukuha ng live na datos tungkol sa paksa mula sa mga pampublikong pinagmulan."
+          ]
+        },
+        {
+          "heading": "Wika",
+          "paragraphs": [
+            "Magpalit ng wika anumang oras mula sa menu sa itaas na navigation. Nananatili ang pahina kung nasaan ito, at tinatandaan ang iyong pinili sa device na ito at, kung naka-sign in ka, sa iyong account."
+          ]
+        },
+        {
+          "heading": "Tunog",
+          "paragraphs": [
+            "Naka-on bilang default ang ambient na audio at nananatili ito sa bawat pag-refresh. I-toggle ito mula sa icon ng speaker sa itaas na navigation."
+          ]
+        },
+        {
+          "heading": "Pag-install ng app",
+          "paragraphs": [
+            "Maaaring i-install ang UNITAS bilang app mula sa prompt ng pag-download sa navigation. Sa loob ng built-in na browser ng ibang app, maaaring hindi lumitaw ang prompt ng pag-install; buksan na lamang ang pahina sa iyong pangunahing browser."
+          ]
+        },
+        {
+          "heading": "Pag-aayos ng problema",
+          "paragraphs": [
+            "Kung mukhang may naka-stuck, i-reload ang pahina; awtomatikong naibabalik ang iyong account, balanse at mga bukas na panel. Kung walang ipinapakitang datos ang isang live card, maaaring pansamantalang hindi available ang pampublikong pinagmulan sa likod nito — pinangangalanan ito ng card upang masuri mo."
+          ]
+        }
       ]
     },
     "contact": {
       "title": "Makipag-ugnayan sa Amin",
-      "lede": "Isang channel ang direktang umaabot sa founder.",
-      "body": [
-        "Ang mga pangkalahatan, partnership, press, security, at data-protection inquiry ay hinahawakan lahat ng founder. Gamitin ang account settings panel sa loob ng app para magbukas ng usapan, o umabot sa address na nakalista sa mga opisyal na channel ng THE UNITAS GLOBAL OÜ.",
-        "Walang phone support line. Nakadepende ang oras ng pagtugon sa dami; unang binibigyan ng priyoridad ang mga ulat sa seguridad."
+      "lede": "Isang channel ang direktang umaabot sa tagapagtatag.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Paano kami maaabot",
+          "paragraphs": [
+            "Ang mga pangkalahatang katanungan at ang mga katanungan tungkol sa partnership, pamamahayag, seguridad at proteksyon ng datos ay pawang hinahawakan ng tagapagtatag. Gamitin ang panel ng mga setting ng account sa loob ng app upang magbukas ng pag-uusap, o sumulat sa address na nakalista sa mga opisyal na channel ng THE UNITAS GLOBAL OÜ."
+          ]
+        },
+        {
+          "heading": "Oras ng pagtugon",
+          "paragraphs": [
+            "Walang linya ng suporta sa telepono. Nakadepende sa dami ang oras ng pagtugon; binibigyang-priyoridad ang mga ulat sa seguridad, sinusundan ng mga kahilingan sa proteksyon ng datos, pagkatapos ay ang lahat ng iba pa."
+          ]
+        },
+        {
+          "heading": "Ano ang isasama",
+          "paragraphs": [
+            "Para sa mga tanong tungkol sa account, isama ang email o numero ng telepono na nasa account. Para sa isang bug, isama ang pahina, ang device at kung ano ang inaasahan mong mangyari. Para sa isang ulat sa seguridad, isama ang mga hakbang upang maulit ito."
+          ]
+        },
+        {
+          "heading": "Impormasyon ng kumpanya",
+          "paragraphs": [
+            "Ang THE UNITAS GLOBAL OÜ ay isang kumpanyang nakarehistro sa Estonia. Ang mga detalye ng pagkakarehistro ay makukuha sa pamamagitan ng rehistro ng negosyo ng Estonia; hindi naglalathala ng street address ang site na ito."
+          ]
+        }
       ]
     },
     "system-status": {
-      "title": "System Status",
-      "lede": "Ang kasalukuyang operational na estado ng UNITAS platform.",
-      "body": [
-        "Ang UNITAS ay nasa yugto ng pre-launch. Sinadyang naka-seal ang pampublikong interface sa likod ng \"Coming Soon\" gate habang tinatapos ng founder ang sequential verification ng entry flow.",
-        "Ibubuod dito ang mga planadong maintenance at anumang insidenteng makakaapekto sa mga account o balanse kapag naka-live na nang pampubliko ang platform."
+      "title": "Katayuan ng Sistema",
+      "lede": "Ang kasalukuyang kalagayan ng operasyon ng UNITAS platform.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Kasalukuyang kalagayan",
+          "paragraphs": [
+            "Nasa yugto bago ang paglulunsad ang UNITAS. Sinadyang selyado ang pampublikong interface sa likod ng \"Coming Soon\" na gate habang kinukumpleto ng tagapagtatag ang sunud-sunod na beripikasyon ng daloy ng pagpasok."
+          ]
+        },
+        {
+          "heading": "Paano kami nag-o-operate",
+          "paragraphs": [
+            "Ang mga release ay dumadaan sa isang fail-closed na pipeline — type check, test suite, production build at end-to-end run — at ini-deploy lamang kapag pumasa ang bawat hakbang. Walang naka-iskedyul na downtime para sa mga release."
+          ]
+        },
+        {
+          "heading": "Offline at muling pagkonekta",
+          "paragraphs": [
+            "Ang interface ay dinisenyo upang patuloy na gumana mula sa naka-cache na datos kapag nawala ang network, at upang mag-reconcile nang deterministiko kapag bumalik ito — ang parehong mga input ay laging nagbubunga ng parehong estado, kaya walang nawawala o nadodoble."
+          ]
+        },
+        {
+          "heading": "Mga pampublikong pinagmulan",
+          "paragraphs": [
+            "Ang mga live card ay umaasa sa mga pampublikong serbisyong pinangalanan sa interface. Kapag hindi available ang isa sa mga ito, sinasabi iyon ng card at patuloy na gumagana ang natitirang bahagi ng pahina; walang kontrol ang UNITAS sa uptime ng mga serbisyong iyon."
+          ]
+        },
+        {
+          "heading": "Mga abiso sa insidente",
+          "paragraphs": [
+            "Ang nakaplanong maintenance at anumang insidenteng nakakaapekto sa mga account o balanse ay ibubuod dito kapag naging pampubliko na ang platform, kasama ang oras ng pagsisimula nito, kung ano ang naapektuhan at kung kailan ito nalutas."
+          ]
+        }
       ]
     }
   },
@@ -2213,6 +2648,107 @@
       "composerAria": "Maghanap muli sa loob ng resulta",
       "suggestLabel": "Mga mungkahi",
       "scopeProduct": "UNITAS"
+    },
+    "stream": {
+      "feedAria": "Walang-hanggang stream para sa {term}",
+      "page": "Pahina {page}",
+      "ghost": "Pahina {page} · nalampasan na",
+      "spine": {
+        "depth": "Lalim",
+        "cards": "Mga card",
+        "sources": "Mga pinagmulan",
+        "tier": "Ukit",
+        "deepCta": "Malalim na pag-unawa"
+      },
+      "tier": {
+        "spark": "Kislap",
+        "orbit": "Orbita",
+        "nexus": "Nexus",
+        "singularity": "Singularidad"
+      },
+      "kinds": {
+        "essence": "Diwa",
+        "axisSpectrum": "Spectrum ng anim na aksis",
+        "sources": "Mga pinagmulan",
+        "chain": "Kadena ng mga tanong",
+        "deepGate": "Malalim na pag-unawa",
+        "identity": "Pagkakakilanlan",
+        "redesign": "Soberanong muling disenyo",
+        "deeper": "Suriin nang mas malalim",
+        "concepts": "Mga kaugnay na konsepto",
+        "sites": "Mga kaugnay na site",
+        "news": "Balita",
+        "cogs": "Lente ng anim na aksis",
+        "derived": "Mga hinangong akda",
+        "attention": "Alon ng atensyon",
+        "community": "Komunidad",
+        "timeline": "Timeline ng mga pag-edit"
+      },
+      "fields": {
+        "editions": "Mga edisyon sa iba't ibang wika",
+        "instanceOf": "Uri",
+        "entity": "Entidad",
+        "views30": "Mga view sa loob ng 30 araw",
+        "trend": "Takbo",
+        "window": "Saklaw ng panahon"
+      },
+      "rare": "Bihirang lente",
+      "rareHint": "Isang nakatakdang lente para sa tanong at pahinang ito — pareho para sa lahat, laging libre.",
+      "thin": "Manipis na pahina",
+      "loading": "Tinitipon ang susunod na pahina…",
+      "teaser": "Susunod",
+      "more": "I-load ang susunod na pahina",
+      "softPause": {
+        "title": "Sandaling huminga",
+        "body": "Nakabasa ka na ng {pages} pahina tungkol sa tanong na ito. Sa ganitong lalim, karaniwang humihina ang kaugnayan — magpatuloy lang kung nakakatulong pa.",
+        "badge": "Humihina ang kaugnayan",
+        "continue": "Ipagpatuloy ang paggalugad"
+      },
+      "end": {
+        "title": "Dito nagtatapos ang stream",
+        "body": "Animnapung pahina ang hangganan ng isang tanong. Magtanong ng bago para magbukas ng panibagong stream."
+      },
+      "retry": {
+        "title": "Wala nang bumalik",
+        "body": "Wala nang iba pang nahanap ang mga bukas na pinagmulan tungkol dito. Subukan ulit, o palawakin ang tanong.",
+        "action": "Subukan ulit"
+      },
+      "disambiguation": {
+        "body": "Maraming kahulugan ang terminong ito. Sinusundan ng stream ang pinakakaraniwan — pumili ng kaugnay na konsepto para lumipat."
+      },
+      "deepCreditNote": "{cost} U-COIN kada malalim na pag-unawa — isang prepaid na kredito sa pag-access, hindi security (panagot) o imbakan ng halaga.",
+      "outbound": "Maghanap sa ibang lugar",
+      "swarmMore": "Lahat ng ecosystem",
+      "swarmLess": "Nangungunang tatlo"
+    },
+    "cogs": {
+      "prompt": "Basahin ang {term} sa pamamagitan ng lente ng {group}",
+      "seed": "Binhi",
+      "resonance": "Resonansya",
+      "follow": "Itanong ito",
+      "groups": {
+        "origin": "Mga ugat",
+        "element": "Mga elemento",
+        "civilization": "Sibilisasyon",
+        "cosmos": "Sansinukob",
+        "chronos": "Panahon",
+        "consciousness": "Kamalayan",
+        "nexus": "Nexus"
+      },
+      "lenses": {
+        "mechanism": "Mekanismo",
+        "flow": "Daloy",
+        "scale": "Sukat",
+        "tension": "Tensyon",
+        "horizon": "Abot-tanaw"
+      },
+      "ask": {
+        "mechanism": "Ano ang nagpapaandar sa {term} — at ano ang makakasira rito?",
+        "flow": "Saan nagmumula ang halagang nakapalibot sa {term}, at saan ito napupunta?",
+        "scale": "Ano ang magiging hitsura ng {term} kung sampung beses na mas malaki — at sampung beses na mas maliit?",
+        "tension": "Anong mga puwersa ang naghahati sa {term}, at ano ang nagbubuklod dito?",
+        "horizon": "Saan patungo ang {term}, at sino ang unang makakarating doon?"
+      }
     }
   }
 }

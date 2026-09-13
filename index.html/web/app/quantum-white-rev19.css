@@ -323,6 +323,118 @@ html[data-unitas-surface='quantum-white'] .qw-footer-copy {
 }
 
 /* --------------------------------------------------------------------------
+   15b. Institutional site article (REV-21 §6 / SPEC §12.8) --
+        components/layout/SiteArticle.tsx in BOTH hosts: the inline
+        SiteLinkModalHost dialog and the /company|/legal|/support routes
+        (SurfaceScope stamps this scope on those routes). Painting only;
+        layout + dark-route defaults live in globals.css. §4 new-surface
+        rule: no backdrop-filter, no filter, transform/opacity only.
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-site-back {
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-back:hover,
+html[data-unitas-surface='quantum-white'] .qw-site-back:focus-visible {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-eyebrow {
+  color: var(--qw-gold-deep);
+  text-shadow: 0 1px 0 #fff;
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-title {
+  color: var(--qw-ink);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95), 0 2px 2px rgba(10, 10, 12, 0.08);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-lede {
+  color: var(--qw-ink-2);
+}
+/* sticky section index: opaque enough to read over scrolled copy (one layer) */
+html[data-unitas-surface='quantum-white'] .qw-site-article-toc {
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom-color: var(--qw-line-strong);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-toc-label {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-toc button {
+  color: var(--qw-ink-2);
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.75);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-toc button:hover,
+html[data-unitas-surface='quantum-white'] .qw-site-article-toc button:focus-visible {
+  color: var(--qw-blue-deep);
+  border-color: var(--qw-blue);
+  background: #fff;
+  outline: none;
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-section {
+  border-top-color: var(--qw-line);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-h {
+  color: var(--qw-gold-deep);
+  text-shadow: 0 1px 0 #fff;
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-p {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-item {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-item-name,
+html[data-unitas-surface='quantum-white'] .qw-site-article-item-name a {
+  color: var(--qw-ink);
+  text-decoration-color: rgba(10, 10, 12, 0.25);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-item-name a:hover,
+html[data-unitas-surface='quantum-white'] .qw-site-article-item-name a:focus-visible {
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-item-meta {
+  color: var(--qw-blue-deep);
+  border-color: rgba(11, 92, 255, 0.3);
+  background: var(--qw-blue-soft);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-item-note {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-highlights li {
+  color: var(--qw-ink-2);
+  border-left-color: var(--qw-gold);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-notice,
+html[data-unitas-surface='quantum-white'] .qw-site-article-disclaimer,
+html[data-unitas-surface='quantum-white'] .qw-site-article-updated {
+  color: var(--qw-ink-3);
+  border-top-color: var(--qw-line);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-actions {
+  border-top-color: var(--qw-line-strong);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-actions a {
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-actions a:hover,
+html[data-unitas-surface='quantum-white'] .qw-site-article-actions a:focus-visible {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-actions button {
+  color: var(--qw-ink-2);
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.75);
+}
+html[data-unitas-surface='quantum-white'] .qw-site-article-actions button:hover,
+html[data-unitas-surface='quantum-white'] .qw-site-article-actions button:focus-visible {
+  color: var(--qw-ink);
+  border-color: var(--qw-blue);
+}
+
+/* --------------------------------------------------------------------------
    16. Anti-piracy watermark (SPEC §6) -- SovereignWatermark.tsx
    -------------------------------------------------------------------------- */
 html[data-unitas-surface='quantum-white'] .qw-watermark {

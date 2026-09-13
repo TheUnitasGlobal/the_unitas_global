@@ -23,7 +23,7 @@ const publicDir = path.resolve(__dirname, '..', 'public');
 const manifestPath = path.resolve(publicDir, 'ownership-manifest.json');
 
 const OWNER = 'THE UNITAS GLOBAL OU';
-const LICENSE = 'Proprietary -- All Rights Reserved. See /legal#license.';
+const LICENSE = 'Proprietary -- All Rights Reserved. See /legal/terms.';
 
 function walk(dir, base = dir) {
   const files = [];

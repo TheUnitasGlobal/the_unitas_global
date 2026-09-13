@@ -328,7 +328,7 @@
     "title": "Ettevõtte Protokollid",
     "subtitle": "Aktiivses teadus- ja arendustegevuses olev suveräänne infrastruktuur.",
     "rdNotice": "Ainult ettevõtetele mõeldud B2B protokoll aktiivses T&A-s (Enterprise SaaS Subscription).",
-    "patentBadge": "USPTO patenditaotlus #64/023,911",
+    "patentBadge": "Patenditaotlus menetluses",
     "viewSpec": "Vaata Tehnilist Spetsifikatsiooni",
     "hideSpec": "Peida Tehniline Spetsifikatsioon",
     "earlyAccess": "Varajane Ligipääs / Ettevõtte Päring",
@@ -342,7 +342,7 @@
     "inquiryThanksBody": "Täname -- meie ettevõtete meeskond võtab peagi ühendust.",
     "close": "Sulge",
     "manifesto": "Ettevõtte protokollide kiht tõlgib THE UNITAS GLOBAL OÜ suveräänse doktriini ettevõtte taristuks. Kolm protokolli kannavad kumbki üht suveräänsuse sammast — identiteet (U-Signature), saladused (U-Key), väärtus (U-Pay) — ja toimivad ühe organismina 11 kognitiivse tuuma ja U-AI autonoomse otsustusmootori peal. Eesmärk ei ole järjekordne SaaS, vaid detsentraliseeritud taristu, mis asendab pangad, sertifitseerimisasutused ja maksevõrgud, olles käitatud kapitalita, ühe inimese poolt ja täisautomaatselt.",
-    "patentAnchorNote": "Kõik intellektuaalomandi ja patenditaotluse teated (USPTO #64/023,911) piirduvad ainuüksi selle ettevõtte T&A kihiga.",
+    "patentAnchorNote": "Kõik intellektuaalomandi ja patenditaotluse teated piirduvad ainuüksi selle ettevõtte T&A kihiga.",
     "doctrineLabel": "Disainidoktriin"
   },
   "ErrorBoundary": {
@@ -835,103 +835,538 @@
   },
   "SitePages": {
     "common": {
-      "back": "Tagasi UNITASesse",
-      "disclaimer": "See leht on esitatud üksnes üldiseks teavitamiseks. See ei ole õigusnõustamine ega loo lepingut ega garantiid. Kui siin kirjeldatakse plaane või menetluses olevaid küsimusi, võivad need muutuda. THE UNITAS GLOBAL OÜ, Eesti."
+      "back": "Tagasi UNITAS-esse",
+      "disclaimer": "See leht on mõeldud üksnes üldise teabe andmiseks. See ei ole õigusnõustamine ega loo lepingut ega garantiid. Kui siin kirjeldatakse plaane või pooleliolevaid küsimusi, võivad need muutuda. THE UNITAS GLOBAL OÜ, Eesti.",
+      "corporateNotice": "UNITAS-t haldab Eestis registreeritud äriühing THE UNITAS GLOBAL OÜ. Sellel lehel olevad tootekirjeldused peegeldavad platvormi praegust ülesehitust ja võivad aja jooksul muutuda.",
+      "updatedLabel": "Viimati uuendatud",
+      "contentsLabel": "Sellel lehel",
+      "thirdPartyLabel": "Kolmandate isikute allikad, mille poole see sait pöördub",
+      "storageLabel": "Võtmed, mida see sait teie brauseris hoiab",
+      "fetchedIntro": "Kui kasutate reaalajafunktsioone, pöörduvad meie serverid või teie brauser järgmiste avalike teenuste poole. Iga teenus on nimetatud selle tegeliku haldaja järgi; saadame ainult funktsiooniks vajaliku päringu, mitte kunagi teie konto identiteeti.",
+      "browserIntro": "Järgmiste teenuste poole pöördutakse otse teie brauserist, mistõttu näevad nende haldajad päringu osana teie IP-aadressi. Ükski neist ei saa teie UNITAS-e konto identiteeti.",
+      "storageIntro": "Need väärtused asuvad ainult teie brauseri kohalikus salvestusruumis. Ühtegi neist ei saadeta UNITAS-e serveritesse ja saidi andmete kustutamine eemaldab need kõik.",
+      "sideServer": "pöördutakse meie serveritest",
+      "sideBrowser": "pöördutakse teie brauserist",
+      "loginWall": "võib nõuda sisselogimist",
+      "cookiesLabel": "Küpsised, mille see sait seab",
+      "cookiesIntro": "Erinevalt ülaltoodud võtmetest liiguvad küpsised iga päringuga UNITASe poole. Kõik meie kasutatavad küpsised on siin loetletud ja ükski neist ei teeni reklaami ega saitideülest jälgimist. HttpOnly märkega küpsiseid ei saa lehe skriptid lugeda."
     },
     "about": {
-      "title": "UNITASest",
-      "lede": "THE UNITAS GLOBAL OÜ ehitab detsentraliseeritud suveräänset SaaS-ökosüsteemi, mille on kavandanud üks asutaja ja mida käitatakse täieliku tehisintellekti automatiseerimisega.",
-      "body": [
-        "UNITAS on Eesti ettevõte, mis järgib üht ideed: kogu maailma inimesi teenindavat kognitiivset taristut saab kavandada, välja anda ja käitada ilma kapitalimahukate meeskondade või riskikapitali sõltuvuseta. Iga ökosüsteemi moodul on ehitatud selle standardi järgi.",
-        "Platvorm on üles ehitatud kognitiivsete struktuuride ümber — üheteistkümneosaline elav ökosüsteem, viis tarbijateenust ja kolm ettevõtteprotokolli — mis jagavad ühte identiteedikihti, ühte pearaamatut ja ühte disainikeelt."
+      "title": "UNITAS-e tutvustus",
+      "lede": "THE UNITAS GLOBAL OÜ ehitab detsentraliseeritud ja sõltumatut SaaS-ökosüsteemi, mille on kavandanud üks asutaja ja mida käitatakse täielikult automatiseeritult tehisintellekti abil.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Üks idee",
+          "paragraphs": [
+            "UNITAS on Eesti ettevõte, mis järgib üht ideed: kogu maailma inimesi teenivat kognitiivset taristut on võimalik kavandada, välja lasta ja käitada ilma kapitalimahukate meeskondadeta ja riskikapitalist sõltumata.",
+            "Ökosüsteemi iga moodul on ehitatud sama mõõdupuu järgi: piisavalt väike, et üks asutaja saaks selle eest algusest lõpuni vastutada, ja piisavalt automatiseeritud, et töötada ööpäev läbi."
+          ]
+        },
+        {
+          "heading": "Sõltumatu SaaS-ökosüsteem",
+          "paragraphs": [
+            "Platvorm on üles ehitatud kognitiivsete struktuuride ümber – üheteistkümneosaline reaalajas toimiv ökosüsteem, viis tarbijateenust ja kolm ettevõtteprotokolli –, mis jagavad üht identiteedikihti, üht pearaamatut ja üht disainikeelt.",
+            "Sõltumatu tähendab, et ökosüsteem ei sõltu oma identiteedi, pearaamatu ega renderdamise osas ühestki üksikust tarnijast. Iga välisteenus, mille poole see pöördub, on avalik, nimeliselt välja toodud ja asendatav."
+          ]
+        },
+        {
+          "heading": "Renditavad autonoomsed tehased",
+          "paragraphs": [
+            "Liikmed tellivad mooduleid nii, nagu ettevõte rendib töökoda: iga moodul on autonoomne agenditehas, mis kannab töökoormust, mille jaoks tavaline ettevõte palkaks töötajad.",
+            "Digitaalsed nomaadid ja väikeettevõtted saavad neid tehaseid käitada mis tahes seadmest ja ükskõik millises kahekümnest keelest, ilma et peaksid ise kedagi palkama või midagi majutama."
+          ]
+        },
+        {
+          "heading": "Mõõdetud arvutusressurss, taaskasutatud tulemused",
+          "paragraphs": [
+            "Agenditööd mõõdetakse ülesande kaupa. Kord valideeritud tulemus salvestatakse vahemällu ja esitatakse uuesti ilma mootorikuluta, nii et mida rohkem platvormi kasutatakse, seda tõhusamaks see muutub.",
+            "Juurdepääsu tasulistele moodulitele reguleerib U-COIN, teie kontol olev ettemakstud juurdepääsukrediit. See ei ole väärtpaber ega väärtuse säilitamise vahend."
+          ]
+        },
+        {
+          "heading": "Asutaja juhitud, tehisintellekti käitatav",
+          "paragraphs": [
+            "UNITAS-e kavandas ja seda käitab selle asutaja. Arendus, kontroll ja juurutamine käivad läbi automatiseeritud agendikonveieri, millel on tõrke korral sulguv terviklusevärav: midagi ei lasta välja enne, kui kõik kontrollid on läbitud.",
+            "See hoiab ökosüsteemi iseseisvana, kergena ja vastupidavana ning tagab, et iga otsuse taga seisab üks vastutav inimene."
+          ]
+        },
+        {
+          "heading": "Eesti ettevõte",
+          "paragraphs": [
+            "THE UNITAS GLOBAL OÜ on registreeritud Eestis ja lähtub oma tegevuses Euroopa Liidu andmekaitse- ja tarbijakaitsepõhimõtetest. Teenusele kohaldatakse Eesti õigust."
+          ]
+        }
       ]
     },
     "careers": {
       "title": "Karjäär",
-      "lede": "UNITAS toimib asutaja juhitud ja tehisintellektiga automatiseeritud tegevusena. Praegu avatud palgalisi ametikohti ei ole.",
-      "body": [
-        "Mudel on teadlik valik: kompaktne suveräänne struktuur, kus automatiseerimine kannab töökoormust, mille tavaettevõte täidaks personaliga. See hoiab ökosüsteemi sõltumatu ja vastupidava.",
-        "Kui mudel muutub, avaldatakse vabad kohad esmalt siin. Partnerlus- ja panustamispäringud saab saata kontaktilehe kaudu."
+      "lede": "UNITAS töötab asutaja juhitud ja tehisintellektiga automatiseeritud ettevõtmisena. Praegu ei ole ühtegi vaba palgalist ametikohta.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Miks värbamislehte ei ole",
+          "paragraphs": [
+            "See mudel on teadlik valik: kerge ja sõltumatu struktuur, milles automatiseerimine kannab töökoormust, mille jaoks tavaline ettevõte palkaks töötajad. See hoiab ökosüsteemi iseseisvana ja vastupidavana.",
+            "Kui see mudel muutub, avaldatakse vabad ametikohad esimesena siin."
+          ]
+        },
+        {
+          "heading": "Kuidas töö siin käib",
+          "paragraphs": [
+            "Iga UNITAS-e muudatus läbib agendikonveieri: disaini lähteülesanne, teostus, tüübikontroll, testikomplekt, tootmisversiooni ehitus ja otsast lõpuni testkäivitus. Muudatust, mis mõnes etapis ebaõnnestub, välja ei lasta.",
+            "Sama konveier dokumenteerib ennast ise, nii et platvormi ajalugu on loetav järgmisele agendile – või järgmisele inimesele."
+          ]
+        },
+        {
+          "heading": "Kaugtöö juba ülesehituselt",
+          "paragraphs": [
+            "UNITAS-el ei ole kontorit. Seda ehitatakse ja käitatakse sealt, kus asutaja parasjagu viibib, tagasihoidliku riistvaraga ja üle ajavööndite.",
+            "Igasugune tulevane koostöö järgib sama mustrit: asünkroonne, kirjalik ja kaugtööpõhine."
+          ]
+        },
+        {
+          "heading": "Kuidas juba täna panustada",
+          "paragraphs": [
+            "Turbeuurijad saavad haavatavustest teatada turvalisuse lehe kaudu. Kirjutajad ja tõlkijad, kes märkavad viga ükskõik millises kahekümnest keelest, saavad parandused saata kontaktilehe kaudu.",
+            "Partnerlus- ja integratsioonipäringud on samuti oodatud kontaktilehe kaudu; palun kirjeldage, mida te ehitate ja keda see teenib."
+          ]
+        },
+        {
+          "heading": "Keda me otsime",
+          "paragraphs": [
+            "Kui ametikohad peaksid avanema, eelistatakse inimesi, kes suudavad probleemi eest algusest lõpuni vastutada, kirjutavad selgelt ja tunnevad end mugavalt pigem automatiseeritud agentide kõrval töötades kui meeskondi juhtides."
+          ]
+        }
       ]
     },
     "press": {
-      "title": "Meedia",
-      "lede": "Meediamaterjalid ja ettevõtte taust ajakirjanikele ja analüütikutele.",
-      "body": [
-        "Intervjuude, taustabriifingute või faktikontrolli jaoks võtke meiega ühendust kontaktilehe kaudu ning märkige oma väljaanne ja tähtaeg.",
-        "Palun viidake ettevõttele kui \"THE UNITAS GLOBAL OÜ\" ja tootele kui \"UNITAS\". Logod ja brändijuhised on saadaval soovi korral."
+      "title": "Meediale",
+      "lede": "Meediamaterjalid ja ettevõtte taustteave ajakirjanikele ja analüütikutele.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Faktid ettevõtte kohta",
+          "paragraphs": [
+            "Ettevõte: THE UNITAS GLOBAL OÜ, registreeritud Eestis. Toode: UNITAS, sõltumatu SaaS-ökosüsteem autonoomsete agenditehaste jaoks. Asutaja juhitud; käitatakse tehisintellekti automatiseerimise abil; saadaval kahekümnes keeles.",
+            "Platvorm on praegu käivituseelses etapis avaliku \"Coming Soon\" värava taga."
+          ]
+        },
+        {
+          "heading": "Kuidas meile viidata",
+          "paragraphs": [
+            "Palun nimetage ettevõtet kujul \"THE UNITAS GLOBAL OÜ\" ja toodet kujul \"UNITAS\". Moodulite nimesid võib tsiteerida nii, nagu need liideses esinevad.",
+            "Palun ärge kirjeldage ühtegi UNITAS-e funktsiooni patenteerituna; kus see on asjakohane, on täpne väljend \"patenditaotlus menetluses\"."
+          ]
+        },
+        {
+          "heading": "Brändi kasutamine",
+          "paragraphs": [
+            "UNITAS-e sõnamärki ja märki võib toimetuslikus kajastuses kasutada muutmata kujul. Ärge kombineerige neid teiste märkidega, ärge jätke muljet, nagu oleks tegemist meie heakskiiduga, ega kasutage neid kaupadel.",
+            "Logofailid ja brändijuhised on saadaval soovi korral."
+          ]
+        },
+        {
+          "heading": "Intervjuud ja faktikontroll",
+          "paragraphs": [
+            "Intervjuude, taustainfo või faktikontrolli jaoks võtke meiega ühendust kontaktilehe kaudu ning märkige oma väljaanne ja tähtaeg. Määratud tähtajaga päringutele vastatakse esimesena."
+          ]
+        },
+        {
+          "heading": "Kolmandate isikute andmed kajastustes",
+          "paragraphs": [
+            "UNITAS-es kuvatavad reaalajanäitajad – ilm, edetabelid, uudiste pealkirjad, vahetuskursid – pärinevad nimeliselt välja toodud avalikest allikatest ning nende puhul tuleks viidata neile allikatele, mitte UNITAS-ele."
+          ]
+        }
       ]
     },
     "patent-notice": {
       "title": "Patenditeade",
-      "lede": "Teatavad UNITASe meetodid ja süsteemid on menetluses oleva patenditaotluse esemeks.",
-      "body": [
-        "Ameerika Ühendriikides on esitatud ajutine patenditaotlus (nr 64/023,911), mis hõlmab UNITASe kognitiivsete ja allkirjaprotokollide aspekte. Taotlus on menetluses; patenti ei ole antud ja siin toodut ei tohi käsitada antud õiguste väitena.",
-        "Menetluses olek ei anna jõustatavat ainuõigust enne, kui patent on väljastatud. Tootenimesid ja Sovereign Codexi süsteeminimesid kasutatakse päritolu tähistajatena."
+      "lede": "Teatud UNITAS-e meetodid ja süsteemid on menetluses oleva patenditaotluse esemeks.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Menetluse staatus",
+          "paragraphs": [
+            "Ameerika Ühendriikides on esitatud esialgne patenditaotlus, mis hõlmab UNITAS-e kognitiivsete ja allkirjaprotokollide aspekte. Taotlus on menetluses; ühtegi patenti ei ole välja antud ning midagi siin kirjutatut ei tohiks tõlgendada väitena, et õigused on antud.",
+            "Menetluses olek ei anna mingit jõustatavat ainuõigust enne patendi väljaandmist – ja üksnes juhul, kui patent välja antakse."
+          ]
+        },
+        {
+          "heading": "Mida taotlus kirjeldab",
+          "paragraphs": [
+            "Üldjoontes kirjeldab taotlus, kuidas iseseisvad moodulid jagavad üht identiteedikihti ja üht ainult lisamist lubavat pearaamatut, kuidas agenditööd mõõdetakse ülesande kaupa ja taaskasutatakse valideeritud vahemälust ning kuidas allkirjaprotokoll seob liikme töö tema kontoga ilma tema identiteeti paljastamata.",
+            "Ülaltoodud kirjeldus on kokkuvõte lugejatele, mitte väide kaitseulatuse kohta."
+          ]
+        },
+        {
+          "heading": "Nimed ja märgid",
+          "paragraphs": [
+            "Tootenimesid ja UNITAS-e süsteeminimesid kasutatakse päritolutähistena. Neid ei esitata registreeritud kaubamärkidena, kui sellel lehel ei ole märgitud teisiti."
+          ]
+        },
+        {
+          "heading": "Probleemist teatamine",
+          "paragraphs": [
+            "Kui arvate, et UNITAS rikub teile kuuluvaid õigusi või et kolmas isik esitab UNITAS-e tehnoloogiat vääralt, võtke meiega kontaktilehe kaudu ühendust ja lisage üksikasjad. Teateid vaatab läbi asutaja."
+          ]
+        },
+        {
+          "heading": "Selle teate muudatused",
+          "paragraphs": [
+            "Seda teadet uuendatakse, kui taotlus avaldatakse, rahuldatakse, sellest loobutakse või seda laiendatakse teistesse jurisdiktsioonidesse."
+          ]
+        }
       ]
     },
     "compliance": {
-      "title": "Vastavus",
-      "lede": "Kuidas UNITAS läheneb oma regulatiivsetele kohustustele jurisdiktsioonides, kus ta tegutseb.",
-      "body": [
-        "UNITASt käitab Eesti ettevõte ning ta joondab oma tavad Euroopa Liidu andmekaitse ja tarbijakaitse põhimõtetega. Maksete töötlemist teostavad kolmandast isikust teenusepakkujad oma reguleeritud raamistike alusel.",
-        "Me ei väida vastavust ühelegi konkreetsele standardile. Vastavusküsimusi, sealhulgas andmesubjekti taotlusi, saab esitada kontaktilehe kaudu."
+      "title": "Nõuetele vastavus",
+      "lede": "Kuidas UNITAS läheneb oma regulatiivsetele kohustustele kõigis jurisdiktsioonides, mida ta teenindab.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Kus meid reguleeritakse",
+          "paragraphs": [
+            "UNITAS-t haldab Eesti ettevõte, mis lähtub oma tegevuses Euroopa Liidu andmekaitse- ja tarbijakaitsepõhimõtetest, sealhulgas isikuandmete kaitse üldmäärusest.",
+            "Me ei väida, et oleksime sertifitseeritud ühegi konkreetse standardi alusel."
+          ]
+        },
+        {
+          "heading": "Andmete minimeerimine",
+          "paragraphs": [
+            "Kogume konto haldamiseks vajaliku miinimumi ja säilitame seda ainult seni, kuni konto on olemas. Külalisseansid ei lahku kunagi brauserist.",
+            "Reaalajafunktsioonid põhinevad avalikel tunnustel – koht, teema, avalikult tuntud üksus –, mitte kunagi sellel, kes küsib."
+          ]
+        },
+        {
+          "heading": "Maksed ja krediit",
+          "paragraphs": [
+            "Maksete töötlemist teostavad kolmandatest isikutest teenusepakkujad oma reguleeritud raamistike alusel; kaardi- ja pangaandmed ei jõua kunagi UNITAS-eni.",
+            "U-COIN on ettemakstud juurdepääsukrediit UNITAS-e moodulite jaoks. See ei ole väärtpaber, väärtuse säilitamise vahend ega makseinstrument ning seda ei saa kontode vahel üle kanda."
+          ]
+        },
+        {
+          "heading": "Auditijälg",
+          "paragraphs": [
+            "Iga saldomuudatuse kirjutab ainult lisamist lubavasse pearaamatusse auditeeritud serveripoolne funktsioon. Miski brauseris ei saa saldot otse muuta."
+          ]
+        },
+        {
+          "heading": "Rahandus- ja maksuhaldus",
+          "paragraphs": [
+            "Ettevõtte raamatupidamist, pangatoiminguid ja Eesti maksudeklaratsioone hallatakse reguleeritud Euroopa teenusepakkujate kaudu asutaja volitusel."
+          ]
+        },
+        {
+          "heading": "Taotlused ja kaebused",
+          "paragraphs": [
+            "Nõuetele vastavuse küsimusi, sealhulgas andmesubjekti taotlusi, saab esitada kontaktilehe kaudu. Euroopa Liidu elanikud võivad esitada kaebuse ka oma riigi järelevalveasutusele."
+          ]
+        }
       ]
     },
     "security": {
       "title": "Turvalisus",
-      "lede": "Kontrollid, mis kaitsevad kontosid, saldosid ja identiteediandmeid.",
-      "body": [
-        "Konto identiteeti jõustatakse andmebaasis, mitte brauseris: kinnitatud telefoninumber on aktiivsete kontode lõikes unikaalne, saldomuudatused läbivad ainult auditeeritud serveripoolseid funktsioone ja tehingute pearaamat on ainult lisatav.",
-        "Saladused, näiteks maksevõtmed, ei jõua kunagi kliendikoodi. Haavatavusest teatamiseks kasutage kontaktilehte, esitades piisavalt üksikasju probleemi taasesitamiseks, ning palun ärge avalikustage seda enne, kui oleme vastanud."
+      "lede": "Kontrollimeetmed, mis kaitsevad kontosid, saldosid ja identiteediandmeid.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Serveripoolselt jõustatud identiteet",
+          "paragraphs": [
+            "Konto identiteeti jõustatakse andmebaasis, mitte brauseris: kinnitatud telefoninumber on kõigi aktiivsete kontode lõikes unikaalne, saldomuudatused läbivad ainult auditeeritud serveripoolseid funktsioone ja tehingute pearaamat lubab ainult lisamist."
+          ]
+        },
+        {
+          "heading": "Vaikimisi nullusaldus",
+          "paragraphs": [
+            "Iga päringut kontrollitakse eraldi ja iseseisvalt. Saladused, näiteks maksevõtmed, ei jõua kunagi kliendikoodini ning asutaja juurdepääsu käivituseelsetele vaadetele kontrollitakse serveripoolselt igal külastusel."
+          ]
+        },
+        {
+          "heading": "Disainisuund: kvantkindlus",
+          "paragraphs": [
+            "Allkirja- ja seansikihid on kavandatud nii, et nende algoritme saab asendada pearaamatut muutmata – see on eeltingimus kvantjärgse krüptograafia kasutuselevõtuks, kui standardid kinnistuvad. Tegemist on disainisuunaga, mitte sertifikaadiga."
+          ]
+        },
+        {
+          "heading": "Automaatne karantiin",
+          "paragraphs": [
+            "Moodul, mis terviklusekontrolli ei läbi, isoleeritakse automaatselt: see langeb tagasi suletud, kirjutuskaitstud olekusse, selle asemel et väljastada osalisi andmeid. Ülejäänud ökosüsteem töötab edasi."
+          ]
+        },
+        {
+          "heading": "Kliendi terviklus",
+          "paragraphs": [
+            "Väljalastud failid kannavad omanduse sõrmejälge ning liides on ehitatud hoidma seanssi puutumatuna nii rakendusesisestes brauserites kui ka lehe uuesti laadimisel, nii et vigane manustatud vaade ei logi teid kunagi märkamatult välja."
+          ]
+        },
+        {
+          "heading": "Haavatavusest teatamine",
+          "paragraphs": [
+            "Haavatavusest teatamiseks kasutage kontaktilehte ja lisage probleemi reprodutseerimiseks piisavalt üksikasju ning palun ärge avalikustage seda enne, kui oleme vastanud. Turbeteateid käsitletakse eelisjärjekorras kõigi teiste päringute ees."
+          ]
+        }
       ]
     },
     "privacy": {
-      "title": "Privaatsuspõhimõtted",
-      "lede": "Mida UNITAS kogub, miks ja millised on teie valikud.",
-      "body": [
-        "UNITAS kogub konto käitamiseks vajalikku miinimumi: identifikaatorit (e-post või telefon) autentimiseks, mündisaldot ja selle pearaamatut ning põhilisi keele- ja seadme-eelistusi, mis salvestatakse teie seadmesse. Külalisseansid jäävad teie brauserisse.",
-        "Andmeid töödeldakse teenuse käitamiseks, mitte reklaamiprofiilide loomiseks. Oma kontoandmetega tutvumist või nende kustutamist saate taotleda kontaktilehe või rakendusesiseste konto seadete kaudu."
+      "title": "Privaatsuspoliitika",
+      "lede": "Mida UNITAS kogub, miks ja millised valikud teil on.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Mida me kogume",
+          "paragraphs": [
+            "UNITAS kogub konto haldamiseks vajaliku miinimumi: tunnuse (e-posti aadress või telefoninumber) autentimiseks, U-COIN-i saldo ja selle pearaamatu ning teie seadmes salvestatud põhilised keele- ja seadme-eelistused.",
+            "Külalisseansid jäävad ainult teie brauserisse ja neid ei laadita kunagi üles."
+          ]
+        },
+        {
+          "heading": "Miks me neid töötleme",
+          "paragraphs": [
+            "Andmeid töödeldakse teenuse käitamiseks – teie sisselogimiseks, saldo õigena hoidmiseks ja teie keele meelespidamiseks. Neid ei kasutata reklaamiprofiilide loomiseks ega müüda."
+          ]
+        },
+        {
+          "heading": "Kui kaua me neid säilitame",
+          "paragraphs": [
+            "Kontoandmeid säilitatakse seni, kuni konto on olemas. Pearaamatut säilitatakse nii kaua, kui raamatupidamise jaoks on seadusega nõutud. Seadme-eelistused asuvad ainult teie seadmes."
+          ]
+        },
+        {
+          "heading": "Reaalajafunktsioonid ja avalikud allikad",
+          "paragraphs": [
+            "Ilm, edetabelid, uudised ja otsinguvoog koostatakse allpool loetletud avalikest allikatest. Nendele allikatele saadetavad päringud sisaldavad teemat, mida te uurite, mitte kunagi teie konto identiteeti. Mõne poole pöördutakse meie serveritest ja mõne poole otse teie brauserist; allolevad loendid näitavad, kumb kehtib."
+          ]
+        },
+        {
+          "heading": "Asukoht",
+          "paragraphs": [
+            "Ilma- ja lähiümbruse funktsioonid kasutavad teie valitud kohta või – ainult teie loal – teie seadme asukohta. Kui kumbki pole saadaval, tuletab allpool nimetatud avalik geolokatsiooniteenus teie IP-aadressist ligikaudse asukoha. Teie koordinaate ei salvestata kunagi UNITAS-e serveritesse."
+          ]
+        },
+        {
+          "heading": "Teie õigused",
+          "paragraphs": [
+            "Saate taotleda juurdepääsu oma kontoandmetele, nende parandamist või kustutamist kontaktilehe või rakendusesiseste kontoseadete kaudu. Euroopa Liidu elanikud võivad esitada kaebuse ka oma järelevalveasutusele."
+          ]
+        },
+        {
+          "heading": "Küpsised ja kohalik salvestusruum",
+          "paragraphs": [
+            "Sait hoiab teie brauseris väikest hulka väärtusi, mida on kirjeldatud küpsisepoliitikas. Kolmandate isikute reklaami- ega saitideülese jälgimise küpsiseid ei seata."
+          ]
+        }
       ]
     },
     "cookies": {
-      "title": "Küpsiste põhimõtted",
-      "lede": "UNITAS kasutab kohalikku salvestusruumi ja küpsiseid säästlikult ja funktsionaalselt.",
-      "body": [
-        "Sait salvestab väikese hulga väärtusi — teie keele, heli-eelistuse, seansi- ja autentimislubad ning eelkäivituse juurdepääsu lipu. Need on vajalikud liidese korrektseks toimimiseks.",
-        "Kolmandate isikute reklaami- ega saitideüleseid jälgimisküpsiseid ei seata. Brauseri salvestusruumi tühjendamine lähtestab need eelistused järgmisel külastusel."
+      "title": "Küpsisepoliitika",
+      "lede": "UNITAS kasutab kohalikku salvestusruumi ja küpsiseid säästlikult ja üksnes funktsionaalsel otstarbel.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Rangelt vajalikud",
+          "paragraphs": [
+            "Seansi- ja autentimisload, käivituseelse juurdepääsu lipp ja rakendusesisene seansikaitse on liidese korrektseks toimimiseks vajalikud. Need seatakse ainult siis, kui logite sisse või läbite sisenemisvärava."
+          ]
+        },
+        {
+          "heading": "Eelistused",
+          "paragraphs": [
+            "Teie keel, heliseade, viimati valitud koht ja avatud paneeli asend jäetakse meelde, et liides naaseks täpselt sellisena, nagu te selle jätsite."
+          ]
+        },
+        {
+          "heading": "Vahemälud",
+          "paragraphs": [
+            "Avalike allikate tulemused – ilmanäit, edetabelileht, otsinguvoo leht – salvestatakse teie brauseri vahemällu piiratud ajaks, et teema uuesti avamine ei nõuaks võrgupäringuid. Need sisaldavad ainult avalikke andmeid."
+          ]
+        },
+        {
+          "heading": "Ei analüütikat, ei reklaami",
+          "paragraphs": [
+            "Kolmandate isikute analüütika-, reklaami- ega saitideülese jälgimise küpsiseid ei seata. UNITAS ei osale reklaamivõrgustikes."
+          ]
+        },
+        {
+          "heading": "Kuidas neid hallata",
+          "paragraphs": [
+            "UNITAS-e saidiandmete kustutamine brauserist eemaldab kõik allpool loetletud väärtused. See logib teid välja ja lähtestab järgmisel külastusel teie eelistused; see ei mõjuta kunagi teie kontosaldot, mis asub serveris."
+          ]
+        }
       ]
     },
     "terms": {
       "title": "Kasutustingimused",
-      "lede": "UNITASe kasutamise põhitingimused, kuni see on eelkäivituse faasis.",
-      "body": [
-        "UNITASt pakutakse aktiivse arenduse ajal põhimõttel \"nagu on\". Juurdepääsu tasulistele moodulitele reguleerib teie konto mündisaldo; mündid on ettemakstud juurdepääsukrediit — mitte väärtpaber ega salvestatud väärtuse instrument — ja neid ei saa üle kanda.",
-        "Funktsioonid võivad platvormi arenedes muutuda või peatuda. Kasutamise jätkamine pärast muudatust tähendab uuendatud tingimustega nõustumist. Kohaldatav õigus on Eesti õigus."
+      "lede": "Põhitingimused UNITAS-e kasutamiseks selle käivituseelses etapis.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Teenus",
+          "paragraphs": [
+            "Aktiivse arenduse ajal pakutakse UNITAS-t põhimõttel \"nagu on\" (as is). Platvormi arenedes võivad funktsioonid muutuda või need võidakse peatada. Kasutamise jätkamine pärast muudatust tähendab, et nõustute uuendatud tingimustega."
+          ]
+        },
+        {
+          "heading": "Kontod",
+          "paragraphs": [
+            "UNITAS-t võite kasutada külalisena või e-posti või telefoni teel kinnitatud kontoga. Ühe kinnitatud telefoninumbri saab siduda ühe aktiivse kontoga. Teie vastutate selle eest, et teie sisselogimisandmed jääksid ainult teie teada."
+          ]
+        },
+        {
+          "heading": "U-COIN-i juurdepääsukrediit",
+          "paragraphs": [
+            "Juurdepääsu tasulistele moodulitele reguleerib teie kontol olev U-COIN-i saldo. U-COIN on ettemakstud juurdepääsukrediit – mitte väärtpaber, salvestatud väärtusega instrument ega valuuta – ning see ei ole ülekantav.",
+            "Krediit kulutatakse tasulise funktsiooni osutamisel. Kui tasuline funktsioon ei suuda tulemust genereerida, tagastatakse selle päringu jaoks kulutatud krediit automaatselt teie saldole."
+          ]
+        },
+        {
+          "heading": "Tagasimaksed",
+          "paragraphs": [
+            "Kasutamata krediit tagastatakse algsele makseviisile teie suhtes kohaldatava tarbijakaitseõigusega ette nähtud tähtaja jooksul. Juba osutatud funktsioonide eest kulutatud krediiti ei tagastata."
+          ]
+        },
+        {
+          "heading": "Lubatud kasutus",
+          "paragraphs": [
+            "Te ei tohi üritada saldot muuta, juurdepääsuväravast mööda minna, teenust sondeerida või üle koormata, sellelt massiliselt andmeid kraapida ega kasutada seda teiste kahjustamiseks. Sellises tegevuses osalevad kontod võidakse peatada."
+          ]
+        },
+        {
+          "heading": "Kolmandate isikute sisu",
+          "paragraphs": [
+            "Reaalajafunktsioonid kuvavad sisu liideses nimetatud avalikest allikatest. UNITAS ei kontrolli seda sisu ega garanteeri selle täpsust. Teisi teenuseid avavatele linkidele kehtivad nende teenuste enda tingimused."
+          ]
+        },
+        {
+          "heading": "Vastutuse piiramine",
+          "paragraphs": [
+            "Seadusega lubatud ulatuses ei vastuta THE UNITAS GLOBAL OÜ teenuse kasutamisest tuleneva kaudse ega kaasneva kahju eest ning tema koguvastutus on piiratud summaga, mille te maksite krediidi eest nõudele eelnenud kaheteistkümne kuu jooksul. Miski siin ei piira vastutust, mida seaduse kohaselt piirata ei saa."
+          ]
+        },
+        {
+          "heading": "Kohaldatav õigus",
+          "paragraphs": [
+            "Nendele tingimustele kohaldatakse Eesti õigust. Tarbijatele jäävad alles kõik nende elukohariigi õiguse imperatiivsed kaitsesätted."
+          ]
+        }
       ]
     },
     "help-center": {
       "title": "Abikeskus",
       "lede": "Vastused kõige sagedamini esitatavatele küsimustele.",
-      "body": [
-        "Heli: taustaheli on igas seadmes vaikimisi sees ja püsib pärast lehe värskendamist; lülitage seda ülemise navigatsiooni kõlariikooniga. Keel: vahetage igal ajal lipumenüüst — teie valik jäetakse meelde.",
-        "Juurdepääs: moodul avaneb, kui teie kontol on vajalik mündisaldo olemas. Kui midagi näib kinni jäänud, värskendage lehte; konto ja saldo olek taastatakse automaatselt."
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Alustamine",
+          "paragraphs": [
+            "Avalehele jõudmiseks vajutage sisenemisekraanil nuppu Alusta. Esimesel külastusel esitatakse lühike sissejuhatus; selle võib vahele jätta ja lehe uuesti laadimisel seda uuesti ei esitata."
+          ]
+        },
+        {
+          "heading": "Otsimine",
+          "paragraphs": [
+            "Märksõnasoovituste saamiseks kirjutage otsinguribale – kõigepealt kuvatakse tootefunktsioonid, seejärel ülemaailmsed üksused ja siis teie keeles olevad leheküljed. Täieliku tulemuse avamiseks vajutage Enter: voog, mis kerimisel üha pikeneb ja milles iga kaart nimetab oma allika.",
+            "Iga kümne lehekülje järel voog peatub ja küsib, kas soovite jätkata; ühe küsimuse ülempiir on kuuskümmend lehekülge."
+          ]
+        },
+        {
+          "heading": "Otseteed ja edetabelid",
+          "paragraphs": [
+            "Otsinguriba all avavad otseteeriba ja edetabeliribad üksikasjalikud vaated lehelt lahkumata. Enamiku nende all leiate ploki \"Uuri sügavamalt\" – läätsede komplekti, mis toob teema kohta avalikest allikatest reaalajas andmeid."
+          ]
+        },
+        {
+          "heading": "Keel",
+          "paragraphs": [
+            "Keelt saate igal ajal vahetada ülemise navigeerimisriba menüüst. Leht jääb sinna, kus see oli, ning teie valik jäetakse meelde selles seadmes ja, kui olete sisse logitud, ka teie kontol."
+          ]
+        },
+        {
+          "heading": "Heli",
+          "paragraphs": [
+            "Taustaheli on vaikimisi sisse lülitatud ja püsib ka lehe värskendamisel. Lülitage seda ülemise navigeerimisriba kõlariikooni abil."
+          ]
+        },
+        {
+          "heading": "Rakenduse paigaldamine",
+          "paragraphs": [
+            "UNITAS-e saab rakendusena paigaldada navigeerimisribal oleva allalaadimisviiba kaudu. Teise rakenduse sisseehitatud brauseris ei pruugi paigaldusviip ilmuda; sel juhul avage leht oma põhibrauseris."
+          ]
+        },
+        {
+          "heading": "Tõrkeotsing",
+          "paragraphs": [
+            "Kui midagi näib kinni jäänud olevat, laadige leht uuesti; teie konto, saldo ja avatud paneelid taastatakse automaatselt. Kui reaalajakaart ei näita andmeid, võib selle taga olev avalik allikas olla ajutiselt kättesaamatu – kaart nimetab selle, et saaksite ise kontrollida."
+          ]
+        }
       ]
     },
     "contact": {
       "title": "Kontakt",
-      "lede": "Üks kanal jõuab otse asutajani.",
-      "body": [
-        "Üld-, partnerlus-, meedia-, turva- ja andmekaitsepäringutega tegeleb asutaja. Vestluse alustamiseks kasutage rakendusesisest konto seadete paneeli või pöörduge aadressil, mis on toodud THE UNITAS GLOBAL OÜ ametlikes kanalites.",
-        "Telefonitoe liini ei ole. Vastamisaeg sõltub mahust; turvateated on esmatähtsad."
+      "lede": "Üks kanal viib otse asutajani.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Kuidas meiega ühendust võtta",
+          "paragraphs": [
+            "Kõiki üldisi, partnerlus-, meedia-, turbe- ja andmekaitsepäringuid käsitleb asutaja. Vestluse alustamiseks kasutage rakenduses kontoseadete paneeli või kirjutage aadressile, mis on toodud THE UNITAS GLOBAL OÜ ametlikes kanalites."
+          ]
+        },
+        {
+          "heading": "Vastamisajad",
+          "paragraphs": [
+            "Telefoni teel tuge ei pakuta. Vastamisaeg sõltub päringute hulgast; esmajärjekorras käsitletakse turbeteateid, seejärel andmekaitsetaotlusi ja siis kõike muud."
+          ]
+        },
+        {
+          "heading": "Mida lisada",
+          "paragraphs": [
+            "Kontoküsimuste puhul lisage kontoga seotud e-posti aadress või telefoninumber. Vea puhul lisage leht, seade ja see, mida te ootasite juhtuvat. Turbeteate puhul lisage reprodutseerimise sammud."
+          ]
+        },
+        {
+          "heading": "Ettevõtte andmed",
+          "paragraphs": [
+            "THE UNITAS GLOBAL OÜ on Eestis registreeritud äriühing. Registriandmed on kättesaadavad Eesti äriregistri kaudu; see sait tänavaaadressi ei avalda."
+          ]
+        }
       ]
     },
     "system-status": {
       "title": "Süsteemi olek",
-      "lede": "UNITASe platvormi praegune tööseisund.",
-      "body": [
-        "UNITAS on eelkäivituse faasis. Avalik liides on tahtlikult suletud \"Coming Soon\" värava taha, kuni asutaja lõpetab sisenemisvoo järjestikuse kontrolli.",
-        "Planeeritud hooldus ja kõik kontosid või saldosid mõjutavad intsidendid võetakse siin kokku, kui platvorm on avalikult käivitatud."
+      "lede": "UNITAS-e platvormi praegune tööseisund.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Praegune olek",
+          "paragraphs": [
+            "UNITAS on käivituseelses etapis. Avalik liides on teadlikult suletud \"Coming Soon\" värava taha, kuni asutaja viib lõpule sisenemisvoo järjestikuse kontrolli."
+          ]
+        },
+        {
+          "heading": "Kuidas me tegutseme",
+          "paragraphs": [
+            "Väljalasked läbivad tõrke korral sulguva konveieri – tüübikontroll, testikomplekt, tootmisversiooni ehitus ja otsast lõpuni testkäivitus – ning need juurutatakse ainult siis, kui iga etapp on läbitud. Väljalasete jaoks plaanilisi seisakuid ei ole."
+          ]
+        },
+        {
+          "heading": "Võrguühenduseta töö ja taasühendumine",
+          "paragraphs": [
+            "Liides on kavandatud võrguühenduse katkemisel vahemällu salvestatud andmetega edasi töötama ja ühenduse taastumisel andmed deterministlikult kooskõlla viima – samad sisendid annavad alati sama oleku, nii et midagi ei lähe kaduma ega dubleerita."
+          ]
+        },
+        {
+          "heading": "Avalikud allikad",
+          "paragraphs": [
+            "Reaalajakaardid sõltuvad liideses nimetatud avalikest teenustest. Kui mõni neist ei ole kättesaadav, annab kaart sellest teada ja ülejäänud leht töötab edasi; UNITAS ei saa nende teenuste käideldavust mõjutada."
+          ]
+        },
+        {
+          "heading": "Intsidenditeated",
+          "paragraphs": [
+            "Plaanilised hooldustööd ja kõik kontosid või saldosid mõjutavad intsidendid võetakse siin kokku, kui platvorm on avalikult käivitatud, koos algusaja, mõjutatud osade ja lahendamise ajaga."
+          ]
+        }
       ]
     }
   },
@@ -2213,6 +2648,107 @@
       "composerAria": "Otsi tulemuse seest uuesti",
       "suggestLabel": "Soovitused",
       "scopeProduct": "UNITAS"
+    },
+    "stream": {
+      "feedAria": "Lõputu voog päringule {term}",
+      "page": "Lehekülg {page}",
+      "ghost": "Lehekülg {page} · juba läbitud",
+      "spine": {
+        "depth": "Sügavus",
+        "cards": "Kaardid",
+        "sources": "Allikad",
+        "tier": "Graveering",
+        "deepCta": "Süvavaade"
+      },
+      "tier": {
+        "spark": "Säde",
+        "orbit": "Orbiit",
+        "nexus": "Nexus",
+        "singularity": "Singulaarsus"
+      },
+      "kinds": {
+        "essence": "Olemus",
+        "axisSpectrum": "Kuueteljeline spekter",
+        "sources": "Allikad",
+        "chain": "Küsimuste ahel",
+        "deepGate": "Süvavaade",
+        "identity": "Identiteet",
+        "redesign": "Suveräänne ümberkujundus",
+        "deeper": "Uuri sügavamalt",
+        "concepts": "Seotud mõisted",
+        "sites": "Seotud saidid",
+        "news": "Uudised",
+        "cogs": "Kuueteljeline lääts",
+        "derived": "Tuletatud teosed",
+        "attention": "Tähelepanulaine",
+        "community": "Kogukond",
+        "timeline": "Muudatuste ajajoon"
+      },
+      "fields": {
+        "editions": "Keeleversioonid",
+        "instanceOf": "Liik",
+        "entity": "Olem",
+        "views30": "Vaatamisi 30 päevaga",
+        "trend": "Suundumus",
+        "window": "Ajavahemik"
+      },
+      "rare": "Haruldane lääts",
+      "rareHint": "Selle küsimuse ja lehekülje jaoks kinnistatud lääts — kõigile ühesugune, alati tasuta.",
+      "thin": "Hõre lehekülg",
+      "loading": "Kogume järgmist lehekülge…",
+      "teaser": "Järgmisena",
+      "more": "Laadi järgmine lehekülg",
+      "softPause": {
+        "title": "Hetk hingetõmbeks",
+        "body": "Oled selle küsimuse kohta lugenud {pages} lehekülge. Nii sügaval kipub asjakohasus hääbuma — jätka vaid siis, kui sellest on veel abi.",
+        "badge": "Asjakohasus väheneb",
+        "continue": "Jätka uurimist"
+      },
+      "end": {
+        "title": "Voog lõpeb siin",
+        "body": "Ühe küsimuse piir on kuuskümmend lehekülge. Esita uus küsimus, et avada uus voog."
+      },
+      "retry": {
+        "title": "Rohkem ei tulnud midagi",
+        "body": "Avalikel allikatel polnud selle kohta enam midagi lisada. Proovi uuesti või laienda küsimust.",
+        "action": "Proovi uuesti"
+      },
+      "disambiguation": {
+        "body": "Sellel terminil on mitu tähendust. Voog järgib kõige levinumat — vali seotud mõiste, et vahetada."
+      },
+      "deepCreditNote": "{cost} U-COIN iga süvavaate kohta — ettemakstud juurdepääsukrediit, mitte väärtpaber ega väärtuse säilitamise vahend.",
+      "outbound": "Otsi mujalt",
+      "swarmMore": "Kõik ökosüsteemid",
+      "swarmLess": "Kolm parimat"
+    },
+    "cogs": {
+      "prompt": "Vaata teemat {term} läbi läätse {group}",
+      "seed": "Seeme",
+      "resonance": "Resonants",
+      "follow": "Küsi seda",
+      "groups": {
+        "origin": "Algupära",
+        "element": "Elemendid",
+        "civilization": "Tsivilisatsioon",
+        "cosmos": "Kosmos",
+        "chronos": "Aeg",
+        "consciousness": "Teadvus",
+        "nexus": "Nexus"
+      },
+      "lenses": {
+        "mechanism": "Mehhanism",
+        "flow": "Voog",
+        "scale": "Mastaap",
+        "tension": "Pinge",
+        "horizon": "Horisont"
+      },
+      "ask": {
+        "mechanism": "Mis paneb {term} toimima — ja mis selle katki teeks?",
+        "flow": "Kust voolab {term} ümbritsev väärtus sisse ja kuhu see välja läheb?",
+        "scale": "Milline näeb {term} välja kümme korda suuremana — ja kümme korda väiksemana?",
+        "tension": "Millised jõud kisuvad {term} lahku ja mis hoiab seda koos?",
+        "horizon": "Kuhu {term} liigub ja kes jõuab sinna esimesena?"
+      }
     }
   }
 }

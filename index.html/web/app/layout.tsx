@@ -11,6 +11,7 @@ import { ShortsOrphanCleanup } from '@/components/system/ShortsOrphanCleanup';
 import { WalletProvider } from '@/components/wallet/WalletProvider';
 import { ENTRY_CHIME_BOOTSTRAP } from '@/lib/audio/logoEntryChime';
 import { EXIT_GUARD_BOOTSTRAP } from '@/lib/exit/appExit';
+import { SITE_LINK_BOOTSTRAP } from '@/lib/sitePages';
 import { PWA_CAPTURE_BOOTSTRAP } from '@/lib/pwa/installPrompt';
 import { IN_APP_ESCAPE_BOOTSTRAP } from '@/lib/pwa/inAppBrowser';
 import { STANDALONE_LAUNCH_BOOTSTRAP } from '@/lib/pwa/standaloneLaunch';
@@ -136,6 +137,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             so a back press there never finishes the installed app. Stands
             down once ExitGuard mounts. See lib/exit/appExit.ts. */}
         <script id="unitas-exit-guard-bootstrap" dangerouslySetInnerHTML={{ __html: EXIT_GUARD_BOOTSTRAP }} />
+        {/* REV-21 §6.1 (F-2): a footer / legal link clicked BEFORE React has
+            hydrated is captured here and its page request parked for
+            SiteLinkModalHost to open on mount, instead of falling through to
+            the anchor and routing into the dark document. Stands down on the
+            first click after the host mounts. See lib/sitePages.ts. */}
+        <script id="unitas-site-link-bootstrap" dangerouslySetInnerHTML={{ __html: SITE_LINK_BOOTSTRAP }} />
         {/* Pre-hydration logo-page entry chime (owner instruction 2026-09-07,
             mobile online browser fix): from the document's first byte, arms
             the chime's own AudioContext and sounds it immediately where

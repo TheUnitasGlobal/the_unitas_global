@@ -10,6 +10,7 @@ import { Hero } from '../Hero';
 import { OmniSynapseSearch } from '../OmniSynapseSearch';
 import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModal';
 import { Footer } from '@/components/layout/Footer';
+import { useSurfaceScope } from '@/components/layout/SurfaceScope';
 import { SovereignShield } from '@/components/system/SovereignShield';
 import { SectionShield } from '@/components/system/PageShield';
 import { useUai } from '@/lib/uai/useUai';
@@ -28,8 +29,6 @@ import { SingularityCoreGrid } from './SingularityCoreGrid';
 import { SovereignWatermark } from './SovereignWatermark';
 import { useCurtainReleased } from './useCurtainReleased';
 
-/** `<html data-unitas-surface="...">` value the whole theme scope keys on. */
-const SURFACE_VALUE = 'quantum-white';
 /** Re-derive the chrono luminance/warmth bands every 10 minutes (spec §2). */
 const CHRONO_INTERVAL_MS = 10 * 60 * 1000;
 
@@ -86,13 +85,9 @@ export function QuantumWhiteHome() {
     }
   }, [activeShortcut]);
 
-  // Activate the Quantum White theme scope for as long as this page is mounted.
-  useLayoutEffect(() => {
-    document.documentElement.dataset.unitasSurface = SURFACE_VALUE;
-    return () => {
-      delete document.documentElement.dataset.unitasSurface;
-    };
-  }, []);
+  // Activate the Quantum White theme scope for as long as this page is mounted
+  // (REV-21 §6.1 F-1: one hook shared with the /company|/legal|/support routes).
+  useSurfaceScope();
 
   // REV-21 §4A (F3): after a language switch the new tree lands where the
   // old one was -- same scroll position, before first paint -- and the

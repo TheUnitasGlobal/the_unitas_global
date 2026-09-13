@@ -16,6 +16,7 @@
 //
 // Optional: `--namespace SitePages --drafts docs/rev21/i18n/sitepages` merges
 // another namespace from another draft folder with the same gates (REV-21 §6.2).
+// Nested drafts use dot-paths; numeric segments become array indices.
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -44,14 +45,23 @@ function signature(value) {
   return `s:${icu(value)}`;
 }
 
+// REV-21 §6.2 (F-10): a numeric segment is an ARRAY index -- `about.sections.0.heading`
+// builds `sections: [{ heading }]`, never `sections: { '0': { heading } }` --
+// so the SitePages document shape (sections[] of { heading, paragraphs[] })
+// round-trips through the flat draft files. Drafts list indices in order.
+const isIndex = (s) => /^\d+$/.test(s);
 function setDeep(obj, dotted, value) {
   const parts = dotted.split('.');
   let cur = obj;
   for (let i = 0; i < parts.length - 1; i++) {
-    if (!cur[parts[i]] || typeof cur[parts[i]] !== 'object' || Array.isArray(cur[parts[i]])) cur[parts[i]] = {};
-    cur = cur[parts[i]];
+    const key = Array.isArray(cur) ? Number(parts[i]) : parts[i];
+    const wantArray = isIndex(parts[i + 1]);
+    const existing = cur[key];
+    if (!existing || typeof existing !== 'object' || Array.isArray(existing) !== wantArray) cur[key] = wantArray ? [] : {};
+    cur = cur[key];
   }
-  cur[parts[parts.length - 1]] = value;
+  const last = parts[parts.length - 1];
+  cur[Array.isArray(cur) ? Number(last) : last] = value;
 }
 
 const en = readJson(path.join(draftsDir, 'en.json'));

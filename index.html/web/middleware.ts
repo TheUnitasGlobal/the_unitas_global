@@ -131,7 +131,7 @@ export async function middleware(request: NextRequest) {
     response.headers.set('X-Unitas-Owner', 'THE UNITAS GLOBAL OU');
     response.headers.set(
       'X-Unitas-License',
-      'Proprietary -- All Rights Reserved. See /legal#license.',
+      'Proprietary -- All Rights Reserved. See /legal/terms.',
     );
     return response;
   }
@@ -148,7 +148,7 @@ export async function middleware(request: NextRequest) {
     intlResponse.headers.set('X-Unitas-Owner', 'THE UNITAS GLOBAL OU');
     intlResponse.headers.set(
       'X-Unitas-License',
-      'Proprietary -- All Rights Reserved. See /legal#license.',
+      'Proprietary -- All Rights Reserved. See /legal/terms.',
     );
     return intlResponse;
   }
@@ -174,7 +174,7 @@ export async function middleware(request: NextRequest) {
   response.headers.set('X-Unitas-Owner', 'THE UNITAS GLOBAL OU');
   response.headers.set(
     'X-Unitas-License',
-    'Proprietary -- All Rights Reserved. See /legal#license.',
+    'Proprietary -- All Rights Reserved. See /legal/terms.',
   );
   return response;
 }

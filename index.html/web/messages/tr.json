@@ -328,7 +328,7 @@
     "title": "Kurumsal Protokoller",
     "subtitle": "Aktif araştırma ve geliştirme altındaki egemen altyapı.",
     "rdNotice": "Aktif Ar-Ge altında yalnızca kurumsal B2B protokolü (Kurumsal SaaS Aboneliği).",
-    "patentBadge": "USPTO Patent Başvurusu #64/023,911",
+    "patentBadge": "Patent Başvurusu Beklemede",
     "viewSpec": "Teknik Şartnameyi Görüntüle",
     "hideSpec": "Teknik Şartnameyi Gizle",
     "earlyAccess": "Erken Erişim / Kurumsal Talep",
@@ -342,7 +342,7 @@
     "inquiryThanksBody": "Teşekkürler -- kurumsal ekibimiz kısa süre içinde sizinle iletişime geçecek.",
     "close": "Kapat",
     "manifesto": "Kurumsal Protokol katmanı, THE UNITAS GLOBAL OÜ'nün egemen doktrinini kurumsal altyapıya dönüştürür. Üç protokolün her biri egemenliğin bir sütununu taşır — kimlik (U-Signature), sırlar (U-Key), değer (U-Pay) — ve 11 Bilişsel Çekirdek ile U-AI özerk karar motorunun üzerinde tek bir organizma olarak işler. Amaç başka bir SaaS değil, sıfır sermayeyle, tek bir kişi tarafından, tamamen otomatikleştirilmiş şekilde işletilirken bankaları, sertifika otoritelerini ve ödeme ağlarını ikame eden merkeziyetsiz altyapıdır.",
-    "patentAnchorNote": "Tüm fikri mülkiyet ve patent başvurusu bildirimleri (USPTO #64/023,911) yalnızca bu Kurumsal Ar-Ge katmanıyla sınırlıdır.",
+    "patentAnchorNote": "Tüm fikri mülkiyet ve patent başvurusu bildirimleri yalnızca bu Kurumsal Ar-Ge katmanıyla sınırlıdır.",
     "doctrineLabel": "Tasarım doktrini"
   },
   "ErrorBoundary": {
@@ -835,103 +835,538 @@
   },
   "SitePages": {
     "common": {
-      "back": "UNITAS'a Dön",
-      "disclaimer": "Bu sayfa yalnızca genel bilgi amaçlıdır. Hukuki tavsiye niteliği taşımaz ve herhangi bir sözleşme veya garanti oluşturmaz. Planları veya beklemedeki konuları tanımladığı yerlerde bunlar değişebilir. THE UNITAS GLOBAL OÜ, Estonya."
+      "back": "UNITAS'a geri dön",
+      "disclaimer": "Bu sayfa yalnızca genel bilgilendirme amacıyla sunulmaktadır. Hukuki tavsiye niteliği taşımaz; herhangi bir sözleşme veya garanti oluşturmaz. Planlara ya da henüz sonuçlanmamış konulara ilişkin açıklamalar değişebilir. THE UNITAS GLOBAL OÜ, Estonya.",
+      "corporateNotice": "UNITAS, Estonya'da kayıtlı bir şirket olan THE UNITAS GLOBAL OÜ tarafından işletilmektedir. Bu sayfadaki ürün açıklamaları platformun mevcut tasarımını yansıtır ve zaman içinde değişebilir.",
+      "updatedLabel": "Son güncelleme",
+      "contentsLabel": "Bu sayfada",
+      "thirdPartyLabel": "Bu sitenin eriştiği üçüncü taraf kaynaklar",
+      "storageLabel": "Bu sitenin tarayıcınızda tuttuğu anahtarlar",
+      "fetchedIntro": "Canlı özellikleri kullandığınızda sunucularımız veya tarayıcınız aşağıdaki herkese açık hizmetleri çağırır. Her biri gerçek işletmecisinin adıyla belirtilir; yalnızca özellik için gereken sorguyu göndeririz, hesap kimliğinizi asla göndermeyiz.",
+      "browserIntro": "Aşağıdaki hizmetler doğrudan tarayıcınızdan çağrılır; bu nedenle işletmecileri, isteğin bir parçası olarak IP adresinizi görür. Hiçbiri UNITAS hesap kimliğinizi almaz.",
+      "storageIntro": "Bu değerler yalnızca tarayıcınızın yerel depolamasında bulunur. Hiçbiri UNITAS sunucularına gönderilmez ve site verilerini temizlemek tümünü kaldırır.",
+      "sideServer": "sunucularımızdan çağrılır",
+      "sideBrowser": "tarayıcınızdan çağrılır",
+      "loginWall": "oturum açmanızı isteyebilir",
+      "cookiesLabel": "Bu sitenin ayarladığı çerezler",
+      "cookiesIntro": "Yukarıdaki anahtarların aksine çerezler, UNITAS'a giden her istekle birlikte gönderilir. Kullandığımız çerezlerin tamamı burada listelenmiştir ve hiçbiri reklam veya siteler arası izleme amacı taşımaz. HttpOnly olarak işaretlenen çerezler sayfa betikleri tarafından okunamaz."
     },
     "about": {
       "title": "UNITAS Hakkında",
-      "lede": "THE UNITAS GLOBAL OÜ, tek bir kurucu tarafından tasarlanan ve tam AI otomasyonuyla işletilen merkeziyetsiz, egemen bir SaaS ekosistemi inşa ediyor.",
-      "body": [
-        "UNITAS, tek bir fikrin peşinden giden bir Estonya şirketidir: dünya çapında insanlara hizmet eden bilişsel bir altyapı, sermaye ağırlıklı ekipler veya risk sermayesi bağımlılığı olmadan tasarlanabilir, sevk edilebilir ve işletilebilir. Ekosistemdeki her modül bu standarda göre inşa edilmiştir.",
-        "Platform, tek bir kimlik katmanını, tek bir defteri ve tek bir tasarım dilini paylaşan bilişsel yapılar etrafında düzenlenmiştir — on bir parçalı canlı bir ekosistem, beş tüketici hizmeti ve üç kurumsal protokol."
+      "lede": "THE UNITAS GLOBAL OÜ, tek bir kurucu tarafından tasarlanan ve tam yapay zeka otomasyonuyla işletilen merkeziyetsiz, özerk bir SaaS ekosistemi inşa ediyor.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Tek bir fikir",
+          "paragraphs": [
+            "UNITAS, tek bir fikrin peşinde olan bir Estonya şirketidir: dünya genelinde insanlara hizmet eden bilişsel bir altyapı, sermaye yoğun ekipler veya girişim sermayesine bağımlılık olmadan tasarlanabilir, yayına alınabilir ve işletilebilir.",
+            "Ekosistemdeki her modül bu ölçüte göre inşa edilir: bir kurucunun baştan sona sahiplenebileceği kadar küçük, günün her saati çalışabilecek kadar otomatik."
+          ]
+        },
+        {
+          "heading": "Özerk bir SaaS ekosistemi",
+          "paragraphs": [
+            "Platform, tek bir kimlik katmanını, tek bir defteri ve tek bir tasarım dilini paylaşan bilişsel yapılar etrafında düzenlenmiştir: on bir bölümden oluşan canlı bir ekosistem, beş tüketici hizmeti ve üç kurumsal protokol.",
+            "Özerk olmak, ekosistemin kimliği, defteri veya görüntülemesi için tek bir tedarikçiye bağımlı olmaması demektir. Eriştiği her dış hizmet herkese açıktır, adıyla belirtilir ve değiştirilebilir."
+          ]
+        },
+        {
+          "heading": "Kiralanabilir otonom fabrikalar",
+          "paragraphs": [
+            "Üyeler, bir işletmenin atölye kiralaması gibi modüllere abone olur: her modül, geleneksel bir şirketin personelle karşılayacağı iş yükünü taşıyan otonom bir ajan fabrikasıdır.",
+            "Dijital göçebeler ve küçük işletmeler bu fabrikaları herhangi bir cihazdan, yirmi dilden herhangi birinde, kendileri kimseyi işe almadan veya hiçbir şey barındırmadan çalıştırabilir."
+          ]
+        },
+        {
+          "heading": "Ölçümlenen hesaplama, yeniden kullanılan sonuçlar",
+          "paragraphs": [
+            "Ajan işi görev başına ölçümlenir. Bir kez doğrulanan bir sonuç önbelleğe alınır ve motor maliyeti olmadan yeniden sunulur; böylece platform kullanıldıkça daha verimli hale gelir.",
+            "Ücretli modüllere erişim, hesabınızdaki ön ödemeli bir erişim kredisi olan U-COIN ile yönetilir. U-COIN bir menkul kıymet veya değer saklama aracı değildir."
+          ]
+        },
+        {
+          "heading": "Kurucu liderliğinde, yapay zeka ile işletilen",
+          "paragraphs": [
+            "UNITAS kurucusu tarafından tasarlanmıştır ve onun tarafından işletilmektedir. Geliştirme, doğrulama ve dağıtım, hata durumunda kapanan bir bütünlük kapısına sahip otomatik bir ajan işlem hattından geçer: her denetim geçilmedikçe hiçbir şey yayına alınmaz.",
+            "Bu yapı ekosistemi bağımsız, yalın ve dayanıklı tutar ve her kararın arkasında hesap verebilir tek bir kişi bulunmasını sağlar."
+          ]
+        },
+        {
+          "heading": "Bir Estonya şirketi",
+          "paragraphs": [
+            "THE UNITAS GLOBAL OÜ Estonya'da kayıtlıdır ve uygulamalarını Avrupa Birliği'nin veri koruma ve tüketici koruma ilkeleriyle uyumlu yürütür. Hizmet için uygulanacak hukuk Estonya hukukudur."
+          ]
+        }
       ]
     },
     "careers": {
       "title": "Kariyer",
-      "lede": "UNITAS, kurucu liderliğinde ve AI ile otomatikleştirilmiş bir operasyon olarak işletilir. Bugün açık maaşlı pozisyon bulunmamaktadır.",
-      "body": [
-        "Model kasıtlıdır: geleneksel bir şirketin kadroyla yürüteceği iş yükünü otomasyonun taşıdığı yalın, egemen bir yapı. Bu, ekosistemi bağımsız ve dayanıklı tutar.",
-        "Bu model değişirse, açık pozisyonlar önce burada yayınlanacaktır. Ortaklık ve katkı talepleri İletişim sayfası üzerinden gönderilebilir."
+      "lede": "UNITAS, kurucu liderliğinde, yapay zeka ile otomatikleştirilmiş bir yapı olarak işletilir. Bugün açık bir maaşlı pozisyon bulunmamaktadır.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Neden bir işe alım sayfası yok",
+          "paragraphs": [
+            "Bu model bilinçli bir tercihtir: geleneksel bir şirketin personelle karşılayacağı iş yükünü otomasyonun taşıdığı yalın, özerk bir yapı. Bu, ekosistemi bağımsız ve dayanıklı tutar.",
+            "Bu model değişirse, açık pozisyonlar önce burada yayımlanacaktır."
+          ]
+        },
+        {
+          "heading": "Burada iş nasıl yürür",
+          "paragraphs": [
+            "UNITAS'taki her değişiklik bir ajan işlem hattından geçer: bir tasarım özeti, bir uygulama, bir tip denetimi, bir test paketi, bir üretim derlemesi ve bir uçtan uca çalıştırma. Herhangi bir adımda başarısız olan değişiklik yayına alınmaz.",
+            "Aynı işlem hattı kendini de belgeler; böylece platformun geçmişi bir sonraki ajan — ya da bir sonraki kişi — tarafından okunabilir."
+          ]
+        },
+        {
+          "heading": "Tasarım gereği uzaktan",
+          "paragraphs": [
+            "UNITAS'ın ofisi yoktur. Kurucusunun bulunduğu her yerden, mütevazı donanımla ve saat dilimlerini aşarak inşa edilir ve işletilir.",
+            "Gelecekteki her iş birliği de aynı biçimi izleyecektir: eşzamansız, yazılı ve uzaktan çalışma öncelikli."
+          ]
+        },
+        {
+          "heading": "Bugün katkıda bulunmanın yolları",
+          "paragraphs": [
+            "Güvenlik araştırmacıları, güvenlik açıklarını Güvenlik sayfası üzerinden bildirebilir. Yirmi dilden herhangi birinde bir hata fark eden yazarlar ve çevirmenler düzeltmelerini İletişim sayfası üzerinden gönderebilir.",
+            "Ortaklık ve entegrasyon talepleri de İletişim sayfası üzerinden memnuniyetle karşılanır; lütfen ne geliştirdiğinizi ve kime hizmet ettiğini açıklayın."
+          ]
+        },
+        {
+          "heading": "Aradığımız nitelikler",
+          "paragraphs": [
+            "Pozisyonlar açılırsa, bir sorunu baştan sona sahiplenebilen, açık ve anlaşılır yazabilen ve ekip yönetmek yerine otomatik ajanlarla yan yana çalışmaktan rahatsızlık duymayan kişiler tercih edilecektir."
+          ]
+        }
       ]
     },
     "press": {
       "title": "Basın",
-      "lede": "Gazeteciler ve analistler için medya kaynakları ve şirket geçmişi.",
-      "body": [
-        "Röportajlar, arka plan bilgilendirmeleri veya doğrulama için İletişim sayfası üzerinden bize ulaşın ve kuruluşunuzu ve son teslim tarihinizi belirtin.",
-        "Lütfen şirketi \"THE UNITAS GLOBAL OÜ\" ve ürünü \"UNITAS\" olarak atfedin. Logolar ve marka rehberliği talep üzerine sunulur."
+      "lede": "Gazeteciler ve analistler için medya kaynakları ve şirket bilgileri.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Şirket bilgileri",
+          "paragraphs": [
+            "Şirket: THE UNITAS GLOBAL OÜ, Estonya'da kayıtlı. Ürün: UNITAS, otonom ajan fabrikaları için özerk bir SaaS ekosistemi. Kurucu liderliğinde; yapay zeka otomasyonuyla işletilir; yirmi dilde kullanılabilir.",
+            "Platform şu anda herkese açık bir \"Coming Soon\" kapısının ardında lansman öncesi aşamadadır."
+          ]
+        },
+        {
+          "heading": "Bizden nasıl söz edilmeli",
+          "paragraphs": [
+            "Lütfen şirketi \"THE UNITAS GLOBAL OÜ\", ürünü ise \"UNITAS\" olarak belirtin. Modül adları arayüzde göründükleri biçimde alıntılanabilir.",
+            "Lütfen hiçbir UNITAS özelliğini patentli olarak tanımlamayın; ilgili durumlarda kullanılacak doğru ifade \"patent başvurusu beklemede\" olmalıdır."
+          ]
+        },
+        {
+          "heading": "Marka kullanımı",
+          "paragraphs": [
+            "UNITAS kelime markası ve simgesi, haber içeriklerinde değiştirilmeden kullanılabilir. Bunları başka markalarla birleştirmeyin, bir onay ya da destek ima etmeyin ve ticari ürünler üzerinde kullanmayın.",
+            "Logo dosyaları ve marka yönergeleri talep üzerine sağlanır."
+          ]
+        },
+        {
+          "heading": "Röportajlar ve doğrulama",
+          "paragraphs": [
+            "Röportaj, arka plan brifingi veya bilgi doğrulama için İletişim sayfası üzerinden bize ulaşın; yayın kuruluşunuzu ve son teslim tarihinizi belirtin. Son teslim tarihi belirtilen talepler önce yanıtlanır."
+          ]
+        },
+        {
+          "heading": "Haberlerde üçüncü taraf verileri",
+          "paragraphs": [
+            "UNITAS içinde gösterilen canlı veriler — hava durumu, sıralamalar, haber başlıkları, döviz kurları — adı belirtilen herkese açık kaynaklardan gelir ve UNITAS'a değil, bu kaynaklara atfedilmelidir."
+          ]
+        }
       ]
     },
     "patent-notice": {
       "title": "Patent Bildirimi",
-      "lede": "Belirli UNITAS yöntemleri ve sistemleri, beklemede olan bir patent başvurusunun konusudur.",
-      "body": [
-        "UNITAS bilişsel ve imza protokollerinin yönlerini kapsayan bir Amerika Birleşik Devletleri geçici patent başvurusu (No. 64/023,911) dosyalanmıştır. Başvuru beklemededir; hiçbir patent verilmemiştir ve burada hiçbir şey verilmiş hakların iddiası olarak okunmamalıdır.",
-        "Beklemede durum, bir patent verilene kadar hiçbir uygulanabilir münhasıriyet vermez. Ürün adları ve Egemen Kodeks sistem adları, köken tanımlayıcıları olarak kullanılır."
+      "lede": "Belirli UNITAS yöntemleri ve sistemleri, beklemedeki bir patent başvurusunun konusudur.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Bekleme durumu",
+          "paragraphs": [
+            "UNITAS bilişsel ve imza protokollerinin bazı yönlerini kapsayan geçici bir patent başvurusu Amerika Birleşik Devletleri'nde yapılmıştır. Başvuru beklemededir; herhangi bir patent verilmemiştir ve buradaki hiçbir ifade, verilmiş haklara ilişkin bir iddia olarak okunmamalıdır.",
+            "Bekleme durumu, bir patent verilmedikçe ve verilene kadar uygulanabilir hiçbir münhasırlık sağlamaz."
+          ]
+        },
+        {
+          "heading": "Başvurunun tanımladığı unsurlar",
+          "paragraphs": [
+            "Genel hatlarıyla başvuru, bağımsız modüllerin tek bir kimlik katmanını ve yalnızca eklenebilir tek bir defteri nasıl paylaştığını, ajan işinin görev başına nasıl ölçümlendiğini ve doğrulanmış bir önbellekten nasıl yeniden kullanıldığını ve bir imza protokolünün bir üyenin işini kimliğini ifşa etmeden hesabına nasıl bağladığını tanımlar.",
+            "Yukarıdaki açıklama okuyucular için bir özettir; kapsam iddiası değildir."
+          ]
+        },
+        {
+          "heading": "Adlar ve markalar",
+          "paragraphs": [
+            "Ürün adları ve UNITAS sistem adları, kaynak belirteci olarak kullanılır. Bu sayfada belirtilmedikçe tescilli marka olarak iddia edilmez."
+          ]
+        },
+        {
+          "heading": "Bir endişeyi bildirme",
+          "paragraphs": [
+            "UNITAS'ın sahip olduğunuz hakları ihlal ettiğini ya da üçüncü bir tarafın UNITAS teknolojisini yanlış tanıttığını düşünüyorsanız, ayrıntılarla birlikte İletişim sayfası üzerinden bize ulaşın. Bildirimler kurucu tarafından incelenir."
+          ]
+        },
+        {
+          "heading": "Bu bildirimdeki değişiklikler",
+          "paragraphs": [
+            "Başvurunun yayımlanması, patentin verilmesi, başvurudan vazgeçilmesi veya başvurunun başka yargı bölgelerine genişletilmesi halinde bu bildirim güncellenecektir."
+          ]
+        }
       ]
     },
     "compliance": {
       "title": "Uyumluluk",
-      "lede": "UNITAS'ın hizmet verdiği yargı bölgelerindeki düzenleyici yükümlülüklerine yaklaşımı.",
-      "body": [
-        "UNITAS bir Estonya şirketi tarafından işletilir ve uygulamalarını Avrupa Birliği veri koruma ve tüketici koruma ilkeleriyle uyumlu hale getirir. Ödeme işlemleri, kendi düzenlenmiş çerçeveleri altında üçüncü taraf sağlayıcılar tarafından gerçekleştirilir.",
-        "Herhangi bir belirli standart altında sertifikasyon iddiasında bulunmuyoruz. Veri sahibi talepleri dahil uyumluluk soruları İletişim sayfası üzerinden iletilebilir."
+      "lede": "UNITAS'ın hizmet verdiği yargı bölgelerinde düzenleyici yükümlülüklerine nasıl yaklaştığı.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Nerede düzenlemeye tabiyiz",
+          "paragraphs": [
+            "UNITAS bir Estonya şirketi tarafından işletilir ve uygulamalarını, Genel Veri Koruma Tüzüğü (GDPR) dahil olmak üzere Avrupa Birliği'nin veri koruma ve tüketici koruma ilkeleriyle uyumlu yürütür.",
+            "Belirli bir standart kapsamında sertifika sahibi olduğumuzu iddia etmiyoruz."
+          ]
+        },
+        {
+          "heading": "Veri minimizasyonu",
+          "paragraphs": [
+            "Bir hesabı işletmek için gereken asgari veriyi toplar ve yalnızca hesap var olduğu sürece saklarız. Misafir oturumları tarayıcıdan asla çıkmaz.",
+            "Canlı özellikler herkese açık tanımlayıcılara — bir yere, bir konuya, kamuya açık bir varlığa — dayanır; soranın kim olduğuna asla."
+          ]
+        },
+        {
+          "heading": "Ödemeler ve krediler",
+          "paragraphs": [
+            "Ödeme işlemleri, kendi düzenlenmiş çerçeveleri kapsamında üçüncü taraf sağlayıcılar tarafından gerçekleştirilir; kart ve banka bilgileri UNITAS'a asla ulaşmaz.",
+            "U-COIN, UNITAS içindeki modüller için ön ödemeli bir erişim kredisidir. Bir menkul kıymet, değer saklama aracı veya ödeme aracı değildir ve hesaplar arasında devredilemez."
+          ]
+        },
+        {
+          "heading": "Denetim izi",
+          "paragraphs": [
+            "Bir bakiyedeki her değişiklik, denetlenen bir sunucu tarafı işlev tarafından yalnızca eklenebilir bir deftere yazılır. Tarayıcıdaki hiçbir şey bir bakiyeyi doğrudan değiştiremez."
+          ]
+        },
+        {
+          "heading": "Finans ve vergi yönetimi",
+          "paragraphs": [
+            "Şirket muhasebesi, bankacılık işlemleri ve Estonya vergi beyanları, kurucunun yetkisi altında, düzenlemeye tabi Avrupalı hizmet sağlayıcılar aracılığıyla yürütülür."
+          ]
+        },
+        {
+          "heading": "Talepler ve şikayetler",
+          "paragraphs": [
+            "Veri sahibi talepleri dahil uyumluluk soruları İletişim sayfası üzerinden iletilebilir. Avrupa Birliği'nde ikamet edenler ayrıca kendi ulusal denetim makamlarına şikayette bulunabilir."
+          ]
+        }
       ]
     },
     "security": {
       "title": "Güvenlik",
       "lede": "Hesapları, bakiyeleri ve kimlik verilerini koruyan kontroller.",
-      "body": [
-        "Hesap kimliği tarayıcıda değil, veritabanında uygulanır: doğrulanmış bir telefon numarası aktif hesaplar arasında benzersizdir, bakiye değişiklikleri yalnızca denetlenmiş sunucu tarafı işlevlerden geçer ve işlem defteri yalnızca eklemeye izin verir.",
-        "Ödeme anahtarları gibi sırlar hiçbir zaman istemci koduna ulaşmaz. Bir güvenlik açığı bildirmek için sorunu yeniden üretmeye yetecek ayrıntıyla İletişim sayfasını kullanın ve lütfen biz yanıt verene kadar bunu kamuya açıklamayın."
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Sunucu tarafında uygulanan kimlik",
+          "paragraphs": [
+            "Hesap kimliği tarayıcıda değil, veritabanında uygulanır: doğrulanmış bir telefon numarası etkin hesaplar arasında benzersizdir, bakiye değişiklikleri yalnızca denetlenen sunucu tarafı işlevlerden geçer ve işlem defteri yalnızca eklenebilir niteliktedir."
+          ]
+        },
+        {
+          "heading": "Varsayılan olarak sıfır güven",
+          "paragraphs": [
+            "Her istek kendi başına doğrulanır. Ödeme anahtarları gibi gizli bilgiler istemci koduna asla ulaşmaz ve kurucunun lansman öncesi yüzeylere erişimi her ziyarette sunucu tarafında doğrulanır."
+          ]
+        },
+        {
+          "heading": "Tasarım yönü: kuantum direnci",
+          "paragraphs": [
+            "İmza ve oturum katmanları, algoritmaları defteri değiştirmeden değiştirilebilecek biçimde tasarlanmıştır; bu, standartlar oturdukça kuantum sonrası kriptografiyi benimsemenin ön koşuludur. Bu bir tasarım yönüdür, sertifika değildir."
+          ]
+        },
+        {
+          "heading": "Otomatik karantina",
+          "paragraphs": [
+            "Bütünlük denetiminden geçemeyen bir modül otomatik olarak yalıtılır: kısmi veri sunmak yerine mühürlü, salt okunur bir duruma geri çekilir. Ekosistemin geri kalanı çalışmaya devam eder."
+          ]
+        },
+        {
+          "heading": "İstemci bütünlüğü",
+          "paragraphs": [
+            "Yayına alınan varlıklar bir sahiplik parmak izi taşır ve arayüz, uygulama içi tarayıcılarda ve yeniden yüklemelerde oturumu bozulmadan koruyacak biçimde inşa edilmiştir; böylece bozuk bir gömülü görünüm sizi asla sessizce oturumdan çıkarmaz."
+          ]
+        },
+        {
+          "heading": "Güvenlik açığı bildirme",
+          "paragraphs": [
+            "Bir güvenlik açığını bildirmek için sorunu yeniden üretmeye yetecek ayrıntıyla İletişim sayfasını kullanın ve lütfen biz yanıt vermeden önce açığı kamuya duyurmayın. Güvenlik bildirimleri diğer tüm taleplerden önce ele alınır."
+          ]
+        }
       ]
     },
     "privacy": {
       "title": "Gizlilik Politikası",
-      "lede": "UNITAS'ın topladığı veriler, nedenleri ve sahip olduğunuz seçenekler.",
-      "body": [
-        "UNITAS, bir hesabı işletmek için gereken minimum bilgiyi toplar: kimlik doğrulama için bir tanımlayıcı (e-posta veya telefon), bir coin bakiyesi ve defteri, ve cihazınızda saklanan temel bölge ile cihaz tercihleri. Misafir oturumları tarayıcınızda yerel kalır.",
-        "Veriler reklam profilleri oluşturmak için değil, hizmeti işletmek için işlenir. Hesap verilerinize erişim veya bunların silinmesini İletişim sayfası veya uygulama içi hesap ayarları üzerinden talep edebilirsiniz."
+      "lede": "UNITAS'ın neyi, neden topladığı ve sahip olduğunuz seçenekler.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Ne topluyoruz",
+          "paragraphs": [
+            "UNITAS, bir hesabı işletmek için gereken asgari veriyi toplar: kimlik doğrulama için bir tanımlayıcı (e-posta veya telefon), bir U-COIN bakiyesi ve defteri ile cihazınızda saklanan temel dil ve cihaz tercihleri.",
+            "Misafir oturumları tarayıcınızda yerel olarak kalır ve asla yüklenmez."
+          ]
+        },
+        {
+          "heading": "Neden işliyoruz",
+          "paragraphs": [
+            "Veriler hizmeti işletmek için işlenir: oturum açmanızı sağlamak, bakiyenizi doğru tutmak ve dilinizi hatırlamak için. Reklam profilleri oluşturmak için kullanılmaz ve satılmaz."
+          ]
+        },
+        {
+          "heading": "Ne kadar süre saklıyoruz",
+          "paragraphs": [
+            "Hesap verileri, hesap var olduğu sürece saklanır. Defter, muhasebe amacıyla yasal olarak gerekli olduğu sürece muhafaza edilir. Cihaz tercihleri yalnızca cihazınızda bulunur."
+          ]
+        },
+        {
+          "heading": "Canlı özellikler ve herkese açık kaynaklar",
+          "paragraphs": [
+            "Hava durumu, sıralamalar, haberler ve arama akışı aşağıda listelenen herkese açık kaynaklardan oluşturulur. Bu kaynaklara yapılan istekler keşfettiğiniz konuyu taşır, hesap kimliğinizi asla. Bazıları sunucularımızdan, bazıları doğrudan tarayıcınızdan çağrılır; aşağıdaki listeler hangisinin hangisi olduğunu belirtir."
+          ]
+        },
+        {
+          "heading": "Konum",
+          "paragraphs": [
+            "Hava durumu ve yakın çevre özellikleri, seçtiğiniz bir yeri ya da — yalnızca izin verirseniz — cihazınızın konumunu kullanır. İkisi de yoksa, aşağıda adı belirtilen herkese açık bir coğrafi konum hizmeti IP adresinizden yaklaşık bir konum türetir. Koordinatlarınız UNITAS sunucularında asla saklanmaz."
+          ]
+        },
+        {
+          "heading": "Haklarınız",
+          "paragraphs": [
+            "Hesap verilerinize erişim, bunların düzeltilmesi veya silinmesi talebinizi İletişim sayfası ya da uygulama içi hesap ayarları üzerinden iletebilirsiniz. Avrupa Birliği'nde ikamet edenler ayrıca denetim makamlarına şikayette bulunabilir."
+          ]
+        },
+        {
+          "heading": "Çerezler ve yerel depolama",
+          "paragraphs": [
+            "Site, Çerez Politikası'nda açıklanan küçük bir değer kümesini tarayıcınızda tutar. Üçüncü taraf reklam veya siteler arası izleme çerezleri ayarlanmaz."
+          ]
+        }
       ]
     },
     "cookies": {
       "title": "Çerez Politikası",
-      "lede": "UNITAS, yerel depolamayı ve çerezleri idareli ve işlevsel olarak kullanır.",
-      "body": [
-        "Site küçük bir değer kümesi saklar — diliniz, ses tercihiniz, oturum ve kimlik doğrulama belirteçleri ve bir lansman öncesi erişim bayrağı. Bunlar arayüzün doğru çalışması için gereklidir.",
-        "Hiçbir üçüncü taraf reklam veya siteler arası izleme çerezi ayarlanmaz. Tarayıcı depolamanızı temizlemek bu tercihleri bir sonraki ziyaretinizde sıfırlar."
+      "lede": "UNITAS yerel depolamayı ve çerezleri sınırlı ve yalnızca işlevsel amaçlarla kullanır.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Kesinlikle gerekli",
+          "paragraphs": [
+            "Oturum ve kimlik doğrulama belirteçleri, lansman öncesi erişim bayrağı ve uygulama içi oturum koruması, arayüzün doğru çalışması için gereklidir. Yalnızca oturum açtığınızda veya giriş kapısından geçtiğinizde ayarlanır."
+          ]
+        },
+        {
+          "heading": "Tercihler",
+          "paragraphs": [
+            "Diliniz, ses ayarınız, son seçtiğiniz yer ve açık bir panelin konumu hatırlanır; böylece arayüz tam bıraktığınız gibi geri gelir."
+          ]
+        },
+        {
+          "heading": "Önbellekler",
+          "paragraphs": [
+            "Herkese açık kaynaklardan gelen sonuçlar — bir hava durumu okuması, bir sıralama sayfası, bir arama akışı sayfası — bir konuya yeniden dönmek ağ trafiği gerektirmesin diye sınırlı bir süre boyunca tarayıcınızda önbelleğe alınır. Yalnızca herkese açık veri içerirler."
+          ]
+        },
+        {
+          "heading": "Analiz yok, reklam yok",
+          "paragraphs": [
+            "Üçüncü taraf analiz, reklam veya siteler arası izleme çerezleri ayarlanmaz. UNITAS reklam ağlarına katılmaz."
+          ]
+        },
+        {
+          "heading": "Nasıl kontrol edilir",
+          "paragraphs": [
+            "Tarayıcınızda UNITAS'a ait site verilerini temizlemek, aşağıda listelenen her değeri kaldırır. Bunu yapmak oturumunuzu kapatır ve bir sonraki ziyarette tercihlerinizi sıfırlar; sunucuda bulunan hesap bakiyenizi asla etkilemez."
+          ]
+        }
       ]
     },
     "terms": {
-      "title": "Hizmet Şartları",
-      "lede": "UNITAS'ı lansman öncesi aşamasındayken kullanmanın temel şartları.",
-      "body": [
-        "UNITAS, aktif geliştirme sırasında \"olduğu gibi\" sunulur. Ücretli modüllere erişim, hesabınızdaki coin bakiyesi tarafından yönetilir; coin'ler ön ödemeli bir erişim kredisidir — bir menkul kıymet veya saklanan değer aracı değildir — ve devredilemez.",
-        "Platform geliştikçe özellikler değişebilir veya askıya alınabilir. Bir değişiklikten sonra kullanmaya devam etmek, güncellenmiş şartları kabul ettiğiniz anlamına gelir. Uygulanacak hukuk Estonya hukukudur."
+      "title": "Hizmet Koşulları",
+      "lede": "Lansman öncesi aşamasında UNITAS'ı kullanmaya ilişkin temel koşullar.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Hizmet",
+          "paragraphs": [
+            "UNITAS, aktif geliştirme süresince \"olduğu gibi\" (as is) esasıyla sunulur. Platform geliştikçe özellikler değişebilir veya askıya alınabilir. Bir değişiklikten sonra kullanıma devam etmeniz, güncellenmiş koşulları kabul ettiğiniz anlamına gelir."
+          ]
+        },
+        {
+          "heading": "Hesaplar",
+          "paragraphs": [
+            "UNITAS'ı misafir olarak ya da e-posta veya telefonla doğrulanmış bir hesapla kullanabilirsiniz. Doğrulanmış bir telefon numarası yalnızca bir etkin hesaba bağlanabilir. Oturum açma bilgilerinizi kendinize saklamaktan siz sorumlusunuz."
+          ]
+        },
+        {
+          "heading": "U-COIN erişim kredileri",
+          "paragraphs": [
+            "Ücretli modüllere erişim, hesabınızdaki U-COIN bakiyesiyle yönetilir. U-COIN ön ödemeli bir erişim kredisidir — bir menkul kıymet, değer saklayan bir araç veya para birimi değildir — ve devredilemez.",
+            "Krediler, ücretli bir özellik teslim edildiğinde tüketilir. Ücretli bir özellik sonuç üretemezse, o istek için tüketilen krediler otomatik olarak bakiyenize iade edilir."
+          ]
+        },
+        {
+          "heading": "İadeler",
+          "paragraphs": [
+            "Kullanılmamış krediler, size uygulanan tüketici hukukunun öngördüğü süre içinde orijinal ödeme yöntemine iade edilebilir. Teslim edilmiş özellikler için halihazırda tüketilmiş krediler iade edilmez."
+          ]
+        },
+        {
+          "heading": "Kabul edilebilir kullanım",
+          "paragraphs": [
+            "Bir bakiyeyi değiştirmeye, bir erişim kapısını atlatmaya, hizmeti sondalamaya veya aşırı yüklemeye, toplu olarak kazımaya ya da başkalarına zarar vermek için kullanmaya çalışamazsınız. Bu tür davranışlarda bulunan hesaplar askıya alınabilir."
+          ]
+        },
+        {
+          "heading": "Üçüncü taraf içeriği",
+          "paragraphs": [
+            "Canlı özellikler, arayüzde adı belirtilen herkese açık kaynaklardan gelen içeriği gösterir. UNITAS bu içeriği denetlemez ve doğruluğunu garanti etmez. Başka hizmetleri açan bağlantılar, o hizmetlerin kendi koşullarına tabidir."
+          ]
+        },
+        {
+          "heading": "Sorumluluğun sınırlandırılması",
+          "paragraphs": [
+            "Yasaların izin verdiği ölçüde THE UNITAS GLOBAL OÜ, hizmetin kullanımından kaynaklanan dolaylı veya sonuç niteliğindeki zararlardan sorumlu değildir ve toplam sorumluluğu, talepten önceki on iki ay içinde krediler için ödediğiniz tutarla sınırlıdır. Buradaki hiçbir ifade, yasalarca sınırlandırılamayan sorumluluğu sınırlandırmaz."
+          ]
+        },
+        {
+          "heading": "Uygulanacak hukuk",
+          "paragraphs": [
+            "Bu koşullar Estonya hukukuna tabidir. Tüketiciler, kendi ikamet ülkelerinin hukukundan doğan emredici korumaları saklı tutar."
+          ]
+        }
       ]
     },
     "help-center": {
       "title": "Yardım Merkezi",
-      "lede": "En sık karşılaşılan soruların yanıtları.",
-      "body": [
-        "Ses: ortam sesi her cihazda varsayılan olarak açıktır ve yenilemeler arasında kalıcıdır; üst gezinmedeki hoparlör simgesinden değiştirin. Dil: dil menüsünden istediğiniz zaman değiştirin — seçiminiz hatırlanır.",
-        "Erişim: gerekli coin bakiyesi hesabınızda mevcut olduğunda bir modül açılır. Bir şey takılı görünüyorsa sayfayı yeniden yükleyin; hesap ve bakiye durumu otomatik olarak geri yüklenir."
+      "lede": "En sık sorulan soruların yanıtları.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Başlarken",
+          "paragraphs": [
+            "Ana sayfaya ulaşmak için giriş ekranında Başla'ya basın. İlk ziyarette kısa bir tanıtım oynatılır; bunu atlayabilirsiniz ve yeniden yüklemede tekrar oynatılmaz."
+          ]
+        },
+        {
+          "heading": "Arama",
+          "paragraphs": [
+            "Anahtar kelime önerileri için arama çubuğuna yazın: önce ürün özellikleri, sonra dünya genelindeki varlıklar, ardından kendi dilinizdeki sayfalar. Tam sonucu açmak için Enter'a basın: kaydırdıkça uzamaya devam eden ve her kartında kaynağı belirtilen bir akış.",
+            "Akış her on sayfada bir durur ve devam etmek isteyip istemediğinizi sorar; bir soru için sınır altmış sayfadır."
+          ]
+        },
+        {
+          "heading": "Kısayollar ve sıralamalar",
+          "paragraphs": [
+            "Arama çubuğunun altındaki kısayol şeridi ve sıralama şeritleri, sayfadan ayrılmadan ayrıntılı görünümler açar. Çoğunun altında, konuyla ilgili canlı verileri herkese açık kaynaklardan çeken bir mercek kümesi olan \"Daha derine in\" bulunur."
+          ]
+        },
+        {
+          "heading": "Dil",
+          "paragraphs": [
+            "Üst gezinme çubuğundaki menüden dili istediğiniz zaman değiştirebilirsiniz. Sayfa olduğu yerde kalır ve seçiminiz bu cihazda, oturum açtıysanız hesabınızda da hatırlanır."
+          ]
+        },
+        {
+          "heading": "Ses",
+          "paragraphs": [
+            "Ortam sesi varsayılan olarak açıktır ve yenilemeler boyunca korunur. Üst gezinme çubuğundaki hoparlör simgesinden açıp kapatabilirsiniz."
+          ]
+        },
+        {
+          "heading": "Uygulamayı yükleme",
+          "paragraphs": [
+            "UNITAS, gezinme çubuğundaki indirme istemi üzerinden bir uygulama olarak yüklenebilir. Başka bir uygulamanın yerleşik tarayıcısı içinde yükleme istemi görünmeyebilir; bu durumda sayfayı ana tarayıcınızda açın."
+          ]
+        },
+        {
+          "heading": "Sorun giderme",
+          "paragraphs": [
+            "Bir şey takılmış görünüyorsa sayfayı yeniden yükleyin; hesabınız, bakiyeniz ve açık paneller otomatik olarak geri yüklenir. Bir canlı kart veri göstermiyorsa, arkasındaki herkese açık kaynak geçici olarak kullanılamıyor olabilir; kart, kontrol edebilmeniz için kaynağın adını belirtir."
+          ]
+        }
       ]
     },
     "contact": {
-      "title": "Bize Ulaşın",
+      "title": "İletişim",
       "lede": "Tek bir kanal doğrudan kurucuya ulaşır.",
-      "body": [
-        "Genel, ortaklık, basın, güvenlik ve veri koruma talepleri kurucu tarafından ele alınır. Bir konuşma başlatmak için uygulama içindeki hesap ayarları panelini kullanın veya THE UNITAS GLOBAL OÜ'nün resmi kanallarında listelenen adrese ulaşın.",
-        "Telefon destek hattı yoktur. Yanıt süresi hacme bağlıdır; güvenlik raporları önceliklendirilir."
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Bize nasıl ulaşırsınız",
+          "paragraphs": [
+            "Genel, ortaklık, basın, güvenlik ve veri koruma talepleri tümüyle kurucu tarafından ele alınır. Bir görüşme başlatmak için uygulama içindeki hesap ayarları panelini kullanın ya da THE UNITAS GLOBAL OÜ'nün resmi kanallarında belirtilen adrese yazın."
+          ]
+        },
+        {
+          "heading": "Yanıt süreleri",
+          "paragraphs": [
+            "Telefonla destek hattı yoktur. Yanıt süresi talep yoğunluğuna bağlıdır; güvenlik bildirimlerine öncelik verilir, ardından veri koruma talepleri, sonra diğer her şey gelir."
+          ]
+        },
+        {
+          "heading": "Neleri eklemelisiniz",
+          "paragraphs": [
+            "Hesap soruları için hesaptaki e-posta veya telefon numarasını ekleyin. Bir hata için sayfayı, cihazı ve ne olmasını beklediğinizi ekleyin. Bir güvenlik bildirimi için yeniden üretme adımlarını ekleyin."
+          ]
+        },
+        {
+          "heading": "Şirket bilgileri",
+          "paragraphs": [
+            "THE UNITAS GLOBAL OÜ, Estonya'da kayıtlı bir şirkettir. Kayıt bilgilerine Estonya ticaret sicili üzerinden ulaşılabilir; bu site bir açık adres yayımlamaz."
+          ]
+        }
       ]
     },
     "system-status": {
       "title": "Sistem Durumu",
-      "lede": "UNITAS platformunun mevcut operasyonel durumu.",
-      "body": [
-        "UNITAS lansman öncesi bir aşamadadır. Kurucu, giriş akışının sıralı doğrulamasını tamamlarken genel arayüz kasıtlı olarak \"Yakında\" kapısının arkasında mühürlenmiştir.",
-        "Planlı bakım ve hesapları veya bakiyeleri etkileyen herhangi bir olay, platform kamuya açık olarak canlıya alındığında burada özetlenecektir."
+      "lede": "UNITAS platformunun mevcut çalışma durumu.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Mevcut durum",
+          "paragraphs": [
+            "UNITAS lansman öncesi aşamadadır. Kurucu giriş akışının sıralı doğrulamasını tamamlarken, herkese açık arayüz \"Coming Soon\" kapısının ardında bilinçli olarak mühürlü tutulmaktadır."
+          ]
+        },
+        {
+          "heading": "Nasıl çalışıyoruz",
+          "paragraphs": [
+            "Sürümler, hata durumunda kapanan bir işlem hattından — tip denetimi, test paketi, üretim derlemesi ve uçtan uca çalıştırma — geçer ve yalnızca her adım başarıyla tamamlandığında dağıtılır. Sürümler için planlı bir kesinti yoktur."
+          ]
+        },
+        {
+          "heading": "Çevrimdışı çalışma ve yeniden bağlanma",
+          "paragraphs": [
+            "Arayüz, ağ bağlantısı koptuğunda önbelleğe alınmış verilerle çalışmaya devam edecek ve bağlantı geri geldiğinde deterministik biçimde yeniden eşitlenecek şekilde tasarlanmıştır: aynı girdiler her zaman aynı durumu üretir, bu nedenle hiçbir şey kaybolmaz veya yinelenmez."
+          ]
+        },
+        {
+          "heading": "Herkese açık kaynaklar",
+          "paragraphs": [
+            "Canlı kartlar, arayüzde adı belirtilen herkese açık hizmetlere bağlıdır. Bunlardan biri kullanılamadığında kart bunu belirtir ve sayfanın geri kalanı çalışmaya devam eder; UNITAS'ın bu hizmetlerin çalışır durumda kalması üzerinde hiçbir denetimi yoktur."
+          ]
+        },
+        {
+          "heading": "Olay bildirimleri",
+          "paragraphs": [
+            "Planlı bakım çalışmaları ve hesapları veya bakiyeleri etkileyen her olay, platform herkese açık olarak yayına girdikten sonra başlangıç zamanı, etkilenen bileşenler ve çözüm zamanıyla birlikte burada özetlenecektir."
+          ]
+        }
       ]
     }
   },
@@ -2213,6 +2648,107 @@
       "composerAria": "Sonucun içinde yeniden ara",
       "suggestLabel": "Öneriler",
       "scopeProduct": "UNITAS"
+    },
+    "stream": {
+      "feedAria": "{term} için sonsuz akış",
+      "page": "Sayfa {page}",
+      "ghost": "Sayfa {page} · geride kaldı",
+      "spine": {
+        "depth": "Derinlik",
+        "cards": "Kartlar",
+        "sources": "Kaynaklar",
+        "tier": "Kazıma",
+        "deepCta": "Derin içgörü"
+      },
+      "tier": {
+        "spark": "Kıvılcım",
+        "orbit": "Yörünge",
+        "nexus": "Nexus",
+        "singularity": "Tekillik"
+      },
+      "kinds": {
+        "essence": "Öz",
+        "axisSpectrum": "Altı eksenli spektrum",
+        "sources": "Kaynaklar",
+        "chain": "Soru zinciri",
+        "deepGate": "Derin içgörü",
+        "identity": "Kimlik",
+        "redesign": "Egemen yeniden tasarım",
+        "deeper": "Daha derine in",
+        "concepts": "Bağlantılı kavramlar",
+        "sites": "İlgili siteler",
+        "news": "Haberler",
+        "cogs": "Altı eksenli mercek",
+        "derived": "Türev eserler",
+        "attention": "İlgi dalgası",
+        "community": "Topluluk",
+        "timeline": "Düzenleme zaman çizelgesi"
+      },
+      "fields": {
+        "editions": "Dil sürümleri",
+        "instanceOf": "Türü",
+        "entity": "Varlık",
+        "views30": "30 günlük görüntülenme",
+        "trend": "Eğilim",
+        "window": "Zaman aralığı"
+      },
+      "rare": "Nadir mercek",
+      "rareHint": "Bu soru ve sayfa için sabitlenmiş bir mercek — herkes için aynı, her zaman ücretsiz.",
+      "thin": "İnce sayfa",
+      "loading": "Sonraki sayfa toplanıyor…",
+      "teaser": "Sırada",
+      "more": "Sonraki sayfayı yükle",
+      "softPause": {
+        "title": "Bir nefes molası",
+        "body": "Bu soru üzerine {pages} sayfa okudunuz. Bu derinlikte ilgi düzeyi genellikle azalır — yalnızca hâlâ işinize yarıyorsa devam edin.",
+        "badge": "İlgi düzeyi azalıyor",
+        "continue": "Keşfetmeye devam et"
+      },
+      "end": {
+        "title": "Akış burada sona eriyor",
+        "body": "Bir soru için sınır altmış sayfadır. Yeni bir akış açmak için yeni bir soru sorun."
+      },
+      "retry": {
+        "title": "Daha fazlası gelmedi",
+        "body": "Açık kaynaklarda bu konuda başka bir şey yoktu. Yeniden deneyin ya da soruyu genişletin.",
+        "action": "Yeniden dene"
+      },
+      "disambiguation": {
+        "body": "Bu terimin birden çok anlamı var. Akış en yaygın olanı izler — değiştirmek için bağlantılı bir kavram seçin."
+      },
+      "deepCreditNote": "Derin içgörü başına {cost} U-COIN — ön ödemeli bir erişim kredisidir; menkul kıymet ya da değer saklama aracı değildir.",
+      "outbound": "Başka yerde ara",
+      "swarmMore": "Tüm ekosistemler",
+      "swarmLess": "İlk üç"
+    },
+    "cogs": {
+      "prompt": "{term} konusunu {group} merceğinden oku",
+      "seed": "Tohum",
+      "resonance": "Rezonans",
+      "follow": "Bunu sor",
+      "groups": {
+        "origin": "Kökenler",
+        "element": "Elementler",
+        "civilization": "Uygarlık",
+        "cosmos": "Evren",
+        "chronos": "Zaman",
+        "consciousness": "Bilinç",
+        "nexus": "Nexus"
+      },
+      "lenses": {
+        "mechanism": "Mekanizma",
+        "flow": "Akış",
+        "scale": "Ölçek",
+        "tension": "Gerilim",
+        "horizon": "Ufuk"
+      },
+      "ask": {
+        "mechanism": "{term} neyle çalışır — ve onu ne bozar?",
+        "flow": "{term} çevresindeki değer nereden akıp geliyor, nereye gidiyor?",
+        "scale": "{term} on kat büyüseydi — ve on kat küçülseydi — nasıl görünürdü?",
+        "tension": "Hangi güçler {term} yapısını ayrıştırır, onu bir arada tutan nedir?",
+        "horizon": "{term} nereye gidiyor ve oraya ilk kim varır?"
+      }
     }
   }
 }

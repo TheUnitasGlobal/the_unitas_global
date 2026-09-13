@@ -1,0 +1,349 @@
+{
+  "common.back": "返回 UNITAS",
+  "common.disclaimer": "本页面仅供一般信息参考。它不构成法律意见，也不产生任何合同或保证。其中关于计划或待决事项的描述可能发生变化。THE UNITAS GLOBAL OÜ，爱沙尼亚。",
+  "common.corporateNotice": "UNITAS 由在爱沙尼亚注册的公司 THE UNITAS GLOBAL OÜ 运营。本页面的产品描述反映平台的当前设计，并可能随发展而演变。",
+  "common.updatedLabel": "最后更新",
+  "common.contentsLabel": "本页内容",
+  "common.thirdPartyLabel": "本站访问的第三方来源",
+  "common.storageLabel": "本站在您浏览器中保存的键",
+  "common.fetchedIntro": "当您使用实时功能时，我们的服务器或您的浏览器会调用以下公开服务。每项服务均以其实际运营方的名称标注；我们只发送该功能所需的查询，绝不发送您的账户身份。",
+  "common.browserIntro": "以下服务由您的浏览器直接调用，因此其运营方会在请求中看到您的 IP 地址。没有任何一项服务会收到您的 UNITAS 账户身份。",
+  "common.storageIntro": "这些值仅存在于您浏览器的本地存储中。它们均不会发送至 UNITAS 服务器，清除站点数据即可将其全部删除。",
+  "common.sideServer": "由我们的服务器调用",
+  "common.sideBrowser": "由您的浏览器调用",
+  "common.loginWall": "可能要求您登录",
+  "common.cookiesLabel": "本站设置的 Cookie",
+  "common.cookiesIntro": "与上述键不同，Cookie 会随每次请求一同发送至 UNITAS。本站使用的 Cookie 已在此全部列出，其中没有任何一项用于广告或跨站跟踪。标记为 HttpOnly 的 Cookie 无法被页面脚本读取。",
+  "about.title": "关于 UNITAS",
+  "about.lede": "THE UNITAS GLOBAL OÜ 构建一个去中心化的自主型 SaaS 生态系统——由一位创始人设计，并通过完全的 AI 自动化运营。",
+  "about.updated": "2026-09-12",
+  "about.sections.0.heading": "一个想法",
+  "about.sections.0.paragraphs": [
+    "UNITAS 是一家爱沙尼亚公司，追求一个单一的想法：面向全球用户的认知基础设施，可以在不依赖重资本团队或风险投资的情况下完成设计、发布与运行。",
+    "生态系统中的每一个模块都按这一标准构建——小到足以让一位创始人端到端地全权负责，自动化程度高到足以全天候运行。"
+  ],
+  "about.sections.1.heading": "自主型 SaaS 生态系统",
+  "about.sections.1.paragraphs": [
+    "平台围绕认知结构组织——由十一部分构成的实时生态、五项消费者服务和三项企业协议——它们共享同一个身份层、同一个账本和同一套设计语言。",
+    "所谓自主，是指生态系统在身份、账本和渲染上都不依赖任何单一供应商。它所访问的每一项外部服务都是公开的、具名的、可替换的。"
+  ],
+  "about.sections.2.heading": "可租用的自主工厂",
+  "about.sections.2.paragraphs": [
+    "成员订阅模块的方式，就像企业租用一间工坊：每个模块都是一座自主的智能体工厂，承担着传统公司需要配备人员才能完成的工作量。",
+    "数字游民和小微企业可以在任何设备上、以二十种语言中的任意一种运行这些工厂，无需自行招聘或托管任何东西。"
+  ],
+  "about.sections.3.heading": "按量计费的算力，可复用的结果",
+  "about.sections.3.paragraphs": [
+    "智能体的工作按任务计量。经过一次验证的结果会被缓存并再次提供，不产生引擎成本，因此平台越被使用就越高效。",
+    "付费模块的访问由 U-COIN 管理，它是您账户上的一种预付访问额度。它不是证券，也不是价值储存工具。"
+  ],
+  "about.sections.4.heading": "创始人主导，AI 运营",
+  "about.sections.4.paragraphs": [
+    "UNITAS 由其创始人设计并运营。开发、验证和部署均通过一条带有失效即关闭完整性关卡的自动化智能体流水线进行：除非每项检查全部通过，否则不会发布任何内容。",
+    "这使生态系统保持独立、精简和韧性——并让每一项决策背后都有一位负责到底的人。"
+  ],
+  "about.sections.5.heading": "一家爱沙尼亚公司",
+  "about.sections.5.paragraphs": [
+    "THE UNITAS GLOBAL OÜ 在爱沙尼亚注册，其实践遵循欧盟的数据保护与消费者保护原则。本服务的适用法律为爱沙尼亚法律。"
+  ],
+  "careers.title": "招聘",
+  "careers.lede": "UNITAS 以创始人主导、AI 自动化的方式运营。目前没有开放的受薪职位。",
+  "careers.updated": "2026-09-12",
+  "careers.sections.0.heading": "为什么没有招聘页面",
+  "careers.sections.0.paragraphs": [
+    "这一模式是有意为之：一个精简的自主型结构，由自动化承担传统公司需要配备人员才能完成的工作量。这使生态系统保持独立与韧性。",
+    "若这一模式发生变化，职位空缺将首先在此发布。"
+  ],
+  "careers.sections.1.heading": "这里的工作方式",
+  "careers.sections.1.paragraphs": [
+    "UNITAS 的每一项变更都要经过一条智能体流水线：设计简报、实现、类型检查、测试套件、生产构建和端到端运行。任何一步失败的变更都不会发布。",
+    "同一条流水线会自我记录，因此平台的历史可以被下一个智能体——或下一个人——读懂。"
+  ],
+  "careers.sections.2.heading": "天然远程",
+  "careers.sections.2.paragraphs": [
+    "UNITAS 没有办公室。它在创始人所在的任何地方、以普通的硬件、跨越时区构建和运营。",
+    "未来的任何协作都将遵循同样的形态：异步、书面、远程优先。"
+  ],
+  "careers.sections.3.heading": "现在就可以贡献的方式",
+  "careers.sections.3.paragraphs": [
+    "安全研究人员可以通过“安全”页面报告漏洞。在二十种语言中的任何一种里发现错误的撰稿人和译者，可以通过“联系我们”页面提交更正。",
+    "合作与集成方面的咨询同样欢迎通过“联系我们”页面提出；请说明您构建的是什么、服务的是谁。"
+  ],
+  "careers.sections.4.heading": "我们看重什么",
+  "careers.sections.4.paragraphs": [
+    "如果开放职位，我们将优先考虑能够端到端地负责一个问题、写作清晰、并且乐于与自动化智能体并肩工作而非管理团队的人。"
+  ],
+  "press.title": "媒体",
+  "press.lede": "面向记者与分析师的媒体资源和公司背景。",
+  "press.updated": "2026-09-12",
+  "press.sections.0.heading": "公司概况",
+  "press.sections.0.paragraphs": [
+    "公司：THE UNITAS GLOBAL OÜ，在爱沙尼亚注册。产品：UNITAS，一个面向自主智能体工厂的自主型 SaaS 生态系统。创始人主导；通过 AI 自动化运营；提供二十种语言。",
+    "平台目前处于预发布阶段，位于公开的“Coming Soon”关卡之后。"
+  ],
+  "press.sections.1.heading": "如何称呼我们",
+  "press.sections.1.paragraphs": [
+    "请将公司标注为“THE UNITAS GLOBAL OÜ”，将产品标注为“UNITAS”。模块名称可按界面中的显示原样引用。",
+    "请勿将任何 UNITAS 功能描述为已获专利；在相关情况下，“专利申请中”才是准确的表述。"
+  ],
+  "press.sections.2.heading": "品牌使用",
+  "press.sections.2.paragraphs": [
+    "UNITAS 的字标与标志可在编辑报道中不加改动地使用。请勿将其与其他标志组合、暗示背书，或用于商品。",
+    "标志文件与品牌指引可应要求提供。"
+  ],
+  "press.sections.3.heading": "采访与事实核查",
+  "press.sections.3.paragraphs": [
+    "如需采访、背景简报或事实核查，请通过“联系我们”页面与我们联系，并注明您的媒体机构和截稿时间。注明截稿时间的请求将优先得到答复。"
+  ],
+  "press.sections.4.heading": "报道中的第三方数据",
+  "press.sections.4.paragraphs": [
+    "UNITAS 内展示的实时数据——天气、排行、新闻标题、汇率——来自具名的公开来源，应归属于这些来源，而非 UNITAS。"
+  ],
+  "patent-notice.title": "专利声明",
+  "patent-notice.lede": "UNITAS 的某些方法和系统是一项待审专利申请的对象。",
+  "patent-notice.updated": "2026-09-12",
+  "patent-notice.sections.0.heading": "待审状态",
+  "patent-notice.sections.0.paragraphs": [
+    "一项临时专利申请已在美国提交，涵盖 UNITAS 认知协议与签名协议的若干方面。该申请正在待审中；尚未授予任何专利，此处的任何内容都不应被解读为对已授权利的主张。",
+    "在专利获得授权之前，待审状态不赋予任何可强制执行的排他权。"
+  ],
+  "patent-notice.sections.1.heading": "申请所描述的内容",
+  "patent-notice.sections.1.paragraphs": [
+    "概括而言，该申请描述了独立模块如何共享同一个身份层和同一个只可追加的账本，智能体的工作如何按任务计量并从经验证的缓存中复用，以及签名协议如何在不暴露成员身份的情况下将其工作与其账户绑定。",
+    "以上描述是为读者提供的摘要，而非对保护范围的主张。"
+  ],
+  "patent-notice.sections.2.heading": "名称与标志",
+  "patent-notice.sections.2.paragraphs": [
+    "产品名称和 UNITAS 系统名称用作来源标识。除非本页面另有说明，否则不主张其为注册商标。"
+  ],
+  "patent-notice.sections.3.heading": "报告疑虑",
+  "patent-notice.sections.3.paragraphs": [
+    "如果您认为 UNITAS 侵犯了您持有的权利，或第三方对 UNITAS 技术作出了不实陈述，请通过“联系我们”页面向我们提供详情。报告由创始人审阅。"
+  ],
+  "patent-notice.sections.4.heading": "本声明的变更",
+  "patent-notice.sections.4.paragraphs": [
+    "如果该申请被公开、授权、放弃或扩展至其他司法管辖区，本声明将予以更新。"
+  ],
+  "compliance.title": "合规",
+  "compliance.lede": "UNITAS 如何在其服务的各司法管辖区履行监管义务。",
+  "compliance.updated": "2026-09-12",
+  "compliance.sections.0.heading": "我们受监管的范围",
+  "compliance.sections.0.paragraphs": [
+    "UNITAS 由一家爱沙尼亚公司运营，其实践遵循欧盟的数据保护与消费者保护原则，包括《通用数据保护条例》。",
+    "我们不声称获得任何特定标准的认证。"
+  ],
+  "compliance.sections.1.heading": "数据最小化",
+  "compliance.sections.1.paragraphs": [
+    "我们只收集运行账户所需的最少数据，并且仅在账户存续期间保留。访客会话永远不会离开浏览器。",
+    "实时功能以公开标识为键——一个地点、一个主题、一个公开实体——而绝不以提问者为键。"
+  ],
+  "compliance.sections.2.heading": "支付与额度",
+  "compliance.sections.2.paragraphs": [
+    "支付处理由第三方服务商在其自身受监管的框架下完成；银行卡和银行账户信息绝不会到达 UNITAS。",
+    "U-COIN 是用于 UNITAS 内部模块的预付访问额度。它不是证券、价值储存工具或支付工具，也不能在账户之间转让。"
+  ],
+  "compliance.sections.3.heading": "审计轨迹",
+  "compliance.sections.3.paragraphs": [
+    "余额的每一次变更都由经审计的服务器端函数写入一个只可追加的账本。浏览器中的任何内容都无法直接更改余额。"
+  ],
+  "compliance.sections.4.heading": "财务与税务管理",
+  "compliance.sections.4.paragraphs": [
+    "公司会计、银行业务和爱沙尼亚税务申报在创始人的授权下，通过受监管的欧洲服务提供商进行管理。"
+  ],
+  "compliance.sections.5.heading": "请求与投诉",
+  "compliance.sections.5.paragraphs": [
+    "合规问题，包括数据主体请求，可通过“联系我们”页面提出。欧盟居民也可以向其所在国的监管机构提出投诉。"
+  ],
+  "security.title": "安全",
+  "security.lede": "保护账户、余额与身份数据的控制措施。",
+  "security.updated": "2026-09-12",
+  "security.sections.0.heading": "在服务器端强制执行的身份",
+  "security.sections.0.paragraphs": [
+    "账户身份在数据库中而非浏览器中强制执行：经验证的电话号码在所有活跃账户中唯一，余额变更只能通过经审计的服务器端函数进行，交易账本只可追加。"
+  ],
+  "security.sections.1.heading": "默认零信任",
+  "security.sections.1.paragraphs": [
+    "每个请求都单独接受验证。支付密钥等机密绝不会到达客户端代码，创始人对预发布界面的访问在每次访问时都在服务器端进行验证。"
+  ],
+  "security.sections.2.heading": "设计方向：抗量子",
+  "security.sections.2.paragraphs": [
+    "签名层与会话层的设计使其算法可以在不改动账本的情况下被替换——这是在标准成熟后采用后量子密码学的前提条件。这是一个设计方向，而非一项认证。"
+  ],
+  "security.sections.3.heading": "自动隔离",
+  "security.sections.3.paragraphs": [
+    "未通过完整性检查的模块会被自动隔离：它会回退到一个封闭的只读状态，而不是提供不完整的数据。生态系统的其余部分继续运行。"
+  ],
+  "security.sections.4.heading": "客户端完整性",
+  "security.sections.4.paragraphs": [
+    "发布的资源带有所有权指纹，界面在设计上能在应用内浏览器中以及多次重新加载后保持会话完整，因此损坏的嵌入永远不会让您在不知情的情况下被登出。"
+  ],
+  "security.sections.5.heading": "报告漏洞",
+  "security.sections.5.paragraphs": [
+    "如需报告漏洞，请通过“联系我们”页面提供足以复现问题的详细信息，并请在我们作出回应之前不要公开披露。安全报告的处理优先级高于其他所有咨询。"
+  ],
+  "privacy.title": "隐私政策",
+  "privacy.lede": "UNITAS 收集什么、为什么收集，以及您拥有哪些选择。",
+  "privacy.updated": "2026-09-12",
+  "privacy.sections.0.heading": "我们收集什么",
+  "privacy.sections.0.paragraphs": [
+    "UNITAS 只收集运行账户所需的最少数据：用于身份验证的标识（电子邮件或电话号码）、U-COIN 余额及其账本，以及保存在您设备上的基本语言与设备偏好。",
+    "访客会话仅保留在您的浏览器本地，永远不会上传。"
+  ],
+  "privacy.sections.1.heading": "我们为什么处理这些数据",
+  "privacy.sections.1.paragraphs": [
+    "数据的处理是为了运行服务——让您登录、保持您的余额正确、记住您的语言。它不会被用于建立广告画像，也不会被出售。"
+  ],
+  "privacy.sections.2.heading": "我们保留多久",
+  "privacy.sections.2.paragraphs": [
+    "账户数据在账户存续期间保留。账本在会计法律要求的期限内保存。设备偏好仅存在于您的设备上。"
+  ],
+  "privacy.sections.3.heading": "实时功能与公开来源",
+  "privacy.sections.3.paragraphs": [
+    "天气、排行、新闻和搜索信息流由下方列出的公开来源构建。发往这些来源的请求只携带您正在探索的主题，绝不携带您的账户身份。其中一些由我们的服务器调用，另一些由您的浏览器直接调用；下方列表会说明是哪一种。"
+  ],
+  "privacy.sections.4.heading": "位置",
+  "privacy.sections.4.paragraphs": [
+    "天气和附近功能使用您选择的地点，或者——仅在您允许的情况下——您设备的位置。如果两者都不可用，则由下方具名的公开地理定位服务根据您的 IP 地址推算出一个大致位置。您的坐标绝不会存储在 UNITAS 服务器上。"
+  ],
+  "privacy.sections.5.heading": "您的权利",
+  "privacy.sections.5.paragraphs": [
+    "您可以通过“联系我们”页面或应用内的账户设置，请求访问、更正或删除您的账户数据。欧盟居民也可以向其监管机构提出投诉。"
+  ],
+  "privacy.sections.6.heading": "Cookie 与本地存储",
+  "privacy.sections.6.paragraphs": [
+    "本站在您的浏览器中保存一小组值，详见 Cookie 政策。不会设置任何第三方广告或跨站跟踪 Cookie。"
+  ],
+  "cookies.title": "Cookie 政策",
+  "cookies.lede": "UNITAS 对本地存储和 Cookie 的使用克制且仅限于功能用途。",
+  "cookies.updated": "2026-09-12",
+  "cookies.sections.0.heading": "严格必要",
+  "cookies.sections.0.paragraphs": [
+    "会话与身份验证令牌、预发布访问标记和应用内会话守护是界面正常工作所必需的。它们仅在您登录或通过入口关卡时设置。"
+  ],
+  "cookies.sections.1.heading": "偏好",
+  "cookies.sections.1.paragraphs": [
+    "您的语言、音频设置、上次选择的地点以及打开面板的位置都会被记住，以便界面按您离开时的状态原样返回。"
+  ],
+  "cookies.sections.2.heading": "缓存",
+  "cookies.sections.2.paragraphs": [
+    "来自公开来源的结果——一次天气读数、一页排行、一页搜索信息流——会在您的浏览器中缓存有限的时间，以便再次访问同一主题时无需消耗网络。它们只包含公开数据。"
+  ],
+  "cookies.sections.3.heading": "无分析，无广告",
+  "cookies.sections.3.paragraphs": [
+    "不会设置任何第三方分析、广告或跨站跟踪 Cookie。UNITAS 不参与任何广告网络。"
+  ],
+  "cookies.sections.4.heading": "如何控制它们",
+  "cookies.sections.4.paragraphs": [
+    "清除浏览器中 UNITAS 的站点数据会删除下方列出的每一个值。这样做会使您登出，并在下次访问时重置您的偏好；它绝不会影响您的账户余额，因为余额保存在服务器上。"
+  ],
+  "terms.title": "服务条款",
+  "terms.lede": "UNITAS 处于预发布阶段期间的基本使用条款。",
+  "terms.updated": "2026-09-12",
+  "terms.sections.0.heading": "服务",
+  "terms.sections.0.paragraphs": [
+    "在积极开发期间，UNITAS 以“按现状”（as is）的方式提供。随着平台的演进，功能可能发生变化或被暂停。变更后继续使用即表示您接受更新后的条款。"
+  ],
+  "terms.sections.1.heading": "账户",
+  "terms.sections.1.paragraphs": [
+    "您可以以访客身份使用 UNITAS，或使用经电子邮件或电话验证的账户。一个经验证的电话号码只能关联一个活跃账户。您有责任妥善保管自己的登录信息。"
+  ],
+  "terms.sections.2.heading": "U-COIN 访问额度",
+  "terms.sections.2.paragraphs": [
+    "付费模块的访问由您账户上的 U-COIN 余额管理。U-COIN 是一种预付访问额度——不是证券、储值工具或货币——且不可转让。",
+    "额度在付费功能交付时消耗。如果付费功能未能生成结果，该请求所消耗的额度将自动返还至您的余额。"
+  ],
+  "terms.sections.3.heading": "退款",
+  "terms.sections.3.paragraphs": [
+    "未使用的额度可在适用于您的消费者法律所要求的期限内退还至原支付方式。已为交付的功能消耗的额度不予退款。"
+  ],
+  "terms.sections.4.heading": "可接受的使用",
+  "terms.sections.4.paragraphs": [
+    "您不得试图更改余额、绕过访问关卡、探测或过载服务、大规模抓取服务内容，或将其用于伤害他人。从事此类行为的账户可能被暂停。"
+  ],
+  "terms.sections.5.heading": "第三方内容",
+  "terms.sections.5.paragraphs": [
+    "实时功能展示来自界面中具名公开来源的内容。UNITAS 不控制这些内容，也不保证其准确性。打开其他服务的链接受这些服务自身条款的约束。"
+  ],
+  "terms.sections.6.heading": "责任限制",
+  "terms.sections.6.paragraphs": [
+    "在法律允许的范围内，THE UNITAS GLOBAL OÜ 不对因使用本服务而产生的间接或后果性损失承担责任，其全部责任以您在提出索赔前十二个月内为额度支付的金额为限。本条款不限制法律规定不可限制的责任。"
+  ],
+  "terms.sections.7.heading": "适用法律",
+  "terms.sections.7.paragraphs": [
+    "本条款受爱沙尼亚法律管辖。消费者仍保留其居住国法律赋予的任何强制性保护。"
+  ],
+  "help-center.title": "帮助中心",
+  "help-center.lede": "最常见问题的解答。",
+  "help-center.updated": "2026-09-12",
+  "help-center.sections.0.heading": "开始使用",
+  "help-center.sections.0.paragraphs": [
+    "在入口界面按下“开始”即可进入首页。首次访问会播放一段简短的介绍；您可以跳过它，重新加载时也不会再次播放。"
+  ],
+  "help-center.sections.1.heading": "搜索",
+  "help-center.sections.1.paragraphs": [
+    "在搜索栏中输入即可获得关键词建议——先是产品功能，然后是全球实体，最后是您所用语言的页面。按 Enter 打开完整结果：一条随着滚动不断延伸的信息流，每张卡片都标注其来源。",
+    "每十页信息流会暂停一次并询问您是否继续；一次提问最多六十页。"
+  ],
+  "help-center.sections.2.heading": "快捷方式与排行",
+  "help-center.sections.2.paragraphs": [
+    "搜索栏下方的快捷栏和排行栏可在不离开页面的情况下打开详细视图。在其中大多数视图的下方，您会看到“深入探索”——一组从公开来源拉取该主题实时数据的透镜。"
+  ],
+  "help-center.sections.3.heading": "语言",
+  "help-center.sections.3.paragraphs": [
+    "随时可以通过顶部导航中的菜单切换语言。页面会停留在原处，您的选择会记录在此设备上；如果您已登录，也会记录在您的账户上。"
+  ],
+  "help-center.sections.4.heading": "声音",
+  "help-center.sections.4.paragraphs": [
+    "环境音效默认开启，并在刷新后保持不变。可通过顶部导航中的扬声器图标切换。"
+  ],
+  "help-center.sections.5.heading": "安装应用",
+  "help-center.sections.5.paragraphs": [
+    "可通过导航中的下载提示将 UNITAS 安装为应用。在其他应用的内置浏览器中，安装提示可能不会出现；请改为在您的主浏览器中打开页面。"
+  ],
+  "help-center.sections.6.heading": "故障排除",
+  "help-center.sections.6.paragraphs": [
+    "如果页面看起来卡住了，请重新加载；您的账户、余额和打开的面板会自动恢复。如果某张实时卡片没有显示数据，其背后的公开来源可能暂时不可用——卡片上标注了来源名称，您可以自行查证。"
+  ],
+  "contact.title": "联系我们",
+  "contact.lede": "一条渠道直达创始人。",
+  "contact.updated": "2026-09-12",
+  "contact.sections.0.heading": "如何联系我们",
+  "contact.sections.0.paragraphs": [
+    "一般咨询、合作、媒体、安全和数据保护方面的咨询均由创始人处理。请使用应用内的账户设置面板发起对话，或写信至 THE UNITAS GLOBAL OÜ 官方渠道上列出的地址。"
+  ],
+  "contact.sections.1.heading": "响应时间",
+  "contact.sections.1.paragraphs": [
+    "没有电话支持热线。响应时间取决于咨询量；安全报告优先处理，其次是数据保护请求，然后是其他所有事项。"
+  ],
+  "contact.sections.2.heading": "需要提供的信息",
+  "contact.sections.2.paragraphs": [
+    "账户问题请附上账户所用的电子邮件或电话号码。报告缺陷请说明页面、设备以及您预期的行为。安全报告请附上复现步骤。"
+  ],
+  "contact.sections.3.heading": "公司信息",
+  "contact.sections.3.paragraphs": [
+    "THE UNITAS GLOBAL OÜ 是一家在爱沙尼亚注册的公司。注册详情可通过爱沙尼亚商业登记处查询；本站不公布街道地址。"
+  ],
+  "system-status.title": "系统状态",
+  "system-status.lede": "UNITAS 平台当前的运行状态。",
+  "system-status.updated": "2026-09-12",
+  "system-status.sections.0.heading": "当前状态",
+  "system-status.sections.0.paragraphs": [
+    "UNITAS 处于预发布阶段。在创始人完成对入口流程的逐步验证期间，公开界面被有意封闭在“Coming Soon”关卡之后。"
+  ],
+  "system-status.sections.1.heading": "我们的运营方式",
+  "system-status.sections.1.paragraphs": [
+    "发布通过一条失效即关闭的流水线进行——类型检查、测试套件、生产构建和端到端运行——只有在每一步都通过时才会部署。发布不需要计划停机。"
+  ],
+  "system-status.sections.2.heading": "离线与重新连接",
+  "system-status.sections.2.paragraphs": [
+    "界面在设计上能在网络中断时依靠缓存数据继续工作，并在网络恢复后以确定性的方式完成同步——相同的输入总是产生相同的状态，因此不会有任何内容丢失或重复。"
+  ],
+  "system-status.sections.3.heading": "公开来源",
+  "system-status.sections.3.paragraphs": [
+    "实时卡片依赖于界面中具名的公开服务。当其中某项服务不可用时，卡片会予以说明，页面的其余部分继续工作；UNITAS 无法控制这些服务的可用性。"
+  ],
+  "system-status.sections.4.heading": "事件通告",
+  "system-status.sections.4.paragraphs": [
+    "平台公开上线后，计划内的维护以及任何影响账户或余额的事件都将在此汇总，包括开始时间、受影响的范围以及解决时间。"
+  ]
+}

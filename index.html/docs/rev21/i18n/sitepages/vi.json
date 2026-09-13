@@ -1,0 +1,349 @@
+{
+  "common.back": "Quay lại UNITAS",
+  "common.disclaimer": "Trang này chỉ nhằm cung cấp thông tin chung. Đây không phải là tư vấn pháp lý và không tạo ra bất kỳ hợp đồng hay bảo đảm nào. Những nội dung mô tả kế hoạch hoặc các vấn đề đang chờ xử lý có thể thay đổi. THE UNITAS GLOBAL OÜ, Estonia.",
+  "common.corporateNotice": "UNITAS do THE UNITAS GLOBAL OÜ, một công ty đăng ký tại Estonia, vận hành. Các mô tả sản phẩm trên trang này phản ánh thiết kế hiện tại của nền tảng và có thể thay đổi theo thời gian.",
+  "common.updatedLabel": "Cập nhật lần cuối",
+  "common.contentsLabel": "Nội dung trang này",
+  "common.thirdPartyLabel": "Các nguồn bên thứ ba mà trang web này truy cập",
+  "common.storageLabel": "Các khóa trang web này lưu trong trình duyệt của bạn",
+  "common.fetchedIntro": "Khi bạn sử dụng các tính năng trực tiếp, máy chủ của chúng tôi hoặc trình duyệt của bạn sẽ gọi đến các dịch vụ công khai sau. Mỗi dịch vụ được nêu tên theo đơn vị vận hành thực tế; chúng tôi chỉ gửi truy vấn cần thiết cho tính năng đó, không bao giờ gửi danh tính tài khoản của bạn.",
+  "common.browserIntro": "Các dịch vụ sau được gọi trực tiếp từ trình duyệt của bạn, nên đơn vị vận hành sẽ thấy địa chỉ IP của bạn như một phần của yêu cầu. Không dịch vụ nào nhận được danh tính tài khoản UNITAS của bạn.",
+  "common.storageIntro": "Các giá trị này chỉ tồn tại trong bộ nhớ cục bộ của trình duyệt. Không giá trị nào được gửi đến máy chủ UNITAS, và việc xóa dữ liệu trang web sẽ loại bỏ toàn bộ.",
+  "common.sideServer": "gọi từ máy chủ của chúng tôi",
+  "common.sideBrowser": "gọi từ trình duyệt của bạn",
+  "common.loginWall": "có thể yêu cầu đăng nhập",
+  "common.cookiesLabel": "Cookie mà trang này thiết lập",
+  "common.cookiesIntro": "Khác với các khóa ở trên, cookie được gửi kèm theo mỗi yêu cầu đến UNITAS. Toàn bộ cookie chúng tôi sử dụng đều được liệt kê tại đây và không cookie nào phục vụ quảng cáo hay theo dõi xuyên trang. Những cookie được đánh dấu HttpOnly thì tập lệnh của trang không thể đọc được.",
+  "about.title": "Giới thiệu UNITAS",
+  "about.lede": "THE UNITAS GLOBAL OÜ xây dựng một hệ sinh thái SaaS phi tập trung, tự chủ — do một nhà sáng lập duy nhất thiết kế và vận hành hoàn toàn bằng tự động hóa AI.",
+  "about.updated": "2026-09-12",
+  "about.sections.0.heading": "Một ý tưởng",
+  "about.sections.0.paragraphs": [
+    "UNITAS là một công ty Estonia theo đuổi một ý tưởng duy nhất: một hạ tầng nhận thức phục vụ người dùng trên toàn thế giới có thể được thiết kế, phát hành và vận hành mà không cần đội ngũ thâm dụng vốn hay phụ thuộc vào vốn đầu tư mạo hiểm.",
+    "Mọi mô-đun trong hệ sinh thái đều được xây dựng theo tiêu chuẩn đó — đủ nhỏ để một nhà sáng lập làm chủ từ đầu đến cuối, đủ tự động để vận hành suốt ngày đêm."
+  ],
+  "about.sections.1.heading": "Một hệ sinh thái SaaS tự chủ",
+  "about.sections.1.paragraphs": [
+    "Nền tảng được tổ chức quanh các cấu trúc nhận thức — một hệ sinh thái trực tiếp gồm mười một phần, năm dịch vụ dành cho người dùng cá nhân và ba giao thức doanh nghiệp — cùng chia sẻ một lớp danh tính, một sổ cái và một ngôn ngữ thiết kế.",
+    "Tự chủ nghĩa là hệ sinh thái không phụ thuộc vào bất kỳ nhà cung cấp đơn lẻ nào cho danh tính, sổ cái hay việc hiển thị của mình. Mọi dịch vụ bên ngoài mà nó truy cập đều công khai, được nêu tên và có thể thay thế."
+  ],
+  "about.sections.2.heading": "Nhà máy tự hành cho thuê",
+  "about.sections.2.paragraphs": [
+    "Thành viên đăng ký mô-đun theo cách một doanh nghiệp thuê xưởng làm việc: mỗi mô-đun là một nhà máy tác nhân tự hành đảm nhận khối lượng công việc mà một công ty thông thường phải bố trí nhân sự.",
+    "Dân du mục kỹ thuật số và doanh nghiệp nhỏ có thể vận hành các nhà máy này từ bất kỳ thiết bị nào, bằng bất kỳ ngôn ngữ nào trong hai mươi ngôn ngữ, mà không cần tự tuyển dụng hay tự lưu trữ bất cứ thứ gì."
+  ],
+  "about.sections.3.heading": "Tính toán được đo đếm, kết quả được tái sử dụng",
+  "about.sections.3.paragraphs": [
+    "Công việc của tác nhân được đo đếm theo từng tác vụ. Một kết quả đã được xác thực một lần sẽ được lưu vào bộ đệm và cung cấp lại mà không tốn chi phí xử lý, nên nền tảng càng được sử dụng nhiều càng trở nên hiệu quả.",
+    "Quyền truy cập các mô-đun trả phí được quản lý bằng U-COIN, một tín dụng truy cập trả trước trên tài khoản của bạn. Đây không phải là chứng khoán hay phương tiện lưu trữ giá trị."
+  ],
+  "about.sections.4.heading": "Nhà sáng lập dẫn dắt, AI vận hành",
+  "about.sections.4.paragraphs": [
+    "UNITAS do nhà sáng lập thiết kế và trực tiếp vận hành. Việc phát triển, kiểm chứng và triển khai đều chạy qua một quy trình tác nhân tự động với cổng toàn vẹn đóng khi lỗi: không có gì được phát hành trừ khi mọi bước kiểm tra đều đạt.",
+    "Điều này giữ cho hệ sinh thái độc lập, tinh gọn và bền bỉ — và luôn có một người chịu trách nhiệm đứng sau mỗi quyết định."
+  ],
+  "about.sections.5.heading": "Một công ty Estonia",
+  "about.sections.5.paragraphs": [
+    "THE UNITAS GLOBAL OÜ được đăng ký tại Estonia và vận hành theo các nguyên tắc bảo vệ dữ liệu và bảo vệ người tiêu dùng của Liên minh châu Âu. Luật điều chỉnh của dịch vụ là luật pháp Estonia."
+  ],
+  "careers.title": "Tuyển dụng",
+  "careers.lede": "UNITAS vận hành theo mô hình nhà sáng lập dẫn dắt, tự động hóa bằng AI. Hiện tại không có vị trí hưởng lương nào đang tuyển.",
+  "careers.updated": "2026-09-12",
+  "careers.sections.0.heading": "Vì sao không có trang tuyển dụng",
+  "careers.sections.0.paragraphs": [
+    "Mô hình này là có chủ đích: một cấu trúc tự chủ tinh gọn, trong đó tự động hóa đảm nhận khối lượng công việc mà một công ty thông thường phải bố trí nhân sự. Điều này giữ cho hệ sinh thái độc lập và bền bỉ.",
+    "Nếu mô hình đó thay đổi, các vị trí tuyển dụng sẽ được đăng tại đây trước tiên."
+  ],
+  "careers.sections.1.heading": "Công việc diễn ra như thế nào",
+  "careers.sections.1.paragraphs": [
+    "Mọi thay đổi đối với UNITAS đều đi qua một quy trình tác nhân: bản mô tả thiết kế, phần triển khai, kiểm tra kiểu dữ liệu, bộ kiểm thử, bản dựng sản xuất và một lượt chạy đầu-cuối. Thay đổi nào thất bại ở bất kỳ bước nào đều không được phát hành.",
+    "Chính quy trình đó cũng tự ghi lại tài liệu của mình, nên lịch sử của nền tảng có thể được đọc bởi tác nhân tiếp theo — hoặc người tiếp theo."
+  ],
+  "careers.sections.2.heading": "Làm việc từ xa theo thiết kế",
+  "careers.sections.2.paragraphs": [
+    "UNITAS không có văn phòng. Nền tảng được xây dựng và vận hành từ bất cứ nơi nào nhà sáng lập có mặt, trên phần cứng khiêm tốn, xuyên các múi giờ.",
+    "Mọi hợp tác trong tương lai cũng sẽ theo hình thức tương tự: bất đồng bộ, bằng văn bản, ưu tiên làm việc từ xa."
+  ],
+  "careers.sections.3.heading": "Cách đóng góp ngay hôm nay",
+  "careers.sections.3.paragraphs": [
+    "Các nhà nghiên cứu bảo mật có thể báo cáo lỗ hổng qua trang Bảo mật. Người viết và dịch giả phát hiện lỗi ở bất kỳ ngôn ngữ nào trong hai mươi ngôn ngữ có thể gửi đính chính qua trang Liên hệ.",
+    "Chúng tôi cũng hoan nghênh các đề nghị hợp tác và tích hợp qua trang Liên hệ; vui lòng mô tả sản phẩm bạn xây dựng và đối tượng mà nó phục vụ."
+  ],
+  "careers.sections.4.heading": "Chúng tôi tìm kiếm điều gì",
+  "careers.sections.4.paragraphs": [
+    "Nếu có vị trí mở ra, chúng tôi sẽ ưu tiên những người có thể làm chủ một vấn đề từ đầu đến cuối, viết rõ ràng, và thoải mái khi làm việc cùng các tác nhân tự động thay vì quản lý đội nhóm."
+  ],
+  "press.title": "Báo chí",
+  "press.lede": "Tài nguyên truyền thông và thông tin nền về công ty dành cho nhà báo và nhà phân tích.",
+  "press.updated": "2026-09-12",
+  "press.sections.0.heading": "Thông tin công ty",
+  "press.sections.0.paragraphs": [
+    "Công ty: THE UNITAS GLOBAL OÜ, đăng ký tại Estonia. Sản phẩm: UNITAS, một hệ sinh thái SaaS tự chủ dành cho các nhà máy tác nhân tự hành. Do nhà sáng lập dẫn dắt; vận hành bằng tự động hóa AI; có sẵn bằng hai mươi ngôn ngữ.",
+    "Nền tảng hiện đang trong giai đoạn tiền ra mắt, phía sau cổng công khai \"Coming Soon\"."
+  ],
+  "press.sections.1.heading": "Cách gọi tên chúng tôi",
+  "press.sections.1.paragraphs": [
+    "Vui lòng ghi tên công ty là \"THE UNITAS GLOBAL OÜ\" và tên sản phẩm là \"UNITAS\". Tên các mô-đun có thể được trích dẫn đúng như hiển thị trong giao diện.",
+    "Vui lòng không mô tả bất kỳ tính năng nào của UNITAS là đã được cấp bằng sáng chế; khi cần, \"đang chờ cấp bằng sáng chế\" là cách diễn đạt chính xác."
+  ],
+  "press.sections.2.heading": "Sử dụng thương hiệu",
+  "press.sections.2.paragraphs": [
+    "Chữ hiệu và biểu tượng UNITAS có thể được sử dụng trong các bài viết biên tập mà không chỉnh sửa. Không kết hợp chúng với các nhãn hiệu khác, không ngụ ý sự chứng thực, và không sử dụng trên hàng hóa thương mại.",
+    "Tệp logo và hướng dẫn thương hiệu được cung cấp theo yêu cầu."
+  ],
+  "press.sections.3.heading": "Phỏng vấn và kiểm chứng thông tin",
+  "press.sections.3.paragraphs": [
+    "Để phỏng vấn, nghe trình bày thông tin nền hoặc kiểm chứng thông tin, vui lòng liên hệ qua trang Liên hệ và cho biết cơ quan báo chí cùng thời hạn của bạn. Các yêu cầu có nêu thời hạn sẽ được trả lời trước."
+  ],
+  "press.sections.4.heading": "Dữ liệu bên thứ ba trong bài viết",
+  "press.sections.4.paragraphs": [
+    "Các số liệu trực tiếp hiển thị bên trong UNITAS — thời tiết, xếp hạng, tiêu đề tin tức, tỷ giá hối đoái — đến từ các nguồn công khai được nêu tên và cần được ghi nguồn từ chính các nguồn đó, không phải từ UNITAS."
+  ],
+  "patent-notice.title": "Thông báo về sáng chế",
+  "patent-notice.lede": "Một số phương pháp và hệ thống của UNITAS là đối tượng của một đơn đăng ký sáng chế đang chờ xử lý.",
+  "patent-notice.updated": "2026-09-12",
+  "patent-notice.sections.0.heading": "Trạng thái đang chờ xử lý",
+  "patent-notice.sections.0.paragraphs": [
+    "Một đơn đăng ký sáng chế tạm thời đã được nộp tại Hoa Kỳ, bao quát một số khía cạnh của các giao thức nhận thức và chữ ký của UNITAS. Đơn đang trong trạng thái chờ xử lý; chưa có bằng sáng chế nào được cấp, và không nội dung nào ở đây nên được hiểu là tuyên bố về quyền đã được cấp.",
+    "Trạng thái chờ xử lý không trao bất kỳ quyền độc quyền có hiệu lực thi hành nào, trừ khi và cho đến khi bằng sáng chế được cấp."
+  ],
+  "patent-notice.sections.1.heading": "Đơn đăng ký mô tả điều gì",
+  "patent-notice.sections.1.paragraphs": [
+    "Nói một cách khái quát, đơn đăng ký mô tả cách các mô-đun độc lập chia sẻ một lớp danh tính và một sổ cái chỉ ghi thêm, cách công việc của tác nhân được đo đếm theo từng tác vụ và được tái sử dụng từ bộ đệm đã xác thực, và cách một giao thức chữ ký gắn công việc của thành viên với tài khoản của họ mà không để lộ danh tính.",
+    "Mô tả trên chỉ là bản tóm tắt dành cho người đọc, không phải tuyên bố về phạm vi bảo hộ."
+  ],
+  "patent-notice.sections.2.heading": "Tên gọi và nhãn hiệu",
+  "patent-notice.sections.2.paragraphs": [
+    "Tên sản phẩm và tên các hệ thống UNITAS được sử dụng như dấu hiệu nhận diện nguồn gốc. Chúng không được tuyên bố là nhãn hiệu đã đăng ký trừ khi được nêu rõ trên trang này."
+  ],
+  "patent-notice.sections.3.heading": "Báo cáo mối quan ngại",
+  "patent-notice.sections.3.paragraphs": [
+    "Nếu bạn cho rằng UNITAS xâm phạm quyền mà bạn nắm giữ, hoặc một bên thứ ba đang trình bày sai lệch về công nghệ UNITAS, vui lòng liên hệ với chúng tôi qua trang Liên hệ kèm chi tiết. Các báo cáo được nhà sáng lập trực tiếp xem xét."
+  ],
+  "patent-notice.sections.4.heading": "Thay đổi đối với thông báo này",
+  "patent-notice.sections.4.paragraphs": [
+    "Thông báo này sẽ được cập nhật nếu đơn đăng ký được công bố, được cấp bằng, bị từ bỏ hoặc được mở rộng sang các khu vực pháp lý khác."
+  ],
+  "compliance.title": "Tuân thủ",
+  "compliance.lede": "Cách UNITAS tiếp cận các nghĩa vụ pháp lý của mình trên các khu vực pháp lý mà nền tảng phục vụ.",
+  "compliance.updated": "2026-09-12",
+  "compliance.sections.0.heading": "Nơi chúng tôi chịu sự quản lý",
+  "compliance.sections.0.paragraphs": [
+    "UNITAS do một công ty Estonia vận hành và tuân theo các nguyên tắc bảo vệ dữ liệu và bảo vệ người tiêu dùng của Liên minh châu Âu, bao gồm Quy định chung về bảo vệ dữ liệu (GDPR).",
+    "Chúng tôi không tuyên bố có chứng nhận theo bất kỳ tiêu chuẩn cụ thể nào."
+  ],
+  "compliance.sections.1.heading": "Tối thiểu hóa dữ liệu",
+  "compliance.sections.1.paragraphs": [
+    "Chúng tôi chỉ thu thập mức tối thiểu cần thiết để vận hành một tài khoản và chỉ lưu giữ chừng nào tài khoản còn tồn tại. Phiên khách không bao giờ rời khỏi trình duyệt.",
+    "Các tính năng trực tiếp được khóa theo các định danh công khai — một địa điểm, một chủ đề, một thực thể công khai — không bao giờ theo người đang hỏi."
+  ],
+  "compliance.sections.2.heading": "Thanh toán và tín dụng",
+  "compliance.sections.2.paragraphs": [
+    "Việc xử lý thanh toán do các nhà cung cấp bên thứ ba thực hiện theo khuôn khổ pháp lý riêng của họ; thông tin thẻ và ngân hàng không bao giờ đến được UNITAS.",
+    "U-COIN là một tín dụng truy cập trả trước dành cho các mô-đun bên trong UNITAS. Đây không phải là chứng khoán, phương tiện lưu trữ giá trị hay công cụ thanh toán, và không thể chuyển nhượng giữa các tài khoản."
+  ],
+  "compliance.sections.3.heading": "Dấu vết kiểm toán",
+  "compliance.sections.3.paragraphs": [
+    "Mọi thay đổi về số dư đều được một hàm phía máy chủ đã qua kiểm toán ghi vào sổ cái chỉ ghi thêm. Không thành phần nào trong trình duyệt có thể thay đổi số dư trực tiếp."
+  ],
+  "compliance.sections.4.heading": "Quản lý tài chính và thuế",
+  "compliance.sections.4.paragraphs": [
+    "Kế toán công ty, giao dịch ngân hàng và khai thuế tại Estonia được quản lý thông qua các nhà cung cấp dịch vụ châu Âu chịu sự quản lý, dưới thẩm quyền của nhà sáng lập."
+  ],
+  "compliance.sections.5.heading": "Yêu cầu và khiếu nại",
+  "compliance.sections.5.paragraphs": [
+    "Các câu hỏi về tuân thủ, bao gồm yêu cầu của chủ thể dữ liệu, có thể được gửi qua trang Liên hệ. Cư dân Liên minh châu Âu cũng có thể nộp khiếu nại lên cơ quan giám sát quốc gia của mình."
+  ],
+  "security.title": "Bảo mật",
+  "security.lede": "Các biện pháp kiểm soát bảo vệ tài khoản, số dư và dữ liệu danh tính.",
+  "security.updated": "2026-09-12",
+  "security.sections.0.heading": "Danh tính được thực thi phía máy chủ",
+  "security.sections.0.paragraphs": [
+    "Danh tính tài khoản được thực thi trong cơ sở dữ liệu, không phải trong trình duyệt: một số điện thoại đã xác minh là duy nhất trên toàn bộ các tài khoản đang hoạt động, các thay đổi số dư chỉ đi qua các hàm phía máy chủ đã qua kiểm toán, và sổ cái giao dịch chỉ cho phép ghi thêm."
+  ],
+  "security.sections.1.heading": "Zero trust theo mặc định",
+  "security.sections.1.paragraphs": [
+    "Mọi yêu cầu đều được xác minh độc lập theo giá trị riêng của nó. Các bí mật như khóa thanh toán không bao giờ đến được mã phía máy khách, và quyền truy cập của nhà sáng lập vào các giao diện tiền ra mắt được xác minh phía máy chủ ở mỗi lượt truy cập."
+  ],
+  "security.sections.2.heading": "Định hướng thiết kế: kháng lượng tử",
+  "security.sections.2.paragraphs": [
+    "Các lớp chữ ký và phiên được thiết kế sao cho thuật toán của chúng có thể được thay thế mà không làm thay đổi sổ cái — một điều kiện tiên quyết để áp dụng mật mã hậu lượng tử khi các tiêu chuẩn đã ổn định. Đây là định hướng thiết kế, không phải chứng nhận."
+  ],
+  "security.sections.3.heading": "Cách ly tự động",
+  "security.sections.3.paragraphs": [
+    "Một mô-đun không vượt qua kiểm tra toàn vẹn sẽ được cách ly tự động: nó chuyển về trạng thái niêm phong, chỉ đọc thay vì cung cấp dữ liệu không đầy đủ. Phần còn lại của hệ sinh thái vẫn tiếp tục hoạt động."
+  ],
+  "security.sections.4.heading": "Toàn vẹn phía máy khách",
+  "security.sections.4.paragraphs": [
+    "Các tài nguyên được phát hành mang dấu vân tay sở hữu, và giao diện được xây dựng để giữ nguyên phiên bên trong các trình duyệt tích hợp trong ứng dụng cũng như qua các lần tải lại, nên một khung nhúng bị lỗi không bao giờ âm thầm đăng xuất bạn."
+  ],
+  "security.sections.5.heading": "Báo cáo lỗ hổng",
+  "security.sections.5.paragraphs": [
+    "Để báo cáo lỗ hổng, hãy sử dụng trang Liên hệ với đủ chi tiết để tái hiện vấn đề, và vui lòng không công bố công khai trước khi chúng tôi phản hồi. Các báo cáo bảo mật được ưu tiên hơn mọi yêu cầu khác."
+  ],
+  "privacy.title": "Chính sách quyền riêng tư",
+  "privacy.lede": "UNITAS thu thập những gì, vì sao, và bạn có những lựa chọn nào.",
+  "privacy.updated": "2026-09-12",
+  "privacy.sections.0.heading": "Những gì chúng tôi thu thập",
+  "privacy.sections.0.paragraphs": [
+    "UNITAS chỉ thu thập mức tối thiểu cần thiết để vận hành một tài khoản: một định danh (email hoặc số điện thoại) để xác thực, số dư coin cùng sổ cái của nó, và các tùy chọn cơ bản về ngôn ngữ và thiết bị được lưu trên thiết bị của bạn.",
+    "Phiên khách chỉ nằm cục bộ trong trình duyệt của bạn và không bao giờ được tải lên."
+  ],
+  "privacy.sections.1.heading": "Vì sao chúng tôi xử lý dữ liệu",
+  "privacy.sections.1.paragraphs": [
+    "Dữ liệu được xử lý để vận hành dịch vụ — để đăng nhập cho bạn, để giữ số dư của bạn chính xác và để ghi nhớ ngôn ngữ của bạn. Dữ liệu không được dùng để xây dựng hồ sơ quảng cáo và không được bán."
+  ],
+  "privacy.sections.2.heading": "Chúng tôi lưu giữ trong bao lâu",
+  "privacy.sections.2.paragraphs": [
+    "Dữ liệu tài khoản được lưu giữ chừng nào tài khoản còn tồn tại. Sổ cái được lưu trữ trong thời gian pháp luật yêu cầu cho mục đích kế toán. Các tùy chọn thiết bị chỉ tồn tại trên thiết bị của bạn."
+  ],
+  "privacy.sections.3.heading": "Tính năng trực tiếp và nguồn công khai",
+  "privacy.sections.3.paragraphs": [
+    "Thời tiết, xếp hạng, tin tức và luồng tìm kiếm được xây dựng từ các nguồn công khai liệt kê bên dưới. Các yêu cầu gửi đến những nguồn đó chỉ mang chủ đề bạn đang khám phá, không bao giờ mang danh tính tài khoản của bạn. Một số được gọi từ máy chủ của chúng tôi và một số trực tiếp từ trình duyệt của bạn; các danh sách bên dưới cho biết cụ thể."
+  ],
+  "privacy.sections.4.heading": "Vị trí",
+  "privacy.sections.4.paragraphs": [
+    "Các tính năng thời tiết và lân cận sử dụng địa điểm bạn chọn, hoặc — chỉ khi bạn cho phép — vị trí thiết bị của bạn. Nếu cả hai đều không có, một vị trí xấp xỉ sẽ được suy ra từ địa chỉ IP của bạn bởi một dịch vụ định vị địa lý công khai được nêu tên bên dưới. Tọa độ của bạn không bao giờ được lưu trên máy chủ UNITAS."
+  ],
+  "privacy.sections.5.heading": "Quyền của bạn",
+  "privacy.sections.5.paragraphs": [
+    "Bạn có thể yêu cầu truy cập, chỉnh sửa hoặc xóa dữ liệu tài khoản của mình qua trang Liên hệ hoặc phần cài đặt tài khoản trong ứng dụng. Cư dân Liên minh châu Âu cũng có thể nộp khiếu nại lên cơ quan giám sát của mình."
+  ],
+  "privacy.sections.6.heading": "Cookie và bộ nhớ cục bộ",
+  "privacy.sections.6.paragraphs": [
+    "Trang web lưu một tập nhỏ các giá trị trong trình duyệt của bạn, được mô tả trong Chính sách cookie. Không có cookie quảng cáo của bên thứ ba hay cookie theo dõi liên trang nào được đặt."
+  ],
+  "cookies.title": "Chính sách cookie",
+  "cookies.lede": "UNITAS sử dụng bộ nhớ cục bộ và cookie một cách tiết chế và chỉ cho mục đích chức năng.",
+  "cookies.updated": "2026-09-12",
+  "cookies.sections.0.heading": "Thiết yếu",
+  "cookies.sections.0.paragraphs": [
+    "Mã thông báo phiên và xác thực, cờ truy cập tiền ra mắt và bộ bảo vệ phiên trong ứng dụng là cần thiết để giao diện hoạt động đúng. Chúng chỉ được đặt khi bạn đăng nhập hoặc đi qua cổng vào."
+  ],
+  "cookies.sections.1.heading": "Tùy chọn",
+  "cookies.sections.1.paragraphs": [
+    "Ngôn ngữ, cài đặt âm thanh, địa điểm bạn chọn gần nhất và vị trí của bảng đang mở được ghi nhớ để giao diện trở lại đúng như khi bạn rời đi."
+  ],
+  "cookies.sections.2.heading": "Bộ đệm",
+  "cookies.sections.2.paragraphs": [
+    "Kết quả từ các nguồn công khai — một bản đọc thời tiết, một trang xếp hạng, một trang luồng tìm kiếm — được lưu vào bộ đệm trong trình duyệt của bạn trong thời gian giới hạn, để việc quay lại một chủ đề không tốn lưu lượng mạng. Chúng chỉ chứa dữ liệu công khai."
+  ],
+  "cookies.sections.3.heading": "Không phân tích, không quảng cáo",
+  "cookies.sections.3.paragraphs": [
+    "Không có cookie phân tích, quảng cáo hay theo dõi liên trang nào của bên thứ ba được đặt. UNITAS không tham gia các mạng lưới quảng cáo."
+  ],
+  "cookies.sections.4.heading": "Cách kiểm soát",
+  "cookies.sections.4.paragraphs": [
+    "Xóa dữ liệu trang web của UNITAS trong trình duyệt sẽ loại bỏ mọi giá trị được liệt kê bên dưới. Việc này sẽ đăng xuất bạn và đặt lại các tùy chọn ở lần truy cập tiếp theo; nó không bao giờ ảnh hưởng đến số dư tài khoản của bạn, vốn nằm trên máy chủ."
+  ],
+  "terms.title": "Điều khoản dịch vụ",
+  "terms.lede": "Các điều khoản cơ bản để sử dụng UNITAS trong giai đoạn tiền ra mắt.",
+  "terms.updated": "2026-09-12",
+  "terms.sections.0.heading": "Dịch vụ",
+  "terms.sections.0.paragraphs": [
+    "UNITAS được cung cấp theo nguyên trạng (\"as is\") trong thời gian phát triển tích cực. Các tính năng có thể thay đổi hoặc tạm ngừng khi nền tảng phát triển. Việc tiếp tục sử dụng sau khi có thay đổi đồng nghĩa với việc bạn chấp nhận các điều khoản đã cập nhật."
+  ],
+  "terms.sections.1.heading": "Tài khoản",
+  "terms.sections.1.paragraphs": [
+    "Bạn có thể sử dụng UNITAS với tư cách khách hoặc bằng tài khoản đã xác minh qua email hoặc số điện thoại. Một số điện thoại đã xác minh chỉ có thể gắn với một tài khoản đang hoạt động. Bạn có trách nhiệm giữ kín thông tin đăng nhập của mình."
+  ],
+  "terms.sections.2.heading": "Tín dụng truy cập U-COIN",
+  "terms.sections.2.paragraphs": [
+    "Quyền truy cập các mô-đun trả phí được quản lý bằng số dư coin trên tài khoản của bạn. U-COIN là một tín dụng truy cập trả trước — không phải chứng khoán, công cụ lưu trữ giá trị hay tiền tệ — và không thể chuyển nhượng.",
+    "Tín dụng được tiêu hao khi một tính năng trả phí được cung cấp. Nếu một tính năng trả phí không tạo ra được kết quả, số tín dụng đã tiêu hao cho yêu cầu đó sẽ tự động được hoàn lại vào số dư của bạn."
+  ],
+  "terms.sections.3.heading": "Hoàn tiền",
+  "terms.sections.3.paragraphs": [
+    "Tín dụng chưa sử dụng có thể được hoàn lại về phương thức thanh toán ban đầu trong thời hạn mà luật bảo vệ người tiêu dùng áp dụng với bạn yêu cầu. Tín dụng đã tiêu hao cho các tính năng đã được cung cấp không được hoàn lại."
+  ],
+  "terms.sections.4.heading": "Sử dụng được chấp nhận",
+  "terms.sections.4.paragraphs": [
+    "Bạn không được cố gắng thay đổi số dư, vượt qua cổng truy cập, dò quét hoặc gây quá tải dịch vụ, thu thập dữ liệu tự động với khối lượng lớn, hoặc sử dụng dịch vụ để gây hại cho người khác. Các tài khoản có hành vi như vậy có thể bị đình chỉ."
+  ],
+  "terms.sections.5.heading": "Nội dung bên thứ ba",
+  "terms.sections.5.paragraphs": [
+    "Các tính năng trực tiếp hiển thị nội dung từ các nguồn công khai được nêu tên trong giao diện. UNITAS không kiểm soát nội dung đó và không bảo đảm tính chính xác của nó. Các liên kết mở đến dịch vụ khác chịu sự điều chỉnh của điều khoản riêng của các dịch vụ đó."
+  ],
+  "terms.sections.6.heading": "Giới hạn trách nhiệm",
+  "terms.sections.6.paragraphs": [
+    "Trong phạm vi pháp luật cho phép, THE UNITAS GLOBAL OÜ không chịu trách nhiệm đối với các tổn thất gián tiếp hoặc hệ quả phát sinh từ việc sử dụng dịch vụ, và tổng trách nhiệm của công ty được giới hạn ở số tiền bạn đã thanh toán cho tín dụng trong mười hai tháng trước khi phát sinh khiếu nại. Không điều gì ở đây giới hạn trách nhiệm mà pháp luật không cho phép giới hạn."
+  ],
+  "terms.sections.7.heading": "Luật điều chỉnh",
+  "terms.sections.7.paragraphs": [
+    "Các điều khoản này được điều chỉnh bởi luật pháp Estonia. Người tiêu dùng vẫn giữ mọi quyền bảo vệ bắt buộc theo luật của quốc gia nơi mình cư trú."
+  ],
+  "help-center.title": "Trung tâm trợ giúp",
+  "help-center.lede": "Giải đáp những câu hỏi thường gặp nhất.",
+  "help-center.updated": "2026-09-12",
+  "help-center.sections.0.heading": "Bắt đầu",
+  "help-center.sections.0.paragraphs": [
+    "Nhấn Bắt đầu trên màn hình vào để đến trang chủ. Lần truy cập đầu tiên sẽ phát một đoạn giới thiệu ngắn; bạn có thể bỏ qua, và nó sẽ không phát lại khi tải lại trang."
+  ],
+  "help-center.sections.1.heading": "Tìm kiếm",
+  "help-center.sections.1.paragraphs": [
+    "Gõ vào thanh tìm kiếm để nhận gợi ý từ khóa — tính năng sản phẩm trước, rồi đến các thực thể trên toàn thế giới, rồi đến các trang bằng ngôn ngữ của bạn. Nhấn Enter để mở kết quả đầy đủ: một luồng tiếp tục kéo dài khi bạn cuộn, với mỗi thẻ đều nêu tên nguồn của nó.",
+    "Cứ mỗi mười trang, luồng sẽ tạm dừng và hỏi bạn có muốn tiếp tục không; sáu mươi trang là giới hạn cho một câu hỏi."
+  ],
+  "help-center.sections.2.heading": "Lối tắt và xếp hạng",
+  "help-center.sections.2.paragraphs": [
+    "Bên dưới thanh tìm kiếm, thanh lối tắt và các thanh xếp hạng mở ra các chế độ xem chi tiết mà không rời khỏi trang. Dưới hầu hết các mục đó, bạn sẽ thấy Khám phá sâu hơn, một bộ lăng kính kéo dữ liệu trực tiếp về chủ đề từ các nguồn công khai."
+  ],
+  "help-center.sections.3.heading": "Ngôn ngữ",
+  "help-center.sections.3.paragraphs": [
+    "Bạn có thể chuyển ngôn ngữ bất cứ lúc nào từ menu trên thanh điều hướng phía trên. Trang vẫn giữ nguyên vị trí, và lựa chọn của bạn được ghi nhớ trên thiết bị này và, nếu bạn đã đăng nhập, trên tài khoản của bạn."
+  ],
+  "help-center.sections.4.heading": "Âm thanh",
+  "help-center.sections.4.paragraphs": [
+    "Âm thanh nền được bật theo mặc định và duy trì qua các lần làm mới. Bật hoặc tắt bằng biểu tượng loa trên thanh điều hướng phía trên."
+  ],
+  "help-center.sections.5.heading": "Cài đặt ứng dụng",
+  "help-center.sections.5.paragraphs": [
+    "UNITAS có thể được cài đặt như một ứng dụng từ lời nhắc tải xuống trên thanh điều hướng. Bên trong trình duyệt tích hợp của một ứng dụng khác, lời nhắc cài đặt có thể không xuất hiện; khi đó hãy mở trang trong trình duyệt chính của bạn."
+  ],
+  "help-center.sections.6.heading": "Khắc phục sự cố",
+  "help-center.sections.6.paragraphs": [
+    "Nếu có gì đó trông như bị treo, hãy tải lại trang; tài khoản, số dư và các bảng đang mở của bạn sẽ được khôi phục tự động. Nếu một thẻ trực tiếp không hiển thị dữ liệu, nguồn công khai phía sau nó có thể tạm thời không khả dụng — thẻ có nêu tên nguồn để bạn có thể tự kiểm tra."
+  ],
+  "contact.title": "Liên hệ",
+  "contact.lede": "Một kênh duy nhất kết nối trực tiếp với nhà sáng lập.",
+  "contact.updated": "2026-09-12",
+  "contact.sections.0.heading": "Cách liên hệ với chúng tôi",
+  "contact.sections.0.paragraphs": [
+    "Các yêu cầu chung, hợp tác, báo chí, bảo mật và bảo vệ dữ liệu đều do nhà sáng lập trực tiếp xử lý. Hãy sử dụng bảng cài đặt tài khoản trong ứng dụng để bắt đầu cuộc trò chuyện, hoặc gửi thư đến địa chỉ được nêu trên các kênh chính thức của THE UNITAS GLOBAL OÜ."
+  ],
+  "contact.sections.1.heading": "Thời gian phản hồi",
+  "contact.sections.1.paragraphs": [
+    "Không có đường dây hỗ trợ qua điện thoại. Thời gian phản hồi phụ thuộc vào số lượng yêu cầu; các báo cáo bảo mật được ưu tiên, tiếp theo là các yêu cầu về bảo vệ dữ liệu, rồi đến mọi yêu cầu khác."
+  ],
+  "contact.sections.2.heading": "Cần cung cấp những gì",
+  "contact.sections.2.paragraphs": [
+    "Với câu hỏi về tài khoản, hãy kèm email hoặc số điện thoại của tài khoản. Với lỗi, hãy kèm trang, thiết bị và điều bạn mong đợi sẽ xảy ra. Với báo cáo bảo mật, hãy kèm các bước tái hiện."
+  ],
+  "contact.sections.3.heading": "Thông tin công ty",
+  "contact.sections.3.paragraphs": [
+    "THE UNITAS GLOBAL OÜ là công ty đăng ký tại Estonia. Thông tin đăng ký có thể tra cứu qua sổ đăng ký kinh doanh Estonia; trang web này không công bố địa chỉ trụ sở."
+  ],
+  "system-status.title": "Trạng thái hệ thống",
+  "system-status.lede": "Tình trạng vận hành hiện tại của nền tảng UNITAS.",
+  "system-status.updated": "2026-09-12",
+  "system-status.sections.0.heading": "Tình trạng hiện tại",
+  "system-status.sections.0.paragraphs": [
+    "UNITAS đang trong giai đoạn tiền ra mắt. Giao diện công khai được chủ ý niêm phong phía sau cổng \"Coming Soon\" trong khi nhà sáng lập hoàn tất việc kiểm chứng tuần tự luồng vào."
+  ],
+  "system-status.sections.1.heading": "Cách chúng tôi vận hành",
+  "system-status.sections.1.paragraphs": [
+    "Các bản phát hành đi qua một quy trình đóng khi lỗi — kiểm tra kiểu dữ liệu, bộ kiểm thử, bản dựng sản xuất và lượt chạy đầu-cuối — và chỉ được triển khai khi mọi bước đều đạt. Không có thời gian ngừng hoạt động theo lịch cho các bản phát hành."
+  ],
+  "system-status.sections.2.heading": "Ngoại tuyến và kết nối lại",
+  "system-status.sections.2.paragraphs": [
+    "Giao diện được thiết kế để tiếp tục hoạt động từ dữ liệu trong bộ đệm khi mất mạng, và đối soát một cách xác định khi mạng trở lại — cùng một đầu vào luôn tạo ra cùng một trạng thái, nên không có gì bị mất hay trùng lặp."
+  ],
+  "system-status.sections.3.heading": "Nguồn công khai",
+  "system-status.sections.3.paragraphs": [
+    "Các thẻ trực tiếp phụ thuộc vào các dịch vụ công khai được nêu tên trong giao diện. Khi một dịch vụ không khả dụng, thẻ sẽ cho biết điều đó và phần còn lại của trang vẫn hoạt động; UNITAS không kiểm soát được thời gian hoạt động của những dịch vụ đó."
+  ],
+  "system-status.sections.4.heading": "Thông báo sự cố",
+  "system-status.sections.4.paragraphs": [
+    "Bảo trì theo kế hoạch và mọi sự cố ảnh hưởng đến tài khoản hoặc số dư sẽ được tóm tắt tại đây khi nền tảng chính thức hoạt động công khai, kèm thời điểm bắt đầu, phạm vi ảnh hưởng và thời điểm khắc phục."
+  ]
+}

@@ -328,7 +328,7 @@
     "title": "Enterprise-protocollen",
     "subtitle": "Soevereine infrastructuur in actieve onderzoek- en ontwikkelfase.",
     "rdNotice": "Alleen-enterprise B2B-protocol in actieve R&D (Enterprise SaaS-abonnement).",
-    "patentBadge": "USPTO-octrooiaanvraag in behandeling #64/023,911",
+    "patentBadge": "Octrooiaanvraag in behandeling",
     "viewSpec": "Technische Specificatie Bekijken",
     "hideSpec": "Technische Specificatie Verbergen",
     "earlyAccess": "Vroege Toegang / Enterprise-aanvraag",
@@ -342,7 +342,7 @@
     "inquiryThanksBody": "Dank u -- ons enterprise-team neemt binnenkort contact met u op.",
     "close": "Sluiten",
     "manifesto": "Het Enterprise-protocolniveau vertaalt de soevereine doctrine van THE UNITAS GLOBAL OÜ naar bedrijfsinfrastructuur. De drie protocollen dragen elk één pijler van soevereiniteit — identiteit (U-Signature), geheimen (U-Key), waarde (U-Pay) — en functioneren als één organisme bovenop de 11 Cognitieve Kernen en de autonome beslissingsengine U-AI. Het doel is geen nieuwe SaaS, maar gedecentraliseerde infrastructuur die banken, certificeringsinstanties en betaalnetwerken vervangt, terwijl deze zonder kapitaal, door één persoon en volledig geautomatiseerd wordt gerund.",
-    "patentAnchorNote": "Alle kennisgevingen over intellectueel eigendom en octrooiaanvragen in behandeling (USPTO #64/023,911) gelden uitsluitend voor dit Enterprise R&D-niveau.",
+    "patentAnchorNote": "Alle kennisgevingen over intellectueel eigendom en octrooiaanvragen in behandeling gelden uitsluitend voor dit Enterprise R&D-niveau.",
     "doctrineLabel": "Ontwerpdoctrine"
   },
   "ErrorBoundary": {
@@ -836,102 +836,537 @@
   "SitePages": {
     "common": {
       "back": "Terug naar UNITAS",
-      "disclaimer": "Deze pagina wordt uitsluitend ter algemene informatie verstrekt. Het is geen juridisch advies en schept geen overeenkomst of garantie. Waar plannen of lopende zaken worden beschreven, kunnen deze wijzigen. THE UNITAS GLOBAL OÜ, Estland."
+      "disclaimer": "Deze pagina dient uitsluitend ter algemene informatie. Zij vormt geen juridisch advies en schept geen overeenkomst of garantie. Waar zij plannen of lopende zaken beschrijft, kunnen die veranderen. THE UNITAS GLOBAL OÜ, Estland.",
+      "corporateNotice": "UNITAS wordt geëxploiteerd door THE UNITAS GLOBAL OÜ, een in Estland geregistreerde vennootschap. De productbeschrijvingen op deze pagina weerspiegelen het huidige ontwerp van het platform en kunnen in de loop van de tijd veranderen.",
+      "updatedLabel": "Laatst bijgewerkt",
+      "contentsLabel": "Op deze pagina",
+      "thirdPartyLabel": "Externe bronnen die deze site raadpleegt",
+      "storageLabel": "Sleutels die deze site in uw browser bewaart",
+      "fetchedIntro": "Wanneer u livefuncties gebruikt, roepen onze servers of uw browser de volgende openbare diensten aan. Elke dienst wordt genoemd met de naam van de werkelijke exploitant; wij verzenden alleen de zoekopdracht die de functie nodig heeft, nooit uw accountidentiteit.",
+      "browserIntro": "De volgende diensten worden rechtstreeks vanuit uw browser aangeroepen, zodat hun exploitanten uw IP-adres zien als onderdeel van het verzoek. Geen van hen ontvangt uw UNITAS-accountidentiteit.",
+      "storageIntro": "Deze waarden bestaan uitsluitend in de lokale opslag van uw browser. Geen ervan wordt naar UNITAS-servers verzonden, en het wissen van de sitegegevens verwijdert ze allemaal.",
+      "sideServer": "aangeroepen vanaf onze servers",
+      "sideBrowser": "aangeroepen vanuit uw browser",
+      "loginWall": "kan u vragen om in te loggen",
+      "cookiesLabel": "Cookies die deze site plaatst",
+      "cookiesIntro": "Anders dan de sleutels hierboven gaan cookies bij elk verzoek mee naar UNITAS. Alle cookies die we gebruiken staan hier vermeld en geen enkele dient voor advertenties of tracking over sites heen. Cookies met de markering HttpOnly kunnen niet door paginascripts worden gelezen."
     },
     "about": {
       "title": "Over UNITAS",
-      "lede": "THE UNITAS GLOBAL OÜ bouwt een gedecentraliseerd, soeverein SaaS-ecosysteem — ontworpen door één oprichter en gerund via volledige AI-automatisering.",
-      "body": [
-        "UNITAS is een Estisch bedrijf met één idee als drijfveer: een cognitieve infrastructuur die mensen wereldwijd bedient, kan worden ontworpen, uitgebracht en gerund zonder kapitaalintensieve teams of afhankelijkheid van durfkapitaal. Elke module in het ecosysteem wordt naar die norm gebouwd.",
-        "Het platform is georganiseerd rond cognitieve structuren — een elfdelig live-ecosysteem, vijf consumentendiensten en drie enterprise-protocollen — die één identiteitslaag, één grootboek en één ontwerptaal delen."
+      "lede": "THE UNITAS GLOBAL OÜ bouwt een gedecentraliseerd, soeverein SaaS-ecosysteem — ontworpen door één oprichter en geëxploiteerd via volledige AI-automatisering.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Eén idee",
+          "paragraphs": [
+            "UNITAS is een Estse vennootschap die één idee nastreeft: een cognitieve infrastructuur die mensen wereldwijd van dienst is, kan worden ontworpen, uitgebracht en beheerd zonder kapitaalintensieve teams of afhankelijkheid van durfkapitaal.",
+            "Elke module in het ecosysteem is naar die maatstaf gebouwd — klein genoeg om door één oprichter van begin tot eind te worden gedragen, geautomatiseerd genoeg om de klok rond te draaien."
+          ]
+        },
+        {
+          "heading": "Een soeverein SaaS-ecosysteem",
+          "paragraphs": [
+            "Het platform is georganiseerd rond cognitieve structuren — een elfdelig live-ecosysteem, vijf consumentendiensten en drie bedrijfsprotocollen — die één identiteitslaag, één grootboek en één ontwerptaal delen.",
+            "Soeverein betekent dat het ecosysteem voor zijn identiteit, zijn grootboek of zijn weergave van geen enkele leverancier afhankelijk is. Elke externe dienst die het raadpleegt, is openbaar, met naam genoemd en vervangbaar."
+          ]
+        },
+        {
+          "heading": "Autonome fabrieken te huur",
+          "paragraphs": [
+            "Leden abonneren zich op modules zoals een bedrijf een werkplaats huurt: elke module is een autonome agentfabriek die een werklast draagt waarvoor een conventioneel bedrijf personeel zou aannemen.",
+            "Digitale nomaden en kleine ondernemingen kunnen deze fabrieken vanaf elk apparaat en in elk van de twintig talen laten draaien, zonder zelf iemand aan te nemen of iets te hosten."
+          ]
+        },
+        {
+          "heading": "Gemeten rekenkracht, hergebruikte resultaten",
+          "paragraphs": [
+            "Agentwerk wordt per taak gemeten. Een resultaat dat eenmaal is gevalideerd, wordt in de cache bewaard en opnieuw geleverd zonder enginekosten, zodat het platform efficiënter wordt naarmate het meer wordt gebruikt.",
+            "Toegang tot betaalde modules wordt geregeld via U-COIN, een vooruitbetaald toegangstegoed op uw account. Het is geen waardepapier en geen waardeopslagmiddel."
+          ]
+        },
+        {
+          "heading": "Geleid door de oprichter, beheerd door AI",
+          "paragraphs": [
+            "UNITAS is door zijn oprichter ontworpen en wordt door de oprichter zelf geëxploiteerd. Ontwikkeling, verificatie en uitrol verlopen via een geautomatiseerde agentpijplijn met een fail-closed-integriteitspoort: niets wordt uitgebracht tenzij elke controle slaagt.",
+            "Zo blijft het ecosysteem onafhankelijk, slank en veerkrachtig — en staat er achter elke beslissing één persoon die verantwoording aflegt."
+          ]
+        },
+        {
+          "heading": "Een Estse vennootschap",
+          "paragraphs": [
+            "THE UNITAS GLOBAL OÜ is geregistreerd in Estland en stemt haar werkwijze af op de beginselen van gegevensbescherming en consumentenbescherming van de Europese Unie. Op de dienst is het recht van Estland van toepassing."
+          ]
+        }
       ]
     },
     "careers": {
       "title": "Vacatures",
-      "lede": "UNITAS wordt gerund als een door de oprichter geleide, AI-geautomatiseerde onderneming. Er zijn momenteel geen openstaande betaalde functies.",
-      "body": [
-        "Het model is bewust gekozen: een slanke, soevereine structuur waarin automatisering de werklast draagt die een conventioneel bedrijf met personeel zou bemensen. Dit houdt het ecosysteem onafhankelijk en veerkrachtig.",
-        "Mocht dit model veranderen, dan worden vacatures hier als eerste geplaatst. Aanvragen voor samenwerking of bijdragen kunnen via de Contactpagina worden ingediend."
+      "lede": "UNITAS functioneert als een door de oprichter geleide, door AI geautomatiseerde organisatie. Er zijn op dit moment geen openstaande betaalde functies.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Waarom er geen vacaturepagina is",
+          "paragraphs": [
+            "Het model is bewust gekozen: een slanke, soevereine structuur waarin automatisering de werklast draagt waarvoor een conventioneel bedrijf personeel zou aannemen. Zo blijft het ecosysteem onafhankelijk en veerkrachtig.",
+            "Als dat model verandert, worden vacatures hier als eerste geplaatst."
+          ]
+        },
+        {
+          "heading": "Hoe het werk hier verloopt",
+          "paragraphs": [
+            "Elke wijziging aan UNITAS doorloopt een agentpijplijn: een ontwerpbriefing, een implementatie, een typecontrole, een testsuite, een productiebuild en een end-to-end-run. Een wijziging die in een van die stappen faalt, wordt niet uitgebracht.",
+            "Dezelfde pijplijn documenteert zichzelf, zodat de geschiedenis van het platform leesbaar is voor de volgende agent — of de volgende persoon."
+          ]
+        },
+        {
+          "heading": "Bewust op afstand",
+          "paragraphs": [
+            "UNITAS heeft geen kantoor. Het wordt gebouwd en beheerd vanaf de plek waar de oprichter zich bevindt, op bescheiden hardware, over tijdzones heen.",
+            "Elke toekomstige samenwerking volgt dezelfde vorm: asynchroon, schriftelijk, remote-first."
+          ]
+        },
+        {
+          "heading": "Hoe u vandaag kunt bijdragen",
+          "paragraphs": [
+            "Beveiligingsonderzoekers kunnen kwetsbaarheden melden via de beveiligingspagina. Schrijvers en vertalers die een fout opmerken in een van de twintig talen kunnen correcties insturen via de contactpagina.",
+            "Verzoeken over partnerschappen en integraties zijn eveneens welkom via de contactpagina; beschrijf daarbij wat u bouwt en voor wie het bedoeld is."
+          ]
+        },
+        {
+          "heading": "Waar wij naar zoeken",
+          "paragraphs": [
+            "Mochten er functies vrijkomen, dan gaat de voorkeur uit naar mensen die een probleem van begin tot eind kunnen dragen, helder schrijven en zich op hun gemak voelen bij het werken naast geautomatiseerde agenten in plaats van het aansturen van teams."
+          ]
+        }
       ]
     },
     "press": {
       "title": "Pers",
       "lede": "Mediamateriaal en bedrijfsachtergrond voor journalisten en analisten.",
-      "body": [
-        "Voor interviews, achtergrondbriefings of factchecking bereikt u ons via de Contactpagina; vermeld daarbij uw medium en deadline.",
-        "Vermeld het bedrijf alstublieft als \"THE UNITAS GLOBAL OÜ\" en het product als \"UNITAS\". Logo's en merkrichtlijnen zijn op aanvraag beschikbaar."
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Feiten over het bedrijf",
+          "paragraphs": [
+            "Bedrijf: THE UNITAS GLOBAL OÜ, geregistreerd in Estland. Product: UNITAS, een soeverein SaaS-ecosysteem voor autonome agentfabrieken. Geleid door de oprichter; geëxploiteerd via AI-automatisering; beschikbaar in twintig talen.",
+            "Het platform bevindt zich momenteel in een pre-lanceringsfase achter een openbare \"Coming Soon\"-poort."
+          ]
+        },
+        {
+          "heading": "Hoe u naar ons verwijst",
+          "paragraphs": [
+            "Vermeld het bedrijf als \"THE UNITAS GLOBAL OÜ\" en het product als \"UNITAS\". Modulenamen mogen worden aangehaald zoals ze in de interface verschijnen.",
+            "Beschrijf geen enkele UNITAS-functie als geoctrooieerd; waar dat relevant is, is \"octrooi aangevraagd\" de juiste term."
+          ]
+        },
+        {
+          "heading": "Gebruik van het merk",
+          "paragraphs": [
+            "Het UNITAS-woordmerk en -beeldmerk mogen ongewijzigd worden gebruikt in redactionele berichtgeving. Combineer ze niet met andere merken, wek geen indruk van goedkeuring en gebruik ze niet op merchandise.",
+            "Logobestanden en merkrichtlijnen zijn op verzoek beschikbaar."
+          ]
+        },
+        {
+          "heading": "Interviews en factchecking",
+          "paragraphs": [
+            "Voor interviews, achtergrondgesprekken of factchecking kunt u ons bereiken via de contactpagina; vermeld daarbij uw medium en uw deadline. Verzoeken met een opgegeven deadline worden als eerste beantwoord."
+          ]
+        },
+        {
+          "heading": "Gegevens van derden in berichtgeving",
+          "paragraphs": [
+            "Livecijfers die binnen UNITAS worden getoond — weer, ranglijsten, nieuwskoppen, wisselkoersen — zijn afkomstig van met naam genoemde openbare bronnen en dienen aan die bronnen te worden toegeschreven, niet aan UNITAS."
+          ]
+        }
       ]
     },
     "patent-notice": {
       "title": "Octrooikennisgeving",
-      "lede": "Bepaalde UNITAS-methoden en -systemen zijn onderwerp van een octrooiaanvraag in behandeling.",
-      "body": [
-        "Er is een Amerikaanse voorlopige octrooiaanvraag (nr. 64/023,911) ingediend die aspecten van de cognitieve en handtekeningprotocollen van UNITAS omvat. De aanvraag is in behandeling; er is geen octrooi verleend, en niets hier mag worden gelezen als een claim op verleende rechten.",
-        "Een status van 'in behandeling' verleent geen afdwingbare exclusiviteit tenzij en totdat een octrooi wordt verleend. Productnamen en de systeemnamen van de Sovereign Codex worden gebruikt als herkomstaanduiding."
+      "lede": "Bepaalde methoden en systemen van UNITAS zijn het onderwerp van een lopende octrooiaanvraag.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Aanvraag in behandeling",
+          "paragraphs": [
+            "In de Verenigde Staten is een voorlopige octrooiaanvraag ingediend die aspecten van de cognitieve en handtekeningprotocollen van UNITAS bestrijkt. De aanvraag is in behandeling; er is geen octrooi verleend, en niets op deze pagina mag worden gelezen als een aanspraak op verleende rechten.",
+            "De status 'in behandeling' verleent geen afdwingbare exclusiviteit, tenzij en totdat een octrooi wordt verleend."
+          ]
+        },
+        {
+          "heading": "Wat de aanvraag beschrijft",
+          "paragraphs": [
+            "In algemene termen beschrijft de aanvraag hoe onafhankelijke modules één identiteitslaag en één append-only grootboek delen, hoe agentwerk per taak wordt gemeten en uit een gevalideerde cache wordt hergebruikt, en hoe een handtekeningprotocol het werk van een lid aan diens account bindt zonder de identiteit van dat lid bloot te geven.",
+            "De bovenstaande beschrijving is een samenvatting voor lezers, geen aanspraak op beschermingsomvang."
+          ]
+        },
+        {
+          "heading": "Namen en merken",
+          "paragraphs": [
+            "Productnamen en de systeemnamen van UNITAS worden gebruikt als herkomstaanduiding. Zij worden niet als geregistreerde handelsmerken geclaimd, tenzij dit op deze pagina is vermeld."
+          ]
+        },
+        {
+          "heading": "Een bezwaar melden",
+          "paragraphs": [
+            "Als u meent dat UNITAS inbreuk maakt op rechten die u bezit, of dat een derde de technologie van UNITAS onjuist voorstelt, neem dan met de details contact met ons op via de contactpagina. Meldingen worden door de oprichter beoordeeld."
+          ]
+        },
+        {
+          "heading": "Wijzigingen in deze kennisgeving",
+          "paragraphs": [
+            "Deze kennisgeving wordt bijgewerkt als de aanvraag wordt gepubliceerd, verleend, ingetrokken of uitgebreid naar andere rechtsgebieden."
+          ]
+        }
       ]
     },
     "compliance": {
-      "title": "Naleving",
-      "lede": "Hoe UNITAS omgaat met zijn wettelijke verplichtingen in de rechtsgebieden die het bedient.",
-      "body": [
-        "UNITAS wordt gerund door een Estisch bedrijf en stemt zijn praktijken af op de beginselen van gegevensbescherming en consumentenbescherming van de Europese Unie. Betalingsverwerking wordt uitgevoerd door externe providers onder hun eigen gereguleerde kaders.",
-        "Wij claimen geen certificering onder een specifieke norm. Vragen over naleving, inclusief verzoeken van betrokkenen, kunnen via de Contactpagina worden ingediend."
+      "title": "Compliance",
+      "lede": "Hoe UNITAS omgaat met zijn wettelijke verplichtingen in de rechtsgebieden waar het actief is.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Waar wij onder toezicht staan",
+          "paragraphs": [
+            "UNITAS wordt geëxploiteerd door een Estse vennootschap en stemt zijn werkwijze af op de beginselen van gegevensbescherming en consumentenbescherming van de Europese Unie, waaronder de Algemene Verordening Gegevensbescherming.",
+            "Wij claimen geen certificering volgens enige specifieke norm."
+          ]
+        },
+        {
+          "heading": "Dataminimalisatie",
+          "paragraphs": [
+            "Wij verzamelen het minimum dat nodig is om een account te beheren en bewaren het alleen zolang het account bestaat. Gastsessies verlaten de browser nooit.",
+            "Livefuncties zijn gekoppeld aan openbare identificatoren — een plaats, een onderwerp, een publieke entiteit — nooit aan wie de vraag stelt."
+          ]
+        },
+        {
+          "heading": "Betalingen en tegoeden",
+          "paragraphs": [
+            "De betalingsverwerking wordt uitgevoerd door externe aanbieders binnen hun eigen gereguleerde kaders; kaart- en bankgegevens bereiken UNITAS nooit.",
+            "U-COIN is een vooruitbetaald toegangstegoed voor modules binnen UNITAS. Het is geen waardepapier, geen waardeopslagmiddel en geen betaalinstrument, en het kan niet tussen accounts worden overgedragen."
+          ]
+        },
+        {
+          "heading": "Controlespoor",
+          "paragraphs": [
+            "Elke wijziging van een saldo wordt door een geauditeerde functie aan de serverzijde weggeschreven naar een append-only grootboek. Niets in de browser kan een saldo rechtstreeks wijzigen."
+          ]
+        },
+        {
+          "heading": "Financiële en fiscale administratie",
+          "paragraphs": [
+            "De boekhouding, het bankverkeer en de Estse belastingaangiften van de vennootschap worden onder verantwoordelijkheid van de oprichter beheerd via gereguleerde Europese dienstverleners."
+          ]
+        },
+        {
+          "heading": "Verzoeken en klachten",
+          "paragraphs": [
+            "Vragen over compliance, waaronder verzoeken van betrokkenen, kunnen worden ingediend via de contactpagina. Inwoners van de Europese Unie kunnen daarnaast een klacht indienen bij hun nationale toezichthoudende autoriteit."
+          ]
+        }
       ]
     },
     "security": {
       "title": "Beveiliging",
-      "lede": "De controles die accounts, saldi en identiteitsgegevens beschermen.",
-      "body": [
-        "Accountidentiteit wordt afgedwongen in de database, niet in de browser: een geverifieerd telefoonnummer is uniek binnen actieve accounts, saldowijzigingen verlopen alleen via gecontroleerde server-side functies, en het transactiegrootboek is alleen-toevoegen.",
-        "Geheimen zoals betaalsleutels bereiken de clientcode nooit. Om een kwetsbaarheid te melden, gebruikt u de Contactpagina met voldoende detail om het probleem te reproduceren, en maak het probleem alstublieft niet openbaar voordat wij hebben gereageerd."
+      "lede": "De maatregelen die accounts, saldi en identiteitsgegevens beschermen.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Identiteit afgedwongen aan de serverzijde",
+          "paragraphs": [
+            "De accountidentiteit wordt afgedwongen in de database, niet in de browser: een geverifieerd telefoonnummer is uniek over alle actieve accounts, saldowijzigingen verlopen uitsluitend via geauditeerde functies aan de serverzijde, en het transactiegrootboek is append-only."
+          ]
+        },
+        {
+          "heading": "Standaard zero trust",
+          "paragraphs": [
+            "Elk verzoek wordt op zichzelf geverifieerd. Geheimen zoals betaalsleutels bereiken de clientcode nooit, en de toegang van de oprichter tot pre-lanceringsomgevingen wordt bij elk bezoek aan de serverzijde geverifieerd."
+          ]
+        },
+        {
+          "heading": "Ontwerprichting: kwantumbestendigheid",
+          "paragraphs": [
+            "De handtekening- en sessielagen zijn zo ontworpen dat hun algoritmen kunnen worden vervangen zonder het grootboek te wijzigen — een voorwaarde om post-kwantumcryptografie in te voeren zodra de normen zich uitkristalliseren. Dit is een ontwerprichting, geen certificering."
+          ]
+        },
+        {
+          "heading": "Automatische quarantaine",
+          "paragraphs": [
+            "Een module die zijn integriteitscontrole niet doorstaat, wordt automatisch geïsoleerd: hij valt terug op een verzegelde, alleen-lezen toestand in plaats van gedeeltelijke gegevens te leveren. De rest van het ecosysteem blijft draaien."
+          ]
+        },
+        {
+          "heading": "Integriteit van de client",
+          "paragraphs": [
+            "Uitgeleverde bestanden dragen een eigendomsvingerafdruk, en de interface is gebouwd om de sessie intact te houden binnen in-app-browsers en over herlaadbeurten heen, zodat een defecte insluiting u nooit stilzwijgend uitlogt."
+          ]
+        },
+        {
+          "heading": "Een kwetsbaarheid melden",
+          "paragraphs": [
+            "Gebruik om een kwetsbaarheid te melden de contactpagina, met voldoende details om het probleem te reproduceren, en maak het niet openbaar voordat wij hebben gereageerd. Beveiligingsmeldingen krijgen voorrang op elk ander verzoek."
+          ]
+        }
       ]
     },
     "privacy": {
       "title": "Privacybeleid",
-      "lede": "Wat UNITAS verzamelt, waarom, en welke keuzes u heeft.",
-      "body": [
-        "UNITAS verzamelt het minimum dat nodig is om een account te laten functioneren: een identificator (e-mail of telefoonnummer) voor authenticatie, een coinsaldo met bijbehorend grootboek, en basale taal- en apparaatvoorkeuren die op uw apparaat worden opgeslagen. Gastsessies blijven lokaal in uw browser.",
-        "Gegevens worden verwerkt om de dienst te laten draaien, niet om advertentieprofielen op te bouwen. U kunt toegang tot of verwijdering van uw accountgegevens aanvragen via de Contactpagina of de accountinstellingen in de app."
+      "lede": "Wat UNITAS verzamelt, waarom, en welke keuzes u hebt.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Wat wij verzamelen",
+          "paragraphs": [
+            "UNITAS verzamelt het minimum dat nodig is om een account te beheren: een identificator (e-mailadres of telefoonnummer) voor authenticatie, een coinsaldo met bijbehorend grootboek, en basisvoorkeuren voor taal en apparaat die op uw apparaat worden opgeslagen.",
+            "Gastsessies blijven lokaal in uw browser en worden nooit geüpload."
+          ]
+        },
+        {
+          "heading": "Waarom wij ze verwerken",
+          "paragraphs": [
+            "Gegevens worden verwerkt om de dienst te laten functioneren — om u in te loggen, uw saldo correct te houden en uw taal te onthouden. Ze worden niet gebruikt om advertentieprofielen op te bouwen en worden niet verkocht."
+          ]
+        },
+        {
+          "heading": "Hoe lang wij ze bewaren",
+          "paragraphs": [
+            "Accountgegevens worden bewaard zolang het account bestaat. Het grootboek wordt bewaard zolang dat wettelijk vereist is voor de boekhouding. Apparaatvoorkeuren bestaan alleen op uw apparaat."
+          ]
+        },
+        {
+          "heading": "Livefuncties en openbare bronnen",
+          "paragraphs": [
+            "Weer, ranglijsten, nieuws en de zoekstroom worden opgebouwd uit de hieronder vermelde openbare bronnen. Verzoeken aan die bronnen bevatten het onderwerp dat u verkent, nooit uw accountidentiteit. Sommige worden vanaf onze servers aangeroepen en sommige rechtstreeks vanuit uw browser; de lijsten hieronder geven aan welke."
+          ]
+        },
+        {
+          "heading": "Locatie",
+          "paragraphs": [
+            "Weer- en omgevingsfuncties gebruiken een plaats die u kiest, of — alleen als u daar toestemming voor geeft — de locatie van uw apparaat. Als geen van beide beschikbaar is, wordt een benaderende locatie afgeleid uit uw IP-adres door een hieronder genoemde openbare geolocatiedienst. Uw coördinaten worden nooit op UNITAS-servers opgeslagen."
+          ]
+        },
+        {
+          "heading": "Uw rechten",
+          "paragraphs": [
+            "U kunt via de contactpagina of de accountinstellingen in de app verzoeken om inzage in, correctie van of verwijdering van uw accountgegevens. Inwoners van de Europese Unie kunnen daarnaast een klacht indienen bij hun toezichthoudende autoriteit."
+          ]
+        },
+        {
+          "heading": "Cookies en lokale opslag",
+          "paragraphs": [
+            "De site bewaart een kleine reeks waarden in uw browser, beschreven in het Cookiebeleid. Er worden geen advertentiecookies van derden of cookies voor cross-site tracking geplaatst."
+          ]
+        }
       ]
     },
     "cookies": {
       "title": "Cookiebeleid",
-      "lede": "UNITAS gebruikt lokale opslag en cookies spaarzaam en functioneel.",
-      "body": [
-        "De site slaat een kleine set waarden op — uw taal, uw audiovoorkeur, sessie- en authenticatietokens, en een vlag voor toegang vóór lancering. Deze zijn vereist om de interface correct te laten werken.",
-        "Er worden geen advertentie- of sitegrensoverschrijdende trackingcookies van derden geplaatst. Het wissen van uw browseropslag zet deze voorkeuren bij uw volgende bezoek terug."
+      "lede": "UNITAS gebruikt lokale opslag en cookies spaarzaam en uitsluitend functioneel.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Strikt noodzakelijk",
+          "paragraphs": [
+            "Sessie- en authenticatietokens, de toegangsvlag voor de pre-lanceringsfase en de in-app-sessiebewaking zijn vereist om de interface correct te laten werken. Ze worden alleen geplaatst wanneer u inlogt of de toegangspoort passeert."
+          ]
+        },
+        {
+          "heading": "Voorkeuren",
+          "paragraphs": [
+            "Uw taal, uw audio-instelling, de laatst gekozen plaats en de positie van een geopend paneel worden onthouden, zodat de interface precies terugkeert zoals u hem achterliet."
+          ]
+        },
+        {
+          "heading": "Caches",
+          "paragraphs": [
+            "Resultaten van openbare bronnen — een weermeting, een ranglijstpagina, een pagina van de zoekstroom — worden gedurende beperkte tijd in uw browser gecachet, zodat het opnieuw openen van een onderwerp geen netwerkverkeer kost. Ze bevatten uitsluitend openbare gegevens."
+          ]
+        },
+        {
+          "heading": "Geen analytics, geen advertenties",
+          "paragraphs": [
+            "Er worden geen analytics-, advertentie- of cross-site-trackingcookies van derden geplaatst. UNITAS neemt niet deel aan advertentienetwerken."
+          ]
+        },
+        {
+          "heading": "Hoe u ze beheert",
+          "paragraphs": [
+            "Het wissen van de sitegegevens van UNITAS in uw browser verwijdert elke hieronder vermelde waarde. Daardoor wordt u uitgelogd en worden uw voorkeuren bij het volgende bezoek teruggezet; het heeft nooit gevolgen voor uw accountsaldo, dat op de server staat."
+          ]
+        }
       ]
     },
     "terms": {
       "title": "Gebruiksvoorwaarden",
-      "lede": "De basisvoorwaarden voor het gebruik van UNITAS tijdens de fase vóór lancering.",
-      "body": [
-        "UNITAS wordt geleverd \"zoals het is\" tijdens actieve ontwikkeling. Toegang tot betaalde modules wordt bepaald door het coinsaldo op uw account; coins zijn een vooruitbetaald toegangstegoed — geen effect of waardedocument — en zijn niet overdraagbaar.",
-        "Functies kunnen wijzigen of worden opgeschort naarmate het platform zich ontwikkelt. Voortgezet gebruik na een wijziging betekent dat u de bijgewerkte voorwaarden aanvaardt. Het toepasselijke recht is dat van Estland."
+      "lede": "De basisvoorwaarden voor het gebruik van UNITAS tijdens de pre-lanceringsfase.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "De dienst",
+          "paragraphs": [
+            "UNITAS wordt tijdens de actieve ontwikkeling aangeboden in de staat waarin het verkeert (\"as is\"). Functies kunnen veranderen of worden opgeschort naarmate het platform zich ontwikkelt. Voortgezet gebruik na een wijziging betekent dat u de bijgewerkte voorwaarden aanvaardt."
+          ]
+        },
+        {
+          "heading": "Accounts",
+          "paragraphs": [
+            "U kunt UNITAS gebruiken als gast of met een account dat via e-mail of telefoon is geverifieerd. Eén geverifieerd telefoonnummer kan aan één actief account worden gekoppeld. U bent er zelf verantwoordelijk voor dat uw inloggegevens niet in handen van anderen komen."
+          ]
+        },
+        {
+          "heading": "U-COIN-toegangstegoeden",
+          "paragraphs": [
+            "Toegang tot betaalde modules wordt geregeld door het coinsaldo op uw account. U-COIN is een vooruitbetaald toegangstegoed — geen waardepapier, geen waardeopslaginstrument en geen valuta — en is niet overdraagbaar.",
+            "Tegoeden worden verbruikt wanneer een betaalde functie wordt geleverd. Als een betaalde functie geen resultaat oplevert, worden de voor dat verzoek verbruikte tegoeden automatisch aan uw saldo teruggegeven."
+          ]
+        },
+        {
+          "heading": "Terugbetalingen",
+          "paragraphs": [
+            "Ongebruikte tegoeden worden terugbetaald op het oorspronkelijke betaalmiddel binnen de termijn die het op u toepasselijke consumentenrecht voorschrijft. Tegoeden die al zijn verbruikt voor geleverde functies worden niet terugbetaald."
+          ]
+        },
+        {
+          "heading": "Aanvaardbaar gebruik",
+          "paragraphs": [
+            "Het is niet toegestaan te proberen een saldo te wijzigen, een toegangscontrole te omzeilen, de dienst af te tasten of te overbelasten, deze op grote schaal te scrapen of deze te gebruiken om anderen schade toe te brengen. Accounts die zich hieraan schuldig maken, kunnen worden opgeschort."
+          ]
+        },
+        {
+          "heading": "Inhoud van derden",
+          "paragraphs": [
+            "Livefuncties tonen inhoud van openbare bronnen die in de interface met naam worden genoemd. UNITAS heeft geen zeggenschap over die inhoud en staat niet in voor de juistheid ervan. Links die andere diensten openen, vallen onder de eigen voorwaarden van die diensten."
+          ]
+        },
+        {
+          "heading": "Beperking van aansprakelijkheid",
+          "paragraphs": [
+            "Voor zover de wet dat toestaat, is THE UNITAS GLOBAL OÜ niet aansprakelijk voor indirecte schade of gevolgschade die voortvloeit uit het gebruik van de dienst, en is haar totale aansprakelijkheid beperkt tot het bedrag dat u in de twaalf maanden vóór de vordering voor tegoeden hebt betaald. Niets hierin beperkt aansprakelijkheid die wettelijk niet kan worden beperkt."
+          ]
+        },
+        {
+          "heading": "Toepasselijk recht",
+          "paragraphs": [
+            "Op deze voorwaarden is het recht van Estland van toepassing. Consumenten behouden alle dwingende bescherming die het recht van hun eigen woonland biedt."
+          ]
+        }
       ]
     },
     "help-center": {
       "title": "Helpcentrum",
-      "lede": "Antwoorden op de meest gestelde vragen.",
-      "body": [
-        "Geluid: ambient audio staat standaard aan op elk apparaat en blijft behouden na een vernieuwing van de pagina; schakel het uit via het luidsprekerpictogram in de bovenste navigatie. Taal: wissel op elk moment via het vlaggenmenu — uw keuze wordt onthouden.",
-        "Toegang: een module gaat open zodra het vereiste coinsaldo op uw account beschikbaar is. Als iets vastgelopen lijkt, herlaadt u de pagina; account- en saldostatus worden automatisch hersteld."
+      "lede": "Antwoorden op de vragen die het vaakst worden gesteld.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Aan de slag",
+          "paragraphs": [
+            "Druk op Start op het toegangsscherm om de startpagina te bereiken. Bij het eerste bezoek wordt een korte introductie afgespeeld; u kunt die overslaan, en ze wordt bij herladen niet opnieuw afgespeeld."
+          ]
+        },
+        {
+          "heading": "Zoeken",
+          "paragraphs": [
+            "Typ in de zoekbalk om trefwoordsuggesties te krijgen — eerst productfuncties, dan wereldwijde entiteiten, dan pagina's in uw taal. Druk op Enter om het volledige resultaat te openen: een stroom die zich blijft uitbreiden terwijl u scrolt, waarbij elke kaart haar bron vermeldt.",
+            "Om de tien pagina's pauzeert de stroom en vraagt of u wilt doorgaan; zestig pagina's is de limiet voor één vraag."
+          ]
+        },
+        {
+          "heading": "Snelkoppelingen en ranglijsten",
+          "paragraphs": [
+            "Onder de zoekbalk openen de snelkoppelingenbalk en de ranglijstbalken gedetailleerde weergaven zonder de pagina te verlaten. Onder de meeste daarvan vindt u Dieper verkennen, een reeks lenzen die live gegevens over het onderwerp uit openbare bronnen ophalen."
+          ]
+        },
+        {
+          "heading": "Taal",
+          "paragraphs": [
+            "Wissel op elk moment van taal via het menu in de bovenste navigatie. De pagina blijft waar ze was, en uw keuze wordt onthouden op dit apparaat en, als u bent ingelogd, op uw account."
+          ]
+        },
+        {
+          "heading": "Geluid",
+          "paragraphs": [
+            "Omgevingsgeluid staat standaard aan en blijft behouden bij vernieuwen. Zet het aan of uit via het luidsprekerpictogram in de bovenste navigatie."
+          ]
+        },
+        {
+          "heading": "De app installeren",
+          "paragraphs": [
+            "UNITAS kan als app worden geïnstalleerd via de downloadprompt in de navigatie. In de ingebouwde browser van een andere app verschijnt de installatieprompt mogelijk niet; open de pagina dan in uw hoofdbrowser."
+          ]
+        },
+        {
+          "heading": "Problemen oplossen",
+          "paragraphs": [
+            "Als iets vast lijkt te zitten, herlaad dan de pagina; uw account, saldo en geopende panelen worden automatisch hersteld. Als een livekaart geen gegevens toont, is de openbare bron erachter mogelijk tijdelijk niet beschikbaar — de kaart vermeldt die bron, zodat u het kunt nagaan."
+          ]
+        }
       ]
     },
     "contact": {
       "title": "Contact",
-      "lede": "Eén kanaal bereikt de oprichter rechtstreeks.",
-      "body": [
-        "Algemene vragen, samenwerkingsverzoeken, persvragen, beveiligings- en gegevensbeschermingsverzoeken worden allemaal door de oprichter behandeld. Gebruik het accountinstellingenpaneel in de app om een gesprek te openen, of bereik het adres vermeld op de officiële kanalen van THE UNITAS GLOBAL OÜ.",
-        "Er is geen telefonische ondersteuning. De reactietijd hangt af van het volume; beveiligingsmeldingen krijgen prioriteit."
+      "lede": "Eén kanaal komt rechtstreeks bij de oprichter uit.",
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Hoe u ons bereikt",
+          "paragraphs": [
+            "Algemene vragen en vragen over partnerschappen, pers, beveiliging en gegevensbescherming worden allemaal door de oprichter afgehandeld. Gebruik het paneel met accountinstellingen in de app om een gesprek te starten, of schrijf naar het adres dat op de officiële kanalen van THE UNITAS GLOBAL OÜ staat vermeld."
+          ]
+        },
+        {
+          "heading": "Reactietijden",
+          "paragraphs": [
+            "Er is geen telefonische ondersteuning. De reactietijd hangt af van het volume; beveiligingsmeldingen krijgen voorrang, gevolgd door verzoeken over gegevensbescherming, en daarna al het overige."
+          ]
+        },
+        {
+          "heading": "Wat u moet vermelden",
+          "paragraphs": [
+            "Vermeld bij accountvragen het e-mailadres of telefoonnummer van het account. Vermeld bij een bug de pagina, het apparaat en wat u verwachtte dat er zou gebeuren. Vermeld bij een beveiligingsmelding de stappen om het probleem te reproduceren."
+          ]
+        },
+        {
+          "heading": "Bedrijfsgegevens",
+          "paragraphs": [
+            "THE UNITAS GLOBAL OÜ is een in Estland geregistreerde vennootschap. Registratiegegevens zijn beschikbaar via het Estse handelsregister; deze site publiceert geen bezoekadres."
+          ]
+        }
       ]
     },
     "system-status": {
       "title": "Systeemstatus",
       "lede": "De huidige operationele status van het UNITAS-platform.",
-      "body": [
-        "UNITAS bevindt zich in de fase vóór lancering. De publieke interface is doelbewust verzegeld achter de \"Binnenkort\"-poort terwijl de oprichter de sequentiële verificatie van de instroom voltooit.",
-        "Geplande onderhoudswerkzaamheden en eventuele incidenten die accounts of saldi beïnvloeden, worden hier samengevat zodra het platform publiekelijk live is."
+      "updated": "2026-09-12",
+      "sections": [
+        {
+          "heading": "Huidige status",
+          "paragraphs": [
+            "UNITAS bevindt zich in een pre-lanceringsfase. De openbare interface is bewust verzegeld achter de \"Coming Soon\"-poort terwijl de oprichter de stapsgewijze verificatie van de toegangsflow afrondt."
+          ]
+        },
+        {
+          "heading": "Hoe wij werken",
+          "paragraphs": [
+            "Releases doorlopen een fail-closed-pijplijn — typecontrole, testsuite, productiebuild en end-to-end-run — en worden alleen uitgerold wanneer elke stap slaagt. Er is geen geplande downtime voor releases."
+          ]
+        },
+        {
+          "heading": "Offline en opnieuw verbinden",
+          "paragraphs": [
+            "De interface is ontworpen om te blijven werken met gecachete gegevens wanneer het netwerk wegvalt, en om bij terugkeer van het netwerk deterministisch te synchroniseren — dezelfde invoer levert altijd dezelfde toestand op, zodat niets verloren gaat of dubbel wordt uitgevoerd."
+          ]
+        },
+        {
+          "heading": "Openbare bronnen",
+          "paragraphs": [
+            "Livekaarten zijn afhankelijk van openbare diensten die in de interface met naam worden genoemd. Wanneer een daarvan niet beschikbaar is, meldt de kaart dat en blijft de rest van de pagina werken; UNITAS heeft geen invloed op de beschikbaarheid van die diensten."
+          ]
+        },
+        {
+          "heading": "Incidentmeldingen",
+          "paragraphs": [
+            "Gepland onderhoud en elk incident dat accounts of saldi raakt, worden hier samengevat zodra het platform publiek in gebruik is, met het tijdstip waarop het begon, wat erdoor werd getroffen en wanneer het werd opgelost."
+          ]
+        }
       ]
     }
   },
@@ -2213,6 +2648,107 @@
       "composerAria": "Opnieuw zoeken binnen het resultaat",
       "suggestLabel": "Suggesties",
       "scopeProduct": "UNITAS"
+    },
+    "stream": {
+      "feedAria": "Oneindige stroom voor {term}",
+      "page": "Pagina {page}",
+      "ghost": "Pagina {page} · al voorbij gescrold",
+      "spine": {
+        "depth": "Diepte",
+        "cards": "Kaarten",
+        "sources": "Bronnen",
+        "tier": "Gravure",
+        "deepCta": "Diep inzicht"
+      },
+      "tier": {
+        "spark": "Vonk",
+        "orbit": "Omloopbaan",
+        "nexus": "Nexus",
+        "singularity": "Singulariteit"
+      },
+      "kinds": {
+        "essence": "Essentie",
+        "axisSpectrum": "Zesassig spectrum",
+        "sources": "Bronnen",
+        "chain": "Vragenketen",
+        "deepGate": "Diep inzicht",
+        "identity": "Identiteit",
+        "redesign": "Soeverein herontwerp",
+        "deeper": "Dieper verkennen",
+        "concepts": "Gekoppelde begrippen",
+        "sites": "Gerelateerde sites",
+        "news": "Nieuws",
+        "cogs": "Zesassige lens",
+        "derived": "Afgeleide werken",
+        "attention": "Aandachtsgolf",
+        "community": "Gemeenschap",
+        "timeline": "Bewerkingstijdlijn"
+      },
+      "fields": {
+        "editions": "Taaledities",
+        "instanceOf": "Soort",
+        "entity": "Entiteit",
+        "views30": "Weergaven in 30 dagen",
+        "trend": "Tendens",
+        "window": "Periode"
+      },
+      "rare": "Zeldzame lens",
+      "rareHint": "Een vaste lens voor deze vraag en pagina — voor iedereen gelijk, altijd gratis.",
+      "thin": "Dunne pagina",
+      "loading": "Volgende pagina wordt verzameld…",
+      "teaser": "Hierna",
+      "more": "Volgende pagina laden",
+      "softPause": {
+        "title": "Even op adem komen",
+        "body": "Je hebt {pages} pagina's over deze vraag gelezen. Op deze diepte neemt de relevantie meestal af — ga alleen door als het nog helpt.",
+        "badge": "Relevantie neemt af",
+        "continue": "Verder verkennen"
+      },
+      "end": {
+        "title": "Hier eindigt de stroom",
+        "body": "Zestig pagina's is de grens voor één vraag. Stel een nieuwe om een andere stroom te openen."
+      },
+      "retry": {
+        "title": "Er kwam niets meer terug",
+        "body": "De open bronnen hadden hier niets meer over. Probeer het opnieuw of verbreed de vraag.",
+        "action": "Opnieuw proberen"
+      },
+      "disambiguation": {
+        "body": "Deze term heeft meerdere betekenissen. De stroom volgt de meest gangbare — kies een gekoppeld begrip om te wisselen."
+      },
+      "deepCreditNote": "{cost} U-COIN per diep inzicht — een vooruitbetaald toegangstegoed, geen waardepapier en geen middel om waarde in op te slaan.",
+      "outbound": "Elders zoeken",
+      "swarmMore": "Alle ecosystemen",
+      "swarmLess": "Top drie"
+    },
+    "cogs": {
+      "prompt": "{term} lezen door de lens van {group}",
+      "seed": "Zaadje",
+      "resonance": "Resonantie",
+      "follow": "Dit vragen",
+      "groups": {
+        "origin": "Oorsprong",
+        "element": "Elementen",
+        "civilization": "Beschaving",
+        "cosmos": "Kosmos",
+        "chronos": "Tijd",
+        "consciousness": "Bewustzijn",
+        "nexus": "Nexus"
+      },
+      "lenses": {
+        "mechanism": "Mechanisme",
+        "flow": "Stroming",
+        "scale": "Schaal",
+        "tension": "Spanning",
+        "horizon": "Einder"
+      },
+      "ask": {
+        "mechanism": "Wat laat {term} werken — en wat zou het breken?",
+        "flow": "Waar stroomt de waarde rond {term} vandaan, en waar gaat die naartoe?",
+        "scale": "Hoe ziet {term} eruit als het tien keer groter is — en tien keer kleiner?",
+        "tension": "Welke krachten trekken {term} uit elkaar, en wat houdt het bijeen?",
+        "horizon": "Waar gaat {term} naartoe, en wie komt daar het eerst?"
+      }
     }
   }
 }

@@ -1,0 +1,349 @@
+{
+  "common.back": "Kembali ke UNITAS",
+  "common.disclaimer": "Halaman ini disediakan hanya sebagai informasi umum. Halaman ini bukan nasihat hukum dan tidak menimbulkan kontrak atau jaminan apa pun. Apabila halaman ini menguraikan rencana atau hal yang masih dalam proses, hal tersebut dapat berubah. THE UNITAS GLOBAL OÜ, Estonia.",
+  "common.corporateNotice": "UNITAS dioperasikan oleh THE UNITAS GLOBAL OÜ, perusahaan yang terdaftar di Estonia. Deskripsi produk di halaman ini mencerminkan rancangan platform saat ini dan dapat berkembang.",
+  "common.updatedLabel": "Terakhir diperbarui",
+  "common.contentsLabel": "Di halaman ini",
+  "common.thirdPartyLabel": "Sumber pihak ketiga yang diakses situs ini",
+  "common.storageLabel": "Kunci yang disimpan situs ini di browser Anda",
+  "common.fetchedIntro": "Saat Anda menggunakan fitur data langsung, server kami atau browser Anda memanggil layanan publik berikut. Setiap layanan disebut dengan nama operator sebenarnya; kami hanya mengirim kueri yang diperlukan untuk fitur tersebut, tidak pernah identitas akun Anda.",
+  "common.browserIntro": "Layanan berikut dipanggil langsung dari browser Anda, sehingga operatornya melihat alamat IP Anda sebagai bagian dari permintaan. Tidak satu pun menerima identitas akun UNITAS Anda.",
+  "common.storageIntro": "Nilai-nilai ini hanya tersimpan di penyimpanan lokal browser Anda. Tidak satu pun dikirim ke server UNITAS, dan menghapus data situs akan menghapus semuanya.",
+  "common.sideServer": "dipanggil dari server kami",
+  "common.sideBrowser": "dipanggil dari browser Anda",
+  "common.loginWall": "mungkin meminta Anda untuk masuk",
+  "common.cookiesLabel": "Cookie yang disetel situs ini",
+  "common.cookiesIntro": "Berbeda dengan kunci di atas, cookie ikut terkirim pada setiap permintaan ke UNITAS. Semua cookie yang kami gunakan tercantum di sini dan tidak ada satu pun yang dipakai untuk iklan atau pelacakan lintas situs. Cookie yang ditandai HttpOnly tidak dapat dibaca oleh skrip halaman.",
+  "about.title": "Tentang UNITAS",
+  "about.lede": "THE UNITAS GLOBAL OÜ membangun ekosistem SaaS berdaulat yang terdesentralisasi — dirancang oleh satu pendiri dan dioperasikan melalui otomatisasi AI sepenuhnya.",
+  "about.updated": "2026-09-12",
+  "about.sections.0.heading": "Satu gagasan",
+  "about.sections.0.paragraphs": [
+    "UNITAS adalah perusahaan Estonia yang mengejar satu gagasan: infrastruktur kognitif yang melayani orang di seluruh dunia dapat dirancang, dirilis, dan dijalankan tanpa tim padat modal atau ketergantungan pada modal ventura.",
+    "Setiap modul dalam ekosistem dibangun dengan standar itu — cukup kecil untuk dimiliki satu pendiri dari ujung ke ujung, cukup otomatis untuk berjalan sepanjang waktu."
+  ],
+  "about.sections.1.heading": "Ekosistem SaaS berdaulat",
+  "about.sections.1.paragraphs": [
+    "Platform ini disusun di sekitar struktur kognitif — ekosistem langsung yang terdiri atas sebelas bagian, lima layanan konsumen, dan tiga protokol enterprise — yang berbagi satu lapisan identitas, satu buku besar, dan satu bahasa desain.",
+    "Berdaulat berarti ekosistem ini tidak bergantung pada satu vendor pun untuk identitas, buku besar, maupun rendering-nya. Setiap layanan eksternal yang diaksesnya bersifat publik, disebutkan namanya, dan dapat diganti."
+  ],
+  "about.sections.2.heading": "Pabrik otonom untuk disewa",
+  "about.sections.2.paragraphs": [
+    "Anggota berlangganan modul seperti halnya sebuah usaha menyewa bengkel kerja: setiap modul adalah pabrik agen otonom yang memikul beban kerja yang pada perusahaan konvensional diisi oleh staf.",
+    "Nomad digital dan pelaku usaha kecil dapat menjalankan pabrik-pabrik ini dari perangkat apa pun, dalam salah satu dari dua puluh bahasa, tanpa perlu merekrut siapa pun atau menyediakan hosting apa pun sendiri."
+  ],
+  "about.sections.3.heading": "Komputasi terukur, hasil dipakai ulang",
+  "about.sections.3.paragraphs": [
+    "Kerja agen diukur per tugas. Hasil yang telah divalidasi sekali disimpan di cache dan disajikan kembali tanpa biaya mesin, sehingga platform menjadi semakin efisien semakin sering digunakan.",
+    "Akses ke modul berbayar diatur oleh U-COIN, kredit akses prabayar pada akun Anda. U-COIN bukan sekuritas maupun penyimpan nilai."
+  ],
+  "about.sections.4.heading": "Dipimpin pendiri, dioperasikan AI",
+  "about.sections.4.paragraphs": [
+    "UNITAS dirancang dan dioperasikan oleh pendirinya. Pengembangan, verifikasi, dan penerapan berjalan melalui jalur agen otomatis dengan gerbang integritas fail-closed (menutup saat gagal): tidak ada yang dirilis kecuali seluruh pemeriksaan lolos.",
+    "Hal ini menjaga ekosistem tetap independen, ramping, dan tangguh — serta menempatkan satu orang yang bertanggung jawab di balik setiap keputusan."
+  ],
+  "about.sections.5.heading": "Perusahaan Estonia",
+  "about.sections.5.paragraphs": [
+    "THE UNITAS GLOBAL OÜ terdaftar di Estonia dan menyelaraskan praktiknya dengan prinsip perlindungan data dan perlindungan konsumen Uni Eropa. Hukum yang berlaku bagi layanan ini adalah hukum Estonia."
+  ],
+  "careers.title": "Karier",
+  "careers.lede": "UNITAS berjalan sebagai operasi yang dipimpin pendiri dan diotomatisasi oleh AI. Saat ini tidak ada posisi bergaji yang dibuka.",
+  "careers.updated": "2026-09-12",
+  "careers.sections.0.heading": "Mengapa tidak ada halaman rekrutmen",
+  "careers.sections.0.paragraphs": [
+    "Model ini disengaja: struktur berdaulat yang ramping, dengan otomatisasi memikul beban kerja yang pada perusahaan konvensional diisi oleh staf. Hal ini menjaga ekosistem tetap independen dan tangguh.",
+    "Jika model ini berubah, lowongan akan diumumkan di sini terlebih dahulu."
+  ],
+  "careers.sections.1.heading": "Bagaimana pekerjaan berlangsung di sini",
+  "careers.sections.1.paragraphs": [
+    "Setiap perubahan pada UNITAS melewati jalur agen: ringkasan desain, implementasi, pemeriksaan tipe, rangkaian pengujian, build produksi, dan pengujian ujung ke ujung (end-to-end). Perubahan yang gagal pada langkah mana pun tidak dirilis.",
+    "Jalur yang sama mendokumentasikan dirinya sendiri, sehingga riwayat platform dapat dibaca oleh agen berikutnya — atau orang berikutnya."
+  ],
+  "careers.sections.2.heading": "Jarak jauh sejak awal",
+  "careers.sections.2.paragraphs": [
+    "UNITAS tidak memiliki kantor. Platform ini dibangun dan dioperasikan dari mana pun pendirinya berada, dengan perangkat keras sederhana, lintas zona waktu.",
+    "Kolaborasi apa pun di masa depan akan mengikuti bentuk yang sama: asinkron, tertulis, dan mengutamakan kerja jarak jauh."
+  ],
+  "careers.sections.3.heading": "Cara berkontribusi hari ini",
+  "careers.sections.3.paragraphs": [
+    "Peneliti keamanan dapat melaporkan kerentanan melalui halaman Keamanan. Penulis dan penerjemah yang menemukan kesalahan dalam salah satu dari dua puluh bahasa dapat mengirimkan koreksi melalui halaman Hubungi Kami.",
+    "Pertanyaan tentang kemitraan dan integrasi juga kami sambut melalui halaman Hubungi Kami; mohon jelaskan apa yang Anda bangun dan siapa yang dilayaninya."
+  ],
+  "careers.sections.4.heading": "Siapa yang kami cari",
+  "careers.sections.4.paragraphs": [
+    "Jika posisi dibuka, prioritas akan diberikan kepada orang yang mampu menangani suatu masalah dari ujung ke ujung, menulis dengan jelas, dan nyaman bekerja berdampingan dengan agen otomatis alih-alih mengelola tim."
+  ],
+  "press.title": "Pers",
+  "press.lede": "Sumber daya media dan latar belakang perusahaan untuk jurnalis dan analis.",
+  "press.updated": "2026-09-12",
+  "press.sections.0.heading": "Fakta perusahaan",
+  "press.sections.0.paragraphs": [
+    "Perusahaan: THE UNITAS GLOBAL OÜ, terdaftar di Estonia. Produk: UNITAS, ekosistem SaaS berdaulat untuk pabrik agen otonom. Dipimpin pendiri; dioperasikan melalui otomatisasi AI; tersedia dalam dua puluh bahasa.",
+    "Platform saat ini berada dalam tahap pra-peluncuran di balik gerbang publik \"Coming Soon\"."
+  ],
+  "press.sections.1.heading": "Cara menyebut kami",
+  "press.sections.1.paragraphs": [
+    "Mohon sebut perusahaan sebagai \"THE UNITAS GLOBAL OÜ\" dan produk sebagai \"UNITAS\". Nama modul dapat dikutip sebagaimana tampil di antarmuka.",
+    "Mohon jangan menggambarkan fitur UNITAS mana pun sebagai telah dipatenkan; jika relevan, \"paten sedang diajukan\" (patent pending) adalah istilah yang tepat."
+  ],
+  "press.sections.2.heading": "Penggunaan merek",
+  "press.sections.2.paragraphs": [
+    "Wordmark dan logo UNITAS dapat digunakan dalam liputan editorial tanpa perubahan. Jangan menggabungkannya dengan merek lain, menyiratkan dukungan, atau menggunakannya pada merchandise.",
+    "Berkas logo dan panduan merek tersedia atas permintaan."
+  ],
+  "press.sections.3.heading": "Wawancara dan pemeriksaan fakta",
+  "press.sections.3.paragraphs": [
+    "Untuk wawancara, pengarahan latar belakang, atau pemeriksaan fakta, hubungi kami melalui halaman Hubungi Kami dan sebutkan media serta tenggat Anda. Permintaan yang mencantumkan tenggat dijawab lebih dahulu."
+  ],
+  "press.sections.4.heading": "Data pihak ketiga dalam liputan",
+  "press.sections.4.paragraphs": [
+    "Data langsung yang ditampilkan di dalam UNITAS — cuaca, peringkat, judul berita, kurs — berasal dari sumber publik yang disebutkan namanya dan harus diatribusikan kepada sumber tersebut, bukan kepada UNITAS."
+  ],
+  "patent-notice.title": "Pemberitahuan Paten",
+  "patent-notice.lede": "Metode dan sistem UNITAS tertentu merupakan objek permohonan paten yang masih dalam proses.",
+  "patent-notice.updated": "2026-09-12",
+  "patent-notice.sections.0.heading": "Status dalam proses",
+  "patent-notice.sections.0.paragraphs": [
+    "Sebuah permohonan paten sementara (provisional) yang mencakup aspek-aspek protokol kognitif dan tanda tangan UNITAS telah diajukan di Amerika Serikat. Permohonan tersebut masih dalam proses; belum ada paten yang diberikan, dan tidak ada bagian dari halaman ini yang boleh dibaca sebagai klaim atas hak yang telah diberikan.",
+    "Status dalam proses tidak memberikan eksklusivitas yang dapat ditegakkan kecuali dan hingga paten diterbitkan."
+  ],
+  "patent-notice.sections.1.heading": "Apa yang diuraikan dalam permohonan",
+  "patent-notice.sections.1.paragraphs": [
+    "Secara umum, permohonan tersebut menguraikan bagaimana modul-modul independen berbagi satu lapisan identitas dan satu buku besar append-only (hanya dapat ditambah), bagaimana kerja agen diukur per tugas dan dipakai ulang dari cache yang telah divalidasi, serta bagaimana protokol tanda tangan mengikat karya anggota ke akunnya tanpa mengungkap identitasnya.",
+    "Uraian di atas adalah ringkasan bagi pembaca, bukan klaim atas lingkup perlindungan."
+  ],
+  "patent-notice.sections.2.heading": "Nama dan merek",
+  "patent-notice.sections.2.paragraphs": [
+    "Nama produk dan nama sistem UNITAS digunakan sebagai penanda asal. Nama-nama tersebut tidak diklaim sebagai merek terdaftar kecuali dinyatakan di halaman ini."
+  ],
+  "patent-notice.sections.3.heading": "Melaporkan kekhawatiran",
+  "patent-notice.sections.3.paragraphs": [
+    "Jika Anda meyakini UNITAS melanggar hak yang Anda miliki, atau ada pihak ketiga yang memberikan gambaran keliru tentang teknologi UNITAS, hubungi kami melalui halaman Hubungi Kami dengan rinciannya. Laporan ditinjau oleh pendiri."
+  ],
+  "patent-notice.sections.4.heading": "Perubahan pada pemberitahuan ini",
+  "patent-notice.sections.4.paragraphs": [
+    "Pemberitahuan ini akan diperbarui jika permohonan dipublikasikan, dikabulkan, ditinggalkan, atau diperluas ke yurisdiksi lain."
+  ],
+  "compliance.title": "Kepatuhan",
+  "compliance.lede": "Bagaimana UNITAS menjalankan kewajiban regulasinya di seluruh yurisdiksi yang dilayaninya.",
+  "compliance.updated": "2026-09-12",
+  "compliance.sections.0.heading": "Di mana kami diatur",
+  "compliance.sections.0.paragraphs": [
+    "UNITAS dioperasikan oleh perusahaan Estonia dan menyelaraskan praktiknya dengan prinsip perlindungan data dan perlindungan konsumen Uni Eropa, termasuk Peraturan Perlindungan Data Umum (GDPR).",
+    "Kami tidak mengklaim sertifikasi berdasarkan standar tertentu mana pun."
+  ],
+  "compliance.sections.1.heading": "Minimalisasi data",
+  "compliance.sections.1.paragraphs": [
+    "Kami mengumpulkan data seminimal yang diperlukan untuk menjalankan akun dan menyimpannya hanya selama akun tersebut ada. Sesi tamu tidak pernah meninggalkan browser.",
+    "Fitur data langsung dikaitkan dengan pengenal publik — sebuah tempat, sebuah topik, sebuah entitas publik — tidak pernah dengan siapa yang bertanya."
+  ],
+  "compliance.sections.2.heading": "Pembayaran dan kredit",
+  "compliance.sections.2.paragraphs": [
+    "Pemrosesan pembayaran dilakukan oleh penyedia pihak ketiga di bawah kerangka regulasi mereka sendiri; data kartu dan rekening bank tidak pernah sampai ke UNITAS.",
+    "U-COIN adalah kredit akses prabayar untuk modul di dalam UNITAS. U-COIN bukan sekuritas, bukan penyimpan nilai, dan bukan instrumen pembayaran, serta tidak dapat dialihkan dari satu akun ke akun lain."
+  ],
+  "compliance.sections.3.heading": "Jejak audit",
+  "compliance.sections.3.paragraphs": [
+    "Setiap perubahan saldo dicatat ke buku besar append-only oleh fungsi sisi server yang diaudit. Tidak ada apa pun di browser yang dapat mengubah saldo secara langsung."
+  ],
+  "compliance.sections.4.heading": "Administrasi keuangan dan pajak",
+  "compliance.sections.4.paragraphs": [
+    "Pembukuan perusahaan, perbankan, dan pelaporan pajak Estonia dikelola melalui penyedia layanan Eropa yang teregulasi di bawah kewenangan pendiri."
+  ],
+  "compliance.sections.5.heading": "Permintaan dan pengaduan",
+  "compliance.sections.5.paragraphs": [
+    "Pertanyaan kepatuhan, termasuk permintaan subjek data, dapat diajukan melalui halaman Hubungi Kami. Penduduk Uni Eropa juga dapat mengajukan pengaduan kepada otoritas pengawas nasional mereka."
+  ],
+  "security.title": "Keamanan",
+  "security.lede": "Kontrol yang melindungi akun, saldo, dan data identitas.",
+  "security.updated": "2026-09-12",
+  "security.sections.0.heading": "Identitas ditegakkan di sisi server",
+  "security.sections.0.paragraphs": [
+    "Identitas akun ditegakkan di basis data, bukan di browser: nomor telepon terverifikasi bersifat unik di seluruh akun aktif, perubahan saldo hanya melewati fungsi sisi server yang diaudit, dan buku besar transaksi bersifat append-only."
+  ],
+  "security.sections.1.heading": "Zero trust sebagai standar",
+  "security.sections.1.paragraphs": [
+    "Setiap permintaan diverifikasi secara tersendiri berdasarkan kelayakannya. Data rahasia seperti kunci pembayaran tidak pernah sampai ke kode klien, dan akses pendiri ke antarmuka pra-peluncuran diverifikasi di sisi server pada setiap kunjungan."
+  ],
+  "security.sections.2.heading": "Arah desain: ketahanan kuantum",
+  "security.sections.2.paragraphs": [
+    "Lapisan tanda tangan dan sesi dirancang agar algoritmenya dapat diganti tanpa mengubah buku besar — prasyarat untuk mengadopsi kriptografi pascakuantum seiring mapannya standar. Ini adalah arah desain, bukan sertifikasi."
+  ],
+  "security.sections.3.heading": "Karantina otomatis",
+  "security.sections.3.paragraphs": [
+    "Modul yang gagal dalam pemeriksaan integritasnya diisolasi secara otomatis: modul tersebut beralih ke keadaan tersegel dan hanya-baca alih-alih menyajikan data parsial. Bagian ekosistem lainnya terus berjalan."
+  ],
+  "security.sections.4.heading": "Integritas klien",
+  "security.sections.4.paragraphs": [
+    "Aset yang dirilis membawa sidik jari kepemilikan, dan antarmuka dibangun untuk menjaga sesinya tetap utuh di dalam browser dalam aplikasi maupun setelah muat ulang, sehingga sematan yang rusak tidak pernah mengeluarkan Anda dari akun secara diam-diam."
+  ],
+  "security.sections.5.heading": "Melaporkan kerentanan",
+  "security.sections.5.paragraphs": [
+    "Untuk melaporkan kerentanan, gunakan halaman Hubungi Kami dengan rincian yang cukup untuk mereproduksi masalah, dan mohon jangan mengungkapkannya ke publik sebelum kami menanggapi. Laporan keamanan diprioritaskan di atas semua pertanyaan lainnya."
+  ],
+  "privacy.title": "Kebijakan Privasi",
+  "privacy.lede": "Apa yang dikumpulkan UNITAS, mengapa, dan pilihan yang Anda miliki.",
+  "privacy.updated": "2026-09-12",
+  "privacy.sections.0.heading": "Apa yang kami kumpulkan",
+  "privacy.sections.0.paragraphs": [
+    "UNITAS mengumpulkan data seminimal yang diperlukan untuk menjalankan akun: sebuah pengenal (email atau nomor telepon) untuk autentikasi, saldo koin beserta buku besarnya, dan preferensi dasar bahasa serta perangkat yang disimpan di perangkat Anda.",
+    "Sesi tamu tetap tersimpan secara lokal di browser Anda dan tidak pernah diunggah."
+  ],
+  "privacy.sections.1.heading": "Mengapa kami memprosesnya",
+  "privacy.sections.1.paragraphs": [
+    "Data diproses untuk mengoperasikan layanan — agar Anda dapat masuk ke akun, menjaga saldo Anda tetap benar, dan mengingat bahasa Anda. Data tidak digunakan untuk membangun profil iklan dan tidak dijual."
+  ],
+  "privacy.sections.2.heading": "Berapa lama kami menyimpannya",
+  "privacy.sections.2.paragraphs": [
+    "Data akun disimpan selama akun tersebut ada. Buku besar disimpan selama diwajibkan secara hukum untuk keperluan pembukuan. Preferensi perangkat hanya tersimpan di perangkat Anda."
+  ],
+  "privacy.sections.3.heading": "Fitur data langsung dan sumber publik",
+  "privacy.sections.3.paragraphs": [
+    "Cuaca, peringkat, berita, dan aliran pencarian dibangun dari sumber publik yang tercantum di bawah. Permintaan ke sumber-sumber tersebut membawa topik yang sedang Anda jelajahi, tidak pernah identitas akun Anda. Sebagian dipanggil dari server kami dan sebagian langsung dari browser Anda; daftar di bawah menyebutkan mana yang mana."
+  ],
+  "privacy.sections.4.heading": "Lokasi",
+  "privacy.sections.4.paragraphs": [
+    "Fitur cuaca dan fitur lokasi sekitar menggunakan tempat yang Anda pilih, atau — hanya jika Anda mengizinkannya — lokasi perangkat Anda. Jika keduanya tidak tersedia, perkiraan lokasi diperoleh dari alamat IP Anda oleh layanan geolokasi publik yang disebutkan di bawah. Koordinat Anda tidak pernah disimpan di server UNITAS."
+  ],
+  "privacy.sections.5.heading": "Hak Anda",
+  "privacy.sections.5.paragraphs": [
+    "Anda dapat meminta akses, koreksi, atau penghapusan data akun Anda melalui halaman Hubungi Kami atau pengaturan akun di dalam aplikasi. Penduduk Uni Eropa juga dapat mengajukan pengaduan kepada otoritas pengawas mereka."
+  ],
+  "privacy.sections.6.heading": "Cookie dan penyimpanan lokal",
+  "privacy.sections.6.paragraphs": [
+    "Situs ini menyimpan sekumpulan kecil nilai di browser Anda, yang diuraikan dalam Kebijakan Cookie. Tidak ada cookie iklan pihak ketiga atau cookie pelacakan lintas situs yang dipasang."
+  ],
+  "cookies.title": "Kebijakan Cookie",
+  "cookies.lede": "UNITAS menggunakan penyimpanan lokal dan cookie secara hemat dan hanya untuk keperluan fungsional.",
+  "cookies.updated": "2026-09-12",
+  "cookies.sections.0.heading": "Mutlak diperlukan",
+  "cookies.sections.0.paragraphs": [
+    "Token sesi dan autentikasi, penanda akses pra-peluncuran, dan penjaga sesi dalam aplikasi diperlukan agar antarmuka berfungsi dengan benar. Semuanya hanya dipasang saat Anda masuk atau melewati gerbang masuk."
+  ],
+  "cookies.sections.1.heading": "Preferensi",
+  "cookies.sections.1.paragraphs": [
+    "Bahasa Anda, pengaturan audio Anda, tempat terakhir yang Anda pilih, dan posisi panel yang terbuka diingat sehingga antarmuka kembali persis seperti saat Anda meninggalkannya."
+  ],
+  "cookies.sections.2.heading": "Cache",
+  "cookies.sections.2.paragraphs": [
+    "Hasil dari sumber publik — sebuah pembacaan cuaca, sebuah halaman peringkat, sebuah halaman aliran pencarian — disimpan di cache browser Anda untuk waktu terbatas sehingga mengunjungi kembali suatu topik tidak memerlukan jaringan. Isinya hanya data publik."
+  ],
+  "cookies.sections.3.heading": "Tanpa analitik, tanpa iklan",
+  "cookies.sections.3.paragraphs": [
+    "Tidak ada cookie analitik pihak ketiga, iklan, atau pelacakan lintas situs yang dipasang. UNITAS tidak berpartisipasi dalam jaringan periklanan."
+  ],
+  "cookies.sections.4.heading": "Cara mengendalikannya",
+  "cookies.sections.4.paragraphs": [
+    "Menghapus data situs UNITAS di browser Anda akan menghapus setiap nilai yang tercantum di bawah. Tindakan ini mengeluarkan Anda dari akun dan mengatur ulang preferensi Anda pada kunjungan berikutnya; tindakan ini tidak pernah memengaruhi saldo akun Anda, yang tersimpan di server."
+  ],
+  "terms.title": "Ketentuan Layanan",
+  "terms.lede": "Ketentuan dasar penggunaan UNITAS selama tahap pra-peluncuran.",
+  "terms.updated": "2026-09-12",
+  "terms.sections.0.heading": "Layanan",
+  "terms.sections.0.paragraphs": [
+    "UNITAS disediakan \"sebagaimana adanya\" (as is) selama pengembangan aktif. Fitur dapat berubah atau ditangguhkan seiring berkembangnya platform. Melanjutkan penggunaan setelah suatu perubahan berarti Anda menerima ketentuan yang diperbarui."
+  ],
+  "terms.sections.1.heading": "Akun",
+  "terms.sections.1.paragraphs": [
+    "Anda dapat menggunakan UNITAS sebagai tamu atau dengan akun yang diverifikasi melalui email atau nomor telepon. Satu nomor telepon terverifikasi hanya dapat dikaitkan dengan satu akun aktif. Anda bertanggung jawab menjaga kerahasiaan kredensial masuk Anda."
+  ],
+  "terms.sections.2.heading": "Kredit akses U-COIN",
+  "terms.sections.2.paragraphs": [
+    "Akses ke modul berbayar diatur oleh saldo koin pada akun Anda. U-COIN adalah kredit akses prabayar — bukan sekuritas, bukan instrumen nilai tersimpan, dan bukan mata uang — serta tidak dapat dialihkan.",
+    "Kredit dikonsumsi saat fitur berbayar disampaikan. Jika fitur berbayar gagal menghasilkan keluaran, kredit yang dikonsumsi untuk permintaan tersebut dikembalikan ke saldo Anda secara otomatis."
+  ],
+  "terms.sections.3.heading": "Pengembalian dana",
+  "terms.sections.3.paragraphs": [
+    "Kredit yang belum digunakan dapat dikembalikan ke metode pembayaran semula dalam jangka waktu yang diwajibkan oleh hukum konsumen yang berlaku bagi Anda. Kredit yang sudah dikonsumsi untuk fitur yang telah disampaikan tidak dapat dikembalikan."
+  ],
+  "terms.sections.4.heading": "Penggunaan yang diperbolehkan",
+  "terms.sections.4.paragraphs": [
+    "Anda tidak boleh mencoba mengubah saldo, melewati gerbang akses, menyelidiki atau membebani layanan secara berlebihan, mengambil datanya secara massal (scraping), atau menggunakannya untuk merugikan orang lain. Akun yang terlibat dalam perbuatan semacam itu dapat ditangguhkan."
+  ],
+  "terms.sections.5.heading": "Konten pihak ketiga",
+  "terms.sections.5.paragraphs": [
+    "Fitur data langsung menampilkan konten dari sumber publik yang disebutkan namanya di antarmuka. UNITAS tidak mengendalikan konten tersebut dan tidak menjamin keakuratannya. Tautan yang membuka layanan lain tunduk pada ketentuan layanan tersebut."
+  ],
+  "terms.sections.6.heading": "Batasan tanggung jawab",
+  "terms.sections.6.paragraphs": [
+    "Sejauh diizinkan oleh hukum, THE UNITAS GLOBAL OÜ tidak bertanggung jawab atas kerugian tidak langsung atau konsekuensial yang timbul dari penggunaan layanan, dan total tanggung jawabnya dibatasi pada jumlah yang Anda bayarkan untuk kredit dalam dua belas bulan sebelum klaim diajukan. Tidak ada bagian dari ketentuan ini yang membatasi tanggung jawab yang tidak dapat dibatasi oleh hukum."
+  ],
+  "terms.sections.7.heading": "Hukum yang berlaku",
+  "terms.sections.7.paragraphs": [
+    "Ketentuan ini diatur oleh hukum Estonia. Konsumen tetap memiliki perlindungan wajib apa pun berdasarkan hukum negara tempat tinggal mereka."
+  ],
+  "help-center.title": "Pusat Bantuan",
+  "help-center.lede": "Jawaban atas pertanyaan yang paling sering diajukan.",
+  "help-center.updated": "2026-09-12",
+  "help-center.sections.0.heading": "Memulai",
+  "help-center.sections.0.paragraphs": [
+    "Tekan Mulai di layar pembuka untuk menuju halaman beranda. Kunjungan pertama memutar pengantar singkat; Anda dapat melewatinya, dan pengantar itu tidak akan diputar ulang saat halaman dimuat ulang."
+  ],
+  "help-center.sections.1.heading": "Pencarian",
+  "help-center.sections.1.paragraphs": [
+    "Ketik di bilah pencarian untuk mendapatkan saran kata kunci — fitur produk terlebih dahulu, lalu entitas dari seluruh dunia, lalu halaman dalam bahasa Anda. Tekan Enter untuk membuka hasil lengkap: sebuah aliran yang terus memanjang saat Anda menggulir, dengan setiap kartu menyebutkan sumbernya.",
+    "Setiap sepuluh halaman, aliran berhenti sejenak dan menanyakan apakah Anda ingin melanjutkan; enam puluh halaman adalah batas untuk satu pertanyaan."
+  ],
+  "help-center.sections.2.heading": "Pintasan dan peringkat",
+  "help-center.sections.2.paragraphs": [
+    "Di bawah bilah pencarian, deret pintasan dan deret peringkat membuka tampilan rinci tanpa meninggalkan halaman. Di bawah sebagian besar tampilan tersebut Anda akan menemukan Jelajahi Lebih Dalam, sekumpulan lensa yang menarik data langsung tentang subjek itu dari sumber publik."
+  ],
+  "help-center.sections.3.heading": "Bahasa",
+  "help-center.sections.3.paragraphs": [
+    "Ganti bahasa kapan saja dari menu di navigasi atas. Halaman tetap berada di posisinya, dan pilihan Anda diingat di perangkat ini dan, jika Anda sudah masuk, di akun Anda."
+  ],
+  "help-center.sections.4.heading": "Suara",
+  "help-center.sections.4.paragraphs": [
+    "Audio latar aktif secara default dan tetap bertahan setelah halaman dimuat ulang. Aktifkan atau nonaktifkan dari ikon pengeras suara di navigasi atas."
+  ],
+  "help-center.sections.5.heading": "Memasang aplikasi",
+  "help-center.sections.5.paragraphs": [
+    "UNITAS dapat dipasang sebagai aplikasi melalui opsi unduh di navigasi. Di dalam browser bawaan aplikasi lain, dialog pemasangan mungkin tidak muncul; sebagai gantinya, buka halaman ini di browser utama Anda."
+  ],
+  "help-center.sections.6.heading": "Pemecahan masalah",
+  "help-center.sections.6.paragraphs": [
+    "Jika ada yang tampak macet, muat ulang halaman; akun, saldo, dan panel yang terbuka dipulihkan secara otomatis. Jika kartu data langsung tidak menampilkan data, sumber publik di baliknya mungkin sedang tidak tersedia untuk sementara — kartu tersebut menyebutkan namanya sehingga Anda dapat memeriksanya."
+  ],
+  "contact.title": "Hubungi Kami",
+  "contact.lede": "Satu saluran yang langsung terhubung ke pendiri.",
+  "contact.updated": "2026-09-12",
+  "contact.sections.0.heading": "Cara menghubungi kami",
+  "contact.sections.0.paragraphs": [
+    "Pertanyaan umum, kemitraan, pers, keamanan, dan perlindungan data semuanya ditangani oleh pendiri. Gunakan panel pengaturan akun di dalam aplikasi untuk memulai percakapan, atau tulis ke alamat yang tercantum di saluran resmi THE UNITAS GLOBAL OÜ."
+  ],
+  "contact.sections.1.heading": "Waktu tanggapan",
+  "contact.sections.1.paragraphs": [
+    "Tidak ada saluran dukungan telepon. Waktu tanggapan bergantung pada volume; laporan keamanan diprioritaskan, diikuti permintaan perlindungan data, lalu semua hal lainnya."
+  ],
+  "contact.sections.2.heading": "Apa yang perlu disertakan",
+  "contact.sections.2.paragraphs": [
+    "Untuk pertanyaan akun, sertakan email atau nomor telepon yang terdaftar pada akun. Untuk bug, sertakan halaman, perangkat, dan apa yang Anda harapkan terjadi. Untuk laporan keamanan, sertakan langkah-langkah untuk mereproduksinya."
+  ],
+  "contact.sections.3.heading": "Informasi perusahaan",
+  "contact.sections.3.paragraphs": [
+    "THE UNITAS GLOBAL OÜ adalah perusahaan yang terdaftar di Estonia. Rincian pendaftaran tersedia melalui register perusahaan Estonia; situs ini tidak memublikasikan alamat fisik."
+  ],
+  "system-status.title": "Status Sistem",
+  "system-status.lede": "Keadaan operasional platform UNITAS saat ini.",
+  "system-status.updated": "2026-09-12",
+  "system-status.sections.0.heading": "Keadaan saat ini",
+  "system-status.sections.0.paragraphs": [
+    "UNITAS berada dalam tahap pra-peluncuran. Antarmuka publik sengaja disegel di balik gerbang \"Coming Soon\" sementara pendiri menyelesaikan verifikasi berurutan atas alur masuk."
+  ],
+  "system-status.sections.1.heading": "Cara kami beroperasi",
+  "system-status.sections.1.paragraphs": [
+    "Rilis melewati jalur fail-closed — pemeriksaan tipe, rangkaian pengujian, build produksi, dan pengujian ujung ke ujung — dan hanya diterapkan jika setiap langkah lolos. Tidak ada waktu henti terjadwal untuk rilis."
+  ],
+  "system-status.sections.2.heading": "Mode offline dan penyambungan kembali",
+  "system-status.sections.2.paragraphs": [
+    "Antarmuka dirancang untuk tetap bekerja dari data cache saat jaringan terputus, dan untuk menyelaraskan kembali secara deterministik saat jaringan pulih — masukan yang sama selalu menghasilkan keadaan yang sama, sehingga tidak ada yang hilang atau terduplikasi."
+  ],
+  "system-status.sections.3.heading": "Sumber publik",
+  "system-status.sections.3.paragraphs": [
+    "Kartu data langsung bergantung pada layanan publik yang disebutkan namanya di antarmuka. Saat salah satunya tidak tersedia, kartu tersebut menyatakannya dan bagian halaman lainnya terus bekerja; UNITAS tidak memiliki kendali atas waktu aktif layanan-layanan tersebut."
+  ],
+  "system-status.sections.4.heading": "Pemberitahuan insiden",
+  "system-status.sections.4.paragraphs": [
+    "Pemeliharaan terjadwal dan setiap insiden yang memengaruhi akun atau saldo akan dirangkum di sini setelah platform tersedia untuk publik, beserta waktu mulainya, apa yang terdampak, dan kapan diselesaikan."
+  ]
+}

@@ -85,11 +85,12 @@ describe('source registry', () => {
     expect(sourceNameOf('https://www.bing.com/news/search?q=x')).toMatchObject({ name: 'Bing News', id: 'bingNews' });
   });
 
-  it('ledgers every browser storage key under the unitas. prefix, once', () => {
+  it('ledgers every browser storage key under the unitas prefix, once', () => {
     const keys = BROWSER_STORAGE_LEDGER.map((e) => e.key);
     expect(new Set(keys).size).toBe(keys.length);
     for (const e of BROWSER_STORAGE_LEDGER) {
-      expect(e.key).toMatch(/^unitas\./);
+      // REV-21 M9: the site-wide inventory covers both the dot and the underscore key families.
+      expect(e.key).toMatch(/^unitas[._]/);
       expect(e.purpose.ko.length).toBeGreaterThan(0);
       expect(e.retention.en.length).toBeGreaterThan(0);
     }
