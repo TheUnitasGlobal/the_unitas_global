@@ -39,6 +39,10 @@ export interface GeoPlace {
   /** Resolved from the visitor's network address rather than GPS -- the UI
    *  flags it as an estimate. */
   approx?: boolean;
+  /** REV-21 SPEC §12.3 (a): the place's Wikidata item when the geocoder
+   *  went through Wikipedia (non-Latin queries) or the place is a locale
+   *  default -- the Explore Deeper anchor for the weather host. */
+  qid?: string;
 }
 
 /** Rows to ask Open-Meteo for per spelling variant (see header). */

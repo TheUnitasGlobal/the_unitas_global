@@ -1,5 +1,16 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { EXCLUDED_CROSS_P31, isExcludedCrossClass, parseEntityPages, resolveEntity, stripSectionAnchor } from '@/lib/uai/entityResolve';
+import {
+  EXCLUDED_CROSS_P31,
+  entitySearchUrl,
+  isExcludedCrossClass,
+  isQid,
+  parseEntityPages,
+  parseWikiLinks,
+  resolveEntity,
+  sitelinkTitles,
+  stripSectionAnchor,
+  wikiLinksUrl,
+} from '@/lib/uai/entityResolve';
 import { collectWebSynthesis } from '@/lib/uai/webSynthesisCore';
 import { deriveKeywords } from '@/lib/uai/shortcutCore';
 import { analyzeSurface } from '@/lib/uai/heuristics';
@@ -57,8 +68,21 @@ function router(url: string): unknown {
       ],
     };
   }
+  // A pinned entity's own sitelinks (SPEC §12.3 e): 대기 = Atmosphere.
+  if (url.startsWith('https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q8104&')) {
+    return { entities: { Q8104: { sitelinks: { kowiki: { title: '대기' }, enwiki: { title: 'Atmosphere#Earth' } } } } };
+  }
   if (url.startsWith('https://www.wikidata.org/w/api.php?action=wbgetentities')) {
     return { entities: { Q29383577: { sitelinks: {} }, Q16261070: { sitelinks: { kowiki: { title: '공기 (촉한)' } } } } };
+  }
+  if (url === 'https://en.wikipedia.org/api/rest_v1/page/summary/Atmosphere') {
+    return { title: 'Atmosphere', type: 'standard', extract: 'An atmosphere is a layer of gases that envelop an astronomical object.', content_urls: { desktop: { page: 'https://en.wikipedia.org/wiki/Atmosphere' } } };
+  }
+  if (url.startsWith('https://en.wikipedia.org/w/rest.php/v1/search/page?q=Atmosphere&')) {
+    return { pages: [{ title: 'Atmosphere', description: 'layer of gas' }, { title: 'Atmosphere of Mars', description: 'gas layer of Mars' }] };
+  }
+  if (url.startsWith('https://api.duckduckgo.com/?q=Atmosphere&')) {
+    return { Type: 'A', Heading: 'Atmosphere', AbstractText: 'An atmosphere is a layer of gas.', AbstractURL: 'https://en.wikipedia.org/wiki/Atmosphere', RelatedTopics: [] };
   }
   if (url.includes('action=wbgetclaims&entity=Q29383577')) return { claims: { P31: [{ mainsnak: { datavalue: { value: { id: 'Q44740228' } } } }] } };
   if (url.includes('action=wbgetclaims&entity=Q16261070')) return { claims: { P31: [{ mainsnak: { datavalue: { value: { id: 'Q95074' } } } }] } };
@@ -126,6 +150,81 @@ describe('entity resolution', () => {
     expect(isExcludedCrossClass(['Q11432'])).toBe(false);
     expect(EXCLUDED_CROSS_P31.has('Q5')).toBe(true);
   });
+
+  // SPEC §12.3 (d): the page's primary coordinate rides on the same call.
+  it('exposes the primary coordinate of a place page and asks for it on the entity leg', () => {
+    const r = parseEntityPages(
+      { query: { pages: [{ title: '부산광역시', index: 1, langlinks: [{ lang: 'en', title: 'Busan' }], pageprops: { wikibase_item: 'Q16520' }, coordinates: [{ lat: 35.18, lon: 129.08, primary: '' }] }] } },
+      'ko',
+    );
+    expect(r?.coord).toEqual({ lat: 35.18, lon: 129.08 });
+    expect(parseEntityPages({ query: { pages: [{ title: '공기', index: 1 }] } }, 'ko')?.coord).toBeUndefined();
+    const url = entitySearchUrl('ko', '부산', 3, '|extracts&exintro=1');
+    expect(url).toContain('prop=langlinks|pageprops|coordinates|extracts&exintro=1&coprimary=primary');
+    expect(isQid('Q7391292')).toBe(true);
+    expect(isQid('7391292')).toBe(false);
+    expect(isQid('Q1; DROP')).toBe(false);
+  });
+
+  // SPEC §12.3 (d): no page on the locale wiki -> Wikidata label fallback.
+  it('falls back to a Wikidata label match with an own-wiki sitelink, skipping excluded classes', async () => {
+    const asked: string[] = [];
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: string | URL) => {
+        const url = String(input);
+        asked.push(url);
+        if (url.startsWith('https://et.wikipedia.org/w/api.php') && url.includes('generator=search')) return json({ query: { pages: [] } });
+        if (url.startsWith('https://www.wikidata.org/w/api.php?action=wbsearchentities')) {
+          return json({
+            search: [
+              { id: 'Q11424', label: 'õhk', description: 'film', match: { type: 'label' } },
+              { id: 'Q7391292', label: 'õhk', description: 'Maa atmosfääri gaasisegu', match: { type: 'label' } },
+              { id: 'Q270791', label: 'riigiettevõte', match: { type: 'alias' } },
+            ],
+          });
+        }
+        if (url.startsWith('https://www.wikidata.org/w/api.php?action=wbgetentities')) {
+          return json({
+            entities: {
+              Q11424: { sitelinks: { etwiki: { title: 'Õhk (film)' }, enwiki: { title: 'Air (film)' } }, labels: {} },
+              Q7391292: { sitelinks: { enwiki: { title: 'Air' } }, labels: { et: { value: 'õhk' }, en: { value: 'air' } } },
+            },
+          });
+        }
+        if (url.includes('wbgetclaims&entity=Q11424')) return json({ claims: { P31: [{ mainsnak: { datavalue: { value: { id: 'Q11424' } } } }] } });
+        if (url.includes('wbgetclaims&entity=Q7391292')) return json({ claims: { P31: [{ mainsnak: { datavalue: { value: { id: 'Q11344' } } } }] } });
+        return { ok: false, json: async () => ({}) } as unknown as Response;
+      }),
+    );
+    const r = await resolveEntity('õhk', 'et', new AbortController().signal);
+    expect(r).toEqual({ localeTitle: 'õhk', enTitle: 'Air', qid: 'Q7391292', disambiguation: false, lang: 'et', origin: 'wikidata' });
+    // The film shared the label and even had an own-wiki page -- the class gate dropped it.
+    expect(asked.some((u) => u.includes('wbgetclaims&entity=Q11424'))).toBe(true);
+    expect(await resolveEntity('õhk', 'et', new AbortController().signal, { wikidataFallback: false })).toBeNull();
+  });
+
+  // SPEC §12.3 (f)/(g): sitelink titles in several languages; outgoing links with a cursor.
+  it('reads sitelink titles in one call and parses an outgoing-links page with its continuation', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: string | URL) => {
+        const url = String(input);
+        if (url.includes('wbgetentities&ids=Q7391292&props=sitelinks&sitefilter=kowiki|enwiki|jawiki')) {
+          return json({ entities: { Q7391292: { sitelinks: { kowiki: { title: '공기' }, enwiki: { title: 'Air' } } } } });
+        }
+        return { ok: false, json: async () => ({}) } as unknown as Response;
+      }),
+    );
+    expect(await sitelinkTitles('Q7391292', ['ko', 'en', 'ja'], new AbortController().signal)).toEqual({ ko: '공기', en: 'Air' });
+    expect(await sitelinkTitles('nope', ['ko'], new AbortController().signal)).toEqual({});
+    expect(parseWikiLinks({ continue: { plcontinue: '123|0|Zzz' }, query: { pages: [{ title: '공기', links: [{ title: '산소' }, { title: '질소' }] }] } })).toEqual({
+      links: ['산소', '질소'],
+      next: '123|0|Zzz',
+    });
+    expect(parseWikiLinks(null)).toEqual({ links: [] });
+    expect(wikiLinksUrl('ko', '공기', '123|0|Zzz')).toContain('&plcontinue=123%7C0%7CZzz&');
+  });
 });
 
 describe("collectWebSynthesis('공기', 'ko')", () => {
@@ -170,6 +269,20 @@ describe("collectWebSynthesis('공기', 'ko')", () => {
     expect(web.grounding).toContain('atmosphere of Earth');
     expect(web.grounding).not.toContain('Air pollution');
     expect(web.grounding).not.toContain('대기는 행성');
+  });
+
+  // SPEC §12.3 (e): a chip's QID pins the anchor -- the visitor tapped 대기
+  // (Q8104), so the English legs run on ITS sitelink, not on the string's
+  // own top hit.
+  it('a pinned qid overrides the string anchor and drives the English legs through its sitelink', async () => {
+    const web = await collectWebSynthesis(KO_QUERY, 'ko', { abortMs: 5000, qid: 'Q8104' });
+    expect(web.anchor).toEqual({ qid: 'Q8104', localeTitle: '대기', enTitle: 'Atmosphere', disambiguation: false });
+    expect(requested.some((u) => u.includes('wbgetentities&ids=Q8104&props=sitelinks&sitefilter=kowiki|enwiki'))).toBe(true);
+    expect(requested).toContain('https://en.wikipedia.org/api/rest_v1/page/summary/Atmosphere');
+    expect(requested.some((u) => u === 'https://en.wikipedia.org/api/rest_v1/page/summary/Air')).toBe(false);
+    const en = web.sources.filter((s) => s.origin === 'wiki-en');
+    expect(en[0]).toMatchObject({ title: 'Atmosphere', qid: 'Q8104' });
+    for (const u of requested.filter((x) => x.startsWith('https://en.wikipedia.org/') || x.startsWith('https://api.duckduckgo.com/'))) expect(u).not.toContain(ENC);
   });
 
   it('entity keyword chips come from own-language pages only and carry the entity', async () => {

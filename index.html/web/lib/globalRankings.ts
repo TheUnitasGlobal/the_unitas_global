@@ -70,6 +70,11 @@ export interface GlobalRankingEntry {
   /** Optional one-line elaboration shown in the entry-detail popup, curated
    *  for ranks 1-20 (see file banner). Kept untranslated like name/note. */
   detail?: string;
+  /** REV-21 SPEC §12.3 (h): the entry's Wikidata item, resolved through
+   *  `rankingEntryQid` (curated for ranks 1-10 of every theme) -- the
+   *  Explore Deeper anchor of the rank-detail popup, so the popup never
+   *  string-searches a translated name. */
+  qid?: string;
 }
 
 export interface GlobalRankingTheme {
@@ -90,6 +95,50 @@ export const LOAD_MORE_TIERS = [10, 50, 100] as const;
  *  enforces -- rows past it stay display-only. Shared here so the client
  *  (GlobalThemeRankings) and the API route can never drift apart. */
 export const ENTRY_DETAIL_MAX_RANK = 20;
+
+/** REV-21 SPEC §12.2 (rankingDeep host): the Wikidata item each THEME is
+ *  about -- the anchor of the ranking deep modal's Explore Deeper block
+ *  while a theme tab (not a row) is in focus. Verified live 2026-09-12. */
+export const THEME_QID: Record<GlobalRankingThemeKey, string> = {
+  heritage: 'Q9259', // World Heritage Site
+  gdp: 'Q12638', // gross domestic product
+  records: 'Q309', // history
+  mountains: 'Q8502', // mountain
+  rivers: 'Q4022', // river
+  buildings: 'Q11303', // skyscraper
+  population: 'Q11188', // world population
+  filmBoxOffice: 'Q877435', // box office
+  youtubeViews: 'Q866', // YouTube
+  esportsEarnings: 'Q300920', // esports
+  albumSales: 'Q482994', // album
+  humanRecords: 'Q688615', // world record
+};
+
+/** REV-21 SPEC §12.3 (h): rank 1-10 × 12 themes -> Wikidata item. Every id
+ *  was resolved through the English Wikipedia's `pageprops.wikibase_item`
+ *  (redirects followed, disambiguation pages rejected) on 2026-09-12.
+ *  `records` rows are milestones, anchored on the artefact / era they name
+ *  (cuneiform, the wheel, the Bronze Age ...); the `youtubeViews` rank-3
+ *  video has no article of its own, so it anchors on its channel. */
+export const RANKING_ENTRY_QID: Record<GlobalRankingThemeKey, Record<number, string>> = {
+  heritage: { 1: 'Q38', 2: 'Q148', 3: 'Q183', 4: 'Q142', 5: 'Q29', 6: 'Q668', 7: 'Q96', 8: 'Q145', 9: 'Q159', 10: 'Q794' },
+  gdp: { 1: 'Q30', 2: 'Q148', 3: 'Q183', 4: 'Q17', 5: 'Q668', 6: 'Q145', 7: 'Q142', 8: 'Q155', 9: 'Q38', 10: 'Q16' },
+  records: { 1: 'Q401', 2: 'Q132659', 3: 'Q446', 4: 'Q37200', 5: 'Q11761', 6: 'Q42534', 7: 'Q93304', 8: 'Q11764', 9: 'Q26752', 10: 'Q12501' },
+  mountains: { 1: 'Q513', 2: 'Q43512', 3: 'Q82019', 4: 'Q168702', 5: 'Q169986', 6: 'Q170089', 7: 'Q165440', 8: 'Q170070', 9: 'Q130736', 10: 'Q16466024' },
+  rivers: { 1: 'Q3392', 2: 'Q3783', 3: 'Q5413', 4: 'Q1497', 5: 'Q78707', 6: 'Q7355', 7: 'Q973', 8: 'Q3503', 9: 'Q6862', 10: 'Q46841' },
+  buildings: { 1: 'Q12495', 2: 'Q7969454', 3: 'Q18547', 4: 'Q189476', 5: 'Q1077308', 6: 'Q494895', 7: 'Q11245', 8: 'Q168575', 9: 'Q10939987', 10: 'Q197833' },
+  population: { 1: 'Q668', 2: 'Q148', 3: 'Q30', 4: 'Q252', 5: 'Q843', 6: 'Q1033', 7: 'Q155', 8: 'Q902', 9: 'Q159', 10: 'Q96' },
+  filmBoxOffice: { 1: 'Q24871', 2: 'Q23781155', 3: 'Q3604746', 4: 'Q44578', 5: 'Q6074', 6: 'Q23780914', 7: 'Q68934496', 8: 'Q113877606', 9: 'Q3512046', 10: 'Q27044293' },
+  youtubeViews: { 1: 'Q48791055', 2: 'Q28572509', 3: 'Q65091168', 4: 'Q7774404', 5: 'Q56433610', 6: 'Q19756862', 7: 'Q28132505', 8: 'Q18559542', 9: 'Q27999339', 10: 'Q2667119' },
+  esportsEarnings: { 1: 'Q771541', 2: 'Q349375', 3: 'Q15717790', 4: 'Q223341', 5: 'Q63595820', 6: 'Q17183996', 7: 'Q18515944', 8: 'Q86919275', 9: 'Q55812491', 10: 'Q18142874' },
+  albumSales: { 1: 'Q44320', 2: 'Q155715', 3: 'Q150901', 4: 'Q664539', 5: 'Q776064', 6: 'Q2282662', 7: 'Q928132', 8: 'Q695405', 9: 'Q1944486', 10: 'Q2698545' },
+  humanRecords: { 1: 'Q192789', 2: 'Q182260', 3: 'Q1189', 4: 'Q39562', 5: 'Q2265759', 6: 'Q438941', 7: 'Q2635973', 8: 'Q2248389', 9: 'Q9124', 10: 'Q52129159' },
+};
+
+/** The Wikidata item behind one ranked row, when curated (ranks 1-10). */
+export function rankingEntryQid(theme: GlobalRankingThemeKey, rank: number): string | undefined {
+  return RANKING_ENTRY_QID[theme]?.[rank];
+}
 
 export const GLOBAL_RANKING_THEMES: GlobalRankingTheme[] = [
   {

@@ -96,10 +96,14 @@ export async function GET(req: Request): Promise<NextResponse<ShortcutCacheApiRe
   const rawLocale = url.searchParams.get('locale') ?? '';
   const locale = LOCALES.has(rawLocale) ? rawLocale : routing.defaultLocale;
   const wantsRefresh = url.searchParams.get('refresh') === '1';
+  // REV-21 SPEC §12.3 (e): an optional entity anchor for the tier. Anything
+  // that is not a bare Wikidata id is ignored (never trusted into a URL).
+  const rawQid = url.searchParams.get('qid') ?? '';
+  const qid = /^Q\d{1,12}$/.test(rawQid) ? rawQid : undefined;
   if (!isViableShortcutQuery(query)) return respond(EMPTY, NO_STORE, 400);
 
   const messages = await loadMessages(locale);
-  const cacheKey = shortcutCacheKey(locale, query);
+  const cacheKey = shortcutCacheKey(locale, query, qid);
 
   let admin: Admin | null = null;
   try {
@@ -110,7 +114,7 @@ export async function GET(req: Request): Promise<NextResponse<ShortcutCacheApiRe
 
   // Fail-open: no Supabase -> in-memory synthesis, never cached at the edge.
   if (!admin) {
-    const snapshot = await buildSnapshot(query, locale, isSeedQuery(messages, query) ? 'seed' : 'ladder', messages);
+    const snapshot = await buildSnapshot(query, locale, isSeedQuery(messages, query) ? 'seed' : 'ladder', messages, { qid });
     return respond(fromSnapshot(snapshot, null, 0, 'fresh'), NO_STORE);
   }
 
@@ -144,7 +148,7 @@ export async function GET(req: Request): Promise<NextResponse<ShortcutCacheApiRe
 
   // Miss / stale version / eligible manual refresh -> synthesize once, park it.
   const tier = row?.tier ?? (isSeedQuery(messages, query) ? 'seed' : 'ladder');
-  const snapshot = await buildSnapshot(query, locale, tier, messages);
+  const snapshot = await buildSnapshot(query, locale, tier, messages, { qid });
   const parked = await upsertSnapshot(admin, snapshot, cacheKey);
   return respond(
     fromSnapshot(snapshot, deep, row?.hit_count ?? 0, 'fresh'),

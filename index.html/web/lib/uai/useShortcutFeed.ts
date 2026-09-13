@@ -48,7 +48,7 @@ const TICK_MS = 30_000;
  * A monotonic sequence guards every async landing so a tier that was
  * stepped past while its load was in flight never overwrites the newer one.
  */
-export function useShortcutFeed(query: string | null, locale: string, labels: AnalyticsLabels): ShortcutFeedState {
+export function useShortcutFeed(query: string | null, locale: string, labels: AnalyticsLabels, qid?: string): ShortcutFeedState {
   const [analysis, setAnalysis] = useState<ShortcutAnalysis | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [lastSyncAt, setLastSyncAt] = useState<number | null>(null);
@@ -64,7 +64,7 @@ export function useShortcutFeed(query: string | null, locale: string, labels: An
     async (target: string, refresh: boolean) => {
       const seq = ++seqRef.current;
       setRefreshing(true);
-      const loaded = await loadShortcutAnalysis(target, locale, labelsRef.current, { refresh });
+      const loaded = await loadShortcutAnalysis(target, locale, labelsRef.current, { refresh, qid });
       if (seq !== seqRef.current) return;
       setAnalysis(loaded.analysis);
       setNextRefreshAt(loaded.nextRefreshAt);
@@ -72,7 +72,7 @@ export function useShortcutFeed(query: string | null, locale: string, labels: An
       setRefreshing(false);
       setLastSyncAt(Date.now());
     },
-    [locale],
+    [locale, qid],
   );
 
   // New focus query -> reset and load from the cache.

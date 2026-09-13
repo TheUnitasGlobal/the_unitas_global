@@ -7,6 +7,8 @@ import {
   ENTRY_DETAIL_MAX_RANK,
   GLOBAL_RANKING_THEMES,
   LOAD_MORE_TIERS,
+  THEME_QID,
+  rankingEntryQid,
   type GlobalRankingEntry,
   type GlobalRankingTheme,
   type GlobalRankingThemeKey,
@@ -246,7 +248,12 @@ export function GlobalThemeRankings({ embedded = false, initialTheme, initialDet
 
       <Modal open={detail !== null} onClose={() => setDetail(null)} labelledBy="global-ranking-detail-title" size="xl">
         {detail && (
-          <div className="space-y-5">
+          <div
+            className="space-y-5"
+            data-ranking-detail={`${detail.theme.key}:${detail.entry.rank}`}
+            data-deeper-qid={detail.entry.qid ?? rankingEntryQid(detail.theme.key, detail.entry.rank)}
+            data-theme-qid={THEME_QID[detail.theme.key]}
+          >
             <div className="flex items-start gap-3">
               <span
                 className="flex h-9 w-9 shrink-0 items-center justify-center border text-[14px] font-bold"

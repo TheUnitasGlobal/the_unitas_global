@@ -16,7 +16,9 @@ import {
 } from '@/lib/hotIssues';
 import { useShortcutFeed } from '@/lib/uai/useShortcutFeed';
 import { loadShortcutAnalysis } from '@/lib/uai/shortcutCacheClient';
-import type { AnalyticsLabels, ShortcutAnalysis } from '@/lib/uai/shortcutAnalytics';
+import type { AnalyticsLabels, KeywordChip, ShortcutAnalysis } from '@/lib/uai/shortcutAnalytics';
+import { isQid, sitelinkTitle } from '@/lib/uai/entityResolve';
+import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import { formatSourceName, sourceNameOf } from '@/lib/uai/sourceName';
 import type { ConstitutionAxis, ConstitutionRedesignReport, LensKey } from '@/lib/uai/types';
 
@@ -37,7 +39,18 @@ type TierKind = 'seed' | 'ladder' | 'query' | 'keyword';
  */
 type TierDescriptor =
   | { kind: 'seed' | 'ladder'; group: ShortcutGroup; key: string; depth: number }
-  | { kind: 'query' | 'keyword'; query: string; depth: number; parent: string };
+  | {
+      kind: 'query' | 'keyword';
+      query: string;
+      depth: number;
+      parent: string;
+      /** REV-21 SPEC §12.3 (e)/(f): the entity behind the chip that opened
+       *  this tier, and the wiki language `query` is a title in -- so a
+       *  language switch re-titles the tier through Wikidata sitelinks
+       *  instead of re-searching the old string in the new wiki. */
+      qid?: string;
+      lang?: string;
+    };
 
 interface ChainTier {
   id: string;
@@ -52,6 +65,9 @@ interface ChainTier {
   glow: string;
   icon?: LucideIcon;
   depth: number;
+  /** the entity the tier is anchored on (keyword tiers opened from an
+   *  entity chip) -- forwarded to the cache route as `qid`. */
+  qid?: string;
   analysis?: ShortcutAnalysis;
 }
 
@@ -174,7 +190,7 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [open, layer, onClose]);
 
-  const feed = useShortcutFeed(open && focus ? focus.query : null, locale, labels);
+  const feed = useShortcutFeed(open && focus ? focus.query : null, locale, labels, focus?.qid);
 
   const nextTierId = useCallback((label: string) => {
     tierSeqRef.current += 1;
@@ -211,6 +227,7 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
         color: fallbackColor,
         glow: fallbackGlow,
         depth: descriptor.depth,
+        qid: isQid(descriptor.qid) ? descriptor.qid : undefined,
       };
     },
     [nextTierId],
@@ -259,6 +276,40 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     });
   }, [shortcut, chain]);
 
+  // REV-21 SPEC §12.3 (f): after a locale switch, every entity-anchored
+  // keyword tier whose title is still in the OLD language is re-titled from
+  // the SAME entity's Wikidata sitelink in the new language -- the ladder
+  // follows the knowledge graph across languages, never a string search.
+  // Sequential (one small call per tier); a tier with no page in the new
+  // language keeps its old title and lang so the next switch retries.
+  useEffect(() => {
+    if (!open) return;
+    const lang = wikiLangFor(locale);
+    const stale = chain.filter(
+      (t) => (t.descriptor.kind === 'keyword' || t.descriptor.kind === 'query') && isQid(t.descriptor.qid) && t.descriptor.lang && t.descriptor.lang !== lang,
+    );
+    if (stale.length === 0) return;
+    const controller = new AbortController();
+    (async () => {
+      for (const tier of stale) {
+        if (controller.signal.aborted) return;
+        const d = tier.descriptor;
+        if (d.kind !== 'keyword' && d.kind !== 'query') continue;
+        const title = await sitelinkTitle(d.qid!, lang, controller.signal).catch(() => null);
+        if (controller.signal.aborted || !title) continue;
+        setChain((prev) =>
+          prev.map((t) =>
+            t.id === tier.id && t.descriptor.kind === d.kind
+              ? { ...t, query: title, title, analysis: undefined, descriptor: { ...d, query: title, lang } }
+              : t,
+          ),
+        );
+      }
+    })();
+    return () => controller.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, locale, chain.length]);
+
   // Every non-focused tier without an analysis (i.e. restored ones) is
   // re-read from the 24h cache, sequentially so a long restored ladder is a
   // trickle of CDN hits, not a burst. The focused tier is served by the feed
@@ -271,9 +322,9 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     (async () => {
       for (const tier of missing) {
         if (cancelled) return;
-        const { analysis } = await loadShortcutAnalysis(tier.query, locale, labelsRef.current);
+        const { analysis } = await loadShortcutAnalysis(tier.query, locale, labelsRef.current, { qid: tier.qid });
         if (cancelled) return;
-        setChain((prev) => prev.map((t) => (t.id === tier.id && !t.analysis ? { ...t, analysis } : t)));
+        setChain((prev) => prev.map((t) => (t.id === tier.id && !t.analysis && t.query === tier.query ? { ...t, analysis } : t)));
       }
     })();
     return () => {
@@ -302,9 +353,19 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
     setChain((prev) => [...prev, tier]);
   }
 
-  function nestKeyword(parent: ChainTier, query: string) {
+  /** REV-21 SPEC §12.3 (e): a chip nests with its entity (qid) and the
+   *  wiki language its title is in, so the tier is cached, synthesized and
+   *  later re-titled by identity -- never by the bare string. */
+  function nestKeyword(parent: ChainTier, chip: Pick<KeywordChip, 'query' | 'qid' | 'lang'>) {
     playQuestEnterSfx();
-    appendTier({ kind: 'keyword', query, depth: parent.depth + 1, parent: parent.title });
+    appendTier({
+      kind: 'keyword',
+      query: chip.query,
+      depth: parent.depth + 1,
+      parent: parent.title,
+      qid: isQid(chip.qid) ? chip.qid : undefined,
+      lang: chip.lang ?? wikiLangFor(locale),
+    });
   }
 
   /** Tapping a tier's own header steps back to it (a compact substitute for
@@ -367,7 +428,7 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
             feed={index === chain.length - 1 ? feed : null}
             tModal={tModal}
             tUai={tUai}
-            onNest={(q) => nestKeyword(tier, q)}
+            onNest={(chip) => nestKeyword(tier, chip)}
             onFocusTier={() => goBackTo(index)}
             onHover={playHoverSfx}
           />
@@ -384,7 +445,7 @@ interface TierCardProps {
   feed: ReturnType<typeof useShortcutFeed> | null;
   tModal: ReturnType<typeof useTranslations>;
   tUai: ReturnType<typeof useTranslations>;
-  onNest: (query: string) => void;
+  onNest: (chip: Pick<KeywordChip, 'query' | 'qid' | 'lang'>) => void;
   /** Tapping a non-focused tier's header collapses the ladder back to it. */
   onFocusTier: () => void;
   onHover: () => void;
@@ -407,6 +468,8 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onFocusTier, onHo
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.22 }}
       className="relative border bg-void/40 p-4"
+      data-tier-focused={focused ? '1' : '0'}
+      data-tier-qid={tier.qid ?? analysis?.web.anchor?.qid}
       style={{
         borderColor: `${tier.color}${focused ? '77' : '44'}`,
         marginLeft: `${Math.min(tier.depth, 4) * 10}px`,
@@ -540,7 +603,8 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onFocusTier, onHo
                     key={`${chip.kind}-${chip.query}`}
                     type="button"
                     onMouseEnter={onHover}
-                    onClick={() => onNest(chip.query)}
+                    onClick={() => onNest(chip)}
+                    data-chip-qid={chip.qid}
                     title={tModal('keywordHint')}
                     className="flex items-center gap-1 border px-2.5 py-1.5 text-[12px] font-bold transition-colors hover:bg-white/5"
                     style={{

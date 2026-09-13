@@ -30,6 +30,8 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
+import { resolveDeeperPlace } from '@/lib/uai/deeperAnchor';
+import { sourceById, type SourceId } from '@/lib/uai/sourceRegistry';
 import { DEFAULT_PLACE, conditionOf, fetchForecast, readWeatherCache, writeWeatherCache, type Place } from '@/lib/live/useLiveWeather';
 import { HUB_CARD_ITEMS, HUB_THEMES, findHubTheme, type HubThemeKey } from '@/lib/live/hubThemes';
 import { loadHubNews } from '@/lib/live/hubNewsClient';
@@ -161,10 +163,12 @@ function dayOfYear(): number {
   return Math.floor((Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) - start) / 86_400_000);
 }
 
-/** The visitor's last-known place from the weather slot's own cache -- reused
- *  by `air` and `nation` so those two slots cost zero extra geolocation. */
-function knownPlace(locale: string): Place {
-  return readWeatherCache()?.place ?? DEFAULT_PLACE[locale] ?? DEFAULT_PLACE.en;
+/** The visitor's place for the country-scoped slots (`air`, `nation`,
+ *  `nearby`): the weather slot's own cache first, so those slots cost zero
+ *  extra geolocation -- filtered through the SELECTED country (REV-21 §2.1,
+ *  SPEC §12.3 c) so a profile country is honoured over a stale search. */
+function knownPlace(ctx: SlotContext): Place {
+  return resolveDeeperPlace(ctx, readWeatherCache()?.place);
 }
 
 /* ------------------------------------------------------------------ */
@@ -363,11 +367,69 @@ const mostReadSlot: DiscoverySlot = {
   },
 };
 
-interface FrankfurterResponse {
-  amount?: number;
-  base?: string;
+/** Frankfurter v2 (`api.frankfurter.dev/v2/rates`, REV-21 D-26): the v1
+ *  host `api.frankfurter.app` now answers with a `Deprecation` header and a
+ *  301, so the slot moved to v2, whose shape is a flat array of
+ *  `{ date, base, quote, rate }` rows -- one per quote for the latest day,
+ *  one per day for a `from`/`to` window. */
+export interface FrankfurterV2Row {
   date?: string;
-  rates?: Record<string, number>;
+  base?: string;
+  quote?: string;
+  rate?: number;
+}
+
+export const FX_BASE = 'USD';
+export const FX_QUOTES = ['EUR', 'JPY', 'GBP', 'KRW'] as const;
+
+export function frankfurterRatesUrl(base: string, quotes: readonly string[], from?: string, to?: string): string {
+  const params = new URLSearchParams({ base, quotes: quotes.join(',') });
+  if (from) params.set('from', from);
+  if (to) params.set('to', to);
+  return `https://api.frankfurter.dev/v2/rates?${params.toString()}`;
+}
+
+/** Pure: the latest rate per requested quote, in the REQUESTED order (the
+ *  API answers alphabetically), plus the newest date across them. */
+export function parseFrankfurterV2(
+  json: unknown,
+  quotes: readonly string[],
+): { base: string; date: string; pairs: Array<{ code: string; rate: number; date: string }> } | null {
+  if (!Array.isArray(json)) return null;
+  const rows = (json as FrankfurterV2Row[]).filter((r) => typeof r.quote === 'string' && typeof r.rate === 'number' && Number.isFinite(r.rate));
+  if (rows.length === 0) return null;
+  const latestByQuote = new Map<string, FrankfurterV2Row>();
+  for (const r of rows) {
+    const prev = latestByQuote.get(r.quote!);
+    if (!prev || (r.date ?? '') > (prev.date ?? '')) latestByQuote.set(r.quote!, r);
+  }
+  const pairs = quotes
+    .map((code) => latestByQuote.get(code))
+    .filter((r): r is FrankfurterV2Row => Boolean(r))
+    .map((r) => ({ code: r.quote!, rate: r.rate!, date: r.date ?? '' }));
+  if (pairs.length === 0) return null;
+  const date = pairs.reduce((max, p) => (p.date > max ? p.date : max), '');
+  return { base: rows[0].base ?? FX_BASE, date, pairs };
+}
+
+/** Pure: a `from`/`to` window for one quote as a date-ordered series (the
+ *  sparkline leg of the fx theme / `number` stream card). */
+export function parseFrankfurterSeries(json: unknown, quote: string): Array<{ date: string; rate: number }> {
+  if (!Array.isArray(json)) return [];
+  return (json as FrankfurterV2Row[])
+    .filter((r) => r.quote === quote && typeof r.date === 'string' && typeof r.rate === 'number')
+    .map((r) => ({ date: r.date!, rate: r.rate! }))
+    .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+}
+
+/** ISO date `days` days ago (UTC), for the series window. */
+export function isoDaysAgo(days: number, now = Date.now()): string {
+  return new Date(now - days * 86_400_000).toISOString().slice(0, 10);
+}
+
+export async function fetchFxSeries(quote: string, days: number, signal?: AbortSignal, base = FX_BASE): Promise<Array<{ date: string; rate: number }>> {
+  const json = await safeJson<unknown>(frankfurterRatesUrl(base, [quote], isoDaysAgo(days)), signal);
+  return parseFrankfurterSeries(json, quote);
 }
 
 const fxSlot: DiscoverySlot = {
@@ -376,19 +438,18 @@ const fxSlot: DiscoverySlot = {
   icon: ArrowLeftRight,
   color: '#6b7a8f',
   async load({ signal }) {
-    const json = await safeJson<FrankfurterResponse>('https://api.frankfurter.app/latest?from=USD&to=EUR,JPY,GBP,KRW', signal);
-    const rates = json?.rates;
-    if (!rates) return EMPTY_CARD;
-    const pairs = Object.entries(rates);
+    const json = await safeJson<unknown>(frankfurterRatesUrl(FX_BASE, FX_QUOTES), signal);
+    const parsed = parseFrankfurterV2(json, FX_QUOTES);
+    if (!parsed) return EMPTY_CARD;
     return {
       facts: [
-        { labelKey: 'Rev20.slots.facts.fxBase', value: json?.base ?? 'USD' },
-        ...pairs.map(([code, rate]) => ({
+        { labelKey: 'Rev20.slots.facts.fxBase', value: parsed.base },
+        ...parsed.pairs.map((p, i) => ({
           labelKey: `Rev20.slots.facts.fxRate`,
-          value: `${code} ${rate.toFixed(2)}`,
-          emphasis: code === pairs[0][0],
+          value: `${p.code} ${p.rate.toFixed(2)}`,
+          emphasis: i === 0,
         })),
-        { labelKey: 'Rev20.slots.facts.fxDate', value: json?.date ?? '' },
+        { labelKey: 'Rev20.slots.facts.fxDate', value: parsed.date },
       ],
       items: [],
       updatedAt: Date.now(),
@@ -635,8 +696,9 @@ const airSlot: DiscoverySlot = {
   kind: 'feed',
   icon: Wind,
   color: '#63b3ed',
-  async load({ locale, signal }) {
-    const place = knownPlace(locale);
+  async load(ctx) {
+    const { signal } = ctx;
+    const place = knownPlace(ctx);
     const json = await safeJson<AirQualityResponse>(
       `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${place.lat}&longitude=${place.lon}&current=pm10,pm2_5,european_aqi`,
       signal,
@@ -679,9 +741,10 @@ const nationSlot: DiscoverySlot = {
   kind: 'feed',
   icon: Landmark,
   color: '#2d6a4f',
-  async load({ locale, signal }) {
-    const place = knownPlace(locale);
-    const iso2 = place.countryCode;
+  async load(ctx) {
+    const { signal } = ctx;
+    const place = knownPlace(ctx);
+    const iso2 = ctx.country ?? place.countryCode;
     if (!iso2) return EMPTY_CARD;
     const [gdp, pop, net] = await Promise.all([
       latestIndicator(iso2, 'NY.GDP.MKTP.CD', signal),
@@ -716,8 +779,9 @@ const nearbySlot: DiscoverySlot = {
   kind: 'feed',
   icon: MapPinned,
   color: '#c05621',
-  async load({ locale, signal }) {
-    const place = knownPlace(locale);
+  async load(ctx) {
+    const { locale, signal } = ctx;
+    const place = knownPlace(ctx);
     const lang = wikiLangFor(locale);
     const url = `https://${lang}.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${place.lat}|${place.lon}&gsradius=10000&gslimit=10&format=json&origin=*`;
     const json = await safeJson<GeoSearchResponse>(url, signal);
@@ -874,34 +938,61 @@ export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'unitasRanking',
 ];
 
-/** REV-21 §3.2: the REAL name of the engine behind each slot, for the
- *  source-attribution row. Static -- `load()` is untouched. */
-export const SLOT_PROVIDER: Record<SlotKey, { name: string; url: string }> = {
-  weather: { name: 'Open-Meteo', url: 'https://open-meteo.com/' },
-  game: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
-  sports: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
-  movie: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
-  bestseller: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
-  shopping: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
-  stock: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
-  webtoon: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
-  fashion: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
-  food: { name: 'Google News · Bing News', url: 'https://news.google.com/' },
-  history: { name: 'Wikipedia', url: 'https://www.wikipedia.org/' },
-  quake: { name: 'USGS Earthquake Hazards Program', url: 'https://earthquake.usgs.gov/' },
-  mostRead: { name: 'Wikimedia Pageviews', url: 'https://wikimedia.org/api/rest_v1/' },
-  fx: { name: 'Frankfurter (ECB reference rates)', url: 'https://www.frankfurter.app/' },
-  crypto: { name: 'CoinGecko', url: 'https://www.coingecko.com/' },
-  devPulse: { name: 'Hacker News (Algolia)', url: 'https://hn.algolia.com/' },
-  paper: { name: 'OpenAlex', url: 'https://openalex.org/' },
-  library: { name: 'Open Library', url: 'https://openlibrary.org/' },
-  art: { name: 'The Met Collection', url: 'https://www.metmuseum.org/art/collection' },
-  air: { name: 'Open-Meteo Air Quality', url: 'https://open-meteo.com/en/docs/air-quality-api' },
-  nation: { name: 'World Bank Open Data', url: 'https://data.worldbank.org/' },
-  nearby: { name: 'Wikipedia', url: 'https://www.wikipedia.org/' },
-  worldRanking: { name: 'UNITAS curated dataset', url: 'https://www.theunitas.global/' },
-  unitasRanking: { name: 'UNITAS activity index (pseudonymous)', url: 'https://www.theunitas.global/' },
+/** REV-21 §3.2 / SPEC §12.4: the REAL engines behind each slot, by registry
+ *  id -- the source-attribution row, the Explore Deeper sources block and
+ *  the privacy page all derive from lib/uai/sourceRegistry.ts, so the
+ *  synthetic 'Google News · Bing News' label of the first cut is now two
+ *  individually named sources. Static -- `load()` is untouched. */
+const NEWS_SOURCES: readonly SourceId[] = ['googleNews', 'bingNews'];
+
+export const SLOT_SOURCES: Record<SlotKey, readonly SourceId[]> = {
+  weather: ['openMeteo'],
+  game: NEWS_SOURCES,
+  sports: NEWS_SOURCES,
+  movie: NEWS_SOURCES,
+  bestseller: NEWS_SOURCES,
+  shopping: NEWS_SOURCES,
+  stock: NEWS_SOURCES,
+  webtoon: NEWS_SOURCES,
+  fashion: NEWS_SOURCES,
+  food: NEWS_SOURCES,
+  history: ['wikipedia'],
+  quake: ['usgs'],
+  mostRead: ['wikimediaPageviews'],
+  fx: ['frankfurter'],
+  crypto: ['coinGecko'],
+  devPulse: ['hackerNews'],
+  paper: ['openAlex'],
+  library: ['openLibrary'],
+  art: ['theMet'],
+  air: ['openMeteo'],
+  nation: ['worldBank'],
+  nearby: ['wikipedia'],
+  worldRanking: ['unitasCurated'],
+  unitasRanking: ['unitasIndex'],
 };
+
+export interface SlotProvider {
+  /** Real names joined with ' · ' (en proper nouns). */
+  name: string;
+  /** Homepage of the leading source. */
+  url: string;
+  sources: readonly SourceId[];
+}
+
+export const SLOT_PROVIDER: Record<SlotKey, SlotProvider> = Object.fromEntries(
+  (Object.keys(SLOT_SOURCES) as SlotKey[]).map((key) => {
+    const sources = SLOT_SOURCES[key];
+    return [
+      key,
+      {
+        name: sources.map((id) => sourceById(id).displayName.en).join(' · '),
+        url: sourceById(sources[0]).homepage,
+        sources,
+      },
+    ];
+  }),
+) as Record<SlotKey, SlotProvider>;
 
 /** REV-21 §2.2 (H-9) / §3.1: the Wikidata item each slot is ABOUT -- the
  *  anchor Explore Deeper and the outbound wiki link use instead of the

@@ -17,6 +17,10 @@ export interface LoadOptions {
   /** the manual 갱신 런처 -- bypasses the CDN and asks the origin to
    *  re-synthesize if the parked snapshot is past its cooldown. */
   refresh?: boolean;
+  /** REV-21 SPEC §12.3 (e): the entity behind the tier, when the chip that
+   *  opened it carried one -- the cache row and the synthesis anchor on it,
+   *  so two homonyms never share a snapshot. */
+  qid?: string;
 }
 
 export interface LoadedShortcut {
@@ -38,10 +42,11 @@ export async function loadShortcutAnalysis(
   query: string,
   locale: string,
   labels: AnalyticsLabels,
-  { refresh = false }: LoadOptions = {},
+  { refresh = false, qid }: LoadOptions = {},
 ): Promise<LoadedShortcut> {
   const trimmed = query.trim();
   const params = new URLSearchParams({ q: trimmed, locale });
+  if (qid && /^Q\d{1,12}$/.test(qid)) params.set('qid', qid);
   if (refresh) {
     params.set('refresh', '1');
     params.set('t', String(Date.now()));
@@ -82,6 +87,6 @@ export async function loadShortcutAnalysis(
     };
   }
 
-  const analysis = await analyzeShortcut(trimmed, locale, labels, 0);
+  const analysis = await analyzeShortcut(trimmed, locale, labels, 0, qid);
   return { analysis, nextRefreshAt: null, cooldown: false };
 }

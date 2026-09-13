@@ -142,11 +142,12 @@ export async function analyzeShortcut(
   locale: string,
   labels: AnalyticsLabels,
   hits = 0,
+  qid?: string,
 ): Promise<ShortcutAnalysis> {
   const trimmed = query.trim();
   let web: WebSynthesis;
   try {
-    web = await synthesizeWeb(trimmed, locale);
+    web = await synthesizeWeb(trimmed, locale, qid);
   } catch {
     web = { sourced: false, sources: [], digest: '', lang: null, fetchedAt: Date.now() };
   }

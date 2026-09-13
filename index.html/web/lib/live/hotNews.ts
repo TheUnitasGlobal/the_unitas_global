@@ -125,6 +125,33 @@ export function isHotNewsCategory(value: string): value is HotNewsCategory {
   return (HOT_NEWS_CATEGORIES as string[]).includes(value);
 }
 
+/** REV-21 SPEC §12.2 (newsRail host, D-19): the Wikidata item each of the
+ *  21 axes is ABOUT -- the Explore Deeper anchor of the live news rail's
+ *  collapsed block. Verified live 2026-09-12 (en.wikipedia pageprops). */
+export const AXIS_QID: Record<HotNewsCategory, string> = {
+  world: 'Q16502', // world
+  politics: 'Q7163', // politics
+  economy: 'Q159810', // economy
+  science: 'Q336', // science
+  technology: 'Q11016', // technology
+  engineering: 'Q11023', // engineering
+  sports: 'Q349', // sport
+  culture: 'Q11042', // culture
+  art: 'Q735', // art
+  expression: 'Q22692', // freedom of speech (표현의 자유)
+  language: 'Q315', // language
+  society: 'Q8425', // society
+  structure: 'Q211606', // social structure
+  pragma: 'Q28797', // applied science (실용)
+  law: 'Q7748', // law
+  institution: 'Q178706', // institution
+  education: 'Q8434', // education
+  welfare: 'Q12002092', // welfare spending (복지)
+  security: 'Q2526135', // security
+  strategy: 'Q185451', // strategy
+  disaster: 'Q3839081', // disaster
+};
+
 const MAX_SUMMARY = 220;
 const MAX_ITN = 12;
 const MAX_TRENDING = 8;

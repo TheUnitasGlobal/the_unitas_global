@@ -42,6 +42,13 @@ describe('shortcutCacheKey', () => {
     expect(shortcutCacheKey('en', 'bitcoin')).not.toBe(shortcutCacheKey('ko', 'bitcoin'));
     expect(SHORTCUT_CACHE_VERSION).toMatch(/^sc-v\d+$/);
   });
+
+  // REV-21 SPEC §12.3 (e): an entity-qualified tier is its own row.
+  it('gives an entity-qualified tier its own row, distinct from the bare string', () => {
+    expect(shortcutCacheKey('ko', '공기', 'Q7391292')).not.toBe(shortcutCacheKey('ko', '공기'));
+    expect(shortcutCacheKey('ko', '공기', 'Q7391292')).not.toBe(shortcutCacheKey('ko', '공기', 'Q29383577'));
+    expect(shortcutCacheKey('ko', '공기', 'Q7391292')).toBe(shortcutCacheKey('ko', ' 공기 ', 'Q7391292'));
+  });
 });
 
 describe('isViableShortcutQuery', () => {

@@ -2,15 +2,22 @@ import { describe, expect, it } from 'vitest';
 import {
   DISCOVERY_ROTATION,
   DISCOVERY_SLOTS,
+  FX_QUOTES,
   SLOT_PROVIDER,
   SLOT_QID,
+  SLOT_SOURCES,
   discoverySlotAt,
   findDiscoverySlot,
+  frankfurterRatesUrl,
+  isoDaysAgo,
+  parseFrankfurterSeries,
+  parseFrankfurterV2,
   slotTtlMs,
 } from '../../lib/live/discoverySlots';
 import { HUB_THEME_KEYS } from '../../lib/live/hubThemes';
 import { GLOBAL_RANKING_THEMES } from '../../lib/globalRankings';
 import { MODULE_REGISTRY } from '../../lib/unitasRankings';
+import { sourceById } from '../../lib/uai/sourceRegistry';
 
 // REV-20 SPEC.md §3 -- the unified slot registry's pure invariants: weather
 // first, every slot resolvable exactly once, deterministic rotation.
@@ -97,5 +104,63 @@ describe('discovery slots registry', () => {
     expect(slotTtlMs('news')).toBe(10 * 60 * 1000);
     expect(slotTtlMs('feed')).toBe(15 * 60 * 1000);
     expect(slotTtlMs('ranking')).toBe(6 * 60 * 60 * 1000);
+  });
+
+  // REV-21 SPEC §12.4: the provider row derives from the source registry --
+  // the two news wires are named individually, never as one synthetic label.
+  it('derives every provider from the source registry, news slots naming both wires', () => {
+    for (const slot of DISCOVERY_SLOTS) {
+      const ids = SLOT_SOURCES[slot.key];
+      expect(ids.length, slot.key).toBeGreaterThan(0);
+      for (const id of ids) expect(sourceById(id), `${slot.key}:${id}`).toBeTruthy();
+      expect(SLOT_PROVIDER[slot.key].sources).toBe(ids);
+      expect(SLOT_PROVIDER[slot.key].url).toBe(sourceById(ids[0]).homepage);
+    }
+    expect(SLOT_PROVIDER.game.sources).toEqual(['googleNews', 'bingNews']);
+    expect(SLOT_PROVIDER.game.name).toBe('Google News · Bing News');
+    expect(SLOT_PROVIDER.fx.name).toBe('Frankfurter (ECB)');
+    expect(SLOT_PROVIDER.fx.url).toBe('https://frankfurter.dev/');
+  });
+});
+
+// REV-21 D-26: Frankfurter v1 (api.frankfurter.app) answers with a
+// Deprecation header; the fx slot moved to the v2 host and shape.
+describe('Frankfurter v2', () => {
+  const live = [
+    { date: '2026-09-13', base: 'USD', quote: 'EUR', rate: 0.86094 },
+    { date: '2026-09-13', base: 'USD', quote: 'GBP', rate: 0.73895 },
+    { date: '2026-09-13', base: 'USD', quote: 'JPY', rate: 154.08 },
+    { date: '2026-09-12', base: 'USD', quote: 'KRW', rate: 1343.37 },
+  ];
+
+  it('builds v2 URLs on the .dev host with `quotes`, never the deprecated .app host', () => {
+    const url = frankfurterRatesUrl('USD', FX_QUOTES);
+    expect(url).toBe('https://api.frankfurter.dev/v2/rates?base=USD&quotes=EUR%2CJPY%2CGBP%2CKRW');
+    expect(frankfurterRatesUrl('USD', ['EUR'], '2026-09-01', '2026-09-10')).toContain('&from=2026-09-01&to=2026-09-10');
+    expect(url).not.toContain('frankfurter.app');
+  });
+
+  it('parses the flat row array back into the requested quote order with the newest date', () => {
+    const parsed = parseFrankfurterV2(live, FX_QUOTES);
+    expect(parsed?.base).toBe('USD');
+    expect(parsed?.date).toBe('2026-09-13');
+    expect(parsed?.pairs.map((p) => p.code)).toEqual(['EUR', 'JPY', 'GBP', 'KRW']);
+    expect(parsed?.pairs[3]).toEqual({ code: 'KRW', rate: 1343.37, date: '2026-09-12' });
+    expect(parseFrankfurterV2({ amount: 1, rates: { EUR: 0.86 } }, FX_QUOTES)).toBeNull(); // the v1 shape is rejected
+    expect(parseFrankfurterV2([], FX_QUOTES)).toBeNull();
+  });
+
+  it('turns a from/to window into a date-ordered series for one quote', () => {
+    const series = parseFrankfurterSeries(
+      [
+        { date: '2026-09-03', base: 'USD', quote: 'EUR', rate: 0.86186 },
+        { date: '2026-09-01', base: 'USD', quote: 'EUR', rate: 0.86203 },
+        { date: '2026-09-02', base: 'USD', quote: 'KRW', rate: 1390 },
+        { date: '2026-09-02', base: 'USD', quote: 'EUR', rate: 0.86291 },
+      ],
+      'EUR',
+    );
+    expect(series.map((p) => p.date)).toEqual(['2026-09-01', '2026-09-02', '2026-09-03']);
+    expect(isoDaysAgo(30, Date.UTC(2026, 8, 13))).toBe('2026-08-14');
   });
 });

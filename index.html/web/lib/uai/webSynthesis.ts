@@ -64,19 +64,21 @@ function writeCache(next: CacheShape): void {
  * one control-stripped digest. Returns `sourced: false` (never throws) when
  * disabled or on any failure.
  */
-export async function synthesizeWeb(query: string, locale: string): Promise<WebSynthesis> {
+export async function synthesizeWeb(query: string, locale: string, qid?: string): Promise<WebSynthesis> {
   const lang = WIKI_LANG[locale] ?? 'en';
   const trimmed = query.trim();
   if (!ENABLED || !trimmed || typeof window === 'undefined') return EMPTY_SYNTHESIS(ENABLED ? lang : null);
 
-  const cacheId = `${lang}::${trimmed.toLowerCase().slice(0, 160)}`;
+  // REV-21 SPEC §12.3 (e): an entity-qualified pass is cached on its own
+  // key -- two homonyms opened from different chips never share a slab.
+  const cacheId = `${lang}::${trimmed.toLowerCase().slice(0, 160)}${qid ? `::${qid}` : ''}`;
   const cache = readCache();
   const hit = cache[cacheId];
   if (hit && Date.now() - hit.ts < CACHE_TTL_MS) {
     return { ...hit.data, fetchedAt: hit.ts };
   }
 
-  const result = await collectWebSynthesis(trimmed, lang, { abortMs: ABORT_MS, searx: SEARXNG });
+  const result = await collectWebSynthesis(trimmed, lang, { abortMs: ABORT_MS, searx: SEARXNG, qid });
   // Only a sourced pass is worth pinning for 24h -- an abort / offline blip
   // must not lock a query into the empty fallback for a whole day.
   if (result.sourced) writeCache({ ...cache, [cacheId]: { data: result, ts: Date.now() } });

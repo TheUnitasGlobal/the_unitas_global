@@ -26,8 +26,12 @@ import { useHubHeadlines } from '@/lib/live/hubNewsClient';
 import { HUB_MODAL_ITEMS, HUB_MODAL_REFRESH_MS, HUB_ROTATE_MS, findHubTheme, isHubThemeKey } from '@/lib/live/hubThemes';
 import { slotCacheKey } from '@/lib/live/slotContext';
 import { useSlotContext } from '@/lib/live/useSlotContext';
+import type { Place } from '@/lib/live/useLiveWeather';
+import { anchorDataAttrs, placeAnchor, qidAnchor, textAnchor, type DeeperAnchor } from '@/lib/uai/deeperAnchor';
+import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import {
   DISCOVERY_SLOTS,
+  SLOT_QID,
   discoverySlotAt,
   findDiscoverySlot,
   slotTtlMs,
@@ -477,28 +481,43 @@ export function DiscoveryCarousel() {
  *  toggles, per-kind) rather than an if/else branch returning different JSX
  *  -- so closing one plays `Modal`'s own exit transition instead of an
  *  abrupt unmount, matching every other modal in this codebase. */
+/** REV-21 SPEC §12.2/§12.3: the anchor a slot's deep modal is ABOUT. The
+ *  weather host anchors on the place the panel is showing (coordinates +
+ *  the city's Wikidata item when known); news / feed hosts on the slot's
+ *  own Wikidata item (`SLOT_QID`); anything else is sources-only (D-23). */
+function slotAnchor(key: SlotKey, locale: string, term: string, place: Place | null): DeeperAnchor {
+  const lang = wikiLangFor(locale);
+  if (key === 'weather' && place) return placeAnchor(place, lang, SLOT_QID.weather);
+  const qid = SLOT_QID[key];
+  return qid ? qidAnchor(qid, term, lang) : textAnchor(term, lang);
+}
+
 function SlotDeepModal({ target, ctx, onClose }: { target: DeepTarget | null; ctx: SlotContext; onClose: () => void }) {
   const slotKey = target?.key ?? null;
+  // SPEC §12.3 (a): the weather panel lifts the place it is showing so the
+  // host's Explore Deeper block anchors on THAT place, not the locale default.
+  const [weatherPlace, setWeatherPlace] = useState<Place | null>(null);
+  const weatherAnchor = slotKey === 'weather' ? slotAnchor('weather', ctx.locale, weatherPlace?.name ?? 'weather', weatherPlace) : null;
   return (
     <>
       <Modal open={slotKey === 'weather'} onClose={onClose} labelledBy="slot-weather-title" size="xl">
-        <div className="space-y-3">
+        <div className="space-y-3" data-slot-modal="weather" {...anchorDataAttrs(weatherAnchor)}>
           <p id="slot-weather-title" className="sr-only">
             weather
           </p>
           <SectionShield zone="live-weather">
-            <LiveWeatherPanel />
+            <LiveWeatherPanel onPlaceChange={setWeatherPlace} />
           </SectionShield>
         </div>
       </Modal>
-      <NewsDeepModal slotKey={slotKey} onClose={onClose} />
+      <NewsDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
       <FeedDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
       <RankingDeepModal target={target} onClose={onClose} />
     </>
   );
 }
 
-function NewsDeepModal({ slotKey, onClose }: { slotKey: SlotKey | null; onClose: () => void }) {
+function NewsDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx: SlotContext; onClose: () => void }) {
   const t = useTranslations('Rev19.hub');
   const locale = useLocale();
   const { playHoverSfx } = useSpatialAudio();
@@ -524,11 +543,14 @@ function NewsDeepModal({ slotKey, onClose }: { slotKey: SlotKey | null; onClose:
   const meta = key ? findHubTheme(key) : null;
   const timeFormatter = new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' });
   const title = key ? t(`themes.${key}.title`) : '';
+  // SPEC §12.3 (b): the news host anchors on the slot's own Wikidata item
+  // (every hub key has one) under the visitor's selected country.
+  const anchor = key ? slotAnchor(key, ctx.locale, feed.term || title, null) : null;
 
   return (
     <Modal open={key !== null} onClose={onClose} labelledBy="hub-deep-title" size="xl">
       {key && meta && (
-      <div className="space-y-5" data-hub-modal={key}>
+      <div className="space-y-5" data-hub-modal={key} data-context-country={ctx.country} {...anchorDataAttrs(anchor)}>
         <div className="flex items-start gap-3">
           <meta.icon size={26} style={{ color: meta.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
           <div className="min-w-0 flex-1">
@@ -633,11 +655,14 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
   const slot = found && found.kind === 'feed' ? found : undefined;
   const title = slotKey ? t(slotTitleKey(slotKey)) : '';
   const timeFormatter = new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' });
+  // SPEC §12.2 feed row: the slot's Wikidata item when it has one, else the
+  // card's subject (sources-only mode, D-23).
+  const anchor = slotKey && slot ? slotAnchor(slotKey, ctx.locale, card?.subject?.term || title, null) : null;
 
   return (
     <Modal open={Boolean(slotKey && slot)} onClose={onClose} labelledBy="feed-deep-title" size="xl">
       {slotKey && slot && (
-      <div className="space-y-5">
+      <div className="space-y-5" data-feed-modal={slotKey} data-context-country={ctx.country} {...anchorDataAttrs(anchor)}>
         <div className="flex items-start gap-3">
           <slot.icon size={26} style={{ color: slot.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
           <div className="min-w-0 flex-1">

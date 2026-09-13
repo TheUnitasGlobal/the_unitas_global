@@ -107,28 +107,30 @@ interface GeocodeResponse {
 export const WEATHER_STORAGE_KEY = 'unitas.weather.v1';
 export const WEATHER_TTL_MS = 10 * 60 * 1000;
 
-/** Locale -> its capital / largest city, so the tab is never empty. */
+/** Locale -> its capital / largest city, so the tab is never empty. The
+ *  `qid` (REV-21 M5a, verified against Wikidata 2026-09-12) is the Explore
+ *  Deeper place anchor when nothing more specific was searched. */
 export const DEFAULT_PLACE: Record<string, Place> = {
-  en: { name: 'New York', country: 'United States', countryCode: 'US', lat: 40.7128, lon: -74.006 },
-  ko: { name: 'Seoul', country: 'South Korea', countryCode: 'KR', lat: 37.5665, lon: 126.978 },
-  et: { name: 'Tallinn', country: 'Estonia', countryCode: 'EE', lat: 59.437, lon: 24.7536 },
-  ja: { name: 'Tokyo', country: 'Japan', countryCode: 'JP', lat: 35.6762, lon: 139.6503 },
-  zh: { name: 'Beijing', country: 'China', countryCode: 'CN', lat: 39.9042, lon: 116.4074 },
-  es: { name: 'Madrid', country: 'Spain', countryCode: 'ES', lat: 40.4168, lon: -3.7038 },
-  km: { name: 'Phnom Penh', country: 'Cambodia', countryCode: 'KH', lat: 11.5564, lon: 104.9282 },
-  fr: { name: 'Paris', country: 'France', countryCode: 'FR', lat: 48.8566, lon: 2.3522 },
-  de: { name: 'Berlin', country: 'Germany', countryCode: 'DE', lat: 52.52, lon: 13.405 },
-  pt: { name: 'Lisbon', country: 'Portugal', countryCode: 'PT', lat: 38.7223, lon: -9.1393 },
-  vi: { name: 'Hanoi', country: 'Vietnam', countryCode: 'VN', lat: 21.0278, lon: 105.8342 },
-  id: { name: 'Jakarta', country: 'Indonesia', countryCode: 'ID', lat: -6.2088, lon: 106.8456 },
-  ru: { name: 'Moscow', country: 'Russia', countryCode: 'RU', lat: 55.7558, lon: 37.6173 },
-  hi: { name: 'New Delhi', country: 'India', countryCode: 'IN', lat: 28.6139, lon: 77.209 },
-  it: { name: 'Rome', country: 'Italy', countryCode: 'IT', lat: 41.9028, lon: 12.4964 },
-  tr: { name: 'Istanbul', country: 'Turkey', countryCode: 'TR', lat: 41.0082, lon: 28.9784 },
-  th: { name: 'Bangkok', country: 'Thailand', countryCode: 'TH', lat: 13.7563, lon: 100.5018 },
-  pl: { name: 'Warsaw', country: 'Poland', countryCode: 'PL', lat: 52.2297, lon: 21.0122 },
-  nl: { name: 'Amsterdam', country: 'Netherlands', countryCode: 'NL', lat: 52.3676, lon: 4.9041 },
-  tl: { name: 'Manila', country: 'Philippines', countryCode: 'PH', lat: 14.5995, lon: 120.9842 },
+  en: { name: 'New York', country: 'United States', countryCode: 'US', lat: 40.7128, lon: -74.006, qid: 'Q60' },
+  ko: { name: 'Seoul', country: 'South Korea', countryCode: 'KR', lat: 37.5665, lon: 126.978, qid: 'Q8684' },
+  et: { name: 'Tallinn', country: 'Estonia', countryCode: 'EE', lat: 59.437, lon: 24.7536, qid: 'Q1770' },
+  ja: { name: 'Tokyo', country: 'Japan', countryCode: 'JP', lat: 35.6762, lon: 139.6503, qid: 'Q1490' },
+  zh: { name: 'Beijing', country: 'China', countryCode: 'CN', lat: 39.9042, lon: 116.4074, qid: 'Q956' },
+  es: { name: 'Madrid', country: 'Spain', countryCode: 'ES', lat: 40.4168, lon: -3.7038, qid: 'Q2807' },
+  km: { name: 'Phnom Penh', country: 'Cambodia', countryCode: 'KH', lat: 11.5564, lon: 104.9282, qid: 'Q1850' },
+  fr: { name: 'Paris', country: 'France', countryCode: 'FR', lat: 48.8566, lon: 2.3522, qid: 'Q90' },
+  de: { name: 'Berlin', country: 'Germany', countryCode: 'DE', lat: 52.52, lon: 13.405, qid: 'Q64' },
+  pt: { name: 'Lisbon', country: 'Portugal', countryCode: 'PT', lat: 38.7223, lon: -9.1393, qid: 'Q597' },
+  vi: { name: 'Hanoi', country: 'Vietnam', countryCode: 'VN', lat: 21.0278, lon: 105.8342, qid: 'Q1858' },
+  id: { name: 'Jakarta', country: 'Indonesia', countryCode: 'ID', lat: -6.2088, lon: 106.8456, qid: 'Q3630' },
+  ru: { name: 'Moscow', country: 'Russia', countryCode: 'RU', lat: 55.7558, lon: 37.6173, qid: 'Q649' },
+  hi: { name: 'New Delhi', country: 'India', countryCode: 'IN', lat: 28.6139, lon: 77.209, qid: 'Q987' },
+  it: { name: 'Rome', country: 'Italy', countryCode: 'IT', lat: 41.9028, lon: 12.4964, qid: 'Q220' },
+  tr: { name: 'Istanbul', country: 'Turkey', countryCode: 'TR', lat: 41.0082, lon: 28.9784, qid: 'Q406' },
+  th: { name: 'Bangkok', country: 'Thailand', countryCode: 'TH', lat: 13.7563, lon: 100.5018, qid: 'Q1861' },
+  pl: { name: 'Warsaw', country: 'Poland', countryCode: 'PL', lat: 52.2297, lon: 21.0122, qid: 'Q270' },
+  nl: { name: 'Amsterdam', country: 'Netherlands', countryCode: 'NL', lat: 52.3676, lon: 4.9041, qid: 'Q727' },
+  tl: { name: 'Manila', country: 'Philippines', countryCode: 'PH', lat: 14.5995, lon: 120.9842, qid: 'Q1461' },
 };
 
 export const CONDITION_ICON: Record<Condition, LucideIcon> = {
@@ -288,6 +290,8 @@ interface WikiGeoPage {
   en?: string;
   lat: number;
   lon: number;
+  /** REV-21 M5a: the article's Wikidata item, exposed on the place. */
+  qid?: string;
 }
 
 /** Wikidata P625 (coordinate location) for one item -- keyless, CORS
@@ -334,13 +338,13 @@ async function geocodeViaWikipedia(name: string, locale: string, signal: AbortSi
       const coords = p.coordinates ?? [];
       const primary = coords.find((c) => c.primary) ?? coords[0];
       const en = p.langlinks?.[0]?.title;
-      if (primary && typeof primary.lat === 'number' && typeof primary.lon === 'number') {
-        return { title: p.title, en, lat: primary.lat, lon: primary.lon };
-      }
       const qid = p.pageprops?.wikibase_item;
+      if (primary && typeof primary.lat === 'number' && typeof primary.lon === 'number') {
+        return { title: p.title, en, lat: primary.lat, lon: primary.lon, qid };
+      }
       if (!qid) return null;
       const fromWikidata = await wikidataCoordinate(qid, signal);
-      return fromWikidata ? { title: p.title, en, lat: fromWikidata.lat, lon: fromWikidata.lon } : null;
+      return fromWikidata ? { title: p.title, en, lat: fromWikidata.lat, lon: fromWikidata.lon, qid } : null;
     }),
   );
   const pages = resolved.filter((p): p is WikiGeoPage => p !== null);
@@ -358,8 +362,13 @@ async function geocodeViaWikipedia(name: string, locale: string, signal: AbortSi
   );
   const pool = mergePlaces(lists);
 
+  // The gazetteer row wins for name / admin / population, but the article's
+  // Wikidata item rides along either way (REV-21 M5a place anchor).
   return mergePlaces([
-    pages.map((p) => nearestWithin(pool, p.lat, p.lon, WIKI_MATCH_KM) ?? { name: p.title, lat: p.lat, lon: p.lon }),
+    pages.map((p) => {
+      const matched = nearestWithin(pool, p.lat, p.lon, WIKI_MATCH_KM);
+      return matched ? { ...matched, qid: matched.qid ?? p.qid } : { name: p.title, lat: p.lat, lon: p.lon, qid: p.qid };
+    }),
   ]);
 }
 

@@ -1,9 +1,18 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Cloud, Droplets, Loader2, LocateFixed, MapPin, RefreshCw, Search, Thermometer, Wind, X, Zap } from 'lucide-react';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { CONDITION_ICON, conditionOf, useLiveWeather, type Place } from '@/lib/live/useLiveWeather';
+
+export interface LiveWeatherPanelProps {
+  /** REV-21 SPEC §12.3 (a): the host (the weather deep modal) is told which
+   *  place is showing -- coordinates, country and, when known, the city's
+   *  Wikidata item -- so its Explore Deeper block anchors on the SAME place
+   *  the visitor searched or located, never on the locale default. */
+  onPlaceChange?: (place: Place) => void;
+}
 
 /**
  * "실시간 날씨" tab (owner instruction 2026-09-03): live current conditions
@@ -19,7 +28,7 @@ import { CONDITION_ICON, conditionOf, useLiveWeather, type Place } from '@/lib/l
  * the full 5-day grid -- the carousel's own active card only shows the
  * compact SlotCard facts.
  */
-export function LiveWeatherPanel() {
+export function LiveWeatherPanel({ onPlaceChange }: LiveWeatherPanelProps = {}) {
   const t = useTranslations('Weather');
   const locale = useLocale();
   const { playHoverSfx } = useSpatialAudio();
@@ -47,6 +56,11 @@ export function LiveWeatherPanel() {
     noCityLabel: t('noCity'),
     locationDeniedLabel: t('locationDenied'),
   });
+
+  // Lift the showing place to the host after commit (never during render).
+  useEffect(() => {
+    onPlaceChange?.(place);
+  }, [place, onPlaceChange]);
 
   function onCityKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === 'Enter') {

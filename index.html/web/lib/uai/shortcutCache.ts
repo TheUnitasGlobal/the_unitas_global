@@ -40,10 +40,12 @@ export const SHORTCUT_CACHE_TABLE = 'shortcut_cache';
 export const SERVER_SYNTH_ABORT_MS = 4500;
 
 /** Stable row key -- same normalization as the trend/redesign hashes so one
- *  query string maps to one row per locale regardless of casing/whitespace. */
-export function shortcutCacheKey(locale: string, query: string): string {
+ *  query string maps to one row per locale regardless of casing/whitespace.
+ *  REV-21 SPEC §12.3 (e): an entity-qualified tier (`qid`) gets its own row,
+ *  so two homonyms nested from different chips never share a snapshot. */
+export function shortcutCacheKey(locale: string, query: string, qid?: string): string {
   return createHash('sha256')
-    .update(`${SHORTCUT_CACHE_VERSION}::${locale}::${normalizeQuery(query)}`)
+    .update(`${SHORTCUT_CACHE_VERSION}::${locale}::${normalizeQuery(query)}${qid ? `::${qid}` : ''}`)
     .digest('hex');
 }
 
@@ -121,12 +123,14 @@ export async function buildSnapshot(
   locale: string,
   tier: ShortcutTier,
   messages: Messages,
+  { qid }: { qid?: string } = {},
 ): Promise<ShortcutSnapshot> {
   const trimmed = query.trim();
   const lang = WIKI_LANG[locale] ?? 'en';
   const web = await collectWebSynthesis(trimmed, lang, {
     abortMs: SERVER_SYNTH_ABORT_MS,
     searx: process.env.UAI_SEARXNG || process.env.NEXT_PUBLIC_UAI_SEARXNG || '',
+    qid,
   });
   const labels = labelsFor(messages);
   const report = analyzeSurface(trimmed, labels.ecosystems, '', web);

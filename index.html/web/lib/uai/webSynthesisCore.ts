@@ -1,5 +1,13 @@
 import type { WebAnchor, WebSynthesis, WebSource } from './types';
-import { entitySearchUrl, isExcludedCrossClass, parseEntityPages, wikidataInstanceOf, type WikiEntityPage } from './entityResolve';
+import {
+  entitySearchUrl,
+  isExcludedCrossClass,
+  isQid,
+  parseEntityPages,
+  stripSectionAnchor,
+  wikidataInstanceOf,
+  type WikiEntityPage,
+} from './entityResolve';
 
 /**
  * Isomorphic core of the zero-cost "live web synthesis" -- the pure
@@ -222,6 +230,22 @@ export interface CollectOptions {
   abortMs: number;
   /** self-hosted SearXNG base url ('' = off). */
   searx?: string;
+  /** REV-21 SPEC §12.3 (e): the entity the caller ALREADY knows the query
+   *  is about (a keyword chip's QID, a slot QID). When set it overrides the
+   *  locale wiki's own top hit as the anchor -- the visitor tapped THIS
+   *  item, not whatever the string ranks first. */
+  qid?: string;
+}
+
+/** Sitelink title lookup for a known item on the own + English wikis --
+ *  the leg that turns a QID into exact titles (SPEC §12.3 e/f). */
+function sitelinksUrl(ids: readonly string[], lang: string): string {
+  return `https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${ids.map(encodeURIComponent).join('|')}&props=sitelinks&sitefilter=${lang}wiki|enwiki&format=json&origin=*`;
+}
+
+function sitelinkOf(json: WikidataSitelinksResponse | null, id: string, site: string): string | undefined {
+  const title = json?.entities?.[id]?.sitelinks?.[site]?.title;
+  return title ? stripSectionAnchor(title) : undefined;
 }
 
 /**
@@ -232,11 +256,12 @@ export interface CollectOptions {
 export async function collectWebSynthesis(
   query: string,
   lang: string,
-  { abortMs, searx = '' }: CollectOptions,
+  { abortMs, searx = '', qid: knownQid }: CollectOptions,
 ): Promise<WebSynthesis> {
   const trimmed = query.trim();
   if (!trimmed) return EMPTY_SYNTHESIS(lang);
   const searxBase = searx.replace(/\/+$/, '');
+  const pinnedQid = isQid(knownQid) ? knownQid : undefined;
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), abortMs);
@@ -244,8 +269,9 @@ export async function collectWebSynthesis(
   try {
     // ---- Batch 1: own-language wide net (parallel) -------------------------
     // The raw query reaches ONLY the visitor's own wiki, Wikidata (in that
-    // language) and the optional SearXNG. No English engine sees it.
-    const [primary, wikidata, searxRes, extracts] = await Promise.all([
+    // language) and the optional SearXNG. No English engine sees it. A
+    // pinned QID (SPEC §12.3 e) adds one sitelink lookup in the same batch.
+    const [primary, wikidata, searxRes, extracts, pinned] = await Promise.all([
       wikiSearch(lang, trimmed, 10, controller.signal),
       fetchJson<WikidataResponse>(
         `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(
@@ -255,6 +281,7 @@ export async function collectWebSynthesis(
       ),
       searxSearch(searxBase, trimmed, lang, controller.signal),
       wikiGeneratorExtracts(lang, trimmed, 10, controller.signal),
+      pinnedQid ? fetchJson<WikidataSitelinksResponse>(sitelinksUrl([pinnedQid], lang), controller.signal) : Promise.resolve<WikidataSitelinksResponse | null>(null),
     ]);
 
     const pages = (primary?.pages ?? []).filter((p) => p.title);
@@ -263,18 +290,29 @@ export async function collectWebSynthesis(
 
     // The entity anchor: the top non-disambiguation hit of the extracts leg
     // (same call, zero extra round-trips). Its QID/English title is the only
-    // thing any cross-language leg below is allowed to use.
+    // thing any cross-language leg below is allowed to use. A pinned QID
+    // wins over the string's top hit: the visitor chose that item.
     const resolved = parseEntityPages({ query: { pages: extractPagesOf(extracts) } }, lang);
-    const anchor: WebAnchor | undefined = resolved
+    let anchor: WebAnchor | undefined = resolved
       ? { qid: resolved.qid, localeTitle: resolved.localeTitle, enTitle: resolved.enTitle, disambiguation: resolved.disambiguation }
       : undefined;
+    if (pinnedQid && anchor?.qid !== pinnedQid) {
+      const ownTitle = sitelinkOf(pinned, pinnedQid, `${lang}wiki`);
+      const enFromPin = sitelinkOf(pinned, pinnedQid, 'enwiki');
+      anchor = {
+        qid: pinnedQid,
+        localeTitle: ownTitle ?? trimmed,
+        enTitle: lang === 'en' ? ownTitle ?? enFromPin : enFromPin,
+        disambiguation: false,
+      };
+    }
     const enTitle = anchor && !anchor.disambiguation ? anchor.enTitle : undefined;
 
     // Wikidata: label matches only (never alias strays like '공기업'); the
     // anchor's own item leads; up to MAX_WIKIDATA_CROSS other same-label
     // items are class-checked in batch 2.
     const labelHits = (wikidata?.search ?? []).filter((e) => e.label && e.id && (e.match?.type ?? 'label') === 'label');
-    const anchorHit = anchor?.qid ? labelHits.find((e) => e.id === anchor.qid) : undefined;
+    const anchorHit = anchor?.qid ? labelHits.find((e) => e.id === anchor?.qid) : undefined;
     const crossHits = labelHits.filter((e) => e.id !== anchor?.qid).slice(0, MAX_WIKIDATA_CROSS);
 
     if (pages.length === 0 && labelHits.length === 0 && searxResults.length === 0 && extractPages.length === 0) {
@@ -285,21 +323,41 @@ export async function collectWebSynthesis(
     // ---- Batch 2: enrich (parallel) ----------------------------------------
     // Own-language REST summaries for the top hits, the anchored ENGLISH
     // summary by exact title, DDG on the English title, and the P31 /
-    // sitelink checks for same-label Wikidata strays.
+    // sitelink checks for same-label Wikidata strays (own + English wiki,
+    // so a stray that survives can become the fallback anchor below).
     const crossIds = crossHits.map((e) => e.id!);
-    const [summaries, enSummary, enRelated, ddg, sitelinks, classes] = await Promise.all([
+    const [summaries, enSummaryFirst, enRelated, ddg, sitelinks, classes] = await Promise.all([
       Promise.all(pages.slice(0, 3).map((p) => wikiSummary(lang, p.key ?? p.title!, controller.signal))),
       enTitle && lang !== 'en' ? wikiSummary('en', enTitle, controller.signal) : Promise.resolve<RestSummaryResponse | null>(null),
       enTitle && lang !== 'en' ? wikiSearch('en', enTitle, 4, controller.signal) : Promise.resolve<RestSearchResponse | null>(null),
       enTitle ? ddgSearch(enTitle, controller.signal) : Promise.resolve<DdgResponse | null>(null),
       crossIds.length > 0
-        ? fetchJson<WikidataSitelinksResponse>(
-            `https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${crossIds.join('|')}&props=sitelinks&sitefilter=${lang}wiki&format=json&origin=*`,
-            controller.signal,
-          )
+        ? fetchJson<WikidataSitelinksResponse>(sitelinksUrl(crossIds, lang), controller.signal)
         : Promise.resolve<WikidataSitelinksResponse | null>(null),
       Promise.all(crossIds.map((id) => wikidataInstanceOf(id, controller.signal))),
     ]);
+
+    // SPEC §12.3 (d) -- Wikidata fallback: the locale wiki had no page at
+    // all, but a same-label item exists, has a page on the own or English
+    // wiki and is not an excluded class. It becomes the anchor, and its
+    // English summary is fetched in one extra call (batch 3).
+    let enSummary = enSummaryFirst;
+    let fallbackEnTitle: string | undefined;
+    if (!anchor) {
+      const candidate = crossHits.find((e, i) => {
+        const own = sitelinkOf(sitelinks, e.id!, `${lang}wiki`);
+        const en = sitelinkOf(sitelinks, e.id!, 'enwiki');
+        return (own || en) && !isExcludedCrossClass(classes[i] ?? []);
+      });
+      if (candidate) {
+        const own = sitelinkOf(sitelinks, candidate.id!, `${lang}wiki`);
+        const en = sitelinkOf(sitelinks, candidate.id!, 'enwiki');
+        anchor = { qid: candidate.id, localeTitle: own ?? candidate.label ?? trimmed, enTitle: lang === 'en' ? own ?? en : en, disambiguation: false };
+        fallbackEnTitle = lang !== 'en' && en ? en : undefined;
+        if (fallbackEnTitle) enSummary = await wikiSummary('en', fallbackEnTitle, controller.signal);
+      }
+    }
+    const anchoredEnTitle = enTitle ?? fallbackEnTitle;
     clearTimeout(timer);
 
     const sources: WebSource[] = [];
@@ -322,12 +380,12 @@ export async function collectWebSynthesis(
 
     // The anchored English summary: exactly one page, reached by title.
     const enExtract = stripControl(enSummary?.extract ?? '').slice(0, MAX_SNIPPET);
-    if (enExtract && enTitle) {
+    if (enExtract && anchoredEnTitle) {
       digestParts.push(enExtract);
       groundingParts.push(enExtract);
       sources.push({
-        title: stripControl(enSummary?.title || enTitle),
-        url: enSummary?.content_urls?.desktop?.page || wikiUrl('en', enTitle),
+        title: stripControl(enSummary?.title || anchoredEnTitle),
+        url: enSummary?.content_urls?.desktop?.page || wikiUrl('en', anchoredEnTitle),
         snippet: enExtract,
         lang: 'en',
         origin: 'wiki-en',
@@ -340,6 +398,10 @@ export async function collectWebSynthesis(
     const keptEntities: WikidataSearchEntity[] = [];
     if (anchorHit) keptEntities.push(anchorHit);
     crossHits.forEach((e, i) => {
+      if (e.id === anchor?.qid) {
+        keptEntities.push(e);
+        return;
+      }
       const hasSitelink = Boolean(sitelinks?.entities?.[e.id!]?.sitelinks?.[`${lang}wiki`]?.title);
       if (!hasSitelink || isExcludedCrossClass(classes[i] ?? [])) return;
       keptEntities.push(e);

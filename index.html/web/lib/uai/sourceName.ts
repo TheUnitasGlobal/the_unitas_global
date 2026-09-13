@@ -3,16 +3,21 @@
  * engine shows carries the engine it came from (Wikipedia (ko), Wikidata,
  * DuckDuckGo, Google News, ...), derived from the URL at render time so
  * rows parked before REV-21 (no `origin` field) are attributed too. Pure.
+ *
+ * SPEC §12.4: the name table is no longer hand-written here -- it derives
+ * from the omni-tech source registry (lib/uai/sourceRegistry.ts), so a
+ * source renamed or retired there changes every badge at once.
  */
+import { sourceForUrl, type SourceId } from './sourceRegistry';
 
 export interface SourceName {
   /** Proper noun, not translated (Wikipedia, Wikidata, DuckDuckGo, ...). */
   name: string;
   /** Language / edition qualifier when the host carries one ('ko', 'en'). */
   lang?: string;
+  /** Registry id when the host is a registered source. */
+  id?: SourceId;
 }
-
-const WIKI_HOST = /^([a-z-]+)\.(wikipedia|wiktionary)\.org$/i;
 
 export function sourceNameOf(url: string): SourceName {
   let host = '';
@@ -21,25 +26,11 @@ export function sourceNameOf(url: string): SourceName {
   } catch {
     return { name: 'Web' };
   }
-  const wiki = WIKI_HOST.exec(host);
-  if (wiki) return { name: wiki[2].toLowerCase() === 'wikipedia' ? 'Wikipedia' : 'Wiktionary', lang: wiki[1].toLowerCase() };
-  if (host === 'wikidata.org') return { name: 'Wikidata' };
-  if (host === 'commons.wikimedia.org') return { name: 'Wikimedia Commons' };
+  const hit = sourceForUrl(url);
+  if (hit) return { name: hit.source.displayName.en, lang: hit.lang, id: hit.source.id };
+  // The wider Wikimedia family (meta, species, ...) -- attributed to the
+  // foundation rather than a bare hostname.
   if (host === 'wikimedia.org' || host.endsWith('.wikimedia.org')) return { name: 'Wikimedia' };
-  if (host === 'duckduckgo.com' || host.endsWith('.duckduckgo.com')) return { name: 'DuckDuckGo' };
-  if (host === 'news.google.com') return { name: 'Google News' };
-  if (host === 'google.com' || host.endsWith('.google.com')) return { name: 'Google' };
-  if (host === 'bing.com' || host.endsWith('.bing.com')) return { name: 'Bing News' };
-  if (host === 'youtube.com' || host === 'youtu.be') return { name: 'YouTube' };
-  if (host === 'hn.algolia.com' || host === 'news.ycombinator.com') return { name: 'Hacker News' };
-  if (host === 'openalex.org' || host.endsWith('.openalex.org')) return { name: 'OpenAlex' };
-  if (host === 'openlibrary.org') return { name: 'Open Library' };
-  if (host.endsWith('open-meteo.com')) return { name: 'Open-Meteo' };
-  if (host === 'earthquake.usgs.gov') return { name: 'USGS' };
-  if (host.endsWith('worldbank.org')) return { name: 'World Bank' };
-  if (host === 'api.frankfurter.app') return { name: 'Frankfurter' };
-  if (host.endsWith('coingecko.com')) return { name: 'CoinGecko' };
-  if (host.endsWith('metmuseum.org')) return { name: 'The Met' };
   return { name: host };
 }
 
