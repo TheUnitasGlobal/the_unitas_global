@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
@@ -12,12 +12,18 @@ import { LOCALE_NATIVE_NAME } from '@/components/i18n/GlobalLanguagePicker';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { isAppLocale, persistUserLocale } from '@/lib/countryLocale';
 import { persistLocalePreference } from '@/lib/i18n/localePreference';
+import { writeLocaleSwitchMarker } from '@/lib/i18n/localeSwitchMarker';
+import { beginNavigation } from '@/lib/history/navigationLock';
 import { FlagIcon } from './FlagIcon';
 
 type Locale = (typeof routing.locales)[number];
 
 /** Matches the dropdown's `w-40` Tailwind class (10rem @ 16px root = 160px). */
 const MENU_WIDTH = 160;
+
+/** REV-21 §4A (F5): the editions most switches land on -- prefetched the
+ *  moment the menu opens so the change itself is a warm client render. */
+const PREFETCH_LOCALES: readonly string[] = ['en', 'ko', 'ja', 'zh', 'es'];
 
 /**
  * Native (endonym) language names shown beside each flag -- imported from the
@@ -78,8 +84,24 @@ export function LanguageSwitcher() {
     };
   }, [open, setOpen]);
 
+  // REV-21 §4A (F5): warm the likely destinations while the menu is open.
+  useEffect(() => {
+    if (!open) return;
+    for (const loc of PREFETCH_LOCALES) {
+      if (loc === activeLocale) continue;
+      try {
+        router.prefetch(pathname, { locale: loc });
+      } catch {
+        // prefetch is best-effort
+      }
+    }
+  }, [open, activeLocale, pathname, router]);
+
   function selectLocale(nextLocale: string) {
-    setOpen(false);
+    if (nextLocale === activeLocale) {
+      setOpen(false);
+      return;
+    }
     // Manual switch persists globally (owner instruction 2026-09-06, item 5)
     // -- localStorage + cookie for every visitor, guest or signed in, so a
     // return visit re-applies it without a manual reselect (see
@@ -91,7 +113,18 @@ export function LanguageSwitcher() {
     if (session && isAppLocale(nextLocale)) {
       persistUserLocale(session.user.id, nextLocale);
     }
-    router.replace(pathname, { locale: nextLocale });
+    // REV-21 §4A (F1 / F3): do NOT close the menu here -- its history layer
+    // would traverse over its own entry while the router is replacing it
+    // and cancel the navigation. The `[locale]` remount closes it; the
+    // navigation lock makes that release a silent one. The continuity
+    // marker lets the new tree land at the same scroll position, and
+    // `scroll: false` keeps Next from resetting it first.
+    writeLocaleSwitchMarker({
+      scrollY: window.scrollY,
+      focused: document.activeElement instanceof HTMLInputElement && document.activeElement.closest('#omni-synapse-search') !== null,
+    });
+    beginNavigation();
+    router.replace(pathname, { locale: nextLocale, scroll: false });
   }
 
   return (

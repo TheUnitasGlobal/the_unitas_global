@@ -650,7 +650,7 @@ export function OmniSynapseSearch({
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          className={`flex items-center gap-1.5 border bg-white/[0.04] px-3 py-4 backdrop-blur-2xl transition-all duration-300 sm:gap-3 sm:px-6 sm:py-5 ${
+          className={`flex items-center gap-1.5 border bg-white/[0.04] px-3 py-4 transition-all duration-300 sm:gap-3 sm:px-6 sm:py-5 ${
             dragActive ? 'border-neon' : focused ? 'border-accent' : 'border-white/15'
           }`}
         >
@@ -788,7 +788,7 @@ export function OmniSynapseSearch({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
             onMouseDown={(e) => e.preventDefault()}
-            className="qw-search-dropdown absolute top-full z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-sm border border-white/15 bg-white/[0.045] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
+            className="qw-search-dropdown absolute top-full z-40 mt-3 max-h-[70vh] overflow-y-auto rounded-sm border border-white/15 bg-white/[0.045] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
             data-search-level={hasText ? '3' : '2'}
           >
             {/* Section 1 -- "글자 조합별 실시간 검색": one row per live hit

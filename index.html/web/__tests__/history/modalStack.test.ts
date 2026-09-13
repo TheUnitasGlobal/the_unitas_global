@@ -336,6 +336,22 @@ describe('createModalStack', () => {
     expect(stack.openCount()).toBe(0);
   });
 
+  it('REV-21 §4A (F1): release({ traverse: false }) drops the layer without walking history, and the dead entry is skipped on the next back', () => {
+    const h = fakeHistory();
+    const stack = createModalStack(h);
+    const closed: string[] = [];
+    const a = stack.push('nav:language', () => closed.push('a'));
+    expect(h.index).toBe(1);
+    a.release({ traverse: false });
+    expect(h.pendingDelta).toBeNull(); // no go(-1) -- the router's replace survives
+    expect(stack.openCount()).toBe(0);
+    expect(closed).toEqual([]);
+    // The entry it left behind is dead: a later back press steps over it.
+    h.userBack();
+    expect(h.index).toBe(0);
+    expect(h.pendingDelta).toBeNull();
+  });
+
   it('releasing a middle layer never traverses; the next back closes the top and skips the dead entry', () => {
     const h = fakeHistory();
     const stack = createModalStack(h);

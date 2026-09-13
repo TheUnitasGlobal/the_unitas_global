@@ -8,6 +8,7 @@ import { CinematicIntroSplash } from '@/components/splash/CinematicIntroSplash';
 import { RuntimeShield } from '@/components/system/RuntimeShield';
 import { SovereignShield } from '@/components/system/SovereignShield';
 import { ShortsOrphanCleanup } from '@/components/system/ShortsOrphanCleanup';
+import { WalletProvider } from '@/components/wallet/WalletProvider';
 import { ENTRY_CHIME_BOOTSTRAP } from '@/lib/audio/logoEntryChime';
 import { EXIT_GUARD_BOOTSTRAP } from '@/lib/exit/appExit';
 import { PWA_CAPTURE_BOOTSTRAP } from '@/lib/pwa/installPrompt';
@@ -102,6 +103,11 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: '#d4af37',
+  // REV-21 §4.3 row 8: paint into the notch / home-indicator safe areas so
+  // fixed surfaces (towers, sheets, the curtain) never leave a letterbox.
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -171,7 +177,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <SovereignShield zone="scene">
               <SceneLazy />
             </SovereignShield>
-            {children}
+            {/* REV-21 §4A (F2): the wallet / session provider has no next-intl
+                dependency, so it lives ABOVE the `[locale]` segment -- a
+                language switch no longer remounts it (no session re-query,
+                no coin-badge blank, no locale auto-switch re-bounce). */}
+            <WalletProvider>{children}</WalletProvider>
           </SpatialAudioProvider>
         </TerminationBoundary>
       </body>

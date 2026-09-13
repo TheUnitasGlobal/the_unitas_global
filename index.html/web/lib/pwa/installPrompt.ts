@@ -35,6 +35,14 @@ import { CONSOLE_LOAD_ES5 } from '@/lib/sovereign/consoleTrigger';
 import { VISIT_LEDGER_TTL_MS } from '@/lib/entry/loadClass';
 import { VISIT_LEDGER_STORAGE_KEY, VISIT_LEDGER_VERSION } from '@/lib/entry/visitLedger';
 import { SURFACE_MIRROR_KEY } from '@/lib/quantumWhite/surfaceState';
+import { routing } from '@/i18n/routing';
+
+/** REV-21 §4B (R-1): the founder hint cookie, spelled out here because the
+ *  bootstrap is a string (lib/sovereignAuth.ts exports the same name; the
+ *  bootstrap test pins the two together). */
+const SOVEREIGN_HINT_COOKIE_ES5 = 'unitas_sovereign_hint';
+/** Home paths in every locale: `/`, `/ko`, `/ja/` ... (no deeper route). */
+const HOME_PATH_RE_ES5 = `/^\\/(?:(?:${routing.locales.join('|')})\\/?)?$/`;
 
 export interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -202,6 +210,7 @@ var rl=false;window.addEventListener('pageshow',function(e){if(!e||!e.persisted|
 try{var sa=sessionStorage.getItem('${SPLASH_ACTIVE_STORAGE_KEY}');var p=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(!(sa&&String(sa).trim()==='${SPLASH_ACTIVE_VALUE}')&&p&&${JSON.stringify([...SPLASH_IN_PLACE_PHASES])}.indexOf(String(p).trim())!==-1){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
 ${CONSOLE_LOAD_ES5}
 try{if(consoleLoad()){document.documentElement.setAttribute('data-splash','off');}}catch(_){}
+try{var cp=sessionStorage.getItem('${CINEMA_PHASE_STORAGE_KEY}');if(cp==='gate'||cp==='cinema'||cp==='sealed'||cp==='released'){document.documentElement.setAttribute('data-cinema-phase',cp);var hint=false;try{hint=new RegExp('(?:^|;\\\\s*)${SOVEREIGN_HINT_COOKIE_ES5}=1(?:;|$)').test(String(document.cookie||''));}catch(_){}if(cp==='released'&&hint&&${HOME_PATH_RE_ES5}.test(String(location.pathname||''))){document.documentElement.setAttribute('data-unitas-surface','quantum-white');document.documentElement.setAttribute('data-cinema-restore','released');}}}catch(_){}
 }catch(_){}})();`;
 
 const SERVER_SNAPSHOT: PwaInstallSnapshot = { prompt: null, installed: false, status: 'idle' };

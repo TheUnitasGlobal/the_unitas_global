@@ -101,11 +101,19 @@ export interface ModalHistoryHost {
   observeTraversals?(listener: () => void): () => void;
 }
 
+export interface ReleaseOptions {
+  /** REV-21 §4A (F1): `false` drops the layer WITHOUT walking history back
+   *  over its entry -- for a release that happens because the router is
+   *  replacing the entry anyway (a locale switch remount). The entry left
+   *  behind is dead and the next back press skips it transparently. */
+  traverse?: boolean;
+}
+
 export interface ModalLayerHandle {
   /** Unique token of this open instance (`<id>#<seq>`). */
   readonly token: string;
   /** Programmatic close (X / backdrop / Escape / unmount). Idempotent. */
-  release(): void;
+  release(options?: ReleaseOptions): void;
   /** True while this layer is the TOPMOST open layer -- the one an Escape
    *  press belongs to. DOM order is no guide (long-lived portals sit early
    *  in <body>); the stack's own order is. */
@@ -493,7 +501,7 @@ export function createModalStack(host: ModalHistoryHost): ModalStack {
     else attempt();
 
     let released = false;
-    const release = () => {
+    const release = (options: ReleaseOptions = {}) => {
       if (released) return;
       released = true;
       const index = layers.indexOf(layer);
@@ -501,6 +509,11 @@ export function createModalStack(host: ModalHistoryHost): ModalStack {
       layers.splice(index, 1);
       layer.closed = true;
       if (!layer.entried) return;
+      // REV-21 §4A (F1): a release during a client navigation must not
+      // traverse -- the router is replacing the entry, and a `go(-1)`
+      // issued now cancels that navigation (the popup-collapse / language-
+      // never-changes bug). The dead entry is skipped on the next back.
+      if (options.traverse === false) return;
       const run = () => {
         // Only walk back when this layer's entry is the CURRENT one -- after
         // a router replace (locale switch) or with entried layers still open

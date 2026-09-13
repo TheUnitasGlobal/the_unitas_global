@@ -6,7 +6,6 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { HtmlLangSync } from '@/components/i18n/HtmlLangSync';
 import { LocaleAutoSwitch } from '@/components/i18n/LocaleAutoSwitch';
-import { WalletProvider } from '@/components/wallet/WalletProvider';
 import { NavBar } from '@/components/nav/NavBar';
 import { AudioGate } from '@/components/audio/AudioGate';
 import { ComingSoonCinema } from '@/components/ComingSoonCinema';
@@ -105,7 +104,9 @@ export default async function LocaleLayout({
       <SovereignShield zone="html-lang">
         <HtmlLangSync />
       </SovereignShield>
-      <WalletProvider>
+      {/* REV-21 §4A (F2): WalletProvider moved up to app/layout.tsx so a
+          locale switch keeps the session; everything below still reads it. */}
+      <>
         <SovereignShield zone="locale-auto-switch">
           <LocaleAutoSwitch />
         </SovereignShield>
@@ -205,7 +206,7 @@ export default async function LocaleLayout({
             </p>
           </div>
         </noscript>
-      </WalletProvider>
+      </>
     </NextIntlClientProvider>
   );
 }

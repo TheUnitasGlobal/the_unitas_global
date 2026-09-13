@@ -21,6 +21,8 @@ import { startUSignatureCollector } from '@/lib/security/uSignature';
 import { USignatureHoneypot } from '@/components/security/USignatureHoneypot';
 import { QuantumBluePulseHost } from '@/components/upay/QuantumBluePulse';
 import { APP_EXIT_EVENT, APP_TERMINATE_EVENT } from '@/lib/exit/appExit';
+import { readLocaleSwitchMarker } from '@/lib/i18n/localeSwitchMarker';
+import { endNavigation } from '@/lib/history/navigationLock';
 import { QuantumVoid } from './QuantumVoid';
 import { SingularityCoreGrid } from './SingularityCoreGrid';
 import { SovereignWatermark } from './SovereignWatermark';
@@ -89,6 +91,41 @@ export function QuantumWhiteHome() {
     document.documentElement.dataset.unitasSurface = SURFACE_VALUE;
     return () => {
       delete document.documentElement.dataset.unitasSurface;
+    };
+  }, []);
+
+  // REV-21 §4A (F3): after a language switch the new tree lands where the
+  // old one was -- same scroll position, before first paint -- and the
+  // navigation lock is released (the remount has happened).
+  useLayoutEffect(() => {
+    const marker = readLocaleSwitchMarker();
+    endNavigation();
+    if (!marker) return;
+    if (Math.abs(window.scrollY - marker.scrollY) > 1) {
+      window.scrollTo({ top: marker.scrollY, left: 0, behavior: 'instant' as ScrollBehavior });
+    }
+    if (marker.focused) {
+      // The search bar restores its own focus from the same marker; give it
+      // a frame so the input exists.
+      window.requestAnimationFrame(() => {
+        const input = document.querySelector<HTMLInputElement>('#omni-synapse-search input[type="text"], #omni-synapse-search input:not([type])');
+        input?.focus({ preventScroll: true });
+      });
+    }
+  }, []);
+
+  // REV-21 §4.3 row 3: pause the surface's continuous keyframes while the
+  // tab is hidden (CSS `animation-play-state` gate on <html data-page-hidden>).
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.hidden) document.documentElement.dataset.pageHidden = '1';
+      else delete document.documentElement.dataset.pageHidden;
+    };
+    onVisibility();
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibility);
+      delete document.documentElement.dataset.pageHidden;
     };
   }, []);
 

@@ -386,7 +386,7 @@ export function HotShortcutResultModal({ shortcut, onClose }: HotShortcutResultM
 
   return (
     <div
-      className="qw-keyword-panel absolute top-full z-40 mt-3 flex flex-col overflow-hidden rounded-sm border bg-quantum/95 shadow-[0_30px_90px_rgba(0,0,0,0.6)] backdrop-blur-2xl"
+      className="qw-keyword-panel absolute top-full z-40 mt-3 flex flex-col overflow-hidden rounded-sm border bg-quantum/95 shadow-[0_30px_90px_rgba(0,0,0,0.6)]"
       style={{ borderColor: `${accent}55` }}
       role="dialog"
       aria-modal="false"

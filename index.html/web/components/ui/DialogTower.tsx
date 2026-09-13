@@ -153,18 +153,22 @@ export function DialogTower({
     <ModalPortal>
       <AnimatePresence>
         {open && (
-          <motion.div
-            key="dialog-tower"
-            className="fixed inset-x-0 bottom-0 z-[120]"
-            style={{ top }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
+          <motion.div key="dialog-tower" className="fixed inset-x-0 bottom-0 z-[120]" style={{ top }} initial={false}>
             {/* Backdrop seal -- swallows every click/tap so everything under
                 the tower is completely inert while it is up; deliberately NOT
-                wired to onClose. The nav bar above stays live. */}
-            <div className="absolute inset-0 bg-void/85 backdrop-blur-md" role="presentation" aria-hidden="true" />
+                wired to onClose. The nav bar above stays live. REV-21 §4.3
+                row 6: only the backdrop fades (the outer wrapper no longer
+                animates opacity over the whole panel + its spring), and it
+                is the ONE viewport blur layer, kept light. */}
+            <motion.div
+              className="absolute inset-0 bg-void/85 backdrop-blur-sm"
+              role="presentation"
+              aria-hidden="true"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            />
 
             {/* Full-size panel: nav-anchored spans nav bottom -> screen
                 bottom; fullscreen spans true viewport top -> bottom (top is

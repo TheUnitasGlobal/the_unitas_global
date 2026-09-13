@@ -832,6 +832,33 @@ body[data-fullscreen-tower-open='true'] #unitas-nav {
 }
 
 /* --------------------------------------------------------------------
+   REV-21 §4B (R-1 / R-3) -- refresh integrity. The head bootstrap
+   (lib/pwa/installPrompt.ts) stamps the PERSISTED curtain phase on <html>
+   before first paint; React re-stamps the live phase once it has restored.
+   While the two disagree (the one mount-time `gate` render before the
+   restore lands), the gate stays hidden and the void placeholder paints in
+   the home's own ground -- no entry-gate flash, no black flash on an F5 of
+   the released home. SECURITY INVARIANT: these rules only suppress the
+   gate's paint and tint the opaque curtain; whether the curtain itself is
+   shown is still decided by React + the server verification, so a forged
+   `released` in sessionStorage without a founder session still lands on
+   the sealed screen behind an opaque curtain. */
+html[data-cinema-phase]:not([data-cinema-phase='gate']) .cs-gate {
+  display: none !important;
+}
+html[data-cinema-restore='released'] .cs-root {
+  background: var(--qw-bg, #f6f7fa);
+}
+
+/* REV-21 §4.3 row 3: the surface's continuous keyframes stand still while
+   the tab is hidden (stamped by QuantumWhiteHome on visibilitychange). */
+html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *,
+html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::before,
+html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
+  animation-play-state: paused !important;
+}
+
+/* --------------------------------------------------------------------
    REV-21 §3 / SPEC §12.2 -- Explore Deeper block: LAYOUT only (unscoped,
    so the dark /u-ai route and every Quantum White popup share one grid).
    Painting lives in quantum-white-rev19.css §22 for the white surface and

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { getModalStack, type ModalLayerHandle } from '@/lib/history/modalStack';
+import { navigationInFlight } from '@/lib/history/navigationLock';
 
 /**
  * REV-19 §1.2 -- bind an open/closed surface to the deep modal history stack.
@@ -52,7 +53,10 @@ export function useHistoryLayer(
     handleRef.current = handle;
     return () => {
       if (handleRef.current === handle) handleRef.current = null;
-      handle.release();
+      // REV-21 §4A (F1): a layer unmounting because the router is replacing
+      // the `[locale]` segment must not walk history -- that traversal is
+      // what cancelled the language change. Every other release traverses.
+      handle.release({ traverse: !navigationInFlight() });
     };
   }, [open, id]);
 

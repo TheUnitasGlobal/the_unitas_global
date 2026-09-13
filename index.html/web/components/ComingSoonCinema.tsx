@@ -16,6 +16,7 @@ import { ensurePlaybackAudioSession, kickAudioContext, makeSilentBuffer } from '
 import { attachActivationUnlock, scheduleAutoUnlockRetries } from '@/lib/audio/activationUnlock';
 import { isAppLocale } from '@/lib/countryLocale';
 import { readLocalePreference } from '@/lib/i18n/localePreference';
+import { beginNavigation } from '@/lib/history/navigationLock';
 import { CINEMA_PHASE_STORAGE_KEY, CINEMA_SEGMENT_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
 import { touchVisitLedger, writeVisitLedger } from '@/lib/entry/visitLedgerWriter';
 import {
@@ -44,6 +45,28 @@ import {
  */
 type Phase = 'gate' | 'cinema' | 'sealed' | 'released';
 type Mode = 'public' | 'founder';
+
+/**
+ * REV-21 §4A (F2) -- the phase the PREVIOUS instance of this component was
+ * showing when it unmounted, module-scoped so it survives the `[locale]`
+ * remount a language switch causes but never a document load (SSR and a
+ * cold hydration both see `null`, so there is no hydration mismatch). A
+ * remount that finds `released` here AND a persisted `released` record
+ * starts released at once: no curtain render, no exit animation, no
+ * fail-closed `sealed` placeholder flashing in the founder's face -- the
+ * "language change resets me to the entry page" illusion. The server
+ * re-verification still runs in the background and demotes on failure.
+ */
+let remountPhase: Phase | null = null;
+
+function readSavedPhaseSync(): string | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    return sessionStorage.getItem(CINEMA_PHASE_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
 
 // Shared with the pre-hydration splash gate (lib/pwa/installPrompt.ts) and
 // ExitGuard -- one key, no drift (owner instruction 2026-09-05, round 10).
@@ -133,7 +156,23 @@ export function ComingSoonCinema() {
   const { playHoverSfx, playQuestEnterSfx, playSpatialPing, unlockAndUnmute } = useSpatialAudio();
 
   const [mode, setMode] = useState<Mode>('public');
-  const [phase, setPhase] = useState<Phase>('gate');
+  // F2: a remount of a released home starts released (see `remountPhase`).
+  const [phase, setPhase] = useState<Phase>(() => (remountPhase === 'released' && readSavedPhaseSync() === 'released' ? 'released' : 'gate'));
+  /** True when this instance began life already released (F2) -- the mount
+   *  effect must not park it on the sealed placeholder while it verifies. */
+  const startedReleasedRef = useRef(phase === 'released');
+  /**
+   * REV-21 §4B (R-2): a persisted phase exists for this document, so the
+   * curtain is being RESTORED, not entered: the gate must not play its exit
+   * animation (a ghost gate fading over the restored screen) and the
+   * restored screen must not fade in. Read synchronously on first render --
+   * only framer props depend on it, never the DOM, so hydration is safe.
+   */
+  const restoredRef = useRef<boolean | null>(null);
+  if (restoredRef.current === null) {
+    const saved = readSavedPhaseSync();
+    restoredRef.current = saved === 'released' || saved === 'sealed' || saved === 'cinema';
+  }
   const [segId, setSegId] = useState(1);
   const [muted, setMuted] = useState(false);
   const [autoLocalized, setAutoLocalized] = useState(false);
@@ -240,7 +279,11 @@ export function ComingSoonCinema() {
     // lands. Fail-closed as ever -- a lapsed session resolves to the sealed
     // screen below.
     if (qaSkip && hasSovereignHint()) setRestoringReleased(true);
-    if (saved === 'released') {
+    if (saved === 'released' && startedReleasedRef.current) {
+      // F2: already released from the remount -- verify silently in the
+      // background; only a failed verify demotes (fail-closed, below).
+      verifyingReleasedRef.current = true;
+    } else if (saved === 'released') {
       verifyingReleasedRef.current = true;
       // A founder browser (hint cookie present) re-verifying its main home
       // paints an opaque void instead of the sealed screen (round 15).
@@ -275,6 +318,8 @@ export function ComingSoonCinema() {
         verifyingReleasedRef.current = false;
         setRestoringReleased(false);
         if (wasVerifying) {
+          // F2 fail-closed: a remount that started released is demoted now.
+          if (startedReleasedRef.current) setPhase('sealed');
           try {
             sessionStorage.setItem(PHASE_KEY, 'sealed');
           } catch {
@@ -329,9 +374,16 @@ export function ComingSoonCinema() {
     }
     // Live phase stamp on <html> -- lets a sibling mounted AFTER this
     // component (ExitGuard) read the current phase synchronously instead of
-    // depending on having caught the event below. The curtain is a fixed
-    // overlay, so the attribute is purely informational (no CSS hooks).
-    document.documentElement.dataset.cinemaPhase = phase;
+    // depending on having caught the event below. REV-21 §4B (R-1): the head
+    // bootstrap pre-stamps the persisted phase before first paint and CSS
+    // hides the gate on it, so the mount-time `gate` render (one frame
+    // before the restored phase lands) must NOT overwrite that stamp.
+    if (!skipInitialGate) {
+      document.documentElement.dataset.cinemaPhase = phase;
+      if (phase !== 'released') delete document.documentElement.dataset.cinemaRestore;
+    }
+    // F2: remember the live phase for the next instance of this component.
+    remountPhase = phase;
     // Founder debug panel + ExitGuard mirror the live curtain phase.
     window.dispatchEvent(new CustomEvent(CINEMA_PHASE_EVENT, { detail: phase }));
     // REV-17 (SPEC.md §3.2): mirror the phase into the visit ledger under the
@@ -390,7 +442,8 @@ export function ComingSoonCinema() {
     if (manual) {
       if (isAppLocale(manual) && manual !== locale) {
         setAutoLocalized(true);
-        router.replace(pathname, { locale: manual });
+        beginNavigation();
+        router.replace(pathname, { locale: manual, scroll: false });
       }
       return;
     }
@@ -408,7 +461,8 @@ export function ComingSoonCinema() {
 
     if (detected && detected !== locale) {
       setAutoLocalized(true);
-      router.replace(pathname, { locale: detected });
+      beginNavigation();
+      router.replace(pathname, { locale: detected, scroll: false });
     }
     // run once on first load
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -796,6 +850,10 @@ export function ComingSoonCinema() {
   useEffect(() => {
     if (phase !== 'cinema' && phase !== 'sealed') return;
     if (reduceMotion) return;
+    // REV-21 §4B (R-8): the opaque void placeholder (a released main home
+    // re-verifying after F5) is not the ad -- no ambient bed, no cue engine,
+    // so nothing of the ad lingers under a home that is about to appear.
+    if (restoringReleased) return;
     if (!audioRef.current) startAmbient();
     const engine = audioRef.current;
     if (!engine || engine.ctx.state === 'running') return;
@@ -846,7 +904,7 @@ export function ComingSoonCinema() {
         /* no-op */
       }
     };
-  }, [phase, reduceMotion, startAmbient]);
+  }, [phase, reduceMotion, startAmbient, restoringReleased]);
 
   // stop the ambient bed once the founder leaves the curtain for the real site
   useEffect(() => {
@@ -1201,7 +1259,9 @@ export function ComingSoonCinema() {
                 key="gate"
                 className="cs-gate gate-panel absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain backdrop-blur-2xl"
                 initial={false}
-                exit={{ opacity: 0, scale: 1.04 }}
+                // REV-21 §4B (R-2): a restored document never entered through
+                // the gate -- no ghost gate fading over the restored screen.
+                exit={restoredRef.current ? undefined : { opacity: 0, scale: 1.04 }}
                 transition={{ duration: 0.9, ease: 'easeInOut' }}
               >
                 <div
@@ -1260,7 +1320,7 @@ export function ComingSoonCinema() {
               <motion.div
                 key="cinema"
                 className="absolute inset-0"
-                initial={{ opacity: 0 }}
+                initial={restoredRef.current ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.6 }}
@@ -1377,7 +1437,7 @@ export function ComingSoonCinema() {
                 key="sealed"
                 data-founder={isFounder ? '1' : undefined}
                 className="cs-sealed absolute inset-0 flex flex-col items-center justify-center overflow-y-auto overscroll-contain"
-                initial={{ opacity: 0 }}
+                initial={restoredRef.current ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.1, ease: 'easeOut' }}
               >

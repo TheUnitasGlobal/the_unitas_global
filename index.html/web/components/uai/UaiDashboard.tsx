@@ -142,7 +142,7 @@ export function UaiDashboard({
 
   return (
     <div
-      className={`glow-box flex flex-col gap-8 bg-quantum/90 text-[16px] leading-relaxed backdrop-blur-xl sm:text-[17px] ${
+      className={`glow-box flex flex-col gap-8 bg-quantum/90 text-[16px] leading-relaxed sm:text-[17px] ${
         split ? 'mt-3 p-4 sm:p-5' : 'mt-4 p-6 sm:p-8'
       }`}
     >

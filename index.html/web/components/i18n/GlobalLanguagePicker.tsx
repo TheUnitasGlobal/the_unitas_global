@@ -6,6 +6,8 @@ import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { FlagIcon } from '@/components/nav/FlagIcon';
 import { LOCALE_PREF_COOKIE, persistLocalePreference } from '@/lib/i18n/localePreference';
+import { writeLocaleSwitchMarker } from '@/lib/i18n/localeSwitchMarker';
+import { beginNavigation } from '@/lib/history/navigationLock';
 
 type Locale = (typeof routing.locales)[number];
 
@@ -89,7 +91,13 @@ export function GlobalLanguagePicker({
     setOpen(false);
     persistLocalePreference(next);
     onSelect?.(next);
-    if (next !== locale) router.replace(pathname, { locale: next });
+    if (next !== locale) {
+      // REV-21 §4A (F1 / F3): lock the deep-modal releases during the
+      // remount and carry the scroll position across it.
+      writeLocaleSwitchMarker({ scrollY: window.scrollY });
+      beginNavigation();
+      router.replace(pathname, { locale: next, scroll: false });
+    }
   }
 
   const triggerClass =

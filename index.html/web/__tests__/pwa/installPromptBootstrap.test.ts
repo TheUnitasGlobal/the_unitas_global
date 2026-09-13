@@ -11,6 +11,7 @@ import { CONSOLE_TRIGGER_STORAGE_KEY } from '../../lib/sovereign/consoleTrigger'
 import { VISIT_LEDGER_STORAGE_KEY, VISIT_LEDGER_VERSION, serializeLedger, type VisitLedger } from '../../lib/entry/visitLedger';
 import { VISIT_LEDGER_TTL_MS } from '../../lib/entry/loadClass';
 import { SURFACE_MIRROR_KEY } from '../../lib/quantumWhite/surfaceState';
+import { SOVEREIGN_HINT_COOKIE, SOVEREIGN_HINT_VALUE } from '../../lib/sovereignAuth';
 
 // Pre-hydration PWA / splash-gate / re-entry-classifier bootstrap
 // (lib/pwa/installPrompt.ts): parse guard, the console-isolation branch
@@ -31,6 +32,9 @@ function runBootstrap(opts: {
   localStorage?: Store;
   wasDiscarded?: boolean;
   standalone?: boolean;
+  /** REV-21 §4B (R-1): the document's cookie string and path. */
+  cookie?: string;
+  pathname?: string;
 }) {
   const attrs: Record<string, string> = {};
   const storage: Store = { ...(opts.storage ?? {}) };
@@ -56,7 +60,7 @@ function runBootstrap(opts: {
       delete localStore[k];
     },
   };
-  const location = { search: opts.search, reload: () => {} };
+  const location = { search: opts.search, pathname: opts.pathname ?? '/', reload: () => {} };
   const win = {
     addEventListener: () => {},
     dispatchEvent: () => true,
@@ -69,6 +73,7 @@ function runBootstrap(opts: {
   };
   const doc = {
     wasDiscarded: Boolean(opts.wasDiscarded),
+    cookie: opts.cookie ?? '',
     documentElement: {
       setAttribute: (k: string, v: string) => {
         attrs[k] = v;
@@ -96,6 +101,48 @@ function ledgerRecord(overrides: Partial<VisitLedger> = {}): string {
 }
 
 describe('PWA_CAPTURE_BOOTSTRAP', () => {
+  // REV-21 SPEC.md §4.2 R-1: the persisted curtain phase is stamped on <html>
+  // before first paint; the released home additionally gets its surface +
+  // restore stamps, but ONLY with the founder hint cookie AND on a home path.
+  it('R-1: pre-stamps the persisted phase, and the released-home surface only with the hint cookie on a home path', () => {
+    const sealed = runBootstrap({ search: '', navigationType: 'reload', storage: { [CINEMA_PHASE_STORAGE_KEY]: 'sealed', [LEAVE_STAMP_STORAGE_KEY]: '1' } });
+    expect(sealed.attrs['data-cinema-phase']).toBe('sealed');
+    expect(sealed.attrs['data-unitas-surface']).toBeUndefined();
+    expect(sealed.attrs['data-cinema-restore']).toBeUndefined();
+
+    const releasedHome = runBootstrap({
+      search: '',
+      navigationType: 'reload',
+      storage: { [CINEMA_PHASE_STORAGE_KEY]: 'released', [LEAVE_STAMP_STORAGE_KEY]: '1' },
+      cookie: `other=1; ${SOVEREIGN_HINT_COOKIE}=${SOVEREIGN_HINT_VALUE}`,
+      pathname: '/ko',
+    });
+    expect(releasedHome.attrs['data-cinema-phase']).toBe('released');
+    expect(releasedHome.attrs['data-unitas-surface']).toBe('quantum-white');
+    expect(releasedHome.attrs['data-cinema-restore']).toBe('released');
+
+    // No hint cookie: the phase is stamped (gate hidden) but never the surface.
+    const noHint = runBootstrap({ search: '', navigationType: 'reload', storage: { [CINEMA_PHASE_STORAGE_KEY]: 'released', [LEAVE_STAMP_STORAGE_KEY]: '1' }, pathname: '/ko' });
+    expect(noHint.attrs['data-cinema-phase']).toBe('released');
+    expect(noHint.attrs['data-unitas-surface']).toBeUndefined();
+
+    // A dark route (not the home) never receives the white surface.
+    const darkRoute = runBootstrap({
+      search: '',
+      navigationType: 'reload',
+      storage: { [CINEMA_PHASE_STORAGE_KEY]: 'released', [LEAVE_STAMP_STORAGE_KEY]: '1' },
+      cookie: `${SOVEREIGN_HINT_COOKIE}=${SOVEREIGN_HINT_VALUE}`,
+      pathname: '/ko/u-ai',
+    });
+    expect(darkRoute.attrs['data-unitas-surface']).toBeUndefined();
+
+    // A genuine entry wipes the session first -> nothing to stamp.
+    const entry = runBootstrap({ search: '', storage: { [CINEMA_PHASE_STORAGE_KEY]: 'released', [LEAVE_STAMP_STORAGE_KEY]: '1' }, cookie: `${SOVEREIGN_HINT_COOKIE}=1`, pathname: '/' });
+    expect(entry.attrs['data-cinema-phase']).toBeUndefined();
+    // Junk phases are ignored.
+    expect(runBootstrap({ search: '', navigationType: 'reload', storage: { [CINEMA_PHASE_STORAGE_KEY]: '<img onerror>', [LEAVE_STAMP_STORAGE_KEY]: '1' } }).attrs['data-cinema-phase']).toBeUndefined();
+  });
+
   it('is dependency-free ES5 that parses and never throws on a bare host', () => {
     expect(() => new Function(PWA_CAPTURE_BOOTSTRAP)).not.toThrow();
     expect(PWA_CAPTURE_BOOTSTRAP).not.toContain('=>');

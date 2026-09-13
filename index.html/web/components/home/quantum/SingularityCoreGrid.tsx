@@ -15,6 +15,7 @@ import {
   type SurfaceState,
 } from '@/lib/quantumWhite/surfaceState';
 import { createPrecache, type Precache } from '@/lib/quantumWhite/precache';
+import { navigationInFlight } from '@/lib/history/navigationLock';
 import { acquireGate } from '@/lib/uiGate';
 import { playHapticTic } from '@/lib/audio/haptics';
 import { writeVisitLedger } from '@/lib/entry/visitLedgerWriter';
@@ -73,6 +74,12 @@ export function SingularityCoreGrid() {
   const commitSurface = useCallback(
     (next: SurfaceState | null) => {
       writeSurfaceRecord(next);
+      // REV-21 §4A (F8): a `replaceState` issued while the router is
+      // replacing the entry (a locale switch) is thrown away with it -- and
+      // can strip the router's own keys from the entry it is committing.
+      // The mirror record above is enough; the URL catches up on the next
+      // surface change.
+      if (navigationInFlight()) return;
       try {
         const href = surfaceHref(window.location, next);
         window.history.replaceState(stripRouterKeys(window.history.state), '', href);
