@@ -5,6 +5,7 @@
 
 증빙: 12개 서브시스템 리더(랭킹·뉴스·L1 스트립·동음이의·로케일 전환·새로고침·검색 입력·검색 결과·푸터·날씨/탐색·성능 CSS·테스트/게이트)의 파일 정독 보고 + curl 실호출(`공기`/`空気`/`空气`/`aire` 4로케일 en 크로스패스 재현, Wikidata QID·langlinks 해석, 무키 소스 22종 프로브) + vitest 실측(54파일 827건 통과, 20.1s). 라이브 Playwright 실측은 PHASE 2 첫 단계로 이월(이번 PHASE는 `next start` 금지 원칙).
 직전 정본: `index.html/docs/rev20/SPEC.md`.
+**2026-09-12 19:21 창립자 수정 지령(v2) 반영: §12(지령 대조·M1~M4 상태·§3A 호스트 레지스트리·§3B 옴니-테크 소스 레지스트리·테마 14·§5B 글로벌 티어·§5C 카드 24종/몰입 루프 헌장·반응형 표·결정 D-19~D-38·M5~M10 재편).** §1~§11 본문은 PHASE 1 원안 그대로 두고, v2로 달라진 조항은 §12가 우선한다.
 
 ---
 
@@ -384,3 +385,157 @@ DB 변경: **없음**(D-9). 마이그레이션 0건.
 - **Rev19 키 삭제**: 40파일 동시 누락 시 rev19Parity 실패(게이트가 잡음).
 - **COGS 7군 표기**: CLAUDE.md §3 목록에 중복 항목(예: 앱솔루트싱귤래리티 2회) 존재 → 코드 각인 시 dedupe하고 군별 실제 유일 항목 수를 테스트로 고정.
 - **QID 사전(랭킹 240건·슬롯 22건)**: 반자동 생성 후 검수 필요 — PHASE 2에서 rank 1~10 우선, 나머지는 후속.
+
+---
+
+## §12. 창립자 수정 지령(v2, 2026-09-12 19:21) 반영 부록 — PHASE 1 재설계
+
+기준: HEAD `56e46ee`(M1~M4 로컬 커밋), 워크플로 `wf_c7f453b0`(리더 5 + 비평가 1, 254 툴콜) — 호스트 인벤토리 16면, 무키 소스 프로브 30건(실호출 19 + 아웃바운드 9 + 재프로브 2), §1/§2 코드 대조 6조항, §5·§4·§6 현재 상태 감사. **프로덕션 코드 무수정.** 공개 카피·라벨·커밋·주석에서 '중독'은 '몰입/체류'로, 주권→소버린, 제국→네트워크, ko '고지' 0건, 'constitution/codex/doctrine/USPTO' 영단어 0건을 유지한다.
+
+### 12.0 v1 → v2 지령 대조(변경 9건)
+
+| # | 조항 | v1 | v2 | 설계 반영 |
+|---|---|---|---|---|
+| Δ1 | 행동 지침 | 즉시 구현 + 모듈별 브리핑 | **코드 수정 금지 → 초설계 브리핑 → 승인 후 구현** | M1~M4는 v1 하에서 이미 구현·로컬 커밋됨(§12.1). v2 수신 이후 코드 0줄 수정. M5~M10은 승인 후 |
+| Δ2 | 전문 | — | 제22장 옴니-테크 통합·초월적 정보 재창조 근거, "MS Bing·Meta·글로벌 금융/기상" 융합 | §12.4 소스 레지스트리, §12.5 테마 14, §12.7 스트림 옴니 카드 |
+| Δ3 | §3A 범위 | 숏컷 L1 팝업 + 날씨 팝업 | **"모든 테마와 세부 팝업 하단"** | §12.2 호스트 레지스트리 11 + 면제 5, 앵커 없는 호스트는 sources-only 모드로 항상 렌더 |
+| Δ4 | §3B | 출처 실명 | "구글에만 의존하지 않는다" + MS Bing·위키·모든 오픈 데이터 융합 + 실명 | §12.4 채택(서버/브라우저)·아웃바운드·기각 3분류, 라이선스 클래스 |
+| Δ5 | §3C | 10+ 신규 테마 | "기존 빈약한 테마를 버리고" 10+ 초독창 **다차원** 테마 | §3.3의 12 유지 + 옴니 2 신설(`omniPress`·`terraPulse`) = 14(확정 12 + 예비 2) |
+| Δ6 | §4B | 깜빡임·광고 잔상·**스크롤 초기화** | 깜빡임·광고 잔상(스크롤 항목 삭제) | R-6은 무해 하드닝으로 존치하되 우선순위 하향(M6 후순위) |
+| Δ7 | §5B | 문맥 연관 키워드 무한 생성 | + **"(글로벌 1순위 적용)"** | §12.6 사다리 글로벌 티어 정의(원문 CJK를 영문 엔진에 넣지 않는 현저성 티어) |
+| Δ8 | §5C | 모던 UI + 무한 스크롤 + COGS | "글자 입력 완료 후 나타나는 세부 팝업" + "MS/Google 등 모든 빅테크 연관 사이트" + "완벽히 중독되는 구조" | 대상 = 풀스크린 타워 확정(`#uai-search-result-title`), 옴니 아웃바운드 행 + 엔티티 뉴스 서버 레그, **몰입 루프 헌장 5조**(§12.7) |
+| Δ9 | §6B | 비즈니스 무게감·법적 신뢰 | 상업적·비즈니스적·초전문적 신뢰감 | §6.2 유지 + 프라이버시/쿠키 자동 생성 섹션(§12.8) |
+
+### 12.1 M1~M4 상태 선언(코드 대조 결과, 정직 표기)
+
+| 조항 | 상태 | 편차/잔여 | 처리 |
+|---|---|---|---|
+| §1A 드래그 60fps | 완료 | 물리 유닛테스트만, `rev21-rail-drag.spec.js`(rAF p95) 미작성; 옵션백 대신 상수 | E2E는 M10 필수 |
+| §1B 랭킹 흡수 | 완료 | unitasRanking TTL 6h(원안 24h), `provider`가 `SLOT_PROVIDER` 맵, `GlobalRankingEntry.qid` 미구현 | TTL 수용, qid는 M5 |
+| §1C 1차 팝업 통일 | 완료 | 모달 닫힘 시 `held` 미고정, 모바일 pointerdown 일시정지 없음, 통일 = 셸·트리거·xl 크기(본문 바이트 동일 아님) | 앞 2건 M10 소수정, 나머지 수용 |
+| §1D 전체 히트박스 | 완료 | 중앙·네 모서리 E2E 미작성 | M10 |
+| §1 스와이프 의미 | 편차 | 스와이프가 이웃 슬롯을 **핀**(`setHeld`) — 원안은 `setTick`+hold 해제 | **수용**: 사용자가 직접 넘긴 슬롯은 머무는 것이 자연스러움, 칩 재탭으로 해제 |
+| §2A 글로벌→국가 | 부분 | 뉴스 3라우트 글로벌 선두·로케일 캐시 키·뉴스판 즉시 리셋 완료. `SlotCard.sections`/`data-scope` 0건, 국가 어댑터가 `ctx.country` 무시(`knownPlace(locale)`), fx 통화 강조 없음, H-10 영문 상수·et/km/tl term 결손 | M5 '앵커 배관'에 `resolveDeeperPlace` 통일, 슬롯 sections는 M10 잔여 |
+| §2B 동음이의 | 부분(강) | 원문 CJK의 en 엔진 투입 0·QID 앵커·P31 게이트·DDG 'D' 폐기·캐시 범프 완료. Wikidata 0건 폴백·coord 없음, `sitelinkTitle` 호출처 0, qid가 `nestKeyword`/`shortcut-cache`를 통과 못함, `DiscoveryLinks` 문자열 전용 | M5(§12.3) |
+
+### 12.2 §3A 호스트 레지스트리 — "모든 테마·모든 세부 팝업"
+
+배치 기준은 라인 번호가 아니라 **셀렉터**로 고정한다(M4 이후 SPEC §3.4 라인 참조는 전부 이동: DiscoveryCarousel :258→491, :355→589, :477→714, HotShortcutResultModal :552→557).
+
+| hostId | 셀렉터 | 앵커 소스 | 모드 | 스택 깊이(테마 열기 전) | back 횟수(테마→호스트→허브) | CSS |
+|---|---|---|---|---|---|---|
+| weather | `#slot-weather-title` | place(`LiveWeatherPanel` → 신규 `onPlaceChange` 리프트, 없으면 `readWeatherCache()`) + `place.qid`(useLiveWeather가 `pageprops.wikibase_item` 노출) + `SLOT_QID.weather` | full(P + 도시 QID면 E) | 1 | 2 | QW |
+| hubNews | `#hub-deep-title` | `SLOT_QID[hubKey]`(9키 전부 존재) + `sitelinkTitle(qid, lang)`(et/km/tl 결손 무관) + `resolveDeeperPlace` | full | 1 | 2 | QW |
+| feed | `#feed-deep-title` | `SLOT_QID[slotKey]`(9/12) · history/mostRead = 열 때 항목 제목 정확일치 1콜 · nearby = place | full / sources-only | 1 | 2 | QW |
+| rankingDeep | `#ranking-deep-title` | 활성 탭 테마 QID 사전 `THEME_QID`(12건 신설) | compact | 1 | 2 | QW |
+| globalRankingDetail | `#global-ranking-detail-title` | `GlobalRankingEntry.qid`(rank 1~10 우선 사전) → 폴백 `resolveEntity(localizedName ?? name, 'en')` + P31 배제 + 메모 | full | 2(80ms defer) | 3 | QW |
+| unitasProfile ×2 | `#unitas-ranking-profile-title` | 없음 | **sources-only** | 2(캐러셀) / 1(타워·/u-ai) | 3 / 2 | QW / Tailwind 폴백 |
+| keywordTier | `.qw-keyword-panel [data-tier-focused]` | `analysis.web.anchor`(스냅샷) | compact(티어마다 자기 앵커) | 0(비모달 패널) | 1 | QW |
+| tower(스트림) | `#uai-search-result-title` | `uai.surface.web.anchor` | **p1 ⑥ 'Explore Deeper' 카드 + 6페이지마다 테마 회전 재주입**(무한 스크롤엔 '하단'이 없음) | 1 | 2 | QW |
+| /u-ai 페이지 | `main[data-uai-workspace]` | 동일(D-10 `UaiHyperStream` 공유) | p1 카드 | 0 | 1 | Tailwind 폴백 |
+| newsRail | `[data-news-rail]` 아래 | `AXIS_QID[activeAxis]`(21축 사전 신설) | in-flow 접힘 블록(기본 접힘, 스트립 높이 보존) | 0 | 1 | QW |
+
+면제(명시): 타이핑 드롭다운(미해석 텍스트, D-21) · `CanvasDrawInput`(입력 도구) · `ClusterPopout`/`EntryGate`(모듈 벽, U-AI 콘텐츠 아님) · 날씨 도시 후보 피커(일시 UI) · 활성 카드 `.qw-hub-card`(min-height CLS 0 계약, 1차 팝업이 담당).
+
+공통 규칙: ① 앵커 없음 → **sources-only 모드**(헤더 + 실명 아웃바운드 행)로 항상 렌더 — "모든 팝업 하단" 가시적 충족. ② `DiscoveryLinks`는 4개 사이트(NewsDeep·FeedDeep·랭킹 상세·프로필)에서 ExploreDeeper로 **대체·은퇴**. ③ 재귀: 테마 페이지 항목이 qid를 가지면 "이 존재로 다시 탐색" 칩 → 같은 테마 모달 안에서 앵커 교체(히스토리 push 없음), 새 ExploreDeeper 중첩은 깊이 3까지 push, 이후 replace. ④ 상세 모달에서 테마 모달을 열 때 80ms defer(중첩 레이어 순서 함정) + E2E back 횟수 매트릭스(weather 2 · feed 2 · ranking 3 · tower 2 · keyword 1). ⑤ 날씨 패널의 한 줄 attribution 삭제 → 블록 `.qw-deeper-sources`가 Open-Meteo/Geocoding/Wikipedia/Wikidata/BigDataCloud/GeoJS/ipwho.is 실명.
+
+### 12.3 M5 선행 '앵커 배관'(§2B 잔여 흡수)
+
+(a) `LiveWeatherPanel` `onPlaceChange(place)` + `GeoPlace.qid` 노출. (b) `NewsDeepModal`에 `ctx` 전달, `SLOT_QID` import. (c) `knownPlace` export 또는 `resolveDeeperPlace(ctx, readWeatherCache())` 단일 헬퍼(우선순위: 사용자가 검색한 날씨 place → `profiles.country` → localeCountry). (d) `resolveEntity` Wikidata 0건 폴백(`wbsearchentities type=item match.type=label` + `wbgetentities P31|sitelinks` 1콜) + `coord` 반환, 어댑터 공용. (e) `nestKeyword(parent, query, qid?)` + `/api/u-ai/shortcut-cache?qid=` 선택 파라미터. (f) `sitelinkTitle(qid, newLang)`을 Deeper 헤더(`공기 · Air`)·키워드 팝업 제목·언어 전환 경로에 연결. (g) `wikiLinks(lang, title, plcontinue)` 레그(valueCycle·disambiguation '의미 선택' 칩 공용). (h) `GlobalRankingEntry.qid` rank 1~10 × 12테마 사전, `THEME_QID` 12, `AXIS_QID` 21.
+
+### 12.4 §3B 옴니-테크 소스 레지스트리(실측 2026-09-12)
+
+단일 정본 `lib/uai/sourceRegistry.ts` — `{ id, displayName: {en, ko}, homepage, side: 'server'|'browser'|'outbound', licenseClass: 'public-domain'|'cc-by'|'cc-by-sa'|'rss-headline-only'|'open-metadata'|'outbound-only', attributionLine, rateLimit, anchorKind: 'entity'|'place'|'country'|'text', notes }`. `sourceNameOf`·`SLOT_PROVIDER`(합성 라벨 'Google News · Bing News' → 개별 실명 'Google 뉴스' / 'Bing News (Microsoft)')·`Rev21.deeper.sources.*`(14 → 약 28키)·프라이버시 페이지 '제3자 소스' 섹션이 전부 이 레지스트리에서 파생(파리티 테스트로 고정).
+
+| 분류 | 소스(표시 실명) | 앵커 | 프로브 결과·조건 |
+|---|---|---|---|
+| 채택·서버 | **Google 뉴스** RSS | E(따옴표 enTitle), 국가 hl/gl/ceid | 200, 81건, 구문 존중, CORS 없음, 링크는 news.google.com 리다이렉트. 헤드라인+링크+출처만(개인·비상업 조항 = 기존 axis-news와 동일 노출) |
+| 채택·서버 | **MS Bing 뉴스** RSS | E, 국가 setlang/cc | 200; **따옴표 구문 무시(0건) → 무따옴표 enTitle은 2단어 이상일 때만**, 1단어('Air')는 Google만; ko-KR+cc=KR 11건 청정. 링크 apiclick 리다이렉트 |
+| 채택·브라우저(E) | Wikipedia 20언어 · Wikidata · SPARQL · 위키미디어 공용 · 페이지뷰 · **미디어 목록(REST media-list)** · DuckDuckGo · Hacker News (Algolia) · OpenAlex · **Crossref** · Open Library(옵션) · The Met · Wiktionary(2b) | E | media-list 16건 CORS *·라이선스 필드 없음 → Commons imageinfo(license/author) 페어링 필수; Crossref 1req/s·동시 1(evolutionArc 보조); Wikimedia는 `Api-User-Agent` 공용 fetch 래퍼 + 직렬 1.2s |
+| 채택·브라우저(P/C) | Open-Meteo forecast/air/archive/climate/**flood**/**marine**/geocoding · **NASA EONET** · USGS · **NOAA NWS(미국 국립기상청)** · World Bank · **Frankfurter (ECB) v2** · CoinGecko | P/C | EONET 60/min, 2025-03 산불이 여전히 open → `days=30` 필수, Content-Type이 rss+xml 오표기(text→JSON.parse); Flood 서울 셀이 한강 아님('지역 유역' 라벨); Marine 내륙 에러(해안 게이트); NOAA는 US 외 404(`countryCode==='US'` 게이트, 식별 UA); World Bank 5지표는 `source=2` 필수, CC-BY 4.0; **Frankfurter v1 호스트 폐기 헤더 확인 → `api.frankfurter.dev/v2/rates` 200+CORS(기존 fx 슬롯 이전, D-26)** |
+| 아웃바운드 전용 | Google 검색 · MS Bing 검색 · YouTube · Facebook · Instagram · Threads · X · LinkedIn · TikTok · Reddit · GitHub | E | 실명 평문만(로고·글리프·브랜드 컬러 금지, 'powered by'·추천 암시 금지), `rel="noopener noreferrer nofollow" target=_blank`, SERP 스크래핑 금지; Meta 3종·LinkedIn·X는 로그아웃 시 로그인 벽 → 힌트 표기(D-25) |
+| 기각 | IMF DataMapper(403 Akamai ×3) · Stooq(404 ×4·비공식) · arXiv(429 ×3·ToS 3s) · GitHub search API(동음이의 100%·10/min) · Reddit JSON(403) · Wikipedia REST page/related(폐기 T376297 → `morelike:`) | — | 재시도 금지 |
+
+법적 귀속 고정: 위키 발췌 CC BY-SA 4.0 표기, Open-Meteo/World Bank/Frankfurter CC-BY 귀속 문구, NASA/USGS/NOAA 퍼블릭 도메인(출처 id 병기), RSS는 본문·이미지 캐시 금지·서버 10분 엣지 캐시. Open-Meteo 무료 티어 비상업 조건은 D-36.
+
+### 12.5 §3C 테마 14 = 확정 12(§3.3의 10 + R1·R2 승격) + 옴니 2 신설
+
+| # | 키 | 이름 | 헌법 근거 | 훅 | 소스(실측) | 커서 | 앵커 | TTL |
+|---|---|---|---|---|---|---|---|---|
+| 13 | `omniPress` | 옴니 프레스 | 94·95·461·제22장 | 세계와 이 나라의 뉴스룸은 지금 이 존재를 어떻게 부르는가? | 서버 라우트 `/api/live/entity-news?qid&enTitle&localeTitle&locale&country` = Google 뉴스(따옴표 enTitle) + MS Bing 뉴스(무따옴표, ≥2단어) 글로벌 → setlang/cc 국가 티어; 항목마다 출처 실명 | `{leg, page}` | E | 15m |
+| 14 | `terraPulse` | 테라 펄스 | 213(자연재해 정류)·원소역할·제22장 | 이 하늘 아래 지구는 지금 무엇을 겪고 있는가? | NASA EONET(글로벌 → bbox ±3°, days=30) + USGS 반경 800km 시간역행 + Open-Meteo Flood(하천 유량) + Marine(해안 게이트) + NOAA NWS 경보(US 게이트) | `{leg, offset}` | P | 10m |
+
+기존 테마 강화: `hologramField` p1 = media-list(기사 순서 이미지) + imageinfo 라이선스; `evolutionArc` 보조 레그 Crossref; `marketMoat` 국가 섹션 = World Bank 5지표(+ `nation` 슬롯 D-18 '노마드 마진 지수'); `fx` 슬롯 = Frankfurter v2 스파크라인; `quake` 슬롯 = USGS 반경·시간역행 딥 커서(D-18). 호스트 기본 순서: entity 호스트 = ventureSignal → **omniPress** → causalHack → dataTwin → valueCycle → omniWave → evolutionArc → marketMoat → hologramField → zeroPoint → fractalDim → chronosGate; slot-weather(place) = timeFlux → **terraPulse** → omniWave → hologramField → marketMoat(hq) → dataTwin → valueCycle → evolutionArc. D-16 상한(desktop 8 / mobile 6) 유지, '+N' 칩 = 같은 블록 안 '전체 테마' 시트(히스토리 레이어 없음). 어댑터 프로브 조건은 vitest 픽스처(빈 Bing 따옴표 응답·EONET stale·Marine 에러·NOAA 404)로 고정. localStorage 예산: 항목 32KB·네임스페이스 1.5MB 상한, 초과 시 메모리 LRU만, `QuotaExceededError` try/catch.
+
+### 12.6 §5 입력창·사다리 보강
+
+- **§5A**: §5.1 스플릿 버튼 유지 + `prefers-reduced-motion`/`hover:none`에선 3아이콘 **정적 스택(뱃지형)**으로 전환(1개만 보이는 결함 방지), 토글 `aria-label`에 '파일·동영상·스케치 첨부' 열거, ≤767px는 팝오버 대신 바텀시트(소프트 키보드 회피).
+- **§5B 글로벌 1순위 정의**: 글로벌 = 언어 무관 엔티티 현저성. 행 티어 (1) 제품 코퍼스(축·앱, 제품 의도) → (2) **글로벌 티어**: `wbsearchentities(type=item, language=<locale>, label 접두)` 후보 ≤8을 `wbgetentities props=sitelinks` 1콜로 sitelinks 수 정렬, 행 `data-scope="global"` + qid → (3) 국가/로케일 티어: 자국어 prefixsearch + morelike(§5.2 SI-5 레시피). en 로케일도 동일(글로벌 = en, 국가 = gl). 행 클릭 → `runFollowupQuery(title, qid)`. **원문 CJK의 en 엔진 투입 0 규칙을 사다리에도 적용.** 순서(제품 코퍼스 선두)는 D-27.
+- **§5C × §5B 공존(D-38)**: 타워 오픈 중 편집 시 `browsing`의 `phase==='idle'` 게이트를 `towerEditing` 파생값으로 대체, **인-타워 제안 스트립**(같은 suggestLadder, DialogTower 툴바 하단)으로 사다리 도달 보장.
+
+### 12.7 §5C 인피니티 스트림 — v2 확정 아키텍처(judge_stream 통합 + 옴니 카드)
+
+- **대상**: Enter 후 열리는 풀스크린 타워(`#uai-search-result-title`, `historyMarker unitasUaiSearchTower`, `body[data-fullscreen-tower-open]` 불변). 데이터 경로 = `GET /api/u-ai/stream?q&locale&page&qid`(CDN 1h/swr 24h) + 동형 `buildStreamPage` 브라우저 폴백, L1 localStorage `unitas.uai.stream.v1`(LRU 120, 24h/뉴스 15m), DB 파킹은 PHASE 2b(D-9). `useUai`에 `submittedQuery/submittedQid/surfaceEpoch` 추가, `handleChange`의 `uai.reset()` 삭제, 스크롤 루트 `[data-stream-root role=feed aria-busy]` + `StreamSpine`(깊이·카드 수·출처 종수·각인 티어·딥 CTA·`StreamComposer`) + IO 센티널 + `button[data-stream-more]`.
+- **카드 24종(+2b 옵션 2)**: p0 `essence·axisSpectrum·sources·chain·deepGate`(0 네트워크) → p1 `identity·essence 갱신·redesign(GET cr-v1)·**deeper**` → p2 `concepts·sites·news·cogs` → p3 `derived·attention·community·cogs` → p4 `visual·graph·papers·cogs` → p5 `backlinks·extracts·global·cogs·chain` → p6 `siblings·art·shelf·cogs` → p7+ 라운드로빈 + `cogs`(군 `(page-1) mod 7`) + 4페이지마다 `chain` + 6페이지마다 `deeper` 재주입; 상태 카드 `disambiguation·retry·teaser·end`. Wikimedia 패밀리 합산 ≤2/페이지, 타 호스트 ≤2 병렬, p60 하드캡.
+- **옴니 카드 배정(v2 신규)**: `news` = `/api/live/entity-news`(Google 따옴표 → Bing 무따옴표, 글로벌 → 국가); `sites` = 위키 외부링크 + P856 + **옴니 아웃바운드 브랜드 행**(Google 검색·MS Bing 검색·YouTube·Facebook·Instagram·Threads·X·LinkedIn·TikTok, 로고 없음); `attention`/신규 **`number`** = 페이지뷰·World Bank 5지표(country)·Frankfurter v2 스파크라인(통화); `papers` 보조 = Crossref; `visual` = media-list + imageinfo; 신규 **`earthEvents`**(place 앵커일 때만: EONET bbox days=30 + USGS 반경); `deeper` = ExploreDeeper 카드(§12.2 tower 행).
+- **COGS 매트릭스**: `lib/uai/stream/cogsMatrix.ts` 순수·결정론 — 7군(근원적기반 40/원소역할 45/지성문명 70/우주 아키텍처 40/시공간 활률 45/의식진화 40/넥서스확장 50, 중복·오타 dedupe) × 5렌즈 = 35 i18n 렌즈 × 6축 점수 교차, `hash(query,page)` 시드, LLM 레그 0(초절대마진). 사용자 노출 라벨은 '6축 렌즈'(헌법/코덱스 영단어 0).
+- **몰입 루프 헌장 5조**(다크패턴 노출 차단: EU DSA 25조·전자상거래법·확률형 표시 의무): ① 희귀 카드는 `hash(query,page)` 결정론·무료·코인 무관·확률 문구 없음·near-miss 없음(D-28) ② 티저는 다음 카드 종류만 예고, 카운트다운·'N명이 보는 중'·가짜 긴급성 금지, 유료 CTA는 가격·크레딧 성격('선불 접근 크레딧, 증권·저장가치 아님') 사전 명시 ③ 깊이·각인은 localStorage 전용(D-30), 상실 경고·알림 없음 ④ 10페이지마다 '계속 탐색' 소프트 포즈 + '관련성 감소' 정직 배지(D-29), 닫기/뒤로 툴바 상시 ⑤ `role=feed`·`aria-busy`·키보드 `data-stream-more`·reduced-motion(자동 스크롤 없음)·`document.hidden` 정지. `Constitution.axes.security.description`의 ko '주권'(ko.json 2건)은 6축 카드 출시 전 '소버린'으로 정정(D-33).
+- **성능 예산**: Enter→p0 페인트 ≤1.2s(`immediate:true` 디바운스 우회 + p0 네트워크 0), p1 ≤ +1.5s, 센티널→다음 페이지 ≤1.5s, 롱태스크 ≤2/3페이지, `content-visibility:auto` + `contain-intrinsic-size`, DOM 12페이지 상한(고스트 플레이스홀더), backdrop-filter 0겹, 진입 애니메이션 transform/opacity만, 이미지 lazy + aspect-ratio.
+
+### 12.8 §4·§6 보강
+
+- §4 신규 표면 공통 규칙 1줄: backdrop-filter 0 · transform/opacity만 · `contain: layout paint` · 스토리지 파생 값(깊이·각인·복원 질의)은 `useIsomorphicLayoutEffect` 이후 렌더(R-5). §4.3 row 2 대상 확정(state 감사): rev19.css 5선택자(`.qw-footer` 233, 포털 `.glow-box` 407, 타워 패널 505, `.qw-search-dropdown` 527, `.qw-keyword-panel` 550) + quantum-white.css 내비/검색바/popout 백드롭 + Tailwind `backdrop-blur` 약 20곳; 상시 keyframe 6종(`qw-search-ring-flow`·`qw-title-luster`·`qw-cta-breathe`·`qw-rule-sweep`·`qw-entry-stage-sweep`·`.logo-hologram::before`). §4.1 F1 근본 원인 코드 불변 확인(`LanguageSwitcher` `setOpen(false)` → `router.replace` 순서, `modalStack.release` `go(-1)`), 5개 `router.replace` 호출점 전부 `scroll:false` 부재. §4.2 R-4는 M4에서 완료.
+- §6 M9 순서: (1) `SitePages` sections 스키마 + `SiteLinkModalHost`/`renderSitePage` 양 호스트 + `apply-rev21.mjs` 중첩 객체 지원을 **한 커밋**(현행 `body.map` 크래시 방지) → (2) 소스 레지스트리에서 '제3자 소스·브라우저 저장 키' 섹션 자동 생성(`unitas.deeper.v1`·`unitas.uai.stream.v1`·`unitas.uai.suggest.v1`·`unitas.localeSwitch.v1`·`unitas.qw.scroll.v1`·`unitas.sitePage.open.v1`·각인/깊이 키, 브라우저 직접 호출 제3자 전체 + IP 지오로케이션 BigDataCloud/GeoJS/ipwho.is)을 privacy/cookies에 삽입 → (3) patent-notice 재집필('pending/no patent granted' 유지, 'Codex'·'USPTO' 영단어 제거, 번호는 D-31) → (4) `X-Unitas-License` `/legal#license` → `/legal/terms`(F-6). 12페이지 골자·집필 원칙은 §6.2 그대로.
+
+### 12.9 반응형 표(신규 표면 전수)
+
+| 표면 | ≤767px 레이아웃 | 스크롤 소유자 | touch-action | 키보드 | E2E 프로젝트 |
+|---|---|---|---|---|---|
+| ExploreDeeper 블록(전 호스트) | 테마 그리드 3열 → 1행 스냅 레일 156px, 출처 행 줄바꿈 | 호스트 모달 본문(최상위 모달 1개만 스크롤) | 레일 `pan-x pan-y`, 부모 `pan-y` | — | chromium + mobile-chrome |
+| 중첩 Modal xl 3겹(랭킹 경로) | 각 Modal `max-h: 100svh - 안전영역`, 본문 스크롤러 | 최상위 Modal 본문만 | `pan-y` | — | chromium + mobile-chrome |
+| 키워드 패널 compact 블록 | 폭 = 검색바 폭, 수직 스크롤러 안 수평 레일(`overscroll-behavior-x: contain`) | `.qw-keyword-panel` 스크롤러 | 레일 `pan-x pan-y` | — | chromium + mobile-chrome |
+| 인피니티 스트림 | 카드 1열, COGS 카드 1열(7군×6축 그리드 → 리스트), 스파크라인 `width:100%` + `preserveAspectRatio none`, `pb-16` + safe-area, `100svh` | `[data-stream-root]`(IO root) | `pan-y` | 컴포저 포커스 시 VisualViewport 기준 스파인 고정 | chromium + mobile-chrome + webkit(slow) |
+| 첨부 액션 박스 | ⏎ + 토글 44px, 메뉴 = 바텀시트 | 없음 | — | 소프트 키보드 위로 시트 이동(VisualViewport) | chromium + mobile-chrome |
+| 키워드 사다리 드롭다운 | 높이 `min(70svh, visualViewport.height - top)`, 센티널 IO root = 드롭다운 | 드롭다운 | `pan-y` | 키보드 열림 시 재계산 | chromium + mobile-chrome |
+| 인-타워 제안 스트립 | 1행 스냅 레일 | 스트립 | `pan-x pan-y` | — | chromium + mobile-chrome |
+| 날씨 모달 + 블록 | 도시 피커 + 패널 + 블록 합산 → 본문 스크롤 | Modal 본문 | `pan-y` | 입력 포커스 시 피커 가시 | chromium + mobile-chrome |
+| 푸터 SiteArticle 모달/라우트 | 16px 거터, 본문 15px/1.7, 목차 스티키 | Modal 본문 / 문서 | — | — | chromium + mobile-chrome |
+
+### 12.10 창립자 결정 사항 D-19 ~ D-38(권장안으로 즉시 진행, 이의 시 되돌림)
+
+| # | 사안 | 권장 |
+|---|---|---|
+| D-19 | '실시간 뉴스' 레일의 더 깊이 탐색 | (a) 레일 아래 in-flow 접힘 블록(앵커 = 활성 21축 `AXIS_QID`), 기본 접힘 |
+| D-20 | RankingDeepModal 레벨 블록 | (c) 상세 모달(entry 앵커) + RankingDeepModal(활성 탭 `THEME_QID`) 둘 다 |
+| D-21 | 타이핑 드롭다운 면제 | 면제(입력 제안 표면, 키워드 팝업이 커버) — "모든 세부 팝업"의 명시 예외 |
+| D-22 | 타워/스트림 배치 | p1 ⑥ 'Explore Deeper' 카드 + 6페이지마다 재주입; M5~M8 과도기엔 `UaiDashboard` 리포트 말미 임시 블록 |
+| D-23 | 앵커 없는 호스트 | (a) sources-only 모드 항상 렌더 + history/mostRead 항목 해석·nearby place 앵커 |
+| D-24 | MS Bing/Google 엔티티 뉴스 | (a) 테마 `omniPress` + (b) 스트림 `news` 카드; RSS 개인·비상업 조항 수용 확인 필요 |
+| D-25 | Meta·LinkedIn·X 아웃바운드 | 포함 + '로그인 필요' 힌트, 로고 없음 |
+| D-26 | Frankfurter v1 폐기 대응 | REV-21 M5 범위에 포함(fx 어댑터·sourceName·SLOT_PROVIDER·픽스처 동시) |
+| D-27 | §5B 글로벌 티어 행 순서 | (a) 제품 코퍼스 → 글로벌 엔티티(sitelinks) → 자국어 prefixsearch |
+| D-28 | 희귀 카드 | 유지: 결정론·무료·코인 무관·확률 문구 없음·near-miss 없음 |
+| D-29 | 무한 스크롤 소프트 포즈 | 10페이지마다 '계속 탐색' + '관련성 감소' 배지 |
+| D-30 | 각인·깊이 영속 | localStorage 전용(D-9 DB 무변경 유지) |
+| D-31 | patent-notice·B2B 문자열 | 가출원 번호 제거·'pending' 유지·'Codex/USPTO' 영단어 전부 제거(B2B 티어 포함) |
+| D-32 | '실시간 세계 랭킹' 명칭 | tag를 '큐레이션'으로 정정(20로케일), 큐레이션 정적 데이터 오인 방지 |
+| D-33 | Constitution 축 설명 '주권'(ko 2건·en 'sovereignty') | M8 범위 포함, 6축 카드 출시 전 필수 |
+| D-34 | place 테마 `terraPulse` 신설 | 신설(테마 14), Flood/Marine/NOAA는 그 안의 보조 레그, D-16 상한 유지 |
+| D-35 | 키워드 팝업 블록 위치 | focused TierCard compact만(중복 회피) |
+| D-36 | Open-Meteo 상업 티어 | 법률 검토 후 결정(기존 노출과 동일, 신규 리스크 아님) |
+| D-37 | 스트림 카드 24종 구현 단계 | 1단계 16종(p0~p2 + 회전 10) → 2단계 잔여 8종(M10 게이트 예산 보호) |
+| D-38 | 타워 오픈 중 키워드 제안 | 인-타워 제안 스트립 |
+
+### 12.11 M5~M10 재편(승인 후 착수, 모듈마다 로컬 커밋 + 브리핑)
+
+| 단계 | 내용 | 브리핑 |
+|---|---|---|
+| M5a | 앵커 배관(§12.3) + 소스 레지스트리(§12.4) + Frankfurter v2 이전 + `THEME_QID`/`AXIS_QID`/랭킹 qid 사전 | API |
+| M5b | ExploreDeeper + 테마 14 어댑터 + 호스트 11 배치(§12.2) + `Rev21.deeper` 약 145키 × 20로케일 + `/api/live/entity-news` | 디자인·API |
+| M6 | §4A F1~F8 + §4B R-1~R-8(R-6 후순위) + §4.3 한 겹 원칙 잔여 | 디자인(글래스 정책) |
+| M7 | §5A 액션 박스(바텀시트·정적 스택) + §5B 글로벌 티어 사다리 + 인-타워 제안 스트립 | 디자인 |
+| M8 | §5C 스트림 1단계 16종 + COGS + 몰입 루프 헌장 + D-33 '주권' 정정 + `/u-ai` 공유 | 디자인·API |
+| M9 | §6 SurfaceScope/SiteArticle/부트스트랩 + sections 스키마 한 커밋 + 12페이지 en·ko 집필 + 18로케일 + 프라이버시 자동 섹션 | 디자인·콘텐츠 |
+| M10 | 스트림 2단계 8종 + M4 잔여(held 고정·모바일 일시정지·E2E rail-drag·히트박스 모서리) + 전체 게이트(typecheck·vitest·build EXIT 0·Playwright chromium/mobile-chrome) | 완결 보고 |
+
+DB 변경: 없음(마이그레이션 0). 프로덕션 코드는 승인 전까지 무수정.
