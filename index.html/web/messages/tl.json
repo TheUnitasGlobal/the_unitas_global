@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "U-AI OMNI ENGINE",
     "headline": "Magtanong nang isang beses. Makita ang bawat anggulo.",
-    "subhead": "Isang tatlong-segundong stereoscopic na pagbasa, isang commercial-bias shield, pagkatapos — kung kailangan — ang malalim na trajectory. Hindi isang chat. Isang decision-grade brief.",
+    "subhead": "Isang tanong, ang web ay sinisintesis nang live at pagkatapos ay ibinubukas palabas — mga pinagmulan, konsepto, site, alon ng atensiyon, ang ibang edisyon ng mundo.",
     "placeholder": "Tanungin ang U-AI ng kahit ano…",
     "submit": "Suriin",
     "surfaceScanning": "Sinusuri ang tatlong perspektiba — technical, economic, public…",
-    "lensLabel": "3-Segundong Stereoscopic View",
     "lens": {
       "tech": "Technical",
       "economy": "Economic",
       "opinion": "Public Opinion"
     },
-    "shieldLabel": "Commercial-Bias Shield",
-    "shield": {
-      "clear": "Malinaw",
-      "caution": "Mag-ingat",
-      "biased": "Matinding bias"
-    },
-    "checklistLabel": "3-Hakbang na Action Checklist",
-    "checklist": {
-      "explore": [
-        "I-frame ang tunay na tanong sa isang pangungusap bago mas malawak na maghanap.",
-        "Mangolekta ng tatlong independent na source na may magkasalungat na incentive.",
-        "Isulat kung ano ang magpapabago sa iyong isip, pagkatapos ay subukan ito."
-      ],
-      "decide": [
-        "Ilahad ang dalawang opsyon at ang iisang deciding criterion.",
-        "Maglagay ng tinatayang numero sa gastos, panganib, at potensyal ng bawat isa.",
-        "Pumili sa opsyong may pinakamataas na expected value at magtakda ng review date."
-      ],
-      "analyze": [
-        "Hatiin ang tanong sa tatlo nitong load-bearing assumptions.",
-        "Pressure-test ang pinakamahinang palagay laban sa tunay na datos.",
-        "Muling buuin ang konklusyon mula sa nakaligtas."
-      ]
-    },
-    "constitutionLabel": "100-Doctrine Deconstruction",
     "constitution": {
       "logic": "Lohika · Disenyo",
       "future": "Kinabukasan · Innovation",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "Live Web Synthesis",
     "webSourcedBadge": "{count} na source ang na-synthesize nang real time",
     "webLocalBadge": "Local heuristic synthesis · zero external calls",
-    "redesignLabel": "Doctrine Redesign Vectors",
-    "redesign": [
-      "Iwaksi ang surface answer — dekonstrukin ang tanong sa 6 na doctrine axis.",
-      "Muling buuin ang konklusyon mula sa pinakamababang-scoring axis, hindi sa pinakamalakas.",
-      "Pressure-test ang redesign nang fail-closed — itapon ang anumang hindi nakaligtas."
-    ],
-    "swarmLabel": "Swarm Cross-Reasoning · 11 Ecosystems",
     "deepLabel": "Deep Insight · Ang VOID",
-    "deepHint": "Chronos trajectory, isang quantified na hatol, hidden-intent decode, at ang negative-space na pagbasa.",
-    "deepCta": "I-unlock ang deep insight · {cost} U-COIN",
-    "deepLocked": "Kinakalibrate pa ang deep insight — babalik kami sa lalong madaling panahon.",
-    "deepScanning": "Pumapasok sa VOID — sinisintesa ang trajectory…",
     "openFullReport": "Buksan ang buong U-AI report",
-    "chronosLabel": "Chronos · 1–3 Taong Trajectory",
-    "chronos": {
-      "y1": "Sa loob ng 1 taon",
-      "y2": "Sa loob ng 2 taon",
-      "y3": "Sa loob ng 3 taon"
-    },
-    "binaryLabel": "Alinman / O · Mathematical Verdict",
-    "confidence": "Kumpiyansa",
-    "redPenLabel": "Red-Pen · Hidden Intent",
-    "voidLabel": "Ang VOID · Negative-Space Insight",
-    "pathLabel": "Landas na may Pinakamataas na Efficiency",
-    "cachedBadge": "Genesis Memory cache",
-    "modelNote": "Engine: {model}",
     "brainGridLabel": "Brain-Grid · Cognitive History",
     "brainGridClear": "I-clear",
-    "err": {
-      "signin": "Mag-sign in para i-unlock ang deep insight.",
-      "phone": "I-verify ang iyong numero ng telepono bago gumastos ng U-COIN.",
-      "insufficient": "Kulang ang U-COIN para sa deep insight.",
-      "burn_required": "Hindi na-register ang U-COIN burn — subukan muli.",
-      "deep_unavailable": "Pansamantalang hindi available ang deep insight.",
-      "generation_failed": "Nabigong buuin ang deep analysis — pakisubukan muli.",
-      "bad_request": "Hindi masusuri ang query na iyon — i-rephrase at subukan muli.",
-      "unauthenticated": "Nag-expire ang iyong session — mag-sign in muli."
-    },
-    "reporterFree": "Free Reporter",
-    "reporterPaid": "Paid Reporter · Mag-sign in",
-    "followupLabel": "Follow-up Queries · Angle Options",
-    "followupHint": "Muling patakbuhin ang paghahanap mula sa ibang doctrine axis, o siyasatin ang isang cited source.",
-    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%.",
-    "insightLabel": "UNITAS Insight Report · 6-Axis Sovereign Redesign",
-    "insightForging": "Ginagawa ng sovereign engine ang 6-axis redesign — lilitaw ito rito at mananatiling libre magpakailanman.",
-    "insightPending": "{hits} / 3 na paghahanap. Sa ika-3, isang beses bubuuin ng 100-doctrine engine ang redesign na ito — pagkatapos ay libre ito para sa lahat, magpakailanman.",
-    "insightFreshBadge": "Kababuo lamang · naka-seal sa Genesis Memory",
-    "insightVectorLabel": "Redesign Vector · Ang Blind Axis",
-    "insightAxisReading": "Pagbasa",
-    "insightAxisRedesign": "Redesign"
+    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%."
   },
   "Governance": {
     "prev": "Nakaraan",
@@ -1700,14 +1629,12 @@
     "label": "Live na Balita",
     "loading": "Nilo-load ang balita…",
     "empty": "Walang live na balita ngayon — subukan ulit maya-maya.",
-    "all": "Lahat",
     "trending": "Trending",
     "itn": "Sa balita",
     "views": "{count} view",
     "refresh": "I-refresh ang balita",
     "source": "Pinagmulan: Wikimedia featured feed · Google News RSS · Bing News RSS · ina-update tuwing 10–15 min",
     "category": {
-      "world": "Mundo live",
       "politics": "Pulitika ng mundo",
       "economy": "Ekonomiya ng mundo",
       "science": "Agham ng mundo",
@@ -2657,8 +2584,7 @@
         "depth": "Lalim",
         "cards": "Mga card",
         "sources": "Mga pinagmulan",
-        "tier": "Ukit",
-        "deepCta": "Malalim na pag-unawa"
+        "tier": "Ukit"
       },
       "tier": {
         "spark": "Kislap",
@@ -2667,55 +2593,25 @@
         "singularity": "Singularidad"
       },
       "kinds": {
-        "essence": "Diwa",
-        "axisSpectrum": "Spectrum ng anim na aksis",
-        "sources": "Mga pinagmulan",
-        "chain": "Kadena ng mga tanong",
-        "deepGate": "Malalim na pag-unawa",
-        "identity": "Pagkakakilanlan",
-        "redesign": "Soberanong muling disenyo",
+        "sources": "Live na sintesis ng web",
         "deeper": "Suriin nang mas malalim",
         "concepts": "Mga kaugnay na konsepto",
         "sites": "Mga kaugnay na site",
         "news": "Balita",
-        "cogs": "Lente ng anim na aksis",
         "derived": "Mga hinangong akda",
         "attention": "Alon ng atensyon",
         "community": "Komunidad",
-        "timeline": "Timeline ng mga pag-edit",
-        "visual": "Mga larawan",
         "graph": "Ugnayan",
-        "papers": "Mga papel",
-        "backlinks": "Ano ang nagli-link dito",
         "extracts": "Mga sipi",
-        "global": "Mga edisyon sa mundo",
-        "siblings": "Parehong sanga",
-        "shelf": "Mga aklat",
-        "art": "Sining",
-        "number": "Mga bilang",
-        "earthEvents": "Mga pangyayari sa Daigdig"
+        "global": "Mga edisyon sa mundo"
       },
       "fields": {
         "editions": "Mga edisyon sa iba't ibang wika",
-        "instanceOf": "Uri",
-        "entity": "Entidad",
         "views30": "Mga view sa loob ng 30 araw",
         "trend": "Takbo",
         "window": "Saklaw ng panahon",
-        "passage": "Sipi",
-        "population": "Populasyon",
-        "gdp": "GDP",
-        "gdpPerCapita": "GDP bawat tao",
-        "lifeExpectancy": "Inaasahang haba ng buhay",
-        "internetUsers": "Gumagamit ng internet",
-        "area": "Lawak",
-        "elevation": "Taas",
-        "hdi": "HDI",
-        "events": "Mga pangyayari",
-        "quakes": "Mga lindol"
+        "passage": "Sipi"
       },
-      "rare": "Bihirang lente",
-      "rareHint": "Isang nakatakdang lente para sa tanong at pahinang ito — pareho para sa lahat, laging libre.",
       "thin": "Manipis na pahina",
       "loading": "Tinitipon ang susunod na pahina…",
       "teaser": "Susunod",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "Maraming kahulugan ang terminong ito. Sinusundan ng stream ang pinakakaraniwan — pumili ng kaugnay na konsepto para lumipat."
-      },
-      "deepCreditNote": "{cost} U-COIN kada malalim na pag-unawa — isang prepaid na kredito sa pag-access, hindi security (panagot) o imbakan ng halaga.",
-      "outbound": "Maghanap sa ibang lugar",
-      "swarmMore": "Lahat ng ecosystem",
-      "swarmLess": "Nangungunang tatlo"
-    },
-    "cogs": {
-      "prompt": "Basahin ang {term} sa pamamagitan ng lente ng {group}",
-      "seed": "Binhi",
-      "resonance": "Resonansya",
-      "follow": "Itanong ito",
-      "groups": {
-        "origin": "Mga ugat",
-        "element": "Mga elemento",
-        "civilization": "Sibilisasyon",
-        "cosmos": "Sansinukob",
-        "chronos": "Panahon",
-        "consciousness": "Kamalayan",
-        "nexus": "Nexus"
-      },
-      "lenses": {
-        "mechanism": "Mekanismo",
-        "flow": "Daloy",
-        "scale": "Sukat",
-        "tension": "Tensyon",
-        "horizon": "Abot-tanaw"
-      },
-      "ask": {
-        "mechanism": "Ano ang nagpapaandar sa {term} — at ano ang makakasira rito?",
-        "flow": "Saan nagmumula ang halagang nakapalibot sa {term}, at saan ito napupunta?",
-        "scale": "Ano ang magiging hitsura ng {term} kung sampung beses na mas malaki — at sampung beses na mas maliit?",
-        "tension": "Anong mga puwersa ang naghahati sa {term}, at ano ang nagbubuklod dito?",
-        "horizon": "Saan patungo ang {term}, at sino ang unang makakarating doon?"
       }
     }
   }

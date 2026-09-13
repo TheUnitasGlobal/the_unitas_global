@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "U-AI OMNI ENGINE",
     "headline": "Bir kez sorun. Her açıyı görün.",
-    "subhead": "Üç saniyelik stereoskopik bir okuma, ticari önyargıya karşı bir kalkan, ardından -- talep üzerine -- derin yörünge. Bir sohbet değil. Karar seviyesinde bir brifing.",
+    "subhead": "Tek bir soru, web canlı olarak sentezlenir ve sonra dışa açılır — kaynaklar, kavramlar, siteler, ilgi dalgaları, dünyanın diğer sürümleri.",
     "placeholder": "U-AI'ye her şeyi sorun…",
     "submit": "Analiz Et",
     "surfaceScanning": "Üç bakış açısı taranıyor — teknik, ekonomik, kamuoyu…",
-    "lensLabel": "3 Saniyelik Stereoskopik Görünüm",
     "lens": {
       "tech": "Teknik",
       "economy": "Ekonomik",
       "opinion": "Kamuoyu"
     },
-    "shieldLabel": "Ticari Önyargı Kalkanı",
-    "shield": {
-      "clear": "Temiz",
-      "caution": "Dikkat",
-      "biased": "Ağır önyargılı"
-    },
-    "checklistLabel": "3 Adımlı Eylem Kontrol Listesi",
-    "checklist": {
-      "explore": [
-        "Daha geniş aramadan önce gerçek soruyu tek bir cümlede çerçeveleyin.",
-        "Zıt teşviklere sahip üç bağımsız kaynak toplayın.",
-        "Fikrinizi neyin değiştireceğini yazın, ardından test edin."
-      ],
-      "decide": [
-        "İki seçeneği ve tek belirleyici kriteri belirtin.",
-        "Her biri için maliyet, risk ve getiriye kabaca bir rakam koyun.",
-        "Daha yüksek beklenen değere sahip seçeneğe bağlanın ve bir gözden geçirme tarihi belirleyin."
-      ],
-      "analyze": [
-        "Soruyu üç taşıyıcı varsayımına bölün.",
-        "En zayıf varsayımı gerçek verilere karşı baskı testine tabi tutun.",
-        "Sonucu hayatta kalanlardan yeniden inşa edin."
-      ]
-    },
-    "constitutionLabel": "100-Doktrin Ayrıştırması",
     "constitution": {
       "logic": "Mantık · Tasarım",
       "future": "Gelecek · İnovasyon",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "Canlı Web Sentezi",
     "webSourcedBadge": "{count} kaynak gerçek zamanlı olarak sentezlendi",
     "webLocalBadge": "Yerel sezgisel sentez · sıfır dış çağrı",
-    "redesignLabel": "Doktrin Yeniden Tasarım Vektörleri",
-    "redesign": [
-      "Yüzeysel yanıtı bırakın — soruyu 6 doktrin ekseni boyunca ayrıştırın.",
-      "Sonucu en yüksek sesli eksenden değil, en düşük puanlı eksenden yeniden inşa edin.",
-      "Yeniden tasarımı fail-closed olarak baskı testine tabi tutun — hayatta kalmayan her şeyi atın."
-    ],
-    "swarmLabel": "Sürü Çapraz Akıl Yürütme · 11 Ekosistem",
     "deepLabel": "Derin İçgörü · The VOID",
-    "deepHint": "Chronos yörüngesi, sayısallaştırılmış bir hüküm, gizli niyet çözümü ve negatif alan okuması.",
-    "deepCta": "Derin içgörüyü aç · {cost} U-COIN",
-    "deepLocked": "Derin içgörü kalibre ediliyor — yakında geri dönecek.",
-    "deepScanning": "VOID'e giriliyor — yörünge sentezleniyor…",
     "openFullReport": "Tam U-AI raporunu aç",
-    "chronosLabel": "Chronos · 1-3 Yıllık Yörünge",
-    "chronos": {
-      "y1": "1 yıl içinde",
-      "y2": "2 yıl içinde",
-      "y3": "3 yıl içinde"
-    },
-    "binaryLabel": "Ya / Ya da · Matematiksel Hüküm",
-    "confidence": "Güven",
-    "redPenLabel": "Kırmızı Kalem · Gizli Niyet",
-    "voidLabel": "The VOID · Negatif Alan İçgörüsü",
-    "pathLabel": "En Yüksek Verimlilik Yolu",
-    "cachedBadge": "Genesis Memory önbelleği",
-    "modelNote": "Motor: {model}",
     "brainGridLabel": "Brain-Grid · Bilişsel Geçmiş",
     "brainGridClear": "Temizle",
-    "err": {
-      "signin": "Derin içgörüyü açmak için giriş yapın.",
-      "phone": "U-COIN harcamadan önce telefon numaranızı doğrulayın.",
-      "insufficient": "Derin içgörü için yeterli U-COIN yok.",
-      "burn_required": "U-COIN yakımı kaydedilmedi — tekrar deneyin.",
-      "deep_unavailable": "Derin içgörü geçici olarak kullanılamıyor.",
-      "generation_failed": "Derin analiz oluşturulamadı — lütfen tekrar deneyin.",
-      "bad_request": "Bu sorgu analiz edilemiyor — yeniden ifade edip tekrar deneyin.",
-      "unauthenticated": "Oturumunuzun süresi doldu — tekrar giriş yapın."
-    },
-    "reporterFree": "Ücretsiz Muhabir",
-    "reporterPaid": "Ücretli Muhabir · Giriş Yap",
-    "followupLabel": "Takip Sorguları · Açı Seçenekleri",
-    "followupHint": "Aramayı başka bir doktrin ekseninden yeniden çalıştırın veya alıntılanan bir kaynağı derinlemesine inceleyin.",
-    "webBlendNote": "Büyük teknoloji düzeyinde web sentezi %90 + UNITAS 100-doktrin yeniden tasarımı %10.",
-    "insightLabel": "UNITAS İçgörü Raporu · 6 Eksenli Egemen Yeniden Tasarım",
-    "insightForging": "Egemen motor 6 eksenli yeniden tasarımı dövüyor — burada görünecek ve sonsuza kadar ücretsiz kalacak.",
-    "insightPending": "{hits} / 3 arama. 3.'de, 100-doktrin motoru bu yeniden tasarımı bir kez dövüyor — ardından herkes için sonsuza kadar ücretsiz olur.",
-    "insightFreshBadge": "Az önce dövüldü · Genesis Memory'ye mühürlendi",
-    "insightVectorLabel": "Yeniden Tasarım Vektörü · Kör Eksen",
-    "insightAxisReading": "Okuma",
-    "insightAxisRedesign": "Yeniden Tasarım"
+    "webBlendNote": "Büyük teknoloji düzeyinde web sentezi %90 + UNITAS 100-doktrin yeniden tasarımı %10."
   },
   "Governance": {
     "prev": "Önceki",
@@ -1700,14 +1629,12 @@
     "label": "Canlı Haberler",
     "loading": "Haberler yükleniyor…",
     "empty": "Şu anda canlı haber yok — kısa süre sonra tekrar deneyin.",
-    "all": "Tümü",
     "trending": "Trend",
     "itn": "Haberlerde",
     "views": "{count} görüntülenme",
     "refresh": "Haberleri yenile",
     "source": "Kaynaklar: Wikimedia öne çıkan akış · Google Haberler RSS · Bing Haberler RSS · her 10–15 dakikada güncellenir",
     "category": {
-      "world": "Dünya canlı",
       "politics": "Dünya siyaseti",
       "economy": "Dünya ekonomisi",
       "science": "Dünya bilimi",
@@ -2657,8 +2584,7 @@
         "depth": "Derinlik",
         "cards": "Kartlar",
         "sources": "Kaynaklar",
-        "tier": "Kazıma",
-        "deepCta": "Derin içgörü"
+        "tier": "Kazıma"
       },
       "tier": {
         "spark": "Kıvılcım",
@@ -2667,55 +2593,25 @@
         "singularity": "Tekillik"
       },
       "kinds": {
-        "essence": "Öz",
-        "axisSpectrum": "Altı eksenli spektrum",
-        "sources": "Kaynaklar",
-        "chain": "Soru zinciri",
-        "deepGate": "Derin içgörü",
-        "identity": "Kimlik",
-        "redesign": "Egemen yeniden tasarım",
+        "sources": "Canlı web sentezi",
         "deeper": "Daha derine in",
         "concepts": "Bağlantılı kavramlar",
         "sites": "İlgili siteler",
         "news": "Haberler",
-        "cogs": "Altı eksenli mercek",
         "derived": "Türev eserler",
         "attention": "İlgi dalgası",
         "community": "Topluluk",
-        "timeline": "Düzenleme zaman çizelgesi",
-        "visual": "Görseller",
         "graph": "İlişki ağı",
-        "papers": "Makaleler",
-        "backlinks": "Buraya bağlananlar",
         "extracts": "Alıntılar",
-        "global": "Dünya sürümleri",
-        "siblings": "Aynı dal",
-        "shelf": "Kitaplar",
-        "art": "Sanat",
-        "number": "Sayılar",
-        "earthEvents": "Yer olayları"
+        "global": "Dünya sürümleri"
       },
       "fields": {
         "editions": "Dil sürümleri",
-        "instanceOf": "Türü",
-        "entity": "Varlık",
         "views30": "30 günlük görüntülenme",
         "trend": "Eğilim",
         "window": "Zaman aralığı",
-        "passage": "Bölüm",
-        "population": "Nüfus",
-        "gdp": "GSYH",
-        "gdpPerCapita": "Kişi başı GSYH",
-        "lifeExpectancy": "Yaşam beklentisi",
-        "internetUsers": "İnternet kullanıcıları",
-        "area": "Yüz ölçümü",
-        "elevation": "Yükseklik",
-        "hdi": "İGE",
-        "events": "Olaylar",
-        "quakes": "Depremler"
+        "passage": "Bölüm"
       },
-      "rare": "Nadir mercek",
-      "rareHint": "Bu soru ve sayfa için sabitlenmiş bir mercek — herkes için aynı, her zaman ücretsiz.",
       "thin": "İnce sayfa",
       "loading": "Sonraki sayfa toplanıyor…",
       "teaser": "Sırada",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "Bu terimin birden çok anlamı var. Akış en yaygın olanı izler — değiştirmek için bağlantılı bir kavram seçin."
-      },
-      "deepCreditNote": "Derin içgörü başına {cost} U-COIN — ön ödemeli bir erişim kredisidir; menkul kıymet ya da değer saklama aracı değildir.",
-      "outbound": "Başka yerde ara",
-      "swarmMore": "Tüm ekosistemler",
-      "swarmLess": "İlk üç"
-    },
-    "cogs": {
-      "prompt": "{term} konusunu {group} merceğinden oku",
-      "seed": "Tohum",
-      "resonance": "Rezonans",
-      "follow": "Bunu sor",
-      "groups": {
-        "origin": "Kökenler",
-        "element": "Elementler",
-        "civilization": "Uygarlık",
-        "cosmos": "Evren",
-        "chronos": "Zaman",
-        "consciousness": "Bilinç",
-        "nexus": "Nexus"
-      },
-      "lenses": {
-        "mechanism": "Mekanizma",
-        "flow": "Akış",
-        "scale": "Ölçek",
-        "tension": "Gerilim",
-        "horizon": "Ufuk"
-      },
-      "ask": {
-        "mechanism": "{term} neyle çalışır — ve onu ne bozar?",
-        "flow": "{term} çevresindeki değer nereden akıp geliyor, nereye gidiyor?",
-        "scale": "{term} on kat büyüseydi — ve on kat küçülseydi — nasıl görünürdü?",
-        "tension": "Hangi güçler {term} yapısını ayrıştırır, onu bir arada tutan nedir?",
-        "horizon": "{term} nereye gidiyor ve oraya ilk kim varır?"
       }
     }
   }

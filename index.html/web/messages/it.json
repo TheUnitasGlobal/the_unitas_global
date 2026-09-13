@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "MOTORE OMNI U-AI",
     "headline": "Chiedi una volta. Vedi ogni angolazione.",
-    "subhead": "Una lettura stereoscopica di tre secondi, uno scudo anti-bias commerciale, poi — su richiesta — la traiettoria approfondita. Non è una chat. È un briefing di livello decisionale.",
+    "subhead": "Una domanda, il web sintetizzato in diretta e poi aperto verso l’esterno: fonti, concetti, siti, onde di attenzione, le altre edizioni del mondo.",
     "placeholder": "Chiedi qualsiasi cosa a U-AI…",
     "submit": "Analizza",
     "surfaceScanning": "Scansione di tre prospettive in corso — tecnica, economica, opinione pubblica…",
-    "lensLabel": "Vista Stereoscopica di 3 Secondi",
     "lens": {
       "tech": "Tecnica",
       "economy": "Economica",
       "opinion": "Opinione Pubblica"
     },
-    "shieldLabel": "Scudo Anti-Bias Commerciale",
-    "shield": {
-      "clear": "Pulito",
-      "caution": "Cautela",
-      "biased": "Forte distorsione"
-    },
-    "checklistLabel": "Checklist d'Azione in 3 Passaggi",
-    "checklist": {
-      "explore": [
-        "Formula la domanda reale in una sola frase prima di ampliare la ricerca.",
-        "Raccogli tre fonti indipendenti con incentivi contrapposti.",
-        "Annota cosa potrebbe farti cambiare idea, poi mettilo alla prova."
-      ],
-      "decide": [
-        "Indica le due opzioni e l'unico criterio decisivo.",
-        "Assegna un numero approssimativo a costo, rischio e potenziale per ciascuna.",
-        "Impegnati sull'opzione a valore atteso più alto e fissa una data di revisione."
-      ],
-      "analyze": [
-        "Scomponi la domanda nelle sue tre ipotesi portanti.",
-        "Sottoponi a pressione l'ipotesi più debole a fronte di dati reali.",
-        "Ricostruisci la conclusione a partire da ciò che è sopravvissuto."
-      ]
-    },
-    "constitutionLabel": "Decostruzione delle 100 Dottrine",
     "constitution": {
       "logic": "Logica · Design",
       "future": "Futuro · Innovazione",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "Sintesi Web in Tempo Reale",
     "webSourcedBadge": "{count} fonti sintetizzate in tempo reale",
     "webLocalBadge": "Sintesi euristica locale · zero chiamate esterne",
-    "redesignLabel": "Vettori di Riprogettazione della Dottrina",
-    "redesign": [
-      "Abbandona la risposta di superficie — decostruisci la domanda lungo i 6 assi della dottrina.",
-      "Ricostruisci la conclusione a partire dall'asse con punteggio più basso, non da quello più rumoroso.",
-      "Sottoponi la riprogettazione a stress test fail-closed — scarta tutto ciò che non sopravvive."
-    ],
-    "swarmLabel": "Ragionamento Incrociato dello Sciame · 11 Ecosistemi",
     "deepLabel": "Approfondimento · The VOID",
-    "deepHint": "Traiettoria Chronos, un verdetto quantificato, decodifica dell'intento nascosto e la lettura dello spazio negativo.",
-    "deepCta": "Sblocca l'approfondimento · {cost} U-COIN",
-    "deepLocked": "L'approfondimento è in fase di calibrazione — torna presto.",
-    "deepScanning": "Ingresso nel VOID in corso — sintesi della traiettoria…",
     "openFullReport": "Apri il report U-AI completo",
-    "chronosLabel": "Chronos · Traiettoria 1–3 Anni",
-    "chronos": {
-      "y1": "Tra 1 anno",
-      "y2": "Tra 2 anni",
-      "y3": "Tra 3 anni"
-    },
-    "binaryLabel": "O l'Uno o l'Altro · Verdetto Matematico",
-    "confidence": "Fiducia",
-    "redPenLabel": "Penna Rossa · Intento Nascosto",
-    "voidLabel": "The VOID · Approfondimento dello Spazio Negativo",
-    "pathLabel": "Percorso a Massima Efficienza",
-    "cachedBadge": "Cache Genesis Memory",
-    "modelNote": "Motore: {model}",
     "brainGridLabel": "Brain-Grid · Storico Cognitivo",
     "brainGridClear": "Cancella",
-    "err": {
-      "signin": "Accedi per sbloccare l'approfondimento.",
-      "phone": "Verifica il tuo numero di telefono prima di spendere U-COIN.",
-      "insufficient": "U-COIN insufficienti per l'approfondimento.",
-      "burn_required": "Il consumo di U-COIN non è stato registrato — riprova.",
-      "deep_unavailable": "L'approfondimento è temporaneamente non disponibile.",
-      "generation_failed": "La generazione dell'analisi approfondita non è riuscita — riprova.",
-      "bad_request": "Quella domanda non può essere analizzata — riformulala e riprova.",
-      "unauthenticated": "La tua sessione è scaduta — accedi di nuovo."
-    },
-    "reporterFree": "Reporter Gratuito",
-    "reporterPaid": "Reporter a Pagamento · Accedi",
-    "followupLabel": "Domande di Approfondimento · Opzioni di Angolazione",
-    "followupHint": "Ripeti la ricerca da un altro asse della dottrina, oppure approfondisci una fonte citata.",
-    "webBlendNote": "Sintesi web di livello big-tech al 90% + riprogettazione delle 100 dottrine UNITAS al 10%.",
-    "insightLabel": "Report Insight UNITAS · Riprogettazione Sovrana a 6 Assi",
-    "insightForging": "Il motore sovrano sta forgiando la riprogettazione a 6 assi — apparirà qui e resterà gratuita per sempre.",
-    "insightPending": "{hits} / 3 ricerche. Alla terza, il motore delle 100 dottrine forgia questa riprogettazione una volta — poi è gratuita per tutti, per sempre.",
-    "insightFreshBadge": "Forgiata proprio ora · sigillata in Genesis Memory",
-    "insightVectorLabel": "Vettore di Riprogettazione · L'Asse Cieco",
-    "insightAxisReading": "Lettura",
-    "insightAxisRedesign": "Riprogettazione"
+    "webBlendNote": "Sintesi web di livello big-tech al 90% + riprogettazione delle 100 dottrine UNITAS al 10%."
   },
   "Governance": {
     "prev": "Precedente",
@@ -1700,14 +1629,12 @@
     "label": "Notizie in Diretta",
     "loading": "Caricamento notizie…",
     "empty": "Nessuna notizia live al momento — riprova tra poco.",
-    "all": "Tutte",
     "trending": "Di tendenza",
     "itn": "Nelle notizie",
     "views": "{count} visualizzazioni",
     "refresh": "Aggiorna notizie",
     "source": "Fonti: feed in evidenza Wikimedia · RSS Google News · RSS Bing News · aggiornato ogni 10–15 min",
     "category": {
-      "world": "Mondo in diretta",
       "politics": "Politica mondiale",
       "economy": "Economia mondiale",
       "science": "Scienza mondiale",
@@ -2657,8 +2584,7 @@
         "depth": "Profondità",
         "cards": "Schede",
         "sources": "Fonti",
-        "tier": "Incisione",
-        "deepCta": "Approfondimento"
+        "tier": "Incisione"
       },
       "tier": {
         "spark": "Scintilla",
@@ -2667,55 +2593,25 @@
         "singularity": "Singolarità"
       },
       "kinds": {
-        "essence": "Essenza",
-        "axisSpectrum": "Spettro a sei assi",
-        "sources": "Fonti",
-        "chain": "Catena di domande",
-        "deepGate": "Approfondimento",
-        "identity": "Identità",
-        "redesign": "Riprogettazione sovrana",
+        "sources": "Sintesi web in tempo reale",
         "deeper": "Esplora più a fondo",
         "concepts": "Concetti collegati",
         "sites": "Siti correlati",
         "news": "Notizie",
-        "cogs": "Lente a sei assi",
         "derived": "Opere derivate",
         "attention": "Onda di attenzione",
         "community": "Comunità",
-        "timeline": "Cronologia delle modifiche",
-        "visual": "Immagini",
         "graph": "Relazioni",
-        "papers": "Articoli",
-        "backlinks": "Cosa punta qui",
         "extracts": "Estratti",
-        "global": "Edizioni del mondo",
-        "siblings": "Stesso ramo",
-        "shelf": "Libri",
-        "art": "Arte",
-        "number": "Numeri",
-        "earthEvents": "Eventi terrestri"
+        "global": "Edizioni del mondo"
       },
       "fields": {
         "editions": "Edizioni linguistiche",
-        "instanceOf": "Tipo di",
-        "entity": "Entità",
         "views30": "Visualizzazioni in 30 giorni",
         "trend": "Tendenza",
         "window": "Periodo",
-        "passage": "Estratto",
-        "population": "Popolazione",
-        "gdp": "PIL",
-        "gdpPerCapita": "PIL pro capite",
-        "lifeExpectancy": "Speranza di vita",
-        "internetUsers": "Utenti internet",
-        "area": "Superficie",
-        "elevation": "Altitudine",
-        "hdi": "ISU",
-        "events": "Eventi",
-        "quakes": "Sismi"
+        "passage": "Estratto"
       },
-      "rare": "Lente rara",
-      "rareHint": "Una lente fissa per questa domanda e questa pagina — uguale per tutti, sempre gratuita.",
       "thin": "Pagina scarna",
       "loading": "Raccolta della pagina successiva…",
       "teaser": "A seguire",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "Questo termine ha più significati. Il flusso segue il più comune — scegli un concetto collegato per cambiare."
-      },
-      "deepCreditNote": "{cost} U-COIN per ogni approfondimento — un credito di accesso prepagato, non un valore mobiliare né una riserva di valore.",
-      "outbound": "Cerca altrove",
-      "swarmMore": "Tutti gli ecosistemi",
-      "swarmLess": "I primi tre"
-    },
-    "cogs": {
-      "prompt": "Leggere {term} attraverso la lente {group}",
-      "seed": "Seme",
-      "resonance": "Risonanza",
-      "follow": "Chiedi questo",
-      "groups": {
-        "origin": "Origini",
-        "element": "Elementi",
-        "civilization": "Civiltà",
-        "cosmos": "Cosmo",
-        "chronos": "Tempo",
-        "consciousness": "Coscienza",
-        "nexus": "Nexus"
-      },
-      "lenses": {
-        "mechanism": "Meccanismo",
-        "flow": "Flusso",
-        "scale": "Scala",
-        "tension": "Tensione",
-        "horizon": "Orizzonte"
-      },
-      "ask": {
-        "mechanism": "Cosa fa funzionare {term} — e cosa lo romperebbe?",
-        "flow": "Da dove entra il valore intorno a {term}, e verso dove esce?",
-        "scale": "Come sarebbe {term} dieci volte più grande — e dieci volte più piccolo?",
-        "tension": "Quali forze tirano {term} in direzioni opposte, e cosa lo tiene insieme?",
-        "horizon": "Verso dove sta andando {term}, e chi ci arriverà per primo?"
       }
     }
   }

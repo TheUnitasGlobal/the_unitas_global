@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "U-AI OMNI ENGINE",
     "headline": "Vraag eenmaal. Zie elke hoek.",
-    "subhead": "Een stereoscopische lezing van drie seconden, een schild tegen commerciële vertekening, en dan — op aanvraag — het diepe traject. Geen chat. Een brief op beslissingsniveau.",
+    "subhead": "Eén vraag, het web live gesynthetiseerd en daarna naar buiten geopend — bronnen, concepten, sites, aandachtsgolven, de andere edities van de wereld.",
     "placeholder": "Vraag U-AI wat dan ook…",
     "submit": "Analyseren",
     "surfaceScanning": "Drie perspectieven scannen — technisch, economisch, publiek…",
-    "lensLabel": "Stereoscopisch Beeld van 3 Seconden",
     "lens": {
       "tech": "Technisch",
       "economy": "Economisch",
       "opinion": "Publieke Opinie"
     },
-    "shieldLabel": "Schild tegen Commerciële Vertekening",
-    "shield": {
-      "clear": "Helder",
-      "caution": "Voorzichtig",
-      "biased": "Sterk vertekend"
-    },
-    "checklistLabel": "Actiechecklist in 3 Stappen",
-    "checklist": {
-      "explore": [
-        "Formuleer de werkelijke vraag in één zin voordat u breder zoekt.",
-        "Verzamel drie onafhankelijke bronnen met tegengestelde belangen.",
-        "Schrijf op wat uw mening zou veranderen, en test dat vervolgens."
-      ],
-      "decide": [
-        "Formuleer de twee opties en het enige doorslaggevende criterium.",
-        "Zet een ruwe waarde op kosten, risico en opbrengst voor elk.",
-        "Committeer aan de optie met de hoogste verwachte waarde en stel een evaluatiedatum vast."
-      ],
-      "analyze": [
-        "Splits de vraag op in haar drie dragende aannames.",
-        "Zet de zwakste aanname onder druk tegen echte gegevens.",
-        "Herbouw de conclusie vanuit wat overeind is gebleven."
-      ]
-    },
-    "constitutionLabel": "100-Doctrine-decompositie",
     "constitution": {
       "logic": "Logica · Ontwerp",
       "future": "Toekomst · Innovatie",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "Live Websynthese",
     "webSourcedBadge": "{count} bronnen realtime gesynthetiseerd",
     "webLocalBadge": "Lokale heuristische synthese · geen externe oproepen",
-    "redesignLabel": "Doctrine-herontwerpvectoren",
-    "redesign": [
-      "Laat het oppervlakkige antwoord los — deconstrueer de vraag over de 6 doctrine-assen.",
-      "Herbouw de conclusie vanuit de laagst scorende as, niet de luidste.",
-      "Zet het herontwerp fail-closed onder druk — laat vallen wat niet standhoudt."
-    ],
-    "swarmLabel": "Swarm Cross-Reasoning · 11 Ecosystemen",
     "deepLabel": "Diepgaand Inzicht · De VOID",
-    "deepHint": "Chronos-traject, een gekwantificeerd oordeel, decodering van verborgen intentie en de lezing van de negatieve ruimte.",
-    "deepCta": "Diepgaand inzicht ontgrendelen · {cost} U-COIN",
-    "deepLocked": "Diepgaand inzicht wordt gekalibreerd — kom binnenkort terug.",
-    "deepScanning": "De VOID betreden — traject synthetiseren…",
     "openFullReport": "Volledig U-AI-rapport openen",
-    "chronosLabel": "Chronos · Traject van 1–3 Jaar",
-    "chronos": {
-      "y1": "Over 1 jaar",
-      "y2": "Over 2 jaar",
-      "y3": "Over 3 jaar"
-    },
-    "binaryLabel": "Of / Of · Wiskundig Oordeel",
-    "confidence": "Vertrouwen",
-    "redPenLabel": "Rode Pen · Verborgen Intentie",
-    "voidLabel": "De VOID · Inzicht in Negatieve Ruimte",
-    "pathLabel": "Pad met Hoogste Efficiëntie",
-    "cachedBadge": "Genesis Memory-cache",
-    "modelNote": "Engine: {model}",
     "brainGridLabel": "Brain-Grid · Cognitieve Geschiedenis",
     "brainGridClear": "Wissen",
-    "err": {
-      "signin": "Log in om diepgaand inzicht te ontgrendelen.",
-      "phone": "Verifieer uw telefoonnummer voordat u U-COIN besteedt.",
-      "insufficient": "Onvoldoende U-COIN voor diepgaand inzicht.",
-      "burn_required": "De U-COIN-afschrijving is niet geregistreerd — probeer het opnieuw.",
-      "deep_unavailable": "Diepgaand inzicht is tijdelijk niet beschikbaar.",
-      "generation_failed": "Diepgaande analyse kon niet worden gegenereerd — probeer het opnieuw.",
-      "bad_request": "Die vraag kan niet worden geanalyseerd — herformuleer en probeer opnieuw.",
-      "unauthenticated": "Uw sessie is verlopen — log opnieuw in."
-    },
-    "reporterFree": "Gratis Rapporteur",
-    "reporterPaid": "Betaalde Rapporteur · Inloggen",
-    "followupLabel": "Vervolgvragen · Invalshoekopties",
-    "followupHint": "Voer de zoekopdracht opnieuw uit vanuit een andere doctrine-as, of verdiep u in een geciteerde bron.",
-    "webBlendNote": "Websynthese op big-tech-niveau 90% + UNITAS 100-doctrine-herontwerp 10%.",
-    "insightLabel": "UNITAS Insight Report · Soeverein Herontwerp met 6 Assen",
-    "insightForging": "De soevereine engine smeedt het herontwerp met 6 assen — het verschijnt hier en blijft voor altijd gratis.",
-    "insightPending": "{hits} / 3 zoekopdrachten. Bij de 3e smeedt de 100-doctrine-engine dit herontwerp eenmalig — daarna is het voor iedereen voor altijd gratis.",
-    "insightFreshBadge": "Zojuist gesmeed · verzegeld in Genesis Memory",
-    "insightVectorLabel": "Herontwerpvector · De Blinde As",
-    "insightAxisReading": "Lezing",
-    "insightAxisRedesign": "Herontwerp"
+    "webBlendNote": "Websynthese op big-tech-niveau 90% + UNITAS 100-doctrine-herontwerp 10%."
   },
   "Governance": {
     "prev": "Vorige",
@@ -1700,14 +1629,12 @@
     "label": "Live Nieuws",
     "loading": "Nieuws laden…",
     "empty": "Op dit moment geen live nieuws — probeer het zo opnieuw.",
-    "all": "Alles",
     "trending": "Trending",
     "itn": "In het nieuws",
     "views": "{count} weergaven",
     "refresh": "Nieuws vernieuwen",
     "source": "Bronnen: Wikimedia featured feed · Google Nieuws RSS · Bing Nieuws RSS · elke 10–15 min vernieuwd",
     "category": {
-      "world": "Wereld live",
       "politics": "Wereldpolitiek",
       "economy": "Wereldeconomie",
       "science": "Wereldwetenschap",
@@ -2657,8 +2584,7 @@
         "depth": "Diepte",
         "cards": "Kaarten",
         "sources": "Bronnen",
-        "tier": "Gravure",
-        "deepCta": "Diep inzicht"
+        "tier": "Gravure"
       },
       "tier": {
         "spark": "Vonk",
@@ -2667,55 +2593,25 @@
         "singularity": "Singulariteit"
       },
       "kinds": {
-        "essence": "Essentie",
-        "axisSpectrum": "Zesassig spectrum",
-        "sources": "Bronnen",
-        "chain": "Vragenketen",
-        "deepGate": "Diep inzicht",
-        "identity": "Identiteit",
-        "redesign": "Soeverein herontwerp",
+        "sources": "Live websynthese",
         "deeper": "Dieper verkennen",
         "concepts": "Gekoppelde begrippen",
         "sites": "Gerelateerde sites",
         "news": "Nieuws",
-        "cogs": "Zesassige lens",
         "derived": "Afgeleide werken",
         "attention": "Aandachtsgolf",
         "community": "Gemeenschap",
-        "timeline": "Bewerkingstijdlijn",
-        "visual": "Afbeeldingen",
         "graph": "Relaties",
-        "papers": "Artikelen",
-        "backlinks": "Wat hiernaartoe linkt",
         "extracts": "Fragmenten",
-        "global": "Wereldedities",
-        "siblings": "Zelfde tak",
-        "shelf": "Boeken",
-        "art": "Kunst",
-        "number": "Cijfers",
-        "earthEvents": "Aardgebeurtenissen"
+        "global": "Wereldedities"
       },
       "fields": {
         "editions": "Taaledities",
-        "instanceOf": "Soort",
-        "entity": "Entiteit",
         "views30": "Weergaven in 30 dagen",
         "trend": "Tendens",
         "window": "Periode",
-        "passage": "Fragment",
-        "population": "Bevolking",
-        "gdp": "Bbp",
-        "gdpPerCapita": "Bbp per hoofd",
-        "lifeExpectancy": "Levensverwachting",
-        "internetUsers": "Internetgebruikers",
-        "area": "Oppervlakte",
-        "elevation": "Hoogte",
-        "hdi": "HDI",
-        "events": "Gebeurtenissen",
-        "quakes": "Bevingen"
+        "passage": "Fragment"
       },
-      "rare": "Zeldzame lens",
-      "rareHint": "Een vaste lens voor deze vraag en pagina — voor iedereen gelijk, altijd gratis.",
       "thin": "Dunne pagina",
       "loading": "Volgende pagina wordt verzameld…",
       "teaser": "Hierna",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "Deze term heeft meerdere betekenissen. De stroom volgt de meest gangbare — kies een gekoppeld begrip om te wisselen."
-      },
-      "deepCreditNote": "{cost} U-COIN per diep inzicht — een vooruitbetaald toegangstegoed, geen waardepapier en geen middel om waarde in op te slaan.",
-      "outbound": "Elders zoeken",
-      "swarmMore": "Alle ecosystemen",
-      "swarmLess": "Top drie"
-    },
-    "cogs": {
-      "prompt": "{term} lezen door de lens van {group}",
-      "seed": "Zaadje",
-      "resonance": "Resonantie",
-      "follow": "Dit vragen",
-      "groups": {
-        "origin": "Oorsprong",
-        "element": "Elementen",
-        "civilization": "Beschaving",
-        "cosmos": "Kosmos",
-        "chronos": "Tijd",
-        "consciousness": "Bewustzijn",
-        "nexus": "Nexus"
-      },
-      "lenses": {
-        "mechanism": "Mechanisme",
-        "flow": "Stroming",
-        "scale": "Schaal",
-        "tension": "Spanning",
-        "horizon": "Einder"
-      },
-      "ask": {
-        "mechanism": "Wat laat {term} werken — en wat zou het breken?",
-        "flow": "Waar stroomt de waarde rond {term} vandaan, en waar gaat die naartoe?",
-        "scale": "Hoe ziet {term} eruit als het tien keer groter is — en tien keer kleiner?",
-        "tension": "Welke krachten trekken {term} uit elkaar, en wat houdt het bijeen?",
-        "horizon": "Waar gaat {term} naartoe, en wie komt daar het eerst?"
       }
     }
   }

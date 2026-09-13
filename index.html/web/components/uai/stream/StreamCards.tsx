@@ -1,88 +1,113 @@
 'use client';
 
 /**
- * REV-21 §5C / SPEC §12.7 -- the infinity stream's NETWORK and STATUS cards
- * (stage 1 + stage 2, D-37). Every card names its real source through the omni-tech
- * registry, every follow-up re-runs the stream on the entity, and nothing
- * here uses backdrop-filter or animates anything but transform / opacity.
- * The engagement charter (§12.7 ①-⑤) is visible in the copy: the rare mark
- * is a fixed lens (no odds, no near-miss), the teaser only names the next
- * kinds, the soft pause carries an honest "relevance decreasing" badge.
+ * The infinity stream's NETWORK and STATUS cards. Every card names its real
+ * source through the omni-tech registry, every follow-up re-runs the stream
+ * on the entity, and nothing here uses backdrop-filter or animates anything
+ * but transform / opacity.
+ *
+ * REV-23 M2.2 (founder directive 2026-09-13): the switch below used to serve
+ * 23 kinds. It now serves the nine networked survivors -- concepts · sites ·
+ * news · derived · attention · community · graph · global · extracts -- and
+ * the four status cards. `CogsCardView`, `Gallery` and `OutboundRow` went
+ * with the kinds they existed for; the outbound brand row now lives once, in
+ * the Explore Deeper block ("다른 곳에서 탐색").
+ *
+ * REV-23 M2.3 -- TWO-STEP ACTIVATION. A card no longer opens because the
+ * visitor happened to click its padding, and the top-right shortcut arrow is
+ * gone. Only the title text area is a target: the first click SELECTS
+ * (`data-selected="1"`, a visible focus ring), a second click on the same
+ * title OPENS. See lib/uai/twoStepSelect.ts for the state machine and its
+ * unit tests.
  */
-import type { ReactNode } from 'react';
+import { useCallback, useState, type ReactNode } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import {
   ArrowRight,
   ExternalLink,
-  Fingerprint,
   Link2,
   Newspaper,
   Layers,
   Activity,
   MessageSquare,
-  History,
   BookOpen,
-  Hexagon,
   PauseCircle,
   RotateCcw,
   Flag,
-  ImageIcon,
   Workflow,
-  FileText,
-  CornerUpLeft,
   AlignLeft,
   Globe2,
-  Boxes,
-  Library,
-  Palette,
-  Sigma,
-  Waves,
 } from 'lucide-react';
-import { OUTBOUND_BRAND_ROW, outboundSearchUrl, sourceById, sourceLabel, type SourceId } from '@/lib/uai/sourceRegistry';
-import { COGS_LENS_KEYS, LENS_AXES, type CogsCard } from '@/lib/uai/stream/cogsMatrix';
-import type { StreamCard, StreamCardKind, StreamFact, StreamImage, StreamItem } from '@/lib/uai/stream/streamTypes';
-import type { ConstitutionAxis } from '@/lib/uai/types';
-
-export const AXIS_COLOR: Record<ConstitutionAxis, string> = {
-  logic: '#38bdf8',
-  future: '#a78bfa',
-  economy: '#34d399',
-  security: '#f87171',
-  sovereign: '#d4af37',
-  art: '#f472b6',
-};
+import { sourceById, sourceLabel, type SourceId } from '@/lib/uai/sourceRegistry';
+import { nextSelectState, type TwoStepAction } from '@/lib/uai/twoStepSelect';
+import type { StreamCard, StreamCardKind, StreamFact, StreamItem } from '@/lib/uai/stream/streamTypes';
 
 export type RunQuery = (query: string, qid?: string) => void;
 
-const KIND_ICON: Partial<Record<StreamCardKind, typeof Fingerprint>> = {
-  identity: Fingerprint,
+const KIND_ICON: Partial<Record<StreamCardKind, typeof Link2>> = {
   concepts: Link2,
   sites: ExternalLink,
   news: Newspaper,
-  cogs: Hexagon,
   derived: BookOpen,
   attention: Activity,
   community: MessageSquare,
-  timeline: History,
   deeper: Layers,
-  visual: ImageIcon,
   graph: Workflow,
-  papers: FileText,
-  backlinks: CornerUpLeft,
   extracts: AlignLeft,
   global: Globe2,
-  siblings: Boxes,
-  shelf: Library,
-  art: Palette,
-  number: Sigma,
-  earthEvents: Waves,
 };
 
-export function Bar({ value, color }: { value: number; color: string }) {
+/* ------------------------------------------------------------------ */
+/* Two-step title                                                       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * REV-23 M2.3 -- the ONLY activation target on a card, sub-heading or
+ * detail heading. One click selects, the next opens. `onOpen` may be
+ * omitted, in which case the title is a pure selection affordance (a card
+ * whose body is already fully visible has nothing to open).
+ */
+export function TwoStepTitle({
+  children,
+  onOpen,
+  className = '',
+  as: Tag = 'span',
+}: {
+  children: ReactNode;
+  onOpen?: () => void;
+  className?: string;
+  as?: 'span' | 'p' | 'h3';
+}) {
+  const [selected, setSelected] = useState(false);
+  const act = useCallback(
+    (action: TwoStepAction) => {
+      const next = nextSelectState(selected, action);
+      setSelected(next.selected);
+      if (next.open) onOpen?.();
+    },
+    [selected, onOpen],
+  );
   return (
-    <div className="qw-stream-bar h-2 w-full overflow-hidden rounded-full bg-white/8">
-      <div className="qw-stream-bar-fill h-full rounded-full" style={{ backgroundColor: color, width: `${Math.max(3, Math.min(100, value))}%` }} />
-    </div>
+    <Tag className={`qw-two-step ${className}`.trim()} data-two-step="">
+      <button
+        type="button"
+        className="qw-two-step-hit"
+        data-selected={selected ? '1' : '0'}
+        aria-pressed={selected}
+        onClick={() => act('click')}
+        onDoubleClick={() => act('dblclick')}
+        onBlur={() => setSelected(false)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            act('click');
+          }
+          if (e.key === 'Escape') setSelected(false);
+        }}
+      >
+        {children}
+      </button>
+    </Tag>
   );
 }
 
@@ -96,7 +121,6 @@ export interface CardShellProps {
   scope?: 'global' | 'country';
   sourceId?: SourceId;
   sourceUrl?: string;
-  rare?: boolean;
   /** Overrides the kind label. */
   title?: string;
   id?: string;
@@ -104,7 +128,7 @@ export interface CardShellProps {
   className?: string;
 }
 
-export function CardShell({ kind, page, scope, sourceId, sourceUrl, rare, title, id, children, className = '' }: CardShellProps) {
+export function CardShell({ kind, page, scope, sourceId, sourceUrl, title, id, children, className = '' }: CardShellProps) {
   const t = useTranslations('Rev21');
   const locale = useLocale();
   const Icon = KIND_ICON[kind];
@@ -112,25 +136,22 @@ export function CardShell({ kind, page, scope, sourceId, sourceUrl, rare, title,
   return (
     <article
       id={id}
-      className={`qw-stream-card ${rare ? 'qw-stream-card--rare' : ''} ${className}`}
+      className={`qw-stream-card ${className}`}
       data-stream-card={kind}
       data-stream-page={page}
       data-stream-scope={scope}
       data-stream-source={sourceId}
-      data-stream-rare={rare ? '1' : undefined}
     >
       <header className="qw-stream-card-head">
-        <p className="qw-stream-card-kind">
+        {/* M2.3: the heading is the activation target; the header's padding
+            and the card's whitespace are inert. There is no shortcut arrow
+            in the top-right corner any more. */}
+        <TwoStepTitle as="p" className="qw-stream-card-kind">
           {Icon && <Icon size={13} aria-hidden="true" />}
           <span>{title ?? t(`stream.kinds.${kind}`)}</span>
-        </p>
+        </TwoStepTitle>
         <div className="qw-stream-card-meta">
           {scope && <span className="qw-stream-scope" data-scope={scope}>{t(`deeper.scope.${scope}`)}</span>}
-          {rare && (
-            <span className="qw-stream-rare" title={t('stream.rareHint')}>
-              {t('stream.rare')}
-            </span>
-          )}
         </div>
       </header>
       <div className="qw-stream-card-body">{children}</div>
@@ -227,123 +248,12 @@ export function Spark({ points, color = '#22d3ee' }: { points: number[]; color?:
   );
 }
 
-/** Omni outbound brand row (§12.4, D-25): real names, no logos, keyless
- *  search URLs, a "may ask you to sign in" hint where the vendor walls. */
-export function OutboundRow({ term, lang }: { term: string; lang: string }) {
-  const t = useTranslations('Rev21');
-  const locale = useLocale();
-  return (
-    <div className="qw-stream-outbound" data-stream-outbound>
-      <span className="qw-stream-outbound-label">{t('stream.outbound')}</span>
-      {OUTBOUND_BRAND_ROW.map((id) => {
-        const s = sourceById(id);
-        return (
-          <a
-            key={id}
-            href={outboundSearchUrl(id, term, lang)}
-            target="_blank"
-            rel="noopener noreferrer nofollow"
-            className="qw-stream-outbound-link"
-            data-stream-outbound-source={id}
-            title={s.loginWall ? `${sourceLabel(id, locale, true)} · ${t('deeper.loginHint')}` : sourceLabel(id, locale, true)}
-          >
-            {sourceLabel(id, locale)}
-            {s.loginWall && <span aria-hidden="true">·</span>}
-          </a>
-        );
-      })}
-    </div>
-  );
-}
-
 /* ------------------------------------------------------------------ */
 /* Network cards                                                        */
 /* ------------------------------------------------------------------ */
 
-export function CogsCardView({ card, term, onQuery }: { card: StreamCard & { cogs: CogsCard }; term: string; onQuery: RunQuery }) {
-  const t = useTranslations('Rev21');
-  const tUai = useTranslations('UAI');
-  const { cogs } = card;
-  const lensLabel = t(`cogs.lenses.${cogs.lens}`);
-  return (
-    <CardShell kind="cogs" page={card.page} scope={card.scope} rare={card.rare} title={`${t('stream.kinds.cogs')} · ${t(`cogs.groups.${cogs.group}`)}`}>
-      <p className="qw-stream-cogs-prompt">{t('cogs.prompt', { term, group: t(`cogs.groups.${cogs.group}`) })}</p>
-      <div className="qw-stream-cogs-row">
-        <span className="qw-stream-cogs-seed" data-cogs-seed={cogs.seed}>
-          <span className="qw-stream-cogs-seed-label">{t('cogs.seed')}</span>
-          {cogs.seed}
-        </span>
-        <span className="qw-stream-cogs-lens" data-cogs-lens={cogs.lens}>
-          {lensLabel}
-        </span>
-      </div>
-      <p className="qw-stream-cogs-ask">{t(`cogs.ask.${cogs.lens}`, { term })}</p>
-      <div className="qw-stream-cogs-grid">
-        {cogs.axes.map((ax) => (
-          <div key={ax.axis} className="qw-stream-cogs-axis">
-            <div className="qw-stream-cogs-axis-head">
-              <span style={{ color: AXIS_COLOR[ax.axis] }}>{tUai(`constitution.${ax.axis}`)}</span>
-              <span className="qw-stream-mono">{ax.score}</span>
-            </div>
-            <Bar value={ax.score} color={AXIS_COLOR[ax.axis]} />
-          </div>
-        ))}
-        <div className="qw-stream-cogs-axis qw-stream-cogs-axis--resonance">
-          <div className="qw-stream-cogs-axis-head">
-            <span>{t('cogs.resonance')}</span>
-            <span className="qw-stream-mono">{cogs.resonance}</span>
-          </div>
-          <Bar value={cogs.resonance} color="#d4af37" />
-        </div>
-      </div>
-      <div className="qw-stream-chips">
-        <button type="button" className="qw-stream-chip qw-stream-chip--accent" onClick={() => onQuery(`${term} · ${lensLabel}`)} data-stream-cogs-follow={cogs.lens}>
-          {t('cogs.follow')}
-          <ArrowRight size={12} aria-hidden="true" />
-        </button>
-        {COGS_LENS_KEYS.filter((k) => k !== cogs.lens)
-          .slice(0, 2)
-          .map((k) => (
-            <button key={k} type="button" className="qw-stream-chip" onClick={() => onQuery(`${term} · ${t(`cogs.lenses.${k}`)}`)} data-stream-cogs-follow={k} title={LENS_AXES[k].join(' · ')}>
-              {t(`cogs.lenses.${k}`)}
-              <ArrowRight size={12} aria-hidden="true" />
-            </button>
-          ))}
-      </div>
-    </CardShell>
-  );
-}
-
-/** Pictures with their license line. Lazy, aspect-boxed (no layout shift),
- *  and every tile links back to the file page that carries the full terms. */
-export function Gallery({ images }: { images: StreamImage[] }) {
-  return (
-    <ul className="qw-stream-gallery">
-      {images.map((img, i) => (
-        <li key={`${img.src}-${i}`} className="qw-stream-gallery-cell">
-          <a href={img.pageUrl ?? img.src} target="_blank" rel="noopener noreferrer nofollow">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={img.src} alt={img.alt} loading="lazy" decoding="async" width={img.width} height={img.height} />
-            {(img.license || img.author) && (
-              <span className="qw-stream-gallery-credit">{[img.author, img.license].filter(Boolean).join(' · ')}</span>
-            )}
-          </a>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-export function NetworkCard({ card, term, lang, onQuery }: { card: StreamCard; term: string; lang: string; onQuery: RunQuery }) {
+export function NetworkCard({ card, onQuery }: { card: StreamCard; onQuery: RunQuery }) {
   switch (card.kind) {
-    case 'identity':
-      return (
-        <CardShell kind="identity" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
-          {card.text && <p className="qw-stream-text">{card.text}</p>}
-          {card.facts && <Facts facts={card.facts} />}
-          {card.items && card.items.length > 0 && <Chips items={card.items} onQuery={onQuery} />}
-        </CardShell>
-      );
     case 'concepts':
       return (
         <CardShell kind="concepts" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
@@ -354,7 +264,6 @@ export function NetworkCard({ card, term, lang, onQuery }: { card: StreamCard; t
       return (
         <CardShell kind="sites" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
           {card.items && <Items items={card.items} onQuery={onQuery} dense />}
-          <OutboundRow term={term} lang={lang} />
         </CardShell>
       );
     case 'news':
@@ -388,51 +297,16 @@ export function NetworkCard({ card, term, lang, onQuery }: { card: StreamCard; t
           {card.items && <Items items={card.items} onQuery={onQuery} />}
         </CardShell>
       );
-    case 'timeline':
-      return (
-        <CardShell kind="timeline" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
-          {card.items && (
-            <ol className="qw-stream-timeline">
-              {card.items.map((it) => (
-                <li key={it.id}>
-                  <span className="qw-stream-timeline-dot" aria-hidden="true" />
-                  <span className="qw-stream-item-meta">{it.meta}</span>
-                  <span className="qw-stream-item-title">{it.title}</span>
-                </li>
-              ))}
-            </ol>
-          )}
-        </CardShell>
-      );
-    /* ---- stage 2 (M10) ---- */
-    case 'visual':
-    case 'art':
-      return (
-        <CardShell kind={card.kind} page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
-          {card.images && card.images.length > 0 && <Gallery images={card.images} />}
-          {card.items && card.items.length > 0 && <Items items={card.items} onQuery={onQuery} dense />}
-        </CardShell>
-      );
-    case 'shelf':
-      return (
-        <CardShell kind="shelf" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
-          {card.images && card.images.length > 0 && <Gallery images={card.images} />}
-          {card.items && <Items items={card.items} onQuery={onQuery} />}
-        </CardShell>
-      );
     case 'graph':
-    case 'siblings':
-    case 'backlinks':
       return (
-        <CardShell kind={card.kind} page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
+        <CardShell kind="graph" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
           {card.facts && card.facts.length > 0 && <Facts facts={card.facts} />}
           {card.items && <Chips items={card.items} onQuery={onQuery} />}
         </CardShell>
       );
-    case 'papers':
     case 'global':
       return (
-        <CardShell kind={card.kind} page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
+        <CardShell kind="global" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
           {card.facts && card.facts.length > 0 && <Facts facts={card.facts} />}
           {card.items && <Items items={card.items} onQuery={onQuery} />}
         </CardShell>
@@ -449,28 +323,6 @@ export function NetworkCard({ card, term, lang, onQuery }: { card: StreamCard; t
           {card.facts && <Facts facts={card.facts} />}
         </CardShell>
       );
-    case 'number':
-      return (
-        <CardShell kind="number" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
-          {card.series && <Spark points={card.series.points} color="#a78bfa" />}
-          {card.series?.dates && card.series.dates.length > 1 && (
-            <p className="qw-stream-spark-dates">
-              <span>{card.series.dates[0]}</span>
-              <span>{card.series.dates[card.series.dates.length - 1]}</span>
-            </p>
-          )}
-          {card.facts && <Facts facts={card.facts} />}
-        </CardShell>
-      );
-    case 'earthEvents':
-      return (
-        <CardShell kind="earthEvents" page={card.page} scope={card.scope} sourceId={card.sourceId} sourceUrl={card.sourceUrl}>
-          {card.facts && <Facts facts={card.facts} />}
-          {card.items && <Items items={card.items} onQuery={onQuery} />}
-        </CardShell>
-      );
-    case 'cogs':
-      return card.cogs ? <CogsCardView card={{ ...card, cogs: card.cogs }} term={term} onQuery={onQuery} /> : null;
     default:
       return null;
   }

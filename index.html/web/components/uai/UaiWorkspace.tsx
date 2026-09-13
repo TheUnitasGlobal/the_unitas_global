@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useTranslations } from 'next-intl';
 import { Search, Trash2 } from 'lucide-react';
-import { useRouter } from '@/i18n/navigation';
-import { useWallet } from '@/components/wallet/WalletProvider';
 import { useUai } from '@/lib/uai/useUai';
 import { UaiHyperStream } from './UaiHyperStream';
 
@@ -18,8 +16,6 @@ import { UaiHyperStream } from './UaiHyperStream';
 export function UaiWorkspace({ initialQuery = '' }: { initialQuery?: string }) {
   const t = useTranslations('UAI');
   const tEcosystems = useTranslations('Ecosystems');
-  const router = useRouter();
-  const { session } = useWallet();
   const uai = useUai();
   const [value, setValue] = useState(initialQuery);
   const runSurfaceRef = useRef(uai.runSurface);
@@ -70,16 +66,6 @@ export function UaiWorkspace({ initialQuery = '' }: { initialQuery?: string }) {
         key={uai.surfaceEpoch}
         phase={uai.phase}
         surface={uai.surface}
-        deep={uai.deep}
-        insight={uai.insight}
-        trendHits={uai.trendHits}
-        insightForging={uai.insightForging}
-        error={uai.error}
-        canDeep={uai.canDeep}
-        deepAvailable={uai.deepAvailable}
-        hasSession={Boolean(session)}
-        onRunDeep={() => void uai.runDeep()}
-        onSelectEcosystem={(key) => router.push(`/${key}`)}
         onRunQuery={(q, qid) => {
           setValue(q);
           runSurfaceRef.current(q, { tEcosystems: (k) => tEcosystems(k), qid });

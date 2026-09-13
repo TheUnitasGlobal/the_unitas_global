@@ -1,22 +1,28 @@
 'use client';
 
 /**
- * REV-21 §5C / SPEC §12.7 -- the U-AI infinity stream. One host for the
- * fullscreen tower (home Enter) and the /u-ai page (D-10 shared): page 0 is
- * painted from the surface report with no network at all (≤1.2 s after
- * Enter), later pages arrive through useHyperStream and are laid out in
- * the page recipe's order with the local kinds (redesign · deeper · chain)
- * inserted by this component. The scroll root IS the feed
+ * The U-AI infinity stream. One host for the fullscreen tower (home Enter)
+ * and the /u-ai page: page 0 is painted from the surface report with no
+ * network at all, later pages arrive through useHyperStream and are laid out
+ * in the page recipe's order. The scroll root IS the feed
  * (`[data-stream-root role=feed aria-busy]`); the spine is sticky inside it.
  *
- * Engagement charter (§12.7): no auto-scroll ever, `document.hidden`
- * pauses paging, the soft pause every 10 pages needs a tap, 60 pages is
- * the end, the DOM keeps 12 pages mounted (older ones become measured
- * ghosts), and a keyboard visitor has `button[data-stream-more]`.
+ * Engagement charter: no auto-scroll ever, `document.hidden` pauses paging,
+ * the soft pause every 10 pages needs a tap, 60 pages is the end, the DOM
+ * keeps 12 pages mounted (older ones become measured ghosts), and a keyboard
+ * visitor has `button[data-stream-more]`.
+ *
+ * REV-23 M2.2 (founder directive 2026-09-13) -- THE DIET. Page 0 used to
+ * stack five cards and the spine carried a permanent "심층 통찰" CTA. Both
+ * are gone, with the deep-insight subsystem behind them: no reporter switch,
+ * no 3-second lens, no bias shield, no 3-step checklist, no swarm
+ * cross-reasoning, no 6-axis spectrum, no sovereign redesign, no question
+ * chain, no COGS lens. Page 0 is the web synthesis, and page 1 opens with
+ * "다른 곳에서 탐색" -- the single Explore Deeper block that now absorbs the
+ * outbound brand row too.
  */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { Sparkles } from 'lucide-react';
 import { ExploreDeeper } from '@/components/home/ExploreDeeper';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
 import { useSlotContext } from '@/lib/live/useSlotContext';
@@ -25,25 +31,15 @@ import type { DeeperHost } from '@/lib/uai/deeperThemes';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import { LOCAL_KINDS, STREAM_DOM_PAGES, streamRecipe, type StreamCard, type StreamCardKind, type StreamPage } from '@/lib/uai/stream/streamTypes';
 import { useHyperStream } from '@/lib/uai/stream/useHyperStream';
-import type { ConstitutionRedesignReport, DeepReport, SurfaceReport } from '@/lib/uai/types';
-import type { UaiError, UaiPhase } from '@/lib/uai/useUai';
+import type { SurfaceReport } from '@/lib/uai/types';
+import type { UaiPhase } from '@/lib/uai/useUai';
 import { DisambiguationCard, EndCard, NetworkCard, RetryCard, SoftPauseCard, TeaserCard, type RunQuery } from './stream/StreamCards';
-import { AxisSpectrumCard, ChainCard, DeepGateCard, EssenceCard, RedesignCard, SourcesCard, useFollowups } from './stream/StreamLocalCards';
+import { SourcesCard } from './stream/StreamLocalCards';
 
 export interface UaiHyperStreamProps {
   phase: UaiPhase;
   surface: SurfaceReport | null;
-  deep: DeepReport | null;
-  insight?: ConstitutionRedesignReport | null;
-  trendHits?: number;
-  insightForging?: boolean;
-  error: UaiError | null;
-  canDeep: boolean;
-  deepAvailable: boolean;
-  hasSession: boolean;
-  onRunDeep: () => void;
   onRunQuery: RunQuery;
-  onSelectEcosystem?: (key: string) => void;
   /** Which surface hosts the stream (Explore Deeper card host id). */
   host: DeeperHost;
   /** The entity the search was pinned on (ladder row / chip). */
@@ -51,8 +47,6 @@ export interface UaiHyperStreamProps {
   /** Classes for the feed root -- in the tower this is the scroll box. */
   className?: string;
 }
-
-const DEEP_GATE_ID = 'stream-deep-gate';
 
 function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(false);
@@ -69,17 +63,7 @@ function usePrefersReducedMotion(): boolean {
 export function UaiHyperStream({
   phase,
   surface,
-  deep,
-  insight = null,
-  trendHits = 0,
-  insightForging = false,
-  error,
-  canDeep,
-  deepAvailable,
-  hasSession,
-  onRunDeep,
   onRunQuery,
-  onSelectEcosystem,
   host,
   submittedQid = null,
   className = '',
@@ -90,13 +74,13 @@ export function UaiHyperStream({
   const slotCtx = useSlotContext();
   const country = slotCtx.country ?? 'US';
   const lang = wikiLangFor(locale);
-  const reducedMotion = usePrefersReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const heightsRef = useRef<Map<number, number>>(new Map());
+  void usePrefersReducedMotion();
 
   const term = surface?.query ?? '';
-  // §2.2: the stream is keyed on the entity, never on the raw string. A
+  // The stream is keyed on the entity, never on the raw string. A
   // ladder-pinned QID wins over the synthesis' own anchor.
   const anchor = useMemo<DeeperAnchor | null>(() => {
     if (!surface) return null;
@@ -110,10 +94,7 @@ export function UaiHyperStream({
     locale,
     lang,
     country,
-    constitution: surface?.constitution ?? [],
   });
-
-  const followups = useFollowups(surface);
 
   // The IO root is the feed itself when it scrolls (tower), the viewport
   // when the document scrolls (/u-ai).
@@ -133,8 +114,8 @@ export function UaiHyperStream({
     return () => io.disconnect();
   }, [surface, phase, stream.paused, stream.capped, stream.stalled, stream.loadMore, stream]);
 
-  // DOM budget (§12.7): remember each page's height before it turns into a
-  // ghost so the scroll position never jumps.
+  // DOM budget: remember each page's height before it turns into a ghost so
+  // the scroll position never jumps.
   useEffect(() => {
     const rootEl = rootRef.current;
     if (!rootEl) return;
@@ -144,16 +125,13 @@ export function UaiHyperStream({
     });
   });
 
-  const goPaid = useCallback(() => {
-    if (canDeep) onRunDeep();
-    document.getElementById(DEEP_GATE_ID)?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
-  }, [canDeep, onRunDeep, reducedMotion]);
-
   if (phase === 'idle') return null;
 
   const pages = stream.pages;
   const ghostBefore = Math.max(0, pages.length - STREAM_DOM_PAGES);
-  const cardTotal = (surface ? streamRecipe(0).length : 0) + pages.reduce((s, p) => s + p.cards.length + streamRecipe(p.page).filter((k) => LOCAL_KINDS.has(k) && k !== 'cogs').length, 0);
+  const cardTotal =
+    (surface ? streamRecipe(0).length : 0) +
+    pages.reduce((s, p) => s + p.cards.length + streamRecipe(p.page).filter((k) => LOCAL_KINDS.has(k)).length, 0);
   const sourceKinds = new Set<string>();
   pages.forEach((p) => p.cards.forEach((c) => c.sourceId && sourceKinds.add(c.sourceId)));
   surface?.web.sources.forEach((s) => s.origin && sourceKinds.add(`origin:${s.origin}`));
@@ -166,15 +144,13 @@ export function UaiHyperStream({
     page.cards.forEach((c) => byKind.set(c.kind, [...(byKind.get(c.kind) ?? []), c]));
     const nodes: JSX.Element[] = [];
     recipe.forEach((kind) => {
-      if (kind === 'redesign') nodes.push(<RedesignCard key={`redesign-${page.page}`} insight={insight} trendHits={trendHits} forging={insightForging} />);
-      else if (kind === 'deeper' && anchor && surface)
+      if (kind === 'deeper' && anchor && surface)
         nodes.push(
           <article key={`deeper-${page.page}`} className="qw-stream-card" data-stream-card="deeper" data-stream-page={page.page}>
             <ExploreDeeper anchor={anchor} host={host} report={surface} compact={page.page > 1} className="qw-stream-deeper" />
           </article>,
         );
-      else if (kind === 'chain') nodes.push(<ChainCard key={`chain-${page.page}`} page={page.page} followups={followups} onQuery={onRunQuery} />);
-      else (byKind.get(kind) ?? []).forEach((card) => nodes.push(<NetworkCard key={card.id} card={card} term={term} lang={lang} onQuery={onRunQuery} />));
+      else (byKind.get(kind) ?? []).forEach((card) => nodes.push(<NetworkCard key={card.id} card={card} onQuery={onRunQuery} />));
     });
     return nodes;
   };
@@ -190,7 +166,9 @@ export function UaiHyperStream({
       aria-busy={busy}
       aria-label={term ? t('stream.feedAria', { term }) : undefined}
     >
-      {/* Spine -- sticky, solid (no blur), the visitor's own depth + tier. */}
+      {/* Spine -- sticky, solid (no blur), the visitor's own depth + tier.
+          M2.2: the "심층 통찰" CTA that used to close this row is gone with
+          the paid deep gate it pointed at. */}
       <div className="qw-stream-spine" data-stream-spine>
         <span className="qw-stream-spine-stat">
           <span className="qw-stream-spine-label">{t('stream.spine.depth')}</span>
@@ -210,10 +188,6 @@ export function UaiHyperStream({
           <span className="qw-stream-spine-label">{t('stream.spine.tier')}</span>
           <span>{t(`stream.tier.${stream.tier}`)}</span>
         </span>
-        <button type="button" className="qw-stream-spine-cta" onClick={goPaid} data-stream-spine-deep>
-          <Sparkles size={12} aria-hidden="true" />
-          {t('stream.spine.deepCta')}
-        </button>
       </div>
 
       {(phase === 'surface-loading' || !surface) && (
@@ -232,11 +206,7 @@ export function UaiHyperStream({
           {surface.web.anchor?.disambiguation && (
             <DisambiguationCard term={surface.web.anchor.localeTitle} url={surface.web.sources.find((s) => s.origin === 'wiki')?.url} />
           )}
-          <EssenceCard surface={surface} hasSession={hasSession} onGoPaid={goPaid} onSelectEcosystem={onSelectEcosystem} />
-          <AxisSpectrumCard surface={surface} />
-          <SourcesCard surface={surface} lang={lang} />
-          <ChainCard page={0} followups={followups} onQuery={onRunQuery} />
-          <DeepGateCard id={DEEP_GATE_ID} phase={phase} deep={deep} error={error} canDeep={canDeep} deepAvailable={deepAvailable} hasSession={hasSession} onRunDeep={onRunDeep} />
+          <SourcesCard surface={surface} />
           {/* "실시간 유니타스 랭킹" stays mounted in the result (owner
               instruction 2026-09-04 round 2). */}
           <div className="qw-stream-rankings">
@@ -268,7 +238,7 @@ export function UaiHyperStream({
           ),
         )}
 
-      {surface && stream.loading && <TeaserCard page={nextPage} next={streamRecipe(nextPage).filter((k) => k !== 'cogs')} />}
+      {surface && stream.loading && <TeaserCard page={nextPage} next={streamRecipe(nextPage)} />}
       {surface && stream.paused && !stream.capped && <SoftPauseCard pages={pages[pages.length - 1]?.page ?? 0} onResume={stream.resume} />}
       {surface && stream.stalled && !stream.capped && <RetryCard onRetry={stream.retry} />}
       {surface && stream.capped && <EndCard />}

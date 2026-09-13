@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "U-AI OMNI-ENGINE",
     "headline": "Einmal fragen. Jeden Blickwinkel sehen.",
-    "subhead": "Ein dreisekündiger stereoskopischer Blick, ein Schild gegen kommerzielle Verzerrung und dann — auf Abruf — die tiefe Trajektorie. Kein Chat, sondern ein Briefing auf Entscheidungsniveau.",
+    "subhead": "Eine Frage, das Web live synthetisiert und dann nach außen geöffnet — Quellen, Konzepte, Seiten, Aufmerksamkeitswellen, die anderen Ausgaben der Welt.",
     "placeholder": "Frag U-AI alles…",
     "submit": "Analysieren",
     "surfaceScanning": "Scanne drei Perspektiven — technisch, wirtschaftlich, öffentlich…",
-    "lensLabel": "3-Sekunden-Stereoblick",
     "lens": {
       "tech": "Technisch",
       "economy": "Wirtschaftlich",
       "opinion": "Öffentliche Meinung"
     },
-    "shieldLabel": "Schild gegen kommerzielle Verzerrung",
-    "shield": {
-      "clear": "Neutral",
-      "caution": "Vorsicht",
-      "biased": "Starke Verzerrung"
-    },
-    "checklistLabel": "3-Schritte-Aktionscheckliste",
-    "checklist": {
-      "explore": [
-        "Formuliere die eigentliche Frage in einem Satz, bevor du breiter suchst.",
-        "Sammle drei unabhängige Quellen mit gegensätzlichen Interessen.",
-        "Schreibe auf, was deine Meinung ändern würde, und prüfe es."
-      ],
-      "decide": [
-        "Benenne die zwei Optionen und das eine entscheidende Kriterium.",
-        "Ordne Kosten, Risiko und Nutzen jeder Option eine grobe Zahl zu.",
-        "Entscheide dich für die Option mit dem höheren Erwartungswert und lege einen Prüftermin fest."
-      ],
-      "analyze": [
-        "Zerlege die Frage in ihre drei tragenden Annahmen.",
-        "Setze die schwächste Annahme echten Daten aus.",
-        "Baue die Schlussfolgerung aus dem wieder auf, was übrig blieb."
-      ]
-    },
-    "constitutionLabel": "Dekonstruktion der 100 Doktrinen",
     "constitution": {
       "logic": "Logik · Design",
       "future": "Zukunft · Innovation",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "Live-Web-Synthese",
     "webSourcedBadge": "{count} Quellen in Echtzeit synthetisiert",
     "webLocalBadge": "Lokale heuristische Synthese · null externe Aufrufe",
-    "redesignLabel": "Doktrin-Neugestaltungsvektoren",
-    "redesign": [
-      "Verwirf die oberflächliche Antwort — zerlege die Frage entlang der 6 Doktrinachsen.",
-      "Baue die Schlussfolgerung von der schwächsten Achse aus neu auf, nicht von der lautesten.",
-      "Prüfe die Neugestaltung fail-closed — verwirf alles, was nicht standhält."
-    ],
-    "swarmLabel": "Schwarm-Querdenken · 11 Ökosysteme",
     "deepLabel": "Tiefe Einsicht · The VOID",
-    "deepHint": "Chronos-Trajektorie, quantifiziertes Urteil, Entschlüsselung verborgener Absichten und der Blick in den Negativraum.",
-    "deepCta": "Tiefe Einsicht freischalten · {cost} U-COIN",
-    "deepLocked": "Tiefe Einsicht wird kalibriert — bald zurück.",
-    "deepScanning": "Eintritt in den VOID — Trajektorie wird synthetisiert…",
     "openFullReport": "Vollständigen U-AI-Bericht öffnen",
-    "chronosLabel": "Chronos · Trajektorie über 1–3 Jahre",
-    "chronos": {
-      "y1": "In 1 Jahr",
-      "y2": "In 2 Jahren",
-      "y3": "In 3 Jahren"
-    },
-    "binaryLabel": "Entweder / oder · Mathematisches Urteil",
-    "confidence": "Konfidenz",
-    "redPenLabel": "Rotstift · Verborgene Absicht",
-    "voidLabel": "The VOID · Einsicht in den Negativraum",
-    "pathLabel": "Weg der höchsten Effizienz",
-    "cachedBadge": "Genesis-Memory-Cache",
-    "modelNote": "Engine: {model}",
     "brainGridLabel": "Brain-Grid · Kognitive Historie",
     "brainGridClear": "Leeren",
-    "err": {
-      "signin": "Melde dich an, um die tiefe Einsicht freizuschalten.",
-      "phone": "Bestätige deine Telefonnummer, bevor du U-COIN ausgibst.",
-      "insufficient": "Nicht genug U-COIN für die tiefe Einsicht.",
-      "burn_required": "Der U-COIN-Abzug wurde nicht registriert — versuch es erneut.",
-      "deep_unavailable": "Die tiefe Einsicht ist vorübergehend nicht verfügbar.",
-      "generation_failed": "Die tiefe Analyse konnte nicht erzeugt werden — bitte erneut versuchen.",
-      "bad_request": "Diese Anfrage lässt sich nicht analysieren — umformulieren und erneut versuchen.",
-      "unauthenticated": "Deine Sitzung ist abgelaufen — melde dich erneut an."
-    },
-    "reporterFree": "Kostenloser Reporter",
-    "reporterPaid": "Bezahl-Reporter · Anmelden",
-    "followupLabel": "Folgeabfragen · Blickwinkel-Optionen",
-    "followupHint": "Starte die Suche von einer anderen Doktrin-Achse neu oder vertiefe eine zitierte Quelle.",
-    "webBlendNote": "Web-Synthese auf Big-Tech-Niveau 90 % + Neugestaltung der 100 UNITAS-Doktrinen 10 %.",
-    "insightLabel": "UNITAS Insight-Bericht · Souveränes 6-Achsen-Redesign",
-    "insightForging": "Die souveräne Engine schmiedet das 6-Achsen-Redesign — es erscheint hier und bleibt für immer kostenlos.",
-    "insightPending": "{hits} / 3 Suchen. Bei der 3. schmiedet die 100-Doktrin-Engine dieses Redesign einmalig — danach ist es für alle für immer kostenlos.",
-    "insightFreshBadge": "Gerade geschmiedet · im Genesis-Speicher versiegelt",
-    "insightVectorLabel": "Redesign-Vektor · Die blinde Achse",
-    "insightAxisReading": "Lesart",
-    "insightAxisRedesign": "Redesign"
+    "webBlendNote": "Web-Synthese auf Big-Tech-Niveau 90 % + Neugestaltung der 100 UNITAS-Doktrinen 10 %."
   },
   "Governance": {
     "prev": "Zurück",
@@ -1700,14 +1629,12 @@
     "label": "Live-Nachrichten",
     "loading": "Nachrichten werden geladen…",
     "empty": "Gerade keine Live-Nachrichten — versuche es gleich noch einmal.",
-    "all": "Alle",
     "trending": "Im Trend",
     "itn": "In den Nachrichten",
     "views": "{count} Aufrufe",
     "refresh": "Nachrichten aktualisieren",
     "source": "Quellen: Wikimedia Featured Feed · Google News RSS · Bing News RSS · alle 10–15 Min. aktualisiert",
     "category": {
-      "world": "Welt live",
       "politics": "Weltpolitik",
       "economy": "Weltwirtschaft",
       "science": "Weltwissenschaft",
@@ -2657,8 +2584,7 @@
         "depth": "Tiefe",
         "cards": "Karten",
         "sources": "Quellen",
-        "tier": "Gravur",
-        "deepCta": "Tiefenblick"
+        "tier": "Gravur"
       },
       "tier": {
         "spark": "Funke",
@@ -2667,55 +2593,25 @@
         "singularity": "Singularität"
       },
       "kinds": {
-        "essence": "Essenz",
-        "axisSpectrum": "Sechs-Achsen-Spektrum",
-        "sources": "Quellen",
-        "chain": "Fragenkette",
-        "deepGate": "Tiefenblick",
-        "identity": "Identität",
-        "redesign": "Souveräne Neugestaltung",
+        "sources": "Live-Websynthese",
         "deeper": "Tiefer eintauchen",
         "concepts": "Verknüpfte Begriffe",
         "sites": "Verwandte Seiten",
         "news": "Nachrichten",
-        "cogs": "Sechs-Achsen-Linse",
         "derived": "Abgeleitete Werke",
         "attention": "Aufmerksamkeitswelle",
         "community": "Gemeinschaft",
-        "timeline": "Bearbeitungsverlauf",
-        "visual": "Bilder",
         "graph": "Beziehungen",
-        "papers": "Aufsätze",
-        "backlinks": "Was hierher verlinkt",
         "extracts": "Auszüge",
-        "global": "Weltausgaben",
-        "siblings": "Gleiches Regal",
-        "shelf": "Bücher",
-        "art": "Kunst",
-        "number": "Zahlen",
-        "earthEvents": "Erdereignisse"
+        "global": "Weltausgaben"
       },
       "fields": {
         "editions": "Sprachausgaben",
-        "instanceOf": "Art",
-        "entity": "Entität",
         "views30": "Aufrufe in 30 Tagen",
         "trend": "Entwicklung",
         "window": "Zeitraum",
-        "passage": "Abschnitt",
-        "population": "Bevölkerung",
-        "gdp": "BIP",
-        "gdpPerCapita": "BIP pro Kopf",
-        "lifeExpectancy": "Lebenserwartung",
-        "internetUsers": "Internetnutzer",
-        "area": "Fläche",
-        "elevation": "Höhe",
-        "hdi": "HDI",
-        "events": "Ereignisse",
-        "quakes": "Beben"
+        "passage": "Abschnitt"
       },
-      "rare": "Seltene Linse",
-      "rareHint": "Eine feste Linse für diese Frage und Seite — für alle gleich, immer kostenlos.",
       "thin": "Dünne Seite",
       "loading": "Nächste Seite wird gesammelt…",
       "teaser": "Als Nächstes",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "Dieser Begriff hat mehrere Bedeutungen. Der Stream folgt der gängigsten — wählen Sie einen verknüpften Begriff, um zu wechseln."
-      },
-      "deepCreditNote": "{cost} U-COIN pro Tiefenblick — ein vorausbezahltes Zugangsguthaben, kein Wertpapier und kein Wertaufbewahrungsmittel.",
-      "outbound": "Anderswo suchen",
-      "swarmMore": "Alle Ökosysteme",
-      "swarmLess": "Top drei"
-    },
-    "cogs": {
-      "prompt": "{term} durch die Linse {group} lesen",
-      "seed": "Keim",
-      "resonance": "Resonanz",
-      "follow": "Das fragen",
-      "groups": {
-        "origin": "Ursprünge",
-        "element": "Elemente",
-        "civilization": "Zivilisation",
-        "cosmos": "Kosmos",
-        "chronos": "Zeit",
-        "consciousness": "Bewusstsein",
-        "nexus": "Nexus"
-      },
-      "lenses": {
-        "mechanism": "Mechanik",
-        "flow": "Fluss",
-        "scale": "Maßstab",
-        "tension": "Spannung",
-        "horizon": "Horizont"
-      },
-      "ask": {
-        "mechanism": "Was bringt {term} zum Laufen — und was würde es zum Stillstand bringen?",
-        "flow": "Woher fließt der Wert rund um {term} herein, und wohin fließt er ab?",
-        "scale": "Wie sähe {term} zehnmal größer aus — und zehnmal kleiner?",
-        "tension": "Welche Kräfte reißen an {term}, und was hält es zusammen?",
-        "horizon": "Wohin steuert {term}, und wer kommt zuerst an?"
       }
     }
   }

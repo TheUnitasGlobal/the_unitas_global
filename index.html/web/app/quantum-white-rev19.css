@@ -172,23 +172,36 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1::after {
 /* --------------------------------------------------------------------------
    14. Enter key (SPEC §4) -- OmniSynapseSearch.tsx `.qw-enter-key`
    -------------------------------------------------------------------------- */
+/* REV-23 M5 (founder directive 2026-09-13): the ⏎ key used to shout -- a 2px
+   saturated-blue rim, a blue-soft fill and a double glow -- next to a
+   1.5px neutral 3-shortcut toggle 4px shorter than it. The two halves of one
+   action box read as two different components. They now share an IDENTICAL
+   box (same size at both breakpoints, same 1.5px rim, same 10px radius) and
+   the ⏎ sits at rest in the same quiet neutral; the blue is earned on hover,
+   focus and while a query is actually typed, never at rest. */
 html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-enter-key {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   padding: 0;
-  border-width: 2px;
-  border-color: var(--qw-blue);
-  border-radius: 9px;
-  background: var(--qw-blue-soft);
-  color: var(--qw-blue-deep);
-  box-shadow: 0 0 0 2px rgba(11, 92, 255, 0.12), 0 6px 16px -8px rgba(11, 92, 255, 0.55);
-  transition: box-shadow 0.25s ease, transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, opacity 0.25s ease;
+  border-width: 1.5px;
+  border-color: var(--qw-line-strong);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--qw-ink-2);
+  box-shadow: none;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
 }
 @media (min-width: 640px) {
   html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-enter-key {
     width: 38px;
     height: 38px;
   }
+}
+html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-enter-key:not(:disabled):hover,
+html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-enter-key:focus-visible {
+  border-color: var(--qw-blue);
+  background: #fff;
+  color: var(--qw-blue-deep);
 }
 html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-enter-key:disabled {
   opacity: 0.72;
@@ -228,38 +241,15 @@ html[data-unitas-surface='quantum-white'] .qw-attach-item:hover,
 html[data-unitas-surface='quantum-white'] .qw-attach-item:focus-visible {
   background: rgba(11, 92, 255, 0.07);
 }
-html[data-unitas-surface='quantum-white'] .qw-attach-sheet-title,
-html[data-unitas-surface='quantum-white'] .qw-attach-close {
-  color: var(--qw-ink-3);
-  border-color: var(--qw-line-strong);
-}
+/* REV-23 M5: armed, not strobing -- a steady blue fill with a single soft
+   ring instead of the 2.6 s `qw-enter-flux` pulse that made the ⏎ the loudest
+   thing on the page while the visitor was still typing. */
 html[data-unitas-surface='quantum-white'] #omni-synapse-search[data-typing='1'] .qw-enter-key {
   color: #fff;
   background-color: var(--qw-blue);
   border-color: transparent;
-  animation: qw-enter-flux 2.6s linear infinite;
-}
-@keyframes qw-enter-flux {
-  0% {
-    background-color: #0b5cff;
-    box-shadow: 0 0 0 3px rgba(11, 92, 255, 0.32), 0 0 22px rgba(11, 92, 255, 0.75);
-    transform: scale(1);
-  }
-  33% {
-    background-color: #b8962e;
-    box-shadow: 0 0 0 3px rgba(184, 150, 46, 0.32), 0 0 26px rgba(184, 150, 46, 0.8);
-    transform: scale(1.06);
-  }
-  66% {
-    background-color: #19b2c8;
-    box-shadow: 0 0 0 3px rgba(25, 178, 200, 0.32), 0 0 26px rgba(25, 178, 200, 0.8);
-    transform: scale(1);
-  }
-  100% {
-    background-color: #0b5cff;
-    box-shadow: 0 0 0 3px rgba(11, 92, 255, 0.32), 0 0 22px rgba(11, 92, 255, 0.75);
-    transform: scale(1);
-  }
+  box-shadow: 0 0 0 2px rgba(11, 92, 255, 0.16);
+  animation: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -1147,10 +1137,6 @@ html[data-unitas-surface='quantum-white'] button.qw-entry-legal-link {
     animation: none;
     opacity: 1;
   }
-  html[data-unitas-surface='quantum-white'] #omni-synapse-search[data-typing='1'] .qw-enter-key {
-    animation: none;
-    box-shadow: 0 0 0 3px rgba(11, 92, 255, 0.32), 0 0 22px rgba(11, 92, 255, 0.75);
-  }
   html[data-unitas-surface='quantum-white'] .qw-hub-chip .qw-hub-progress {
     animation: none;
     transform: scaleX(1);
@@ -1241,4 +1227,19 @@ html[data-unitas-surface='quantum-white'] .qw-stream-check-box {
 }
 html[data-unitas-surface='quantum-white'] .qw-stream-model {
   color: var(--qw-ink-3);
+}
+
+/* --------------------------------------------------------------------------
+   REV-23 M2.3 -- two-step title on the white surface. Same geometry as the
+   dark route (globals.css); only the ink and the ring change, so a heading
+   never reads as gold-on-white.
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-two-step-hit:hover {
+  background: rgba(11, 92, 255, 0.07);
+}
+html[data-unitas-surface='quantum-white'] .qw-two-step-hit[data-selected='1'],
+html[data-unitas-surface='quantum-white'] .qw-two-step-hit:focus-visible {
+  background: rgba(11, 92, 255, 0.1);
+  box-shadow: 0 0 0 1.5px var(--qw-blue);
+  color: var(--qw-blue-deep);
 }

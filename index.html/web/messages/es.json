@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "MOTOR OMNI U-AI",
     "headline": "Pregunta una vez. Ve todos los ángulos.",
-    "subhead": "Una lectura estereoscópica de tres segundos, un escudo de sesgo comercial y, bajo demanda, la trayectoria profunda. No es un chat: es un informe con grado de decisión.",
+    "subhead": "Una pregunta, la web sintetizada en vivo y luego abierta hacia fuera: fuentes, conceptos, sitios, olas de atención, las otras ediciones del mundo.",
     "placeholder": "Pregunta lo que sea a U-AI…",
     "submit": "Analizar",
     "surfaceScanning": "Escaneando tres perspectivas: técnica, económica, pública…",
-    "lensLabel": "Vista estereoscópica de 3 segundos",
     "lens": {
       "tech": "Técnica",
       "economy": "Económica",
       "opinion": "Opinión pública"
     },
-    "shieldLabel": "Escudo de sesgo comercial",
-    "shield": {
-      "clear": "Neutral",
-      "caution": "Precaución",
-      "biased": "Sesgo alto"
-    },
-    "checklistLabel": "Lista de acción de 3 pasos",
-    "checklist": {
-      "explore": [
-        "Define la pregunta real en una frase antes de buscar más.",
-        "Reúne tres fuentes independientes con incentivos opuestos.",
-        "Anota qué te haría cambiar de opinión y ponlo a prueba."
-      ],
-      "decide": [
-        "Enuncia las dos opciones y el único criterio decisivo.",
-        "Pon un número aproximado a coste, riesgo y beneficio de cada una.",
-        "Comprométete con la de mayor valor esperado y fija una fecha de revisión."
-      ],
-      "analyze": [
-        "Descompón la pregunta en sus tres supuestos de carga.",
-        "Somete el supuesto más débil a datos reales.",
-        "Reconstruye la conclusión con lo que sobrevivió."
-      ]
-    },
-    "constitutionLabel": "Deconstrucción de las 100 Doctrinas",
     "constitution": {
       "logic": "Lógica · Diseño",
       "future": "Futuro · Innovación",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "Síntesis web en vivo",
     "webSourcedBadge": "{count} fuentes sintetizadas en tiempo real",
     "webLocalBadge": "Síntesis heurística local · cero llamadas externas",
-    "redesignLabel": "Vectores de rediseño doctrinal",
-    "redesign": [
-      "Descarta la respuesta superficial: deconstruye la pregunta en los 6 ejes doctrinales.",
-      "Reconstruye la conclusión desde el eje con menor puntuación, no el más ruidoso.",
-      "Somete el rediseño a prueba con cierre ante fallos: descarta lo que no sobreviva."
-    ],
-    "swarmLabel": "Razonamiento cruzado en enjambre · 11 ecosistemas",
     "deepLabel": "Perspectiva profunda · The VOID",
-    "deepHint": "Trayectoria Chronos, veredicto cuantificado, decodificación de intención oculta y lectura del espacio negativo.",
-    "deepCta": "Desbloquear perspectiva profunda · {cost} U-COIN",
-    "deepLocked": "La perspectiva profunda se está calibrando — vuelve pronto.",
-    "deepScanning": "Entrando en el VOID — sintetizando la trayectoria…",
     "openFullReport": "Abrir el informe completo de U-AI",
-    "chronosLabel": "Chronos · Trayectoria de 1 a 3 años",
-    "chronos": {
-      "y1": "En 1 año",
-      "y2": "En 2 años",
-      "y3": "En 3 años"
-    },
-    "binaryLabel": "Uno u otro · Veredicto matemático",
-    "confidence": "Confianza",
-    "redPenLabel": "Bolígrafo rojo · Intención oculta",
-    "voidLabel": "The VOID · Perspectiva del espacio negativo",
-    "pathLabel": "Ruta de máxima eficiencia",
-    "cachedBadge": "Caché de Genesis Memory",
-    "modelNote": "Motor: {model}",
     "brainGridLabel": "Brain-Grid · Historial cognitivo",
     "brainGridClear": "Borrar",
-    "err": {
-      "signin": "Inicia sesión para desbloquear la perspectiva profunda.",
-      "phone": "Verifica tu número de teléfono antes de gastar U-COIN.",
-      "insufficient": "No tienes suficientes U-COIN para la perspectiva profunda.",
-      "burn_required": "El gasto de U-COIN no se registró — inténtalo de nuevo.",
-      "deep_unavailable": "La perspectiva profunda no está disponible temporalmente.",
-      "generation_failed": "No se pudo generar el análisis profundo — inténtalo de nuevo.",
-      "bad_request": "Esa consulta no se puede analizar — reformúlala y reinténtalo.",
-      "unauthenticated": "Tu sesión ha caducado — inicia sesión de nuevo."
-    },
-    "reporterFree": "Reportero gratuito",
-    "reporterPaid": "Reportero de pago · Iniciar sesión",
-    "followupLabel": "Consultas de seguimiento · Opciones de enfoque",
-    "followupHint": "Relanza la búsqueda desde otro eje doctrinal o profundiza en una fuente citada.",
-    "webBlendNote": "Síntesis web de nivel big-tech 90 % + rediseño de las 100 doctrinas de UNITAS 10 %.",
-    "insightLabel": "Informe de Perspectiva UNITAS · Rediseño Soberano de 6 Ejes",
-    "insightForging": "El motor soberano está forjando el rediseño de 6 ejes: aparecerá aquí y será gratis para siempre.",
-    "insightPending": "{hits} / 3 búsquedas. En la 3.ª, el motor de las 100 doctrinas forja este rediseño una sola vez y luego es gratis para todos, para siempre.",
-    "insightFreshBadge": "Recién forjado · sellado en la Memoria Génesis",
-    "insightVectorLabel": "Vector de Rediseño · El Eje Ciego",
-    "insightAxisReading": "Lectura",
-    "insightAxisRedesign": "Rediseño"
+    "webBlendNote": "Síntesis web de nivel big-tech 90 % + rediseño de las 100 doctrinas de UNITAS 10 %."
   },
   "Governance": {
     "prev": "Anterior",
@@ -1700,14 +1629,12 @@
     "label": "Noticias en Vivo",
     "loading": "Cargando noticias…",
     "empty": "No hay noticias en vivo ahora — inténtalo de nuevo en breve.",
-    "all": "Todas",
     "trending": "Tendencia",
     "itn": "En las noticias",
     "views": "{count} vistas",
     "refresh": "Actualizar noticias",
     "source": "Fuentes: feed destacado de Wikimedia · RSS de Google News · RSS de Bing News · se actualiza cada 10–15 min",
     "category": {
-      "world": "Mundo en vivo",
       "politics": "Política mundial",
       "economy": "Economía mundial",
       "science": "Ciencia mundial",
@@ -2657,8 +2584,7 @@
         "depth": "Profundidad",
         "cards": "Tarjetas",
         "sources": "Fuentes",
-        "tier": "Grabado",
-        "deepCta": "Visión profunda"
+        "tier": "Grabado"
       },
       "tier": {
         "spark": "Chispa",
@@ -2667,55 +2593,25 @@
         "singularity": "Singularidad"
       },
       "kinds": {
-        "essence": "Esencia",
-        "axisSpectrum": "Espectro de seis ejes",
-        "sources": "Fuentes",
-        "chain": "Cadena de preguntas",
-        "deepGate": "Visión profunda",
-        "identity": "Identidad",
-        "redesign": "Rediseño soberano",
+        "sources": "Síntesis web en tiempo real",
         "deeper": "Explorar más a fondo",
         "concepts": "Conceptos vinculados",
         "sites": "Sitios relacionados",
         "news": "Noticias",
-        "cogs": "Lente de seis ejes",
         "derived": "Obras derivadas",
         "attention": "Ola de atención",
         "community": "Comunidad",
-        "timeline": "Cronología de ediciones",
-        "visual": "Imágenes",
         "graph": "Relaciones",
-        "papers": "Artículos",
-        "backlinks": "Qué enlaza aquí",
         "extracts": "Pasajes",
-        "global": "Ediciones del mundo",
-        "siblings": "Misma rama",
-        "shelf": "Libros",
-        "art": "Arte",
-        "number": "Cifras",
-        "earthEvents": "Eventos terrestres"
+        "global": "Ediciones del mundo"
       },
       "fields": {
         "editions": "Ediciones por idioma",
-        "instanceOf": "Tipo de",
-        "entity": "Entidad",
         "views30": "Vistas en 30 días",
         "trend": "Tendencia",
         "window": "Periodo",
-        "passage": "Pasaje",
-        "population": "Población",
-        "gdp": "PIB",
-        "gdpPerCapita": "PIB per cápita",
-        "lifeExpectancy": "Esperanza de vida",
-        "internetUsers": "Usuarios de internet",
-        "area": "Superficie",
-        "elevation": "Altitud",
-        "hdi": "IDH",
-        "events": "Eventos",
-        "quakes": "Sismos"
+        "passage": "Pasaje"
       },
-      "rare": "Lente rara",
-      "rareHint": "Una lente fija para esta pregunta y esta página: la misma para todos, siempre gratis.",
       "thin": "Página escasa",
       "loading": "Reuniendo la siguiente página…",
       "teaser": "A continuación",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "Este término tiene varios significados. El flujo sigue el más común: elige un concepto vinculado para cambiarlo."
-      },
-      "deepCreditNote": "{cost} U-COIN por cada visión profunda: un crédito de acceso prepagado, no un valor negociable ni una reserva de valor.",
-      "outbound": "Buscar en otro sitio",
-      "swarmMore": "Todos los ecosistemas",
-      "swarmLess": "Los tres primeros"
-    },
-    "cogs": {
-      "prompt": "Leer {term} a través de la lente de {group}",
-      "seed": "Semilla",
-      "resonance": "Resonancia",
-      "follow": "Preguntar esto",
-      "groups": {
-        "origin": "Orígenes",
-        "element": "Elementos",
-        "civilization": "Civilización",
-        "cosmos": "Cosmos",
-        "chronos": "Tiempo",
-        "consciousness": "Conciencia",
-        "nexus": "Nexo"
-      },
-      "lenses": {
-        "mechanism": "Mecanismo",
-        "flow": "Flujo",
-        "scale": "Escala",
-        "tension": "Tensión",
-        "horizon": "Horizonte"
-      },
-      "ask": {
-        "mechanism": "¿Qué hace funcionar a {term} — y qué lo rompería?",
-        "flow": "¿De dónde entra el valor que rodea a {term} y hacia dónde se va?",
-        "scale": "¿Cómo sería {term} diez veces más grande — y diez veces más pequeño?",
-        "tension": "¿Qué fuerzas separan a {term} y qué lo mantiene unido?",
-        "horizon": "¿Hacia dónde va {term} y quién llegará primero?"
       }
     }
   }

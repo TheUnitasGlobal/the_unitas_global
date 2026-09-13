@@ -42,6 +42,9 @@ export function HotShortcutMatrixStrip() {
       onMouseDown={(e) => e.preventDefault()}
       className="relative z-30"
       data-shortcut-strip=""
+      // REV-23 M2.1: the E2E contract for "뉴스는 미입력 팝업 전용" -- this
+      // node exists only while the search box is focused AND empty.
+      data-news-scope="empty-only"
     >
       {/* In flow (not an absolute overlay): opening the matrix pushes the
           module walls below downward, so the strip can keep growing new

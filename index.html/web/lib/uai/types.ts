@@ -1,14 +1,16 @@
 /**
- * U-AI omni search engine -- shared type contract for the surface (Phase 1,
- * client heuristic) and deep (Phase 2-4, Claude + Genesis Memory) reports.
+ * U-AI omni search engine -- shared type contract for the surface report
+ * (the instant, free, client-side heuristic) and the shortcut / trend
+ * engines that read Genesis Memory.
  *
- * The dashboard renders these as modular components (progress bars, gauges,
- * checklists, a Chronos timeline) -- never as flat prose (owner instruction
- * 2026-08-30).
+ * REV-23 M2.2 (founder directive 2026-09-13): the deep (Phase 2-4) tier is
+ * deleted. `ChronosPoint`, `BinaryVerdict`, `DeepReport`, `DeepInsightError`,
+ * `DeepInsightApiResponse` and the `UAI_DEEP_INSIGHT_COST` Micro-Burn
+ * constant are gone with it. NOTE FOR THE FOUNDER: that removes the U-AI
+ * search's only U-COIN burn surface -- the coin economy now runs entirely
+ * through the page-level module access gate
+ * (app/[locale]/(gated)/layout.tsx).
  */
-
-/** U-COIN burned on every deep-insight request -- the "Micro-Burn" margin. */
-export const UAI_DEEP_INSIGHT_COST = 3;
 
 /**
  * One image attached to a deep-insight request -- the multimodal input path.
@@ -201,48 +203,3 @@ export interface SurfaceReport {
   swarm: SwarmScore[];
   topEcosystemKey: string | null;
 }
-
-export interface ChronosPoint {
-  /** translation-key suffix: `y1` | `y2` | `y3`. */
-  horizon: 'y1' | 'y2' | 'y3';
-  text: string;
-}
-
-export interface BinaryVerdict {
-  optionA: string;
-  optionB: string;
-  /** which option the math favours. */
-  pick: 'A' | 'B';
-  rationale: string;
-  /** 0-100. */
-  confidence: number;
-}
-
-export interface DeepReport {
-  /** Phase 2 -- 1/2/3-year forward trajectory. */
-  chronos: ChronosPoint[];
-  /** Phase 2 -- quantified either/or decision. */
-  binary: BinaryVerdict;
-  /** Phase 3 -- red-pen decode of the commercial/hidden intent behind the query. */
-  redPen: string[];
-  /** Phase 3 -- The VOID: the cinematic negative-space insight (one paragraph). */
-  voidInsight: string;
-  /** Phase 4 -- the highest-efficiency path that breaks the user's stated constraints. */
-  efficiencyPath: string[];
-  model: string;
-  /** true when served from Genesis Memory rather than a fresh Claude call. */
-  cached: boolean;
-}
-
-export type DeepInsightError =
-  | 'burn_required'
-  | 'insufficient'
-  | 'phone'
-  | 'deep_unavailable'
-  | 'unauthenticated'
-  | 'bad_request'
-  | 'generation_failed';
-
-export type DeepInsightApiResponse =
-  | ({ ok: true } & DeepReport)
-  | { ok: false; error: DeepInsightError };

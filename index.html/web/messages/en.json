@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "U-AI OMNI ENGINE",
     "headline": "Ask once. See every angle.",
-    "subhead": "A three-second stereoscopic read, a commercial-bias shield, then — on demand — the deep trajectory. Not a chat. A decision-grade brief.",
+    "subhead": "One question, the live web synthesised and then opened outward — sources, concepts, sites, waves of attention, the world’s other editions.",
     "placeholder": "Ask U-AI anything…",
     "submit": "Analyze",
     "surfaceScanning": "Scanning three perspectives — technical, economic, public…",
-    "lensLabel": "3-Second Stereoscopic View",
     "lens": {
       "tech": "Technical",
       "economy": "Economic",
       "opinion": "Public Opinion"
     },
-    "shieldLabel": "Commercial-Bias Shield",
-    "shield": {
-      "clear": "Clear",
-      "caution": "Caution",
-      "biased": "Heavy bias"
-    },
-    "checklistLabel": "3-Step Action Checklist",
-    "checklist": {
-      "explore": [
-        "Frame the real question in one sentence before searching wider.",
-        "Collect three independent sources with opposing incentives.",
-        "Write down what would change your mind, then test it."
-      ],
-      "decide": [
-        "State the two options and the single deciding criterion.",
-        "Put a rough number on cost, risk and upside for each.",
-        "Commit to the higher-expected-value option and set a review date."
-      ],
-      "analyze": [
-        "Break the question into its three load-bearing assumptions.",
-        "Pressure-test the weakest assumption against real data.",
-        "Rebuild the conclusion from what survived."
-      ]
-    },
-    "constitutionLabel": "100-Doctrine Deconstruction",
     "constitution": {
       "logic": "Logic · Design",
       "future": "Future · Innovation",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "Live Web Synthesis",
     "webSourcedBadge": "{count} sources synthesized in real time",
     "webLocalBadge": "Local heuristic synthesis · zero external calls",
-    "redesignLabel": "Doctrine Redesign Vectors",
-    "redesign": [
-      "Drop the surface answer — deconstruct the question across the 6 doctrine axes.",
-      "Rebuild the conclusion from the lowest-scoring axis, not the loudest one.",
-      "Pressure-test the redesign fail-closed — discard whatever doesn't survive."
-    ],
-    "swarmLabel": "Swarm Cross-Reasoning · 11 Ecosystems",
     "deepLabel": "Deep Insight · The VOID",
-    "deepHint": "Chronos trajectory, a quantified verdict, hidden-intent decode and the negative-space read.",
-    "deepCta": "Unlock deep insight · {cost} U-COIN",
-    "deepLocked": "Deep insight is being calibrated — back soon.",
-    "deepScanning": "Entering the VOID — synthesizing the trajectory…",
     "openFullReport": "Open the full U-AI report",
-    "chronosLabel": "Chronos · 1–3 Year Trajectory",
-    "chronos": {
-      "y1": "In 1 year",
-      "y2": "In 2 years",
-      "y3": "In 3 years"
-    },
-    "binaryLabel": "Either / Or · Mathematical Verdict",
-    "confidence": "Confidence",
-    "redPenLabel": "Red-Pen · Hidden Intent",
-    "voidLabel": "The VOID · Negative-Space Insight",
-    "pathLabel": "Highest-Efficiency Path",
-    "cachedBadge": "Genesis Memory cache",
-    "modelNote": "Engine: {model}",
     "brainGridLabel": "Brain-Grid · Cognitive History",
     "brainGridClear": "Clear",
-    "err": {
-      "signin": "Sign in to unlock deep insight.",
-      "phone": "Verify your phone number before spending U-COIN.",
-      "insufficient": "Not enough U-COIN for deep insight.",
-      "burn_required": "The U-COIN burn didn’t register — try again.",
-      "deep_unavailable": "Deep insight is temporarily unavailable.",
-      "generation_failed": "Deep analysis failed to generate — please retry.",
-      "bad_request": "That query can’t be analyzed — rephrase and retry.",
-      "unauthenticated": "Your session expired — sign in again."
-    },
-    "reporterFree": "Free Reporter",
-    "reporterPaid": "Paid Reporter · Sign in",
-    "followupLabel": "Follow-up Queries · Angle Options",
-    "followupHint": "Re-run the search from another doctrine axis, or dig into a cited source.",
-    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%.",
-    "insightLabel": "UNITAS Insight Report · 6-Axis Sovereign Redesign",
-    "insightForging": "The sovereign engine is forging the 6-axis redesign — it will appear here and stay free forever.",
-    "insightPending": "{hits} / 3 searches. On the 3rd, the 100-doctrine engine forges this redesign once — then it is free for everyone, forever.",
-    "insightFreshBadge": "Forged just now · sealed into Genesis Memory",
-    "insightVectorLabel": "Redesign Vector · The Blind Axis",
-    "insightAxisReading": "Reading",
-    "insightAxisRedesign": "Redesign"
+    "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%."
   },
   "Governance": {
     "prev": "Prev",
@@ -1700,14 +1629,12 @@
     "label": "Live News",
     "loading": "Loading live news…",
     "empty": "No live news right now — try again shortly.",
-    "all": "All",
     "trending": "Trending",
     "itn": "In the news",
     "views": "{count} views",
     "refresh": "Refresh news",
     "source": "Sources: Wikimedia featured feed · Google News RSS · Bing News RSS · refreshed every 10–15 min",
     "category": {
-      "world": "World Live",
       "politics": "World Politics",
       "economy": "World Economy",
       "science": "World Science",
@@ -2657,8 +2584,7 @@
         "depth": "Depth",
         "cards": "Cards",
         "sources": "Sources",
-        "tier": "Engraving",
-        "deepCta": "Deep insight"
+        "tier": "Engraving"
       },
       "tier": {
         "spark": "Spark",
@@ -2667,55 +2593,25 @@
         "singularity": "Singularity"
       },
       "kinds": {
-        "essence": "Essence",
-        "axisSpectrum": "Six-axis spectrum",
-        "sources": "Sources",
-        "chain": "Question chain",
-        "deepGate": "Deep insight",
-        "identity": "Identity",
-        "redesign": "Sovereign redesign",
+        "sources": "Live web synthesis",
         "deeper": "Explore deeper",
         "concepts": "Linked concepts",
         "sites": "Related sites",
         "news": "News",
-        "cogs": "Six-axis lens",
         "derived": "Derived works",
         "attention": "Attention wave",
         "community": "Community",
-        "timeline": "Edit timeline",
-        "visual": "Images",
         "graph": "Relations",
-        "papers": "Papers",
-        "backlinks": "What links here",
         "extracts": "Passages",
-        "global": "World editions",
-        "siblings": "Same shelf",
-        "shelf": "Books",
-        "art": "Art",
-        "number": "Numbers",
-        "earthEvents": "Earth events"
+        "global": "World editions"
       },
       "fields": {
         "editions": "Language editions",
-        "instanceOf": "Kind of",
-        "entity": "Entity",
         "views30": "Views in 30 days",
         "trend": "Trend",
         "window": "Window",
-        "passage": "Passage",
-        "population": "Population",
-        "gdp": "GDP",
-        "gdpPerCapita": "GDP per capita",
-        "lifeExpectancy": "Life expectancy",
-        "internetUsers": "Internet users",
-        "area": "Area",
-        "elevation": "Elevation",
-        "hdi": "HDI",
-        "events": "Events",
-        "quakes": "Quakes"
+        "passage": "Passage"
       },
-      "rare": "Rare lens",
-      "rareHint": "A fixed lens for this question and page — the same for everyone, always free.",
       "thin": "Thin page",
       "loading": "Gathering the next page…",
       "teaser": "Next up",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "This term has several meanings. The stream follows the most common one — pick a linked concept to switch."
-      },
-      "deepCreditNote": "{cost} U-COIN per deep insight — a prepaid access credit, not a security or a store of value.",
-      "outbound": "Search elsewhere",
-      "swarmMore": "All ecosystems",
-      "swarmLess": "Top three"
-    },
-    "cogs": {
-      "prompt": "Read {term} through the lens of {group}",
-      "seed": "Seed",
-      "resonance": "Resonance",
-      "follow": "Ask this",
-      "groups": {
-        "origin": "Origins",
-        "element": "Elements",
-        "civilization": "Civilization",
-        "cosmos": "Cosmos",
-        "chronos": "Time",
-        "consciousness": "Consciousness",
-        "nexus": "Nexus"
-      },
-      "lenses": {
-        "mechanism": "Mechanism",
-        "flow": "Flow",
-        "scale": "Scale",
-        "tension": "Tension",
-        "horizon": "Horizon"
-      },
-      "ask": {
-        "mechanism": "What makes {term} work — and what would break it?",
-        "flow": "Where does the value around {term} flow in from, and where does it leave to?",
-        "scale": "What does {term} look like ten times larger — and ten times smaller?",
-        "tension": "Which forces pull {term} apart, and what holds it together?",
-        "horizon": "Where is {term} heading, and who gets there first?"
       }
     }
   }

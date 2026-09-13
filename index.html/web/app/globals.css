@@ -931,11 +931,22 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   border-radius: 12px;
   background: rgba(10, 10, 12, 0.96);
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+  transform-origin: top right;
+  /* REV-23 M5: an immediate, smooth dropdown -- the same surface at every
+     width now that the below-768px bottom sheet is retired. */
+  animation: qw-attach-drop 140ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes qw-attach-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 .qw-attach-menu[hidden] {
-  display: none;
-}
-.qw-attach-sheet-head {
   display: none;
 }
 .qw-attach-item {
@@ -955,6 +966,11 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
 .qw-attach-item:focus-visible {
   background: rgba(255, 255, 255, 0.06);
   outline: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .qw-attach-menu {
+    animation: none;
+  }
 }
 @media (prefers-reduced-motion: reduce), (hover: none) {
   /* static stack: all three icons visible, no motion */
@@ -979,40 +995,13 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
     display: none;
   }
 }
+/* REV-23 M5: the below-768px bottom sheet is GONE (founder directive
+   2026-09-13). The dropdown above serves every width; on a narrow screen it
+   simply right-aligns to the toggle and is capped by the search bar's own
+   container, so it never needs the soft-keyboard offset the sheet did. */
 @media (max-width: 767px) {
   .qw-attach-menu {
-    position: fixed;
-    top: auto;
-    left: 0;
-    right: 0;
-    bottom: var(--qw-sheet-offset, 0px);
-    z-index: 150;
-    min-width: 0;
-    padding: 8px 12px calc(12px + env(safe-area-inset-bottom));
-    border-radius: 16px 16px 0 0;
-    border-bottom: 0;
-  }
-  .qw-attach-sheet-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 4px 4px 8px;
-  }
-  .qw-attach-sheet-title {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #9ca3af;
-  }
-  .qw-attach-close {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #9ca3af;
+    min-width: 168px;
   }
 }
 
@@ -2387,6 +2376,73 @@ a.qw-stream-item-link:hover .qw-stream-item-title {
   .qw-site-article-toc button,
   .qw-site-article-actions a,
   .qw-site-article-actions button {
+    transition: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   REV-23 M1 -- sealed gateway chrome suppression.
+   The edge gate (lib/gate/funnelGate.ts) rewrites every ungated navigation
+   onto `/<locale>/gateway`, whose page body is empty by design. The shared
+   locale layout still mounts the nav (it has to: one layout serves both the
+   sealed and the released route), so this rule removes even that chrome from
+   the sealed surface. Static CSS, so the gateway page stays fully
+   statically-generated -- no `headers()`, no dynamic rendering. Browsers
+   without `:has()` simply keep the nav underneath the opaque curtain, which
+   is where it already was.
+   -------------------------------------------------------------------------- */
+body:has([data-unitas-gateway]) #unitas-nav,
+body:has([data-unitas-gateway]) .dashboard-zoom {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   REV-23 M2.3 -- two-step title activation.
+   The ONLY activation target on a card / sub-heading / detail heading. A
+   first click arms it (`data-selected="1"`: visible ring + accent ink), a
+   second click opens. The hit area is the text run and its own padding --
+   never the card, never the gaps -- which is the whole point: the visitor
+   can see exactly what will react before they touch it.
+   -------------------------------------------------------------------------- */
+.qw-two-step {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+.qw-two-step-hit {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  align-items: center;
+  gap: 6px;
+  margin: -2px -6px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.16s ease, box-shadow 0.16s ease, color 0.16s ease;
+}
+.qw-two-step-hit > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qw-two-step-hit:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.qw-two-step-hit[data-selected='1'],
+.qw-two-step-hit:focus-visible {
+  background: rgba(212, 175, 55, 0.12);
+  box-shadow: 0 0 0 1.5px rgba(212, 175, 55, 0.65);
+  color: #f2d675;
+  outline: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .qw-two-step-hit {
     transition: none;
   }
 }

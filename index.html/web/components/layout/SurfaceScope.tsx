@@ -2,6 +2,9 @@
 
 import '@/app/quantum-white.css';
 import '@/app/quantum-white-rev19.css';
+// REV-23 M4 -- the hyper wordmark. Loaded LAST so its paint wins over the
+// two theme sheets' hero-title `color` without an `!important` anywhere.
+import '@/app/unitas-wordmark.css';
 
 import { useEffect, useLayoutEffect, type ReactNode } from 'react';
 

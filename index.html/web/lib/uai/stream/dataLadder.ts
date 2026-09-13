@@ -14,29 +14,13 @@
 import type { DeeperAnchor } from '../deeperAnchor';
 import { compactNumber, daysAgo, deeperFetchJson, isoDate, quoted, wikiPageUrl, wikidataUrl } from '../deeperFetch';
 import { parseWikiLinks, wikiLinksUrl } from '../entityResolve';
-import type { ConstitutionScore } from '../types';
-import { cogsCardFor } from './cogsMatrix';
-import {
-  artLeg,
-  backlinksLeg,
-  earthEventsLeg,
-  extractsLeg,
-  globalLeg,
-  graphLeg,
-  numberLeg,
-  papersLeg,
-  shelfLeg,
-  siblingsLeg,
-  visualLeg,
-  type Stage2Context,
-} from './dataLadder2';
+import { extractsLeg, globalLeg, graphLeg, type Stage2Context } from './dataLadder2';
 import { STREAM_PAGE_CAP, streamRecipe, type StreamCard, type StreamCardKind, type StreamItem, type StreamPage } from './streamTypes';
 
 export interface StreamContext {
   locale: string;
   lang: string;
   country: string;
-  constitution: readonly ConstitutionScore[];
   signal?: AbortSignal;
   /** Absolute origin for the same-origin routes when running server-side. */
   origin?: string;
@@ -51,38 +35,6 @@ interface WdEntity {
   descriptions?: Record<string, { value?: string }>;
   sitelinks?: Record<string, { title?: string }>;
   claims?: Record<string, Array<{ mainsnak?: { datavalue?: { value?: unknown } } }>>;
-}
-
-async function identityLeg(anchor: DeeperAnchor, ctx: StreamContext, page: number): Promise<StreamCard | null> {
-  if (!anchor.qid) return null;
-  const json = await deeperFetchJson<{ entities?: Record<string, WdEntity> }>(
-    `https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${anchor.qid}&props=labels|descriptions|sitelinks|claims&languages=${ctx.lang}|en&format=json&origin=*`,
-    { signal: ctx.signal },
-  );
-  const e = json?.entities?.[anchor.qid];
-  if (!e) return null;
-  const p31 = (e.claims?.P31 ?? []).map((c) => (c.mainsnak?.datavalue?.value as { id?: string } | undefined)?.id).filter((id): id is string => Boolean(id)).slice(0, 4);
-  const labels = p31.length > 0
-    ? await deeperFetchJson<{ entities?: Record<string, WdEntity> }>(`https://www.wikidata.org/w/api.php?action=wbgetentities&ids=${p31.join('|')}&props=labels&languages=${ctx.lang}|en&format=json&origin=*`, { signal: ctx.signal })
-    : null;
-  const classNames = p31.map((id) => labels?.entities?.[id]?.labels?.[ctx.lang]?.value ?? labels?.entities?.[id]?.labels?.en?.value).filter((v): v is string => Boolean(v));
-  const editions = Object.keys(e.sitelinks ?? {}).filter((k) => /wiki$/.test(k) && !/^(commons|species|wikidata|meta)wiki$/.test(k)).length;
-  const description = e.descriptions?.[ctx.lang]?.value ?? e.descriptions?.en?.value;
-  return {
-    id: `identity-${page}`,
-    kind: 'identity',
-    page,
-    scope: 'global',
-    sourceId: 'wikidata',
-    sourceUrl: wikidataUrl(anchor.qid),
-    text: description,
-    facts: [
-      { label: 'editions', value: String(editions), emphasis: true },
-      ...(classNames.length > 0 ? [{ label: 'instanceOf', value: classNames.join(' · ') }] : []),
-      { label: 'entity', value: anchor.qid },
-    ],
-    items: classNames.length > 0 ? p31.map((id, i) => ({ id, title: classNames[i] ?? id, qid: id, query: classNames[i], url: wikidataUrl(id) })).filter((it) => it.title !== it.id).slice(0, 4) : undefined,
-  };
 }
 
 async function conceptsLeg(anchor: DeeperAnchor, ctx: StreamContext, page: number, offset: string | undefined): Promise<{ card: StreamCard | null; next?: string }> {
@@ -253,37 +205,13 @@ interface Revisions {
   query?: { pages?: Array<{ revisions?: Array<{ timestamp?: string; user?: string; comment?: string; anon?: boolean }> }> };
 }
 
-async function timelineLeg(anchor: DeeperAnchor, ctx: StreamContext, page: number, rvcontinue: string | undefined): Promise<{ card: StreamCard | null; next?: string }> {
-  const title = anchor.lang === ctx.lang ? anchor.localeTitle : anchor.enTitle;
-  const lang = anchor.lang === ctx.lang ? ctx.lang : 'en';
-  if (!title) return { card: null };
-  const json = await deeperFetchJson<Revisions>(
-    `https://${lang}.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=revisions&rvprop=timestamp|user|comment|flags&rvlimit=10${rvcontinue ? `&rvcontinue=${encodeURIComponent(rvcontinue)}` : ''}&redirects=1&format=json&formatversion=2&origin=*`,
-    { signal: ctx.signal },
-  );
-  const revs = json?.query?.pages?.[0]?.revisions ?? [];
-  if (revs.length === 0) return { card: null };
-  const mask = (u: string | undefined, anon?: boolean) => (!u || anon || /^\d{1,3}(\.\d{1,3}){3}$/.test(u) || /:/.test(u) || /^~/.test(u) ? '·····' : u);
-  return {
-    card: {
-      id: `timeline-${page}`,
-      kind: 'timeline',
-      page,
-      scope: lang === 'en' ? 'global' : 'country',
-      sourceId: 'wikipedia',
-      sourceUrl: `${wikiPageUrl(lang, title)}?action=history`,
-      items: revs.map((r, i) => ({ id: `rev-${page}-${i}`, title: (r.comment ?? '').replace(/\/\*.*?\*\//g, '').trim() || '—', meta: `${(r.timestamp ?? '').slice(0, 10)} · ${mask(r.user, r.anon)}`, date: r.timestamp })),
-    },
-    next: json?.continue?.rvcontinue,
-  };
-}
-
 /* ------------------------------------------------------------------ */
 /* Cursor + page                                                        */
 /* ------------------------------------------------------------------ */
 
 export interface LadderCursor {
   concepts?: string;
+  conceptsDone: boolean;
   sitesOffset: number;
   newsGlobal: number;
   newsCountry: number;
@@ -291,33 +219,16 @@ export interface LadderCursor {
   attentionMonths: number;
   hn: number;
   hnMore: boolean;
-  timeline?: string;
-  timelineDone: boolean;
-  conceptsDone: boolean;
-  /* stage 2 (M10) */
-  visual: number;
-  visualDone: boolean;
   graph: number;
   graphDone: boolean;
-  papers: number;
-  papersDone: boolean;
-  backlinks?: string;
-  backlinksDone: boolean;
   extracts: number;
   extractsDone: boolean;
   globalOffset: number;
   globalDone: boolean;
-  siblings: { category?: string; cont?: string };
-  siblingsDone: boolean;
-  shelf: number;
-  shelfDone: boolean;
-  art: { ids?: number[]; offset: number };
-  artDone: boolean;
-  numberIndicator: number;
-  numberDone: boolean;
 }
 
 export const INITIAL_LADDER_CURSOR: LadderCursor = {
+  conceptsDone: false,
   sitesOffset: 0,
   newsGlobal: 0,
   newsCountry: 0,
@@ -325,27 +236,12 @@ export const INITIAL_LADDER_CURSOR: LadderCursor = {
   attentionMonths: 0,
   hn: 0,
   hnMore: true,
-  timelineDone: false,
-  conceptsDone: false,
-  visual: 0,
-  visualDone: false,
   graph: 0,
   graphDone: false,
-  papers: 0,
-  papersDone: false,
-  backlinksDone: false,
   extracts: 0,
   extractsDone: false,
   globalOffset: 0,
   globalDone: false,
-  siblings: {},
-  siblingsDone: false,
-  shelf: 0,
-  shelfDone: false,
-  art: { offset: 0 },
-  artDone: false,
-  numberIndicator: 0,
-  numberDone: false,
 };
 
 export interface BuiltPage {
@@ -374,7 +270,6 @@ export async function buildStreamPage(query: string, page: number, anchor: Deepe
   try {
     // Sequential inside a page: Wikimedia legs are serialized anyway and
     // the page budget is two of them.
-    if (wants('identity')) push(await identityLeg(anchor, ctx, page));
     if (wants('concepts') && !next.conceptsDone) {
       const r = await conceptsLeg(anchor, ctx, page, next.concepts);
       push(r.card);
@@ -408,37 +303,12 @@ export async function buildStreamPage(query: string, page: number, anchor: Deepe
       next.hn += 1;
       next.hnMore = r.more;
     }
-    if (wants('timeline') && !next.timelineDone) {
-      const r = await timelineLeg(anchor, ctx, page, next.timeline);
-      push(r.card);
-      if (r.next) next.timeline = r.next;
-      else next.timelineDone = true;
-    }
-    /* ---- stage 2 (M10) ---- */
     const s2: Stage2Context = { locale: ctx.locale, lang: ctx.lang, country: ctx.country, signal: ctx.signal, origin: ctx.origin };
-    if (wants('visual') && !next.visualDone) {
-      const r = await visualLeg(anchor, s2, page, next.visual);
-      push(r.card);
-      next.visual = r.next;
-      next.visualDone = r.done;
-    }
     if (wants('graph') && !next.graphDone) {
       const r = await graphLeg(anchor, s2, page, next.graph);
       push(r.card);
       next.graph = r.next;
       next.graphDone = r.done;
-    }
-    if (wants('papers') && !next.papersDone) {
-      const r = await papersLeg(anchor, s2, page, next.papers);
-      push(r.card);
-      next.papers = r.next;
-      next.papersDone = r.done;
-    }
-    if (wants('backlinks') && !next.backlinksDone) {
-      const r = await backlinksLeg(anchor, s2, page, next.backlinks);
-      push(r.card);
-      next.backlinks = r.next;
-      next.backlinksDone = r.done;
     }
     if (wants('extracts') && !next.extractsDone) {
       const r = await extractsLeg(anchor, s2, page, next.extracts);
@@ -452,39 +322,8 @@ export async function buildStreamPage(query: string, page: number, anchor: Deepe
       next.globalOffset = r.next;
       next.globalDone = r.done;
     }
-    if (wants('siblings') && !next.siblingsDone) {
-      const r = await siblingsLeg(anchor, s2, page, next.siblings);
-      push(r.card);
-      next.siblings = r.next;
-      next.siblingsDone = r.done;
-    }
-    if (wants('shelf') && !next.shelfDone) {
-      const r = await shelfLeg(anchor, s2, page, next.shelf);
-      push(r.card);
-      next.shelf = r.next;
-      next.shelfDone = r.done;
-    }
-    if (wants('art') && !next.artDone) {
-      const r = await artLeg(anchor, s2, page, next.art);
-      push(r.card);
-      next.art = r.next;
-      next.artDone = r.done;
-    }
-    if (wants('number') && !next.numberDone) {
-      const r = await numberLeg(anchor, s2, page, next.numberIndicator);
-      push(r.card);
-      next.numberIndicator = r.next;
-      next.numberDone = r.done;
-    }
-    if (wants('earthEvents')) {
-      push(await earthEventsLeg(anchor, s2, page));
-    }
   } catch {
     // fail-open: whatever landed is the page
-  }
-  if (wants('cogs')) {
-    const cogs = cogsCardFor(query, page, ctx.constitution);
-    cards.push({ id: `cogs-${page}`, kind: 'cogs', page, scope: 'global', cogs, rare: cogs.rare });
   }
   const thin = networkCards === 0;
   return { page: { page, cards, thin, fetchedAt: Date.now() }, cursor: next };

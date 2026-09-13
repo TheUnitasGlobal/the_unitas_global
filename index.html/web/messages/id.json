@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "MESIN OMNI U-AI",
     "headline": "Tanya sekali. Lihat semua sudut.",
-    "subhead": "Pandangan stereoskopis tiga detik, perisai bias komersial, lalu — sesuai permintaan — lintasan mendalam. Bukan obrolan, melainkan ringkasan tingkat keputusan.",
+    "subhead": "Satu pertanyaan, web disintesis langsung lalu dibuka keluar — sumber, konsep, situs, gelombang perhatian, edisi lain dunia.",
     "placeholder": "Tanyakan apa saja ke U-AI…",
     "submit": "Analisis",
     "surfaceScanning": "Memindai tiga perspektif — teknis, ekonomi, publik…",
-    "lensLabel": "Pandangan Stereoskopis 3 Detik",
     "lens": {
       "tech": "Teknis",
       "economy": "Ekonomi",
       "opinion": "Opini Publik"
     },
-    "shieldLabel": "Perisai Bias Komersial",
-    "shield": {
-      "clear": "Netral",
-      "caution": "Hati-hati",
-      "biased": "Bias tinggi"
-    },
-    "checklistLabel": "Daftar Tindakan 3 Langkah",
-    "checklist": {
-      "explore": [
-        "Rumuskan pertanyaan sebenarnya dalam satu kalimat sebelum mencari lebih luas.",
-        "Kumpulkan tiga sumber independen dengan kepentingan berlawanan.",
-        "Tuliskan apa yang akan mengubah pikiran Anda, lalu ujilah."
-      ],
-      "decide": [
-        "Nyatakan dua pilihan dan satu kriteria penentu.",
-        "Beri angka kasar pada biaya, risiko, dan manfaat masing-masing.",
-        "Pilih opsi dengan nilai harapan lebih tinggi dan tetapkan tanggal peninjauan."
-      ],
-      "analyze": [
-        "Uraikan pertanyaan menjadi tiga asumsi penyangga.",
-        "Uji asumsi terlemah dengan data nyata.",
-        "Bangun kembali kesimpulan dari yang bertahan."
-      ]
-    },
-    "constitutionLabel": "Dekonstruksi 100 Doktrin",
     "constitution": {
       "logic": "Logika · Desain",
       "future": "Masa Depan · Inovasi",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "Sintesis web langsung",
     "webSourcedBadge": "{count} sumber disintesis secara real-time",
     "webLocalBadge": "Sintesis heuristik lokal · nol panggilan eksternal",
-    "redesignLabel": "Vektor perancangan ulang doktrin",
-    "redesign": [
-      "Buang jawaban permukaan — dekonstruksi pertanyaan pada 6 sumbu doktrin.",
-      "Bangun ulang kesimpulan dari sumbu berskor terendah, bukan yang paling nyaring.",
-      "Uji tekan perancangan ulang secara fail-closed — buang yang tidak bertahan."
-    ],
-    "swarmLabel": "Penalaran Silang Swarm · 11 Ekosistem",
     "deepLabel": "Wawasan Mendalam · The VOID",
-    "deepHint": "Lintasan Chronos, putusan terkuantifikasi, pembacaan niat tersembunyi, dan pembacaan ruang negatif.",
-    "deepCta": "Buka wawasan mendalam · {cost} U-COIN",
-    "deepLocked": "Wawasan mendalam sedang dikalibrasi — segera kembali.",
-    "deepScanning": "Memasuki VOID — mensintesis lintasan…",
     "openFullReport": "Buka laporan U-AI lengkap",
-    "chronosLabel": "Chronos · Lintasan 1–3 Tahun",
-    "chronos": {
-      "y1": "Dalam 1 tahun",
-      "y2": "Dalam 2 tahun",
-      "y3": "Dalam 3 tahun"
-    },
-    "binaryLabel": "Salah Satu · Putusan Matematis",
-    "confidence": "Keyakinan",
-    "redPenLabel": "Pena Merah · Niat Tersembunyi",
-    "voidLabel": "The VOID · Wawasan Ruang Negatif",
-    "pathLabel": "Jalur Paling Efisien",
-    "cachedBadge": "Cache Genesis Memory",
-    "modelNote": "Mesin: {model}",
     "brainGridLabel": "Brain-Grid · Riwayat Kognitif",
     "brainGridClear": "Bersihkan",
-    "err": {
-      "signin": "Masuk untuk membuka wawasan mendalam.",
-      "phone": "Verifikasi nomor telepon Anda sebelum membelanjakan U-COIN.",
-      "insufficient": "U-COIN tidak cukup untuk wawasan mendalam.",
-      "burn_required": "Pembakaran U-COIN tidak tercatat — coba lagi.",
-      "deep_unavailable": "Wawasan mendalam sementara tidak tersedia.",
-      "generation_failed": "Analisis mendalam gagal dibuat — silakan coba lagi.",
-      "bad_request": "Kueri itu tidak dapat dianalisis — susun ulang dan coba lagi.",
-      "unauthenticated": "Sesi Anda kedaluwarsa — masuk lagi."
-    },
-    "reporterFree": "Pelapor Gratis",
-    "reporterPaid": "Pelapor Berbayar · Masuk",
-    "followupLabel": "Kueri Lanjutan · Opsi Sudut Pandang",
-    "followupHint": "Jalankan ulang pencarian dari sumbu doktrin lain, atau telusuri sumber yang dikutip.",
-    "webBlendNote": "Sintesis web setara big tech 90% + desain ulang 100 doktrin UNITAS 10%.",
-    "insightLabel": "Laporan Wawasan UNITAS · Desain Ulang Berdaulat 6 Sumbu",
-    "insightForging": "Mesin berdaulat sedang menempa desain ulang 6 sumbu — akan muncul di sini dan tetap gratis selamanya.",
-    "insightPending": "{hits} / 3 pencarian. Pada pencarian ke-3, mesin 100 doktrin menempa desain ulang ini satu kali — setelah itu gratis untuk semua orang, selamanya.",
-    "insightFreshBadge": "Baru ditempa · disegel ke Genesis Memory",
-    "insightVectorLabel": "Vektor Desain Ulang · Sumbu Buta",
-    "insightAxisReading": "Pembacaan",
-    "insightAxisRedesign": "Desain Ulang"
+    "webBlendNote": "Sintesis web setara big tech 90% + desain ulang 100 doktrin UNITAS 10%."
   },
   "Governance": {
     "prev": "Sebelumnya",
@@ -1700,14 +1629,12 @@
     "label": "Berita Langsung",
     "loading": "Memuat berita…",
     "empty": "Belum ada berita langsung saat ini — coba lagi sebentar lagi.",
-    "all": "Semua",
     "trending": "Tren",
     "itn": "Dalam berita",
     "views": "{count} tayangan",
     "refresh": "Segarkan berita",
     "source": "Sumber: Wikimedia featured feed · Google News RSS · Bing News RSS · diperbarui tiap 10–15 menit",
     "category": {
-      "world": "Dunia langsung",
       "politics": "Politik dunia",
       "economy": "Ekonomi dunia",
       "science": "Sains dunia",
@@ -2657,8 +2584,7 @@
         "depth": "Kedalaman",
         "cards": "Kartu",
         "sources": "Sumber",
-        "tier": "Ukiran",
-        "deepCta": "Wawasan mendalam"
+        "tier": "Ukiran"
       },
       "tier": {
         "spark": "Percik",
@@ -2667,55 +2593,25 @@
         "singularity": "Singularitas"
       },
       "kinds": {
-        "essence": "Esensi",
-        "axisSpectrum": "Spektrum enam sumbu",
-        "sources": "Sumber",
-        "chain": "Rantai pertanyaan",
-        "deepGate": "Wawasan mendalam",
-        "identity": "Identitas",
-        "redesign": "Rancang ulang berdaulat",
+        "sources": "Sintesis web waktu nyata",
         "deeper": "Jelajahi lebih dalam",
         "concepts": "Konsep terkait",
         "sites": "Situs terkait",
         "news": "Berita",
-        "cogs": "Lensa enam sumbu",
         "derived": "Karya turunan",
         "attention": "Gelombang perhatian",
         "community": "Komunitas",
-        "timeline": "Linimasa suntingan",
-        "visual": "Gambar",
         "graph": "Jaringan relasi",
-        "papers": "Makalah",
-        "backlinks": "Yang menaut ke sini",
         "extracts": "Kutipan",
-        "global": "Edisi dunia",
-        "siblings": "Rak yang sama",
-        "shelf": "Buku",
-        "art": "Seni",
-        "number": "Angka",
-        "earthEvents": "Peristiwa bumi"
+        "global": "Edisi dunia"
       },
       "fields": {
         "editions": "Edisi bahasa",
-        "instanceOf": "Jenis",
-        "entity": "Entitas",
         "views30": "Tayangan dalam 30 hari",
         "trend": "Tren",
         "window": "Rentang waktu",
-        "passage": "Bagian",
-        "population": "Populasi",
-        "gdp": "PDB",
-        "gdpPerCapita": "PDB per kapita",
-        "lifeExpectancy": "Angka harapan hidup",
-        "internetUsers": "Pengguna internet",
-        "area": "Luas",
-        "elevation": "Ketinggian",
-        "hdi": "IPM",
-        "events": "Peristiwa",
-        "quakes": "Gempa"
+        "passage": "Bagian"
       },
-      "rare": "Lensa langka",
-      "rareHint": "Lensa tetap untuk pertanyaan dan halaman ini — sama bagi semua orang, selalu gratis.",
       "thin": "Halaman tipis",
       "loading": "Mengumpulkan halaman berikutnya…",
       "teaser": "Berikutnya",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "Istilah ini punya beberapa makna. Aliran mengikuti makna yang paling umum — pilih konsep terkait untuk beralih."
-      },
-      "deepCreditNote": "{cost} U-COIN per wawasan mendalam — kredit akses prabayar, bukan efek (sekuritas) maupun penyimpan nilai.",
-      "outbound": "Cari di tempat lain",
-      "swarmMore": "Semua ekosistem",
-      "swarmLess": "Tiga teratas"
-    },
-    "cogs": {
-      "prompt": "Membaca {term} melalui lensa {group}",
-      "seed": "Benih",
-      "resonance": "Resonansi",
-      "follow": "Tanyakan ini",
-      "groups": {
-        "origin": "Asal-usul",
-        "element": "Elemen",
-        "civilization": "Peradaban",
-        "cosmos": "Kosmos",
-        "chronos": "Waktu",
-        "consciousness": "Kesadaran",
-        "nexus": "Simpul"
-      },
-      "lenses": {
-        "mechanism": "Mekanisme",
-        "flow": "Arus",
-        "scale": "Skala",
-        "tension": "Ketegangan",
-        "horizon": "Cakrawala"
-      },
-      "ask": {
-        "mechanism": "Apa yang membuat {term} bekerja — dan apa yang akan merusaknya?",
-        "flow": "Dari mana nilai di sekitar {term} mengalir masuk, dan ke mana ia pergi?",
-        "scale": "Seperti apa {term} bila sepuluh kali lebih besar — dan sepuluh kali lebih kecil?",
-        "tension": "Kekuatan apa yang menarik {term} hingga terpecah, dan apa yang menyatukannya?",
-        "horizon": "Ke mana {term} bergerak, dan siapa yang tiba lebih dulu?"
       }
     }
   }

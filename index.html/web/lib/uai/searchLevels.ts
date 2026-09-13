@@ -1,17 +1,30 @@
 /**
- * REV-19 §3 -- the U-AI search bar's four-level back-routing state machine.
+ * The U-AI search bar's back-routing state machine.
  *
- *   L0 home ── focus ──▶ L1 base popup (shortcut strip / live hub)
- *   L1 ── first character ──▶ L2 typing session + L3 text (one gesture, two levels)
- *   back @ L3: the text is cleared at once -> L2 (suggestion popup stays,
- *              showing the empty-state discovery widgets)
- *   back @ L2: the suggestion popup closes -> L1 (base popup restored)
- *   back @ L1: the bar loses focus -> L0 (main home)
- *   back @ L0: ExitGuard's exit confirm (not this module's concern)
+ * REV-23 M2.4 (founder directive 2026-09-13) -- THE BACK LIFECYCLE. The
+ * founder's requirement is exact: from ANY popup depth, back unwinds the
+ * popups in reverse order of opening, and the tail of that walk is
  *
- * The typing session is sticky only across a BACK-driven clear: deleting
- * the text by hand ends the session immediately so the base widgets come
- * back the instant the input is empty (REV-19 §13).
+ *     [clear the search box] -> [main home] -> [exit confirm]
+ *
+ * The old machine had a separate `typing` history layer between `text` and
+ * `focus`, so the tail was four presses, not three: clear text, close the
+ * suggestion popup, leave the bar, exit. `typing` is now UI state ONLY --
+ * whether the suggestion dropdown is showing -- and no longer owns a history
+ * entry. The stack, bottom to top, is:
+ *
+ *   focus   the bar is focused (base popup)          back -> main home
+ *   text    the bar has text                          back -> clear the box
+ *   tower   the fullscreen result is open             back -> collapse it
+ *   card    a card / theme popup inside the result    back -> close it
+ *
+ * `tower` and `card` are owned by DialogTower / Modal through the same
+ * `useHistoryLayer` hook, so they nest above these two automatically; they
+ * are named here so the whole ladder is documented in one place.
+ *
+ * `text` deliberately survives the tower: collapsing the result leaves the
+ * query in the bar for refinement (closeSearchTower), so the very next back
+ * is the "검색창 내용 초기화" step the founder asked for.
  *
  * Pure, framework-free; the React binding lives in OmniSynapseSearch.tsx.
  */
@@ -26,8 +39,9 @@ export interface SearchLevelState {
 
 export const SEARCH_LAYER_IDS = {
   focus: 'search:focus',
-  typing: 'search:typing',
   text: 'search:text',
+  /** Owned by the result DialogTower (historyMarker). */
+  tower: 'unitasUaiSearchTower',
 } as const;
 
 export const IDLE_SEARCH_STATE: SearchLevelState = { focused: false, typing: false, hasText: false };
@@ -44,24 +58,28 @@ export function onFocus(s: SearchLevelState): SearchLevelState {
 }
 
 /** Focus left the bar entirely (outside click, hand-off to a tower). */
-export function onBlur(s: SearchLevelState): SearchLevelState {
+export function onBlur(_s: SearchLevelState): SearchLevelState {
   return IDLE_SEARCH_STATE;
 }
 
 /** A hand-typed edit. Text present -> typing session on; hand-emptied ->
  *  session ends (base widgets restored instantly). */
-export function onInput(s: SearchLevelState, value: string): SearchLevelState {
+export function onInput(_s: SearchLevelState, value: string): SearchLevelState {
   const hasText = value.length > 0;
   return { focused: true, typing: hasText, hasText };
 }
 
-/** The layer the deep modal history stack just closed, mapped to the state
- *  the bar must show next. `text` keeps the session alive on purpose. */
-export function onLayerBack(s: SearchLevelState, layer: keyof typeof SEARCH_LAYER_IDS): SearchLevelState {
+/**
+ * The layer the deep modal history stack just closed, mapped to the state
+ * the bar must show next.
+ *
+ * `text` clears the box AND ends the typing session in one press -- that is
+ * the M2.4 collapse: one "초기화" step, then home. The suggestion dropdown
+ * closing is a consequence of the box being empty, not its own back press.
+ */
+export function onLayerBack(s: SearchLevelState, layer: 'focus' | 'text'): SearchLevelState {
   switch (layer) {
     case 'text':
-      return { ...s, hasText: false };
-    case 'typing':
       return { ...s, typing: false, hasText: false };
     case 'focus':
     default:
@@ -69,12 +87,12 @@ export function onLayerBack(s: SearchLevelState, layer: keyof typeof SEARCH_LAYE
   }
 }
 
-/** Which history layers must be open for `s` (bottom -> top). */
+/** Which history layers the BAR owns for `s` (bottom -> top). The tower and
+ *  any card popup above it register themselves. */
 export function openLayers(s: SearchLevelState): Array<(typeof SEARCH_LAYER_IDS)[keyof typeof SEARCH_LAYER_IDS]> {
   const out: Array<(typeof SEARCH_LAYER_IDS)[keyof typeof SEARCH_LAYER_IDS]> = [];
   if (!s.focused) return out;
   out.push(SEARCH_LAYER_IDS.focus);
-  if (s.typing) out.push(SEARCH_LAYER_IDS.typing);
-  if (s.typing && s.hasText) out.push(SEARCH_LAYER_IDS.text);
+  if (s.hasText) out.push(SEARCH_LAYER_IDS.text);
   return out;
 }

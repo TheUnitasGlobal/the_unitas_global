@@ -53,7 +53,13 @@ const localeAppDir = path.resolve(__dirname, '..', 'app', '[locale]');
 // top-level-only folder scan does not walk into, matching how
 // company/[slug], legal/[slug], support/[slug] are already unvalidated below
 // the top segment.
-const INFRA_ROUTES = new Set(['legal', 'company', 'support', 'locked', 'u-ai', 'sovereign']);
+// 'gateway' is REV-23 M1's sealed funnel route: the edge gate
+// (lib/gate/funnelGate.ts) rewrites every ungated navigation onto it, and its
+// page body is deliberately empty -- the pre-launch curtain in the locale
+// layout is the whole surface. It is infrastructure, not a product module,
+// and carries no coin economy, so it belongs here rather than in
+// MODULE_REGISTRY (same precedent as 'u-ai' and 'sovereign' above).
+const INFRA_ROUTES = new Set(['legal', 'company', 'support', 'locked', 'u-ai', 'sovereign', 'gateway']);
 
 function extractRoutes(source) {
   const routes = [];

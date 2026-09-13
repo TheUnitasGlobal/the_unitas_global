@@ -11,13 +11,14 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ArrowUpRight, ExternalLink, Loader2, RefreshCw, Timer } from 'lucide-react';
+import { ExternalLink, Loader2, RefreshCw, Timer } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { SectionShield } from '@/components/system/PageShield';
 import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
 import { ExploreDeeper } from '@/components/home/ExploreDeeper';
 import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
+import { TwoStepTitle } from '@/components/uai/stream/StreamCards';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
 import { THEME_QID, type GlobalRankingThemeKey } from '@/lib/globalRankings';
 import { readWeatherCache } from '@/lib/live/useLiveWeather';
@@ -283,12 +284,12 @@ export function DiscoveryCarousel() {
     openDeep(activeKey, item.action);
   }
 
+  // REV-23 M2.3: Enter / Space no longer open from the card container --
+  // opening belongs to the title alone (two-step). The arrow keys still
+  // steer the rail, which is what a card container should own.
   function onCardKeyDown(e: ReactKeyboardEvent<HTMLDivElement>) {
     if (e.target !== e.currentTarget) return;
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openDeep(activeKey);
-    } else if (e.key === 'ArrowRight') {
+    if (e.key === 'ArrowRight') {
       e.preventDefault();
       setHeld(discoverySlotAt(activeIndex + 1).key);
     } else if (e.key === 'ArrowLeft') {
@@ -299,7 +300,6 @@ export function DiscoveryCarousel() {
 
   const timeFormatter = useMemo(() => new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' }), [locale]);
   const title = t(slotTitleKey(activeKey));
-  const openLabel = tHub('openAria', { theme: title });
   const hasContent = Boolean(card && (card.facts.length > 0 || card.items.length > 0));
   // §2A.3: worldwide section first, the visitor's country second. One-scope
   // slots (quake, weather...) render a single group with no scope header.
@@ -361,19 +361,19 @@ export function DiscoveryCarousel() {
         })}
       </div>
 
-      {/* Active card -- same shell for weather, news, feeds and rankings.
-          §1.5: the card itself is the button; every inner control stops
-          propagation so a tap on a tab / row / arrow does exactly its own
-          thing and nothing more. */}
+      {/* Active card. REV-23 M2.3 (founder directive 2026-09-13): the card
+          used to BE the button -- `role="button"` with an onClick on the
+          whole 4-padding box -- so a tap on the padding, the icon or any gap
+          between controls opened the deep modal. That, plus the top-right
+          shortcut arrow, is the "빈 공간 클릭 시 팝업이 열리는 현상" the
+          founder ordered removed. The container is now inert; the TITLE is
+          the only way in, and it takes two steps (select, then open). */}
       <div
         className="qw-hub-card mt-3 border border-white/10 bg-void/40 p-4"
         data-slot-card={activeKey}
         data-slot-kind={activeSlot.kind}
-        role="button"
         tabIndex={0}
-        aria-label={openLabel}
         style={{ '--qw-hub-accent': activeSlot.color } as CSSProperties}
-        onClick={() => openDeep(activeKey)}
         onKeyDown={onCardKeyDown}
         onPointerEnter={(e: ReactPointerEvent<HTMLDivElement>) => {
           if (e.pointerType === 'mouse') setHovering(true);
@@ -394,23 +394,15 @@ export function DiscoveryCarousel() {
           <div className="mb-2 flex items-start gap-3">
             <activeSlot.icon size={22} style={{ color: activeSlot.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
             <div className="min-w-0 flex-1">
-              <p className="text-[17px] font-bold text-white">{title}</p>
+              <TwoStepTitle
+                as="p"
+                className="qw-hub-card-title text-[17px] font-bold text-white"
+                onOpen={() => openDeep(activeKey)}
+              >
+                {title}
+              </TwoStepTitle>
               <p className="qw-hub-meta text-[13px] text-gray-400">{t(slotTagKey(activeKey))}</p>
             </div>
-            <button
-              type="button"
-              onMouseEnter={() => playHoverSfx()}
-              onClick={(e) => {
-                e.stopPropagation();
-                openDeep(activeKey);
-              }}
-              aria-label={openLabel}
-              title={openLabel}
-              className="flex h-9 w-9 shrink-0 items-center justify-center border border-accent/40 text-accent transition-colors hover:bg-accent/10"
-              style={{ borderColor: `${activeSlot.color}66`, color: activeSlot.color }}
-            >
-              <ArrowUpRight size={16} aria-hidden="true" />
-            </button>
           </div>
 
           {/* §1.3: ranking sub-tabs (theme / module) -- their own drag rail;

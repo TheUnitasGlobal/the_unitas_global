@@ -1,23 +1,30 @@
 'use client';
 
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
-import { Paperclip, PenTool, Video, X } from 'lucide-react';
+import { Paperclip, PenTool, Video } from 'lucide-react';
 
 /**
  * REV-21 §5A / SPEC §5.1 + §12.6 -- the unified action box's ATTACH half:
- * one split-button toggle beside the ⏎ key that opens a three-item menu
+ * one split-button toggle beside the ⏎ key that opens the three shortcuts
  * (file / video / sketch). The three icons roll through the toggle as a
  * DISPLAY-ONLY animation (2.4 s per step); the toggle never changes what a
  * click does. Under `prefers-reduced-motion` or on hover-less (touch)
  * devices the roll is replaced by a static three-icon stack, so every
  * attach path stays discoverable (the "only one icon visible" defect).
  *
- * The menu is a popover inside the search bar's own containing block on
- * wide screens and a bottom sheet below 768px (soft-keyboard aware through
- * VisualViewport). Every control uses `onMouseDown preventDefault` so the
- * search input keeps focus and the typing dropdown never collapses; the
- * file / video items call their hidden `<input type=file>` synchronously
- * inside the click (iOS gesture stack). Not a history layer (non-modal).
+ * REV-23 M5 (founder directive 2026-09-13): the below-768px BOTTOM SHEET is
+ * retired. It read as "yet another popup" -- a surface that flew up from the
+ * screen edge, carried its own title bar and close button, and had to be
+ * dismissed. What the founder asked for is a plain, immediate dropdown that
+ * you pick from: so the menu is now the SAME anchored dropdown at every
+ * width, opening in 140 ms directly under the toggle, with no sheet
+ * chrome and no VisualViewport choreography. The sheet head, the close
+ * button and the `sheetTitle` / `close` labels are gone with it.
+ *
+ * Every control uses `onMouseDown preventDefault` so the search input keeps
+ * focus and the typing dropdown never collapses; the file / video items call
+ * their hidden `<input type=file>` synchronously inside the click (iOS
+ * gesture stack). Not a history layer (non-modal).
  */
 
 export interface AttachMenuLabels {
@@ -25,8 +32,6 @@ export interface AttachMenuLabels {
   file: string;
   video: string;
   sketch: string;
-  sheetTitle: string;
-  close: string;
 }
 
 export interface AttachMenuProps {
@@ -43,7 +48,6 @@ const ROLL_ICONS = [Paperclip, Video, PenTool] as const;
 
 export function AttachMenu({ count, labels, onFile, onVideo, onSketch, onHover }: AttachMenuProps) {
   const [open, setOpen] = useState(false);
-  const [sheetOffset, setSheetOffset] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
@@ -68,21 +72,6 @@ export function AttachMenu({ count, labels, onFile, onVideo, onSketch, onHover }
       window.removeEventListener('keydown', onKey, true);
     };
   }, [open, close]);
-
-  // SPEC §12.9: the bottom sheet rides above the soft keyboard.
-  useEffect(() => {
-    if (!open) return;
-    const vv = window.visualViewport;
-    if (!vv) return;
-    const update = () => setSheetOffset(Math.max(0, window.innerHeight - vv.height - vv.offsetTop));
-    update();
-    vv.addEventListener('resize', update);
-    vv.addEventListener('scroll', update);
-    return () => {
-      vv.removeEventListener('resize', update);
-      vv.removeEventListener('scroll', update);
-    };
-  }, [open]);
 
   // Focus the first item when the menu opens (keyboard path).
   useEffect(() => {
@@ -155,17 +144,10 @@ export function AttachMenu({ count, labels, onFile, onVideo, onSketch, onHover }
         aria-label={labels.toggle}
         hidden={!open}
         className="qw-attach-menu"
-        style={{ '--qw-sheet-offset': `${sheetOffset}px` } as React.CSSProperties}
         onMouseDown={(e) => e.preventDefault()}
         onKeyDown={onMenuKeyDown}
         data-attach-menu=""
       >
-        <div className="qw-attach-sheet-head">
-          <p className="qw-attach-sheet-title">{labels.sheetTitle}</p>
-          <button type="button" className="qw-attach-close" aria-label={labels.close} title={labels.close} onClick={close}>
-            <X size={14} aria-hidden="true" />
-          </button>
-        </div>
         {items.map(({ key, label, Icon, action }) => (
           <button
             key={key}

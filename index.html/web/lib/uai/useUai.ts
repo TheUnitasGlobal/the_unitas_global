@@ -2,24 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocale } from 'next-intl';
-import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { analyzeSurface } from './heuristics';
 import { synthesizeWeb } from './webSynthesis';
 import { recordBrainGrid, loadBrainGrid, clearBrainGrid, type BrainGridEntry } from './brainGrid';
-import type {
-  ConstitutionRedesignReport,
-  DeepInsightApiResponse,
-  DeepInsightError,
-  DeepReport,
-  SurfaceReport,
-  TrendApiResponse,
-  UaiImageAttachment,
-} from './types';
+import type { SurfaceReport } from './types';
 
-export type UaiPhase = 'idle' | 'surface-loading' | 'surface' | 'deep-loading' | 'deep';
-
-export type UaiError = 'signin' | DeepInsightError;
+export type UaiPhase = 'idle' | 'surface-loading' | 'surface';
 
 interface RunSurfaceOptions {
   tEcosystems: (key: string) => string;
@@ -30,9 +19,18 @@ interface RunSurfaceOptions {
 }
 
 /**
- * Orchestrates the U-AI two-tier flow: instant client-side surface analysis
- * (free), then the coin-burning deep insight (Phase 2-4) via
- * POST /api/u-ai/insight (the route does the server-side Micro-Burn).
+ * Orchestrates the U-AI search: an instant client-side surface analysis,
+ * free, and nothing else.
+ *
+ * REV-23 M2.2 (founder directive 2026-09-13): the second, coin-burning tier
+ * -- "심층 통찰" / The VOID -- is deleted, along with its route, its prompt
+ * builder and its report types. `runDeep`, `deep`, `deepAvailable`,
+ * `canDeep` and the `deep-loading` / `deep` phases are gone with it.
+ *
+ * The POST to /api/u-ai/trend stays: it is NOT part of the deleted tier. It
+ * bumps the search_trends counter that primes Genesis Memory, which the
+ * shortcut engine (a surface the founder kept) reads from. Its response is
+ * no longer rendered anywhere, so it is now fire-and-forget.
  */
 export function useUai() {
   const locale = useLocale();
@@ -40,16 +38,6 @@ export function useUai() {
 
   const [phase, setPhase] = useState<UaiPhase>('idle');
   const [surface, setSurface] = useState<SurfaceReport | null>(null);
-  const [deep, setDeep] = useState<DeepReport | null>(null);
-  /** FREE 6-axis Sovereign Redesign — forged at the search threshold or a paid
-   *  burn, then served from Genesis Memory at engine cost 0원. */
-  const [insight, setInsight] = useState<ConstitutionRedesignReport | null>(null);
-  /** cumulative search count for the current query (drives the threshold hint). */
-  const [trendHits, setTrendHits] = useState(0);
-  /** the /api/u-ai/trend round-trip is in flight for the current query. */
-  const [insightForging, setInsightForging] = useState(false);
-  const [error, setError] = useState<UaiError | null>(null);
-  const [deepAvailable, setDeepAvailable] = useState(false);
   const [history, setHistory] = useState<BrainGridEntry[]>([]);
   /** REV-21 §12.7 (SR-2): the query the result surface is showing -- kept
    *  apart from the search bar's live text so editing the bar never tears
@@ -67,19 +55,6 @@ export function useUai() {
     setHistory(loadBrainGrid());
   }, []);
 
-  useEffect(() => {
-    let cancelled = false;
-    fetch('/api/u-ai/insight')
-      .then((r) => r.json())
-      .then((d: { available?: boolean }) => {
-        if (!cancelled) setDeepAvailable(Boolean(d.available));
-      })
-      .catch(() => undefined);
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   useEffect(
     () => () => {
       if (surfaceTimer.current) clearTimeout(surfaceTimer.current);
@@ -93,12 +68,7 @@ export function useUai() {
       if (!trimmed) return;
       if (surfaceTimer.current) clearTimeout(surfaceTimer.current);
       queryRef.current = trimmed;
-      setError(null);
-      setDeep(null);
       setSurface(null);
-      setInsight(null);
-      setTrendHits(0);
-      setInsightForging(false);
       setPhase('surface-loading');
       setSubmittedQuery(trimmed);
       setSubmittedQid(qid ?? null);
@@ -126,96 +96,27 @@ export function useUai() {
               ),
             );
 
-            // Threshold assetization: POST the query to /api/u-ai/trend. It
-            // bumps the search_trends counter and -- on a Genesis Memory hit or
-            // the 3rd cumulative search -- hands back the FREE 6-axis Sovereign
-            // Redesign at engine cost 0원. Fully fail-open: any error just
-            // leaves the free surface report as-is.
-            setInsightForging(true);
+            // Threshold assetization: POST the query to /api/u-ai/trend so
+            // the search_trends counter -- and through it Genesis Memory,
+            // which the shortcut engine reads -- keeps accumulating. The
+            // response is no longer rendered (M2.2), so this is
+            // fire-and-forget and fully fail-open.
             void fetch('/api/u-ai/trend', {
               method: 'POST',
               headers: { 'content-type': 'application/json' },
               body: JSON.stringify({ query: startedFor, locale }),
-            })
-              .then((r) => r.json() as Promise<TrendApiResponse>)
-              .then((d) => {
-                if (queryRef.current !== startedFor) return;
-                setInsightForging(false);
-                setTrendHits(typeof d.hits === 'number' ? d.hits : 0);
-                setInsight(d.report ?? null);
-              })
-              .catch(() => {
-                if (queryRef.current === startedFor) setInsightForging(false);
-              });
+            }).catch(() => undefined);
           });
       }, 900);
     },
     [session, locale],
   );
 
-  const runDeep = useCallback(async (attachments?: UaiImageAttachment[]) => {
-    if (!surface || phase === 'deep-loading') return;
-    if (!session) {
-      setError('signin');
-      return;
-    }
-    setError(null);
-    setPhase('deep-loading');
-    try {
-      // The U-COIN Micro-Burn happens server-side, inside the route, exactly
-      // once per request (see app/api/u-ai/insight/route.ts) -- the client
-      // never calls spend_coins for U-AI, so a burn can't be replayed.
-      const supabase = getSupabaseBrowserClient();
-      const { data } = await supabase.auth.getSession();
-      const token = data.session?.access_token ?? session.access_token;
-      const res = await fetch('/api/u-ai/insight', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          query: surface.query,
-          locale,
-          shieldScore: surface.shield.score,
-          images: attachments?.map(({ mediaType, data }) => ({ mediaType, data })),
-        }),
-      });
-      const json = (await res.json()) as DeepInsightApiResponse;
-      if (!json.ok) {
-        setError(json.error);
-        setPhase('surface');
-        return;
-      }
-      setDeep({
-        chronos: json.chronos,
-        binary: json.binary,
-        redPen: json.redPen,
-        voidInsight: json.voidInsight,
-        efficiencyPath: json.efficiencyPath,
-        model: json.model,
-        cached: json.cached,
-      });
-      setPhase('deep');
-      setHistory(
-        recordBrainGrid(
-          { q: surface.query, ts: Date.now(), shield: surface.shield.score, depth: 'deep' },
-          session,
-        ),
-      );
-    } catch {
-      setError('generation_failed');
-      setPhase('surface');
-    }
-  }, [surface, phase, session, locale]);
-
   const reset = useCallback(() => {
     if (surfaceTimer.current) clearTimeout(surfaceTimer.current);
     queryRef.current = '';
     setPhase('idle');
     setSurface(null);
-    setDeep(null);
-    setInsight(null);
-    setTrendHits(0);
-    setInsightForging(false);
-    setError(null);
     setSubmittedQuery(null);
     setSubmittedQid(null);
   }, []);
@@ -225,19 +126,11 @@ export function useUai() {
   return {
     phase,
     surface,
-    deep,
-    insight,
-    trendHits,
-    insightForging,
-    error,
-    deepAvailable,
     history,
-    canDeep: Boolean(session) && deepAvailable,
     submittedQuery,
     submittedQid,
     surfaceEpoch,
     runSurface,
-    runDeep,
     reset,
     wipeHistory,
   };

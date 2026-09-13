@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "U-AI オムニエンジン",
     "headline": "一度問えば、すべての角度が見える。",
-    "subhead": "3秒の立体視点、商業バイアスのシールド、そして必要なときだけ開く深層の軌跡。会話ではなく、意思決定グレードのブリーフ。",
+    "subhead": "一つの問いから、ウェブをリアルタイムに統合し、そこから外へ広げます — 出典、概念、サイト、関心の波、世界各版。",
     "placeholder": "U-AI に何でも聞いてください…",
     "submit": "分析",
     "surfaceScanning": "3つの視点をスキャン中 — 技術・経済・世論…",
-    "lensLabel": "3秒の立体視点",
     "lens": {
       "tech": "技術",
       "economy": "経済",
       "opinion": "世論"
     },
-    "shieldLabel": "商業バイアス・シールド",
-    "shield": {
-      "clear": "中立",
-      "caution": "注意",
-      "biased": "強い偏り"
-    },
-    "checklistLabel": "3ステップ・アクションチェックリスト",
-    "checklist": {
-      "explore": [
-        "広く調べる前に、本当の問いを一文で定義する。",
-        "利害が対立する独立した情報源を3つ集める。",
-        "何が自分の考えを変えるかを書き出し、それを検証する。"
-      ],
-      "decide": [
-        "2つの選択肢と、決め手となる唯一の基準を明示する。",
-        "各選択肢のコスト・リスク・利得におおよその数値を割り当てる。",
-        "期待値の高い方を確定し、見直し日を設定する。"
-      ],
-      "analyze": [
-        "問いを支える3つの中核的前提に分解する。",
-        "最も弱い前提を実データで負荷試験する。",
-        "生き残ったものだけで結論を組み直す。"
-      ]
-    },
-    "constitutionLabel": "100大 超-憲法 立体解体",
     "constitution": {
       "logic": "論理 · 設計",
       "future": "未来 · 革新",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "ウェブ・リアルタイム統合",
     "webSourcedBadge": "{count}件の出典をリアルタイム統合",
     "webLocalBadge": "ローカル・ヒューリスティック統合 · 外部呼び出し0",
-    "redesignLabel": "憲法リデザイン・ベクトル",
-    "redesign": [
-      "表層の答えを捨て — 問いを6つの憲法軸へ解体する。",
-      "最も大きい軸ではなく、最も低い軸から結論を再構築する。",
-      "リデザイン案をフェイルクローズドで負荷試験する — 生き残らなければ破棄。"
-    ],
-    "swarmLabel": "スウォーム相互推論 · 11エコシステム",
     "deepLabel": "深層インサイト · The VOID",
-    "deepHint": "Chronos の軌跡、定量化された判定、隠れた意図の解読、そして余白（ネガティブスペース）の洞察。",
-    "deepCta": "深層インサイトを解放 · {cost} U-COIN",
-    "deepLocked": "深層インサイトは調整中です — まもなく復帰します。",
-    "deepScanning": "VOID に進入 — 軌跡を合成中…",
     "openFullReport": "U-AI の完全レポートを開く",
-    "chronosLabel": "Chronos · 1〜3年の軌跡",
-    "chronos": {
-      "y1": "1年後",
-      "y2": "2年後",
-      "y3": "3年後"
-    },
-    "binaryLabel": "二者択一 · 数理的判定",
-    "confidence": "確信度",
-    "redPenLabel": "赤ペン · 隠れた意図",
-    "voidLabel": "The VOID · 余白の洞察",
-    "pathLabel": "最高効率の経路",
-    "cachedBadge": "Genesis Memory キャッシュ",
-    "modelNote": "エンジン: {model}",
     "brainGridLabel": "Brain-Grid · 認知履歴",
     "brainGridClear": "クリア",
-    "err": {
-      "signin": "深層インサイトを開くにはサインインしてください。",
-      "phone": "U-COIN を使う前に電話番号を認証してください。",
-      "insufficient": "深層インサイトに必要な U-COIN が不足しています。",
-      "burn_required": "U-COIN の消費が記録されませんでした — もう一度お試しください。",
-      "deep_unavailable": "深層インサイトは一時的に利用できません。",
-      "generation_failed": "深層分析の生成に失敗しました — もう一度お試しください。",
-      "bad_request": "このクエリは分析できません — 言い換えて再試行してください。",
-      "unauthenticated": "セッションの有効期限が切れました — もう一度サインインしてください。"
-    },
-    "reporterFree": "無料レポーター",
-    "reporterPaid": "有料レポーター · ログイン",
-    "followupLabel": "追加検索クエリ · 視点の選択肢",
-    "followupHint": "別の憲法軸で再検索するか、引用元をさらに掘り下げる。",
-    "webBlendNote": "ビッグテック級のウェブ統合 90% + UNITAS 100大憲法リデザイン 10%。",
-    "insightLabel": "UNITAS インサイトレポート · 6軸ソブリン再設計",
-    "insightForging": "ソブリンエンジンが6軸の再設計を鍛造中 — ここに表示され、永久に無料のままです。",
-    "insightPending": "検索 {hits} / 3回。3回目で100の超憲法エンジンがこの再設計を一度だけ鍛造します — 以降は全員に永久無料です。",
-    "insightFreshBadge": "たった今鍛造 · ジェネシスメモリに封印",
-    "insightVectorLabel": "再設計ベクトル · 盲点の軸",
-    "insightAxisReading": "読解",
-    "insightAxisRedesign": "再設計"
+    "webBlendNote": "ビッグテック級のウェブ統合 90% + UNITAS 100大憲法リデザイン 10%。"
   },
   "Governance": {
     "prev": "前へ",
@@ -1700,14 +1629,12 @@
     "label": "リアルタイムニュース",
     "loading": "ニュースを読み込み中…",
     "empty": "現在ニュースはありません — しばらくしてから再試行してください。",
-    "all": "すべて",
     "trending": "急上昇",
     "itn": "注目ニュース",
     "views": "{count} 回閲覧",
     "refresh": "ニュースを更新",
     "source": "出典: Wikimedia フィーチャードフィード · Google ニュース RSS · Bing ニュース RSS · 10〜15分ごとに更新",
     "category": {
-      "world": "世界ライブ",
       "politics": "世界政治",
       "economy": "世界経済",
       "science": "世界科学",
@@ -2657,8 +2584,7 @@
         "depth": "深度",
         "cards": "カード",
         "sources": "出典",
-        "tier": "刻印",
-        "deepCta": "深層インサイト"
+        "tier": "刻印"
       },
       "tier": {
         "spark": "スパーク",
@@ -2667,55 +2593,25 @@
         "singularity": "シンギュラリティ"
       },
       "kinds": {
-        "essence": "本質",
-        "axisSpectrum": "6軸スペクトラム",
-        "sources": "出典",
-        "chain": "問いの連鎖",
-        "deepGate": "深層インサイト",
-        "identity": "正体",
-        "redesign": "ソブリン再設計",
+        "sources": "ウェブ・リアルタイム統合",
         "deeper": "さらに深く",
         "concepts": "関連概念",
         "sites": "関連サイト",
         "news": "ニュース",
-        "cogs": "6軸レンズ",
         "derived": "派生作品",
         "attention": "注目の波",
         "community": "コミュニティ",
-        "timeline": "編集履歴",
-        "visual": "画像",
         "graph": "関係網",
-        "papers": "論文",
-        "backlinks": "ここへのリンク",
         "extracts": "本文抜粋",
-        "global": "世界の各版",
-        "siblings": "同じ棚",
-        "shelf": "蔵書",
-        "art": "美術",
-        "number": "数値",
-        "earthEvents": "地球の出来事"
+        "global": "世界の各版"
       },
       "fields": {
         "editions": "言語版",
-        "instanceOf": "分類",
-        "entity": "エンティティ",
         "views30": "30日間の閲覧数",
         "trend": "傾向",
         "window": "期間",
-        "passage": "区間",
-        "population": "人口",
-        "gdp": "GDP",
-        "gdpPerCapita": "一人当たりGDP",
-        "lifeExpectancy": "平均寿命",
-        "internetUsers": "インターネット利用者",
-        "area": "面積",
-        "elevation": "標高",
-        "hdi": "人間開発指数",
-        "events": "事象",
-        "quakes": "地震"
+        "passage": "区間"
       },
-      "rare": "希少レンズ",
-      "rareHint": "この問いとページに固定されたレンズ — 誰にでも同じで、いつでも無料です。",
       "thin": "薄いページ",
       "loading": "次のページを集めています…",
       "teaser": "次のカード",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "この用語には複数の意味があります。ストリームは最も一般的な意味をたどります — 関連概念を選ぶと切り替えられます。"
-      },
-      "deepCreditNote": "深層インサイト1回につき{cost} U-COIN — 前払い型のアクセスクレジットであり、有価証券や価値の保存手段ではありません。",
-      "outbound": "他のサイトで検索",
-      "swarmMore": "すべてのエコシステム",
-      "swarmLess": "上位3つ"
-    },
-    "cogs": {
-      "prompt": "{group}のレンズで{term}を読む",
-      "seed": "シード",
-      "resonance": "共鳴",
-      "follow": "この問いで探る",
-      "groups": {
-        "origin": "起源",
-        "element": "元素",
-        "civilization": "文明",
-        "cosmos": "宇宙",
-        "chronos": "時間",
-        "consciousness": "意識",
-        "nexus": "ネクサス"
-      },
-      "lenses": {
-        "mechanism": "仕組み",
-        "flow": "流れ",
-        "scale": "規模",
-        "tension": "緊張",
-        "horizon": "地平"
-      },
-      "ask": {
-        "mechanism": "{term}は何によって動き、何が壊してしまうのか？",
-        "flow": "{term}をめぐる価値はどこから流れ込み、どこへ流れ出ていくのか？",
-        "scale": "{term}が10倍大きくなったら — そして10倍小さくなったら、どんな姿になるのか？",
-        "tension": "どんな力が{term}を引き裂き、何がそれをつなぎとめているのか？",
-        "horizon": "{term}はどこへ向かい、誰が最初にたどり着くのか？"
       }
     }
   }

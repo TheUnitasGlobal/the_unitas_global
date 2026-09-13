@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "U-AI 옴니 엔진",
     "headline": "한 번 묻고, 모든 각도를 본다.",
-    "subhead": "3초 입체 관점, 상업적 편향 실드, 그리고 필요할 때만 여는 심층 궤적. 대화가 아니라 결단 등급 보고서다.",
+    "subhead": "질문 하나에 웹을 실시간으로 종합하고, 거기서 바깥으로 펼칩니다 — 출처, 개념, 사이트, 관심의 파동, 세계 각 판.",
     "placeholder": "무엇이든 U-AI에 물어보세요…",
     "submit": "분석",
     "surfaceScanning": "세 관점을 스캔하는 중 — 기술 · 경제 · 여론…",
-    "lensLabel": "3초 입체 관점",
     "lens": {
       "tech": "기술",
       "economy": "경제",
       "opinion": "여론"
     },
-    "shieldLabel": "상업적 편향 실드",
-    "shield": {
-      "clear": "중립",
-      "caution": "주의",
-      "biased": "편향 심함"
-    },
-    "checklistLabel": "3단계 액션 체크리스트",
-    "checklist": {
-      "explore": [
-        "더 넓게 찾기 전에, 진짜 질문을 한 문장으로 정의한다.",
-        "이해관계가 상반된 독립 출처 세 곳을 모은다.",
-        "무엇이 내 생각을 바꿀지 적고, 그것을 검증한다."
-      ],
-      "decide": [
-        "두 선택지와 단 하나의 결정 기준을 명시한다.",
-        "각 선택지의 비용 · 리스크 · 기대이득에 대략의 숫자를 매긴다.",
-        "기대값이 높은 쪽을 확정하고 재검토 날짜를 잡는다."
-      ],
-      "analyze": [
-        "질문을 지탱하는 세 가지 핵심 가정으로 분해한다.",
-        "가장 약한 가정을 실제 데이터로 압박 시험한다.",
-        "살아남은 것만으로 결론을 다시 세운다."
-      ]
-    },
-    "constitutionLabel": "100대 초-헌법 입체 해체",
     "constitution": {
       "logic": "논리 · 설계",
       "future": "미래 · 혁신",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "웹 실시간 종합",
     "webSourcedBadge": "{count}개 출처 실시간 종합",
     "webLocalBadge": "로컬 휴리스틱 종합 · 외부 호출 0",
-    "redesignLabel": "헌법 재설계 벡터",
-    "redesign": [
-      "표면 답을 버리고 — 질문을 6대 헌법 축으로 해체한다.",
-      "가장 큰 축이 아니라 가장 낮은 축에서 결론을 다시 세운다.",
-      "재설계안을 페일클로즈드로 압박 시험한다 — 살아남지 못하면 폐기."
-    ],
-    "swarmLabel": "스웜 교차 추론 · 11대 에코시스템",
     "deepLabel": "심층 통찰 · The VOID",
-    "deepHint": "Chronos 궤적, 정량화된 결단, 숨은 의도 해독, 그리고 네거티브 스페이스 통찰.",
-    "deepCta": "심층 통찰 해제 · {cost} U-COIN",
-    "deepLocked": "심층 통찰을 보정 중입니다 — 곧 돌아옵니다.",
-    "deepScanning": "VOID 진입 — 궤적을 합성하는 중…",
     "openFullReport": "U-AI 전체 보고서 열기",
-    "chronosLabel": "Chronos · 1–3년 궤적",
-    "chronos": {
-      "y1": "1년 후",
-      "y2": "2년 후",
-      "y3": "3년 후"
-    },
-    "binaryLabel": "양자택일 · 수학적 결단",
-    "confidence": "확신도",
-    "redPenLabel": "붉은펜 · 숨은 의도",
-    "voidLabel": "The VOID · 네거티브 스페이스 통찰",
-    "pathLabel": "최고 효율 경로",
-    "cachedBadge": "Genesis Memory 캐시",
-    "modelNote": "엔진: {model}",
     "brainGridLabel": "Brain-Grid · 인지 이력",
     "brainGridClear": "비우기",
-    "err": {
-      "signin": "심층 통찰을 열려면 로그인하세요.",
-      "phone": "U-COIN을 사용하기 전에 전화번호를 인증하세요.",
-      "insufficient": "심층 통찰에 필요한 U-COIN이 부족합니다.",
-      "burn_required": "U-COIN 소모가 기록되지 않았습니다 — 다시 시도하세요.",
-      "deep_unavailable": "심층 통찰을 일시적으로 사용할 수 없습니다.",
-      "generation_failed": "심층 분석 생성에 실패했습니다 — 다시 시도하세요.",
-      "bad_request": "이 질의는 분석할 수 없습니다 — 문장을 바꿔 다시 시도하세요.",
-      "unauthenticated": "세션이 만료되었습니다 — 다시 로그인하세요."
-    },
-    "reporterFree": "무료 리포터",
-    "reporterPaid": "유료 리포터 · 로그인",
-    "followupLabel": "추가 검색 쿼리 · 관점 선택지",
-    "followupHint": "다른 헌법 축으로 다시 검색하거나, 인용된 출처를 더 파고든다.",
-    "webBlendNote": "글로벌 빅테크 수준 웹 종합 90% + 유니타스 100대 초-헌법 재설계 10%.",
-    "insightLabel": "유니타스 통찰 리포트 · 6축 소버린 재설계",
-    "insightForging": "소버린 엔진이 6축 재설계를 벼려내는 중 — 여기에 표시되며 영원히 무료로 유지됩니다.",
-    "insightPending": "검색 {hits} / 3회. 3회째에 100대 초-헌법 엔진이 이 재설계를 단 한 번 벼려냅니다 — 이후로는 모두에게 영원히 무료입니다.",
-    "insightFreshBadge": "방금 벼려냄 · 제네시스 메모리에 봉인",
-    "insightVectorLabel": "재설계 벡터 · 사각지대 축",
-    "insightAxisReading": "판독",
-    "insightAxisRedesign": "재설계"
+    "webBlendNote": "글로벌 빅테크 수준 웹 종합 90% + 유니타스 100대 초-헌법 재설계 10%."
   },
   "Governance": {
     "prev": "이전",
@@ -1700,14 +1629,12 @@
     "label": "실시간 뉴스",
     "loading": "실시간 뉴스 불러오는 중…",
     "empty": "지금은 실시간 뉴스가 없습니다 — 잠시 후 다시 시도하세요.",
-    "all": "전체",
     "trending": "급상승",
     "itn": "주요 뉴스",
     "views": "조회 {count}회",
     "refresh": "뉴스 새로고침",
     "source": "출처: Wikimedia 피처드 피드 · Google 뉴스 RSS · Bing 뉴스 RSS · 10~15분마다 갱신",
     "category": {
-      "world": "세계실시간",
       "politics": "세계정치",
       "economy": "세계경제",
       "science": "세계과학",
@@ -2657,8 +2584,7 @@
         "depth": "깊이",
         "cards": "카드",
         "sources": "출처",
-        "tier": "각인",
-        "deepCta": "심층 통찰"
+        "tier": "각인"
       },
       "tier": {
         "spark": "스파크",
@@ -2667,55 +2593,25 @@
         "singularity": "싱귤래리티"
       },
       "kinds": {
-        "essence": "본질",
-        "axisSpectrum": "6축 스펙트럼",
-        "sources": "출처",
-        "chain": "질문 사슬",
-        "deepGate": "심층 통찰",
-        "identity": "정체",
-        "redesign": "소버린 재설계",
+        "sources": "웹 실시간 종합",
         "deeper": "더 깊이 탐색",
         "concepts": "연결된 개념",
         "sites": "관련 사이트",
         "news": "뉴스",
-        "cogs": "6축 렌즈",
         "derived": "파생 저작",
         "attention": "관심의 파동",
         "community": "커뮤니티",
-        "timeline": "편집 연대기",
-        "visual": "이미지",
         "graph": "관계망",
-        "papers": "논문",
-        "backlinks": "여기를 가리키는 문서",
         "extracts": "본문 발췌",
-        "global": "세계 각 판",
-        "siblings": "같은 갈래",
-        "shelf": "서가",
-        "art": "예술 소장품",
-        "number": "수치",
-        "earthEvents": "지구 관측"
+        "global": "세계 각 판"
       },
       "fields": {
         "editions": "언어판",
-        "instanceOf": "분류",
-        "entity": "존재 식별자",
         "views30": "30일 조회",
         "trend": "추세",
         "window": "기간",
-        "passage": "구간",
-        "population": "인구",
-        "gdp": "GDP",
-        "gdpPerCapita": "1인당 GDP",
-        "lifeExpectancy": "기대수명",
-        "internetUsers": "인터넷 사용자",
-        "area": "면적",
-        "elevation": "고도",
-        "hdi": "인간개발지수",
-        "events": "사건",
-        "quakes": "지진"
+        "passage": "구간"
       },
-      "rare": "희귀 렌즈",
-      "rareHint": "이 질문과 페이지에 고정된 렌즈 — 누구에게나 같고, 언제나 무료입니다.",
       "thin": "얇은 페이지",
       "loading": "다음 페이지를 모으는 중…",
       "teaser": "다음 카드",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "이 용어에는 여러 의미가 있습니다. 스트림은 가장 흔한 의미를 따르니, 연결된 개념을 골라 바꿔 보세요."
-      },
-      "deepCreditNote": "심층 통찰 1회당 {cost} U-COIN — 선불 접근 크레딧이며 증권이나 저장 가치가 아닙니다.",
-      "outbound": "다른 곳에서 검색",
-      "swarmMore": "모든 생태계",
-      "swarmLess": "상위 3개"
-    },
-    "cogs": {
-      "prompt": "{group}의 렌즈로 {term} 읽기",
-      "seed": "씨앗",
-      "resonance": "공명",
-      "follow": "이 질문으로 탐색",
-      "groups": {
-        "origin": "근원",
-        "element": "원소",
-        "civilization": "문명",
-        "cosmos": "우주",
-        "chronos": "시간",
-        "consciousness": "의식",
-        "nexus": "넥서스"
-      },
-      "lenses": {
-        "mechanism": "작동 원리",
-        "flow": "흐름",
-        "scale": "규모",
-        "tension": "긴장",
-        "horizon": "지평"
-      },
-      "ask": {
-        "mechanism": "{term}은(는) 무엇으로 작동하고, 무엇이 그것을 멈추게 할까?",
-        "flow": "{term}을(를) 둘러싼 가치는 어디서 흘러들어 어디로 빠져나갈까?",
-        "scale": "{term}이(가) 열 배 커지면 — 그리고 열 배 작아지면 어떤 모습일까?",
-        "tension": "어떤 힘이 {term}을(를) 갈라놓고, 무엇이 그것을 붙들고 있을까?",
-        "horizon": "{term}은(는) 어디로 향하고 있으며, 누가 먼저 도착할까?"
       }
     }
   }

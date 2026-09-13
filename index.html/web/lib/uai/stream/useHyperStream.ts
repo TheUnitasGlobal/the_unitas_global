@@ -140,7 +140,6 @@ export interface HyperStreamOptions {
   locale: string;
   lang: string;
   country: string;
-  constitution: readonly ConstitutionScore[];
   /** Prefer the same-origin route (CDN cache) before the browser fallback. */
   useRoute?: boolean;
 }
@@ -168,7 +167,7 @@ async function fetchPage(query: string, page: number, anchor: DeeperAnchor, opts
     }
   }
   if (signal.aborted) return null;
-  const built = await buildStreamPage(query, page, anchor, { locale: opts.locale, lang: opts.lang, country: opts.country, constitution: opts.constitution, signal }, cursor);
+  const built = await buildStreamPage(query, page, anchor, { locale: opts.locale, lang: opts.lang, country: opts.country, signal }, cursor);
   return { page: built.page, cursor: built.cursor };
 }
 

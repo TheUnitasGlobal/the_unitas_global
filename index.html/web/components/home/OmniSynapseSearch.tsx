@@ -407,10 +407,6 @@ export function OmniSynapseSearch({
     e.target.value = '';
   }
 
-  function handleRunDeep() {
-    uai.runDeep(visualAttachments.length > 0 ? visualAttachments : undefined);
-  }
-
   const query = value.trim();
 
   const axisT: AxisTranslators = useMemo(
@@ -529,17 +525,23 @@ export function OmniSynapseSearch({
     playSearchFocusSfx();
   }
 
-  // REV-19 §3: three layers on the deep modal history stack, opened in
-  // this order -- focus (L1), typing session (L2), text present (L3). The
-  // device back gesture unwinds them one at a time: clear the text, close
-  // the suggestion popup, leave the bar; the fourth press reaches ExitGuard.
+  // REV-23 M2.4 -- the back ladder the founder specified. The bar owns two
+  // history layers, bottom to top: `focus` (the base popup) and `text` (the
+  // box has content). The result tower and any card popup inside it stack
+  // ABOVE them through the same hook, so a back press from any depth unwinds
+  // in reverse order of opening and the tail is exactly three presses:
+  // clear the box -> main home -> ExitGuard's exit confirm.
+  //
+  // `text` is deliberately NOT gated on `focused`: submitting hands focus to
+  // the fullscreen tower, and if this layer were released then, collapsing
+  // the tower would land straight on the home screen and skip the
+  // "검색창 내용 초기화" step. It is gated on the query surviving instead.
   const hasText = value.length > 0;
   useHistoryLayer(focused, SEARCH_LAYER_IDS.focus, () => closeBrowseHub());
-  useHistoryLayer(focused && typing, SEARCH_LAYER_IDS.typing, () => {
+  useHistoryLayer(hasText, SEARCH_LAYER_IDS.text, () => {
     setValue('');
     setTyping(false);
   });
-  useHistoryLayer(focused && typing && hasText, SEARCH_LAYER_IDS.text, () => setValue(''));
 
   /** Root-level blur: fires for the search input AND every focusable inside
    *  the dropdown (weather city box, ladder chips). Focus merely moving
@@ -642,9 +644,12 @@ export function OmniSynapseSearch({
   }
 
   /** [뒤로 가기 / 창닫기] -- collapses the result tower back to the search
-   *  bar; the typed query survives in the bar for refinement. */
+   *  bar; the typed query survives in the bar for refinement (M2.4: that
+   *  surviving query is what the NEXT back press clears). Focus returns to
+   *  the input so the bar's own layers are live again underneath. */
   function closeSearchTower() {
     uai.reset();
+    inputRef.current?.focus({ preventScroll: true });
   }
 
   /** [⌂ 홈으로 복귀] -- collapses the tower AND clears the query, landing on
@@ -676,7 +681,14 @@ export function OmniSynapseSearch({
   // "The Living Knowledge Ouroboros": focused on a *clean* (empty) search bar
   // -- shows the 16-axis Governance shortcut marquee instead, and tells
   // HomeContent to sink Sections 1-3 behind it (Focus Isolation).
-  const ouroboros = focused && !typing && uai.phase === 'idle';
+  // REV-23 M2.1 (founder directive 2026-09-13): "실시간 뉴스" is pinned to
+  // the ONE popup that opens on a single click into an EMPTY search box, and
+  // appears in no other state. `typing` alone was not a strict enough guard
+  // -- it is derived from a state update, so an IME composition's first
+  // frame (a jamo already in the box, `typing` not yet true) could paint the
+  // news strip over a query that had begun. Gating on the live value too
+  // makes "empty box" the literal condition it claims to be.
+  const ouroboros = focused && !typing && value.length === 0 && uai.phase === 'idle';
 
   // SI-5: the sentinel sits at the end of the dropdown's list; the dropdown
   // is the IO root (SPEC §12.9). A reduced-motion / keyboard visitor has the
@@ -771,12 +783,16 @@ export function OmniSynapseSearch({
               The three attach icons roll through the toggle for display only;
               under reduced motion / on touch they sit as a static stack. */}
           <div className="qw-omni-key flex shrink-0 items-center gap-1.5 sm:gap-2" role="group" aria-label={tRev21('composer.omniKeyAria')}>
+            {/* REV-23 M5: identical box to the 3-shortcut toggle beside it --
+                same 32/38px footprint, same border weight and tone -- so the
+                action group reads as one symmetric pair instead of a loud
+                accent key next to a quiet neutral one. */}
             <button
               type="submit"
               title={t('searchSubmitAria')}
               aria-label={t('searchSubmitAria')}
               disabled={(!value.trim() && attachments.length === 0) || uai.phase === 'surface-loading'}
-              className="qw-enter-key flex shrink-0 items-center justify-center border border-accent/50 p-1 text-accent transition-colors hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-40 sm:p-1.5"
+              className="qw-enter-key flex h-8 w-8 shrink-0 items-center justify-center border border-accent/40 text-accent transition-colors hover:bg-accent/10 disabled:cursor-not-allowed disabled:opacity-40 sm:h-[38px] sm:w-[38px]"
             >
               <CornerDownLeft size={20} strokeWidth={2.75} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
             </button>
@@ -787,8 +803,6 @@ export function OmniSynapseSearch({
                 file: t('attachImageAria'),
                 video: t('attachVideoAria'),
                 sketch: t('attachCanvasAria'),
-                sheetTitle: tRev21('composer.attachSheetTitle'),
-                close: tRev21('composer.close'),
               }}
               onFile={() => fileInputRef.current?.click()}
               onVideo={() => videoInputRef.current?.click()}
@@ -1050,7 +1064,7 @@ export function OmniSynapseSearch({
           back: tTower('backButton'),
           close: tTower('closeAria'),
         }}
-        refreshing={uai.phase === 'surface-loading' || uai.phase === 'deep-loading'}
+        refreshing={uai.phase === 'surface-loading'}
         onRefresh={refreshSearchTower}
         onBack={closeSearchTower}
         onHome={homeFromSearchTower}
@@ -1087,19 +1101,6 @@ export function OmniSynapseSearch({
           key={uai.surfaceEpoch}
           phase={uai.phase}
           surface={uai.surface}
-          deep={uai.deep}
-          insight={uai.insight}
-          trendHits={uai.trendHits}
-          insightForging={uai.insightForging}
-          error={uai.error}
-          canDeep={uai.canDeep}
-          deepAvailable={uai.deepAvailable}
-          hasSession={Boolean(session)}
-          onRunDeep={handleRunDeep}
-          onSelectEcosystem={(key) => {
-            uai.reset();
-            selectEcosystemByKey(key);
-          }}
           onRunQuery={runFollowupQuery}
           host="tower"
           submittedQid={uai.submittedQid}

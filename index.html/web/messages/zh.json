@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "U-AI 全域引擎",
     "headline": "问一次，看清每一个角度。",
-    "subhead": "三秒立体视角、商业偏见护盾，随后按需展开深层轨迹。这不是聊天，而是决策级简报。",
+    "subhead": "一个问题，实时综合全网，再向外展开 — 来源、概念、站点、关注的波动、世界各版本。",
     "placeholder": "向 U-AI 提问任何问题…",
     "submit": "分析",
     "surfaceScanning": "正在扫描三种视角 — 技术、经济、舆论…",
-    "lensLabel": "三秒立体视角",
     "lens": {
       "tech": "技术",
       "economy": "经济",
       "opinion": "舆论"
     },
-    "shieldLabel": "商业偏见护盾",
-    "shield": {
-      "clear": "中立",
-      "caution": "注意",
-      "biased": "偏见严重"
-    },
-    "checklistLabel": "三步行动清单",
-    "checklist": {
-      "explore": [
-        "在扩大搜索前，用一句话界定真正的问题。",
-        "收集三个利益相反的独立信源。",
-        "写下什么会改变你的看法，然后去验证。"
-      ],
-      "decide": [
-        "明确两个选项和唯一的决定性标准。",
-        "为每个选项的成本、风险和收益赋予粗略数值。",
-        "选定期望值更高的一方，并设定复盘日期。"
-      ],
-      "analyze": [
-        "将问题拆解为三个承重假设。",
-        "用真实数据对最薄弱的假设进行压力测试。",
-        "仅用幸存下来的部分重建结论。"
-      ]
-    },
-    "constitutionLabel": "100 大 超-宪法 立体解构",
     "constitution": {
       "logic": "逻辑 · 设计",
       "future": "未来 · 创新",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "网络实时综合",
     "webSourcedBadge": "已实时综合 {count} 个来源",
     "webLocalBadge": "本地启发式综合 · 零外部调用",
-    "redesignLabel": "宪法重构向量",
-    "redesign": [
-      "舍弃表层答案 —— 将问题沿六大宪法轴解构。",
-      "从得分最低的轴、而非最响亮的轴重建结论。",
-      "以失败即关闭方式压力测试重构方案 —— 未能存活者一律弃用。"
-    ],
-    "swarmLabel": "蜂群交叉推理 · 11 大生态",
     "deepLabel": "深层洞察 · The VOID",
-    "deepHint": "Chronos 轨迹、量化裁决、隐藏意图解码，以及负空间洞察。",
-    "deepCta": "解锁深层洞察 · {cost} U-COIN",
-    "deepLocked": "深层洞察正在校准 — 稍后回来。",
-    "deepScanning": "进入 VOID — 正在合成轨迹…",
     "openFullReport": "打开完整 U-AI 报告",
-    "chronosLabel": "Chronos · 1–3 年轨迹",
-    "chronos": {
-      "y1": "1 年后",
-      "y2": "2 年后",
-      "y3": "3 年后"
-    },
-    "binaryLabel": "二选一 · 数学裁决",
-    "confidence": "置信度",
-    "redPenLabel": "红笔 · 隐藏意图",
-    "voidLabel": "The VOID · 负空间洞察",
-    "pathLabel": "最高效率路径",
-    "cachedBadge": "Genesis Memory 缓存",
-    "modelNote": "引擎：{model}",
     "brainGridLabel": "Brain-Grid · 认知历史",
     "brainGridClear": "清空",
-    "err": {
-      "signin": "登录后即可解锁深层洞察。",
-      "phone": "在消费 U-COIN 前请先验证手机号。",
-      "insufficient": "深层洞察所需的 U-COIN 不足。",
-      "burn_required": "U-COIN 消费未被记录 — 请重试。",
-      "deep_unavailable": "深层洞察暂时不可用。",
-      "generation_failed": "深层分析生成失败 — 请重试。",
-      "bad_request": "该查询无法分析 — 请改写后重试。",
-      "unauthenticated": "会话已过期 — 请重新登录。"
-    },
-    "reporterFree": "免费报告器",
-    "reporterPaid": "付费报告器 · 登录",
-    "followupLabel": "追加检索查询 · 视角选项",
-    "followupHint": "从另一条宪法轴重新检索，或深入引用的来源。",
-    "webBlendNote": "大厂级网络综合 90% + UNITAS 100条宪法重构 10%。",
-    "insightLabel": "UNITAS 洞察报告 · 六轴主权重设计",
-    "insightForging": "主权引擎正在锻造六轴重设计 — 它将显示在此处并永久免费。",
-    "insightPending": "搜索 {hits} / 3 次。第 3 次时，百大超宪法引擎将一次性锻造此重设计 — 此后对所有人永久免费。",
-    "insightFreshBadge": "刚刚锻造 · 已封入创世记忆",
-    "insightVectorLabel": "重设计向量 · 盲区轴",
-    "insightAxisReading": "解读",
-    "insightAxisRedesign": "重设计"
+    "webBlendNote": "大厂级网络综合 90% + UNITAS 100条宪法重构 10%。"
   },
   "Governance": {
     "prev": "上一个",
@@ -1700,14 +1629,12 @@
     "label": "实时新闻",
     "loading": "正在加载新闻…",
     "empty": "目前没有实时新闻 — 请稍后再试。",
-    "all": "全部",
     "trending": "热门",
     "itn": "新闻动态",
     "views": "{count} 次浏览",
     "refresh": "刷新新闻",
     "source": "来源: Wikimedia 精选源 · Google 新闻 RSS · Bing 新闻 RSS · 每 10–15 分钟更新",
     "category": {
-      "world": "全球实时",
       "politics": "全球政治",
       "economy": "全球经济",
       "science": "全球科学",
@@ -2657,8 +2584,7 @@
         "depth": "深度",
         "cards": "卡片",
         "sources": "来源",
-        "tier": "铭刻",
-        "deepCta": "深度洞察"
+        "tier": "铭刻"
       },
       "tier": {
         "spark": "星火",
@@ -2667,55 +2593,25 @@
         "singularity": "奇点"
       },
       "kinds": {
-        "essence": "本质",
-        "axisSpectrum": "六轴光谱",
-        "sources": "来源",
-        "chain": "问题链",
-        "deepGate": "深度洞察",
-        "identity": "身份",
-        "redesign": "主权式重构",
+        "sources": "实时网络综合",
         "deeper": "深入探索",
         "concepts": "关联概念",
         "sites": "相关网站",
         "news": "新闻",
-        "cogs": "六轴透镜",
         "derived": "衍生作品",
         "attention": "关注波动",
         "community": "社区",
-        "timeline": "编辑时间线",
-        "visual": "图像",
         "graph": "关系网",
-        "papers": "论文",
-        "backlinks": "链接到此",
         "extracts": "正文摘录",
-        "global": "世界各版本",
-        "siblings": "同一类别",
-        "shelf": "书架",
-        "art": "艺术藏品",
-        "number": "数值",
-        "earthEvents": "地球事件"
+        "global": "世界各版本"
       },
       "fields": {
         "editions": "语言版本",
-        "instanceOf": "类别",
-        "entity": "实体",
         "views30": "30天浏览量",
         "trend": "趋势",
         "window": "时间窗口",
-        "passage": "段落",
-        "population": "人口",
-        "gdp": "GDP",
-        "gdpPerCapita": "人均GDP",
-        "lifeExpectancy": "预期寿命",
-        "internetUsers": "互联网用户",
-        "area": "面积",
-        "elevation": "海拔",
-        "hdi": "人类发展指数",
-        "events": "事件",
-        "quakes": "地震"
+        "passage": "段落"
       },
-      "rare": "稀有透镜",
-      "rareHint": "为此问题与页面固定的透镜 — 人人相同，永久免费。",
       "thin": "内容稀薄的页面",
       "loading": "正在汇集下一页…",
       "teaser": "接下来",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "这个词有多种含义。流会沿最常见的一种展开 — 选择一个关联概念即可切换。"
-      },
-      "deepCreditNote": "每次深度洞察{cost} U-COIN — 属于预付的访问额度，不是证券，也不是价值储存手段。",
-      "outbound": "到其他地方搜索",
-      "swarmMore": "全部生态系统",
-      "swarmLess": "前三名"
-    },
-    "cogs": {
-      "prompt": "以{group}的透镜解读{term}",
-      "seed": "种子",
-      "resonance": "共鸣",
-      "follow": "追问此题",
-      "groups": {
-        "origin": "起源",
-        "element": "元素",
-        "civilization": "文明",
-        "cosmos": "宇宙",
-        "chronos": "时间",
-        "consciousness": "意识",
-        "nexus": "枢纽"
-      },
-      "lenses": {
-        "mechanism": "机制",
-        "flow": "流动",
-        "scale": "尺度",
-        "tension": "张力",
-        "horizon": "地平线"
-      },
-      "ask": {
-        "mechanism": "{term}靠什么运转 — 又会被什么打破？",
-        "flow": "围绕{term}的价值从哪里流入，又流向哪里？",
-        "scale": "{term}放大十倍会是什么样 — 缩小十倍呢？",
-        "tension": "哪些力量在撕扯{term}，又是什么让它凝聚在一起？",
-        "horizon": "{term}正驶向何方，谁会最先抵达？"
       }
     }
   }

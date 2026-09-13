@@ -1373,41 +1373,15 @@
   "UAI": {
     "title": "ĐỘNG CƠ OMNI U-AI",
     "headline": "Hỏi một lần. Thấy mọi góc độ.",
-    "subhead": "Một góc nhìn lập thể ba giây, một lá chắn thiên kiến thương mại, rồi — khi cần — quỹ đạo chuyên sâu. Không phải trò chuyện, mà là bản tóm tắt cấp ra quyết định.",
+    "subhead": "Một câu hỏi, web được tổng hợp trực tiếp rồi mở ra bên ngoài — nguồn, khái niệm, trang web, những đợt sóng chú ý, các phiên bản khác của thế giới.",
     "placeholder": "Hỏi U-AI bất cứ điều gì…",
     "submit": "Phân tích",
     "surfaceScanning": "Đang quét ba góc nhìn — kỹ thuật, kinh tế, dư luận…",
-    "lensLabel": "Góc nhìn lập thể 3 giây",
     "lens": {
       "tech": "Kỹ thuật",
       "economy": "Kinh tế",
       "opinion": "Dư luận"
     },
-    "shieldLabel": "Lá chắn thiên kiến thương mại",
-    "shield": {
-      "clear": "Trung lập",
-      "caution": "Thận trọng",
-      "biased": "Thiên kiến nặng"
-    },
-    "checklistLabel": "Danh sách hành động 3 bước",
-    "checklist": {
-      "explore": [
-        "Diễn đạt câu hỏi thật trong một câu trước khi tìm rộng hơn.",
-        "Thu thập ba nguồn độc lập có lợi ích đối nghịch.",
-        "Ghi ra điều gì sẽ khiến bạn đổi ý, rồi kiểm chứng nó."
-      ],
-      "decide": [
-        "Nêu rõ hai lựa chọn và tiêu chí quyết định duy nhất.",
-        "Gán một con số ước lượng cho chi phí, rủi ro và lợi ích của mỗi lựa chọn.",
-        "Chọn phương án có giá trị kỳ vọng cao hơn và đặt ngày rà soát."
-      ],
-      "analyze": [
-        "Chia câu hỏi thành ba giả định chịu lực.",
-        "Thử thách giả định yếu nhất bằng dữ liệu thực.",
-        "Dựng lại kết luận từ những gì còn trụ lại."
-      ]
-    },
-    "constitutionLabel": "Giải cấu trúc 100 học thuyết",
     "constitution": {
       "logic": "Logic · Thiết kế",
       "future": "Tương lai · Đổi mới",
@@ -1420,56 +1394,11 @@
     "webSourcesLabel": "Tổng hợp web thời gian thực",
     "webSourcedBadge": "Đã tổng hợp {count} nguồn theo thời gian thực",
     "webLocalBadge": "Tổng hợp heuristic cục bộ · không gọi bên ngoài",
-    "redesignLabel": "Vector thiết kế lại học thuyết",
-    "redesign": [
-      "Bỏ câu trả lời bề mặt — giải cấu trúc câu hỏi theo 6 trục học thuyết.",
-      "Dựng lại kết luận từ trục điểm thấp nhất, không phải trục ồn ào nhất.",
-      "Kiểm thử thiết kế lại theo kiểu fail-closed — loại bỏ những gì không trụ được."
-    ],
-    "swarmLabel": "Suy luận chéo bầy đàn · 11 hệ sinh thái",
     "deepLabel": "Thấu thị chuyên sâu · The VOID",
-    "deepHint": "Quỹ đạo Chronos, phán quyết định lượng, giải mã ý đồ ẩn và góc đọc khoảng trống.",
-    "deepCta": "Mở khóa thấu thị chuyên sâu · {cost} U-COIN",
-    "deepLocked": "Thấu thị chuyên sâu đang được hiệu chỉnh — sẽ sớm trở lại.",
-    "deepScanning": "Đang tiến vào VOID — tổng hợp quỹ đạo…",
     "openFullReport": "Mở báo cáo U-AI đầy đủ",
-    "chronosLabel": "Chronos · Quỹ đạo 1–3 năm",
-    "chronos": {
-      "y1": "Sau 1 năm",
-      "y2": "Sau 2 năm",
-      "y3": "Sau 3 năm"
-    },
-    "binaryLabel": "Chọn một · Phán quyết toán học",
-    "confidence": "Độ tin cậy",
-    "redPenLabel": "Bút đỏ · Ý đồ ẩn",
-    "voidLabel": "The VOID · Thấu thị khoảng trống",
-    "pathLabel": "Lộ trình hiệu quả nhất",
-    "cachedBadge": "Bộ nhớ đệm Genesis Memory",
-    "modelNote": "Động cơ: {model}",
     "brainGridLabel": "Brain-Grid · Lịch sử nhận thức",
     "brainGridClear": "Xóa",
-    "err": {
-      "signin": "Đăng nhập để mở khóa thấu thị chuyên sâu.",
-      "phone": "Xác minh số điện thoại trước khi tiêu U-COIN.",
-      "insufficient": "Không đủ U-COIN cho thấu thị chuyên sâu.",
-      "burn_required": "Việc tiêu U-COIN chưa được ghi nhận — hãy thử lại.",
-      "deep_unavailable": "Thấu thị chuyên sâu tạm thời không khả dụng.",
-      "generation_failed": "Không tạo được phân tích chuyên sâu — vui lòng thử lại.",
-      "bad_request": "Không thể phân tích truy vấn này — hãy diễn đạt lại và thử lại.",
-      "unauthenticated": "Phiên của bạn đã hết hạn — hãy đăng nhập lại."
-    },
-    "reporterFree": "Trình báo cáo miễn phí",
-    "reporterPaid": "Trình báo cáo trả phí · Đăng nhập",
-    "followupLabel": "Truy vấn tiếp theo · Tùy chọn góc nhìn",
-    "followupHint": "Chạy lại tìm kiếm từ một trục học thuyết khác, hoặc đào sâu vào nguồn được trích dẫn.",
-    "webBlendNote": "Tổng hợp web tầm cỡ big tech 90% + tái thiết kế 100 học thuyết UNITAS 10%.",
-    "insightLabel": "Báo cáo Chuyên sâu UNITAS · Tái thiết kế Chủ quyền 6 Trục",
-    "insightForging": "Động cơ chủ quyền đang rèn bản tái thiết kế 6 trục — nó sẽ hiện ở đây và miễn phí mãi mãi.",
-    "insightPending": "{hits} / 3 lượt tìm. Ở lượt thứ 3, động cơ 100 học thuyết rèn bản tái thiết kế này một lần — sau đó miễn phí cho tất cả mọi người, mãi mãi.",
-    "insightFreshBadge": "Vừa được rèn · niêm phong vào Genesis Memory",
-    "insightVectorLabel": "Vector Tái thiết kế · Trục Mù",
-    "insightAxisReading": "Đọc hiểu",
-    "insightAxisRedesign": "Tái thiết kế"
+    "webBlendNote": "Tổng hợp web tầm cỡ big tech 90% + tái thiết kế 100 học thuyết UNITAS 10%."
   },
   "Governance": {
     "prev": "Trước",
@@ -1700,14 +1629,12 @@
     "label": "Tin Tức Trực Tiếp",
     "loading": "Đang tải tin tức…",
     "empty": "Hiện chưa có tin trực tiếp — hãy thử lại sau giây lát.",
-    "all": "Tất cả",
     "trending": "Xu hướng",
     "itn": "Tin nổi bật",
     "views": "{count} lượt xem",
     "refresh": "Làm mới tin tức",
     "source": "Nguồn: Wikimedia featured feed · Google News RSS · Bing News RSS · cập nhật mỗi 10–15 phút",
     "category": {
-      "world": "Thế giới trực tiếp",
       "politics": "Chính trị thế giới",
       "economy": "Kinh tế thế giới",
       "science": "Khoa học thế giới",
@@ -2657,8 +2584,7 @@
         "depth": "Độ sâu",
         "cards": "Thẻ",
         "sources": "Nguồn",
-        "tier": "Khắc dấu",
-        "deepCta": "Nhìn sâu"
+        "tier": "Khắc dấu"
       },
       "tier": {
         "spark": "Tia lửa",
@@ -2667,55 +2593,25 @@
         "singularity": "Điểm kỳ dị"
       },
       "kinds": {
-        "essence": "Cốt lõi",
-        "axisSpectrum": "Phổ sáu trục",
-        "sources": "Nguồn",
-        "chain": "Chuỗi câu hỏi",
-        "deepGate": "Nhìn sâu",
-        "identity": "Danh tính",
-        "redesign": "Tái thiết kế chủ quyền",
+        "sources": "Tổng hợp web thời gian thực",
         "deeper": "Khám phá sâu hơn",
         "concepts": "Khái niệm liên kết",
         "sites": "Trang web liên quan",
         "news": "Tin tức",
-        "cogs": "Lăng kính sáu trục",
         "derived": "Tác phẩm phái sinh",
         "attention": "Làn sóng chú ý",
         "community": "Cộng đồng",
-        "timeline": "Dòng thời gian chỉnh sửa",
-        "visual": "Hình ảnh",
         "graph": "Mạng quan hệ",
-        "papers": "Bài báo",
-        "backlinks": "Liên kết đến đây",
         "extracts": "Trích đoạn",
-        "global": "Các phiên bản thế giới",
-        "siblings": "Cùng nhánh",
-        "shelf": "Kệ sách",
-        "art": "Nghệ thuật",
-        "number": "Số liệu",
-        "earthEvents": "Sự kiện Trái Đất"
+        "global": "Các phiên bản thế giới"
       },
       "fields": {
         "editions": "Phiên bản ngôn ngữ",
-        "instanceOf": "Loại",
-        "entity": "Thực thể",
         "views30": "Lượt xem trong 30 ngày",
         "trend": "Xu hướng",
         "window": "Khoảng thời gian",
-        "passage": "Đoạn",
-        "population": "Dân số",
-        "gdp": "GDP",
-        "gdpPerCapita": "GDP bình quân đầu người",
-        "lifeExpectancy": "Tuổi thọ trung bình",
-        "internetUsers": "Người dùng internet",
-        "area": "Diện tích",
-        "elevation": "Độ cao",
-        "hdi": "HDI",
-        "events": "Sự kiện",
-        "quakes": "Động đất"
+        "passage": "Đoạn"
       },
-      "rare": "Lăng kính hiếm",
-      "rareHint": "Một lăng kính cố định cho câu hỏi và trang này — giống nhau với mọi người, luôn miễn phí.",
       "thin": "Trang mỏng",
       "loading": "Đang gom trang tiếp theo…",
       "teaser": "Tiếp theo",
@@ -2737,39 +2633,6 @@
       },
       "disambiguation": {
         "body": "Thuật ngữ này có nhiều nghĩa. Dòng đi theo nghĩa phổ biến nhất — chọn một khái niệm liên kết để chuyển."
-      },
-      "deepCreditNote": "{cost} U-COIN cho mỗi lần nhìn sâu — là tín dụng truy cập trả trước, không phải chứng khoán hay phương tiện lưu trữ giá trị.",
-      "outbound": "Tìm ở nơi khác",
-      "swarmMore": "Tất cả hệ sinh thái",
-      "swarmLess": "Ba hệ hàng đầu"
-    },
-    "cogs": {
-      "prompt": "Đọc {term} qua lăng kính {group}",
-      "seed": "Hạt giống",
-      "resonance": "Cộng hưởng",
-      "follow": "Hỏi câu này",
-      "groups": {
-        "origin": "Nguồn gốc",
-        "element": "Nguyên tố",
-        "civilization": "Văn minh",
-        "cosmos": "Vũ trụ",
-        "chronos": "Thời gian",
-        "consciousness": "Ý thức",
-        "nexus": "Nexus"
-      },
-      "lenses": {
-        "mechanism": "Cơ chế",
-        "flow": "Dòng chảy",
-        "scale": "Quy mô",
-        "tension": "Sức căng",
-        "horizon": "Chân trời"
-      },
-      "ask": {
-        "mechanism": "Điều gì khiến {term} vận hành — và điều gì sẽ làm nó sụp đổ?",
-        "flow": "Giá trị quanh {term} chảy vào từ đâu, và chảy ra đi đâu?",
-        "scale": "{term} sẽ trông thế nào khi lớn gấp mười — và nhỏ đi mười lần?",
-        "tension": "Những lực nào kéo {term} rời ra, và điều gì giữ nó lại với nhau?",
-        "horizon": "{term} đang đi về đâu, và ai sẽ đến đó trước?"
       }
     }
   }

@@ -3,6 +3,12 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { routing } from '@/i18n/routing';
 import { updateSession } from '@/lib/supabase/middlewareClient';
 import {
+  GATE_HEADER,
+  gatewayPathFor,
+  isGateBypassed,
+  resolveGateVerdict,
+} from '@/lib/gate/funnelGate';
+import {
   SOVEREIGN_AUTH_PARAM,
   SOVEREIGN_HINT_COOKIE,
   SOVEREIGN_HINT_VALUE,
@@ -45,6 +51,16 @@ import {
 //      `moduleForPathname` already tolerates a pathname with or without a
 //      locale prefix, so the ORIGINAL (pre-rewrite) pathname is forwarded
 //      unchanged here.
+//   5. REV-23 M1 -- the SERVER-SIDE funnel gate (founder directive
+//      2026-09-13, MISSION 1). Until now the pre-launch funnel was a client
+//      overlay on top of a fully-rendered page, so any deep link (a Bing
+//      result, a shared URL, an in-app browser, a reader mode) shipped the
+//      real interface and only *covered* it. Now an ungated request is
+//      rewritten onto `/<locale>/gateway`, whose body is empty -- the main
+//      markup is never serialized at all. Rewrite, not redirect: the deep
+//      link stays in the address bar and there is no loop. Only a verified
+//      sovereign session, a search-engine indexer (Codex ch.13 SEO) or the
+//      explicit local `UNITAS_GATE_BYPASS=1` passes.
 //
 // Composition order: sovereign token hand-off and 404 fencing run first
 // (locale-independent, early-return). Then next-intl's middleware resolves
@@ -105,13 +121,19 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  // --- 2. sovereign-only routes: bodiless 404 unless the signed cookie holds --
+  // --- 2. sovereign identity, resolved ONCE ---------------------------------
+  // Both the sovereign-only 404 fence below and REV-23's funnel gate need the
+  // same answer, and the HMAC verify is the one non-trivial cost in this
+  // middleware -- so it runs at most once per request, and not at all for the
+  // public (no session cookie -> no crypto, `false` immediately).
+  const sovereignCookie = request.cookies.get(SOVEREIGN_SESSION_COOKIE)?.value;
+  const sovereignOk = sovereignCookie
+    ? (await verifySovereignSession(sovereignCookie, resolveSovereignSigningSecret())).ok
+    : false;
+
+  // --- 2b. sovereign-only routes: bodiless 404 unless the signed cookie holds -
   if (isSovereignProtectedPath(url.pathname)) {
-    const { ok } = await verifySovereignSession(
-      request.cookies.get(SOVEREIGN_SESSION_COOKIE)?.value,
-      resolveSovereignSigningSecret(),
-    );
-    if (!ok) return new NextResponse(null, { status: 404 });
+    if (!sovereignOk) return new NextResponse(null, { status: 404 });
     if (url.pathname.startsWith('/api/')) {
       const passthrough = NextResponse.next();
       passthrough.headers.set('Cache-Control', 'no-store');
@@ -161,9 +183,37 @@ export async function middleware(request: NextRequest) {
   // own headers/cookies (locale-preference cookie, hreflang `Link` header)
   // are copied across rather than lost.
   const rewriteTarget = intlResponse.headers.get('x-middleware-rewrite');
-  const response = rewriteTarget
-    ? NextResponse.rewrite(new URL(rewriteTarget), { request: { headers: requestHeaders } })
-    : NextResponse.next({ request: { headers: requestHeaders } });
+
+  // --- 4a. REV-23 M1: the funnel gate (founder directive 2026-09-13) --------
+  // The verdict is taken here, AFTER next-intl has resolved the locale, so a
+  // sealed visitor lands on the gateway in their own language. A `seal` is a
+  // REWRITE, never a redirect: the address bar keeps the deep link the
+  // visitor followed (from Bing, a share, an in-app browser), no redirect
+  // loop is possible, and -- the whole point -- the main interface's HTML is
+  // never serialized into the response at all. See lib/gate/funnelGate.ts for
+  // the three (and only three) ways past it.
+  const internalPath = rewriteTarget ? new URL(rewriteTarget).pathname : url.pathname;
+  const localeSegment = internalPath.split('/')[1] ?? '';
+  const activeLocale = (routing.locales as readonly string[]).includes(localeSegment)
+    ? localeSegment
+    : routing.defaultLocale;
+  const gateVerdict = resolveGateVerdict({
+    pathname: url.pathname,
+    userAgent: request.headers.get('user-agent'),
+    hasSovereign: sovereignOk,
+    bypass: isGateBypassed(process.env),
+  });
+
+  const sealTarget = new URL(gatewayPathFor(activeLocale), url);
+  sealTarget.search = url.search;
+
+  const response =
+    gateVerdict === 'seal'
+      ? NextResponse.rewrite(sealTarget, { request: { headers: requestHeaders } })
+      : rewriteTarget
+        ? NextResponse.rewrite(new URL(rewriteTarget), { request: { headers: requestHeaders } })
+        : NextResponse.next({ request: { headers: requestHeaders } });
+  response.headers.set(GATE_HEADER, gateVerdict);
 
   intlResponse.cookies.getAll().forEach((cookie) => response.cookies.set(cookie));
   const alternateLinks = intlResponse.headers.get('link');
