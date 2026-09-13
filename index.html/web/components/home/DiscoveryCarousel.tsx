@@ -44,6 +44,7 @@ import {
   type SlotItem,
   type SlotItemAction,
   type SlotKey,
+  type SlotSection,
 } from '@/lib/live/discoverySlots';
 
 /**
@@ -77,6 +78,22 @@ import {
  *  the slot alone -- a language switch must re-render that language's data
  *  at once, not serve the previous locale's card until the TTL runs out. */
 const cardCache = new Map<string, { card: SlotCard; at: number }>();
+
+/** REV-21 §1.4: on a touch screen there is no hover to pause the rotation,
+ *  so a `pointerdown` anywhere on the rail or the card holds the slot still
+ *  for this long -- long enough to read what was tapped, short enough that a
+ *  stray tap does not freeze the carousel. */
+const HUB_TOUCH_PAUSE_MS = 700;
+
+/** A card's scope groups (REV-21 §2.1): the registry attaches them to every
+ *  load, but a cache entry written before this version -- or an adapter that
+ *  returned EMPTY_CARD -- may not carry any. */
+function scopeGroups(card: SlotCard | null): SlotSection[] {
+  if (!card) return [];
+  if (card.sections && card.sections.length > 0) return card.sections;
+  if (card.facts.length === 0 && card.items.length === 0) return [];
+  return [{ scope: 'global', facts: card.facts, items: card.items }];
+}
 
 function isRankingKey(key: SlotKey): boolean {
   return findDiscoverySlot(key)?.kind === 'ranking';
@@ -112,6 +129,7 @@ export function DiscoveryCarousel() {
   const tHub = useTranslations('Rev19.hub');
   const tSlots = useTranslations('Rev20.slots');
   const tRev21 = useTranslations('Rev21.hub');
+  const tDeeper = useTranslations('Rev21.deeper');
   const locale = useLocale();
   const ctx = useSlotContext();
   const { playHoverSfx } = useSpatialAudio();
@@ -126,6 +144,8 @@ export function DiscoveryCarousel() {
   const [hovering, setHovering] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [touchPaused, setTouchPaused] = useState(false);
+  const touchResumeRef = useRef<number | null>(null);
   const chipRefs = useRef<Map<SlotKey, HTMLButtonElement>>(new Map());
   const railRef = useRef<HTMLDivElement>(null);
   const tabRailRef = useRef<HTMLDivElement>(null);
@@ -137,7 +157,25 @@ export function DiscoveryCarousel() {
 
   // §1.6: every reason the rotation stands still. `document.hidden` keeps a
   // background tab from burning fetches on slots nobody sees.
-  const rotationPaused = held !== null || deep !== null || hovering || dragging || hidden;
+  const rotationPaused = held !== null || deep !== null || hovering || dragging || touchPaused || hidden;
+
+  // §1.4: touch has no hover -- a tap pauses, and the clock resumes 700ms
+  // after the LAST touch (a second tap restarts the window).
+  const pauseForTouch = useCallback(() => {
+    setTouchPaused(true);
+    if (touchResumeRef.current !== null) window.clearTimeout(touchResumeRef.current);
+    touchResumeRef.current = window.setTimeout(() => {
+      touchResumeRef.current = null;
+      setTouchPaused(false);
+    }, HUB_TOUCH_PAUSE_MS);
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (touchResumeRef.current !== null) window.clearTimeout(touchResumeRef.current);
+    },
+    [],
+  );
 
   useEffect(() => {
     const onVisibility = () => setHidden(document.hidden);
@@ -229,7 +267,13 @@ export function DiscoveryCarousel() {
     },
     [tabBySlot],
   );
-  const closeDeep = useCallback(() => setDeep(null), []);
+  /** §1.4: a close pins the slot the modal was opened from (`held = openKey`)
+   *  so the carousel never jumps to a different slot the moment the visitor
+   *  comes back out of a deep dive. */
+  const closeDeep = useCallback(() => {
+    if (deep) setHeld(deep.key);
+    setDeep(null);
+  }, [deep]);
 
   function onItem(item: SlotItem) {
     if (item.url) {
@@ -257,6 +301,10 @@ export function DiscoveryCarousel() {
   const title = t(slotTitleKey(activeKey));
   const openLabel = tHub('openAria', { theme: title });
   const hasContent = Boolean(card && (card.facts.length > 0 || card.items.length > 0));
+  // §2A.3: worldwide section first, the visitor's country second. One-scope
+  // slots (quake, weather...) render a single group with no scope header.
+  const groups = scopeGroups(card);
+  const scopeHeads = groups.length > 1;
 
   return (
     <div className="w-full" data-discovery-carousel="" data-live-hub="">
@@ -270,6 +318,9 @@ export function DiscoveryCarousel() {
       <div
         ref={railRef}
         {...railHandlers}
+        onPointerDownCapture={(e: ReactPointerEvent<HTMLDivElement>) => {
+          if (e.pointerType !== 'mouse') pauseForTouch();
+        }}
         className="qw-hub-strip select-none"
         role="tablist"
         aria-label={tSlots('railLabel')}
@@ -328,8 +379,14 @@ export function DiscoveryCarousel() {
           if (e.pointerType === 'mouse') setHovering(true);
         }}
         onPointerLeave={() => setHovering(false)}
-        onPointerDown={swipe.onPointerDown}
-        onPointerUp={swipe.onPointerUp}
+        onPointerDown={(e: ReactPointerEvent<HTMLDivElement>) => {
+          if (e.pointerType !== 'mouse') pauseForTouch();
+          swipe.onPointerDown(e);
+        }}
+        onPointerUp={(e: ReactPointerEvent<HTMLDivElement>) => {
+          if (e.pointerType !== 'mouse') pauseForTouch();
+          swipe.onPointerUp(e);
+        }}
         onPointerCancel={swipe.onPointerCancel}
         onClickCapture={swipe.onClickCapture}
       >
@@ -410,9 +467,16 @@ export function DiscoveryCarousel() {
             <p className="py-3 text-[14px] text-gray-500">{tHub('empty')}</p>
           ) : (
             <>
-              {card!.facts.length > 0 && (
+              {groups.map((section) => (
+                <div key={section.scope} data-scope={section.scope} className="qw-hub-scope mb-1 last:mb-0">
+                  {scopeHeads && (
+                    <p className="mb-1.5 text-[11px] font-bold uppercase tracking-widest text-gray-500">
+                      {tDeeper(`scope.${section.scope}`)}
+                    </p>
+                  )}
+              {section.facts.length > 0 && (
                 <div className="mb-3 flex flex-wrap items-baseline gap-x-4 gap-y-1.5">
-                  {card!.facts.map((fact, i) => {
+                  {section.facts.map((fact, i) => {
                     const label = fact.labelKey ? t(fact.labelKey) : '';
                     // A value-less fact (e.g. weather condition, AQI band) IS its
                     // own label -- shown as the display text itself, not a suffix.
@@ -427,9 +491,9 @@ export function DiscoveryCarousel() {
                   })}
                 </div>
               )}
-              {card!.items.length > 0 && (
+              {section.items.length > 0 && (
                 <ul className="grid grid-cols-1 gap-1 md:grid-cols-2">
-                  {card!.items.map((item) => (
+                  {section.items.map((item) => (
                     <li key={item.id}>
                       <button
                         type="button"
@@ -458,6 +522,8 @@ export function DiscoveryCarousel() {
                   ))}
                 </ul>
               )}
+                </div>
+              ))}
             </>
           )}
 
@@ -655,6 +721,7 @@ function useFeedAnchor(slotKey: SlotKey | null, card: SlotCard | null, ctx: Slot
 function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx: SlotContext; onClose: () => void }) {
   const t = useTranslations();
   const tHub = useTranslations('Rev19.hub');
+  const tDeeper = useTranslations('Rev21.deeper');
   const locale = ctx.locale;
   const { playHoverSfx } = useSpatialAudio();
   const [card, setCard] = useState<SlotCard | null>(null);
@@ -719,8 +786,13 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
           <p className="py-4 text-[14px] text-gray-500">{tHub('empty')}</p>
         ) : (
           <>
+            {scopeGroups(card).map((section, gi) => (
+            <div key={section.scope} data-scope={section.scope} className="qw-hub-scope space-y-4">
+            {gi > 0 || (card.sections?.length ?? 0) > 1 ? (
+              <p className="text-[11px] font-bold uppercase tracking-widest text-gray-500">{tDeeper(`scope.${section.scope}`)}</p>
+            ) : null}
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 border-b border-white/10 pb-4">
-              {card.facts.map((fact, i) => {
+              {section.facts.map((fact, i) => {
                 const label = fact.labelKey ? t(fact.labelKey) : '';
                 const display = fact.value ? `${fact.value}${fact.unit ?? ''}` : label;
                 const suffix = fact.value && !fact.emphasis ? label : '';
@@ -733,7 +805,7 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
               })}
             </div>
             <ol className="max-h-[42vh] space-y-1 overflow-y-auto overscroll-contain pr-1">
-              {card.items.map((item, i) => (
+              {section.items.map((item, i) => (
                 <li key={item.id}>
                   {item.url ? (
                     <a
@@ -770,6 +842,8 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
                 </li>
               ))}
             </ol>
+            </div>
+            ))}
           </>
         )}
 

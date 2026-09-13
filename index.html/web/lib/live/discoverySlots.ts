@@ -37,6 +37,7 @@ import { HUB_CARD_ITEMS, HUB_THEMES, findHubTheme, type HubThemeKey } from '@/li
 import { loadHubNews } from '@/lib/live/hubNewsClient';
 import { GLOBAL_RANKING_THEMES, type GlobalRankingThemeKey } from '@/lib/globalRankings';
 import { MODULE_REGISTRY, moduleTitleNamespace, unitasRankingFor } from '@/lib/unitasRankings';
+import { fxCountryQuote, newsItemScope, withSlotSections } from '@/lib/live/slotSections';
 
 /* ------------------------------------------------------------------ */
 /* Contract                                                             */
@@ -64,6 +65,10 @@ export type FeedSlotKey =
 
 export type SlotKey = 'weather' | HubThemeKey | FeedSlotKey | RankingSlotKey;
 
+/** REV-21 §2.1(§2A.3): the two output scopes a card renders in, global
+ *  first and the visitor's country second. */
+export type SlotScope = 'global' | 'country';
+
 export interface SlotFact {
   /** Rev20.slots.facts.* (or Rev21.slots.facts.*) dot-path -- the component
    *  owns translation. */
@@ -72,6 +77,9 @@ export interface SlotFact {
   unit?: string;
   /** At most one fact per card should be emphasised (rendered large). */
   emphasis?: boolean;
+  /** REV-21 §2.1: which section this fact belongs to. Unmarked = the slot's
+   *  first scope (lib/live/slotSections.ts). */
+  scope?: SlotScope;
 }
 
 /** REV-21 §1.3: what tapping an item does when it has no outbound URL --
@@ -90,6 +98,8 @@ export interface SlotItem {
   action?: SlotItemAction;
   rank?: number;
   color?: string;
+  /** REV-21 §2.1: which section this item belongs to. */
+  scope?: SlotScope;
 }
 
 /** REV-21 §1.3: a sub-tab inside a card (ranking theme / module). */
@@ -113,6 +123,14 @@ export interface SlotSubject {
  *  `null` means "no further page" -- the deep-dive pagination stop signal. */
 export type DeepCursor = Record<string, string | number> | null;
 
+/** REV-21 §2.1(§2A.3): one scope's slice of a card. The component renders
+ *  these in array order with `data-scope` on each group. */
+export interface SlotSection {
+  scope: SlotScope;
+  facts: SlotFact[];
+  items: SlotItem[];
+}
+
 export interface SlotCard {
   facts: SlotFact[];
   items: SlotItem[];
@@ -121,6 +139,9 @@ export interface SlotCard {
   tabs?: SlotTab[];
   activeTab?: string;
   subject?: SlotSubject;
+  /** REV-21 §2.1: attached by the registry (withSlotSections) on every
+   *  `load`, so no adapter and no consumer has to assemble them. */
+  sections?: SlotSection[];
 }
 
 export interface SlotContext {
@@ -227,7 +248,11 @@ function newsSlotFor(theme: HubThemeKey): DiscoverySlot {
           { labelKey: 'Rev20.slots.facts.topHeadline', value: top.title, emphasis: true },
           { labelKey: 'Rev20.slots.facts.headlineCount', value: String(news.items.length) },
         ],
-        items: news.items.slice(0, HUB_CARD_ITEMS).map((it) => ({ id: it.id, title: it.title, domain: it.domain, url: it.url })),
+        // REV-21 §2.1: the worldwide legs fold as `en`, the visitor's own
+        // legs as the locale -- that is the global / country split.
+        items: news.items
+          .slice(0, HUB_CARD_ITEMS)
+          .map((it) => ({ id: it.id, title: it.title, domain: it.domain, url: it.url, scope: newsItemScope(it.lang, locale) })),
         updatedAt: news.fetchedAt,
         cursor: null,
       };
@@ -437,19 +462,31 @@ const fxSlot: DiscoverySlot = {
   kind: 'feed',
   icon: ArrowLeftRight,
   color: '#6b7a8f',
-  async load({ signal }) {
-    const json = await safeJson<unknown>(frankfurterRatesUrl(FX_BASE, FX_QUOTES), signal);
-    const parsed = parseFrankfurterV2(json, FX_QUOTES);
+  async load({ signal, country }) {
+    // REV-21 §2.1: the visitor's own currency rides the SAME request as a
+    // quote (zero extra round trips) and renders as the country section.
+    const own = fxCountryQuote(country, FX_BASE);
+    const quotes = own && !FX_QUOTES.includes(own as (typeof FX_QUOTES)[number]) ? [...FX_QUOTES, own] : [...FX_QUOTES];
+    const json = await safeJson<unknown>(frankfurterRatesUrl(FX_BASE, quotes), signal);
+    const parsed = parseFrankfurterV2(json, quotes);
     if (!parsed) return EMPTY_CARD;
+    const world = parsed.pairs.filter((p) => p.code !== own);
+    const mine = own ? parsed.pairs.filter((p) => p.code === own) : [];
     return {
       facts: [
         { labelKey: 'Rev20.slots.facts.fxBase', value: parsed.base },
-        ...parsed.pairs.map((p, i) => ({
+        ...world.map((p, i) => ({
           labelKey: `Rev20.slots.facts.fxRate`,
           value: `${p.code} ${p.rate.toFixed(2)}`,
           emphasis: i === 0,
         })),
         { labelKey: 'Rev20.slots.facts.fxDate', value: parsed.date },
+        ...mine.map((p) => ({
+          labelKey: `Rev20.slots.facts.fxRate`,
+          value: `${p.code} ${p.rate.toFixed(2)}`,
+          emphasis: true,
+          scope: 'country' as const,
+        })),
       ],
       items: [],
       updatedAt: Date.now(),
@@ -899,12 +936,21 @@ const newsSlots: readonly DiscoverySlot[] = HUB_THEMES.map((t) => newsSlotFor(t.
 
 const rankingSlots: readonly DiscoverySlot[] = [worldRankingSlot, unitasRankingSlot];
 
-const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>([
-  [weatherSlot.key, weatherSlot],
-  ...newsSlots.map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
-  ...feedSlots.map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
-  ...rankingSlots.map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
-]);
+/** REV-21 §2.1(§2A.3): one wrapper at the registry means every adapter --
+ *  and every future adapter -- answers with its scope sections attached,
+ *  and no consumer has to remember to build them. */
+function withScopeSections(slot: DiscoverySlot): DiscoverySlot {
+  return {
+    ...slot,
+    load: async (ctx, cursor) => withSlotSections(slot.key, await slot.load(ctx, cursor)),
+  };
+}
+
+const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>(
+  [weatherSlot, ...newsSlots, ...feedSlots, ...rankingSlots]
+    .map(withScopeSections)
+    .map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
+);
 
 /** REV-20 §3.4/§3.5: weather first, then the 9 news + 12 feed themes
  *  interleaved so two "newsy" or two "data" slots never sit back to back
