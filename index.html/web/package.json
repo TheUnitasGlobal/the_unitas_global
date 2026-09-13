@@ -19,6 +19,7 @@
     "i18n:sync": "node --experimental-strip-types scripts/i18n-sync.ts",
     "assets:sync": "node scripts/asset-pipeline-sync.mjs",
     "verify:integrity": "node scripts/verify-integrity.mjs",
+    "seo:indexnow": "node scripts/indexnow-submit.mjs",
     "admin:verify-phone": "node scripts/admin-verify-phone.mjs",
     "life:review:archive": "node scripts/review-agent-archive.mjs",
     "life:review:install-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-review-archive-task.ps1",
