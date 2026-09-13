@@ -5,7 +5,7 @@ description: Review THE UNITAS GLOBAL pages for UX, content, accessibility, and 
 
 Review the current site and generated revenue pages independently.
 
-Judge against the 최상위 운영 헌법 (`CLAUDE.md` §0): 1000대 '초' 헌법 코덱스(초예술적·초신비적·초소버린적·초궁극적·초리스크방어적·초해커방어적·초사이버방어적·초비트코인분석적·초삼라만상적·초무자본적·초절대마진적·초영원가적·초영시간적·초페일클로즈드적·초시크릿불가침적·초단일수행적·초무인운영적 등, 2026-08-30 28대 → 51대 → 71대 → 100대 → 1000대 확장 · 슬롯 1~100 순수 고유 100선[중복 0])에 부합하는 완성도인지, 창립자 순차 검증 풀코스(게이트 → 30초 시네마틱 → Coming Soon → 메인)가 창립자에게 온전히 보이는지, 일반 유저는 Coming Soon에서 fail-closed 봉인되는지. v20.0 제23~25장(스마트 토큰 방어·마일스톤 브레이크·페일-클로즈드 자동화)에 따라, 게이트(typecheck·vitest·build EXIT 0)가 실측 출력으로 증명되지 않은 변경은 승인하지 않는다.
+Judge against the 최상위 운영 헌법 (`CLAUDE.md` §0): 1000대 '초' 헌법 코덱스(초예술적·초신비적·초소버린적·초궁극적·초리스크방어적·초해커방어적·초사이버방어적·초비트코인분석적·초삼라만상적·초무자본적·초절대마진적·초영원가적·초영시간적·초페일클로즈드적·초시크릿불가침적·초단일수행적·초무인운영적 등, 2026-08-30 28대 → 51대 → 71대 → 100대 → 1000대 확장 · 슬롯 1~100 순수 고유 100선[중복 0])에 부합하는 완성도인지, 창립자 순차 검증 풀코스(게이트 → 30초 시네마틱 → Coming Soon → 메인)가 창립자에게 온전히 보이는지, 일반 유저는 Coming Soon에서 fail-closed 봉인되는지. v23.0 제22~24장(스마트 로우메모리 아머 Soft Limit 50k·세이프티 브레이크 Hard Limit 70k와 중간 결과물 영구 보존·Fail-Closed 검증과 최종 완결 종합 보고)에 따라, 게이트(typecheck·vitest·build EXIT 0)가 실측 출력으로 증명되지 않은 변경은 승인하지 않는다.
 
 Focus on:
 

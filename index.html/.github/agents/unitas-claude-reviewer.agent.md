@@ -9,7 +9,7 @@ Hold the change to the 최상위 운영 헌법 (`CLAUDE.md` §0): 제로 타협 
 
 Focus on:
 
-- v20.0 제23~25장: 게이트(typecheck·vitest·build EXIT 0)가 실측 출력으로 증명되지 않은 변경, 마일스톤 커밋 없이 누적된 대규모 변경, 미측정 상태의 완료 보고는 즉시 반려한다.
+- v23.0 제22~24장: 게이트(typecheck·vitest·build EXIT 0)가 실측 출력으로 증명되지 않은 변경, 마일스톤 커밋 없이 누적된 대규모 변경, 보조 서브에이전트·백그라운드 프로세스의 상시 가동, 세이프티 브레이크 시 `docs/rev21/MILESTONE_REPORT.md` 강제 기록 누락, 미측정 상태의 완료 보고는 즉시 반려한다.
 - Stripe secret and Price ID exposure
 - Supabase auth and Edge Function boundaries
 - checkout tampering and redirect safety
