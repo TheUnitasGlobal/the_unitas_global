@@ -170,3 +170,63 @@
   이 두 동작은 창립자 계정에서만 가능하며 코드로 대행할 수 없다.
 - **Bing Webmaster Tools / 네이버 서치어드바이저 토큰은 여전히 미발급 상태다.** 발급되면
   `lib/seo/routes.ts`에 같은 방식으로 각인하고 `metadata.verification`에 `other` 필드로 확장한다.
+
+---
+
+## SEO-NAVER — 네이버 서치어드바이저 소유권 인증 각인 (2026-09-13, 창립자 지령)
+
+**배경:** 바로 위 SEO-GSC 항목이 남긴 개방 과제 중 **네이버 몫이 닫혔다.** 제12장이 지목한
+3대 콘솔(구글·네이버·빙) 가운데 두 번째다. REV-22가 robots.txt에 이미 `Yeti` 전용 블록을
+세워 두었으므로, 소유권 확인이 그 블록을 실제 색인으로 전환하는 마지막 스위치다.
+
+**하달 명령을 그대로 실행하지 않은 이유 (결함 4건):**
+
+| # | 하달된 형태 | 실제 결과 |
+| --- | --- | --- |
+| 1 | `verification: { naver: '…' }` | Next 14.2.35 `Verification` 타입은 정확히 `{ google, yahoo, yandex, me, other }` (`next/dist/lib/metadata/types/metadata-types.d.ts:92`). `naver` 필드는 **없다** — 조용히 무시되는 키가 아니라 **`tsc` 컴파일 에러** |
+| 2 | `.Replace('metadata = {', …)` | 같은 객체 리터럴에 **두 번째 `verification:` 키**를 덧붙인다. 중복 프로퍼티 에러이며, 설령 컴파일됐다면 나중 키가 이겨 **전날 각인한 구글 토큰이 조용히 소거**된다 |
+| 3 | 멱등 가드 `-notmatch 'naver-site-verification'` | 삽입 문자열은 `naver: '…'`라 가드 문자열을 포함하지 않는다 → **재실행마다 중복 삽입 누적** |
+| 4 | `Set-Content -Encoding utf8` | Windows PowerShell 5.1에서 이 옵션은 **BOM을 붙인다**. `layout.tsx`는 BOM이 없으며, BOM은 이 저장소에서 반복 사고를 낸 함정이다 |
+
+**집행한 형태:** 토큰을 `verification.other`에 **리터럴 meta 이름**으로 선언 —
+`other: { 'naver-site-verification': NAVER_SITE_VERIFICATION }`. Next는 `other`의 키를
+그대로 `<meta name>`으로 렌더한다. 토큰 정본은 `lib/seo/routes.ts`의
+`NAVER_SITE_VERIFICATION`(= `GOOGLE_SITE_VERIFICATION` / `SITE_URL` / `SITEMAP_URL` 옆).
+부수 효과로 `layout.tsx`에 `naver-site-verification` 문자열이 실재하게 되어, **하달 명령을
+그대로 재실행해도 가드가 정상 작동해 무해하게 통과**한다.
+
+**회귀 테스트 4건:** 토큰 값 · 40자 소문자 hex 형식 · 두 콘솔 토큰의 비동일성(한쪽이 다른
+쪽 토큰을 가리키면 양쪽 모두 "존재함"으로 읽히고 **양쪽 다 확인 실패**한다) ·
+`verification: {` 출현 **정확히 1회**(위 결함 2의 실패 양식을 영구 차단).
+
+**4대 게이트 실측 (전부 EXIT 0):**
+
+| 게이트 | 결과 |
+| --- | --- |
+| `tsc --noEmit` | **EXIT 0** — `verification.other` 형태의 타입 적합성 증명 |
+| `vitest run` | **76 파일 / 1149 테스트 통과** (1147 → 신규 2건) |
+| `next build` | **EXIT 0** |
+| 빌드 산출물 | **사전렌더 421 HTML 전수 — 구글 421/421 · 네이버 421/421**, 누락 0, 문서당 각 `<meta>` 정확히 1개 |
+
+**라이브 실측 (배포 후 HTTPS 실호출):**
+
+| 항목 | 실측값 |
+| --- | --- |
+| 커밋 | `89ac830` → origin/main 푸시 완료 |
+| 배포 | `the-unitas-global-obe92qrv7` (production) |
+| 라이브 `gitCommit` | `89ac830e50197a3c…` — 푸시 커밋과 일치 |
+| 라이브 `buildFingerprint` | `632c59de6817b47c…` — 로컬 빌드와 일치 |
+| 20로케일 루트 | **20/20 HTTP 200 · 구글 20/20 · 네이버 20/20** |
+| 서브페이지 표본 | `/u-ai` `/ko/u-ai` `/legal/terms` `/ko/company/about` `theunitas.global/` 전부 200 + 두 태그 각 1 |
+| REV-22 회귀 | `/sitemap.xml` 200 · **340 URL**, `/robots.txt` 200 · **6블록 + Sitemap 1행** — 무손상 |
+
+**정직 표기:**
+- 작업 중 유닛 테스트 1건이 실패했다. 원인은 제품이 아니라 **내가 작성한 테스트**로,
+  패치 스크립트의 정규식이 셸을 거치며 백슬래시를 잃어 `/^s*verification: {/`로 기록됐다.
+  정규식을 문자열 카운트(`split(…).length - 1`)로 대체해 재발 여지를 제거했다.
+  **교훈: 힙독 경유 패치 스크립트에는 정규식 리터럴을 넣지 않는다.**
+- **태그 각인은 필요조건일 뿐이다.** 구글 서치 콘솔과 네이버 서치어드바이저 양쪽에서
+  **창립자가 [소유확인] 버튼을 눌러야** 소유권이 성립하고, 그 다음에야 `/sitemap.xml`(340 URL)
+  제출이 가능하다. 두 동작 모두 창립자 계정 전용이다.
+- **빙 웹마스터 도구 토큰은 여전히 미발급.** 발급 시 `verification.other`에 같은 방식으로
+  `'msvalidate.01'` 키를 추가하면 된다 — 구조 변경 없이 한 줄.
