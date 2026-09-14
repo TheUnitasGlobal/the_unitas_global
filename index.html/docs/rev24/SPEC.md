@@ -110,6 +110,15 @@ tier   동일 (byte-identical)
 열리는 전부-아니면-전무 스위치였고, 창립자의 직접 접근과 락아웃 사이에 서 있던
 유일한 물건이었다. **이제 이 게이트를 끄는 환경 변수는 어디에도 없다.**
 
+> **실측 (2026-09-13):** 이 변수는 **Vercel 프로덕션에 설정된 적이 없다.** 삭제는
+> 라이브 동작을 바꾸지 않았고, 제거된 것은 **잠재 위험**이다. 반대로
+> `SOVEREIGN_AUTH_TOKEN`·`SOVEREIGN_AUTH_SIGNING_SECRET`은 프로덕션에 설정되어
+> 있어 마스터 키는 즉시 동작한다.
+
+E2E 하네스는 원래부터 이 변수를 쓰지 않았다(`tests/web-cinema.config.js`는 설정하지
+않으며, 스펙들은 `_sovereignToken.js`의 `?sovereign_auth=` 경로를 쓴다) — 따라서
+삭제로 깨진 테스트는 없다.
+
 ### 2.2 융합한 것 — 3경로 Fail-Proof 권한 체계
 
 `lib/sovereign/masterKey.ts` (엣지 안전, Web Crypto 전용).

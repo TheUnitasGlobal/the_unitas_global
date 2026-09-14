@@ -185,13 +185,41 @@ U-AI 결과에서 `U-COIN` / `코인` / `Micro-Burn` / `Deep Insight · The VOID
 
 ---
 
-## 5. 배포
+## 5. 배포 및 라이브 실측
 
 | 항목 | 값 |
 |---|---|
 | 코드 커밋 | `c17950e` |
-| 보고서 커밋 | (본 문서 커밋) |
-| 배포 | Vercel 프로덕션 (`the-unitas-global-ou-e`) |
+| 보고서 커밋 | `8bc026a` |
+| 배포 | `the-unitas-global-8iklx6hup` · **● Ready · Production** |
 | 도메인 | https://www.theunitas.global |
+| **라이브 `gitCommit`** | `8bc026ac86a36e9473a6113d3894d198ad671675` = **푸시한 HEAD와 일치** |
+| 라이브 `buildFingerprint` | `4af93cbd70f3aa44c818525d1d9d57f9…` = 로컬 빌드와 일치 |
+
+라이브 도메인 실측 (`www.theunitas.global`):
+
+| 요청 | 결과 |
+|---|---|
+| 사람 UA `/` | **307 · `x-unitas-gate: seal` → `/en/gateway`** |
+| Googlebot `/` | **200 · `x-unitas-gate: pass`** (제13장 SEO 말뭉치 생존) |
+| 사람 UA `/ko/u-signature` | **307 · seal → `/ko/gateway`** |
+| 공중 `/sovereign` | **404** (숨겨진 콘솔은 존재하지 않는다) |
+
+프로덕션 환경 변수 실측 (이름만, 값은 Secret):
+`SOVEREIGN_AUTH_TOKEN` · `SOVEREIGN_AUTH_SIGNING_SECRET` **둘 다 설정되어 있다** —
+즉 마스터 키는 창립자의 실제 토큰으로 라이브에서 동작한다.
+
+> **측정 교정 1건:** `UNITAS_GATE_BYPASS`는 **Vercel 프로덕션에 애초에 설정된 적이
+> 없었다**(env 목록 실측). 따라서 그 삭제는 라이브 동작을 1비트도 바꾸지 않았다 —
+> 제거의 가치는 "프로덕션에 켜지면 전 지구에 퍼널이 열리는 스위치가 코드에 남아
+> 있었다"는 **잠재 위험의 소거**이지, 켜져 있던 것을 끈 것이 아니다.
+
+창립자 검증 절차(토큰은 창립자만 보유):
+
+```
+npm --prefix web run sovereign:key -- --days 365
+curl -sI https://www.theunitas.global/ -H "x-unitas-signature: <발행된 캡슐>"
+  → 200 · x-unitas-gate: pass  (실패 시 307 → /<locale>/gateway)
+```
 
 **색인 상태 초과 달성 완료, 특이 에러 0건, 자율 최적화 적용 완료.**
