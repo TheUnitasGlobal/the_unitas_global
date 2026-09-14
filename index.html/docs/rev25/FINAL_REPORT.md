@@ -225,7 +225,28 @@ ok 1 [chromium] › rev24-verify.spec.js:398:3 › REV-24 M4 -- the Omni-Tech sw
 **skip이 아니라 pass다.** 브릿지가 텍스트 앵커를 실제 엔티티로 올려 타일이 생겼고,
 클릭 → 스웜 → 노드 포커스까지 라이브 데이터로 완주했다.
 
-## §7. 배포
+## §7. 배포 및 라이브 실측
+
+코드·문서 커밋 `0594beb` → `origin/main` 푸시 → Vercel 프로덕션
+`dpl_ERM9nzzCrybTqmy418PyLjiufKpi` (`the-unitas-global-9oja071z5`) **READY**.
+
+`https://www.theunitas.global` 실측(2026-09-14):
+
+```
+/                  사람 UA        -> 307  gate=seal  loc=/en/gateway
+/                  Googlebot      -> 200  gate=pass
+/sovereign         사람 UA        -> 404
+/ko/u-signature    사람 UA        -> 307  gate=seal  loc=/ko/gateway
+/  + x-unitas-signature: <개발 기본 토큰>  -> 307  gate=seal
+```
+
+- **라이브 `gitCommit = 0594bebd569847dca3cb723d8b54d7a3f7acd9d1`** — 방금 푸시한
+  REV-25 커밋과 **정확히 일치**. `buildFingerprint`도 로컬 빌드와 일치
+  (`4af93cbd70f3aa44…`).
+- 마지막 줄이 중요하다: **공개된 개발 기본 토큰은 프로덕션을 열지 못한다.** 프로덕션은
+  자체 `SOVEREIGN_AUTH_TOKEN`을 쓰며, 저장소에 적힌 기본값으로는 봉인된다. 창립자의 실제
+  키를 이 세션은 읽지 않았고 출력하지도 않았다.
+
 
 ---
 
