@@ -7,6 +7,7 @@ import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { DeeperThemePage } from '@/components/home/deeper/DeeperThemePage';
 import { useSlotContext } from '@/lib/live/useSlotContext';
+import { useAnchorBridge } from '@/lib/uai/useAnchorBridge';
 import { entityAnchor, qidAnchor, type DeeperAnchor } from '@/lib/uai/deeperAnchor';
 import { resolveEntity, sitelinkTitles, wikiLinks } from '@/lib/uai/entityResolve';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
@@ -48,6 +49,15 @@ export interface ExploreDeeperProps {
   maxThemes?: number;
   /** The visitor's 6-axis surface report, when the host has one. */
   report?: Pick<SurfaceReport, 'constitution'> | null;
+  /**
+   * REV-25 M1: may an identifier-less subject be resolved to a real-world
+   * entity? Default yes. Hosts whose subject is a UNITAS-internal name pass
+   * `false`: SPEC §12.2 D-23 put them in sources-only mode deliberately
+   * ("no entity behind a pseudonymous operator"), and resolving the module
+   * "Echo" to the Greek nymph is exactly the '공기 → Thai film' drift REV-21
+   * §2.2 closed, reopened somewhere new.
+   */
+  bridge?: boolean;
   className?: string;
 }
 
@@ -65,7 +75,7 @@ function useIsNarrow(): boolean {
   return narrow;
 }
 
-export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report = null, className = '' }: ExploreDeeperProps) {
+export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report = null, bridge = true, className = '' }: ExploreDeeperProps) {
   const t = useTranslations('Rev21.deeper');
   const locale = useLocale();
   const ctx = useSlotContext();
@@ -90,7 +100,15 @@ export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report
     setShowAll(false);
   }, [anchor?.qid, anchor?.term, anchor?.coord?.lat, anchor?.coord?.lon]);
 
-  const effective = chosen ?? anchor;
+  // REV-25 M1 -- THE ANCHOR BRIDGE. A host that had no identifier to give
+  // (live web synthesis resolved nothing, a ranking row is a literal string)
+  // used to land here as a TEXT anchor, and `themesFor` then offered zero
+  // lenses: the omni-tech swarm was unreachable from the tower. The bridge
+  // resolves that term ONCE per device on the visitor's own-language
+  // Wikipedia and hands back an entity anchor. A meaning the visitor chose
+  // themselves still outranks it.
+  const { bridged, bridging } = useAnchorBridge(bridge ? anchor : null);
+  const effective = chosen ?? bridged ?? anchor;
 
   // §3.1: a disambiguation page offers its top links as "which meaning?".
   useEffect(() => {
@@ -154,6 +172,8 @@ export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report
       className={`qw-deeper-block ${compact ? 'qw-deeper-block--compact' : ''} ${className}`}
       data-explore-deeper=""
       data-anchor-kind={kind}
+      data-anchor-bridged={bridged && !chosen ? '' : undefined}
+      data-anchor-bridging={bridging ? '' : undefined}
       data-host={host}
       aria-labelledby={headingId}
     >
@@ -226,6 +246,14 @@ export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report
             </li>
           )}
         </ul>
+      ) : bridging ? (
+        // The bridge is resolving this term: saying "아직 연결된 존재가 없습니다"
+        // now and replacing it with a full lens grid a moment later would be a
+        // lie followed by a flash. Hold the line until the answer is in.
+        <p className="qw-deeper-noanchor mb-2 flex items-center gap-1.5 text-[12px] text-gray-500" data-deeper-bridging-note="">
+          <Loader2 size={12} className="animate-spin text-accent" aria-hidden="true" />
+          {t('loading')}
+        </p>
       ) : (
         <p className="qw-deeper-noanchor mb-2 text-[12px] text-gray-500" data-deeper-noanchor="">
           {t('noAnchor')}

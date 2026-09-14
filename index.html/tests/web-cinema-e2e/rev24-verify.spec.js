@@ -14,15 +14,32 @@
 //   M4  the Omni-Tech swarm: a living, focusable, re-anchorable node field.
 const { test, expect } = require('@playwright/test');
 const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
+const { collapseSovereignPanel, walkCurtain, settleSurface } = require('./_rev25Home');
 
 const FOUNDER_URL = `/?sovereign_auth=${TOKEN}&splash=0&dev=skip`;
 const KEY_HEADER = 'x-unitas-signature';
 
 async function founderHome(page) {
+  // REV-25 M2 (founder directive 2026-09-13): this helper was CHROMIUM-DESKTOP
+  // only, and REV-23/REV-24 were signed off on chromium alone -- so two
+  // revisions of test defects sat here unmeasured. Measured 2026-09-14, all
+  // three of them:
+  //   - the founder's debug console (z-450, 272px at left 16) covers the
+  //     search bar on a 412px viewport, so every click on the bar lands on the
+  //     panel -> collapse it before the first paint;
+  //   - a touch viewport still shows the entry curtain after `dev=skip`
+  //     (`.cs-root`, opacity 1, pointer-events auto, full screen) -> walk it;
+  //   - `page.evaluate(() => document.fonts.ready)` returns a FontFaceSet,
+  //     which WebKit refuses to serialise, so the wait never waited and the
+  //     hero was measured on fallback metrics (A=-83.6 vs A=74.22 settled --
+  //     and 74.22/74.20 is what BOTH engines report once settled);
+  //   - the white surface is stamped by client JS after hydration and the
+  //     whole quantum-white token layer hangs off it, so a skin read before
+  //     it sees the wrong radius.
+  await collapseSovereignPanel(page);
   await page.goto(FOUNDER_URL, { waitUntil: 'domcontentloaded' });
-  await page.waitForSelector('#omni-synapse-search', { state: 'visible', timeout: 30_000 });
-  await page.evaluate(() => document.fonts.ready);
-  await page.waitForTimeout(400);
+  await walkCurtain(page);
+  await settleSurface(page);
 }
 
 // ---------------------------------------------------------------------------
@@ -162,11 +179,17 @@ test.describe('REV-24 M3 -- nothing paint-tier runs while the page is idle', () 
     // box-shadow + border-color on an element that is in the nav of every
     // page. Neither may run while nothing is touching it.
     expect(atRest.animation, 'the CTA must not repaint a shadow every frame while idle').toBe('none');
-    // The affordance survives: engaging still changes how it reads.
+    // The affordance survives: engaging still changes how it reads. POLLED,
+    // not a fixed 160ms wait -- measured 2026-09-14, WebKit had not finished
+    // the transition at 160ms and reported the at-rest shadow, while at 400ms
+    // both engines report the identical engaged value
+    // (`rgba(184,150,46,.14) 0 0 0 0` -> `rgba(11,92,255,.14) 0 0 0 3px`,
+    // border `rgba(10,10,12,.45)` -> `rgb(8,71,201)`). The product is the
+    // same on both; only the clock differed.
     await cta.hover();
-    await page.waitForTimeout(160);
-    const engaged = await cta.evaluate((el) => getComputedStyle(el).boxShadow);
-    expect(engaged, 'hovering the CTA must still do something visible').not.toBe(atRest.shadow);
+    await expect
+      .poll(async () => cta.evaluate((el) => getComputedStyle(el).boxShadow), { timeout: 5_000 })
+      .not.toBe(atRest.shadow);
   });
 
   test('no request is issued while the page sits idle and unattended', async ({ page }) => {
@@ -180,9 +203,79 @@ test.describe('REV-24 M3 -- nothing paint-tier runs while the page is idle', () 
     expect(chatty, `idle page issued ${chatty.length} request(s):\n${chatty.slice(0, 10).join('\n')}`).toEqual([]);
   });
 
-  test('the idle frame budget is honoured -- rAF p95 stays inside one frame', async ({ page }) => {
+  test('the idle frame budget is honoured -- the app schedules no frames and the main thread stays free', async ({ page, browserName }, testInfo) => {
     await founderHome(page);
     await page.waitForTimeout(600);
+
+    // WHY THIS TEST CHANGED (REV-25 M2, measured 2026-09-14).
+    //
+    // It used to assert `rAF p95 < 120ms` on chromium alone. Run on WebKit for
+    // the first time it read 444ms, and the bisect says that number is about
+    // the HARNESS, not the product:
+    //
+    //   webkit  about:blank        p95  17.0 / median 16.0
+    //   webkit  /robots.txt        p95  17.0 / median 16.0
+    //   webkit  released home      p95 425.0 / median 363.0
+    //   webkit  home, body hidden              median  15.0
+    //   webkit  setTimeout(0) latency on the home            15 ms
+    //   webkit  live intervals: one, at 600000ms. app rAF registrations: 0
+    //   chromium released home     p95  33.4 / median 16.7 (flat under every
+    //                                    bisect step -- nothing costs anything)
+    //
+    // So: rAF itself is not throttled in this WebKit, the main thread is FREE,
+    // the application asks for no frames -- and hiding the page body takes the
+    // cadence from 366ms to 15ms. What costs 350ms a frame is RASTERISING the
+    // full released home in a headless WebKit that has no GPU, and it is
+    // diffuse (hiding the rings, the nav, the hero and the search bar together
+    // only recovers 375 -> 292ms). A GPU-composited Safari is NOT measured by
+    // this harness either way.
+    //
+    // REV-24 already faced this exact shape in rev21-rail-drag: when the
+    // estimator turns out to measure something other than what the assertion
+    // claims, REPLACE THE ESTIMATOR -- do not widen the budget. So the
+    // runaway-loop claim is now made directly and portably, and the p95
+    // ceiling is kept unchanged where it measures the product.
+
+    // 1) THE RUNAWAY-LOOP DETECTOR. While nothing touches the page, the
+    //    application must not ask for a single animation frame.
+    const scheduled = await page.evaluate(
+      () =>
+        new Promise((resolve) => {
+          let n = 0;
+          const raf = window.requestAnimationFrame.bind(window);
+          window.requestAnimationFrame = (cb) => {
+            n += 1;
+            return raf(cb);
+          };
+          setTimeout(() => {
+            window.requestAnimationFrame = raf;
+            resolve(n);
+          }, 3000);
+        }),
+    );
+
+    // 2) THE MAIN THREAD IS FREE: a zero-delay task must land promptly.
+    const latency = await page.evaluate(
+      () =>
+        new Promise((resolve) => {
+          const out = [];
+          let n = 0;
+          const step = () => {
+            const t = performance.now();
+            setTimeout(() => {
+              out.push(performance.now() - t);
+              if (++n < 20) step();
+              else {
+                out.sort((a, b) => a - b);
+                resolve(out[Math.floor(out.length / 2)]);
+              }
+            }, 0);
+          };
+          step();
+        }),
+    );
+
+    // 3) The cadence, measured everywhere and logged for the record.
     const p95 = await page.evaluate(
       () =>
         new Promise((resolve) => {
@@ -200,10 +293,16 @@ test.describe('REV-24 M3 -- nothing paint-tier runs while the page is idle', () 
           requestAnimationFrame(tick);
         }),
     );
-    console.log(`[REV-24 M3] idle rAF p95 = ${p95.toFixed(1)}ms`);
-    // Generous: a headless CI frame is noisy. This catches a runaway loop,
-    // which is what the removed always-on animations were.
-    expect(p95).toBeLessThan(120);
+    console.log(
+      `[REV-24 M3][${testInfo.project.name}] idle rAF p95 = ${p95.toFixed(1)}ms · frames scheduled by the app in 3s = ${scheduled} · setTimeout(0) median = ${latency.toFixed(1)}ms`,
+    );
+
+    expect(scheduled, 'an idle page must not schedule animation frames').toBeLessThanOrEqual(2);
+    expect(latency, 'an idle page must leave the main thread free').toBeLessThan(50);
+    if (browserName === 'chromium') {
+      // Unchanged budget, on the engine where it measures the product.
+      expect(p95).toBeLessThan(120);
+    }
   });
 });
 

@@ -7,17 +7,31 @@
 // (which M4 must not have moved).
 const { test, expect } = require('@playwright/test');
 const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
+const { collapseSovereignPanel, walkCurtain, settleSurface } = require('./_rev25Home');
 
 const FOUNDER_URL = `/?sovereign_auth=${TOKEN}&splash=0&dev=skip`;
 
 async function founderHome(page) {
+  // REV-25 M2 (founder directive 2026-09-13): this helper was CHROMIUM-DESKTOP
+  // only, and REV-23/REV-24 were signed off on chromium alone -- so two
+  // revisions of test defects sat here unmeasured. Measured 2026-09-14, all
+  // three of them:
+  //   - the founder's debug console (z-450, 272px at left 16) covers the
+  //     search bar on a 412px viewport, so every click on the bar lands on the
+  //     panel -> collapse it before the first paint;
+  //   - a touch viewport still shows the entry curtain after `dev=skip`
+  //     (`.cs-root`, opacity 1, pointer-events auto, full screen) -> walk it;
+  //   - `page.evaluate(() => document.fonts.ready)` returns a FontFaceSet,
+  //     which WebKit refuses to serialise, so the wait never waited and the
+  //     hero was measured on fallback metrics (A=-83.6 vs A=74.22 settled --
+  //     and 74.22/74.20 is what BOTH engines report once settled);
+  //   - the white surface is stamped by client JS after hydration and the
+  //     whole quantum-white token layer hangs off it, so a skin read before
+  //     it sees the wrong radius.
+  await collapseSovereignPanel(page);
   await page.goto(FOUNDER_URL, { waitUntil: 'domcontentloaded' });
-  // The curtain resolves to `released` once /api/sovereign/verify answers.
-  await page.waitForSelector('#omni-synapse-search', { state: 'visible', timeout: 30_000 });
-  // The hero is typeset in Cinzel; measuring before the webfont lands reads
-  // the fallback's metrics, which is a ~90px phantom on the symmetry check.
-  await page.evaluate(() => document.fonts.ready);
-  await page.waitForTimeout(400);
+  await walkCurtain(page);
+  await settleSurface(page);
 }
 
 test.describe('REV-23 M1 -- the funnel is sealed at the edge', () => {

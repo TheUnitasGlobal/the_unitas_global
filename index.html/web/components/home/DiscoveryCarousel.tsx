@@ -859,7 +859,10 @@ function RankingDeepModal({ target, onClose }: { target: DeepTarget | null; onCl
               onModuleChange={setActiveModuleTitle}
             />
           )}
-          <ExploreDeeper anchor={rankingAnchor} host="rankingDeep" compact />
+          {/* REV-25 M1: the world-ranking anchor is a real Wikidata item, so it
+              may bridge; the UNITAS-ranking anchor is a MODULE NAME and must
+              not be resolved to an unrelated encyclopedia entry (D-23). */}
+          <ExploreDeeper anchor={rankingAnchor} host="rankingDeep" compact bridge={key !== 'unitasRanking'} />
         </div>
       )}
     </Modal>
