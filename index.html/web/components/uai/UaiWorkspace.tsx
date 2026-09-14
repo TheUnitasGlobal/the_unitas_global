@@ -98,7 +98,10 @@ export function UaiWorkspace({ initialQuery = '' }: { initialQuery?: string }) {
                   }}
                   className="flex items-center gap-1.5 border border-white/10 bg-void/50 px-2.5 py-1 text-[10px] text-gray-400 transition-colors hover:border-accent/50 hover:text-white"
                 >
-                  {entry.depth === 'deep' && <span className="text-neon">◆</span>}
+                  {/* REV-24 M1: the ◆ neon marker that flagged a coin-burning
+                      "deep" query is gone with the tier it advertised. Every
+                      row in this history is now the same free surface pass,
+                      so nothing here ranks one query above another. */}
                   <span className="max-w-[160px] truncate">{entry.q}</span>
                 </button>
               </li>

@@ -55,8 +55,10 @@ export const SELECTION_HARVEST_CHARS = 48;
 /** Viewport shrink (window outer - inner, px) that reads as a docked
  *  developer panel. Ordinary browser chrome stays well under it. */
 export const DEVTOOLS_DOCK_PX = 170;
-/** Cadence of the docked-panel size probe (ms). */
-export const DEVTOOLS_POLL_MS = 1000;
+/* REV-24 M3 (founder directive 2026-09-13): `DEVTOOLS_POLL_MS` is GONE. The
+   docked-panel probe no longer polls at all -- SovereignWatermark.tsx runs it
+   on `resize` / `visibilitychange` / `focus`, which is strictly more precise
+   (docking a panel IS a resize) and costs nothing while the page is idle. */
 
 const MAC_SHOT_DIGITS = new Set(['3', '4', '5', '6']);
 const DEVTOOLS_LETTERS = new Set(['i', 'j', 'c']);

@@ -1391,11 +1391,8 @@
       "art": "Seni · Filsafat"
     },
     "constitutionAxisNote": "Sumbu jangkar perancangan ulang · {axis}",
-    "webSourcesLabel": "Sintesis web langsung",
     "webSourcedBadge": "{count} sumber disintesis secara real-time",
     "webLocalBadge": "Sintesis heuristik lokal · nol panggilan eksternal",
-    "deepLabel": "Wawasan Mendalam · The VOID",
-    "openFullReport": "Buka laporan U-AI lengkap",
     "brainGridLabel": "Brain-Grid · Riwayat Kognitif",
     "brainGridClear": "Bersihkan",
     "webBlendNote": "Sintesis web setara big tech 90% + desain ulang 100 doktrin UNITAS 10%."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Perluas tangga",
     "keywordHint": "Ketuk untuk menyarangkan tingkat baru di bawah",
     "deepLabel": "Analisis mendalam UNITAS",
-    "deepPending": "{hits} / 3 pencarian global. Pada yang ke-3, mesin 100 doktrin menempa analisis mendalam 6 sumbu untuk kata kunci ini sekali saja — setelahnya gratis untuk semua.",
     "appLoopLabel": "Pintasan",
     "restoredNote": "Tangga dipulihkan setelah ganti bahasa — tidak ada yang hilang.",
     "cachedBadge": "Cache berdaulat · biaya 0",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Baru saja disintesis",
     "synthesizedAgo": "Disintesis {hours} jam lalu",
     "nextSynthesis": "sintesis berikutnya dalam {hours} jam {minutes} menit",
-    "refreshCooldown": "Baru diperbarui — cache disajikan",
-    "deepQueued": "Analisis mendalam UNITAS 6 sumbu sedang antre untuk penempaan 100 doktrin malam ini. Disintesis sekali dan setelah itu disajikan gratis untuk semua."
+    "refreshCooldown": "Baru diperbarui — cache disajikan"
   },
   "Finance": {
     "axes": {

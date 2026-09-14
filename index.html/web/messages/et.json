@@ -1391,11 +1391,8 @@
       "art": "Kunst · Filosoofia"
     },
     "constitutionAxisNote": "Ümberkujundamise tugitelg · {axis}",
-    "webSourcesLabel": "Veebi reaalajas süntees",
     "webSourcedBadge": "{count} allikat sünteesitud reaalajas",
     "webLocalBadge": "Kohalik heuristiline süntees · null välispäringut",
-    "deepLabel": "Sügav taip · The VOID",
-    "openFullReport": "Ava täielik U-AI aruanne",
     "brainGridLabel": "Brain-Grid · Kognitiivne ajalugu",
     "brainGridClear": "Tühjenda",
     "webBlendNote": "Big-tech-tasemel veebisüntees 90% + UNITASe 100 doktriini ümberkujundus 10%."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Laienda redelit",
     "keywordHint": "Puuduta, et lisada alla uus tasand",
     "deepLabel": "UNITASe süvaanalüüs",
-    "deepPending": "{hits} / 3 globaalset otsingut. Kolmandal sepistab 100 doktriini mootor selle märksõna 6-teljelise süvaanalüüsi ühe korra — pärast seda on see kõigile tasuta.",
     "appLoopLabel": "Otseteed",
     "restoredNote": "Redel taastati pärast keelevahetust — midagi ei läinud kaduma.",
     "cachedBadge": "Suveräänne vahemälu · 0 kulu",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Sünteesitud just nüüd",
     "synthesizedAgo": "Sünteesitud {hours} h tagasi",
     "nextSynthesis": "järgmine süntees {hours} h {minutes} min pärast",
-    "refreshCooldown": "Hiljuti värskendatud — serveeritakse vahemälust",
-    "deepQueued": "6-teljeline UNITAS süvaanalüüs on öise 100-doktriini sepistuse järjekorras. Sünteesitakse üks kord ja jagatakse pärast tasuta kõigile."
+    "refreshCooldown": "Hiljuti värskendatud — serveeritakse vahemälust"
   },
   "Finance": {
     "axes": {

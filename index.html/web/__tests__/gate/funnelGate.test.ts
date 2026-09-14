@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
-  GATE_BYPASS_ENV,
   GATE_PATH_SEGMENT,
   gatewayPathFor,
-  isGateBypassed,
   isGateExemptPath,
   isGatePath,
   isIndexerAgent,
@@ -21,7 +19,6 @@ function verdict(over: Partial<Parameters<typeof resolveGateVerdict>[0]> = {}) {
     pathname: '/',
     userAgent: HUMAN_UA,
     hasSovereign: false,
-    bypass: false,
     ...over,
   });
 }
@@ -87,12 +84,18 @@ describe('isIndexerAgent', () => {
   });
 });
 
-describe('isGateBypassed', () => {
-  it('only the literal "1" opens the local carve-out', () => {
-    expect(isGateBypassed({ [GATE_BYPASS_ENV]: '1' })).toBe(true);
-    expect(isGateBypassed({ [GATE_BYPASS_ENV]: 'true' })).toBe(false);
-    expect(isGateBypassed({ [GATE_BYPASS_ENV]: '0' })).toBe(false);
-    expect(isGateBypassed({})).toBe(false);
+describe('the environment bypass is gone (REV-24 M2)', () => {
+  it('exports no bypass symbol any more', async () => {
+    const mod = (await import('../../lib/gate/funnelGate')) as Record<string, unknown>;
+    expect(mod.GATE_BYPASS_ENV).toBeUndefined();
+    expect(mod.isGateBypassed).toBeUndefined();
+  });
+
+  it('ignores an env flag entirely -- no variable can open the funnel', () => {
+    // The shape the retired flag used to take, offered as an unknown extra
+    // property: the verdict must not change.
+    const rogue = { pathname: '/', userAgent: HUMAN_UA, hasSovereign: false, bypass: true, UNITAS_GATE_BYPASS: '1' };
+    expect(resolveGateVerdict(rogue as Parameters<typeof resolveGateVerdict>[0])).toBe('seal');
   });
 });
 
@@ -118,16 +121,12 @@ describe('resolveGateVerdict', () => {
     expect(verdict({ pathname: '/ko/legal/terms', userAgent: 'bingbot/2.0' })).toBe('pass');
   });
 
-  it('passes when the explicit local bypass is set', () => {
-    expect(verdict({ bypass: true })).toBe('pass');
-  });
-
   it('passes exempt infrastructure regardless of identity', () => {
     expect(verdict({ pathname: '/sitemap.xml' })).toBe('pass');
     expect(verdict({ pathname: `/ko/${GATE_PATH_SEGMENT}` })).toBe('pass');
   });
 
-  it('fails CLOSED: no identity, no bypass, unknown agent -> seal', () => {
+  it('fails CLOSED: no identity, unknown agent -> seal', () => {
     expect(verdict({ userAgent: null })).toBe('seal');
     expect(verdict({ userAgent: '' })).toBe('seal');
   });

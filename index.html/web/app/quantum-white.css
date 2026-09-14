@@ -188,18 +188,27 @@ html[data-unitas-surface='quantum-white'] {
   --qw-cta-bg: rgba(255, 255, 255, 0.72);
   --qw-cta-ring: rgba(184, 150, 46, 0.14);
 }
+/* REV-24 M3 (founder directive 2026-09-13): the install CTA is STILL at rest
+   on the white surface too. `qw-cta-breathe` animates `box-shadow` and
+   `border-color` -- paint-tier -- on an element that is in the nav bar of
+   every page, so it repainted forever; the dark route's `app-download-pulse`
+   was narrowed to hover in globals.css, and this surface-scoped REPLACEMENT
+   keyframe (see the note above) has to be narrowed with it or the released
+   home keeps the exact cost that was just removed. Measured 2026-09-13 by
+   tests/web-cinema-e2e/rev24-verify.spec.js, which is what caught it.
+   At rest the CTA now paints keyframe 0% once; the hover rule below already
+   gives a stronger affordance than the breathe did. */
 html[data-unitas-surface='quantum-white'] #unitas-nav .unitas-install-cta {
   color: var(--qw-ink);
   border-color: var(--qw-cta-line);
   background: var(--qw-cta-bg);
-  animation-name: qw-cta-breathe;
-  animation-duration: 6s;
+  animation-name: none;
+  box-shadow: 0 1px 2px rgba(10, 10, 12, 0.06), 0 0 0 0 var(--qw-cta-ring);
 }
 html[data-unitas-surface='quantum-white'] #unitas-nav .unitas-install-cta:hover,
 html[data-unitas-surface='quantum-white'] #unitas-nav .unitas-install-cta:focus-visible {
   border-color: var(--qw-blue-deep);
   box-shadow: 0 1px 2px rgba(10, 10, 12, 0.06), 0 0 0 3px rgba(11, 92, 255, 0.14);
-  animation-play-state: paused;
 }
 @keyframes qw-cta-breathe {
   0%,
@@ -320,11 +329,25 @@ html[data-unitas-surface='quantum-white'] #omni-synapse-search {
      is already near-opaque, and the bar sits over the void's own layers. */
   box-shadow: var(--qw-search-inset), var(--qw-search-glow-idle);
   transition: box-shadow 0.3s ease, background-position 0.6s ease;
+}
+/* REV-24 M3 (founder directive 2026-09-13): the ring flows ON ENGAGEMENT, not
+   forever. `qw-search-ring-flow` animates `background-position` across a
+   300%-wide gradient painted into the border-box -- a paint-tier property on
+   the single most permanently-visible element of the released home, so it was
+   re-rasterizing the bar's border every frame from first paint until the tab
+   closed. That is precisely the class of always-on cost REV-23 measured on
+   the wordmark sheen (idle rAF p95 50.1ms -> 83.2ms) and removed. At rest the
+   ring is a still gradient; hover, focus or drag brings it to life. */
+html[data-unitas-surface='quantum-white'] #omni-synapse-search:hover,
+html[data-unitas-surface='quantum-white'] #omni-synapse-search:focus-within {
   animation: qw-search-ring-flow 9s linear infinite;
 }
 html[data-unitas-surface='quantum-white'] #omni-synapse-search[data-state='focus'] {
   box-shadow: var(--qw-search-inset), var(--qw-search-glow-focus);
-  animation-duration: 4s;
+  animation: qw-search-ring-flow 4s linear infinite;
+}
+html[data-unitas-surface='quantum-white'] #omni-synapse-search[data-state='drag'] {
+  animation: qw-search-ring-flow 9s linear infinite;
 }
 html[data-unitas-surface='quantum-white'] #omni-synapse-search[data-state='drag'] {
   box-shadow: var(--qw-search-inset), var(--qw-search-glow-drag);

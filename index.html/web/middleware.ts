@@ -5,9 +5,9 @@ import { updateSession } from '@/lib/supabase/middlewareClient';
 import {
   GATE_HEADER,
   gatewayPathFor,
-  isGateBypassed,
   resolveGateVerdict,
 } from '@/lib/gate/funnelGate';
+import { verifyMasterKeyRequest } from '@/lib/sovereign/masterKey';
 import {
   SOVEREIGN_AUTH_PARAM,
   SOVEREIGN_HINT_COOKIE,
@@ -41,7 +41,8 @@ import {
 //      the token stripped. `?sovereign_auth=off` revokes. A wrong token gets
 //      the same silent redirect -- no cookie, no distinguishing response.
 //   2. Fail-closed 404 for every sovereign-only route (lib/sovereignAuth.ts
-//      `isSovereignProtectedPath`) unless the signed cookie verifies.
+//      `isSovereignProtectedPath`) unless a sovereign is proven -- by the
+//      signed cookie or by the REV-24 master key (item 6).
 //   3. Refreshes the Supabase auth session cookie (updateSession) so the
 //      page-level coin gate in app/[locale]/(gated)/layout.tsx can read who
 //      is signed in. updateSession swallows all errors and never throws.
@@ -57,11 +58,21 @@ import {
 //      result, a shared URL, an in-app browser, a reader mode) shipped the
 //      real interface and only *covered* it. Now an ungated request is
 //      redirected onto `/<locale>/gateway`, whose body is empty -- the main
-//      markup is never serialized at all. Only a verified sovereign session,
-//      a search-engine indexer (Codex ch.13 SEO) or the explicit local
-//      `UNITAS_GATE_BYPASS=1` passes. (A rewrite would have kept the deep
-//      link in the address bar, but measurably broke hydration -- see the
-//      note at the seal itself.)
+//      markup is never serialized at all. Only a proven sovereign or a
+//      search-engine indexer (Codex ch.13 SEO) passes. (A rewrite would have
+//      kept the deep link in the address bar, but measurably broke hydration
+//      -- see the note at the seal itself.)
+//   6. REV-24 MISSION 2 -- the SOVEREIGN MASTER KEY (founder directive
+//      2026-09-13). `UNITAS_GATE_BYPASS` is GONE: no environment variable
+//      can open the funnel any more. Instead the founder proves identity per
+//      request with a covert `x-unitas-signature` credential
+//      (lib/sovereign/masterKey.ts), which works with no cookie jar at all --
+//      curl, an uptime monitor, a smoke test, a fresh device, an in-app
+//      browser that drops cookies. On a page navigation a valid key is
+//      UPGRADED into the normal signed session cookie, so the rest of that
+//      browser session needs no header. The key also satisfies the
+//      sovereign-only 404 fence below, which is what makes the hidden
+//      `/[locale]/sovereign` console reachable by a machine.
 //
 // Composition order: sovereign token hand-off and 404 fencing run first
 // (locale-independent, early-return). Then next-intl's middleware resolves
@@ -128,17 +139,59 @@ export async function middleware(request: NextRequest) {
   // middleware -- so it runs at most once per request, and not at all for the
   // public (no session cookie -> no crypto, `false` immediately).
   const sovereignCookie = request.cookies.get(SOVEREIGN_SESSION_COOKIE)?.value;
-  const sovereignOk = sovereignCookie
+  const cookieOk = sovereignCookie
     ? (await verifySovereignSession(sovereignCookie, resolveSovereignSigningSecret())).ok
     : false;
+  // REV-24 M2: the master key is only consulted when the cookie did NOT
+  // already answer, and `verifyMasterKeyRequest` returns without touching
+  // crypto (or even the environment) when the request carries no credential
+  // -- so the public path still pays exactly one `headers.get()`.
+  const masterOk = cookieOk ? false : (await verifyMasterKeyRequest(request.headers)).ok;
+  const sovereignOk = cookieOk || masterOk;
 
-  // --- 2b. sovereign-only routes: bodiless 404 unless the signed cookie holds -
+  // --- 2b. REV-24 M2: master key -> cookie upgrade -------------------------
+  // A founder who arrived on the covert header gets the ordinary signed
+  // session minted for them, so every subsequent request in that browser --
+  // including the ones a browser makes on its own (prefetches, the PWA's
+  // service worker, a form POST) and cannot attach a custom header to --
+  // passes on the cookie alone. Machines (curl, monitors) simply discard the
+  // Set-Cookie and keep sending the header; nothing about the response body
+  // changes either way, so this leaks no signal to a prober.
+  // The session value is minted ONCE, up front, so every `return` path below
+  // can attach it with a plain synchronous call and no path can forget to
+  // await. `null` whenever there is nothing to upgrade (the public, a browser
+  // that already holds a cookie, or a production posture with no secret).
+  const upgradeSecret = masterOk && !sovereignCookie ? resolveSovereignSigningSecret() : null;
+  const upgradeSession = upgradeSecret
+    ? await signSovereignSession(Math.floor(Date.now() / 1000) + SOVEREIGN_SESSION_TTL_SEC, upgradeSecret)
+    : null;
+
+  const sovereignUpgrade = (response: NextResponse): NextResponse => {
+    if (!upgradeSession) return response;
+    response.cookies.set(SOVEREIGN_SESSION_COOKIE, upgradeSession, {
+      httpOnly: true,
+      secure,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: SOVEREIGN_SESSION_TTL_SEC,
+    });
+    response.cookies.set(SOVEREIGN_HINT_COOKIE, SOVEREIGN_HINT_VALUE, {
+      httpOnly: false,
+      secure,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: SOVEREIGN_SESSION_TTL_SEC,
+    });
+    return response;
+  };
+
+  // --- 2c. sovereign-only routes: bodiless 404 unless a sovereign is proven --
   if (isSovereignProtectedPath(url.pathname)) {
     if (!sovereignOk) return new NextResponse(null, { status: 404 });
     if (url.pathname.startsWith('/api/')) {
       const passthrough = NextResponse.next();
       passthrough.headers.set('Cache-Control', 'no-store');
-      return passthrough;
+      return sovereignUpgrade(passthrough);
     }
   }
 
@@ -156,7 +209,7 @@ export async function middleware(request: NextRequest) {
       'X-Unitas-License',
       'Proprietary -- All Rights Reserved. See /legal/terms.',
     );
-    return response;
+    return sovereignUpgrade(response);
   }
 
   // --- 3. locale resolution (next-intl) ------------------------------------
@@ -173,7 +226,7 @@ export async function middleware(request: NextRequest) {
       'X-Unitas-License',
       'Proprietary -- All Rights Reserved. See /legal/terms.',
     );
-    return intlResponse;
+    return sovereignUpgrade(intlResponse);
   }
 
   // --- 4. rebuild the response to carry BOTH next-intl's rewrite target AND
@@ -202,7 +255,6 @@ export async function middleware(request: NextRequest) {
     pathname: url.pathname,
     userAgent: request.headers.get('user-agent'),
     hasSovereign: sovereignOk,
-    bypass: isGateBypassed(process.env),
   });
 
   // A REDIRECT, not a rewrite. The first cut rewrote the sealed request onto
@@ -250,7 +302,7 @@ export async function middleware(request: NextRequest) {
     'X-Unitas-License',
     'Proprietary -- All Rights Reserved. See /legal/terms.',
   );
-  return response;
+  return sovereignUpgrade(response);
 }
 
 export const config = {

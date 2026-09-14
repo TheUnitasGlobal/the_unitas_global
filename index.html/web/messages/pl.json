@@ -1391,11 +1391,8 @@
       "art": "Sztuka · Filozofia"
     },
     "constitutionAxisNote": "Oś kotwiczna przeprojektowania · {axis}",
-    "webSourcesLabel": "Synteza internetowa na żywo",
     "webSourcedBadge": "{count} źródeł zsyntetyzowanych w czasie rzeczywistym",
     "webLocalBadge": "Lokalna synteza heurystyczna · zero wywołań zewnętrznych",
-    "deepLabel": "Głęboki wgląd · THE VOID",
-    "openFullReport": "Otwórz pełny raport U-AI",
     "brainGridLabel": "Brain-Grid · historia kognitywna",
     "brainGridClear": "Wyczyść",
     "webBlendNote": "Synteza internetowa na poziomie wielkich firm technologicznych 90% + przeprojektowanie doktryny UNITAS 10%."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Rozwiń drabinę",
     "keywordHint": "Dotknij, aby zagnieździć nowy poziom poniżej",
     "deepLabel": "Głęboka analiza UNITAS",
-    "deepPending": "{hits} / 3 wyszukiwań globalnych. Przy 3. silnik 100 doktryn wykuwa raz 6-osiową głęboką analizę tego słowa kluczowego — potem jest darmowa dla wszystkich.",
     "appLoopLabel": "Skróty",
     "restoredNote": "Drabina przywrócona po zmianie języka — nic nie przepadło.",
     "cachedBadge": "Suwerenna pamięć podręczna · koszt 0",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Zsyntetyzowano przed chwilą",
     "synthesizedAgo": "Zsyntetyzowano {hours} godz. temu",
     "nextSynthesis": "następna synteza za {hours} godz. {minutes} min",
-    "refreshCooldown": "Niedawno odświeżono — podano z pamięci podręcznej",
-    "deepQueued": "Głęboka 6-osiowa analiza UNITAS czeka w kolejce nocnej kuźni 100 doktryn. Syntetyzowana raz, potem udostępniana wszystkim za darmo."
+    "refreshCooldown": "Niedawno odświeżono — podano z pamięci podręcznej"
   },
   "Finance": {
     "axes": {

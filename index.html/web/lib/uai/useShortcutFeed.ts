@@ -91,15 +91,38 @@ export function useShortcutFeed(query: string | null, locale: string, labels: An
   }, [query, load]);
 
   // Countdown to the next nightly synthesis (display only -- nothing fires).
+  //
+  // REV-24 M3 (founder directive 2026-09-13, 유휴 CPU 0%): the timer now stops
+  // while the tab is hidden and restarts (with an immediate correcting read)
+  // when it comes back. Before this it forced a React re-render of the whole
+  // shortcut HUD every TICK_MS for the life of the popup, including in a
+  // background tab where the number it computes cannot be seen at all.
   useEffect(() => {
     if (!nextRefreshAt) {
       setNextSyncIn(0);
       return;
     }
+    let timer: number | null = null;
     const tick = () => setNextSyncIn(Math.max(0, Math.ceil((nextRefreshAt - Date.now()) / 1000)));
-    tick();
-    const timer = window.setInterval(tick, TICK_MS);
-    return () => window.clearInterval(timer);
+    const stop = () => {
+      if (timer !== null) window.clearInterval(timer);
+      timer = null;
+    };
+    const start = () => {
+      stop();
+      tick();
+      timer = window.setInterval(tick, TICK_MS);
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') start();
+      else stop();
+    };
+    onVisibility();
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      stop();
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
   }, [nextRefreshAt]);
 
   const refreshNow = useCallback(() => {

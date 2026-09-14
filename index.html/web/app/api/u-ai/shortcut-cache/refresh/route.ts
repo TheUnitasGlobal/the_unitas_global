@@ -128,7 +128,7 @@ function withDeadline<T>(promise: Promise<T>, ms: number): Promise<T> {
  *   that is missing / stale / on an old snapshot version, then the stale
  *   visitor-nested ladder tiers most-opened first -- keyless live-web pass +
  *   deterministic 100-doctrine analysis, parked in shortcut_cache.
- * Phase 2 (deep forge, Micro-Burn once, served forever): the LLM 6-axis
+ * Phase 2 (deep forge, one engine pass, served free forever): the LLM 6-axis
  *   Sovereign Redesign for seeds and hot ladder tiers (hit_count >= 3)
  *   that have no Genesis-Memory report yet -- bounded per run and by the
  *   global DAILY_REDESIGN_CAP.

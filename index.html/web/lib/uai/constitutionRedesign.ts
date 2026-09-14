@@ -15,8 +15,10 @@ import type { ConstitutionAxis, ConstitutionAxisRedesign, ConstitutionRedesignRe
  *      deconstruct + redesign the subject across the 6 load-bearing axes.
  *   3. The forged report is written to genesis_memory under REDESIGN_CACHE_VERSION
  *      and served — free — to every subsequent searcher at engine cost 0원.
- *   4. A paid deep-insight burn primes the same subject early; the two caches
- *      live in separate query_hash namespaces so the paywall stays intact.
+ *   4. REV-24 M1: there is no longer any second, paid path into this cache.
+ *      The deep-insight burn that used to prime a subject early was deleted
+ *      in REV-23, so the threshold in (2) and the nightly forge are the only
+ *      producers, and everything this engine makes is free to everyone.
  */
 
 /** Bump when buildRedesignPrompt / ConstitutionRedesignReport changes, so a

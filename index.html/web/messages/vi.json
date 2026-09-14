@@ -1391,11 +1391,8 @@
       "art": "Nghệ thuật · Triết học"
     },
     "constitutionAxisNote": "Trục neo của thiết kế lại · {axis}",
-    "webSourcesLabel": "Tổng hợp web thời gian thực",
     "webSourcedBadge": "Đã tổng hợp {count} nguồn theo thời gian thực",
     "webLocalBadge": "Tổng hợp heuristic cục bộ · không gọi bên ngoài",
-    "deepLabel": "Thấu thị chuyên sâu · The VOID",
-    "openFullReport": "Mở báo cáo U-AI đầy đủ",
     "brainGridLabel": "Brain-Grid · Lịch sử nhận thức",
     "brainGridClear": "Xóa",
     "webBlendNote": "Tổng hợp web tầm cỡ big tech 90% + tái thiết kế 100 học thuyết UNITAS 10%."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Mở rộng thang",
     "keywordHint": "Chạm để lồng một tầng mới bên dưới",
     "deepLabel": "Phân tích chuyên sâu UNITAS",
-    "deepPending": "{hits} / 3 lượt tìm kiếm toàn cầu. Ở lượt thứ 3, động cơ 100 học thuyết sẽ rèn phân tích chuyên sâu 6 trục cho từ khóa này đúng một lần — sau đó miễn phí cho mọi người.",
     "appLoopLabel": "Lối tắt",
     "restoredNote": "Thang đã được khôi phục sau khi đổi ngôn ngữ — không mất gì cả.",
     "cachedBadge": "Bộ đệm chủ quyền · chi phí 0",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Tổng hợp vừa xong",
     "synthesizedAgo": "Tổng hợp {hours} giờ trước",
     "nextSynthesis": "lần tổng hợp tiếp theo sau {hours} giờ {minutes} phút",
-    "refreshCooldown": "Vừa làm mới gần đây — phục vụ từ bộ đệm",
-    "deepQueued": "Phân tích sâu UNITAS 6 trục đang chờ lò rèn 100 học thuyết hằng đêm. Chỉ tổng hợp một lần và sau đó phục vụ miễn phí cho mọi người."
+    "refreshCooldown": "Vừa làm mới gần đây — phục vụ từ bộ đệm"
   },
   "Finance": {
     "axes": {

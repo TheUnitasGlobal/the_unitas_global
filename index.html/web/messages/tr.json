@@ -1391,11 +1391,8 @@
       "art": "Sanat · Felsefe"
     },
     "constitutionAxisNote": "Yeniden tasarım çıpa ekseni · {axis}",
-    "webSourcesLabel": "Canlı Web Sentezi",
     "webSourcedBadge": "{count} kaynak gerçek zamanlı olarak sentezlendi",
     "webLocalBadge": "Yerel sezgisel sentez · sıfır dış çağrı",
-    "deepLabel": "Derin İçgörü · The VOID",
-    "openFullReport": "Tam U-AI raporunu aç",
     "brainGridLabel": "Brain-Grid · Bilişsel Geçmiş",
     "brainGridClear": "Temizle",
     "webBlendNote": "Büyük teknoloji düzeyinde web sentezi %90 + UNITAS 100-doktrin yeniden tasarımı %10."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Merdiveni genişlet",
     "keywordHint": "Altına yeni bir katman eklemek için dokunun",
     "deepLabel": "UNITAS derin analizi",
-    "deepPending": "{hits} / 3 küresel arama. 3.’de 100 doktrin motoru bu anahtar kelimenin 6 eksenli derin analizini yalnızca bir kez döver — sonrası herkese ücretsiz.",
     "appLoopLabel": "Kısayollar",
     "restoredNote": "Dil değişiminden sonra merdiven geri yüklendi — hiçbir şey kaybolmadı.",
     "cachedBadge": "Egemen önbellek · 0 maliyet",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Az önce sentezlendi",
     "synthesizedAgo": "{hours} sa önce sentezlendi",
     "nextSynthesis": "sonraki sentez {hours} sa {minutes} dk sonra",
-    "refreshCooldown": "Yakın zamanda yenilendi — önbellek sunuldu",
-    "deepQueued": "6 eksenli UNITAS derin analizi gece 100 doktrin dövme kuyruğunda. Bir kez sentezlenir ve ardından herkese ücretsiz sunulur."
+    "refreshCooldown": "Yakın zamanda yenilendi — önbellek sunuldu"
   },
   "Finance": {
     "axes": {

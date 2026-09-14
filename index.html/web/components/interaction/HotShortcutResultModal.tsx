@@ -478,7 +478,12 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onFocusTier, onHo
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.22 }}
-      className="relative border bg-void/40 p-4"
+      /* REV-24 M1: the shared card skin (.qw-tier-card -> --qw-card-*) owns
+         the frame -- border width, radius, ground, resting shadow -- so this
+         card is pixel-identical to a theme popup's. The inline style below
+         still owns what is this TIER's alone: its accent hue and its focus
+         glow. */
+      className="qw-tier-card relative p-4"
       data-tier-focused={focused ? '1' : '0'}
       data-tier-qid={tier.qid ?? analysis?.web.anchor?.qid}
       style={{

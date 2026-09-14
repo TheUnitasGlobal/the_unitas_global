@@ -1391,11 +1391,8 @@
       "art": "Arte · Filosofia"
     },
     "constitutionAxisNote": "Asse di ancoraggio della riprogettazione · {axis}",
-    "webSourcesLabel": "Sintesi Web in Tempo Reale",
     "webSourcedBadge": "{count} fonti sintetizzate in tempo reale",
     "webLocalBadge": "Sintesi euristica locale · zero chiamate esterne",
-    "deepLabel": "Approfondimento · The VOID",
-    "openFullReport": "Apri il report U-AI completo",
     "brainGridLabel": "Brain-Grid · Storico Cognitivo",
     "brainGridClear": "Cancella",
     "webBlendNote": "Sintesi web di livello big-tech al 90% + riprogettazione delle 100 dottrine UNITAS al 10%."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Espandi la scala",
     "keywordHint": "Tocca per annidare un nuovo livello sotto",
     "deepLabel": "Analisi profonda UNITAS",
-    "deepPending": "{hits} / 3 ricerche globali. Alla 3ª, il motore delle 100 dottrine forgia una sola volta l’analisi profonda a 6 assi di questa parola chiave — poi è gratis per tutti.",
     "appLoopLabel": "Scorciatoie",
     "restoredNote": "Scala ripristinata dopo il cambio di lingua — nulla è andato perso.",
     "cachedBadge": "Cache sovrana · costo 0",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Sintetizzato proprio ora",
     "synthesizedAgo": "Sintetizzato {hours} h fa",
     "nextSynthesis": "prossima sintesi tra {hours} h {minutes} min",
-    "refreshCooldown": "Aggiornato di recente — servita la cache",
-    "deepQueued": "L’analisi profonda UNITAS a 6 assi è in coda per la forgia notturna delle 100 dottrine. Viene sintetizzata una sola volta e poi servita gratis a tutti."
+    "refreshCooldown": "Aggiornato di recente — servita la cache"
   },
   "Finance": {
     "axes": {

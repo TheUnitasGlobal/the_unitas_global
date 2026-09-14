@@ -32,7 +32,6 @@ import { InTowerComposer } from '@/components/uai/InTowerComposer';
 import { INITIAL_SUGGEST_CURSOR, ladderRowKey, loadLadderPage, type LadderRow, type SuggestCursor } from '@/lib/uai/suggestLadder';
 import { sceneInteraction } from '@/lib/sceneInteraction';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
-import { useWallet } from '@/components/wallet/WalletProvider';
 import { useUai } from '@/lib/uai/useUai';
 import { UaiHyperStream } from '@/components/uai/UaiHyperStream';
 import { CanvasDrawInput } from '@/components/interaction/CanvasDrawInput';
@@ -44,7 +43,6 @@ import { useHistoryLayer } from '@/components/ui/useHistoryLayer';
 import { SEARCH_LAYER_IDS } from '@/lib/uai/searchLevels';
 import { purgeLegacyRecentQueries, risingSeeds } from '@/lib/uai/discovery';
 import { DISCOVERY_ROTATE_MS } from '@/lib/live/discoverySlots';
-import { ECOSYSTEMS, type EcosystemTheme } from '@/lib/ecosystems';
 import { MAX_UAI_ATTACHMENTS, type UaiImageAttachment } from '@/lib/uai/types';
 import { buildLiveIndex, mergeLiveResults, searchLiveIndex, type LiveResult } from '@/lib/uai/liveSearchIndex';
 import type { LiveSuggestion } from '@/lib/uai/liveSuggest';
@@ -55,7 +53,6 @@ interface OmniSynapseSearchProps {
   /** Lifted to HomeContent so the page can hide the ecosystem/module walls
       until a search has actually run (owner instruction 2026-08-30). */
   uai: ReturnType<typeof useUai>;
-  onSelectEcosystem: (eco: EcosystemTheme) => void;
   /** Governance + hot-issue shortcuts (The Living Knowledge Ouroboros, now a
       multi-dimensional matrix) open the keyword panel below. REV-20 §4: the
       panel itself now renders INSIDE this component (search-bar-anchored,
@@ -147,7 +144,6 @@ const EMPTY_LADDER: LadderState = { query: '', page: 0, cursor: INITIAL_SUGGEST_
  */
 export function OmniSynapseSearch({
   uai,
-  onSelectEcosystem,
   activeShortcut,
   onOpenShortcut,
   onCloseShortcut,
@@ -168,7 +164,6 @@ export function OmniSynapseSearch({
   const tSocial = useTranslations('Social');
   const { playTypingTick, playQuestEnterSfx, playHoverSfx, playSearchFocusSfx } = useSpatialAudio();
   const locale = useLocale();
-  const { session } = useWallet();
 
   // REV-21 §4.2 (R-4): the server always renders an empty bar, so the saved
   // query is restored in a layout effect AFTER hydration -- a lazy useState
@@ -665,11 +660,6 @@ export function OmniSynapseSearch({
     playQuestEnterSfx();
     setValue(q);
     runSearch(q, qid);
-  }
-
-  function selectEcosystemByKey(key: string) {
-    const eco = ECOSYSTEMS.find((e) => e.key === key);
-    if (eco) onSelectEcosystem(eco);
   }
 
   // Browse hub surfaces only once the visitor is actually searching (a

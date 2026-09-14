@@ -142,7 +142,6 @@ export function HomeContent() {
       <SectionShield zone="home-search">
         <OmniSynapseSearch
           uai={uai}
-          onSelectEcosystem={setActiveEcosystem}
           activeShortcut={activeShortcut}
           onOpenShortcut={setActiveShortcut}
           onCloseShortcut={() => setActiveShortcut(null)}

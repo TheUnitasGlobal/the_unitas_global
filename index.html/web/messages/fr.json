@@ -1391,11 +1391,8 @@
       "art": "Art · Philosophie"
     },
     "constitutionAxisNote": "Axe d'ancrage de la refonte · {axis}",
-    "webSourcesLabel": "Synthèse web en direct",
     "webSourcedBadge": "{count} sources synthétisées en temps réel",
     "webLocalBadge": "Synthèse heuristique locale · zéro appel externe",
-    "deepLabel": "Analyse profonde · The VOID",
-    "openFullReport": "Ouvrir le rapport U-AI complet",
     "brainGridLabel": "Brain-Grid · Historique cognitif",
     "brainGridClear": "Effacer",
     "webBlendNote": "Synthèse web de niveau big tech 90 % + refonte des 71 doctrines UNITAS 10 %."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Étendre l’échelle",
     "keywordHint": "Touchez pour imbriquer un nouveau niveau en dessous",
     "deepLabel": "Analyse approfondie UNITAS",
-    "deepPending": "{hits} / 3 recherches mondiales. À la 3e, le moteur des 100 doctrines forge une seule fois l’analyse approfondie à 6 axes de ce mot-clé — gratuite pour tous ensuite.",
     "appLoopLabel": "Raccourcis",
     "restoredNote": "Échelle restaurée après le changement de langue — rien n’a été perdu.",
     "cachedBadge": "Cache souverain · coût 0",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Synthétisé à l’instant",
     "synthesizedAgo": "Synthétisé il y a {hours} h",
     "nextSynthesis": "prochaine synthèse dans {hours} h {minutes} min",
-    "refreshCooldown": "Actualisé récemment — cache servi",
-    "deepQueued": "L’analyse profonde UNITAS à 6 axes est en file pour la forge nocturne des 100 doctrines. Synthétisée une seule fois, elle est ensuite servie gratuitement à tous."
+    "refreshCooldown": "Actualisé récemment — cache servi"
   },
   "Finance": {
     "axes": {

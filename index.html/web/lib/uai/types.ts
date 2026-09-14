@@ -6,14 +6,21 @@
  * REV-23 M2.2 (founder directive 2026-09-13): the deep (Phase 2-4) tier is
  * deleted. `ChronosPoint`, `BinaryVerdict`, `DeepReport`, `DeepInsightError`,
  * `DeepInsightApiResponse` and the `UAI_DEEP_INSIGHT_COST` Micro-Burn
- * constant are gone with it. NOTE FOR THE FOUNDER: that removes the U-AI
- * search's only U-COIN burn surface -- the coin economy now runs entirely
- * through the page-level module access gate
- * (app/[locale]/(gated)/layout.tsx).
+ * constant are gone with it -- that removed the U-AI search's only U-COIN
+ * burn surface.
+ *
+ * REV-24 MISSION 1 (founder directive 2026-09-13) finishes the job: the paid
+ * model is DEFERRED, so the last piece of dead coin plumbing that still
+ * pointed at this surface -- the `UAI_MODULE` spend-whitelist constant, which
+ * had no importer left -- is deleted too. Nothing under lib/uai/ or
+ * components/uai/ now names a coin, a price, a tier or a burn. The coin
+ * economy that DOES still exist lives entirely behind the page-level module
+ * access gate (app/[locale]/(gated)/layout.tsx) and U-Pay, untouched and
+ * ready for whatever charging model is layered on later.
  */
 
 /**
- * One image attached to a deep-insight request -- the multimodal input path.
+ * One image attached to a U-AI query -- the multimodal input path.
  * `data` is raw base64 (no `data:` URL prefix); `mediaType` is validated
  * server-side against a strict allowlist before it ever reaches the LLM.
  * Vision analysis is currently wired for the Anthropic provider branch only
@@ -32,11 +39,8 @@ export interface UaiImageAttachment {
 }
 
 /** Max simultaneous image-family attachments (image/video-frame/canvas) on
- *  one deep-insight request -- mirrors the text-attachment `.slice(-3)` cap. */
+ *  one query -- mirrors the text-attachment `.slice(-3)` cap. */
 export const MAX_UAI_ATTACHMENTS = 3;
-
-/** spend_coins() / coin_ledger / module_access_grants whitelist entry. */
-export const UAI_MODULE = 'u-ai' as const;
 
 export type LensKey = 'tech' | 'economy' | 'opinion';
 export type Band = 'low' | 'mid' | 'high';
@@ -125,10 +129,11 @@ export interface WebSynthesis {
 }
 
 /**
- * One axis of the 6-axis "Sovereign Redesign" — the free-tier assetized report
- * forged by the LLM once a query crosses the search threshold (TREND_THRESHOLD)
- * or when a paid deep-insight primes it. `reading` = how the subject currently
- * sits on that doctrine axis; `redesign` = the sovereign move that axis demands.
+ * One axis of the 6-axis "Sovereign Redesign" — the assetized report the LLM
+ * forges once a query crosses the search threshold (TREND_THRESHOLD).
+ * `reading` = how the subject currently sits on that doctrine axis;
+ * `redesign` = the sovereign move that axis demands. Free to every visitor:
+ * REV-24 M1 leaves no paid path that could prime or gate it.
  */
 export interface ConstitutionAxisRedesign {
   axis: ConstitutionAxis;
@@ -138,8 +143,8 @@ export interface ConstitutionAxisRedesign {
 
 /**
  * The free, permanently-cached "UNITAS Insight Report". Generated exactly once
- * per (locale, normalized query) — at the 3rd cumulative search or the first
- * paid burn — then served from Genesis Memory forever at engine cost 0원
+ * per (locale, normalized query) — at the 3rd cumulative search, or by the
+ * nightly forge — then served from Genesis Memory forever at engine cost 0원
  * (the "초절대마진 / 초영속에코시스템" pipeline, owner instruction 2026-08-31).
  */
 export interface ConstitutionRedesignReport {

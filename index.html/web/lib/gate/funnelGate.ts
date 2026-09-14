@@ -20,15 +20,24 @@
  * keeps every page statically generated: nothing here reads `headers()` in
  * a layout.
  *
- * EXACTLY THREE WAYS PAST IT, all fail-closed:
- *   1. a verified sovereign founder session (HMAC HttpOnly cookie minted by
- *      `?sovereign_auth=<token>`, see lib/sovereignAuth.ts);
+ * EXACTLY TWO WAYS PAST IT, all fail-closed:
+ *   1. a proven SOVEREIGN founder -- the cookie session, the covert
+ *      `x-unitas-signature` master key, or the `?sovereign_auth=<token>`
+ *      bootstrap that mints the cookie (lib/sovereignAuth.ts +
+ *      lib/sovereign/masterKey.ts). All three collapse into the single
+ *      `hasSovereign` input below, resolved once per request by middleware;
  *   2. a search-engine indexer (`isIndexerAgent`) -- Codex ch.13's global
  *      SEO sovereignty depends on Googlebot/bingbot/Yeti/YandexBot/SeznamBot
  *      still reading the real pages; a human following the indexed link is
- *      sealed like everyone else;
- *   3. `UNITAS_GATE_BYPASS=1`, for local development and the E2E harness
- *      only (the founder's "로컬 개발 환경이나 예외 상황" carve-out).
+ *      sealed like everyone else.
+ *
+ * REV-24 MISSION 2 (founder directive 2026-09-13) DELETED the third way. The
+ * `UNITAS_GATE_BYPASS=1` environment flag was a temporary all-or-nothing
+ * switch: set in production it opened the funnel for the entire planet, and
+ * it was the only thing standing between the founder's own direct access and
+ * a lockout. The Sovereign Master Key replaces it with a per-request
+ * credential that is scoped to whoever holds it -- so there is no longer any
+ * environment variable, anywhere, that disables this gate.
  *
  * Pure + Edge-safe: no DOM, no Node API, no crypto. Unit-tested in
  * __tests__/gate/funnelGate.test.ts.
@@ -39,9 +48,6 @@ export const GATE_PATH_SEGMENT = 'gateway';
 
 /** Response header stamped with the verdict (observability + E2E contract). */
 export const GATE_HEADER = 'x-unitas-gate';
-
-/** Env flag that disables enforcement outright (local dev / E2E only). */
-export const GATE_BYPASS_ENV = 'UNITAS_GATE_BYPASS';
 
 export type GateVerdict = 'pass' | 'seal';
 
@@ -110,28 +116,27 @@ export function isIndexerAgent(userAgent: string | null | undefined): boolean {
   return INDEXER_UA.some((needle) => ua.includes(needle));
 }
 
-/** `true` only when the explicit bypass flag is literally "1". */
-export function isGateBypassed(env: Record<string, string | undefined>): boolean {
-  return env[GATE_BYPASS_ENV] === '1';
-}
-
 export interface GateInput {
   pathname: string;
   userAgent: string | null | undefined;
-  /** A verified sovereign founder session was proven for this request. */
+  /**
+   * A sovereign founder was PROVEN for this request -- by the signed cookie,
+   * by the `x-unitas-signature` master key, or by the auth param that mints
+   * the cookie. Resolved once per request in middleware.ts so the HMAC cost
+   * is paid at most once, and never at all for the public.
+   */
   hasSovereign: boolean;
-  /** `isGateBypassed(process.env)` -- resolved by the caller. */
-  bypass: boolean;
 }
 
 /**
  * The one decision. Order matters: exempt paths short-circuit before any
- * identity question, then the three carve-outs, then SEAL. Anything the
- * function cannot positively justify passing is sealed.
+ * identity question, then the two carve-outs, then SEAL. Anything the
+ * function cannot positively justify passing is sealed -- and with the env
+ * bypass gone, `hasSovereign` is the only input a human can influence, and it
+ * is cryptographic.
  */
-export function resolveGateVerdict({ pathname, userAgent, hasSovereign, bypass }: GateInput): GateVerdict {
+export function resolveGateVerdict({ pathname, userAgent, hasSovereign }: GateInput): GateVerdict {
   if (isGateExemptPath(pathname)) return 'pass';
-  if (bypass) return 'pass';
   if (hasSovereign) return 'pass';
   if (isIndexerAgent(userAgent)) return 'pass';
   return 'seal';

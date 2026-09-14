@@ -1391,11 +1391,8 @@
       "art": "Arte · Filosofia"
     },
     "constitutionAxisNote": "Eixo de ancoragem do redesenho · {axis}",
-    "webSourcesLabel": "Síntese web ao vivo",
     "webSourcedBadge": "{count} fontes sintetizadas em tempo real",
     "webLocalBadge": "Síntese heurística local · zero chamadas externas",
-    "deepLabel": "Insight profundo · The VOID",
-    "openFullReport": "Abrir o relatório completo da U-AI",
     "brainGridLabel": "Brain-Grid · Histórico cognitivo",
     "brainGridClear": "Limpar",
     "webBlendNote": "Síntese web de nível big tech 90% + redesenho das 100 doutrinas da UNITAS 10%."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Expandir a escada",
     "keywordHint": "Toque para aninhar um novo nível abaixo",
     "deepLabel": "Análise profunda UNITAS",
-    "deepPending": "{hits} / 3 pesquisas globais. Na 3.ª, o motor das 100 doutrinas forja uma única vez a análise profunda de 6 eixos desta palavra-chave — depois é grátis para todos.",
     "appLoopLabel": "Atalhos",
     "restoredNote": "Escada restaurada após a mudança de idioma — nada se perdeu.",
     "cachedBadge": "Cache soberano · custo 0",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Sintetizado agora mesmo",
     "synthesizedAgo": "Sintetizado há {hours} h",
     "nextSynthesis": "próxima síntese em {hours} h {minutes} min",
-    "refreshCooldown": "Atualizado recentemente — cache servido",
-    "deepQueued": "A análise profunda UNITAS de 6 eixos está na fila da forja noturna das 100 doutrinas. É sintetizada uma única vez e depois servida gratuitamente a todos."
+    "refreshCooldown": "Atualizado recentemente — cache servido"
   },
   "Finance": {
     "axes": {

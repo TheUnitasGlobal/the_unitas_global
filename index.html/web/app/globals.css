@@ -4,6 +4,25 @@
 
 :root {
   color-scheme: dark;
+  /* ------------------------------------------------------------------
+     REV-24 MISSION 1 (founder directive 2026-09-13) -- THE ONE CARD SKIN.
+     Before this the site drew a "card" three different ways: the theme
+     popups (live shortcuts / news / awards / rankings) used `.qw-hub-card`,
+     the eleven U-AI result cards used `.qw-stream-card` with its own flatter
+     border, smaller radius and no shadow, and the shortcut ladder popup
+     hand-rolled Tailwind utilities. Side by side inside the same result the
+     U-AI cards read as a cheaper, unfinished component -- which is exactly
+     what the founder called out.
+     These four tokens are now the ONLY place a card's skin is described.
+     Every grammar consumes them, so the eleven pure-information cards and
+     the themes around them are pixel-identical by construction, and any
+     charging model layered on later inherits the finished frame rather than
+     re-styling anything.
+     ------------------------------------------------------------------ */
+  --qw-card-line: rgba(255, 255, 255, 0.1);
+  --qw-card-radius: 16px;
+  --qw-card-bg: rgba(5, 5, 8, 0.4);
+  --qw-card-shadow: 0 10px 30px -22px rgba(0, 0, 0, 0.9);
   /* --------------------------------------------------------------------
      REV-14 single-viewport gate tokens (SPEC.md §1.2). Every fixed-inset
      pre-home screen (splash / AudioGate / cinema ad / sealed coming-soon)
@@ -280,11 +299,22 @@ body {
   background:
     linear-gradient(135deg, rgba(12, 8, 20, 0.92), rgba(6, 14, 22, 0.92)) padding-box,
     conic-gradient(from 0deg, #7c3aed, #00f3ff, #d4af37, #ec4899, #7c3aed) border-box;
-  animation: event-horizon-hue 5s linear infinite, event-horizon-pulse 3.2s ease-in-out infinite;
+  /* REV-24 M3 (founder directive 2026-09-13, Codex ch.1 초로우메모리적 /
+     프레임 예산): AT REST this button is STILL. `event-horizon-hue` animates
+     `filter: hue-rotate()` over a conic-gradient border-box, and
+     `event-horizon-pulse` animates `box-shadow` -- both paint-tier, both
+     re-rasterizing the button every frame. The sealed "COMING SOON" screen is
+     an IDLE state that can sit open in a background-adjacent tab for hours,
+     so a permanent repaint loop there is exactly the cost the founder ordered
+     to zero. The resting glow below is keyframe 0% of the old pulse, so the
+     button looks identical the instant nothing is touching it; the motion is
+     the reward for engaging with it. Same measurement-led trade the REV-23
+     wordmark sheen took (app/unitas-wordmark.css §sheen). */
+  box-shadow: 0 0 22px rgba(124, 58, 237, 0.22);
 }
 .event-horizon-btn:hover,
 .event-horizon-btn:focus-visible {
-  animation-play-state: running, paused;
+  animation: event-horizon-hue 5s linear infinite;
   box-shadow: 0 0 48px rgba(124, 58, 237, 0.45), 0 0 26px rgba(0, 243, 255, 0.3);
 }
 .event-horizon-btn:focus-visible {
@@ -415,7 +445,14 @@ body {
   }
 }
 .app-download-pulse {
-  animation: app-download-pulse 4.5s ease-in-out infinite;
+  /* REV-24 M3: at rest this is keyframe 0% of the pulse, painted ONCE. The
+     CTA lives in the nav bar, so before this it repainted a text-shadow, a
+     box-shadow and a border-color every frame for the entire life of every
+     page -- the single longest-running paint-tier animation on the released
+     home. It still pulses, but only while the visitor is on it. */
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.35), 0 0 22px rgba(0, 243, 255, 0.12);
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.18), inset 0 0 10px rgba(212, 175, 55, 0.06);
+  border-color: rgba(212, 175, 55, 0.35);
   /* Forced-visibility guarantee: this CTA must never disappear -- not on
      PWA-installed/standalone launches, not on mobile, not on any viewport.
      !important overrides any future utility class or breakpoint rule that
@@ -423,6 +460,11 @@ body {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
+}
+.app-download-pulse:hover,
+.app-download-pulse:focus-visible,
+.app-download-pulse:focus-within {
+  animation: app-download-pulse 4.5s ease-in-out infinite;
 }
 
 /* ---------------------------------------------------------------------------
@@ -876,6 +918,16 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   flex-direction: column;
   align-items: center;
   width: 20px;
+}
+/* REV-24 M3: the roll is a DISCOVERABILITY hint, so it runs when the visitor
+   is actually at the search bar -- not for the whole life of the page. At
+   rest the window shows the first icon, exactly as it does at keyframe 0%.
+   (The reduced-motion / hover-less branch below already replaces the roll
+   with a static 2x2 stack; this narrows the cost on every other device.) */
+#omni-synapse-search:hover .qw-attach-roll-track,
+#omni-synapse-search:focus-within .qw-attach-roll-track,
+#omni-synapse-search[data-state='focus'] .qw-attach-roll-track,
+#omni-synapse-search[data-state='drag'] .qw-attach-roll-track {
   animation: qw-attach-roll 7.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
 }
 .qw-attach-roll-icon {
@@ -1114,6 +1166,208 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
 }
 
 /* --------------------------------------------------------------------------
+   REV-24 MISSION 4 -- the OMNI-TECH SWARM (founder directive 2026-09-13).
+   components/home/deeper/OmniTechSwarm.tsx. Layout + dark painting; the white
+   surface repaints in quantum-white-rev19.css.
+
+   THE FRAME BUDGET IS THE DESIGN. There is no animation loop here and no
+   animated property that is not `transform` or `opacity`. The pointer writes
+   two custom properties (--sx, --sy, in [-1, 1]) onto `.qw-swarm` at most
+   once per frame WHILE A POINTER IS MOVING; every node and every edge then
+   derives its own parallax from those two numbers times its own shell depth
+   (--d, 0 inner .. 1 outer). Nothing re-renders, nothing paints, and the
+   instant the pointer leaves, the whole field costs nothing again. Same
+   doctrine as QuantumVoid.tsx and the rest of REV-24 MISSION 3.
+
+   The field is deliberately NOT WebGL: `.qw-deeper-card` sets
+   `contain: layout paint`, the card lives inside a Tab-trapping Modal, and
+   headless WebKit loses the WebGL context on mount (see Scene.tsx). Absolute
+   HTML buttons over one SVG edge layer keeps it accessible, clip-safe and
+   free of a second renderer.
+   -------------------------------------------------------------------------- */
+.qw-swarm-wrap {
+  display: block;
+}
+.qw-swarm {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.5;
+  min-height: 220px;
+  max-height: 62vh;
+  margin-top: 4px;
+  overflow: hidden;
+  border-radius: 12px;
+  /* Fallback first: an engine that cannot parse `color-mix()` drops the
+     whole declaration, which would leave the field with no ground at all. */
+  background: rgba(255, 255, 255, 0.02);
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--qw-swarm-accent) 14%, transparent) 0%, transparent 62%),
+    rgba(255, 255, 255, 0.02);
+  touch-action: pan-y;
+}
+/* The web. One layer, non-scaling strokes, pointer-transparent. */
+.qw-swarm-web {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.qw-swarm-edge {
+  stroke: var(--qw-swarm-accent);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: calc(0.1 + (1 - var(--d, 0)) * 0.16);
+  transition: opacity 0.18s ease;
+}
+.qw-swarm-edge[data-swarm-edge-active='1'] {
+  opacity: 0.85;
+  stroke-width: 1.6;
+}
+/* The core -- the organisation the field is taking apart. */
+.qw-swarm-core {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  text-align: center;
+}
+.qw-swarm-core-pip {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--qw-swarm-accent);
+  box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.22);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--qw-swarm-accent) 22%, transparent);
+}
+.qw-swarm-core-label {
+  max-width: 168px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: #fff;
+  overflow-wrap: anywhere;
+}
+/* A node. `--d` is its shell depth; the two pointer properties are read from
+   the field above it, so a node never needs its own listener. */
+.qw-swarm-node {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  max-width: 116px;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: center;
+  cursor: pointer;
+  transform:
+    translate(-50%, -50%)
+    translate3d(
+      calc(var(--sx, 0) * var(--d, 0) * var(--qw-swarm-travel, 2.6%) * -1),
+      calc(var(--sy, 0) * var(--d, 0) * var(--qw-swarm-travel, 2.6%) * -1),
+      0
+    );
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+.qw-swarm-node[data-swarm-absorb='0'] {
+  cursor: default;
+}
+.qw-swarm-dot {
+  width: calc(9px - var(--d, 0) * 2px);
+  height: calc(9px - var(--d, 0) * 2px);
+  border-radius: 999px;
+  background: var(--qw-swarm-accent);
+  opacity: calc(1 - var(--d, 0) * 0.35);
+  transition: box-shadow 0.18s ease, opacity 0.18s ease;
+}
+.qw-swarm-label {
+  font-size: calc(12px - var(--d, 0) * 1px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: rgba(229, 231, 235, calc(1 - var(--d, 0) * 0.3));
+  overflow-wrap: anywhere;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.qw-swarm-node:hover,
+.qw-swarm-node:focus-visible {
+  z-index: 3;
+  outline: none;
+}
+.qw-swarm-node:hover .qw-swarm-dot,
+.qw-swarm-node:focus-visible .qw-swarm-dot {
+  opacity: 1;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--qw-swarm-accent) 30%, transparent);
+}
+.qw-swarm-node:hover .qw-swarm-label,
+.qw-swarm-node:focus-visible .qw-swarm-label {
+  color: #fff;
+}
+.qw-swarm-node:focus-visible .qw-swarm-label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* Legend -- which sector is which dimension. */
+.qw-swarm-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(156, 163, 175, 1);
+}
+.qw-swarm-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.qw-swarm-legend-pip {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--qw-swarm-accent, var(--qw-deeper-accent));
+  opacity: calc(1 - var(--i, 0) * 0.12);
+}
+.qw-swarm-legend-count {
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(107, 114, 128, 1);
+}
+/* A finger has no hover and covers the node it is on, so the parallax is
+   pointless there; a reduced-motion visitor asked for none. Both get the
+   identical field, still -- every node is in exactly the same place. */
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .qw-swarm-node {
+    transition: none;
+    transform: translate(-50%, -50%);
+    will-change: auto;
+  }
+  .qw-swarm-edge {
+    transition: none;
+  }
+}
+@media (max-width: 640px) {
+  .qw-swarm {
+    aspect-ratio: 1.05;
+    min-height: 300px;
+  }
+  .qw-swarm-node {
+    max-width: 88px;
+  }
+}
+
+/* --------------------------------------------------------------------------
    REV-21 §5C / SPEC §12.7 -- U-AI infinity stream: LAYOUT + dark painting.
    The feed root is the scroll box (tower) or an in-flow column (/u-ai). No
    backdrop-filter anywhere; entrances are transform/opacity only; every
@@ -1166,27 +1420,6 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   color: var(--qw-stream-accent);
   font-weight: 700;
 }
-.qw-stream-spine-cta {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--qw-stream-accent);
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-.qw-stream-spine-cta:hover,
-.qw-stream-spine-cta:focus-visible {
-  background: var(--qw-stream-accent);
-  color: #0b0f19;
-  outline: none;
-}
 .qw-stream-page {
   display: flex;
   flex-direction: column;
@@ -1202,17 +1435,28 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   font-size: 11px;
   color: var(--qw-stream-ink-3);
 }
+/* REV-24 M1: the shortcut ladder's tier cards wear the same skin. The border
+   COLOUR is overridden inline per tier (each tier carries its own accent) --
+   everything else about the frame comes from here, so the ladder, the themes
+   and the eleven U-AI cards are one component with three contents. */
+.qw-tier-card {
+  border: 1px solid var(--qw-card-line);
+  border-radius: var(--qw-card-radius);
+  background: var(--qw-card-bg);
+  box-shadow: var(--qw-card-shadow);
+}
+
+/* REV-24 M1: the eleven U-AI cards wear THE ONE CARD SKIN (see --qw-card-*
+   in :root). `--qw-stream-card` survives as the per-surface ground override
+   so a theme can still tint the U-AI ground without forking the frame. */
 .qw-stream-card {
   contain: layout paint;
-  border: 1px solid var(--qw-stream-line);
-  border-radius: 14px;
-  background: var(--qw-stream-card);
+  border: 1px solid var(--qw-card-line);
+  border-radius: var(--qw-card-radius);
+  background: var(--qw-stream-card, var(--qw-card-bg));
+  box-shadow: var(--qw-card-shadow);
   padding: 16px;
   animation: qw-stream-in 0.24s ease both;
-}
-.qw-stream-card--rare {
-  border-color: rgba(212, 175, 55, 0.55);
-  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.18);
 }
 @keyframes qw-stream-in {
   from {
@@ -1247,8 +1491,7 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   align-items: center;
   gap: 6px;
 }
-.qw-stream-scope,
-.qw-stream-rare {
+.qw-stream-scope {
   display: inline-block;
   border: 1px solid var(--qw-stream-line-strong);
   border-radius: 999px;
@@ -1266,10 +1509,6 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
 .qw-stream-scope--honest {
   color: #fbbf24;
   border-color: rgba(251, 191, 36, 0.45);
-}
-.qw-stream-rare {
-  color: var(--qw-stream-accent);
-  border-color: rgba(212, 175, 55, 0.5);
 }
 .qw-stream-card-body {
   display: flex;
@@ -1290,35 +1529,12 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
 .qw-stream-card-source a:hover {
   text-decoration: underline;
 }
-.qw-stream-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.qw-stream-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--qw-stream-ink-3);
-}
-.qw-stream-label--accent {
-  color: var(--qw-stream-accent);
-}
 .qw-stream-note {
   font-size: 12px;
   color: var(--qw-stream-ink-3);
 }
 .qw-stream-note--neon {
   color: rgba(34, 211, 238, 0.8);
-}
-.qw-stream-note--pulse {
-  font-style: italic;
-  color: rgba(34, 211, 238, 0.85);
-  animation: qw-stream-pulse 1.6s ease-in-out infinite;
 }
 @keyframes qw-stream-pulse {
   0%,
@@ -1339,130 +1555,6 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   font-size: 12px;
   color: var(--qw-stream-ink-3);
   font-variant-numeric: tabular-nums;
-}
-.qw-stream-mono--neon {
-  color: var(--qw-stream-neon);
-}
-.qw-stream-axis-row {
-  display: grid;
-  grid-template-columns: 96px 1fr auto;
-  align-items: center;
-  gap: 12px;
-}
-.qw-stream-axis-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--qw-stream-ink-2);
-}
-.qw-stream-bar {
-  background: rgba(255, 255, 255, 0.08);
-}
-.qw-stream-bar-fill {
-  transition: width 0.7s ease-out;
-}
-.qw-stream-verdict {
-  border: 1px solid;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-.qw-stream-reporter {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-.qw-stream-reporter-free,
-.qw-stream-reporter-paid {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.qw-stream-reporter-free {
-  border: 1px solid rgba(34, 211, 238, 0.5);
-  background: rgba(34, 211, 238, 0.1);
-  color: var(--qw-stream-neon);
-}
-.qw-stream-reporter-paid {
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  color: var(--qw-stream-accent);
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-.qw-stream-reporter-paid:hover {
-  background: var(--qw-stream-accent);
-  color: #0b0f19;
-}
-.qw-stream-checklist {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.qw-stream-check {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  width: 100%;
-  text-align: left;
-}
-.qw-stream-check-box {
-  display: flex;
-  height: 20px;
-  width: 20px;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  font-size: 12px;
-  color: transparent;
-}
-.qw-stream-check[data-checked='1'] .qw-stream-check-box {
-  border-color: var(--qw-stream-neon);
-  background: rgba(34, 211, 238, 0.2);
-  color: var(--qw-stream-neon);
-}
-.qw-stream-check-text {
-  font-size: 15px;
-  line-height: 1.4;
-  color: var(--qw-stream-ink-2);
-}
-.qw-stream-check[data-checked='1'] .qw-stream-check-text {
-  color: var(--qw-stream-ink-3);
-  text-decoration: line-through;
-}
-.qw-stream-linkbtn {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--qw-stream-accent);
-}
-.qw-stream-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.qw-stream-steps li {
-  display: flex;
-  gap: 10px;
-  font-size: 15px;
-  line-height: 1.45;
-  color: var(--qw-stream-ink-2);
-}
-.qw-stream-step-no {
-  color: var(--qw-stream-accent);
 }
 .qw-stream-sources {
   display: flex;
@@ -1574,10 +1666,6 @@ a.qw-stream-item-link:hover .qw-stream-item-title {
   color: #fff;
   outline: none;
 }
-.qw-stream-chip--accent {
-  border-color: rgba(212, 175, 55, 0.5);
-  color: var(--qw-stream-accent);
-}
 .qw-stream-facts {
   display: flex;
   flex-wrap: wrap;
@@ -1616,326 +1704,12 @@ a.qw-stream-item-link:hover .qw-stream-item-title {
 }
 /* REV-21 §5C stage 2 (M10): picture cards. Aspect-boxed tiles so a late
    image never shifts the feed; no backdrop-filter, no non-transform animation. */
-.qw-stream-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
-  gap: 8px;
-  margin: 2px 0 10px;
-  padding: 0;
-  list-style: none;
-}
-.qw-stream-gallery-cell {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  aspect-ratio: 4 / 3;
-  contain: layout paint;
-}
-.qw-stream-gallery-cell > a {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.qw-stream-gallery-cell img {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 220ms ease;
-}
-.qw-stream-gallery-cell:hover img {
-  transform: scale(1.04);
-}
-.qw-stream-gallery-credit {
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  padding: 3px 6px;
-  font-size: 9.5px;
-  line-height: 1.3;
-  color: rgba(255, 255, 255, 0.82);
-  background: linear-gradient(to top, rgba(2, 6, 23, 0.86), rgba(2, 6, 23, 0));
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-@media (prefers-reduced-motion: reduce) {
-  .qw-stream-gallery-cell img { transition: none; }
-  .qw-stream-gallery-cell:hover img { transform: none; }
-}
-@media (max-width: 767px) {
-  .qw-stream-gallery { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 6px; }
-}
 
 .qw-stream-spark-dates {
   display: flex;
   justify-content: space-between;
   font-size: 10px;
   color: var(--qw-stream-ink-3);
-}
-.qw-stream-outbound {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 10px;
-  border-top: 1px solid var(--qw-stream-line);
-  padding-top: 10px;
-  font-size: 12px;
-}
-.qw-stream-outbound-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--qw-stream-ink-3);
-}
-.qw-stream-outbound-link {
-  color: var(--qw-stream-ink-2);
-  text-decoration: none;
-}
-.qw-stream-outbound-link:hover {
-  color: #fff;
-  text-decoration: underline;
-}
-.qw-stream-timeline,
-.qw-stream-chronos {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 0;
-  padding: 0 0 0 20px;
-  border-left: 1px solid var(--qw-stream-line-strong);
-  list-style: none;
-}
-.qw-stream-timeline li,
-.qw-stream-chronos li {
-  position: relative;
-}
-.qw-stream-timeline-dot {
-  position: absolute;
-  left: -24px;
-  top: 6px;
-  height: 7px;
-  width: 7px;
-  border-radius: 999px;
-  background: var(--qw-stream-accent);
-}
-.qw-stream-cogs-prompt {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 19px;
-  line-height: 1.5;
-  color: #f8fafc;
-  text-wrap: balance;
-}
-.qw-stream-cogs-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-.qw-stream-cogs-seed,
-.qw-stream-cogs-lens {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid var(--qw-stream-line-strong);
-  border-radius: 999px;
-  padding: 4px 10px;
-  font-size: 12px;
-  color: var(--qw-stream-ink-2);
-}
-.qw-stream-cogs-seed-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--qw-stream-ink-3);
-}
-.qw-stream-cogs-lens {
-  border-color: rgba(212, 175, 55, 0.45);
-  color: var(--qw-stream-accent);
-}
-.qw-stream-cogs-ask {
-  font-size: 15px;
-  font-style: italic;
-  color: var(--qw-stream-ink-2);
-}
-.qw-stream-cogs-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-.qw-stream-cogs-axis-head {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 4px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--qw-stream-ink-3);
-}
-.qw-stream-synthesis {
-  border-left: 2px solid rgba(212, 175, 55, 0.5);
-  padding-left: 16px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 20px;
-  line-height: 1.6;
-  color: #f3f4f6;
-  text-wrap: balance;
-}
-.qw-stream-axes-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-.qw-stream-axis-card {
-  border: 1px solid var(--qw-stream-line);
-  border-top-width: 2px;
-  background: rgba(5, 7, 12, 0.4);
-  padding: 14px;
-}
-.qw-stream-axis-title {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-.qw-stream-axis-title--accent {
-  color: var(--qw-stream-accent);
-}
-.qw-stream-axis-text {
-  margin-top: 8px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--qw-stream-ink-3);
-}
-.qw-stream-axis-text--strong {
-  color: var(--qw-stream-ink);
-}
-.qw-stream-axis-key {
-  font-weight: 700;
-  color: var(--qw-stream-ink-2);
-}
-.qw-stream-axis-key--accent {
-  color: var(--qw-stream-accent);
-}
-.qw-stream-vector {
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  background: rgba(0, 0, 0, 0.3);
-  padding: 14px;
-}
-.qw-stream-vector-text {
-  margin-top: 6px;
-  font-size: 17px;
-  font-style: italic;
-  line-height: 1.6;
-  color: #f3f4f6;
-  text-wrap: balance;
-}
-.qw-stream-model {
-  text-align: right;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #6b7280;
-}
-.qw-stream-credit {
-  border-left: 2px solid rgba(212, 175, 55, 0.4);
-  padding-left: 10px;
-}
-.qw-stream-error {
-  font-size: 13px;
-  font-weight: 700;
-  color: #f87171;
-}
-.qw-stream-deep-cta {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 1px solid var(--qw-stream-accent);
-  background: rgba(212, 175, 55, 0.1);
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--qw-stream-accent);
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-.qw-stream-deep-cta:hover:not(:disabled) {
-  background: var(--qw-stream-accent);
-  color: #0b0f19;
-}
-.qw-stream-deep-cta:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-.qw-stream-deep-locked {
-  border: 1px solid var(--qw-stream-line);
-  background: rgba(5, 7, 12, 0.5);
-  padding: 12px;
-  text-align: center;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--qw-stream-ink-3);
-}
-.qw-stream-deep {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  border-top: 1px solid var(--qw-stream-line);
-  padding-top: 20px;
-}
-.qw-stream-binary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 8px;
-}
-.qw-stream-binary-option {
-  border: 1px solid var(--qw-stream-line);
-  padding: 12px;
-  font-size: 13px;
-  color: var(--qw-stream-ink-3);
-}
-.qw-stream-binary-option[data-picked='1'] {
-  border-color: var(--qw-stream-neon);
-  background: rgba(34, 211, 238, 0.1);
-  color: #fff;
-}
-.qw-stream-redpen {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.qw-stream-redpen li {
-  border-left: 2px solid rgba(248, 113, 113, 0.6);
-  padding-left: 12px;
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--qw-stream-ink-2);
-}
-.qw-stream-void {
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  background: rgba(0, 0, 0, 0.3);
-  padding: 14px;
-}
-.qw-stream-void-text {
-  font-size: 19px;
-  font-style: italic;
-  line-height: 1.6;
-  color: #e5e7eb;
-  text-wrap: balance;
 }
 .qw-stream-rankings {
   contain: content;
@@ -2053,34 +1827,14 @@ a.qw-stream-item-link:hover .qw-stream-item-title {
     padding: 14px;
     border-radius: 12px;
   }
-  .qw-stream-axis-row {
-    grid-template-columns: 80px 1fr auto;
-    gap: 8px;
-  }
-  .qw-stream-cogs-grid,
-  .qw-stream-axes-grid,
-  .qw-stream-binary-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .qw-stream-cogs-prompt {
-    font-size: 17px;
-  }
-  .qw-stream-synthesis {
-    font-size: 17px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .qw-stream-card,
-  .qw-stream-note--pulse,
   .qw-stream-skeleton > span {
     animation: none;
   }
-  .qw-stream-bar-fill,
   .qw-stream-chip,
-  .qw-stream-more,
-  .qw-stream-spine-cta,
-  .qw-stream-reporter-paid,
-  .qw-stream-deep-cta {
+  .qw-stream-more {
     transition: none;
   }
 }

@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 import { ModalPortal } from '@/components/ui/ModalPortal';
 import { buildInvisibleMark } from '@/lib/quantumWhite/watermark';
 import {
-  DEVTOOLS_POLL_MS,
   REVEAL_MS,
   blurIsCapture,
   classifyContextTarget,
@@ -196,10 +195,24 @@ export function SovereignWatermark() {
       if (next && !docked) reveal('devtools');
       docked = next;
     };
-    const dockTimer = window.setInterval(() => {
+    // REV-24 M3 (founder directive 2026-09-13, 유휴 CPU 0%): this probe is now
+    // EVENT-DRIVEN, not polled. It used to run every DEVTOOLS_POLL_MS for the
+    // entire life of the home page, and each run reads outerWidth/innerWidth/
+    // outerHeight/innerHeight -- layout-adjacent reads -- making it the
+    // largest non-carousel contributor to idle CPU on an otherwise still
+    // page. It also bought nothing the listeners below do not: DOCKING a
+    // developer panel is precisely what changes innerWidth/innerHeight, and
+    // that fires `resize`. The remaining gaps -- a panel opened while the tab
+    // was hidden, or while the window was in the background -- are exactly
+    // what `visibilitychange` and `focus` cover, and they cost nothing until
+    // they happen. Same doctrine as QuantumVoid.tsx: the loop does not exist
+    // until something makes it exist.
+    const probeIfVisible = () => {
       if (document.visibilityState === 'visible') probeDock();
-    }, DEVTOOLS_POLL_MS);
+    };
     window.addEventListener('resize', probeDock);
+    document.addEventListener('visibilitychange', probeIfVisible);
+    window.addEventListener('focus', probeIfVisible);
 
     // Console probe: a RegExp whose `toString` runs only when a console
     // panel builds the message's description -- Chromium formats buffered
@@ -254,7 +267,8 @@ export function SovereignWatermark() {
       document.removeEventListener('selectionchange', onSelectionChange);
       window.removeEventListener('beforeprint', onBeforePrint);
       window.removeEventListener('resize', probeDock);
-      window.clearInterval(dockTimer);
+      document.removeEventListener('visibilitychange', probeIfVisible);
+      window.removeEventListener('focus', probeIfVisible);
       if (selectionTimer !== null) window.clearTimeout(selectionTimer);
       if (revealTimerRef.current !== null) window.clearTimeout(revealTimerRef.current);
     };

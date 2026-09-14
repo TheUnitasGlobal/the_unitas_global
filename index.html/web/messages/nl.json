@@ -1391,11 +1391,8 @@
       "art": "Kunst · Filosofie"
     },
     "constitutionAxisNote": "Herontwerp-ankeras · {axis}",
-    "webSourcesLabel": "Live Websynthese",
     "webSourcedBadge": "{count} bronnen realtime gesynthetiseerd",
     "webLocalBadge": "Lokale heuristische synthese · geen externe oproepen",
-    "deepLabel": "Diepgaand Inzicht · De VOID",
-    "openFullReport": "Volledig U-AI-rapport openen",
     "brainGridLabel": "Brain-Grid · Cognitieve Geschiedenis",
     "brainGridClear": "Wissen",
     "webBlendNote": "Websynthese op big-tech-niveau 90% + UNITAS 100-doctrine-herontwerp 10%."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Ladder uitbreiden",
     "keywordHint": "Tik om hieronder een nieuw niveau te nesten",
     "deepLabel": "UNITAS-diepteanalyse",
-    "deepPending": "{hits} / 3 wereldwijde zoekopdrachten. Bij de 3e smeedt de 100-doctrine-engine de 6-assige diepteanalyse van dit trefwoord één keer — daarna gratis voor iedereen.",
     "appLoopLabel": "Snelkoppelingen",
     "restoredNote": "Ladder hersteld na de taalwissel — niets is verloren gegaan.",
     "cachedBadge": "Soevereine cache · 0 kosten",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Zojuist gesynthetiseerd",
     "synthesizedAgo": "{hours} u geleden gesynthetiseerd",
     "nextSynthesis": "volgende synthese over {hours} u {minutes} min",
-    "refreshCooldown": "Onlangs ververst — cache geleverd",
-    "deepQueued": "De 6-assige UNITAS-diepteanalyse staat in de wachtrij van de nachtelijke 100-doctrine-smederij. Eén keer gesynthetiseerd en daarna gratis voor iedereen."
+    "refreshCooldown": "Onlangs ververst — cache geleverd"
   },
   "Finance": {
     "axes": {

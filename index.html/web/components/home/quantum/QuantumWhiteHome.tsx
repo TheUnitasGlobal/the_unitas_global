@@ -8,13 +8,11 @@ import { useTranslations } from 'next-intl';
 import { motion } from 'framer-motion';
 import { Hero } from '../Hero';
 import { OmniSynapseSearch } from '../OmniSynapseSearch';
-import { EcosystemEntryModal } from '@/components/interaction/EcosystemEntryModal';
 import { Footer } from '@/components/layout/Footer';
 import { useSurfaceScope } from '@/components/layout/SurfaceScope';
 import { SovereignShield } from '@/components/system/SovereignShield';
 import { SectionShield } from '@/components/system/PageShield';
 import { useUai } from '@/lib/uai/useUai';
-import type { EcosystemTheme } from '@/lib/ecosystems';
 import { HOT_SHORTCUT_MATRIX, findShortcutAxis, type HotShortcutAxis } from '@/lib/hotIssues';
 import { setAmbientBedSuppressed } from '@/components/audio/SpatialAudioProvider';
 import { applyChrono, clearChrono } from '@/lib/quantumWhite/chrono';
@@ -41,7 +39,7 @@ const SHORTCUT_STORAGE_KEY = 'unitas.ouroboros.shortcut.v1';
  * `HomeContent` as `app/[locale]/page.tsx`'s render target (wired by the
  * INTEGRATION agent). Retains, unchanged in wiring: `Hero`, the single
  * `useUai()` session driving `OmniSynapseSearch` (same 4 props), its two
- * modals (`EcosystemEntryModal`, `HotShortcutResultModal`), the Ouroboros
+ * modals (`HotShortcutResultModal`), the Ouroboros
  * dim/blur wrapper (now around `SingularityCoreGrid` instead of the three old
  * catalog sections), `SectionShield`/`SovereignShield` zones, and `Footer`.
  * Replaces the old Ecosystem/Live-Service/Lock-in/B2B grids with the
@@ -51,7 +49,6 @@ export function QuantumWhiteHome() {
   const tHome = useTranslations('Home');
   const released = useCurtainReleased();
 
-  const [activeEcosystem, setActiveEcosystem] = useState<EcosystemTheme | null>(null);
   const [activeShortcut, setActiveShortcut] = useState<HotShortcutAxis | null>(null);
   const [isOuroboros, setIsOuroboros] = useState(false);
 
@@ -189,7 +186,6 @@ export function QuantumWhiteHome() {
         <SectionShield zone="home-search">
           <OmniSynapseSearch
             uai={uai}
-            onSelectEcosystem={setActiveEcosystem}
             activeShortcut={activeShortcut}
             onOpenShortcut={setActiveShortcut}
             onCloseShortcut={() => setActiveShortcut(null)}
@@ -222,9 +218,6 @@ export function QuantumWhiteHome() {
           </SectionShield>
         </motion.div>
 
-        <SovereignShield zone="modal-ecosystem" resetKeys={[activeEcosystem]}>
-          <EcosystemEntryModal ecosystem={activeEcosystem} onClose={() => setActiveEcosystem(null)} />
-        </SovereignShield>
       </main>
 
       <SovereignShield zone="footer">

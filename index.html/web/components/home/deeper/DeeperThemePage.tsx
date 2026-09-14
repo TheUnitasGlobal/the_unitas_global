@@ -7,6 +7,8 @@ import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import type { DeeperAnchor } from '@/lib/uai/deeperAnchor';
 import { deeperTheme, type DeeperCard, type DeeperContext, type DeeperItem, type DeeperPage, type DeeperScope, type DeeperThemeKey } from '@/lib/uai/deeperThemes';
 import { useDeeperPage } from '@/lib/uai/useDeeperPage';
+import { OmniTechSwarm } from '@/components/home/deeper/OmniTechSwarm';
+import type { SwarmInputDimension } from '@/lib/uai/swarmLayout';
 import { sourceAttribution, sourceById, sourceLabel, type SourceId } from '@/lib/uai/sourceRegistry';
 
 /**
@@ -64,13 +66,43 @@ export function DeeperThemePage({ theme, anchor, ctx, onReanchor }: DeeperThemeP
   }, [feed, feed.done, feed.failed, feed.pages.length]);
 
   const cards = useMemo(() => feed.pages.flatMap((p) => p.cards), [feed.pages]);
-  const byScope = useMemo(() => {
-    const groups: Record<DeeperScope, DeeperCard[]> = { global: [], country: [] };
-    for (const c of cards) groups[c.scope].push(c);
-    return groups;
-  }, [cards]);
   const usedSources = useMemo(() => Array.from(new Set(feed.pages.flatMap((p: DeeperPage) => p.sources))), [feed.pages]);
   const accent = { '--qw-deeper-accent': meta.color } as CSSProperties;
+
+  /**
+   * REV-24 MISSION 4 (founder directive 2026-09-13) -- THE OMNI-TECH SWARM.
+   *
+   * `bigTechPulse` emits one `chips` card per Wikidata dimension, three
+   * dimensions per cursor page. Rendered as chips those six cards are six
+   * disconnected word lists; what the adapter actually found is a graph with
+   * the organisation at its centre. So for this ONE theme the chips cards are
+   * lifted out of the ordinary card flow and fused into a single living
+   * field, which grows another sector every time a cursor page lands.
+   *
+   * Every other theme, and every other card kind on this one (the
+   * `bigtech-scale` employees/revenue facts card included), renders exactly
+   * as before -- this is an additional reading of the same data, not a fork
+   * of the page.
+   */
+  const swarmDimensions = useMemo<SwarmInputDimension[]>(() => {
+    if (theme !== 'bigTechPulse') return [];
+    return cards
+      .filter((c) => c.kind === 'chips' && c.items && c.items.length > 0)
+      .map((c) => ({
+        key: c.id,
+        label: field(c.field) || c.id,
+        nodes: (c.items ?? []).map((it) => ({ id: it.id, title: it.title, qid: it.qid, url: it.url })),
+      }));
+    // `field` closes over `t` and `theme`; both are stable for a given page.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [theme, cards]);
+  const byScope = useMemo(() => {
+    const absorbed = new Set(swarmDimensions.map((d) => d.key));
+    const groups: Record<DeeperScope, DeeperCard[]> = { global: [], country: [] };
+    // REV-24 M4: a card the swarm absorbed is not ALSO drawn as chips below.
+    for (const c of cards) if (!absorbed.has(c.id)) groups[c.scope].push(c);
+    return groups;
+  }, [cards, swarmDimensions]);
 
   function renderItem(item: DeeperItem, card: DeeperCard) {
     const canReanchor = Boolean(item.qid && onReanchor && item.qid !== anchor.qid);
@@ -246,6 +278,28 @@ export function DeeperThemePage({ theme, anchor, ctx, onReanchor }: DeeperThemeP
           </p>
         </div>
       </header>
+
+      {/* REV-24 M4: the swarm sits directly under the header, above the
+          remaining cards, so the graph is what the visitor meets first and
+          the numeric scale card reads as its footnote. It carries the same
+          `data-deeper-card` / `data-deeper-source` hooks the E2E selectors
+          expect of anything in this flow. */}
+      {swarmDimensions.length > 0 && (
+        <section data-deeper-scope="global" className="space-y-2">
+          <article className="qw-deeper-card qw-deeper-card--swarm border border-white/10 bg-void/40 p-3" data-deeper-card="swarm" data-deeper-source="wikidata" style={accent}>
+            <p className="qw-deeper-card-head mb-1.5 flex flex-wrap items-baseline gap-x-2 text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: meta.color }}>
+              {t(`themes.${theme}.title`)}
+            </p>
+            <OmniTechSwarm
+              dimensions={swarmDimensions}
+              coreLabel={anchor.term}
+              color={meta.color}
+              reAnchorLabel={t('reAnchor')}
+              onReanchor={onReanchor ? ({ qid, title }) => onReanchor({ qid, title, lang: ctx.lang }) : undefined}
+            />
+          </article>
+        </section>
+      )}
 
       {(['global', 'country'] as const).map((scope) =>
         byScope[scope].length > 0 ? (

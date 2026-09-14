@@ -13,6 +13,17 @@
    12. Tokens (SPEC §2, §4, §5, §7, §9-11)
    -------------------------------------------------------------------------- */
 html[data-unitas-surface='quantum-white'] {
+  /* REV-24 M1 -- THE ONE CARD SKIN on the white surface. These are the
+     values `.qw-hub-card` was already carrying; they are simply named now,
+     so the eleven U-AI cards and the shortcut ladder's cards can wear the
+     identical frame instead of each approximating it. */
+  --qw-card-line: rgba(255, 255, 255, 0.96);
+  --qw-card-radius: 16px;
+  --qw-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(246, 247, 250, 0.92));
+  --qw-card-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 14px 34px -20px rgba(10, 10, 12, 0.28),
+    0 0 0 1px rgba(207, 214, 226, 0.6);
   /* §7 vertical symmetry: A (nav bottom -> cap top of UNITAS) == B (baseline
      -> search bar top). CSS px inside the 0.75 zoom tree. */
   --qw-hero-gap: clamp(44px, 5.8vw, 80px);
@@ -159,8 +170,16 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1::after {
   position: relative;
   overflow: hidden;
 }
+/* REV-24 M3 (founder directive 2026-09-13): the underline sweeps ON HOVER
+   ONLY. `qw-rule-sweep` animates `background-position` -- paint-tier -- on the
+   rule under the largest text on the page, which is in the viewport from
+   first paint. Running it idle repainted the hero's underline every frame for
+   the life of the page, the same cost profile REV-23 measured and removed
+   from the wordmark sheen. The geometry is untouched: only `animation` moves,
+   so REV-20's 0.02px hero symmetry and `--qw-title-rule-h` are unaffected. */
 @media (prefers-reduced-motion: no-preference) {
-  html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1::after {
+  html[data-unitas-surface='quantum-white'] .qw-hero-wrap:hover h1::after,
+  html[data-unitas-surface='quantum-white'] .qw-hero-wrap:focus-within h1::after {
     animation: qw-rule-sweep 4.5s ease-in-out infinite;
   }
 }
@@ -968,11 +987,18 @@ html[data-unitas-surface='quantum-white'] .qw-hub-chip .qw-hub-progress[data-hel
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
 }
-html[data-unitas-surface='quantum-white'] .qw-hub-card {
-  border: 1px solid rgba(255, 255, 255, 0.96);
-  border-radius: 16px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(246, 247, 250, 0.92));
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 14px 34px -20px rgba(10, 10, 12, 0.28), 0 0 0 1px rgba(207, 214, 226, 0.6);
+/* REV-24 M1: one skin, three grammars. `.qw-hub-card` (theme popups),
+   `.qw-stream-card` (the eleven U-AI cards) and `.qw-tier-card` (the shortcut
+   ladder) now resolve to byte-identical border, radius, ground and shadow.
+   Tailwind's `border-white/10 bg-void/40` utilities on the same elements are
+   overridden here deliberately -- they were tuned for the dark route. */
+html[data-unitas-surface='quantum-white'] .qw-hub-card,
+html[data-unitas-surface='quantum-white'] .qw-stream-card,
+html[data-unitas-surface='quantum-white'] .qw-tier-card {
+  border: 1px solid var(--qw-card-line);
+  border-radius: var(--qw-card-radius);
+  background: var(--qw-card-bg);
+  box-shadow: var(--qw-card-shadow);
 }
 html[data-unitas-surface='quantum-white'] .qw-hub-headline {
   display: flex;
@@ -1170,28 +1196,9 @@ html[data-unitas-surface='quantum-white'] .qw-stream {
 
 /* REV-21 §5C stage 2 (M10): picture tiles on the white surface -- the dark
    credit scrim would read as a bruise here, so it inverts with the theme. */
-html[data-unitas-surface=quantum-white] .qw-stream-gallery-cell {
-  background: rgba(15, 23, 42, 0.06);
-  border: 1px solid var(--qw-line);
-}
-html[data-unitas-surface=quantum-white] .qw-stream-gallery-credit {
-  color: rgba(255, 255, 255, 0.94);
-  background: linear-gradient(to top, rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0));
-}
 html[data-unitas-surface='quantum-white'] .qw-stream-spine {
   background: rgba(246, 247, 250, 0.98);
 }
-html[data-unitas-surface='quantum-white'] .qw-stream-spine-cta:hover,
-html[data-unitas-surface='quantum-white'] .qw-stream-spine-cta:focus-visible,
-html[data-unitas-surface='quantum-white'] .qw-stream-reporter-paid:hover,
-html[data-unitas-surface='quantum-white'] .qw-stream-deep-cta:hover:not(:disabled) {
-  background: var(--qw-gold-deep);
-  color: #fff;
-}
-html[data-unitas-surface='quantum-white'] .qw-stream-cogs-prompt,
-html[data-unitas-surface='quantum-white'] .qw-stream-synthesis,
-html[data-unitas-surface='quantum-white'] .qw-stream-vector-text,
-html[data-unitas-surface='quantum-white'] .qw-stream-void-text,
 html[data-unitas-surface='quantum-white'] .qw-stream-fact--big .qw-stream-fact-value,
 html[data-unitas-surface='quantum-white'] .qw-stream-item-title {
   color: var(--qw-ink);
@@ -1199,34 +1206,14 @@ html[data-unitas-surface='quantum-white'] .qw-stream-item-title {
 html[data-unitas-surface='quantum-white'] a.qw-stream-item-link:hover .qw-stream-item-title,
 html[data-unitas-surface='quantum-white'] .qw-stream-sources a:hover,
 html[data-unitas-surface='quantum-white'] .qw-stream-chip:hover,
-html[data-unitas-surface='quantum-white'] .qw-stream-chip:focus-visible,
-html[data-unitas-surface='quantum-white'] .qw-stream-outbound-link:hover {
+html[data-unitas-surface='quantum-white'] .qw-stream-chip:focus-visible {
   color: var(--qw-blue-deep);
 }
-html[data-unitas-surface='quantum-white'] .qw-stream-chip,
-html[data-unitas-surface='quantum-white'] .qw-stream-axis-card,
-html[data-unitas-surface='quantum-white'] .qw-stream-deep-locked {
+html[data-unitas-surface='quantum-white'] .qw-stream-chip {
   background: rgba(255, 255, 255, 0.75);
-}
-html[data-unitas-surface='quantum-white'] .qw-stream-vector,
-html[data-unitas-surface='quantum-white'] .qw-stream-void {
-  background: rgba(255, 255, 255, 0.6);
-}
-html[data-unitas-surface='quantum-white'] .qw-stream-bar {
-  background: rgba(10, 10, 12, 0.08);
 }
 html[data-unitas-surface='quantum-white'] .qw-stream-skeleton > span {
   background: rgba(10, 10, 12, 0.08);
-}
-html[data-unitas-surface='quantum-white'] .qw-stream-binary-option[data-picked='1'] {
-  color: var(--qw-ink);
-  background: rgba(11, 92, 255, 0.08);
-}
-html[data-unitas-surface='quantum-white'] .qw-stream-check-box {
-  border-color: var(--qw-line-strong);
-}
-html[data-unitas-surface='quantum-white'] .qw-stream-model {
-  color: var(--qw-ink-3);
 }
 
 /* --------------------------------------------------------------------------
@@ -1242,4 +1229,41 @@ html[data-unitas-surface='quantum-white'] .qw-two-step-hit:focus-visible {
   background: rgba(11, 92, 255, 0.1);
   box-shadow: 0 0 0 1.5px var(--qw-blue);
   color: var(--qw-blue-deep);
+}
+
+/* --------------------------------------------------------------------------
+   §24. REV-24 MISSION 4 -- the OMNI-TECH SWARM on the white surface
+   (founder directive 2026-09-13). Layout lives in globals.css; this is the
+   repaint only. The dark field's near-black ground and white labels would
+   read as a hole punched in the page here, so the field becomes a pale
+   crystal plate and the ink inverts. No backdrop-filter and no blur: the
+   Explore Deeper block forbids both (globals.css §qw-deeper header), and the
+   swarm must stay inside that rule.
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-swarm {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(246, 247, 250, 0.96));
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--qw-swarm-accent) 12%, transparent) 0%, transparent 64%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(246, 247, 250, 0.96));
+  border: 1px solid var(--qw-line);
+}
+html[data-unitas-surface='quantum-white'] .qw-swarm-edge {
+  opacity: calc(0.16 + (1 - var(--d, 0)) * 0.2);
+}
+html[data-unitas-surface='quantum-white'] .qw-swarm-core-label {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-swarm-label {
+  color: var(--qw-ink-2);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+html[data-unitas-surface='quantum-white'] .qw-swarm-node:hover .qw-swarm-label,
+html[data-unitas-surface='quantum-white'] .qw-swarm-node:focus-visible .qw-swarm-label {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-swarm-legend {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-swarm-legend-count {
+  color: var(--qw-ink-3);
 }

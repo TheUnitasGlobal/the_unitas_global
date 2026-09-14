@@ -1391,11 +1391,8 @@
       "art": "Kunst · Philosophie"
     },
     "constitutionAxisNote": "Ankerachse der Neugestaltung · {axis}",
-    "webSourcesLabel": "Live-Web-Synthese",
     "webSourcedBadge": "{count} Quellen in Echtzeit synthetisiert",
     "webLocalBadge": "Lokale heuristische Synthese · null externe Aufrufe",
-    "deepLabel": "Tiefe Einsicht · The VOID",
-    "openFullReport": "Vollständigen U-AI-Bericht öffnen",
     "brainGridLabel": "Brain-Grid · Kognitive Historie",
     "brainGridClear": "Leeren",
     "webBlendNote": "Web-Synthese auf Big-Tech-Niveau 90 % + Neugestaltung der 100 UNITAS-Doktrinen 10 %."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Leiter erweitern",
     "keywordHint": "Antippen, um darunter eine neue Ebene einzubetten",
     "deepLabel": "UNITAS-Tiefenanalyse",
-    "deepPending": "{hits} / 3 globale Suchen. Bei der 3. schmiedet die 100-Doktrinen-Engine die 6-Achsen-Tiefenanalyse dieses Schlüsselworts genau einmal – danach für alle kostenlos.",
     "appLoopLabel": "Schnellzugriff",
     "restoredNote": "Leiter nach dem Sprachwechsel wiederhergestellt – nichts ging verloren.",
     "cachedBadge": "Souveräner Cache · 0 Kosten",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Gerade eben synthetisiert",
     "synthesizedAgo": "Vor {hours} Std. synthetisiert",
     "nextSynthesis": "nächste Synthese in {hours} Std. {minutes} Min.",
-    "refreshCooldown": "Kürzlich aktualisiert — Cache wird geliefert",
-    "deepQueued": "Die 6-Achsen-UNITAS-Tiefenanalyse steht in der Warteschlange der nächtlichen 100-Doktrin-Schmiede. Sie wird einmal synthetisiert und danach allen kostenlos geliefert."
+    "refreshCooldown": "Kürzlich aktualisiert — Cache wird geliefert"
   },
   "Finance": {
     "axes": {

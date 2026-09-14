@@ -8,9 +8,17 @@ import { getSupabaseBrowserClient } from '@/lib/supabase/client';
  * resolution trajectory. localStorage is the always-on primary store; when a
  * real session exists the same event is dual-written to public.brain_grid
  * (RLS select/insert-own -- see
- * supabase/migrations/20260908000000_u_ai_genesis_memory.sql). Deep-insight
- * events are also written server-side by the API route; the client write here
- * is idempotent enough for a history strip (worst case: one duplicate row).
+ * supabase/migrations/20260908000000_u_ai_genesis_memory.sql).
+ *
+ * REV-24 M1: `depth` is now the single literal `'surface'`. The paid
+ * deep-insight tier that used to write `'deep'` was deleted in REV-23, and
+ * its server-side companion write went with it, so this client write is the
+ * only producer. The FIELD stays -- the `brain_grid.depth` column and every
+ * already-persisted localStorage entry still carry it -- but the type no
+ * longer advertises a value nothing can create. The session argument is
+ * Supabase AUTH, not the wallet: it decides whether the founder's search
+ * history follows them across devices, and has never had anything to do with
+ * coins.
  */
 
 const STORAGE_KEY = 'unitas.uai.brain-grid.v1';
@@ -21,7 +29,7 @@ export interface BrainGridEntry {
   ts: number;
   /** shield gauge score 0-100 at the time of the query. */
   shield: number;
-  depth: 'surface' | 'deep';
+  depth: 'surface';
 }
 
 export function loadBrainGrid(): BrainGridEntry[] {

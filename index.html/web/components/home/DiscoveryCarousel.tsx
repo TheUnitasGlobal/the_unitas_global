@@ -30,6 +30,7 @@ import { useHorizontalSwipe } from '@/components/ui/useHorizontalSwipe';
 import { centeredScrollLeft } from '@/lib/interaction/railDrag';
 import { DISCOVERY_ROTATE_MS } from '@/lib/live/discoverySlots';
 import { slotCacheKey } from '@/lib/live/slotContext';
+import { decideRotationLoad, type RotationSource } from '@/lib/live/rotationBudget';
 import { useSlotContext } from '@/lib/live/useSlotContext';
 import type { Place } from '@/lib/live/useLiveWeather';
 import { anchorDataAttrs, placeAnchor, qidAnchor, textAnchor, type DeeperAnchor } from '@/lib/uai/deeperAnchor';
@@ -147,6 +148,10 @@ export function DiscoveryCarousel() {
   const [hidden, setHidden] = useState(false);
   const [touchPaused, setTouchPaused] = useState(false);
   const touchResumeRef = useRef<number | null>(null);
+  /** REV-24 M3: armed by a deliberate act that does NOT pin the slot (a
+   *  sub-tab pick). Consumed by the loader effect, which spends a request on
+   *  a stale card only when the visitor -- never the clock -- asked for it. */
+  const intentRef = useRef(false);
   const chipRefs = useRef<Map<SlotKey, HTMLButtonElement>>(new Map());
   const railRef = useRef<HTMLDivElement>(null);
   const tabRailRef = useRef<HTMLDivElement>(null);
@@ -225,9 +230,30 @@ export function DiscoveryCarousel() {
     const cacheKey = cardKeyFor(ctx, activeKey, activeTab);
     const cached = cardCache.get(cacheKey);
     const ttl = slotTtlMs(activeSlot.kind);
-    if (cached && Date.now() - cached.at < ttl) {
-      setCard(cached.card);
-      setCardLoading(false);
+    // REV-24 M3 (founder directive 2026-09-13, Codex ch.1 한계 비용 0원): the
+    // CLOCK never spends a request. Before this, a 7s tick that landed on a
+    // slot whose cache entry had aged past its TTL (15 min feed / 10 min
+    // weather / 6 h ranking) re-fetched it -- and since a full loop is 16 x 7s
+    // = 112s, the rotation re-fetched all thirteen network-backed slots once
+    // per TTL, forever, for a visitor who had done nothing but leave the
+    // search box focused. Thirteen of those calls go browser -> third-party
+    // origin, so they were not even visible in our own logs.
+    //
+    // The whole decision table lives in lib/live/rotationBudget.ts, pure and
+    // unit-tested. What this component owns is the INTENT signal: every
+    // deliberate landing routes through `setHeld` (pinned chip, swipe, arrow
+    // key, closed deep modal) or arms `intentRef` (a sub-tab pick), and the
+    // clock does neither.
+    const source: RotationSource = held !== null || intentRef.current ? 'intent' : 'clock';
+    intentRef.current = false;
+    const plan = decideRotationLoad({ cachedAt: cached?.at, ttlMs: ttl, source });
+    if (!plan.spendsRequest) {
+      // `hasPaintableCache` is what makes this branch safe: `decideRotationLoad`
+      // only answers `memory` when there IS an entry.
+      if (cached) {
+        setCard(cached.card);
+        setCardLoading(false);
+      }
     } else {
       setCardLoading(!cached);
       setCard(cached ? cached.card : null);
@@ -242,8 +268,11 @@ export function DiscoveryCarousel() {
       cancelled = true;
       controller.abort();
     };
+    // `held` is a dependency so that PINNING a slot the clock had parked on
+    // re-enters this effect and is allowed to refresh it -- that pin is the
+    // intent the rule above is waiting for.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeKey, activeTab, ctx]);
+  }, [activeKey, activeTab, ctx, held]);
 
   // §1.2: the chip rail is a native scroller; a mouse drag on it never
   // fights the auto-centering below (recentlyDragged) and pauses rotation.
@@ -463,6 +492,9 @@ export function DiscoveryCarousel() {
                     onMouseEnter={() => playHoverSfx()}
                     onClick={(e) => {
                       e.stopPropagation();
+                      // REV-24 M3: a tab pick is stated intent, so it may
+                      // spend the one request a stale card needs.
+                      intentRef.current = true;
                       setTabBySlot((prev) => ({ ...prev, [activeKey]: tab.key }));
                     }}
                   >

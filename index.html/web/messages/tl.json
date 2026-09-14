@@ -1391,11 +1391,8 @@
       "art": "Sining · Pilosopiya"
     },
     "constitutionAxisNote": "Redesign anchor axis · {axis}",
-    "webSourcesLabel": "Live Web Synthesis",
     "webSourcedBadge": "{count} na source ang na-synthesize nang real time",
     "webLocalBadge": "Local heuristic synthesis · zero external calls",
-    "deepLabel": "Deep Insight · Ang VOID",
-    "openFullReport": "Buksan ang buong U-AI report",
     "brainGridLabel": "Brain-Grid · Cognitive History",
     "brainGridClear": "I-clear",
     "webBlendNote": "Big-tech-grade web synthesis 90% + UNITAS 100-doctrine redesign 10%."
@@ -1534,7 +1531,6 @@
     "keywordsLabel": "Palawakin ang hagdan",
     "keywordHint": "I-tap para maglagay ng bagong antas sa ibaba",
     "deepLabel": "Malalim na pagsusuri ng UNITAS",
-    "deepPending": "{hits} / 3 pandaigdigang paghahanap. Sa ika-3, minsang huhubugin ng 100-doctrine engine ang 6-axis na malalim na pagsusuri ng keyword na ito — libre na para sa lahat pagkatapos.",
     "appLoopLabel": "Mga Shortcut",
     "restoredNote": "Naibalik ang hagdan matapos magpalit ng wika — walang nawala.",
     "cachedBadge": "Sovereign cache · 0 gastos",
@@ -1542,8 +1538,7 @@
     "synthesizedJustNow": "Na-synthesize ngayon lang",
     "synthesizedAgo": "Na-synthesize {hours} oras na ang nakalipas",
     "nextSynthesis": "susunod na synthesis sa loob ng {hours} oras {minutes} min",
-    "refreshCooldown": "Kaka-refresh lang — cache ang inihain",
-    "deepQueued": "Nakapila ang 6-axis UNITAS deep analysis para sa gabi-gabing 100-doctrine forge. Isang beses lang ito sini-synthesize at libre para sa lahat pagkatapos."
+    "refreshCooldown": "Kaka-refresh lang — cache ang inihain"
   },
   "Finance": {
     "axes": {
