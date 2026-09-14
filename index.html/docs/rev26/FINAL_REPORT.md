@@ -126,7 +126,31 @@ Windows 전용 예외를 넣으면 **실제 맥에서 틀리게** 되므로, 특
 
 ## §6. 배포 및 라이브 실측
 
-(배포 직후 실측으로 채운다.)
+코드·문서 커밋 `b7a7b50` → `origin/main` 푸시 → Vercel 프로덕션
+`dpl_G7NuT1G8zxn7xr7nSGjcJ3rA9hxs` (`the-unitas-global-mzscqhrnh`) **READY**.
+
+`https://www.theunitas.global` 실측(2026-09-14):
+
+```
+/                사람 UA     -> 307  gate=seal  loc=/en/gateway
+/                Googlebot   -> 200  gate=pass
+/sovereign       사람 UA     -> 404
+/?diag=1         사람 UA     -> 307  gate=seal  loc=/en/gateway?diag=1
+```
+
+**`?diag=1`은 퍼널을 열지 않는다** — 무자격자는 플래그를 붙여도 봉인된다. 계측기는 게이트
+너머에서 서버 창립자 확인을 한 번 더 통과해야 렌더된다.
+
+배포된 워커 본문 실측(`/sw.js`, 4084 bytes):
+
+| 항목 | 값 |
+|---|---|
+| fetch 핸들러 존재 | **True** (설치 신호 유지) |
+| `event.respondWith(` 존재 | **True** (빈 핸들러 아님) |
+| `_next/static/` 우회 | **True** |
+| 캐시 쓰기 API | **False** |
+
+**라이브 `gitCommit = b7a7b509855b5ab29bce70be15b7ff396c06aab4` = 로컬 HEAD 일치.**
 
 ---
 
