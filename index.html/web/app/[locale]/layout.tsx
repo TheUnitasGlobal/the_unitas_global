@@ -13,6 +13,7 @@ import { ComingSoonCinema } from '@/components/ComingSoonCinema';
 import { PwaInstallHost } from '@/components/pwa/PwaInstallHost';
 import { InAppBrowserEscape } from '@/components/pwa/InAppBrowserEscape';
 import { SovereignDebugPanel } from '@/components/sovereign/SovereignDebugPanel';
+import { RenderDiagnosticsHost } from '@/components/system/RenderDiagnosticsHost';
 import { ExitGuard } from '@/components/interaction/ExitGuard';
 import { SiteLinkModalHost } from '@/components/layout/SiteLinkModalHost';
 import { MailHandleClaimer } from '@/components/auth/MailHandleClaimer';
@@ -175,6 +176,12 @@ export default async function LocaleLayout({
         {/* Founder-only console (renders nothing unless the server verifies). */}
         <SovereignShield zone="sovereign-debug">
           <SovereignDebugPanel />
+        </SovereignShield>
+        {/* REV-26 M1: the real-device render probe. Renders nothing, and
+            imports nothing, unless the URL carries `?diag=1` AND the server
+            verifies the founder -- so a visitor never downloads it. */}
+        <SovereignShield zone="render-diagnostics">
+          <RenderDiagnosticsHost />
         </SovereignShield>
         <noscript>
           {/* Fail-closed when JS is disabled: the client curtain can't mount,

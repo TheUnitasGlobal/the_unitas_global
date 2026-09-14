@@ -66,14 +66,30 @@ async function openFromFooter(page, group, slug) {
 
 async function closeWithEscape(page) {
   await page.keyboard.press('Escape');
-  await expect(modalTitle(page)).toHaveCount(0, { timeout: 5_000 });
+  // REV-26: this is a SYNCHRONISATION timeout, not a performance budget, and
+  // 5s was not one on every engine. The render probe measured this harness's
+  // WebKit rasterising the released page at ~555ms per frame (34.7x its own
+  // floor, GPU-less), so five seconds buys about NINE frames there -- Escape ->
+  // React state -> unmount does not reliably fit. The assertion is unchanged;
+  // only the patience is. On a real device this resolves in one frame.
+  await expect(modalTitle(page)).toHaveCount(0, { timeout: 20_000 });
   await page.waitForTimeout(250);
 }
 
-// Headless WebKit renders the home's WebGL layers in software: rAF frames
-// take 350-700ms, so every Playwright "stable" check crawls. Triple budget.
+// Headless WebKit renders this page in software: rAF frames take 350-700ms, so
+// every Playwright actionability check crawls. An earlier revision guessed at
+// that range and tripled the budget; REV-26's render probe now MEASURES it --
+// `page 555ms vs floor 16ms (34.69x)` on this harness -- and one test here
+// walks all twelve links, opening and closing a modal each time. Twelve
+// open/close cycles at ~0.5s a frame does not fit in three minutes once the
+// Escape wait is allowed the time that engine actually needs (REV-26 raised it
+// from 5s, which was about nine frames there, to 20s).
+//
+// This is patience for a slow HARNESS, not tolerance for a slow PRODUCT: every
+// assertion in the file is unchanged, and on a real device each of these steps
+// resolves in one frame.
 test.beforeEach(async ({ browserName }) => {
-  test.slow(browserName === 'webkit', 'headless WebKit software WebGL');
+  if (browserName === 'webkit') test.setTimeout(360_000);
 });
 
 test.describe('REV-21 §6 footer links', () => {
@@ -131,8 +147,13 @@ test.describe('REV-21 §6 footer links', () => {
     const body = article.locator('[data-site-article-body]');
     const top0 = await body.evaluate((el) => el.scrollTop);
     await article.locator('[data-site-toc] button').last().click();
-    await page.waitForTimeout(700);
-    expect(await body.evaluate((el) => el.scrollTop)).toBeGreaterThan(top0);
+    // POLLED, not a fixed 700ms wait. A scroll is animated, and on this
+    // harness's WebKit a frame costs ~555ms -- 700ms is barely one. The claim
+    // is the same (the index scrolls the bounded body); it is just allowed to
+    // arrive at the engine's own pace.
+    await expect
+      .poll(async () => body.evaluate((el) => el.scrollTop), { timeout: 20_000 })
+      .toBeGreaterThan(top0);
     expect(page.url()).toBe(before);
     await closeWithEscape(page);
   });
@@ -214,57 +235,70 @@ test.describe('REV-21 §6 footer links', () => {
     // above). Blocking workers is what puts the chunk hold back in control.
     test.use({ serviceWorkers: 'block' });
 
-    test('a footer link clicked BEFORE hydration is captured by the head bootstrap and still opens the modal (F-2)', async ({ page, context }) => {
-      // Establish the founder session on the ordinary page...
-      await reachHome(page);
+    // REV-26 M2: one link per GROUP, not one link. The head bootstrap carries
+    // its own copy of the group/slug table (SITE_LINK_BOOTSTRAP embeds
+    // SLUGS_BY_GROUP), so a group that fell out of that table would still pass
+    // a single-link test while routing real visitors into the dark document.
+    for (const [group, slug, titleKey] of [
+      ['company', 'about', 'about.title'],
+      ['legal', 'terms', 'terms.title'],
+      ['support', 'contact', 'contact.title'],
+    ]) {
+      test(`a ${group}/${slug} link clicked BEFORE hydration is captured by the head bootstrap and still opens the modal (F-2)`, async ({ page, context }) => {
+        // Establish the founder session on the ordinary page...
+        await reachHome(page);
 
-      // ...then do the real work on a page that has never loaded anything, so
-      // every chunk is a cache miss and the hold actually holds.
-      const cold = await context.newPage();
-      await cold.addInitScript(() => {
-        try {
-          sessionStorage.setItem('unitas_sovereign_panel_collapsed', '1');
-          localStorage.setItem('unitas_locale_pref', 'ko');
-        } catch {
-          /* no-op */
-        }
+        // ...then do the real work on a page that has never loaded anything, so
+        // every chunk is a cache miss and the hold actually holds.
+        const cold = await context.newPage();
+        await cold.addInitScript(() => {
+          try {
+            sessionStorage.setItem('unitas_sovereign_panel_collapsed', '1');
+            localStorage.setItem('unitas_locale_pref', 'ko');
+          } catch {
+            /* no-op */
+          }
+        });
+        let holding = true;
+        await cold.route(/\/_next\/static\/.*\.js(\?.*)?$/, async (route) => {
+          if (holding) await new Promise((resolve) => setTimeout(resolve, 4_000));
+          await route.continue();
+        });
+        await cold.goto('/ko?splash=0&dev=skip', { waitUntil: 'commit' });
+
+        // The footer is server-rendered, so it is there long before React is.
+        await cold.waitForFunction(() => document.querySelectorAll('a[data-site-link]').length > 0, null, { timeout: 15_000 });
+        const captured = await cold.evaluate(
+          ([g, sl]) => {
+            const a = document.querySelector(`a[data-site-link="${g}/${sl}"]`);
+            if (!a) return { ok: false, why: `no ${g}/${sl} link in the server-rendered footer` };
+            const live = Boolean(window.__unitasSiteLinkLive);
+            a.click();
+            let mirrored = null;
+            try {
+              mirrored = sessionStorage.getItem('unitas.sitePage.open.v1');
+            } catch {
+              /* no-op */
+            }
+            return { ok: true, live, parked: window.__unitasPendingSitePage || null, mirrored };
+          },
+          [group, slug],
+        );
+
+        expect(captured.ok, captured.why).toBe(true);
+        expect(captured.live, 'the window under test is BEFORE hydration -- if React is already live the test proves nothing').toBe(false);
+        expect(captured.parked, 'the head bootstrap must park the request instead of letting the anchor navigate').toEqual({ group, slug });
+        expect(captured.mirrored, 'and mirror it to sessionStorage (F-7)').toBe(JSON.stringify({ group, slug }));
+
+        // Let React arrive and consume what the bootstrap parked.
+        holding = false;
+        await expect(modalTitle(cold)).toBeVisible({ timeout: 30_000 });
+        await expect(modalTitle(cold)).toHaveText(KO[titleKey]);
+        expect(cold.url(), 'the visitor never left the home document').toMatch(/\/ko(\?.*)?$/);
+        expect(await cold.locator('html').getAttribute('data-unitas-surface')).toBe('quantum-white');
+        await expect(cold.locator('#exit-guard-title')).toHaveCount(0);
+        await cold.close();
       });
-      let holding = true;
-      await cold.route(/\/_next\/static\/.*\.js(\?.*)?$/, async (route) => {
-        if (holding) await new Promise((resolve) => setTimeout(resolve, 4_000));
-        await route.continue();
-      });
-      await cold.goto('/ko?splash=0&dev=skip', { waitUntil: 'commit' });
-
-      // The footer is server-rendered, so it is there long before React is.
-      await cold.waitForFunction(() => document.querySelectorAll('a[data-site-link]').length > 0, null, { timeout: 15_000 });
-      const captured = await cold.evaluate(() => {
-        const a = document.querySelector('a[data-site-link="legal/terms"]');
-        if (!a) return { ok: false, why: 'no legal/terms link in the server-rendered footer' };
-        const live = Boolean(window.__unitasSiteLinkLive);
-        a.click();
-        let mirrored = null;
-        try {
-          mirrored = sessionStorage.getItem('unitas.sitePage.open.v1');
-        } catch {
-          /* no-op */
-        }
-        return { ok: true, live, parked: window.__unitasPendingSitePage || null, mirrored };
-      });
-
-      expect(captured.ok, captured.why).toBe(true);
-      expect(captured.live, 'the window under test is BEFORE hydration -- if React is already live the test proves nothing').toBe(false);
-      expect(captured.parked, 'the head bootstrap must park the request instead of letting the anchor navigate').toEqual({ group: 'legal', slug: 'terms' });
-      expect(captured.mirrored, 'and mirror it to sessionStorage (F-7)').toBe(JSON.stringify({ group: 'legal', slug: 'terms' }));
-
-      // Let React arrive and consume what the bootstrap parked.
-      holding = false;
-      await expect(modalTitle(cold)).toBeVisible({ timeout: 30_000 });
-      await expect(modalTitle(cold)).toHaveText(KO['terms.title']);
-      expect(cold.url(), 'the visitor never left the home document').toMatch(/\/ko(\?.*)?$/);
-      expect(await cold.locator('html').getAttribute('data-unitas-surface')).toBe('quantum-white');
-      await expect(cold.locator('#exit-guard-title')).toHaveCount(0);
-      await cold.close();
-    });
+    }
   });
 });
