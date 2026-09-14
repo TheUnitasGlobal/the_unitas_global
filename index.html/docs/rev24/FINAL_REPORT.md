@@ -189,7 +189,7 @@ U-AI 결과에서 `U-COIN` / `코인` / `Micro-Burn` / `Deep Insight · The VOID
 
 | 항목 | 값 |
 |---|---|
-| 코드 커밋 | `3f8cbe0` |
+| 코드 커밋 | `c17950e` |
 | 보고서 커밋 | (본 문서 커밋) |
 | 배포 | Vercel 프로덕션 (`the-unitas-global-ou-e`) |
 | 도메인 | https://www.theunitas.global |
