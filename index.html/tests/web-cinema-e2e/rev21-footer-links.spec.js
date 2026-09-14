@@ -179,33 +179,92 @@ test.describe('REV-21 §6 footer links', () => {
     expect(page.url()).toBe(beforeKo);
   });
 
-  test('a footer link clicked BEFORE hydration is captured by the head bootstrap and still opens the modal (F-2)', async ({ page }) => {
-    await reachHome(page);
-    // Hold every JS chunk back so the released home paints (R-1 pre-stamp) long before React hydrates.
-    let holding = true;
-    await page.route(/\/_next\/static\/.*\.js(\?.*)?$/, async (route) => {
-      if (holding) await new Promise((resolve) => setTimeout(resolve, 3_000));
-      await route.continue();
+  // REV-25 follow-up (measured 2026-09-14). This test SKIPPED on all three
+  // engines, every run, since it was written -- and a skip is an unmeasured
+  // claim. It held every `_next/static/*.js` chunk for three seconds and then
+  // called `page.reload()`, but on a reload those chunks never reach
+  // `page.route` at all:
+  //
+  //   as the spec ran      chunk requests seen by page.route: 0
+  //                        service worker controlling the page: TRUE
+  //   with SW blocked      chunk requests seen by page.route: 26  (held)
+  //                        but `__unitasSiteLinkLive` was STILL true at click
+  //                        time -- Next's immutable chunks come back from the
+  //                        HTTP cache, and a cache hit is not routable either.
+  //
+  // So React was always already live and the test always stepped aside.
+  //
+  // A FIRST LOAD in a page that has never run is a different thing: nothing is
+  // cached for it, the route holds every chunk, and the pre-hydration window is
+  // real and long. Measured on this build, with the founder cookies already in
+  // the context and the chunks held for four seconds:
+  //
+  //     261ms  footer=12  live=false     <- the footer is in the SSR HTML
+  //    ...
+  //   4164ms  footer=12  live=false     <- ~3.9s of genuine pre-hydration
+  //   4476ms  footer=12  live=true      <- React takes over
+  //
+  // and a click inside that window parks `{group:'legal',slug:'terms'}` in
+  // `__unitasPendingSitePage`, mirrors it to sessionStorage, and once React
+  // arrives the modal opens on `data-site-page="terms"` with the URL unchanged.
+  // That is the whole F-2 contract, and it now runs instead of skipping.
+  test.describe('F-2 pre-hydration capture', () => {
+    // The PWA service worker serves `_next/static` from its own cache, and a
+    // worker-mediated request is outside `page.route` entirely (measured
+    // above). Blocking workers is what puts the chunk hold back in control.
+    test.use({ serviceWorkers: 'block' });
+
+    test('a footer link clicked BEFORE hydration is captured by the head bootstrap and still opens the modal (F-2)', async ({ page, context }) => {
+      // Establish the founder session on the ordinary page...
+      await reachHome(page);
+
+      // ...then do the real work on a page that has never loaded anything, so
+      // every chunk is a cache miss and the hold actually holds.
+      const cold = await context.newPage();
+      await cold.addInitScript(() => {
+        try {
+          sessionStorage.setItem('unitas_sovereign_panel_collapsed', '1');
+          localStorage.setItem('unitas_locale_pref', 'ko');
+        } catch {
+          /* no-op */
+        }
+      });
+      let holding = true;
+      await cold.route(/\/_next\/static\/.*\.js(\?.*)?$/, async (route) => {
+        if (holding) await new Promise((resolve) => setTimeout(resolve, 4_000));
+        await route.continue();
+      });
+      await cold.goto('/ko?splash=0&dev=skip', { waitUntil: 'commit' });
+
+      // The footer is server-rendered, so it is there long before React is.
+      await cold.waitForFunction(() => document.querySelectorAll('a[data-site-link]').length > 0, null, { timeout: 15_000 });
+      const captured = await cold.evaluate(() => {
+        const a = document.querySelector('a[data-site-link="legal/terms"]');
+        if (!a) return { ok: false, why: 'no legal/terms link in the server-rendered footer' };
+        const live = Boolean(window.__unitasSiteLinkLive);
+        a.click();
+        let mirrored = null;
+        try {
+          mirrored = sessionStorage.getItem('unitas.sitePage.open.v1');
+        } catch {
+          /* no-op */
+        }
+        return { ok: true, live, parked: window.__unitasPendingSitePage || null, mirrored };
+      });
+
+      expect(captured.ok, captured.why).toBe(true);
+      expect(captured.live, 'the window under test is BEFORE hydration -- if React is already live the test proves nothing').toBe(false);
+      expect(captured.parked, 'the head bootstrap must park the request instead of letting the anchor navigate').toEqual({ group: 'legal', slug: 'terms' });
+      expect(captured.mirrored, 'and mirror it to sessionStorage (F-7)').toBe(JSON.stringify({ group: 'legal', slug: 'terms' }));
+
+      // Let React arrive and consume what the bootstrap parked.
+      holding = false;
+      await expect(modalTitle(cold)).toBeVisible({ timeout: 30_000 });
+      await expect(modalTitle(cold)).toHaveText(KO['terms.title']);
+      expect(cold.url(), 'the visitor never left the home document').toMatch(/\/ko(\?.*)?$/);
+      expect(await cold.locator('html').getAttribute('data-unitas-surface')).toBe('quantum-white');
+      await expect(cold.locator('#exit-guard-title')).toHaveCount(0);
+      await cold.close();
     });
-    await page.reload();
-    const link = footerLink(page, 'legal', 'terms');
-    let preHydrationClick = false;
-    try {
-      await link.waitFor({ state: 'attached', timeout: 2_500 });
-      const live = await page.evaluate(() => Boolean(window.__unitasSiteLinkLive));
-      if (!live) {
-        await link.evaluate((el) => el.click());
-        preHydrationClick = await page.evaluate(() => Boolean(window.__unitasPendingSitePage));
-      }
-    } catch {
-      preHydrationClick = false;
-    }
-    holding = false;
-    test.skip(!preHydrationClick, 'the released home did not expose the footer before hydration in this run');
-    await expect(modalTitle(page)).toBeVisible({ timeout: 20_000 });
-    await expect(modalTitle(page)).toHaveText(KO['terms.title']);
-    expect(page.url()).toMatch(/\/ko(\?.*)?$/);
-    expect(await page.locator('html').getAttribute('data-unitas-surface')).toBe('quantum-white');
-    await expect(page.locator('#exit-guard-title')).toHaveCount(0);
   });
 });

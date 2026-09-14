@@ -260,4 +260,58 @@ test.describe('REV-25 M2 -- responsive typography and pixel alignment', () => {
     const flattened = nav.controls.filter((c) => c.h < 24);
     expect(flattened, 'no control may be shorter than a finger (WCAG 2.5.8 AA: 24px)').toEqual([]);
   });
+
+  test('every nav target conforms to WCAG 2.5.8 AA, spacing exception included', async ({ page, isMobile }, testInfo) => {
+    test.skip(!isMobile, 'this is a touch-viewport rule');
+    await reachReleasedHome(page);
+    // REV-25 follow-up. The first pass of this file reported the coin controls
+    // as a width failure (`Charge Coins` paints 12x24) and filed it as a
+    // founder design decision. That was HALF the rule. WCAG 2.5.8 AA lets an
+    // undersized target pass when a 24px-diameter circle centred on it does
+    // not intersect any other target's box, nor another undersized target's
+    // circle -- and measured on this build it does not, on either phone.
+    // The nav conforms. This test is the guard, so a future layout that
+    // crowds those controls together fails here instead of shipping.
+    const report = await page.evaluate(() => {
+      const targets = [...document.querySelectorAll('#unitas-nav button, #unitas-nav a')]
+        .filter((el) => {
+          const r = el.getBoundingClientRect();
+          const cs = getComputedStyle(el);
+          return r.width > 0 && r.height > 0 && cs.visibility !== 'hidden' && cs.display !== 'none';
+        })
+        .map((el) => {
+          const r = el.getBoundingClientRect();
+          return {
+            label: (el.getAttribute('aria-label') || el.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 22),
+            x: r.left,
+            y: r.top,
+            w: r.width,
+            h: r.height,
+            cx: r.left + r.width / 2,
+            cy: r.top + r.height / 2,
+            under: r.width < 24 || r.height < 24,
+          };
+        });
+      const boxMeetsCircle = (b, c) => {
+        const nx = Math.max(b.x, Math.min(c.cx, b.x + b.w));
+        const ny = Math.max(b.y, Math.min(c.cy, b.y + b.h));
+        return Math.hypot(nx - c.cx, ny - c.cy) < 12;
+      };
+      const violations = [];
+      for (const t of targets) {
+        if (!t.under) continue;
+        for (const o of targets) {
+          if (o === t) continue;
+          if (boxMeetsCircle(o, t)) violations.push(`${t.label} (${t.w.toFixed(1)}x${t.h.toFixed(1)}) circle reaches ${o.label}`);
+          else if (o.under && Math.hypot(o.cx - t.cx, o.cy - t.cy) < 24) violations.push(`${t.label} and ${o.label} circles intersect`);
+        }
+      }
+      return { targets: targets.length, undersized: targets.filter((t) => t.under).map((t) => `${t.label} ${t.w.toFixed(1)}x${t.h.toFixed(1)}`), violations };
+    });
+    console.log(
+      `[REV-25 M2][${testInfo.project.name}] WCAG 2.5.8: ${report.targets} nav targets, ${report.undersized.length} under 24x24 (${report.undersized.join(' | ') || 'none'}), ${report.violations.length} violation(s)`,
+    );
+    expect(report.targets, 'the nav must expose targets at all').toBeGreaterThan(0);
+    expect(report.violations, 'WCAG 2.5.8 AA: an undersized target needs 24px of clearance').toEqual([]);
+  });
 });
