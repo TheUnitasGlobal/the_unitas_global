@@ -145,9 +145,30 @@ DOM`. 디스커버리 캐러셀이 **자동 회전**하므로 제목은 움직�
 저장소가 캐러셀 요소에 이미 쓰는 방식(`evaluate` 디스패치)으로 바꿨다. 2단계 계약도
 `data-selected` 확인도 그대로다.
 
-## §6.1 배포
+## §6.1 배포 및 라이브 실측
 
-(배포 직후 실측으로 채운다.)
+커밋 `1510881` → `origin/main` 푸시 → Vercel 프로덕션
+`dpl_5q4F1gL6JunmNkHUJjtqxWcsbPFA` (`the-unitas-global-bulay6t9b`) **READY**.
+
+```
+/                사람 UA      -> 307  gate=seal  loc=/en/gateway
+/                Googlebot    -> 200  gate=pass
+/sovereign       사람 UA      -> 404
+/?diag=1         iOS Safari UA-> 307  gate=seal  loc=/en/gateway?diag=1
+```
+
+`?diag=1`은 **iOS UA로도 퍼널을 열지 않는다** — 창립자 세션이 먼저다.
+
+라이브 매니페스트 실측(PWA 판정기가 요구하는 4개 필드):
+
+| 필드 | 값 |
+|---|---|
+| `name` | UNITAS |
+| `icons` | 3 |
+| `start_url` | `/` |
+| `display` | standalone |
+
+**라이브 `gitCommit = 1510881843aec2199b4fbd119264e490a654d03b` = 로컬 HEAD 일치.**
 
 ---
 
