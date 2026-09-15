@@ -18,7 +18,7 @@ import { Modal } from '@/components/ui/Modal';
 import { TwoStepTitle } from '@/components/uai/stream/StreamCards';
 import { useDragScroll } from '@/components/ui/useDragScroll';
 import { centeredScrollLeft } from '@/lib/interaction/railDrag';
-import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { OmniOpen } from '@/components/home/OmniOpen';
 import { qidAnchor, textAnchor } from '@/lib/uai/deeperAnchor';
 import { captureScroll, reserveHeight } from '@/lib/ui/scrollAnchor';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
@@ -94,10 +94,11 @@ function storiesOf(items: readonly HotNewsItem[], feed: AxisFeed, axis: HotNewsC
  *    story vertically; a story -- on the card or in the popup -- opens its
  *    own detail popup with the summary, the source and the direct shortcuts.
  *    The horizontal rail of individual headline boxes is retired.
- *  - M2.4 DIRECT ONLY: the collapsed "더 깊이 탐색 · <axis>" toggle is gone.
- *    A direct-only Explore Deeper block (no lens tiles) sits in flow under
- *    the card, in the main popup and in the story popup, so the reader
- *    reaches everything by scrolling.
+ *  - M2.4 / REV-31 DIRECT ONLY: the collapsed toggle is gone, and so is
+ *    the lens grid behind it. The omni-open pair ("다른출처에서열기"
+ *    above "다른플랫폼에서열기") sits in flow under the card, in the
+ *    main popup and in the story popup, so the reader reaches everything
+ *    by scrolling.
  *
  * Codex ch.1 (한계 비용 0원): an unattended advance never spends a request --
  * the clock walks the axes the day's featured board already covers; the
@@ -500,7 +501,7 @@ export function HotIssueNewsList() {
       </div>
 
       {/* M2.4: direct only, in flow, nothing to unfold. */}
-      <ExploreDeeper anchor={qidAnchor(AXIS_QID[activeAxis], axisLabel, lang)} host="newsRail" directOnly className="mt-3" />
+      <OmniOpen anchor={qidAnchor(AXIS_QID[activeAxis], axisLabel, lang)} host="newsRail" className="mt-3" />
 
       <NewsAxisModal
         axis={deepAxis}
@@ -630,7 +631,7 @@ function NewsAxisModal({
 
           <p className="text-[12px] text-gray-500">{t('source')}</p>
 
-          <ExploreDeeper anchor={qidAnchor(AXIS_QID[axis], axisLabel, lang)} host="newsRail" directOnly />
+          <OmniOpen anchor={qidAnchor(AXIS_QID[axis], axisLabel, lang)} host="newsRail" />
         </div>
       )}
     </Modal>
@@ -676,7 +677,7 @@ function NewsStoryModal({ story, onClose }: { story: HotNewsItem | null; onClose
             {t('openOriginal')}
             {story.domain && <span className="normal-case tracking-normal text-gray-400">· {story.domain}</span>}
           </a>
-          <ExploreDeeper anchor={textAnchor(story.title, lang)} host="newsRail" directOnly bridge={false} />
+          <OmniOpen anchor={textAnchor(story.title, lang)} host="newsRail" />
         </div>
       )}
     </Modal>

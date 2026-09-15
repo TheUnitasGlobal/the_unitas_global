@@ -5,7 +5,7 @@ import { AXIS_QID, HOT_NEWS_CATEGORIES } from '@/lib/live/hotNews';
 import { DEFAULT_PLACE } from '@/lib/live/useLiveWeather';
 import { SLOT_QID } from '@/lib/live/discoverySlots';
 
-// REV-21 SPEC.md §12.3 (h) -- the QID dictionaries every Explore Deeper host
+// REV-21 SPEC.md §12.3 (h) -- the QID dictionaries every omni-open host
 // anchors on. Each id was verified against Wikidata on 2026-09-12; these
 // tests pin shape and coverage so a theme, axis or locale added later
 // cannot ship without its anchor.

@@ -30,7 +30,7 @@ export interface ProductFamily {
   key: ProductFamilyKey;
   icon: LucideIcon;
   color: string;
-  /** The Wikidata item the family is ABOUT (Explore Deeper / outbound). */
+  /** The Wikidata item the family is ABOUT (omni-open / outbound). */
   qid: string;
   /** English Wikipedia category titles (without the `Category:` prefix) for
    *  a launch year. Several families draw on more than one tree. */

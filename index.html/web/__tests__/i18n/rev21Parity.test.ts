@@ -34,24 +34,17 @@ const icu = (s: string) => (s.match(/\{[^}]*\}/g) ?? []).slice().sort().join('|'
 
 /** Keys whose English value is a proper noun / number that legitimately stays identical. */
 const IDENTICAL_ALLOWED = new Set<string>([
-  // REV-21 §12.5 brand-like lens names kept verbatim by several locales.
-  'deeper.themes.omniPress.title',
-  'deeper.themes.terraPulse.title',
-  // Latin-alphabet cognates identical in French / Dutch / Italian / Filipino.
-  'deeper.viaSource',
-  'deeper.sourcesLabel',
-  'deeper.attributionLabel',
-  'deeper.themes.omniWave.f2',
-  'deeper.themes.evolutionArc.f6',
-  'deeper.themes.dataTwin.f3',
-  'deeper.themes.dataTwin.f5',
-  'deeper.themes.causalHack.f1',
-  'deeper.themes.valueCycle.f5',
-  'deeper.themes.zeroPoint.f2',
-  'deeper.themes.ventureSignal.f2',
-  'deeper.themes.ventureSignal.f4',
-  'deeper.themes.marketMoat.f4',
-  'deeper.themes.terraPulse.f6',
+  // REV-31 M1: the lens namespace is gone, so the set that remains is the
+  // brand name plus the Latin/loanword cognates that are genuinely spelled
+  // the same in English and the target language. Each was checked by hand
+  // against the locale's own draft -- none of these is an untranslated
+  // English fallback.
+  'tower.scopeProduct', // "UNITAS" -- the brand, identical in all 20 locales.
+  'stream.tier.nexus', // Latin loanword kept verbatim by every Latin-script locale.
+  'stream.tier.orbit', // id: "Orbit" is the Indonesian word.
+  'stream.kinds.graph', // fr: "Relations" is the French word.
+  'tower.suggestLabel', // fr: "Suggestions" is the French word.
+  'slots.facts.moduleCount', // fr/nl: "modules" is the correct plural in both.
 ]);
 
 describe('REV-21 i18n', () => {

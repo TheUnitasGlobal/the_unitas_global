@@ -37,7 +37,7 @@ const FACT_LABELS = ['views30', 'trend', 'window', 'passage', 'editions'] as con
  *  test fails loudly if a deleted kind is ever reintroduced by accident. */
 const FOUNDER_ELEVEN = [
   'sources',
-  'deeper',
+  'omni',
   'concepts',
   'sites',
   'news',
@@ -96,8 +96,8 @@ describe('stream kind parity (REV-23 eleven-kind diet)', () => {
     expect(streamRecipe(0)).toEqual(['sources']);
   });
 
-  it('page 1 always carries the single outbound surface, Explore Deeper', () => {
-    expect(streamRecipe(1)).toContain('deeper');
+  it('page 1 always carries the single outbound surface, the omni-open pair', () => {
+    expect(streamRecipe(1)).toContain('omni');
   });
 
   it.each(routing.locales)('%s labels every content kind and every fact', (locale) => {

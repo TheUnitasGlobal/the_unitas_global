@@ -1272,7 +1272,7 @@
         {
           "heading": "Mga shortcut at ranking",
           "paragraphs": [
-            "Sa ibaba ng search bar, binubuksan ng hanay ng mga shortcut at ng mga hanay ng ranking ang mga detalyadong view nang hindi umaalis sa pahina. Sa ilalim ng karamihan sa mga ito ay makikita mo ang Tuklasin Nang Mas Malalim, isang hanay ng mga lente na kumukuha ng live na datos tungkol sa paksa mula sa mga pampublikong pinagmulan."
+            "Sa ibaba ng search bar, binubuksan ng hanay ng mga shortcut at ng mga hanay ng ranking ang mga detalyadong view nang hindi umaalis sa pahina. Sa ilalim ng karamihan sa mga ito ay may dalawang hanay, Buksan sa ibang pinagmulan at Buksan sa ibang platform, para mabuksan agad ang parehong paksa sa isang pampublikong pinagmulan ng kaalaman o sa ibang platform."
           ]
         },
         {
@@ -2194,13 +2194,6 @@
         }
       }
     },
-    "discovery": {
-      "label": "Galugarin pa",
-      "wikipedia": "Wikipedia",
-      "news": "Balita",
-      "youtube": "YouTube",
-      "search": "Hanapin"
-    },
     "mail": {
       "label": "Username ng UNITAS Mail (opsyonal)",
       "placeholder": "yourname",
@@ -2391,188 +2384,13 @@
       "swipeHint": "Mag-swipe pakaliwa o pakanan para magpalit ng tema"
     },
     "deeper": {
-      "label": "Tuklasin nang mas malalim",
-      "anchorAria": "Malalimang tinutuklas ang {term}",
-      "sourcesLabel": "Mga pinagmulan",
-      "outboundLabel": "Buksan sa ibang lugar",
+      "sourcesLabel": "Buksan sa ibang pinagmulan",
+      "outboundLabel": "Buksan sa ibang platform",
       "scope": {
         "global": "Buong mundo",
         "country": "Iyong bansa"
       },
-      "more": "Mag-load pa",
-      "end": "Narating mo na ang dulo ng lens na ito.",
-      "retry": "Subukang muli",
-      "retryHint": "Hindi na-load ang pahinang iyon.",
-      "loading": "Naglo-load…",
-      "chooseMeaning": "Aling kahulugan ang ibig mong sabihin?",
-      "noAnchor": "Wala pang nakaugnay na entidad — beripikahin ang paksa sa mga pinagmulan sa ibaba.",
-      "allThemes": "Lahat ng lens",
-      "moreThemes": "+{count} pa",
-      "reAnchor": "Ito na lang ang tuklasin",
-      "loginHint": "maaaring hilinging mag-sign in",
-      "licenseLabel": "Lisensya",
-      "authorLabel": "May-akda",
-      "viaSource": "sa pamamagitan ng {source}",
-      "emptyPage": "Wala pang maipapakita para sa lens na ito.",
-      "closeTheme": "Isara ang lens",
-      "themeAria": "Buksan ang lens na {theme}",
-      "wikiLink": "Artikulo sa Wikipedia",
-      "wikidataLink": "Item sa Wikidata",
-      "attributionLabel": "Pagkilala",
-      "themes": {
-        "dataTwin": {
-          "title": "Kambal na Datos ng Lahat",
-          "hook": "Kung umiral ito bilang datos, ilang katangian ang kakailanganin para muli itong buuin?",
-          "f1": "Nakasaad na mga katangian",
-          "f2": "Mga edisyon sa wika",
-          "f3": "Paglalarawan",
-          "f4": "Pahina ng katangian",
-          "f5": "Larawan",
-          "f6": "Mga panlabas na identifier"
-        },
-        "causalHack": {
-          "title": "Hack ng Sanhi at Bunga",
-          "hook": "Ano ang nagdulot nito, at ano ang idinudulot nito — hanggang sa sanhi ng sanhi?",
-          "f1": "Mga sanhi",
-          "f2": "Mga bunga",
-          "f3": "Direktang sanhi",
-          "f4": "Mga nakakatulong na salik",
-          "f5": "Mga pangunahing klase at kabuuan",
-          "f6": "Mga bahagi at aspekto"
-        },
-        "valueCycle": {
-          "title": "Siklo ng Halaga Lampas sa Kakulangan",
-          "hook": "Saan nagmumula ang kaalamang ito, at saan napupunta ang halagang ibinibigay nito nang libre?",
-          "f1": "Dumadaloy mula sa",
-          "f2": "Dumadaloy patungo sa",
-          "f3": "Mga papasok na link",
-          "f4": "Mga palabas na link",
-          "f5": "Pahina",
-          "f6": "Saklaw"
-        },
-        "omniWave": {
-          "title": "Omni-Wave ng Atensyon",
-          "hook": "Bumibilis ba ang atensyon ng mundo patungo rito, o lumalamig na?",
-          "f1": "Mga view sa 30 araw",
-          "f2": "Trend",
-          "f3": "Pinakamataas na araw",
-          "f4": "Buong mundo (Ingles)",
-          "f5": "Iyong wika",
-          "f6": "Panahon"
-        },
-        "zeroPoint": {
-          "title": "Katotohanang Mula sa Zero",
-          "hook": "Ang pinakapayak na katotohanang pinagkakasunduan ng dalawampung wika — at ang ugat mismo ng salita.",
-          "f1": "Mga pangalan sa dalawampung wika",
-          "f2": "Paglalarawan",
-          "f3": "Kilala rin bilang",
-          "f4": "Mga kahulugan sa iyong wika",
-          "f5": "Etimolohiya",
-          "f6": "Mga kahulugan sa Ingles"
-        },
-        "hologramField": {
-          "title": "Larangan ng Hologram",
-          "hook": "Makita ito nang walang salita — sino ang kumuha, at sa ilalim ng anong karapatan?",
-          "f1": "Mula sa artikulo",
-          "f2": "Lisensya",
-          "f3": "May-akda",
-          "f4": "Resolusyon",
-          "f5": "Higit pang media",
-          "f6": "Kategorya"
-        },
-        "evolutionArc": {
-          "title": "Arko ng Ebolusyon",
-          "hook": "Kailan sumabog ang pananaliksik tungkol dito, at saan ito bumibilis ngayon?",
-          "f1": "Mga akda bawat taon",
-          "f2": "Pinakamaraming sipi",
-          "f3": "Pinakabago",
-          "f4": "Kabuuang akda",
-          "f5": "Pinakamataas na taon",
-          "f6": "Open access"
-        },
-        "ventureSignal": {
-          "title": "Hudyat ng Venture",
-          "hook": "Sa ngayon, sino ang naglulunsad ng isang bagay tungkol dito?",
-          "f1": "Mga paglulunsad",
-          "f2": "Mga talakayan",
-          "f3": "Blue-ocean index",
-          "f4": "Mga puntos",
-          "f5": "Mga komento",
-          "f6": "Na-post"
-        },
-        "marketMoat": {
-          "title": "Kuta ng Merkado",
-          "hook": "Sino na ang nakapagtayo ng pader, at aling bansa ang bukas pa rin?",
-          "f1": "Mga manlalaro sa larangang ito",
-          "f2": "Ayon sa bansa",
-          "f3": "Ekonomiya (GDP)",
-          "f4": "Populasyon",
-          "f5": "Populasyong online",
-          "f6": "Piniling bansa"
-        },
-        "timeFlux": {
-          "title": "Klima ng Time Flux",
-          "hook": "Gaano kaiba ang langit na ito sa parehong araw tatlumpung taon na ang nakalipas — at sa 2050?",
-          "f1": "Parehong araw, mga taon na ang nakalipas",
-          "f2": "Pinakamataas / pinakamababa",
-          "f3": "Pag-ulan",
-          "f4": "Parehong araw, inaasahan",
-          "f5": "Pagbabago kumpara ngayon",
-          "f6": "Mga modelo ng klima"
-        },
-        "fractalDim": {
-          "title": "Mga Dimensyong Fractal",
-          "hook": "Magkakapatid ng iisang uri — isang antas pataas, pagkatapos ay pababa muli.",
-          "f1": "Mga kategorya",
-          "f2": "Magkakapatid sa kategoryang ito",
-          "f3": "Mga kaugnay na pahina",
-          "f4": "Lalim",
-          "f5": "Pangunahing kategorya",
-          "f6": "Mga miyembro"
-        },
-        "chronosGate": {
-          "title": "Tarangkahan ng Chronos",
-          "hook": "Kailan, at sa kaninong mga kamay, nagbago ang kaalamang ito?",
-          "f1": "Unang isinulat",
-          "f2": "Unang may-akda",
-          "f3": "Mga kamakailang pag-edit",
-          "f4": "Mga pag-edit bawat linggo",
-          "f5": "Bahagi ng bot",
-          "f6": "Paglago mula nang isilang"
-        },
-        "omniPress": {
-          "title": "Omni Press",
-          "hook": "Paano tinatawag ito ngayon ng mga newsroom ng mundo — at ng iyong bansa?",
-          "f1": "Newsroom ng buong mundo",
-          "f2": "Newsroom ng iyong bansa",
-          "f3": "Tagapaglathala",
-          "f4": "Nalathala",
-          "f5": "Ahensya ng balita",
-          "f6": "Mga ulat"
-        },
-        "terraPulse": {
-          "title": "Terra Pulse",
-          "hook": "Sa ilalim ng langit na ito, ano ang pinagdaraanan ng Daigdig ngayon?",
-          "f1": "Mga likas na pangyayari sa malapit",
-          "f2": "Mga lindol sa loob ng 800 km",
-          "f3": "Daloy ng ilog",
-          "f4": "Taas ng alon",
-          "f5": "Mga babala sa panahon",
-          "f6": "Distansya"
-        },
-        "bigTechPulse": {
-          "title": "Pulso ng Omni-Tech",
-          "hook": "Buksan natin: ano ang pag-aari, ginagawa, at pinatatakbo ng organisasyong ito?",
-          "f1": "Industriya",
-          "f2": "Punong organisasyon",
-          "f3": "Mga subsidiary",
-          "f4": "Mga produkto",
-          "f5": "Mga tagapagtatag",
-          "f6": "Punong tagapagpaganap",
-          "scaleEmployees": "Mga empleyado",
-          "scaleRevenue": "Kita"
-        }
-      }
+      "loginHint": "maaaring hilinging mag-sign in"
     },
     "composer": {
       "omniKeyAria": "Mga aksyon sa paghahanap",
@@ -2611,8 +2429,8 @@
         "singularity": "Singularidad"
       },
       "kinds": {
-        "sources": "Live na sintesis ng web",
-        "deeper": "Suriin nang mas malalim",
+        "sources": "Mga pinagmulan",
+        "omni": "Mga pinagmulan at platform",
         "concepts": "Mga kaugnay na konsepto",
         "sites": "Mga kaugnay na site",
         "news": "Balita",

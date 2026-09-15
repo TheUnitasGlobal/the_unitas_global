@@ -10,7 +10,7 @@
  * founder named:
  *
  *   sources    웹 실시간 종합      concepts   연결된 개념
- *   deeper     다른 곳에서 탐색     sites      관련 사이트
+ *   omni       다른플랫폼에서열기  sites      관련 사이트
  *   derived    파생 저작           attention  관심의 파동
  *   community  커뮤니티            graph      관계망
  *   global     세계 각 판          news       뉴스
@@ -29,7 +29,7 @@ import type { SourceId } from '../sourceRegistry';
 /** The eleven content kinds (§M2.2) plus the four status kinds. */
 export type StreamCardKind =
   | 'sources'
-  | 'deeper'
+  | 'omni'
   | 'concepts'
   | 'sites'
   | 'news'
@@ -48,7 +48,7 @@ export type StreamCardKind =
 /** Every content kind the stream can render (status kinds excluded). */
 export const CONTENT_KINDS: readonly StreamCardKind[] = [
   'sources',
-  'deeper',
+  'omni',
   'concepts',
   'sites',
   'news',
@@ -147,13 +147,13 @@ export const WIKIMEDIA_PAGE_BUDGET = 2;
 export const STREAM_PAGE_CAP = 60;
 /** Soft pause every N pages -- '계속 탐색' must be tapped. */
 export const STREAM_SOFT_PAUSE_EVERY = 10;
-/** The Explore Deeper card is re-injected every N pages. */
-export const STREAM_DEEPER_EVERY = 6;
+/** The omni-open card is re-injected every N pages. */
+export const STREAM_OMNI_EVERY = 6;
 /** DOM budget: pages kept mounted (older pages become ghost placeholders). */
 export const STREAM_DOM_PAGES = 12;
 
 /**
- * The kinds page N carries before the Explore Deeper cadence is applied.
+ * The kinds page N carries before the omni-open cadence is applied.
  * Every pair is chosen so `wikimediaCost` stays within
  * `WIKIMEDIA_PAGE_BUDGET` -- see the unit test, which asserts it for every
  * page up to the cap rather than trusting this table by eye.
@@ -189,17 +189,17 @@ function basePageKinds(page: number): StreamCardKind[] {
 export function streamRecipe(page: number): StreamCardKind[] {
   if (page === 0) return ['sources'];
   const kinds = basePageKinds(page);
-  if (page % STREAM_DEEPER_EVERY === 0 && !kinds.includes('deeper')) kinds.push('deeper');
-  // Page 1 always carries the Explore Deeper block: it is the founder's
-  // "다른 곳에서 탐색", now the single outbound surface in the whole result.
-  if (page === 1) kinds.push('deeper');
+  if (page % STREAM_OMNI_EVERY === 0 && !kinds.includes('omni')) kinds.push('omni');
+  // Page 1 always carries the omni-open block: after REV-31 it is the
+  // single outbound surface in the whole result.
+  if (page === 1) kinds.push('omni');
   return kinds;
 }
 
 /** Which kinds are network-free (rendered from the surface report). */
 export const LOCAL_KINDS = new Set<StreamCardKind>([
   'sources',
-  'deeper',
+  'omni',
   'teaser',
   'end',
   'retry',

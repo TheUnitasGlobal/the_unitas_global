@@ -13,7 +13,7 @@ import {
 import { DEFAULT_PLACE } from '@/lib/live/useLiveWeather';
 import type { GeoPlace } from '@/lib/live/geoMatch';
 
-// REV-21 SPEC.md §12.2/§12.3 -- the anchor contract every Explore Deeper
+// REV-21 SPEC.md §12.2/§12.3 -- the anchor contract every omni-open
 // host builds, and the one place-resolution rule the country-scoped slots
 // share (searched place → selected country's capital → locale default).
 
@@ -69,7 +69,7 @@ describe('anchor builders', () => {
 
   it('rejects malformed QIDs and stamps data attributes for the host root', () => {
     expect(qidAnchor('not-a-qid', 'x', 'en').qid).toBeUndefined();
-    expect(anchorDataAttrs(null)).toEqual({ 'data-deeper-kind': 'none' });
-    expect(anchorDataAttrs(qidAnchor('Q349', 'Sport', 'en'))).toMatchObject({ 'data-deeper-kind': 'entity', 'data-deeper-qid': 'Q349', 'data-deeper-term': 'Sport' });
+    expect(anchorDataAttrs(null)).toEqual({ 'data-anchor-kind': 'none' });
+    expect(anchorDataAttrs(qidAnchor('Q349', 'Sport', 'en'))).toMatchObject({ 'data-anchor-kind': 'entity', 'data-anchor-qid': 'Q349', 'data-anchor-term': 'Sport' });
   });
 });

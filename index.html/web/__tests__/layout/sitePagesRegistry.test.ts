@@ -74,7 +74,9 @@ describe('registry-generated site sections', () => {
     expect(keys).toContain(SITE_PAGE_OPEN_STORAGE_KEY);
     expect(keys).toContain(LOCALE_SWITCH_MARKER_KEY);
     expect(keys).toContain('unitas.uai.stream.v1');
-    expect(keys).toContain('unitas.deeper.v1');
+    // REV-31: 'unitas.deeper.v1' was retired with the lens machinery that
+    // wrote it, so the privacy ledger must no longer advertise it.
+    expect(keys).not.toContain('unitas.deeper.v1');
     expect(keys).toContain('unitas.uai.suggest.v1');
     // the 2026-09-13 inventory: site-wide keys, not only the U-AI ones
     expect(keys).toContain('unitas_locale_pref');

@@ -1272,7 +1272,7 @@
         {
           "heading": "Pintasan dan peringkat",
           "paragraphs": [
-            "Di bawah bilah pencarian, deret pintasan dan deret peringkat membuka tampilan rinci tanpa meninggalkan halaman. Di bawah sebagian besar tampilan tersebut Anda akan menemukan Jelajahi Lebih Dalam, sekumpulan lensa yang menarik data langsung tentang subjek itu dari sumber publik."
+            "Di bawah bilah pencarian, deret pintasan dan deret peringkat membuka tampilan rinci tanpa meninggalkan halaman. Di bawah sebagian besar tampilan tersebut ada dua baris, Buka di sumber lain dan Buka di platform lain, sehingga Anda dapat langsung membuka subjek yang sama di sumber pengetahuan publik atau di platform lain."
           ]
         },
         {
@@ -2194,13 +2194,6 @@
         }
       }
     },
-    "discovery": {
-      "label": "Jelajahi lagi",
-      "wikipedia": "Wikipedia",
-      "news": "Berita",
-      "youtube": "YouTube",
-      "search": "Cari"
-    },
     "mail": {
       "label": "Handle email UNITAS (opsional)",
       "placeholder": "yourname",
@@ -2391,188 +2384,13 @@
       "swipeHint": "Geser ke kiri atau kanan untuk mengganti tema"
     },
     "deeper": {
-      "label": "Jelajahi lebih dalam",
-      "anchorAria": "Menjelajahi {term} secara mendalam",
-      "sourcesLabel": "Sumber",
-      "outboundLabel": "Buka di tempat lain",
+      "sourcesLabel": "Buka di sumber lain",
+      "outboundLabel": "Buka di platform lain",
       "scope": {
         "global": "Seluruh dunia",
         "country": "Negara Anda"
       },
-      "more": "Muat lebih banyak",
-      "end": "Anda telah mencapai ujung lensa ini.",
-      "retry": "Coba lagi",
-      "retryHint": "Halaman ini gagal dimuat.",
-      "loading": "Memuat…",
-      "chooseMeaning": "Makna mana yang Anda maksud?",
-      "noAnchor": "Belum ada entitas tertaut — periksa subjeknya di sumber-sumber di bawah.",
-      "allThemes": "Semua lensa",
-      "moreThemes": "+{count} lagi",
-      "reAnchor": "Jelajahi ini saja",
-      "loginHint": "mungkin meminta Anda masuk",
-      "licenseLabel": "Lisensi",
-      "authorLabel": "Pembuat",
-      "viaSource": "via {source}",
-      "emptyPage": "Belum ada yang bisa ditampilkan untuk lensa ini.",
-      "closeTheme": "Tutup lensa",
-      "themeAria": "Buka lensa {theme}",
-      "wikiLink": "Artikel Wikipedia",
-      "wikidataLink": "Butir Wikidata",
-      "attributionLabel": "Atribusi",
-      "themes": {
-        "dataTwin": {
-          "title": "Kembaran Data Segalanya",
-          "hook": "Jika ini ada sebagai data, berapa banyak properti yang dibutuhkan untuk membangunnya kembali?",
-          "f1": "Properti yang dinyatakan",
-          "f2": "Edisi bahasa",
-          "f3": "Deskripsi",
-          "f4": "Halaman properti",
-          "f5": "Gambar",
-          "f6": "Pengenal eksternal"
-        },
-        "causalHack": {
-          "title": "Peretasan Kausalitas",
-          "hook": "Apa yang menyebabkan ini, dan apa yang ditimbulkannya — hingga ke sebab dari sebabnya?",
-          "f1": "Penyebab",
-          "f2": "Akibat",
-          "f3": "Penyebab langsung",
-          "f4": "Faktor pendukung",
-          "f5": "Kelas induk dan keseluruhan",
-          "f6": "Bagian dan segi"
-        },
-        "valueCycle": {
-          "title": "Siklus Nilai Pasca-Kelangkaan",
-          "hook": "Dari mana pengetahuan ini mengalir masuk, dan ke mana perginya nilai yang ia berikan secara cuma-cuma?",
-          "f1": "Mengalir dari",
-          "f2": "Mengalir ke",
-          "f3": "Tautan masuk",
-          "f4": "Tautan keluar",
-          "f5": "Halaman",
-          "f6": "Cakupan"
-        },
-        "omniWave": {
-          "title": "Gelombang Perhatian Omni",
-          "hook": "Apakah perhatian dunia sedang melaju ke arah ini, atau justru mendingin?",
-          "f1": "Tayangan dalam 30 hari",
-          "f2": "Tren",
-          "f3": "Hari puncak",
-          "f4": "Seluruh dunia (Inggris)",
-          "f5": "Bahasa Anda",
-          "f6": "Rentang waktu"
-        },
-        "zeroPoint": {
-          "title": "Kebenaran Titik Nol",
-          "hook": "Kebenaran paling dasar yang disepakati dua puluh bahasa — dan akar dari kata itu sendiri.",
-          "f1": "Nama dalam dua puluh bahasa",
-          "f2": "Deskripsi",
-          "f3": "Dikenal juga sebagai",
-          "f4": "Makna dalam bahasa Anda",
-          "f5": "Etimologi",
-          "f6": "Makna dalam bahasa Inggris"
-        },
-        "hologramField": {
-          "title": "Medan Hologram",
-          "hook": "Melihat ini tanpa kata — siapa yang mengabadikannya, dan di bawah hak apa?",
-          "f1": "Dari artikel",
-          "f2": "Lisensi",
-          "f3": "Pembuat",
-          "f4": "Resolusi",
-          "f5": "Media lainnya",
-          "f6": "Kategori"
-        },
-        "evolutionArc": {
-          "title": "Busur Evolusi",
-          "hook": "Kapan riset tentang ini meledak, dan di mana ia melaju sekarang?",
-          "f1": "Karya per tahun",
-          "f2": "Paling banyak dikutip",
-          "f3": "Terbaru",
-          "f4": "Total karya",
-          "f5": "Tahun puncak",
-          "f6": "Akses terbuka"
-        },
-        "ventureSignal": {
-          "title": "Sinyal Ventura",
-          "hook": "Saat ini juga, siapa yang sedang meluncurkan sesuatu seputar ini?",
-          "f1": "Peluncuran",
-          "f2": "Diskusi",
-          "f3": "Indeks samudra biru",
-          "f4": "Poin",
-          "f5": "Komentar",
-          "f6": "Diposting"
-        },
-        "marketMoat": {
-          "title": "Parit Pasar",
-          "hook": "Siapa yang sudah membangun temboknya, dan negara mana yang masih terbuka?",
-          "f1": "Pemain di bidang ini",
-          "f2": "Per negara",
-          "f3": "Ekonomi (PDB)",
-          "f4": "Populasi",
-          "f5": "Populasi daring",
-          "f6": "Negara terpilih"
-        },
-        "timeFlux": {
-          "title": "Iklim Fluks Waktu",
-          "hook": "Seberapa berbeda langit ini pada hari yang sama tiga puluh tahun lalu — dan pada 2050?",
-          "f1": "Hari yang sama, bertahun-tahun lalu",
-          "f2": "Tertinggi / terendah",
-          "f3": "Curah hujan",
-          "f4": "Hari yang sama, proyeksi",
-          "f5": "Perubahan dibanding hari ini",
-          "f6": "Model iklim"
-        },
-        "fractalDim": {
-          "title": "Dimensi Fraktal",
-          "hook": "Saudara sejenis — naik satu tingkat, lalu turun kembali.",
-          "f1": "Kategori",
-          "f2": "Saudara dalam kategori ini",
-          "f3": "Halaman terkait",
-          "f4": "Kedalaman",
-          "f5": "Kategori induk",
-          "f6": "Anggota"
-        },
-        "chronosGate": {
-          "title": "Gerbang Chronos",
-          "hook": "Kapan, dan di tangan siapa, pengetahuan ini berubah?",
-          "f1": "Pertama ditulis",
-          "f2": "Penulis pertama",
-          "f3": "Suntingan terbaru",
-          "f4": "Suntingan per minggu",
-          "f5": "Porsi bot",
-          "f6": "Pertumbuhan sejak lahir"
-        },
-        "omniPress": {
-          "title": "Omni Pers",
-          "hook": "Bagaimana ruang redaksi dunia — dan negara Anda — menyebut ini saat ini?",
-          "f1": "Ruang redaksi dunia",
-          "f2": "Ruang redaksi negara Anda",
-          "f3": "Media",
-          "f4": "Diterbitkan",
-          "f5": "Kantor berita",
-          "f6": "Liputan"
-        },
-        "terraPulse": {
-          "title": "Denyut Terra",
-          "hook": "Di bawah langit ini, apa yang sedang dialami Bumi saat ini?",
-          "f1": "Peristiwa alam di sekitar",
-          "f2": "Gempa dalam radius 800 km",
-          "f3": "Debit sungai",
-          "f4": "Tinggi gelombang",
-          "f5": "Peringatan cuaca",
-          "f6": "Jarak"
-        },
-        "bigTechPulse": {
-          "title": "Denyut Omni-Tech",
-          "hook": "Bongkar: apa yang dimiliki, dibuat, dan dijalankan organisasi ini?",
-          "f1": "Industri",
-          "f2": "Induk",
-          "f3": "Anak usaha",
-          "f4": "Produk",
-          "f5": "Pendiri",
-          "f6": "Direktur utama",
-          "scaleEmployees": "Karyawan",
-          "scaleRevenue": "Pendapatan"
-        }
-      }
+      "loginHint": "mungkin meminta Anda masuk"
     },
     "composer": {
       "omniKeyAria": "Tindakan pencarian",
@@ -2611,8 +2429,8 @@
         "singularity": "Singularitas"
       },
       "kinds": {
-        "sources": "Sintesis web waktu nyata",
-        "deeper": "Jelajahi lebih dalam",
+        "sources": "Sumber",
+        "omni": "Sumber dan platform",
         "concepts": "Konsep terkait",
         "sites": "Situs terkait",
         "news": "Berita",

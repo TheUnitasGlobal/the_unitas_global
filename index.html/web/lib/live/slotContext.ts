@@ -1,6 +1,6 @@
 /**
  * REV-21 §2.1 -- pure assembly of the `SlotContext` every discovery slot
- * (and the Explore Deeper themes) loads with: the locale AND the visitor's
+ * (and the omni-open themes) loads with: the locale AND the visitor's
  * selected country, so a card can render its global section first and its
  * country section second, and so the card cache is keyed on both (L1-04: a
  * cache keyed on the slot alone kept serving the previous language for up

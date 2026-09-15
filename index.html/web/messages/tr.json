@@ -1272,7 +1272,7 @@
         {
           "heading": "Kısayollar ve sıralamalar",
           "paragraphs": [
-            "Arama çubuğunun altındaki kısayol şeridi ve sıralama şeritleri, sayfadan ayrılmadan ayrıntılı görünümler açar. Çoğunun altında, konuyla ilgili canlı verileri herkese açık kaynaklardan çeken bir mercek kümesi olan \"Daha derine in\" bulunur."
+            "Arama çubuğunun altındaki kısayol şeridi ve sıralama şeritleri, sayfadan ayrılmadan ayrıntılı görünümler açar. Çoğunun altında iki satır bulunur: \"Diğer kaynaklarda aç\" ve \"Diğer platformlarda aç\" — aynı konuyu herkese açık bir bilgi kaynağında veya başka bir platformda hemen açarsınız."
           ]
         },
         {
@@ -2194,13 +2194,6 @@
         }
       }
     },
-    "discovery": {
-      "label": "Ötesini keşfet",
-      "wikipedia": "Vikipedi",
-      "news": "Haberler",
-      "youtube": "YouTube",
-      "search": "Ara"
-    },
     "mail": {
       "label": "UNITAS Mail kullanıcı adı (opsiyonel)",
       "placeholder": "yourname",
@@ -2391,188 +2384,13 @@
       "swipeHint": "Temayı değiştirmek için sola veya sağa kaydırın"
     },
     "deeper": {
-      "label": "Daha derine in",
-      "anchorAria": "{term} derinlemesine keşfediliyor",
-      "sourcesLabel": "Kaynaklar",
-      "outboundLabel": "Başka yerde aç",
+      "sourcesLabel": "Diğer kaynaklarda aç",
+      "outboundLabel": "Diğer platformlarda aç",
       "scope": {
         "global": "Tüm dünya",
         "country": "Ülkeniz"
       },
-      "more": "Daha fazla yükle",
-      "end": "Bu merceğin sonuna ulaştınız.",
-      "retry": "Tekrar dene",
-      "retryHint": "Bu sayfa yüklenemedi.",
-      "loading": "Yükleniyor…",
-      "chooseMeaning": "Hangi anlamı kastettiniz?",
-      "noAnchor": "Henüz bağlı bir varlık yok — konuyu aşağıdaki kaynaklardan doğrulayın.",
-      "allThemes": "Tüm mercekler",
-      "moreThemes": "+{count} daha",
-      "reAnchor": "Bunun yerine bunu keşfet",
-      "loginHint": "oturum açmanızı isteyebilir",
-      "licenseLabel": "Lisans",
-      "authorLabel": "Yazar",
-      "viaSource": "{source} aracılığıyla",
-      "emptyPage": "Bu mercekte henüz gösterilecek bir şey yok.",
-      "closeTheme": "Merceği kapat",
-      "themeAria": "{theme} merceğini aç",
-      "wikiLink": "Wikipedia maddesi",
-      "wikidataLink": "Wikidata öğesi",
-      "attributionLabel": "Atıf",
-      "themes": {
-        "dataTwin": {
-          "title": "Her Şeyin Veri İkizi",
-          "hook": "Bu, veri olarak var olsaydı, yeniden kurmak için kaç özellik gerekirdi?",
-          "f1": "Belirtilen özellikler",
-          "f2": "Dil sürümleri",
-          "f3": "Açıklama",
-          "f4": "Özellik sayfası",
-          "f5": "Görsel",
-          "f6": "Dış tanımlayıcılar"
-        },
-        "causalHack": {
-          "title": "Nedensellik Hack'i",
-          "hook": "Buna ne yol açtı ve bu neye yol açıyor — nedenin nedenine kadar?",
-          "f1": "Nedenler",
-          "f2": "Sonuçlar",
-          "f3": "Doğrudan neden",
-          "f4": "Katkıda bulunan etkenler",
-          "f5": "Üst sınıflar ve bütünler",
-          "f6": "Parçalar ve yönler"
-        },
-        "valueCycle": {
-          "title": "Kıtlık Sonrası Değer Döngüsü",
-          "hook": "Bu bilgi nereden akıp geliyor ve karşılıksız dağıttığı değer nereye gidiyor?",
-          "f1": "Buradan gelir",
-          "f2": "Buraya gider",
-          "f3": "Gelen bağlantılar",
-          "f4": "Giden bağlantılar",
-          "f5": "Sayfa",
-          "f6": "Kapsam"
-        },
-        "omniWave": {
-          "title": "Omni-Dalga İlgi",
-          "hook": "Dünyanın ilgisi buna doğru hızlanıyor mu, yoksa soğuyor mu?",
-          "f1": "30 günde görüntülenme",
-          "f2": "Eğilim",
-          "f3": "Zirve günü",
-          "f4": "Tüm dünya (İngilizce)",
-          "f5": "Diliniz",
-          "f6": "Zaman aralığı"
-        },
-        "zeroPoint": {
-          "title": "Sıfır Nokta Gerçeği",
-          "hook": "Yirmi dilin üzerinde uzlaştığı asgari gerçek — ve kelimenin kendi kökü.",
-          "f1": "Yirmi dilde adlar",
-          "f2": "Açıklama",
-          "f3": "Diğer adları",
-          "f4": "Dilinizdeki anlamlar",
-          "f5": "Etimoloji",
-          "f6": "İngilizcedeki anlamlar"
-        },
-        "hologramField": {
-          "title": "Hologram Alanı",
-          "hook": "Bunu sözcüksüz görmek — kim yakaladı ve hangi haklarla?",
-          "f1": "Maddeden",
-          "f2": "Lisans",
-          "f3": "Yazar",
-          "f4": "Çözünürlük",
-          "f5": "Daha fazla medya",
-          "f6": "Kategori"
-        },
-        "evolutionArc": {
-          "title": "Evrim Yayı",
-          "hook": "Bu konudaki araştırmalar ne zaman patladı ve şimdi nerede hızlanıyor?",
-          "f1": "Yıllık çalışma",
-          "f2": "En çok atıf alan",
-          "f3": "En yeni",
-          "f4": "Toplam çalışma",
-          "f5": "Zirve yılı",
-          "f6": "Açık erişim"
-        },
-        "ventureSignal": {
-          "title": "Girişim Sinyali",
-          "hook": "Şu anda kim bunun etrafında bir şey başlatıyor?",
-          "f1": "Lansmanlar",
-          "f2": "Tartışmalar",
-          "f3": "Mavi okyanus endeksi",
-          "f4": "Puan",
-          "f5": "Yorumlar",
-          "f6": "Yayınlandı"
-        },
-        "marketMoat": {
-          "title": "Pazar Hendeği",
-          "hook": "Duvarı kim çoktan ördü ve hangi ülke hâlâ açık?",
-          "f1": "Bu alandaki oyuncular",
-          "f2": "Ülkeye göre",
-          "f3": "Ekonomi (GSYİH)",
-          "f4": "Nüfus",
-          "f5": "Çevrimiçi nüfus",
-          "f6": "Seçili ülke"
-        },
-        "timeFlux": {
-          "title": "Zaman Akışı İklimi",
-          "hook": "Bu gökyüzü otuz yıl önce aynı gün ne kadar farklıydı — ya 2050'de?",
-          "f1": "Aynı gün, yıllar önce",
-          "f2": "En yüksek / en düşük",
-          "f3": "Yağış",
-          "f4": "Aynı gün, öngörü",
-          "f5": "Bugüne göre değişim",
-          "f6": "İklim modelleri"
-        },
-        "fractalDim": {
-          "title": "Fraktal Boyutlar",
-          "hook": "Aynı türden kardeşler — bir kademe yukarı, sonra tekrar aşağı.",
-          "f1": "Kategoriler",
-          "f2": "Bu kategorideki kardeşler",
-          "f3": "İlgili sayfalar",
-          "f4": "Derinlik",
-          "f5": "Üst kategori",
-          "f6": "Üyeler"
-        },
-        "chronosGate": {
-          "title": "Kronos Kapısı",
-          "hook": "Bu bilgi ne zaman ve kimin elinde değişti?",
-          "f1": "İlk yazım",
-          "f2": "İlk yazar",
-          "f3": "Son düzenlemeler",
-          "f4": "Haftalık düzenleme",
-          "f5": "Bot payı",
-          "f6": "Doğuştan bu yana büyüme"
-        },
-        "omniPress": {
-          "title": "Omni Basın",
-          "hook": "Dünyanın — ve ülkenizin — haber odaları buna şu anda ne ad veriyor?",
-          "f1": "Dünya haber odası",
-          "f2": "Ülkenizin haber odası",
-          "f3": "Yayın kuruluşu",
-          "f4": "Yayınlandı",
-          "f5": "Ajans",
-          "f6": "Haber sayısı"
-        },
-        "terraPulse": {
-          "title": "Terra Nabız",
-          "hook": "Bu gökyüzünün altında Dünya şu anda ne yaşıyor?",
-          "f1": "Yakındaki doğa olayları",
-          "f2": "800 km içindeki depremler",
-          "f3": "Nehir debisi",
-          "f4": "Dalga yüksekliği",
-          "f5": "Hava durumu uyarıları",
-          "f6": "Uzaklık"
-        },
-        "bigTechPulse": {
-          "title": "Omni-Tech nabzı",
-          "hook": "Parçalarına ayıralım: bu kuruluş neye sahip, ne üretiyor ve ne üzerinde çalışıyor?",
-          "f1": "Sektör",
-          "f2": "Ana kuruluş",
-          "f3": "Bağlı kuruluşlar",
-          "f4": "Ürünler",
-          "f5": "Kurucular",
-          "f6": "Genel müdür",
-          "scaleEmployees": "Çalışan sayısı",
-          "scaleRevenue": "Gelir"
-        }
-      }
+      "loginHint": "oturum açmanızı isteyebilir"
     },
     "composer": {
       "omniKeyAria": "Arama eylemleri",
@@ -2611,8 +2429,8 @@
         "singularity": "Tekillik"
       },
       "kinds": {
-        "sources": "Canlı web sentezi",
-        "deeper": "Daha derine in",
+        "sources": "Kaynaklar",
+        "omni": "Kaynaklar ve platformlar",
         "concepts": "Bağlantılı kavramlar",
         "sites": "İlgili siteler",
         "news": "Haberler",

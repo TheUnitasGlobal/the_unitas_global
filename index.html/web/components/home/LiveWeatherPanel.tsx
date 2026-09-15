@@ -9,7 +9,7 @@ import { CONDITION_ICON, conditionOf, useLiveWeather, type Place } from '@/lib/l
 export interface LiveWeatherPanelProps {
   /** REV-21 SPEC §12.3 (a): the host (the weather deep modal) is told which
    *  place is showing -- coordinates, country and, when known, the city's
-   *  Wikidata item -- so its Explore Deeper block anchors on the SAME place
+   *  Wikidata item -- so its omni-open block anchors on the SAME place
    *  the visitor searched or located, never on the locale default. */
   onPlaceChange?: (place: Place) => void;
 }

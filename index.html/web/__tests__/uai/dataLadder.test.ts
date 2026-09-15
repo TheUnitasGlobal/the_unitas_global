@@ -2,11 +2,11 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vite
 import { __resetWikimediaQueue, __setWikimediaSpacing } from '@/lib/uai/deeperFetch';
 import { entityAnchor } from '@/lib/uai/deeperAnchor';
 import { INITIAL_LADDER_CURSOR, buildStreamPage } from '@/lib/uai/stream/dataLadder';
-import { LOCAL_KINDS, STREAM_DEEPER_EVERY, STREAM_PAGE_CAP, STREAM_SOFT_PAUSE_EVERY, streamRecipe } from '@/lib/uai/stream/streamTypes';
+import { LOCAL_KINDS, STREAM_OMNI_EVERY, STREAM_PAGE_CAP, STREAM_SOFT_PAUSE_EVERY, streamRecipe } from '@/lib/uai/stream/streamTypes';
 import { engraveTier } from '@/lib/uai/stream/useHyperStream';
 
 // The stream's page recipe and the isomorphic data ladder: page 0 is
-// network-free, later pages carry the paged kinds, Explore Deeper is
+// network-free, later pages carry the paged kinds, omni-open is
 // re-injected on cadence, every network leg is keyed on the anchor (never
 // the raw Korean string), the cursor advances per leg, thin pages are
 // flagged, and nothing ever throws.
@@ -54,10 +54,10 @@ describe('stream recipe', () => {
     expect(streamRecipe(0)).toEqual(['sources']);
   });
 
-  it('Explore Deeper opens page 1 and returns on its cadence', () => {
-    expect(streamRecipe(1)).toContain('deeper');
-    expect(streamRecipe(STREAM_DEEPER_EVERY)).toContain('deeper');
-    expect(streamRecipe(STREAM_DEEPER_EVERY * 2)).toContain('deeper');
+  it('the omni-open card opens page 1 and returns on its cadence', () => {
+    expect(streamRecipe(1)).toContain('omni');
+    expect(streamRecipe(STREAM_OMNI_EVERY)).toContain('omni');
+    expect(streamRecipe(STREAM_OMNI_EVERY * 2)).toContain('omni');
     expect(streamRecipe(7)).not.toContain('deeper');
   });
 

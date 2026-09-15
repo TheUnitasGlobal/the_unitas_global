@@ -135,7 +135,7 @@ export interface SlotTab {
 }
 
 /** REV-21 §2.2 / §3.1: the entity a card is ABOUT, carried as an identifier
- *  so outbound links and Explore Deeper never re-search a translated title. */
+ *  so outbound links and omni-open never re-search a translated title. */
 export interface SlotSubject {
   term: string;
   wikiTitle?: string;
@@ -1062,7 +1062,7 @@ export const DISCOVERY_ROTATION: readonly SlotKey[] = [
 ];
 
 /** REV-21 §3.2 / SPEC §12.4: the REAL engines behind each slot, by registry
- *  id -- the source-attribution row, the Explore Deeper sources block and
+ *  id -- the source-attribution row, the omni-open sources row and
  *  the privacy page all derive from lib/uai/sourceRegistry.ts, so the
  *  synthetic 'Google News · Bing News' label of the first cut is now two
  *  individually named sources. Static -- `load()` is untouched. */
@@ -1109,7 +1109,7 @@ export const SLOT_PROVIDER: Record<SlotKey, SlotProvider> = Object.fromEntries(
 ) as Record<SlotKey, SlotProvider>;
 
 /** REV-21 §2.2 (H-9) / §3.1: the Wikidata item each slot is ABOUT -- the
- *  anchor Explore Deeper and the outbound wiki link use instead of the
+ *  anchor omni-open and the outbound wiki link use instead of the
  *  slot's translated title (which is how '공기' became a string search). */
 export const SLOT_QID: Partial<Record<SlotKey, string>> = {
   weather: 'Q11663', // weather

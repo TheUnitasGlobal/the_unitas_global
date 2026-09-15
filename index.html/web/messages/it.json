@@ -1272,7 +1272,7 @@
         {
           "heading": "Scorciatoie e classifiche",
           "paragraphs": [
-            "Sotto la barra di ricerca, la barra delle scorciatoie e le barre delle classifiche aprono viste dettagliate senza lasciare la pagina. Sotto la maggior parte di esse troverai Esplora più a fondo, un insieme di lenti che estraggono dati in tempo reale sull'argomento da fonti pubbliche."
+            "Sotto la barra di ricerca, la barra delle scorciatoie e le barre delle classifiche aprono viste dettagliate senza lasciare la pagina. Sotto la maggior parte di esse ci sono due righe, Apri in altre fonti e Apri in altre piattaforme, con cui puoi aprire subito lo stesso argomento in una fonte di conoscenza pubblica o su un'altra piattaforma."
           ]
         },
         {
@@ -2194,13 +2194,6 @@
         }
       }
     },
-    "discovery": {
-      "label": "Esplora oltre",
-      "wikipedia": "Wikipedia",
-      "news": "Notizie",
-      "youtube": "YouTube",
-      "search": "Cerca"
-    },
     "mail": {
       "label": "Handle mail UNITAS (facoltativo)",
       "placeholder": "yourname",
@@ -2391,188 +2384,13 @@
       "swipeHint": "Scorri a sinistra o a destra per cambiare tema"
     },
     "deeper": {
-      "label": "Esplora più a fondo",
-      "anchorAria": "Esplorazione approfondita di {term}",
-      "sourcesLabel": "Fonti",
-      "outboundLabel": "Apri altrove",
+      "sourcesLabel": "Apri in altre fonti",
+      "outboundLabel": "Apri in altre piattaforme",
       "scope": {
         "global": "Tutto il mondo",
         "country": "Il tuo Paese"
       },
-      "more": "Carica altro",
-      "end": "Hai raggiunto la fine di questa lente.",
-      "retry": "Riprova",
-      "retryHint": "Questa pagina non è stata caricata.",
-      "loading": "Caricamento…",
-      "chooseMeaning": "Quale significato intendevi?",
-      "noAnchor": "Nessuna entità collegata per ora: verifica il soggetto nelle fonti qui sotto.",
-      "allThemes": "Tutte le lenti",
-      "moreThemes": "+{count} altre",
-      "reAnchor": "Esplora questo invece",
-      "loginHint": "potrebbe richiedere l'accesso",
-      "licenseLabel": "Licenza",
-      "authorLabel": "Autore",
-      "viaSource": "tramite {source}",
-      "emptyPage": "Non c'è ancora nulla da mostrare per questa lente.",
-      "closeTheme": "Chiudi lente",
-      "themeAria": "Apri la lente {theme}",
-      "wikiLink": "Voce di Wikipedia",
-      "wikidataLink": "Elemento Wikidata",
-      "attributionLabel": "Attribuzione",
-      "themes": {
-        "dataTwin": {
-          "title": "Gemello Dati di Ogni Cosa",
-          "hook": "Se esistesse come dati, quante proprietà servirebbero per ricostruirlo?",
-          "f1": "Proprietà dichiarate",
-          "f2": "Edizioni linguistiche",
-          "f3": "Descrizione",
-          "f4": "Pagina delle proprietà",
-          "f5": "Immagine",
-          "f6": "Identificatori esterni"
-        },
-        "causalHack": {
-          "title": "Hack della Causalità",
-          "hook": "Da cosa è nato e cosa genera, fino alla causa della causa?",
-          "f1": "Cause",
-          "f2": "Effetti",
-          "f3": "Causa immediata",
-          "f4": "Fattori concorrenti",
-          "f5": "Classi superiori e insiemi",
-          "f6": "Parti e sfaccettature"
-        },
-        "valueCycle": {
-          "title": "Ciclo del Valore Post-Scarsità",
-          "hook": "Da dove affluisce questa conoscenza, e dove finisce il valore che regala gratis?",
-          "f1": "Affluisce da",
-          "f2": "Defluisce verso",
-          "f3": "Link in entrata",
-          "f4": "Link in uscita",
-          "f5": "Pagina",
-          "f6": "Ambito"
-        },
-        "omniWave": {
-          "title": "Attenzione Omni-Onda",
-          "hook": "L'attenzione del mondo sta accelerando verso questo, o si sta raffreddando?",
-          "f1": "Visualizzazioni in 30 giorni",
-          "f2": "Tendenza",
-          "f3": "Giorno di picco",
-          "f4": "Tutto il mondo (inglese)",
-          "f5": "La tua lingua",
-          "f6": "Finestra"
-        },
-        "zeroPoint": {
-          "title": "Verità a Base Zero",
-          "hook": "La verità minima su cui concordano venti lingue, e la radice della parola stessa.",
-          "f1": "Nomi in venti lingue",
-          "f2": "Descrizione",
-          "f3": "Noto anche come",
-          "f4": "Significati nella tua lingua",
-          "f5": "Etimologia",
-          "f6": "Significati in inglese"
-        },
-        "hologramField": {
-          "title": "Campo Olografico",
-          "hook": "Vederlo senza parole: chi l'ha catturato, e con quali diritti?",
-          "f1": "Dalla voce",
-          "f2": "Licenza",
-          "f3": "Autore",
-          "f4": "Risoluzione",
-          "f5": "Altri media",
-          "f6": "Categoria"
-        },
-        "evolutionArc": {
-          "title": "Arco Evolutivo",
-          "hook": "Quando la ricerca su questo è esplosa, e dove sta accelerando adesso?",
-          "f1": "Opere per anno",
-          "f2": "Più citate",
-          "f3": "Più recenti",
-          "f4": "Opere totali",
-          "f5": "Anno di picco",
-          "f6": "Open access"
-        },
-        "ventureSignal": {
-          "title": "Segnale Venture",
-          "hook": "In questo momento, chi sta lanciando qualcosa intorno a questo?",
-          "f1": "Lanci",
-          "f2": "Discussioni",
-          "f3": "Indice oceano blu",
-          "f4": "Punti",
-          "f5": "Commenti",
-          "f6": "Pubblicato"
-        },
-        "marketMoat": {
-          "title": "Fossato di Mercato",
-          "hook": "Chi ha già costruito il muro, e quale Paese è ancora aperto?",
-          "f1": "Attori in questo campo",
-          "f2": "Per Paese",
-          "f3": "Economia (PIL)",
-          "f4": "Popolazione",
-          "f5": "Popolazione online",
-          "f6": "Paese selezionato"
-        },
-        "timeFlux": {
-          "title": "Clima del Flusso Temporale",
-          "hook": "Quanto era diverso questo cielo lo stesso giorno di trent'anni fa, e come sarà nel 2050?",
-          "f1": "Stesso giorno, anni fa",
-          "f2": "Massima / minima",
-          "f3": "Precipitazioni",
-          "f4": "Stesso giorno, proiezione",
-          "f5": "Variazione rispetto a oggi",
-          "f6": "Modelli climatici"
-        },
-        "fractalDim": {
-          "title": "Dimensioni Frattali",
-          "hook": "Fratelli della stessa specie: un livello più su, poi di nuovo giù.",
-          "f1": "Categorie",
-          "f2": "Fratelli in questa categoria",
-          "f3": "Pagine correlate",
-          "f4": "Profondità",
-          "f5": "Categoria superiore",
-          "f6": "Membri"
-        },
-        "chronosGate": {
-          "title": "Porta di Chronos",
-          "hook": "Quando, e per mano di chi, è cambiata questa conoscenza?",
-          "f1": "Prima stesura",
-          "f2": "Primo autore",
-          "f3": "Modifiche recenti",
-          "f4": "Modifiche a settimana",
-          "f5": "Quota bot",
-          "f6": "Crescita dalla nascita"
-        },
-        "omniPress": {
-          "title": "Omni Press",
-          "hook": "Come stanno chiamando questo, proprio ora, le redazioni del mondo e quelle del tuo Paese?",
-          "f1": "Redazioni del mondo",
-          "f2": "Redazioni del tuo Paese",
-          "f3": "Testata",
-          "f4": "Pubblicato",
-          "f5": "Agenzia",
-          "f6": "Copertura"
-        },
-        "terraPulse": {
-          "title": "Terra Pulse",
-          "hook": "Sotto questo cielo, cosa sta attraversando la Terra proprio ora?",
-          "f1": "Eventi naturali nelle vicinanze",
-          "f2": "Terremoti entro 800 km",
-          "f3": "Portata fluviale",
-          "f4": "Altezza delle onde",
-          "f5": "Allerte meteo",
-          "f6": "Distanza"
-        },
-        "bigTechPulse": {
-          "title": "Pulsazione omni-tech",
-          "hook": "Smontiamola: che cosa possiede, che cosa produce e su che cosa gira quest'organizzazione?",
-          "f1": "Settore",
-          "f2": "Casa madre",
-          "f3": "Controllate",
-          "f4": "Prodotti",
-          "f5": "Fondatori",
-          "f6": "Amministratore delegato",
-          "scaleEmployees": "Dipendenti",
-          "scaleRevenue": "Ricavi"
-        }
-      }
+      "loginHint": "potrebbe richiedere l'accesso"
     },
     "composer": {
       "omniKeyAria": "Azioni di ricerca",
@@ -2611,8 +2429,8 @@
         "singularity": "Singolarità"
       },
       "kinds": {
-        "sources": "Sintesi web in tempo reale",
-        "deeper": "Esplora più a fondo",
+        "sources": "Fonti",
+        "omni": "Fonti e piattaforme",
         "concepts": "Concetti collegati",
         "sites": "Siti correlati",
         "news": "Notizie",

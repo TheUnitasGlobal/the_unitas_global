@@ -12,8 +12,8 @@
  * insight / The VOID), plus the page-1 `RedesignCard`. What remains is the
  * one the founder kept: the web synthesis, "웹 실시간 종합".
  *
- * Its outbound brand row went with the rest: REV-23 folds "다른 곳에서 검색"
- * into the single "더 깊이 탐색" block (ExploreDeeper), so the result has
+ * Its outbound brand row went with the rest: REV-23 folded it into one
+ * block, and REV-31 made that block the omni-open pair, so the result has
  * exactly one place that sends the visitor elsewhere instead of three.
  */
 import { useTranslations } from 'next-intl';

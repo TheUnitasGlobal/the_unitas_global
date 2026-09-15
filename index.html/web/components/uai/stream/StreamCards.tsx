@@ -11,7 +11,7 @@
  * news · derived · attention · community · graph · global · extracts -- and
  * the four status cards. `CogsCardView`, `Gallery` and `OutboundRow` went
  * with the kinds they existed for; the outbound brand row now lives once, in
- * the Explore Deeper block ("다른 곳에서 탐색").
+ * the omni-open block ("다른플랫폼에서열기").
  *
  * REV-23 M2.3 -- TWO-STEP ACTIVATION. A card no longer opens because the
  * visitor happened to click its padding, and the top-right shortcut arrow is
@@ -51,7 +51,7 @@ const KIND_ICON: Partial<Record<StreamCardKind, typeof Link2>> = {
   derived: BookOpen,
   attention: Activity,
   community: MessageSquare,
-  deeper: Layers,
+  omni: Layers,
   graph: Workflow,
   extracts: AlignLeft,
   global: Globe2,

@@ -134,29 +134,65 @@ test.describe('REV-29 M2 -- the news rail is the shortcut rail', () => {
     await expect(story.locator('[data-news-open-original]')).toBeVisible();
   });
 
-  test('M2.4: the direct-only block sits in flow under the card -- no lens tiles, one unified label pair', async ({ page }) => {
+  test('M2.4 / REV-31: the omni-open pair closes the news block -- sources row directly above the platform row, one identical title', async ({ page }) => {
     await founderHome(page);
     await openEmptyPopup(page);
-    const block = page.locator('[data-news-block] [data-explore-deeper][data-deeper-direct]');
+    const block = page.locator('[data-news-block] [data-omni-open]').first();
     await expect(block).toBeVisible();
-    expect(await block.locator('[data-deeper-theme]').count()).toBe(0);
-    await expect(block.locator('[data-deeper-outbound]')).toBeVisible();
-    for (const id of ['googleSearch', 'bingSearch', 'wikipedia']) {
-      await expect(block.locator(`[data-deeper-outbound-source="${id}"], [data-deeper-source="${id}"]`).first()).toBeVisible();
+
+    // REV-31 M1: the lens grid is gone from the shipped DOM, everywhere.
+    expect(await page.locator('[data-explore-deeper]').count(), 'the Explore Deeper block').toBe(0);
+    expect(await page.locator('[data-deeper-theme]').count(), 'a lens tile').toBe(0);
+    expect(await page.locator('[data-omni-swarm]').count(), 'the swarm field').toBe(0);
+
+    const sources = block.locator('[data-omni-row="sources"]');
+    const platforms = block.locator('[data-omni-row="platforms"]');
+    await expect(sources).toBeVisible();
+    await expect(platforms).toBeVisible();
+
+    // REV-31 M2/M3: neither row is ever an empty titled line.
+    expect(await sources.locator('a[data-omni-source]').count()).toBeGreaterThan(0);
+    expect(await platforms.locator('a[data-omni-platform]').count()).toBeGreaterThan(0);
+    for (const id of ['wikipedia', 'wikidata']) {
+      await expect(sources.locator('[data-omni-source="' + id + '"]')).toBeVisible();
     }
-    const pair = await block.evaluate((el) => {
-      const labels = el.querySelectorAll('.qw-deeper-label');
-      if (labels.length < 2) return null;
-      const a = getComputedStyle(labels[0]);
-      const b = getComputedStyle(labels[1]);
-      return { fa: a.fontSize, fb: b.fontSize, ca: a.color, cb: b.color, wa: a.fontWeight, wb: b.fontWeight, ta: a.textTransform, tb: b.textTransform, la: a.letterSpacing, lb: b.letterSpacing };
+    for (const id of ['googleSearch', 'bingSearch']) {
+      await expect(platforms.locator('[data-omni-platform="' + id + '"]')).toBeVisible();
+    }
+
+    // REV-31 M2: the sources row sits DIRECTLY above the platform row, and
+    // the two headings are the same box down to the pixel.
+    const geom = await block.evaluate((el) => {
+      const s = el.querySelector('[data-omni-row="sources"]');
+      const p = el.querySelector('[data-omni-row="platforms"]');
+      const ls = s.querySelector('.qw-section-label');
+      const lp = p.querySelector('.qw-section-label');
+      const a = getComputedStyle(ls);
+      const b = getComputedStyle(lp);
+      const ra = ls.getBoundingClientRect();
+      const rb = lp.getBoundingClientRect();
+      return {
+        sourcesFirst: Boolean(s.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING),
+        adjacent: s.nextElementSibling === p,
+        sourcesTop: Math.round(s.getBoundingClientRect().top),
+        platformsTop: Math.round(p.getBoundingClientRect().top),
+        fontSize: [a.fontSize, b.fontSize],
+        color: [a.color, b.color],
+        weight: [a.fontWeight, b.fontWeight],
+        transform: [a.textTransform, b.textTransform],
+        tracking: [a.letterSpacing, b.letterSpacing],
+        family: [a.fontFamily, b.fontFamily],
+        gap: [a.columnGap, b.columnGap],
+        height: [Math.round(ra.height), Math.round(rb.height)],
+      };
     });
-    expect(pair, 'the deeper label and the outbound label').not.toBeNull();
-    expect(pair.fa).toBe(pair.fb);
-    expect(pair.ca).toBe(pair.cb);
-    expect(pair.wa).toBe(pair.wb);
-    expect(pair.ta).toBe(pair.tb);
-    expect(pair.la).toBe(pair.lb);
+    console.log('[REV-31 M2] omni-open title pair', JSON.stringify(geom));
+    expect(geom.sourcesFirst, 'the sources row must come first in the DOM').toBe(true);
+    expect(geom.adjacent, 'the sources row must be the immediate previous sibling').toBe(true);
+    expect(geom.platformsTop).toBeGreaterThan(geom.sourcesTop);
+    for (const key of ['fontSize', 'color', 'weight', 'transform', 'tracking', 'family', 'gap', 'height']) {
+      expect(geom[key][0], 'the two titles must share ' + key).toBe(geom[key][1]);
+    }
   });
 });
 

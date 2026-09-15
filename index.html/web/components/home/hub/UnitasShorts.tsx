@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Eye, Heart, MessageCircle, Play, Sparkles, Tag, Ticket, Upload, UserPlus } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
-import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { OmniOpen } from '@/components/home/OmniOpen';
 import { ShortsCreatorPass } from './ShortsCreatorPass';
 import { hotNewsAxisMeta } from '@/lib/live/hotNewsAxes';
 import type { HotNewsCategory } from '@/lib/live/hotNews';
@@ -242,7 +242,7 @@ export function UnitasShorts() {
                   </p>
                   <p className="mt-1 text-[13px] leading-relaxed text-gray-300">{t('shareHint')}</p>
                 </div>
-                <ExploreDeeper anchor={textAnchor(open.title, lang)} host="newsRail" directOnly bridge={false} />
+                <OmniOpen anchor={textAnchor(open.title, lang)} host="newsRail" />
                 <p className="text-[11px] uppercase tracking-widest text-gray-500">{t('seedNote')}</p>
               </div>
             );

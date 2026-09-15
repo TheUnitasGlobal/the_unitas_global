@@ -295,7 +295,7 @@ export function KnowledgeExchange() {
       )}
 
       <section className="qw-hubx-ticker" data-hub-ticker="" aria-live="polite">
-        <p className="qw-deeper-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+        <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
           <Radio size={13} aria-hidden="true" />
           {t('ticker')}
         </p>
@@ -400,7 +400,7 @@ export function KnowledgeExchange() {
 
       <div className="qw-hubx-columns">
         <section className="qw-hubx-section" data-hub-library="">
-          <p className="qw-deeper-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+          <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
             <BadgeCheck size={13} aria-hidden="true" />
             {t('myPacks')}
           </p>
@@ -419,7 +419,7 @@ export function KnowledgeExchange() {
         </section>
 
         <section className="qw-hubx-section" data-hub-listing="">
-          <p className="qw-deeper-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+          <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
             <Upload size={13} aria-hidden="true" />
             {t('listTitle')}
           </p>
@@ -484,7 +484,7 @@ export function KnowledgeExchange() {
         </section>
 
         <section className="qw-hubx-section" data-hub-board="">
-          <p className="qw-deeper-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+          <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
             <Crown size={13} aria-hidden="true" />
             {t('board')}
           </p>

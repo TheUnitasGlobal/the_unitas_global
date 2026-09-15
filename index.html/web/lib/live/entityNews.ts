@@ -88,3 +88,29 @@ export function countryEntityWires(localeTitle: string | undefined, enTitle: str
       : null;
   return { google, bing };
 }
+
+/* ------------------------------------------------------------------ */
+/* REV-31: the wire shapes /api/live/entity-news answers with. They used */
+/* to live in lib/uai/deeperAdapters/open.ts, which was lens machinery   */
+/* and was deleted with the "더 깊이 탐색" block; the route already       */
+/* imported this module, so they come home here.                        */
+/* ------------------------------------------------------------------ */
+
+export interface EntityNewsItem {
+  id: string;
+  title: string;
+  url: string;
+  domain?: string;
+  publishedAt?: string;
+  lang?: string;
+  wire: 'gnews' | 'bing';
+}
+
+export interface EntityNewsResponse {
+  ok: boolean;
+  leg: 'global' | 'country';
+  page: number;
+  items: EntityNewsItem[];
+  hasMore: boolean;
+  fetchedAt: number;
+}

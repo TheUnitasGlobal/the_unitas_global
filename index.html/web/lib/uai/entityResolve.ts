@@ -22,7 +22,7 @@
  *      "choose a meaning" chips share it).
  *
  * Isomorphic (no window, no React) -- shared by the browser synthesis edge,
- * the server-side 24h cache engine and the Explore Deeper themes. Pure
+ * the server-side 24h cache engine and the omni-open themes. Pure
  * helpers are exported for unit tests with a mocked `fetch`.
  */
 

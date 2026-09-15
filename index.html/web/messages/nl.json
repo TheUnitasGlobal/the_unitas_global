@@ -1272,7 +1272,7 @@
         {
           "heading": "Snelkoppelingen en ranglijsten",
           "paragraphs": [
-            "Onder de zoekbalk openen de snelkoppelingenbalk en de ranglijstbalken gedetailleerde weergaven zonder de pagina te verlaten. Onder de meeste daarvan vindt u Dieper verkennen, een reeks lenzen die live gegevens over het onderwerp uit openbare bronnen ophalen."
+            "Onder de zoekbalk openen de snelkoppelingenbalk en de ranglijstbalken gedetailleerde weergaven zonder de pagina te verlaten. Onder de meeste daarvan staan twee regels, Openen in andere bronnen en Openen in andere platforms, waarmee u hetzelfde onderwerp meteen opent in een openbare kennisbron of op een ander platform."
           ]
         },
         {
@@ -2194,13 +2194,6 @@
         }
       }
     },
-    "discovery": {
-      "label": "Verken verder",
-      "wikipedia": "Wikipedia",
-      "news": "Nieuws",
-      "youtube": "YouTube",
-      "search": "Zoeken"
-    },
     "mail": {
       "label": "UNITAS Mail-handle (optioneel)",
       "placeholder": "yourname",
@@ -2391,188 +2384,13 @@
       "swipeHint": "Veeg naar links of rechts om van thema te wisselen"
     },
     "deeper": {
-      "label": "Dieper verkennen",
-      "anchorAria": "{term} diepgaand verkennen",
-      "sourcesLabel": "Bronnen",
-      "outboundLabel": "Elders openen",
+      "sourcesLabel": "Openen in andere bronnen",
+      "outboundLabel": "Openen in andere platforms",
       "scope": {
         "global": "Wereldwijd",
         "country": "Jouw land"
       },
-      "more": "Meer laden",
-      "end": "Je hebt het einde van deze lens bereikt.",
-      "retry": "Opnieuw proberen",
-      "retryHint": "Die pagina kon niet worden geladen.",
-      "loading": "Laden…",
-      "chooseMeaning": "Welke betekenis bedoelde je?",
-      "noAnchor": "Nog geen gekoppelde entiteit — controleer het onderwerp bij de bronnen hieronder.",
-      "allThemes": "Alle lenzen",
-      "moreThemes": "+{count} meer",
-      "reAnchor": "Verken dit in plaats daarvan",
-      "loginHint": "vraagt mogelijk om in te loggen",
-      "licenseLabel": "Licentie",
-      "authorLabel": "Auteur",
-      "viaSource": "via {source}",
-      "emptyPage": "Nog niets te tonen voor deze lens.",
-      "closeTheme": "Lens sluiten",
-      "themeAria": "De lens {theme} openen",
-      "wikiLink": "Wikipedia-artikel",
-      "wikidataLink": "Wikidata-item",
-      "attributionLabel": "Naamsvermelding",
-      "themes": {
-        "dataTwin": {
-          "title": "Datatweeling van alles",
-          "hook": "Als dit als data bestond, hoeveel eigenschappen zou je dan nodig hebben om het opnieuw op te bouwen?",
-          "f1": "Vastgelegde eigenschappen",
-          "f2": "Taalversies",
-          "f3": "Beschrijving",
-          "f4": "Eigenschapspagina",
-          "f5": "Afbeelding",
-          "f6": "Externe identificatoren"
-        },
-        "causalHack": {
-          "title": "Causaliteitshack",
-          "hook": "Wat veroorzaakte dit, en wat veroorzaakt het — tot aan de oorzaak van de oorzaak?",
-          "f1": "Oorzaken",
-          "f2": "Gevolgen",
-          "f3": "Directe oorzaak",
-          "f4": "Bijdragende factoren",
-          "f5": "Bovenliggende klassen en gehelen",
-          "f6": "Onderdelen en facetten"
-        },
-        "valueCycle": {
-          "title": "Waardecyclus voorbij schaarste",
-          "hook": "Waar stroomt deze kennis vandaan, en waar gaat de waarde heen die ze gratis weggeeft?",
-          "f1": "Stroomt in vanuit",
-          "f2": "Stroomt uit naar",
-          "f3": "Inkomende links",
-          "f4": "Uitgaande links",
-          "f5": "Pagina",
-          "f6": "Bereik"
-        },
-        "omniWave": {
-          "title": "Omni-golf van aandacht",
-          "hook": "Versnelt de aandacht van de wereld richting dit onderwerp, of koelt ze af?",
-          "f1": "Weergaven in 30 dagen",
-          "f2": "Trend",
-          "f3": "Piekdag",
-          "f4": "Wereldwijd (Engels)",
-          "f5": "Jouw taal",
-          "f6": "Periode"
-        },
-        "zeroPoint": {
-          "title": "Waarheid vanaf nul",
-          "hook": "De minimale waarheid waarover twintig talen het eens zijn — en de wortel van het woord zelf.",
-          "f1": "Namen in twintig talen",
-          "f2": "Beschrijving",
-          "f3": "Ook bekend als",
-          "f4": "Betekenissen in jouw taal",
-          "f5": "Etymologie",
-          "f6": "Betekenissen in het Engels"
-        },
-        "hologramField": {
-          "title": "Hologramveld",
-          "hook": "Dit zien zonder woorden — wie legde het vast, en onder welke rechten?",
-          "f1": "Uit het artikel",
-          "f2": "Licentie",
-          "f3": "Auteur",
-          "f4": "Resolutie",
-          "f5": "Meer media",
-          "f6": "Categorie"
-        },
-        "evolutionArc": {
-          "title": "Evolutieboog",
-          "hook": "Wanneer explodeerde het onderzoek hiernaar, en waar versnelt het nu?",
-          "f1": "Werken per jaar",
-          "f2": "Meest geciteerd",
-          "f3": "Meest recent",
-          "f4": "Totaal aantal werken",
-          "f5": "Piekjaar",
-          "f6": "Open access"
-        },
-        "ventureSignal": {
-          "title": "Venture-signaal",
-          "hook": "Wie lanceert er op dit moment iets rond dit onderwerp?",
-          "f1": "Lanceringen",
-          "f2": "Discussies",
-          "f3": "Blue-ocean-index",
-          "f4": "Punten",
-          "f5": "Reacties",
-          "f6": "Geplaatst"
-        },
-        "marketMoat": {
-          "title": "Slotgracht van de markt",
-          "hook": "Wie heeft de muur al gebouwd, en welk land ligt nog open?",
-          "f1": "Spelers in dit veld",
-          "f2": "Per land",
-          "f3": "Economie (bbp)",
-          "f4": "Bevolking",
-          "f5": "Online bevolking",
-          "f6": "Gekozen land"
-        },
-        "timeFlux": {
-          "title": "Tijdflux-klimaat",
-          "hook": "Hoe anders was deze lucht op dezelfde dag dertig jaar geleden — en in 2050?",
-          "f1": "Dezelfde dag, jaren geleden",
-          "f2": "Max. / min.",
-          "f3": "Neerslag",
-          "f4": "Dezelfde dag, verwacht",
-          "f5": "Verschil met vandaag",
-          "f6": "Klimaatmodellen"
-        },
-        "fractalDim": {
-          "title": "Fractale dimensies",
-          "hook": "Verwanten van dezelfde soort — één niveau omhoog, en dan weer omlaag.",
-          "f1": "Categorieën",
-          "f2": "Verwanten in deze categorie",
-          "f3": "Gerelateerde pagina's",
-          "f4": "Diepte",
-          "f5": "Bovenliggende categorie",
-          "f6": "Leden"
-        },
-        "chronosGate": {
-          "title": "Chronospoort",
-          "hook": "Wanneer, en in wiens handen, is deze kennis veranderd?",
-          "f1": "Eerst geschreven",
-          "f2": "Eerste auteur",
-          "f3": "Recente bewerkingen",
-          "f4": "Bewerkingen per week",
-          "f5": "Aandeel bots",
-          "f6": "Groei sinds ontstaan"
-        },
-        "omniPress": {
-          "title": "Omni Press",
-          "hook": "Hoe noemen de redacties van de wereld — en die van jouw land — dit op dit moment?",
-          "f1": "Wereldwijde redacties",
-          "f2": "Redacties in jouw land",
-          "f3": "Medium",
-          "f4": "Gepubliceerd",
-          "f5": "Persbureau",
-          "f6": "Berichtgeving"
-        },
-        "terraPulse": {
-          "title": "Terra Pulse",
-          "hook": "Wat maakt de aarde onder deze hemel op dit moment door?",
-          "f1": "Natuurverschijnselen in de buurt",
-          "f2": "Aardbevingen binnen 800 km",
-          "f3": "Rivierafvoer",
-          "f4": "Golfhoogte",
-          "f5": "Weerwaarschuwingen",
-          "f6": "Afstand"
-        },
-        "bigTechPulse": {
-          "title": "Omni-tech-puls",
-          "hook": "Haal het uit elkaar: wat bezit, maakt en draait deze organisatie?",
-          "f1": "Branche",
-          "f2": "Moederorganisatie",
-          "f3": "Dochterondernemingen",
-          "f4": "Producten",
-          "f5": "Oprichters",
-          "f6": "Bestuursvoorzitter",
-          "scaleEmployees": "Medewerkers",
-          "scaleRevenue": "Omzet"
-        }
-      }
+      "loginHint": "vraagt mogelijk om in te loggen"
     },
     "composer": {
       "omniKeyAria": "Zoekacties",
@@ -2611,8 +2429,8 @@
         "singularity": "Singulariteit"
       },
       "kinds": {
-        "sources": "Live websynthese",
-        "deeper": "Dieper verkennen",
+        "sources": "Bronnen",
+        "omni": "Bronnen en platforms",
         "concepts": "Gekoppelde begrippen",
         "sites": "Gerelateerde sites",
         "news": "Nieuws",

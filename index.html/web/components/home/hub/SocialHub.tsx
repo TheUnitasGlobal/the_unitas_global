@@ -101,7 +101,7 @@ export function SocialHub() {
       <p className="qw-hub-meta text-[13px] text-gray-400">{t('lede')}</p>
 
       <section className="mt-3" data-hub-share="">
-        <p className="qw-deeper-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+        <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
           <Share2 size={13} aria-hidden="true" />
           {t('share')}
         </p>
@@ -141,7 +141,7 @@ export function SocialHub() {
       </section>
 
       <section className="mt-4" data-hub-social-apps="">
-        <p className="qw-deeper-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+        <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
           <Share2 size={13} aria-hidden="true" />
           {t('apps')}
         </p>
@@ -149,7 +149,7 @@ export function SocialHub() {
       </section>
 
       <section className="mt-4" data-hub-mail-apps="">
-        <p className="qw-deeper-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+        <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
           <Mail size={13} aria-hidden="true" />
           {t('mail')}
         </p>

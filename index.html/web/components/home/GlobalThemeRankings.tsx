@@ -17,7 +17,7 @@ import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
 import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 import { useRankingDetail } from '@/lib/uai/rankingDetailClient';
-import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { OmniOpen } from '@/components/home/OmniOpen';
 import { entityAnchor, qidAnchor, textAnchor, type DeeperAnchor } from '@/lib/uai/deeperAnchor';
 import { resolveEntity } from '@/lib/uai/entityResolve';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
@@ -33,7 +33,7 @@ interface GlobalThemeRankingsProps {
   /** Rank whose detail popup opens on mount (the card row that was tapped). */
   initialDetailRank?: number;
   /** REV-21 SPEC §12.2 (D-20): the host reads the active theme for its own
-   *  Explore Deeper anchor. */
+   *  omni-open anchor. */
   onThemeChange?: (theme: GlobalRankingThemeKey | null) => void;
 }
 
@@ -285,7 +285,7 @@ export function GlobalThemeRankings({ embedded = false, initialTheme, initialDet
           <div
             className="space-y-5"
             data-ranking-detail={`${detail.theme.key}:${detail.entry.rank}`}
-            data-deeper-qid={detail.entry.qid ?? rankingEntryQid(detail.theme.key, detail.entry.rank)}
+            data-anchor-qid={detail.entry.qid ?? rankingEntryQid(detail.theme.key, detail.entry.rank)}
             data-theme-qid={THEME_QID[detail.theme.key]}
           >
             <div className="flex items-start gap-3">
@@ -350,7 +350,7 @@ export function GlobalThemeRankings({ embedded = false, initialTheme, initialDet
 
             {/* REV-21 SPEC §12.2 globalRankingDetail host (depth 2): the entry's
                 own Wikidata item, never a string search of a translated name. */}
-            <ExploreDeeper anchor={detailAnchor} host="globalRankingDetail" />
+            <OmniOpen anchor={detailAnchor} host="globalRankingDetail" />
 
             <p className="text-[11px] uppercase tracking-widest text-gray-600">
               {t(`themes.${detail.theme.key}.title`)}

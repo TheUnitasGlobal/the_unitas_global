@@ -130,7 +130,7 @@ export function isHotNewsCategory(value: string): value is HotNewsCategory {
 }
 
 /** REV-21 SPEC §12.2 (newsRail host, D-19): the Wikidata item each of the
- *  21 axes is ABOUT -- the Explore Deeper anchor of the live news rail's
+ *  21 axes is ABOUT -- the omni-open anchor of the live news rail's
  *  collapsed block. Verified live 2026-09-12 (en.wikipedia pageprops). */
 export const AXIS_QID: Record<HotNewsCategory, string> = {
   politics: 'Q7163', // politics

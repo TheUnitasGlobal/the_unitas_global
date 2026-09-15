@@ -5,7 +5,7 @@
  *
  * Everything that names a source derives from here: the per-reference
  * attribution badge (`sourceNameOf`), the discovery slots' provider row
- * (`SLOT_PROVIDER`), the Explore Deeper themes' sources block, the outbound
+ * (`SLOT_PROVIDER`), the omni-open themes' sources block, the outbound
  * brand row of the infinity stream, and the privacy page's "third-party
  * sources / browser storage" sections (M9). One registry, one legal line per
  * source, one place to retire a source when its terms change.
@@ -567,7 +567,7 @@ export const SOURCE_REGISTRY: readonly OmniSource[] = [
     notes: 'Search API rejected (homonym noise, 10 req/min) -- outbound only.',
   },
   // REV-23 M6: three research destinations added to the outbound brand row
-  // so "다른 곳에서 탐색" reaches past the social platforms. All three are
+  // so "다른플랫폼에서열기" reaches past the social platforms. All three are
   // keyless, login-free search URLs; none is ever fetched.
   {
     id: 'googleScholar',
@@ -673,7 +673,7 @@ export function sourceAttribution(id: SourceId, locale = 'en'): string {
  *  source in registry order. Plain text only -- the renderer must not add
  *  logos, glyphs or brand colours. */
 /**
- * REV-23 M2/M6 (founder directive 2026-09-13): "다른 곳에서 탐색" is now the
+ * REV-23 M2/M6 (founder directive 2026-09-13): "다른플랫폼에서열기" is now the
  * result's ONE outbound surface -- the separate "다른 곳에서 검색" row inside
  * the sources card is gone -- so the row absorbed it and then widened past
  * the social platforms into the research and code destinations the founder
@@ -681,6 +681,15 @@ export function sourceAttribution(id: SourceId, locale = 'en'): string {
  * Wolfram Alpha, arXiv, GitHub, Reddit. Every one is a keyless, login-free
  * search URL; none is fetched, ever.
  */
+/**
+ * The KNOWLEDGE row of the omni-open block -- "다른출처에서열기" (founder
+ * directive 2026-09-15 M2). These are the real corpora behind a subject, not
+ * the consumer platforms: every one of them answers a bare term through a
+ * keyless, login-free search URL, so the row is never an empty titled line
+ * even when the subject carries no Wikidata identifier at all.
+ */
+export const OMNI_SOURCE_ROW: readonly SourceId[] = ['wikipedia', 'wikidata', 'wiktionary', 'wikimediaCommons', 'openLibrary'];
+
 export const OUTBOUND_BRAND_ROW: readonly SourceId[] = [
   'googleSearch',
   'bingSearch',
@@ -737,9 +746,36 @@ export function outboundSearchUrl(id: SourceId, term: string, lang = 'en'): stri
       return `https://www.wolframalpha.com/input?i=${q}`;
     case 'arxiv':
       return `https://arxiv.org/abs/?searchtype=all&query=${q}`;
+    case 'wikipedia':
+      return `https://${lang}.wikipedia.org/w/index.php?search=${q}`;
+    case 'wiktionary':
+      return `https://${lang}.wiktionary.org/w/index.php?search=${q}`;
+    case 'wikidata':
+      return `https://www.wikidata.org/w/index.php?search=${q}`;
+    case 'wikimediaCommons':
+      return `https://commons.wikimedia.org/w/index.php?search=${q}`;
+    case 'openLibrary':
+      return `https://openlibrary.org/search?q=${q}`;
     default:
       return sourceById(id).homepage;
   }
+}
+
+/**
+ * REV-31 M2 -- the href one row of the omni-open block puts on a source.
+ *
+ * An anchor that carries a Wikidata identifier reaches the EXACT article;
+ * one that does not reaches that same corpus' own search for the term. That
+ * is the whole reason the "다른출처에서열기" row can never be an empty
+ * titled line: an identifier buys precision, never presence. Pure, keyless
+ * and synchronous -- no probe decides whether a link exists.
+ */
+export function omniOpenUrl(id: SourceId, term: string, lang = 'en', identity?: { qid?: string; localeTitle?: string }): string {
+  if (id === 'wikipedia' && identity?.qid && identity.localeTitle) {
+    return `https://${lang}.wikipedia.org/wiki/${encodeURIComponent(identity.localeTitle.replace(/ /g, '_'))}`;
+  }
+  if (id === 'wikidata' && identity?.qid) return `https://www.wikidata.org/wiki/${identity.qid}`;
+  return outboundSearchUrl(id, term, lang);
 }
 
 /* ------------------------------------------------------------------ */
@@ -788,12 +824,6 @@ export const BROWSER_STORAGE_LEDGER: readonly BrowserStorageEntry[] = [
     storage: 'sessionStorage',
     purpose: { en: 'The keyword ladder you built, so a language switch restores it.', ko: '언어를 바꿔도 복원되도록 사용자가 쌓은 키워드 사다리입니다.' },
     retention: { en: 'Cleared when the tab closes.', ko: '탭을 닫으면 삭제됩니다.' },
-  },
-  {
-    key: 'unitas.deeper.v1',
-    storage: 'localStorage',
-    purpose: { en: 'Explore Deeper theme pages for an entity or place.', ko: '엔티티·장소별 더 깊이 탐색 테마 페이지입니다.' },
-    retention: { en: 'Per-theme TTL (10 minutes to 24 hours), 1.5 MB cap.', ko: '테마별 TTL(10분~24시간), 1.5MB 상한.' },
   },
   {
     key: 'unitas.uai.stream.v1',

@@ -1272,7 +1272,7 @@
         {
           "heading": "Atalhos e rankings",
           "paragraphs": [
-            "Abaixo da barra de busca, o trilho de atalhos e os trilhos de rankings abrem visualizações detalhadas sem sair da página. Sob a maioria deles você encontrará Explorar mais a fundo, um conjunto de lentes que puxam dados ao vivo sobre o assunto a partir de fontes públicas."
+            "Abaixo da barra de busca, o trilho de atalhos e os trilhos de rankings abrem visualizações detalhadas sem sair da página. Sob a maioria deles há duas linhas, Abrir em outras fontes e Abrir em outras plataformas, para abrir o mesmo assunto numa fonte de conhecimento pública ou noutra plataforma de imediato."
           ]
         },
         {
@@ -2194,13 +2194,6 @@
         }
       }
     },
-    "discovery": {
-      "label": "Explore além",
-      "wikipedia": "Wikipédia",
-      "news": "Notícias",
-      "youtube": "YouTube",
-      "search": "Buscar"
-    },
     "mail": {
       "label": "Handle de e-mail UNITAS (opcional)",
       "placeholder": "yourname",
@@ -2391,188 +2384,13 @@
       "swipeHint": "Deslize para a esquerda ou direita para mudar de tema"
     },
     "deeper": {
-      "label": "Explorar mais a fundo",
-      "anchorAria": "Explorando {term} em profundidade",
-      "sourcesLabel": "Fontes",
-      "outboundLabel": "Abrir em outro lugar",
+      "sourcesLabel": "Abrir em outras fontes",
+      "outboundLabel": "Abrir em outras plataformas",
       "scope": {
         "global": "Mundo todo",
         "country": "Seu país"
       },
-      "more": "Carregar mais",
-      "end": "Você chegou ao fim desta lente.",
-      "retry": "Tentar novamente",
-      "retryHint": "Esta página não carregou.",
-      "loading": "Carregando…",
-      "chooseMeaning": "Qual significado você quis dizer?",
-      "noAnchor": "Nenhuma entidade vinculada ainda — confira o assunto nas fontes abaixo.",
-      "allThemes": "Todas as lentes",
-      "moreThemes": "+{count} mais",
-      "reAnchor": "Explorar isto em vez disso",
-      "loginHint": "pode pedir para você entrar",
-      "licenseLabel": "Licença",
-      "authorLabel": "Autor",
-      "viaSource": "via {source}",
-      "emptyPage": "Nada para mostrar nesta lente ainda.",
-      "closeTheme": "Fechar lente",
-      "themeAria": "Abrir a lente {theme}",
-      "wikiLink": "Artigo da Wikipédia",
-      "wikidataLink": "Item do Wikidata",
-      "attributionLabel": "Atribuição",
-      "themes": {
-        "dataTwin": {
-          "title": "Gêmeo de Dados de Tudo",
-          "hook": "Se isto existisse como dados, quantas propriedades seriam necessárias para reconstruí-lo?",
-          "f1": "Propriedades declaradas",
-          "f2": "Edições em idiomas",
-          "f3": "Descrição",
-          "f4": "Página da propriedade",
-          "f5": "Imagem",
-          "f6": "Identificadores externos"
-        },
-        "causalHack": {
-          "title": "Hack da Causalidade",
-          "hook": "O que causou isto, e o que isto causa — até a causa da causa?",
-          "f1": "Causas",
-          "f2": "Efeitos",
-          "f3": "Causa imediata",
-          "f4": "Fatores contribuintes",
-          "f5": "Classes-mãe e conjuntos",
-          "f6": "Partes e facetas"
-        },
-        "valueCycle": {
-          "title": "Ciclo de Valor Pós-Escassez",
-          "hook": "De onde este conhecimento flui, e para onde vai o valor que ele entrega de graça?",
-          "f1": "Flui de",
-          "f2": "Flui para",
-          "f3": "Links de entrada",
-          "f4": "Links de saída",
-          "f5": "Página",
-          "f6": "Escopo"
-        },
-        "omniWave": {
-          "title": "Onda Omni de Atenção",
-          "hook": "A atenção do mundo está acelerando rumo a isto, ou esfriando?",
-          "f1": "Visualizações em 30 dias",
-          "f2": "Tendência",
-          "f3": "Dia de pico",
-          "f4": "Mundo todo (inglês)",
-          "f5": "Seu idioma",
-          "f6": "Janela"
-        },
-        "zeroPoint": {
-          "title": "Verdade Base Zero",
-          "hook": "A verdade mínima em que vinte idiomas concordam — e a raiz da própria palavra.",
-          "f1": "Nomes em vinte idiomas",
-          "f2": "Descrição",
-          "f3": "Também conhecido como",
-          "f4": "Sentidos no seu idioma",
-          "f5": "Etimologia",
-          "f6": "Sentidos em inglês"
-        },
-        "hologramField": {
-          "title": "Campo Holográfico",
-          "hook": "Ver isto sem palavras — quem capturou, e sob quais direitos?",
-          "f1": "Do artigo",
-          "f2": "Licença",
-          "f3": "Autor",
-          "f4": "Resolução",
-          "f5": "Mais mídia",
-          "f6": "Categoria"
-        },
-        "evolutionArc": {
-          "title": "Arco da Evolução",
-          "hook": "Quando a pesquisa sobre isto explodiu, e onde ela está acelerando agora?",
-          "f1": "Trabalhos por ano",
-          "f2": "Mais citados",
-          "f3": "Mais recentes",
-          "f4": "Total de trabalhos",
-          "f5": "Ano de pico",
-          "f6": "Acesso aberto"
-        },
-        "ventureSignal": {
-          "title": "Sinal Empreendedor",
-          "hook": "Neste momento, quem está lançando algo em torno disto?",
-          "f1": "Lançamentos",
-          "f2": "Discussões",
-          "f3": "Índice oceano azul",
-          "f4": "Pontos",
-          "f5": "Comentários",
-          "f6": "Publicado"
-        },
-        "marketMoat": {
-          "title": "Fosso de Mercado",
-          "hook": "Quem já construiu a muralha, e qual país ainda está aberto?",
-          "f1": "Atores deste campo",
-          "f2": "Por país",
-          "f3": "Economia (PIB)",
-          "f4": "População",
-          "f5": "População online",
-          "f6": "País selecionado"
-        },
-        "timeFlux": {
-          "title": "Clima em Fluxo Temporal",
-          "hook": "Quão diferente era este céu no mesmo dia há trinta anos — e em 2050?",
-          "f1": "Mesmo dia, anos atrás",
-          "f2": "Máxima / mínima",
-          "f3": "Precipitação",
-          "f4": "Mesmo dia, projetado",
-          "f5": "Mudança em relação a hoje",
-          "f6": "Modelos climáticos"
-        },
-        "fractalDim": {
-          "title": "Dimensões Fractais",
-          "hook": "Irmãos do mesmo tipo — um nível acima, depois de volta para baixo.",
-          "f1": "Categorias",
-          "f2": "Irmãos nesta categoria",
-          "f3": "Páginas relacionadas",
-          "f4": "Profundidade",
-          "f5": "Categoria-mãe",
-          "f6": "Membros"
-        },
-        "chronosGate": {
-          "title": "Portal de Chronos",
-          "hook": "Quando, e em quais mãos, este conhecimento mudou?",
-          "f1": "Primeira escrita",
-          "f2": "Primeiro autor",
-          "f3": "Edições recentes",
-          "f4": "Edições por semana",
-          "f5": "Parcela de bots",
-          "f6": "Crescimento desde o nascimento"
-        },
-        "omniPress": {
-          "title": "Omni Imprensa",
-          "hook": "Como as redações do mundo — e do seu país — estão chamando isto agora?",
-          "f1": "Redação mundial",
-          "f2": "Redação do seu país",
-          "f3": "Veículo",
-          "f4": "Publicado",
-          "f5": "Agência",
-          "f6": "Cobertura"
-        },
-        "terraPulse": {
-          "title": "Pulso da Terra",
-          "hook": "Sob este céu, o que a Terra está atravessando agora?",
-          "f1": "Eventos naturais próximos",
-          "f2": "Terremotos em até 800 km",
-          "f3": "Vazão dos rios",
-          "f4": "Altura das ondas",
-          "f5": "Alertas meteorológicos",
-          "f6": "Distância"
-        },
-        "bigTechPulse": {
-          "title": "Pulso omnitecnológico",
-          "hook": "Desmonte-a: o que esta organização possui, fabrica e sobre o que funciona?",
-          "f1": "Setor",
-          "f2": "Matriz",
-          "f3": "Subsidiárias",
-          "f4": "Produtos",
-          "f5": "Fundadores",
-          "f6": "Diretor executivo",
-          "scaleEmployees": "Funcionários",
-          "scaleRevenue": "Receita"
-        }
-      }
+      "loginHint": "pode pedir para você entrar"
     },
     "composer": {
       "omniKeyAria": "Ações de busca",
@@ -2611,8 +2429,8 @@
         "singularity": "Singularidade"
       },
       "kinds": {
-        "sources": "Síntese web em tempo real",
-        "deeper": "Explorar mais a fundo",
+        "sources": "Fontes",
+        "omni": "Fontes e plataformas",
         "concepts": "Conceitos ligados",
         "sites": "Sites relacionados",
         "news": "Notícias",

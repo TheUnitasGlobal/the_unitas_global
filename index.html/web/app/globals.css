@@ -633,7 +633,7 @@ body {
 }
 
 /* REV-21 §1.2 / PERF-08 -- every horizontal rail on the home (discovery chip
-   rail, ranking / news rails, Explore Deeper theme rail). Native scrolling
+   rail, ranking / news rails). Native scrolling
    with snap points, momentum on iOS, no scrollbar, and two guards for
    in-app browsers: `overscroll-behavior-x: contain` keeps an end-of-rail
    swipe from turning into the WebView's back gesture, `touch-action: pan-x
@@ -1129,315 +1129,28 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
 }
 
 /* --------------------------------------------------------------------
-   REV-21 §3 / SPEC §12.2 -- Explore Deeper block: LAYOUT only (unscoped,
-   so the dark /u-ai route and every Quantum White popup share one grid).
-   Painting lives in quantum-white-rev19.css §22 for the white surface and
-   in the components' Tailwind utilities for the dark routes. No
-   backdrop-filter anywhere in this block; entrances are transform/opacity
-   only (§4 new-surface rule). */
-.qw-deeper-block {
+   REV-31 M1-M3 -- the OMNI-OPEN block (founder directive 2026-09-15),
+   components/home/OmniOpen.tsx. It replaces the REV-21 Explore Deeper
+   grid, whose lens tiles, theme pages, meaning chips and omni-tech swarm
+   field were deleted whole. What closes a popup now is exactly two link
+   rows -- the sources row directly above the platform row -- and both
+   headings render from one class so they cannot drift apart.
+
+   LAYOUT only and unscoped, so the dark /u-ai route and every Quantum
+   White popup share it; the white surface repaints in
+   quantum-white-rev19.css 22. Nothing here can cost a frame: no
+   backdrop-filter, no animation, no transition, no paint work at all --
+   only the rule that separates the rows from the body above them. */
+.qw-omni-open {
   contain: content;
   margin-top: 16px;
   padding-top: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-.qw-deeper-block--compact {
+.qw-omni-open--compact {
   margin-top: 12px;
   padding-top: 10px;
 }
-.qw-deeper-themes {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.qw-deeper-themes--compact {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.qw-deeper-theme {
-  border-radius: 12px;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-.qw-deeper-theme:hover,
-.qw-deeper-theme:focus-visible {
-  transform: translateY(-1px);
-  border-color: var(--qw-deeper-accent, #22d3ee);
-  box-shadow: 0 10px 24px -16px var(--qw-deeper-accent, #22d3ee);
-  outline: none;
-}
-.qw-deeper-card {
-  contain: layout paint;
-  border-radius: 12px;
-  animation: qw-deeper-in 0.2s ease both;
-}
-@keyframes qw-deeper-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-.qw-deeper-spark {
-  display: block;
-  width: 100%;
-  height: 44px;
-}
-.qw-deeper-img {
-  display: block;
-  border-radius: 10px;
-  max-width: 100%;
-}
-.qw-deeper-chip,
-.qw-deeper-more,
-.qw-deeper-reanchor {
-  border-radius: 999px;
-}
-.qw-deeper-more {
-  border-radius: 10px;
-}
-@media (max-width: 767px) {
-  /* one snap rail instead of a grid (SPEC §12.9) */
-  .qw-deeper-themes {
-    display: flex;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    touch-action: pan-x pan-y;
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    padding-bottom: 4px;
-  }
-  .qw-deeper-themes::-webkit-scrollbar {
-    display: none;
-  }
-  .qw-deeper-themes > li {
-    flex: 0 0 156px;
-    scroll-snap-align: start;
-  }
-  .qw-deeper-themes--compact > li {
-    flex-basis: 140px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .qw-deeper-card {
-    animation: none;
-  }
-  .qw-deeper-theme {
-    transition: none;
-  }
-  .qw-deeper-theme:hover,
-  .qw-deeper-theme:focus-visible {
-    transform: none;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   REV-24 MISSION 4 -- the OMNI-TECH SWARM (founder directive 2026-09-13).
-   components/home/deeper/OmniTechSwarm.tsx. Layout + dark painting; the white
-   surface repaints in quantum-white-rev19.css.
-
-   THE FRAME BUDGET IS THE DESIGN. There is no animation loop here and no
-   animated property that is not `transform` or `opacity`. The pointer writes
-   two custom properties (--sx, --sy, in [-1, 1]) onto `.qw-swarm` at most
-   once per frame WHILE A POINTER IS MOVING; every node and every edge then
-   derives its own parallax from those two numbers times its own shell depth
-   (--d, 0 inner .. 1 outer). Nothing re-renders, nothing paints, and the
-   instant the pointer leaves, the whole field costs nothing again. Same
-   doctrine as QuantumVoid.tsx and the rest of REV-24 MISSION 3.
-
-   The field is deliberately NOT WebGL: `.qw-deeper-card` sets
-   `contain: layout paint`, the card lives inside a Tab-trapping Modal, and
-   headless WebKit loses the WebGL context on mount (see Scene.tsx). Absolute
-   HTML buttons over one SVG edge layer keeps it accessible, clip-safe and
-   free of a second renderer.
-   -------------------------------------------------------------------------- */
-.qw-swarm-wrap {
-  display: block;
-}
-.qw-swarm {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1.5;
-  min-height: 220px;
-  max-height: 62vh;
-  margin-top: 4px;
-  overflow: hidden;
-  border-radius: 12px;
-  /* Fallback first: an engine that cannot parse `color-mix()` drops the
-     whole declaration, which would leave the field with no ground at all. */
-  background: rgba(255, 255, 255, 0.02);
-  background:
-    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--qw-swarm-accent) 14%, transparent) 0%, transparent 62%),
-    rgba(255, 255, 255, 0.02);
-  touch-action: pan-y;
-}
-/* The web. One layer, non-scaling strokes, pointer-transparent. */
-.qw-swarm-web {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.qw-swarm-edge {
-  stroke: var(--qw-swarm-accent);
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-  opacity: calc(0.1 + (1 - var(--d, 0)) * 0.16);
-  transition: opacity 0.18s ease;
-}
-.qw-swarm-edge[data-swarm-edge-active='1'] {
-  opacity: 0.85;
-  stroke-width: 1.6;
-}
-/* The core -- the organisation the field is taking apart. */
-.qw-swarm-core {
-  position: absolute;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  text-align: center;
-}
-.qw-swarm-core-pip {
-  width: 14px;
-  height: 14px;
-  border-radius: 999px;
-  background: var(--qw-swarm-accent);
-  box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.22);
-  box-shadow: 0 0 0 5px color-mix(in srgb, var(--qw-swarm-accent) 22%, transparent);
-}
-.qw-swarm-core-label {
-  max-width: 168px;
-  font-size: 13px;
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  color: #fff;
-  overflow-wrap: anywhere;
-}
-/* A node. `--d` is its shell depth; the two pointer properties are read from
-   the field above it, so a node never needs its own listener. */
-.qw-swarm-node {
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  max-width: 116px;
-  padding: 0;
-  border: 0;
-  background: none;
-  text-align: center;
-  cursor: pointer;
-  transform:
-    translate(-50%, -50%)
-    translate3d(
-      calc(var(--sx, 0) * var(--d, 0) * var(--qw-swarm-travel, 2.6%) * -1),
-      calc(var(--sy, 0) * var(--d, 0) * var(--qw-swarm-travel, 2.6%) * -1),
-      0
-    );
-  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
-  will-change: transform;
-}
-.qw-swarm-node[data-swarm-absorb='0'] {
-  cursor: default;
-}
-.qw-swarm-dot {
-  width: calc(9px - var(--d, 0) * 2px);
-  height: calc(9px - var(--d, 0) * 2px);
-  border-radius: 999px;
-  background: var(--qw-swarm-accent);
-  opacity: calc(1 - var(--d, 0) * 0.35);
-  transition: box-shadow 0.18s ease, opacity 0.18s ease;
-}
-.qw-swarm-label {
-  font-size: calc(12px - var(--d, 0) * 1px);
-  font-weight: 700;
-  line-height: 1.15;
-  color: rgba(229, 231, 235, calc(1 - var(--d, 0) * 0.3));
-  overflow-wrap: anywhere;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-}
-.qw-swarm-node:hover,
-.qw-swarm-node:focus-visible {
-  z-index: 3;
-  outline: none;
-}
-.qw-swarm-node:hover .qw-swarm-dot,
-.qw-swarm-node:focus-visible .qw-swarm-dot {
-  opacity: 1;
-  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.3);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--qw-swarm-accent) 30%, transparent);
-}
-.qw-swarm-node:hover .qw-swarm-label,
-.qw-swarm-node:focus-visible .qw-swarm-label {
-  color: #fff;
-}
-.qw-swarm-node:focus-visible .qw-swarm-label {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-/* Legend -- which sector is which dimension. */
-.qw-swarm-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 12px;
-  margin-top: 8px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: rgba(156, 163, 175, 1);
-}
-.qw-swarm-legend-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-.qw-swarm-legend-pip {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--qw-swarm-accent, var(--qw-deeper-accent));
-  opacity: calc(1 - var(--i, 0) * 0.12);
-}
-.qw-swarm-legend-count {
-  font-size: 10px;
-  font-weight: 800;
-  color: rgba(107, 114, 128, 1);
-}
-/* A finger has no hover and covers the node it is on, so the parallax is
-   pointless there; a reduced-motion visitor asked for none. Both get the
-   identical field, still -- every node is in exactly the same place. */
-@media (prefers-reduced-motion: reduce), (pointer: coarse) {
-  .qw-swarm-node {
-    transition: none;
-    transform: translate(-50%, -50%);
-    will-change: auto;
-  }
-  .qw-swarm-edge {
-    transition: none;
-  }
-}
-@media (max-width: 640px) {
-  .qw-swarm {
-    aspect-ratio: 1.05;
-    min-height: 300px;
-  }
-  .qw-swarm-node {
-    max-width: 88px;
-  }
-}
-
 /* --------------------------------------------------------------------------
    REV-21 §5C / SPEC §12.7 -- U-AI infinity stream: LAYOUT + dark painting.
    The feed root is the scroll box (tower) or an in-flow column (/u-ai). No
@@ -1785,7 +1498,7 @@ a.qw-stream-item-link:hover .qw-stream-item-title {
 .qw-stream-rankings {
   contain: content;
 }
-.qw-stream-deeper {
+.qw-stream-omni {
   margin-top: 0;
   padding-top: 0;
   border-top: 0;

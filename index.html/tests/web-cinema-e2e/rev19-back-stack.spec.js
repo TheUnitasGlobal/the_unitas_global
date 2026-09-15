@@ -110,7 +110,7 @@ test.describe('REV-19 deep modal history stack', () => {
     expect(before[before.length - 2]).toMatch(/^modal:ranking-deep-title/);
     // REV-21 M5b (bc99f93) replaced REV-19's [data-discovery-links] strip with
     // the 14-lens Explore Deeper block on every U-AI popup; same contract, new hook.
-    await expect(page.locator('[data-explore-deeper]').first()).toBeVisible();
+    await expect(page.locator('[data-omni-open]').first()).toBeVisible();
 
     // Back closes the detail only; the deep modal (and the hub) stay.
     await page.goBack();

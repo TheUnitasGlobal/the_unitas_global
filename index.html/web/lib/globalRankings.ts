@@ -72,7 +72,7 @@ export interface GlobalRankingEntry {
   detail?: string;
   /** REV-21 SPEC §12.3 (h): the entry's Wikidata item, resolved through
    *  `rankingEntryQid` (curated for ranks 1-10 of every theme) -- the
-   *  Explore Deeper anchor of the rank-detail popup, so the popup never
+   *  omni-open anchor of the rank-detail popup, so the popup never
    *  string-searches a translated name. */
   qid?: string;
 }
@@ -97,7 +97,7 @@ export const LOAD_MORE_TIERS = [10, 50, 100] as const;
 export const ENTRY_DETAIL_MAX_RANK = 20;
 
 /** REV-21 SPEC §12.2 (rankingDeep host): the Wikidata item each THEME is
- *  about -- the anchor of the ranking deep modal's Explore Deeper block
+ *  about -- the anchor of the ranking deep modal's omni-open block
  *  while a theme tab (not a row) is in focus. Verified live 2026-09-12. */
 export const THEME_QID: Record<GlobalRankingThemeKey, string> = {
   heritage: 'Q9259', // World Heritage Site

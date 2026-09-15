@@ -13,7 +13,7 @@ import {
 } from '@/lib/unitasRankings';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
-import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { OmniOpen } from '@/components/home/OmniOpen';
 import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
 import { textAnchor } from '@/lib/uai/deeperAnchor';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
@@ -34,7 +34,7 @@ interface UnitasModuleRankingsProps {
   /** Rank whose operator profile opens on mount (the card row that was tapped). */
   initialProfileRank?: number;
   /** REV-21 SPEC §12.2: the host reads the active module's title for its
-   *  sources-only Explore Deeper block. */
+   *  sources-only omni-open block. */
   onModuleChange?: (title: string) => void;
 }
 
@@ -190,7 +190,7 @@ export function UnitasModuleRankings({ embedded = false, initialModule, initialP
             </p>
             {/* REV-21 SPEC §12.2 unitasProfile host (D-23): no entity behind a
                 pseudonymous operator -- sources-only mode on the module title. */}
-            <ExploreDeeper anchor={textAnchor(titleFor(profile.module), wikiLangFor(locale))} host="unitasProfile" compact bridge={false} />
+            <OmniOpen anchor={textAnchor(titleFor(profile.module), wikiLangFor(locale))} host="unitasProfile" compact />
             <p className="text-[11px] text-gray-500">{t('disclaimer')}</p>
           </div>
         )}

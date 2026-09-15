@@ -1074,63 +1074,23 @@ html[data-unitas-surface='quantum-white'] .qw-discovery-link:hover {
 }
 
 /* --------------------------------------------------------------------------
-   22. Explore Deeper (REV-21 §3 / SPEC §12.2) -- white-surface painting for
-       the block that sits under every popup. Layout is in globals.css.
+   22. Omni-Open (REV-31 M1-M3, founder directive 2026-09-15) -- white-surface
+       painting for the two link rows that now close every popup. Layout is
+       in globals.css. `.qw-section-label` is the shared heading token: the
+       UNITAS hub panels wear it too, so both omni-open headings and every
+       hub heading are painted by this one rule and cannot drift apart.
    -------------------------------------------------------------------------- */
-html[data-unitas-surface='quantum-white'] .qw-deeper-block {
+html[data-unitas-surface='quantum-white'] .qw-omni-open {
   border-top-color: var(--qw-line);
 }
-html[data-unitas-surface='quantum-white'] .qw-deeper-label {
+html[data-unitas-surface='quantum-white'] .qw-section-label {
   color: var(--qw-gold-deep);
 }
-html[data-unitas-surface='quantum-white'] .qw-deeper-subject {
-  color: var(--qw-ink-2);
-}
-html[data-unitas-surface='quantum-white'] .qw-deeper-theme {
-  border-color: var(--qw-line-strong);
-  background: rgba(255, 255, 255, 0.72);
-}
-html[data-unitas-surface='quantum-white'] .qw-deeper-theme:hover,
-html[data-unitas-surface='quantum-white'] .qw-deeper-theme:focus-visible {
-  background: #fff;
-}
-html[data-unitas-surface='quantum-white'] .qw-deeper-theme--more {
-  border-style: dashed;
-  color: var(--qw-ink-2);
-}
-html[data-unitas-surface='quantum-white'] .qw-deeper-hook {
+html[data-unitas-surface='quantum-white'] .qw-omni-row {
   color: var(--qw-ink-3);
 }
-html[data-unitas-surface='quantum-white'] .qw-deeper-card {
-  border-color: var(--qw-line-strong);
-  background: rgba(255, 255, 255, 0.7);
-}
-html[data-unitas-surface='quantum-white'] .qw-deeper-chip {
-  border-color: var(--qw-line-strong);
-  background: rgba(255, 255, 255, 0.75);
-  color: var(--qw-ink);
-}
-html[data-unitas-surface='quantum-white'] .qw-deeper-sources,
-html[data-unitas-surface='quantum-white'] .qw-deeper-outbound,
-html[data-unitas-surface='quantum-white'] .qw-deeper-card-source,
-html[data-unitas-surface='quantum-white'] .qw-deeper-page-sources {
-  color: var(--qw-ink-3);
-}
-html[data-unitas-surface='quantum-white'] .qw-deeper-sources a,
-html[data-unitas-surface='quantum-white'] .qw-deeper-outbound a,
-html[data-unitas-surface='quantum-white'] .qw-deeper-page-sources a {
+html[data-unitas-surface='quantum-white'] .qw-omni-row a {
   color: var(--qw-blue-deep);
-}
-html[data-unitas-surface='quantum-white'] .qw-deeper-more {
-  border-color: var(--qw-line-strong);
-  color: var(--qw-blue-deep);
-}
-html[data-unitas-surface='quantum-white'] .qw-deeper-more:hover {
-  border-color: var(--qw-blue);
-  background: #fff;
-}
-html[data-unitas-surface='quantum-white'] .qw-deeper-img {
-  background: rgba(10, 10, 12, 0.04);
 }
 
 /* --------------------------------------------------------------------------
@@ -1243,40 +1203,4 @@ html[data-unitas-surface='quantum-white'] .qw-two-step-hit:focus-visible {
   box-shadow: 0 0 0 1.5px var(--qw-blue);
   color: var(--qw-blue-deep);
 }
-
-/* --------------------------------------------------------------------------
-   §24. REV-24 MISSION 4 -- the OMNI-TECH SWARM on the white surface
-   (founder directive 2026-09-13). Layout lives in globals.css; this is the
-   repaint only. The dark field's near-black ground and white labels would
-   read as a hole punched in the page here, so the field becomes a pale
-   crystal plate and the ink inverts. No backdrop-filter and no blur: the
-   Explore Deeper block forbids both (globals.css §qw-deeper header), and the
-   swarm must stay inside that rule.
-   -------------------------------------------------------------------------- */
-html[data-unitas-surface='quantum-white'] .qw-swarm {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(246, 247, 250, 0.96));
-  background:
-    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--qw-swarm-accent) 12%, transparent) 0%, transparent 64%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(246, 247, 250, 0.96));
-  border: 1px solid var(--qw-line);
-}
-html[data-unitas-surface='quantum-white'] .qw-swarm-edge {
-  opacity: calc(0.16 + (1 - var(--d, 0)) * 0.2);
-}
-html[data-unitas-surface='quantum-white'] .qw-swarm-core-label {
-  color: var(--qw-ink);
-}
-html[data-unitas-surface='quantum-white'] .qw-swarm-label {
-  color: var(--qw-ink-2);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-html[data-unitas-surface='quantum-white'] .qw-swarm-node:hover .qw-swarm-label,
-html[data-unitas-surface='quantum-white'] .qw-swarm-node:focus-visible .qw-swarm-label {
-  color: var(--qw-ink);
-}
-html[data-unitas-surface='quantum-white'] .qw-swarm-legend {
-  color: var(--qw-ink-3);
-}
-html[data-unitas-surface='quantum-white'] .qw-swarm-legend-count {
-  color: var(--qw-ink-3);
-}
+

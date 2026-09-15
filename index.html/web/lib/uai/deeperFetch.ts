@@ -1,5 +1,5 @@
 /**
- * REV-21 §3 -- the shared network layer of the Explore Deeper adapters.
+ * REV-21 §3 -- the shared network layer of the omni-open adapters.
  *
  *  - keyless, CORS-`*` public endpoints only; every failure returns null
  *    (adapters are fail-open, a page is never a throw);
@@ -12,7 +12,7 @@
  * Isomorphic: no window, no React. Node 18+ `fetch` on the server.
  */
 
-export const DEEPER_UA = 'UNITAS-ExploreDeeper/1.0 (https://www.theunitas.global; ceo@theunitas.global)';
+export const DEEPER_UA = 'UNITAS-OmniOpen/1.0 (https://www.theunitas.global; ceo@theunitas.global)';
 
 const WIKIMEDIA_HOST = /(^|\.)(wikipedia|wikidata|wikimedia|wiktionary)\.org$/i;
 /** Minimum spacing between two Wikimedia calls from this device. */

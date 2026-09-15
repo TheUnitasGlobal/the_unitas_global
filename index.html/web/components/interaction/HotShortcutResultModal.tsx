@@ -17,7 +17,7 @@ import {
 import { useShortcutFeed } from '@/lib/uai/useShortcutFeed';
 import { loadShortcutAnalysis } from '@/lib/uai/shortcutCacheClient';
 import type { AnalyticsLabels, KeywordChip, ShortcutAnalysis } from '@/lib/uai/shortcutAnalytics';
-import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { OmniOpen } from '@/components/home/OmniOpen';
 import { entityAnchor, textAnchor } from '@/lib/uai/deeperAnchor';
 import { isQid, sitelinkTitle } from '@/lib/uai/entityResolve';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
@@ -636,7 +636,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onFocusTier, onHo
             </div>
           )}
 
-          {focused && <ExploreDeeper anchor={deeperAnchor} host="keywordTier" compact report={analysis.report} />}
+          {focused && <OmniOpen anchor={deeperAnchor} host="keywordTier" compact />}
         </div>
       )}
     </motion.article>

@@ -16,7 +16,7 @@ import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { SectionShield } from '@/components/system/PageShield';
 import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
-import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { OmniOpen } from '@/components/home/OmniOpen';
 import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
 import { TwoStepTitle } from '@/components/uai/stream/StreamCards';
 import { captureScroll, reserveHeight } from '@/lib/ui/scrollAnchor';
@@ -625,7 +625,7 @@ function slotAnchor(key: SlotKey, locale: string, term: string, place: Place | n
 function SlotDeepModal({ target, ctx, onClose }: { target: DeepTarget | null; ctx: SlotContext; onClose: () => void }) {
   const slotKey = target?.key ?? null;
   // SPEC §12.3 (a): the weather panel lifts the place it is showing so the
-  // host's Explore Deeper block anchors on THAT place, not the locale default.
+  // host's omni-open block anchors on THAT place, not the locale default.
   const [weatherPlace, setWeatherPlace] = useState<Place | null>(null);
   const weatherAnchor = slotKey === 'weather' ? slotAnchor('weather', ctx.locale, weatherPlace?.name ?? 'weather', weatherPlace) : null;
   return (
@@ -640,8 +640,8 @@ function SlotDeepModal({ target, ctx, onClose }: { target: DeepTarget | null; ct
           </SectionShield>
           {/* SPEC §12.2 weather host: a sibling OUTSIDE the panel's shield, with
               its own zone, anchored on the place the panel is showing. */}
-          <SectionShield zone="explore-deeper">
-            <ExploreDeeper anchor={weatherAnchor} host="weather" />
+          <SectionShield zone="omni-open">
+            <OmniOpen anchor={weatherAnchor} host="weather" />
           </SectionShield>
         </div>
       </Modal>
@@ -858,7 +858,7 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
           </>
         )}
 
-        <ExploreDeeper anchor={anchor} host="feed" />
+        <OmniOpen anchor={anchor} host="feed" />
 
         {card?.updatedAt && (
           <p className="text-[12px] text-gray-500">{tHub('updated', { time: timeFormatter.format(new Date(card.updatedAt)) })}</p>
@@ -927,7 +927,7 @@ function RankingDeepModal({ target, onClose }: { target: DeepTarget | null; onCl
           {/* REV-25 M1: the world-ranking anchor is a real Wikidata item, so it
               may bridge; the UNITAS-ranking anchor is a MODULE NAME and must
               not be resolved to an unrelated encyclopedia entry (D-23). */}
-          <ExploreDeeper anchor={rankingAnchor} host="rankingDeep" compact bridge={key !== 'unitasRanking'} />
+          <OmniOpen anchor={rankingAnchor} host="rankingDeep" compact />
         </div>
       )}
     </Modal>

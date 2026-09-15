@@ -1,5 +1,5 @@
 /**
- * REV-21 §3 / SPEC §12.2-§12.3 -- the ANCHOR every "더 깊이 탐색" (Explore
+ * REV-21 §3 / SPEC §12.2-§12.3 -- the ANCHOR every "다른출처·다른플랫폼 열기" (Explore
  * Deeper) host hands to the themes: the entity, place or country a popup
  * is about, carried as identifiers (Wikidata QID, coordinates, ISO country)
  * so no theme ever re-searches a translated title -- the '공기 → Thai film'
@@ -102,12 +102,12 @@ export function anchorSupports(a: DeeperAnchor, need: DeeperAnchorKind): boolean
 /** `data-*` attributes a host stamps on its modal root so the placed block
  *  (and the E2E back-count matrix) can read the anchor without props. */
 export function anchorDataAttrs(a: DeeperAnchor | null | undefined): Record<string, string | undefined> {
-  if (!a) return { 'data-deeper-kind': 'none' };
+  if (!a) return { 'data-anchor-kind': 'none' };
   return {
-    'data-deeper-kind': a.kind,
-    'data-deeper-qid': a.qid,
-    'data-deeper-term': a.term,
-    'data-deeper-country': a.countryCode,
+    'data-anchor-kind': a.kind,
+    'data-anchor-qid': a.qid,
+    'data-anchor-term': a.term,
+    'data-anchor-country': a.countryCode,
   };
 }
 

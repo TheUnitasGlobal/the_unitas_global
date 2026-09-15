@@ -18,16 +18,16 @@
  * no 3-second lens, no bias shield, no 3-step checklist, no swarm
  * cross-reasoning, no 6-axis spectrum, no sovereign redesign, no question
  * chain, no COGS lens. Page 0 is the web synthesis, and page 1 opens with
- * "다른 곳에서 탐색" -- the single Explore Deeper block that now absorbs the
- * outbound brand row too.
+ * the omni-open pair (REV-31) -- the single block that sends the visitor
+ * anywhere else, sources row above platform row.
  */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ExploreDeeper } from '@/components/home/ExploreDeeper';
+import { OmniOpen } from '@/components/home/OmniOpen';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
 import { useSlotContext } from '@/lib/live/useSlotContext';
 import { entityAnchor, qidAnchor, textAnchor, type DeeperAnchor } from '@/lib/uai/deeperAnchor';
-import type { DeeperHost } from '@/lib/uai/deeperThemes';
+import type { OmniOpenHost } from '@/components/home/OmniOpen';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import { LOCAL_KINDS, STREAM_DOM_PAGES, streamRecipe, type StreamCard, type StreamCardKind, type StreamPage } from '@/lib/uai/stream/streamTypes';
 import { useHyperStream } from '@/lib/uai/stream/useHyperStream';
@@ -40,8 +40,8 @@ export interface UaiHyperStreamProps {
   phase: UaiPhase;
   surface: SurfaceReport | null;
   onRunQuery: RunQuery;
-  /** Which surface hosts the stream (Explore Deeper card host id). */
-  host: DeeperHost;
+  /** Which surface hosts the stream (omni-open card host id). */
+  host: OmniOpenHost;
   /** The entity the search was pinned on (ladder row / chip). */
   submittedQid?: string | null;
   /** Classes for the feed root -- in the tower this is the scroll box. */
@@ -144,10 +144,10 @@ export function UaiHyperStream({
     page.cards.forEach((c) => byKind.set(c.kind, [...(byKind.get(c.kind) ?? []), c]));
     const nodes: JSX.Element[] = [];
     recipe.forEach((kind) => {
-      if (kind === 'deeper' && anchor && surface)
+      if (kind === 'omni' && anchor && surface)
         nodes.push(
-          <article key={`deeper-${page.page}`} className="qw-stream-card" data-stream-card="deeper" data-stream-page={page.page}>
-            <ExploreDeeper anchor={anchor} host={host} report={surface} compact={page.page > 1} className="qw-stream-deeper" />
+          <article key={`omni-${page.page}`} className="qw-stream-card" data-stream-card="omni" data-stream-page={page.page}>
+            <OmniOpen anchor={anchor} host={host} compact={page.page > 1} className="qw-stream-omni" />
           </article>,
         );
       else (byKind.get(kind) ?? []).forEach((card) => nodes.push(<NetworkCard key={card.id} card={card} onQuery={onRunQuery} />));

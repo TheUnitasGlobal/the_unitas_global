@@ -2,7 +2,7 @@
 
 /**
  * REV-21 §2.1 -- the live `SlotContext` for the discovery carousel and the
- * Explore Deeper block: locale from next-intl, the selected country from
+ * omni-open block: locale from next-intl, the selected country from
  * the signed-in profile → the weather panel's last searched city → the
  * locale's default place (lib/live/contextPriority.ts resolveCountry).
  */

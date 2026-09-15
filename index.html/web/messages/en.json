@@ -1272,7 +1272,7 @@
         {
           "heading": "Shortcuts and rankings",
           "paragraphs": [
-            "Below the search bar, the shortcut rail and the ranking rails open detailed views without leaving the page. Under most of them you will find Explore Deeper, a set of lenses that pull live data about the subject from public sources."
+            "Below the search bar, the shortcut rail and the ranking rails open detailed views without leaving the page. Under most of them sit two rows, Open from other sources and Open from other platforms, so you can open the same subject in a public knowledge source or on another platform straight away."
           ]
         },
         {
@@ -2194,13 +2194,6 @@
         }
       }
     },
-    "discovery": {
-      "label": "Explore beyond",
-      "wikipedia": "Wikipedia",
-      "news": "News",
-      "youtube": "YouTube",
-      "search": "Search"
-    },
     "mail": {
       "label": "UNITAS mail handle (optional)",
       "placeholder": "yourname",
@@ -2391,188 +2384,13 @@
       "swipeHint": "Swipe left or right to change theme"
     },
     "deeper": {
-      "label": "Explore deeper",
-      "anchorAria": "Exploring {term} in depth",
-      "sourcesLabel": "Sources",
-      "outboundLabel": "Open elsewhere",
+      "sourcesLabel": "Open from other sources",
+      "outboundLabel": "Open from other platforms",
       "scope": {
         "global": "Worldwide",
         "country": "Your country"
       },
-      "more": "Load more",
-      "end": "You have reached the end of this lens.",
-      "retry": "Try again",
-      "retryHint": "That page did not load.",
-      "loading": "Loading…",
-      "chooseMeaning": "Which meaning did you mean?",
-      "noAnchor": "No linked entity yet — verify the subject at the sources below.",
-      "allThemes": "All lenses",
-      "moreThemes": "+{count} more",
-      "reAnchor": "Explore this instead",
-      "loginHint": "may ask you to sign in",
-      "licenseLabel": "License",
-      "authorLabel": "Author",
-      "viaSource": "via {source}",
-      "emptyPage": "Nothing to show for this lens yet.",
-      "closeTheme": "Close lens",
-      "themeAria": "Open the {theme} lens",
-      "wikiLink": "Wikipedia article",
-      "wikidataLink": "Wikidata item",
-      "attributionLabel": "Attribution",
-      "themes": {
-        "dataTwin": {
-          "title": "Data Twin of Everything",
-          "hook": "If this existed as data, how many properties would it take to rebuild it?",
-          "f1": "Stated properties",
-          "f2": "Language editions",
-          "f3": "Description",
-          "f4": "Property page",
-          "f5": "Image",
-          "f6": "External identifiers"
-        },
-        "causalHack": {
-          "title": "Causality Hack",
-          "hook": "What caused this, and what does it cause — all the way to the cause of the cause?",
-          "f1": "Causes",
-          "f2": "Effects",
-          "f3": "Immediate cause",
-          "f4": "Contributing factors",
-          "f5": "Parent classes and wholes",
-          "f6": "Parts and facets"
-        },
-        "valueCycle": {
-          "title": "Post-Scarcity Value Cycle",
-          "hook": "Where does this knowledge flow in from, and where does the value it gives away for free go?",
-          "f1": "Flows in from",
-          "f2": "Flows out to",
-          "f3": "Inbound links",
-          "f4": "Outbound links",
-          "f5": "Page",
-          "f6": "Scope"
-        },
-        "omniWave": {
-          "title": "Omni-Wave Attention",
-          "hook": "Is the world's attention accelerating toward this, or cooling off?",
-          "f1": "Views in 30 days",
-          "f2": "Trend",
-          "f3": "Peak day",
-          "f4": "Worldwide (English)",
-          "f5": "Your language",
-          "f6": "Window"
-        },
-        "zeroPoint": {
-          "title": "Zero-Base Truth",
-          "hook": "The minimal truth twenty languages agree on — and the root of the word itself.",
-          "f1": "Names in twenty languages",
-          "f2": "Description",
-          "f3": "Also known as",
-          "f4": "Senses in your language",
-          "f5": "Etymology",
-          "f6": "Senses in English"
-        },
-        "hologramField": {
-          "title": "Hologram Field",
-          "hook": "Seeing this without words — who captured it, and under which rights?",
-          "f1": "From the article",
-          "f2": "License",
-          "f3": "Author",
-          "f4": "Resolution",
-          "f5": "More media",
-          "f6": "Category"
-        },
-        "evolutionArc": {
-          "title": "Evolution Arc",
-          "hook": "When did research on this explode, and where is it accelerating now?",
-          "f1": "Works per year",
-          "f2": "Most cited",
-          "f3": "Most recent",
-          "f4": "Total works",
-          "f5": "Peak year",
-          "f6": "Open access"
-        },
-        "ventureSignal": {
-          "title": "Venture Signal",
-          "hook": "Right now, who is launching something around this?",
-          "f1": "Launches",
-          "f2": "Discussions",
-          "f3": "Blue-ocean index",
-          "f4": "Points",
-          "f5": "Comments",
-          "f6": "Posted"
-        },
-        "marketMoat": {
-          "title": "Market Moat",
-          "hook": "Who has already built the wall, and which country is still open?",
-          "f1": "Players in this field",
-          "f2": "By country",
-          "f3": "Economy (GDP)",
-          "f4": "Population",
-          "f5": "Online population",
-          "f6": "Selected country"
-        },
-        "timeFlux": {
-          "title": "Time Flux Climate",
-          "hook": "How different was this sky on the same day thirty years ago — and in 2050?",
-          "f1": "Same day, years ago",
-          "f2": "High / low",
-          "f3": "Precipitation",
-          "f4": "Same day, projected",
-          "f5": "Change versus today",
-          "f6": "Climate models"
-        },
-        "fractalDim": {
-          "title": "Fractal Dimensions",
-          "hook": "Siblings of the same kind — one level up, then back down.",
-          "f1": "Categories",
-          "f2": "Siblings in this category",
-          "f3": "Related pages",
-          "f4": "Depth",
-          "f5": "Parent category",
-          "f6": "Members"
-        },
-        "chronosGate": {
-          "title": "Chronos Gate",
-          "hook": "When, and in whose hands, has this knowledge changed?",
-          "f1": "First written",
-          "f2": "First author",
-          "f3": "Recent edits",
-          "f4": "Edits per week",
-          "f5": "Bot share",
-          "f6": "Growth since birth"
-        },
-        "omniPress": {
-          "title": "Omni Press",
-          "hook": "How are the world's newsrooms — and your country's — naming this right now?",
-          "f1": "Worldwide newsroom",
-          "f2": "Your country's newsroom",
-          "f3": "Outlet",
-          "f4": "Published",
-          "f5": "Wire",
-          "f6": "Coverage"
-        },
-        "terraPulse": {
-          "title": "Terra Pulse",
-          "hook": "Under this sky, what is the Earth going through right now?",
-          "f1": "Natural events nearby",
-          "f2": "Earthquakes within 800 km",
-          "f3": "River discharge",
-          "f4": "Wave height",
-          "f5": "Weather alerts",
-          "f6": "Distance"
-        },
-        "bigTechPulse": {
-          "title": "Omni-Tech Pulse",
-          "hook": "Take it apart: what does this organisation own, make, and run on?",
-          "f1": "Industry",
-          "f2": "Parent",
-          "f3": "Subsidiaries",
-          "f4": "Products",
-          "f5": "Founders",
-          "f6": "Chief executive",
-          "scaleEmployees": "Employees",
-          "scaleRevenue": "Revenue"
-        }
-      }
+      "loginHint": "may ask you to sign in"
     },
     "composer": {
       "omniKeyAria": "Search actions",
@@ -2611,8 +2429,8 @@
         "singularity": "Singularity"
       },
       "kinds": {
-        "sources": "Live web synthesis",
-        "deeper": "Explore deeper",
+        "sources": "Sources",
+        "omni": "Sources and platforms",
         "concepts": "Linked concepts",
         "sites": "Related sites",
         "news": "News",
