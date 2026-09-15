@@ -2833,5 +2833,24 @@
         "honest": "Przepustka zapisana jest na tym urządzeniu, a po zalogowaniu także na Twoim koncie. Żadne wideo nie jest jeszcze przesyłane ani przechowywane."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Księga konta",
+      "device": "To urządzenie",
+      "serverNote": "Kredyty, zakupy i oferty są w Twoim koncie · Rozliczenie w U-COIN otworzy się wraz z wypłatą."
+    },
+    "room": {
+      "durable": "Zapisano na koncie",
+      "deviceOnly": "Tylko na tym urządzeniu"
+    },
+    "error": {
+      "unauthenticated": "Zaloguj się, aby użyć księgi konta.",
+      "owned": "Masz już ten pakiet.",
+      "insufficient": "Za mało kredytów na ten pakiet.",
+      "too-fast": "Chwila przerwy między wiadomościami.",
+      "rejected": "Serwer odmówił. Nic nie zostało zmienione.",
+      "offline": "Brak połączenia — zapis prowadzi to urządzenie."
+    }
   }
 }

@@ -2833,5 +2833,24 @@
         "honest": "Il tuo pass è salvato su questo dispositivo e, quando hai effettuato l’accesso, anche sul tuo account. Nessun video viene ancora caricato o archiviato."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Registro account",
+      "device": "Questo dispositivo",
+      "serverNote": "Crediti, acquisti e pubblicazioni restano sul tuo account · Il regolamento in U-COIN apre con il pagamento."
+    },
+    "room": {
+      "durable": "Salvato sull’account",
+      "deviceOnly": "Solo su questo dispositivo"
+    },
+    "error": {
+      "unauthenticated": "Accedi per usare il registro account.",
+      "owned": "Possiedi già questo pack.",
+      "insufficient": "Crediti insufficienti per quel pack.",
+      "too-fast": "Un attimo tra un messaggio e l’altro, per favore.",
+      "rejected": "Il server ha rifiutato. Nulla è stato modificato.",
+      "offline": "Nessuna connessione — il registro resta su questo dispositivo."
+    }
   }
 }

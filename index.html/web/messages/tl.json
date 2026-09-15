@@ -2833,5 +2833,24 @@
         "honest": "Nasa device na ito ang pass mo at, kapag naka-sign in, nasa account mo rin. Wala pang video na ina-upload o iniimbak."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Ledger ng account",
+      "device": "Ang device na ito",
+      "serverNote": "Nasa account mo ang credits, binili at listing · Bubukas ang U-COIN settlement kasama ang payout job."
+    },
+    "room": {
+      "durable": "Naka-save sa account",
+      "deviceOnly": "Sa device na ito lang"
+    },
+    "error": {
+      "unauthenticated": "Mag-sign in para gamitin ang ledger ng account.",
+      "owned": "Meron ka na nitong pack.",
+      "insufficient": "Kulang ang credits para sa pack na iyan.",
+      "too-fast": "Sandaling paghinto sa pagitan ng mga mensahe.",
+      "rejected": "Tinanggihan ng server. Walang nabago.",
+      "offline": "Walang koneksyon — ang device na ito ang nag-iingat ng record."
+    }
   }
 }

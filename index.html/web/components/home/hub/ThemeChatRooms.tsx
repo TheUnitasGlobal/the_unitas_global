@@ -7,6 +7,7 @@ import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { HOT_NEWS_AXES, hotNewsAxisMeta } from '@/lib/live/hotNewsAxes';
 import { createHubChannel, type HubChannelHandle } from '@/lib/hub/hubChannel';
 import {
+  CHAT_HISTORY,
   CHAT_MAX_TEXT,
   canSend,
   isChatMessagePayload,
@@ -18,19 +19,27 @@ import {
   type ChatMessage,
   type ChatRoomKey,
 } from '@/lib/hub/themeChat';
+import { hasHubSession, hubPostMessage, hubRoomHistory, isHubServerConfigured, type HubServerError } from '@/lib/hub/hubLedger';
 import { useHubIdentity } from './useHubIdentity';
 
 /**
  * REV-29 MISSION 4 -- 테마별 대화방. Twenty-two rooms, one per news axis.
  * A room is one hub broadcast channel: what a visitor sends reaches every
- * other visitor in the room within the round trip and is stored NOWHERE on
- * the server; each device keeps its own last 60 messages per room. The
- * presence counter is the room's live head-count. Without the public
- * Supabase env the room runs device-local and says so.
+ * other visitor in the room within the round trip. The presence counter is
+ * the room's live head-count.
+ *
+ * REV-30 M1 adds DURABILITY without touching that. The broadcast is still
+ * what makes a room feel live -- it is unchanged. What is new: a signed-in
+ * author's message is also written to `hub_messages` (RLS, server-sanitised,
+ * server flood-guarded), and opening a room loads that history first, so a
+ * room on a new device is no longer blank. A guest still broadcasts and
+ * still keeps this device's own last 60 messages, and the room says which of
+ * the two it is doing.
  */
 export function ThemeChatRooms() {
   const t = useTranslations('Rev29.rooms');
   const tHub = useTranslations('Rev29.hub');
+  const tRev30 = useTranslations('Rev30');
   const tNews = useTranslations('HotNews');
   const locale = useLocale();
   const { playHoverSfx, playQuestEnterSfx } = useSpatialAudio();
@@ -41,6 +50,10 @@ export function ThemeChatRooms() {
   const [draft, setDraft] = useState('');
   const [online, setOnline] = useState<number | null>(null);
   const [live, setLive] = useState<boolean | null>(null);
+  /** REV-30 M1: does this visitor's own message survive the device? */
+  const [durable, setDurable] = useState(false);
+  const [serverError, setServerError] = useState<HubServerError | null>(null);
+  const [sending, setSending] = useState(false);
   const channelRef = useRef<HubChannelHandle | null>(null);
   const lastSentRef = useRef<number | null>(null);
   const listRef = useRef<HTMLOListElement>(null);
@@ -48,14 +61,39 @@ export function ThemeChatRooms() {
   const meta = hotNewsAxisMeta(room);
   const roomLabel = tNews(`category.${room}`);
 
-  // Room change: history from the device, then the live wire.
   useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      const signedIn = isHubServerConfigured() && (await hasHubSession());
+      if (!cancelled) setDurable(signedIn);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Room change: the device's copy paints instantly, the durable history
+  // merges in behind it (mergeMessages de-duplicates by id and keeps time
+  // order, so a message in both appears once), and the live wire opens. ONE
+  // cancelled flag covers both async arms -- a fast room flick must not let
+  // the previous room's history land in the new room.
+  useEffect(() => {
+    let cancelled = false;
     setMessages(readRoomHistory(room));
     setOnline(null);
+
+    if (durable) {
+      void hubRoomHistory(room, CHAT_HISTORY).then((rows) => {
+        if (!cancelled && rows.length > 0) setMessages((prev) => mergeMessages(prev, rows));
+      });
+    }
+
     const handle = createHubChannel(`chat:${room}`, me.id);
     if (!handle) {
       setLive(false);
-      return;
+      return () => {
+        cancelled = true;
+      };
     }
     channelRef.current = handle;
     handle
@@ -64,14 +102,16 @@ export function ThemeChatRooms() {
       })
       .onPresenceCount(setOnline);
     void handle.ready.then((ok) => {
+      if (cancelled) return;
       setLive(ok);
       if (ok) void handle.track({ name: me.name });
     });
     return () => {
+      cancelled = true;
       channelRef.current = null;
       handle.unsubscribe();
     };
-  }, [room, me.id, me.name]);
+  }, [room, me.id, me.name, durable]);
 
   useEffect(() => {
     writeRoomHistory(room, messages);
@@ -84,15 +124,40 @@ export function ThemeChatRooms() {
       e?.preventDefault();
       const text = sanitizeChatText(draft);
       const at = Date.now();
-      if (!text || !canSend(lastSentRef.current, at)) return;
+      if (!text || sending || !canSend(lastSentRef.current, at)) return;
       lastSentRef.current = at;
-      const msg = makeMessage(room, me.name, me.id, text, at);
-      setMessages((prev) => mergeMessages(prev, [msg]));
       setDraft('');
+      setServerError(null);
       playQuestEnterSfx();
-      void channelRef.current?.broadcast('msg', msg as unknown as Record<string, unknown>);
+
+      if (!durable) {
+        const msg = makeMessage(room, me.name, me.id, text, at);
+        setMessages((prev) => mergeMessages(prev, [msg]));
+        void channelRef.current?.broadcast('msg', msg as unknown as Record<string, unknown>);
+        return;
+      }
+
+      // Durable path: the server sanitises, flood-guards and stores, then
+      // hands back the row it kept -- that row is what is rendered and what
+      // is broadcast, so every participant sees the same text the database
+      // holds rather than an optimistic copy that might differ.
+      setSending(true);
+      void hubPostMessage(room, text, me.name).then((res) => {
+        setSending(false);
+        if (!res.ok || !res.data) {
+          setServerError(res.error);
+          // The message did not land. Put the draft back rather than
+          // pretending it was sent.
+          setDraft(text);
+          lastSentRef.current = null;
+          return;
+        }
+        const stored = res.data;
+        setMessages((prev) => mergeMessages(prev, [stored]));
+        void channelRef.current?.broadcast('msg', stored as unknown as Record<string, unknown>);
+      });
     },
-    [draft, room, me.id, me.name, playQuestEnterSfx],
+    [draft, room, me.id, me.name, playQuestEnterSfx, durable, sending],
   );
 
   const timeFmt = useMemo(() => new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' }), [locale]);
@@ -130,6 +195,7 @@ export function ThemeChatRooms() {
           <p className="qw-hub-meta flex items-center gap-1.5 text-[12px] text-gray-500" data-hub-live={live === null ? 'pending' : live ? '1' : '0'}>
             <Radio size={12} aria-hidden="true" />
             {live === false ? tHub('localOnly') : online !== null ? tHub('online', { count: online }) : tHub('live')}
+            <span data-hub-durable={durable ? '1' : '0'}>· {durable ? tRev30('room.durable') : tRev30('room.deviceOnly')}</span>
           </p>
         </div>
 
@@ -155,11 +221,16 @@ export function ThemeChatRooms() {
             onChange={(e) => setDraft(e.target.value)}
             data-hub-room-input=""
           />
-          <button type="submit" className="qw-pill-btn" data-on="1" disabled={!draft.trim()} onMouseEnter={() => playHoverSfx()} data-hub-room-send="">
+          <button type="submit" className="qw-pill-btn" data-on="1" disabled={!draft.trim() || sending} onMouseEnter={() => playHoverSfx()} data-hub-room-send="">
             <Send size={13} aria-hidden="true" />
             {t('send')}
           </button>
         </form>
+        {serverError && (
+          <p className="mt-1 text-[11px] font-bold text-red-400" role="alert" data-hub-room-error={serverError}>
+            {tRev30(`error.${serverError}`)}
+          </p>
+        )}
         <p className="mt-1 text-[11px] text-gray-500">{t('speakingAs', { name: me.name })}</p>
       </div>
     </div>

@@ -2833,5 +2833,24 @@
         "honest": "Pass on salvestatud selles seadmes ja sisselogituna ka sinu kontol. Ühtegi videot veel üles ei laadita ega salvestata."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Konto pearaamat",
+      "device": "See seade",
+      "serverNote": "Krediidid, ostud ja pakkumised hoitakse sinu kontol · U-COINi arveldus avaneb koos väljamaksetööga."
+    },
+    "room": {
+      "durable": "Salvestatud kontole",
+      "deviceOnly": "Ainult sellel seadmel"
+    },
+    "error": {
+      "unauthenticated": "Konto pearaamatu kasutamiseks logi sisse.",
+      "owned": "See pakk on sul juba olemas.",
+      "insufficient": "Selle paki jaoks napib krediite.",
+      "too-fast": "Palun hetk sõnumite vahel.",
+      "rejected": "Server keeldus. Midagi ei muudetud.",
+      "offline": "Ühendust pole — kirjet hoiab see seade."
+    }
   }
 }

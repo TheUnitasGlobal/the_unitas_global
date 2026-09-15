@@ -2833,5 +2833,24 @@
         "honest": "Your pass lives on this device and, when you are signed in, on your account. No video is uploaded or stored yet."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Account ledger",
+      "device": "This device",
+      "serverNote": "Credits, purchases and listings are kept on your account · U-COIN settlement opens with the payout job."
+    },
+    "room": {
+      "durable": "Saved to your account",
+      "deviceOnly": "This device only"
+    },
+    "error": {
+      "unauthenticated": "Sign in to use the account ledger.",
+      "owned": "You already own this pack.",
+      "insufficient": "Not enough credits for that pack.",
+      "too-fast": "A moment between messages, please.",
+      "rejected": "The server refused that. Nothing was changed.",
+      "offline": "No connection — this device is keeping the record."
+    }
   }
 }

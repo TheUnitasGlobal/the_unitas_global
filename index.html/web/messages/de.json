@@ -2833,5 +2833,24 @@
         "honest": "Dein Pass bleibt auf diesem Gerät und, wenn du angemeldet bist, in deinem Konto. Noch wird kein Video hochgeladen oder gespeichert."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Konto-Ledger",
+      "device": "Dieses Gerät",
+      "serverNote": "Credits, Käufe und Angebote liegen auf deinem Konto · Die U-COIN-Abrechnung öffnet mit dem Auszahlungsjob."
+    },
+    "room": {
+      "durable": "Im Konto gespeichert",
+      "deviceOnly": "Nur auf diesem Gerät"
+    },
+    "error": {
+      "unauthenticated": "Melde dich an, um den Konto-Ledger zu nutzen.",
+      "owned": "Du besitzt dieses Paket bereits.",
+      "insufficient": "Zu wenig Credits für dieses Paket.",
+      "too-fast": "Bitte einen Moment zwischen den Nachrichten.",
+      "rejected": "Der Server hat abgelehnt. Nichts wurde geändert.",
+      "offline": "Keine Verbindung — dieses Gerät führt den Eintrag."
+    }
   }
 }

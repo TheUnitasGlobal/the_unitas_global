@@ -2833,5 +2833,24 @@
         "honest": "Pas tersimpan di perangkat ini dan, saat Anda masuk, juga di akun Anda. Belum ada video yang diunggah atau disimpan."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Buku akun",
+      "device": "Perangkat ini",
+      "serverNote": "Kredit, pembelian, dan daftar tersimpan di akunmu · Penyelesaian U-COIN dibuka bersama proses pembayaran."
+    },
+    "room": {
+      "durable": "Tersimpan di akun",
+      "deviceOnly": "Hanya di perangkat ini"
+    },
+    "error": {
+      "unauthenticated": "Masuk untuk memakai buku akun.",
+      "owned": "Kamu sudah memiliki paket ini.",
+      "insufficient": "Kredit tidak cukup untuk paket itu.",
+      "too-fast": "Mohon jeda sejenak antar pesan.",
+      "rejected": "Server menolak. Tidak ada yang berubah.",
+      "offline": "Tidak ada koneksi — perangkat ini menyimpan catatannya."
+    }
   }
 }

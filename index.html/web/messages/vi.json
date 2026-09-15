@@ -2833,5 +2833,24 @@
         "honest": "Thẻ được lưu trên thiết bị này và, khi bạn đã đăng nhập, cả trên tài khoản của bạn. Chưa có video nào được tải lên hay lưu trữ."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Sổ tài khoản",
+      "device": "Thiết bị này",
+      "serverNote": "Tín dụng, giao dịch và tin đăng được lưu trên tài khoản của bạn · Thanh toán U-COIN sẽ mở cùng tác vụ chi trả."
+    },
+    "room": {
+      "durable": "Đã lưu vào tài khoản",
+      "deviceOnly": "Chỉ trên thiết bị này"
+    },
+    "error": {
+      "unauthenticated": "Đăng nhập để dùng sổ tài khoản.",
+      "owned": "Bạn đã sở hữu gói này.",
+      "insufficient": "Không đủ tín dụng cho gói này.",
+      "too-fast": "Vui lòng chờ một chút giữa các tin nhắn.",
+      "rejected": "Máy chủ đã từ chối. Không có gì thay đổi.",
+      "offline": "Không có kết nối — thiết bị này giữ bản ghi."
+    }
   }
 }

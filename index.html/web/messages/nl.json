@@ -2833,5 +2833,24 @@
         "honest": "Je pas staat op dit apparaat en, wanneer je bent ingelogd, ook op je account. Er wordt nog geen video geüpload of opgeslagen."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Accountgrootboek",
+      "device": "Dit apparaat",
+      "serverNote": "Credits, aankopen en aanbiedingen staan op je account · U-COIN-afrekening opent met de uitbetaling."
+    },
+    "room": {
+      "durable": "Opgeslagen op je account",
+      "deviceOnly": "Alleen op dit apparaat"
+    },
+    "error": {
+      "unauthenticated": "Log in om het accountgrootboek te gebruiken.",
+      "owned": "Je hebt dit pakket al.",
+      "insufficient": "Te weinig credits voor dit pakket.",
+      "too-fast": "Even wachten tussen berichten, alsjeblieft.",
+      "rejected": "De server weigerde. Er is niets gewijzigd.",
+      "offline": "Geen verbinding — dit apparaat houdt de registratie bij."
+    }
   }
 }

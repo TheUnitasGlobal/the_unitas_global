@@ -2833,5 +2833,24 @@
         "honest": "Tu pase se guarda en este dispositivo y, si has iniciado sesión, también en tu cuenta. Todavía no se sube ni se almacena ningún vídeo."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Libro de la cuenta",
+      "device": "Este dispositivo",
+      "serverNote": "Créditos, compras y publicaciones se guardan en tu cuenta · La liquidación en U-COIN abre con el proceso de pago."
+    },
+    "room": {
+      "durable": "Guardado en tu cuenta",
+      "deviceOnly": "Solo este dispositivo"
+    },
+    "error": {
+      "unauthenticated": "Inicia sesión para usar el libro de la cuenta.",
+      "owned": "Ya tienes este pack.",
+      "insufficient": "No tienes créditos suficientes para ese pack.",
+      "too-fast": "Un momento entre mensajes, por favor.",
+      "rejected": "El servidor lo rechazó. No se cambió nada.",
+      "offline": "Sin conexión: este dispositivo guarda el registro."
+    }
   }
 }

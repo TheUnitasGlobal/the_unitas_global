@@ -2833,5 +2833,24 @@
         "honest": "Votre pass reste sur cet appareil et, lorsque vous êtes connecté, sur votre compte. Aucune vidéo n’est encore envoyée ni stockée."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Registre du compte",
+      "device": "Cet appareil",
+      "serverNote": "Crédits, achats et publications sont conservés sur votre compte · Le règlement en U-COIN ouvrira avec le versement."
+    },
+    "room": {
+      "durable": "Enregistré sur le compte",
+      "deviceOnly": "Cet appareil seulement"
+    },
+    "error": {
+      "unauthenticated": "Connectez-vous pour utiliser le registre du compte.",
+      "owned": "Vous possédez déjà ce pack.",
+      "insufficient": "Crédits insuffisants pour ce pack.",
+      "too-fast": "Un instant entre deux messages, s’il vous plaît.",
+      "rejected": "Le serveur a refusé. Rien n’a été modifié.",
+      "offline": "Pas de connexion — cet appareil conserve l’enregistrement."
+    }
   }
 }

@@ -2833,5 +2833,24 @@
         "honest": "Seu passe fica neste dispositivo e, quando você está conectado, também na sua conta. Nenhum vídeo é enviado ou armazenado ainda."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Livro da conta",
+      "device": "Este dispositivo",
+      "serverNote": "Créditos, compras e publicações ficam na sua conta · A liquidação em U-COIN abre com o processo de pagamento."
+    },
+    "room": {
+      "durable": "Guardado na conta",
+      "deviceOnly": "Só neste dispositivo"
+    },
+    "error": {
+      "unauthenticated": "Inicie sessão para usar o livro da conta.",
+      "owned": "Já tem este pack.",
+      "insufficient": "Créditos insuficientes para esse pack.",
+      "too-fast": "Um momento entre mensagens, por favor.",
+      "rejected": "O servidor recusou. Nada foi alterado.",
+      "offline": "Sem ligação — este dispositivo guarda o registo."
+    }
   }
 }

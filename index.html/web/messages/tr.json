@@ -2833,5 +2833,24 @@
         "honest": "Pasonuz bu cihazda, giriş yaptığınızda ise hesabınızda da saklanır. Henüz hiçbir video yüklenmiyor ya da depolanmıyor."
       }
     }
+  },
+  "Rev30": {
+    "ledger": {
+      "server": "Hesap defteri",
+      "device": "Bu cihaz",
+      "serverNote": "Krediler, satın alımlar ve listeler hesabında tutulur · U-COIN takası ödeme işiyle açılır."
+    },
+    "room": {
+      "durable": "Hesaba kaydedildi",
+      "deviceOnly": "Yalnızca bu cihazda"
+    },
+    "error": {
+      "unauthenticated": "Hesap defterini kullanmak için giriş yap.",
+      "owned": "Bu pakete zaten sahipsin.",
+      "insufficient": "Bu paket için kredin yetmiyor.",
+      "too-fast": "Mesajlar arasında biraz ara ver.",
+      "rejected": "Sunucu reddetti. Hiçbir şey değişmedi.",
+      "offline": "Bağlantı yok — kaydı bu cihaz tutuyor."
+    }
   }
 }

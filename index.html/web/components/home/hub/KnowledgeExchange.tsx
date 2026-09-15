@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { BadgeCheck, Coins, Crown, Gem, Radio, ShoppingBag, Tag, Upload, Wallet } from 'lucide-react';
+import { BadgeCheck, Coins, Crown, Database, Gem, HardDrive, Radio, ShoppingBag, Tag, Upload, Wallet } from 'lucide-react';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { HOT_NEWS_AXES, hotNewsAxisMeta } from '@/lib/live/hotNewsAxes';
@@ -32,8 +32,18 @@ import {
   type CatalogSort,
   type ExchangeLedger,
   type KnowledgePack,
+  type SellerRow,
   type TradeEvent,
 } from '@/lib/hub/knowledgeExchange';
+import {
+  hasHubSession,
+  hubBuyPack,
+  hubListPack,
+  hubSellerBoard,
+  hubSync,
+  isHubServerConfigured,
+  type HubServerError,
+} from '@/lib/hub/hubLedger';
 import { useHubIdentity } from './useHubIdentity';
 
 const TICKER_ROWS = 6;
@@ -45,12 +55,27 @@ const BOARD_ROWS = 6;
  * the live trade ticker (every purchase anywhere is broadcast over the hub
  * channel and lands here within the round trip), the themed catalogue, the
  * visitor's library, the listing form with its projected earnings and the
- * creator board. Honest labels throughout -- the ledger is this device's,
- * and the settlement into U-COIN is named as the step that opens next.
+ * creator board.
+ *
+ * REV-30 M1: there are now TWO ledgers and the UI says which one is in force.
+ * A signed-in visitor's credits, purchases and listings live in Postgres
+ * under RLS (lib/hub/hubLedger.ts -> the hub_* RPCs); a guest keeps REV-29's
+ * device ledger. They are never merged: importing a device's *claimed*
+ * purchases would grant whatever the device claims. On the server path the
+ * PRICE IS THE SERVER'S -- `hub_buy_pack` takes a pack id and reads the price
+ * from `hub_catalog`, so a tampered client cannot buy a 320-credit pack for
+ * one. The creator board switches to real revenue from the purchase ledger as
+ * soon as it has rows, and falls back to the seeded board until then.
+ *
+ * Honest labels throughout, and the settlement into U-COIN is still named as
+ * the step that opens next -- these credits are not U-COIN.
  */
 export function KnowledgeExchange() {
   const t = useTranslations('Rev29.exchange');
   const tHub = useTranslations('Rev29.hub');
+  /** REV-30 M1: one shared vocabulary for server outcomes, used by every hub
+   *  surface, so a refusal reads the same wherever it happens. */
+  const tRev30 = useTranslations('Rev30');
   const tNews = useTranslations('HotNews');
   const locale = useLocale();
   const { playHoverSfx, playQuestEnterSfx } = useSpatialAudio();
@@ -65,6 +90,11 @@ export function KnowledgeExchange() {
   const [live, setLive] = useState<boolean | null>(null);
   const [justBought, setJustBought] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
+  /** REV-30 M1: which ledger is in force. 'pending' until the session is known. */
+  const [mode, setMode] = useState<'pending' | 'device' | 'server'>('pending');
+  const [serverBoard, setServerBoard] = useState<SellerRow[] | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [serverError, setServerError] = useState<HubServerError | null>(null);
   const channelRef = useRef<HubChannelHandle | null>(null);
 
   // Form
@@ -74,10 +104,47 @@ export function KnowledgeExchange() {
   const [summary, setSummary] = useState('');
   const [formError, setFormError] = useState<string | null>(null);
 
+  // REV-30 M1: the server ledger when there is a session, the device ledger
+  // otherwise. A failed sync falls back to the device rather than to a blank
+  // hub -- an exchange that renders nothing because the network blinked is
+  // worse than one that renders this device's truth and says so.
   useEffect(() => {
-    setLedger(readLedger());
+    let cancelled = false;
     setNow(Date.now());
+    setLedger(readLedger());
+    void (async () => {
+      const signedIn = isHubServerConfigured() && (await hasHubSession());
+      if (cancelled) return;
+      if (!signedIn) {
+        setMode('device');
+        return;
+      }
+      const res = await hubSync();
+      if (cancelled) return;
+      if (res.ok && res.data) {
+        setLedger(res.data);
+        setMode('server');
+      } else {
+        setMode('device');
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
+  // Real creator revenue once the purchase ledger has rows; the seeded board
+  // stands in until then (and whenever the call cannot be made at all).
+  useEffect(() => {
+    if (mode !== 'server') return;
+    let cancelled = false;
+    void hubSellerBoard(BOARD_ROWS).then((rows) => {
+      if (!cancelled && rows.length > 0) setServerBoard(rows);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [mode]);
 
   // The exchange room: a purchase anywhere is a ticker row everywhere.
   useEffect(() => {
@@ -107,27 +174,74 @@ export function KnowledgeExchange() {
     writeLedger(next);
   }
 
-  function buy(pack: KnowledgePack) {
-    if (canBuy(ledger, pack) !== 'ok') return;
-    const at = Date.now();
-    commit(buyPack(ledger, pack, at));
+  /** The ticker row + broadcast every successful purchase produces. */
+  function announce(packId: string, at: number) {
     playQuestEnterSfx();
-    setJustBought(pack.id);
-    const trade: TradeEvent = { packId: pack.id, buyer: me.name, at };
+    setJustBought(packId);
+    const trade: TradeEvent = { packId, buyer: me.name, at };
     setTrades((prev) => [trade, ...prev].slice(0, TICKER_ROWS));
     void channelRef.current?.broadcast('trade', { ...trade });
   }
 
-  function submitListing(e: FormEvent) {
+  async function buy(pack: KnowledgePack) {
+    if (busy || canBuy(ledger, pack) !== 'ok') return;
+    setServerError(null);
+
+    if (mode !== 'server') {
+      const at = Date.now();
+      commit(buyPack(ledger, pack, at));
+      announce(pack.id, at);
+      return;
+    }
+
+    // Server path: the request carries the pack id alone. The debit, the
+    // ownership guard and the 70/30 split all happen inside one Postgres
+    // transaction, so a refused purchase leaves nothing half-done.
+    setBusy(true);
+    const res = await hubBuyPack(pack.id);
+    setBusy(false);
+    if (!res.ok || !res.data) {
+      setServerError(res.error);
+      // The server refused: re-read rather than guess at the new state.
+      const fresh = await hubSync();
+      if (fresh.ok && fresh.data) setLedger(fresh.data);
+      return;
+    }
+    const at = Date.now();
+    setLedger((prev) => ({
+      ...prev,
+      credits: res.data!.credits,
+      purchases: [...prev.purchases, { packId: pack.id, at, price: res.data!.price }],
+    }));
+    announce(pack.id, at);
+  }
+
+  async function submitListing(e: FormEvent) {
     e.preventDefault();
+    if (busy) return;
     const input = { title, theme: formTheme, price, summary };
+    // The client check is for instant feedback; the server re-checks every
+    // one of these rules and is the copy that decides.
     const verdict = validateListing(input);
     if (verdict !== 'ok') {
       setFormError(verdict === 'title' ? t('form.errTitle') : verdict === 'price' ? t('form.errPrice') : t('form.errSummary'));
       return;
     }
     setFormError(null);
-    commit(listPack(ledger, input, Date.now()));
+    setServerError(null);
+
+    if (mode !== 'server') {
+      commit(listPack(ledger, input, Date.now()));
+    } else {
+      setBusy(true);
+      const res = await hubListPack(input);
+      setBusy(false);
+      if (!res.ok || !res.data) {
+        setServerError(res.error);
+        return;
+      }
+      setLedger((prev) => ({ ...prev, listings: [res.data!, ...prev.listings] }));
+    }
     playQuestEnterSfx();
     setTitle('');
     setSummary('');
@@ -137,7 +251,8 @@ export function KnowledgeExchange() {
   const packs = useMemo(() => catalogView(theme, sort), [theme, sort]);
   const owned = useMemo(() => ledger.purchases.map((p) => packById(p.packId)).filter((p): p is KnowledgePack => Boolean(p)), [ledger.purchases]);
   const earnings = useMemo(() => projectedEarnings(ledger, now), [ledger, now]);
-  const board = useMemo(() => sellerBoard().slice(0, BOARD_ROWS), []);
+  const seededBoard = useMemo(() => sellerBoard().slice(0, BOARD_ROWS), []);
+  const board = serverBoard ?? seededBoard;
   const numberFmt = useMemo(() => new Intl.NumberFormat(locale), [locale]);
   const timeFmt = useMemo(() => new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' }), [locale]);
 
@@ -166,8 +281,18 @@ export function KnowledgeExchange() {
           <Radio size={14} aria-hidden="true" />
           {live === false ? tHub('localOnly') : online !== null ? tHub('online', { count: online }) : tHub('live')}
         </span>
+        {/* REV-30 M1: which ledger is in force, stated rather than implied. */}
+        <span className="qw-hubx-pill qw-hubx-pill--quiet" data-hub-ledger={mode}>
+          {mode === 'server' ? <Database size={14} aria-hidden="true" /> : <HardDrive size={14} aria-hidden="true" />}
+          {mode === 'server' ? tRev30('ledger.server') : tRev30('ledger.device')}
+        </span>
       </div>
-      <p className="mt-1 text-[11px] text-gray-500">{t('creditsNote')}</p>
+      <p className="mt-1 text-[11px] text-gray-500">{mode === 'server' ? tRev30('ledger.serverNote') : t('creditsNote')}</p>
+      {serverError && (
+        <p className="mt-1 text-[11px] font-bold text-red-400" role="alert" data-hub-server-error={serverError}>
+          {tRev30(`error.${serverError}`)}
+        </p>
+      )}
 
       <section className="qw-hubx-ticker" data-hub-ticker="" aria-live="polite">
         <p className="qw-deeper-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
@@ -255,9 +380,9 @@ export function KnowledgeExchange() {
                   className="qw-pill-btn qw-hubx-buy"
                   data-on={verdict === 'owned' ? '1' : '0'}
                   data-verdict={verdict}
-                  disabled={verdict !== 'ok'}
+                  disabled={verdict !== 'ok' || busy}
                   onMouseEnter={() => playHoverSfx()}
-                  onClick={() => buy(pack)}
+                  onClick={() => void buy(pack)}
                 >
                   {verdict === 'owned' ? <BadgeCheck size={13} aria-hidden="true" /> : <ShoppingBag size={13} aria-hidden="true" />}
                   {verdict === 'owned' ? t('owned') : verdict === 'insufficient' ? t('insufficient') : t('buy')}
@@ -298,7 +423,7 @@ export function KnowledgeExchange() {
             <Upload size={13} aria-hidden="true" />
             {t('listTitle')}
           </p>
-          <form className="qw-hubx-form" onSubmit={submitListing}>
+          <form className="qw-hubx-form" onSubmit={(e) => void submitListing(e)}>
             <label className="qw-hubx-field">
               <span>{t('form.title')}</span>
               <input type="text" value={title} maxLength={LISTING_TITLE_MAX} onChange={(e) => setTitle(e.target.value)} data-hub-form-title="" />
@@ -326,7 +451,7 @@ export function KnowledgeExchange() {
                 {formError}
               </p>
             )}
-            <button type="submit" className="qw-pill-btn" data-on="1" onMouseEnter={() => playHoverSfx()} data-hub-form-submit="">
+            <button type="submit" className="qw-pill-btn" data-on="1" disabled={busy} onMouseEnter={() => playHoverSfx()} data-hub-form-submit="">
               <Upload size={13} aria-hidden="true" />
               {t('form.submit')}
             </button>
