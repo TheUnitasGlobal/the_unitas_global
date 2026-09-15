@@ -101,3 +101,33 @@ U-AI 결과 페이지에는 `WIKIMEDIA_PAGE_BUDGET = 2`라는 하드 예산이 �
 - `Rev32.swarm.*` 신규 네임스페이스 **28키 × 20 로케일** — 적용기 `web/scripts/apply-rev32-i18n.mjs`(멱등, 플레이스홀더 fail-closed).
 - **차원 라벨·스케일 팩트·브랜드 타이틀·재앵커 문구는 pre-REV-31 트리에서 회수**해 각 로케일이 이미 갖고 있던 표현을 그대로 유지했다 — 재번역이 아니라 복원이다.
 - `Rev21.stream.kinds.swarm`(드래프트 경유) + `Rev29.hub.tabs.swarm` 각 20 로케일.
+
+---
+
+## 7. 프로덕션 배포 검증 (제25장)
+
+| 항목 | 값 |
+|---|---|
+| 코드 커밋 | `7f95f324c24e9f600e75d318e1fd881429b5c656` |
+| origin push | `6d837b0..7f95f32  main -> main` |
+| Vercel 배포 | `the-unitas-global-cq7oazp1b-the-unitas-global-ou-e.vercel.app` · Production · **Ready** (빌드 2m) |
+| 라이브 `gitCommit` | `7f95f324c24e9f600e75d318e1fd881429b5c656` — **로컬 HEAD와 바이트 일치** |
+| 라이브 `buildFingerprint` | `eb09b6b8bab1d401e89662dc070f15e680f3dbd60b7758e8180a5cc6226b2904` |
+| 생성 시각 | 2026-09-15T21:08:29.265Z |
+| IndexNow | **360 URL · HTTP 200** (340 → 360, 신규 라우트 20 로케일) |
+
+### 7.1 신규 라우트 라이브 실측
+
+`https://www.theunitas.global` 실호출(인덱서 UA):
+
+| 검증 | 결과 |
+|---|---|
+| `/omni-swarm` (영문, 무접두) | **HTTP 200** |
+| `/ko/omni-swarm` | **HTTP 200** |
+| 한국어 브랜드 타이틀 "옴니 테크 펄스" | 12건 |
+| 검색 라벨 "해체할 조직" | 2건 |
+| 셸 마커 `data-omni-swarm-page` | 1건 |
+| 차원 라벨 "자회사" | 9건 |
+| `sitemap.xml` 내 `omni-swarm` | 440건 (20 URL × hreflang 21 클러스터 + URL) |
+
+REV-31에서 도달 불가가 됐던 모듈이 프로덕션에서 **자기 주소로 200을 응답하고, 20개 로케일 전부 색인 대상**이 되었음을 문자열 단위로 확인했다.
