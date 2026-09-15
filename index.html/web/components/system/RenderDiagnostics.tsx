@@ -38,6 +38,23 @@ import {
   type RenderReading,
   type RenderReport,
 } from '@/lib/diagnostics/renderProbe';
+import {
+  PAINT_REGIONS,
+  rankRecovery,
+  summarizePaintInventory,
+  type BisectReport,
+  type PaintInventory,
+  type RegionSample,
+} from '@/lib/diagnostics/paintBisect';
+import {
+  REQUIRED_MANIFEST_FIELDS,
+  classifyPwaReadiness,
+  detectPlatform,
+  pwaHeadline,
+  type PwaFacts,
+  type PwaReadiness,
+} from '@/lib/diagnostics/pwaReadiness';
+import { PWA_INSTALL_TRIGGER_ATTR, isStandaloneDisplay } from '@/lib/pwa/installPrompt';
 
 /** How many frame gaps each pass collects. ~1.5s at 60fps, ~30s at 2fps. */
 const FRAMES = 90;
@@ -45,6 +62,8 @@ const FRAMES = 90;
 const PASS_TIMEOUT_MS = 12_000;
 const IDLE_WATCH_MS = 3_000;
 const LATENCY_SAMPLES = 20;
+/** Eight regional passes run back to back; a median needs fewer frames. */
+const BISECT_FRAMES = 40;
 
 type Phase = 'idle' | 'running' | 'done' | 'failed';
 
@@ -207,10 +226,123 @@ export async function collectRenderReport(): Promise<RenderReport> {
   });
 }
 
+/* ------------------------------------------------------------------ */
+/* REV-28 M1 -- the bottleneck adapter                                  */
+/* ------------------------------------------------------------------ */
+
+/** Hide one region for the duration of `work`, then put it back. */
+async function withHidden<T>(selector: string, work: () => Promise<T>): Promise<{ value: T; matched: number }> {
+  const matched = document.querySelectorAll(selector).length;
+  const style = document.createElement('style');
+  style.setAttribute('data-unitas-diag-control', '');
+  style.textContent = `${selector}{display:none !important;}`;
+  document.head.appendChild(style);
+  try {
+    await new Promise((r) => requestAnimationFrame(() => r(null)));
+    return { value: await work(), matched };
+  } finally {
+    style.remove();
+  }
+}
+
+/**
+ * REV-26 bisected the page by hand to find where the cost was. This is that
+ * procedure, automated: hide each region, re-measure, report what came back.
+ * Shorter passes than the main probe -- eight of them run back to back, and the
+ * figure wanted here is a median, not a distribution.
+ */
+export async function collectBisect(floorMedian: number): Promise<BisectReport> {
+  const baseline = summarizeGaps(await cadence(BISECT_FRAMES)).median;
+  const samples: RegionSample[] = [];
+  for (const region of PAINT_REGIONS) {
+    // The overlay itself must never be part of what is being measured; it is a
+    // direct child of body, so `everything` would otherwise hide it mid-pass.
+    const selector = region.key === 'everything' ? 'body > *:not(script):not([data-unitas-render-diagnostics])' : region.selector;
+    const { value, matched } = await withHidden(selector, () => cadence(BISECT_FRAMES));
+    samples.push({ key: region.key, medianWithout: summarizeGaps(value).median, matched });
+  }
+  return rankRecovery(baseline, floorMedian, samples);
+}
+
+/** What the page ASKS the compositor for, counted. */
+export function collectPaintInventory(): PaintInventory {
+  const all = Array.from(document.querySelectorAll<HTMLElement>('body *'));
+  const inv: PaintInventory = {
+    backdropFilter: 0,
+    filter: 0,
+    blurRadiusMax: 0,
+    boxShadow: 0,
+    gradient: 0,
+    willChange: 0,
+    canvas: document.querySelectorAll('canvas').length,
+    runningAnimations: 0,
+    elements: all.length,
+  };
+  for (const el of all) {
+    const cs = getComputedStyle(el);
+    const backdrop = cs.backdropFilter || (cs as unknown as { webkitBackdropFilter?: string }).webkitBackdropFilter || 'none';
+    if (backdrop && backdrop !== 'none') {
+      inv.backdropFilter += 1;
+      const blur = /blur\(([\d.]+)px\)/.exec(backdrop);
+      if (blur) inv.blurRadiusMax = Math.max(inv.blurRadiusMax, Number(blur[1]));
+    }
+    if (cs.filter && cs.filter !== 'none') {
+      inv.filter += 1;
+      const blur = /blur\(([\d.]+)px\)/.exec(cs.filter);
+      if (blur) inv.blurRadiusMax = Math.max(inv.blurRadiusMax, Number(blur[1]));
+    }
+    if (cs.boxShadow && cs.boxShadow !== 'none') inv.boxShadow += 1;
+    if (cs.backgroundImage && cs.backgroundImage.includes('gradient')) inv.gradient += 1;
+    if (cs.willChange && cs.willChange !== 'auto') inv.willChange += 1;
+    if (cs.animationName && cs.animationName !== 'none' && cs.animationPlayState === 'running') inv.runningAnimations += 1;
+  }
+  return inv;
+}
+
+/* ------------------------------------------------------------------ */
+/* REV-28 M2 -- PWA install readiness                                   */
+/* ------------------------------------------------------------------ */
+
+export async function collectPwaFacts(): Promise<PwaFacts> {
+  const link = document.querySelector<HTMLLinkElement>('link[rel="manifest"]');
+  let manifestOk = false;
+  const manifestMissing: string[] = [];
+  if (link?.href) {
+    try {
+      const res = await fetch(link.href, { credentials: 'same-origin' });
+      if (res.ok) {
+        const manifest = (await res.json()) as Record<string, unknown>;
+        manifestOk = true;
+        for (const field of REQUIRED_MANIFEST_FIELDS) {
+          const value = manifest[field];
+          const empty = value === undefined || value === null || value === '' || (Array.isArray(value) && value.length === 0);
+          if (empty) manifestMissing.push(field);
+        }
+      }
+    } catch {
+      manifestOk = false;
+    }
+  }
+  const nav = navigator as Navigator & { maxTouchPoints?: number };
+  return {
+    platform: detectPlatform(navigator.userAgent, nav.maxTouchPoints ?? 0),
+    standalone: isStandaloneDisplay(),
+    swControlled: 'serviceWorker' in navigator ? Boolean(navigator.serviceWorker.controller) : false,
+    manifestOk,
+    manifestMissing,
+    promptCaptured: Boolean((window as unknown as { __unitasPwaPrompt?: unknown }).__unitasPwaPrompt),
+    secureContext: typeof window.isSecureContext === 'boolean' ? window.isSecureContext : location.protocol === 'https:',
+  };
+}
+
 export function RenderDiagnostics() {
   const [founder, setFounder] = useState(false);
   const [phase, setPhase] = useState<Phase>('idle');
   const [report, setReport] = useState<RenderReport | null>(null);
+  const [bisect, setBisect] = useState<BisectReport | null>(null);
+  const [inventory, setInventory] = useState<PaintInventory | null>(null);
+  const [bisecting, setBisecting] = useState(false);
+  const [pwa, setPwa] = useState<{ facts: PwaFacts; readiness: PwaReadiness } | null>(null);
   const [copied, setCopied] = useState(false);
   const running = useRef(false);
 
@@ -224,12 +356,29 @@ export function RenderDiagnostics() {
     };
   }, []);
 
+  // PWA facts are free to read -- no frames, no timers -- so they are gathered
+  // once the founder is confirmed rather than hidden behind another press.
+  useEffect(() => {
+    if (!founder) return;
+    let alive = true;
+    void collectPwaFacts()
+      .then((facts) => {
+        if (alive) setPwa({ facts, readiness: classifyPwaReadiness(facts) });
+      })
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, [founder]);
+
   const run = useCallback(async () => {
     if (running.current) return;
     running.current = true;
     setPhase('running');
     setReport(null);
     setCopied(false);
+    setBisect(null);
+    setInventory(null);
     try {
       setReport(await collectRenderReport());
       setPhase('done');
@@ -240,9 +389,29 @@ export function RenderDiagnostics() {
     }
   }, []);
 
+  /**
+   * The follow-up question. `raster-bound` says the page is expensive; this
+   * says WHERE. Separate press, because it is eight more measured passes and
+   * the founder should not pay for them unless the first answer warrants it.
+   */
+  const runBisect = useCallback(async () => {
+    if (running.current || !report) return;
+    running.current = true;
+    setBisecting(true);
+    try {
+      setInventory(collectPaintInventory());
+      setBisect(await collectBisect(report.reading.control.median));
+    } catch {
+      setBisect(null);
+    } finally {
+      setBisecting(false);
+      running.current = false;
+    }
+  }, [report]);
+
   const copy = useCallback(async () => {
     if (!report) return;
-    const text = JSON.stringify(report, null, 2);
+    const text = JSON.stringify({ ...report, bottleneck: bisect, paintInventory: inventory, pwa }, null, 2);
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
@@ -252,7 +421,7 @@ export function RenderDiagnostics() {
       // works.
       setCopied(false);
     }
-  }, [report]);
+  }, [report, bisect, inventory, pwa]);
 
   if (!founder) return null;
 
@@ -292,6 +461,17 @@ export function RenderDiagnostics() {
         {report && (
           <button
             type="button"
+            data-diag-bisect=""
+            onClick={() => void runBisect()}
+            disabled={bisecting}
+            style={{ padding: '7px 10px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.22)', background: 'transparent', color: '#e7e9ee', font: 'inherit' }}
+          >
+            {bisecting ? 'bisecting…' : 'Find bottleneck'}
+          </button>
+        )}
+        {report && (
+          <button
+            type="button"
             data-diag-copy=""
             onClick={() => void copy()}
             style={{ padding: '7px 10px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.22)', background: 'transparent', color: '#e7e9ee', font: 'inherit' }}
@@ -319,10 +499,62 @@ export function RenderDiagnostics() {
               ))}
             </ul>
           )}
+          {bisect && (
+            <section data-diag-bottleneck="" style={{ margin: '0 0 8px', paddingTop: 8, borderTop: '1px solid rgba(255,255,255,0.12)' }}>
+              <p style={{ margin: '0 0 4px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#d4af37' }}>Bottleneck</p>
+              <ul style={{ margin: '0 0 6px', paddingLeft: 0, listStyle: 'none', color: '#cbd2df' }}>
+                {bisect.regions.map((r) => (
+                  <li key={r.key} data-diag-region={r.key} style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
+                    <span style={{ opacity: r.matched === 0 ? 0.45 : 1 }}>
+                      {r.label}
+                      {r.matched === 0 ? ' (absent)' : ''}
+                    </span>
+                    <span style={{ fontVariantNumeric: 'tabular-nums' }}>
+                      {r.recoveredMs}ms · {r.sharePct}%
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <ul style={{ margin: 0, paddingLeft: 16, color: '#9aa2b1' }}>
+                {bisect.notes.map((n) => (
+                  <li key={n}>{n}</li>
+                ))}
+                {inventory && summarizePaintInventory(inventory).map((n) => <li key={n}>{n}</li>)}
+              </ul>
+            </section>
+          )}
+
           <pre data-diag-json="" style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word', color: '#8f98a8', fontSize: 11 }}>
             {JSON.stringify(report, null, 2)}
           </pre>
         </>
+      )}
+
+      {pwa && (
+        <section data-diag-pwa={pwa.readiness.status} style={{ marginTop: 10, paddingTop: 8, borderTop: '1px solid rgba(255,255,255,0.12)' }}>
+          <p style={{ margin: '0 0 4px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#d4af37' }}>PWA install</p>
+          <p data-diag-pwa-headline="" style={{ margin: '0 0 6px', wordBreak: 'break-word', color: '#cbd2df' }}>
+            {pwaHeadline(pwa.facts, pwa.readiness)}
+          </p>
+          <p style={{ margin: '0 0 6px', color: '#9aa2b1' }}>{pwa.readiness.nextAction}</p>
+          {pwa.readiness.blockers.length > 0 && (
+            <ul style={{ margin: '0 0 6px', paddingLeft: 16, color: '#fbbf24' }}>
+              {pwa.readiness.blockers.map((b) => (
+                <li key={b}>{b}</li>
+              ))}
+            </ul>
+          )}
+          {pwa.readiness.status === 'ready' && (
+            <button
+              type="button"
+              data-diag-pwa-install=""
+              {...({ [PWA_INSTALL_TRIGGER_ATTR]: 'diagnostics' } as Record<string, string>)}
+              style={{ width: '100%', padding: '7px 10px', borderRadius: 8, border: '1px solid rgba(212,175,55,0.5)', background: 'transparent', color: '#e7e9ee', font: 'inherit', fontWeight: 700 }}
+            >
+              Install
+            </button>
+          )}
+        </section>
       )}
     </aside>
   );

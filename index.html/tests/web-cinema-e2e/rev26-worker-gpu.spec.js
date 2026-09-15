@@ -111,20 +111,33 @@ test.describe('REV-26 -- the render probe is founder-only and costs nothing', ()
     // bundled into the main chunk, this set would be empty.
     await reachReleasedHome(page);
 
-    const chunksFor = async (url) => {
+    // Wait for the OUTCOME, not for a stopwatch. A fixed 2.5s settle failed on
+    // WebKit (`arming pulled 0 more`) purely because the dynamic import plus
+    // the server founder check had not completed inside it -- measured
+    // separately, the chunk `chunks/5818.*.js` is fetched on arming on BOTH
+    // engines, so the separation is real and it was the observation window
+    // that was wrong.
+    const chunksFor = async (url, settle) => {
       const seen = new Set();
       const onRequest = (r) => {
         if (/\/_next\/static\/chunks\/.*\.js/.test(r.url())) seen.add(new URL(r.url()).pathname);
       };
       page.on('request', onRequest);
       await page.goto(url, { waitUntil: 'load' });
-      await page.waitForTimeout(2_500);
+      await settle();
       page.off('request', onRequest);
       return seen;
     };
 
-    const unarmed = await chunksFor('/en?splash=0&dev=skip');
-    const armed = await chunksFor('/en?splash=0&dev=skip&diag=1');
+    const unarmed = await chunksFor('/en?splash=0&dev=skip', async () => {
+      await page.waitForSelector('#omni-synapse-search', { state: 'visible', timeout: 45_000 });
+      await page.waitForTimeout(2_500);
+    });
+    const armed = await chunksFor('/en?splash=0&dev=skip&diag=1', async () => {
+      // The probe rendering IS the proof its chunk arrived.
+      await page.waitForSelector('[data-unitas-render-diagnostics]', { state: 'visible', timeout: 60_000 });
+      await page.waitForTimeout(500);
+    });
     const extra = [...armed].filter((p) => !unarmed.has(p));
     console.log(`[REV-26] unarmed ${unarmed.size} chunks · armed ${armed.size} · arming pulled ${extra.length} more`);
     expect(extra.length, 'arming must fetch code the unarmed page never fetched -- otherwise the probe ships to everyone').toBeGreaterThan(0);

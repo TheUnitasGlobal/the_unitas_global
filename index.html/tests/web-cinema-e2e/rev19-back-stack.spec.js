@@ -99,7 +99,11 @@ test.describe('REV-19 deep modal history stack', () => {
     });
     await expect(page.locator('#ranking-deep-title')).toBeVisible({ timeout: 5_000 });
     await expect(page.locator('#global-ranking-detail-title')).toBeVisible({ timeout: 5_000 });
-    await page.waitForTimeout(300);
+    // POLLED, not a fixed 300ms settle. The two dialogs park one after the
+    // other (REV-21 §1.3) and each park costs a frame; at ~600ms a frame on
+    // this harness's WebKit, 300ms is not even one. The claim is unchanged --
+    // three levels, in this order -- it is just allowed to arrive.
+    await expect.poll(async () => (await stack(page)).length, { timeout: 30_000 }).toBeGreaterThanOrEqual(3);
     const before = await stack(page);
     expect(before.length).toBeGreaterThanOrEqual(3);
     expect(before[before.length - 1]).toMatch(/^modal:global-ranking-detail-title/);

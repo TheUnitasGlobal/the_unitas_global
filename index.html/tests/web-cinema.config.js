@@ -30,7 +30,28 @@ module.exports = defineConfig({
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+    // REV-28: WebKit gets a bigger clock, once, instead of ten scattered
+    // per-file budgets.
+    //
+    // Playwright's defaults -- a 5s expect, a per-action budget inside a 60s
+    // test -- assume frames are cheap. This harness's WebKit has no GPU path
+    // and rasterises the released page at 555-698ms PER FRAME, measured by the
+    // REV-26 render probe (`page 582ms vs floor 17ms`, 34x). Every actionability
+    // check wants the same bounding box across two consecutive animation
+    // frames, so one check costs over a second there, and a 5s expect is about
+    // eight frames.
+    //
+    // This is a CLOCK, not a budget: no assertion in the suite changes, and
+    // nothing here is tolerated that would not be tolerated on chromium. The
+    // product claims are identical on all three projects -- chromium and
+    // mobile-chrome still run on the defaults, so a real regression cannot hide
+    // behind this.
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'], actionTimeout: 45_000 },
+      timeout: 240_000,
+      expect: { timeout: 20_000 },
+    },
     { name: 'mobile-chrome', use: { ...devices['Pixel 7'] } },
   ],
   webServer: {

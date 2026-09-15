@@ -204,6 +204,10 @@ test.describe('REV-24 M3 -- nothing paint-tier runs while the page is idle', () 
   });
 
   test('the idle frame budget is honoured -- the app schedules no frames and the main thread stays free', async ({ page, browserName }, testInfo) => {
+    // Three measured passes run back to back here; on a software rasteriser
+    // each one is paced by a ~555ms frame. This is measurement time, not a
+    // performance budget.
+    if (browserName === 'webkit') test.setTimeout(180_000);
     await founderHome(page);
     await page.waitForTimeout(600);
 
@@ -276,15 +280,24 @@ test.describe('REV-24 M3 -- nothing paint-tier runs while the page is idle', () 
     );
 
     // 3) The cadence, measured everywhere and logged for the record.
+    //
+    // TIME-bounded, not FRAME-bounded (REV-28). Asking for 90 frames assumes a
+    // frame rate, and this harness's WebKit rasterises the released page at
+    // ~555ms per frame -- 90 frames is ~50 seconds there, which walked this
+    // test straight into the 60s budget. Collecting for a fixed wall clock
+    // instead means a slow engine simply contributes fewer samples. The p95
+    // ASSERTION is chromium-only and chromium reaches 90 frames in ~1.5s, so
+    // nothing about the claim changes; only the patience does.
     const p95 = await page.evaluate(
       () =>
         new Promise((resolve) => {
           const gaps = [];
           let last = performance.now();
+          const deadline = last + 6_000;
           const tick = (now) => {
             gaps.push(now - last);
             last = now;
-            if (gaps.length < 90) requestAnimationFrame(tick);
+            if (gaps.length < 90 && now < deadline) requestAnimationFrame(tick);
             else {
               gaps.sort((a, b) => a - b);
               resolve(gaps[Math.floor(gaps.length * 0.95)]);

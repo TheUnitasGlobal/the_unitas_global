@@ -51,7 +51,11 @@ async function reachHome(page) {
   // wait for it to actually be gone rather than a fixed delay, so a later
   // cluster-card click never races a still-present (if fully transparent)
   // curtain still occupying the accessibility tree.
-  await expect(page.locator('.cs-root')).toHaveCount(0, { timeout: 15_000 });
+  // REV-28: 15s assumed a fast frame clock. Measured, this harness's WebKit
+  // draws the released page at ~555ms per frame, so the curtain's own exit
+  // transition -- which is frames, not milliseconds -- does not reliably
+  // finish inside it. A synchronisation wait, not a performance budget.
+  await expect(page.locator('.cs-root')).toHaveCount(0, { timeout: 45_000 });
 }
 
 /** Reads geometry + content coverage for every tile in the currently open pop-out. */

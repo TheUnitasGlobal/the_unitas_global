@@ -71,13 +71,37 @@ test.beforeEach(async ({ browserName }) => {
   test.slow(browserName === 'webkit', 'headless WebKit software WebGL');
 });
 
-/** REV-23 M2.3: the title is the only way in, and it takes two clicks. */
+/**
+ * REV-23 M2.3: the title is the only way in, and it takes two clicks.
+ *
+ * REV-28: dispatched, not driven through Playwright's actionability path.
+ * The discovery carousel ROTATES, so this title is a moving target, and
+ * Playwright's stability check needs the same bounding box across two
+ * consecutive animation frames. On this harness's WebKit a frame costs
+ * 555-698ms (measured by the REV-26 render probe), so that check takes over a
+ * second -- long enough for the rotation to swap the card underneath it, which
+ * is exactly what the failure said: `element was detached from the DOM`. A
+ * bigger budget cannot win that race; it already had three minutes. Dispatching
+ * the click is the pattern this repository already uses for carousel elements
+ * (rev15-cluster-popout, rev17-entry-checkout), and it changes nothing about
+ * what is asserted -- the two-step contract is still two clicks, and
+ * `data-selected` is still checked between them.
+ */
 async function openViaTitle(page, slot) {
   const title = page.locator(`[data-slot-card="${slot}"] .qw-hub-card-title .qw-two-step-hit`);
   await expect(title).toBeVisible({ timeout: 20_000 });
-  await title.click();
-  await expect(title).toHaveAttribute('data-selected', '1');
-  await title.click();
+  const dispatch = () =>
+    page.evaluate(
+      (sel) => {
+        const el = document.querySelector(sel);
+        if (!el) throw new Error(`no two-step hit for ${sel}`);
+        el.click();
+      },
+      `[data-slot-card="${slot}"] .qw-hub-card-title .qw-two-step-hit`,
+    );
+  await dispatch();
+  await expect(title).toHaveAttribute('data-selected', '1', { timeout: 20_000 });
+  await dispatch();
 }
 
 test.describe('REV-23 M2.3 title-only, two-step hitbox', () => {

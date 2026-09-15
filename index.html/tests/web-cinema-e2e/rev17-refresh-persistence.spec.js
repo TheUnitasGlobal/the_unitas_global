@@ -15,6 +15,16 @@ const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();
 const skipButton = (page) => page.locator('button:has(.cs-skip-aurora)');
 
+// REV-28: this harness's WebKit rasterises the released page at 555-698ms per
+// frame (measured by the REV-26 render probe), so every Playwright actionability
+// check -- which needs the same bounding box across two consecutive animation
+// frames -- costs well over a second before it can even succeed. These are
+// SYNCHRONISATION budgets, not performance assertions: no claim in this file
+// changes, only how long it is willing to wait for a slow rasteriser.
+test.beforeEach(async ({ browserName }) => {
+  if (browserName === 'webkit') test.setTimeout(240_000);
+});
+
 async function reachHome(page, extraHash = '') {
   await page.addInitScript(() => {
     try {
@@ -24,12 +34,18 @@ async function reachHome(page, extraHash = '') {
     }
   });
   await page.goto(`/en?sovereign_auth=${TOKEN}&splash=0${extraHash}`);
-  await enterButton(page).click();
-  await skipButton(page).click();
-  await expect(page.getByRole('heading', { name: /coming soon/i })).toBeVisible({ timeout: 15_000 });
-  await enterButton(page).click();
-  await page.waitForSelector('.qw-cluster-card', { timeout: 30_000 });
-  await expect(page.locator('.cs-root')).toHaveCount(0, { timeout: 15_000 });
+  // The founder door carries a hover scale transition, and Playwright's
+  // stability check wants two consecutive frames with an identical box. At
+  // ~600ms a frame that is a second and a half per attempt, and the default
+  // per-action budget runs out before the transition has settled.
+  await enterButton(page).click({ timeout: 45_000 });
+  await skipButton(page).click({ timeout: 45_000 });
+  await expect(page.getByRole('heading', { name: /coming soon/i })).toBeVisible({ timeout: 30_000 });
+  await enterButton(page).click({ timeout: 45_000 });
+  await page.waitForSelector('.qw-cluster-card', { timeout: 45_000 });
+  // The curtain unmounts after its own exit transition -- frames, not
+  // milliseconds.
+  await expect(page.locator('.cs-root')).toHaveCount(0, { timeout: 45_000 });
 }
 
 async function openFirstEntryGate(page) {

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ChevronUp, LayoutDashboard, LogOut, Play, RotateCcw, ShieldCheck, Sparkles } from 'lucide-react';
+import { Activity, ChevronUp, LayoutDashboard, LogOut, Play, RotateCcw, ShieldCheck, Sparkles } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import {
@@ -12,6 +12,7 @@ import {
   type SovereignVerification,
 } from '@/lib/foundersGate';
 import { CINEMA_PHASE_STORAGE_KEY, SPLASH_REPLAY_EVENT } from '@/lib/splash/splashTimeline';
+import { RENDER_DIAGNOSTICS_PARAM } from '@/components/system/RenderDiagnosticsHost';
 import {
   CONSOLE_NAV_DELAY_MS,
   CONSOLE_ROOT_ATTR,
@@ -109,6 +110,26 @@ export function SovereignDebugPanel() {
     markConsoleTrigger(action);
     const url = new URL(window.location.href);
     url.search = `?dev=${action}`;
+    window.setTimeout(() => {
+      window.location.assign(url.toString());
+    }, CONSOLE_NAV_DELAY_MS);
+  };
+
+  /**
+   * REV-28 M1: the founder's way into the real-device render probe without
+   * typing a query string on a phone keyboard. It reloads THIS document with
+   * `?diag=1`, which is all the probe's arming fence looks at -- the founder
+   * session is already established in this browser, so nothing else is needed.
+   *
+   * For a DIFFERENT device (the iPhone this instrument exists for) the session
+   * has to be established there first; the panel says so in the same place,
+   * because a link that silently lands on the gateway is worse than no link.
+   */
+  const openRenderProbe = () => {
+    if (busy) return;
+    cue();
+    const url = new URL(window.location.href);
+    url.searchParams.set(RENDER_DIAGNOSTICS_PARAM, '1');
     window.setTimeout(() => {
       window.location.assign(url.toString());
     }, CONSOLE_NAV_DELAY_MS);
@@ -253,6 +274,21 @@ export function SovereignDebugPanel() {
             <Sparkles size={12} aria-hidden="true" />
             {t('replaySplash')}
           </button>
+          <button
+            type="button"
+            data-sovereign-render-probe=""
+            className={actionClass}
+            onMouseEnter={() => playHoverSfx()}
+            onClick={openRenderProbe}
+            disabled={busy}
+          >
+            <Activity size={12} aria-hidden="true" />
+            RENDER PROBE
+          </button>
+          <p className="px-1 text-[10px] leading-snug text-gray-500">
+            On another device, pass the founder door there first, then add
+            <span className="text-gray-300"> ?diag=1</span>
+          </p>
           <button
             type="button"
             className={actionClass}

@@ -16,13 +16,22 @@ const { test, expect } = require('@playwright/test');
 
 const splash = (page) => page.getByTestId('intro-splash');
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();
+
+// REV-28: the logo page is a 3-second SEQUENCE, and it unmounts on frames, not
+// on a stopwatch. This harness's WebKit rasterises the released page at
+// 555-698ms per frame (measured by the REV-26 render probe), so 8s is barely a
+// dozen frames there and the splash was still on screen when the assertion
+// gave up. A synchronisation budget, not a claim about how long the splash
+// may run: the sequence's own 3s timing is asserted elsewhere and is unchanged.
+const SPLASH_GONE_MS = 30_000;
+
 const exitDialog = (page) => page.locator('#exit-guard-title');
 
 test.describe('sub-view refresh keeps the current view (no logo page)', () => {
   test('cold load shows the splash; a refresh on the gate does not', async ({ page }) => {
     await page.goto('/en');
     await expect(splash(page)).toBeVisible();
-    await expect(splash(page)).toHaveCount(0, { timeout: 8000 });
+    await expect(splash(page)).toHaveCount(0, { timeout: SPLASH_GONE_MS });
     await expect(enterButton(page)).toBeVisible();
 
     const phase = await page.evaluate(() => sessionStorage.getItem('unitas_cinema_phase'));
@@ -40,7 +49,7 @@ test.describe('sub-view refresh keeps the current view (no logo page)', () => {
     // refresh must be a real `reload` (round 11: a fresh navigation is a
     // re-entry and would wipe the seeded phase).
     await page.goto('/en');
-    await expect(splash(page)).toHaveCount(0, { timeout: 8000 });
+    await expect(splash(page)).toHaveCount(0, { timeout: SPLASH_GONE_MS });
     await page.evaluate(() => sessionStorage.setItem('unitas_cinema_phase', 'sealed'));
     await page.reload();
     const flag = await page.evaluate(() => document.documentElement.getAttribute('data-splash'));
@@ -57,7 +66,7 @@ test.describe('sub-view refresh keeps the current view (no logo page)', () => {
 test.describe('re-entry always restarts from the logo page (round 11, item 3)', () => {
   test('a fresh navigation onto the site wipes the parked sub-view and runs the splash', async ({ page }) => {
     await page.goto('/en');
-    await expect(splash(page)).toHaveCount(0, { timeout: 8000 });
+    await expect(splash(page)).toHaveCount(0, { timeout: SPLASH_GONE_MS });
     await expect(enterButton(page)).toBeVisible();
     await page.evaluate(() => sessionStorage.setItem('unitas_cinema_phase', 'sealed'));
 
@@ -66,7 +75,7 @@ test.describe('re-entry always restarts from the logo page (round 11, item 3)', 
     expect(await page.evaluate(() => sessionStorage.getItem('unitas_cinema_phase'))).not.toBe('sealed');
     expect(await page.evaluate(() => document.documentElement.getAttribute('data-splash'))).toBeNull();
     await expect(splash(page)).toBeVisible();
-    await expect(splash(page)).toHaveCount(0, { timeout: 8000 });
+    await expect(splash(page)).toHaveCount(0, { timeout: SPLASH_GONE_MS });
     // Back on the very first entry point, not the sealed screen.
     await expect(enterButton(page)).toBeVisible();
   });
