@@ -69,10 +69,12 @@ describe('robotsMatches (the test helper itself)', () => {
 });
 
 describe('public route inventory', () => {
-  it('is exactly home + u-ai + the 3 B2B protocols + every company/legal/support slug', () => {
+  it('is exactly home + u-ai + omni-swarm + the 3 B2B protocols + every company/legal/support slug', () => {
     const expected = [
       '/',
       '/u-ai',
+      // REV-32 M1: the omni-tech swarm's own route.
+      '/omni-swarm',
       '/u-signature',
       '/u-key',
       '/u-pay',
@@ -81,7 +83,7 @@ describe('public route inventory', () => {
       ...LEGAL_SLUGS.map((s) => `/legal/${s}`),
     ];
     expect(PUBLIC_ROUTES.map((r) => r.path)).toEqual(expected);
-    expect(PUBLIC_ROUTES).toHaveLength(17);
+    expect(PUBLIC_ROUTES).toHaveLength(18);
   });
 
   it('has no duplicate paths and every path is a leading-slash, trailing-slash-free path', () => {
@@ -183,7 +185,7 @@ describe('sitemap', () => {
 
   it('covers every public route in every locale, once each', () => {
     expect(entries).toHaveLength(PUBLIC_ROUTES.length * LOCALES.length);
-    expect(entries).toHaveLength(340);
+    expect(entries).toHaveLength(360);
     expect(new Set(entries.map((e) => e.url)).size).toBe(entries.length);
   });
 

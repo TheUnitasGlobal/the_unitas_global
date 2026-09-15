@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Kaynaklar",
         "omni": "Kaynaklar ve platformlar",
+        "swarm": "Omni-Tech nabzı",
         "concepts": "Bağlantılı kavramlar",
         "sites": "İlgili siteler",
         "news": "Haberler",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "UNITAS Sıralamaları",
         "rooms": "Tema sohbet odaları",
-        "social": "Sosyal medya"
+        "social": "Sosyal medya",
+        "swarm": "Sürü"
       },
       "live": "Canlı",
       "localOnly": "Yalnızca bu cihaz — canlı bağlantı yok",
@@ -2669,6 +2671,45 @@
       "too-fast": "Mesajlar arasında biraz ara ver.",
       "rejected": "Sunucu reddetti. Hiçbir şey değişmedi.",
       "offline": "Bağlantı yok — kaydı bu cihaz tutuyor."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Omni-Tech nabzı",
+      "lede": "Parçalarına ayıralım: bu kuruluş neye sahip, ne üretiyor ve ne üzerinde çalışıyor?",
+      "trailAria": "Soğurma izi",
+      "reAnchor": "Bunun yerine bunu keşfet",
+      "loading": "Yükleniyor…",
+      "failed": "Alan yüklenemedi — kapatıp yeniden açın.",
+      "empty": "Wikidata'da bu konu için henüz modül yok.",
+      "needsEntity": "Bir kuruluş adı girin, alan onu parçalarına ayırsın.",
+      "sourceNote": "Kaynak",
+      "fields": {
+        "f1": "Sektör",
+        "f2": "Ana kuruluş",
+        "f3": "Bağlı kuruluşlar",
+        "f4": "Ürünler",
+        "f5": "Kurucular",
+        "f6": "Genel müdür"
+      },
+      "facts": {
+        "scaleEmployees": "Çalışan sayısı",
+        "scaleRevenue": "Gelir"
+      },
+      "portal": {
+        "title": "Omni-Tech nabzı",
+        "lede": "{term} neyden oluşuyor görün: sektörler, sahipler, ürünler ve insanlar tek bir alanda.",
+        "cta": "Alana gir",
+        "aria": "{term} için omni-tech alanını aç"
+      },
+      "page": {
+        "title": "Omni-Tech nabzı",
+        "lede": "Herhangi bir kuruluşu Wikidata'nın zaten tuttuğu modüllere ayırın — sektörler, sahipler, bağlı kuruluşlar, ürünler, kurucular ve yöneticiler — ve bunlardan herhangi birinden devam edin.",
+        "search": "Ara",
+        "searchLabel": "Parçalanacak kuruluş",
+        "searchPlaceholder": "Samsung Electronics, Dünya Bankası, FC Barcelona…",
+        "unresolved": "Bu ada uyan kuruluş bulunamadı — tam resmî adını deneyin."
+      }
     }
   }
 }

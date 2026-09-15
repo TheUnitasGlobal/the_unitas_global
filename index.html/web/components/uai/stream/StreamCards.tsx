@@ -37,6 +37,7 @@ import {
   Workflow,
   AlignLeft,
   Globe2,
+  Cpu,
 } from 'lucide-react';
 import { sourceById, sourceLabel, type SourceId } from '@/lib/uai/sourceRegistry';
 import { nextSelectState, type TwoStepAction } from '@/lib/uai/twoStepSelect';
@@ -52,6 +53,7 @@ const KIND_ICON: Partial<Record<StreamCardKind, typeof Link2>> = {
   attention: Activity,
   community: MessageSquare,
   omni: Layers,
+  swarm: Cpu,
   graph: Workflow,
   extracts: AlignLeft,
   global: Globe2,

@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Sources",
         "omni": "Sources and platforms",
+        "swarm": "Omni-Tech Pulse",
         "concepts": "Linked concepts",
         "sites": "Related sites",
         "news": "News",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "UNITAS Rankings",
         "rooms": "Theme chat rooms",
-        "social": "Social media"
+        "social": "Social media",
+        "swarm": "Swarm"
       },
       "live": "Live",
       "localOnly": "This device only — no live link",
@@ -2669,6 +2671,45 @@
       "too-fast": "A moment between messages, please.",
       "rejected": "The server refused that. Nothing was changed.",
       "offline": "No connection — this device is keeping the record."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Omni-Tech Pulse",
+      "lede": "Take it apart: what does this organisation own, make, and run on?",
+      "trailAria": "Absorption trail",
+      "reAnchor": "Explore this instead",
+      "loading": "Loading…",
+      "failed": "That field did not load — close it and open it again.",
+      "empty": "Wikidata holds no modules for this subject yet.",
+      "needsEntity": "Name an organisation and the field will take it apart.",
+      "sourceNote": "Source",
+      "fields": {
+        "f1": "Industry",
+        "f2": "Parent",
+        "f3": "Subsidiaries",
+        "f4": "Products",
+        "f5": "Founders",
+        "f6": "Chief executive"
+      },
+      "facts": {
+        "scaleEmployees": "Employees",
+        "scaleRevenue": "Revenue"
+      },
+      "portal": {
+        "title": "Omni-Tech Pulse",
+        "lede": "See what {term} is made of — its industries, owners, products and people, drawn as one field.",
+        "cta": "Enter the field",
+        "aria": "Open the omni-tech field for {term}"
+      },
+      "page": {
+        "title": "Omni-Tech Pulse",
+        "lede": "Take any organisation apart into the modules Wikidata already holds about it — industries, owners, subsidiaries, products, founders and executives — and walk from any one of them into the next.",
+        "search": "Search",
+        "searchLabel": "Organisation to take apart",
+        "searchPlaceholder": "Samsung Electronics, World Bank, FC Barcelona…",
+        "unresolved": "No organisation matched that name — try its full, official name."
+      }
     }
   }
 }

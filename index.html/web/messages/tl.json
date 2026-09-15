@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Mga pinagmulan",
         "omni": "Mga pinagmulan at platform",
+        "swarm": "Pulso ng Omni-Tech",
         "concepts": "Mga kaugnay na konsepto",
         "sites": "Mga kaugnay na site",
         "news": "Balita",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "UNITAS Ranking",
         "rooms": "Chat room ayon sa tema",
-        "social": "Social media"
+        "social": "Social media",
+        "swarm": "Kuyog"
       },
       "live": "Live",
       "localOnly": "Ang device na ito lang — walang live link",
@@ -2669,6 +2671,45 @@
       "too-fast": "Sandaling paghinto sa pagitan ng mga mensahe.",
       "rejected": "Tinanggihan ng server. Walang nabago.",
       "offline": "Walang koneksyon — ang device na ito ang nag-iingat ng record."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Pulso ng Omni-Tech",
+      "lede": "Buksan natin: ano ang pag-aari, ginagawa, at pinatatakbo ng organisasyong ito?",
+      "trailAria": "Landas ng pagsipsip",
+      "reAnchor": "Ito na lang ang tuklasin",
+      "loading": "Naglo-load…",
+      "failed": "Hindi na-load ang field — isara at buksan itong muli.",
+      "empty": "Wala pang modules ang Wikidata para sa paksang ito.",
+      "needsEntity": "Magbanggit ng organisasyon at bubuwagin ito ng field.",
+      "sourceNote": "Pinagmulan",
+      "fields": {
+        "f1": "Industriya",
+        "f2": "Punong organisasyon",
+        "f3": "Mga subsidiary",
+        "f4": "Mga produkto",
+        "f5": "Mga tagapagtatag",
+        "f6": "Punong tagapagpaganap"
+      },
+      "facts": {
+        "scaleEmployees": "Mga empleyado",
+        "scaleRevenue": "Kita"
+      },
+      "portal": {
+        "title": "Pulso ng Omni-Tech",
+        "lede": "Tingnan kung saan gawa ang {term} — industriya, may-ari, produkto at tao sa iisang field.",
+        "cta": "Pumasok sa field",
+        "aria": "Buksan ang omni-tech field ng {term}"
+      },
+      "page": {
+        "title": "Pulso ng Omni-Tech",
+        "lede": "Buwagin ang alinmang organisasyon sa mga modyul na nasa Wikidata na — industriya, may-ari, subsidiary, produkto, tagapagtatag at ehekutibo — at magpatuloy mula sa alinman sa mga ito.",
+        "search": "Maghanap",
+        "searchLabel": "Organisasyong bubuwagin",
+        "searchPlaceholder": "Samsung Electronics, World Bank, FC Barcelona…",
+        "unresolved": "Walang organisasyong tumugma — subukan ang buong opisyal na pangalan."
+      }
     }
   }
 }

@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Allikad",
         "omni": "Allikad ja platvormid",
+        "swarm": "Omni-Tech pulss",
         "concepts": "Seotud mõisted",
         "sites": "Seotud saidid",
         "news": "Uudised",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS lühivideod",
         "rankings": "UNITAS edetabelid",
         "rooms": "Teemavestlused",
-        "social": "Sotsiaalmeedia"
+        "social": "Sotsiaalmeedia",
+        "swarm": "Parv"
       },
       "live": "Otse",
       "localOnly": "Ainult see seade — otseühendust pole",
@@ -2669,6 +2671,45 @@
       "too-fast": "Palun hetk sõnumite vahel.",
       "rejected": "Server keeldus. Midagi ei muudetud.",
       "offline": "Ühendust pole — kirjet hoiab see seade."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Omni-Tech pulss",
+      "lede": "Võta lahti: mida see organisatsioon omab, toodab ja millel ta töötab?",
+      "trailAria": "Neeldumisrada",
+      "reAnchor": "Uuri hoopis seda",
+      "loading": "Laadimine…",
+      "failed": "Väli ei laadinud — sulge ja ava uuesti.",
+      "empty": "Wikidatas pole selle teema kohta veel mooduleid.",
+      "needsEntity": "Nimeta organisatsioon ja väli võtab selle koost lahti.",
+      "sourceNote": "Allikas",
+      "fields": {
+        "f1": "Tegevusala",
+        "f2": "Emaorganisatsioon",
+        "f3": "Tütarettevõtted",
+        "f4": "Tooted",
+        "f5": "Asutajad",
+        "f6": "Tegevjuht"
+      },
+      "facts": {
+        "scaleEmployees": "Töötajaid",
+        "scaleRevenue": "Käive"
+      },
+      "portal": {
+        "title": "Omni-Tech pulss",
+        "lede": "Vaata, millest {term} koosneb — tegevusalad, omanikud, tooted ja inimesed ühe väljana.",
+        "cta": "Sisene väljale",
+        "aria": "Ava {term} omni-tech väli"
+      },
+      "page": {
+        "title": "Omni-Tech pulss",
+        "lede": "Võta ükskõik milline organisatsioon lahti mooduliteks, mis Wikidatas juba olemas on — tegevusalad, omanikud, tütarettevõtted, tooted, asutajad ja juhid — ning liigu neist ükskõik millisesse edasi.",
+        "search": "Otsi",
+        "searchLabel": "Lahtivõetav organisatsioon",
+        "searchPlaceholder": "Samsung Electronics, Maailmapank, FC Barcelona…",
+        "unresolved": "Selle nimega organisatsiooni ei leitud — proovi täielikku ametlikku nime."
+      }
     }
   }
 }

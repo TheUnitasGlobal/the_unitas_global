@@ -24,6 +24,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { OmniOpen } from '@/components/home/OmniOpen';
+import { OmniSwarmPortal } from '@/components/swarm/OmniSwarmPortal';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
 import { useSlotContext } from '@/lib/live/useSlotContext';
 import { entityAnchor, qidAnchor, textAnchor, type DeeperAnchor } from '@/lib/uai/deeperAnchor';
@@ -148,6 +149,19 @@ export function UaiHyperStream({
         nodes.push(
           <article key={`omni-${page.page}`} className="qw-stream-card" data-stream-card="omni" data-stream-page={page.page}>
             <OmniOpen anchor={anchor} host={host} compact={page.page > 1} className="qw-stream-omni" />
+          </article>,
+        );
+      // REV-32 M2: the swarm's door. It draws nothing and fetches nothing
+      // until it is opened. It rides EVERY result, not only the ones live
+      // synthesis resolved an entity for -- an identifier decides which of
+      // the portal's two doors is drawn, never whether there is one.
+      else if (kind === 'swarm' && surface)
+        nodes.push(
+          <article key={`swarm-${page.page}`} className="qw-stream-card qw-stream-card--swarm" data-stream-card="swarm" data-stream-page={page.page}>
+            <OmniSwarmPortal
+              anchor={anchor ? { qid: anchor.qid, term: anchor.localeTitle ?? anchor.term, lang: anchor.lang } : null}
+              query={surface.query}
+            />
           </article>,
         );
       else (byKind.get(kind) ?? []).forEach((card) => nodes.push(<NetworkCard key={card.id} card={card} onQuery={onRunQuery} />));

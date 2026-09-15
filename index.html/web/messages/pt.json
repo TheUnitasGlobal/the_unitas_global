@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Fontes",
         "omni": "Fontes e plataformas",
+        "swarm": "Pulso omnitecnológico",
         "concepts": "Conceitos ligados",
         "sites": "Sites relacionados",
         "news": "Notícias",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "Rankings UNITAS",
         "rooms": "Salas por tema",
-        "social": "Redes sociais"
+        "social": "Redes sociais",
+        "swarm": "Enxame"
       },
       "live": "Ao vivo",
       "localOnly": "Só este dispositivo — sem ligação ao vivo",
@@ -2669,6 +2671,45 @@
       "too-fast": "Um momento entre mensagens, por favor.",
       "rejected": "O servidor recusou. Nada foi alterado.",
       "offline": "Sem ligação — este dispositivo guarda o registo."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Pulso omnitecnológico",
+      "lede": "Desmonte-a: o que esta organização possui, fabrica e sobre o que funciona?",
+      "trailAria": "Trilha de absorção",
+      "reAnchor": "Explorar isto em vez disso",
+      "loading": "Carregando…",
+      "failed": "O campo não carregou — feche e abra novamente.",
+      "empty": "A Wikidata ainda não tem módulos para este assunto.",
+      "needsEntity": "Indique uma organização e o campo a decompõe.",
+      "sourceNote": "Fonte",
+      "fields": {
+        "f1": "Setor",
+        "f2": "Matriz",
+        "f3": "Subsidiárias",
+        "f4": "Produtos",
+        "f5": "Fundadores",
+        "f6": "Diretor executivo"
+      },
+      "facts": {
+        "scaleEmployees": "Funcionários",
+        "scaleRevenue": "Receita"
+      },
+      "portal": {
+        "title": "Pulso omnitecnológico",
+        "lede": "Veja do que {term} é feita: setores, matrizes, produtos e pessoas num só campo.",
+        "cta": "Entrar no campo",
+        "aria": "Abrir o campo omnitecnológico de {term}"
+      },
+      "page": {
+        "title": "Pulso omnitecnológico",
+        "lede": "Decomponha qualquer organização nos módulos que a Wikidata já guarda — setores, matrizes, subsidiárias, produtos, fundadores e executivos — e siga a partir de qualquer um deles.",
+        "search": "Buscar",
+        "searchLabel": "Organização a decompor",
+        "searchPlaceholder": "Samsung Electronics, Banco Mundial, FC Barcelona…",
+        "unresolved": "Nenhuma organização corresponde a esse nome — tente o nome oficial completo."
+      }
     }
   }
 }

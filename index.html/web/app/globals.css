@@ -972,37 +972,42 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   animation: none !important;
   transform: translateY(calc(var(--qw-roll-index, 0) * -20px));
 }
-/* REV-29 M4: the UNITAS tile's five-icon roll -- the same 2.4 s step and
-   the same easing as the attach roll, one loop of 12 s. */
+/* REV-29 M4 + REV-32 M2: the UNITAS tile's six-icon roll -- the same 2.4 s
+   step and the same easing as the attach roll. Six surfaces, so the loop is
+   14.4 s: the CADENCE is the constant here, never the loop length. */
 #omni-synapse-search:hover .qw-unitas-roll-track,
 #omni-synapse-search:focus-within .qw-unitas-roll-track,
 #omni-synapse-search[data-state='focus'] .qw-unitas-roll-track,
 #omni-synapse-search[data-state='drag'] .qw-unitas-roll-track {
-  animation: qw-unitas-roll 12s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  animation: qw-unitas-roll 14.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
 }
 @keyframes qw-unitas-roll {
   0%,
-  17% {
+  14.2% {
     transform: translateY(0);
   }
-  20%,
-  37% {
+  16.7%,
+  30.9% {
     transform: translateY(-20px);
   }
-  40%,
-  57% {
+  33.3%,
+  47.5% {
     transform: translateY(-40px);
   }
-  60%,
-  77% {
+  50%,
+  64.2% {
     transform: translateY(-60px);
   }
-  80%,
-  97% {
+  66.7%,
+  80.9% {
     transform: translateY(-80px);
   }
-  100% {
+  83.3%,
+  97.5% {
     transform: translateY(-100px);
+  }
+  100% {
+    transform: translateY(-120px);
   }
 }
 @keyframes qw-attach-roll {
@@ -1998,4 +2003,289 @@ body:has([data-unitas-gateway]) .dashboard-zoom {
 }
 .qw-no-anchor * {
   overflow-anchor: none;
+}
+
+/* --------------------------------------------------------------------------
+   REV-24 MISSION 4 -- the OMNI-TECH SWARM (founder directive 2026-09-13),
+   revived as an independent module by REV-32 M1 (2026-09-15).
+   components/swarm/OmniTechSwarm.tsx. Layout + dark painting; the white
+   surface repaints in quantum-white-rev19.css.
+
+   THE FRAME BUDGET IS THE DESIGN. There is no animation loop here and no
+   animated property that is not `transform` or `opacity`. The pointer writes
+   two custom properties (--sx, --sy, in [-1, 1]) onto `.qw-swarm` at most
+   once per frame WHILE A POINTER IS MOVING; every node and every edge then
+   derives its own parallax from those two numbers times its own shell depth
+   (--d, 0 inner .. 1 outer). Nothing re-renders, nothing paints, and the
+   instant the pointer leaves, the whole field costs nothing again. Same
+   doctrine as QuantumVoid.tsx and the rest of REV-24 MISSION 3.
+
+   The field is deliberately NOT WebGL: `.qw-swarm-frame` sets
+   `contain: layout paint`, the field lives inside a Tab-trapping Modal, and
+   headless WebKit loses the WebGL context on mount (see Scene.tsx). Absolute
+   HTML buttons over one SVG edge layer keeps it accessible, clip-safe and
+   free of a second renderer.
+   -------------------------------------------------------------------------- */
+.qw-swarm-wrap {
+  display: block;
+}
+.qw-swarm {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.5;
+  min-height: 220px;
+  max-height: 62vh;
+  margin-top: 4px;
+  overflow: hidden;
+  border-radius: 12px;
+  /* Fallback first: an engine that cannot parse `color-mix()` drops the
+     whole declaration, which would leave the field with no ground at all. */
+  background: rgba(255, 255, 255, 0.02);
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--qw-swarm-accent) 14%, transparent) 0%, transparent 62%),
+    rgba(255, 255, 255, 0.02);
+  touch-action: pan-y;
+}
+/* The web. One layer, non-scaling strokes, pointer-transparent. */
+.qw-swarm-web {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.qw-swarm-edge {
+  stroke: var(--qw-swarm-accent);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: calc(0.1 + (1 - var(--d, 0)) * 0.16);
+  transition: opacity 0.18s ease;
+}
+.qw-swarm-edge[data-swarm-edge-active='1'] {
+  opacity: 0.85;
+  stroke-width: 1.6;
+}
+/* The core -- the organisation the field is taking apart. */
+.qw-swarm-core {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  text-align: center;
+}
+.qw-swarm-core-pip {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--qw-swarm-accent);
+  box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.22);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--qw-swarm-accent) 22%, transparent);
+}
+.qw-swarm-core-label {
+  max-width: 168px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: #fff;
+  overflow-wrap: anywhere;
+}
+/* A node. `--d` is its shell depth; the two pointer properties are read from
+   the field above it, so a node never needs its own listener. */
+.qw-swarm-node {
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  max-width: 116px;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: center;
+  cursor: pointer;
+  transform:
+    translate(-50%, -50%)
+    translate3d(
+      calc(var(--sx, 0) * var(--d, 0) * var(--qw-swarm-travel, 2.6%) * -1),
+      calc(var(--sy, 0) * var(--d, 0) * var(--qw-swarm-travel, 2.6%) * -1),
+      0
+    );
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+.qw-swarm-node[data-swarm-absorb='0'] {
+  cursor: default;
+}
+.qw-swarm-dot {
+  width: calc(9px - var(--d, 0) * 2px);
+  height: calc(9px - var(--d, 0) * 2px);
+  border-radius: 999px;
+  background: var(--qw-swarm-accent);
+  opacity: calc(1 - var(--d, 0) * 0.35);
+  transition: box-shadow 0.18s ease, opacity 0.18s ease;
+}
+.qw-swarm-label {
+  font-size: calc(12px - var(--d, 0) * 1px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: rgba(229, 231, 235, calc(1 - var(--d, 0) * 0.3));
+  overflow-wrap: anywhere;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.qw-swarm-node:hover,
+.qw-swarm-node:focus-visible {
+  z-index: 3;
+  outline: none;
+}
+.qw-swarm-node:hover .qw-swarm-dot,
+.qw-swarm-node:focus-visible .qw-swarm-dot {
+  opacity: 1;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--qw-swarm-accent) 30%, transparent);
+}
+.qw-swarm-node:hover .qw-swarm-label,
+.qw-swarm-node:focus-visible .qw-swarm-label {
+  color: #fff;
+}
+.qw-swarm-node:focus-visible .qw-swarm-label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* Legend -- which sector is which dimension. */
+.qw-swarm-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(156, 163, 175, 1);
+}
+.qw-swarm-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.qw-swarm-legend-pip {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--qw-swarm-accent, #38bdf8);
+  opacity: calc(1 - var(--i, 0) * 0.12);
+}
+.qw-swarm-legend-count {
+  font-size: 10px;
+  font-weight: 800;
+  color: rgba(107, 114, 128, 1);
+}
+/* A finger has no hover and covers the node it is on, so the parallax is
+   pointless there; a reduced-motion visitor asked for none. Both get the
+   identical field, still -- every node is in exactly the same place. */
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .qw-swarm-node {
+    transition: none;
+    transform: translate(-50%, -50%);
+    will-change: auto;
+  }
+  .qw-swarm-edge {
+    transition: none;
+  }
+}
+@media (max-width: 640px) {
+  .qw-swarm {
+    aspect-ratio: 1.05;
+    min-height: 300px;
+  }
+  .qw-swarm-node {
+    max-width: 88px;
+  }
+}
+
+/* REV-32 M1: the box the field is clipped by. It used to inherit this from
+   the lens card class, which the REV-21 framework owned and REV-31 deleted, so the
+   swarm owns its own frame now -- with exactly the containment the layout
+   module's EDGE_MARGIN reasoning assumes. */
+.qw-swarm-frame {
+  contain: layout paint;
+  border-radius: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   REV-32 M2 -- the swarm's DOOR (founder directive 2026-09-15).
+   components/swarm/OmniSwarmPortal.tsx.
+
+   The founder asked for an entrance the visitor is pulled through, placed so
+   it does not collide with the omni-open rows directly above it. Two rules
+   make that work:
+
+     1. It belongs to the stream-card family it sits in -- same radius, same
+        border weight, same ground -- so it reads as part of the result, not
+        as an advertisement dropped into it. The ONLY thing that separates it
+        is the accent and one soft radial bloom.
+     2. It costs nothing at rest. The bloom is a static gradient; the hover
+        response is `transform` and `border-color` alone. No filter, no
+        backdrop-filter, no animation loop -- the same doctrine the field
+        itself obeys (see the OMNI-TECH SWARM header above).
+   -------------------------------------------------------------------------- */
+.qw-swarm-portal {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  border-radius: 14px;
+  background: rgba(8, 12, 20, 0.5);
+  padding: 14px 16px;
+  text-align: left;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.qw-swarm-portal:hover,
+.qw-swarm-portal:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(56, 189, 248, 0.72);
+  box-shadow: 0 14px 30px -20px rgba(56, 189, 248, 0.9);
+  outline: none;
+}
+/* The bloom: the field's own light leaking through the door. */
+.qw-swarm-portal-glow {
+  position: absolute;
+  inset: -40% -10% auto -10%;
+  height: 180%;
+  background: radial-gradient(60% 50% at 82% 30%, rgba(56, 189, 248, 0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+.qw-swarm-portal-body {
+  position: relative;
+  display: block;
+}
+.qw-swarm-portal-lede {
+  max-width: 62ch;
+}
+
+/* The panel, in a modal and on its own route. */
+.qw-swarm-panel {
+  contain: content;
+}
+.qw-swarm-panel--page {
+  margin-top: 4px;
+}
+.qw-swarm-page--hub {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qw-swarm-portal {
+    transition: none;
+  }
+  .qw-swarm-portal:hover,
+  .qw-swarm-portal:focus-visible {
+    transform: none;
+  }
 }

@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Sumber",
         "omni": "Sumber dan platform",
+        "swarm": "Denyut Omni-Tech",
         "concepts": "Konsep terkait",
         "sites": "Situs terkait",
         "news": "Berita",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "Peringkat UNITAS",
         "rooms": "Ruang obrolan tema",
-        "social": "Media sosial"
+        "social": "Media sosial",
+        "swarm": "Gerombolan"
       },
       "live": "Langsung",
       "localOnly": "Hanya perangkat ini — tanpa tautan langsung",
@@ -2669,6 +2671,45 @@
       "too-fast": "Mohon jeda sejenak antar pesan.",
       "rejected": "Server menolak. Tidak ada yang berubah.",
       "offline": "Tidak ada koneksi — perangkat ini menyimpan catatannya."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Denyut Omni-Tech",
+      "lede": "Bongkar: apa yang dimiliki, dibuat, dan dijalankan organisasi ini?",
+      "trailAria": "Jejak penyerapan",
+      "reAnchor": "Jelajahi ini saja",
+      "loading": "Memuat…",
+      "failed": "Bidang gagal dimuat — tutup lalu buka lagi.",
+      "empty": "Wikidata belum punya modul untuk subjek ini.",
+      "needsEntity": "Sebutkan sebuah organisasi, bidang ini akan menguraikannya.",
+      "sourceNote": "Sumber",
+      "fields": {
+        "f1": "Industri",
+        "f2": "Induk",
+        "f3": "Anak usaha",
+        "f4": "Produk",
+        "f5": "Pendiri",
+        "f6": "Direktur utama"
+      },
+      "facts": {
+        "scaleEmployees": "Karyawan",
+        "scaleRevenue": "Pendapatan"
+      },
+      "portal": {
+        "title": "Denyut Omni-Tech",
+        "lede": "Lihat {term} terbuat dari apa: industri, induk, produk, dan orang dalam satu bidang.",
+        "cta": "Masuk ke bidang",
+        "aria": "Buka bidang Omni-Tech untuk {term}"
+      },
+      "page": {
+        "title": "Denyut Omni-Tech",
+        "lede": "Uraikan organisasi mana pun menjadi modul yang sudah dimiliki Wikidata — industri, induk, anak usaha, produk, pendiri, dan direksi — lalu lanjutkan dari salah satunya.",
+        "search": "Cari",
+        "searchLabel": "Organisasi yang diuraikan",
+        "searchPlaceholder": "Samsung Electronics, Bank Dunia, FC Barcelona…",
+        "unresolved": "Tidak ada organisasi yang cocok — coba nama resmi lengkapnya."
+      }
     }
   }
 }

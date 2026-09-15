@@ -65,6 +65,10 @@ export interface PublicRoute {
 export const PUBLIC_ROUTES: readonly PublicRoute[] = [
   { path: '/', priority: 1.0, changeFrequency: 'daily' },
   { path: '/u-ai', priority: 0.9, changeFrequency: 'daily' },
+  // REV-32 M1: the omni-tech swarm's own address. Indexable on its own merit
+  // -- it answers a real question ('what is this organisation made of?') that
+  // no other route on the site answers.
+  { path: '/omni-swarm', priority: 0.8, changeFrequency: 'weekly' },
   { path: '/u-signature', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/u-key', priority: 0.8, changeFrequency: 'monthly' },
   { path: '/u-pay', priority: 0.8, changeFrequency: 'monthly' },

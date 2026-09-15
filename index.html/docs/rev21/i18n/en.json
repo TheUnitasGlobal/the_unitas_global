@@ -41,6 +41,7 @@
   "stream.tier.singularity": "Singularity",
   "stream.kinds.sources": "Sources",
   "stream.kinds.omni": "Sources and platforms",
+  "stream.kinds.swarm": "Omni-Tech Pulse",
   "stream.kinds.concepts": "Linked concepts",
   "stream.kinds.sites": "Related sites",
   "stream.kinds.news": "News",

@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Nguồn",
         "omni": "Nguồn và nền tảng",
+        "swarm": "Nhịp Omni-Tech",
         "concepts": "Khái niệm liên kết",
         "sites": "Trang web liên quan",
         "news": "Tin tức",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "Xếp hạng UNITAS",
         "rooms": "Phòng chat theo chủ đề",
-        "social": "Mạng xã hội"
+        "social": "Mạng xã hội",
+        "swarm": "Bầy"
       },
       "live": "Trực tiếp",
       "localOnly": "Chỉ thiết bị này — không có kết nối trực tiếp",
@@ -2669,6 +2671,45 @@
       "too-fast": "Vui lòng chờ một chút giữa các tin nhắn.",
       "rejected": "Máy chủ đã từ chối. Không có gì thay đổi.",
       "offline": "Không có kết nối — thiết bị này giữ bản ghi."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Nhịp Omni-Tech",
+      "lede": "Tháo rời ra: tổ chức này sở hữu gì, làm ra gì và vận hành trên nền gì?",
+      "trailAria": "Lộ trình hấp thụ",
+      "reAnchor": "Khám phá mục này thay thế",
+      "loading": "Đang tải…",
+      "failed": "Không tải được trường — hãy đóng rồi mở lại.",
+      "empty": "Wikidata chưa có mô-đun nào cho chủ đề này.",
+      "needsEntity": "Nhập tên một tổ chức và trường sẽ phân tách nó.",
+      "sourceNote": "Nguồn",
+      "fields": {
+        "f1": "Ngành",
+        "f2": "Công ty mẹ",
+        "f3": "Công ty con",
+        "f4": "Sản phẩm",
+        "f5": "Người sáng lập",
+        "f6": "Giám đốc điều hành"
+      },
+      "facts": {
+        "scaleEmployees": "Nhân sự",
+        "scaleRevenue": "Doanh thu"
+      },
+      "portal": {
+        "title": "Nhịp Omni-Tech",
+        "lede": "Xem {term} được tạo nên từ gì — ngành, công ty mẹ, sản phẩm và con người trong một trường.",
+        "cta": "Vào trường",
+        "aria": "Mở trường Omni-Tech của {term}"
+      },
+      "page": {
+        "title": "Nhịp Omni-Tech",
+        "lede": "Phân tách bất kỳ tổ chức nào thành các mô-đun mà Wikidata đã có — ngành, công ty mẹ, công ty con, sản phẩm, người sáng lập và ban điều hành — rồi đi tiếp từ bất kỳ mô-đun nào.",
+        "search": "Tìm",
+        "searchLabel": "Tổ chức cần phân tách",
+        "searchPlaceholder": "Samsung Electronics, Ngân hàng Thế giới, FC Barcelona…",
+        "unresolved": "Không có tổ chức nào khớp tên đó — hãy thử tên chính thức đầy đủ."
+      }
     }
   }
 }

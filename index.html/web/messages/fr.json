@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Références",
         "omni": "Sources et plateformes",
+        "swarm": "Pouls omni-tech",
         "concepts": "Concepts liés",
         "sites": "Sites associés",
         "news": "Actualités",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "Classements UNITAS",
         "rooms": "Salons par thème",
-        "social": "Réseaux sociaux"
+        "social": "Réseaux sociaux",
+        "swarm": "Essaim"
       },
       "live": "En direct",
       "localOnly": "Cet appareil seulement — pas de lien en direct",
@@ -2669,6 +2671,45 @@
       "too-fast": "Un instant entre deux messages, s’il vous plaît.",
       "rejected": "Le serveur a refusé. Rien n’a été modifié.",
       "offline": "Pas de connexion — cet appareil conserve l’enregistrement."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Pouls omni-tech",
+      "lede": "Démontons-la : que possède, que fabrique et sur quoi tourne cette organisation ?",
+      "trailAria": "Parcours d'absorption",
+      "reAnchor": "Explorer ceci à la place",
+      "loading": "Chargement…",
+      "failed": "Le champ n'a pas pu se charger — fermez-le et rouvrez-le.",
+      "empty": "Wikidata ne contient pas encore de modules pour ce sujet.",
+      "needsEntity": "Nommez une organisation et le champ la décomposera.",
+      "sourceNote": "Source",
+      "fields": {
+        "f1": "Secteur",
+        "f2": "Maison mère",
+        "f3": "Filiales",
+        "f4": "Produits",
+        "f5": "Fondateurs",
+        "f6": "Directeur général"
+      },
+      "facts": {
+        "scaleEmployees": "Effectif",
+        "scaleRevenue": "Chiffre d'affaires"
+      },
+      "portal": {
+        "title": "Pouls omni-tech",
+        "lede": "Voyez de quoi {term} est fait : secteurs, maisons mères, produits et personnes, en un seul champ.",
+        "cta": "Entrer dans le champ",
+        "aria": "Ouvrir le champ omni-tech de {term}"
+      },
+      "page": {
+        "title": "Pouls omni-tech",
+        "lede": "Décomposez n'importe quelle organisation en modules que Wikidata contient déjà — secteurs, maisons mères, filiales, produits, fondateurs et dirigeants — puis avancez depuis l'un d'eux.",
+        "search": "Rechercher",
+        "searchLabel": "Organisation à décomposer",
+        "searchPlaceholder": "Samsung Electronics, Banque mondiale, FC Barcelone…",
+        "unresolved": "Aucune organisation ne correspond à ce nom — essayez son nom officiel complet."
+      }
     }
   }
 }

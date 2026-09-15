@@ -33,11 +33,15 @@ function streamNs(locale: string): Messages {
  *  through i18n). Trimmed with the legs that produced the others. */
 const FACT_LABELS = ['views30', 'trend', 'window', 'passage', 'editions'] as const;
 
-/** The eleven kinds of the founder's directive, spelled out here so the
- *  test fails loudly if a deleted kind is ever reintroduced by accident. */
-const FOUNDER_ELEVEN = [
+/** The kinds of the founder's directive, spelled out here so the test fails
+ *  loudly if a deleted kind is ever reintroduced by accident. REV-23 named
+ *  eleven; REV-32 M2 added the swarm's door as a twelfth -- a NEW kind the
+ *  founder asked for, not one of the sixteen REV-23 retired (those are still
+ *  listed in DELETED_KINDS below and still may never come back). */
+const FOUNDER_KINDS = [
   'sources',
   'omni',
+  'swarm',
   'concepts',
   'sites',
   'news',
@@ -70,9 +74,9 @@ const DELETED_KINDS = [
 ] as const;
 
 describe('stream kind parity (REV-23 eleven-kind diet)', () => {
-  it('the content kinds are exactly the founder-named eleven', () => {
-    expect([...CONTENT_KINDS].sort()).toEqual([...FOUNDER_ELEVEN].sort());
-    expect(new Set(CONTENT_KINDS).size).toBe(11);
+  it('the content kinds are exactly the founder-named twelve', () => {
+    expect([...CONTENT_KINDS].sort()).toEqual([...FOUNDER_KINDS].sort());
+    expect(new Set(CONTENT_KINDS).size).toBe(12);
   });
 
   it('the recipe only ever emits those eleven, and reaches every one of them', () => {
@@ -83,7 +87,7 @@ describe('stream kind parity (REV-23 eleven-kind diet)', () => {
         emitted.add(kind);
       }
     }
-    for (const kind of FOUNDER_ELEVEN) expect(emitted, `${kind} is unreachable`).toContain(kind);
+    for (const kind of FOUNDER_KINDS) expect(emitted, `${kind} is unreachable`).toContain(kind);
   });
 
   it('no deleted kind can reappear in any page of the recipe', () => {

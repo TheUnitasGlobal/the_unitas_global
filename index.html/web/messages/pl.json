@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Źródła",
         "omni": "Źródła i platformy",
+        "swarm": "Puls omni-tech",
         "concepts": "Powiązane pojęcia",
         "sites": "Powiązane strony",
         "news": "Wiadomości",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorty",
         "rankings": "Rankingi UNITAS",
         "rooms": "Pokoje tematyczne",
-        "social": "Media społecznościowe"
+        "social": "Media społecznościowe",
+        "swarm": "Rój"
       },
       "live": "Na żywo",
       "localOnly": "Tylko to urządzenie — brak połączenia na żywo",
@@ -2669,6 +2671,45 @@
       "too-fast": "Chwila przerwy między wiadomościami.",
       "rejected": "Serwer odmówił. Nic nie zostało zmienione.",
       "offline": "Brak połączenia — zapis prowadzi to urządzenie."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Puls omni-tech",
+      "lede": "Rozłóż to na części: co ta organizacja posiada, co wytwarza i na czym działa?",
+      "trailAria": "Ścieżka absorpcji",
+      "reAnchor": "Zamiast tego zgłęb to",
+      "loading": "Wczytywanie…",
+      "failed": "Pole się nie wczytało — zamknij i otwórz ponownie.",
+      "empty": "Wikidane nie mają jeszcze modułów dla tego tematu.",
+      "needsEntity": "Podaj organizację, a pole rozłoży ją na części.",
+      "sourceNote": "Źródło",
+      "fields": {
+        "f1": "Branża",
+        "f2": "Podmiot dominujący",
+        "f3": "Spółki zależne",
+        "f4": "Produkty",
+        "f5": "Założyciele",
+        "f6": "Dyrektor generalny"
+      },
+      "facts": {
+        "scaleEmployees": "Zatrudnieni",
+        "scaleRevenue": "Przychód"
+      },
+      "portal": {
+        "title": "Puls omni-tech",
+        "lede": "Zobacz, z czego składa się {term}: branże, właściciele, produkty i ludzie w jednym polu.",
+        "cta": "Wejdź w pole",
+        "aria": "Otwórz pole omni-tech dla {term}"
+      },
+      "page": {
+        "title": "Puls omni-tech",
+        "lede": "Rozłóż dowolną organizację na moduły, które Wikidane już mają — branże, właścicieli, spółki zależne, produkty, założycieli i zarząd — i idź dalej od dowolnego z nich.",
+        "search": "Szukaj",
+        "searchLabel": "Organizacja do rozłożenia",
+        "searchPlaceholder": "Samsung Electronics, Bank Światowy, FC Barcelona…",
+        "unresolved": "Nie znaleziono organizacji o tej nazwie — spróbuj pełnej oficjalnej nazwy."
+      }
     }
   }
 }

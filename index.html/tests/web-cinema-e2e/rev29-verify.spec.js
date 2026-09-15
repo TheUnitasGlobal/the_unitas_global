@@ -221,7 +221,7 @@ test.describe('REV-29 M4 -- the UNITAS master tile and hub', () => {
     expect(boxes.dw).toBeLessThanOrEqual(1);
     expect(boxes.dh).toBeLessThanOrEqual(1);
     expect(boxes.order, 'the hub tile is the rightmost box').toBe(true);
-    expect(boxes.icons).toBe(6); // five surfaces + the wrap duplicate
+    expect(boxes.icons).toBe(7); // six surfaces (REV-32 added the swarm) + the wrap duplicate
     await toggle.click();
     const hub = page.locator('[role="dialog"] [data-unitas-hub]');
     await expect(hub).toBeVisible();
@@ -233,7 +233,7 @@ test.describe('REV-29 M4 -- the UNITAS master tile and hub', () => {
     });
     expect(centred).toBeLessThan(2);
     const tabs = hub.locator('[data-hub-tab-btn]');
-    expect(await tabs.count()).toBe(5);
+    expect(await tabs.count()).toBe(6); // REV-32 M2 added the swarm surface
     await expect(hub.locator('[data-hub-exchange]')).toBeVisible();
     await expect(hub.locator('[data-hub-packs] [data-pack]').first()).toBeVisible();
     await hub.locator('[data-hub-tab-btn="shorts"]').click();

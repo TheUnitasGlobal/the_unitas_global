@@ -11,6 +11,7 @@
  *
  *   sources    웹 실시간 종합      concepts   연결된 개념
  *   omni       다른플랫폼에서열기  sites      관련 사이트
+ *   swarm      옴니-테크 스원 진입로
  *   derived    파생 저작           attention  관심의 파동
  *   community  커뮤니티            graph      관계망
  *   global     세계 각 판          news       뉴스
@@ -30,6 +31,7 @@ import type { SourceId } from '../sourceRegistry';
 export type StreamCardKind =
   | 'sources'
   | 'omni'
+  | 'swarm'
   | 'concepts'
   | 'sites'
   | 'news'
@@ -49,6 +51,7 @@ export type StreamCardKind =
 export const CONTENT_KINDS: readonly StreamCardKind[] = [
   'sources',
   'omni',
+  'swarm',
   'concepts',
   'sites',
   'news',
@@ -193,6 +196,10 @@ export function streamRecipe(page: number): StreamCardKind[] {
   // Page 1 always carries the omni-open block: after REV-31 it is the
   // single outbound surface in the whole result.
   if (page === 1) kinds.push('omni');
+  // REV-32 M2: and the swarm's door. It costs no network of its own (see
+  // WIKIMEDIA_LEG_COST -- the field is only drawn once someone walks
+  // through), so page 1 stays inside WIKIMEDIA_PAGE_BUDGET.
+  if (page === 1) kinds.push('swarm');
   return kinds;
 }
 
@@ -200,6 +207,7 @@ export function streamRecipe(page: number): StreamCardKind[] {
 export const LOCAL_KINDS = new Set<StreamCardKind>([
   'sources',
   'omni',
+  'swarm',
   'teaser',
   'end',
   'retry',

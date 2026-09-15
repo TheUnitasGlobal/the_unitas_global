@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Fonti",
         "omni": "Fonti e piattaforme",
+        "swarm": "Pulsazione omni-tech",
         "concepts": "Concetti collegati",
         "sites": "Siti correlati",
         "news": "Notizie",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "Classifiche UNITAS",
         "rooms": "Stanze per tema",
-        "social": "Social media"
+        "social": "Social media",
+        "swarm": "Sciame"
       },
       "live": "Live",
       "localOnly": "Solo questo dispositivo — nessun collegamento live",
@@ -2669,6 +2671,45 @@
       "too-fast": "Un attimo tra un messaggio e l’altro, per favore.",
       "rejected": "Il server ha rifiutato. Nulla è stato modificato.",
       "offline": "Nessuna connessione — il registro resta su questo dispositivo."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Pulsazione omni-tech",
+      "lede": "Smontiamola: che cosa possiede, che cosa produce e su che cosa gira quest'organizzazione?",
+      "trailAria": "Percorso di assorbimento",
+      "reAnchor": "Esplora questo invece",
+      "loading": "Caricamento…",
+      "failed": "Il campo non si è caricato: chiudilo e riaprilo.",
+      "empty": "Wikidata non ha ancora moduli per questo soggetto.",
+      "needsEntity": "Indica un'organizzazione e il campo la scomporrà.",
+      "sourceNote": "Fonte",
+      "fields": {
+        "f1": "Settore",
+        "f2": "Casa madre",
+        "f3": "Controllate",
+        "f4": "Prodotti",
+        "f5": "Fondatori",
+        "f6": "Amministratore delegato"
+      },
+      "facts": {
+        "scaleEmployees": "Dipendenti",
+        "scaleRevenue": "Ricavi"
+      },
+      "portal": {
+        "title": "Pulsazione omni-tech",
+        "lede": "Guarda di cosa è fatta {term}: settori, proprietari, prodotti e persone in un unico campo.",
+        "cta": "Entra nel campo",
+        "aria": "Apri il campo omni-tech di {term}"
+      },
+      "page": {
+        "title": "Pulsazione omni-tech",
+        "lede": "Scomponi qualsiasi organizzazione nei moduli che Wikidata già possiede — settori, proprietari, controllate, prodotti, fondatori e dirigenti — e prosegui da uno qualsiasi di essi.",
+        "search": "Cerca",
+        "searchLabel": "Organizzazione da scomporre",
+        "searchPlaceholder": "Samsung Electronics, Banca Mondiale, FC Barcellona…",
+        "unresolved": "Nessuna organizzazione corrisponde a quel nome: prova il nome ufficiale completo."
+      }
     }
   }
 }

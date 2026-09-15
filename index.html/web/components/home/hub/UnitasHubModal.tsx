@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Clapperboard, MessagesSquare, Share2, Sparkles, Store, Trophy, type LucideIcon } from 'lucide-react';
+import { Clapperboard, Cpu, MessagesSquare, Share2, Sparkles, Store, Trophy, type LucideIcon } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionShield } from '@/components/system/PageShield';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
@@ -11,6 +11,7 @@ import { UnitasShorts } from './UnitasShorts';
 import { HubRankings } from './HubRankings';
 import { ThemeChatRooms } from './ThemeChatRooms';
 import { SocialHub } from './SocialHub';
+import { OmniSwarmWorkspace } from '@/components/swarm/OmniSwarmWorkspace';
 
 /**
  * REV-29 MISSION 4 (founder directive 2026-09-15) -- the UNITAS master hub:
@@ -23,11 +24,14 @@ import { SocialHub } from './SocialHub';
  *   UNITAS 랭킹  the world + UNITAS rankings, the same embedded panels
  *   테마별 대화방 22 rooms, one per news axis, live over the hub channel
  *   소셜 미디어  the world's social / mail apps and one-tap UNITAS sharing
+ *   옴니-테크 스원 the multi-dimensional network field (REV-32 M2) -- the hub is
+ *              the one surface reachable from every page, so the swarm's
+ *              entrance belongs here as well as on its own route
  *
  * One history layer (Modal) -- the back gesture closes the hub and only the
  * hub; nested popups (a short, a creator pass) stack their own layers.
  */
-export type HubTab = 'exchange' | 'shorts' | 'rankings' | 'rooms' | 'social';
+export type HubTab = 'exchange' | 'shorts' | 'rankings' | 'rooms' | 'social' | 'swarm';
 
 const TABS: ReadonlyArray<{ key: HubTab; icon: LucideIcon }> = [
   { key: 'exchange', icon: Store },
@@ -35,6 +39,7 @@ const TABS: ReadonlyArray<{ key: HubTab; icon: LucideIcon }> = [
   { key: 'rankings', icon: Trophy },
   { key: 'rooms', icon: MessagesSquare },
   { key: 'social', icon: Share2 },
+  { key: 'swarm', icon: Cpu },
 ];
 
 export interface UnitasHubModalProps {
@@ -105,6 +110,11 @@ export function UnitasHubModal({ open, onClose, initialTab = 'exchange' }: Unita
           {tab === 'social' && (
             <SectionShield zone="hub-social">
               <SocialHub />
+            </SectionShield>
+          )}
+          {tab === 'swarm' && (
+            <SectionShield zone="hub-swarm">
+              <OmniSwarmWorkspace variant="hub" />
             </SectionShield>
           )}
         </div>

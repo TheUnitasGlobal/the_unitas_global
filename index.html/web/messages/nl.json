@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Bronnen",
         "omni": "Bronnen en platforms",
+        "swarm": "Omni-tech-puls",
         "concepts": "Gekoppelde begrippen",
         "sites": "Gerelateerde sites",
         "news": "Nieuws",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "UNITAS-ranglijsten",
         "rooms": "Themachatrooms",
-        "social": "Sociale media"
+        "social": "Sociale media",
+        "swarm": "Zwerm"
       },
       "live": "Live",
       "localOnly": "Alleen dit apparaat — geen live-verbinding",
@@ -2669,6 +2671,45 @@
       "too-fast": "Even wachten tussen berichten, alsjeblieft.",
       "rejected": "De server weigerde. Er is niets gewijzigd.",
       "offline": "Geen verbinding — dit apparaat houdt de registratie bij."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Omni-tech-puls",
+      "lede": "Haal het uit elkaar: wat bezit, maakt en draait deze organisatie?",
+      "trailAria": "Absorptiespoor",
+      "reAnchor": "Verken dit in plaats daarvan",
+      "loading": "Laden…",
+      "failed": "Het veld kon niet laden — sluit en open het opnieuw.",
+      "empty": "Wikidata heeft nog geen modules voor dit onderwerp.",
+      "needsEntity": "Noem een organisatie en het veld haalt haar uit elkaar.",
+      "sourceNote": "Bron",
+      "fields": {
+        "f1": "Branche",
+        "f2": "Moederorganisatie",
+        "f3": "Dochterondernemingen",
+        "f4": "Producten",
+        "f5": "Oprichters",
+        "f6": "Bestuursvoorzitter"
+      },
+      "facts": {
+        "scaleEmployees": "Medewerkers",
+        "scaleRevenue": "Omzet"
+      },
+      "portal": {
+        "title": "Omni-tech-puls",
+        "lede": "Zie waaruit {term} bestaat: branches, eigenaren, producten en mensen in één veld.",
+        "cta": "Betreed het veld",
+        "aria": "Open het omni-tech-veld van {term}"
+      },
+      "page": {
+        "title": "Omni-tech-puls",
+        "lede": "Haal elke organisatie uit elkaar in de modules die Wikidata al heeft — branches, eigenaren, dochterondernemingen, producten, oprichters en bestuurders — en loop vanaf elk ervan verder.",
+        "search": "Zoeken",
+        "searchLabel": "Te ontleden organisatie",
+        "searchPlaceholder": "Samsung Electronics, Wereldbank, FC Barcelona…",
+        "unresolved": "Geen organisatie gevonden met die naam — probeer de volledige officiële naam."
+      }
     }
   }
 }

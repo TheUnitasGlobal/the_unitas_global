@@ -59,7 +59,7 @@ const localeAppDir = path.resolve(__dirname, '..', 'app', '[locale]');
 // layout is the whole surface. It is infrastructure, not a product module,
 // and carries no coin economy, so it belongs here rather than in
 // MODULE_REGISTRY (same precedent as 'u-ai' and 'sovereign' above).
-const INFRA_ROUTES = new Set(['legal', 'company', 'support', 'locked', 'u-ai', 'sovereign', 'gateway']);
+const INFRA_ROUTES = new Set(['legal', 'company', 'support', 'locked', 'u-ai', 'sovereign', 'gateway', 'omni-swarm']);
 
 function extractRoutes(source) {
   const routes = [];

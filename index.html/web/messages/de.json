@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Quellen",
         "omni": "Quellen und Plattformen",
+        "swarm": "Omni-Tech-Puls",
         "concepts": "Verknüpfte Begriffe",
         "sites": "Verwandte Seiten",
         "news": "Nachrichten",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "UNITAS-Rankings",
         "rooms": "Themen-Chaträume",
-        "social": "Soziale Medien"
+        "social": "Soziale Medien",
+        "swarm": "Schwarm"
       },
       "live": "Live",
       "localOnly": "Nur dieses Gerät — keine Live-Verbindung",
@@ -2669,6 +2671,45 @@
       "too-fast": "Bitte einen Moment zwischen den Nachrichten.",
       "rejected": "Der Server hat abgelehnt. Nichts wurde geändert.",
       "offline": "Keine Verbindung — dieses Gerät führt den Eintrag."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Omni-Tech-Puls",
+      "lede": "Auseinandernehmen: Was besitzt, was baut und worauf läuft diese Organisation?",
+      "trailAria": "Absorptionspfad",
+      "reAnchor": "Stattdessen dies erkunden",
+      "loading": "Wird geladen …",
+      "failed": "Das Feld konnte nicht geladen werden — schließen und erneut öffnen.",
+      "empty": "Wikidata hält für dieses Thema noch keine Module bereit.",
+      "needsEntity": "Nennen Sie eine Organisation, und das Feld zerlegt sie.",
+      "sourceNote": "Quelle",
+      "fields": {
+        "f1": "Branche",
+        "f2": "Mutterorganisation",
+        "f3": "Tochtergesellschaften",
+        "f4": "Produkte",
+        "f5": "Gründer",
+        "f6": "Vorstandsvorsitz"
+      },
+      "facts": {
+        "scaleEmployees": "Beschäftigte",
+        "scaleRevenue": "Umsatz"
+      },
+      "portal": {
+        "title": "Omni-Tech-Puls",
+        "lede": "Sehen Sie, woraus {term} besteht: Branchen, Eigentümer, Produkte und Menschen als ein Feld.",
+        "cta": "Ins Feld eintreten",
+        "aria": "Das Omni-Tech-Feld von {term} öffnen"
+      },
+      "page": {
+        "title": "Omni-Tech-Puls",
+        "lede": "Zerlegen Sie jede Organisation in die Module, die Wikidata bereits über sie hält — Branchen, Eigentümer, Tochtergesellschaften, Produkte, Gründer und Vorstände — und gehen Sie von jedem davon weiter.",
+        "search": "Suchen",
+        "searchLabel": "Zu zerlegende Organisation",
+        "searchPlaceholder": "Samsung Electronics, Weltbank, FC Barcelona…",
+        "unresolved": "Keine Organisation passt zu diesem Namen — versuchen Sie den vollständigen offiziellen Namen."
+      }
     }
   }
 }

@@ -2431,6 +2431,7 @@
       "kinds": {
         "sources": "Fuentes",
         "omni": "Fuentes y plataformas",
+        "swarm": "Pulso omnitecnológico",
         "concepts": "Conceptos vinculados",
         "sites": "Sitios relacionados",
         "news": "Noticias",
@@ -2510,7 +2511,8 @@
         "shorts": "UNITAS Shorts",
         "rankings": "Rankings UNITAS",
         "rooms": "Salas por tema",
-        "social": "Redes sociales"
+        "social": "Redes sociales",
+        "swarm": "Enjambre"
       },
       "live": "En vivo",
       "localOnly": "Solo este dispositivo — sin enlace en vivo",
@@ -2669,6 +2671,45 @@
       "too-fast": "Un momento entre mensajes, por favor.",
       "rejected": "El servidor lo rechazó. No se cambió nada.",
       "offline": "Sin conexión: este dispositivo guarda el registro."
+    }
+  },
+  "Rev32": {
+    "swarm": {
+      "title": "Pulso omnitecnológico",
+      "lede": "Desmóntalo: ¿qué posee, qué fabrica y sobre qué funciona esta organización?",
+      "trailAria": "Ruta de absorción",
+      "reAnchor": "Explorar esto en su lugar",
+      "loading": "Cargando…",
+      "failed": "El campo no se cargó: ciérrelo y ábralo de nuevo.",
+      "empty": "Wikidata aún no tiene módulos para este tema.",
+      "needsEntity": "Nombre una organización y el campo la descompondrá.",
+      "sourceNote": "Fuente",
+      "fields": {
+        "f1": "Industria",
+        "f2": "Matriz",
+        "f3": "Filiales",
+        "f4": "Productos",
+        "f5": "Fundadores",
+        "f6": "Director ejecutivo"
+      },
+      "facts": {
+        "scaleEmployees": "Empleados",
+        "scaleRevenue": "Ingresos"
+      },
+      "portal": {
+        "title": "Pulso omnitecnológico",
+        "lede": "Vea de qué está hecha {term}: sectores, matrices, productos y personas en un solo campo.",
+        "cta": "Entrar al campo",
+        "aria": "Abrir el campo omnitecnológico de {term}"
+      },
+      "page": {
+        "title": "Pulso omnitecnológico",
+        "lede": "Descomponga cualquier organización en los módulos que Wikidata ya guarda —sectores, matrices, filiales, productos, fundadores y directivos— y avance desde cualquiera de ellos.",
+        "search": "Buscar",
+        "searchLabel": "Organización a descomponer",
+        "searchPlaceholder": "Samsung Electronics, Banco Mundial, FC Barcelona…",
+        "unresolved": "Ninguna organización coincide con ese nombre: pruebe con su nombre oficial completo."
+      }
     }
   }
 }

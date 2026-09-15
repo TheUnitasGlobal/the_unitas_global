@@ -1,15 +1,16 @@
 'use client';
 
-import { Clapperboard, MessagesSquare, Share2, Store, Trophy } from 'lucide-react';
+import { Clapperboard, Cpu, MessagesSquare, Share2, Store, Trophy } from 'lucide-react';
 
 /**
  * REV-29 MISSION 4 (founder directive 2026-09-15) -- the UNITAS master tile:
  * ONE pack at the right end of the U-AI search bar, the third box of the
  * action group after ⏎ and the attach toggle. Same footprint (32 / 38px),
  * same 1.5px rim, same 10px radius, same quiet neutral at rest, the same
- * armed fill while its popup is open -- and the SAME roll: the five hub
- * surfaces (exchange · shorts · rankings · rooms · social) step through the
- * one-icon window at the attach toggle's own 2.4 s cadence and easing.
+ * armed fill while its popup is open -- and the SAME roll: the SIX hub
+ * surfaces (exchange · shorts · rankings · rooms · social · swarm, the last
+ * added by REV-32 M2) step through the one-icon window at the attach
+ * toggle's own 2.4 s cadence and easing.
  *
  * A click opens the centred hub popup at once -- never a dropdown.
  * `onMouseDown preventDefault` keeps the search input focused so the strip
@@ -22,7 +23,7 @@ export interface UnitasHubToggleProps {
   onHover?: () => void;
 }
 
-const HUB_ICONS = [Store, Clapperboard, Trophy, MessagesSquare, Share2] as const;
+const HUB_ICONS = [Store, Clapperboard, Trophy, MessagesSquare, Share2, Cpu] as const;
 
 export function UnitasHubToggle({ open, label, onOpen, onHover }: UnitasHubToggleProps) {
   return (
