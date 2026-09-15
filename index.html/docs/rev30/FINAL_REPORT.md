@@ -150,7 +150,17 @@ REV-29 계약은 **무변경 통과** — 허브에 서버 원장이 들어왔�
 
 ## §7. 배포
 
-DEPLOY30_PLACEHOLDER
+| 항목 | 실측 |
+|---|---|
+| 코드 커밋 | `c17eab4` (origin/main 푸시 완료) |
+| Vercel 배포 | `dpl_GEJv6RNxFCEADGVn3oPC8E8cAbxw` · `the-unitas-global-7sxmratbw-the-unitas-global-ou-e.vercel.app` → `www.theunitas.global` |
+| 라이브 지문 | `/ownership-manifest.json` `gitCommit` = **`c17eab46c208…`(코드 커밋 그 자체)**, `buildFingerprint` = **`eb09b6b8bab1d401…`(로컬 검증 빌드와 byte-identical)** |
+| 퍼널 봉인 | `GET /ko` → **307** `/ko/gateway`, `x-unitas-gate: seal`; `/ko/gateway` **200** |
+| 스키마 | 이미 라이브에 적용·검증됨(§2) — 배포와 독립적으로 선행 |
+
+배포는 검증 빌드와 같은 지문을 냈으므로 §3~§4의 E2E 실측이 라이브에 그대로 적용된다.
+스키마는 코드보다 **먼저** 올라가 있었으므로, 배포 순간에 클라이언트가 호출할 RPC가 없는
+구간은 존재하지 않았다.
 
 ---
 
