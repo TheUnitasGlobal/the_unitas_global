@@ -144,7 +144,15 @@ font-weight · text-transform · letter-spacing` **전부 동일**. 타워·피�
 
 ## §9. 배포
 
-DEPLOY_PLACEHOLDER
+| 항목 | 실측 |
+|---|---|
+| 코드 커밋 | `159e3d4` (origin/main 푸시 완료) |
+| Vercel 배포 | `dpl_59jpPEiNRycZwBe5yCiULaYNhsB1` · `the-unitas-global-lqe64p1c5-the-unitas-global-ou-e.vercel.app` → `www.theunitas.global` 알리아스 |
+| 라이브 지문 | `/ownership-manifest.json` `gitCommit` = **`159e3d4904cc…`(코드 커밋 그 자체)**, `buildFingerprint` = **`eb09b6b8bab1d401…`(로컬 검증 빌드와 byte-identical)** |
+| 퍼널 봉인 | `GET /ko` → **307** `/ko/gateway`, `x-unitas-gate: seal`; `/ko/gateway` **200** |
+| IndexNow | 사이트맵 340 URL, 1배치 **HTTP 200** |
+
+배포는 검증 빌드와 같은 지문을 냈으므로, §7의 E2E 실측이 라이브에 그대로 적용된다.
 
 ---
 
