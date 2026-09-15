@@ -95,3 +95,27 @@ height       : 13      / 13
 1. **옴니-테크 스웜 소멸** — REV-24 M4로 신설되고 REV-25 M1이 도달성을 복구했던 스웜은, 유일한 진입로인 `bigTechPulse` 렌즈 타일과 함께 소멸했다. 감사 실측 결과 라우트·API·동적 import 어디에도 다른 진입로가 없었다. M1 지령의 직접적 귀결이며, 재도입을 원하실 경우 **독립 진입로(전용 모듈 또는 라우트)** 신설이 필요하다.
 2. **`nearby` 슬롯 QID 폴백 누락** — `DiscoveryCarousel:674`의 `placeAnchor(...)`는 날씨 슬롯과 달리 QID 폴백 인자가 없다. REV-31의 용어 기반 URL이 증상(빈 행)은 원천 차단했으나, 정확 문서 링크는 여전히 얻지 못한다. 인자 1개로 해결되나 본 지령 범위 밖이라 보류했다.
 3. **레거시 모듈 파일명** — `deeperAnchor.ts`(앵커 원시형, 14곳 의존)·`deeperFetch.ts`(위키미디어 큐, 5곳 의존)는 이름만 레거시이고 기능은 "더 깊이 탐색"과 무관한 공용 기반이다. 출하되는 DOM·문자열·i18n에는 잔재가 0건이므로 개명은 별도 구간으로 분리했다.
+
+---
+
+## 6. 프로덕션 배포 검증 (제25장)
+
+| 항목 | 값 |
+|---|---|
+| 코드 커밋 | `f1bd1129aab405ac12aa994c5f17160aafd59a42` |
+| origin push | `57fd3ed..f1bd112  main -> main` |
+| Vercel 배포 | `dpl_9b6xAkAYcTf3i5B1Su2QKtytTQHA` · target `production` · readyState `READY` |
+| 라이브 `gitCommit` | `f1bd1129aab405ac12aa994c5f17160aafd59a42` — **로컬 HEAD와 바이트 일치** |
+| 라이브 `buildFingerprint` | `eb09b6b8bab1d401e89662dc070f15e680f3dbd60b7758e8180a5cc6226b2904` — 로컬 postbuild와 일치 |
+| 생성 시각 | 2026-09-15T18:12:33.752Z |
+
+### 6.1 라이브 문자열 실측
+
+`https://www.theunitas.global` 실호출(인덱서 UA) 결과:
+
+| 경로 | 다른출처에서열기 | 다른플랫폼에서열기 | 더 깊이 탐색 |
+|---|---|---|---|
+| `/ko/company/about` | 2 | 2 | **0** |
+| `/ko/support/help-center` | 4 | 4 | **0** |
+
+M1·M2·M3이 프로덕션에서 실제로 출하되었음을 문자열 단위로 확인했다. 폐기된 타이틀은 라이브 응답 어디에도 남아 있지 않다.
