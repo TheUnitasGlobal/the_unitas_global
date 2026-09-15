@@ -1,61 +1,57 @@
 /* ==========================================================================
-   REV-23 M4 -- the UNITAS hyper wordmark (founder directive 2026-09-13).
+   REV-29 MISSION 5.1 -- the UNITAS wordmark, pure text (founder directive
+   2026-09-15).
 
-   WHAT IT REPLACES. The hero lockup was `color: var(--qw-ink)` -- Rich Black
-   text on a white page. Correct typography, zero identity: the same slab any
-   template ships with. The founder's brief: a dark-mode GLASSMORPHISM base,
-   a soft NEON SILVER METALLIC rim, and DEEP SPACE GRADIENT typography -- a
-   mark that survives being looked at every single day.
+   WHAT IT REPLACES. REV-23 M4 set the mark on a dark glass PLATE (an
+   absolutely positioned `::before` on the h1) with a light silver-blue fill
+   that only read against that plate. The founder's brief: destroy the box,
+   keep the text exactly as it is, and create a colour and a light that read
+   as the sharpest, most dignified mark on ANY display.
 
    WHAT IT MUST NOT BREAK. REV-20 measured the hero to 0.02px vertical
    symmetry (|A - B| where A = nav bottom -> cap top, B = baseline -> search
    bar top) and pinned the kill-line to `--qw-title-rule-h` as a single
-   source. So this file changes PAINT ONLY:
+   source. So this file, like its predecessor, changes PAINT ONLY:
      - no DOM change (Hero.tsx keeps `h1 > span.qw-title-word`);
      - no font-size / line-height / letter-spacing / margin / padding change;
-     - the glass plate is an ABSOLUTELY POSITIONED `::before` on the h1, so it
-       contributes nothing to the h1's fit-content box and nothing to B;
+     - the plate pseudo-element is switched OFF (`content: none`), which
+       removes a box that never contributed to the h1's geometry anyway;
      - `.qw-title-mark` (the invisible ownership mark SovereignWatermark
        appends) is untouched and still has `letter-spacing: 0`.
 
-   PERFORMANCE. Codex ch.4 / REV-21 4.3 "one layer": the plate's
-   `backdrop-filter` is desktop-only -- phones get the same look from an
-   opaque-enough gradient with no re-rasterisation -- and the mark does not
-   animate at rest at all. The sheen sweeps on hover only; see the measured
-   reason at the sheen block below.
+   THE NEW LIGHT. The glyph run is filled with a two-layer gradient: a deep
+   sapphire -> royal blue -> abyss body that holds contrast on white AND on
+   the void, and a thin top-light band that reads as a polished edge catching
+   the room. A fine gold rim (`-webkit-text-stroke`, the brand's prism gold)
+   machines the outline; three drop-shadows lift the run off the page. Every
+   colour is opaque-enough that a 1x display renders the same identity as a
+   3x one. Nothing animates at rest (Codex ch.4 / REV-23's measured rule);
+   the sheen sweeps on hover only.
    ========================================================================== */
 
 :root {
-  /* Deep space: the gradient the glyph run is filled with. Reads as polished
-     metal lit from above -- highlight, body, shadow, then a cold rebound. */
-  --uw-space-0: #f6f9ff;
-  --uw-space-1: #c6d4ee;
-  --uw-space-2: #6f88bd;
-  --uw-space-3: #2b3f70;
-  --uw-space-4: #7f97cc;
-  /* Neon silver rim. */
-  --uw-rim: rgba(226, 235, 250, 0.92);
-  --uw-rim-glow: rgba(150, 190, 255, 0.55);
-  /* Glass plate. */
-  --uw-glass-top: rgba(16, 22, 40, 0.82);
-  --uw-glass-bottom: rgba(8, 11, 22, 0.9);
-  --uw-glass-edge: rgba(196, 214, 245, 0.5);
-  --uw-glass-inner: rgba(255, 255, 255, 0.16);
-  --uw-plate-pad-x: clamp(18px, 3.2vw, 54px);
-  --uw-plate-pad-y: clamp(10px, 1.6vw, 26px);
-  --uw-plate-radius: clamp(14px, 1.6vw, 26px);
+  /* Deep sapphire body: abyss, sapphire, royal (the brand blue), night. */
+  --uw-ink-0: #071232;
+  --uw-ink-1: #12306f;
+  --uw-ink-2: #0b5cff;
+  --uw-ink-3: #10265c;
+  /* The top light: a polished edge catching the room. */
+  --uw-light: rgba(255, 255, 255, 0.82);
+  /* Prism gold rim (brand gold) and its deep tone. */
+  --uw-gold: #d4af37;
+  --uw-gold-deep: #8a6d14;
+  --uw-rim: rgba(212, 175, 55, 0.58);
+  --uw-glow: rgba(11, 92, 255, 0.26);
 }
 
-/* -- the plate ------------------------------------------------------------ */
+/* -- the box is gone -------------------------------------------------------- */
 .qw-hero-wrap h1 {
   position: relative;
   isolation: isolate;
 }
 /* Retire the two shadow-breathe animations this mark supersedes. Identical
    selectors to the theme sheets', and this file loads after both, so the
-   cascade settles it without `!important`. Left running they would animate a
-   text-shadow that the transparent glyph fill can no longer show anyway --
-   pure repaint for nothing. */
+   cascade settles it without `!important`. */
 html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 {
   text-shadow: none;
   animation: none;
@@ -63,141 +59,104 @@ html[data-unitas-surface='quantum-white'] .qw-hero-wrap h1 {
 .qw-hero-wrap h1.title-breathe {
   animation: none;
 }
+/* REV-29 M5.1: NO plate. The pseudo-element is inert so no older sheet can
+   paint a box behind the word again. */
 .qw-hero-wrap h1::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  /* Sized off the ink box, not the layout box: negative insets only, so the
-     h1's own width/height (and therefore the hero's measured geometry) are
-     unchanged. The bottom stops above the kill-line so the plate frames the
-     word, not the rule. */
-  inset: calc(-1 * var(--uw-plate-pad-y)) calc(-1 * var(--uw-plate-pad-x))
-    calc(-1 * var(--uw-plate-pad-y) + 1.1rem + var(--qw-title-rule-h, 3px));
-  border-radius: var(--uw-plate-radius);
-  background:
-    radial-gradient(120% 140% at 50% -20%, rgba(96, 132, 220, 0.35) 0%, rgba(96, 132, 220, 0) 62%),
-    linear-gradient(180deg, var(--uw-glass-top) 0%, var(--uw-glass-bottom) 100%);
-  box-shadow:
-    inset 0 1px 0 var(--uw-glass-inner),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 0 0 1px var(--uw-glass-edge),
-    0 24px 60px -28px rgba(10, 20, 50, 0.65),
-    0 0 42px -12px var(--uw-rim-glow);
-  pointer-events: none;
-}
-@media (min-width: 768px) {
-  .qw-hero-wrap h1::before {
-    -webkit-backdrop-filter: blur(8px) saturate(1.35);
-    backdrop-filter: blur(8px) saturate(1.35);
-  }
+  content: none;
+  display: none;
 }
 
 /* -- the typography ------------------------------------------------------- */
 .qw-hero-wrap h1 .qw-title-word {
-  /* Deep space fill. `background-clip: text` + a transparent fill lets the
-     gradient BE the glyphs; `-webkit-text-stroke` then draws the neon silver
-     rim on top of that fill -- the two compose, which is why the rim reads as
-     a machined edge rather than an outline font. */
-  background-image: linear-gradient(
-    168deg,
-    var(--uw-space-0) 0%,
-    var(--uw-space-1) 22%,
-    var(--uw-space-2) 46%,
-    var(--uw-space-3) 68%,
-    var(--uw-space-4) 100%
-  );
+  /* `background-clip: text` + a transparent fill lets the gradient BE the
+     glyphs; `-webkit-text-stroke` then draws the gold rim on top of that
+     fill -- the two compose, which is why the rim reads as a machined edge
+     rather than an outline font. Layer 1 is the top light, layer 2 the
+     sapphire body. */
+  background-image:
+    linear-gradient(180deg, var(--uw-light) 0%, rgba(255, 255, 255, 0.34) 12%, rgba(255, 255, 255, 0) 30%),
+    linear-gradient(168deg, var(--uw-ink-0) 0%, var(--uw-ink-1) 28%, var(--uw-ink-2) 52%, var(--uw-ink-3) 78%, var(--uw-ink-0) 100%);
+  background-repeat: no-repeat, no-repeat;
+  background-size: 100% 100%, 100% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 0.6px var(--uw-rim);
+  -webkit-text-stroke: 0.45px var(--uw-rim);
   /* The theme sheets put `--qw-title-shadow` (and the `qw-title-luster`
-     animation driving it) on the h1, and text-shadow INHERITS. Left in place
-     it would paint a solid drop behind glyphs whose fill is now transparent
-     -- a black ghost of the word. Killed on the run itself, which beats
-     inheritance regardless of the parent selector's specificity. */
+     animation driving it) on the h1, and text-shadow INHERITS. Killed on the
+     run itself, which beats inheritance regardless of the parent selector's
+     specificity. */
   text-shadow: none;
   /* `text-shadow` cannot survive a clipped fill -- `drop-shadow` can, and it
-     follows the glyph silhouette rather than its box. */
+     follows the glyph silhouette rather than its box: a white lift, the blue
+     glow, the deep ground shadow. */
   filter:
-    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.35))
-    drop-shadow(0 0 18px var(--uw-rim-glow))
-    drop-shadow(0 10px 26px rgba(10, 20, 50, 0.45));
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.7))
+    drop-shadow(0 0 14px var(--uw-glow))
+    drop-shadow(0 8px 20px rgba(7, 18, 50, 0.32));
 }
 @media (min-width: 640px) {
   .qw-hero-wrap h1 .qw-title-word {
-    -webkit-text-stroke-width: 0.9px;
+    -webkit-text-stroke-width: 0.7px;
   }
 }
 
 /* -- the sheen ------------------------------------------------------------ */
 /* ON HOVER ONLY, and that is a measurement, not a preference.
    `background-position` is a paint-tier property, so sweeping it across a
-   text-clipped 136px glyph run repaints that run every frame. Measured
-   2026-09-13 on the built page (chromium, 1280x720): running it idle took the
-   page's rAF p95 from 50.1ms to 83.2ms and the mean from 36.5ms to 42.8ms.
-   A hero flourish that costs a third of the frame budget while the visitor is
-   doing something else fails Codex ch.4's own restraint rule -- and it broke
-   the REV-21 §1A rail-drag budget in the E2E suite, which is how it was
-   caught. So the mark is STATIC at rest (the plate, the gradient and the neon
-   rim are the identity; they cost nothing) and the sweep is the reward for
-   touching it. Idle cost: zero. */
+   text-clipped glyph run repaints that run every frame. Measured 2026-09-13
+   on the built page (chromium, 1280x720): running it idle took the page's
+   rAF p95 from 50.1ms to 83.2ms. So the mark is STATIC at rest and the sweep
+   is the reward for touching it. Idle cost: zero. */
 @media (prefers-reduced-motion: no-preference) and (min-width: 640px) and (hover: hover) {
   .qw-hero-wrap h1:hover .qw-title-word,
   .qw-hero-wrap h1:focus-within .qw-title-word {
     background-image:
-      linear-gradient(
-        100deg,
-        rgba(255, 255, 255, 0) 38%,
-        rgba(255, 255, 255, 0.85) 50%,
-        rgba(255, 255, 255, 0) 62%
-      ),
-      linear-gradient(
-        168deg,
-        var(--uw-space-0) 0%,
-        var(--uw-space-1) 22%,
-        var(--uw-space-2) 46%,
-        var(--uw-space-3) 68%,
-        var(--uw-space-4) 100%
-      );
-    background-repeat: no-repeat, no-repeat;
-    background-size: 220% 100%, 100% 100%;
-    background-position: -140% 0, 0 0;
+      linear-gradient(100deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.88) 50%, rgba(255, 255, 255, 0) 62%),
+      linear-gradient(180deg, var(--uw-light) 0%, rgba(255, 255, 255, 0.34) 12%, rgba(255, 255, 255, 0) 30%),
+      linear-gradient(168deg, var(--uw-ink-0) 0%, var(--uw-ink-1) 28%, var(--uw-ink-2) 52%, var(--uw-ink-3) 78%, var(--uw-ink-0) 100%);
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: 220% 100%, 100% 100%, 100% 100%;
+    background-position: -140% 0, 0 0, 0 0;
     animation: uw-sheen 1.6s cubic-bezier(0.65, 0, 0.35, 1) 1;
   }
 }
 @keyframes uw-sheen {
   from {
-    background-position: -140% 0, 0 0;
+    background-position: -140% 0, 0 0, 0 0;
   }
   to {
-    background-position: 240% 0, 0 0;
+    background-position: 240% 0, 0 0, 0 0;
   }
 }
 
 /* -- dark-route parity ----------------------------------------------------
-   The same mark on the void surface: the plate loses its heavy shadow (there
-   is nothing bright behind it to lift off) and the fill runs a touch cooler
-   so it stays legible against #030305. */
-html:not([data-unitas-surface='quantum-white']) .qw-hero-wrap h1::before {
-  background:
-    radial-gradient(120% 140% at 50% -20%, rgba(120, 160, 255, 0.22) 0%, rgba(120, 160, 255, 0) 62%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 0 0 1px rgba(196, 214, 245, 0.22),
-    0 0 46px -14px var(--uw-rim-glow);
+   The same mark on the void surface: a warm platinum-to-gold body (the
+   sapphire would sink into #030305), the gold rim a touch lighter, and a
+   gold glow instead of the blue one. */
+html:not([data-unitas-surface='quantum-white']) .qw-hero-wrap h1 .qw-title-word {
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.35) 12%, rgba(255, 255, 255, 0) 30%),
+    linear-gradient(168deg, #ffffff 0%, #fff4d6 26%, var(--uw-gold) 58%, var(--uw-gold-deep) 88%, #5c4a10 100%);
+  -webkit-text-stroke: 0.4px rgba(255, 244, 214, 0.55);
+  filter:
+    drop-shadow(0 0 16px rgba(212, 175, 55, 0.38))
+    drop-shadow(0 6px 18px rgba(0, 0, 0, 0.55));
 }
 
 /* -- fallback --------------------------------------------------------------
    A browser without `background-clip: text` would render the word with a
-   transparent fill (invisible). The @supports guard restores solid silver
-   ink there; everything else in this file degrades gracefully on its own. */
+   transparent fill (invisible). The @supports guard restores solid ink there;
+   everything else in this file degrades gracefully on its own. */
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
   .qw-hero-wrap h1 .qw-title-word {
-    color: var(--uw-space-0);
+    color: var(--uw-ink-1);
     -webkit-text-fill-color: currentColor;
     background-image: none;
     animation: none;
+  }
+  html:not([data-unitas-surface='quantum-white']) .qw-hero-wrap h1 .qw-title-word {
+    color: var(--uw-gold);
   }
 }

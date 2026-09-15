@@ -8,24 +8,32 @@ import { Paperclip, PenTool, Video } from 'lucide-react';
  * one split-button toggle beside the ⏎ key that opens the three shortcuts
  * (file / video / sketch). The three icons roll through the toggle as a
  * DISPLAY-ONLY animation (2.4 s per step); the toggle never changes what a
- * click does. Under `prefers-reduced-motion` or on hover-less (touch)
- * devices the roll is replaced by a static three-icon stack, so every
- * attach path stays discoverable (the "only one icon visible" defect).
+ * click does.
  *
- * REV-23 M5 (founder directive 2026-09-13): the below-768px BOTTOM SHEET is
- * retired. It read as "yet another popup" -- a surface that flew up from the
- * screen edge, carried its own title bar and close button, and had to be
- * dismissed. What the founder asked for is a plain, immediate dropdown that
- * you pick from: so the menu is now the SAME anchored dropdown at every
- * width, opening in 140 ms directly under the toggle, with no sheet
- * chrome and no VisualViewport choreography. The sheet head, the close
- * button and the `sheetTitle` / `close` labels are gone with it.
+ * REV-23 M5: the below-768px bottom sheet is retired -- the menu is the
+ * SAME anchored dropdown at every width, opening in 140 ms directly under
+ * the toggle.
+ *
+ * REV-29 MISSION 5 (founder directive 2026-09-15):
+ *  - the three menu icons sit in identical 20px boxes and the video glyph
+ *    is scaled up to the same optical weight as the clip and the pen;
+ *  - every label is a SHORT one-line string (`Rev29.attach.*`) rendered
+ *    `white-space: nowrap` -- the long capture hints stay as `title` /
+ *    `aria-label`, so no locale ever wraps the row and the text is never
+ *    shrunk;
+ *  - `active`: the shortcut the visitor picked. The roll STOPS on that icon
+ *    and the toggle wears the same strong armed fill the ⏎ key wears while
+ *    a query is typed, until the attachment is removed;
+ *  - the roll runs one icon at a time on EVERY device -- the touch /
+ *    reduced-motion static 2x2 stack is gone (globals.css).
  *
  * Every control uses `onMouseDown preventDefault` so the search input keeps
  * focus and the typing dropdown never collapses; the file / video items call
  * their hidden `<input type=file>` synchronously inside the click (iOS
  * gesture stack). Not a history layer (non-modal).
  */
+
+export type AttachKind = 'file' | 'video' | 'sketch';
 
 export interface AttachMenuLabels {
   toggle: string;
@@ -37,16 +45,26 @@ export interface AttachMenuLabels {
 export interface AttachMenuProps {
   /** Attached items (text + visual) -- shown as a badge on the toggle. */
   count: number;
+  /** Short one-line labels (rendered text). */
   labels: AttachMenuLabels;
+  /** Long hints (title / aria-label); default to the labels. */
+  titles?: Partial<Record<AttachKind, string>>;
+  /** The picked shortcut -- stops the roll on it and arms the toggle. */
+  active: AttachKind | null;
+  onPick: (kind: AttachKind) => void;
   onFile: () => void;
   onVideo: () => void;
   onSketch: () => void;
   onHover?: () => void;
 }
 
-const ROLL_ICONS = [Paperclip, Video, PenTool] as const;
+const ROLL: ReadonlyArray<{ key: AttachKind; Icon: typeof Paperclip }> = [
+  { key: 'file', Icon: Paperclip },
+  { key: 'video', Icon: Video },
+  { key: 'sketch', Icon: PenTool },
+];
 
-export function AttachMenu({ count, labels, onFile, onVideo, onSketch, onHover }: AttachMenuProps) {
+export function AttachMenu({ count, labels, titles, active, onPick, onFile, onVideo, onSketch, onHover }: AttachMenuProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -94,8 +112,11 @@ export function AttachMenu({ count, labels, onFile, onVideo, onSketch, onHover }
     items[next]?.focus({ preventScroll: true });
   }
 
-  function pick(action: () => void) {
+  function pick(kind: AttachKind, action: () => void) {
     return () => {
+      // The pick is the visitor's stated intent: the roll stops on this icon
+      // and the toggle arms, before the (possibly cancelled) picker opens.
+      onPick(kind);
       // The hidden file inputs must be clicked INSIDE this gesture.
       action();
       close();
@@ -103,10 +124,12 @@ export function AttachMenu({ count, labels, onFile, onVideo, onSketch, onHover }
   }
 
   const items = [
-    { key: 'file', label: labels.file, Icon: Paperclip, action: onFile },
-    { key: 'video', label: labels.video, Icon: Video, action: onVideo },
-    { key: 'sketch', label: labels.sketch, Icon: PenTool, action: onSketch },
-  ] as const;
+    { key: 'file' as const, label: labels.file, Icon: Paperclip, action: onFile },
+    { key: 'video' as const, label: labels.video, Icon: Video, action: onVideo },
+    { key: 'sketch' as const, label: labels.sketch, Icon: PenTool, action: onSketch },
+  ];
+
+  const activeIndex = active ? ROLL.findIndex((r) => r.key === active) : -1;
 
   return (
     <div ref={rootRef} className="qw-attach relative shrink-0" data-attach-open={open ? '1' : '0'}>
@@ -122,14 +145,24 @@ export function AttachMenu({ count, labels, onFile, onVideo, onSketch, onHover }
         onMouseEnter={() => onHover?.()}
         onClick={() => setOpen((v) => !v)}
         data-attach-toggle=""
+        data-active={active ? '1' : '0'}
+        data-attach-active={active ?? undefined}
       >
         <span className="qw-attach-roll" aria-hidden="true">
-          <span className="qw-attach-roll-track">
-            {ROLL_ICONS.map((Icon, i) => (
-              <Icon key={i} size={18} className="qw-attach-roll-icon" />
+          <span
+            className="qw-attach-roll-track"
+            data-stop={activeIndex >= 0 ? '1' : '0'}
+            style={activeIndex >= 0 ? ({ '--qw-roll-index': activeIndex } as React.CSSProperties) : undefined}
+          >
+            {ROLL.map(({ key, Icon }) => (
+              <span key={key} className="qw-attach-roll-icon" data-icon={key}>
+                <Icon size={18} />
+              </span>
             ))}
             {/* duplicate of the first icon: the loop wraps without a jump */}
-            <Paperclip size={18} className="qw-attach-roll-icon" />
+            <span className="qw-attach-roll-icon" data-icon="file">
+              <Paperclip size={18} />
+            </span>
           </span>
         </span>
         <span className="qw-attach-badge" data-attach-badge="" hidden={count === 0} aria-live="polite">
@@ -155,11 +188,16 @@ export function AttachMenu({ count, labels, onFile, onVideo, onSketch, onHover }
             role="menuitem"
             className="qw-attach-item"
             data-attach-item={key}
+            data-active={active === key ? '1' : '0'}
+            title={titles?.[key] ?? label}
+            aria-label={titles?.[key] ?? label}
             onMouseEnter={() => onHover?.()}
-            onClick={pick(action)}
+            onClick={pick(key, action)}
           >
-            <Icon size={16} aria-hidden="true" />
-            <span>{label}</span>
+            <span className="qw-attach-item-icon" data-icon={key} aria-hidden="true">
+              <Icon size={18} />
+            </span>
+            <span className="qw-attach-item-label">{label}</span>
           </button>
         ))}
       </div>

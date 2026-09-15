@@ -1646,16 +1646,23 @@
       "law": "法律",
       "institution": "制度",
       "education": "教育",
-      "welfare": "福祉・保健",
-      "security": "安全保障・紛争",
+      "welfare": "福祉",
+      "security": "安全保障",
       "strategy": "戦略",
-      "disaster": "災害"
+      "disaster": "災害",
+      "health": "保健",
+      "conflict": "紛争"
     },
     "live": "ライブワイヤー",
     "loadMore": "{axis}をもっと読み込む",
     "axisLoading": "{axis}の世界ライブ情報を呼び出し中…",
     "axisEmpty": "この軸のライブ情報は現在取得できません — しばらくしてから再試行してください。",
-    "endOfFeed": "2週間アーカイブの終端 — 更新すると最新情報が再び流れます。"
+    "endOfFeed": "2週間アーカイブの終端 — 更新すると最新情報が再び流れます。",
+    "openOriginal": "原文を読む",
+    "storyCount": "{count}件",
+    "axisTag": "世界と国内の{axis}ヘッドライン — 記事をタップすると詳細ポップアップ",
+    "detailAria": "{title}を開く",
+    "allStories": "{axis}の全記事 — 世界、次に国内"
   },
   "Weather": {
     "myLocation": "現在地",
@@ -2355,6 +2362,10 @@
         "nearbyTitle": "最寄りの記事",
         "nearbyDist": "距離",
         "nearbyCount": "近くの記事数"
+      },
+      "newProducts": {
+        "title": "新製品",
+        "tag": "世界が今出したばかりの車・スマホ・モビリティ・ガジェット・ゲーム"
       }
     }
   },
@@ -2668,6 +2679,158 @@
         "pritzker": "プリツカー賞",
         "ballonDor": "バロンドール",
         "timePerson": "タイム誌 今年の人"
+      }
+    }
+  },
+  "Rev29": {
+    "hub": {
+      "title": "UNITAS ハブ",
+      "lede": "知識を売買し、ショートを見て、ランキングを競い、テーマ別に語り合い、UNITASを世界と共有する場所。",
+      "toggleAria": "UNITASハブを開く — 知識取引所・ショート・ランキング・チャットルーム・ソーシャル",
+      "tabs": {
+        "exchange": "知識取引所",
+        "shorts": "UNITAS ショート",
+        "rankings": "UNITAS ランキング",
+        "rooms": "テーマ別チャット",
+        "social": "ソーシャルメディア"
+      },
+      "live": "ライブ",
+      "localOnly": "この端末のみ — ライブ接続なし",
+      "online": "{count}人が接続中"
+    },
+    "exchange": {
+      "lede": "クリエイターの知識パックをクレジットで購入し、自分の知識を出品して収益を分け合いましょう。",
+      "credits": "ベータクレジット",
+      "wallet": "U-COIN",
+      "creditsNote": "ベータクレジットはこの端末に保存されます · U-COIN決済は台帳連携とともに開始されます。",
+      "all": "すべて",
+      "sort": {
+        "trending": "人気",
+        "newest": "新着",
+        "price": "価格"
+      },
+      "kind": {
+        "ladder": "ラダー",
+        "playbook": "プレイブック",
+        "dataset": "データセット",
+        "prompt": "プロンプトキット"
+      },
+      "tier": {
+        "seed": "シード",
+        "pro": "プロ",
+        "sovereign": "ソブリン"
+      },
+      "buy": "購入",
+      "owned": "購入済み",
+      "insufficient": "クレジット不足",
+      "sales": "{count}件販売",
+      "rating": "★ {rating}",
+      "by": "@{handle}",
+      "split": "収益配分 · クリエイター {creator}% / UNITAS {platform}%",
+      "listTitle": "知識を出品する",
+      "form": {
+        "title": "タイトル",
+        "theme": "テーマ",
+        "price": "価格（クレジット）",
+        "summary": "一行の要約",
+        "submit": "出品",
+        "errTitle": "タイトルは3〜60文字",
+        "errPrice": "価格は10〜5,000クレジットの整数",
+        "errSummary": "要約は200文字以内"
+      },
+      "myListings": "出品中",
+      "status": {
+        "review": "審査中",
+        "live": "販売中"
+      },
+      "projected": "予想収益（シミュレーション）",
+      "projectedSales": "予想販売 {count}件",
+      "board": "トップクリエイター",
+      "ticker": "リアルタイム取引",
+      "tickerEmpty": "まだ取引はありません — 最初の取引を作りましょう。",
+      "tickerRow": "{buyer} · {pack}",
+      "bought": "購入完了 — ライブラリに追加",
+      "myPacks": "マイライブラリ"
+    },
+    "rooms": {
+      "lede": "22のテーマ別ルーム — 今世界が語っている話題で会話しましょう。メッセージはサーバーに残らず、この端末に各ルーム最新60件だけ保存されます。",
+      "placeholder": "メッセージを入力してEnter…",
+      "send": "送信",
+      "you": "あなた",
+      "empty": "まだ会話がありません — 最初の挨拶をどうぞ。",
+      "welcome": "{room}ルームへようこそ。",
+      "speakingAs": "{name}として発言中",
+      "roomAria": "{room}チャットルーム"
+    },
+    "social": {
+      "lede": "世界のソーシャル・メールアプリへ直行し、UNITASをワンタップで共有しましょう。",
+      "apps": "ショートカット",
+      "mail": "ウェブメール",
+      "share": "UNITASを共有",
+      "shareText": "UNITAS — ソブリンSaaSネットワーク。U-AIに何でも聞いてください。",
+      "copy": "リンクをコピー",
+      "copied": "コピー完了",
+      "native": "共有…"
+    },
+    "attach": {
+      "file": "ファイル添付",
+      "video": "動画添付",
+      "sketch": "スケッチ添付"
+    },
+    "newProducts": {
+      "families": {
+        "cars": "自動車",
+        "phones": "スマートフォン",
+        "mobility": "モビリティ",
+        "gadgets": "ガジェット",
+        "games": "ゲーム"
+      },
+      "facts": {
+        "count": "新製品数"
+      }
+    },
+    "shorts": {
+      "filterAll": "すべてのテーマ",
+      "label": "UNITAS Shorts",
+      "lede": "ネットワークに生まれる縦型の瞬間 — U-Messengerの種。",
+      "views": "{count}回再生",
+      "like": "いいね",
+      "liked": "いいね済み",
+      "follow": "フォロー",
+      "following": "フォロー中",
+      "upload": "アップロード",
+      "uploadSoon": "アップロードはU-Messengerベータの開始と同時に開放されます",
+      "seedNote": "プレビュー用のシードクリップを表示中 · 本番のアップロードはU-Messengerベータとともに始まります",
+      "share": "U-Messengerへ共有",
+      "shareHint": "ベータ開始後は、共有リンクからこのクリップをU-Messengerのスレッドへそのまま送れるようになります。",
+      "openAria": "ショート「{title}」を開く",
+      "creator": "クリエイター",
+      "duration": "{seconds}秒",
+      "followers": "フォロワー{count}人",
+      "pass": {
+        "eyebrow": "クリエイター先行アクセス",
+        "cta": "先行アクセスを予約",
+        "title": "あなたのクリエイターパス",
+        "lede": "アップロードはU-Messengerベータの開始と同時に開放されます。今パスを予約しておけば、スタジオの扉が開くその瞬間、あなたのハンドルが最前列に並びます。",
+        "handleLabel": "クリエイターハンドル",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3〜20文字: a–z, 0–9、ドット、ハイフン、アンダースコア",
+        "reserve": "パスを予約する",
+        "reserved": "パス予約済み",
+        "reservedAt": "{time} 予約",
+        "serial": "パス {serial}",
+        "currentWave": "現在予約受付中",
+        "wave1": "第1弾 · 創設クリエイター",
+        "wave2": "第2弾 · スタジオツール",
+        "wave3": "第3弾 · グローバル公開",
+        "perks": {
+          "p1": "公開初日の優先アップロード枠",
+          "p2": "プロフィールに刻まれる創設クリエイターバッジ",
+          "p3": "U-Messengerのスレッドへ直接共有"
+        },
+        "signedIn": "アカウントに紐づけ済み",
+        "guest": "サインインすると、このパスはアカウントにも紐づけられます。",
+        "honest": "パスはこの端末に保存され、サインイン中はアカウントにも保存されます。動画のアップロードや保存は、まだ一切行われません。"
       }
     }
   }

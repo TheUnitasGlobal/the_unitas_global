@@ -11,6 +11,7 @@ import {
   type DragEvent,
   type FocusEvent,
   type FormEvent,
+  type PointerEvent as ReactPointerEvent,
 } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -27,7 +28,9 @@ import {
   Loader2,
   Flame,
 } from 'lucide-react';
-import { AttachMenu } from '@/components/home/AttachMenu';
+import { AttachMenu, type AttachKind } from '@/components/home/AttachMenu';
+import { UnitasHubToggle } from '@/components/home/UnitasHubToggle';
+import { UnitasHubModal } from '@/components/home/hub/UnitasHubModal';
 import { InTowerComposer } from '@/components/uai/InTowerComposer';
 import { INITIAL_SUGGEST_CURSOR, ladderRowKey, loadLadderPage, type LadderRow, type SuggestCursor } from '@/lib/uai/suggestLadder';
 import { sceneInteraction } from '@/lib/sceneInteraction';
@@ -184,6 +187,12 @@ export function OmniSynapseSearch({
   const [visualAttachments, setVisualAttachments] = useState<VisualAttachment[]>([]);
   const [attachError, setAttachError] = useState<string | null>(null);
   const [drawOpen, setDrawOpen] = useState(false);
+  /** REV-29 M4: the UNITAS master hub popup. */
+  const [hubOpen, setHubOpen] = useState(false);
+  /** REV-29 M5: the attach shortcut the visitor picked -- the roll stops on
+   *  it and the toggle arms until the attachment is gone again. */
+  const [attachPick, setAttachPick] = useState<AttachKind | null>(null);
+  const tRev29 = useTranslations('Rev29');
   const [webSuggestions, setWebSuggestions] = useState<WebSuggestionBatch>(EMPTY_WEB_BATCH);
   const [suggestLoading, setSuggestLoading] = useState(false);
   /** REV-21 §5B: the global tier (page 0) + every later ladder page. */
@@ -193,6 +202,10 @@ export function OmniSynapseSearch({
   const tRev21 = useTranslations('Rev21');
   const restoredQueryRef = useRef(false);
   const blurTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /** REV-29 M1: set right before a touch-driven `input.blur()` so the root
+   *  blur handler keeps the popup OPEN (the keyboard closes, the hub stays). */
+  const suppressBlurRef = useRef(false);
+  const attachCountRef = useRef(0);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const videoInputRef = useRef<HTMLInputElement | null>(null);
   /** The whole bar + dropdown subtree: focus moving anywhere inside it (the
@@ -544,6 +557,13 @@ export function OmniSynapseSearch({
    *  collapses the hub -- deferred so a click on a non-focusable row still
    *  registers before the dropdown unmounts. */
   function handleRootBlur(e: FocusEvent<HTMLDivElement>) {
+    if (suppressBlurRef.current) {
+      // REV-29 M1: this blur was OURS -- a touch on a theme box / chip / card
+      // dismissed the virtual keyboard on purpose. The popup stays open;
+      // the outside-tap listener below is what closes it now.
+      suppressBlurRef.current = false;
+      return;
+    }
     const next = e.relatedTarget as Node | null;
     if (next && rootRef.current?.contains(next)) return;
     cancelPendingBlur();
@@ -553,6 +573,46 @@ export function OmniSynapseSearch({
       sceneInteraction.focusBoost = 0;
     }, 150);
   }
+
+  /**
+   * REV-29 MISSION 1 -- keyboard control. The virtual keyboard may open for
+   * exactly one reason: the visitor put their finger IN the text box. A
+   * touch anywhere else inside the search surface (a shortcut chip, a card
+   * title, a news row, the hub tile, the attach toggle) dismisses it by
+   * blurring the input -- while the popup underneath stays open, because the
+   * blur is flagged as ours. Mouse pointers never enter here: on desktop the
+   * `onMouseDown preventDefault` the surfaces already carry keeps the caret
+   * in the box, and there is no keyboard to dismiss.
+   */
+  function handleRootPointerDownCapture(e: ReactPointerEvent<HTMLDivElement>) {
+    if (e.pointerType === 'mouse') return;
+    const target = e.target as HTMLElement | null;
+    if (!target || target.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"]')) return;
+    const input = inputRef.current;
+    if (!input || document.activeElement !== input) return;
+    suppressBlurRef.current = true;
+    input.blur();
+  }
+
+  // While the popup is held open WITHOUT the input focused (the keyboard was
+  // dismissed on touch), a tap outside the search surface -- and outside any
+  // portaled dialog / tower / sheet, which belong to it -- closes it. With
+  // the input focused the ordinary blur path handles this instead.
+  useEffect(() => {
+    if (!focused) return;
+    const onDown = (e: PointerEvent) => {
+      if (document.activeElement === inputRef.current) return;
+      const target = e.target as Node | null;
+      if (!target) return;
+      if (rootRef.current?.contains(target)) return;
+      if ((target as Element).closest?.('[data-unitas-portal], [role="dialog"]')) return;
+      closeBrowseHub();
+    };
+    document.addEventListener('pointerdown', onDown, true);
+    return () => document.removeEventListener('pointerdown', onDown, true);
+    // closeBrowseHub is a stable function declaration of this component.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focused]);
 
   function closeBrowseHub() {
     cancelPendingBlur();
@@ -644,7 +704,16 @@ export function OmniSynapseSearch({
    *  the input so the bar's own layers are live again underneath. */
   function closeSearchTower() {
     uai.reset();
-    inputRef.current?.focus({ preventScroll: true });
+    // REV-29 M1: refocusing the box on a phone pops the keyboard over the
+    // home the visitor just came back to. Only a fine pointer gets the caret
+    // back; touch lands on the bar without a keyboard.
+    let coarse = false;
+    try {
+      coarse = window.matchMedia('(pointer: coarse)').matches;
+    } catch {
+      coarse = false;
+    }
+    if (!coarse) inputRef.current?.focus({ preventScroll: true });
   }
 
   /** [⌂ 홈으로 복귀] -- collapses the tower AND clears the query, landing on
@@ -715,11 +784,35 @@ export function OmniSynapseSearch({
     onOuroborosChange?.(ouroboros);
   }, [ouroboros, onOuroborosChange]);
 
+  // REV-29 M5: the armed attach state lives exactly as long as an attachment
+  // does -- removing the last one releases the roll and the highlight.
+  const attachCount = attachments.length + visualAttachments.length;
+  useEffect(() => {
+    if (attachCountRef.current > 0 && attachCount === 0) setAttachPick(null);
+    attachCountRef.current = attachCount;
+  }, [attachCount]);
+  /** A cancelled picker (file / video dialog dismissed, sketch closed
+   *  without attaching) with nothing attached releases the arm as well. */
+  function releaseAttachPickIfEmpty() {
+    if (attachCountRef.current === 0) setAttachPick(null);
+  }
+  // The file pickers' `cancel` event (a dismissed dialog) is not in React's
+  // input prop surface, so it is wired natively once on mount.
+  useEffect(() => {
+    const inputs = [fileInputRef.current, videoInputRef.current];
+    const onCancel = () => {
+      if (attachCountRef.current === 0) setAttachPick(null);
+    };
+    inputs.forEach((el) => el?.addEventListener('cancel', onCancel));
+    return () => inputs.forEach((el) => el?.removeEventListener('cancel', onCancel));
+  }, []);
+
   return (
     <div
       ref={rootRef}
       onFocus={cancelPendingBlur}
       onBlur={handleRootBlur}
+      onPointerDownCapture={handleRootPointerDownCapture}
       className="qw-search-wrap relative mx-auto w-full max-w-7xl px-6"
     >
       <form onSubmit={handleSubmit}>
@@ -734,7 +827,9 @@ export function OmniSynapseSearch({
             dragActive ? 'border-neon' : focused ? 'border-accent' : 'border-white/15'
           }`}
         >
-          <Search size={20} className="h-4 w-4 shrink-0 text-accent sm:h-5 sm:w-5" aria-hidden="true" />
+          {/* REV-29 M1: the glass and the placeholder are exactly 20% larger
+              than before (16/20px -> 19.2/24px, clamp x1.2). */}
+          <Search size={24} className="qw-search-glass shrink-0 text-accent" aria-hidden="true" />
           <input
             ref={inputRef}
             type="text"
@@ -748,7 +843,7 @@ export function OmniSynapseSearch({
             // device) -- always fits the shrinking box with no cliff-edge
             // width where one language just barely overflows; caps at the
             // original 19px from 640px (sm) up, unchanged from before.
-            style={{ fontSize: 'clamp(10px, 1px + 2.8125vw, 19px)' }}
+            style={{ fontSize: 'clamp(12px, 1.2px + 3.375vw, 22.8px)' }}
             className="w-full min-w-0 bg-transparent text-white placeholder:text-gray-400 focus:outline-none"
           />
           <input
@@ -787,18 +882,28 @@ export function OmniSynapseSearch({
               <CornerDownLeft size={20} strokeWidth={2.75} className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
             </button>
             <AttachMenu
-              count={attachments.length + visualAttachments.length}
+              count={attachCount}
               labels={{
                 toggle: tRev21('composer.attachMenuAria'),
+                file: tRev29('attach.file'),
+                video: tRev29('attach.video'),
+                sketch: tRev29('attach.sketch'),
+              }}
+              titles={{
                 file: t('attachImageAria'),
                 video: t('attachVideoAria'),
                 sketch: t('attachCanvasAria'),
               }}
+              active={attachPick}
+              onPick={setAttachPick}
               onFile={() => fileInputRef.current?.click()}
               onVideo={() => videoInputRef.current?.click()}
               onSketch={() => setDrawOpen(true)}
               onHover={playHoverSfx}
             />
+            {/* REV-29 M4: the UNITAS master tile -- one pack, same box, same
+                roll; a click opens the centred hub, never a dropdown. */}
+            <UnitasHubToggle open={hubOpen} label={tRev29('hub.toggleAria')} onOpen={() => setHubOpen(true)} onHover={playHoverSfx} />
           </div>
         </div>
 
@@ -1028,7 +1133,16 @@ export function OmniSynapseSearch({
         {ouroboros && <HotShortcutMatrixStrip />}
       </AnimatePresence>
 
-      <CanvasDrawInput open={drawOpen} onClose={() => setDrawOpen(false)} onAttach={handleCanvasAttach} />
+      <CanvasDrawInput
+        open={drawOpen}
+        onClose={() => {
+          setDrawOpen(false);
+          releaseAttachPickIfEmpty();
+        }}
+        onAttach={handleCanvasAttach}
+      />
+
+      <UnitasHubModal open={hubOpen} onClose={() => setHubOpen(false)} />
 
       {/* REV-20 §5 -- the U-AI hyper-search engine: true 100vw/100svh
           fullscreen (variant="fullscreen" covers the nav, unlike every other

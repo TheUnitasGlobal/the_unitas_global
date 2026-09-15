@@ -1646,16 +1646,23 @@
       "law": "법률",
       "institution": "제도",
       "education": "교육",
-      "welfare": "복지·보건",
-      "security": "안보·분쟁",
+      "welfare": "복지",
+      "security": "안보",
       "strategy": "전략",
-      "disaster": "재난"
+      "disaster": "재난",
+      "health": "보건",
+      "conflict": "분쟁"
     },
     "live": "실시간 웹",
     "loadMore": "{axis} 더 불러오기",
     "axisLoading": "{axis} 글로벌 실시간 정보를 호출하는 중…",
     "axisEmpty": "이 축의 실시간 정보를 지금은 가져올 수 없습니다 — 잠시 후 다시 시도하세요.",
-    "endOfFeed": "최근 2주 아카이브의 끝 — 새로고침하면 최신 정보가 다시 흐릅니다."
+    "endOfFeed": "최근 2주 아카이브의 끝 — 새로고침하면 최신 정보가 다시 흐릅니다.",
+    "openOriginal": "원문 보기",
+    "storyCount": "{count}건",
+    "axisTag": "세계와 내 나라의 {axis} 헤드라인 — 항목을 누르면 세부 팝업",
+    "detailAria": "{title} 세부 보기",
+    "allStories": "{axis} 전체 헤드라인 — 세계 먼저, 그다음 내 나라"
   },
   "Weather": {
     "myLocation": "내 위치",
@@ -2355,6 +2362,10 @@
         "nearbyTitle": "가장 가까운 문서",
         "nearbyDist": "거리",
         "nearbyCount": "주변 문서 수"
+      },
+      "newProducts": {
+        "title": "글로벌 신상품",
+        "tag": "세계가 방금 출시한 자동차·스마트폰·모빌리티·가젯·게임"
       }
     }
   },
@@ -2668,6 +2679,158 @@
         "pritzker": "프리츠커 건축상",
         "ballonDor": "발롱도르",
         "timePerson": "타임 올해의 인물"
+      }
+    }
+  },
+  "Rev29": {
+    "hub": {
+      "title": "UNITAS 허브",
+      "lede": "지식을 사고팔고, 숏츠를 보고, 랭킹을 겨루고, 테마별로 대화하고, UNITAS를 세계와 공유하는 곳.",
+      "toggleAria": "UNITAS 허브 열기 — 지식 거래소·숏츠·랭킹·대화방·소셜",
+      "tabs": {
+        "exchange": "지식 거래소",
+        "shorts": "UNITAS 숏츠",
+        "rankings": "UNITAS 랭킹",
+        "rooms": "테마별 대화방",
+        "social": "소셜 미디어"
+      },
+      "live": "실시간",
+      "localOnly": "이 기기 전용 — 실시간 연결 없음",
+      "online": "{count}명 접속 중"
+    },
+    "exchange": {
+      "lede": "창작자가 올린 지식 팩을 크레딧으로 사고, 내 지식을 올려 수익을 나눕니다.",
+      "credits": "베타 크레딧",
+      "wallet": "U-COIN",
+      "creditsNote": "베타 크레딧은 이 기기에 보관됩니다 · U-COIN 정산은 원장 연동과 함께 열립니다.",
+      "all": "전체",
+      "sort": {
+        "trending": "인기",
+        "newest": "최신",
+        "price": "가격"
+      },
+      "kind": {
+        "ladder": "사다리",
+        "playbook": "플레이북",
+        "dataset": "데이터셋",
+        "prompt": "프롬프트 키트"
+      },
+      "tier": {
+        "seed": "시드",
+        "pro": "프로",
+        "sovereign": "소버린"
+      },
+      "buy": "구매",
+      "owned": "보유 중",
+      "insufficient": "크레딧 부족",
+      "sales": "판매 {count}",
+      "rating": "★ {rating}",
+      "by": "@{handle}",
+      "split": "수익 배분 · 창작자 {creator}% / UNITAS {platform}%",
+      "listTitle": "내 지식 올리기",
+      "form": {
+        "title": "제목",
+        "theme": "테마",
+        "price": "가격 (크레딧)",
+        "summary": "한 줄 요약",
+        "submit": "등록",
+        "errTitle": "제목은 3~60자",
+        "errPrice": "가격은 10~5,000 크레딧의 정수",
+        "errSummary": "요약은 200자 이내"
+      },
+      "myListings": "내 등록",
+      "status": {
+        "review": "심사 중",
+        "live": "판매 중"
+      },
+      "projected": "예상 수익(시뮬레이션)",
+      "projectedSales": "예상 판매 {count}건",
+      "board": "톱 크리에이터",
+      "ticker": "실시간 거래",
+      "tickerEmpty": "아직 거래 신호가 없습니다 — 첫 거래를 만들어 보세요.",
+      "tickerRow": "{buyer} · {pack}",
+      "bought": "구매 완료 — 내 서재에 추가됨",
+      "myPacks": "내 서재"
+    },
+    "rooms": {
+      "lede": "22개 테마 방 — 지금 세계가 말하는 주제로 대화합니다. 메시지는 서버에 남지 않고 이 기기에만 방마다 최근 60개가 보관됩니다.",
+      "placeholder": "메시지를 입력하고 Enter…",
+      "send": "보내기",
+      "you": "나",
+      "empty": "아직 대화가 없습니다 — 첫 인사를 남겨 보세요.",
+      "welcome": "{room} 방에 오신 것을 환영합니다.",
+      "speakingAs": "{name}(으)로 대화 중",
+      "roomAria": "{room} 대화방"
+    },
+    "social": {
+      "lede": "세계의 소셜·메일 앱으로 바로 가고, UNITAS를 한 번에 공유하세요.",
+      "apps": "바로가기",
+      "mail": "웹메일",
+      "share": "UNITAS 공유",
+      "shareText": "UNITAS — 소버린 SaaS 네트워크. U-AI에게 무엇이든 물어보세요.",
+      "copy": "링크 복사",
+      "copied": "복사됨",
+      "native": "공유…"
+    },
+    "attach": {
+      "file": "파일 첨부",
+      "video": "동영상 첨부",
+      "sketch": "스케치 첨부"
+    },
+    "newProducts": {
+      "families": {
+        "cars": "자동차",
+        "phones": "스마트폰",
+        "mobility": "모빌리티",
+        "gadgets": "가젯",
+        "games": "게임"
+      },
+      "facts": {
+        "count": "신상품"
+      }
+    },
+    "shorts": {
+      "filterAll": "전체 테마",
+      "label": "UNITAS 쇼츠",
+      "lede": "네트워크의 세로형 순간들 — U-메신저의 씨앗.",
+      "views": "조회 {count}",
+      "like": "좋아요",
+      "liked": "좋아요 완료",
+      "follow": "팔로우",
+      "following": "팔로잉",
+      "upload": "업로드",
+      "uploadSoon": "업로드는 U-메신저 베타와 함께 열립니다",
+      "seedNote": "미리보기용 시드 클립 · 실제 업로드는 U-메신저 베타와 함께 도착합니다",
+      "share": "U-메신저로 공유",
+      "shareHint": "베타가 열리면 공유 링크가 이 클립을 U-메신저 대화로 바로 전달합니다.",
+      "openAria": "쇼츠 {title} 열기",
+      "creator": "크리에이터",
+      "duration": "{seconds}초",
+      "followers": "팔로워 {count}",
+      "pass": {
+        "eyebrow": "크리에이터 얼리 액세스",
+        "cta": "얼리 액세스 받기",
+        "title": "당신의 크리에이터 패스",
+        "lede": "업로드는 U-메신저 베타와 함께 열립니다. 지금 패스를 예약하면, 스튜디오 문이 열리는 순간 당신의 핸들이 가장 앞줄에 섭니다.",
+        "handleLabel": "크리에이터 핸들",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3~20자: a–z, 0–9, 점, 대시, 밑줄",
+        "reserve": "내 패스 예약하기",
+        "reserved": "패스 예약 완료",
+        "reservedAt": "{time} 예약",
+        "serial": "패스 {serial}",
+        "currentWave": "지금 예약 중",
+        "wave1": "1차 · 파운딩 크리에이터",
+        "wave2": "2차 · 스튜디오 도구",
+        "wave3": "3차 · 글로벌 오픈",
+        "perks": {
+          "p1": "오픈 당일 우선 업로드 슬롯",
+          "p2": "프로필에 새겨지는 파운딩 크리에이터 배지",
+          "p3": "U-메신저 대화로 바로 공유"
+        },
+        "signedIn": "계정에 연결됨",
+        "guest": "로그인하면 이 패스가 계정에도 함께 연결됩니다.",
+        "honest": "패스는 이 기기에, 로그인 시에는 계정에도 보관됩니다. 아직 어떤 영상도 업로드되거나 저장되지 않습니다."
       }
     }
   }

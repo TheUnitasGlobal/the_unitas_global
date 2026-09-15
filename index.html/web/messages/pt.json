@@ -1646,16 +1646,23 @@
       "law": "Direito",
       "institution": "Instituições",
       "education": "Educação",
-      "welfare": "Bem-estar · Saúde",
-      "security": "Segurança · Conflito",
+      "welfare": "Bem-estar",
+      "security": "Segurança",
       "strategy": "Estratégia",
-      "disaster": "Desastres"
+      "disaster": "Desastres",
+      "health": "Saúde",
+      "conflict": "Conflito"
     },
     "live": "Fio ao vivo",
     "loadMore": "Carregar mais de {axis}",
     "axisLoading": "Chamando o fio mundial ao vivo de {axis}…",
     "axisEmpty": "O fio ao vivo deste eixo está indisponível agora — tente novamente em breve.",
-    "endOfFeed": "Fim do arquivo de duas semanas — atualize para que as notícias mais recentes voltem a fluir."
+    "endOfFeed": "Fim do arquivo de duas semanas — atualize para que as notícias mais recentes voltem a fluir.",
+    "openOriginal": "Ler o original",
+    "storyCount": "{count} notícias",
+    "axisTag": "Manchetes de {axis} do mundo e do seu país — toque numa notícia para a abrir",
+    "detailAria": "Abrir {title}",
+    "allStories": "Todas as notícias de {axis}: primeiro o mundo, depois o seu país"
   },
   "Weather": {
     "myLocation": "A minha localização",
@@ -2355,6 +2362,10 @@
         "nearbyTitle": "Artigo mais próximo",
         "nearbyDist": "Distância",
         "nearbyCount": "Artigos próximos"
+      },
+      "newProducts": {
+        "title": "Novidades",
+        "tag": "Carros, telemóveis, mobilidade, gadgets e jogos que o mundo acabou de lançar"
       }
     }
   },
@@ -2668,6 +2679,158 @@
         "pritzker": "Prémio Pritzker",
         "ballonDor": "Bola de Ouro",
         "timePerson": "Pessoa do Ano da Time"
+      }
+    }
+  },
+  "Rev29": {
+    "hub": {
+      "title": "Hub UNITAS",
+      "lede": "Negocie conhecimento, veja shorts, suba nos rankings, converse por tema e partilhe a UNITAS com o mundo.",
+      "toggleAria": "Abrir o hub UNITAS — bolsa de conhecimento, shorts, rankings, salas de chat, redes",
+      "tabs": {
+        "exchange": "Bolsa de conhecimento",
+        "shorts": "UNITAS Shorts",
+        "rankings": "Rankings UNITAS",
+        "rooms": "Salas por tema",
+        "social": "Redes sociais"
+      },
+      "live": "Ao vivo",
+      "localOnly": "Só este dispositivo — sem ligação ao vivo",
+      "online": "{count} online"
+    },
+    "exchange": {
+      "lede": "Compre packs de conhecimento de criadores com créditos e publique os seus para partilhar a receita.",
+      "credits": "créditos beta",
+      "wallet": "U-COIN",
+      "creditsNote": "Os créditos beta ficam neste dispositivo · A liquidação em U-COIN abre com a ligação ao livro-razão.",
+      "all": "Tudo",
+      "sort": {
+        "trending": "Em alta",
+        "newest": "Mais recentes",
+        "price": "Preço"
+      },
+      "kind": {
+        "ladder": "Escada",
+        "playbook": "Playbook",
+        "dataset": "Conjunto de dados",
+        "prompt": "Kit de prompts"
+      },
+      "tier": {
+        "seed": "Seed",
+        "pro": "Pro",
+        "sovereign": "Soberano"
+      },
+      "buy": "Comprar",
+      "owned": "Adquirido",
+      "insufficient": "Créditos insuficientes",
+      "sales": "{count} vendidos",
+      "rating": "★ {rating}",
+      "by": "@{handle}",
+      "split": "Divisão · criador {creator}% / UNITAS {platform}%",
+      "listTitle": "Publicar o seu conhecimento",
+      "form": {
+        "title": "Título",
+        "theme": "Tema",
+        "price": "Preço (créditos)",
+        "summary": "Resumo numa linha",
+        "submit": "Publicar",
+        "errTitle": "Título: 3–60 caracteres",
+        "errPrice": "Preço: inteiro de 10 a 5.000 créditos",
+        "errSummary": "Resumo: até 200 caracteres"
+      },
+      "myListings": "As minhas publicações",
+      "status": {
+        "review": "Em revisão",
+        "live": "Publicado"
+      },
+      "projected": "Receita prevista (simulação)",
+      "projectedSales": "{count} vendas previstas",
+      "board": "Melhores criadores",
+      "ticker": "Negócios ao vivo",
+      "tickerEmpty": "Ainda sem negócios — faça o primeiro.",
+      "tickerRow": "{buyer} · {pack}",
+      "bought": "Comprado — adicionado à sua biblioteca",
+      "myPacks": "A minha biblioteca"
+    },
+    "rooms": {
+      "lede": "22 salas temáticas — fale sobre os mesmos assuntos de que o mundo fala agora. As mensagens nunca passam por um servidor; este dispositivo guarda as últimas 60 por sala.",
+      "placeholder": "Escreva uma mensagem e prima Enter…",
+      "send": "Enviar",
+      "you": "Você",
+      "empty": "Ainda sem conversa — deixe o primeiro olá.",
+      "welcome": "Bem-vindo à sala {room}.",
+      "speakingAs": "A falar como {name}",
+      "roomAria": "Sala de chat {room}"
+    },
+    "social": {
+      "lede": "Vá direto às apps sociais e de email do mundo e partilhe a UNITAS num toque.",
+      "apps": "Atalhos",
+      "mail": "Webmail",
+      "share": "Partilhar a UNITAS",
+      "shareText": "UNITAS — a rede SaaS soberana. Pergunte tudo à U-AI.",
+      "copy": "Copiar ligação",
+      "copied": "Copiado",
+      "native": "Partilhar…"
+    },
+    "attach": {
+      "file": "Anexar ficheiro",
+      "video": "Anexar vídeo",
+      "sketch": "Anexar esboço"
+    },
+    "newProducts": {
+      "families": {
+        "cars": "Carros",
+        "phones": "Smartphones",
+        "mobility": "Mobilidade",
+        "gadgets": "Gadgets",
+        "games": "Jogos"
+      },
+      "facts": {
+        "count": "Novidades"
+      }
+    },
+    "shorts": {
+      "filterAll": "Todos os temas",
+      "label": "UNITAS Shorts",
+      "lede": "Momentos verticais da rede — a semente do U-Messenger.",
+      "views": "{count} visualizações",
+      "like": "Curtir",
+      "liked": "Curtido",
+      "follow": "Seguir",
+      "following": "Seguindo",
+      "upload": "Enviar",
+      "uploadSoon": "Os envios abrem com o beta do U-Messenger",
+      "seedNote": "Clipes semente exibidos como prévia · envios reais chegam com o beta do U-Messenger",
+      "share": "Compartilhar no U-Messenger",
+      "shareHint": "Os links compartilhados entregarão este clipe direto em uma conversa do U-Messenger assim que o beta abrir.",
+      "openAria": "Abrir o short {title}",
+      "creator": "Criador",
+      "duration": "{seconds}s",
+      "followers": "{count} seguidores",
+      "pass": {
+        "eyebrow": "Acesso antecipado para criadores",
+        "cta": "Garantir acesso antecipado",
+        "title": "Seu passe de criador",
+        "lede": "Os uploads abrem junto com o beta do U-Messenger. Reserve seu passe agora e seu nome será o primeiro da fila no instante em que as portas do estúdio se abrirem.",
+        "handleLabel": "Handle de criador",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "De 3 a 20 caracteres: a–z, 0–9, ponto, hífen e sublinhado",
+        "reserve": "Reservar meu passe",
+        "reserved": "Passe reservado",
+        "reservedAt": "Reservado em {time}",
+        "serial": "Passe {serial}",
+        "currentWave": "Reservando agora",
+        "wave1": "Onda 1 · Criadores fundadores",
+        "wave2": "Onda 2 · Ferramentas de estúdio",
+        "wave3": "Onda 3 · Abertura global",
+        "perks": {
+          "p1": "Vaga prioritária de upload no dia da abertura",
+          "p2": "Selo de criador fundador no seu perfil",
+          "p3": "Compartilhamento direto nas conversas do U-Messenger"
+        },
+        "signedIn": "Vinculado à sua conta",
+        "guest": "Entre na sua conta e o passe ficará vinculado a ela também.",
+        "honest": "Seu passe fica neste dispositivo e, quando você está conectado, também na sua conta. Nenhum vídeo é enviado ou armazenado ainda."
       }
     }
   }

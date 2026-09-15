@@ -68,7 +68,7 @@ describe('an unattended carousel costs nothing, forever', () => {
   // 15 min, ranking 6 h -- lib/live/discoverySlots.ts slotTtlMs).
   const TTLS = [
     10 * MIN,
-    ...Array.from({ length: 13 }, () => 15 * MIN),
+    ...Array.from({ length: 14 }, () => 15 * MIN),
     6 * 60 * MIN,
     6 * 60 * MIN,
   ];
@@ -86,7 +86,7 @@ describe('an unattended carousel costs nothing, forever', () => {
     }
   });
 
-  it('is exactly the regression it replaces: intent over the same stale set WOULD have cost 16', () => {
+  it('is exactly the regression it replaces: intent over the same stale set WOULD have cost 17', () => {
     // The pre-REV-24 behaviour is what the `intent` column still does, and
     // this is the number the clock used to pay once per TTL, forever.
     const filled = TTLS.map((ttlMs) => ({ cachedAt: NOW, ttlMs }));
@@ -94,7 +94,7 @@ describe('an unattended carousel costs nothing, forever', () => {
       (n, e) => n + (decideRotationLoad({ ...e, source: 'intent', now: NOW + 24 * 60 * MIN }).spendsRequest ? 1 : 0),
       0,
     );
-    expect(asIntent).toBe(16);
+    expect(asIntent).toBe(17);
   });
 
   it('charges the first fill exactly once per slot, never again', () => {
@@ -103,7 +103,7 @@ describe('an unattended carousel costs nothing, forever', () => {
       (n, e) => n + (decideRotationLoad({ ...e, source: 'clock', now: NOW }).spendsRequest ? 1 : 0),
       0,
     );
-    expect(firstPass).toBe(16);
+    expect(firstPass).toBe(17);
     // Every resolve writes the cache, so the second pass is free.
     const afterFill = TTLS.map((ttlMs) => ({ cachedAt: NOW, ttlMs }));
     expect(unattendedLoopRequestCost(afterFill, NOW + 112_000)).toBe(0);

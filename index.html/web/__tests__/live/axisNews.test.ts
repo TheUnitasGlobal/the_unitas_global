@@ -15,22 +15,32 @@ import {
 import { HOT_NEWS_CATEGORIES, classifyNews, isHotNewsCategory, type HotNewsItem } from '@/lib/live/hotNews';
 
 describe('hotNews categories', () => {
-  // REV-23 M3.2: 21 -> 20. The catch-all 'world' axis and its
-  // "세계실시간 / World" chip are deleted; the individual themes absorb it.
-  it('exposes the 20 fused axes exactly once each, and no catch-all', () => {
-    expect(HOT_NEWS_CATEGORIES).toHaveLength(20);
-    expect(new Set(HOT_NEWS_CATEGORIES).size).toBe(20);
+  // REV-23 M3.2: 21 -> 20 (the catch-all 'world' axis deleted).
+  // REV-29 M2.2: 20 -> 22 -- the two fused pairs are split so every title
+  // box carries exactly one theme: welfare | health, security | conflict.
+  it('exposes the 22 axes exactly once each, and no catch-all', () => {
+    expect(HOT_NEWS_CATEGORIES).toHaveLength(22);
+    expect(new Set(HOT_NEWS_CATEGORIES).size).toBe(22);
     expect(isHotNewsCategory('world')).toBe(false);
     for (const axis of ['language', 'culture', 'society', 'structure', 'art', 'expression', 'pragma', 'economy', 'engineering', 'technology', 'law', 'institution', 'education', 'welfare', 'security', 'strategy']) {
       expect(isHotNewsCategory(axis)).toBe(true);
     }
-    expect(isHotNewsCategory('health')).toBe(false);
-    expect(isHotNewsCategory('conflict')).toBe(false);
+    expect(isHotNewsCategory('health')).toBe(true);
+    expect(isHotNewsCategory('conflict')).toBe(true);
+    // The split halves sit right beside their former hosts in rail order.
+    expect(HOT_NEWS_CATEGORIES.indexOf('health')).toBe(HOT_NEWS_CATEGORIES.indexOf('welfare') + 1);
+    expect(HOT_NEWS_CATEGORIES.indexOf('conflict')).toBe(HOT_NEWS_CATEGORIES.indexOf('security') + 1);
   });
 
-  it('classifies the absorbed categories into their new homes', () => {
-    expect(classifyNews('Hospital reports measles outbreak, vaccine drive begins')).toBe('welfare');
-    expect(classifyNews('Missile strike breaks ceasefire as troops advance')).toBe('security');
+  it('classifies the split categories into their own homes', () => {
+    expect(classifyNews('Hospital reports measles outbreak, vaccine drive begins')).toBe('health');
+    expect(classifyNews('Pension reform passes as welfare budget grows')).toBe('welfare');
+    expect(classifyNews('Missile strike breaks ceasefire as troops advance')).toBe('conflict');
+    expect(classifyNews('Sanctions target espionage ring, defense ministry says')).toBe('security');
+    expect(classifyNews('백신 접종 시작, 병원 감염 확산 우려')).toBe('health');
+    expect(classifyNews('국민연금 개편안 복지 예산 확대')).toBe('welfare');
+    expect(classifyNews('미사일 공습으로 휴전 깨져, 반군 전선 확대')).toBe('conflict');
+    expect(classifyNews('국방부, 사이버 공격 대응 안보 강화')).toBe('security');
     expect(classifyNews('Supreme court verdict overturns lower ruling')).toBe('law');
     expect(classifyNews('대학 입시 개편안 발표')).toBe('education');
     // M3.2: the unmatched fallback is the broadest REAL axis now, so no

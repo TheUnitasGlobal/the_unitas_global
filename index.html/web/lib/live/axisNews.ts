@@ -54,8 +54,11 @@ export const AXIS_NEWS_QUERY: Record<HotNewsCategory, string[]> = {
   law: ['court', 'lawsuit', 'verdict', '"supreme court"', 'ruling', 'prosecutor', 'trial'],
   institution: ['"United Nations"', '"European Union"', 'IMF', '"World Bank"', 'regulator', 'ministry', 'reform'],
   education: ['university', 'school', 'students', 'education', 'scholarship', 'teachers'],
-  welfare: ['hospital', 'vaccine', 'healthcare', 'pension', 'welfare', 'insurance', '"public health"'],
-  security: ['military', 'missile', 'ceasefire', 'cyberattack', 'defense', 'terrorism', 'sanctions'],
+  // REV-29 M2.2: the fused pairs are split -- one theme per title box.
+  welfare: ['welfare', 'pension', 'insurance', '"social security"', 'poverty', 'benefits', '"aging society"'],
+  health: ['hospital', 'vaccine', 'healthcare', '"public health"', 'outbreak', 'disease', 'WHO'],
+  security: ['military', 'cyberattack', 'defense', 'terrorism', 'sanctions', 'espionage', '"national security"'],
+  conflict: ['war', 'missile', 'ceasefire', 'airstrike', 'troops', 'invasion', 'hostage'],
   strategy: ['strategy', 'alliance', 'diplomacy', 'treaty', 'negotiation', 'geopolitics', 'summit'],
   disaster: ['earthquake', 'typhoon', 'hurricane', 'wildfire', 'flood', 'tsunami', 'eruption'],
 };
@@ -122,7 +125,8 @@ export const GOOGLE_NEWS_TOPIC: Partial<Record<HotNewsCategory, string>> = {
   sports: 'SPORTS',
   culture: 'ENTERTAINMENT',
   art: 'ENTERTAINMENT',
-  welfare: 'HEALTH',
+  health: 'HEALTH',
+  conflict: 'WORLD',
 };
 
 /**

@@ -12,8 +12,10 @@ interface ModalProps {
   children: ReactNode;
   labelledBy?: string;
   /** Widen the panel for feature-dense dialogs (wallet/charge) or long-form
-   *  encyclopedic content ('xl' -- ranking detail popups). Default: 'md'. */
-  size?: 'md' | 'lg' | 'xl';
+   *  encyclopedic content ('xl' -- ranking detail popups). 'hub' (REV-29
+   *  M4) is the UNITAS master hub: a centred surface that commands the
+   *  viewport. Default: 'md'. */
+  size?: 'md' | 'lg' | 'xl' | 'hub';
   /** Owner instruction 2026-09-05 (round 5): the exit/logout confirm already
    *  has explicit Cancel/Confirm actions plus backdrop-click-to-close, so its
    *  corner 'X' was pure redundant clutter competing with the title for
@@ -118,8 +120,9 @@ export function Modal({
             >
               <motion.div
                 className={`glow-box relative w-full ${
-                  size === 'xl' ? 'max-w-2xl' : size === 'lg' ? 'max-w-lg' : 'max-w-md'
+                  size === 'hub' ? 'max-w-5xl' : size === 'xl' ? 'max-w-2xl' : size === 'lg' ? 'max-w-lg' : 'max-w-md'
                 } bg-quantum p-6 sm:p-8`}
+                data-modal-size={size}
                 initial={{ opacity: 0, scale: 0.95, y: 12 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 12 }}

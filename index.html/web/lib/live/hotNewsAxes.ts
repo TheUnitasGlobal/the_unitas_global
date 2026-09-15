@@ -16,7 +16,9 @@ import {
   Landmark,
   GraduationCap,
   HeartHandshake,
+  HeartPulse,
   ShieldCheck,
+  Swords,
   Target,
   CloudLightning,
   type LucideIcon,
@@ -24,7 +26,8 @@ import {
 import { HOT_NEWS_CATEGORIES, type HotNewsCategory } from './hotNews';
 
 /**
- * Client-side presentation metadata for the 20 news filter axes -- icon +
+ * Client-side presentation metadata for the 22 news filter axes (REV-29
+ * M2.2 split 복지·보건 and 안보·분쟁 into one theme per box) -- icon +
  * colour per chip so the filter row reads exactly like the two ranking
  * carousels above it (icon 18px + bold uppercase label, owner instruction
  * 2026-09-04 round 6). The 16 doctrine axes reuse the very same icons and
@@ -58,7 +61,9 @@ const META: Record<HotNewsCategory, { icon: LucideIcon; color: string }> = {
   institution: { icon: Landmark, color: '#f59e0b' },
   education: { icon: GraduationCap, color: '#f43f5e' },
   welfare: { icon: HeartHandshake, color: '#10b981' },
+  health: { icon: HeartPulse, color: '#14b8a6' },
   security: { icon: ShieldCheck, color: '#a855f7' },
+  conflict: { icon: Swords, color: '#b91c1c' },
   strategy: { icon: Target, color: '#f97316' },
   disaster: { icon: CloudLightning, color: '#ef4444' },
 };

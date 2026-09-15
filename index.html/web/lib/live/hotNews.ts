@@ -11,9 +11,11 @@ import { stripControl } from '@/lib/uai/webSynthesisCore';
  * 9 world categories fused with the founder's 16 "지성 문명 및 사회 거버넌스"
  * management axes (CLAUDE.md §3.3: 언어·문화·사회·구조·예술·표현·실용·경제·
  * 공학·기술·법·제도·교육·복지·안보·전략). Overlapping meanings were absorbed
- * rather than duplicated: `culture`/`economy` already existed, `health`
- * folded into `welfare` (복지·보건) and `conflict` into `security` (안보·분쟁).
- * Order here is the carousel order under the pinned "전체" chip.
+ * rather than duplicated: `culture`/`economy` already existed. REV-29 M2.2
+ * (founder directive 2026-09-15): the two fused pairs are SPLIT again --
+ * `health` (보건) stands beside `welfare` (복지) and `conflict` (분쟁) beside
+ * `security` (안보) -- so every title box carries exactly ONE theme. 22 axes.
+ * Order here is the rail order (REV-23 M3.2 retired the pinned "전체" chip).
  */
 export type HotNewsCategory =
   | 'politics'
@@ -33,7 +35,9 @@ export type HotNewsCategory =
   | 'institution'
   | 'education'
   | 'welfare'
+  | 'health'
   | 'security'
+  | 'conflict'
   | 'strategy'
   | 'disaster';
 
@@ -114,7 +118,9 @@ export const HOT_NEWS_CATEGORIES: HotNewsCategory[] = [
   'institution',
   'education',
   'welfare',
+  'health',
   'security',
+  'conflict',
   'strategy',
   'disaster',
 ];
@@ -144,7 +150,9 @@ export const AXIS_QID: Record<HotNewsCategory, string> = {
   institution: 'Q178706', // institution
   education: 'Q8434', // education
   welfare: 'Q12002092', // welfare spending (복지)
+  health: 'Q12147', // health (보건)
   security: 'Q2526135', // security
+  conflict: 'Q350604', // armed conflict (분쟁)
   strategy: 'Q185451', // strategy
   disaster: 'Q3839081', // disaster
 };
@@ -166,8 +174,15 @@ const MAX_TRENDING = 8;
 const CATEGORY_RULES: Array<[HotNewsCategory, RegExp]> = [
   ['sports', /\b(olympic|world cup|championship|tournament|league|grand prix|final|match|football|soccer|tennis|golf|basketball|baseball|cricket|rugby|marathon|medal|f1|nba|nfl|mlb|uefa|fifa)\b|올림픽|월드컵|선수권|리그|축구|야구|농구|테니스|골프|경기|대회|우승|オリンピック|サッカー|野球|選手権|奥运|世界杯|联赛|足球|fútbol|campeonato|championnat|meisterschaft|чемпионат/i],
   ['disaster', /\b(earthquake|hurricane|typhoon|cyclone|flood|wildfire|tsunami|volcano|eruption|landslide|storm|tornado|heatwave|drought|crash|derail|collapse)\b|지진|태풍|홍수|산불|쓰나미|화산|폭우|폭염|추락|붕괴|地震|台風|洪水|噴火|台风|terremoto|huracán|inundaci|séisme|inondation|erdbeben|землетрясение|наводнение/i],
-  ['security', /\b(war|missile|strike|troops|military|attack|invasion|ceasefire|offensive|killed|bombing|airstrike|army|rebels|hostage|cyberattack|espionage|terror(ism|ist)?|sanctions|defen[cs]e ministry|nuclear weapon)\b|전쟁|미사일|공습|휴전|공격|침공|안보|국방|테러|사이버 공격|戦争|攻撃|安全保障|军事|战争|袭击|安全|guerra|ataque|guerre|attaque|krieg|angriff|война|удар|безопасност/i],
-  ['welfare', /\b(outbreak|virus|vaccine|pandemic|epidemic|who\b|disease|cholera|ebola|measles|covid|hospital|health(care)?|pension|welfare|insurance|aging society|poverty|homeless)\b|감염|바이러스|백신|질병|보건|의료|복지|연금|빈곤|ウイルス|ワクチン|感染|福祉|年金|病毒|疫苗|疫情|福利|养老|vacuna|salud|bienestar|vaccin|santé|impfstoff|gesundheit|wohlfahrt|вирус|вакцин|здравоохранен/i],
+  // REV-29 M2.2: the fused pairs are split. `conflict` (open hostilities)
+  // is tested before `security` (the apparatus: defence, intelligence,
+  // sanctions, terror), and `health` (illness, care, medicine) before
+  // `welfare` (pensions, insurance, poverty, benefits) -- so the sharper
+  // theme wins when a story straddles both.
+  ['conflict', /\b(war|missile|troops|attack|invasion|ceasefire|truce|offensive|killed|bombing|airstrike|shelling|army|rebels|hostage|frontline|drone strike|militants|insurgents|artillery)\b|전쟁|미사일|공습|휴전|침공|교전|포격|인질|반군|전선|무장세력|戦争|攻撃|侵攻|停戦|ミサイル|空爆|战争|袭击|入侵|停火|导弹|空袭|guerra|ataque|invasión|alto el fuego|misil|guerre|attaque|invasion|cessez-le-feu|missile|krieg|angriff|waffenruhe|rakete|война|удар|вторжени|перемири|ракет/i],
+  ['security', /\b(military|defen[cs]e ministry|cyberattack|cybersecurity|espionage|spy|terror(ism|ist)?|sanctions|nuclear weapon|national security|intelligence agency|border security|arms deal|navy|air force|deterrent|surveillance)\b|안보|국방|테러|사이버 공격|간첩|제재|핵무기|군사|정보기관|安全保障|防衛|テロ|サイバー攻撃|制裁|軍事|国防|恐怖|网络攻击|制裁|军事|seguridad|defensa|terror|sanciones|militar|sécurité|défense|sanctions|militaire|sicherheit|verteidigung|sanktionen|militär|безопасност|оборон|террор|санкци|военн/i],
+  ['health', /\b(outbreak|virus|vaccine|pandemic|epidemic|who\b|disease|cholera|ebola|measles|covid|hospital|health(care)?|clinic|patients?|surgeon|cancer|obesity|mental health|drug approval|dengue|malaria|flu)\b|감염|바이러스|백신|질병|보건|의료|병원|환자|암 |정신건강|독감|ウイルス|ワクチン|感染|病院|医療|保健|病毒|疫苗|疫情|医院|医疗|卫生|vacuna|salud|hospital|vaccin|santé|hôpital|impfstoff|gesundheit|krankenhaus|вирус|вакцин|здравоохранен|больниц/i],
+  ['welfare', /\b(pension|welfare|insurance|aging society|poverty|homeless|social security|benefits|childcare|elderly care|minimum wage|subsidy|food bank|disability)\b|복지|연금|빈곤|노숙|보험|저출산|고령화|양육|최저임금|보조금|장애인|福祉|年金|貧困|保険|介護|補助金|福利|养老|贫困|保险|补贴|低保|bienestar|pensión|pobreza|subsidio|bien-être|retraite|pauvreté|allocation|aide sociale|wohlfahrt|rente|armut|sozialhilfe|zuschuss|пенси|бедност|соцзащит|пособи/i],
   ['law', /\b(court|lawsuit|verdict|supreme court|ruling|prosecutor|trial|indict(ed|ment)?|sentenced|judge|appeal|convicted|acquitted|constitution(al)?|antitrust)\b|법원|재판|판결|소송|검찰|기소|대법원|헌법|裁判|判決|訴訟|検察|法院|判决|诉讼|检察|tribunal|sentencia|demanda|procès|verdict|gericht|urteil|суд|приговор/i],
   ['politics', /\b(election|president|prime minister|parliament|senate|congress|minister|vote|referendum|coalition|cabinet|governor|impeach|legislat|party|chancellor|king|queen|coronation|sworn in|inaugurat)\b|선거|대통령|총리|국회|의회|장관|투표|정당|탄핵|국왕|즉위|왕위|選挙|大統領|首相|国会|議会|国王|即位|选举|总统|议会|elección|presidente|parlamento|élection|président|parlement|wahl|präsident|kanzler|выборы|президент|парламент/i],
   ['economy', /\b(economy|economic|market|stocks?|shares|inflation|interest rate|central bank|fed\b|tariff|trade|gdp|bank|bankrupt|merger|acquisition|ipo|bitcoin|crypto|currency|oil price|recession)\b|경제|증시|주가|금리|물가|중앙은행|관세|무역|은행|파산|인수|합병|비트코인|経済|株価|金利|関税|经济|股市|利率|关税|economía|mercado|inflación|économie|marché|inflation|wirtschaft|börse|экономик|рынок|инфляц/i],

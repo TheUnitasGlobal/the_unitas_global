@@ -270,6 +270,19 @@ html[data-unitas-surface='quantum-white'] #omni-synapse-search[data-typing='1'] 
   box-shadow: 0 0 0 2px rgba(11, 92, 255, 0.16);
   animation: none;
 }
+/* REV-29 M5.3 / M4: an armed attach toggle (a shortcut picked) and an open
+   UNITAS hub tile wear the ⏎ key's own armed fill -- ONE active grammar
+   across the action group. */
+html[data-unitas-surface='quantum-white'] #omni-synapse-search .qw-attach-toggle[data-active='1'] {
+  color: #fff;
+  background-color: var(--qw-blue);
+  border-color: transparent;
+  box-shadow: 0 0 0 2px rgba(11, 92, 255, 0.16);
+}
+html[data-unitas-surface='quantum-white'] .qw-attach-item[data-active='1'] {
+  background: rgba(11, 92, 255, 0.1);
+  color: var(--qw-blue-deep);
+}
 
 /* --------------------------------------------------------------------------
    15. Footer glass (SPEC §5) -- components/layout/Footer.tsx

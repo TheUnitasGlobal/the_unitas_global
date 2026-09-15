@@ -1646,16 +1646,23 @@
       "law": "Pháp luật",
       "institution": "Thể chế",
       "education": "Giáo dục",
-      "welfare": "Phúc lợi · Y tế",
-      "security": "An ninh · Xung đột",
+      "welfare": "Phúc lợi",
+      "security": "An ninh",
       "strategy": "Chiến lược",
-      "disaster": "Thảm họa"
+      "disaster": "Thảm họa",
+      "health": "Y tế",
+      "conflict": "Xung đột"
     },
     "live": "Dòng tin trực tiếp",
     "loadMore": "Tải thêm {axis}",
     "axisLoading": "Đang gọi dòng tin trực tiếp toàn cầu cho {axis}…",
     "axisEmpty": "Hiện không thể lấy dòng tin trực tiếp của trục này — vui lòng thử lại sau.",
-    "endOfFeed": "Hết kho lưu trữ hai tuần — làm mới để tin mới nhất chảy lại."
+    "endOfFeed": "Hết kho lưu trữ hai tuần — làm mới để tin mới nhất chảy lại.",
+    "openOriginal": "Đọc bài gốc",
+    "storyCount": "{count} tin",
+    "axisTag": "Tin {axis} toàn cầu và trong nước — chạm để mở chi tiết",
+    "detailAria": "Mở {title}",
+    "allStories": "Tất cả tin {axis} — thế giới trước, rồi đến nước bạn"
   },
   "Weather": {
     "myLocation": "Vị trí của tôi",
@@ -2355,6 +2362,10 @@
         "nearbyTitle": "Bài viết gần nhất",
         "nearbyDist": "Khoảng cách",
         "nearbyCount": "Bài viết lân cận"
+      },
+      "newProducts": {
+        "title": "Sản phẩm mới",
+        "tag": "Xe hơi, điện thoại, phương tiện, thiết bị và game thế giới vừa ra mắt"
       }
     }
   },
@@ -2668,6 +2679,158 @@
         "pritzker": "Giải Pritzker",
         "ballonDor": "Quả bóng vàng",
         "timePerson": "Nhân vật của năm của Time"
+      }
+    }
+  },
+  "Rev29": {
+    "hub": {
+      "title": "Trung tâm UNITAS",
+      "lede": "Mua bán tri thức, xem shorts, leo bảng xếp hạng, trò chuyện theo chủ đề và chia sẻ UNITAS với thế giới.",
+      "toggleAria": "Mở trung tâm UNITAS — sàn tri thức, shorts, xếp hạng, phòng chat, mạng xã hội",
+      "tabs": {
+        "exchange": "Sàn tri thức",
+        "shorts": "UNITAS Shorts",
+        "rankings": "Xếp hạng UNITAS",
+        "rooms": "Phòng chat theo chủ đề",
+        "social": "Mạng xã hội"
+      },
+      "live": "Trực tiếp",
+      "localOnly": "Chỉ thiết bị này — không có kết nối trực tiếp",
+      "online": "{count} đang trực tuyến"
+    },
+    "exchange": {
+      "lede": "Mua gói tri thức do nhà sáng tạo đăng bằng tín dụng và đăng gói của bạn để chia sẻ doanh thu.",
+      "credits": "tín dụng beta",
+      "wallet": "U-COIN",
+      "creditsNote": "Tín dụng beta lưu trên thiết bị này · Thanh toán U-COIN sẽ mở cùng liên kết sổ cái.",
+      "all": "Tất cả",
+      "sort": {
+        "trending": "Thịnh hành",
+        "newest": "Mới nhất",
+        "price": "Giá"
+      },
+      "kind": {
+        "ladder": "Thang",
+        "playbook": "Cẩm nang",
+        "dataset": "Bộ dữ liệu",
+        "prompt": "Bộ prompt"
+      },
+      "tier": {
+        "seed": "Hạt giống",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
+      "buy": "Mua",
+      "owned": "Đã sở hữu",
+      "insufficient": "Không đủ tín dụng",
+      "sales": "Đã bán {count}",
+      "rating": "★ {rating}",
+      "by": "@{handle}",
+      "split": "Chia doanh thu · nhà sáng tạo {creator}% / UNITAS {platform}%",
+      "listTitle": "Đăng tri thức của bạn",
+      "form": {
+        "title": "Tiêu đề",
+        "theme": "Chủ đề",
+        "price": "Giá (tín dụng)",
+        "summary": "Tóm tắt một dòng",
+        "submit": "Đăng",
+        "errTitle": "Tiêu đề: 3–60 ký tự",
+        "errPrice": "Giá: số nguyên từ 10 đến 5.000 tín dụng",
+        "errSummary": "Tóm tắt: tối đa 200 ký tự"
+      },
+      "myListings": "Gói của tôi",
+      "status": {
+        "review": "Đang xét duyệt",
+        "live": "Đang bán"
+      },
+      "projected": "Doanh thu dự kiến (mô phỏng)",
+      "projectedSales": "{count} lượt bán dự kiến",
+      "board": "Nhà sáng tạo hàng đầu",
+      "ticker": "Giao dịch trực tiếp",
+      "tickerEmpty": "Chưa có giao dịch nào — hãy tạo giao dịch đầu tiên.",
+      "tickerRow": "{buyer} · {pack}",
+      "bought": "Đã mua — đã thêm vào thư viện",
+      "myPacks": "Thư viện của tôi"
+    },
+    "rooms": {
+      "lede": "22 phòng theo chủ đề — trò chuyện về những gì thế giới đang nói. Tin nhắn không qua máy chủ; thiết bị này lưu 60 tin gần nhất mỗi phòng.",
+      "placeholder": "Nhập tin nhắn và nhấn Enter…",
+      "send": "Gửi",
+      "you": "Bạn",
+      "empty": "Chưa có cuộc trò chuyện — hãy gửi lời chào đầu tiên.",
+      "welcome": "Chào mừng đến phòng {room}.",
+      "speakingAs": "Đang nói với tên {name}",
+      "roomAria": "Phòng chat {room}"
+    },
+    "social": {
+      "lede": "Đi thẳng đến các ứng dụng mạng xã hội và thư của thế giới, và chia sẻ UNITAS chỉ một chạm.",
+      "apps": "Lối tắt",
+      "mail": "Webmail",
+      "share": "Chia sẻ UNITAS",
+      "shareText": "UNITAS — mạng SaaS chủ quyền. Hỏi U-AI bất cứ điều gì.",
+      "copy": "Sao chép liên kết",
+      "copied": "Đã sao chép",
+      "native": "Chia sẻ…"
+    },
+    "attach": {
+      "file": "Đính kèm tệp",
+      "video": "Đính kèm video",
+      "sketch": "Đính kèm phác thảo"
+    },
+    "newProducts": {
+      "families": {
+        "cars": "Xe hơi",
+        "phones": "Điện thoại",
+        "mobility": "Phương tiện",
+        "gadgets": "Thiết bị",
+        "games": "Game"
+      },
+      "facts": {
+        "count": "Mới"
+      }
+    },
+    "shorts": {
+      "filterAll": "Tất cả chủ đề",
+      "label": "UNITAS Shorts",
+      "lede": "Những khoảnh khắc dọc từ mạng lưới — hạt giống của U-Messenger.",
+      "views": "{count} lượt xem",
+      "like": "Thích",
+      "liked": "Đã thích",
+      "follow": "Theo dõi",
+      "following": "Đang theo dõi",
+      "upload": "Tải lên",
+      "uploadSoon": "Tính năng tải lên mở cùng bản beta U-Messenger",
+      "seedNote": "Clip khởi tạo hiển thị làm bản xem trước · nội dung tải lên thật sẽ đến cùng bản beta U-Messenger",
+      "share": "Chia sẻ đến U-Messenger",
+      "shareHint": "Liên kết chia sẻ sẽ đưa clip này thẳng vào một cuộc trò chuyện U-Messenger ngay khi bản beta mở.",
+      "openAria": "Mở video ngắn {title}",
+      "creator": "Người sáng tạo",
+      "duration": "{seconds} giây",
+      "followers": "{count} người theo dõi",
+      "pass": {
+        "eyebrow": "Truy cập sớm cho nhà sáng tạo",
+        "cta": "Nhận truy cập sớm",
+        "title": "Thẻ nhà sáng tạo của bạn",
+        "lede": "Tính năng tải lên sẽ mở cùng bản beta của U-Messenger. Đặt thẻ ngay hôm nay và tên của bạn sẽ đứng đầu hàng ngay khoảnh khắc cánh cửa studio mở ra.",
+        "handleLabel": "Tên nhà sáng tạo",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 ký tự: a–z, 0–9, dấu chấm, gạch ngang, gạch dưới",
+        "reserve": "Đặt thẻ của tôi",
+        "reserved": "Đã đặt thẻ",
+        "reservedAt": "Đã đặt lúc {time}",
+        "serial": "Thẻ {serial}",
+        "currentWave": "Đang nhận đặt thẻ",
+        "wave1": "Đợt 1 · Nhà sáng tạo sáng lập",
+        "wave2": "Đợt 2 · Công cụ studio",
+        "wave3": "Đợt 3 · Mở toàn cầu",
+        "perks": {
+          "p1": "Suất tải lên ưu tiên trong ngày khai mở",
+          "p2": "Huy hiệu nhà sáng tạo sáng lập trên hồ sơ của bạn",
+          "p3": "Chia sẻ thẳng vào các cuộc trò chuyện U-Messenger"
+        },
+        "signedIn": "Đã liên kết với tài khoản của bạn",
+        "guest": "Đăng nhập để thẻ này cũng được liên kết với tài khoản của bạn.",
+        "honest": "Thẻ được lưu trên thiết bị này và, khi bạn đã đăng nhập, cả trên tài khoản của bạn. Chưa có video nào được tải lên hay lưu trữ."
       }
     }
   }

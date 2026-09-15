@@ -1646,16 +1646,23 @@
       "law": "Batas",
       "institution": "Institusyon",
       "education": "Edukasyon",
-      "welfare": "Kapakanan · Kalusugan",
-      "security": "Seguridad · Sigalot",
+      "welfare": "Kapakanan",
+      "security": "Seguridad",
       "strategy": "Estratehiya",
-      "disaster": "Sakuna"
+      "disaster": "Sakuna",
+      "health": "Kalusugan",
+      "conflict": "Sigalot"
     },
     "live": "Live wire",
     "loadMore": "Mag-load pa ng {axis}",
     "axisLoading": "Tinatawag ang pandaigdigang live wire para sa {axis}…",
     "axisEmpty": "Hindi maabot ngayon ang live wire ng axis na ito — subukan muli maya-maya.",
-    "endOfFeed": "Dulo ng dalawang-linggong archive — i-refresh para dumaloy muli ang pinakabagong balita."
+    "endOfFeed": "Dulo ng dalawang-linggong archive — i-refresh para dumaloy muli ang pinakabagong balita.",
+    "openOriginal": "Basahin ang orihinal",
+    "storyCount": "{count} balita",
+    "axisTag": "Mga {axis} headline sa mundo at sa bansa — i-tap ang balita para buksan",
+    "detailAria": "Buksan ang {title}",
+    "allStories": "Lahat ng {axis} na balita — mundo muna, saka ang bansa mo"
   },
   "Weather": {
     "myLocation": "Aking lokasyon",
@@ -2355,6 +2362,10 @@
         "nearbyTitle": "Pinakamalapit na Artikulo",
         "nearbyDist": "Distansya",
         "nearbyCount": "Mga Kalapit na Artikulo"
+      },
+      "newProducts": {
+        "title": "Bagong produkto",
+        "tag": "Mga kotse, telepono, mobility, gadget at laro na kalalabas lang sa mundo"
       }
     }
   },
@@ -2668,6 +2679,158 @@
         "pritzker": "Gantimpalang Pritzker",
         "ballonDor": "Ballon d’Or",
         "timePerson": "Time Person of the Year"
+      }
+    }
+  },
+  "Rev29": {
+    "hub": {
+      "title": "UNITAS Hub",
+      "lede": "Magpalitan ng kaalaman, manood ng shorts, umakyat sa ranking, mag-usap ayon sa tema, at ibahagi ang UNITAS sa mundo.",
+      "toggleAria": "Buksan ang UNITAS hub — palitan ng kaalaman, shorts, ranking, chat room, social",
+      "tabs": {
+        "exchange": "Palitan ng kaalaman",
+        "shorts": "UNITAS Shorts",
+        "rankings": "UNITAS Ranking",
+        "rooms": "Chat room ayon sa tema",
+        "social": "Social media"
+      },
+      "live": "Live",
+      "localOnly": "Ang device na ito lang — walang live link",
+      "online": "{count} online"
+    },
+    "exchange": {
+      "lede": "Bumili ng knowledge pack ng mga creator gamit ang credits, at ilista ang sa iyo para hatiin ang kita.",
+      "credits": "beta credits",
+      "wallet": "U-COIN",
+      "creditsNote": "Nasa device na ito ang beta credits · Bubukas ang U-COIN settlement kasama ang ledger link.",
+      "all": "Lahat",
+      "sort": {
+        "trending": "Trending",
+        "newest": "Pinakabago",
+        "price": "Presyo"
+      },
+      "kind": {
+        "ladder": "Hagdan",
+        "playbook": "Playbook",
+        "dataset": "Dataset",
+        "prompt": "Prompt kit"
+      },
+      "tier": {
+        "seed": "Seed",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
+      "buy": "Bilhin",
+      "owned": "Nabili na",
+      "insufficient": "Kulang ang credits",
+      "sales": "{count} nabenta",
+      "rating": "★ {rating}",
+      "by": "@{handle}",
+      "split": "Hati ng kita · creator {creator}% / UNITAS {platform}%",
+      "listTitle": "Ilista ang iyong kaalaman",
+      "form": {
+        "title": "Pamagat",
+        "theme": "Tema",
+        "price": "Presyo (credits)",
+        "summary": "Isang-linyang buod",
+        "submit": "Ilista",
+        "errTitle": "Pamagat: 3–60 na karakter",
+        "errPrice": "Presyo: buong numero mula 10 hanggang 5,000 credits",
+        "errSummary": "Buod: hanggang 200 na karakter"
+      },
+      "myListings": "Mga listing ko",
+      "status": {
+        "review": "Nire-review",
+        "live": "Live"
+      },
+      "projected": "Tinatayang kita (simulation)",
+      "projectedSales": "{count} tinatayang benta",
+      "board": "Nangungunang creator",
+      "ticker": "Live na trade",
+      "tickerEmpty": "Wala pang trade — gawin ang una.",
+      "tickerRow": "{buyer} · {pack}",
+      "bought": "Nabili — idinagdag sa library mo",
+      "myPacks": "Library ko"
+    },
+    "rooms": {
+      "lede": "22 theme room — pag-usapan ang mga paksang pinag-uusapan ng mundo ngayon. Hindi dumadaan sa server ang mga mensahe; itinatago ng device na ito ang huling 60 bawat room.",
+      "placeholder": "Mag-type ng mensahe at pindutin ang Enter…",
+      "send": "Ipadala",
+      "you": "Ikaw",
+      "empty": "Wala pang usapan — mag-iwan ng unang hello.",
+      "welcome": "Maligayang pagdating sa {room} room.",
+      "speakingAs": "Nagsasalita bilang {name}",
+      "roomAria": "{room} chat room"
+    },
+    "social": {
+      "lede": "Dumiretso sa mga social at mail app ng mundo, at ibahagi ang UNITAS sa isang tap.",
+      "apps": "Mga shortcut",
+      "mail": "Webmail",
+      "share": "Ibahagi ang UNITAS",
+      "shareText": "UNITAS — ang sovereign na SaaS network. Itanong ang kahit ano sa U-AI.",
+      "copy": "Kopyahin ang link",
+      "copied": "Nakopya",
+      "native": "Ibahagi…"
+    },
+    "attach": {
+      "file": "Ilakip ang file",
+      "video": "Ilakip ang video",
+      "sketch": "Ilakip ang sketch"
+    },
+    "newProducts": {
+      "families": {
+        "cars": "Kotse",
+        "phones": "Smartphone",
+        "mobility": "Mobility",
+        "gadgets": "Gadget",
+        "games": "Laro"
+      },
+      "facts": {
+        "count": "Bago"
+      }
+    },
+    "shorts": {
+      "filterAll": "Lahat ng tema",
+      "label": "UNITAS Shorts",
+      "lede": "Mga vertical na sandali mula sa network — ang binhi ng U-Messenger.",
+      "views": "{count} views",
+      "like": "I-like",
+      "liked": "Na-like",
+      "follow": "Sundan",
+      "following": "Sinusundan",
+      "upload": "I-upload",
+      "uploadSoon": "Magbubukas ang pag-upload kasabay ng U-Messenger beta",
+      "seedNote": "Mga panimulang clip na ipinapakita bilang preview · darating ang tunay na mga upload kasabay ng U-Messenger beta",
+      "share": "I-share sa U-Messenger",
+      "shareHint": "Kapag nabuksan na ang beta, direktang ihahatid ng mga link ng pagbabahagi ang clip na ito sa isang thread ng U-Messenger.",
+      "openAria": "Buksan ang short na {title}",
+      "creator": "Creator",
+      "duration": "{seconds}s",
+      "followers": "{count} na tagasunod",
+      "pass": {
+        "eyebrow": "Early access para sa mga creator",
+        "cta": "Kumuha ng early access",
+        "title": "Ang iyong creator pass",
+        "lede": "Magbubukas ang pag-upload kasabay ng U-Messenger beta. I-reserve ang pass mo ngayon, at mauuna ang pangalan mo sa pila sa sandaling bumukas ang pinto ng studio.",
+        "handleLabel": "Creator handle",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 character: a–z, 0–9, tuldok, gitling, underscore",
+        "reserve": "I-reserve ang pass ko",
+        "reserved": "Na-reserve ang pass",
+        "reservedAt": "Na-reserve noong {time}",
+        "serial": "Pass {serial}",
+        "currentWave": "Bukas ang reservation",
+        "wave1": "Wave 1 · Founding creators",
+        "wave2": "Wave 2 · Mga studio tool",
+        "wave3": "Wave 3 · Bukas sa buong mundo",
+        "perks": {
+          "p1": "Priority upload slot sa araw ng pagbubukas",
+          "p2": "Founding creator badge sa iyong profile",
+          "p3": "Direktang share sa mga U-Messenger thread"
+        },
+        "signedIn": "Nakakabit sa iyong account",
+        "guest": "Mag-sign in at ikakabit din ang pass mo sa iyong account.",
+        "honest": "Nasa device na ito ang pass mo at, kapag naka-sign in, nasa account mo rin. Wala pang video na ina-upload o iniimbak."
       }
     }
   }

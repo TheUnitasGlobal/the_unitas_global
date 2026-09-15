@@ -88,7 +88,10 @@ test.describe('REV-23 M1 -- the funnel is sealed at the edge', () => {
 });
 
 test.describe('REV-23 M4 -- the hyper wordmark', () => {
-  test('the hero is a gradient-filled, rimmed mark on a glass plate, not black text', async ({ page }) => {
+  // REV-29 M5.1 (founder directive 2026-09-15) DESTROYED the glass plate:
+  // the mark is pure gradient text now. The gradient / rim / transparent-fill
+  // half of this contract stands; the plate half is inverted.
+  test('the hero is a gradient-filled, rimmed mark as pure text -- no plate (REV-29 M5.1)', async ({ page }) => {
     await founderHome(page);
     const word = page.locator('.qw-hero-wrap h1 .qw-title-word');
     await expect(word).toBeVisible();
@@ -110,9 +113,8 @@ test.describe('REV-23 M4 -- the hyper wordmark', () => {
     expect(paint.clip.split(',').map((v) => v.trim())).toContain('text');
     expect(paint.bgImage).toContain('gradient');
     expect(parseFloat(paint.stroke)).toBeGreaterThan(0);
-    // The glass plate exists and is rounded.
-    expect(paint.plateContent).not.toBe('none');
-    expect(parseFloat(paint.plateRadius)).toBeGreaterThan(0);
+    // REV-29 M5.1: the plate is gone -- the pseudo-element paints nothing.
+    expect(paint.plateContent).toBe('none');
   });
 
   test('REV-20 hero symmetry is untouched: |A - B| stays under 1.5px', async ({ page }) => {

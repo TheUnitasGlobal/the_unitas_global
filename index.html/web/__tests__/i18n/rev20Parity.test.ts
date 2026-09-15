@@ -28,10 +28,11 @@ describe('REV-20 i18n', () => {
   const en = flatten(load('en').Rev20, '', {});
   const enKeys = Object.keys(en).sort();
 
-  it('en carries the slots namespace: rail label, 13 slot titles/tags (weather + 12 feed themes), fact labels', () => {
-    expect(enKeys.length).toBe(74);
+  // REV-29 M3: +2 -- the `newProducts` slot's title and tag (74 -> 76).
+  it('en carries the slots namespace: rail label, 14 slot titles/tags (weather + 12 feed themes + newProducts), fact labels', () => {
+    expect(enKeys.length).toBe(76);
     expect(en['slots.railLabel']).toBeTruthy();
-    for (const k of ['weather', 'history', 'quake', 'mostRead', 'fx', 'crypto', 'devPulse', 'paper', 'library', 'art', 'air', 'nation', 'nearby']) {
+    for (const k of ['weather', 'history', 'quake', 'mostRead', 'fx', 'crypto', 'devPulse', 'paper', 'library', 'art', 'air', 'nation', 'nearby', 'newProducts']) {
       expect(en[`slots.${k}.title`]).toBeTruthy();
       expect(en[`slots.${k}.tag`]).toBeTruthy();
     }

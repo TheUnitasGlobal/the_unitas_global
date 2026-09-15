@@ -58,6 +58,14 @@ export interface ExploreDeeperProps {
    * §2.2 closed, reopened somewhere new.
    */
   bridge?: boolean;
+  /**
+   * REV-29 M2.4 (founder directive 2026-09-15): the DIRECT-ONLY block. No
+   * lens tiles, no bridge, no meanings -- the label, the subject and ONE row
+   * of direct shortcuts (Wikipedia · Wikidata · Google · Bing · ...). The
+   * live-news surfaces use it so the reader reaches the content by scrolling
+   * alone, with nothing to unfold.
+   */
+  directOnly?: boolean;
   className?: string;
 }
 
@@ -75,7 +83,7 @@ function useIsNarrow(): boolean {
   return narrow;
 }
 
-export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report = null, bridge = true, className = '' }: ExploreDeeperProps) {
+export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report = null, bridge = true, directOnly = false, className = '' }: ExploreDeeperProps) {
   const t = useTranslations('Rev21.deeper');
   const locale = useLocale();
   const ctx = useSlotContext();
@@ -107,7 +115,7 @@ export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report
   // resolves that term ONCE per device on the visitor's own-language
   // Wikipedia and hands back an entity anchor. A meaning the visitor chose
   // themselves still outranks it.
-  const { bridged, bridging } = useAnchorBridge(bridge ? anchor : null);
+  const { bridged, bridging } = useAnchorBridge(bridge && !directOnly ? anchor : null);
   const effective = chosen ?? bridged ?? anchor;
 
   // §3.1: a disambiguation page offers its top links as "which meaning?".
@@ -122,7 +130,7 @@ export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report
     return () => controller.abort();
   }, [anchor?.disambiguation, anchor?.localeTitle, chosen, lang]);
 
-  const themes = useMemo(() => themesFor(host, effective, report), [host, effective, report]);
+  const themes = useMemo(() => (directOnly ? [] : themesFor(host, effective, report)), [host, effective, report, directOnly]);
   const cap = maxThemes ?? (compact ? DEEPER_MAX_THEMES_COMPACT : narrow ? DEEPER_MAX_THEMES_MOBILE : DEEPER_MAX_THEMES_DESKTOP);
   const visible = showAll ? themes : themes.slice(0, cap);
   const hiddenCount = themes.length - visible.length;
@@ -175,6 +183,7 @@ export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report
       data-anchor-bridged={bridged && !chosen ? '' : undefined}
       data-anchor-bridging={bridging ? '' : undefined}
       data-host={host}
+      data-deeper-direct={directOnly ? '' : undefined}
       aria-labelledby={headingId}
     >
       <header className="qw-deeper-head mb-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
@@ -190,7 +199,7 @@ export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report
         )}
       </header>
 
-      {anchor?.disambiguation && !chosen && (
+      {!directOnly && anchor?.disambiguation && !chosen && (
         <div className="qw-deeper-meanings mb-3" data-deeper-meanings="">
           <p className="mb-1.5 text-[12px] text-gray-400">{t('chooseMeaning')}</p>
           <div className="flex flex-wrap gap-1.5">
@@ -211,7 +220,7 @@ export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report
         </div>
       )}
 
-      {themes.length > 0 ? (
+      {directOnly ? null : themes.length > 0 ? (
         <ul className={`qw-deeper-themes ${compact ? 'qw-deeper-themes--compact' : ''}`} role="list">
           {visible.map((th) => (
             <li key={th.key}>
@@ -260,6 +269,7 @@ export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report
         </p>
       )}
 
+      {!directOnly && (
       <p className="qw-deeper-sources mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-500">
         <span className="font-bold uppercase tracking-widest">{t('sourcesLabel')}</span>
         {effective?.qid && effective.localeTitle && (
@@ -286,10 +296,43 @@ export function ExploreDeeper({ anchor, host, compact = false, maxThemes, report
             </a>
           ))}
       </p>
+      )}
 
       {term && (
         <p className="qw-deeper-outbound mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-500" data-deeper-outbound="">
-          <span className="font-bold uppercase tracking-widest">{t('outboundLabel')}</span>
+          {/* REV-29 M2.4: the "다른 곳에서 열기" title is the SAME element as
+              "더 깊이 탐색" -- same class, same size, same colour, same icon
+              weight -- so the two rows read as one system. */}
+          <span className="qw-deeper-label inline-flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+            <ExternalLink size={13} aria-hidden="true" />
+            {t('outboundLabel')}
+          </span>
+          {directOnly && effective?.qid && effective.localeTitle && (
+            <a
+              href={`https://${lang}.wikipedia.org/wiki/${encodeURIComponent(effective.localeTitle.replace(/ /g, '_'))}`}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              data-deeper-source="wikipedia"
+              onMouseEnter={() => playHoverSfx()}
+              className="inline-flex items-center gap-1 font-semibold text-gray-300 hover:underline"
+            >
+              {sourceLabel('wikipedia', locale)}
+              <ExternalLink size={9} className="opacity-60" aria-hidden="true" />
+            </a>
+          )}
+          {directOnly && effective?.qid && (
+            <a
+              href={`https://www.wikidata.org/wiki/${effective.qid}`}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              data-deeper-source="wikidata"
+              onMouseEnter={() => playHoverSfx()}
+              className="inline-flex items-center gap-1 font-semibold text-gray-300 hover:underline"
+            >
+              {sourceLabel('wikidata', locale)}
+              <ExternalLink size={9} className="opacity-60" aria-hidden="true" />
+            </a>
+          )}
           {outbound.map((id) => {
             const s = sourceById(id);
             return (

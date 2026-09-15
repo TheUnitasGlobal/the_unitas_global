@@ -1646,16 +1646,23 @@
       "law": "Recht",
       "institution": "Instellingen",
       "education": "Onderwijs",
-      "welfare": "Welzijn · Gezondheid",
-      "security": "Veiligheid · Conflict",
+      "welfare": "Welzijn",
+      "security": "Veiligheid",
       "strategy": "Strategie",
-      "disaster": "Rampen"
+      "disaster": "Rampen",
+      "health": "Gezondheid",
+      "conflict": "Conflict"
     },
     "live": "Live-feed",
     "loadMore": "Meer laden: {axis}",
     "axisLoading": "Wereldwijde live-feed voor {axis} wordt opgehaald…",
     "axisEmpty": "De live-feed van deze as is nu niet bereikbaar — probeer het zo opnieuw.",
-    "endOfFeed": "Einde van het tweewekelijkse archief — vernieuw om het nieuwste nieuws weer te laten stromen."
+    "endOfFeed": "Einde van het tweewekelijkse archief — vernieuw om het nieuwste nieuws weer te laten stromen.",
+    "openOriginal": "Origineel lezen",
+    "storyCount": "{count} berichten",
+    "axisTag": "{axis}-koppen uit de wereld en van thuis — tik op een bericht om te openen",
+    "detailAria": "{title} openen",
+    "allStories": "Alle {axis}-berichten — eerst de wereld, dan je land"
   },
   "Weather": {
     "myLocation": "Mijn locatie",
@@ -2355,6 +2362,10 @@
         "nearbyTitle": "Dichtstbijzijnde artikel",
         "nearbyDist": "Afstand",
         "nearbyCount": "Artikelen in de buurt"
+      },
+      "newProducts": {
+        "title": "Nieuwe producten",
+        "tag": "Auto’s, telefoons, mobiliteit, gadgets en games die de wereld net uitbracht"
       }
     }
   },
@@ -2668,6 +2679,158 @@
         "pritzker": "Pritzkerprijs",
         "ballonDor": "Gouden Bal",
         "timePerson": "Time Persoon van het Jaar"
+      }
+    }
+  },
+  "Rev29": {
+    "hub": {
+      "title": "UNITAS-hub",
+      "lede": "Handel in kennis, bekijk shorts, klim in de ranglijsten, chat per thema en deel UNITAS met de wereld.",
+      "toggleAria": "Open de UNITAS-hub — kennisbeurs, shorts, ranglijsten, chatrooms, social",
+      "tabs": {
+        "exchange": "Kennisbeurs",
+        "shorts": "UNITAS Shorts",
+        "rankings": "UNITAS-ranglijsten",
+        "rooms": "Themachatrooms",
+        "social": "Sociale media"
+      },
+      "live": "Live",
+      "localOnly": "Alleen dit apparaat — geen live-verbinding",
+      "online": "{count} online"
+    },
+    "exchange": {
+      "lede": "Koop kennispakketten van makers met credits en plaats je eigen om de opbrengst te delen.",
+      "credits": "bètacredits",
+      "wallet": "U-COIN",
+      "creditsNote": "Bètacredits staan op dit apparaat · U-COIN-afrekening opent met de grootboekkoppeling.",
+      "all": "Alles",
+      "sort": {
+        "trending": "Trending",
+        "newest": "Nieuwste",
+        "price": "Prijs"
+      },
+      "kind": {
+        "ladder": "Ladder",
+        "playbook": "Playbook",
+        "dataset": "Dataset",
+        "prompt": "Promptkit"
+      },
+      "tier": {
+        "seed": "Seed",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
+      "buy": "Kopen",
+      "owned": "In bezit",
+      "insufficient": "Te weinig credits",
+      "sales": "{count} verkocht",
+      "rating": "★ {rating}",
+      "by": "@{handle}",
+      "split": "Verdeling · maker {creator}% / UNITAS {platform}%",
+      "listTitle": "Je kennis aanbieden",
+      "form": {
+        "title": "Titel",
+        "theme": "Thema",
+        "price": "Prijs (credits)",
+        "summary": "Samenvatting in één regel",
+        "submit": "Aanbieden",
+        "errTitle": "Titel: 3–60 tekens",
+        "errPrice": "Prijs: geheel getal van 10 tot 5.000 credits",
+        "errSummary": "Samenvatting: max. 200 tekens"
+      },
+      "myListings": "Mijn aanbiedingen",
+      "status": {
+        "review": "In beoordeling",
+        "live": "Live"
+      },
+      "projected": "Verwachte opbrengst (simulatie)",
+      "projectedSales": "{count} verwachte verkopen",
+      "board": "Topmakers",
+      "ticker": "Live-transacties",
+      "tickerEmpty": "Nog geen transacties — doe de eerste.",
+      "tickerRow": "{buyer} · {pack}",
+      "bought": "Gekocht — toegevoegd aan je bibliotheek",
+      "myPacks": "Mijn bibliotheek"
+    },
+    "rooms": {
+      "lede": "22 themakamers — praat over wat de wereld nu bespreekt. Berichten raken nooit een server; dit apparaat bewaart de laatste 60 per kamer.",
+      "placeholder": "Typ een bericht en druk op Enter…",
+      "send": "Verstuur",
+      "you": "Jij",
+      "empty": "Nog geen gesprek — laat de eerste groet achter.",
+      "welcome": "Welkom in de kamer {room}.",
+      "speakingAs": "Je spreekt als {name}",
+      "roomAria": "Chatroom {room}"
+    },
+    "social": {
+      "lede": "Ga direct naar de sociale en mail-apps van de wereld en deel UNITAS met één tik.",
+      "apps": "Snelkoppelingen",
+      "mail": "Webmail",
+      "share": "Deel UNITAS",
+      "shareText": "UNITAS — het soevereine SaaS-netwerk. Vraag U-AI alles.",
+      "copy": "Link kopiëren",
+      "copied": "Gekopieerd",
+      "native": "Delen…"
+    },
+    "attach": {
+      "file": "Bestand bijvoegen",
+      "video": "Video bijvoegen",
+      "sketch": "Schets bijvoegen"
+    },
+    "newProducts": {
+      "families": {
+        "cars": "Auto’s",
+        "phones": "Smartphones",
+        "mobility": "Mobiliteit",
+        "gadgets": "Gadgets",
+        "games": "Games"
+      },
+      "facts": {
+        "count": "Nieuw"
+      }
+    },
+    "shorts": {
+      "filterAll": "Alle thema’s",
+      "label": "UNITAS Shorts",
+      "lede": "Verticale momenten uit het netwerk — de kiem van U-Messenger.",
+      "views": "{count} weergaven",
+      "like": "Liken",
+      "liked": "Geliked",
+      "follow": "Volgen",
+      "following": "Volgend",
+      "upload": "Uploaden",
+      "uploadSoon": "Uploaden wordt geopend met de U-Messenger-bèta",
+      "seedNote": "Startclips getoond als voorbeeld · echte uploads komen met de U-Messenger-bèta",
+      "share": "Delen naar U-Messenger",
+      "shareHint": "Zodra de bèta opent, brengen deellinks deze clip direct naar een U-Messenger-gesprek.",
+      "openAria": "Open de short {title}",
+      "creator": "Maker",
+      "duration": "{seconds} s",
+      "followers": "{count} volgers",
+      "pass": {
+        "eyebrow": "Early access voor creators",
+        "cta": "Early access aanvragen",
+        "title": "Jouw creatorpas",
+        "lede": "Uploaden gaat open met de bèta van U-Messenger. Reserveer je pas nu en jouw naam staat vooraan zodra de studiodeuren opengaan.",
+        "handleLabel": "Creator-handle",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 tekens: a–z, 0–9, punt, streepje, underscore",
+        "reserve": "Mijn pas reserveren",
+        "reserved": "Pas gereserveerd",
+        "reservedAt": "Gereserveerd op {time}",
+        "serial": "Pas {serial}",
+        "currentWave": "Nu te reserveren",
+        "wave1": "Golf 1 · Founding creators",
+        "wave2": "Golf 2 · Studiotools",
+        "wave3": "Golf 3 · Wereldwijd open",
+        "perks": {
+          "p1": "Voorrang bij uploaden op de openingsdag",
+          "p2": "Founding-creatorbadge op je profiel",
+          "p3": "Direct delen in U-Messenger-gesprekken"
+        },
+        "signedIn": "Gekoppeld aan je account",
+        "guest": "Log in en je pas wordt ook aan je account gekoppeld.",
+        "honest": "Je pas staat op dit apparaat en, wanneer je bent ingelogd, ook op je account. Er wordt nog geen video geüpload of opgeslagen."
       }
     }
   }

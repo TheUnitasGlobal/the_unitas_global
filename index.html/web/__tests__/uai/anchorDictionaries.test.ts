@@ -33,11 +33,14 @@ describe('anchor dictionaries', () => {
     expect(rankingEntryQid('mountains', 11)).toBeUndefined();
   });
 
-  it('AXIS_QID covers all 21 news axes', () => {
+  it('AXIS_QID covers all 22 news axes', () => {
     expect(Object.keys(AXIS_QID).sort()).toEqual([...HOT_NEWS_CATEGORIES].sort());
     for (const key of HOT_NEWS_CATEGORIES) expect(AXIS_QID[key], key).toMatch(QID);
     expect(AXIS_QID.law).toBe('Q7748');
     expect(AXIS_QID.disaster).toBe('Q3839081');
+    // REV-29 M2.2: the split halves carry their own items.
+    expect(AXIS_QID.health).toBe('Q12147');
+    expect(AXIS_QID.conflict).toBe('Q350604');
   });
 
   it('every locale default place carries its city QID', () => {

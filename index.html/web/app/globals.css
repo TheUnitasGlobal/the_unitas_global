@@ -252,8 +252,28 @@ body {
    scope (app/quantum-white.css) can override it with its own crystal-glass
    ring instead of losing to inline-style specificity. This rule is the
    dark-route identity these values always were. */
+/* REV-29 M1.2: the focus glow is a touch finer and lighter than before --
+   clearly brighter than rest, never tiring (70px/0.28 -> 56px/0.22). */
 #omni-synapse-search[data-state='focus'] {
-  box-shadow: 0 0 70px rgba(212, 175, 55, 0.28);
+  box-shadow: 0 0 56px rgba(212, 175, 55, 0.22);
+}
+/* REV-29 M1.3: the magnifier is exactly 20% larger than the 16/20px it was. */
+.qw-search-glass {
+  width: 19.2px;
+  height: 19.2px;
+}
+@media (min-width: 640px) {
+  .qw-search-glass {
+    width: 24px;
+    height: 24px;
+  }
+}
+/* REV-29 M5.3 / M4 (dark route): an armed attach toggle and an open hub tile
+   wear one strong active fill. The white surface has its own in rev19.css. */
+#omni-synapse-search .qw-attach-toggle[data-active='1'] {
+  background-color: rgba(212, 175, 55, 0.18);
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 #omni-synapse-search[data-state='drag'] {
   box-shadow: 0 0 70px rgba(0, 255, 180, 0.3);
@@ -931,11 +951,59 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   animation: qw-attach-roll 7.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
 }
 .qw-attach-roll-icon {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 20px;
   height: 20px;
   flex: 0 0 20px;
-  padding: 1px;
+}
+/* REV-29 M5.2: the video glyph is optically lighter than the clip and the
+   pen at the same nominal size; scaled so the three read as one weight,
+   in the roll AND in the menu. */
+.qw-attach-roll-icon[data-icon='video'] svg,
+.qw-attach-item-icon[data-icon='video'] svg {
+  transform: scale(1.22);
+  transform-origin: center;
+}
+/* REV-29 M5.3: a picked shortcut STOPS the roll on its own icon; the toggle
+   above it arms. `--qw-roll-index` is the icon's position in the track. */
+.qw-attach-roll-track[data-stop='1'] {
+  animation: none !important;
+  transform: translateY(calc(var(--qw-roll-index, 0) * -20px));
+}
+/* REV-29 M4: the UNITAS tile's five-icon roll -- the same 2.4 s step and
+   the same easing as the attach roll, one loop of 12 s. */
+#omni-synapse-search:hover .qw-unitas-roll-track,
+#omni-synapse-search:focus-within .qw-unitas-roll-track,
+#omni-synapse-search[data-state='focus'] .qw-unitas-roll-track,
+#omni-synapse-search[data-state='drag'] .qw-unitas-roll-track {
+  animation: qw-unitas-roll 12s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+@keyframes qw-unitas-roll {
+  0%,
+  17% {
+    transform: translateY(0);
+  }
+  20%,
+  37% {
+    transform: translateY(-20px);
+  }
+  40%,
+  57% {
+    transform: translateY(-40px);
+  }
+  60%,
+  77% {
+    transform: translateY(-60px);
+  }
+  80%,
+  97% {
+    transform: translateY(-80px);
+  }
+  100% {
+    transform: translateY(-100px);
+  }
 }
 @keyframes qw-attach-roll {
   0%,
@@ -977,7 +1045,11 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   top: calc(100% + 8px);
   right: 0;
   z-index: 45;
+  /* REV-29 M5.2: the menu grows to its longest label so no locale ever wraps
+     a row; the viewport caps it. */
+  width: max-content;
   min-width: 200px;
+  max-width: calc(100vw - 32px);
   padding: 6px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
@@ -1019,34 +1091,33 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   background: rgba(255, 255, 255, 0.06);
   outline: none;
 }
+.qw-attach-item[data-active='1'] {
+  background: rgba(212, 175, 55, 0.14);
+  color: #fff;
+}
+.qw-attach-item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
+.qw-attach-item-label {
+  white-space: nowrap;
+}
 @media (prefers-reduced-motion: reduce) {
   .qw-attach-menu {
     animation: none;
   }
-}
-@media (prefers-reduced-motion: reduce), (hover: none) {
-  /* static stack: all three icons visible, no motion */
-  .qw-attach-roll {
-    width: 22px;
-    height: 22px;
-  }
+  /* REV-29 M5.3: no static 2x2 stack anywhere any more -- reduced motion
+     simply rests on the first icon (or the picked one), one at a time. */
   .qw-attach-roll-track {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 22px;
-    animation: none;
-    transform: none;
-  }
-  .qw-attach-roll-icon {
-    width: 11px;
-    height: 11px;
-    flex-basis: auto;
-    padding: 0;
-  }
-  .qw-attach-roll-icon:nth-child(4) {
-    display: none;
+    animation: none !important;
   }
 }
+/* REV-29 M5.3: the touch-device static stack is GONE -- phones roll one icon
+   at a time exactly like desktop (founder directive 2026-09-15). */
 /* REV-23 M5: the below-768px bottom sheet is GONE (founder directive
    2026-09-13). The dropdown above serves every width; on a narrow screen it
    simply right-aligns to the toggle and is capped by the search bar's own

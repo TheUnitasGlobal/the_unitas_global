@@ -24,11 +24,20 @@ import { sourceById } from '../../lib/uai/sourceRegistry';
 // REV-21 SPEC.md §1.3 -- the two REV-19 ranking widgets join as slots (24).
 
 describe('discovery slots registry', () => {
-  // REV-23 M3.1: 24 -> 16. The nine RSS news wires left the rail and the
-  // new `awards` theme joined it.
-  it('ships exactly 16 slots: weather + 13 feed (incl. awards) + 2 ranking', () => {
-    expect(DISCOVERY_SLOTS.length).toBe(16);
-    expect(DISCOVERY_ROTATION.length).toBe(16);
+  // REV-23 M3.1: 24 -> 16 (the nine RSS news wires out, `awards` in).
+  // REV-29 M3: 16 -> 17 -- the `newProducts` launch wire joins, second in
+  // the rotation right after the visitor's own sky.
+  it('ships exactly 17 slots: weather + 14 feed (incl. awards + newProducts) + 2 ranking', () => {
+    expect(DISCOVERY_SLOTS.length).toBe(17);
+    expect(DISCOVERY_ROTATION.length).toBe(17);
+  });
+
+  it('M3 (REV-29): the new-products theme is a feed slot in second position with a product anchor', () => {
+    const slot = findDiscoverySlot('newProducts');
+    expect(slot?.kind).toBe('feed');
+    expect(DISCOVERY_ROTATION[1]).toBe('newProducts');
+    expect(SLOT_QID.newProducts).toBe('Q2424752');
+    expect(SLOT_SOURCES.newProducts).toEqual(['wikipedia']);
   });
 
   it('every rotation key resolves to a registered slot with a matching key, no duplicates', () => {
@@ -66,8 +75,8 @@ describe('discovery slots registry', () => {
     expect(new Set(AWARD_KEYS).size).toBe(16);
   });
 
-  it('exactly 13 feed-kind slots (12 REV-20 themes + awards) and 2 ranking-kind slots', () => {
-    expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'feed').length).toBe(13);
+  it('exactly 14 feed-kind slots (12 REV-20 themes + awards + newProducts) and 2 ranking-kind slots', () => {
+    expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'feed').length).toBe(14);
     expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'ranking').map((s) => s.key)).toEqual(['worldRanking', 'unitasRanking']);
   });
 

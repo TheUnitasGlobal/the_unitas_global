@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { ChevronDown, ExternalLink, Flame, Loader2, Newspaper, Radio, RefreshCw, TrendingUp } from 'lucide-react';
 import {
@@ -11,22 +11,31 @@ import {
   type HotNewsResponse,
 } from '@/lib/live/hotNews';
 import { AXIS_QID } from '@/lib/live/hotNews';
-import { HOT_NEWS_AXES } from '@/lib/live/hotNewsAxes';
+import { HOT_NEWS_AXES, hotNewsAxisMeta } from '@/lib/live/hotNewsAxes';
+import { DISCOVERY_ROTATE_MS } from '@/lib/live/discoverySlots';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
-import { DraggableCarouselRow } from '@/components/ui/DraggableCarouselRow';
+import { Modal } from '@/components/ui/Modal';
+import { TwoStepTitle } from '@/components/uai/stream/StreamCards';
 import { useDragScroll } from '@/components/ui/useDragScroll';
+import { centeredScrollLeft } from '@/lib/interaction/railDrag';
 import { ExploreDeeper } from '@/components/home/ExploreDeeper';
-import { qidAnchor } from '@/lib/uai/deeperAnchor';
+import { qidAnchor, textAnchor } from '@/lib/uai/deeperAnchor';
 import { captureScroll, reserveHeight } from '@/lib/ui/scrollAnchor';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
 
-/** M3.3: axis auto-rotation cadence (ms). Deliberately slower than the
- *  shortcut rail's 7s -- a headline needs longer to read than a fact row. */
-const NEWS_ROTATE_MS = 9000;
+/** REV-29 M2.1: the news rail rotates on EXACTLY the shortcut rail's clock
+ *  -- one constant, one progress bar, one cadence for both surfaces. */
+const NEWS_ROTATE_MS = DISCOVERY_ROTATE_MS;
 
 /** Per-locale in-memory cache: a tab flick back and forth must not refetch. */
 const CLIENT_TTL_MS = 10 * 60 * 1000;
 const cache = new Map<string, { at: number; data: HotNewsResponse }>();
+
+/** Stories the rotating card shows before the visitor opens the popup. */
+const CARD_ITEMS = 4;
+
+/** Touch has no hover: a tap holds the rotation this long (REV-21 §1.4). */
+const TOUCH_PAUSE_MS = 700;
 
 /** One axis's accumulated live wire (every page loaded so far). */
 interface AxisFeed {
@@ -62,62 +71,70 @@ function relativeTime(iso: string | undefined, locale: string): string | null {
   }
 }
 
+/** Merge the day's featured board with the axis's live wire, de-duplicated. */
+function storiesOf(items: readonly HotNewsItem[], feed: AxisFeed, axis: HotNewsCategory): HotNewsItem[] {
+  const base = items.filter((it) => it.category === axis);
+  const seen = new Set(base.map((it) => normTitle(it.title)));
+  return [...base, ...feed.items.filter((it) => !seen.has(normTitle(it.title)))];
+}
+
 /**
- * "실시간 뉴스" -- a single-row auto-rotating, drag-scrollable carousel of
- * the 20 news axes (the world categories fused with the founder's 16
- * management axes, lib/live/hotNews.ts), using the same
- * DraggableCarouselRow + box/typo spec as the discovery rail above, so the
- * two read as one system. Selecting an axis keeps the Wikimedia featured
- * feed's own matches for it on top and then streams the worldwide live wire
- * beneath (GET /api/live/axis-news: the worldwide legs first, then the
- * locale's own), paged back through the archive endlessly via "더 불러오기".
- * 0원 throughout.
+ * "실시간 뉴스" -- REV-29 MISSION 2 (founder directive 2026-09-15): the news
+ * rail is now the SAME machine as the shortcut rail above it.
  *
- * REV-23 M3 (founder directive 2026-09-13):
- *  - M3.2, the pinned "전체" chip and the catch-all "세계실시간" axis are
- *    BOTH deleted. Their job was to pool everything in one box; the founder's
- *    instruction was that the individual themes absorb it, so an axis is
- *    always selected and every story reaches the visitor through the theme
- *    it belongs to. The "세계" prefix came off all twenty labels with them.
- *  - M3.1, this is now the ONLY news surface on the home screen: the nine
- *    RSS wires that used to ride the discovery rail above are gone from it.
- *  - M3.3, the axis rail auto-rotates like the shortcut rail and neither the
- *    rotation nor a refresh may move the viewport.
+ *  - M2.1 ROLLING: one `.qw-hub-chip` rail of the 22 axes, auto-rotating on
+ *    the shortcut rail's own clock (DISCOVERY_ROTATE_MS) with the identical
+ *    `.qw-hub-progress` border-colour fill on the active chip; hover / drag
+ *    / touch / a hidden tab / an open popup pause it, a tap pins it. The
+ *    story-count badges that used to sit in the chips are gone.
+ *  - M2.2 ONE THEME PER BOX: 복지·보건 and 안보·분쟁 are split into four
+ *    axes (lib/live/hotNews.ts) -- 20 -> 22.
+ *  - M2.3 ONE POPUP: the active axis renders as one `.qw-hub-card` whose
+ *    title opens (two-step, like every card) ONE main popup listing every
+ *    story vertically; a story -- on the card or in the popup -- opens its
+ *    own detail popup with the summary, the source and the direct shortcuts.
+ *    The horizontal rail of individual headline boxes is retired.
+ *  - M2.4 DIRECT ONLY: the collapsed "더 깊이 탐색 · <axis>" toggle is gone.
+ *    A direct-only Explore Deeper block (no lens tiles) sits in flow under
+ *    the card, in the main popup and in the story popup, so the reader
+ *    reaches everything by scrolling.
  *
- * REV-21 §1.2 / §1.4: the headline boxes are one horizontal snap rail with
- * mouse grab-drag (touch keeps native momentum) -- the same physics as the
- * discovery carousel's chip rail -- and the axis chips share the carousel's
- * `.qw-hub-chip` language so the two rows read as one system. A headline
- * click goes straight to the article (§1.4: news never opens a primary
- * popup); "더 불러오기" is the rail's last card.
+ * Codex ch.1 (한계 비용 0원): an unattended advance never spends a request --
+ * the clock walks the axes the day's featured board already covers; the
+ * worldwide live wire is fetched when the VISITOR pins an axis or opens its
+ * popup (a stated intent), and paged endlessly from there.
  */
 export function HotIssueNewsList() {
   const t = useTranslations('HotNews');
+  const tHub = useTranslations('Rev19.hub');
   const locale = useLocale();
+  const lang = wikiLangFor(locale);
   const { playHoverSfx } = useSpatialAudio();
-  const railRef = useRef<HTMLUListElement>(null);
-  const { handlers: railHandlers } = useDragScroll(railRef);
-  /** M3.3: the block whose height the rotation must not be allowed to
-   *  change under the reader, and the tallest payload it has held. */
+
+  const railRef = useRef<HTMLDivElement>(null);
+  const chipRefs = useRef<Map<HotNewsCategory, HTMLButtonElement>>(new Map());
   const boxRef = useRef<HTMLDivElement>(null);
+  const cardBoxRef = useRef<HTMLDivElement>(null);
   const [reserved, setReserved] = useState<number | null>(null);
-  /** M3.2/M3.3: the axis rail advances on its own like the shortcut rail --
-   *  paused while the pointer is over it, while a deeper block is open, and
-   *  while the tab is in the background. */
-  const [hovering, setHovering] = useState(false);
-  const [hidden, setHidden] = useState(false);
-  const [userPicked, setUserPicked] = useState(false);
+
   const [data, setData] = useState<HotNewsResponse | null>(() => cache.get(locale)?.data ?? null);
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
-  const [filter, setFilter] = useState<HotNewsCategory>(HOT_NEWS_AXES[0].key);
   const [reloadTick, setReloadTick] = useState(0);
   const [axisFeeds, setAxisFeeds] = useState<Record<string, AxisFeed>>({});
-  // REV-21 SPEC §12.2 newsRail host (D-19): a collapsed in-flow block under
-  // the rail, anchored on the active axis's Wikidata item. Collapsed by
-  // default (strip height preserved); toggling never touches history.
-  const [deeperOpen, setDeeperOpen] = useState(false);
-  const tDeeper = useTranslations('Rev21.deeper');
+
+  // Rotation state -- the same vocabulary as DiscoveryCarousel.
+  const [held, setHeld] = useState<HotNewsCategory | null>(null);
+  const [tick, setTick] = useState(0);
+  const [epoch, setEpoch] = useState(0);
+  const [hovering, setHovering] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [touchPaused, setTouchPaused] = useState(false);
+  const touchResumeRef = useRef<number | null>(null);
+  /** The axis whose main popup is open, and the story whose detail is open. */
+  const [deepAxis, setDeepAxis] = useState<HotNewsCategory | null>(null);
+  const [story, setStory] = useState<HotNewsItem | null>(null);
 
   useEffect(() => {
     const hit = cache.get(locale);
@@ -126,8 +143,6 @@ export function HotIssueNewsList() {
       return;
     }
     const controller = new AbortController();
-    // REV-21 §2.1: never show the previous locale's board while the new one
-    // loads -- a language switch must re-render that language's data.
     setData(hit?.data ?? null);
     setLoading(true);
     setFailed(false);
@@ -151,12 +166,6 @@ export function HotIssueNewsList() {
     return () => controller.abort();
   }, [locale, reloadTick]);
 
-  // M3.3: the axis rail rotates on its own, like the shortcut rail above.
-  // It stops for good the moment the visitor picks an axis -- an auto-swap
-  // under someone who has stated an intent is the other half of the
-  // "화면이 저절로 튀는" complaint, not just the scroll jump.
-  const rotationPaused = userPicked || hovering || hidden || deeperOpen;
-
   useEffect(() => {
     const onVisibility = () => setHidden(document.hidden);
     onVisibility();
@@ -164,13 +173,21 @@ export function HotIssueNewsList() {
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, []);
 
-  // Grow the height reservation after every commit so a thinner axis can
-  // never shrink the document under the reader.
-  useEffect(() => {
-    const box = boxRef.current;
-    if (!box) return;
-    setReserved((seen) => reserveHeight(seen, box.offsetHeight));
-  }, [filter, data, axisFeeds]);
+  const pauseForTouch = useCallback(() => {
+    setTouchPaused(true);
+    if (touchResumeRef.current !== null) window.clearTimeout(touchResumeRef.current);
+    touchResumeRef.current = window.setTimeout(() => {
+      touchResumeRef.current = null;
+      setTouchPaused(false);
+    }, TOUCH_PAUSE_MS);
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (touchResumeRef.current !== null) window.clearTimeout(touchResumeRef.current);
+    },
+    [],
+  );
 
   const items = useMemo(() => data?.items ?? [], [data]);
   const counts = useMemo(() => {
@@ -179,39 +196,50 @@ export function HotIssueNewsList() {
     return map;
   }, [items]);
 
-  /** The axes the day's featured board actually covers, in rail order. The
-   *  auto-rotation walks THESE, so every unattended advance is free. */
-  const covered = useMemo(
-    () => HOT_NEWS_AXES.filter((a) => (counts.get(a.key) ?? 0) > 0).map((a) => a.key),
-    [counts],
+  /** The axes the day's featured board covers, in rail order: what the
+   *  unattended clock walks, so every free advance has something to show. */
+  const covered = useMemo(() => HOT_NEWS_AXES.filter((a) => (counts.get(a.key) ?? 0) > 0).map((a) => a.key), [counts]);
+  const rotationOrder = useMemo<readonly HotNewsCategory[]>(
+    () => (covered.length >= 2 ? covered : HOT_NEWS_AXES.map((a) => a.key)),
+    [covered],
   );
+  const activeAxis: HotNewsCategory = held ?? rotationOrder[((tick % rotationOrder.length) + rotationOrder.length) % rotationOrder.length];
+  const activeMeta = hotNewsAxisMeta(activeAxis);
+  const axisLabel = t(`category.${activeAxis}`);
+
+  const rotationPaused = held !== null || deepAxis !== null || story !== null || hovering || dragging || touchPaused || hidden;
 
   useEffect(() => {
-    if (rotationPaused || covered.length < 2) return;
+    if (rotationPaused) return;
+    setEpoch((n) => n + 1);
     const id = window.setInterval(() => {
-      // Pin the viewport across the swap: the axis change re-renders the
-      // headline rail, whose height moves with the story count.
-      const snap = captureScroll(boxRef.current);
-      setFilter((current) => {
-        const i = covered.indexOf(current);
-        return covered[(i + 1 + covered.length) % covered.length];
-      });
+      const snap = captureScroll(cardBoxRef.current);
+      setTick((n) => n + 1);
       snap.restore();
     }, NEWS_ROTATE_MS);
     return () => window.clearInterval(id);
-  }, [rotationPaused, covered]);
+  }, [rotationPaused]);
 
-  // The board decides where the rail starts: the first axis it actually has
-  // stories for, so the opening frame is never an empty theme.
+  const { handlers: railHandlers, recentlyDragged } = useDragScroll(railRef, {
+    onDragStart: () => setDragging(true),
+    onDragEnd: () => setDragging(false),
+  });
+
+  // Keep the active chip centred -- 22 chips always overflow.
   useEffect(() => {
-    if (userPicked || covered.length === 0 || covered.includes(filter)) return;
-    setFilter(covered[0]);
-  }, [covered, filter, userPicked]);
+    const el = chipRefs.current.get(activeAxis);
+    const scroller = railRef.current;
+    if (!el || !scroller || recentlyDragged()) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    scroller.scrollTo({
+      left: centeredScrollLeft(el.offsetLeft, el.offsetWidth, scroller.clientWidth),
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
+  }, [activeAxis, recentlyDragged]);
 
-  const activeFeed: AxisFeed = axisFeeds[axisKey(locale, filter)] ?? EMPTY_FEED;
+  const activeFeed: AxisFeed = axisFeeds[axisKey(locale, activeAxis)] ?? EMPTY_FEED;
 
-  /** Load one more page of an axis's live wire and append it (de-duped
-   *  against everything already on screen for that axis). */
+  /** Load one more page of an axis's live wire and append it. */
   const loadAxisPage = useCallback(
     (axis: HotNewsCategory, page: number) => {
       const key = axisKey(locale, axis);
@@ -233,8 +261,6 @@ export function HotIssueNewsList() {
             const next: AxisFeed = {
               items: [...current.items, ...fresh],
               nextPage: page + 1,
-              // A page that adds nothing new means the wires are exhausted
-              // (or throttled) for now -- stop offering an empty "더 보기".
               hasMore: json.hasMore && fresh.length > 0,
               loading: false,
               failed: !json.ok && current.items.length === 0,
@@ -254,44 +280,48 @@ export function HotIssueNewsList() {
     [locale],
   );
 
-  // Selecting an axis streams its first page immediately (or restores the
-  // session's already-loaded pages from the module cache).
+  // A pinned axis (intent) streams its first wire page; the clock never does
+  // unless the board covers fewer than two axes and would otherwise be empty.
   useEffect(() => {
-    const key = axisKey(locale, filter);
+    const key = axisKey(locale, activeAxis);
     if (axisFeeds[key]) return;
     const hit = axisCache.get(key);
     if (hit && Date.now() - hit.at < CLIENT_TTL_MS) {
       setAxisFeeds((prev) => ({ ...prev, [key]: { ...hit, loading: false } }));
       return;
     }
-    // M3.3 / Codex ch.1 (한계 비용 0원): an AUTO-advance never spends a
-    // request. The rotation only ever lands on axes the day's featured board
-    // already covers, so it always has something to show from data already in
-    // hand; the worldwide live wire is fetched when the VISITOR picks an axis
-    // -- a stated intent -- or when the rail has nothing else to offer.
-    if (!userPicked && covered.length >= 2) return;
-    loadAxisPage(filter, 0);
-  }, [filter, locale, axisFeeds, loadAxisPage, userPicked, covered.length]);
+    if (held === null && deepAxis === null && covered.length >= 2) return;
+    loadAxisPage(activeAxis, 0);
+  }, [activeAxis, locale, axisFeeds, loadAxisPage, held, deepAxis, covered.length]);
 
-  const visible = useMemo(() => {
-    const base = items.filter((it) => it.category === filter);
-    const seen = new Set(base.map((it) => normTitle(it.title)));
-    return [...base, ...activeFeed.items.filter((it) => !seen.has(normTitle(it.title)))];
-  }, [filter, items, activeFeed.items]);
+  // Grow the height reservation after every commit so a thinner axis can
+  // never shrink the document under the reader.
+  const visible = useMemo(() => storiesOf(items, activeFeed, activeAxis), [items, activeFeed, activeAxis]);
+  useEffect(() => {
+    const box = cardBoxRef.current;
+    if (!box) return;
+    setReserved((seen) => reserveHeight(seen, box.offsetHeight));
+  }, [activeAxis, visible.length, loading]);
 
-  /** A tap on an axis chip. M3.3: stops the auto-rotation for good (the
-   *  visitor has stated an intent) and pins the viewport across the swap. */
-  function selectFilter(next: HotNewsCategory) {
-    const snap = captureScroll(boxRef.current);
-    setUserPicked(true);
-    setFilter(next);
+  /** Pin an axis; pinning the pinned axis releases it and the rotation
+   *  continues from THAT axis (never snapping back to the clock). */
+  function toggleHold(axis: HotNewsCategory) {
+    const snap = captureScroll(cardBoxRef.current);
+    setHeld((prev) => {
+      if (prev === axis) {
+        const i = rotationOrder.indexOf(axis);
+        setTick(Math.max(0, i));
+        return null;
+      }
+      return axis;
+    });
     snap.restore();
   }
 
   function refreshAll() {
-    const snap = captureScroll(boxRef.current);
+    const snap = captureScroll(cardBoxRef.current);
     setReloadTick((n) => n + 1);
-    const key = axisKey(locale, filter);
+    const key = axisKey(locale, activeAxis);
     axisCache.delete(key);
     setAxisFeeds((prev) => {
       const copy = { ...prev };
@@ -301,76 +331,26 @@ export function HotIssueNewsList() {
     snap.restore();
   }
 
-  function renderBadge(it: HotNewsItem) {
-    if (it.source === 'live') {
-      return (
-        <span
-          className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border border-accent/50 text-accent"
-          title={t('live')}
-          aria-label={t('live')}
-        >
-          <Radio size={13} aria-hidden="true" />
-        </span>
-      );
-    }
-    return (
-      <span
-        className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border ${
-          it.source === 'itn' ? 'border-red-400/50 text-red-300' : 'border-neon/40 text-neon'
-        }`}
-        title={it.source === 'itn' ? t('itn') : t('trending')}
-        aria-label={it.source === 'itn' ? t('itn') : t('trending')}
-      >
-        {it.source === 'itn' ? <Flame size={13} aria-hidden="true" /> : <TrendingUp size={13} aria-hidden="true" />}
-      </span>
-    );
-  }
+  const openAxis = useCallback((axis: HotNewsCategory) => setDeepAxis(axis), []);
+  const closeAxis = useCallback(() => {
+    // A close pins the axis the popup was opened from, so the rail never
+    // jumps the moment the visitor comes back out of it (REV-21 §1.4).
+    setDeepAxis((current) => {
+      if (current) setHeld(current);
+      return null;
+    });
+  }, []);
 
-  function renderItem(it: HotNewsItem) {
-    const stamp = relativeTime(it.publishedAt, locale);
-    const meta = [it.domain, stamp, it.lang].filter(Boolean).join(' · ');
-    return (
-      <li key={it.id} data-news-item="">
-        <a
-          href={it.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          onMouseEnter={() => playHoverSfx()}
-          // A mouse drag on the rail must never turn into a spurious link
-          // drag; useDragScroll swallows the click that tails a drag.
-          draggable={false}
-          className="flex items-start gap-3 border border-white/10 bg-void/50 px-3 py-2.5 transition-colors hover:border-white/30 hover:bg-void/70"
-        >
-          {renderBadge(it)}
-          <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-            <span className="flex min-w-0 items-center gap-2">
-              <span className="line-clamp-2 text-[14px] font-bold text-white sm:text-[15px]">{it.title}</span>
-              <ExternalLink size={12} className="ml-auto shrink-0 text-gray-500" aria-hidden="true" />
-            </span>
-            {it.summary && <span className="line-clamp-2 text-[12px] leading-snug text-gray-400">{it.summary}</span>}
-            <span className="flex min-w-0 items-center gap-2">
-              <span className="shrink-0 border border-white/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-gray-400">
-                {t(`category.${it.category}`)}
-              </span>
-              {meta && <span className="truncate text-[10px] text-gray-500">{meta}</span>}
-            </span>
-            {typeof it.views === 'number' && it.views > 0 && (
-              <span className="text-[10px] text-gray-500">{t('views', { count: it.views })}</span>
-            )}
-          </span>
-        </a>
-      </li>
-    );
-  }
+  const deepFeed: AxisFeed = deepAxis ? axisFeeds[axisKey(locale, deepAxis)] ?? EMPTY_FEED : EMPTY_FEED;
+  const deepStories = useMemo(() => (deepAxis ? storiesOf(items, deepFeed, deepAxis) : []), [items, deepFeed, deepAxis]);
 
-  const axisLabel = t(`category.${filter}`);
-  const axisBusy = activeFeed.loading;
-  const showAxisEmpty = !activeFeed.loading && activeFeed.failed && visible.length === 0;
+  const showEmpty = !loading && !activeFeed.loading && visible.length === 0;
 
   return (
     <div
       ref={boxRef}
       className="qw-no-anchor mt-4 w-full border-t border-white/10 pt-4"
+      data-news-block=""
       style={reserved ? { minHeight: reserved } : undefined}
     >
       <div className="mb-3 flex flex-wrap items-center gap-2">
@@ -392,125 +372,313 @@ export function HotIssueNewsList() {
         </button>
       </div>
 
-      {/* M3.2: the pinned "전체" lead chip is GONE. The 20-axis rail is the
-          whole control -- it auto-rotates like the shortcut rail above it
-          (M3.3) until the visitor picks an axis, and it uses the same
-          `.qw-hub-chip` language so the two rows read as one system. */}
+      <p className="qw-discovery-label mb-1.5 flex items-center gap-2 text-[15px] font-bold text-white">
+        <activeMeta.icon size={16} style={{ color: activeMeta.color }} aria-hidden="true" />
+        {axisLabel}
+      </p>
+      <p className="qw-hub-meta mb-3 text-[12px] text-gray-500">{held ? tHub('held') : tHub('rotating')}</p>
+
+      {/* M2.1: the 22-axis chip rail -- the shortcut rail's own grammar:
+          grab-drag, snap, the progress fill on the active chip, no badges. */}
       <div
-        className="mb-3 flex items-center gap-2.5"
+        ref={railRef}
+        {...railHandlers}
+        onPointerDownCapture={(e: ReactPointerEvent<HTMLDivElement>) => {
+          if (e.pointerType !== 'mouse') pauseForTouch();
+        }}
+        className="qw-hub-strip select-none"
         role="tablist"
+        aria-label={t('label')}
         data-news-axes=""
         data-rotating={rotationPaused ? '0' : '1'}
-        onPointerEnter={(e) => {
+        data-paused={rotationPaused ? '1' : '0'}
+      >
+        {HOT_NEWS_AXES.map((axis) => {
+          const isActive = axis.key === activeAxis;
+          return (
+            <button
+              key={axis.key}
+              ref={(el) => {
+                if (el) chipRefs.current.set(axis.key, el);
+                else chipRefs.current.delete(axis.key);
+              }}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              data-active={isActive ? '1' : '0'}
+              data-axis={axis.key}
+              onMouseEnter={() => playHoverSfx()}
+              onClick={() => toggleHold(axis.key)}
+              className="qw-hub-chip"
+              style={{ '--qw-hub-accent': axis.color, '--qw-slot-rotate': `${NEWS_ROTATE_MS}ms` } as CSSProperties}
+            >
+              <axis.icon size={15} style={{ color: axis.color }} aria-hidden="true" />
+              {t(`category.${axis.key}`)}
+              {isActive && (
+                <span
+                  key={`${axis.key}-${tick}-${epoch}`}
+                  className="qw-hub-progress"
+                  data-held={held ? '1' : '0'}
+                  data-paused={rotationPaused && !held ? '1' : '0'}
+                  aria-hidden="true"
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* M2.3: ONE card for the active axis -- inert container, two-step
+          title, the top stories as rows that open the story popup. */}
+      <div
+        ref={cardBoxRef}
+        className="qw-hub-card qw-no-anchor mt-3 border border-white/10 bg-void/40 p-4"
+        data-news-card={activeAxis}
+        tabIndex={0}
+        style={{ '--qw-hub-accent': activeMeta.color } as CSSProperties}
+        onPointerEnter={(e: ReactPointerEvent<HTMLDivElement>) => {
           if (e.pointerType === 'mouse') setHovering(true);
         }}
         onPointerLeave={() => setHovering(false)}
+        onPointerDown={(e: ReactPointerEvent<HTMLDivElement>) => {
+          if (e.pointerType !== 'mouse') pauseForTouch();
+        }}
       >
-        <DraggableCarouselRow
-          className="min-w-0 flex-1"
-          items={HOT_NEWS_AXES.map((axis) => {
-            const active = filter === axis.key;
-            const count = counts.get(axis.key) ?? 0;
-            return {
-              id: axis.key,
-              render: () => (
-                <button
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  data-active={active ? '1' : '0'}
-                  data-axis={axis.key}
-                  onMouseEnter={() => playHoverSfx()}
-                  onClick={() => selectFilter(axis.key)}
-                  style={{ '--qw-hub-accent': axis.color } as CSSProperties}
-                  className="qw-hub-chip"
-                >
-                  <axis.icon size={15} style={{ color: axis.color }} aria-hidden="true" />
-                  {t(`category.${axis.key}`)}
-                  {count > 0 && (
-                    <span className="border border-white/15 px-1.5 py-0.5 text-[10px] font-bold text-gray-400">{count}</span>
-                  )}
-                </button>
-              ),
-            };
-          })}
-        />
+        <div key={activeAxis} className="qw-hub-card-body">
+          <div className="mb-2 flex items-start gap-3">
+            <activeMeta.icon size={22} style={{ color: activeMeta.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <div className="min-w-0 flex-1">
+              <TwoStepTitle as="p" className="qw-hub-card-title text-[17px] font-bold text-white" onOpen={() => openAxis(activeAxis)}>
+                {axisLabel}
+              </TwoStepTitle>
+              <p className="qw-hub-meta text-[13px] text-gray-400">{t('axisTag', { axis: axisLabel })}</p>
+            </div>
+          </div>
+
+          {loading && items.length === 0 ? (
+            <p className="flex items-center gap-2 py-3 text-[14px] text-gray-400">
+              <Loader2 size={15} className="animate-spin text-accent" aria-hidden="true" />
+              {t('loading')}
+            </p>
+          ) : activeFeed.loading && visible.length === 0 ? (
+            <p className="flex items-center gap-2 py-3 text-[14px] text-gray-400">
+              <Loader2 size={15} className="animate-spin text-accent" aria-hidden="true" />
+              {t('axisLoading', { axis: axisLabel })}
+            </p>
+          ) : showEmpty ? (
+            <p className="py-3 text-[14px] text-gray-500">{failed && items.length === 0 ? t('empty') : t('axisEmpty')}</p>
+          ) : (
+            <ul className="grid grid-cols-1 gap-1 md:grid-cols-2" data-news-card-items="">
+              {visible.slice(0, CARD_ITEMS).map((it) => (
+                <li key={it.id} data-news-item="">
+                  <button
+                    type="button"
+                    className="qw-hub-headline text-white"
+                    onMouseEnter={() => playHoverSfx()}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setStory(it);
+                    }}
+                    aria-label={t('detailAria', { title: it.title })}
+                  >
+                    <StoryBadge item={it} />
+                    <span className="min-w-0 flex-1">
+                      <span className="line-clamp-2">{it.title}</span>
+                      <span className="qw-hub-source mt-0.5 block text-gray-500">{storyMeta(it, locale)}</span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <p className="qw-hub-meta mt-3 text-[12px] text-gray-500">
+            {visible.length > 0 ? `${t('storyCount', { count: visible.length })} · ` : ''}
+            {t('source')}
+          </p>
+        </div>
       </div>
 
-      {loading && items.length === 0 && (
-        <p className="flex items-center gap-2 py-4 text-[13px] text-gray-400">
-          <Loader2 size={14} className="animate-spin text-accent" aria-hidden="true" />
-          {t('loading')}
-        </p>
-      )}
-      {!loading && failed && items.length === 0 && <p className="py-4 text-[13px] text-gray-500">{t('empty')}</p>}
-      {axisBusy && visible.length === 0 && (
-        <p className="flex items-center gap-2 py-4 text-[13px] text-gray-400">
-          <Loader2 size={14} className="animate-spin text-accent" aria-hidden="true" />
-          {t('axisLoading', { axis: axisLabel })}
-        </p>
-      )}
-      {showAxisEmpty && <p className="py-4 text-[13px] text-gray-500">{t('axisEmpty')}</p>}
-      {visible.length > 0 && (
-        <ul
-          ref={railRef}
-          {...railHandlers}
-          className="qw-news-rail u-hscroll cursor-grab select-none"
-          data-news-rail=""
-          aria-label={t('label')}
-        >
-          {visible.map(renderItem)}
-          {/* §1.2: paging lives at the END of the rail, where a drag lands. */}
-          {(
-            <li className="flex items-center" data-news-more="">
-              {activeFeed.hasMore ? (
-                <button
-                  type="button"
-                  onMouseEnter={() => playHoverSfx()}
-                  onClick={() => loadAxisPage(filter, activeFeed.nextPage)}
-                  disabled={activeFeed.loading}
-                  className="flex h-full min-h-[96px] w-full flex-col items-center justify-center gap-2 border border-accent/40 px-4 text-[12px] font-bold uppercase tracking-widest text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
-                >
-                  {activeFeed.loading ? (
-                    <Loader2 size={16} className="animate-spin" aria-hidden="true" />
-                  ) : (
-                    <ChevronDown size={16} className="-rotate-90" aria-hidden="true" />
-                  )}
-                  {t('loadMore', { axis: axisLabel })}
-                </button>
-              ) : (
-                <p className="px-4 text-center text-[11px] text-gray-500">{t('endOfFeed')}</p>
-              )}
-            </li>
-          )}
-        </ul>
-      )}
+      {/* M2.4: direct only, in flow, nothing to unfold. */}
+      <ExploreDeeper anchor={qidAnchor(AXIS_QID[activeAxis], axisLabel, lang)} host="newsRail" directOnly className="mt-3" />
 
-      {(items.length > 0 || activeFeed.items.length > 0) && (
-        <p className="mt-2 text-[14px] font-medium text-gray-400">{t('source')}</p>
-      )}
+      <NewsAxisModal
+        axis={deepAxis}
+        stories={deepStories}
+        feed={deepFeed}
+        onLoadMore={() => {
+          if (deepAxis) loadAxisPage(deepAxis, deepFeed.nextPage);
+        }}
+        onOpenStory={setStory}
+        onClose={closeAxis}
+      />
+      <NewsStoryModal story={story} onClose={() => setStory(null)} />
+    </div>
+  );
+}
 
-      {(
-        <div className="mt-2" data-news-deeper={deeperOpen ? 'open' : 'collapsed'}>
-          <button
-            type="button"
-            aria-expanded={deeperOpen}
-            aria-controls="news-rail-deeper"
-            onMouseEnter={() => playHoverSfx()}
-            onClick={() => setDeeperOpen((v) => !v)}
-            className="qw-hub-chip"
-            data-news-deeper-toggle=""
-          >
-            <ChevronDown size={14} className={`transition-transform ${deeperOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
-            {tDeeper('label')} · {axisLabel}
-          </button>
-          {deeperOpen && (
-            <div id="news-rail-deeper">
-              <ExploreDeeper anchor={qidAnchor(AXIS_QID[filter], axisLabel, wikiLangFor(locale))} host="newsRail" />
+function storyMeta(it: HotNewsItem, locale: string): string {
+  const stamp = relativeTime(it.publishedAt, locale);
+  return [it.domain, stamp, it.lang].filter(Boolean).join(' · ');
+}
+
+function StoryBadge({ item }: { item: HotNewsItem }) {
+  const t = useTranslations('HotNews');
+  if (item.source === 'live') {
+    return (
+      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border border-accent/50 text-accent" title={t('live')} aria-label={t('live')}>
+        <Radio size={13} aria-hidden="true" />
+      </span>
+    );
+  }
+  const itn = item.source === 'itn';
+  return (
+    <span
+      className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border ${itn ? 'border-red-400/50 text-red-300' : 'border-neon/40 text-neon'}`}
+      title={itn ? t('itn') : t('trending')}
+      aria-label={itn ? t('itn') : t('trending')}
+    >
+      {itn ? <Flame size={13} aria-hidden="true" /> : <TrendingUp size={13} aria-hidden="true" />}
+    </span>
+  );
+}
+
+/** M2.3: the ONE main popup of an axis -- every story, vertically, with the
+ *  endless "더 불러오기" at the end and the direct-only block beneath. */
+function NewsAxisModal({
+  axis,
+  stories,
+  feed,
+  onLoadMore,
+  onOpenStory,
+  onClose,
+}: {
+  axis: HotNewsCategory | null;
+  stories: HotNewsItem[];
+  feed: AxisFeed;
+  onLoadMore: () => void;
+  onOpenStory: (story: HotNewsItem) => void;
+  onClose: () => void;
+}) {
+  const t = useTranslations('HotNews');
+  const locale = useLocale();
+  const lang = wikiLangFor(locale);
+  const { playHoverSfx } = useSpatialAudio();
+  const meta = axis ? hotNewsAxisMeta(axis) : null;
+  const axisLabel = axis ? t(`category.${axis}`) : '';
+  return (
+    <Modal open={axis !== null} onClose={onClose} labelledBy="news-axis-title" size="xl">
+      {axis && meta && (
+        <div className="space-y-5" data-news-modal={axis}>
+          <div className="flex items-start gap-3">
+            <meta.icon size={26} style={{ color: meta.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <div className="min-w-0 flex-1">
+              <p id="news-axis-title" className="text-[20px] font-bold text-white">
+                {axisLabel}
+              </p>
+              <p className="mt-0.5 text-[14px] text-gray-400">{t('allStories', { axis: axisLabel })}</p>
             </div>
+          </div>
+
+          {stories.length === 0 && feed.loading ? (
+            <p className="flex items-center gap-2 py-4 text-[14px] text-gray-400">
+              <Loader2 size={15} className="animate-spin text-accent" aria-hidden="true" />
+              {t('axisLoading', { axis: axisLabel })}
+            </p>
+          ) : stories.length === 0 ? (
+            <p className="py-4 text-[14px] text-gray-500">{t('axisEmpty')}</p>
+          ) : (
+            <ol className="max-h-[52vh] space-y-1 overflow-y-auto overscroll-contain pr-1" data-news-modal-list="">
+              {stories.map((it, i) => (
+                <li key={it.id} data-news-item="">
+                  <button
+                    type="button"
+                    className="qw-hub-headline text-white"
+                    onMouseEnter={() => playHoverSfx()}
+                    onClick={() => onOpenStory(it)}
+                    aria-label={t('detailAria', { title: it.title })}
+                  >
+                    <span className="w-6 shrink-0 text-[12px] font-bold" style={{ color: meta.color }}>
+                      {i + 1}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block">{it.title}</span>
+                      {it.summary && <span className="qw-hub-desc mt-0.5 line-clamp-2 block text-[12px] leading-snug text-gray-400">{it.summary}</span>}
+                      <span className="qw-hub-source mt-0.5 block text-gray-500">{storyMeta(it, locale)}</span>
+                    </span>
+                  </button>
+                </li>
+              ))}
+              <li className="pt-2" data-news-more="">
+                {feed.hasMore ? (
+                  <button
+                    type="button"
+                    onMouseEnter={() => playHoverSfx()}
+                    onClick={onLoadMore}
+                    disabled={feed.loading}
+                    className="flex w-full items-center justify-center gap-2 border border-accent/40 px-4 py-2.5 text-[12px] font-bold uppercase tracking-widest text-accent transition-colors hover:bg-accent/10 disabled:opacity-50"
+                  >
+                    {feed.loading ? <Loader2 size={14} className="animate-spin" aria-hidden="true" /> : <ChevronDown size={14} aria-hidden="true" />}
+                    {t('loadMore', { axis: axisLabel })}
+                  </button>
+                ) : (
+                  <p className="px-4 py-2 text-center text-[11px] text-gray-500">{t('endOfFeed')}</p>
+                )}
+              </li>
+            </ol>
           )}
+
+          <p className="text-[12px] text-gray-500">{t('source')}</p>
+
+          <ExploreDeeper anchor={qidAnchor(AXIS_QID[axis], axisLabel, lang)} host="newsRail" directOnly />
         </div>
       )}
-    </div>
+    </Modal>
+  );
+}
+
+/** M2.3: a story's own popup -- the summary, the source line, the original
+ *  article and the direct shortcuts for its headline. */
+function NewsStoryModal({ story, onClose }: { story: HotNewsItem | null; onClose: () => void }) {
+  const t = useTranslations('HotNews');
+  const locale = useLocale();
+  const lang = wikiLangFor(locale);
+  const { playHoverSfx } = useSpatialAudio();
+  const meta = story ? hotNewsAxisMeta(story.category) : null;
+  return (
+    <Modal open={story !== null} onClose={onClose} labelledBy="news-story-title" size="lg">
+      {story && meta && (
+        <div className="space-y-4" data-news-story={story.id}>
+          <p className="flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+            <span className="inline-flex items-center gap-1.5" style={{ color: meta.color }}>
+              <meta.icon size={13} aria-hidden="true" />
+              {t(`category.${story.category}`)}
+            </span>
+            <StoryBadge item={story} />
+          </p>
+          <p id="news-story-title" className="text-[20px] font-bold leading-snug text-white">
+            {story.title}
+          </p>
+          {story.summary && <p className="text-[14px] leading-relaxed text-gray-300">{story.summary}</p>}
+          <p className="text-[12px] text-gray-500">
+            {storyMeta(story, locale)}
+            {typeof story.views === 'number' && story.views > 0 ? ` · ${t('views', { count: story.views })}` : ''}
+          </p>
+          <a
+            href={story.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => playHoverSfx()}
+            className="inline-flex items-center gap-2 border border-accent/50 px-4 py-2.5 text-[13px] font-bold uppercase tracking-widest text-accent transition-colors hover:bg-accent/10"
+            data-news-open-original=""
+          >
+            <ExternalLink size={14} aria-hidden="true" />
+            {t('openOriginal')}
+            {story.domain && <span className="normal-case tracking-normal text-gray-400">· {story.domain}</span>}
+          </a>
+          <ExploreDeeper anchor={textAnchor(story.title, lang)} host="newsRail" directOnly bridge={false} />
+        </div>
+      )}
+    </Modal>
   );
 }

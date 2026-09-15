@@ -1646,16 +1646,23 @@
       "law": "Hukuk",
       "institution": "Kurumlar",
       "education": "Eğitim",
-      "welfare": "Refah · Sağlık",
-      "security": "Güvenlik · Çatışma",
+      "welfare": "Refah",
+      "security": "Güvenlik",
       "strategy": "Strateji",
-      "disaster": "Afetler"
+      "disaster": "Afetler",
+      "health": "Sağlık",
+      "conflict": "Çatışma"
     },
     "live": "Canlı hat",
     "loadMore": "Daha fazla {axis} yükle",
     "axisLoading": "{axis} için dünya çapında canlı hat çağrılıyor…",
     "axisEmpty": "Bu eksenin canlı hattına şu anda ulaşılamıyor — kısa süre sonra tekrar deneyin.",
-    "endOfFeed": "İki haftalık arşivin sonu — en yeni haberlerin yeniden akması için yenileyin."
+    "endOfFeed": "İki haftalık arşivin sonu — en yeni haberlerin yeniden akması için yenileyin.",
+    "openOriginal": "Orijinali oku",
+    "storyCount": "{count} haber",
+    "axisTag": "Dünyadan ve ülkenden {axis} başlıkları — açmak için habere dokun",
+    "detailAria": "{title} aç",
+    "allStories": "Tüm {axis} haberleri — önce dünya, sonra ülken"
   },
   "Weather": {
     "myLocation": "Konumum",
@@ -2355,6 +2362,10 @@
         "nearbyTitle": "En yakın makale",
         "nearbyDist": "Mesafe",
         "nearbyCount": "Yakındaki makaleler"
+      },
+      "newProducts": {
+        "title": "Yeni ürünler",
+        "tag": "Dünyanın az önce piyasaya sürdüğü arabalar, telefonlar, mobilite, gadget’lar ve oyunlar"
       }
     }
   },
@@ -2668,6 +2679,158 @@
         "pritzker": "Pritzker Mimarlık Ödülü",
         "ballonDor": "Ballon d’Or",
         "timePerson": "Time Yılın Kişisi"
+      }
+    }
+  },
+  "Rev29": {
+    "hub": {
+      "title": "UNITAS Merkezi",
+      "lede": "Bilgi al-sat, shorts izle, sıralamalarda yüksel, temaya göre sohbet et ve UNITAS’ı dünyayla paylaş.",
+      "toggleAria": "UNITAS merkezini aç — bilgi borsası, shorts, sıralamalar, sohbet odaları, sosyal",
+      "tabs": {
+        "exchange": "Bilgi borsası",
+        "shorts": "UNITAS Shorts",
+        "rankings": "UNITAS Sıralamaları",
+        "rooms": "Tema sohbet odaları",
+        "social": "Sosyal medya"
+      },
+      "live": "Canlı",
+      "localOnly": "Yalnızca bu cihaz — canlı bağlantı yok",
+      "online": "{count} çevrimiçi"
+    },
+    "exchange": {
+      "lede": "Yaratıcıların bilgi paketlerini kredilerle satın al, kendininkini listeleyip geliri paylaş.",
+      "credits": "beta kredi",
+      "wallet": "U-COIN",
+      "creditsNote": "Beta krediler bu cihazda tutulur · U-COIN takası defter bağlantısıyla açılır.",
+      "all": "Tümü",
+      "sort": {
+        "trending": "Popüler",
+        "newest": "En yeni",
+        "price": "Fiyat"
+      },
+      "kind": {
+        "ladder": "Merdiven",
+        "playbook": "Oyun kitabı",
+        "dataset": "Veri seti",
+        "prompt": "Prompt kiti"
+      },
+      "tier": {
+        "seed": "Seed",
+        "pro": "Pro",
+        "sovereign": "Egemen"
+      },
+      "buy": "Satın al",
+      "owned": "Sahipsin",
+      "insufficient": "Yetersiz kredi",
+      "sales": "{count} satıldı",
+      "rating": "★ {rating}",
+      "by": "@{handle}",
+      "split": "Gelir payı · yaratıcı %{creator} / UNITAS %{platform}",
+      "listTitle": "Bilgini listele",
+      "form": {
+        "title": "Başlık",
+        "theme": "Tema",
+        "price": "Fiyat (kredi)",
+        "summary": "Tek satır özet",
+        "submit": "Listele",
+        "errTitle": "Başlık: 3–60 karakter",
+        "errPrice": "Fiyat: 10–5.000 kredi arası tam sayı",
+        "errSummary": "Özet: en fazla 200 karakter"
+      },
+      "myListings": "Listelerim",
+      "status": {
+        "review": "İncelemede",
+        "live": "Yayında"
+      },
+      "projected": "Tahmini gelir (simülasyon)",
+      "projectedSales": "{count} tahmini satış",
+      "board": "En iyi yaratıcılar",
+      "ticker": "Canlı işlemler",
+      "tickerEmpty": "Henüz işlem yok — ilkini sen yap.",
+      "tickerRow": "{buyer} · {pack}",
+      "bought": "Satın alındı — kitaplığına eklendi",
+      "myPacks": "Kitaplığım"
+    },
+    "rooms": {
+      "lede": "22 tema odası — dünyanın şu an konuştuğu konuları konuş. Mesajlar sunucuya dokunmaz; bu cihaz oda başına son 60 mesajı tutar.",
+      "placeholder": "Mesaj yaz ve Enter’a bas…",
+      "send": "Gönder",
+      "you": "Sen",
+      "empty": "Henüz sohbet yok — ilk selamı sen ver.",
+      "welcome": "{room} odasına hoş geldin.",
+      "speakingAs": "{name} olarak konuşuyorsun",
+      "roomAria": "{room} sohbet odası"
+    },
+    "social": {
+      "lede": "Dünyanın sosyal ve posta uygulamalarına doğrudan git, UNITAS’ı tek dokunuşla paylaş.",
+      "apps": "Kısayollar",
+      "mail": "Web posta",
+      "share": "UNITAS’ı paylaş",
+      "shareText": "UNITAS — egemen SaaS ağı. U-AI’ya her şeyi sor.",
+      "copy": "Bağlantıyı kopyala",
+      "copied": "Kopyalandı",
+      "native": "Paylaş…"
+    },
+    "attach": {
+      "file": "Dosya ekle",
+      "video": "Video ekle",
+      "sketch": "Taslak ekle"
+    },
+    "newProducts": {
+      "families": {
+        "cars": "Arabalar",
+        "phones": "Akıllı telefonlar",
+        "mobility": "Mobilite",
+        "gadgets": "Gadget’lar",
+        "games": "Oyunlar"
+      },
+      "facts": {
+        "count": "Yeni"
+      }
+    },
+    "shorts": {
+      "filterAll": "Tüm temalar",
+      "label": "UNITAS Shorts",
+      "lede": "Ağdaki dikey anlar — U-Messenger'ın tohumu.",
+      "views": "{count} görüntülenme",
+      "like": "Beğen",
+      "liked": "Beğenildi",
+      "follow": "Takip Et",
+      "following": "Takip Ediliyor",
+      "upload": "Yükle",
+      "uploadSoon": "Yüklemeler U-Messenger beta sürümüyle açılır",
+      "seedNote": "Önizleme olarak gösterilen tohum klipler · gerçek yüklemeler U-Messenger beta sürümüyle gelir",
+      "share": "U-Messenger'a paylaş",
+      "shareHint": "Beta açıldığında paylaşım bağlantıları bu klibi doğrudan bir U-Messenger sohbetine aktarır.",
+      "openAria": "{title} kısa videosunu aç",
+      "creator": "Yaratıcı",
+      "duration": "{seconds} sn",
+      "followers": "{count} takipçi",
+      "pass": {
+        "eyebrow": "İçerik üreticileri için erken erişim",
+        "cta": "Erken erişim alın",
+        "title": "İçerik üreticisi pasonuz",
+        "lede": "Yüklemeler U-Messenger betasıyla birlikte açılıyor. Pasonuzu şimdi ayırtın; stüdyo kapıları açıldığı an adınız sıranın en önünde olsun.",
+        "handleLabel": "İçerik üreticisi kullanıcı adı",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 karakter: a–z, 0–9, nokta, tire, alt çizgi",
+        "reserve": "Pasomu ayırt",
+        "reserved": "Paso ayrıldı",
+        "reservedAt": "{time} tarihinde ayrıldı",
+        "serial": "Paso {serial}",
+        "currentWave": "Şu an ayırtılıyor",
+        "wave1": "1. Dalga · Kurucu içerik üreticileri",
+        "wave2": "2. Dalga · Stüdyo araçları",
+        "wave3": "3. Dalga · Küresel açılış",
+        "perks": {
+          "p1": "Açılış günü öncelikli yükleme yeri",
+          "p2": "Profilinizde kurucu içerik üreticisi rozeti",
+          "p3": "U-Messenger sohbetlerine doğrudan paylaşım"
+        },
+        "signedIn": "Hesabınıza bağlı",
+        "guest": "Giriş yapın, pasonuz hesabınıza da bağlansın.",
+        "honest": "Pasonuz bu cihazda, giriş yaptığınızda ise hesabınızda da saklanır. Henüz hiçbir video yüklenmiyor ya da depolanmıyor."
       }
     }
   }

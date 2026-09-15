@@ -18,6 +18,7 @@ import type { SlotCard, SlotKey, SlotScope, SlotSection } from '@/lib/live/disco
  *  locale Wikipedia's "on this day") and both ranking slots join the SPEC's
  *  list -- their subject is the world, rendered in the visitor's language. */
 const GLOBAL_ONLY: readonly SlotKey[] = [
+  'newProducts',
   'history',
   'quake',
   'crypto',

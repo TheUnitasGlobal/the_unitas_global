@@ -551,7 +551,9 @@ export function DiscoveryCarousel() {
                           onItem(item);
                         }}
                       >
-                        {typeof item.rank === 'number' ? (
+                        {item.image ? (
+                          <SlotThumb src={item.image} />
+                        ) : typeof item.rank === 'number' ? (
                           <span className="qw-hub-rank shrink-0" style={{ '--qw-hub-accent': item.color ?? activeSlot.color } as CSSProperties}>
                             {item.rank}
                           </span>
@@ -560,6 +562,7 @@ export function DiscoveryCarousel() {
                         )}
                         <span className="min-w-0 flex-1">
                           <span className="line-clamp-2">{item.title}</span>
+                          {item.description && <span className="qw-hub-desc mt-0.5 line-clamp-2 block text-[12px] leading-snug text-gray-400">{item.description}</span>}
                           {(item.domain || item.meta) && (
                             <span className="qw-hub-source mt-0.5 block text-gray-500">{item.domain ?? item.meta}</span>
                           )}
@@ -602,6 +605,16 @@ export function DiscoveryCarousel() {
  *  weather host anchors on the place the panel is showing (coordinates +
  *  the city's Wikidata item when known); news / feed hosts on the slot's
  *  own Wikidata item (`SLOT_QID`); anything else is sources-only (D-23). */
+/** REV-29 M3: a small product thumbnail beside a row (card + deep modal). */
+function SlotThumb({ src }: { src: string }) {
+  return (
+    <span className="qw-hub-thumb shrink-0" aria-hidden="true">
+      {/* eslint-disable-next-line @next/next/no-img-element -- remote Wikimedia thumbnails, sized by the CSS box */}
+      <img src={src} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+    </span>
+  );
+}
+
 function slotAnchor(key: SlotKey, locale: string, term: string, place: Place | null): DeeperAnchor {
   const lang = wikiLangFor(locale);
   if (key === 'weather' && place) return placeAnchor(place, lang, SLOT_QID.weather);
@@ -668,10 +681,20 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
   const t = useTranslations();
   const tHub = useTranslations('Rev19.hub');
   const tDeeper = useTranslations('Rev21.deeper');
+  const tRev21 = useTranslations('Rev21.hub');
   const locale = ctx.locale;
   const { playHoverSfx } = useSpatialAudio();
   const [card, setCard] = useState<SlotCard | null>(null);
   const [loading, setLoading] = useState(true);
+  /** REV-29 M3: a feed slot may carry sub-tabs (the product families); the
+   *  deep modal owns its own tab and reloads on a pick, like the rankings. */
+  const [tab, setTab] = useState<string | undefined>(undefined);
+  const tabRailRef = useRef<HTMLDivElement>(null);
+  const tabRail = useDragScroll(tabRailRef);
+
+  useEffect(() => {
+    setTab(undefined);
+  }, [slotKey]);
 
   useEffect(() => {
     if (!slotKey) return;
@@ -682,9 +705,12 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
     let cancelled = false;
     const controller = new AbortController();
     setLoading(true);
-    void slot.load({ ...ctx, signal: controller.signal }).then((next) => {
+    // `deep: 1` asks the adapter for its long list; the rotating card's own
+    // cache entry is left alone (a different key), so the card never paints
+    // the modal's twelve rows.
+    void slot.load({ ...ctx, signal: controller.signal }, tab ? { tab, deep: 1 } : { deep: 1 }).then((next) => {
       if (cancelled) return;
-      cardCache.set(slotCacheKey(ctx, slotKey), { card: next, at: Date.now() });
+      cardCache.set(`${slotCacheKey(ctx, slotKey)}:deep${tab ? `:${tab}` : ''}`, { card: next, at: Date.now() });
       setCard(next);
       setLoading(false);
     });
@@ -692,7 +718,7 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
       cancelled = true;
       controller.abort();
     };
-  }, [slotKey, ctx]);
+  }, [slotKey, ctx, tab]);
 
   // DISCOVERY_SLOTS holds all 24 slots -- weather, the nine news themes and
   // the two rankings included -- so an unfiltered lookup opened THIS modal
@@ -722,6 +748,40 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
             <p className="mt-0.5 text-[14px] text-gray-400">{t(slotTagKey(slotKey))}</p>
           </div>
         </div>
+
+        {card?.tabs && card.tabs.length > 0 && (
+          <div
+            ref={tabRailRef}
+            className="qw-hub-tabs u-hscroll select-none"
+            role="tablist"
+            aria-label={tRev21('tabsAria')}
+            data-feed-tabs=""
+            onPointerDown={tabRail.handlers.onPointerDown}
+            onPointerMove={tabRail.handlers.onPointerMove}
+            onPointerUp={tabRail.handlers.onPointerUp}
+            onPointerCancel={tabRail.handlers.onPointerCancel}
+            onClickCapture={tabRail.handlers.onClickCapture}
+          >
+            {card.tabs.map((tb) => {
+              const selected = tb.key === (tab ?? card.activeTab);
+              return (
+                <button
+                  key={tb.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={selected}
+                  data-tab={tb.key}
+                  className="qw-hub-tab"
+                  style={{ '--qw-hub-accent': tb.color } as CSSProperties}
+                  onMouseEnter={() => playHoverSfx()}
+                  onClick={() => setTab(tb.key)}
+                >
+                  {t(tb.labelKey)}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {loading && !card ? (
           <p className="flex items-center gap-2 py-4 text-[14px] text-gray-400">
@@ -761,11 +821,16 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
                       onMouseEnter={() => playHoverSfx()}
                       className="qw-hub-headline text-white"
                     >
-                      <span className="w-6 shrink-0 text-[12px] font-bold" style={{ color: slot.color }}>
-                        {i + 1}
-                      </span>
+                      {item.image ? (
+                        <SlotThumb src={item.image} />
+                      ) : (
+                        <span className="w-6 shrink-0 text-[12px] font-bold" style={{ color: slot.color }}>
+                          {i + 1}
+                        </span>
+                      )}
                       <span className="min-w-0 flex-1">
                         <span className="block">{item.title}</span>
+                        {item.description && <span className="qw-hub-desc mt-0.5 block text-[12px] leading-snug text-gray-400">{item.description}</span>}
                         {(item.domain || item.meta) && (
                           <span className="qw-hub-source mt-0.5 flex items-center gap-1 text-gray-500">
                             {item.domain ?? item.meta}

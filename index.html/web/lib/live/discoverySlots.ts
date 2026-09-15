@@ -31,6 +31,7 @@ import {
   Landmark,
   Library,
   MapPinned,
+  PackageOpen,
   Palette,
   Terminal,
   Trophy,
@@ -43,6 +44,7 @@ import { resolveDeeperPlace } from '@/lib/uai/deeperAnchor';
 import { sourceById, type SourceId } from '@/lib/uai/sourceRegistry';
 import { DEFAULT_PLACE, conditionOf, fetchForecast, readWeatherCache, writeWeatherCache, type Place } from '@/lib/live/useLiveWeather';
 import { AWARD_CARD_ITEMS, awardOfDay, loadAwardRoll } from '@/lib/live/awardsThemes';
+import { PRODUCT_CARD_ITEMS, PRODUCT_DEEP_ITEMS, PRODUCT_FAMILIES, familyOfDay, isProductFamilyKey, loadProductRoll, productFamily } from '@/lib/live/newProducts';
 
 /** Rows a ranking slot shows on the inline card. */
 const RANKING_CARD_ITEMS = 4;
@@ -67,6 +69,7 @@ export type RankingSlotKey = 'worldRanking' | 'unitasRanking';
 
 export type FeedSlotKey =
   | 'awards'
+  | 'newProducts'
   | 'history'
   | 'quake'
   | 'mostRead'
@@ -112,6 +115,10 @@ export interface SlotItem {
   url?: string;
   /** Short secondary line (points, distance, price...). */
   meta?: string;
+  /** REV-29 M3: a one-line description under the title (product intro). */
+  description?: string;
+  /** REV-29 M3: a small thumbnail (product photo) beside the title. */
+  image?: string;
   action?: SlotItemAction;
   rank?: number;
   color?: string;
@@ -282,6 +289,55 @@ const awardsSlot: DiscoverySlot = {
       })),
       updatedAt: Date.now(),
       cursor: null,
+    };
+  },
+};
+
+/* ------------------------------------------------------------------ */
+/* REV-29 M3: 글로벌 신상품                                             */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The products the world has just released -- one family a day on the
+ * rotating card (cars / smartphones / mobility / gadgets / games), every
+ * family as a tab inside the deep modal, each entry with a thumbnail, a
+ * one-sentence intro and a link to the article in the visitor's own
+ * language when that edition has it. English Wikipedia's launch-year
+ * category trees, newest page first, 0원 -- see lib/live/newProducts.ts.
+ */
+const newProductsSlot: DiscoverySlot = {
+  key: 'newProducts',
+  kind: 'feed',
+  icon: PackageOpen,
+  color: '#0ea5e9',
+  async load({ locale, signal }, cursor) {
+    const requested = typeof cursor?.tab === 'string' && isProductFamilyKey(cursor.tab) ? cursor.tab : undefined;
+    const family = requested ? productFamily(requested) : familyOfDay(dayOfYear());
+    const deep = cursor?.deep === 1 || cursor?.deep === '1';
+    const tabs = PRODUCT_FAMILIES.map((f) => ({ key: f.key, labelKey: `Rev29.newProducts.families.${f.key}`, color: f.color }));
+    const roll = await loadProductRoll(family, wikiLangFor(locale), signal).catch(() => null);
+    if (!roll || roll.entries.length === 0) return { ...EMPTY_CARD, updatedAt: Date.now(), tabs, activeTab: family.key };
+    const cap = deep ? PRODUCT_DEEP_ITEMS : PRODUCT_CARD_ITEMS;
+    return {
+      facts: [
+        // The family is the fact LABEL and the launch year the value, so the
+        // card leads with "스마트폰 · 2026" rather than a generic header.
+        { labelKey: `Rev29.newProducts.families.${family.key}`, value: String(roll.year), emphasis: true },
+        { labelKey: 'Rev29.newProducts.facts.count', value: String(roll.entries.length) },
+      ],
+      items: roll.entries.slice(0, cap).map((e) => ({
+        id: e.id,
+        title: e.localTitle ?? e.title,
+        description: e.description || undefined,
+        meta: e.localTitle && e.localTitle !== e.title ? e.title : undefined,
+        image: e.image,
+        url: e.url,
+        scope: 'global' as const,
+      })),
+      updatedAt: Date.now(),
+      cursor: null,
+      tabs,
+      activeTab: family.key,
     };
   },
 };
@@ -972,7 +1028,7 @@ function withScopeSections(slot: DiscoverySlot): DiscoverySlot {
 }
 
 const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>(
-  [weatherSlot, awardsSlot, ...feedSlots, ...rankingSlots]
+  [weatherSlot, awardsSlot, newProductsSlot, ...feedSlots, ...rankingSlots]
     .map(withScopeSections)
     .map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
 );
@@ -982,9 +1038,12 @@ const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>(
  *  (colour-wheel adjacency is handled by the component, order here only
  *  guards content-kind adjacency). The two ranking slots join at the two
  *  natural "data" seams. REV-23 M3.1: 24 slots -> 16, the nine news wires
- *  out and `awards` in. */
+ *  out and `awards` in. REV-29 M3: 16 -> 17, `newProducts` in. */
 export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'weather',
+  // REV-29 M3: the launch wire sits second -- the first data slot after the
+  // visitor's own sky, where the founder asked for maximum exposure.
+  'newProducts',
   'mostRead',
   'awards',
   'history',
@@ -1010,6 +1069,7 @@ export const DISCOVERY_ROTATION: readonly SlotKey[] = [
 export const SLOT_SOURCES: Record<SlotKey, readonly SourceId[]> = {
   weather: ['openMeteo'],
   awards: ['wikidata'],
+  newProducts: ['wikipedia'],
   history: ['wikipedia'],
   quake: ['usgs'],
   mostRead: ['wikimediaPageviews'],
@@ -1054,6 +1114,7 @@ export const SLOT_PROVIDER: Record<SlotKey, SlotProvider> = Object.fromEntries(
 export const SLOT_QID: Partial<Record<SlotKey, string>> = {
   weather: 'Q11663', // weather
   awards: 'Q618779', // award
+  newProducts: 'Q2424752', // product
   quake: 'Q7944', // earthquake
   fx: 'Q8142', // currency
   crypto: 'Q13479982', // cryptocurrency

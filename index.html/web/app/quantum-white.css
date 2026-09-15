@@ -67,7 +67,10 @@ html[data-unitas-surface='quantum-white'] {
   --qw-search-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.86) 100%);
   --qw-search-ring: linear-gradient(120deg, var(--qw-blue) 0%, var(--qw-gold) 50%, var(--qw-blue) 100%);
   --qw-search-glow-idle: 0 0 0 4px rgba(11, 92, 255, 0.08), 0 14px 40px -12px rgba(11, 92, 255, 0.35);
-  --qw-search-glow-focus: 0 0 0 6px rgba(11, 92, 255, 0.14), 0 0 36px rgba(11, 92, 255, 0.45), 0 22px 56px -14px rgba(11, 92, 255, 0.55);
+  /* REV-29 M1.2: a finer, lighter focus ring -- 4px/0.10 instead of 6px/0.14,
+     the glow 26px/0.30 instead of 36px/0.45 -- clearly brighter than rest,
+     never tiring on a long session. */
+  --qw-search-glow-focus: 0 0 0 4px rgba(11, 92, 255, 0.1), 0 0 26px rgba(11, 92, 255, 0.3), 0 18px 48px -16px rgba(11, 92, 255, 0.42);
   --qw-search-glow-drag: 0 0 0 6px rgba(0, 200, 150, 0.16), 0 0 36px rgba(0, 200, 150, 0.45);
   --qw-search-inset: inset 0 1px 0 rgba(255, 255, 255, 1), inset 0 -1px 0 rgba(10, 10, 12, 0.04);
 

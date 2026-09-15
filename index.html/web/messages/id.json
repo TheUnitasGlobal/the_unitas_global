@@ -1646,16 +1646,23 @@
       "law": "Hukum",
       "institution": "Institusi",
       "education": "Pendidikan",
-      "welfare": "Kesejahteraan · Kesehatan",
-      "security": "Keamanan · Konflik",
+      "welfare": "Kesejahteraan",
+      "security": "Keamanan",
       "strategy": "Strategi",
-      "disaster": "Bencana"
+      "disaster": "Bencana",
+      "health": "Kesehatan",
+      "conflict": "Konflik"
     },
     "live": "Kawat langsung",
     "loadMore": "Muat lebih banyak {axis}",
     "axisLoading": "Memanggil kawat langsung global untuk {axis}…",
     "axisEmpty": "Kawat langsung sumbu ini tidak dapat dijangkau sekarang — coba lagi sebentar.",
-    "endOfFeed": "Akhir arsip dua minggu — segarkan agar berita terbaru mengalir lagi."
+    "endOfFeed": "Akhir arsip dua minggu — segarkan agar berita terbaru mengalir lagi.",
+    "openOriginal": "Baca aslinya",
+    "storyCount": "{count} berita",
+    "axisTag": "Berita {axis} dunia dan lokal — ketuk berita untuk membukanya",
+    "detailAria": "Buka {title}",
+    "allStories": "Semua berita {axis} — dunia dulu, lalu negaramu"
   },
   "Weather": {
     "myLocation": "Lokasi saya",
@@ -2355,6 +2362,10 @@
         "nearbyTitle": "Artikel Terdekat",
         "nearbyDist": "Jarak",
         "nearbyCount": "Artikel di Sekitar"
+      },
+      "newProducts": {
+        "title": "Produk baru",
+        "tag": "Mobil, ponsel, mobilitas, gadget, dan gim yang baru dirilis dunia"
       }
     }
   },
@@ -2668,6 +2679,158 @@
         "pritzker": "Penghargaan Arsitektur Pritzker",
         "ballonDor": "Ballon d’Or",
         "timePerson": "Tokoh Tahun Ini versi Time"
+      }
+    }
+  },
+  "Rev29": {
+    "hub": {
+      "title": "Hub UNITAS",
+      "lede": "Perdagangkan pengetahuan, tonton shorts, naiki peringkat, mengobrol per tema, dan bagikan UNITAS ke dunia.",
+      "toggleAria": "Buka hub UNITAS — bursa pengetahuan, shorts, peringkat, ruang obrolan, sosial",
+      "tabs": {
+        "exchange": "Bursa pengetahuan",
+        "shorts": "UNITAS Shorts",
+        "rankings": "Peringkat UNITAS",
+        "rooms": "Ruang obrolan tema",
+        "social": "Media sosial"
+      },
+      "live": "Langsung",
+      "localOnly": "Hanya perangkat ini — tanpa tautan langsung",
+      "online": "{count} online"
+    },
+    "exchange": {
+      "lede": "Beli paket pengetahuan dari kreator dengan kredit, dan daftarkan milikmu untuk berbagi pendapatan.",
+      "credits": "kredit beta",
+      "wallet": "U-COIN",
+      "creditsNote": "Kredit beta tersimpan di perangkat ini · Penyelesaian U-COIN dibuka bersama tautan buku besar.",
+      "all": "Semua",
+      "sort": {
+        "trending": "Tren",
+        "newest": "Terbaru",
+        "price": "Harga"
+      },
+      "kind": {
+        "ladder": "Tangga",
+        "playbook": "Panduan",
+        "dataset": "Set data",
+        "prompt": "Kit prompt"
+      },
+      "tier": {
+        "seed": "Seed",
+        "pro": "Pro",
+        "sovereign": "Sovereign"
+      },
+      "buy": "Beli",
+      "owned": "Dimiliki",
+      "insufficient": "Kredit tidak cukup",
+      "sales": "{count} terjual",
+      "rating": "★ {rating}",
+      "by": "@{handle}",
+      "split": "Bagi hasil · kreator {creator}% / UNITAS {platform}%",
+      "listTitle": "Daftarkan pengetahuanmu",
+      "form": {
+        "title": "Judul",
+        "theme": "Tema",
+        "price": "Harga (kredit)",
+        "summary": "Ringkasan satu baris",
+        "submit": "Daftarkan",
+        "errTitle": "Judul: 3–60 karakter",
+        "errPrice": "Harga: bilangan bulat 10–5.000 kredit",
+        "errSummary": "Ringkasan: maksimal 200 karakter"
+      },
+      "myListings": "Daftar saya",
+      "status": {
+        "review": "Dalam tinjauan",
+        "live": "Aktif"
+      },
+      "projected": "Proyeksi pendapatan (simulasi)",
+      "projectedSales": "{count} proyeksi penjualan",
+      "board": "Kreator teratas",
+      "ticker": "Transaksi langsung",
+      "tickerEmpty": "Belum ada transaksi — jadilah yang pertama.",
+      "tickerRow": "{buyer} · {pack}",
+      "bought": "Dibeli — ditambahkan ke perpustakaanmu",
+      "myPacks": "Perpustakaanku"
+    },
+    "rooms": {
+      "lede": "22 ruang tema — bicarakan topik yang sedang dibicarakan dunia. Pesan tidak pernah menyentuh server; perangkat ini menyimpan 60 terakhir per ruang.",
+      "placeholder": "Ketik pesan lalu tekan Enter…",
+      "send": "Kirim",
+      "you": "Kamu",
+      "empty": "Belum ada percakapan — tinggalkan sapaan pertama.",
+      "welcome": "Selamat datang di ruang {room}.",
+      "speakingAs": "Berbicara sebagai {name}",
+      "roomAria": "Ruang obrolan {room}"
+    },
+    "social": {
+      "lede": "Langsung ke aplikasi sosial dan email dunia, dan bagikan UNITAS sekali ketuk.",
+      "apps": "Pintasan",
+      "mail": "Webmail",
+      "share": "Bagikan UNITAS",
+      "shareText": "UNITAS — jaringan SaaS berdaulat. Tanyakan apa saja ke U-AI.",
+      "copy": "Salin tautan",
+      "copied": "Tersalin",
+      "native": "Bagikan…"
+    },
+    "attach": {
+      "file": "Lampirkan berkas",
+      "video": "Lampirkan video",
+      "sketch": "Lampirkan sketsa"
+    },
+    "newProducts": {
+      "families": {
+        "cars": "Mobil",
+        "phones": "Ponsel",
+        "mobility": "Mobilitas",
+        "gadgets": "Gadget",
+        "games": "Gim"
+      },
+      "facts": {
+        "count": "Baru"
+      }
+    },
+    "shorts": {
+      "filterAll": "Semua tema",
+      "label": "UNITAS Shorts",
+      "lede": "Momen vertikal dari jaringan — benih dari U-Messenger.",
+      "views": "{count} tontonan",
+      "like": "Suka",
+      "liked": "Disukai",
+      "follow": "Ikuti",
+      "following": "Mengikuti",
+      "upload": "Unggah",
+      "uploadSoon": "Unggahan dibuka bersama beta U-Messenger",
+      "seedNote": "Klip awal ditampilkan sebagai pratinjau · unggahan sungguhan hadir bersama beta U-Messenger",
+      "share": "Bagikan ke U-Messenger",
+      "shareHint": "Tautan berbagi akan mengirim klip ini langsung ke utas U-Messenger begitu beta dibuka.",
+      "openAria": "Buka short {title}",
+      "creator": "Kreator",
+      "duration": "{seconds} detik",
+      "followers": "{count} pengikut",
+      "pass": {
+        "eyebrow": "Akses awal untuk kreator",
+        "cta": "Dapatkan akses awal",
+        "title": "Pas kreator Anda",
+        "lede": "Unggahan dibuka bersama beta U-Messenger. Pesan pas Anda sekarang, dan nama Anda berada di barisan terdepan saat pintu studio terbuka.",
+        "handleLabel": "Handle kreator",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 karakter: a–z, 0–9, titik, tanda hubung, garis bawah",
+        "reserve": "Pesan pas saya",
+        "reserved": "Pas sudah dipesan",
+        "reservedAt": "Dipesan {time}",
+        "serial": "Pas {serial}",
+        "currentWave": "Sedang dibuka",
+        "wave1": "Gelombang 1 · Kreator pendiri",
+        "wave2": "Gelombang 2 · Perangkat studio",
+        "wave3": "Gelombang 3 · Terbuka global",
+        "perks": {
+          "p1": "Slot unggah prioritas di hari pembukaan",
+          "p2": "Lencana kreator pendiri di profil Anda",
+          "p3": "Bagikan langsung ke percakapan U-Messenger"
+        },
+        "signedIn": "Terhubung ke akun Anda",
+        "guest": "Masuk, dan pas Anda juga akan terhubung ke akun Anda.",
+        "honest": "Pas tersimpan di perangkat ini dan, saat Anda masuk, juga di akun Anda. Belum ada video yang diunggah atau disimpan."
       }
     }
   }

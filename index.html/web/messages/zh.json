@@ -1646,16 +1646,23 @@
       "law": "法律",
       "institution": "制度",
       "education": "教育",
-      "welfare": "福利·卫生",
-      "security": "安全·冲突",
+      "welfare": "福利",
+      "security": "安全",
       "strategy": "战略",
-      "disaster": "灾害"
+      "disaster": "灾害",
+      "health": "卫生",
+      "conflict": "冲突"
     },
     "live": "实时线报",
     "loadMore": "加载更多{axis}",
     "axisLoading": "正在调用{axis}的全球实时信息…",
     "axisEmpty": "当前无法获取该维度的实时信息 — 请稍后重试。",
-    "endOfFeed": "两周归档已到末尾 — 刷新即可让最新资讯重新流入。"
+    "endOfFeed": "两周归档已到末尾 — 刷新即可让最新资讯重新流入。",
+    "openOriginal": "查看原文",
+    "storyCount": "{count} 条",
+    "axisTag": "全球与本地的{axis}头条 — 点击一条查看详情弹窗",
+    "detailAria": "打开 {title}",
+    "allStories": "全部{axis}新闻 — 先全球，后本国"
   },
   "Weather": {
     "myLocation": "我的位置",
@@ -2355,6 +2362,10 @@
         "nearbyTitle": "最近文章",
         "nearbyDist": "距离",
         "nearbyCount": "附近文章数"
+      },
+      "newProducts": {
+        "title": "全球新品",
+        "tag": "世界刚刚发布的汽车、手机、出行工具、数码产品和游戏"
       }
     }
   },
@@ -2668,6 +2679,158 @@
         "pritzker": "普利兹克建筑奖",
         "ballonDor": "金球奖",
         "timePerson": "《时代》年度风云人物"
+      }
+    }
+  },
+  "Rev29": {
+    "hub": {
+      "title": "UNITAS 中心",
+      "lede": "买卖知识、观看短视频、角逐排名、按主题聊天，并与世界分享 UNITAS。",
+      "toggleAria": "打开 UNITAS 中心 — 知识交易所、短视频、排名、聊天室、社交",
+      "tabs": {
+        "exchange": "知识交易所",
+        "shorts": "UNITAS 短视频",
+        "rankings": "UNITAS 排名",
+        "rooms": "主题聊天室",
+        "social": "社交媒体"
+      },
+      "live": "实时",
+      "localOnly": "仅本设备 — 无实时连接",
+      "online": "{count} 人在线"
+    },
+    "exchange": {
+      "lede": "用积分购买创作者上架的知识包，并上架你的知识来分享收益。",
+      "credits": "测试版积分",
+      "wallet": "U-COIN",
+      "creditsNote": "测试版积分保存在本设备 · U-COIN 结算将随账本对接开放。",
+      "all": "全部",
+      "sort": {
+        "trending": "热门",
+        "newest": "最新",
+        "price": "价格"
+      },
+      "kind": {
+        "ladder": "阶梯",
+        "playbook": "攻略手册",
+        "dataset": "数据集",
+        "prompt": "提示词套件"
+      },
+      "tier": {
+        "seed": "种子",
+        "pro": "专业",
+        "sovereign": "主权"
+      },
+      "buy": "购买",
+      "owned": "已拥有",
+      "insufficient": "积分不足",
+      "sales": "已售 {count}",
+      "rating": "★ {rating}",
+      "by": "@{handle}",
+      "split": "收益分成 · 创作者 {creator}% / UNITAS {platform}%",
+      "listTitle": "上架我的知识",
+      "form": {
+        "title": "标题",
+        "theme": "主题",
+        "price": "价格（积分）",
+        "summary": "一句话摘要",
+        "submit": "上架",
+        "errTitle": "标题需 3–60 个字符",
+        "errPrice": "价格需为 10–5,000 积分的整数",
+        "errSummary": "摘要最多 200 个字符"
+      },
+      "myListings": "我的上架",
+      "status": {
+        "review": "审核中",
+        "live": "已上架"
+      },
+      "projected": "预计收益（模拟）",
+      "projectedSales": "预计销量 {count}",
+      "board": "顶级创作者",
+      "ticker": "实时交易",
+      "tickerEmpty": "还没有交易信号 — 来做第一笔吧。",
+      "tickerRow": "{buyer} · {pack}",
+      "bought": "已购买 — 已加入我的书架",
+      "myPacks": "我的书架"
+    },
+    "rooms": {
+      "lede": "22 个主题房间 — 讨论世界此刻正在谈论的话题。消息不经过服务器，本设备仅保留每个房间最近 60 条。",
+      "placeholder": "输入消息并按 Enter…",
+      "send": "发送",
+      "you": "我",
+      "empty": "还没有对话 — 留下第一声问候吧。",
+      "welcome": "欢迎来到「{room}」房间。",
+      "speakingAs": "以 {name} 身份发言",
+      "roomAria": "{room} 聊天室"
+    },
+    "social": {
+      "lede": "直达全球社交与邮件应用，一键分享 UNITAS。",
+      "apps": "快捷入口",
+      "mail": "网页邮箱",
+      "share": "分享 UNITAS",
+      "shareText": "UNITAS — 主权 SaaS 网络。向 U-AI 提出任何问题。",
+      "copy": "复制链接",
+      "copied": "已复制",
+      "native": "分享…"
+    },
+    "attach": {
+      "file": "附加文件",
+      "video": "附加视频",
+      "sketch": "附加草图"
+    },
+    "newProducts": {
+      "families": {
+        "cars": "汽车",
+        "phones": "智能手机",
+        "mobility": "出行",
+        "gadgets": "数码",
+        "games": "游戏"
+      },
+      "facts": {
+        "count": "新品"
+      }
+    },
+    "shorts": {
+      "filterAll": "全部主题",
+      "label": "UNITAS Shorts",
+      "lede": "来自网络的竖屏瞬间 — U-Messenger 的种子。",
+      "views": "{count} 次观看",
+      "like": "点赞",
+      "liked": "已点赞",
+      "follow": "关注",
+      "following": "已关注",
+      "upload": "上传",
+      "uploadSoon": "上传功能将随 U-Messenger 测试版开放",
+      "seedNote": "当前展示的是预览用种子短片 · 真正的上传将随 U-Messenger 测试版到来",
+      "share": "分享至 U-Messenger",
+      "shareHint": "测试版开放后,分享链接会将这段短片直接送入 U-Messenger 的对话串。",
+      "openAria": "打开短片《{title}》",
+      "creator": "创作者",
+      "duration": "{seconds}秒",
+      "followers": "{count} 位粉丝",
+      "pass": {
+        "eyebrow": "创作者抢先体验",
+        "cta": "获取抢先体验",
+        "title": "你的创作者通行证",
+        "lede": "上传功能将随 U-Messenger 测试版一同开放。现在预留通行证，工作室大门开启的那一刻，你的账号名将站在最前排。",
+        "handleLabel": "创作者账号名",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 个字符：a–z、0–9、点、短横线、下划线",
+        "reserve": "预留我的通行证",
+        "reserved": "通行证已预留",
+        "reservedAt": "预留于 {time}",
+        "serial": "通行证 {serial}",
+        "currentWave": "正在预留",
+        "wave1": "第一波 · 创始创作者",
+        "wave2": "第二波 · 工作室工具",
+        "wave3": "第三波 · 全球开放",
+        "perks": {
+          "p1": "开放首日的优先上传席位",
+          "p2": "个人主页上的创始创作者徽章",
+          "p3": "直接分享到 U-Messenger 会话"
+        },
+        "signedIn": "已绑定到你的账户",
+        "guest": "登录后，这张通行证也会绑定到你的账户。",
+        "honest": "通行证保存在此设备上；登录后也会保存在你的账户中。目前尚未上传或存储任何视频。"
       }
     }
   }

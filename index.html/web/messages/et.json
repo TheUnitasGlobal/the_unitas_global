@@ -1646,16 +1646,23 @@
       "law": "Õigus",
       "institution": "Institutsioonid",
       "education": "Haridus",
-      "welfare": "Heaolu · Tervis",
-      "security": "Julgeolek · Konflikt",
+      "welfare": "Heaolu",
+      "security": "Julgeolek",
       "strategy": "Strateegia",
-      "disaster": "Katastroofid"
+      "disaster": "Katastroofid",
+      "health": "Tervis",
+      "conflict": "Konflikt"
     },
     "live": "Otseliin",
     "loadMore": "Laadi veel: {axis}",
     "axisLoading": "Kutsun {axis} ülemaailmset otseliini…",
     "axisEmpty": "Selle telje otseliin pole praegu kättesaadav — proovi varsti uuesti.",
-    "endOfFeed": "Kahenädalase arhiivi lõpp — värskenda, et uusimad lood taas voolaksid."
+    "endOfFeed": "Kahenädalase arhiivi lõpp — värskenda, et uusimad lood taas voolaksid.",
+    "openOriginal": "Loe originaali",
+    "storyCount": "{count} lugu",
+    "axisTag": "Maailma ja kohalikud {axis} pealkirjad — puuduta lugu, et avada",
+    "detailAria": "Ava {title}",
+    "allStories": "Kõik {axis} lood — kõigepealt maailm, siis sinu riik"
   },
   "Weather": {
     "myLocation": "Minu asukoht",
@@ -2355,6 +2362,10 @@
         "nearbyTitle": "Lähim artikkel",
         "nearbyDist": "Kaugus",
         "nearbyCount": "Lähedalasuvad artiklid"
+      },
+      "newProducts": {
+        "title": "Uued tooted",
+        "tag": "Autod, telefonid, liikuvus, vidinad ja mängud, mille maailm just välja lasi"
       }
     }
   },
@@ -2668,6 +2679,158 @@
         "pritzker": "Pritzkeri arhitektuuripreemia",
         "ballonDor": "Kuldpall",
         "timePerson": "Time aasta inimene"
+      }
+    }
+  },
+  "Rev29": {
+    "hub": {
+      "title": "UNITASe keskus",
+      "lede": "Kauple teadmistega, vaata lühivideoid, tõuse edetabelis, vestle teemade kaupa ja jaga UNITASt maailmaga.",
+      "toggleAria": "Ava UNITASe keskus — teadmiste börs, lühivideod, edetabelid, vestlustoad, sotsiaalmeedia",
+      "tabs": {
+        "exchange": "Teadmiste börs",
+        "shorts": "UNITAS lühivideod",
+        "rankings": "UNITAS edetabelid",
+        "rooms": "Teemavestlused",
+        "social": "Sotsiaalmeedia"
+      },
+      "live": "Otse",
+      "localOnly": "Ainult see seade — otseühendust pole",
+      "online": "{count} võrgus"
+    },
+    "exchange": {
+      "lede": "Osta loojate teadmispakke krediitidega ja pane oma teadmised müüki, et tulu jagada.",
+      "credits": "beetakrediidid",
+      "wallet": "U-COIN",
+      "creditsNote": "Beetakrediidid asuvad selles seadmes · U-COINi arveldus avaneb koos pearaamatu liidesega.",
+      "all": "Kõik",
+      "sort": {
+        "trending": "Populaarsed",
+        "newest": "Uusimad",
+        "price": "Hind"
+      },
+      "kind": {
+        "ladder": "Redel",
+        "playbook": "Mängujuhend",
+        "dataset": "Andmestik",
+        "prompt": "Vihjekomplekt"
+      },
+      "tier": {
+        "seed": "Seeme",
+        "pro": "Pro",
+        "sovereign": "Suveräänne"
+      },
+      "buy": "Osta",
+      "owned": "Ostetud",
+      "insufficient": "Krediite napib",
+      "sales": "{count} müüdud",
+      "rating": "★ {rating}",
+      "by": "@{handle}",
+      "split": "Tulujaotus · looja {creator}% / UNITAS {platform}%",
+      "listTitle": "Pane oma teadmised müüki",
+      "form": {
+        "title": "Pealkiri",
+        "theme": "Teema",
+        "price": "Hind (krediidid)",
+        "summary": "Üherealine kokkuvõte",
+        "submit": "Lisa",
+        "errTitle": "Pealkiri: 3–60 märki",
+        "errPrice": "Hind: täisarv 10–5000 krediiti",
+        "errSummary": "Kokkuvõte: kuni 200 märki"
+      },
+      "myListings": "Minu pakkumised",
+      "status": {
+        "review": "Ülevaatusel",
+        "live": "Müügis"
+      },
+      "projected": "Prognoositud tulu (simulatsioon)",
+      "projectedSales": "{count} prognoositud müüki",
+      "board": "Tippautorid",
+      "ticker": "Otsetehingud",
+      "tickerEmpty": "Tehinguid veel pole — tee esimene.",
+      "tickerRow": "{buyer} · {pack}",
+      "bought": "Ostetud — lisatud sinu raamatukokku",
+      "myPacks": "Minu raamatukogu"
+    },
+    "rooms": {
+      "lede": "22 teemaruumi — räägi samadel teemadel, millest maailm praegu räägib. Sõnumid ei puuduta serverit; see seade hoiab iga ruumi viimased 60.",
+      "placeholder": "Kirjuta sõnum ja vajuta Enter…",
+      "send": "Saada",
+      "you": "Sina",
+      "empty": "Vestlust veel pole — jäta esimene tervitus.",
+      "welcome": "Tere tulemast ruumi {room}.",
+      "speakingAs": "Räägid kui {name}",
+      "roomAria": "{room} vestlusruum"
+    },
+    "social": {
+      "lede": "Hüppa otse maailma sotsiaal- ja meilirakendustesse ning jaga UNITASt ühe puudutusega.",
+      "apps": "Otseteed",
+      "mail": "Veebipost",
+      "share": "Jaga UNITASt",
+      "shareText": "UNITAS — suveräänne SaaS-võrgustik. Küsi U-AI-lt mida iganes.",
+      "copy": "Kopeeri link",
+      "copied": "Kopeeritud",
+      "native": "Jaga…"
+    },
+    "attach": {
+      "file": "Lisa fail",
+      "video": "Lisa video",
+      "sketch": "Lisa visand"
+    },
+    "newProducts": {
+      "families": {
+        "cars": "Autod",
+        "phones": "Nutitelefonid",
+        "mobility": "Liikuvus",
+        "gadgets": "Vidinad",
+        "games": "Mängud"
+      },
+      "facts": {
+        "count": "Uued"
+      }
+    },
+    "shorts": {
+      "filterAll": "Kõik teemad",
+      "label": "UNITAS Shorts",
+      "lede": "Püstised hetked võrgustikust — U-Messengeri seeme.",
+      "views": "{count} vaatamist",
+      "like": "Meeldib",
+      "liked": "Meeldis",
+      "follow": "Jälgi",
+      "following": "Jälgid",
+      "upload": "Laadi üles",
+      "uploadSoon": "Üleslaadimine avaneb koos U-Messengeri beetaversiooniga",
+      "seedNote": "Kuvatavad seemneklipid on eelvaade · päris üleslaadimised saabuvad koos U-Messengeri beetaversiooniga",
+      "share": "Jaga U-Messengerisse",
+      "shareHint": "Kui beetaversioon avaneb, viivad jagamislingid selle klipi otse U-Messengeri vestlusesse.",
+      "openAria": "Ava lühivideo {title}",
+      "creator": "Looja",
+      "duration": "{seconds} s",
+      "followers": "{count} jälgijat",
+      "pass": {
+        "eyebrow": "Loojate varajane ligipääs",
+        "cta": "Saa varajane ligipääs",
+        "title": "Sinu loojapass",
+        "lede": "Üleslaadimine avaneb koos U-Messengeri beetaga. Broneeri pass kohe ja sinu nimi on esimesena järjekorras hetkel, mil stuudio uksed avanevad.",
+        "handleLabel": "Looja nimi",
+        "handlePlaceholder": "yourname",
+        "invalidHandle": "3–20 märki: a–z, 0–9, punkt, sidekriips, alakriips",
+        "reserve": "Broneeri minu pass",
+        "reserved": "Pass broneeritud",
+        "reservedAt": "Broneeritud {time}",
+        "serial": "Pass {serial}",
+        "currentWave": "Broneerimine käib",
+        "wave1": "1. laine · Asutajaloojad",
+        "wave2": "2. laine · Stuudiotööriistad",
+        "wave3": "3. laine · Avatud kogu maailmale",
+        "perks": {
+          "p1": "Eelisjärjekorras üleslaadimiskoht avamispäeval",
+          "p2": "Asutajalooja märk sinu profiilil",
+          "p3": "Jagamine otse U-Messengeri vestlustesse"
+        },
+        "signedIn": "Seotud sinu kontoga",
+        "guest": "Logi sisse ja sinu pass seotakse ka sinu kontoga.",
+        "honest": "Pass on salvestatud selles seadmes ja sisselogituna ka sinu kontol. Ühtegi videot veel üles ei laadita ega salvestata."
       }
     }
   }
