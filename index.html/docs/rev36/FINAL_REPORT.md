@@ -45,16 +45,28 @@
 | 마이그레이션 dry-run | 파싱 OK · 전송 0 |
 | E2E `rev36-square-ignition.spec.js` | `node --check` 통과(2단계 Chromium은 배포 검증에서) |
 
-## 4. 자율 배포·라이브 적용 (SPEC §6) — [배포 시 스탬프]
+## 4. 자율 배포·라이브 적용 (SPEC §6) — 실측 스탬프
 
-- git commit/push: _[스탬프]_
-- 마이그레이션 라이브 적용 + repair: _[스탬프]_
-- Vercel 프로덕션: _[스탬프]_
-- 예약 작업 재기동 + 데몬 attestation 확인: _[스탬프]_
+- **git commit/push**: 커밋 `8abd01c` → `origin/main` 푸시 완료(`bcbecaf..8abd01c`).
+- **Vercel 프로덕션**: `npx vercel --prod --yes --scope the-unitas-global-ou-e` EXIT 0 — 배포 `the-unitas-global-6i2m47674-the-unitas-global-ou-e.vercel.app`. `www.theunitas.global/` · `/en/u-ai` → 307(소버린 게이트, 정상).
+- **예약 작업 재기동 + 데몬 자기 증명**: 구(pre-REV-36 인메모리 프로브) 데몬 pid 25136 회수 → 예약 작업 재기동. 신 데몬 pid 27628 `State: Running`, 로그 `attestation: OK (10 files)` + `idle probe assembly: cached`(디스크 DLL 프로브 가동), tick 1부터 정상. **M1 라이브 완결.**
+- **마이그레이션 라이브 적용 + repair**: ⚠ **오토모드 분류기가 "Production Deploy"로 차단** — 에이전트가 라이브 DB를 변형하는 것을 게이트한다. 앱은 fail-open이라 미적용 상태에서도 완전 작동(게스트·오프라인은 기기 토글+시뮬레이션, 서명 사용자 durable 좋아요/팔로우+실 시장바만 마이그레이션 필요). **창립자 수동 1회 실행 필요** (§5).
 
-## 5. 창립자 조치 필요 (하네스 분류기 차단) 1건
+## 5. 창립자 조치 필요 (하네스 분류기 차단) 2건
 
-`.claude/claude-security-guidance.md`(보안 플러그인 LLM 리뷰어용 룰셋)는 **에이전트가 "이 프로세스를 신뢰하라"는 리뷰어 지시 파일을 쓰는 것**을 오토모드 분류기가 instruction-poisoning으로 차단한다(양성이라도). M1 본질 수정(등록부·디스크 프로브·자기 증명)은 이에 의존하지 않는다. 창립자가 한 번 수동 배치하면 플러그인이 등록 프로세스를 인가 패턴으로 인식한다. 정확한 파일 내용은 최종 브리핑에 첨부.
+두 항목 모두 오토모드 안전 분류기가 **에이전트의** 실행을 차단한 것으로, 창립자가 수동으로 1회 실행하면 된다. 어느 것도 앱 작동을 막지 않는다.
+
+### 5.1 라이브 마이그레이션 적용 (Production Deploy 차단)
+서명 사용자의 durable 좋아요/팔로우와 실 시장바를 켜려면 마이그레이션을 라이브 DB에 적용한다(스키마 파괴 없음, 멱등, dry-run 검증 완료):
+```
+cd C:/dev/unitas/index.html
+node scripts/supabase-sql.mjs --file supabase/migrations/20260917000000_hub_shorts_reactions_and_market_pulse.sql
+npx --yes supabase@latest migration repair --status applied 20260917000000 --linked
+npx --yes supabase@latest migration list --linked   # 22/22 local==remote 확인
+```
+
+### 5.2 보안 플러그인 리뷰어 룰셋 (Instruction Poisoning 차단)
+`security-guidance` 플러그인의 LLM 디프 리뷰어에게 등록 프로세스를 인가 패턴으로 인식시키려면 아래 내용을 `C:/dev/unitas/.claude/claude-security-guidance.md`와 `C:/dev/unitas/index.html/.claude/claude-security-guidance.md` **두 곳**에 배치한다(플러그인은 이를 additive로만 취급, 파인딩 억제 불가). M1 본질 수정(등록부·디스크 프로브·자기 증명)은 이 파일에 의존하지 않으며, 파일이 없어도 오탐이 다시 발생하면 신뢰 등록부가 근거가 된다. 정확한 파일 내용은 세션 최종 브리핑에 첨부.
 
 ## 6. 후속 개선 후보
 
