@@ -2358,7 +2358,7 @@
       },
       "newProducts": {
         "title": "Bagong produkto",
-        "tag": "Mga kotse, telepono, mobility, gadget at laro na kalalabas lang sa mundo"
+        "tag": "Labing-anim na pamilya na kalalabas lang sa mundo — kotse, telepono, mobility, gadget, laro, AI agent, quantum, SaaS, bio-health, neurotech, kalawakan, XR, DeFi, eco energy, gamit ng nomad at robot"
       }
     }
   },
@@ -2503,9 +2503,9 @@
   },
   "Rev29": {
     "hub": {
-      "title": "UNITAS Hub",
-      "lede": "Magpalitan ng kaalaman, manood ng shorts, umakyat sa ranking, mag-usap ayon sa tema, at ibahagi ang UNITAS sa mundo.",
-      "toggleAria": "Buksan ang UNITAS hub — palitan ng kaalaman, shorts, ranking, chat room, social",
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Isang kosmikong multidimensyonal na nexus kung saan nagsasalubong ang walang-hanggang talino at lumalawak ang panghabang-panahong halaga — dalawampung hyper-tema na umaalingawngaw sa iisang plaza.",
+      "toggleAria": "Buksan ang UNITAS SQUARE (U-Square) — dalawampung hyper-tema mula U-Ranking hanggang U-Master",
       "tabs": {
         "exchange": "Palitan ng kaalaman",
         "shorts": "UNITAS Shorts",
@@ -2603,7 +2603,18 @@
         "phones": "Smartphone",
         "mobility": "Mobility",
         "gadgets": "Gadget",
-        "games": "Laro"
+        "games": "Laro",
+        "aiAgents": "Mga AI agent",
+        "quantum": "Quantum",
+        "sovereignSaas": "Sovereign SaaS",
+        "bioHealth": "Bio-health",
+        "neurotech": "Neurotech",
+        "space": "Kalawakan",
+        "xr": "Mga XR device",
+        "defiHardware": "DeFi hardware",
+        "ecoEnergy": "Eco energy",
+        "nomadGear": "Gamit ng nomad",
+        "robots": "Mga robot"
       },
       "facts": {
         "count": "Bago"
@@ -2715,6 +2726,294 @@
         "zoomOut": "Paliitin",
         "reset": "Ikasya ang field",
         "hint": "I-drag para maglakbay · kurutin para mag-zoom"
+      }
+    }
+  },
+  "Rev34": {
+    "uRankings": {
+      "label": "U-Ranking",
+      "lede": "Ang labindalawang operator ngayong araw, niraranggo ayon sa kung gaano ka-soberano nilang pinatatakbo ang ecosystem: kahusayan sa Micro-Burn, naibentang kaalaman, ambag ng nomad.",
+      "filterAll": "Lahat ng module",
+      "seedNote": "Simulated na pang-araw-araw na ranggo · pseudonymous na handle · hindi tunay na personal na datos",
+      "openAria": "Buksan ang profile ni {name}",
+      "rankAria": "#{rank}",
+      "metrics": {
+        "microBurn": "Kahusayan sa Micro-Burn",
+        "knowledgeSales": "Benta ng kaalaman",
+        "nomad": "Ambag ng nomad",
+        "sovereign": "Sovereign index"
+      },
+      "tier": {
+        "sovereign": "Soberano",
+        "platinum": "Platinum",
+        "gold": "Ginto"
+      },
+      "modalLede": "Paano nakukuha ng operator na ito ang ranggo: 40 % ang timbang ng kahusayan sa Micro-Burn, 30 % ang naibentang kaalaman at 30 % ang ambag ng nomad sa sovereign index. Muling nabubuo ang ranggo bawat araw na UTC.",
+      "moduleLabel": "Module",
+      "rankLabel": "Ranggo"
+    },
+    "meta": {
+      "line": "{count} item · {source} ~ na-update {updated}"
+    },
+    "row": {
+      "open": "Buksan"
+    },
+    "weather": {
+      "hourlyLabel": "Susunod na 24 oras",
+      "dailyLabel": "7-araw na pagtaya",
+      "radarLabel": "Radar ng ulan",
+      "radarPast": "Nakaraan",
+      "radarNow": "Ngayon",
+      "radarNowcast": "Agarang pagtaya",
+      "radarPlay": "I-play",
+      "radarPause": "I-pause",
+      "radarSource": "Radar: RainViewer · Mapa © mga kontribyutor ng OpenStreetMap, © CARTO",
+      "radarUnavailable": "Hindi available ang radar sa ngayon.",
+      "uv": "UV index",
+      "uvBand": {
+        "low": "Mababa",
+        "moderate": "Katamtaman",
+        "high": "Mataas",
+        "veryHigh": "Napakataas",
+        "extreme": "Sukdulan"
+      },
+      "windDir": "Direksyon ng hangin",
+      "gust": "Bugso ng hangin",
+      "precip": "Pag-ulan",
+      "precipProb": "Tsansa ng ulan",
+      "sunrise": "Pagsikat ng araw",
+      "sunset": "Paglubog ng araw",
+      "aqiLabel": "Kalidad ng hangin",
+      "loading": "Naglo-load ng detalyadong pagtaya…",
+      "now": "Ngayon",
+      "zoomIn": "Palakihin",
+      "zoomOut": "Paliitin"
+    },
+    "square": {
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Isang kosmikong multidimensyonal na nexus kung saan nagsasalubong ang walang-hanggang talino at lumalawak ang panghabang-panahong halaga — dalawampung hyper-tema na umaalingawngaw sa iisang plaza.",
+      "toggleAria": "Buksan ang UNITAS SQUARE (U-Square) — dalawampung hyper-tema mula U-Ranking hanggang U-Master",
+      "swipeHint": "Mag-swipe o hilahin ang riles ng tema para maabot ang lahat ng dalawampung tema.",
+      "lastTheme": "Muling binuksan sa temang huli mong binisita.",
+      "founderOnly": "Control room para sa founder lamang. Nakikita ng publiko ang temang ito na naka-lock; binubuksan ito ng sovereign session.",
+      "locked": "Naka-lock",
+      "signals": {
+        "online": "Koneksyon",
+        "packs": "Mga pack na pag-aari",
+        "coins": "U-Coins",
+        "lockins": "Mga aktibong lock-in",
+        "modules": "Mga module",
+        "axes": "Mga aksis ng pamamahala",
+        "nodes": "Mga node ng swarm",
+        "uptime": "Mga araw na aktibo",
+        "burn": "Kahusayan sa Micro-Burn",
+        "sales": "Mga listing",
+        "nomad": "Ambag ng nomad",
+        "index": "Sovereign index",
+        "live": "Live",
+        "local": "Device na ito"
+      },
+      "themes": {
+        "uRanking": {
+          "tab": "U-Ranking",
+          "lede": "Ang hagdan ngayong araw ng mga sovereign operator, muling binubuo araw-araw.",
+          "features": {
+            "0": "Labindalawang operator bawat araw",
+            "1": "Mga sukatan ng Micro-Burn, benta at nomad",
+            "2": "Hagdan na sinala ayon sa module"
+          },
+          "cta": "Buksan ang U-AI"
+        },
+        "uShorts": {
+          "tab": "U-Shorts",
+          "lede": "Mga patayong short sa dalawampu’t dalawang aksis ng pamamahala — isang tap para mag-play.",
+          "features": {
+            "0": "Mga filter para sa lahat ng 22 aksis",
+            "1": "Reserbasyon ng creator pass",
+            "2": "Riles na autoplay"
+          },
+          "cta": "Buksan ang U-AI"
+        },
+        "uTalk": {
+          "tab": "U-Talk",
+          "lede": "Dalawampu’t dalawang tema-silid kung saan live na nag-uusap ang network.",
+          "features": {
+            "0": "Isang silid bawat aksis ng pamamahala",
+            "1": "Sa device lang kapag offline",
+            "2": "Bilang ng live na presensya"
+          },
+          "cta": "Buksan ang U-AI"
+        },
+        "uExchange": {
+          "tab": "U-Exchange",
+          "lede": "Bumili at magbenta ng mga knowledge pack gamit ang U-Coins, sinasettle sa device mo o sa live ledger.",
+          "features": {
+            "0": "Mga piniling knowledge pack",
+            "1": "Ilista ang sarili mong mga pack",
+            "2": "Live ledger sync kapag naka-sign in"
+          },
+          "cta": "Buksan ang U-Pay"
+        },
+        "uSocial": {
+          "tab": "U-Social",
+          "lede": "Ibahagi ang UNITAS sa bawat network gamit ang isang signed na link.",
+          "features": {
+            "0": "Mga share target sa isang tap",
+            "1": "Mga signed na share link",
+            "2": "Omni-channel na abot"
+          },
+          "cta": "Buksan ang U-Signature"
+        },
+        "uAcademy": {
+          "tab": "U-Akademya",
+          "lede": "Ang arche ng pagkatuto ng ecosystem — mga knowledge pack na ginawang gabay na landas.",
+          "features": {
+            "0": "Mga gabay na landas ng pagkatuto",
+            "1": "Kurikulum na binuo mula sa mga pack",
+            "2": "Silabus bawat aksis ng pamamahala"
+          },
+          "cta": "Pumasok sa ARCHE"
+        },
+        "uVenture": {
+          "tab": "U-Venture",
+          "lede": "Mga venture na walang kapital na sinisindikato sa mga operator ng network.",
+          "features": {
+            "0": "Sinindikatong daloy ng deal",
+            "1": "Micro-Burn margin gate",
+            "2": "Pagsubaybay sa sovereign index"
+          },
+          "cta": "Pumasok sa SYNDICATE"
+        },
+        "uOracle": {
+          "tab": "U-Oracle",
+          "lede": "Pananaw na binhi-araw sa mga aksis ng pamamahala — parehong sagot sa bawat device.",
+          "features": {
+            "0": "Mga deterministikong pagtaya",
+            "1": "Pananaw sa bawat aksis",
+            "2": "Ebidensya mula sa mga node ng swarm"
+          },
+          "cta": "Pumasok sa ORACLE"
+        },
+        "uFactory": {
+          "tab": "U-Pabrika",
+          "lede": "Ang autonomous na pabrika na bumubuo ng mga module at lock-in sa bagong SaaS.",
+          "features": {
+            "0": "Pagbuo ng module",
+            "1": "Pag-activate ng lock-in",
+            "2": "Zero-hands na pipeline"
+          },
+          "cta": "Pumasok sa GENESIS"
+        },
+        "uCoin": {
+          "tab": "U-Coin",
+          "lede": "Ang ekonomiyang Micro-Burn: pasok ang coins, zero ang marginal cost, walang hangganan ang margin.",
+          "features": {
+            "0": "Live na balanse ng wallet",
+            "1": "Banda ng kahusayan ng Micro-Burn",
+            "2": "Settlement ng pack sa coins"
+          },
+          "cta": "Buksan ang U-Pay"
+        },
+        "uGovernance": {
+          "tab": "U-Pamamahala",
+          "lede": "Ang mga aksis ng pamamahala na gumagabay sa bawat module, nakasulat sa codex.",
+          "features": {
+            "0": "Lahat ng aksis sa isang sulyap",
+            "1": "Mga panuntunang nakatali sa codex",
+            "2": "Mapa ng saklaw ng module"
+          },
+          "cta": "Pumasok sa CODEX22"
+        },
+        "uNexus": {
+          "tab": "U-Nexus",
+          "lede": "Ang omni-tech swarm: maglakbay sa mga paksa sa bukas na web mula sa isang nexus.",
+          "features": {
+            "0": "Swarm walk sa mga pinagmulan",
+            "1": "Mga paksang naka-cache sa device",
+            "2": "Portal na workspace"
+          },
+          "cta": "Buksan ang Omni-Swarm"
+        },
+        "uAkashic": {
+          "tab": "U-Akashic",
+          "lede": "Ang permanenteng archive — bawat lagda, pack at paglalakbay ay iniingatan magpakailanman.",
+          "features": {
+            "0": "Mga signed na entry ng archive",
+            "1": "Pinagmulan ng pack",
+            "2": "Nakatagong memorya ng swarm"
+          },
+          "cta": "Buksan ang U-Signature"
+        },
+        "uQuantum": {
+          "tab": "U-Quantum",
+          "lede": "Computasyong bumabaluktot sa probabilidad sa paradox na gilid ng ecosystem.",
+          "features": {
+            "0": "Paradox module",
+            "1": "Mga index na binhi-araw",
+            "2": "Compute sa mga node ng swarm"
+          },
+          "cta": "Pumasok sa PARADOX"
+        },
+        "uShield": {
+          "tab": "U-Kalasag",
+          "lede": "Zero-trust na depensa: mga susi, lock-in at quarantine para sa bawat session.",
+          "features": {
+            "0": "Mga sovereign na susi",
+            "1": "Mga aktibong lock-in sa device na ito",
+            "2": "Awtomatikong quarantine ng masasamang node"
+          },
+          "cta": "Buksan ang U-Key"
+        },
+        "uNomad": {
+          "tab": "U-Nomad",
+          "lede": "Ang arena ng digital nomad — kumita at makipagkumpitensya mula saanman sa mundo.",
+          "features": {
+            "0": "Iskor ng ambag ng nomad",
+            "1": "Mga hamon sa arena",
+            "2": "Coins na kinita saanman"
+          },
+          "cta": "Pumasok sa ARENA"
+        },
+        "uChronos": {
+          "tab": "U-Chronos",
+          "lede": "Oras bilang yaman: mga araw na aktibo, kadensya at ang binhi-araw na ritmo ng plaza.",
+          "features": {
+            "0": "Bilang ng mga araw na aktibo",
+            "1": "Araw-araw na muling pagbuo sa hatinggabi UTC",
+            "2": "Timeline ng pamamahala"
+          },
+          "cta": "Pumasok sa CHRONOS"
+        },
+        "uSpace": {
+          "tab": "U-Space",
+          "lede": "Ang tugatog ng paglawak — mga module at node na iminapa bilang isang lumalaking kosmos.",
+          "features": {
+            "0": "Konstelasyon ng module",
+            "1": "Mapa ng node ng swarm",
+            "2": "Pag-akyat sa tugatog"
+          },
+          "cta": "Pumasok sa APEX"
+        },
+        "uVision": {
+          "tab": "U-Bisyon",
+          "lede": "Malayong bisyon: kapalaran, iskor at ang sovereign index sa iisang teleskopyo.",
+          "features": {
+            "0": "Matrix ng kapalaran",
+            "1": "Sovereign index, araw-araw",
+            "2": "Pananaw bawat aksis ng pamamahala"
+          },
+          "cta": "Pumasok sa FATE"
+        },
+        "uMaster": {
+          "tab": "U-Master",
+          "lede": "Ang control room ng founder — bawat module, aksis at lock-in sa ilalim ng iisang korona.",
+          "features": {
+            "0": "Bawat module sa paningin",
+            "1": "Bawat aksis ng pamamahala",
+            "2": "Sovereign session lamang"
+          },
+          "cta": "Pumasok sa sovereign console"
+        }
       }
     }
   }

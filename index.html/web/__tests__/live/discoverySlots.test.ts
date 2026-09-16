@@ -87,7 +87,11 @@ describe('discovery slots registry', () => {
     expect(card.activeTab).toBe(GLOBAL_RANKING_THEMES[0].key);
     expect(card.items.length).toBeGreaterThan(0);
     expect(card.items[0].action).toEqual({ kind: 'rankingDetail', theme: GLOBAL_RANKING_THEMES[0].key, rank: 1 });
-    expect(card.facts.some((f) => f.emphasis)).toBe(true);
+    // REV-34 M1-C: #1 is a row, never repeated as a large fact under the
+    // title -- but it still names the card's entity anchor.
+    expect(card.facts.some((f) => f.emphasis)).toBe(false);
+    expect(card.facts.map((f) => f.labelKey)).not.toContain('Rev21.slots.facts.topRank');
+    expect(card.subject).toEqual({ term: GLOBAL_RANKING_THEMES[0].entries[0].name, lang: 'en' });
     const gdp = await world.load({ locale: 'en' }, { tab: 'gdp' });
     expect(gdp.activeTab).toBe('gdp');
     expect(gdp.items[0].action).toMatchObject({ theme: 'gdp' });
@@ -97,6 +101,8 @@ describe('discovery slots registry', () => {
     expect(u.tabs?.length).toBe(MODULE_REGISTRY.length);
     expect(u.items[0].action).toMatchObject({ kind: 'unitasProfile', moduleKey: MODULE_REGISTRY[0].key, rank: 1 });
     expect(u.items.every((it) => it.url === undefined)).toBe(true);
+    expect(u.facts.map((f) => f.labelKey)).not.toContain('Rev21.slots.facts.topOperator');
+    expect(u.facts.some((f) => f.value === u.items[0].title)).toBe(false);
   });
 
   it('discoverySlotAt wraps modulo the slot count, both directions', () => {

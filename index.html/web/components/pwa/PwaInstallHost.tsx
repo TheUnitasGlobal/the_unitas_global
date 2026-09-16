@@ -126,7 +126,11 @@ export function PwaInstallHost() {
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      // REV-34 M3: this sheet is both a gate owner and a history layer; the
+      // Escape controller walks history over the layer (onBack closes it)
+      // and marks the press handled, so a local close here would double up.
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      setOpen(false);
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);

@@ -67,6 +67,7 @@ const ROLL: ReadonlyArray<{ key: AttachKind; Icon: typeof Paperclip }> = [
 export function AttachMenu({ count, labels, titles, active, onPick, onFile, onVideo, onSketch, onHover }: AttachMenuProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
   const close = useCallback(() => setOpen(false), []);
@@ -81,6 +82,16 @@ export function AttachMenu({ count, labels, titles, active, onPick, onFile, onVi
       if (e.key === 'Escape') {
         e.stopPropagation();
         close();
+        // REV-34 M3 (D-9 ①): Escape closes THIS menu and nothing else. The
+        // first item holds focus while the menu is open; hiding it would
+        // drop focus to <body>, and the search root's blur handler reads a
+        // focus loss with no relatedTarget as "the visitor left the bar" --
+        // collapsing the popup and releasing its history layer under an
+        // Escape that was meant for the menu alone (measured 2026-09-16).
+        // Handing focus back to the toggle -- the WAI-ARIA menu-button
+        // pattern -- keeps focus inside the search surface, so the popup
+        // and the `search:focus` layer stay exactly as they were.
+        toggleRef.current?.focus({ preventScroll: true });
       }
     };
     window.addEventListener('pointerdown', onDown, true);
@@ -134,6 +145,7 @@ export function AttachMenu({ count, labels, titles, active, onPick, onFile, onVi
   return (
     <div ref={rootRef} className="qw-attach relative shrink-0" data-attach-open={open ? '1' : '0'}>
       <button
+        ref={toggleRef}
         type="button"
         className="qw-attach-toggle relative flex h-8 w-8 items-center justify-center border border-accent/40 text-accent transition-colors hover:bg-accent/10 sm:h-[38px] sm:w-[38px]"
         aria-haspopup="menu"
@@ -180,6 +192,9 @@ export function AttachMenu({ count, labels, titles, active, onPick, onFile, onVi
         onMouseDown={(e) => e.preventDefault()}
         onKeyDown={onMenuKeyDown}
         data-attach-menu=""
+        // REV-34 M3: a non-layer menu -- the Escape controller stands down
+        // (preventDefault only) and the capture handler above closes it.
+        data-escape-local=""
       >
         {items.map(({ key, label, Icon, action }) => (
           <button

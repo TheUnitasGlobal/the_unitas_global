@@ -50,7 +50,11 @@ export function EcosystemEntryModal({ ecosystem, onClose }: EcosystemEntryModalP
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handleClose();
+      // REV-34 M3: the Escape controller (ExitGuard, capture phase) already
+      // walked history over this layer and marked the press handled --
+      // closing here too would close twice (once via the layer's onBack).
+      if (e.key !== 'Escape' || e.defaultPrevented) return;
+      handleClose();
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);

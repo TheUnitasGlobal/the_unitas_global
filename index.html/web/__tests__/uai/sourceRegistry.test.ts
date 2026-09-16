@@ -60,6 +60,69 @@ describe('source registry', () => {
     expect(outboundSearchUrl('unitasIndex', 'Air')).toBe(sourceById('unitasIndex').homepage);
   });
 
+  // REV-34 M2 (D-8): the REV-23 arXiv link pointed at /abs/, which takes an
+  // identifier and 404s on a query. The listing endpoint is /search/.
+  it('sends an arXiv query to the /search/ listing, never to /abs/', () => {
+    const url = outboundSearchUrl('arxiv', 'quantum error correction');
+    expect(url).toMatch(/^https:\/\/arxiv\.org\/search\/\?/);
+    expect(url).toContain('query=quantum%20error%20correction');
+    expect(url).toContain('searchtype=all');
+    expect(url).not.toContain('/abs/');
+  });
+
+  it('REV-34: every outbound engine the family rows name is registered once and searches with the term', () => {
+    const added = [
+      'naverSearch', 'naverNews', 'naverCafe', 'naverBlog', 'yandex', 'seznam', 'duckduckgoSearch', 'yahooSearch',
+      'ecosia', 'qwant', 'brave', 'baidu', 'appleMaps', 'googleMaps', 'googleTrends', 'googlePatents', 'secEdgar',
+      'oecd', 'tradingView', 'yahooFinance', 'productHunt', 'crunchbase', 'huggingFace', 'kaggle', 'stackOverflow',
+      'devTo', 'medium', 'substack', 'bluesky', 'mastodon', 'pinterest',
+    ] as const;
+    for (const id of added) {
+      expect(SOURCE_REGISTRY.filter((s) => s.id === id).length, `${id} registered once`).toBe(1);
+      const s = sourceById(id);
+      expect(s.side, id).toBe('outbound');
+      expect(s.licenseClass, id).toBe('outbound-only');
+      const url = outboundSearchUrl(id, '공기', 'ko');
+      expect(url, id).toContain('%EA%B3%B5%EA%B8%B0');
+      expect(url, id).not.toBe(s.homepage);
+    }
+    // Every SourceId on the outbound side is in OmniOpen's reach: the switch
+    // never falls through to a bare homepage for an outbound row.
+    for (const s of sourcesBySide('outbound')) {
+      expect(outboundSearchUrl(s.id, 'Air'), `${s.id} has a search URL`).not.toBe(s.homepage);
+    }
+  });
+
+  it('REV-34: the new hosts resolve to their own rows without stealing existing ones', () => {
+    expect(sourceForUrl('https://search.naver.com/search.naver?query=x')?.source.id).toBe('naverSearch');
+    expect(sourceForUrl('https://news.naver.com/main/x')?.source.id).toBe('naverNews');
+    expect(sourceForUrl('https://section.cafe.naver.com/ca-fe/x')?.source.id).toBe('naverCafe');
+    expect(sourceForUrl('https://section.blog.naver.com/x')?.source.id).toBe('naverBlog');
+    expect(sourceForUrl('https://yandex.com/search/?text=x')?.source.id).toBe('yandex');
+    expect(sourceForUrl('https://search.seznam.cz/?q=x')?.source.id).toBe('seznam');
+    expect(sourceForUrl('https://bsky.app/search?q=x')?.source.id).toBe('bluesky');
+    expect(sourceForUrl('https://finance.yahoo.com/lookup/?s=x')?.source.id).toBe('yahooFinance');
+    expect(sourceForUrl('https://search.yahoo.com/search?p=x')?.source.id).toBe('yahooSearch');
+    expect(sourceForUrl('https://maps.apple.com/?q=x')?.source.id).toBe('appleMaps');
+    expect(sourceForUrl('https://patents.google.com/?q=x')?.source.id).toBe('googlePatents');
+    expect(sourceForUrl('https://trends.google.com/trends/explore?q=x')?.source.id).toBe('googleTrends');
+    // Existing ownership is untouched: the browser-side Instant Answer row
+    // keeps duckduckgo.com, Google Search keeps google.com, Scholar its host.
+    expect(sourceForUrl('https://duckduckgo.com/?q=x')?.source.id).toBe('duckduckgo');
+    expect(sourceForUrl('https://www.google.com/search?q=x')?.source.id).toBe('googleSearch');
+    expect(sourceForUrl('https://scholar.google.com/scholar?q=x')?.source.id).toBe('googleScholar');
+    expect(sourceForUrl('https://news.google.com/search?q=x')?.source.id).toBe('googleNews');
+  });
+
+  it('REV-34: display names stay unique with the owner appended (the privacy page rule)', () => {
+    for (const locale of ['en', 'ko']) {
+      const names = SOURCE_REGISTRY.map((s) => sourceLabel(s.id, locale, true));
+      expect(new Set(names).size, `${locale} owner-qualified names`).toBe(names.length);
+    }
+    expect(sourceLabel('duckduckgoSearch', 'en')).not.toBe(sourceLabel('duckduckgo', 'en'));
+    expect(sourceLabel('kaggle', 'en', true)).toBe('Kaggle · Google');
+  });
+
   it('resolves URLs to the right source, exact hosts before suffixes, path-aware for Bing', () => {
     expect(sourceForUrl('https://news.google.com/rss/search?q=x')?.source.id).toBe('googleNews');
     expect(sourceForUrl('https://www.google.com/search?q=x')?.source.id).toBe('googleSearch');

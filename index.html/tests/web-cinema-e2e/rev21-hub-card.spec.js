@@ -3,10 +3,14 @@ const { test, expect } = require('@playwright/test');
 // REV-23 M2.3 SUPERSEDES REV-21 §1D. The whole card WAS the hitbox: a click
 // anywhere in it -- padding, gaps, corners -- opened that slot's deep dive,
 // and a shortcut arrow in the top-right corner opened it a second way. The
-// founder's 2026-09-13 directive removes both: only the TITLE is a target,
-// and it takes two steps (first click selects, second opens). The tests
-// below assert that inverted contract -- the corners must NOT open -- while
-// §1.4 (held on close) and §2A.3 (scope order) are unchanged behaviours
+// founder's 2026-09-13 directive removes both: only the TITLE is a target.
+// REV-34 M1-C (2026-09-16) then retired the two-step on the strip: the title
+// text opens on ONE click (`.qw-hub-title-hit`, a native button) and a ⏎ box
+// at the end of the same row (`.qw-row-enter[data-row-enter="title"]`) routes
+// to the very same target; every sub-info row carries its own ⏎ box that does
+// what the row's headline does. The tests below assert that contract -- the
+// corners must NOT open, the title and the box must, on the first click --
+// while §1.4 (held on close) and §2A.3 (scope order) are unchanged behaviours
 // simply driven through the new gesture.
 // SPEC §1.4 -- closing a deep modal pins the slot it was opened from
 // (`held = openKey`), so the visitor never comes back out onto a different
@@ -72,7 +76,8 @@ test.beforeEach(async ({ browserName }) => {
 });
 
 /**
- * REV-23 M2.3: the title is the only way in, and it takes two clicks.
+ * REV-23 M2.3 / REV-34 M1-C: the title is the only way in, and it takes ONE
+ * click (the two-step select was retired on the strip, 2026-09-16).
  *
  * REV-28: dispatched, not driven through Playwright's actionability path.
  * The discovery carousel ROTATES, so this title is a moving target, and
@@ -84,27 +89,22 @@ test.beforeEach(async ({ browserName }) => {
  * bigger budget cannot win that race; it already had three minutes. Dispatching
  * the click is the pattern this repository already uses for carousel elements
  * (rev15-cluster-popout, rev17-entry-checkout), and it changes nothing about
- * what is asserted -- the two-step contract is still two clicks, and
- * `data-selected` is still checked between them.
+ * what is asserted -- one click on the title text opens the deep modal.
  */
 async function openViaTitle(page, slot) {
-  const title = page.locator(`[data-slot-card="${slot}"] .qw-hub-card-title .qw-two-step-hit`);
+  const title = page.locator(`[data-slot-card="${slot}"] .qw-hub-card-title .qw-hub-title-hit`);
   await expect(title).toBeVisible({ timeout: 20_000 });
-  const dispatch = () =>
-    page.evaluate(
-      (sel) => {
-        const el = document.querySelector(sel);
-        if (!el) throw new Error(`no two-step hit for ${sel}`);
-        el.click();
-      },
-      `[data-slot-card="${slot}"] .qw-hub-card-title .qw-two-step-hit`,
-    );
-  await dispatch();
-  await expect(title).toHaveAttribute('data-selected', '1', { timeout: 20_000 });
-  await dispatch();
+  await page.evaluate(
+    (sel) => {
+      const el = document.querySelector(sel);
+      if (!el) throw new Error(`no title hit for ${sel}`);
+      el.click();
+    },
+    `[data-slot-card="${slot}"] .qw-hub-card-title .qw-hub-title-hit`,
+  );
 }
 
-test.describe('REV-23 M2.3 title-only, two-step hitbox', () => {
+test.describe('REV-23 M2.3 / REV-34 M1-C title-only, one-click hitbox', () => {
   test('the corners and the padding no longer open anything', async ({ page }) => {
     await reachHome(page);
     await openHub(page);
@@ -143,16 +143,12 @@ test.describe('REV-23 M2.3 title-only, two-step hitbox', () => {
     await expect(page.locator('[data-slot-card="history"] button[aria-label]')).toHaveCount(0);
   });
 
-  test('the title opens it on the SECOND click, never the first', async ({ page }) => {
+  test('the title opens it on the FIRST click', async ({ page }) => {
     await reachHome(page);
     await openHub(page);
     await pin(page, 'history');
-    const title = page.locator('[data-slot-card="history"] .qw-hub-card-title .qw-two-step-hit');
+    const title = page.locator('[data-slot-card="history"] .qw-hub-card-title .qw-hub-title-hit');
     await expect(title).toBeVisible({ timeout: 20_000 });
-    await title.click();
-    await expect(title).toHaveAttribute('data-selected', '1');
-    await page.waitForTimeout(400);
-    await expect(page.locator('#feed-deep-title')).toHaveCount(0);
     await title.click();
     await expect(page.locator('#feed-deep-title')).toBeVisible({ timeout: 8_000 });
     await page.goBack();
@@ -178,7 +174,7 @@ test.describe('REV-23 M2.3 title-only, two-step hitbox', () => {
     if (opened) await opened.close();
   });
 
-  test('the keyboard follows the same two steps on the title, not the card', async ({ page }) => {
+  test('the keyboard opens on the first Enter on the title, not the card', async ({ page }) => {
     await reachHome(page);
     await openHub(page);
     await pin(page, 'history');
@@ -187,16 +183,50 @@ test.describe('REV-23 M2.3 title-only, two-step hitbox', () => {
     await page.keyboard.press('Enter');
     await page.waitForTimeout(500);
     await expect(page.locator('#feed-deep-title')).toHaveCount(0);
-    // The title does -- on the second press.
-    const title = page.locator('[data-slot-card="history"] .qw-hub-card-title .qw-two-step-hit');
+    // The title does -- on the first press (a native button).
+    const title = page.locator('[data-slot-card="history"] .qw-hub-card-title .qw-hub-title-hit');
     await title.focus();
-    await page.keyboard.press('Enter');
-    await expect(title).toHaveAttribute('data-selected', '1');
     await page.keyboard.press('Enter');
     await expect(page.locator('#feed-deep-title')).toBeVisible({ timeout: 8_000 });
     await page.goBack();
     await page.waitForTimeout(500);
     await expect(page.locator('#feed-deep-title')).toHaveCount(0);
+  });
+
+  // REV-34 M1-C: the ⏎ boxes are the second way in, and they route to the
+  // SAME targets as the text beside them -- the title box to the deep modal,
+  // a row box to whatever that row's headline does (the outbound article for
+  // a history row, never the card's deep dive). No two-step hit survives.
+  test('the ⏎ boxes route to the same targets as the text beside them', async ({ page, context }) => {
+    await reachHome(page);
+    await openHub(page);
+    await pin(page, 'history');
+    const titleBox = page.locator('[data-slot-card="history"] .qw-hub-card-title .qw-row-enter[data-row-enter="title"]');
+    await expect(titleBox).toBeVisible({ timeout: 20_000 });
+    await expect(page.locator('[data-slot-card] .qw-two-step-hit')).toHaveCount(0);
+    // One box per row plus the title's.
+    const rows = await page.locator('[data-slot-card="history"] .qw-hub-row').count();
+    expect(rows).toBeGreaterThan(0);
+    await expect(page.locator('[data-slot-card="history"] .qw-row-enter')).toHaveCount(rows + 1);
+
+    // Title box, single click -> the deep modal.
+    await titleBox.click();
+    await expect(page.locator('#feed-deep-title')).toBeVisible({ timeout: 8_000 });
+    await page.goBack();
+    await page.waitForTimeout(500);
+    await expect(page.locator('#feed-deep-title')).toHaveCount(0);
+    await expect(page.locator('#exit-guard-title')).toHaveCount(0);
+
+    // Row box, single click -> the row's own outbound target, and NOT the
+    // card's deep dive underneath (§1.5, the same rule as the headline).
+    const rowBox = page.locator('[data-slot-card="history"] .qw-hub-row .qw-row-enter[data-row-enter="row"]').first();
+    await expect(rowBox).toBeVisible({ timeout: 20_000 });
+    const popup = context.waitForEvent('page', { timeout: 8_000 }).catch(() => null);
+    await rowBox.click();
+    const opened = await popup;
+    await page.waitForTimeout(800);
+    await expect(page.locator('#feed-deep-title')).toHaveCount(0);
+    if (opened) await opened.close();
   });
 });
 
@@ -206,7 +236,8 @@ test.describe('REV-21 §1.4 held on close', () => {
     await openHub(page);
 
     // Deliberately do NOT pin first: this is about a modal opened from a
-    // freely rotating carousel. M2.3: opened through the title's two steps.
+    // freely rotating carousel. M2.3 / REV-34 M1-C: opened through the title,
+    // one click.
     const liveSlot = await card(page).getAttribute('data-slot-card');
     await openViaTitle(page, liveSlot);
     await page.waitForTimeout(600);

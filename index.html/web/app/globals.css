@@ -972,42 +972,101 @@ html[data-page-hidden='1'][data-unitas-surface='quantum-white'] *::after {
   animation: none !important;
   transform: translateY(calc(var(--qw-roll-index, 0) * -20px));
 }
-/* REV-29 M4 + REV-32 M2: the UNITAS tile's six-icon roll -- the same 2.4 s
-   step and the same easing as the attach roll. Six surfaces, so the loop is
-   14.4 s: the CADENCE is the constant here, never the loop length. */
+/* REV-29 M4 + REV-32 M2 + REV-34 M4-A: the UNITAS SQUARE tile's roll -- the
+   same 2.4 s step and the same easing as the attach roll. TWENTY themes
+   (lib/square/themes.ts order) plus the wrap duplicate, so the loop is
+   48 s = 20 x 2.4 s: the CADENCE is the constant here, never the loop
+   length. Each stop holds 4.25% (2.04 s) and eases 0.75% (0.36 s) to the
+   next; 100% lands on the duplicate of stop 1 so the wrap never jumps. */
 #omni-synapse-search:hover .qw-unitas-roll-track,
 #omni-synapse-search:focus-within .qw-unitas-roll-track,
 #omni-synapse-search[data-state='focus'] .qw-unitas-roll-track,
 #omni-synapse-search[data-state='drag'] .qw-unitas-roll-track {
-  animation: qw-unitas-roll 14.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  animation: qw-unitas-roll 48s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
 }
 @keyframes qw-unitas-roll {
   0%,
-  14.2% {
+  4.25% {
     transform: translateY(0);
   }
-  16.7%,
-  30.9% {
+  5%,
+  9.25% {
     transform: translateY(-20px);
   }
-  33.3%,
-  47.5% {
+  10%,
+  14.25% {
     transform: translateY(-40px);
   }
-  50%,
-  64.2% {
+  15%,
+  19.25% {
     transform: translateY(-60px);
   }
-  66.7%,
-  80.9% {
+  20%,
+  24.25% {
     transform: translateY(-80px);
   }
-  83.3%,
-  97.5% {
+  25%,
+  29.25% {
     transform: translateY(-100px);
   }
-  100% {
+  30%,
+  34.25% {
     transform: translateY(-120px);
+  }
+  35%,
+  39.25% {
+    transform: translateY(-140px);
+  }
+  40%,
+  44.25% {
+    transform: translateY(-160px);
+  }
+  45%,
+  49.25% {
+    transform: translateY(-180px);
+  }
+  50%,
+  54.25% {
+    transform: translateY(-200px);
+  }
+  55%,
+  59.25% {
+    transform: translateY(-220px);
+  }
+  60%,
+  64.25% {
+    transform: translateY(-240px);
+  }
+  65%,
+  69.25% {
+    transform: translateY(-260px);
+  }
+  70%,
+  74.25% {
+    transform: translateY(-280px);
+  }
+  75%,
+  79.25% {
+    transform: translateY(-300px);
+  }
+  80%,
+  84.25% {
+    transform: translateY(-320px);
+  }
+  85%,
+  89.25% {
+    transform: translateY(-340px);
+  }
+  90%,
+  94.25% {
+    transform: translateY(-360px);
+  }
+  95%,
+  99.25% {
+    transform: translateY(-380px);
+  }
+  100% {
+    transform: translateY(-400px);
   }
 }
 @keyframes qw-attach-roll {

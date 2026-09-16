@@ -350,7 +350,7 @@ export function GlobalThemeRankings({ embedded = false, initialTheme, initialDet
 
             {/* REV-21 SPEC §12.2 globalRankingDetail host (depth 2): the entry's
                 own Wikidata item, never a string search of a translated name. */}
-            <OmniOpen anchor={detailAnchor} host="globalRankingDetail" />
+            <OmniOpen anchor={detailAnchor} host="globalRankingDetail" family="rankings" />
 
             <p className="text-[11px] uppercase tracking-widest text-gray-600">
               {t(`themes.${detail.theme.key}.title`)}

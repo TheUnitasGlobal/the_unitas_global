@@ -148,7 +148,7 @@ export function UaiHyperStream({
       if (kind === 'omni' && anchor && surface)
         nodes.push(
           <article key={`omni-${page.page}`} className="qw-stream-card" data-stream-card="omni" data-stream-page={page.page}>
-            <OmniOpen anchor={anchor} host={host} compact={page.page > 1} className="qw-stream-omni" />
+            <OmniOpen anchor={anchor} host={host} family="default" compact={page.page > 1} className="qw-stream-omni" />
           </article>,
         );
       // REV-32 M2: the swarm's door. It draws nothing and fetches nothing

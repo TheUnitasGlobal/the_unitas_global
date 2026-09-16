@@ -2358,7 +2358,7 @@
       },
       "newProducts": {
         "title": "Produk baru",
-        "tag": "Mobil, ponsel, mobilitas, gadget, dan gim yang baru dirilis dunia"
+        "tag": "Enam belas keluarga yang baru dirilis dunia — mobil, ponsel, mobilitas, gadget, gim, agen AI, kuantum, SaaS, bio-kesehatan, neuroteknologi, antariksa, XR, DeFi, energi hijau, perlengkapan nomaden, dan robot"
       }
     }
   },
@@ -2503,9 +2503,9 @@
   },
   "Rev29": {
     "hub": {
-      "title": "Hub UNITAS",
-      "lede": "Perdagangkan pengetahuan, tonton shorts, naiki peringkat, mengobrol per tema, dan bagikan UNITAS ke dunia.",
-      "toggleAria": "Buka hub UNITAS — bursa pengetahuan, shorts, peringkat, ruang obrolan, sosial",
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Sebuah nexus kosmik multidimensi tempat kecerdasan tanpa batas bersilangan dan nilai abadi mengembang — dua puluh hiper-tema bergema di satu alun-alun.",
+      "toggleAria": "Buka UNITAS SQUARE (U-Square) — dua puluh hiper-tema dari U-Peringkat hingga U-Master",
       "tabs": {
         "exchange": "Bursa pengetahuan",
         "shorts": "UNITAS Shorts",
@@ -2603,7 +2603,18 @@
         "phones": "Ponsel",
         "mobility": "Mobilitas",
         "gadgets": "Gadget",
-        "games": "Gim"
+        "games": "Gim",
+        "aiAgents": "Agen AI",
+        "quantum": "Kuantum",
+        "sovereignSaas": "SaaS berdaulat",
+        "bioHealth": "Bio-kesehatan",
+        "neurotech": "Neuroteknologi",
+        "space": "Antariksa",
+        "xr": "Perangkat XR",
+        "defiHardware": "Perangkat keras DeFi",
+        "ecoEnergy": "Energi hijau",
+        "nomadGear": "Perlengkapan nomaden",
+        "robots": "Robot"
       },
       "facts": {
         "count": "Baru"
@@ -2715,6 +2726,294 @@
         "zoomOut": "Perkecil",
         "reset": "Paskan bidang",
         "hint": "Seret untuk berpindah · cubit untuk memperbesar"
+      }
+    }
+  },
+  "Rev34": {
+    "uRankings": {
+      "label": "U-Peringkat",
+      "lede": "Dua belas operator hari ini, diperingkat menurut seberapa berdaulat mereka menjalankan ekosistem: efisiensi Micro-Burn, pengetahuan terjual, kontribusi nomaden.",
+      "filterAll": "Semua modul",
+      "seedNote": "Tangga harian simulasi · nama samaran · bukan data pribadi asli",
+      "openAria": "Buka profil {name}",
+      "rankAria": "Peringkat {rank}",
+      "metrics": {
+        "microBurn": "Efisiensi Micro-Burn",
+        "knowledgeSales": "Penjualan pengetahuan",
+        "nomad": "Kontribusi nomaden",
+        "sovereign": "Indeks berdaulat"
+      },
+      "tier": {
+        "sovereign": "Berdaulat",
+        "platinum": "Platinum",
+        "gold": "Emas"
+      },
+      "modalLede": "Cara operator ini meraih peringkat: efisiensi Micro-Burn berbobot 40 %, pengetahuan terjual 30 %, dan kontribusi nomaden 30 % dari indeks berdaulat. Tangga dibuat ulang setiap hari UTC.",
+      "moduleLabel": "Modul",
+      "rankLabel": "Peringkat"
+    },
+    "meta": {
+      "line": "{count} item · {source} ~ diperbarui {updated}"
+    },
+    "row": {
+      "open": "Buka"
+    },
+    "weather": {
+      "hourlyLabel": "24 jam ke depan",
+      "dailyLabel": "Prakiraan 7 hari",
+      "radarLabel": "Radar hujan",
+      "radarPast": "Lalu",
+      "radarNow": "Sekarang",
+      "radarNowcast": "Prakiraan segera",
+      "radarPlay": "Putar",
+      "radarPause": "Jeda",
+      "radarSource": "Radar: RainViewer · Peta © kontributor OpenStreetMap, © CARTO",
+      "radarUnavailable": "Radar sedang tidak tersedia.",
+      "uv": "Indeks UV",
+      "uvBand": {
+        "low": "Rendah",
+        "moderate": "Sedang",
+        "high": "Tinggi",
+        "veryHigh": "Sangat tinggi",
+        "extreme": "Ekstrem"
+      },
+      "windDir": "Arah angin",
+      "gust": "Hembusan",
+      "precip": "Curah hujan",
+      "precipProb": "Peluang hujan",
+      "sunrise": "Matahari terbit",
+      "sunset": "Matahari terbenam",
+      "aqiLabel": "Kualitas udara",
+      "loading": "Memuat prakiraan mendalam…",
+      "now": "Sekarang",
+      "zoomIn": "Perbesar",
+      "zoomOut": "Perkecil"
+    },
+    "square": {
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Sebuah nexus kosmik multidimensi tempat kecerdasan tanpa batas bersilangan dan nilai abadi mengembang — dua puluh hiper-tema bergema di satu alun-alun.",
+      "toggleAria": "Buka UNITAS SQUARE (U-Square) — dua puluh hiper-tema dari U-Peringkat hingga U-Master",
+      "swipeHint": "Geser atau seret rel tema untuk menjangkau semua dua puluh tema.",
+      "lastTheme": "Dibuka kembali pada tema yang terakhir Anda kunjungi.",
+      "founderOnly": "Ruang kendali khusus pendiri. Publik melihat tema ini terkunci; sesi berdaulat membukanya.",
+      "locked": "Terkunci",
+      "signals": {
+        "online": "Tautan",
+        "packs": "Paket dimiliki",
+        "coins": "U-Coin",
+        "lockins": "Lock-in aktif",
+        "modules": "Modul",
+        "axes": "Poros tata kelola",
+        "nodes": "Node kawanan",
+        "uptime": "Hari aktif",
+        "burn": "Efisiensi Micro-Burn",
+        "sales": "Daftar jual",
+        "nomad": "Kontribusi nomaden",
+        "index": "Indeks berdaulat",
+        "live": "Langsung",
+        "local": "Perangkat ini"
+      },
+      "themes": {
+        "uRanking": {
+          "tab": "U-Peringkat",
+          "lede": "Tangga operator berdaulat hari ini, disemai ulang setiap hari.",
+          "features": {
+            "0": "Dua belas operator per hari",
+            "1": "Metrik Micro-Burn, penjualan, dan nomaden",
+            "2": "Tangga difilter per modul"
+          },
+          "cta": "Buka U-AI"
+        },
+        "uShorts": {
+          "tab": "U-Shorts",
+          "lede": "Shorts vertikal di sepanjang dua puluh dua poros tata kelola — satu ketukan untuk memutar.",
+          "features": {
+            "0": "Filter untuk semua 22 poros",
+            "1": "Reservasi pass kreator",
+            "2": "Rel putar otomatis"
+          },
+          "cta": "Buka U-AI"
+        },
+        "uTalk": {
+          "tab": "U-Talk",
+          "lede": "Dua puluh dua ruang tema tempat jaringan berbincang langsung.",
+          "features": {
+            "0": "Satu ruang per poros tata kelola",
+            "1": "Hanya di perangkat saat offline",
+            "2": "Jumlah kehadiran langsung"
+          },
+          "cta": "Buka U-AI"
+        },
+        "uExchange": {
+          "tab": "U-Bursa",
+          "lede": "Beli dan jual paket pengetahuan dengan U-Coin, diselesaikan di perangkat Anda atau buku besar langsung.",
+          "features": {
+            "0": "Paket pengetahuan pilihan",
+            "1": "Daftarkan paket Anda sendiri",
+            "2": "Sinkronisasi buku besar langsung saat masuk"
+          },
+          "cta": "Buka U-Pay"
+        },
+        "uSocial": {
+          "tab": "U-Sosial",
+          "lede": "Bagikan UNITAS ke setiap jaringan dengan satu tautan bertanda tangan.",
+          "features": {
+            "0": "Target berbagi sekali ketuk",
+            "1": "Tautan berbagi bertanda tangan",
+            "2": "Jangkauan omni-channel"
+          },
+          "cta": "Buka U-Signature"
+        },
+        "uAcademy": {
+          "tab": "U-Akademi",
+          "lede": "Arkhe pembelajaran ekosistem — paket pengetahuan menjadi jalur terpandu.",
+          "features": {
+            "0": "Jalur belajar terpandu",
+            "1": "Kurikulum dibangun dari paket",
+            "2": "Silabus per poros tata kelola"
+          },
+          "cta": "Masuk ke ARCHE"
+        },
+        "uVenture": {
+          "tab": "U-Venture",
+          "lede": "Usaha tanpa modal yang disindikasikan di antara operator jaringan.",
+          "features": {
+            "0": "Alur transaksi tersindikasi",
+            "1": "Gerbang margin Micro-Burn",
+            "2": "Pelacakan indeks berdaulat"
+          },
+          "cta": "Masuk ke SYNDICATE"
+        },
+        "uOracle": {
+          "tab": "U-Orakel",
+          "lede": "Pandangan ke depan berbasis benih harian di seluruh poros tata kelola — jawaban sama di setiap perangkat.",
+          "features": {
+            "0": "Prakiraan deterministik",
+            "1": "Prospek poros demi poros",
+            "2": "Bukti dari node kawanan"
+          },
+          "cta": "Masuk ke ORACLE"
+        },
+        "uFactory": {
+          "tab": "U-Pabrik",
+          "lede": "Pabrik otonom yang merakit modul dan lock-in menjadi SaaS baru.",
+          "features": {
+            "0": "Perakitan modul",
+            "1": "Aktivasi lock-in",
+            "2": "Pipeline tanpa campur tangan"
+          },
+          "cta": "Masuk ke GENESIS"
+        },
+        "uCoin": {
+          "tab": "U-Koin",
+          "lede": "Ekonomi Micro-Burn: koin masuk, biaya marginal nol, margin tak terbatas.",
+          "features": {
+            "0": "Saldo dompet langsung",
+            "1": "Rentang efisiensi Micro-Burn",
+            "2": "Penyelesaian paket dengan koin"
+          },
+          "cta": "Buka U-Pay"
+        },
+        "uGovernance": {
+          "tab": "U-Tata Kelola",
+          "lede": "Poros tata kelola yang mengarahkan setiap modul, dikodifikasi dalam kodeks.",
+          "features": {
+            "0": "Semua poros sekilas",
+            "1": "Aturan terikat pada kodeks",
+            "2": "Peta cakupan modul"
+          },
+          "cta": "Masuk ke CODEX22"
+        },
+        "uNexus": {
+          "tab": "U-Nexus",
+          "lede": "Kawanan omni-tech: telusuri subjek di seluruh web terbuka dari satu nexus.",
+          "features": {
+            "0": "Penelusuran kawanan lintas sumber",
+            "1": "Subjek di-cache di perangkat",
+            "2": "Ruang kerja portal"
+          },
+          "cta": "Buka Omni-Swarm"
+        },
+        "uAkashic": {
+          "tab": "U-Akasha",
+          "lede": "Arsip permanen — setiap tanda tangan, paket, dan penelusuran disimpan selamanya.",
+          "features": {
+            "0": "Entri arsip bertanda tangan",
+            "1": "Asal-usul paket",
+            "2": "Memori kawanan tersimpan"
+          },
+          "cta": "Buka U-Signature"
+        },
+        "uQuantum": {
+          "tab": "U-Kuantum",
+          "lede": "Komputasi pembelok probabilitas di tepi paradoks ekosistem.",
+          "features": {
+            "0": "Modul Paradoks",
+            "1": "Indeks berbasis benih harian",
+            "2": "Komputasi di node kawanan"
+          },
+          "cta": "Masuk ke PARADOX"
+        },
+        "uShield": {
+          "tab": "U-Perisai",
+          "lede": "Pertahanan zero-trust: kunci, lock-in, dan karantina untuk setiap sesi.",
+          "features": {
+            "0": "Kunci berdaulat",
+            "1": "Lock-in aktif di perangkat ini",
+            "2": "Karantina otomatis node jahat"
+          },
+          "cta": "Buka U-Key"
+        },
+        "uNomad": {
+          "tab": "U-Nomaden",
+          "lede": "Arena nomaden digital — hasilkan dan bersaing dari mana saja di bumi.",
+          "features": {
+            "0": "Skor kontribusi nomaden",
+            "1": "Tantangan arena",
+            "2": "Koin diperoleh dari mana saja"
+          },
+          "cta": "Masuk ke ARENA"
+        },
+        "uChronos": {
+          "tab": "U-Kronos",
+          "lede": "Waktu sebagai sumber daya: hari aktif, irama, dan ritme harian alun-alun.",
+          "features": {
+            "0": "Penghitung hari aktif",
+            "1": "Penyemaian ulang harian tengah malam UTC",
+            "2": "Linimasa tata kelola"
+          },
+          "cta": "Masuk ke CHRONOS"
+        },
+        "uSpace": {
+          "tab": "U-Antariksa",
+          "lede": "Puncak ekspansi — modul dan node dipetakan sebagai satu kosmos yang terus tumbuh.",
+          "features": {
+            "0": "Konstelasi modul",
+            "1": "Peta node kawanan",
+            "2": "Pendakian ke puncak"
+          },
+          "cta": "Masuk ke APEX"
+        },
+        "uVision": {
+          "tab": "U-Visi",
+          "lede": "Visi jangka panjang: takdir, skor, dan indeks berdaulat dalam satu teleskop.",
+          "features": {
+            "0": "Matriks takdir",
+            "1": "Indeks berdaulat, hari demi hari",
+            "2": "Prospek per poros tata kelola"
+          },
+          "cta": "Masuk ke FATE"
+        },
+        "uMaster": {
+          "tab": "U-Master",
+          "lede": "Ruang kendali pendiri — setiap modul, poros, dan lock-in di bawah satu mahkota.",
+          "features": {
+            "0": "Setiap modul terlihat",
+            "1": "Setiap poros tata kelola",
+            "2": "Hanya sesi berdaulat"
+          },
+          "cta": "Masuk ke konsol berdaulat"
+        }
       }
     }
   }

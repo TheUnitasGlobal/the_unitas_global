@@ -36,7 +36,8 @@ import {
   type ExitConfirmStep,
 } from '@/lib/exit/exitConfirmFlow';
 import { CINEMA_PHASE_EVENT } from '@/lib/foundersGate';
-import { claimModalPop } from '@/lib/history/modalStack';
+import { claimModalPop, getModalStack } from '@/lib/history/modalStack';
+import { localEscapeTargetOpen, resolveEscape, searchLadderActive } from '@/lib/history/escapeController';
 
 // Re-exported so existing callers keep their import path; the primitive now
 // lives with the pure confirm-flow state machine (round 17).
@@ -138,33 +139,6 @@ function readCinemaPhase(): string | null {
     return document.documentElement.dataset.cinemaPhase ?? null;
   } catch {
     return null;
-  }
-}
-
-/** Some OTHER overlay is open ON TOP (a dialog / tower / expanded picker
- *  that does not go through the UI gate) -- ESC belongs to it, not to the
- *  exit confirm. "On top" matters: the site's audio gate is a `role="dialog"`
- *  that sits BENEATH the pre-launch curtain for a visitor's whole stay, so a
- *  bare selector match would have silenced ESC on every funnel page. Each
- *  candidate must actually be hit-testable at its own centre. The exit
- *  confirm itself is not in the DOM while closed. */
-function anotherOverlayOpen(): boolean {
-  if (typeof document === 'undefined') return false;
-  try {
-    const candidates = document.querySelectorAll<HTMLElement>(
-      '[role="dialog"], [aria-modal="true"], [role="menu"], [role="listbox"], [aria-expanded="true"]',
-    );
-    for (const el of Array.from(candidates)) {
-      const rect = el.getBoundingClientRect();
-      if (rect.width <= 0 || rect.height <= 0) continue;
-      const x = Math.min(window.innerWidth - 1, Math.max(0, rect.left + rect.width / 2));
-      const y = Math.min(window.innerHeight - 1, Math.max(0, rect.top + rect.height / 2));
-      const hit = document.elementFromPoint(x, y);
-      if (hit && (hit === el || el.contains(hit))) return true;
-    }
-    return false;
-  } catch {
-    return false;
   }
 }
 
@@ -312,9 +286,12 @@ const ACTIVATION_EVENTS = EXIT_GUARD_ACTIVATION_EVENTS;
  *
  * PC: the native right-click context menu is left intact (round 13) -- its
  * 뒤로가기 / 앞으로가기 are neutralised by the buffer, not by hiding the
- * menu. The ESC key still TOGGLES the confirm (opens when closed, closes
- * when open), deferring to whichever other popup holds the site-wide UI
- * gate.
+ * menu. The ESC key mirrors the back button (REV-34 M3, D-9): while any
+ * popup layer or search level is open it walks `history.back()` once so the
+ * stack closes only the topmost one; on the released main home with nothing
+ * open it opens the confirm; on the open confirm it dismisses (취소); off
+ * the main home it does nothing. A non-layer menu stamped
+ * `data-escape-local` closes itself first. See lib/history/escapeController.ts.
  *
  * Desktop APP windows are the single exception (round 15): they keep a
  * one-entry history so 종료 can genuinely close the window -- see
@@ -530,24 +507,63 @@ export function ExitGuard() {
     if (!gate.open) finalArmedRef.current = false;
   }, [gate.open]);
 
-  // --- PC: ESC toggles the confirm -----------------------------------------------
+  // --- PC: ESC mirrors the back button (REV-34 M3, SPEC.md §3.5 / D-9) ----------
   useEffect(() => {
-    // Capture phase on `window` runs before the Modal's own bubble-phase
-    // Escape listener; marking the event handled (preventDefault) tells the
-    // Modal to leave it alone so a single key press never closes-then-reopens.
+    // Capture phase on `window`, registered at layout mount -- before any
+    // popup's own bubble-phase Escape listener exists -- so this verdict
+    // runs first. Whenever it acts it marks the event handled
+    // (preventDefault): Modal / DialogTower / HotShortcutResultModal /
+    // ClusterPopout / EcosystemEntryModal / PwaInstallHost all stand down on
+    // `defaultPrevented`, so one press never closes a layer locally AND
+    // walks history over it (double close). The `data-escape-local` menus
+    // key off `e.key` alone and still close themselves.
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key !== 'Escape' || e.repeat || e.defaultPrevented) return;
-      if (leavingRef.current) return;
       const owner = getGateOwner();
-      if (owner === GATE_ID) {
-        e.preventDefault();
-        close();
-        return;
+      const verdict = resolveEscape({
+        leaving: leavingRef.current || isExitInProgress(),
+        // Only `[data-escape-local]` menus (attach / language / hint) are
+        // consulted, hit-tested on top. Dialogs, towers and the search
+        // dropdown's listbox no longer are: each is a stack layer closed by
+        // the traversal below, and the old role-based hit-test is what left
+        // Escape dead over the suggestion dropdown.
+        localMenuOpen: localEscapeTargetOpen(),
+        confirmOpen: owner === GATE_ID,
+        layersOpen: getModalStack()?.openCount() ?? 0,
+        searchLevelActive: searchLadderActive(),
+        otherGateOwner: owner !== null && owner !== GATE_ID,
+        homeReleased: readCinemaPhase() === RELEASED_PHASE,
+      });
+      switch (verdict) {
+        case 'dismiss-confirm':
+          e.preventDefault();
+          close();
+          return;
+        case 'history-back':
+          // NOT getModalStack().push/release: a plain traversal is what the
+          // Navigation API attributes as the visitor's own (the mobile back
+          // path), so the stack's popstate resolution closes exactly the
+          // topmost layer and a local release racing it is suppressed by
+          // its `userTraversal` lock.
+          e.preventDefault();
+          window.history.back();
+          return;
+        case 'open-confirm':
+          // Direct call, never a traversal: with the stack empty there is
+          // no popup entry to walk over, and a desktop app window parks no
+          // sentinel at all (`shouldArmBackGuard()`).
+          e.preventDefault();
+          openConfirm();
+          return;
+        case 'close-local':
+          // The menu's own handler (AttachMenu / language picker / hint)
+          // closes it; the layer handlers beneath stand down.
+          e.preventDefault();
+          return;
+        case 'ignore':
+        default:
+          return;
       }
-      if (owner !== null) return; // another popup owns Escape -- let it close
-      if (anotherOverlayOpen()) return; // ...same for non-gated overlays
-      e.preventDefault();
-      openConfirm();
     };
     const opts: AddEventListenerOptions = { capture: true };
     window.addEventListener('keydown', onKeyDown, opts);

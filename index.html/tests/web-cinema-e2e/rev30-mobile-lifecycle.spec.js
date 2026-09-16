@@ -114,6 +114,16 @@ test.describe('REV-30 M2 -- the UNITAS hub popup on touch', () => {
       await expect(page.locator(`[data-hub-panel="${tab}"]`)).toBeVisible();
       expect(await boxFocused(page), `tab ${tab} must not raise the keyboard`).toBe(false);
     }
+    // REV-34 M4-A: the twentieth theme is reachable on the two-row touch
+    // rail, and its descriptor panel renders without touching the keyboard.
+    // The harness holds the founder session, so uMaster shows its sovereign
+    // CTA rather than the public locked state -- either is one CTA.
+    const master = hub(page).locator('[data-hub-tab-btn="uMaster"]');
+    await master.scrollIntoViewIfNeeded();
+    await master.tap();
+    await expect(page.locator('[data-hub-panel="uMaster"] [data-square-panel="uMaster"]')).toBeVisible();
+    expect(await page.locator('[data-square-panel="uMaster"] [data-square-cta]').count()).toBe(1);
+    expect(await boxFocused(page)).toBe(false);
 
     // Rooms: switching rooms is a chip tap inside a portal -- neither the
     // hub nor the popup beneath it may notice.
@@ -200,6 +210,9 @@ test.describe('REV-30 M2 -- the hub ledger states, every engine', () => {
     await page.locator('#omni-synapse-search input[type="text"]').click();
     await page.locator('[data-unitas-hub-toggle]').click();
     await expect(hub(page)).toBeVisible();
+    // REV-34 M4-A: the square opens on 유랭킹; the ledger badge lives on the
+    // exchange panel, so pick it.
+    await hub(page).locator('[data-hub-tab-btn="exchange"]').click();
     // REV-30 M1 decision 3: no session means the device ledger, and the UI
     // says so rather than implying the purchase reached an account.
     const badge = hub(page).locator('[data-hub-ledger]');

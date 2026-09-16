@@ -2358,7 +2358,7 @@
       },
       "newProducts": {
         "title": "Nieuwe producten",
-        "tag": "Auto’s, telefoons, mobiliteit, gadgets en games die de wereld net uitbracht"
+        "tag": "Zestien families die de wereld net uitbracht — auto’s, telefoons, mobiliteit, gadgets, games, AI-agents, quantum, SaaS, biogezondheid, neurotech, ruimtevaart, XR, DeFi, eco-energie, nomad-uitrusting en robots"
       }
     }
   },
@@ -2503,9 +2503,9 @@
   },
   "Rev29": {
     "hub": {
-      "title": "UNITAS-hub",
-      "lede": "Handel in kennis, bekijk shorts, klim in de ranglijsten, chat per thema en deel UNITAS met de wereld.",
-      "toggleAria": "Open de UNITAS-hub — kennisbeurs, shorts, ranglijsten, chatrooms, social",
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Een kosmische multidimensionale nexus waar oneindige intelligentie samenkomt en blijvende waarde uitdijt — twintig hyperthema’s die op één plein resoneren.",
+      "toggleAria": "Open UNITAS SQUARE (U-Square) — twintig hyperthema’s van U-Ranking tot U-Master",
       "tabs": {
         "exchange": "Kennisbeurs",
         "shorts": "UNITAS Shorts",
@@ -2603,7 +2603,18 @@
         "phones": "Smartphones",
         "mobility": "Mobiliteit",
         "gadgets": "Gadgets",
-        "games": "Games"
+        "games": "Games",
+        "aiAgents": "AI-agents",
+        "quantum": "Quantum",
+        "sovereignSaas": "Soevereine SaaS",
+        "bioHealth": "Biogezondheid",
+        "neurotech": "Neurotech",
+        "space": "Ruimtevaart",
+        "xr": "XR-apparaten",
+        "defiHardware": "DeFi-hardware",
+        "ecoEnergy": "Eco-energie",
+        "nomadGear": "Nomad-uitrusting",
+        "robots": "Robots"
       },
       "facts": {
         "count": "Nieuw"
@@ -2715,6 +2726,294 @@
         "zoomOut": "Uitzoomen",
         "reset": "Veld passend maken",
         "hint": "Sleep om te bewegen · knijp om te zoomen"
+      }
+    }
+  },
+  "Rev34": {
+    "uRankings": {
+      "label": "U-Ranking",
+      "lede": "De twaalf operators van vandaag, gerangschikt naar hoe soeverein ze het ecosysteem draaien: Micro-Burn-efficiëntie, verkochte kennis, nomadenbijdrage.",
+      "filterAll": "Alle modules",
+      "seedNote": "Gesimuleerde dagelijkse ladder · pseudoniemen · geen echte persoonsgegevens",
+      "openAria": "Profiel van {name} openen",
+      "rankAria": "Nr. {rank}",
+      "metrics": {
+        "microBurn": "Micro-Burn-efficiëntie",
+        "knowledgeSales": "Kennisverkopen",
+        "nomad": "Nomadenbijdrage",
+        "sovereign": "Soevereine index"
+      },
+      "tier": {
+        "sovereign": "Soeverein",
+        "platinum": "Platina",
+        "gold": "Goud"
+      },
+      "modalLede": "Hoe deze operator de plek verdient: Micro-Burn-efficiëntie weegt 40 %, verkochte kennis 30 % en de nomadenbijdrage 30 % van de soevereine index. De ladder wordt elke UTC-dag opnieuw opgebouwd.",
+      "moduleLabel": "Module",
+      "rankLabel": "Rang"
+    },
+    "meta": {
+      "line": "{count} items · {source} ~ bijgewerkt {updated}"
+    },
+    "row": {
+      "open": "Openen"
+    },
+    "weather": {
+      "hourlyLabel": "Komende 24 uur",
+      "dailyLabel": "7-daagse verwachting",
+      "radarLabel": "Regenradar",
+      "radarPast": "Verleden",
+      "radarNow": "Nu",
+      "radarNowcast": "Kortetermijnverwachting",
+      "radarPlay": "Afspelen",
+      "radarPause": "Pauzeren",
+      "radarSource": "Radar: RainViewer · Kaart © OpenStreetMap-bijdragers, © CARTO",
+      "radarUnavailable": "De radar is momenteel niet beschikbaar.",
+      "uv": "UV-index",
+      "uvBand": {
+        "low": "Laag",
+        "moderate": "Matig",
+        "high": "Hoog",
+        "veryHigh": "Zeer hoog",
+        "extreme": "Extreem"
+      },
+      "windDir": "Windrichting",
+      "gust": "Windstoten",
+      "precip": "Neerslag",
+      "precipProb": "Kans op regen",
+      "sunrise": "Zonsopgang",
+      "sunset": "Zonsondergang",
+      "aqiLabel": "Luchtkwaliteit",
+      "loading": "Gedetailleerde verwachting laden…",
+      "now": "Nu",
+      "zoomIn": "Inzoomen",
+      "zoomOut": "Uitzoomen"
+    },
+    "square": {
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Een kosmische multidimensionale nexus waar oneindige intelligentie samenkomt en blijvende waarde uitdijt — twintig hyperthema’s die op één plein resoneren.",
+      "toggleAria": "Open UNITAS SQUARE (U-Square) — twintig hyperthema’s van U-Ranking tot U-Master",
+      "swipeHint": "Veeg of sleep de themabalk om alle twintig thema’s te bereiken.",
+      "lastTheme": "Opnieuw geopend op het thema dat je het laatst bezocht.",
+      "founderOnly": "Controlekamer alleen voor de oprichter. Het publiek ziet dit thema vergrendeld; een soevereine sessie opent het.",
+      "locked": "Vergrendeld",
+      "signals": {
+        "online": "Verbinding",
+        "packs": "Eigen packs",
+        "coins": "U-munten",
+        "lockins": "Actieve lock-ins",
+        "modules": "Modules",
+        "axes": "Governance-assen",
+        "nodes": "Zwermknopen",
+        "uptime": "Dagen live",
+        "burn": "Micro-Burn-efficiëntie",
+        "sales": "Aanbiedingen",
+        "nomad": "Nomadenbijdrage",
+        "index": "Soevereiniteitsindex",
+        "live": "Live",
+        "local": "Dit apparaat"
+      },
+      "themes": {
+        "uRanking": {
+          "tab": "U-Ranking",
+          "lede": "De ladder van vandaag met soevereine operators, elke dag opnieuw gezaaid.",
+          "features": {
+            "0": "Twaalf operators per dag",
+            "1": "Micro-Burn-, verkoop- en nomadenmetrieken",
+            "2": "Ladder gefilterd per module"
+          },
+          "cta": "U-AI openen"
+        },
+        "uShorts": {
+          "tab": "U-Shorts",
+          "lede": "Verticale shorts langs de tweeëntwintig governance-assen — één tik om af te spelen.",
+          "features": {
+            "0": "Filters voor alle 22 assen",
+            "1": "Reservering van de creator-pass",
+            "2": "Rail met automatisch afspelen"
+          },
+          "cta": "U-AI openen"
+        },
+        "uTalk": {
+          "tab": "U-Talk",
+          "lede": "Tweeëntwintig themakamers waar het netwerk live praat.",
+          "features": {
+            "0": "Eén kamer per governance-as",
+            "1": "Offline alleen op dit apparaat",
+            "2": "Live aanwezigheidsteller"
+          },
+          "cta": "U-AI openen"
+        },
+        "uExchange": {
+          "tab": "U-Exchange",
+          "lede": "Koop en verkoop kennispacks met U-munten, verrekend op je apparaat of het live grootboek.",
+          "features": {
+            "0": "Samengestelde kennispacks",
+            "1": "Bied je eigen packs aan",
+            "2": "Live grootboeksync na aanmelden"
+          },
+          "cta": "U-Pay openen"
+        },
+        "uSocial": {
+          "tab": "U-Social",
+          "lede": "Deel UNITAS met elk netwerk via één ondertekende link.",
+          "features": {
+            "0": "Deeldoelen met één tik",
+            "1": "Ondertekende deellinks",
+            "2": "Omnichannel-bereik"
+          },
+          "cta": "U-Signature openen"
+        },
+        "uAcademy": {
+          "tab": "U-Academie",
+          "lede": "De leer-arche van het ecosysteem — kennispacks omgezet in begeleide paden.",
+          "features": {
+            "0": "Begeleide leerpaden",
+            "1": "Curriculum opgebouwd uit packs",
+            "2": "Syllabus per governance-as"
+          },
+          "cta": "ARCHE betreden"
+        },
+        "uVenture": {
+          "tab": "U-Venture",
+          "lede": "Kapitaalloze ondernemingen, gesyndiceerd over de operators van het netwerk.",
+          "features": {
+            "0": "Gesyndiceerde dealflow",
+            "1": "Micro-Burn-margepoort",
+            "2": "Soevereiniteitsindex volgen"
+          },
+          "cta": "SYNDICATE betreden"
+        },
+        "uOracle": {
+          "tab": "U-Orakel",
+          "lede": "Dag-gezaaid vooruitzicht over de governance-assen — hetzelfde antwoord op elk apparaat.",
+          "features": {
+            "0": "Deterministische voorspellingen",
+            "1": "Vooruitzicht per as",
+            "2": "Bewijs uit zwermknopen"
+          },
+          "cta": "ORACLE betreden"
+        },
+        "uFactory": {
+          "tab": "U-Fabriek",
+          "lede": "De autonome fabriek die modules en lock-ins tot nieuwe SaaS assembleert.",
+          "features": {
+            "0": "Moduleassemblage",
+            "1": "Lock-in-activering",
+            "2": "Zero-hands-pijplijn"
+          },
+          "cta": "GENESIS betreden"
+        },
+        "uCoin": {
+          "tab": "U-Munt",
+          "lede": "De Micro-Burn-economie: munten erin, marginale kosten nul, marge onbegrensd.",
+          "features": {
+            "0": "Live walletsaldo",
+            "1": "Micro-Burn-efficiëntieband",
+            "2": "Packverrekening in munten"
+          },
+          "cta": "U-Pay openen"
+        },
+        "uGovernance": {
+          "tab": "U-Governance",
+          "lede": "De governance-assen die elke module sturen, vastgelegd in de codex.",
+          "features": {
+            "0": "Alle assen in één oogopslag",
+            "1": "Regels gebonden aan de codex",
+            "2": "Moduledekkingskaart"
+          },
+          "cta": "CODEX22 betreden"
+        },
+        "uNexus": {
+          "tab": "U-Nexus",
+          "lede": "De omni-tech-zwerm: doorloop onderwerpen over het open web vanuit één nexus.",
+          "features": {
+            "0": "Zwermwandeling over bronnen",
+            "1": "Onderwerpen gecachet op het apparaat",
+            "2": "Portaalwerkruimte"
+          },
+          "cta": "Omni-Swarm openen"
+        },
+        "uAkashic": {
+          "tab": "U-Akasha",
+          "lede": "Het permanente archief — elke handtekening, pack en wandeling voor altijd bewaard.",
+          "features": {
+            "0": "Ondertekende archiefitems",
+            "1": "Herkomst van packs",
+            "2": "Zwermgeheugen bewaard"
+          },
+          "cta": "U-Signature openen"
+        },
+        "uQuantum": {
+          "tab": "U-Quantum",
+          "lede": "Waarschijnlijkheidsbuigende berekening aan de paradoxrand van het ecosysteem.",
+          "features": {
+            "0": "Paradox-module",
+            "1": "Dag-gezaaide indexen",
+            "2": "Rekenen op zwermknopen"
+          },
+          "cta": "PARADOX betreden"
+        },
+        "uShield": {
+          "tab": "U-Schild",
+          "lede": "Zero-trust-verdediging: sleutels, lock-ins en quarantaine voor elke sessie.",
+          "features": {
+            "0": "Soevereine sleutels",
+            "1": "Actieve lock-ins op dit apparaat",
+            "2": "Auto-quarantaine van kwaadaardige knopen"
+          },
+          "cta": "U-Key openen"
+        },
+        "uNomad": {
+          "tab": "U-Nomade",
+          "lede": "De arena van de digitale nomade — verdien en strijd vanaf elke plek op aarde.",
+          "features": {
+            "0": "Nomadenbijdragescore",
+            "1": "Arena-uitdagingen",
+            "2": "Munten verdiend vanaf overal"
+          },
+          "cta": "ARENA betreden"
+        },
+        "uChronos": {
+          "tab": "U-Chronos",
+          "lede": "Tijd als hulpbron: dagen live, cadans en het dag-gezaaide ritme van het plein.",
+          "features": {
+            "0": "Teller van dagen live",
+            "1": "Dagelijks opnieuw zaaien om middernacht UTC",
+            "2": "Governance-tijdlijn"
+          },
+          "cta": "CHRONOS betreden"
+        },
+        "uSpace": {
+          "tab": "U-Ruimte",
+          "lede": "De apex van expansie — modules en knopen in kaart gebracht als één groeiende kosmos.",
+          "features": {
+            "0": "Moduleconstellatie",
+            "1": "Zwermknopenkaart",
+            "2": "Klim naar de apex"
+          },
+          "cta": "APEX betreden"
+        },
+        "uVision": {
+          "tab": "U-Visie",
+          "lede": "Vergezicht: lot, score en de soevereiniteitsindex in één telescoop.",
+          "features": {
+            "0": "Lotmatrix",
+            "1": "Soevereiniteitsindex, dag na dag",
+            "2": "Vooruitzicht per governance-as"
+          },
+          "cta": "FATE betreden"
+        },
+        "uMaster": {
+          "tab": "U-Master",
+          "lede": "De controlekamer van de oprichter — elke module, as en lock-in onder één kroon.",
+          "features": {
+            "0": "Elke module in beeld",
+            "1": "Elke governance-as",
+            "2": "Alleen soevereine sessie"
+          },
+          "cta": "Soevereine console betreden"
+        }
       }
     }
   }

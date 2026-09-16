@@ -143,7 +143,7 @@ test.describe('REV-19 deep modal history stack', () => {
   // retired surface cannot come back as an unmanaged history level.
   //
   // REV-23 changed two things here: M2.3 made the card TITLE the only way to
-  // open a deep dive (two clicks, not one anywhere), and M3.1 removed the
+  // open a deep dive (REV-34 M1-C: one click on it), and M3.1 removed the
   // nine news slots from this rail entirely -- so the news deep modal
   // (`#hub-deep-title`) no longer exists to be a level. What remains is the
   // feed deep modal, plus a guard that the retired news modal stays gone.
@@ -155,10 +155,11 @@ test.describe('REV-19 deep modal history stack', () => {
 
     // The rail auto-rotates, so pin the slot by holding its chip -- a
     // free-running carousel would make WHICH deep modal opens a race.
+    // REV-34 M1-C: one click on the title text opens it (the two-step
+    // select was retired on the strip).
     const openActive = async () => {
-      const title = page.locator('[data-slot-card] .qw-hub-card-title .qw-two-step-hit');
+      const title = page.locator('[data-slot-card] .qw-hub-card-title .qw-hub-title-hit');
       await expect(title).toBeVisible({ timeout: 20_000 });
-      await title.click();
       await title.click();
     };
 

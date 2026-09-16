@@ -2358,7 +2358,7 @@
       },
       "newProducts": {
         "title": "Uued tooted",
-        "tag": "Autod, telefonid, liikuvus, vidinad ja mängud, mille maailm just välja lasi"
+        "tag": "Kuusteist perekonda, mille maailm just välja lasi — autod, telefonid, liikuvus, vidinad, mängud, AI-agendid, kvant, SaaS, biotervis, neurotehnoloogia, kosmos, XR, DeFi, ökoenergia, nomaadivarustus ja robotid"
       }
     }
   },
@@ -2503,9 +2503,9 @@
   },
   "Rev29": {
     "hub": {
-      "title": "UNITASe keskus",
-      "lede": "Kauple teadmistega, vaata lühivideoid, tõuse edetabelis, vestle teemade kaupa ja jaga UNITASt maailmaga.",
-      "toggleAria": "Ava UNITASe keskus — teadmiste börs, lühivideod, edetabelid, vestlustoad, sotsiaalmeedia",
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Kosmiline mitmemõõtmeline sõlmpunkt, kus lõpmatu intellekt ristub ja igavene väärtus paisub — kakskümmend hüperteemat kõlavad kokku ühel väljakul.",
+      "toggleAria": "Ava UNITAS SQUARE (U-Square) — kakskümmend hüperteemat U-edetabelist U-meistrini",
       "tabs": {
         "exchange": "Teadmiste börs",
         "shorts": "UNITAS lühivideod",
@@ -2603,7 +2603,18 @@
         "phones": "Nutitelefonid",
         "mobility": "Liikuvus",
         "gadgets": "Vidinad",
-        "games": "Mängud"
+        "games": "Mängud",
+        "aiAgents": "AI-agendid",
+        "quantum": "Kvant",
+        "sovereignSaas": "Suveräänne SaaS",
+        "bioHealth": "Biotervis",
+        "neurotech": "Neurotehnoloogia",
+        "space": "Kosmos",
+        "xr": "XR-seadmed",
+        "defiHardware": "DeFi riistvara",
+        "ecoEnergy": "Ökoenergia",
+        "nomadGear": "Nomaadivarustus",
+        "robots": "Robotid"
       },
       "facts": {
         "count": "Uued"
@@ -2715,6 +2726,294 @@
         "zoomOut": "Suumi välja",
         "reset": "Sobita väli",
         "hint": "Lohista liikumiseks · näpista suumimiseks"
+      }
+    }
+  },
+  "Rev34": {
+    "uRankings": {
+      "label": "U-edetabel",
+      "lede": "Tänased kaksteist operaatorit, järjestatud selle järgi, kui suveräänselt nad ökosüsteemi juhivad: Micro-Burn tõhusus, müüdud teadmised, nomaadipanus.",
+      "filterAll": "Kõik moodulid",
+      "seedNote": "Simuleeritud päevane edetabel · pseudonüümsed nimed · mitte päris isikuandmed",
+      "openAria": "Ava {name} profiil",
+      "rankAria": "#{rank}",
+      "metrics": {
+        "microBurn": "Micro-Burn tõhusus",
+        "knowledgeSales": "Teadmiste müük",
+        "nomad": "Nomaadipanus",
+        "sovereign": "Suveräänsusindeks"
+      },
+      "tier": {
+        "sovereign": "Suverään",
+        "platinum": "Plaatina",
+        "gold": "Kuld"
+      },
+      "modalLede": "Kuidas see operaator oma koha teenib: suveräänsusindeksist moodustab Micro-Burn tõhusus 40 %, müüdud teadmised 30 % ja nomaadipanus 30 %. Edetabel uueneb iga UTC päev.",
+      "moduleLabel": "Moodul",
+      "rankLabel": "Koht"
+    },
+    "meta": {
+      "line": "{count} kirjet · {source} ~ uuendatud {updated}"
+    },
+    "row": {
+      "open": "Ava"
+    },
+    "weather": {
+      "hourlyLabel": "Järgmised 24 tundi",
+      "dailyLabel": "7 päeva prognoos",
+      "radarLabel": "Vihmaradar",
+      "radarPast": "Möödunud",
+      "radarNow": "Praegu",
+      "radarNowcast": "Lähiprognoos",
+      "radarPlay": "Esita",
+      "radarPause": "Paus",
+      "radarSource": "Radar: RainViewer · Kaart © OpenStreetMapi kaastöölised, © CARTO",
+      "radarUnavailable": "Radar pole praegu saadaval.",
+      "uv": "UV-indeks",
+      "uvBand": {
+        "low": "Madal",
+        "moderate": "Mõõdukas",
+        "high": "Kõrge",
+        "veryHigh": "Väga kõrge",
+        "extreme": "Ekstreemne"
+      },
+      "windDir": "Tuule suund",
+      "gust": "Puhangud",
+      "precip": "Sademed",
+      "precipProb": "Sademete tõenäosus",
+      "sunrise": "Päikesetõus",
+      "sunset": "Päikeseloojang",
+      "aqiLabel": "Õhukvaliteet",
+      "loading": "Laadin põhjalikku prognoosi…",
+      "now": "Praegu",
+      "zoomIn": "Suurenda",
+      "zoomOut": "Vähenda"
+    },
+    "square": {
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Kosmiline mitmemõõtmeline sõlmpunkt, kus lõpmatu intellekt ristub ja igavene väärtus paisub — kakskümmend hüperteemat kõlavad kokku ühel väljakul.",
+      "toggleAria": "Ava UNITAS SQUARE (U-Square) — kakskümmend hüperteemat U-edetabelist U-meistrini",
+      "swipeHint": "Pühi või lohista teemariba, et jõuda kõigi kahekümne teemani.",
+      "lastTheme": "Avati uuesti teemal, mida viimati külastasid.",
+      "founderOnly": "Ainult asutaja juhtimisruum. Avalikkus näeb seda teemat lukustatuna; suveräänne seanss avab selle.",
+      "locked": "Lukus",
+      "signals": {
+        "online": "Ühendus",
+        "packs": "Omatud pakid",
+        "coins": "U-mündid",
+        "lockins": "Aktiivsed lukustused",
+        "modules": "Moodulid",
+        "axes": "Juhtimisteljed",
+        "nodes": "Parve sõlmed",
+        "uptime": "Päevi töös",
+        "burn": "Micro-Burn tõhusus",
+        "sales": "Müügipakkumised",
+        "nomad": "Nomaadipanus",
+        "index": "Suveräänsusindeks",
+        "live": "Otse",
+        "local": "See seade"
+      },
+      "themes": {
+        "uRanking": {
+          "tab": "U-edetabel",
+          "lede": "Tänane suveräänsete operaatorite edetabel, iga päev uuesti seemendatud.",
+          "features": {
+            "0": "Kaksteist operaatorit päevas",
+            "1": "Micro-Burn, müügi ja nomaadi mõõdikud",
+            "2": "Edetabel mooduli järgi"
+          },
+          "cta": "Ava U-AI"
+        },
+        "uShorts": {
+          "tab": "U-lühivideod",
+          "lede": "Vertikaalsed lühivideod kahekümne kahe juhtimistelje ulatuses — üks puudutus ja mängib.",
+          "features": {
+            "0": "Filtrid kõigile 22 teljele",
+            "1": "Looja passi broneering",
+            "2": "Automaatesituse riba"
+          },
+          "cta": "Ava U-AI"
+        },
+        "uTalk": {
+          "tab": "U-vestlus",
+          "lede": "Kakskümmend kaks teemaruumi, kus võrgustik vestleb otse.",
+          "features": {
+            "0": "Üks ruum iga juhtimistelje kohta",
+            "1": "Võrguta jätkub ainult seadmes",
+            "2": "Otsene kohalolijate arv"
+          },
+          "cta": "Ava U-AI"
+        },
+        "uExchange": {
+          "tab": "U-teadmisbörs",
+          "lede": "Osta ja müü teadmispakke U-müntidega, arveldus seadmes või otseregistris.",
+          "features": {
+            "0": "Kureeritud teadmispakid",
+            "1": "Pane oma pakid müüki",
+            "2": "Sisselogituna otseregistri sünk"
+          },
+          "cta": "Ava U-Pay"
+        },
+        "uSocial": {
+          "tab": "U-sotsiaal",
+          "lede": "Jaga UNITAS-t igasse võrku ühe allkirjastatud lingiga.",
+          "features": {
+            "0": "Ühe puudutusega jagamissihid",
+            "1": "Allkirjastatud jagamislingid",
+            "2": "Kõikide kanalite ulatus"
+          },
+          "cta": "Ava U-Signature"
+        },
+        "uAcademy": {
+          "tab": "U-akadeemia",
+          "lede": "Ökosüsteemi õppimise arhe — teadmispakid muudetud juhitud radadeks.",
+          "features": {
+            "0": "Juhitud õpirajad",
+            "1": "Pakkidest ehitatud õppekava",
+            "2": "Ainekava iga juhtimistelje kohta"
+          },
+          "cta": "Sisene ARCHE-sse"
+        },
+        "uVenture": {
+          "tab": "U-riskikapital",
+          "lede": "Nullkapitaliga ettevõtmised, sündikeeritud võrgu operaatorite vahel.",
+          "features": {
+            "0": "Sündikeeritud tehinguvoog",
+            "1": "Micro-Burn marginaalivärav",
+            "2": "Suveräänsusindeksi jälgimine"
+          },
+          "cta": "Sisene SYNDICATE-sse"
+        },
+        "uOracle": {
+          "tab": "U-oraakel",
+          "lede": "Päevaseemnega ettenägemine üle juhtimistelgede — sama vastus igas seadmes.",
+          "features": {
+            "0": "Deterministlikud prognoosid",
+            "1": "Väljavaade telje kaupa",
+            "2": "Tõendid parve sõlmedest"
+          },
+          "cta": "Sisene ORACLE-sse"
+        },
+        "uFactory": {
+          "tab": "U-tehas",
+          "lede": "Autonoomne tehas, mis paneb moodulid ja lukustused kokku uueks SaaS-iks.",
+          "features": {
+            "0": "Moodulite koostamine",
+            "1": "Lukustuste aktiveerimine",
+            "2": "Käed-vabad konveier"
+          },
+          "cta": "Sisene GENESIS-esse"
+        },
+        "uCoin": {
+          "tab": "U-münt",
+          "lede": "Micro-Burn majandus: mündid sisse, piirkulu null, marginaal piiramatu.",
+          "features": {
+            "0": "Rahakoti saldo otse",
+            "1": "Micro-Burn tõhususvahemik",
+            "2": "Pakkide arveldus müntides"
+          },
+          "cta": "Ava U-Pay"
+        },
+        "uGovernance": {
+          "tab": "U-juhtimine",
+          "lede": "Juhtimisteljed, mis suunavad iga moodulit, kodifitseeritud koodeksis.",
+          "features": {
+            "0": "Kõik teljed ühe pilguga",
+            "1": "Koodeksiga seotud reeglid",
+            "2": "Moodulite katvuse kaart"
+          },
+          "cta": "Sisene CODEX22-sse"
+        },
+        "uNexus": {
+          "tab": "U-neksus",
+          "lede": "Omni-tehnoloogiline parv: liigu teemade vahel üle avatud veebi ühest sõlmpunktist.",
+          "features": {
+            "0": "Parve rännak üle allikate",
+            "1": "Teemad seadmes vahemälus",
+            "2": "Portaali tööruum"
+          },
+          "cta": "Ava Omni-Swarm"
+        },
+        "uAkashic": {
+          "tab": "U-akaša",
+          "lede": "Alaline arhiiv — iga allkiri, pakk ja rännak hoitakse igavesti.",
+          "features": {
+            "0": "Allkirjastatud arhiivikirjed",
+            "1": "Pakkide päritolu",
+            "2": "Parve mälu säilib"
+          },
+          "cta": "Ava U-Signature"
+        },
+        "uQuantum": {
+          "tab": "U-kvant",
+          "lede": "Tõenäosust painutav arvutus ökosüsteemi paradoksi piiril.",
+          "features": {
+            "0": "Paradoksi moodul",
+            "1": "Päevaseemnega indeksid",
+            "2": "Arvutus parve sõlmedel"
+          },
+          "cta": "Sisene PARADOX-i"
+        },
+        "uShield": {
+          "tab": "U-kilp",
+          "lede": "Nullusalduse kaitse: võtmed, lukustused ja karantiin igale seansile.",
+          "features": {
+            "0": "Suveräänsed võtmed",
+            "1": "Aktiivsed lukustused selles seadmes",
+            "2": "Halbade sõlmede automaatne karantiin"
+          },
+          "cta": "Ava U-Key"
+        },
+        "uNomad": {
+          "tab": "U-nomaad",
+          "lede": "Digitaalnomaadi areen — teeni ja võistle kõikjalt maailmast.",
+          "features": {
+            "0": "Nomaadipanuse skoor",
+            "1": "Areeni väljakutsed",
+            "2": "Mündid teenitud kõikjalt"
+          },
+          "cta": "Sisene ARENA-sse"
+        },
+        "uChronos": {
+          "tab": "U-kronos",
+          "lede": "Aeg kui ressurss: tööaeg, rütm ja väljaku päevaseemnega takt.",
+          "features": {
+            "0": "Töös oldud päevade loendur",
+            "1": "Igapäevane uuendus UTC keskööl",
+            "2": "Juhtimise ajajoon"
+          },
+          "cta": "Sisene CHRONOS-esse"
+        },
+        "uSpace": {
+          "tab": "U-kosmos",
+          "lede": "Laienemise tipp — moodulid ja sõlmed kaardistatud ühe kasvava kosmosena.",
+          "features": {
+            "0": "Moodulite tähtkuju",
+            "1": "Parve sõlmede kaart",
+            "2": "Tõus tippu"
+          },
+          "cta": "Sisene APEX-i"
+        },
+        "uVision": {
+          "tab": "U-visioon",
+          "lede": "Kaugvaade: saatus, skoor ja suveräänsusindeks ühes teleskoobis.",
+          "features": {
+            "0": "Saatuse maatriks",
+            "1": "Suveräänsusindeks päev päeva järel",
+            "2": "Väljavaade juhtimistelje kaupa"
+          },
+          "cta": "Sisene FATE-sse"
+        },
+        "uMaster": {
+          "tab": "U-meister",
+          "lede": "Asutaja juhtimisruum — iga moodul, telg ja lukustus ühe krooni all.",
+          "features": {
+            "0": "Iga moodul vaateväljas",
+            "1": "Iga juhtimistelg",
+            "2": "Ainult suveräänne seanss"
+          },
+          "cta": "Sisene suveräänsesse konsooli"
+        }
       }
     }
   }

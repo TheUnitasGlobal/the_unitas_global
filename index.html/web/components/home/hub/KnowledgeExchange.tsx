@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { BadgeCheck, Coins, Crown, Database, Gem, HardDrive, Radio, ShoppingBag, Tag, Upload, Wallet } from 'lucide-react';
 import { useWallet } from '@/components/wallet/WalletProvider';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { HubDot } from '@/components/home/hub/HubDot';
 import { HOT_NEWS_AXES, hotNewsAxisMeta } from '@/lib/live/hotNewsAxes';
 import type { HotNewsCategory } from '@/lib/live/hotNews';
 import { createHubChannel, type HubChannelHandle } from '@/lib/hub/hubChannel';
@@ -330,7 +331,7 @@ export function KnowledgeExchange() {
             onMouseEnter={() => playHoverSfx()}
             onClick={() => setTheme(axis.key)}
           >
-            <axis.icon size={15} style={{ color: axis.color }} aria-hidden="true" />
+            <HubDot color={axis.color} />
             {tNews(`category.${axis.key}`)}
           </button>
         ))}
@@ -361,7 +362,7 @@ export function KnowledgeExchange() {
               <p className="qw-hubx-title">{pack.title}</p>
               <p className="qw-hubx-meta">
                 <span className="inline-flex items-center gap-1" style={{ color: meta.color }}>
-                  <meta.icon size={12} aria-hidden="true" />
+                  <HubDot color={meta.color} />
                   {tNews(`category.${pack.theme}`)}
                 </span>
                 <span>{t('by', { handle: pack.seller })}</span>

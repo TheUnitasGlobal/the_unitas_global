@@ -190,7 +190,7 @@ export function UnitasModuleRankings({ embedded = false, initialModule, initialP
             </p>
             {/* REV-21 SPEC §12.2 unitasProfile host (D-23): no entity behind a
                 pseudonymous operator -- sources-only mode on the module title. */}
-            <OmniOpen anchor={textAnchor(titleFor(profile.module), wikiLangFor(locale))} host="unitasProfile" compact />
+            <OmniOpen anchor={textAnchor(titleFor(profile.module), wikiLangFor(locale))} host="unitasProfile" family="unitas" compact />
             <p className="text-[11px] text-gray-500">{t('disclaimer')}</p>
           </div>
         )}

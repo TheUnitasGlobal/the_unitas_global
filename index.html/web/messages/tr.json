@@ -2358,7 +2358,7 @@
       },
       "newProducts": {
         "title": "Yeni ürünler",
-        "tag": "Dünyanın az önce piyasaya sürdüğü arabalar, telefonlar, mobilite, gadget’lar ve oyunlar"
+        "tag": "Dünyanın az önce piyasaya sürdüğü on altı aile — arabalar, telefonlar, mobilite, gadget’lar, oyunlar, yapay zekâ ajanları, kuantum, SaaS, biyo-sağlık, nöroteknoloji, uzay, XR, DeFi, eko enerji, nomad ekipmanı ve robotlar"
       }
     }
   },
@@ -2503,9 +2503,9 @@
   },
   "Rev29": {
     "hub": {
-      "title": "UNITAS Merkezi",
-      "lede": "Bilgi al-sat, shorts izle, sıralamalarda yüksel, temaya göre sohbet et ve UNITAS’ı dünyayla paylaş.",
-      "toggleAria": "UNITAS merkezini aç — bilgi borsası, shorts, sıralamalar, sohbet odaları, sosyal",
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Sonsuz zekânın kesiştiği ve kalıcı değerin genişlediği kozmik çok boyutlu bir nexus — tek bir meydanda yankılanan yirmi hiper-tema.",
+      "toggleAria": "UNITAS SQUARE (U-Square) aç — U-Sıralama’dan U-Master’a yirmi hiper-tema",
       "tabs": {
         "exchange": "Bilgi borsası",
         "shorts": "UNITAS Shorts",
@@ -2603,7 +2603,18 @@
         "phones": "Akıllı telefonlar",
         "mobility": "Mobilite",
         "gadgets": "Gadget’lar",
-        "games": "Oyunlar"
+        "games": "Oyunlar",
+        "aiAgents": "Yapay zekâ ajanları",
+        "quantum": "Kuantum",
+        "sovereignSaas": "Egemen SaaS",
+        "bioHealth": "Biyo-sağlık",
+        "neurotech": "Nöroteknoloji",
+        "space": "Uzay",
+        "xr": "XR cihazları",
+        "defiHardware": "DeFi donanımı",
+        "ecoEnergy": "Eko enerji",
+        "nomadGear": "Nomad ekipmanı",
+        "robots": "Robotlar"
       },
       "facts": {
         "count": "Yeni"
@@ -2715,6 +2726,294 @@
         "zoomOut": "Uzaklaştır",
         "reset": "Alanı sığdır",
         "hint": "Gezinmek için sürükleyin · yakınlaştırmak için sıkıştırın"
+      }
+    }
+  },
+  "Rev34": {
+    "uRankings": {
+      "label": "U-Sıralama",
+      "lede": "Bugünün on iki operatörü, ekosistemi ne kadar egemen yürüttüklerine göre sıralandı: Micro-Burn verimliliği, satılan bilgi, göçebe katkısı.",
+      "filterAll": "Tüm modüller",
+      "seedNote": "Simüle edilmiş günlük sıralama · takma adlar · gerçek kişisel veri değildir",
+      "openAria": "{name} profilini aç",
+      "rankAria": "{rank}. sıra",
+      "metrics": {
+        "microBurn": "Micro-Burn verimliliği",
+        "knowledgeSales": "Bilgi satışları",
+        "nomad": "Göçebe katkısı",
+        "sovereign": "Egemenlik endeksi"
+      },
+      "tier": {
+        "sovereign": "Egemen",
+        "platinum": "Platin",
+        "gold": "Altın"
+      },
+      "modalLede": "Bu operatör sırasını nasıl kazanıyor: egemenlik endeksinde Micro-Burn verimliliği % 40, satılan bilgi % 30 ve göçebe katkısı % 30 ağırlığındadır. Sıralama her UTC günü yeniden oluşturulur.",
+      "moduleLabel": "Modül",
+      "rankLabel": "Sıra"
+    },
+    "meta": {
+      "line": "{count} öğe · {source} ~ {updated} güncellendi"
+    },
+    "row": {
+      "open": "Aç"
+    },
+    "weather": {
+      "hourlyLabel": "Sonraki 24 saat",
+      "dailyLabel": "7 günlük tahmin",
+      "radarLabel": "Yağış radarı",
+      "radarPast": "Geçmiş",
+      "radarNow": "Şimdi",
+      "radarNowcast": "Çok kısa vadeli tahmin",
+      "radarPlay": "Oynat",
+      "radarPause": "Duraklat",
+      "radarSource": "Radar: RainViewer · Harita © OpenStreetMap katkıda bulunanlar, © CARTO",
+      "radarUnavailable": "Radar şu anda kullanılamıyor.",
+      "uv": "UV indeksi",
+      "uvBand": {
+        "low": "Düşük",
+        "moderate": "Orta",
+        "high": "Yüksek",
+        "veryHigh": "Çok yüksek",
+        "extreme": "Aşırı"
+      },
+      "windDir": "Rüzgar yönü",
+      "gust": "Rüzgar hamlesi",
+      "precip": "Yağış",
+      "precipProb": "Yağış olasılığı",
+      "sunrise": "Gün doğumu",
+      "sunset": "Gün batımı",
+      "aqiLabel": "Hava kalitesi",
+      "loading": "Ayrıntılı tahmin yükleniyor…",
+      "now": "Şimdi",
+      "zoomIn": "Yakınlaştır",
+      "zoomOut": "Uzaklaştır"
+    },
+    "square": {
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Sonsuz zekânın kesiştiği ve kalıcı değerin genişlediği kozmik çok boyutlu bir nexus — tek bir meydanda yankılanan yirmi hiper-tema.",
+      "toggleAria": "UNITAS SQUARE (U-Square) aç — U-Sıralama’dan U-Master’a yirmi hiper-tema",
+      "swipeHint": "Yirmi temanın tamamına ulaşmak için tema şeridini kaydırın veya sürükleyin.",
+      "lastTheme": "En son ziyaret ettiğiniz temada yeniden açıldı.",
+      "founderOnly": "Yalnızca kurucuya özel kontrol odası. Halk bu temayı kilitli görür; egemen oturum onu açar.",
+      "locked": "Kilitli",
+      "signals": {
+        "online": "Bağlantı",
+        "packs": "Sahip olunan paketler",
+        "coins": "U-Coin",
+        "lockins": "Etkin lock-in’ler",
+        "modules": "Modüller",
+        "axes": "Yönetişim eksenleri",
+        "nodes": "Sürü düğümleri",
+        "uptime": "Yayında gün",
+        "burn": "Micro-Burn verimliliği",
+        "sales": "İlanlar",
+        "nomad": "Göçebe katkısı",
+        "index": "Egemenlik endeksi",
+        "live": "Canlı",
+        "local": "Bu cihaz"
+      },
+      "themes": {
+        "uRanking": {
+          "tab": "U-Sıralama",
+          "lede": "Egemen operatörlerin bugünkü merdiveni, her gün yeniden tohumlanır.",
+          "features": {
+            "0": "Günde on iki operatör",
+            "1": "Micro-Burn, satış ve göçebe metrikleri",
+            "2": "Modüle göre filtrelenen merdiven"
+          },
+          "cta": "U-AI’yi aç"
+        },
+        "uShorts": {
+          "tab": "U-Kısa Video",
+          "lede": "Yirmi iki yönetişim ekseni boyunca dikey kısa videolar — oynatmak için tek dokunuş.",
+          "features": {
+            "0": "22 eksenin tamamı için filtreler",
+            "1": "İçerik üretici kartı rezervasyonu",
+            "2": "Otomatik oynatma şeridi"
+          },
+          "cta": "U-AI’yi aç"
+        },
+        "uTalk": {
+          "tab": "U-Sohbet",
+          "lede": "Ağın canlı sohbet ettiği yirmi iki tema odası.",
+          "features": {
+            "0": "Her yönetişim ekseni için bir oda",
+            "1": "Çevrimdışıyken yalnızca cihazda",
+            "2": "Canlı katılımcı sayısı"
+          },
+          "cta": "U-AI’yi aç"
+        },
+        "uExchange": {
+          "tab": "U-Borsa",
+          "lede": "Bilgi paketlerini U-Coin ile alıp satın; cihazınızda veya canlı defterde mutabakat.",
+          "features": {
+            "0": "Seçilmiş bilgi paketleri",
+            "1": "Kendi paketlerinizi listeleyin",
+            "2": "Giriş yapınca canlı defter eşitlemesi"
+          },
+          "cta": "U-Pay’i aç"
+        },
+        "uSocial": {
+          "tab": "U-Sosyal",
+          "lede": "UNITAS’ı tek bir imzalı bağlantıyla her ağda paylaşın.",
+          "features": {
+            "0": "Tek dokunuşla paylaşım hedefleri",
+            "1": "İmzalı paylaşım bağlantıları",
+            "2": "Çok kanallı erişim"
+          },
+          "cta": "U-Signature’ı aç"
+        },
+        "uAcademy": {
+          "tab": "U-Akademi",
+          "lede": "Ekosistemin öğrenme arkesi — bilgi paketleri rehberli yollara dönüşür.",
+          "features": {
+            "0": "Rehberli öğrenme yolları",
+            "1": "Paketlerden kurulan müfredat",
+            "2": "Her yönetişim eksenine ders planı"
+          },
+          "cta": "ARCHE’ye gir"
+        },
+        "uVenture": {
+          "tab": "U-Girişim",
+          "lede": "Ağın operatörleri arasında sendikalanan sıfır sermayeli girişimler.",
+          "features": {
+            "0": "Sendikalı işlem akışı",
+            "1": "Micro-Burn marj kapısı",
+            "2": "Egemenlik endeksi takibi"
+          },
+          "cta": "SYNDICATE’e gir"
+        },
+        "uOracle": {
+          "tab": "U-Kâhin",
+          "lede": "Yönetişim eksenlerinde güne göre tohumlanan öngörü — her cihazda aynı yanıt.",
+          "features": {
+            "0": "Deterministik tahminler",
+            "1": "Eksen eksen görünüm",
+            "2": "Sürü düğümlerinden kanıt"
+          },
+          "cta": "ORACLE’a gir"
+        },
+        "uFactory": {
+          "tab": "U-Fabrika",
+          "lede": "Modülleri ve lock-in’leri yeni SaaS’a dönüştüren otonom fabrika.",
+          "features": {
+            "0": "Modül montajı",
+            "1": "Lock-in etkinleştirme",
+            "2": "Elle dokunmadan işleyen hat"
+          },
+          "cta": "GENESIS’e gir"
+        },
+        "uCoin": {
+          "tab": "U-Coin",
+          "lede": "Micro-Burn ekonomisi: coin girer, marjinal maliyet sıfır, kâr marjı sınırsız.",
+          "features": {
+            "0": "Canlı cüzdan bakiyesi",
+            "1": "Micro-Burn verimlilik bandı",
+            "2": "Paket mutabakatı coin ile"
+          },
+          "cta": "U-Pay’i aç"
+        },
+        "uGovernance": {
+          "tab": "U-Yönetişim",
+          "lede": "Her modülü yönlendiren, kodekste yazılı yönetişim eksenleri.",
+          "features": {
+            "0": "Tüm eksenler bir bakışta",
+            "1": "Kodekse bağlı kurallar",
+            "2": "Modül kapsam haritası"
+          },
+          "cta": "CODEX22’ye gir"
+        },
+        "uNexus": {
+          "tab": "U-Nexus",
+          "lede": "Omni-tek sürüsü: açık web’deki konuları tek bir nexus’tan dolaşın.",
+          "features": {
+            "0": "Kaynaklar arasında sürü yürüyüşü",
+            "1": "Cihazda önbelleğe alınan konular",
+            "2": "Portal çalışma alanı"
+          },
+          "cta": "Omni-Swarm’ı aç"
+        },
+        "uAkashic": {
+          "tab": "U-Akaşik",
+          "lede": "Kalıcı arşiv — her imza, paket ve yürüyüş sonsuza dek saklanır.",
+          "features": {
+            "0": "İmzalı arşiv kayıtları",
+            "1": "Paket kökeni",
+            "2": "Sürü belleği korunur"
+          },
+          "cta": "U-Signature’ı aç"
+        },
+        "uQuantum": {
+          "tab": "U-Kuantum",
+          "lede": "Ekosistemin paradoks sınırında olasılığı büken hesaplama.",
+          "features": {
+            "0": "Paradoks modülü",
+            "1": "Güne göre tohumlanan endeksler",
+            "2": "Sürü düğümlerinde hesaplama"
+          },
+          "cta": "PARADOX’a gir"
+        },
+        "uShield": {
+          "tab": "U-Kalkan",
+          "lede": "Sıfır güven savunması: her oturum için anahtarlar, lock-in’ler ve karantina.",
+          "features": {
+            "0": "Egemen anahtarlar",
+            "1": "Bu cihazda etkin lock-in’ler",
+            "2": "Kötü düğümlerin otomatik karantinası"
+          },
+          "cta": "U-Key’i aç"
+        },
+        "uNomad": {
+          "tab": "U-Göçebe",
+          "lede": "Dijital göçebe arenası — dünyanın her yerinden kazanın ve yarışın.",
+          "features": {
+            "0": "Göçebe katkı puanı",
+            "1": "Arena mücadeleleri",
+            "2": "Her yerden kazanılan coin"
+          },
+          "cta": "ARENA’ya gir"
+        },
+        "uChronos": {
+          "tab": "U-Kronos",
+          "lede": "Kaynak olarak zaman: yayında geçen günler, kadans ve meydanın güne göre tohumlanan ritmi.",
+          "features": {
+            "0": "Yayın günü sayacı",
+            "1": "UTC gece yarısı günlük yeniden tohumlama",
+            "2": "Yönetişim zaman çizelgesi"
+          },
+          "cta": "CHRONOS’a gir"
+        },
+        "uSpace": {
+          "tab": "U-Uzay",
+          "lede": "Genişlemenin zirvesi — modüller ve düğümler büyüyen tek bir kozmos olarak haritalanır.",
+          "features": {
+            "0": "Modül takımyıldızı",
+            "1": "Sürü düğüm haritası",
+            "2": "Zirveye tırmanış"
+          },
+          "cta": "APEX’e gir"
+        },
+        "uVision": {
+          "tab": "U-Vizyon",
+          "lede": "Uzun menzilli vizyon: kader, skor ve egemenlik endeksi tek bir teleskopta.",
+          "features": {
+            "0": "Kader matrisi",
+            "1": "Gün gün egemenlik endeksi",
+            "2": "Yönetişim eksenine göre görünüm"
+          },
+          "cta": "FATE’e gir"
+        },
+        "uMaster": {
+          "tab": "U-Master",
+          "lede": "Kurucunun kontrol odası — her modül, eksen ve lock-in tek bir taç altında.",
+          "features": {
+            "0": "Her modül görünümde",
+            "1": "Her yönetişim ekseni",
+            "2": "Yalnızca egemen oturum"
+          },
+          "cta": "Egemen konsola gir"
+        }
       }
     }
   }

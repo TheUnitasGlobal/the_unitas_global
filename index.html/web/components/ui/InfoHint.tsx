@@ -194,6 +194,11 @@ export function InfoHint({
             ref={cardRef}
             id={cardId}
             role="tooltip"
+            // REV-34 M3: a PINNED hint absorbs Escape before the history
+            // stack (the controller stands down; the listener above unpins).
+            // A merely hovered / focused card is not stamped, so Escape over
+            // the dialog beneath it still closes that dialog.
+            data-escape-local={pinned ? '' : undefined}
             className="fixed z-[320] border border-accent/30 bg-quantum/98 p-4 text-left shadow-[0_18px_60px_rgba(0,0,0,0.6)] backdrop-blur-md"
             style={{ top: coords.top, left: coords.left, width: coords.width }}
           >

@@ -636,7 +636,7 @@ function TierCard({ tier, focused, feed, tModal, tUai, onNest, onFocusTier, onHo
             </div>
           )}
 
-          {focused && <OmniOpen anchor={deeperAnchor} host="keywordTier" compact />}
+          {focused && <OmniOpen anchor={deeperAnchor} host="keywordTier" family="default" compact />}
         </div>
       )}
     </motion.article>

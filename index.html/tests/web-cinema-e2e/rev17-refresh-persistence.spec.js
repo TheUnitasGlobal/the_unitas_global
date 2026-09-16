@@ -79,8 +79,15 @@ test.describe('REV-17 refresh/restore persistence', () => {
   test('closing the pop-out, then F5, does NOT reopen it (explicit close beats a stale hash)', async ({ page }) => {
     await reachHome(page);
     await openFirstEntryGate(page);
+    // REV-34 M3 (D-9): Escape mirrors the back button, one layer at a time.
+    // The Entry Gate is TWO ClusterPopout layers (qw:cluster + qw:entry), so
+    // the first press steps Entry -> tile grid and the second closes the
+    // pop-out through the cluster layer's onBack -- the same explicit-close
+    // path the X takes, which is what must beat the stale hash below.
     await page.keyboard.press('Escape');
-    await expect(page.locator('.qw-popout-panel')).toHaveCount(0);
+    await expect(page.locator("[data-view='entry']")).toHaveCount(0, { timeout: 8_000 });
+    await page.keyboard.press('Escape');
+    await expect(page.locator('.qw-popout-panel')).toHaveCount(0, { timeout: 8_000 });
 
     await page.reload();
     await page.waitForTimeout(1200);

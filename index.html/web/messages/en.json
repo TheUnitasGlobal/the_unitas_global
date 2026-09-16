@@ -2358,7 +2358,7 @@
       },
       "newProducts": {
         "title": "New Products",
-        "tag": "Cars, phones, mobility, gadgets and games the world just released"
+        "tag": "Sixteen families the world just released — cars, phones, mobility, gadgets, games, AI agents, quantum, SaaS, bio-health, neurotech, space, XR, DeFi, eco energy, nomad gear and robots"
       }
     }
   },
@@ -2503,9 +2503,9 @@
   },
   "Rev29": {
     "hub": {
-      "title": "UNITAS Hub",
-      "lede": "Trade knowledge, watch shorts, climb the rankings, talk by theme and share UNITAS with the world.",
-      "toggleAria": "Open the UNITAS hub — knowledge exchange, shorts, rankings, chat rooms, social",
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "A cosmic multidimensional nexus where infinite intelligence intersects and perpetual value expands — twenty hyper-themes resonating in one square.",
+      "toggleAria": "Open UNITAS SQUARE (U-Square) — twenty hyper-themes from U-Rankings to U-Master",
       "tabs": {
         "exchange": "Knowledge Exchange",
         "shorts": "UNITAS Shorts",
@@ -2603,7 +2603,18 @@
         "phones": "Smartphones",
         "mobility": "Mobility",
         "gadgets": "Gadgets",
-        "games": "Games"
+        "games": "Games",
+        "aiAgents": "AI agents",
+        "quantum": "Quantum",
+        "sovereignSaas": "Sovereign SaaS",
+        "bioHealth": "Bio-health",
+        "neurotech": "Neurotech",
+        "space": "Space",
+        "xr": "XR devices",
+        "defiHardware": "DeFi hardware",
+        "ecoEnergy": "Eco energy",
+        "nomadGear": "Nomad gear",
+        "robots": "Robots"
       },
       "facts": {
         "count": "New releases"
@@ -2715,6 +2726,294 @@
         "zoomOut": "Zoom out",
         "reset": "Fit the field",
         "hint": "Drag to travel · pinch to zoom"
+      }
+    }
+  },
+  "Rev34": {
+    "uRankings": {
+      "label": "U-Rankings",
+      "lede": "Today's twelve operators, ranked by how sovereignly they run the ecosystem: Micro-Burn efficiency, knowledge sold, nomad contribution.",
+      "filterAll": "All modules",
+      "seedNote": "Simulated daily ladder · pseudonymous handles · not real personal data",
+      "openAria": "Open the profile of {name}",
+      "rankAria": "#{rank}",
+      "metrics": {
+        "microBurn": "Micro-Burn efficiency",
+        "knowledgeSales": "Knowledge sales",
+        "nomad": "Nomad contribution",
+        "sovereign": "Sovereign index"
+      },
+      "tier": {
+        "sovereign": "Sovereign",
+        "platinum": "Platinum",
+        "gold": "Gold"
+      },
+      "modalLede": "How this operator earns the rank: Micro-Burn efficiency weighs 40 %, knowledge sold 30 % and nomad contribution 30 % of the sovereign index. The ladder reseeds every UTC day.",
+      "moduleLabel": "Module",
+      "rankLabel": "Rank"
+    },
+    "meta": {
+      "line": "{count} items · {source} ~ updated {updated}"
+    },
+    "row": {
+      "open": "Open"
+    },
+    "weather": {
+      "hourlyLabel": "Next 24 hours",
+      "dailyLabel": "7-day outlook",
+      "radarLabel": "Rain radar",
+      "radarPast": "Past",
+      "radarNow": "Now",
+      "radarNowcast": "Nowcast",
+      "radarPlay": "Play",
+      "radarPause": "Pause",
+      "radarSource": "Radar: RainViewer · Map © OpenStreetMap contributors, © CARTO",
+      "radarUnavailable": "Radar is unavailable right now.",
+      "uv": "UV index",
+      "uvBand": {
+        "low": "Low",
+        "moderate": "Moderate",
+        "high": "High",
+        "veryHigh": "Very high",
+        "extreme": "Extreme"
+      },
+      "windDir": "Wind direction",
+      "gust": "Gusts",
+      "precip": "Precipitation",
+      "precipProb": "Chance of rain",
+      "sunrise": "Sunrise",
+      "sunset": "Sunset",
+      "aqiLabel": "Air quality",
+      "loading": "Loading the deep forecast…",
+      "now": "Now",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out"
+    },
+    "square": {
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "A cosmic multidimensional nexus where infinite intelligence intersects and perpetual value expands — twenty hyper-themes resonating in one square.",
+      "toggleAria": "Open UNITAS SQUARE (U-Square) — twenty hyper-themes from U-Rankings to U-Master",
+      "swipeHint": "Swipe or drag the theme rail to reach all twenty themes.",
+      "lastTheme": "Reopened on the theme you visited last.",
+      "founderOnly": "Founder-only control room. The public sees this theme locked; a sovereign session opens it.",
+      "locked": "Locked",
+      "signals": {
+        "online": "Link",
+        "packs": "Packs owned",
+        "coins": "U-Coins",
+        "lockins": "Active lock-ins",
+        "modules": "Modules",
+        "axes": "Governance axes",
+        "nodes": "Swarm nodes",
+        "uptime": "Days live",
+        "burn": "Micro-Burn efficiency",
+        "sales": "Listings",
+        "nomad": "Nomad contribution",
+        "index": "Sovereign index",
+        "live": "Live",
+        "local": "This device"
+      },
+      "themes": {
+        "uRanking": {
+          "tab": "U-Rankings",
+          "lede": "Today’s ladder of sovereign operators, reseeded every day.",
+          "features": {
+            "0": "Twelve operators a day",
+            "1": "Micro-Burn, sales and nomad metrics",
+            "2": "Ladder filtered by module"
+          },
+          "cta": "Open U-AI"
+        },
+        "uShorts": {
+          "tab": "U-Shorts",
+          "lede": "Vertical shorts along the twenty-two governance axes — one tap to play.",
+          "features": {
+            "0": "Filters for all 22 axes",
+            "1": "Creator pass reservation",
+            "2": "Autoplay rail"
+          },
+          "cta": "Open U-AI"
+        },
+        "uTalk": {
+          "tab": "U-Talk",
+          "lede": "Twenty-two theme rooms where the network talks live.",
+          "features": {
+            "0": "One room per governance axis",
+            "1": "Device-only fallback offline",
+            "2": "Live presence count"
+          },
+          "cta": "Open U-AI"
+        },
+        "uExchange": {
+          "tab": "U-Exchange",
+          "lede": "Buy and sell knowledge packs with U-Coins, settled on your device or the live ledger.",
+          "features": {
+            "0": "Curated knowledge packs",
+            "1": "List your own packs",
+            "2": "Live ledger sync when signed in"
+          },
+          "cta": "Open U-Pay"
+        },
+        "uSocial": {
+          "tab": "U-Social",
+          "lede": "Share UNITAS to every network with one signed link.",
+          "features": {
+            "0": "One-tap share targets",
+            "1": "Signed share links",
+            "2": "Omni-channel reach"
+          },
+          "cta": "Open U-Signature"
+        },
+        "uAcademy": {
+          "tab": "U-Academy",
+          "lede": "The learning arche of the ecosystem — knowledge packs turned into guided paths.",
+          "features": {
+            "0": "Guided learning paths",
+            "1": "Curriculum built from packs",
+            "2": "Syllabus per governance axis"
+          },
+          "cta": "Enter ARCHE"
+        },
+        "uVenture": {
+          "tab": "U-Venture",
+          "lede": "Zero-capital ventures syndicated across the network’s operators.",
+          "features": {
+            "0": "Syndicated deal flow",
+            "1": "Micro-Burn margin gate",
+            "2": "Sovereign index tracking"
+          },
+          "cta": "Enter SYNDICATE"
+        },
+        "uOracle": {
+          "tab": "U-Oracle",
+          "lede": "Day-seeded foresight across the governance axes — the same answer on every device.",
+          "features": {
+            "0": "Deterministic forecasts",
+            "1": "Outlook axis by axis",
+            "2": "Evidence from swarm nodes"
+          },
+          "cta": "Enter ORACLE"
+        },
+        "uFactory": {
+          "tab": "U-Factory",
+          "lede": "The autonomous factory that assembles modules and lock-ins into new SaaS.",
+          "features": {
+            "0": "Module assembly",
+            "1": "Lock-in activation",
+            "2": "Zero-hands pipeline"
+          },
+          "cta": "Enter GENESIS"
+        },
+        "uCoin": {
+          "tab": "U-Coin",
+          "lede": "The Micro-Burn economy: coins in, marginal cost zero, margin unbounded.",
+          "features": {
+            "0": "Wallet balance, live",
+            "1": "Micro-Burn efficiency band",
+            "2": "Pack settlement in coins"
+          },
+          "cta": "Open U-Pay"
+        },
+        "uGovernance": {
+          "tab": "U-Governance",
+          "lede": "The governance axes that steer every module, codified in the codex.",
+          "features": {
+            "0": "Every axis at a glance",
+            "1": "Rules bound to the codex",
+            "2": "Module coverage map"
+          },
+          "cta": "Enter CODEX22"
+        },
+        "uNexus": {
+          "tab": "U-Nexus",
+          "lede": "The omni-tech swarm: walk subjects across the open web from one nexus.",
+          "features": {
+            "0": "Swarm walk across sources",
+            "1": "Subjects cached on device",
+            "2": "Portal workspace"
+          },
+          "cta": "Open Omni-Swarm"
+        },
+        "uAkashic": {
+          "tab": "U-Akashic",
+          "lede": "The permanent archive — every signature, pack and walk kept forever.",
+          "features": {
+            "0": "Signed archive entries",
+            "1": "Pack provenance",
+            "2": "Swarm memory kept"
+          },
+          "cta": "Open U-Signature"
+        },
+        "uQuantum": {
+          "tab": "U-Quantum",
+          "lede": "Probability-bending computation at the paradox edge of the ecosystem.",
+          "features": {
+            "0": "Paradox module",
+            "1": "Day-seeded indices",
+            "2": "Compute on swarm nodes"
+          },
+          "cta": "Enter PARADOX"
+        },
+        "uShield": {
+          "tab": "U-Shield",
+          "lede": "Zero-trust defence: keys, lock-ins and quarantine for every session.",
+          "features": {
+            "0": "Sovereign keys",
+            "1": "Active lock-ins on this device",
+            "2": "Auto-quarantine of bad nodes"
+          },
+          "cta": "Open U-Key"
+        },
+        "uNomad": {
+          "tab": "U-Nomad",
+          "lede": "The digital-nomad arena — earn and compete from anywhere on earth.",
+          "features": {
+            "0": "Nomad contribution score",
+            "1": "Arena challenges",
+            "2": "Coins earned from anywhere"
+          },
+          "cta": "Enter ARENA"
+        },
+        "uChronos": {
+          "tab": "U-Chronos",
+          "lede": "Time as a resource: uptime, cadence and the day-seeded rhythm of the square.",
+          "features": {
+            "0": "Days-live counter",
+            "1": "Daily reseeding at UTC midnight",
+            "2": "Governance timeline"
+          },
+          "cta": "Enter CHRONOS"
+        },
+        "uSpace": {
+          "tab": "U-Space",
+          "lede": "The apex of expansion — modules and nodes mapped as one growing cosmos.",
+          "features": {
+            "0": "Module constellation",
+            "1": "Swarm node map",
+            "2": "Ascent to the apex"
+          },
+          "cta": "Enter APEX"
+        },
+        "uVision": {
+          "tab": "U-Vision",
+          "lede": "Long-range vision: fate, score and the sovereign index in one telescope.",
+          "features": {
+            "0": "Fate matrix",
+            "1": "Sovereign index, day by day",
+            "2": "Outlook per governance axis"
+          },
+          "cta": "Enter FATE"
+        },
+        "uMaster": {
+          "tab": "U-Master",
+          "lede": "The founder’s control room — every module, axis and lock-in under one crown.",
+          "features": {
+            "0": "Every module in view",
+            "1": "Every governance axis",
+            "2": "Sovereign session only"
+          },
+          "cta": "Enter the sovereign console"
+        }
       }
     }
   }

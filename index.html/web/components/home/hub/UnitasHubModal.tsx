@@ -1,122 +1,164 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Clapperboard, Cpu, MessagesSquare, Share2, Sparkles, Store, Trophy, type LucideIcon } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { SectionShield } from '@/components/system/PageShield';
+import { useDragScroll } from '@/components/ui/useDragScroll';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import {
+  SQUARE_DEFAULT_THEME,
+  SQUARE_THEMES,
+  readLastSquareTheme,
+  squareDomKey,
+  squareTheme,
+  writeLastSquareTheme,
+  type SquareLegacyTab,
+  type SquareTheme,
+  type SquareThemeKey,
+} from '@/lib/square/themes';
 import { KnowledgeExchange } from './KnowledgeExchange';
 import { UnitasShorts } from './UnitasShorts';
 import { HubRankings } from './HubRankings';
 import { ThemeChatRooms } from './ThemeChatRooms';
 import { SocialHub } from './SocialHub';
+import { SquareThemePanel } from './SquareThemePanel';
 import { OmniSwarmWorkspace } from '@/components/swarm/OmniSwarmWorkspace';
 
 /**
- * REV-29 MISSION 4 (founder directive 2026-09-15) -- the UNITAS master hub:
- * the centred popup the master tile at the end of the search bar opens.
- * Five surfaces under one roof, each in its own shield so a bad answer in
- * one can never take the others down:
+ * REV-34 M4-A/B (founder directive 2026-09-16) -- UNITAS SQUARE (U-Square):
+ * the centred popup the master tile at the end of the search bar opens,
+ * grown from the REV-29 six-tab hub to TWENTY fixed themes (유랭킹 …
+ * 유마스터, lib/square/themes.ts) under one cosmic lede.
  *
- *   지식 거래소  the revenue theme -- knowledge packs bought and listed
- *   UNITAS 숏츠  the vertical-video rail, revived from REV-19 and moved here
- *   UNITAS 랭킹  the world + UNITAS rankings, the same embedded panels
- *   테마별 대화방 22 rooms, one per news axis, live over the hub channel
- *   소셜 미디어  the world's social / mail apps and one-tap UNITAS sharing
- *   옴니-테크 스원 the multi-dimensional network field (REV-32 M2) -- the hub is
- *              the one surface reachable from every page, so the swarm's
- *              entrance belongs here as well as on its own route
+ * The six panels that already exist keep their component AND their DOM key
+ * (`data-hub-tab-btn=rankings|shorts|rooms|exchange|social|swarm`, D-10) --
+ * they simply sit at positions 1·2·3·4·5·12 of the new order. The other
+ * fourteen render SquareThemePanel from their descriptor. Exactly one panel
+ * is mounted at a time, each in its own shield, so a bad answer in one can
+ * never take the others down and the swarm (portal pattern, WIKIMEDIA page
+ * budget) is only ever alive while its tab is active.
  *
- * One history layer (Modal) -- the back gesture closes the hub and only the
- * hub; nested popups (a short, a creator pass) stack their own layers.
+ * One history layer (Modal) -- the back gesture closes the square and only
+ * the square; nested popups (a short, a creator pass) stack their own
+ * layers. The last theme opened is remembered per device (localStorage,
+ * guarded); an explicit `initialTab` prop always wins, so E2E stays
+ * deterministic.
+ *
+ * Tab strip: twenty pills on one native horizontal scroller with the
+ * house mouse grab-drag (useDragScroll); ≤767px it folds into a two-row
+ * snap grid (unitas-hub.css) so the whole square is one gesture wide. The
+ * drag handlers are bound unconditionally -- binding them to a "dragging"
+ * state killed taps in REV-33, and touch never enters the drag path at all.
  */
-export type HubTab = 'exchange' | 'shorts' | 'rankings' | 'rooms' | 'social' | 'swarm';
-
-const TABS: ReadonlyArray<{ key: HubTab; icon: LucideIcon }> = [
-  { key: 'exchange', icon: Store },
-  { key: 'shorts', icon: Clapperboard },
-  { key: 'rankings', icon: Trophy },
-  { key: 'rooms', icon: MessagesSquare },
-  { key: 'social', icon: Share2 },
-  { key: 'swarm', icon: Cpu },
-];
+export type HubTab = SquareThemeKey;
 
 export interface UnitasHubModalProps {
   open: boolean;
   onClose: () => void;
+  /** Explicit start theme; when omitted the last opened theme (or 유랭킹) is used. */
   initialTab?: HubTab;
 }
 
-export function UnitasHubModal({ open, onClose, initialTab = 'exchange' }: UnitasHubModalProps) {
-  const t = useTranslations('Rev29.hub');
+function LegacyPanel({ tab }: { tab: SquareLegacyTab }) {
+  switch (tab) {
+    case 'rankings':
+      return <HubRankings />;
+    case 'shorts':
+      return <UnitasShorts />;
+    case 'rooms':
+      return <ThemeChatRooms />;
+    case 'exchange':
+      return <KnowledgeExchange />;
+    case 'social':
+      return <SocialHub />;
+    case 'swarm':
+      return <OmniSwarmWorkspace variant="hub" />;
+  }
+}
+
+function SquarePanel({ theme }: { theme: SquareTheme }) {
+  return theme.legacyTab ? <LegacyPanel tab={theme.legacyTab} /> : <SquareThemePanel theme={theme} />;
+}
+
+export function UnitasHubModal({ open, onClose, initialTab }: UnitasHubModalProps) {
+  const t = useTranslations('Rev34.square');
   const { playHoverSfx } = useSpatialAudio();
-  const [tab, setTab] = useState<HubTab>(initialTab);
+  const [tab, setTab] = useState<SquareThemeKey>(() => initialTab ?? readLastSquareTheme());
+  // True while the open theme is the remembered one (no explicit initialTab,
+  // and it is not simply the default) -- announced to screen readers only.
+  const [restored, setRestored] = useState(() => initialTab === undefined && readLastSquareTheme() !== SQUARE_DEFAULT_THEME);
+  const railRef = useRef<HTMLDivElement>(null);
+  const { handlers: dragHandlers } = useDragScroll(railRef);
 
   useEffect(() => {
-    if (open) setTab(initialTab);
+    if (!open) return;
+    const remembered = readLastSquareTheme();
+    setTab(initialTab ?? remembered);
+    setRestored(initialTab === undefined && remembered !== SQUARE_DEFAULT_THEME);
   }, [open, initialTab]);
+
+  const pick = useCallback((key: SquareThemeKey) => {
+    setTab(key);
+    setRestored(false);
+    writeLastSquareTheme(key);
+  }, []);
+
+  const active = squareTheme(tab);
+  const domKey = squareDomKey(active);
 
   return (
     <Modal open={open} onClose={onClose} labelledBy="unitas-hub-title" size="hub">
-      <div className="qw-hub-shell" data-unitas-hub="" data-hub-tab={tab}>
+      <div className="qw-hub-shell" data-unitas-hub="" data-unitas-square="" data-hub-tab={domKey} data-square-theme={active.key}>
         <header className="qw-hub-head">
           <p id="unitas-hub-title" className="qw-discovery-label mb-0 flex items-center gap-2 text-[17px] font-bold text-white">
             <Sparkles size={18} aria-hidden="true" />
             {t('title')}
           </p>
           <p className="qw-hub-meta mt-1 text-[13px] text-gray-400">{t('lede')}</p>
+          <span className="sr-only">{t('swipeHint')}</span>
+          {restored ? (
+            <span className="sr-only" role="status" data-square-last-theme="">
+              {t('lastTheme')}
+            </span>
+          ) : null}
         </header>
 
-        <div className="qw-hub-tabs qw-hub-nav u-hscroll select-none" role="tablist" aria-label={t('title')}>
-          {TABS.map(({ key, icon: Icon }) => (
-            <button
-              key={key}
-              type="button"
-              role="tab"
-              aria-selected={tab === key}
-              data-hub-tab-btn={key}
-              className="qw-hub-tab qw-hub-nav-tab"
-              onMouseEnter={() => playHoverSfx()}
-              onClick={() => setTab(key)}
-            >
-              <Icon size={14} aria-hidden="true" />
-              {t(`tabs.${key}`)}
-            </button>
-          ))}
+        <div
+          ref={railRef}
+          className="qw-hub-tabs qw-hub-nav qw-square-nav u-hscroll select-none"
+          role="tablist"
+          aria-label={t('title')}
+          {...dragHandlers}
+        >
+          {SQUARE_THEMES.map((theme) => {
+            const Icon = theme.icon;
+            const selected = tab === theme.key;
+            return (
+              <button
+                key={theme.key}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                data-hub-tab-btn={squareDomKey(theme)}
+                data-square-tab={theme.order}
+                data-square-theme={theme.key}
+                className="qw-hub-tab qw-hub-nav-tab qw-square-tab"
+                onMouseEnter={() => playHoverSfx()}
+                onClick={() => pick(theme.key)}
+              >
+                <Icon size={14} aria-hidden="true" />
+                <span className="qw-square-tab-label">{t(`themes.${theme.key}.tab`)}</span>
+              </button>
+            );
+          })}
         </div>
 
-        <div className="qw-hub-panel" role="tabpanel" data-hub-panel={tab}>
-          {tab === 'exchange' && (
-            <SectionShield zone="hub-exchange">
-              <KnowledgeExchange />
-            </SectionShield>
-          )}
-          {tab === 'shorts' && (
-            <SectionShield zone="hub-shorts">
-              <UnitasShorts />
-            </SectionShield>
-          )}
-          {tab === 'rankings' && (
-            <SectionShield zone="hub-rankings">
-              <HubRankings />
-            </SectionShield>
-          )}
-          {tab === 'rooms' && (
-            <SectionShield zone="hub-rooms">
-              <ThemeChatRooms />
-            </SectionShield>
-          )}
-          {tab === 'social' && (
-            <SectionShield zone="hub-social">
-              <SocialHub />
-            </SectionShield>
-          )}
-          {tab === 'swarm' && (
-            <SectionShield zone="hub-swarm">
-              <OmniSwarmWorkspace variant="hub" />
-            </SectionShield>
-          )}
+        <div className="qw-hub-panel" role="tabpanel" data-hub-panel={domKey}>
+          <SectionShield key={active.key} zone={`hub-${domKey}`}>
+            <SquarePanel theme={active} />
+          </SectionShield>
         </div>
       </div>
     </Modal>

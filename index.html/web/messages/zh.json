@@ -2358,7 +2358,7 @@
       },
       "newProducts": {
         "title": "全球新品",
-        "tag": "世界刚刚发布的汽车、手机、出行工具、数码产品和游戏"
+        "tag": "世界刚刚发布的16大品类——汽车、手机、出行、数码、游戏、AI智能体、量子、SaaS、生物健康、神经科技、航天、XR、DeFi、绿色能源、游牧装备和机器人"
       }
     }
   },
@@ -2503,9 +2503,9 @@
   },
   "Rev29": {
     "hub": {
-      "title": "UNITAS 中心",
-      "lede": "买卖知识、观看短视频、角逐排名、按主题聊天，并与世界分享 UNITAS。",
-      "toggleAria": "打开 UNITAS 中心 — 知识交易所、短视频、排名、聊天室、社交",
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "无限智能交汇、永续价值膨胀的宇宙多维枢纽 — 二十个超级主题在同一个广场上共鸣。",
+      "toggleAria": "打开 UNITAS SQUARE (U-Square) — 从U排行榜到U大师的二十个超级主题",
       "tabs": {
         "exchange": "知识交易所",
         "shorts": "UNITAS 短视频",
@@ -2603,7 +2603,18 @@
         "phones": "智能手机",
         "mobility": "出行",
         "gadgets": "数码",
-        "games": "游戏"
+        "games": "游戏",
+        "aiAgents": "AI智能体",
+        "quantum": "量子",
+        "sovereignSaas": "自主SaaS",
+        "bioHealth": "生物健康",
+        "neurotech": "神经科技",
+        "space": "航天",
+        "xr": "XR设备",
+        "defiHardware": "DeFi硬件",
+        "ecoEnergy": "绿色能源",
+        "nomadGear": "游牧装备",
+        "robots": "机器人"
       },
       "facts": {
         "count": "新品"
@@ -2715,6 +2726,294 @@
         "zoomOut": "缩小",
         "reset": "适应画面",
         "hint": "拖动移动 · 双指缩放"
+      }
+    }
+  },
+  "Rev34": {
+    "uRankings": {
+      "label": "U排行榜",
+      "lede": "今日的十二位运营者，按其运营生态系统的主权程度排名：微燃效率、知识销售、游牧贡献。",
+      "filterAll": "全部模块",
+      "seedNote": "模拟每日榜单 · 化名账号 · 非真实个人数据",
+      "openAria": "打开 {name} 的资料",
+      "rankAria": "第{rank}名",
+      "metrics": {
+        "microBurn": "微燃效率",
+        "knowledgeSales": "知识销售",
+        "nomad": "游牧贡献",
+        "sovereign": "主权指数"
+      },
+      "tier": {
+        "sovereign": "主权",
+        "platinum": "白金",
+        "gold": "黄金"
+      },
+      "modalLede": "该运营者的排名依据：主权指数由微燃效率 40 %、知识销售 30 %、游牧贡献 30 % 构成。榜单每个 UTC 日重新生成。",
+      "moduleLabel": "模块",
+      "rankLabel": "排名"
+    },
+    "meta": {
+      "line": "{count}条 · {source} ~ {updated} 更新"
+    },
+    "row": {
+      "open": "打开"
+    },
+    "weather": {
+      "hourlyLabel": "未来24小时",
+      "dailyLabel": "7天预报",
+      "radarLabel": "降水雷达",
+      "radarPast": "过去",
+      "radarNow": "现在",
+      "radarNowcast": "临近预报",
+      "radarPlay": "播放",
+      "radarPause": "暂停",
+      "radarSource": "雷达：RainViewer · 地图 © OpenStreetMap 贡献者，© CARTO",
+      "radarUnavailable": "雷达暂时不可用。",
+      "uv": "紫外线指数",
+      "uvBand": {
+        "low": "低",
+        "moderate": "中等",
+        "high": "高",
+        "veryHigh": "很高",
+        "extreme": "极高"
+      },
+      "windDir": "风向",
+      "gust": "阵风",
+      "precip": "降水量",
+      "precipProb": "降水概率",
+      "sunrise": "日出",
+      "sunset": "日落",
+      "aqiLabel": "空气质量",
+      "loading": "正在加载详细预报…",
+      "now": "现在",
+      "zoomIn": "放大",
+      "zoomOut": "缩小"
+    },
+    "square": {
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "无限智能交汇、永续价值膨胀的宇宙多维枢纽 — 二十个超级主题在同一个广场上共鸣。",
+      "toggleAria": "打开 UNITAS SQUARE (U-Square) — 从U排行榜到U大师的二十个超级主题",
+      "swipeHint": "滑动或拖动主题栏即可浏览全部二十个主题。",
+      "lastTheme": "已在你上次访问的主题上重新打开。",
+      "founderOnly": "创始人专属控制室。公众看到的是锁定状态；只有主权会话才能打开。",
+      "locked": "已锁定",
+      "signals": {
+        "online": "链接",
+        "packs": "持有知识包",
+        "coins": "U币",
+        "lockins": "已激活锁定模块",
+        "modules": "模块",
+        "axes": "治理轴",
+        "nodes": "蜂群节点",
+        "uptime": "上线天数",
+        "burn": "微燃效率",
+        "sales": "挂单",
+        "nomad": "游牧贡献",
+        "index": "主权指数",
+        "live": "实时",
+        "local": "本设备"
+      },
+      "themes": {
+        "uRanking": {
+          "tab": "U排行榜",
+          "lede": "每日重新生成的今日主权运营者榜单。",
+          "features": {
+            "0": "每天十二位运营者",
+            "1": "微燃、销售与游牧指标",
+            "2": "按模块筛选榜单"
+          },
+          "cta": "打开 U-AI"
+        },
+        "uShorts": {
+          "tab": "U短视频",
+          "lede": "沿二十二条治理轴排布的竖屏短视频 — 一键播放。",
+          "features": {
+            "0": "全部22轴筛选",
+            "1": "创作者通行证预约",
+            "2": "自动播放轨道"
+          },
+          "cta": "打开 U-AI"
+        },
+        "uTalk": {
+          "tab": "U聊天",
+          "lede": "网络实时交流的二十二个主题房间。",
+          "features": {
+            "0": "每条治理轴一个房间",
+            "1": "离线时仅保存在本设备",
+            "2": "实时在线人数"
+          },
+          "cta": "打开 U-AI"
+        },
+        "uExchange": {
+          "tab": "U知识交易所",
+          "lede": "用U币买卖知识包，在本设备或实时账本上结算。",
+          "features": {
+            "0": "精选知识包",
+            "1": "发布你自己的知识包",
+            "2": "登录后同步实时账本"
+          },
+          "cta": "打开 U-Pay"
+        },
+        "uSocial": {
+          "tab": "U社交",
+          "lede": "用一条签名链接把 UNITAS 分享到每一个网络。",
+          "features": {
+            "0": "一键分享目标",
+            "1": "签名分享链接",
+            "2": "全渠道触达"
+          },
+          "cta": "打开 U-Signature"
+        },
+        "uAcademy": {
+          "tab": "U学院",
+          "lede": "生态系统的学习本源 — 知识包化作引导式学习路径。",
+          "features": {
+            "0": "引导式学习路径",
+            "1": "由知识包构成的课程",
+            "2": "按治理轴划分的大纲"
+          },
+          "cta": "进入 ARCHE"
+        },
+        "uVenture": {
+          "tab": "U创投",
+          "lede": "在网络运营者之间联合发起的零资本创投。",
+          "features": {
+            "0": "联合交易流",
+            "1": "微燃利润闸门",
+            "2": "主权指数追踪"
+          },
+          "cta": "进入 SYNDICATE"
+        },
+        "uOracle": {
+          "tab": "U神谕",
+          "lede": "按日种子生成、横跨治理轴的预见 — 每台设备得到同样的答案。",
+          "features": {
+            "0": "确定性预测",
+            "1": "逐轴展望",
+            "2": "来自蜂群节点的证据"
+          },
+          "cta": "进入 ORACLE"
+        },
+        "uFactory": {
+          "tab": "U工厂",
+          "lede": "把模块与锁定模块组装成新 SaaS 的自主工厂。",
+          "features": {
+            "0": "模块组装",
+            "1": "锁定模块激活",
+            "2": "零人工流水线"
+          },
+          "cta": "进入 GENESIS"
+        },
+        "uCoin": {
+          "tab": "U币",
+          "lede": "微燃经济：币入，边际成本为零，利润无上限。",
+          "features": {
+            "0": "实时钱包余额",
+            "1": "微燃效率区间",
+            "2": "用币结算知识包"
+          },
+          "cta": "打开 U-Pay"
+        },
+        "uGovernance": {
+          "tab": "U治理",
+          "lede": "引导每个模块的治理轴，已在法典中成文。",
+          "features": {
+            "0": "一览所有轴",
+            "1": "与法典绑定的规则",
+            "2": "模块覆盖图"
+          },
+          "cta": "进入 CODEX22"
+        },
+        "uNexus": {
+          "tab": "U枢纽",
+          "lede": "全域科技蜂群：从一个枢纽漫游开放网络上的所有主题。",
+          "features": {
+            "0": "跨来源的蜂群漫游",
+            "1": "缓存在本设备的主题",
+            "2": "门户工作区"
+          },
+          "cta": "打开 Omni-Swarm"
+        },
+        "uAkashic": {
+          "tab": "U阿卡西",
+          "lede": "永久档案 — 每一次签名、知识包与漫游永久留存。",
+          "features": {
+            "0": "已签名的档案条目",
+            "1": "知识包溯源",
+            "2": "保留蜂群记忆"
+          },
+          "cta": "打开 U-Signature"
+        },
+        "uQuantum": {
+          "tab": "U量子",
+          "lede": "在生态系统的悖论边缘扭转概率的计算。",
+          "features": {
+            "0": "悖论模块",
+            "1": "按日种子生成的指数",
+            "2": "在蜂群节点上计算"
+          },
+          "cta": "进入 PARADOX"
+        },
+        "uShield": {
+          "tab": "U护盾",
+          "lede": "零信任防御：为每个会话提供密钥、锁定模块与隔离。",
+          "features": {
+            "0": "主权密钥",
+            "1": "本设备已激活的锁定模块",
+            "2": "恶意节点自动隔离"
+          },
+          "cta": "打开 U-Key"
+        },
+        "uNomad": {
+          "tab": "U游牧",
+          "lede": "数字游牧竞技场 — 在地球任何角落赚取与竞技。",
+          "features": {
+            "0": "游牧贡献分",
+            "1": "竞技场挑战",
+            "2": "随处赚取币"
+          },
+          "cta": "进入 ARENA"
+        },
+        "uChronos": {
+          "tab": "U时序",
+          "lede": "时间即资源：上线天数、节奏，以及广场按日种子生成的律动。",
+          "features": {
+            "0": "上线天数计数器",
+            "1": "UTC 午夜每日重新生成",
+            "2": "治理时间线"
+          },
+          "cta": "进入 CHRONOS"
+        },
+        "uSpace": {
+          "tab": "U太空",
+          "lede": "扩张的顶点 — 把模块与节点绘成一个不断生长的宇宙。",
+          "features": {
+            "0": "模块星座",
+            "1": "蜂群节点图",
+            "2": "向顶点攀升"
+          },
+          "cta": "进入 APEX"
+        },
+        "uVision": {
+          "tab": "U愿景",
+          "lede": "远景：命运、分数与主权指数尽收一台望远镜。",
+          "features": {
+            "0": "命运矩阵",
+            "1": "逐日主权指数",
+            "2": "按治理轴展望"
+          },
+          "cta": "进入 FATE"
+        },
+        "uMaster": {
+          "tab": "U大师",
+          "lede": "创始人的控制室 — 所有模块、轴与锁定模块尽在一顶王冠之下。",
+          "features": {
+            "0": "所有模块尽收眼底",
+            "1": "所有治理轴",
+            "2": "仅限主权会话"
+          },
+          "cta": "进入主权控制台"
+        }
       }
     }
   }

@@ -83,8 +83,10 @@ test.describe('REV-32 M2 -- the entrances', () => {
 
     const tab = hub.locator('[data-hub-tab-btn="swarm"]');
     await expect(tab, 'the swarm tab').toBeVisible();
-    // Five surfaces became six, and the swarm is the new one.
-    expect(await hub.locator('[data-hub-tab-btn]').count()).toBe(6);
+    // Five surfaces became six (REV-32), then twenty (REV-34 U-Square); the
+    // swarm keeps its legacy DOM key and sits at theme 12.
+    expect(await hub.locator('[data-hub-tab-btn]').count()).toBe(20);
+    await expect(tab).toHaveAttribute('data-square-tab', '12');
 
     await tab.click();
     await expect(hub.locator('[data-hub-panel="swarm"]')).toBeVisible();

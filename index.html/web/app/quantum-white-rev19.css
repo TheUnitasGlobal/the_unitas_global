@@ -1203,7 +1203,7 @@ html[data-unitas-surface='quantum-white'] .qw-two-step-hit:focus-visible {
   box-shadow: 0 0 0 1.5px var(--qw-blue);
   color: var(--qw-blue-deep);
 }
-
+
 
 /* --------------------------------------------------------------------------
    §24. REV-24 MISSION 4 -- the OMNI-TECH SWARM on the white surface, revived
@@ -1302,4 +1302,685 @@ html[data-unitas-surface='quantum-white'] .qw-swarm-ctl-hint {
 html[data-unitas-surface='quantum-white'] .qw-swarm-frame {
   background: rgba(255, 255, 255, 0.7);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+
+/* --------------------------------------------------------------------------
+   §27. REV-34 M1-B / M1-C / M1-E (founder directive 2026-09-16) -- the
+       shortcut strip's rows: one click, the ⏎ row box, the one dot.
+   The two-step title (`.qw-two-step-hit`, `data-selected`) is retired on the
+   strip: a title is a plain text button that changes COLOUR on hover (no
+   ground, no ring) and opens on the first click, and a ⏎ box at the right
+   end of the title row and of every sub-info row routes to the very same
+   place. The box is the search bar's ⏎ key re-derived (§14: 1.5px rim,
+   quiet neutral at rest, blue earned on hover) at 28px beside a title and
+   24px on a row, with an 8px radius in place of the key's 10px because the
+   box is smaller. The dot is the carousel's 8px coloured circle, now one
+   class for the carousel, the news widget and the hub panels, painted from
+   `--qw-hub-accent` like every other hub glyph.
+
+   Layout and the dark base are unscoped (the strip and the hub render on
+   the white home route, the same markup must survive a dark surface); the
+   white re-key follows under the surface prefix. No backdrop-filter, no
+   blur, no transform on html/body.
+   -------------------------------------------------------------------------- */
+.qw-hub-title-row {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 8px;
+}
+.qw-hub-title-hit {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.16s ease;
+}
+.qw-hub-title-hit:hover,
+.qw-hub-title-hit:focus-visible {
+  color: #f2d675;
+  outline: none;
+}
+/* A sub-info row: the headline button and its sibling ⏎ box (a button
+   cannot nest a button). The box rides the first text line: the headline's
+   10px padding plus half a 20px line lands the line's centre at 20px, and a
+   24px box centred there starts 8px down. */
+.qw-hub-row {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 6px;
+}
+.qw-hub-row > .qw-hub-headline {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.qw-hub-row > .qw-row-enter {
+  margin-top: 8px;
+}
+.qw-row-enter {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d1d5db;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.qw-row-enter[data-row-enter='title'] {
+  width: 28px;
+  height: 28px;
+}
+.qw-row-enter:hover,
+.qw-row-enter:focus-visible {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.12);
+  color: #f2d675;
+  outline: none;
+}
+/* The row's text answers the hover in colour (the ground tint stays as it
+   was) -- the same grammar as the title, so text and box read as one row. */
+.qw-hub-headline-text {
+  transition: color 0.16s ease;
+}
+.qw-hub-headline:hover .qw-hub-headline-text,
+.qw-hub-headline:focus-visible .qw-hub-headline-text {
+  color: #f2d675;
+}
+.qw-hub-dot {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: var(--qw-hub-dot-size, 8px);
+  height: var(--qw-hub-dot-size, 8px);
+  border-radius: 999px;
+  background: var(--qw-hub-accent, #d4af37);
+}
+/* Touch: a 44px hit halo around the box without growing the visual box, so
+   the row grid keeps its 8px rhythm. The halo stays inside the row's own
+   height (>= 40px + the 4px gap), so it never steals a neighbour's tap. */
+@media (max-width: 767px) {
+  .qw-row-enter {
+    position: relative;
+  }
+  .qw-row-enter::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qw-hub-title-hit,
+  .qw-row-enter,
+  .qw-hub-headline-text {
+    transition: none;
+  }
+}
+/* White surface re-key: the ⏎ key's own tokens (§14), the blue-deep ink the
+   armed two-step used to earn, the accent dot. */
+html[data-unitas-surface='quantum-white'] .qw-hub-title-hit:hover,
+html[data-unitas-surface='quantum-white'] .qw-hub-title-hit:focus-visible {
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-row-enter {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-row-enter:hover,
+html[data-unitas-surface='quantum-white'] .qw-row-enter:focus-visible {
+  border-color: var(--qw-blue);
+  background: #fff;
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-headline:hover .qw-hub-headline-text,
+html[data-unitas-surface='quantum-white'] .qw-hub-headline:focus-visible .qw-hub-headline-text {
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-dot {
+  background: var(--qw-hub-accent, var(--qw-blue));
+}
+
+
+/* --------------------------------------------------------------------------
+   §28. REV-34 M1-A (founder directive 2026-09-16) -- the weather DEEP popup:
+       extended current tiles, the 24-hour rail, the 7-day list, the rain
+       radar and the AQI row (components/home/WeatherDeepPanel.tsx +
+       WeatherRadar.tsx).
+   Layout and the dark base are unscoped (the dialog renders on the white
+   home route AND must survive a dark surface); the white re-key follows
+   under the surface prefix, painted from the same card tokens as every
+   other hub block (--qw-card-line / --qw-card-bg / --qw-hub-accent). The
+   radar is nine 256px tiles that must never be 256px wide: the grid cells
+   scale with the dialog (width 100%, aspect-ratio 1) so 3 x 256 = 768px
+   never overflows the xl dialog or a 360px phone. No backdrop-filter, no
+   blur, no transform on html/body; 44px targets under 767px.
+   -------------------------------------------------------------------------- */
+.qw-weather-deep {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.qw-weather-section-label {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.qw-weather-skeleton,
+.qw-weather-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 0;
+  font-size: 13px;
+  color: #9ca3af;
+}
+.qw-weather-error {
+  font-weight: 700;
+  color: #fcd34d;
+}
+/* Extended current conditions: six tiles that wrap from 3 columns down to 2
+   on a phone, each one label + value, the value's qualifier (compass, band)
+   as a smaller trailing word. */
+.qw-weather-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qw-weather-stat {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 6px;
+  align-items: center;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+  color: #9ca3af;
+}
+.qw-weather-stat > svg {
+  grid-row: 1 / span 2;
+  color: var(--qw-hub-accent, #d4af37);
+}
+.qw-weather-stat-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qw-weather-stat-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+.qw-weather-stat-sub {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #d1d5db;
+}
+/* 24-hour rail: fixed 64px cells on a native scroller (u-hscroll owns the
+   overflow, snap and drag hooks), so the dialog never grows sideways. */
+.qw-weather-block {
+  min-width: 0;
+}
+.qw-weather-hourly {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0 0 4px;
+  list-style: none;
+}
+.qw-weather-hour {
+  display: flex;
+  flex: 0 0 64px;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 4px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+  scroll-snap-align: start;
+  text-align: center;
+}
+.qw-weather-hour-time {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9ca3af;
+  font-variant-numeric: tabular-nums;
+}
+.qw-weather-hour:first-child .qw-weather-hour-time {
+  color: var(--qw-hub-accent, #d4af37);
+}
+.qw-weather-hour-temp {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+.qw-weather-hour-prob {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #93c5fd;
+  font-variant-numeric: tabular-nums;
+}
+.qw-weather-hour-prob[data-zero='1'] {
+  color: #6b7280;
+}
+/* 7-day list: one grid row per day; on a phone the sunrise / sunset pair
+   drops to a second line under the day so nothing needs a sideways scroll. */
+.qw-weather-daily {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qw-weather-day {
+  display: grid;
+  grid-template-columns: minmax(84px, 1.2fr) 28px minmax(72px, 1fr) minmax(52px, 0.8fr) minmax(40px, 0.6fr) minmax(112px, 1.4fr);
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+  font-size: 12.5px;
+  color: #9ca3af;
+  font-variant-numeric: tabular-nums;
+}
+.qw-weather-day-name {
+  font-weight: 700;
+  color: #e5e7eb;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qw-weather-day-cond {
+  display: inline-flex;
+  justify-content: center;
+}
+.qw-weather-day-temps {
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+}
+.qw-weather-day-max {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+}
+.qw-weather-day-min {
+  color: #6b7280;
+}
+.qw-weather-day-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+}
+.qw-weather-day-sun {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  justify-self: end;
+}
+.qw-weather-day-sun > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+}
+/* Radar: the head row (label + zoom), the 3x3 tile grid, the scrubber,
+   the credit. Every tile is positioned by its cell; the overlay sits on the
+   basemap at 72% so streets stay legible under heavy rain. */
+.qw-weather-radar {
+  min-width: 0;
+}
+.qw-weather-radar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.qw-radar-zoom {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.qw-radar-zoom-level {
+  min-width: 26px;
+  font-size: 11px;
+  font-weight: 800;
+  text-align: center;
+  color: #9ca3af;
+  font-variant-numeric: tabular-nums;
+}
+.qw-radar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d1d5db;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.qw-radar-btn:hover,
+.qw-radar-btn:focus-visible,
+.qw-radar-btn[aria-pressed='true'] {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.12);
+  color: #f2d675;
+  outline: none;
+}
+.qw-radar-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.qw-radar-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 12px;
+  background: #0b0d12;
+}
+.qw-radar-cell {
+  position: relative;
+  display: block;
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+.qw-radar-cell > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: auto;
+  pointer-events: none;
+  user-select: none;
+}
+.qw-radar-overlay {
+  opacity: 0.72;
+}
+/* The place: a thin ring plus a dot at the exact grid centre. */
+.qw-radar-cross {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+.qw-radar-cross::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 999px;
+  background: var(--qw-hub-accent, #d4af37);
+}
+.qw-radar-unavailable {
+  margin: 8px 0 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fcd34d;
+}
+.qw-radar-scrub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  min-width: 0;
+}
+.qw-radar-frames {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+.qw-radar-frame {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #9ca3af;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+.qw-radar-frame[data-radar-kind='nowcast'] {
+  border-style: dashed;
+}
+.qw-radar-frame[data-radar-kind='now'] {
+  color: #e5e7eb;
+}
+.qw-radar-frame:hover,
+.qw-radar-frame:focus-visible {
+  border-color: #d4af37;
+  color: #f2d675;
+  outline: none;
+}
+.qw-radar-frame[aria-current='step'] {
+  border-color: var(--qw-hub-accent, #d4af37);
+  background: rgba(212, 175, 55, 0.14);
+  color: #fff;
+}
+.qw-radar-frame-kind {
+  flex: 0 0 auto;
+  margin: 0;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+.qw-radar-source {
+  margin: 8px 0 0;
+  font-size: 10.5px;
+  color: #6b7280;
+}
+/* AQI row: the band word leads, the numbers follow. */
+.qw-weather-aqi-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 16px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+  font-size: 13px;
+  font-weight: 700;
+  color: #e5e7eb;
+  font-variant-numeric: tabular-nums;
+}
+.qw-weather-aqi-band {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+}
+.qw-weather-aqi-cell {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+/* Phone: the 7-day row folds (sunrise / sunset under the name), the radar
+   buttons and frames reach 44px, the tiles keep their 1:1 cells. */
+@media (max-width: 767px) {
+  .qw-weather-day {
+    grid-template-columns: minmax(0, 1.3fr) 28px minmax(64px, 1fr) minmax(48px, 0.8fr) minmax(36px, 0.6fr);
+    row-gap: 4px;
+    padding: 8px 10px;
+  }
+  .qw-weather-day-sun {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+  .qw-radar-btn,
+  .qw-radar-frame {
+    min-height: 44px;
+  }
+  .qw-radar-btn {
+    width: 44px;
+  }
+  .qw-radar-frame-kind {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qw-radar-btn,
+  .qw-radar-frame {
+    transition: none;
+  }
+}
+/* White surface re-key: the card tokens the hub already paints with, the
+   blue-deep hover the enter box earns, ink on the three greys. */
+html[data-unitas-surface='quantum-white'] .qw-weather-section-label,
+html[data-unitas-surface='quantum-white'] .qw-weather-stat-label,
+html[data-unitas-surface='quantum-white'] .qw-radar-source,
+html[data-unitas-surface='quantum-white'] .qw-radar-zoom-level,
+html[data-unitas-surface='quantum-white'] .qw-radar-frame-kind {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-weather-skeleton,
+html[data-unitas-surface='quantum-white'] .qw-weather-stat,
+html[data-unitas-surface='quantum-white'] .qw-weather-hour-time,
+html[data-unitas-surface='quantum-white'] .qw-weather-day,
+html[data-unitas-surface='quantum-white'] .qw-weather-day-min,
+html[data-unitas-surface='quantum-white'] .qw-weather-stat-sub,
+html[data-unitas-surface='quantum-white'] .qw-weather-hour-prob[data-zero='1'] {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-weather-stat,
+html[data-unitas-surface='quantum-white'] .qw-weather-hour,
+html[data-unitas-surface='quantum-white'] .qw-weather-day,
+html[data-unitas-surface='quantum-white'] .qw-weather-aqi-row {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+html[data-unitas-surface='quantum-white'] .qw-weather-error,
+html[data-unitas-surface='quantum-white'] .qw-radar-unavailable {
+  color: var(--qw-gold-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-weather-stat-value,
+html[data-unitas-surface='quantum-white'] .qw-weather-hour-temp,
+html[data-unitas-surface='quantum-white'] .qw-weather-day-name,
+html[data-unitas-surface='quantum-white'] .qw-weather-day-max,
+html[data-unitas-surface='quantum-white'] .qw-weather-aqi-row,
+html[data-unitas-surface='quantum-white'] .qw-weather-aqi-band {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-weather-hour-prob {
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-weather-hour:first-child .qw-weather-hour-time {
+  color: var(--qw-hub-accent, var(--qw-blue));
+}
+html[data-unitas-surface='quantum-white'] .qw-radar-grid {
+  border-color: var(--qw-line-strong);
+  background: #eef0f4;
+}
+html[data-unitas-surface='quantum-white'] .qw-radar-cross {
+  border-color: var(--qw-ink);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+}
+html[data-unitas-surface='quantum-white'] .qw-radar-btn,
+html[data-unitas-surface='quantum-white'] .qw-radar-frame {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-radar-frame[data-radar-kind='now'] {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-radar-btn:hover,
+html[data-unitas-surface='quantum-white'] .qw-radar-btn:focus-visible,
+html[data-unitas-surface='quantum-white'] .qw-radar-btn[aria-pressed='true'],
+html[data-unitas-surface='quantum-white'] .qw-radar-frame:hover,
+html[data-unitas-surface='quantum-white'] .qw-radar-frame:focus-visible {
+  border-color: var(--qw-blue);
+  background: #fff;
+  color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-radar-frame[aria-current='step'] {
+  border-color: var(--qw-hub-accent, var(--qw-blue));
+  background: #fff;
+  color: var(--qw-ink);
 }

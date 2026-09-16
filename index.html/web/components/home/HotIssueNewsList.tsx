@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ChevronDown, ExternalLink, Flame, Loader2, Newspaper, Radio, RefreshCw, TrendingUp } from 'lucide-react';
+import { ChevronDown, ExternalLink, Loader2, Newspaper, RefreshCw } from 'lucide-react';
 import {
   normTitle,
   type AxisNewsResponse,
@@ -15,7 +15,9 @@ import { HOT_NEWS_AXES, hotNewsAxisMeta } from '@/lib/live/hotNewsAxes';
 import { DISCOVERY_ROTATE_MS } from '@/lib/live/discoverySlots';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
-import { TwoStepTitle } from '@/components/uai/stream/StreamCards';
+import { HubDot } from '@/components/home/hub/HubDot';
+import { HubMetaLine } from '@/components/home/hub/HubMetaLine';
+import { HubRowEnter, HubTitleRow } from '@/components/home/hub/HubTitleRow';
 import { useDragScroll } from '@/components/ui/useDragScroll';
 import { centeredScrollLeft } from '@/lib/interaction/railDrag';
 import { OmniOpen } from '@/components/home/OmniOpen';
@@ -90,10 +92,15 @@ function storiesOf(items: readonly HotNewsItem[], feed: AxisFeed, axis: HotNewsC
  *  - M2.2 ONE THEME PER BOX: 복지·보건 and 안보·분쟁 are split into four
  *    axes (lib/live/hotNews.ts) -- 20 -> 22.
  *  - M2.3 ONE POPUP: the active axis renders as one `.qw-hub-card` whose
- *    title opens (two-step, like every card) ONE main popup listing every
- *    story vertically; a story -- on the card or in the popup -- opens its
- *    own detail popup with the summary, the source and the direct shortcuts.
- *    The horizontal rail of individual headline boxes is retired.
+ *    title opens (REV-34 M1-C: one click on the text or its ⏎ box, like
+ *    every card) ONE main popup listing every story vertically; a story --
+ *    on the card or in the popup -- opens its own detail popup with the
+ *    summary, the source and the direct shortcuts. The horizontal rail of
+ *    individual headline boxes is retired.
+ *  - REV-34 M1-E: no pictures. The axis chips, the card header, the rows and
+ *    the story popup draw the shortcut strip's coloured dot (HubDot) in the
+ *    axis colour; the lucide axis icons and the live/itn/trending StoryBadge
+ *    are gone. REV-34 M1-B: every footer is the one HubMetaLine format.
  *  - M2.4 / REV-31 DIRECT ONLY: the collapsed toggle is gone, and so is
  *    the lens grid behind it. The omni-open pair ("다른출처에서열기"
  *    above "다른플랫폼에서열기") sits in flow under the card, in the
@@ -119,6 +126,9 @@ export function HotIssueNewsList() {
   const [reserved, setReserved] = useState<number | null>(null);
 
   const [data, setData] = useState<HotNewsResponse | null>(() => cache.get(locale)?.data ?? null);
+  /** REV-34 M1-B: when the day's featured board landed -- the `{updated}`
+   *  of the meta line whenever the axis has no live wire page of its own. */
+  const [boardAt, setBoardAt] = useState<number>(() => cache.get(locale)?.at ?? 0);
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
   const [reloadTick, setReloadTick] = useState(0);
@@ -141,6 +151,7 @@ export function HotIssueNewsList() {
     const hit = cache.get(locale);
     if (hit && Date.now() - hit.at < CLIENT_TTL_MS && reloadTick === 0) {
       setData(hit.data);
+      setBoardAt(hit.at);
       return;
     }
     const controller = new AbortController();
@@ -154,8 +165,10 @@ export function HotIssueNewsList() {
       .then((res) => (res.ok ? (res.json() as Promise<HotNewsResponse>) : Promise.reject(new Error(String(res.status)))))
       .then((json) => {
         if (controller.signal.aborted) return;
-        cache.set(locale, { at: Date.now(), data: json });
+        const at = Date.now();
+        cache.set(locale, { at, data: json });
         setData(json);
+        setBoardAt(at);
         setFailed(!json.ok);
       })
       .catch(() => {
@@ -374,7 +387,7 @@ export function HotIssueNewsList() {
       </div>
 
       <p className="qw-discovery-label mb-1.5 flex items-center gap-2 text-[15px] font-bold text-white">
-        <activeMeta.icon size={16} style={{ color: activeMeta.color }} aria-hidden="true" />
+        <HubDot color={activeMeta.color} />
         {axisLabel}
       </p>
       <p className="qw-hub-meta mb-3 text-[12px] text-gray-500">{held ? tHub('held') : tHub('rotating')}</p>
@@ -413,7 +426,7 @@ export function HotIssueNewsList() {
               className="qw-hub-chip"
               style={{ '--qw-hub-accent': axis.color, '--qw-slot-rotate': `${NEWS_ROTATE_MS}ms` } as CSSProperties}
             >
-              <axis.icon size={15} style={{ color: axis.color }} aria-hidden="true" />
+              <HubDot color={axis.color} />
               {t(`category.${axis.key}`)}
               {isActive && (
                 <span
@@ -429,8 +442,9 @@ export function HotIssueNewsList() {
         })}
       </div>
 
-      {/* M2.3: ONE card for the active axis -- inert container, two-step
-          title, the top stories as rows that open the story popup. */}
+      {/* M2.3: ONE card for the active axis -- inert container, a one-click
+          title row (text + ⏎ box), the top stories as rows that open the
+          story popup (their own ⏎ box at the right end). */}
       <div
         ref={cardBoxRef}
         className="qw-hub-card qw-no-anchor mt-3 border border-white/10 bg-void/40 p-4"
@@ -447,11 +461,11 @@ export function HotIssueNewsList() {
       >
         <div key={activeAxis} className="qw-hub-card-body">
           <div className="mb-2 flex items-start gap-3">
-            <activeMeta.icon size={22} style={{ color: activeMeta.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <HubDot color={activeMeta.color} size={12} className="mt-2" />
             <div className="min-w-0 flex-1">
-              <TwoStepTitle as="p" className="qw-hub-card-title text-[17px] font-bold text-white" onOpen={() => openAxis(activeAxis)}>
+              <HubTitleRow as="p" className="qw-hub-card-title text-[17px] font-bold text-white" onOpen={() => openAxis(activeAxis)}>
                 {axisLabel}
-              </TwoStepTitle>
+              </HubTitleRow>
               <p className="qw-hub-meta text-[13px] text-gray-400">{t('axisTag', { axis: axisLabel })}</p>
             </div>
           </div>
@@ -471,7 +485,7 @@ export function HotIssueNewsList() {
           ) : (
             <ul className="grid grid-cols-1 gap-1 md:grid-cols-2" data-news-card-items="">
               {visible.slice(0, CARD_ITEMS).map((it) => (
-                <li key={it.id} data-news-item="">
+                <li key={it.id} data-news-item="" className="qw-hub-row">
                   <button
                     type="button"
                     className="qw-hub-headline text-white"
@@ -482,31 +496,32 @@ export function HotIssueNewsList() {
                     }}
                     aria-label={t('detailAria', { title: it.title })}
                   >
-                    <StoryBadge item={it} />
+                    <HubDot color={activeMeta.color} className="mt-1.5" />
                     <span className="min-w-0 flex-1">
-                      <span className="line-clamp-2">{it.title}</span>
+                      <span className="qw-hub-headline-text line-clamp-2">{it.title}</span>
                       <span className="qw-hub-source mt-0.5 block text-gray-500">{storyMeta(it, locale)}</span>
                     </span>
                   </button>
+                  <HubRowEnter onOpen={() => setStory(it)} />
                 </li>
               ))}
             </ul>
           )}
 
-          <p className="qw-hub-meta mt-3 text-[12px] text-gray-500">
-            {visible.length > 0 ? `${t('storyCount', { count: visible.length })} · ` : ''}
-            {t('source')}
-          </p>
+          {/* REV-34 M1-B: the one meta format -- the axis's own wire stamp
+              when it has one, else the featured board's. */}
+          <HubMetaLine count={visible.length} source={t('source')} updatedAt={activeFeed.at || boardAt} />
         </div>
       </div>
 
       {/* M2.4: direct only, in flow, nothing to unfold. */}
-      <OmniOpen anchor={qidAnchor(AXIS_QID[activeAxis], axisLabel, lang)} host="newsRail" className="mt-3" />
+      <OmniOpen anchor={qidAnchor(AXIS_QID[activeAxis], axisLabel, lang)} host="newsRail" family="news" className="mt-3" />
 
       <NewsAxisModal
         axis={deepAxis}
         stories={deepStories}
         feed={deepFeed}
+        boardAt={boardAt}
         onLoadMore={() => {
           if (deepAxis) loadAxisPage(deepAxis, deepFeed.nextPage);
         }}
@@ -523,25 +538,11 @@ function storyMeta(it: HotNewsItem, locale: string): string {
   return [it.domain, stamp, it.lang].filter(Boolean).join(' · ');
 }
 
-function StoryBadge({ item }: { item: HotNewsItem }) {
-  const t = useTranslations('HotNews');
-  if (item.source === 'live') {
-    return (
-      <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border border-accent/50 text-accent" title={t('live')} aria-label={t('live')}>
-        <Radio size={13} aria-hidden="true" />
-      </span>
-    );
-  }
-  const itn = item.source === 'itn';
-  return (
-    <span
-      className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center border ${itn ? 'border-red-400/50 text-red-300' : 'border-neon/40 text-neon'}`}
-      title={itn ? t('itn') : t('trending')}
-      aria-label={itn ? t('itn') : t('trending')}
-    >
-      {itn ? <Flame size={13} aria-hidden="true" /> : <TrendingUp size={13} aria-hidden="true" />}
-    </span>
-  );
+/** REV-34 M1-E: the StoryBadge picture is gone; the story popup names the
+ *  wire a story came from in words (the same HotNews keys the badge titled). */
+function storyKindKey(item: HotNewsItem): 'live' | 'itn' | 'trending' {
+  if (item.source === 'live') return 'live';
+  return item.source === 'itn' ? 'itn' : 'trending';
 }
 
 /** M2.3: the ONE main popup of an axis -- every story, vertically, with the
@@ -550,6 +551,7 @@ function NewsAxisModal({
   axis,
   stories,
   feed,
+  boardAt,
   onLoadMore,
   onOpenStory,
   onClose,
@@ -557,6 +559,8 @@ function NewsAxisModal({
   axis: HotNewsCategory | null;
   stories: HotNewsItem[];
   feed: AxisFeed;
+  /** When the featured board landed (the meta line's fallback stamp). */
+  boardAt: number;
   onLoadMore: () => void;
   onOpenStory: (story: HotNewsItem) => void;
   onClose: () => void;
@@ -572,7 +576,7 @@ function NewsAxisModal({
       {axis && meta && (
         <div className="space-y-5" data-news-modal={axis}>
           <div className="flex items-start gap-3">
-            <meta.icon size={26} style={{ color: meta.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <HubDot color={meta.color} size={14} className="mt-2" />
             <div className="min-w-0 flex-1">
               <p id="news-axis-title" className="text-[20px] font-bold text-white">
                 {axisLabel}
@@ -591,7 +595,7 @@ function NewsAxisModal({
           ) : (
             <ol className="max-h-[52vh] space-y-1 overflow-y-auto overscroll-contain pr-1" data-news-modal-list="">
               {stories.map((it, i) => (
-                <li key={it.id} data-news-item="">
+                <li key={it.id} data-news-item="" className="qw-hub-row">
                   <button
                     type="button"
                     className="qw-hub-headline text-white"
@@ -603,11 +607,12 @@ function NewsAxisModal({
                       {i + 1}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block">{it.title}</span>
+                      <span className="qw-hub-headline-text block">{it.title}</span>
                       {it.summary && <span className="qw-hub-desc mt-0.5 line-clamp-2 block text-[12px] leading-snug text-gray-400">{it.summary}</span>}
                       <span className="qw-hub-source mt-0.5 block text-gray-500">{storyMeta(it, locale)}</span>
                     </span>
                   </button>
+                  <HubRowEnter onOpen={() => onOpenStory(it)} />
                 </li>
               ))}
               <li className="pt-2" data-news-more="">
@@ -629,9 +634,10 @@ function NewsAxisModal({
             </ol>
           )}
 
-          <p className="text-[12px] text-gray-500">{t('source')}</p>
+          {/* REV-34 M1-B: the one meta format. */}
+          <HubMetaLine count={stories.length} source={t('source')} updatedAt={feed.at || boardAt} className="text-[12px] text-gray-500" />
 
-          <OmniOpen anchor={qidAnchor(AXIS_QID[axis], axisLabel, lang)} host="newsRail" />
+          <OmniOpen anchor={qidAnchor(AXIS_QID[axis], axisLabel, lang)} host="newsRail" family="news" />
         </div>
       )}
     </Modal>
@@ -652,10 +658,10 @@ function NewsStoryModal({ story, onClose }: { story: HotNewsItem | null; onClose
         <div className="space-y-4" data-news-story={story.id}>
           <p className="flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-gray-400">
             <span className="inline-flex items-center gap-1.5" style={{ color: meta.color }}>
-              <meta.icon size={13} aria-hidden="true" />
+              <HubDot color={meta.color} />
               {t(`category.${story.category}`)}
             </span>
-            <StoryBadge item={story} />
+            <span>· {t(storyKindKey(story))}</span>
           </p>
           <p id="news-story-title" className="text-[20px] font-bold leading-snug text-white">
             {story.title}
@@ -677,7 +683,7 @@ function NewsStoryModal({ story, onClose }: { story: HotNewsItem | null; onClose
             {t('openOriginal')}
             {story.domain && <span className="normal-case tracking-normal text-gray-400">· {story.domain}</span>}
           </a>
-          <OmniOpen anchor={textAnchor(story.title, lang)} host="newsRail" />
+          <OmniOpen anchor={textAnchor(story.title, lang)} host="newsRail" family="news" />
         </div>
       )}
     </Modal>

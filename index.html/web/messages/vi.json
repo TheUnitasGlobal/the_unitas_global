@@ -2358,7 +2358,7 @@
       },
       "newProducts": {
         "title": "Sản phẩm mới",
-        "tag": "Xe hơi, điện thoại, phương tiện, thiết bị và game thế giới vừa ra mắt"
+        "tag": "Mười sáu nhóm thế giới vừa ra mắt — xe hơi, điện thoại, phương tiện, thiết bị, game, tác nhân AI, lượng tử, SaaS, sinh học y tế, công nghệ thần kinh, vũ trụ, XR, DeFi, năng lượng xanh, đồ nghề du mục và robot"
       }
     }
   },
@@ -2503,9 +2503,9 @@
   },
   "Rev29": {
     "hub": {
-      "title": "Trung tâm UNITAS",
-      "lede": "Mua bán tri thức, xem shorts, leo bảng xếp hạng, trò chuyện theo chủ đề và chia sẻ UNITAS với thế giới.",
-      "toggleAria": "Mở trung tâm UNITAS — sàn tri thức, shorts, xếp hạng, phòng chat, mạng xã hội",
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Một nexus vũ trụ đa chiều nơi trí tuệ vô hạn giao thoa và giá trị vĩnh cửu mở rộng — hai mươi siêu chủ đề cộng hưởng trong một quảng trường.",
+      "toggleAria": "Mở UNITAS SQUARE (U-Square) — hai mươi siêu chủ đề từ U-Xếp hạng đến U-Master",
       "tabs": {
         "exchange": "Sàn tri thức",
         "shorts": "UNITAS Shorts",
@@ -2603,7 +2603,18 @@
         "phones": "Điện thoại",
         "mobility": "Phương tiện",
         "gadgets": "Thiết bị",
-        "games": "Game"
+        "games": "Game",
+        "aiAgents": "Tác nhân AI",
+        "quantum": "Lượng tử",
+        "sovereignSaas": "SaaS chủ quyền",
+        "bioHealth": "Sinh học y tế",
+        "neurotech": "Công nghệ thần kinh",
+        "space": "Vũ trụ",
+        "xr": "Thiết bị XR",
+        "defiHardware": "Phần cứng DeFi",
+        "ecoEnergy": "Năng lượng xanh",
+        "nomadGear": "Đồ nghề du mục",
+        "robots": "Robot"
       },
       "facts": {
         "count": "Mới"
@@ -2715,6 +2726,294 @@
         "zoomOut": "Thu nhỏ",
         "reset": "Vừa khung",
         "hint": "Kéo để di chuyển · chụm để phóng to"
+      }
+    }
+  },
+  "Rev34": {
+    "uRankings": {
+      "label": "U-Xếp hạng",
+      "lede": "Mười hai nhà vận hành hôm nay, xếp hạng theo mức độ tự chủ khi vận hành hệ sinh thái: hiệu suất Micro-Burn, tri thức đã bán, đóng góp du mục.",
+      "filterAll": "Tất cả mô-đun",
+      "seedNote": "Bảng xếp hạng ngày mô phỏng · biệt danh ẩn danh · không phải dữ liệu cá nhân thật",
+      "openAria": "Mở hồ sơ của {name}",
+      "rankAria": "Hạng {rank}",
+      "metrics": {
+        "microBurn": "Hiệu suất Micro-Burn",
+        "knowledgeSales": "Tri thức đã bán",
+        "nomad": "Đóng góp du mục",
+        "sovereign": "Chỉ số tự chủ"
+      },
+      "tier": {
+        "sovereign": "Tự chủ",
+        "platinum": "Bạch kim",
+        "gold": "Vàng"
+      },
+      "modalLede": "Cách nhà vận hành này giành thứ hạng: hiệu suất Micro-Burn chiếm 40 %, tri thức đã bán 30 % và đóng góp du mục 30 % của chỉ số tự chủ. Bảng xếp hạng được tạo lại mỗi ngày UTC.",
+      "moduleLabel": "Mô-đun",
+      "rankLabel": "Thứ hạng"
+    },
+    "meta": {
+      "line": "{count} mục · {source} ~ cập nhật {updated}"
+    },
+    "row": {
+      "open": "Mở"
+    },
+    "weather": {
+      "hourlyLabel": "24 giờ tới",
+      "dailyLabel": "Dự báo 7 ngày",
+      "radarLabel": "Radar mưa",
+      "radarPast": "Đã qua",
+      "radarNow": "Bây giờ",
+      "radarNowcast": "Dự báo tức thời",
+      "radarPlay": "Phát",
+      "radarPause": "Tạm dừng",
+      "radarSource": "Radar: RainViewer · Bản đồ © cộng tác viên OpenStreetMap, © CARTO",
+      "radarUnavailable": "Radar hiện không khả dụng.",
+      "uv": "Chỉ số UV",
+      "uvBand": {
+        "low": "Thấp",
+        "moderate": "Trung bình",
+        "high": "Cao",
+        "veryHigh": "Rất cao",
+        "extreme": "Cực cao"
+      },
+      "windDir": "Hướng gió",
+      "gust": "Gió giật",
+      "precip": "Lượng mưa",
+      "precipProb": "Xác suất mưa",
+      "sunrise": "Mặt trời mọc",
+      "sunset": "Mặt trời lặn",
+      "aqiLabel": "Chất lượng không khí",
+      "loading": "Đang tải dự báo chi tiết…",
+      "now": "Bây giờ",
+      "zoomIn": "Phóng to",
+      "zoomOut": "Thu nhỏ"
+    },
+    "square": {
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Một nexus vũ trụ đa chiều nơi trí tuệ vô hạn giao thoa và giá trị vĩnh cửu mở rộng — hai mươi siêu chủ đề cộng hưởng trong một quảng trường.",
+      "toggleAria": "Mở UNITAS SQUARE (U-Square) — hai mươi siêu chủ đề từ U-Xếp hạng đến U-Master",
+      "swipeHint": "Vuốt hoặc kéo thanh chủ đề để đến đủ hai mươi chủ đề.",
+      "lastTheme": "Đã mở lại ở chủ đề bạn xem lần cuối.",
+      "founderOnly": "Phòng điều khiển dành riêng cho nhà sáng lập. Công chúng thấy chủ đề này bị khóa; phiên chủ quyền sẽ mở nó.",
+      "locked": "Đã khóa",
+      "signals": {
+        "online": "Kết nối",
+        "packs": "Gói sở hữu",
+        "coins": "U-Coin",
+        "lockins": "Lock-in đang bật",
+        "modules": "Mô-đun",
+        "axes": "Trục quản trị",
+        "nodes": "Nút bầy",
+        "uptime": "Số ngày hoạt động",
+        "burn": "Hiệu suất Micro-Burn",
+        "sales": "Tin đăng bán",
+        "nomad": "Đóng góp du mục",
+        "index": "Chỉ số chủ quyền",
+        "live": "Trực tiếp",
+        "local": "Thiết bị này"
+      },
+      "themes": {
+        "uRanking": {
+          "tab": "U-Xếp hạng",
+          "lede": "Bảng thang hôm nay của các nhà vận hành chủ quyền, tạo mới mỗi ngày.",
+          "features": {
+            "0": "Mười hai nhà vận hành mỗi ngày",
+            "1": "Chỉ số Micro-Burn, bán hàng và du mục",
+            "2": "Bảng thang lọc theo mô-đun"
+          },
+          "cta": "Mở U-AI"
+        },
+        "uShorts": {
+          "tab": "U-Video ngắn",
+          "lede": "Video ngắn dọc theo hai mươi hai trục quản trị — chạm một lần để phát.",
+          "features": {
+            "0": "Bộ lọc cho cả 22 trục",
+            "1": "Đặt trước thẻ nhà sáng tạo",
+            "2": "Thanh tự động phát"
+          },
+          "cta": "Mở U-AI"
+        },
+        "uTalk": {
+          "tab": "U-Trò chuyện",
+          "lede": "Hai mươi hai phòng chủ đề nơi mạng lưới trò chuyện trực tiếp.",
+          "features": {
+            "0": "Một phòng cho mỗi trục quản trị",
+            "1": "Ngoại tuyến chỉ lưu trên thiết bị",
+            "2": "Số người có mặt trực tiếp"
+          },
+          "cta": "Mở U-AI"
+        },
+        "uExchange": {
+          "tab": "U-Sàn tri thức",
+          "lede": "Mua bán gói tri thức bằng U-Coin, thanh toán trên thiết bị của bạn hoặc sổ cái trực tiếp.",
+          "features": {
+            "0": "Gói tri thức được tuyển chọn",
+            "1": "Đăng bán gói của riêng bạn",
+            "2": "Đồng bộ sổ cái trực tiếp khi đăng nhập"
+          },
+          "cta": "Mở U-Pay"
+        },
+        "uSocial": {
+          "tab": "U-Mạng xã hội",
+          "lede": "Chia sẻ UNITAS đến mọi mạng lưới chỉ bằng một liên kết đã ký.",
+          "features": {
+            "0": "Đích chia sẻ một chạm",
+            "1": "Liên kết chia sẻ đã ký",
+            "2": "Phủ sóng đa kênh"
+          },
+          "cta": "Mở U-Signature"
+        },
+        "uAcademy": {
+          "tab": "U-Học viện",
+          "lede": "Cội nguồn học tập của hệ sinh thái — gói tri thức trở thành lộ trình có hướng dẫn.",
+          "features": {
+            "0": "Lộ trình học có hướng dẫn",
+            "1": "Giáo trình xây từ các gói",
+            "2": "Đề cương theo trục quản trị"
+          },
+          "cta": "Vào ARCHE"
+        },
+        "uVenture": {
+          "tab": "U-Khởi nghiệp",
+          "lede": "Các dự án không cần vốn được liên kết giữa các nhà vận hành của mạng lưới.",
+          "features": {
+            "0": "Dòng thương vụ liên kết",
+            "1": "Cổng biên lợi nhuận Micro-Burn",
+            "2": "Theo dõi chỉ số chủ quyền"
+          },
+          "cta": "Vào SYNDICATE"
+        },
+        "uOracle": {
+          "tab": "U-Tiên tri",
+          "lede": "Tầm nhìn xa gieo theo ngày trên các trục quản trị — cùng một câu trả lời trên mọi thiết bị.",
+          "features": {
+            "0": "Dự báo tất định",
+            "1": "Triển vọng theo từng trục",
+            "2": "Bằng chứng từ các nút bầy"
+          },
+          "cta": "Vào ORACLE"
+        },
+        "uFactory": {
+          "tab": "U-Nhà máy",
+          "lede": "Nhà máy tự vận hành lắp ráp mô-đun và lock-in thành SaaS mới.",
+          "features": {
+            "0": "Lắp ráp mô-đun",
+            "1": "Kích hoạt lock-in",
+            "2": "Đường ống không cần thao tác"
+          },
+          "cta": "Vào GENESIS"
+        },
+        "uCoin": {
+          "tab": "U-Coin",
+          "lede": "Nền kinh tế Micro-Burn: coin vào, chi phí biên bằng không, biên lợi nhuận vô hạn.",
+          "features": {
+            "0": "Số dư ví trực tiếp",
+            "1": "Dải hiệu suất Micro-Burn",
+            "2": "Thanh toán gói bằng coin"
+          },
+          "cta": "Mở U-Pay"
+        },
+        "uGovernance": {
+          "tab": "U-Quản trị",
+          "lede": "Các trục quản trị dẫn dắt mọi mô-đun, được hệ thống hóa trong bộ codex.",
+          "features": {
+            "0": "Mọi trục trong một cái nhìn",
+            "1": "Quy tắc gắn với codex",
+            "2": "Bản đồ bao phủ mô-đun"
+          },
+          "cta": "Vào CODEX22"
+        },
+        "uNexus": {
+          "tab": "U-Nexus",
+          "lede": "Bầy omni-tech: đi qua các chủ đề trên web mở từ một nexus duy nhất.",
+          "features": {
+            "0": "Bầy đi xuyên các nguồn",
+            "1": "Chủ đề lưu đệm trên thiết bị",
+            "2": "Không gian làm việc cổng"
+          },
+          "cta": "Mở Omni-Swarm"
+        },
+        "uAkashic": {
+          "tab": "U-Akashic",
+          "lede": "Kho lưu trữ vĩnh viễn — mọi chữ ký, gói và hành trình được giữ mãi mãi.",
+          "features": {
+            "0": "Mục lưu trữ đã ký",
+            "1": "Nguồn gốc gói",
+            "2": "Ký ức bầy được giữ lại"
+          },
+          "cta": "Mở U-Signature"
+        },
+        "uQuantum": {
+          "tab": "U-Lượng tử",
+          "lede": "Phép tính bẻ cong xác suất ở rìa nghịch lý của hệ sinh thái.",
+          "features": {
+            "0": "Mô-đun Nghịch lý",
+            "1": "Chỉ số gieo theo ngày",
+            "2": "Tính toán trên các nút bầy"
+          },
+          "cta": "Vào PARADOX"
+        },
+        "uShield": {
+          "tab": "U-Lá chắn",
+          "lede": "Phòng thủ zero-trust: khóa, lock-in và cách ly cho mọi phiên.",
+          "features": {
+            "0": "Khóa chủ quyền",
+            "1": "Lock-in đang bật trên thiết bị này",
+            "2": "Tự động cách ly nút xấu"
+          },
+          "cta": "Mở U-Key"
+        },
+        "uNomad": {
+          "tab": "U-Du mục",
+          "lede": "Đấu trường du mục số — kiếm tiền và thi đấu từ bất cứ đâu trên trái đất.",
+          "features": {
+            "0": "Điểm đóng góp du mục",
+            "1": "Thử thách đấu trường",
+            "2": "Kiếm coin từ bất cứ đâu"
+          },
+          "cta": "Vào ARENA"
+        },
+        "uChronos": {
+          "tab": "U-Chronos",
+          "lede": "Thời gian là tài nguyên: số ngày hoạt động, nhịp độ và nhịp gieo theo ngày của quảng trường.",
+          "features": {
+            "0": "Bộ đếm ngày hoạt động",
+            "1": "Gieo lại mỗi ngày lúc nửa đêm UTC",
+            "2": "Dòng thời gian quản trị"
+          },
+          "cta": "Vào CHRONOS"
+        },
+        "uSpace": {
+          "tab": "U-Không gian",
+          "lede": "Đỉnh cao của sự mở rộng — mô-đun và nút được vẽ thành một vũ trụ đang lớn dần.",
+          "features": {
+            "0": "Chòm sao mô-đun",
+            "1": "Bản đồ nút bầy",
+            "2": "Đi lên đỉnh cao"
+          },
+          "cta": "Vào APEX"
+        },
+        "uVision": {
+          "tab": "U-Tầm nhìn",
+          "lede": "Tầm nhìn xa: vận mệnh, điểm số và chỉ số chủ quyền trong một kính viễn vọng.",
+          "features": {
+            "0": "Ma trận vận mệnh",
+            "1": "Chỉ số chủ quyền theo từng ngày",
+            "2": "Triển vọng theo trục quản trị"
+          },
+          "cta": "Vào FATE"
+        },
+        "uMaster": {
+          "tab": "U-Master",
+          "lede": "Phòng điều khiển của nhà sáng lập — mọi mô-đun, trục và lock-in dưới một vương miện.",
+          "features": {
+            "0": "Mọi mô-đun trong tầm nhìn",
+            "1": "Mọi trục quản trị",
+            "2": "Chỉ phiên chủ quyền"
+          },
+          "cta": "Vào bảng điều khiển chủ quyền"
+        }
       }
     }
   }

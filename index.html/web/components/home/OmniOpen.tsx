@@ -5,15 +5,7 @@ import { ExternalLink } from 'lucide-react';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import type { DeeperAnchor } from '@/lib/uai/deeperAnchor';
-import {
-  OMNI_SOURCE_ROW,
-  OUTBOUND_BRAND_ROW,
-  omniOpenUrl,
-  outboundSearchUrl,
-  sourceById,
-  sourceLabel,
-  type SourceId,
-} from '@/lib/uai/sourceRegistry';
+import { omniOpenUrl, omniRowsFor, outboundSearchUrl, sourceById, sourceLabel, type OmniFamily } from '@/lib/uai/sourceRegistry';
 
 /**
  * REV-31 (founder directive 2026-09-15) -- the OMNI-OPEN block that closes
@@ -43,6 +35,15 @@ import {
  * resolution and no caching of any kind. Every href is derived synchronously
  * from the anchor it was handed. The REV-25 anchor bridge existed only to
  * feed the lens grid an entity, and died with it.
+ *
+ * REV-34 M2 (founder directive 2026-09-16, D-8): the rows are no longer one
+ * global pair. The host names a THEME FAMILY (`family` prop, stamped as
+ * `data-omni-family`) and the registry's `OMNI_FAMILY_ROWS` hands back the
+ * curated corpora and platforms of that theme -- finance engines under the
+ * FX card, code hosts under the dev pulse, the ten omni-business engines of
+ * Codex ch.6 under everything by default. The three invariants above hold
+ * for every family by construction: each row still opens with the same two
+ * ids, so the compact slice and the E2E contract never see a difference.
  */
 
 /** SPEC host registry -- which surface the block is placed on. */
@@ -62,6 +63,9 @@ export interface OmniOpenProps {
   host: OmniOpenHost;
   /** Tight surfaces (keyword tiers, ranking popups) take the short rows. */
   compact?: boolean;
+  /** REV-34 M2: the theme family that picks the two rows (`default` when
+   *  the host has no theme -- the stream, keyword tiers). */
+  family?: OmniFamily;
   className?: string;
 }
 
@@ -75,10 +79,13 @@ const ROW_TITLE_CLASS = 'qw-section-label inline-flex items-center gap-1.5 text-
 const ROW_CLASS = 'qw-omni-row flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-500';
 const LINK_CLASS = 'inline-flex items-center gap-1 font-semibold text-gray-300 hover:underline';
 
+/** Compact hosts take the head of each row: the first three sources and
+ *  the first three platforms of the family (every family opens with the
+ *  wiki pair and the Google / Bing pair, so the slice is always usable). */
 const COMPACT_SOURCES = 3;
-const COMPACT_PLATFORMS: readonly SourceId[] = ['googleSearch', 'bingSearch', 'youtube'];
+const COMPACT_PLATFORMS = 3;
 
-export function OmniOpen({ anchor, host, compact = false, className = '' }: OmniOpenProps) {
+export function OmniOpen({ anchor, host, compact = false, family = 'default', className = '' }: OmniOpenProps) {
   const t = useTranslations('Rev21.deeper');
   const locale = useLocale();
   const { playHoverSfx } = useSpatialAudio();
@@ -88,8 +95,9 @@ export function OmniOpen({ anchor, host, compact = false, className = '' }: Omni
   // INVARIANT 2: no subject means no rows -- never one row.
   if (!anchor || !term.trim()) return null;
 
-  const sources = compact ? OMNI_SOURCE_ROW.slice(0, COMPACT_SOURCES) : OMNI_SOURCE_ROW;
-  const platforms = compact ? COMPACT_PLATFORMS : OUTBOUND_BRAND_ROW;
+  const rows = omniRowsFor(family);
+  const sources = compact ? rows.sources.slice(0, COMPACT_SOURCES) : rows.sources;
+  const platforms = compact ? rows.platforms.slice(0, COMPACT_PLATFORMS) : rows.platforms;
 
   return (
     <section
@@ -97,6 +105,7 @@ export function OmniOpen({ anchor, host, compact = false, className = '' }: Omni
       data-omni-open=""
       data-anchor-kind={anchor.kind}
       data-host={host}
+      data-omni-family={family}
     >
       {/* M2: the sources row, directly above the platform row, always. */}
       <p className={ROW_CLASS} data-omni-row="sources">

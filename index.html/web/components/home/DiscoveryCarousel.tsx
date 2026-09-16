@@ -11,17 +11,22 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ExternalLink, Loader2, RefreshCw, Timer } from 'lucide-react';
+import { ExternalLink, Loader2, RefreshCw } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { SectionShield } from '@/components/system/PageShield';
 import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
+import { WeatherDeepPanel } from '@/components/home/WeatherDeepPanel';
 import { OmniOpen } from '@/components/home/OmniOpen';
+import { omniFamilyForSlot } from '@/lib/uai/sourceRegistry';
 import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
-import { TwoStepTitle } from '@/components/uai/stream/StreamCards';
+import { HubDot } from '@/components/home/hub/HubDot';
+import { HubMetaLine } from '@/components/home/hub/HubMetaLine';
+import { HubRowEnter, HubTitleRow } from '@/components/home/hub/HubTitleRow';
 import { captureScroll, reserveHeight } from '@/lib/ui/scrollAnchor';
 import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
-import { THEME_QID, type GlobalRankingThemeKey } from '@/lib/globalRankings';
+import { GLOBAL_RANKING_THEMES, THEME_QID, type GlobalRankingThemeKey } from '@/lib/globalRankings';
+import { MODULE_REGISTRY, unitasRankingFor } from '@/lib/unitasRankings';
 import { readWeatherCache } from '@/lib/live/useLiveWeather';
 import { entityAnchor, resolveDeeperPlace } from '@/lib/uai/deeperAnchor';
 import { resolveEntity } from '@/lib/uai/entityResolve';
@@ -37,6 +42,7 @@ import { anchorDataAttrs, placeAnchor, qidAnchor, textAnchor, type DeeperAnchor 
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import {
   DISCOVERY_SLOTS,
+  SLOT_PROVIDER,
   SLOT_QID,
   discoverySlotAt,
   findDiscoverySlot,
@@ -124,6 +130,9 @@ interface DeepTarget {
   key: SlotKey;
   tab?: string;
   action?: SlotItemAction;
+  /** REV-34 M1-B: when the card being opened was loaded, for the ranking
+   *  modal's meta line (the embedded panels carry no timestamp of their own). */
+  updatedAt?: number;
 }
 
 export function DiscoveryCarousel() {
@@ -132,7 +141,6 @@ export function DiscoveryCarousel() {
   const tSlots = useTranslations('Rev20.slots');
   const tRev21 = useTranslations('Rev21.hub');
   const tDeeper = useTranslations('Rev21.deeper');
-  const locale = useLocale();
   const ctx = useSlotContext();
   const { playHoverSfx } = useSpatialAudio();
 
@@ -315,9 +323,11 @@ export function DiscoveryCarousel() {
 
   const openDeep = useCallback(
     (key: SlotKey, action?: SlotItemAction) => {
-      setDeep({ key, tab: tabBySlot[key], action });
+      // `card` is the active slot's own entry (or null while it loads), so
+      // its timestamp is the one the deep modal's meta line may quote.
+      setDeep({ key, tab: tabBySlot[key], action, updatedAt: card?.updatedAt });
     },
-    [tabBySlot],
+    [tabBySlot, card],
   );
   /** §1.4: a close pins the slot the modal was opened from (`held = openKey`)
    *  so the carousel never jumps to a different slot the moment the visitor
@@ -336,8 +346,9 @@ export function DiscoveryCarousel() {
   }
 
   // REV-23 M2.3: Enter / Space no longer open from the card container --
-  // opening belongs to the title alone (two-step). The arrow keys still
-  // steer the rail, which is what a card container should own.
+  // opening belongs to the title row alone (REV-34 M1-C: its text button
+  // and its ⏎ box, both on the FIRST press). The arrow keys still steer
+  // the rail, which is what a card container should own.
   function onCardKeyDown(e: ReactKeyboardEvent<HTMLDivElement>) {
     if (e.target !== e.currentTarget) return;
     if (e.key === 'ArrowRight') {
@@ -349,7 +360,6 @@ export function DiscoveryCarousel() {
     }
   }
 
-  const timeFormatter = useMemo(() => new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' }), [locale]);
   const title = t(slotTitleKey(activeKey));
   const hasContent = Boolean(card && (card.facts.length > 0 || card.items.length > 0));
   // §2A.3: worldwide section first, the visitor's country second. One-scope
@@ -417,8 +427,8 @@ export function DiscoveryCarousel() {
           whole 4-padding box -- so a tap on the padding, the icon or any gap
           between controls opened the deep modal. That, plus the top-right
           shortcut arrow, is the "빈 공간 클릭 시 팝업이 열리는 현상" the
-          founder ordered removed. The container is now inert; the TITLE is
-          the only way in, and it takes two steps (select, then open). */}
+          founder ordered removed. The container is now inert; the TITLE ROW
+          is the only way in -- REV-34 M1-C: its text or its ⏎ box, one click. */}
       <div
         ref={cardBoxRef}
         className="qw-hub-card qw-no-anchor mt-3 border border-white/10 bg-void/40 p-4"
@@ -446,13 +456,13 @@ export function DiscoveryCarousel() {
           <div className="mb-2 flex items-start gap-3">
             <activeSlot.icon size={22} style={{ color: activeSlot.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
             <div className="min-w-0 flex-1">
-              <TwoStepTitle
+              <HubTitleRow
                 as="p"
                 className="qw-hub-card-title text-[17px] font-bold text-white"
                 onOpen={() => openDeep(activeKey)}
               >
                 {title}
-              </TwoStepTitle>
+              </HubTitleRow>
               <p className="qw-hub-meta text-[13px] text-gray-400">{t(slotTagKey(activeKey))}</p>
             </div>
           </div>
@@ -541,7 +551,10 @@ export function DiscoveryCarousel() {
               {section.items.length > 0 && (
                 <ul className="grid grid-cols-1 gap-1 md:grid-cols-2">
                   {section.items.map((item) => (
-                    <li key={item.id}>
+                    // REV-34 M1-C: the row is the headline button + a sibling
+                    // ⏎ box at its right end (a button cannot nest a button);
+                    // both route to `onItem`, both stop propagation.
+                    <li key={item.id} className="qw-hub-row">
                       <button
                         type="button"
                         className="qw-hub-headline text-white"
@@ -558,16 +571,17 @@ export function DiscoveryCarousel() {
                             {item.rank}
                           </span>
                         ) : (
-                          <span className="mt-1 h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: activeSlot.color }} aria-hidden="true" />
+                          <HubDot color={activeSlot.color} className="mt-1.5" />
                         )}
                         <span className="min-w-0 flex-1">
-                          <span className="line-clamp-2">{item.title}</span>
+                          <span className="qw-hub-headline-text line-clamp-2">{item.title}</span>
                           {item.description && <span className="qw-hub-desc mt-0.5 line-clamp-2 block text-[12px] leading-snug text-gray-400">{item.description}</span>}
                           {(item.domain || item.meta) && (
                             <span className="qw-hub-source mt-0.5 block text-gray-500">{item.domain ?? item.meta}</span>
                           )}
                         </span>
                       </button>
+                      <HubRowEnter onOpen={() => onItem(item)} />
                     </li>
                   ))}
                 </ul>
@@ -577,11 +591,10 @@ export function DiscoveryCarousel() {
             </>
           )}
 
-          <p className="qw-hub-meta mt-3 text-[12px] text-gray-500">
-            {card?.updatedAt ? `${tHub('updated', { time: timeFormatter.format(new Date(card.updatedAt)) })} · ` : ''}
-            {tHub('cadence')}
+          {/* REV-34 M1-B: the one meta format; the swipe hint stays sr-only. */}
+          <HubMetaLine count={card?.items.length ?? 0} source={tHub('sources')} updatedAt={card?.updatedAt}>
             <span className="sr-only"> · {tRev21('swipeHint')}</span>
-          </p>
+          </HubMetaLine>
         </div>
       </div>
 
@@ -590,8 +603,10 @@ export function DiscoveryCarousel() {
   );
 }
 
-/** Deep dive for any slot: weather opens the full LiveWeatherPanel (city
- *  search / locate-me / 5-day grid); a news theme keeps REV-19's twelve
+/** Deep dive for any slot: weather opens the compact LiveWeatherPanel (city
+ *  search / locate-me / headline reading) over the REV-34 WeatherDeepPanel
+ *  (extended current row, 24h rail, 7-day outlook, rain radar, AQI); a news
+ *  theme keeps REV-19's twelve
  *  headline + countdown refresh behaviour (`useHubHeadlines`); every feed
  *  theme shows its already-loaded facts + items with outbound discovery
  *  links -- re-fetched fresh on open rather than reusing the rotating
@@ -624,30 +639,68 @@ function slotAnchor(key: SlotKey, locale: string, term: string, place: Place | n
 
 function SlotDeepModal({ target, ctx, onClose }: { target: DeepTarget | null; ctx: SlotContext; onClose: () => void }) {
   const slotKey = target?.key ?? null;
-  // SPEC §12.3 (a): the weather panel lifts the place it is showing so the
-  // host's omni-open block anchors on THAT place, not the locale default.
-  const [weatherPlace, setWeatherPlace] = useState<Place | null>(null);
-  const weatherAnchor = slotKey === 'weather' ? slotAnchor('weather', ctx.locale, weatherPlace?.name ?? 'weather', weatherPlace) : null;
   return (
     <>
-      <Modal open={slotKey === 'weather'} onClose={onClose} labelledBy="slot-weather-title" size="xl">
-        <div className="space-y-3" data-slot-modal="weather" {...anchorDataAttrs(weatherAnchor)}>
-          <p id="slot-weather-title" className="sr-only">
-            weather
-          </p>
-          <SectionShield zone="live-weather">
-            <LiveWeatherPanel onPlaceChange={setWeatherPlace} />
-          </SectionShield>
-          {/* SPEC §12.2 weather host: a sibling OUTSIDE the panel's shield, with
-              its own zone, anchored on the place the panel is showing. */}
-          <SectionShield zone="omni-open">
-            <OmniOpen anchor={weatherAnchor} host="weather" />
-          </SectionShield>
-        </div>
-      </Modal>
+      <WeatherDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
       <FeedDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
       <RankingDeepModal target={target} onClose={onClose} />
     </>
+  );
+}
+
+/** REV-34 M1-A (founder directive 2026-09-16): the weather slot's DEEP popup.
+ *  Until now the weather dialog was the compact panel alone (search, locate,
+ *  current reading, 5-day grid) under a screen-reader-only title; the
+ *  founder asked for hourly, weekly and radar on a click of the widget. The
+ *  shell is now the FeedDeepModal's byte for byte (icon, 20px title, tag),
+ *  the compact panel keeps its search / locate / headline reading but hides
+ *  its 5-day grid (`compact` -- the 7-day list below supersedes it), and
+ *  `WeatherDeepPanel` adds the extended current row, the 24h rail, the 7-day
+ *  outlook, the rain radar and the AQI row. The history id
+ *  (`modal:slot-weather-title`), `data-slot-modal="weather"` and the deeper
+ *  anchor attrs are unchanged; `data-weather-modal` is new. */
+function WeatherDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx: SlotContext; onClose: () => void }) {
+  const t = useTranslations();
+  // Weather kind only -- the same per-kind gate as FeedDeepModal, so no
+  // other slot's open can ever raise this dialog as a second layer.
+  const found = slotKey ? findDiscoverySlot(slotKey) : undefined;
+  const slot = found && found.kind === 'weather' ? found : undefined;
+  // SPEC §12.3 (a): the weather panel lifts the place it is showing so the
+  // host's omni-open block AND the deep panel follow THAT place, not the
+  // locale default.
+  const [weatherPlace, setWeatherPlace] = useState<Place | null>(null);
+  // REV-34 M1-B: the meta line quotes the deep load (forecast days, stamp).
+  const [loaded, setLoaded] = useState<{ days: number; at: number } | null>(null);
+  const weatherAnchor = slot ? slotAnchor('weather', ctx.locale, weatherPlace?.name ?? 'weather', weatherPlace) : null;
+  const title = slotKey ? t(slotTitleKey(slotKey)) : '';
+  return (
+    <Modal open={Boolean(slotKey && slot)} onClose={onClose} labelledBy="slot-weather-title" size="xl">
+      {slotKey && slot && (
+        <div className="space-y-5" data-slot-modal="weather" data-weather-modal="weather" data-context-country={ctx.country} {...anchorDataAttrs(weatherAnchor)}>
+          <div className="flex items-start gap-3">
+            <slot.icon size={26} style={{ color: slot.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
+            <div className="min-w-0 flex-1">
+              <p id="slot-weather-title" className="text-[20px] font-bold text-white">
+                {title}
+              </p>
+              <p className="mt-0.5 text-[14px] text-gray-400">{t(slotTagKey(slotKey))}</p>
+            </div>
+          </div>
+          <SectionShield zone="live-weather">
+            <LiveWeatherPanel compact onPlaceChange={setWeatherPlace} />
+          </SectionShield>
+          <WeatherDeepPanel place={weatherPlace} onLoaded={setLoaded} />
+          {/* SPEC §12.2 weather host: a sibling OUTSIDE the panel's shield, with
+              its own zone, anchored on the place the panel is showing. */}
+          <SectionShield zone="omni-open">
+            <OmniOpen anchor={weatherAnchor} host="weather" family="place" />
+          </SectionShield>
+          {/* REV-34 M1-B: the one meta format -- forecast days counted, both
+              providers named, the deep fetch's stamp as `{updated}`. */}
+          <HubMetaLine count={loaded?.days ?? 0} source="Open-Meteo · RainViewer" updatedAt={loaded?.at} className="text-[12px] text-gray-500" />
+        </div>
+      )}
+    </Modal>
   );
 }
 
@@ -682,7 +735,6 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
   const tHub = useTranslations('Rev19.hub');
   const tDeeper = useTranslations('Rev21.deeper');
   const tRev21 = useTranslations('Rev21.hub');
-  const locale = ctx.locale;
   const { playHoverSfx } = useSpatialAudio();
   const [card, setCard] = useState<SlotCard | null>(null);
   const [loading, setLoading] = useState(true);
@@ -728,7 +780,6 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
   const found = slotKey ? findDiscoverySlot(slotKey) : undefined;
   const slot = found && found.kind === 'feed' ? found : undefined;
   const title = slotKey ? t(slotTitleKey(slotKey)) : '';
-  const timeFormatter = new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' });
   // SPEC §12.2 feed row: the slot's Wikidata item when it has one; the
   // resolved first item (history / mostRead) or the visitor's place (nearby)
   // otherwise; else the card's subject in sources-only mode (D-23).
@@ -858,11 +909,10 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
           </>
         )}
 
-        <OmniOpen anchor={anchor} host="feed" />
+        <OmniOpen anchor={anchor} host="feed" family={omniFamilyForSlot(slotKey)} />
 
-        {card?.updatedAt && (
-          <p className="text-[12px] text-gray-500">{tHub('updated', { time: timeFormatter.format(new Date(card.updatedAt)) })}</p>
-        )}
+        {/* REV-34 M1-B: the one meta format (count · source ~ updated). */}
+        <HubMetaLine count={card?.items.length ?? 0} source={tHub('sources')} updatedAt={card?.updatedAt} className="text-[12px] text-gray-500" />
       </div>
       )}
     </Modal>
@@ -887,6 +937,17 @@ function RankingDeepModal({ target, onClose }: { target: DeepTarget | null; onCl
   const [activeTheme, setActiveTheme] = useState<GlobalRankingThemeKey | null>(null);
   const [activeModuleTitle, setActiveModuleTitle] = useState<string>('');
   const lang = wikiLangFor(locale);
+  // REV-34 M1-B: what the meta line counts -- the entries of the theme the
+  // embedded panel is on (world) or the rows of the module it opened on
+  // (UNITAS). Both are bundled data, so the counts are exact, not estimates.
+  const rankedCount =
+    key === 'worldRanking'
+      ? (GLOBAL_RANKING_THEMES.find((theme) => theme.key === (activeTheme ?? target?.tab)) ?? GLOBAL_RANKING_THEMES[0]).entries.length
+      : key === 'unitasRanking'
+        ? unitasRankingFor(
+            MODULE_REGISTRY.find((m) => m.key === (action?.kind === 'unitasProfile' ? action.moduleKey : target?.tab)) ?? MODULE_REGISTRY[0],
+          ).length
+        : 0;
   const rankingAnchor: DeeperAnchor | null =
     key === 'worldRanking'
       ? activeTheme
@@ -927,7 +988,9 @@ function RankingDeepModal({ target, onClose }: { target: DeepTarget | null; onCl
           {/* REV-25 M1: the world-ranking anchor is a real Wikidata item, so it
               may bridge; the UNITAS-ranking anchor is a MODULE NAME and must
               not be resolved to an unrelated encyclopedia entry (D-23). */}
-          <OmniOpen anchor={rankingAnchor} host="rankingDeep" compact />
+          <OmniOpen anchor={rankingAnchor} host="rankingDeep" family={omniFamilyForSlot(key)} compact />
+          {/* REV-34 M1-B: the one meta format, provider named as the source. */}
+          <HubMetaLine count={rankedCount} source={SLOT_PROVIDER[key].name} updatedAt={target?.updatedAt} className="text-[12px] text-gray-500" />
         </div>
       )}
     </Modal>

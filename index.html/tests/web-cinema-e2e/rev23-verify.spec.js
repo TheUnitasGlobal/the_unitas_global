@@ -153,15 +153,17 @@ test.describe('REV-23 M2 -- the U-AI popup', () => {
     await expect(page.locator('[data-news-scope="empty-only"]')).toHaveCount(0);
   });
 
-  test('M2.3: one click on a card title selects, it does not open', async ({ page }) => {
+  // REV-34 M1-C (founder directive 2026-09-16) INVERTS the REV-23 M2.3
+  // two-step: the title text is still the only way in, but it opens on the
+  // FIRST click. The first card rotates (weather -> #slot-weather-title,
+  // a feed -> #feed-deep-title), so the dialog is asserted, not one id.
+  test('REV-34 M1-C: one click on a card title opens its deep modal', async ({ page }) => {
     await founderHome(page);
     await page.locator('#omni-synapse-search input[type="text"]').click();
-    const title = page.locator('.qw-hub-card-title .qw-two-step-hit').first();
+    const title = page.locator('.qw-hub-card-title .qw-hub-title-hit').first();
     await expect(title).toBeVisible();
     await title.click();
-    await expect(title).toHaveAttribute('data-selected', '1');
-    // Nothing opened on that first click -- the whole point of the change.
-    await expect(page.locator('[role="dialog"]')).toHaveCount(0);
+    await expect(page.locator('[role="dialog"]')).toHaveCount(1);
   });
 
   test('M2.3: the top-right shortcut arrow is gone from the card', async ({ page }) => {

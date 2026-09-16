@@ -2358,7 +2358,7 @@
       },
       "newProducts": {
         "title": "Novedades",
-        "tag": "Coches, móviles, movilidad, gadgets y juegos recién lanzados en el mundo"
+        "tag": "Dieciséis familias recién lanzadas en el mundo: coches, móviles, movilidad, gadgets, juegos, agentes de IA, cuántica, SaaS, biosalud, neurotecnología, espacio, XR, DeFi, ecoenergía, equipo nómada y robots"
       }
     }
   },
@@ -2503,9 +2503,9 @@
   },
   "Rev29": {
     "hub": {
-      "title": "Centro UNITAS",
-      "lede": "Compra y vende conocimiento, mira shorts, sube en los rankings, conversa por tema y comparte UNITAS con el mundo.",
-      "toggleAria": "Abrir el centro UNITAS — bolsa de conocimiento, shorts, rankings, salas de chat, redes",
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Un nexo cósmico multidimensional donde la inteligencia infinita se cruza y el valor perpetuo se expande — veinte hipertemas resonando en una sola plaza.",
+      "toggleAria": "Abrir UNITAS SQUARE (U-Square) — veinte hipertemas, de U-Ranking a U-Master",
       "tabs": {
         "exchange": "Bolsa de conocimiento",
         "shorts": "UNITAS Shorts",
@@ -2603,7 +2603,18 @@
         "phones": "Smartphones",
         "mobility": "Movilidad",
         "gadgets": "Gadgets",
-        "games": "Juegos"
+        "games": "Juegos",
+        "aiAgents": "Agentes de IA",
+        "quantum": "Cuántica",
+        "sovereignSaas": "SaaS soberano",
+        "bioHealth": "Biosalud",
+        "neurotech": "Neurotecnología",
+        "space": "Espacio",
+        "xr": "Dispositivos XR",
+        "defiHardware": "Hardware DeFi",
+        "ecoEnergy": "Ecoenergía",
+        "nomadGear": "Equipo nómada",
+        "robots": "Robots"
       },
       "facts": {
         "count": "Novedades"
@@ -2715,6 +2726,294 @@
         "zoomOut": "Alejar",
         "reset": "Ajustar el campo",
         "hint": "Arrastra para moverte · pellizca para ampliar"
+      }
+    }
+  },
+  "Rev34": {
+    "uRankings": {
+      "label": "U-Ranking",
+      "lede": "Los doce operadores de hoy, clasificados por cuán soberanamente gestionan el ecosistema: eficiencia Micro-Burn, conocimiento vendido, aporte nómada.",
+      "filterAll": "Todos los módulos",
+      "seedNote": "Escalera diaria simulada · alias seudónimos · no son datos personales reales",
+      "openAria": "Abrir el perfil de {name}",
+      "rankAria": "N.º {rank}",
+      "metrics": {
+        "microBurn": "Eficiencia Micro-Burn",
+        "knowledgeSales": "Ventas de conocimiento",
+        "nomad": "Aporte nómada",
+        "sovereign": "Índice soberano"
+      },
+      "tier": {
+        "sovereign": "Soberano",
+        "platinum": "Platino",
+        "gold": "Oro"
+      },
+      "modalLede": "Cómo gana el puesto este operador: la eficiencia Micro-Burn pesa un 40 %, el conocimiento vendido un 30 % y el aporte nómada un 30 % del índice soberano. La escalera se regenera cada día UTC.",
+      "moduleLabel": "Módulo",
+      "rankLabel": "Puesto"
+    },
+    "meta": {
+      "line": "{count} elementos · {source} ~ actualizado {updated}"
+    },
+    "row": {
+      "open": "Abrir"
+    },
+    "weather": {
+      "hourlyLabel": "Próximas 24 horas",
+      "dailyLabel": "Pronóstico de 7 días",
+      "radarLabel": "Radar de lluvia",
+      "radarPast": "Pasado",
+      "radarNow": "Ahora",
+      "radarNowcast": "Pronóstico inmediato",
+      "radarPlay": "Reproducir",
+      "radarPause": "Pausar",
+      "radarSource": "Radar: RainViewer · Mapa © colaboradores de OpenStreetMap, © CARTO",
+      "radarUnavailable": "El radar no está disponible ahora mismo.",
+      "uv": "Índice UV",
+      "uvBand": {
+        "low": "Bajo",
+        "moderate": "Moderado",
+        "high": "Alto",
+        "veryHigh": "Muy alto",
+        "extreme": "Extremo"
+      },
+      "windDir": "Dirección del viento",
+      "gust": "Ráfagas",
+      "precip": "Precipitación",
+      "precipProb": "Probabilidad de lluvia",
+      "sunrise": "Amanecer",
+      "sunset": "Atardecer",
+      "aqiLabel": "Calidad del aire",
+      "loading": "Cargando el pronóstico detallado…",
+      "now": "Ahora",
+      "zoomIn": "Acercar",
+      "zoomOut": "Alejar"
+    },
+    "square": {
+      "title": "UNITAS SQUARE (U-Square)",
+      "lede": "Un nexo cósmico multidimensional donde la inteligencia infinita se cruza y el valor perpetuo se expande — veinte hipertemas resonando en una sola plaza.",
+      "toggleAria": "Abrir UNITAS SQUARE (U-Square) — veinte hipertemas, de U-Ranking a U-Master",
+      "swipeHint": "Desliza o arrastra el carril de temas para llegar a los veinte temas.",
+      "lastTheme": "Reabierto en el tema que visitaste por última vez.",
+      "founderOnly": "Sala de control solo para el fundador. El público ve este tema bloqueado; una sesión soberana lo abre.",
+      "locked": "Bloqueado",
+      "signals": {
+        "online": "Enlace",
+        "packs": "Packs adquiridos",
+        "coins": "U-Coins",
+        "lockins": "Lock-ins activos",
+        "modules": "Módulos",
+        "axes": "Ejes de gobernanza",
+        "nodes": "Nodos del enjambre",
+        "uptime": "Días activo",
+        "burn": "Eficiencia Micro-Burn",
+        "sales": "Publicaciones",
+        "nomad": "Aporte nómada",
+        "index": "Índice soberano",
+        "live": "En vivo",
+        "local": "Este dispositivo"
+      },
+      "themes": {
+        "uRanking": {
+          "tab": "U-Ranking",
+          "lede": "La escalera de hoy de operadores soberanos, resembrada cada día.",
+          "features": {
+            "0": "Doce operadores al día",
+            "1": "Métricas Micro-Burn, ventas y nómada",
+            "2": "Escalera filtrada por módulo"
+          },
+          "cta": "Abrir U-AI"
+        },
+        "uShorts": {
+          "tab": "U-Shorts",
+          "lede": "Shorts verticales a lo largo de los veintidós ejes de gobernanza — un toque para reproducir.",
+          "features": {
+            "0": "Filtros para los 22 ejes",
+            "1": "Reserva del pase de creador",
+            "2": "Carril de reproducción automática"
+          },
+          "cta": "Abrir U-AI"
+        },
+        "uTalk": {
+          "tab": "U-Talk",
+          "lede": "Veintidós salas temáticas donde la red conversa en vivo.",
+          "features": {
+            "0": "Una sala por eje de gobernanza",
+            "1": "Solo en el dispositivo sin conexión",
+            "2": "Recuento de presencia en vivo"
+          },
+          "cta": "Abrir U-AI"
+        },
+        "uExchange": {
+          "tab": "U-Exchange",
+          "lede": "Compra y vende packs de conocimiento con U-Coins, liquidados en tu dispositivo o en el libro mayor en vivo.",
+          "features": {
+            "0": "Packs de conocimiento curados",
+            "1": "Publica tus propios packs",
+            "2": "Sincronización con el libro mayor al iniciar sesión"
+          },
+          "cta": "Abrir U-Pay"
+        },
+        "uSocial": {
+          "tab": "U-Social",
+          "lede": "Comparte UNITAS en todas las redes con un solo enlace firmado.",
+          "features": {
+            "0": "Destinos de compartir con un toque",
+            "1": "Enlaces de compartir firmados",
+            "2": "Alcance omnicanal"
+          },
+          "cta": "Abrir U-Signature"
+        },
+        "uAcademy": {
+          "tab": "U-Academia",
+          "lede": "El arjé del aprendizaje del ecosistema — packs de conocimiento convertidos en rutas guiadas.",
+          "features": {
+            "0": "Rutas de aprendizaje guiadas",
+            "1": "Currículo construido con packs",
+            "2": "Temario por eje de gobernanza"
+          },
+          "cta": "Entrar en ARCHE"
+        },
+        "uVenture": {
+          "tab": "U-Venture",
+          "lede": "Empresas de capital cero sindicadas entre los operadores de la red.",
+          "features": {
+            "0": "Flujo de operaciones sindicado",
+            "1": "Puerta de margen Micro-Burn",
+            "2": "Seguimiento del índice soberano"
+          },
+          "cta": "Entrar en SYNDICATE"
+        },
+        "uOracle": {
+          "tab": "U-Oráculo",
+          "lede": "Previsión sembrada por día a lo largo de los ejes de gobernanza — la misma respuesta en cada dispositivo.",
+          "features": {
+            "0": "Pronósticos deterministas",
+            "1": "Perspectiva eje por eje",
+            "2": "Evidencia de los nodos del enjambre"
+          },
+          "cta": "Entrar en ORACLE"
+        },
+        "uFactory": {
+          "tab": "U-Fábrica",
+          "lede": "La fábrica autónoma que ensambla módulos y lock-ins en nuevo SaaS.",
+          "features": {
+            "0": "Ensamblaje de módulos",
+            "1": "Activación de lock-ins",
+            "2": "Canalización sin intervención"
+          },
+          "cta": "Entrar en GENESIS"
+        },
+        "uCoin": {
+          "tab": "U-Coin",
+          "lede": "La economía Micro-Burn: entran monedas, coste marginal cero, margen sin límite.",
+          "features": {
+            "0": "Saldo de la cartera en vivo",
+            "1": "Banda de eficiencia Micro-Burn",
+            "2": "Liquidación de packs en monedas"
+          },
+          "cta": "Abrir U-Pay"
+        },
+        "uGovernance": {
+          "tab": "U-Gobernanza",
+          "lede": "Los ejes de gobernanza que dirigen cada módulo, codificados en el códice.",
+          "features": {
+            "0": "Todos los ejes de un vistazo",
+            "1": "Reglas vinculadas al códice",
+            "2": "Mapa de cobertura de módulos"
+          },
+          "cta": "Entrar en CODEX22"
+        },
+        "uNexus": {
+          "tab": "U-Nexus",
+          "lede": "El enjambre omni-tech: recorre temas por toda la web abierta desde un solo nexo.",
+          "features": {
+            "0": "Recorrido del enjambre entre fuentes",
+            "1": "Temas en caché en el dispositivo",
+            "2": "Espacio de trabajo tipo portal"
+          },
+          "cta": "Abrir Omni-Swarm"
+        },
+        "uAkashic": {
+          "tab": "U-Akáshico",
+          "lede": "El archivo permanente — cada firma, pack y recorrido se conserva para siempre.",
+          "features": {
+            "0": "Entradas de archivo firmadas",
+            "1": "Procedencia de los packs",
+            "2": "Memoria del enjambre conservada"
+          },
+          "cta": "Abrir U-Signature"
+        },
+        "uQuantum": {
+          "tab": "U-Quantum",
+          "lede": "Computación que dobla la probabilidad en el borde paradójico del ecosistema.",
+          "features": {
+            "0": "Módulo Paradoja",
+            "1": "Índices sembrados por día",
+            "2": "Cómputo en los nodos del enjambre"
+          },
+          "cta": "Entrar en PARADOX"
+        },
+        "uShield": {
+          "tab": "U-Escudo",
+          "lede": "Defensa de confianza cero: claves, lock-ins y cuarentena para cada sesión.",
+          "features": {
+            "0": "Claves soberanas",
+            "1": "Lock-ins activos en este dispositivo",
+            "2": "Cuarentena automática de nodos maliciosos"
+          },
+          "cta": "Abrir U-Key"
+        },
+        "uNomad": {
+          "tab": "U-Nómada",
+          "lede": "La arena del nómada digital — gana y compite desde cualquier lugar del planeta.",
+          "features": {
+            "0": "Puntuación de aporte nómada",
+            "1": "Desafíos de la arena",
+            "2": "Monedas ganadas desde cualquier lugar"
+          },
+          "cta": "Entrar en ARENA"
+        },
+        "uChronos": {
+          "tab": "U-Cronos",
+          "lede": "El tiempo como recurso: días activo, cadencia y el ritmo sembrado por día de la plaza.",
+          "features": {
+            "0": "Contador de días activo",
+            "1": "Resiembra diaria a medianoche UTC",
+            "2": "Línea de tiempo de gobernanza"
+          },
+          "cta": "Entrar en CHRONOS"
+        },
+        "uSpace": {
+          "tab": "U-Espacio",
+          "lede": "La cúspide de la expansión — módulos y nodos cartografiados como un cosmos en crecimiento.",
+          "features": {
+            "0": "Constelación de módulos",
+            "1": "Mapa de nodos del enjambre",
+            "2": "Ascenso a la cúspide"
+          },
+          "cta": "Entrar en APEX"
+        },
+        "uVision": {
+          "tab": "U-Visión",
+          "lede": "Visión de largo alcance: destino, puntuación e índice soberano en un solo telescopio.",
+          "features": {
+            "0": "Matriz del destino",
+            "1": "Índice soberano, día a día",
+            "2": "Perspectiva por eje de gobernanza"
+          },
+          "cta": "Entrar en FATE"
+        },
+        "uMaster": {
+          "tab": "U-Master",
+          "lede": "La sala de control del fundador — cada módulo, eje y lock-in bajo una sola corona.",
+          "features": {
+            "0": "Todos los módulos a la vista",
+            "1": "Todos los ejes de gobernanza",
+            "2": "Solo sesión soberana"
+          },
+          "cta": "Entrar en la consola soberana"
+        }
       }
     }
   }

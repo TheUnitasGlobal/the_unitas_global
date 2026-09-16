@@ -122,6 +122,9 @@ export function GlobalLanguagePicker({
 
       {open && (
         <ul
+          // REV-34 M3: a non-layer dropdown -- Escape closes it alone (the
+          // controller stands down; the listener above does the close).
+          data-escape-local=""
           style={{ maxHeight: 'min(60vh, 420px)' }}
           className={`absolute z-50 mt-2 w-44 overflow-y-auto overscroll-contain rounded-2xl py-1 text-left ${
             align === 'right' ? 'right-0' : 'left-0'

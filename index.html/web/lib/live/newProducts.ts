@@ -1,10 +1,14 @@
 /**
- * REV-29 MISSION 3 -- "글로벌 신상품" (founder directive 2026-09-15).
+ * REV-29 MISSION 3 -- "글로벌 신상품" (founder directive 2026-09-15),
+ * widened by REV-34 MISSION 1-D (founder directive 2026-09-16) from five
+ * families to sixteen.
  *
  * A shortcut theme with no counterpart anywhere on the site: the products
- * the world has JUST released -- cars, smartphones, mobility (motorcycles
- * and aircraft), consumer gadgets and video games -- one family per day on
- * the rotating card, all five families as tabs inside the deep modal.
+ * the world has JUST released -- cars, smartphones, mobility, gadgets and
+ * games (the REV-29 five) plus AI agents, quantum hardware, sovereign SaaS,
+ * bio-health, neurotech, spacecraft, XR devices, DeFi hardware, eco energy,
+ * nomad gear and robots -- one family per day on the rotating card, every
+ * family as a tab inside the deep modal.
  *
  * SOURCE. The English Wikipedia category tree is the single most complete
  * keyless registry of product launches on the open web: every article about
@@ -19,12 +23,57 @@
  *      description, a thumbnail and the visitor's own-language title when
  *      that Wikipedia has the article.
  *
+ * TWO KINDS OF FAMILY (REV-34). Consumer trees are year-parameterised
+ * (`Cars introduced in 2026`) and thin out in January, so a family with fewer
+ * than PRODUCT_MIN_FILL members pulls the previous year too. The newer
+ * frontier families (quantum, neurotech, XR, ...) have NO year tree on
+ * en.wikipedia -- every candidate name was probed live on 2026-09-16 and the
+ * year-shaped ones ("Robots introduced in 2026", "Satellites launched in
+ * 2026", ...) do not exist. Those families are `static`: their category
+ * lists ignore the year, `cmsort=timestamp desc` still yields the newest
+ * articles first, and the year-1 refetch is skipped because it would only
+ * re-request the same trees.
+ *
  * Fail-open: any leg that errors contributes nothing; the card still
  * renders with what arrived. Pure helpers are exported for vitest.
  */
-import { Bike, Car, Gamepad2, PackageOpen, Smartphone, type LucideIcon } from 'lucide-react';
+import {
+  Atom,
+  Backpack,
+  BatteryCharging,
+  Bike,
+  Bot,
+  BrainCircuit,
+  Car,
+  CloudCog,
+  Gamepad2,
+  Glasses,
+  HeartPulse,
+  PackageOpen,
+  Rocket,
+  Smartphone,
+  Sparkles,
+  Wallet,
+  type LucideIcon,
+} from 'lucide-react';
 
-export type ProductFamilyKey = 'cars' | 'phones' | 'mobility' | 'gadgets' | 'games';
+export type ProductFamilyKey =
+  | 'cars'
+  | 'phones'
+  | 'mobility'
+  | 'gadgets'
+  | 'games'
+  | 'aiAgents'
+  | 'quantum'
+  | 'sovereignSaas'
+  | 'bioHealth'
+  | 'neurotech'
+  | 'space'
+  | 'xr'
+  | 'defiHardware'
+  | 'ecoEnergy'
+  | 'nomadGear'
+  | 'robots';
 
 export interface ProductFamily {
   key: ProductFamilyKey;
@@ -33,16 +82,127 @@ export interface ProductFamily {
   /** The Wikidata item the family is ABOUT (omni-open / outbound). */
   qid: string;
   /** English Wikipedia category titles (without the `Category:` prefix) for
-   *  a launch year. Several families draw on more than one tree. */
+   *  a launch year. Several families draw on more than one tree; a
+   *  year-parameterised family may also carry a year-free tree so a thin
+   *  launch year never leaves the card empty. */
   categories: (year: number) => string[];
+  /** REV-34: the category list ignores the year (no launch-year tree exists
+   *  on en.wikipedia for this family). loadProductRoll skips the previous-
+   *  year leg for these -- it would only re-request the same trees. */
+  static?: true;
 }
 
+/**
+ * Category names verified live against en.wikipedia (`list=categorymembers`,
+ * pages only, 2026-09-16): every tree below returned at least 5 members;
+ * the thin year trees (motorcycles, aircraft) are paired with year-free ones.
+ * Order is the day rotation and the tab order; `cars` stays first because
+ * productFamily() falls back to PRODUCT_FAMILIES[0] for a junk key.
+ */
 export const PRODUCT_FAMILIES: readonly ProductFamily[] = [
   { key: 'cars', icon: Car, color: '#2563eb', qid: 'Q1420', categories: (y) => [`Cars introduced in ${y}`] },
   { key: 'phones', icon: Smartphone, color: '#7c3aed', qid: 'Q22645', categories: (y) => [`Mobile phones introduced in ${y}`] },
-  { key: 'mobility', icon: Bike, color: '#0d9488', qid: 'Q42889', categories: (y) => [`Motorcycles introduced in ${y}`, `Aircraft first flown in ${y}`] },
-  { key: 'gadgets', icon: PackageOpen, color: '#ea580c', qid: 'Q2424752', categories: (y) => [`Products introduced in ${y}`, `Computer-related introductions in ${y}`] },
+  {
+    key: 'mobility',
+    icon: Bike,
+    color: '#0d9488',
+    qid: 'Q42889',
+    categories: (y) => [`Motorcycles introduced in ${y}`, `Aircraft first flown in ${y}`, 'Electric aircraft'],
+  },
+  {
+    key: 'gadgets',
+    icon: PackageOpen,
+    color: '#ea580c',
+    qid: 'Q2424752',
+    categories: (y) => [`Products introduced in ${y}`, `Computer-related introductions in ${y}`],
+  },
   { key: 'games', icon: Gamepad2, color: '#db2777', qid: 'Q7889', categories: (y) => [`${y} video games`] },
+  {
+    key: 'aiAgents',
+    icon: Sparkles,
+    color: '#4f46e5',
+    qid: 'Q2297769',
+    static: true,
+    categories: () => ['Large language models', 'Virtual assistants', 'Chatbots', 'Multi-agent systems'],
+  },
+  {
+    key: 'quantum',
+    icon: Atom,
+    color: '#0891b2',
+    qid: 'Q176555',
+    static: true,
+    categories: () => ['Quantum computing', 'Quantum information science', 'Quantum cryptography'],
+  },
+  {
+    key: 'sovereignSaas',
+    icon: CloudCog,
+    color: '#0369a1',
+    qid: 'Q1254596',
+    categories: (y) => [`${y} software`, 'Cloud platforms', 'Web applications'],
+  },
+  {
+    key: 'bioHealth',
+    icon: HeartPulse,
+    color: '#dc2626',
+    qid: 'Q7108',
+    static: true,
+    categories: () => ['Medical devices', 'Biotechnology products', 'Medical technology', 'Gene therapy'],
+  },
+  {
+    key: 'neurotech',
+    icon: BrainCircuit,
+    color: '#9333ea',
+    qid: 'Q3305355',
+    static: true,
+    categories: () => ['Neurotechnology', 'Neuroprosthetics', 'Brain–computer interface'],
+  },
+  {
+    key: 'space',
+    icon: Rocket,
+    color: '#1e40af',
+    qid: 'Q5916',
+    categories: (y) => [`Spacecraft launched in ${y}`, `${y} in spaceflight`],
+  },
+  {
+    key: 'xr',
+    icon: Glasses,
+    color: '#c026d3',
+    qid: 'Q25052165',
+    static: true,
+    categories: () => ['Virtual reality headsets', 'Mixed reality', 'Augmented reality', 'Head-mounted displays'],
+  },
+  {
+    key: 'defiHardware',
+    icon: Wallet,
+    color: '#ca8a04',
+    qid: 'Q4159573',
+    static: true,
+    categories: () => ['Cryptocurrency exchanges', 'Decentralized finance', 'Blockchains', 'Bitcoin'],
+  },
+  {
+    key: 'ecoEnergy',
+    icon: BatteryCharging,
+    color: '#16a34a',
+    qid: 'Q12705',
+    static: true,
+    categories: () => ['Battery electric vehicles', 'Lithium-ion batteries', 'Solar energy', 'Renewable energy technology'],
+  },
+  {
+    key: 'nomadGear',
+    icon: Backpack,
+    color: '#b45309',
+    qid: 'Q1224980',
+    static: true,
+    categories: () => ['Laptops', 'Ultrabooks', 'Electric bicycles', 'Electric scooters'],
+  },
+  {
+    key: 'robots',
+    icon: Bot,
+    color: '#64748b',
+    qid: 'Q11012',
+    static: true,
+    categories: () => ['Humanoid robots', 'Robots', 'Industrial robots', 'Service robots'],
+  },
 ];
 
 export const PRODUCT_FAMILY_KEYS: readonly ProductFamilyKey[] = PRODUCT_FAMILIES.map((f) => f.key);
@@ -203,6 +363,17 @@ export function foldProductPages(
   return out;
 }
 
+/**
+ * Pure: the category trees the previous-year leg still has to fetch -- the
+ * year-1 list minus every tree the current-year list already covered, so a
+ * year-free tree paired with a thin year tree is requested once, not twice.
+ */
+export function previousYearCategories(family: ProductFamily, year: number): string[] {
+  if (family.static) return [];
+  const current = new Set(family.categories(year));
+  return family.categories(year - 1).filter((cat) => !current.has(cat));
+}
+
 async function fetchJson<T>(url: string, signal: AbortSignal | undefined, timeoutMs = 7000): Promise<T | null> {
   try {
     const controller = new AbortController();
@@ -217,8 +388,8 @@ async function fetchJson<T>(url: string, signal: AbortSignal | undefined, timeou
   }
 }
 
-async function membersForYear(family: ProductFamily, year: number, signal?: AbortSignal): Promise<Array<{ title: string; timestamp?: string }>> {
-  const legs = await Promise.all(family.categories(year).map((cat) => fetchJson<CategoryMembersResponse>(categoryMembersUrl(cat), signal)));
+async function membersOf(categories: readonly string[], signal?: AbortSignal): Promise<Array<{ title: string; timestamp?: string }>> {
+  const legs = await Promise.all(categories.map((cat) => fetchJson<CategoryMembersResponse>(categoryMembersUrl(cat), signal)));
   const merged: Array<{ title: string; timestamp?: string }> = [];
   for (const leg of legs) {
     for (const m of leg?.query?.categorymembers ?? []) if (m.title) merged.push({ title: m.title, timestamp: m.timestamp });
@@ -238,14 +409,16 @@ export interface ProductRoll {
  * The family's newest launches: this year's category trees first, and the
  * previous year's as well when this year is still thin (January, or a
  * family whose year category is sparse), so the card is never empty.
+ * Static families (no launch-year tree) take a single pass -- see
+ * previousYearCategories().
  */
 export async function loadProductRoll(family: ProductFamily, lang: string, signal?: AbortSignal, now = new Date()): Promise<ProductRoll> {
   const year = now.getUTCFullYear();
-  let members = await membersForYear(family, year, signal);
+  let members = await membersOf(family.categories(year), signal);
   let entriesYear = year;
-  if (members.length < PRODUCT_MIN_FILL) {
-    const previous = await membersForYear(family, year - 1, signal);
-    if (members.length === 0) entriesYear = year - 1;
+  if (members.length < PRODUCT_MIN_FILL && !family.static) {
+    const previous = await membersOf(previousYearCategories(family, year), signal);
+    if (members.length === 0 && previous.length > 0) entriesYear = year - 1;
     members = [...members, ...previous];
   }
   const top = members.slice(0, PRODUCT_DEEP_ITEMS);

@@ -1,36 +1,20 @@
 'use client';
 
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
-import { Trophy, UsersRound } from 'lucide-react';
-import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
-import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
-import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { URankingsShorts } from './URankingsShorts';
 
 /**
- * REV-29 MISSION 4 -- UNITAS 랭킹 inside the hub: the very same embedded
- * panels the discovery carousel's ranking deep modal renders (REV-21 §1.3),
- * so the theme chips, the tiered paging and the rank-detail / operator-
- * profile popups are byte-identical wherever a ranking is opened.
+ * REV-29 MISSION 4 hub ranking panel, rewritten in REV-34 MISSION 4-C
+ * (founder directive 2026-09-16): the "실시간 세계 랭킹" tab is gone from the
+ * hub for good and "실시간 유니타스 랭킹" became 유랭킹 -- the UNITAS-ecosystem
+ * leaderboard in the shorts skin (URankingsShorts.tsx). This wrapper survives
+ * only to keep the `data-hub-rankings` root the E2E hub contract expects
+ * (rev29-verify L242). GlobalThemeRankings / UnitasModuleRankings still serve
+ * their non-hub hosts (discovery carousel, U-AI stream) untouched.
  */
 export function HubRankings() {
-  const t = useTranslations('Rev21.slots');
-  const { playHoverSfx } = useSpatialAudio();
-  const [tab, setTab] = useState<'world' | 'unitas'>('world');
-
   return (
     <div data-hub-rankings="">
-      <div className="qw-hub-tabs mb-3" role="tablist">
-        <button type="button" role="tab" aria-selected={tab === 'world'} className="qw-hub-tab" onMouseEnter={() => playHoverSfx()} onClick={() => setTab('world')} data-hub-ranking-tab="world">
-          <Trophy size={13} aria-hidden="true" />
-          {t('worldRanking.title')}
-        </button>
-        <button type="button" role="tab" aria-selected={tab === 'unitas'} className="qw-hub-tab" onMouseEnter={() => playHoverSfx()} onClick={() => setTab('unitas')} data-hub-ranking-tab="unitas">
-          <UsersRound size={13} aria-hidden="true" />
-          {t('unitasRanking.title')}
-        </button>
-      </div>
-      {tab === 'world' ? <GlobalThemeRankings embedded /> : <UnitasModuleRankings embedded />}
+      <URankingsShorts />
     </div>
   );
 }

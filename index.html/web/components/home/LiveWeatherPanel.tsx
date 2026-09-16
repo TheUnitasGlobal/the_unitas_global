@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Cloud, Droplets, Loader2, LocateFixed, MapPin, RefreshCw, Search, Thermometer, Wind, X, Zap } from 'lucide-react';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { HubMetaLine } from '@/components/home/hub/HubMetaLine';
 import { CONDITION_ICON, conditionOf, useLiveWeather, type Place } from '@/lib/live/useLiveWeather';
 
 export interface LiveWeatherPanelProps {
@@ -12,6 +13,11 @@ export interface LiveWeatherPanelProps {
    *  Wikidata item -- so its omni-open block anchors on the SAME place
    *  the visitor searched or located, never on the locale default. */
   onPlaceChange?: (place: Place) => void;
+  /** REV-34 M1-A: inside the weather DEEP modal the 5-day grid and the meta
+   *  footer are omitted -- `WeatherDeepPanel` renders the 7-day outlook and
+   *  the modal owns the one meta line (D-4), so neither may appear twice.
+   *  Search, locate-me and the headline reading stay. Default false. */
+  compact?: boolean;
 }
 
 /**
@@ -25,10 +31,11 @@ export interface LiveWeatherPanelProps {
  * lib/live/discoverySlots.ts) can read the SAME 10-minute device cache
  * without a duplicate fetch. This component itself now renders inside the
  * weather slot's deep modal (`slot:weather`) for city search / locate-me /
- * the full 5-day grid -- the carousel's own active card only shows the
- * compact SlotCard facts.
+ * the headline reading (REV-34 M1-A: `compact`, the 5-day grid and the meta
+ * footer yield to WeatherDeepPanel's 7-day list and the modal's own line) --
+ * the carousel's own active card only shows the compact SlotCard facts.
  */
-export function LiveWeatherPanel({ onPlaceChange }: LiveWeatherPanelProps = {}) {
+export function LiveWeatherPanel({ onPlaceChange, compact = false }: LiveWeatherPanelProps = {}) {
   const t = useTranslations('Weather');
   const locale = useLocale();
   const { playHoverSfx } = useSpatialAudio();
@@ -72,7 +79,6 @@ export function LiveWeatherPanel({ onPlaceChange }: LiveWeatherPanelProps = {}) 
   const cond = forecast ? conditionOf(forecast.current.code) : null;
   const CondIcon = cond ? CONDITION_ICON[cond] : Cloud;
   const dayFormatter = new Intl.DateTimeFormat(locale, { weekday: 'short', month: 'numeric', day: 'numeric' });
-  const timeFormatter = new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' });
 
   return (
     <div className="w-full">
@@ -213,7 +219,7 @@ export function LiveWeatherPanel({ onPlaceChange }: LiveWeatherPanelProps = {}) 
       )}
 
       {forecast && cond && (
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)]">
+        <div className={compact ? 'grid grid-cols-1 gap-3' : 'grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)]'} data-weather-compact={compact ? '1' : '0'}>
           {/* Current */}
           <div className="flex items-center gap-4 border border-white/10 bg-void/50 px-4 py-4">
             <CondIcon size={60} className="shrink-0 text-accent" aria-hidden="true" />
@@ -239,7 +245,8 @@ export function LiveWeatherPanel({ onPlaceChange }: LiveWeatherPanelProps = {}) 
             </div>
           </div>
 
-          {/* 5-day outlook */}
+          {/* 5-day outlook -- not in the deep modal (its 7-day list follows). */}
+          {!compact && (
           <div className="border border-white/10 bg-void/50 px-3 py-3">
             <p className="mb-2 text-[12px] font-bold uppercase tracking-widest text-gray-500">{t('forecastLabel')}</p>
             <ul className="grid grid-cols-5 gap-1.5">
@@ -257,13 +264,20 @@ export function LiveWeatherPanel({ onPlaceChange }: LiveWeatherPanelProps = {}) 
               })}
             </ul>
           </div>
+          )}
         </div>
       )}
 
-      {fetchedAt && (
-        <p className="qw-hub-meta mt-2 text-[13px] font-semibold text-gray-500">
-          {t('updated')} {timeFormatter.format(new Date(fetchedAt))} · {t('source')}
-        </p>
+      {/* REV-34 M1-B: the one meta format -- forecast days counted, the
+          provider named, the fetch stamp as `{updated}`. The deep modal
+          renders its own line instead (compact). */}
+      {fetchedAt && !compact && (
+        <HubMetaLine
+          count={forecast?.daily.length ?? 0}
+          source={t('source')}
+          updatedAt={fetchedAt}
+          className="mt-2 text-[13px] font-semibold text-gray-500"
+        />
       )}
     </div>
   );

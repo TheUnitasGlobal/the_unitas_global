@@ -83,6 +83,39 @@ export type SourceId =
   | 'googleScholar'
   | 'wolframAlpha'
   | 'arxiv'
+  // REV-34 M2 (D-8) -- the omni-business engines of Codex ch.6 and the
+  // per-family corpora. Every one is a keyless, login-free search URL.
+  | 'naverSearch'
+  | 'naverNews'
+  | 'naverCafe'
+  | 'naverBlog'
+  | 'yandex'
+  | 'seznam'
+  | 'duckduckgoSearch'
+  | 'yahooSearch'
+  | 'ecosia'
+  | 'qwant'
+  | 'brave'
+  | 'baidu'
+  | 'appleMaps'
+  | 'googleMaps'
+  | 'googleTrends'
+  | 'googlePatents'
+  | 'secEdgar'
+  | 'oecd'
+  | 'tradingView'
+  | 'yahooFinance'
+  | 'productHunt'
+  | 'crunchbase'
+  | 'huggingFace'
+  | 'kaggle'
+  | 'stackOverflow'
+  | 'devTo'
+  | 'medium'
+  | 'substack'
+  | 'bluesky'
+  | 'mastodon'
+  | 'pinterest'
   // first party
   | 'unitasCurated'
   | 'unitasIndex';
@@ -607,6 +640,349 @@ export const SOURCE_REGISTRY: readonly OmniSource[] = [
   },
 
   /* ---------------------------------------------------------------- */
+  /* REV-34 M2 (founder directive 2026-09-16, D-8) -- the omni-business  */
+  /* engines of Codex ch.6 (Naver, Yandex, Seznam, DuckDuckGo, Yahoo,    */
+  /* Ecosia, Qwant, Apple) plus the finance, science, developer, product */
+  /* and social corpora each theme family opens. Outbound only: keyless, */
+  /* login-free search URLs, never fetched, never styled as a brand.     */
+  /* Hosts stay disjoint from the entries above; where a vendor's host   */
+  /* is already claimed (duckduckgo.com) the new row owns no host.       */
+  /* ---------------------------------------------------------------- */
+  {
+    id: 'naverNews',
+    displayName: { en: 'Naver News', ko: '네이버 뉴스' },
+    owner: 'Naver',
+    homepage: 'https://news.naver.com/',
+    hosts: ['news.naver.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Naver News'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'naverCafe',
+    displayName: { en: 'Naver Cafe', ko: '네이버 카페' },
+    owner: 'Naver',
+    homepage: 'https://section.cafe.naver.com/',
+    hosts: ['cafe.naver.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Naver Cafe'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'naverBlog',
+    displayName: { en: 'Naver Blog', ko: '네이버 블로그' },
+    owner: 'Naver',
+    homepage: 'https://section.blog.naver.com/',
+    hosts: ['blog.naver.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Naver Blog'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'naverSearch',
+    displayName: { en: 'Naver', ko: '네이버 검색' },
+    owner: 'Naver',
+    homepage: 'https://www.naver.com/',
+    hosts: ['search.naver.com', 'naver.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Naver'),
+    anchorKind: ['entity', 'place', 'text'],
+    notes: 'Registered after the news/cafe/blog rows so the apex host does not swallow their subdomains.',
+  },
+  {
+    id: 'yandex',
+    displayName: { en: 'Yandex', ko: 'Yandex' },
+    homepage: 'https://yandex.com/',
+    hosts: ['yandex.com', 'yandex.ru', 'ya.ru'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Yandex'),
+    anchorKind: ['entity', 'place', 'text'],
+  },
+  {
+    id: 'seznam',
+    displayName: { en: 'Seznam', ko: 'Seznam' },
+    homepage: 'https://www.seznam.cz/',
+    hosts: ['search.seznam.cz', 'seznam.cz'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Seznam'),
+    anchorKind: ['entity', 'place', 'text'],
+  },
+  {
+    id: 'duckduckgoSearch',
+    displayName: { en: 'DuckDuckGo Search', ko: 'DuckDuckGo 검색' },
+    homepage: 'https://duckduckgo.com/',
+    hosts: [],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('DuckDuckGo'),
+    anchorKind: ['entity', 'text'],
+    notes: 'The web search page. duckduckgo.com is owned by the browser-side Instant Answer row, so this row claims no host and the name differs for the privacy page.',
+  },
+  {
+    id: 'yahooFinance',
+    displayName: { en: 'Yahoo Finance', ko: 'Yahoo Finance' },
+    owner: 'Yahoo',
+    homepage: 'https://finance.yahoo.com/',
+    hosts: ['finance.yahoo.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Yahoo Finance'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'yahooSearch',
+    displayName: { en: 'Yahoo Search', ko: 'Yahoo 검색' },
+    owner: 'Yahoo',
+    homepage: 'https://search.yahoo.com/',
+    hosts: ['search.yahoo.com', 'yahoo.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Yahoo Search'),
+    anchorKind: ['entity', 'text'],
+    notes: 'Registered after Yahoo Finance so the apex host does not swallow finance.yahoo.com.',
+  },
+  {
+    id: 'ecosia',
+    displayName: { en: 'Ecosia', ko: 'Ecosia' },
+    homepage: 'https://www.ecosia.org/',
+    hosts: ['ecosia.org'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Ecosia'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'qwant',
+    displayName: { en: 'Qwant', ko: 'Qwant' },
+    homepage: 'https://www.qwant.com/',
+    hosts: ['qwant.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Qwant'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'brave',
+    displayName: { en: 'Brave Search', ko: 'Brave 검색' },
+    homepage: 'https://search.brave.com/',
+    hosts: ['search.brave.com', 'brave.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Brave Search'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'baidu',
+    displayName: { en: 'Baidu', ko: 'Baidu' },
+    homepage: 'https://www.baidu.com/',
+    hosts: ['baidu.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Baidu'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'appleMaps',
+    displayName: { en: 'Apple Maps', ko: 'Apple 지도' },
+    owner: 'Apple',
+    homepage: 'https://maps.apple.com/',
+    hosts: ['maps.apple.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Apple Maps'),
+    anchorKind: ['entity', 'place', 'text'],
+    notes: 'The keyless Apple surface of Codex ch.6: the web Maps URL scheme opens the native app on Apple devices.',
+  },
+  {
+    id: 'googleMaps',
+    displayName: { en: 'Google Maps', ko: 'Google 지도' },
+    owner: 'Google',
+    homepage: 'https://maps.google.com/',
+    hosts: ['maps.google.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Google Maps'),
+    anchorKind: ['place', 'text'],
+    notes: 'Search links use the documented keyless Maps URL API on google.com; that host stays with Google Search for badge resolution.',
+  },
+  {
+    id: 'googleTrends',
+    displayName: { en: 'Google Trends', ko: 'Google 트렌드' },
+    owner: 'Google',
+    homepage: 'https://trends.google.com/',
+    hosts: ['trends.google.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Google Trends'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'googlePatents',
+    displayName: { en: 'Google Patents', ko: 'Google 특허' },
+    owner: 'Google',
+    homepage: 'https://patents.google.com/',
+    hosts: ['patents.google.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Google Patents'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'secEdgar',
+    displayName: { en: 'SEC EDGAR', ko: 'SEC EDGAR' },
+    owner: 'U.S. Securities and Exchange Commission',
+    homepage: 'https://www.sec.gov/edgar/search/',
+    hosts: ['efts.sec.gov', 'sec.gov'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('SEC EDGAR'),
+    anchorKind: ['entity', 'text'],
+    notes: 'Full-text search UI; the EFTS API demands a declared User-Agent, so the filings stay outbound.',
+  },
+  {
+    id: 'oecd',
+    displayName: { en: 'OECD Data', ko: 'OECD 데이터' },
+    owner: 'OECD',
+    homepage: 'https://www.oecd.org/',
+    hosts: ['data-explorer.oecd.org', 'oecd.org'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('OECD'),
+    anchorKind: ['country', 'text'],
+  },
+  {
+    id: 'tradingView',
+    displayName: { en: 'TradingView', ko: 'TradingView' },
+    homepage: 'https://www.tradingview.com/',
+    hosts: ['tradingview.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('TradingView'),
+    anchorKind: ['text'],
+  },
+  {
+    id: 'productHunt',
+    displayName: { en: 'Product Hunt', ko: 'Product Hunt' },
+    homepage: 'https://www.producthunt.com/',
+    hosts: ['producthunt.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Product Hunt'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'crunchbase',
+    displayName: { en: 'Crunchbase', ko: 'Crunchbase' },
+    homepage: 'https://www.crunchbase.com/',
+    hosts: ['crunchbase.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Crunchbase'),
+    anchorKind: ['entity', 'text'],
+    loginWall: true,
+  },
+  {
+    id: 'huggingFace',
+    displayName: { en: 'Hugging Face', ko: 'Hugging Face' },
+    homepage: 'https://huggingface.co/',
+    hosts: ['huggingface.co'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Hugging Face'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'kaggle',
+    displayName: { en: 'Kaggle', ko: 'Kaggle' },
+    owner: 'Google',
+    homepage: 'https://www.kaggle.com/',
+    hosts: ['kaggle.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Kaggle (Google)'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'stackOverflow',
+    displayName: { en: 'Stack Overflow', ko: 'Stack Overflow' },
+    homepage: 'https://stackoverflow.com/',
+    hosts: ['stackoverflow.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Stack Overflow'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'devTo',
+    displayName: { en: 'DEV Community', ko: 'DEV Community' },
+    homepage: 'https://dev.to/',
+    hosts: ['dev.to'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('DEV Community'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'medium',
+    displayName: { en: 'Medium', ko: 'Medium' },
+    homepage: 'https://medium.com/',
+    hosts: ['medium.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Medium'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'substack',
+    displayName: { en: 'Substack', ko: 'Substack' },
+    homepage: 'https://substack.com/',
+    hosts: ['substack.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Substack'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'bluesky',
+    displayName: { en: 'Bluesky', ko: 'Bluesky' },
+    homepage: 'https://bsky.app/',
+    hosts: ['bsky.app'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Bluesky'),
+    anchorKind: ['entity', 'text'],
+  },
+  {
+    id: 'mastodon',
+    displayName: { en: 'Mastodon', ko: 'Mastodon' },
+    homepage: 'https://mastodon.social/',
+    hosts: ['mastodon.social'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Mastodon (mastodon.social)'),
+    anchorKind: ['entity', 'text'],
+    loginWall: true,
+    notes: 'Signed-out search on the flagship instance returns accounts and hashtags only; full-text needs a session.',
+  },
+  {
+    id: 'pinterest',
+    displayName: { en: 'Pinterest', ko: 'Pinterest' },
+    homepage: 'https://www.pinterest.com/',
+    hosts: ['pinterest.com'],
+    side: 'outbound',
+    licenseClass: 'outbound-only',
+    attribution: NOT_AFFILIATED('Pinterest'),
+    anchorKind: ['entity', 'text'],
+    loginWall: true,
+  },
+
+  /* ---------------------------------------------------------------- */
   /* first party                                                        */
   /* ---------------------------------------------------------------- */
   {
@@ -688,24 +1064,357 @@ export function sourceAttribution(id: SourceId, locale = 'en'): string {
  * keyless, login-free search URL, so the row is never an empty titled line
  * even when the subject carries no Wikidata identifier at all.
  */
-export const OMNI_SOURCE_ROW: readonly SourceId[] = ['wikipedia', 'wikidata', 'wiktionary', 'wikimediaCommons', 'openLibrary'];
+/**
+ * REV-34 M2 (D-8): the two constants below are now the DEFAULT family of
+ * `OMNI_FAMILY_ROWS` -- the rows a surface gets when it names no theme.
+ * The scholarly corpora (Scholar, arXiv, Patents, OpenAlex, Hacker News)
+ * moved from the platform row into the sources row where they belong, and
+ * the platform row carries the ten omni-business engines of Codex ch.6
+ * (Google, Naver, Yandex, Seznam, Bing, DuckDuckGo, Yahoo, Ecosia, Qwant,
+ * Apple) ahead of the consumer platforms. Rows are capped at
+ * `OMNI_SOURCES_CAP` / `OMNI_PLATFORMS_CAP` so a phone never wraps past a
+ * few lines.
+ */
+export const OMNI_SOURCE_ROW: readonly SourceId[] = [
+  'wikipedia',
+  'wikidata',
+  'wiktionary',
+  'wikimediaCommons',
+  'openLibrary',
+  'openAlex',
+  'googleScholar',
+  'arxiv',
+  'googlePatents',
+  'hackerNews',
+];
 
 export const OUTBOUND_BRAND_ROW: readonly SourceId[] = [
   'googleSearch',
   'bingSearch',
-  'googleScholar',
-  'wolframAlpha',
-  'arxiv',
-  'github',
+  'naverSearch',
+  'yandex',
+  'seznam',
+  'duckduckgoSearch',
+  'yahooSearch',
+  'ecosia',
+  'qwant',
+  'appleMaps',
   'youtube',
-  'reddit',
   'x',
+  'reddit',
   'linkedin',
-  'facebook',
   'instagram',
-  'threads',
   'tiktok',
 ];
+
+/* ------------------------------------------------------------------ */
+/* REV-34 M2 -- omni-open rows per theme family (D-8)                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The theme families a popup can belong to. A family picks the two rows of
+ * the omni-open block: `place` for weather / quake / air / nation / nearby,
+ * `news` for the news rail, `rankings` for the world ranking, `products`
+ * for the new-products slot, `fx` / `crypto` for the money slots,
+ * `science` / `dev` / `library` / `art` for the knowledge slots, `shorts`
+ * for the U-Shorts rail, `unitas` for UNITAS' own rankings and profiles,
+ * and `default` for everything else (the stream, keyword tiers).
+ */
+export type OmniFamily =
+  | 'default'
+  | 'place'
+  | 'news'
+  | 'rankings'
+  | 'products'
+  | 'fx'
+  | 'crypto'
+  | 'science'
+  | 'dev'
+  | 'library'
+  | 'art'
+  | 'shorts'
+  | 'unitas';
+
+export interface OmniRows {
+  /** "다른출처에서열기" -- the corpora behind the subject. */
+  sources: readonly SourceId[];
+  /** "다른플랫폼에서열기" -- the surfaces that hold it; outbound only. */
+  platforms: readonly SourceId[];
+}
+
+/** Row caps (D-8): a phone at 360px wraps ten sources to three lines and
+ *  sixteen platforms to four -- the ceiling the founder accepted. */
+export const OMNI_SOURCES_CAP = 10;
+export const OMNI_PLATFORMS_CAP = 16;
+
+/** Every sources row opens with these two (E2E rev29-verify + the compact
+ *  slice both depend on it); every platform row opens with the next two. */
+export const OMNI_SOURCE_ROW_HEAD: readonly SourceId[] = ['wikipedia', 'wikidata'];
+export const OMNI_PLATFORM_ROW_HEAD: readonly SourceId[] = ['googleSearch', 'bingSearch'];
+
+/**
+ * The curated rows per family. Invariants, pinned by
+ * __tests__/uai/omniFamilies.test.ts: every sources row starts with
+ * `OMNI_SOURCE_ROW_HEAD`, every platform row with `OMNI_PLATFORM_ROW_HEAD`;
+ * a family's two rows are disjoint; every platform is an outbound row;
+ * every id answers a bare term with a URL that carries the term; rows stay
+ * within the caps. No Telegram / Discord / KakaoTalk / LINE / WeChat: none
+ * has a keyless public search URL, so they live in the launcher tiles only.
+ */
+export const OMNI_FAMILY_ROWS: Readonly<Record<OmniFamily, OmniRows>> = {
+  default: { sources: OMNI_SOURCE_ROW, platforms: OUTBOUND_BRAND_ROW },
+  place: {
+    sources: ['wikipedia', 'wikidata', 'wikimediaCommons', 'worldBank', 'oecd'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'googleMaps',
+      'appleMaps',
+      'naverSearch',
+      'yandex',
+      'seznam',
+      'duckduckgoSearch',
+      'yahooSearch',
+      'ecosia',
+      'qwant',
+      'youtube',
+      'x',
+      'instagram',
+    ],
+  },
+  news: {
+    sources: ['wikipedia', 'wikidata', 'googleTrends', 'wikimediaCommons', 'hackerNews'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'naverNews',
+      'yandex',
+      'seznam',
+      'duckduckgoSearch',
+      'yahooSearch',
+      'baidu',
+      'x',
+      'reddit',
+      'youtube',
+      'bluesky',
+      'threads',
+      'mastodon',
+      'linkedin',
+      'facebook',
+    ],
+  },
+  rankings: {
+    sources: ['wikipedia', 'wikidata', 'worldBank', 'oecd', 'googleScholar', 'openAlex'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'naverSearch',
+      'yandex',
+      'duckduckgoSearch',
+      'yahooSearch',
+      'baidu',
+      'tradingView',
+      'youtube',
+      'x',
+      'reddit',
+      'linkedin',
+    ],
+  },
+  products: {
+    sources: ['wikipedia', 'wikidata', 'productHunt', 'crunchbase', 'googlePatents', 'wikimediaCommons'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'naverSearch',
+      'naverCafe',
+      'yandex',
+      'duckduckgoSearch',
+      'baidu',
+      'youtube',
+      'x',
+      'reddit',
+      'linkedin',
+      'tiktok',
+      'instagram',
+      'pinterest',
+    ],
+  },
+  fx: {
+    sources: ['wikipedia', 'wikidata', 'worldBank', 'oecd', 'secEdgar'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'tradingView',
+      'yahooFinance',
+      'naverSearch',
+      'yandex',
+      'duckduckgoSearch',
+      'x',
+      'reddit',
+      'linkedin',
+      'youtube',
+    ],
+  },
+  crypto: {
+    sources: ['wikipedia', 'wikidata', 'coinGecko', 'github', 'secEdgar', 'hackerNews'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'tradingView',
+      'yahooFinance',
+      'duckduckgoSearch',
+      'brave',
+      'x',
+      'reddit',
+      'youtube',
+      'bluesky',
+      'medium',
+      'substack',
+    ],
+  },
+  science: {
+    sources: ['wikipedia', 'wikidata', 'openAlex', 'googleScholar', 'arxiv', 'crossref', 'huggingFace'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'wolframAlpha',
+      'github',
+      'kaggle',
+      'stackOverflow',
+      'duckduckgoSearch',
+      'brave',
+      'x',
+      'reddit',
+      'youtube',
+      'linkedin',
+      'mastodon',
+    ],
+  },
+  dev: {
+    sources: ['wikipedia', 'wikidata', 'github', 'huggingFace', 'hackerNews', 'arxiv'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'stackOverflow',
+      'duckduckgoSearch',
+      'brave',
+      'kaggle',
+      'devTo',
+      'medium',
+      'productHunt',
+      'reddit',
+      'x',
+      'youtube',
+      'mastodon',
+      'bluesky',
+    ],
+  },
+  library: {
+    sources: ['wikipedia', 'wikidata', 'openLibrary', 'wiktionary', 'googleScholar', 'wikimediaCommons', 'crossref'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'naverSearch',
+      'naverBlog',
+      'yandex',
+      'duckduckgoSearch',
+      'yahooSearch',
+      'youtube',
+      'reddit',
+      'medium',
+      'substack',
+      'x',
+      'pinterest',
+    ],
+  },
+  art: {
+    sources: ['wikipedia', 'wikidata', 'theMet', 'wikimediaCommons'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'pinterest',
+      'instagram',
+      'youtube',
+      'tiktok',
+      'x',
+      'reddit',
+      'naverSearch',
+      'yandex',
+      'duckduckgoSearch',
+      'threads',
+    ],
+  },
+  shorts: {
+    sources: ['wikipedia', 'wikidata', 'googleTrends', 'wikimediaCommons'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'youtube',
+      'tiktok',
+      'instagram',
+      'x',
+      'threads',
+      'bluesky',
+      'pinterest',
+      'reddit',
+      'facebook',
+      'naverSearch',
+      'duckduckgoSearch',
+    ],
+  },
+  unitas: {
+    sources: ['wikipedia', 'wikidata', 'wiktionary', 'wikimediaCommons'],
+    platforms: [
+      'googleSearch',
+      'bingSearch',
+      'naverSearch',
+      'yandex',
+      'duckduckgoSearch',
+      'youtube',
+      'x',
+      'linkedin',
+      'productHunt',
+      'reddit',
+    ],
+  },
+};
+
+export const OMNI_FAMILIES: readonly OmniFamily[] = Object.keys(OMNI_FAMILY_ROWS) as OmniFamily[];
+
+/** The two rows a surface of the given family renders. Total, never throws. */
+export function omniRowsFor(family: OmniFamily = 'default'): OmniRows {
+  return OMNI_FAMILY_ROWS[family] ?? OMNI_FAMILY_ROWS.default;
+}
+
+/**
+ * The family of every discovery-carousel slot (lib/live/discoverySlots.ts
+ * `SlotKey`). Kept here, not there, so the registry stays the single place
+ * that knows which corpora a theme opens; a slot key this table has never
+ * met falls to `default` rather than throwing.
+ */
+const SLOT_FAMILY: Readonly<Record<string, OmniFamily>> = {
+  weather: 'place',
+  quake: 'place',
+  air: 'place',
+  nation: 'place',
+  nearby: 'place',
+  awards: 'default',
+  history: 'default',
+  mostRead: 'default',
+  newProducts: 'products',
+  fx: 'fx',
+  crypto: 'crypto',
+  devPulse: 'dev',
+  paper: 'science',
+  library: 'library',
+  art: 'art',
+  worldRanking: 'rankings',
+  unitasRanking: 'unitas',
+};
+
+export function omniFamilyForSlot(slotKey: string): OmniFamily {
+  return SLOT_FAMILY[slotKey] ?? 'default';
+}
 
 /** Keyless search URL an outbound source opens for a term (new tab,
  *  `rel="noopener noreferrer nofollow"`). `null` = the vendor has no
@@ -745,7 +1454,9 @@ export function outboundSearchUrl(id: SourceId, term: string, lang = 'en'): stri
     case 'wolframAlpha':
       return `https://www.wolframalpha.com/input?i=${q}`;
     case 'arxiv':
-      return `https://arxiv.org/abs/?searchtype=all&query=${q}`;
+      // REV-34: /abs/ takes an identifier, never a query -- /search/ is the
+      // listing endpoint (the REV-23 path was a dead link).
+      return `https://arxiv.org/search/?query=${q}&searchtype=all`;
     case 'wikipedia':
       return `https://${lang}.wikipedia.org/w/index.php?search=${q}`;
     case 'wiktionary':
@@ -756,6 +1467,83 @@ export function outboundSearchUrl(id: SourceId, term: string, lang = 'en'): stri
       return `https://commons.wikimedia.org/w/index.php?search=${q}`;
     case 'openLibrary':
       return `https://openlibrary.org/search?q=${q}`;
+    // REV-34 M2 -- browser-side corpora that also sit in a sources row:
+    // the link opens the vendor's own search page, nothing is fetched here.
+    case 'openAlex':
+      return `https://openalex.org/works?filter=default.search:${q}`;
+    case 'crossref':
+      return `https://search.crossref.org/search/works?q=${q}`;
+    case 'hackerNews':
+      return `https://hn.algolia.com/?q=${q}`;
+    case 'coinGecko':
+      return `https://www.coingecko.com/en/search?query=${q}`;
+    case 'worldBank':
+      return `https://www.worldbank.org/en/search?q=${q}`;
+    case 'theMet':
+      return `https://www.metmuseum.org/art/collection/search?q=${q}`;
+    // REV-34 M2 -- the omni-business engines (Codex ch.6) and family corpora.
+    case 'naverSearch':
+      return `https://search.naver.com/search.naver?query=${q}`;
+    case 'naverNews':
+      return `https://search.naver.com/search.naver?where=news&query=${q}`;
+    case 'naverCafe':
+      return `https://section.cafe.naver.com/ca-fe/home/search/articles?query=${q}`;
+    case 'naverBlog':
+      return `https://section.blog.naver.com/Search/Post.naver?keyword=${q}`;
+    case 'yandex':
+      return `https://yandex.com/search/?text=${q}`;
+    case 'seznam':
+      return `https://search.seznam.cz/?q=${q}`;
+    case 'duckduckgoSearch':
+      return `https://duckduckgo.com/?q=${q}`;
+    case 'yahooSearch':
+      return `https://search.yahoo.com/search?p=${q}`;
+    case 'ecosia':
+      return `https://www.ecosia.org/search?q=${q}`;
+    case 'qwant':
+      return `https://www.qwant.com/?q=${q}`;
+    case 'brave':
+      return `https://search.brave.com/search?q=${q}`;
+    case 'baidu':
+      return `https://www.baidu.com/s?wd=${q}`;
+    case 'appleMaps':
+      return `https://maps.apple.com/?q=${q}`;
+    case 'googleMaps':
+      return `https://www.google.com/maps/search/?api=1&query=${q}`;
+    case 'googleTrends':
+      return `https://trends.google.com/trends/explore?q=${q}&hl=${hl}`;
+    case 'googlePatents':
+      return `https://patents.google.com/?q=${q}`;
+    case 'secEdgar':
+      return `https://www.sec.gov/edgar/search/#/q=${q}`;
+    case 'oecd':
+      return `https://www.oecd.org/en/search.html?q=${q}`;
+    case 'tradingView':
+      return `https://www.tradingview.com/chart/?symbol=${q}`;
+    case 'yahooFinance':
+      return `https://finance.yahoo.com/lookup/?s=${q}`;
+    case 'productHunt':
+      return `https://www.producthunt.com/search?q=${q}`;
+    case 'crunchbase':
+      return `https://www.crunchbase.com/textsearch?q=${q}`;
+    case 'huggingFace':
+      return `https://huggingface.co/models?search=${q}`;
+    case 'kaggle':
+      return `https://www.kaggle.com/search?q=${q}`;
+    case 'stackOverflow':
+      return `https://stackoverflow.com/search?q=${q}`;
+    case 'devTo':
+      return `https://dev.to/search?q=${q}`;
+    case 'medium':
+      return `https://medium.com/search?q=${q}`;
+    case 'substack':
+      return `https://substack.com/search/${q}?searching=all_posts`;
+    case 'bluesky':
+      return `https://bsky.app/search?q=${q}`;
+    case 'mastodon':
+      return `https://mastodon.social/search?q=${q}`;
+    case 'pinterest':
+      return `https://www.pinterest.com/search/pins/?q=${q}`;
     default:
       return sourceById(id).homepage;
   }

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, 
 import { useLocale, useTranslations } from 'next-intl';
 import { Radio, Send } from 'lucide-react';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
+import { HubDot } from '@/components/home/hub/HubDot';
 import { HOT_NEWS_AXES, hotNewsAxisMeta } from '@/lib/live/hotNewsAxes';
 import { createHubChannel, type HubChannelHandle } from '@/lib/hub/hubChannel';
 import {
@@ -180,7 +181,7 @@ export function ThemeChatRooms() {
             onMouseEnter={() => playHoverSfx()}
             onClick={() => setRoom(axis.key)}
           >
-            <axis.icon size={15} style={{ color: axis.color }} aria-hidden="true" />
+            <HubDot color={axis.color} />
             {tNews(`category.${axis.key}`)}
           </button>
         ))}
@@ -189,7 +190,7 @@ export function ThemeChatRooms() {
       <div className="qw-room" data-hub-room={room} style={{ '--qw-hub-accent': meta.color } as CSSProperties}>
         <div className="qw-room-head">
           <p className="flex items-center gap-2 text-[15px] font-bold text-white">
-            <meta.icon size={16} style={{ color: meta.color }} aria-hidden="true" />
+            <HubDot color={meta.color} size={10} />
             {roomLabel}
           </p>
           <p className="qw-hub-meta flex items-center gap-1.5 text-[12px] text-gray-500" data-hub-live={live === null ? 'pending' : live ? '1' : '0'}>

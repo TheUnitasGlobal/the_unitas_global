@@ -384,7 +384,6 @@ const historySlot: DiscoverySlot = {
     return {
       facts: [
         { labelKey: 'Rev20.slots.facts.todayDate', value: title },
-        { labelKey: 'Rev20.slots.facts.firstEvent', value: items[0].title, emphasis: true },
         { labelKey: 'Rev20.slots.facts.eventCount', value: String(lines.length) },
       ],
       items,
@@ -464,7 +463,6 @@ const mostReadSlot: DiscoverySlot = {
     }));
     return {
       facts: [
-        { labelKey: 'Rev20.slots.facts.rank1', value: items[0].title, emphasis: true },
         { labelKey: 'Rev20.slots.facts.rank1Views', value: items[0].meta ?? '' },
       ],
       items,
@@ -647,7 +645,6 @@ const devPulseSlot: DiscoverySlot = {
     }));
     return {
       facts: [
-        { labelKey: 'Rev20.slots.facts.topStory', value: top.title ?? '', emphasis: true },
         { labelKey: 'Rev20.slots.facts.storyPoints', value: String(top.points ?? 0) },
       ],
       items,
@@ -690,7 +687,6 @@ const paperSlot: DiscoverySlot = {
     }));
     return {
       facts: [
-        { labelKey: 'Rev20.slots.facts.paperTitle', value: top.display_name ?? '', emphasis: true },
         { labelKey: 'Rev20.slots.facts.paperCitations', value: String(top.cited_by_count ?? 0) },
         { labelKey: 'Rev20.slots.facts.paperOa', value: top.open_access?.is_oa ? 'OA' : '—' },
       ],
@@ -743,7 +739,6 @@ const librarySlot: DiscoverySlot = {
     return {
       facts: [
         { labelKey: 'Rev20.slots.facts.shelfSubject', value: subject },
-        { labelKey: 'Rev20.slots.facts.bookTitle', value: top.title ?? '', emphasis: true },
         { labelKey: 'Rev20.slots.facts.bookEditions', value: String(top.edition_count ?? 1) },
       ],
       items,
@@ -785,7 +780,6 @@ const artSlot: DiscoverySlot = {
     if (!obj?.title) return EMPTY_CARD;
     return {
       facts: [
-        { labelKey: 'Rev20.slots.facts.artTitle', value: obj.title, emphasis: true },
         { labelKey: 'Rev20.slots.facts.artArtist', value: obj.artistDisplayName || '—' },
         { labelKey: 'Rev20.slots.facts.artDate', value: obj.objectDate || '—' },
         { labelKey: 'Rev20.slots.facts.artDept', value: obj.department || '—' },
@@ -914,7 +908,6 @@ const nearbySlot: DiscoverySlot = {
     }));
     return {
       facts: [
-        { labelKey: 'Rev20.slots.facts.nearbyTitle', value: items[0].title, emphasis: true },
         { labelKey: 'Rev20.slots.facts.nearbyDist', value: items[0].meta ?? '' },
         { labelKey: 'Rev20.slots.facts.nearbyCount', value: String(hits.length) },
       ],
@@ -942,10 +935,11 @@ const worldRankingSlot: DiscoverySlot = {
   async load(_ctx, cursor) {
     const requested = typeof cursor?.tab === 'string' ? cursor.tab : undefined;
     const theme = GLOBAL_RANKING_THEMES.find((t) => t.key === requested) ?? GLOBAL_RANKING_THEMES[0];
+    // REV-34 M1-C: #1 is no longer repeated as a large fact under the title
+    // (the row itself shows it); it still names the card's entity anchor.
     const top = theme.entries[0];
     return {
       facts: [
-        { labelKey: 'Rev21.slots.facts.topRank', value: top ? top.name : '', emphasis: true },
         { labelKey: 'Rev21.slots.facts.rankedEntries', value: String(theme.entries.length) },
       ],
       items: theme.entries.slice(0, RANKING_CARD_ITEMS).map((entry) => ({
@@ -976,7 +970,6 @@ const unitasRankingSlot: DiscoverySlot = {
     const rows = unitasRankingFor(module);
     return {
       facts: [
-        { labelKey: 'Rev21.slots.facts.topOperator', value: rows[0]?.handle ?? '', emphasis: true },
         { labelKey: 'Rev21.slots.facts.moduleCount', value: String(MODULE_REGISTRY.length) },
       ],
       items: rows.slice(0, RANKING_CARD_ITEMS).map((entry) => ({

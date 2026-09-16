@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import {
+  OMNI_FAMILIES,
   OMNI_SOURCE_ROW,
   OUTBOUND_BRAND_ROW,
   omniOpenUrl,
+  omniRowsFor,
   outboundSearchUrl,
   sourceById,
   sourceLabel,
@@ -93,5 +95,28 @@ describe('REV-31 omni-open rows', () => {
     expect(compact.length).toBe(3);
     expect(compact).toContain('wikipedia');
     expect(compact).toContain('wikidata');
+  });
+
+  /**
+   * REV-34 M2 (D-8): the compact platform slice is no longer a hand-picked
+   * constant -- it is the head of the family's platform row, which every
+   * family opens with the Google / Bing pair, so tight surfaces (keyword
+   * tiers, ranking popups) still get the same two engines first.
+   */
+  it('the compact slice of the platform row opens with Google and Bing for every family', () => {
+    for (const family of OMNI_FAMILIES) {
+      const compact = omniRowsFor(family).platforms.slice(0, 3);
+      expect(compact.length, family).toBe(3);
+      expect(compact.slice(0, 2), family).toEqual(['googleSearch', 'bingSearch']);
+    }
+  });
+
+  it('REV-34: the default rows hold every family invariant the other families do', () => {
+    // The default family IS the two constants -- the rest of this suite
+    // pins them directly; here the family table and the constants agree.
+    expect(omniRowsFor('default').sources).toBe(OMNI_SOURCE_ROW);
+    expect(omniRowsFor('default').platforms).toBe(OUTBOUND_BRAND_ROW);
+    expect(OMNI_SOURCE_ROW.slice(0, 2)).toEqual(['wikipedia', 'wikidata']);
+    expect(OUTBOUND_BRAND_ROW.slice(0, 2)).toEqual(['googleSearch', 'bingSearch']);
   });
 });

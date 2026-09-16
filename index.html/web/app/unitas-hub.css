@@ -57,6 +57,134 @@
   flex: 1 1 auto;
 }
 
+/* -- REV-34 M4-A: U-Square, twenty themes on one rail ------------------------
+   The nav stays the native horizontal scroller above (u-hscroll gives snap,
+   momentum and the in-app-browser guards; useDragScroll gives mouse grab).
+   Twenty uppercase pills are ~2000px wide, so: snap per pill, a right-edge
+   mask so the overflow reads as "more" (mask, never backdrop-filter), and
+   ≤767px a two-row column-flow grid that halves the rail. Tiles below are
+   transform/opacity only. */
+.qw-square-nav {
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 8px;
+  padding-right: 40px;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent);
+}
+.qw-square-tab {
+  scroll-snap-align: start;
+  min-height: 36px;
+}
+.qw-square-tab-label {
+  white-space: nowrap;
+}
+.qw-square-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 4px;
+}
+.qw-square-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.qw-square-hero-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 12px;
+  border: 1.5px solid var(--qw-hub-accent, #d4af37);
+  color: var(--qw-hub-accent, #d4af37);
+  background: rgba(255, 255, 255, 0.04);
+}
+.qw-square-lede {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #e5e7eb;
+}
+.qw-square-signals {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qw-square-signal {
+  min-width: 0;
+  align-items: flex-start;
+}
+.qw-square-signal-value {
+  font-size: 22px;
+  line-height: 1.1;
+  font-weight: 800;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.qw-square-signal-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+.qw-square-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qw-square-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #d1d5db;
+}
+.qw-square-feature svg {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  color: var(--qw-hub-accent, #d4af37);
+}
+.qw-square-cta {
+  align-self: flex-start;
+  min-height: 44px;
+  text-decoration: none;
+}
+.qw-square-locked {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 10px;
+  align-items: center;
+  align-self: flex-start;
+  padding: 12px 14px;
+  border: 1.5px dashed rgba(212, 175, 55, 0.55);
+  border-radius: 12px;
+  color: #d4af37;
+}
+.qw-square-locked svg {
+  grid-row: span 2;
+}
+.qw-square-locked-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.qw-square-locked-copy {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
 /* -- generic pill + thumbnail --------------------------------------------- */
 .qw-pill-btn {
   display: inline-flex;
@@ -488,6 +616,29 @@ html[data-unitas-surface='quantum-white'] .qw-pill-btn[data-on='1'] {
   background: var(--qw-blue);
   color: #fff;
 }
+/* REV-34 M4-A: U-Square re-key -- the descriptor panel on the white surface. */
+html[data-unitas-surface='quantum-white'] .qw-square-hero-icon {
+  background: var(--qw-card-bg, #fff);
+  border-color: var(--qw-hub-accent, var(--qw-blue));
+}
+html[data-unitas-surface='quantum-white'] .qw-square-lede {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-square-signal-value {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-square-signal-label,
+html[data-unitas-surface='quantum-white'] .qw-square-locked-copy {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-square-feature {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-square-locked {
+  border-color: var(--qw-card-line, var(--qw-line-strong));
+  background: var(--qw-card-bg, rgba(255, 255, 255, 0.8));
+  color: var(--qw-ink);
+}
 html[data-unitas-surface='quantum-white'] .qw-pill-btn:hover:not(:disabled) {
   border-color: var(--qw-blue);
 }
@@ -569,6 +720,32 @@ html[data-unitas-surface='quantum-white'] .qw-short-card:focus-visible {
 @media (max-width: 767px) {
   .qw-hub-shell {
     min-height: 0;
+  }
+  /* REV-34 M4-A: the twenty pills fold into two rows that flow by column,
+     so one horizontal gesture still walks the whole square; every pill is a
+     44px target. `contain: content` from u-hscroll keeps the grid's own
+     layout from invalidating the page. */
+  .qw-hub-nav.qw-square-nav {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(2, minmax(44px, auto));
+    grid-auto-columns: max-content;
+    row-gap: 6px;
+    column-gap: 6px;
+    padding-bottom: 4px;
+  }
+  .qw-square-tab {
+    min-height: 44px;
+  }
+  .qw-square-signals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .qw-square-features {
+    grid-template-columns: 1fr;
+  }
+  .qw-square-cta {
+    align-self: stretch;
+    justify-content: center;
   }
   .qw-hubx-form {
     grid-template-columns: 1fr;

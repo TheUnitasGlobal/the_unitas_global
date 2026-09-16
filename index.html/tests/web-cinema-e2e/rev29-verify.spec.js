@@ -90,6 +90,9 @@ test.describe('REV-29 M2 -- the news rail is the shortcut rail', () => {
       expect(label, `"${label}" carries a count badge`).not.toMatch(/\d/);
     }
     expect(await axes.evaluateAll((els) => els.every((el) => el.classList.contains('qw-hub-chip')))).toBe(true);
+    // REV-34 M1-E: every chip carries the one strip glyph (HubDot) and no
+    // lucide picture any more.
+    expect(await axes.evaluateAll((els) => els.every((el) => el.querySelector('.qw-hub-dot') && !el.querySelector('svg')))).toBe(true);
     // The identical progress fill the shortcut rail's active chip carries.
     const fill = await page.evaluate(() => {
       const news = document.querySelector('[data-news-axes] [data-active="1"] .qw-hub-progress');
@@ -115,10 +118,8 @@ test.describe('REV-29 M2 -- the news rail is the shortcut rail', () => {
     const card = page.locator('[data-news-card]');
     await expect(card).toBeVisible();
     await expect(card).not.toHaveAttribute('role', 'button');
-    const title = card.locator('.qw-hub-card-title .qw-two-step-hit');
-    await title.click();
-    await expect(title).toHaveAttribute('data-selected', '1');
-    expect(await page.locator('[data-news-modal]').count()).toBe(0);
+    // REV-34 M1-C: one click on the title text opens the main popup.
+    const title = card.locator('.qw-hub-card-title .qw-hub-title-hit');
     await title.click();
     const modal = page.locator('[data-news-modal]');
     await expect(modal).toBeVisible();
@@ -128,7 +129,10 @@ test.describe('REV-29 M2 -- the news rail is the shortcut rail', () => {
     const lefts = await rows.evaluateAll((els) => els.map((el) => Math.round(el.getBoundingClientRect().left)));
     expect(new Set(lefts).size).toBe(1);
     await expect(modal.locator('[data-news-more]')).toHaveCount(1);
-    await rows.first().locator('button').click();
+    // REV-34 M1-C: every row also carries a ⏎ box (`.qw-row-enter`), so the
+    // headline is addressed by its own class rather than "the row's button".
+    await expect(rows.first().locator('.qw-row-enter[data-row-enter="row"]')).toHaveCount(1);
+    await rows.first().locator('.qw-hub-headline').click();
     const story = page.locator('[data-news-story]');
     await expect(story).toBeVisible();
     await expect(story.locator('[data-news-open-original]')).toBeVisible();
@@ -208,7 +212,10 @@ test.describe('REV-29 M3 -- the new-products theme', () => {
 });
 
 test.describe('REV-29 M4 -- the UNITAS master tile and hub', () => {
-  test('one pack in the ⏎ key box, a five-icon roll, and a centred popup with five surfaces', async ({ page }) => {
+  // REV-34 M4-A/B: the hub is now UNITAS SQUARE -- twenty fixed themes on
+  // the roll and in the popup; the six REV-29/32 panels keep their DOM keys
+  // (D-10) and the default panel is theme 1, 유랭킹 (`rankings`).
+  test('one pack in the ⏎ key box, a twenty-icon roll, and a centred popup with twenty themes', async ({ page }) => {
     await founderHome(page);
     const toggle = page.locator('[data-unitas-hub-toggle]');
     await expect(toggle).toBeVisible();
@@ -221,7 +228,7 @@ test.describe('REV-29 M4 -- the UNITAS master tile and hub', () => {
     expect(boxes.dw).toBeLessThanOrEqual(1);
     expect(boxes.dh).toBeLessThanOrEqual(1);
     expect(boxes.order, 'the hub tile is the rightmost box').toBe(true);
-    expect(boxes.icons).toBe(7); // six surfaces (REV-32 added the swarm) + the wrap duplicate
+    expect(boxes.icons).toBe(21); // REV-34: twenty square themes + the wrap duplicate of theme 1
     await toggle.click();
     const hub = page.locator('[role="dialog"] [data-unitas-hub]');
     await expect(hub).toBeVisible();
@@ -233,13 +240,20 @@ test.describe('REV-29 M4 -- the UNITAS master tile and hub', () => {
     });
     expect(centred).toBeLessThan(2);
     const tabs = hub.locator('[data-hub-tab-btn]');
-    expect(await tabs.count()).toBe(6); // REV-32 M2 added the swarm surface
+    expect(await tabs.count()).toBe(20); // REV-34 M4-A: twenty square themes
+    await expect(hub).toHaveAttribute('data-unitas-square', '');
+    expect(await hub.locator('[data-square-tab]').count()).toBe(20);
+    // The default panel is 유랭킹 (theme 1, DOM key `rankings`).
+    await expect(hub.locator('[data-hub-panel="rankings"] [data-hub-rankings]')).toBeVisible();
+    await hub.locator('[data-hub-tab-btn="exchange"]').click();
     await expect(hub.locator('[data-hub-exchange]')).toBeVisible();
     await expect(hub.locator('[data-hub-packs] [data-pack]').first()).toBeVisible();
     await hub.locator('[data-hub-tab-btn="shorts"]').click();
     await expect(hub.locator('[data-unitas-shorts] [data-short]').first()).toBeVisible();
     await hub.locator('[data-hub-tab-btn="rankings"]').click();
-    await expect(hub.locator('[data-hub-rankings]')).toBeVisible();
+    // REV-34 M4-C: the rankings panel is the U-Rankings rail (no world tab).
+    await expect(hub.locator('[data-hub-rankings] [data-urank-rail] [data-urank]').first()).toBeVisible();
+    expect(await hub.locator('[data-hub-ranking-tab]').count()).toBe(0);
     await hub.locator('[data-hub-tab-btn="rooms"]').click();
     await expect(hub.locator('[data-hub-rooms] [data-room]').first()).toBeVisible();
     expect(await hub.locator('[data-hub-rooms] [data-room]').count()).toBe(22);
@@ -254,6 +268,9 @@ test.describe('REV-29 M4 -- the UNITAS master tile and hub', () => {
     await founderHome(page);
     await page.locator('[data-unitas-hub-toggle]').click();
     const hub = page.locator('[role="dialog"] [data-unitas-hub]');
+    // REV-34 M4-A: the square no longer opens on the exchange -- pick it.
+    await hub.locator('[data-hub-tab-btn="exchange"]').click();
+    await expect(hub.locator('[data-hub-exchange]')).toBeVisible();
     const before = await hub.locator('[data-hub-credits] strong').innerText();
     // Pin the pack first: a live `[data-verdict="ok"]` locator would re-resolve
     // to the NEXT buyable pack the moment this one flips to "owned".

@@ -6,6 +6,7 @@ import { Eye, Heart, MessageCircle, Play, Sparkles, Tag, Ticket, Upload, UserPlu
 import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { OmniOpen } from '@/components/home/OmniOpen';
+import { HubDot } from '@/components/home/hub/HubDot';
 import { ShortsCreatorPass } from './ShortsCreatorPass';
 import { hotNewsAxisMeta } from '@/lib/live/hotNewsAxes';
 import type { HotNewsCategory } from '@/lib/live/hotNews';
@@ -140,7 +141,7 @@ export function UnitasShorts() {
               onMouseEnter={() => playHoverSfx()}
               onClick={() => setTheme(key)}
             >
-              <meta.icon size={15} style={{ color: meta.color }} aria-hidden="true" />
+              <HubDot color={meta.color} />
               {tNews(`category.${key}`)}
             </button>
           );
@@ -163,7 +164,7 @@ export function UnitasShorts() {
               data-short={short.id}
             >
               <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 text-[11px] font-bold backdrop-blur">
-                <meta.icon size={11} aria-hidden="true" />
+                <HubDot color={meta.color} size={7} />
                 {tNews(`category.${short.theme}`)}
               </span>
               <span className="absolute right-2.5 top-2.5 rounded-full bg-black/35 px-2 py-0.5 text-[11px] font-bold backdrop-blur">
@@ -227,7 +228,7 @@ export function UnitasShorts() {
                       {t('creator')} · @{open.handle}
                     </span>
                     <span className="inline-flex items-center gap-1">
-                      <meta.icon size={12} style={{ color: meta.color }} aria-hidden="true" />
+                      <HubDot color={meta.color} />
                       {tNews(`category.${open.theme}`)}
                     </span>
                     <span>{t('views', { count: compactCount(stats.views) })}</span>
@@ -242,7 +243,7 @@ export function UnitasShorts() {
                   </p>
                   <p className="mt-1 text-[13px] leading-relaxed text-gray-300">{t('shareHint')}</p>
                 </div>
-                <OmniOpen anchor={textAnchor(open.title, lang)} host="newsRail" />
+                <OmniOpen anchor={textAnchor(open.title, lang)} host="newsRail" family="shorts" />
                 <p className="text-[11px] uppercase tracking-widest text-gray-500">{t('seedNote')}</p>
               </div>
             );
