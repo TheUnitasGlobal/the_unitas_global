@@ -45,6 +45,19 @@ done
 
 if [ "$STATUS" = "200" ]; then
   echo "[deploy] health check OK ($STATUS) -- commit $BAD_COMMIT_SHORT is live and healthy."
+  # Post-deploy flight: the tamper detector and the IndexNow submitter both
+  # document themselves as "run AFTER a production deploy", and until now
+  # nothing ran either -- verify-integrity.mjs had never had a caller at all,
+  # and real-time indexing was whatever the founder remembered to type. Both
+  # are fail-closed on their own, so a failure here is reported but does NOT
+  # roll back a deploy that is already serving 200: the site is healthy, only
+  # the follow-up is not.
+  echo "[deploy] post-deploy flight: integrity + IndexNow..."
+  if npm --prefix web run deploy:postflight; then
+    echo "[deploy] post-deploy flight OK."
+  else
+    echo "[deploy] WARNING: post-deploy flight failed (deploy itself is healthy and stays live) -- rerun: npm --prefix web run deploy:postflight"
+  fi
   exit 0
 fi
 

@@ -49,6 +49,83 @@ const COPY_FILES = [
   path.join('.continue', 'context', 'THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md'),
 ].map((p) => path.join(OPERATIONAL_ROOT, p));
 
+// Files that do NOT carry the verbatim block but DO transcribe the chapter
+// structure in their own prose. `--write` cannot repair these -- they are
+// hand-written summaries -- so all this gate can do is prove they are not
+// stale, which is exactly the failure that has recurred six times
+// (v17.0, v19.0, v20.0, v23.0, v26.0, v37.0): the canon moves, the verbatim
+// copies get re-written, and these five keep citing the superseded edition.
+//
+// `.aider.conf.yml` is gitignored, and none of these are guaranteed to exist
+// in a deploy checkout, so a missing file is skipped with a warning rather
+// than failing a legitimate build. A file that IS present must be current.
+const SUMMARY_FILES = [
+  path.join('.github', 'copilot-instructions.md'),
+  path.join('.continue', 'config.yaml'),
+  '.aider.conf.yml',
+  path.join('.github', 'agents', 'unitas-orchestrator.agent.md'),
+  path.join('.github', 'agents', 'unitas-claude-reviewer.agent.md'),
+  path.join('.github', 'agents', 'unitas-gemini-reviewer.agent.md'),
+].map((p) => path.join(OPERATIONAL_ROOT, p));
+
+/** Every `vNN.N` the text mentions, as numbers, highest last. */
+function versionsIn(text) {
+  return [...text.matchAll(/\bv(\d{1,3})\.(\d{1,3})\b/g)]
+    .map((m) => Number(m[1]) + Number(m[2]) / 1000)
+    .sort((a, b) => a - b);
+}
+
+/** The codex edition the canon declares, e.g. 37.0 -> 37. */
+function canonVersion(canonText) {
+  const m = canonText.match(/Ultimate Sovereign Master Codex v(\d{1,3})\.(\d{1,3})/);
+  if (!m) throw new Error('canon does not declare an "Ultimate Sovereign Master Codex vNN.N" edition');
+  return { label: `v${m[1]}.${m[2]}`, value: Number(m[1]) + Number(m[2]) / 1000 };
+}
+
+/**
+ * A summary passes when it names the current edition AND names no edition
+ * newer than it. Citing an OLDER edition stays legal on purpose -- these
+ * files carry lines like "구 v26.0의 25장 체계를 14장으로 통합 압축" -- but a
+ * file whose newest citation is an older edition has been left behind.
+ */
+function verifySummaries(canon) {
+  const version = canonVersion(canon.text);
+  const results = [];
+  for (const file of SUMMARY_FILES) {
+    const rel = path.relative(REPO_ROOT, file);
+    let raw;
+    try {
+      raw = fs.readFileSync(file, 'utf8');
+    } catch (err) {
+      if (err.code === 'ENOENT') {
+        results.push({ file: rel, ok: true, skipped: true, reason: 'not present in this checkout' });
+        continue;
+      }
+      results.push({ file: rel, ok: false, reason: `unreadable: ${err.message}` });
+      continue;
+    }
+    const text = normalize(raw);
+    const seen = versionsIn(text);
+    if (!text.includes(version.label)) {
+      results.push({
+        file: rel,
+        ok: false,
+        reason: seen.length
+          ? `never cites ${version.label}; newest edition it cites is v${seen[seen.length - 1].toFixed(1)}`
+          : `never cites ${version.label}`,
+      });
+      continue;
+    }
+    const ahead = seen.filter((v) => v > version.value);
+    if (ahead.length > 0) {
+      results.push({ file: rel, ok: false, reason: `cites an edition newer than canon ${version.label}` });
+      continue;
+    }
+    results.push({ file: rel, ok: true });
+  }
+  return { version, results };
+}
+
 function normalize(raw) {
   let s = raw;
   if (s.charCodeAt(0) === 0xfeff) s = s.slice(1);
@@ -149,11 +226,26 @@ function main() {
     console.log(`[sync-codex] ${r.ok ? 'PASS' : 'FAIL'}  ${r.file}${r.ok ? '' : `  (${r.reason ?? `hash ${r.hash} != canon`})`}`);
   }
 
-  if (drifted.length > 0) {
-    console.error(`[sync-codex] drift detected in ${drifted.length} file(s) — fail-closed.`);
+  const summary = verifySummaries(canon);
+  const summaryStale = summary.results.filter((r) => !r.ok);
+  console.log(`[sync-codex] canon edition = ${summary.version.label}`);
+  for (const r of summary.results) {
+    const tag = r.skipped ? 'SKIP' : r.ok ? 'PASS' : 'FAIL';
+    console.log(`[sync-codex] ${tag}  ${r.file}${r.reason ? `  (${r.reason})` : ''}`);
+  }
+
+  if (drifted.length > 0 || summaryStale.length > 0) {
+    if (drifted.length > 0) {
+      console.error(`[sync-codex] drift detected in ${drifted.length} verbatim copy/copies — fail-closed.`);
+      console.error('[sync-codex]   fix: node scripts/sync-codex.mjs --write');
+    }
+    if (summaryStale.length > 0) {
+      console.error(`[sync-codex] ${summaryStale.length} summary file(s) still describe a superseded edition — fail-closed.`);
+      console.error(`[sync-codex]   fix: hand-update each one to ${summary.version.label}; --write cannot repair prose.`);
+    }
     process.exit(1);
   }
-  console.log('[sync-codex] drift=0, all copies verbatim-identical to canon.');
+  console.log(`[sync-codex] drift=0, all copies verbatim-identical to canon and all summaries current at ${summary.version.label}.`);
 }
 
 main();

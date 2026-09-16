@@ -38,13 +38,25 @@ async function authorizedByFounder(): Promise<boolean> {
 }
 
 /**
- * Recent runs for the Review Agent engine's history list. This route path
- * does NOT start with `/sovereign`, so middleware.ts's edge fence does not
- * cover it -- unlike the page that calls it, this API route needs its own
- * check, so it requires the same verified sovereign session as the POST
- * trigger below.
+ * Recent runs for the Review Agent engine's history list, OR -- when the
+ * caller is the nightly Vercel cron -- the audit itself.
+ *
+ * A Vercel cron entry carries no method: the scheduler invokes the path with
+ * GET and no cookies, holding only the Bearer CRON_SECRET. Guarding GET on
+ * `authorizedByFounder()` alone therefore made the 04:00 UTC audit a
+ * permanent 401 -- the nightly run never once fired, and `triggered_by`
+ * could only ever be 'manual'. The sibling cron route
+ * (app/api/u-ai/shortcut-cache/refresh) always accepted the Bearer on GET;
+ * this one now matches it.
+ *
+ * This route path does NOT start with `/sovereign`, so middleware.ts's edge
+ * fence does not cover it -- the founder branch needs its own check, and
+ * still requires the same verified sovereign session as POST.
  */
-export async function GET() {
+export async function GET(req: Request) {
+  if (authorizedByCron(req)) {
+    return runAndArchiveAudit(true);
+  }
   if (!(await authorizedByFounder())) {
     return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 });
   }
@@ -68,7 +80,12 @@ export async function POST(req: Request) {
   if (!viaCron && !viaFounder) {
     return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 });
   }
+  return runAndArchiveAudit(viaCron);
+}
 
+/** The audit proper, shared by the cron (GET with Bearer, POST with Bearer)
+ *  and the founder's manual trigger in the Review Agent UI (POST). */
+async function runAndArchiveAudit(viaCron: boolean) {
   const supabase = getSupabaseServerClient();
   const result = await runNightlyAudit(supabase);
   const briefing = await craftExecutiveBriefing(result);
