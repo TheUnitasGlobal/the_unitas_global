@@ -69,6 +69,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import {
+  aggregateShards,
   alreadySwept,
   buildSummary,
   busyProcessesOf,
@@ -77,10 +78,15 @@ import {
   isLockStale,
   listeningPids,
   NEXT_START_PATTERN,
+  nextShard,
   parseArgs,
+  recordShard,
+  shardState,
+  shardsComplete,
   SIGNAL_NAMES,
   stateFromLatest,
   summaryToMarkdown,
+  SWEEP_PROJECTS,
   sweepKey,
 } from './idle-sensor-core.mjs';
 import { verifyOnDisk } from './trust-registry.mjs';
@@ -109,6 +115,8 @@ const LOCK_FILE = path.join(STAGE3_DIR, 'daemon.lock');
 const LOG_FILE = path.join(STAGE3_DIR, 'daemon.log');
 const LATEST_JSON = path.join(STAGE3_DIR, 'latest.json');
 const LATEST_MD = path.join(STAGE3_DIR, 'latest.md');
+/** REV-39 M1: per-project checkpoints so a cancelled window keeps its progress. */
+const PROGRESS_JSON = path.join(STAGE3_DIR, 'progress.json');
 const TRANSCRIPT_ROOT = path.join(os.homedir(), '.claude', 'projects');
 const TRANSCRIPT_MAX_DEPTH = 4; // projects/<project>/<session>/subagents/*.jsonl
 const GIT_SIGNAL_FILES = ['index', path.join('logs', 'HEAD'), 'HEAD', 'ORIG_HEAD', path.join('refs', 'heads', 'main')];
@@ -304,6 +312,24 @@ async function worktreeSignal() {
   return newest;
 }
 
+/** REV-39 M1: the per-project checkpoint file. @param {string} key */
+function readProgress(key) {
+  try {
+    return shardState(JSON.parse(readFileSync(PROGRESS_JSON, 'utf8')), key);
+  } catch {
+    return shardState(null, key);
+  }
+}
+
+function writeProgress(progress) {
+  try {
+    mkdirSync(STAGE3_DIR, { recursive: true });
+    writeFileSync(PROGRESS_JSON, `${JSON.stringify(progress, null, 2)}\n`, 'utf8');
+  } catch (err) {
+    log(`progress write failed: ${err instanceof Error ? err.message : String(err)}`);
+  }
+}
+
 /** @returns {string | null} */
 function readBuildId() {
   try {
@@ -442,7 +468,7 @@ const running = { child: null, cancelRequested: null };
  * @param {{ buildId: string, head: string }} ids
  * @returns {Promise<import('./idle-sensor-core.mjs').SweepSummary>}
  */
-async function runSweep(ids) {
+async function runSweep(ids, project) {
   mkdirSync(STAGE3_DIR, { recursive: true });
   const ts = new Date().toISOString().replace(/[:.]/g, '-');
   const rawJson = path.join(STAGE3_DIR, `${ts}.json`);
@@ -451,8 +477,11 @@ async function runSweep(ids) {
   delete env.CI; // CI mode would flip Playwright's `forbidOnly`/retry semantics away from the hand-run baseline
   const logFd = openSync(listLog, 'a');
   const startedAt = Date.now();
-  const sweepArgs = ['test', `--config=${PLAYWRIGHT_CONFIG}`, '--reporter=list,json', `--output=${SWEEP_ARTIFACTS_DIR}`];
-  log(`sweep started ${ts} for ${sweepKey(ids)} -- npx playwright ${sweepArgs.join(' ')} (cwd ${REPO_DIR})`);
+  // REV-39 M1: ONE project per run. A shard is short enough to finish inside a
+  // realistic idle window, and a finished shard is checkpointed so the next
+  // window resumes instead of restarting the whole suite.
+  const sweepArgs = ['test', `--config=${PLAYWRIGHT_CONFIG}`, `--project=${project}`, '--reporter=list,json', `--output=${SWEEP_ARTIFACTS_DIR}`];
+  log(`shard ${project} started ${ts} for ${sweepKey(ids)} -- npx playwright ${sweepArgs.join(' ')} (cwd ${REPO_DIR})`);
 
   // `npx playwright` resolves to node + @playwright/test/cli.js; spawning that
   // directly makes child.pid the real Playwright process (so the IDLE priority
@@ -538,10 +567,16 @@ async function runSweep(ids) {
     exitCode: finalExit?.code ?? null,
   });
   if (raw === null) writeFileSync(rawJson, `${JSON.stringify(summary, null, 2)}\n`, 'utf8'); // killed before the reporter flushed
-  writeFileSync(LATEST_JSON, `${JSON.stringify(summary, null, 2)}\n`, 'utf8');
-  writeFileSync(LATEST_MD, summaryToMarkdown(summary), 'utf8');
+  // A CANCELLED shard is what the founder's morning brief must see right away.
+  // A SUCCESSFUL shard is only a checkpoint: `latest.*` is rewritten by the
+  // caller once every shard is in, so the brief never reports one project's
+  // numbers as if they were the whole suite.
+  if (cancelled) {
+    writeFileSync(LATEST_JSON, `${JSON.stringify(summary, null, 2)}\n`, 'utf8');
+    writeFileSync(LATEST_MD, summaryToMarkdown(summary), 'utf8');
+  }
   log(
-    `sweep ${summary.status} ${ts} in ${Math.round(summary.durationMs / 1000)}s -- ` +
+    `shard ${project} ${summary.status} ${ts} in ${Math.round(summary.durationMs / 1000)}s -- ` +
       `pass ${summary.totals.expected} fail ${summary.totals.unexpected} flaky ${summary.totals.flaky} skip ${summary.totals.skipped}` +
       (summary.status === 'cancelled' ? ' (not counted as swept)' : ''),
   );
@@ -616,8 +651,53 @@ async function tick() {
     if (decision === 'idle' && args.dryRun) log('dry-run: sweep NOT started');
     return;
   }
-  const summary = await runSweep({ buildId, head: snap.head });
-  if (summary.status !== 'cancelled') state = { sweptKeys: [...state.sweptKeys, key].slice(-20) };
+  // REV-39 M1 "준비"/Resume: sweep ONE project, checkpoint it, and let the next
+  // idle window pick up the remaining ones. Cancellation loses at most the
+  // project in flight, never the whole suite.
+  let progress = readProgress(key);
+  const project = nextShard(progress);
+  if (!project) {
+    // Everything is already checkpointed (a crash between the last shard and
+    // the aggregate write); finish the bookkeeping now.
+    finishSweep(progress, { buildId, head: snap.head });
+    state = { sweptKeys: [...state.sweptKeys, key].slice(-20) };
+    return;
+  }
+  const done = Object.keys(progress.shards).length;
+  log(`resuming ${key}: shard ${done + 1}/${SWEEP_PROJECTS.length} -> ${project}${done ? ` (done: ${Object.keys(progress.shards).join(', ')})` : ''}`);
+
+  const summary = await runSweep({ buildId, head: snap.head }, project);
+  if (summary.status === 'cancelled') return; // shard NOT checkpointed -- retry it next window
+
+  progress = recordShard(progress, project, summary, new Date().toISOString());
+  writeProgress(progress);
+  log(`shard ${project} checkpointed (${Object.keys(progress.shards).length}/${SWEEP_PROJECTS.length})`);
+
+  if (shardsComplete(progress)) {
+    finishSweep(progress, { buildId, head: snap.head });
+    state = { sweptKeys: [...state.sweptKeys, key].slice(-20) };
+  }
+}
+
+/** Fold every checkpointed shard into the one record the READER + brief read. */
+function finishSweep(progress, ids) {
+  const stamps = Object.values(progress.shards)
+    .map((s) => s.finishedAt)
+    .filter(Boolean)
+    .sort();
+  const now = new Date().toISOString();
+  const agg = aggregateShards(progress, {
+    buildId: ids.buildId,
+    head: ids.head,
+    startedAt: stamps[0] ?? now,
+    finishedAt: stamps[stamps.length - 1] ?? now,
+  });
+  writeFileSync(LATEST_JSON, `${JSON.stringify(agg, null, 2)}\n`, 'utf8');
+  writeFileSync(LATEST_MD, summaryToMarkdown(agg), 'utf8');
+  log(
+    `SWEEP COMPLETE ${sweepKey(ids)} across ${agg.shardedProjects.length} projects -- ` +
+      `pass ${agg.totals.expected} fail ${agg.totals.unexpected} flaky ${agg.totals.flaky} skip ${agg.totals.skipped}`,
+  );
 }
 
 async function shutdown(signalName) {

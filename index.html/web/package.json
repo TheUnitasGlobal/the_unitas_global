@@ -34,7 +34,13 @@
     "security:trust:write": "node scripts/trust-registry.mjs --write",
     "stage3:brief": "node scripts/stage3-brief.mjs",
     "test": "vitest run",
-    "dev:all": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev-all.ps1"
+    "dev:all": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev-all.ps1",
+    "mem:backup": "node scripts/claude-mem-backup.mjs",
+    "mem:restore": "node scripts/claude-mem-restore.mjs",
+    "mem:verify": "node scripts/claude-mem-restore.mjs --latest --dry-run",
+    "mem:list": "node scripts/claude-mem-restore.mjs --list",
+    "mem:install-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-mem-backup-task.ps1",
+    "mem:uninstall-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-mem-backup-task.ps1 -Uninstall"
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",

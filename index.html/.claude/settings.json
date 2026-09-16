@@ -22,9 +22,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "R=\"$(git rev-parse --show-toplevel)\" || exit 1; W=\"$R/index.html/web\"; if [ -n \"$(git -C \"$R\" status --porcelain -- index.html/web)\" ]; then npm --prefix \"$W\" run typecheck && npm --prefix \"$W\" run build || exit 1; elif [ -n \"$(git -C \"$R\" status --porcelain)\" ]; then node \"$R/index.html/scripts/sync-codex.mjs\" || exit 1; fi; git -C \"$R\" add -A && git -C \"$R\" commit -m \"feat: automated low-memory sovereign checkpoint sync\" && git -C \"$R\" push origin main && echo \"checkpoint: $(git -C \"$R\" rev-parse --short HEAD) pushed to origin/main\"",
-            "timeout": 300,
-            "statusMessage": "Sovereign sync: verifying (web/ typecheck+build, else codex drift gate) before checkpoint..."
+            "command": "R=\"$(git rev-parse --show-toplevel)\" || exit 1; W=\"$R/index.html/web\"; if [ -n \"$(git -C \"$R\" status --porcelain -- index.html/web)\" ]; then npm --prefix \"$W\" run typecheck && npm --prefix \"$W\" run test && npm --prefix \"$W\" run build || exit 1; elif [ -n \"$(git -C \"$R\" status --porcelain)\" ]; then node \"$R/index.html/scripts/sync-codex.mjs\" || exit 1; fi; git -C \"$R\" add -A && git -C \"$R\" commit -m \"feat: automated low-memory sovereign checkpoint sync\" && git -C \"$R\" push origin main && echo \"checkpoint: $(git -C \"$R\" rev-parse --short HEAD) pushed to origin/main\"",
+            "timeout": 600,
+            "statusMessage": "Sovereign sync: verifying (web/ typecheck+vitest+build, else codex drift gate) before checkpoint..."
           }
         ]
       }

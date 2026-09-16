@@ -3,7 +3,7 @@
   "scripts": {
     "build:pages": "node scripts/build-pages.mjs",
     "build:site": "node scripts/build-site.mjs",
-    "test": "npm run build:pages && playwright test",
+    "test": "npm run gate",
     "review:agents": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-review.ps1",
     "check:ai": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-ai-config.ps1",
     "release": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/release.ps1 -Review both",
@@ -12,7 +12,16 @@
     "mock:checkout": "node scripts/mock-checkout-server.mjs",
     "validate:stripe": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stripe.ps1",
     "deploy:supabase": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-supabase.ps1",
-    "setup:toolchain": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-toolchain.ps1"
+    "setup:toolchain": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-toolchain.ps1",
+    "gate": "npm run typecheck && npm run test:unit && npm run build:web",
+    "gate:full": "npm run gate && npm run test:e2e:chromium",
+    "typecheck": "npm --prefix web run typecheck",
+    "build:web": "npm --prefix web run build",
+    "test:unit": "npm --prefix web run test",
+    "test:e2e": "playwright test --config tests/web-cinema.config.js",
+    "test:e2e:chromium": "playwright test --config tests/web-cinema.config.js --project=chromium",
+    "test:e2e:omni": "playwright test --config tests/web-cinema.config.js --project=tablet --project=inapp-kakao --project=inapp-instagram",
+    "test:legacy": "npm run build:pages && playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",

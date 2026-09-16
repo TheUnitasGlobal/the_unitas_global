@@ -1,0 +1,96 @@
+# REV-39 MISSION 3 -- the automated quality gate the v37 audit found missing
+# ([high] "자동 품질 게이트가 vitest·Playwright를 전부 누락").
+#
+# Before this, the only workflows were deploy-site.yml (the legacy static site)
+# and deploy-supabase.yml; nothing ever ran the product's typecheck, its 1900+
+# vitest cases or any Playwright project. A push could break the app and CI
+# would stay green.
+#
+# WHAT RUNS WHERE, AND WHY:
+#   * push / PR  -> typecheck + vitest + production build. Deterministic,
+#     hermetic and fast enough to gate every change (Codex ch.11 Fail-Closed).
+#   * chromium E2E -> the same job, because one project on one engine is the
+#     cheapest honest smoke test of the built app.
+#   * the FULL six-project sweep (chromium · webkit · mobile-chrome · tablet ·
+#     inapp-kakao · inapp-instagram) is deliberately NOT here. Codex ch.13
+#     stage 3 assigns it to the local idle-sensor daemon: "idle" is a property
+#     of the founder's machine that no runner can observe, the WebKit render
+#     baselines were measured on Windows and do not transfer, and billing
+#     runner minutes for a ~3 h suite violates the 0원 doctrine. Run it on
+#     demand here with workflow_dispatch if a second opinion is ever needed.
+name: quality gates
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html/web/**'
+      - 'index.html/tests/**'
+      - 'index.html/package.json'
+      - '.github/workflows/quality-gates.yml'
+  pull_request:
+    paths:
+      - 'index.html/web/**'
+      - 'index.html/tests/**'
+  workflow_dispatch:
+    inputs:
+      e2e:
+        description: 'Playwright projects to run (comma separated, or "none")'
+        required: false
+        default: 'chromium'
+
+concurrency:
+  group: quality-gates-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: index.html
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install web dependencies
+        run: npm --prefix web ci || npm --prefix web install
+
+      # Codex ch.11: typecheck, unit tests and the production build must each
+      # prove EXIT 0 before anything is considered shippable.
+      - name: Typecheck
+        run: npm --prefix web run typecheck
+
+      - name: Unit tests (vitest)
+        run: npm --prefix web run test
+
+      - name: Production build
+        run: npm --prefix web run build
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
+
+      - name: Install root dependencies (Playwright harness)
+        if: github.event_name != 'workflow_dispatch' || inputs.e2e != 'none'
+        run: npm ci || npm install
+
+      - name: Install Playwright browsers
+        if: github.event_name != 'workflow_dispatch' || inputs.e2e != 'none'
+        run: npx playwright install --with-deps chromium
+
+      # One engine on the built app. The six-project sweep stays with the local
+      # stage-3 daemon (see the header).
+      - name: E2E (chromium)
+        if: github.event_name != 'workflow_dispatch' || inputs.e2e != 'none'
+        run: npx playwright test --config tests/web-cinema.config.js --project=chromium
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: index.html/playwright-report
+          retention-days: 7

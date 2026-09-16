@@ -53,7 +53,32 @@ module.exports = defineConfig({
       expect: { timeout: 20_000 },
     },
     { name: 'mobile-chrome', use: { ...devices['Pixel 7'] } },
+    // REV-39 M3 (v37 audit, [high] "태블릿 뷰포트 측정 0"): the 768-1024 band
+    // WITH TOUCH. quantum-white.css branches at `max-width: 767px`, so 768+ is
+    // exactly the boundary that had never been rendered, and "wide viewport +
+    // finger" is a combination none of the first three projects produce
+    // (1280 mouse, 1280 mouse, 412 touch). 820x1180 is iPad-Air portrait: it
+    // sits inside the band and takes the DESKTOP css branch with hasTouch.
+    {
+      name: 'tablet',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 820, height: 1180 }, hasTouch: true, deviceScaleFactor: 2 },
+    },
+    // REV-39 M3 (v37 audit, [high] "인앱 브라우저 커버리지 0"): embedded WebView
+    // containers. The user agent is what lib/pwa/inAppBrowser.ts sniffs to stamp
+    // `<html data-inapp="<vendor>">`; specs seed the escape throttle key so the
+    // auto hand-off does not navigate away and the in-app layout can be measured.
+    {
+      name: 'inapp-kakao',
+      use: { ...devices['Pixel 7'], userAgent: `${devices['Pixel 7'].userAgent} KAKAOTALK/10.4.0` },
+    },
+    {
+      name: 'inapp-instagram',
+      use: { ...devices['Pixel 7'], userAgent: `${devices['Pixel 7'].userAgent} Instagram 300.0.0.0.0 Android` },
+    },
   ],
+  // The daemon sweeps these in order, one project per shard, checkpointing
+  // after each so a cancelled window never loses completed work (REV-39 M1).
+  metadata: { sweepProjects: ['chromium', 'webkit', 'mobile-chrome', 'tablet', 'inapp-kakao', 'inapp-instagram'] },
   webServer: {
     command: `npm --prefix web run start -- -p ${PORT}`,
     cwd: REPO,

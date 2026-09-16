@@ -8,6 +8,7 @@ import { ModalPortal } from '@/components/ui/ModalPortal';
 import { MasterMarkLogo } from '@/components/brand/MasterMarkLogo';
 import {
   IN_APP_ESCAPE_ATTEMPT_EVENT,
+  IN_APP_HTML_ATTR,
   attemptInAppEscape,
   currentInAppBrowser,
   type InAppDetection,
@@ -46,6 +47,13 @@ export function InAppBrowserEscape() {
     const found = currentInAppBrowser();
     if (!found) return;
     setDetection(found);
+    // REV-39 M3: stamp `<html data-inapp="<vendor>">`. IN_APP_HTML_ATTR has
+    // documented this contract since the engine shipped ("so CSS / React can
+    // read the verdict without re-sniffing") but nothing ever wrote it, which
+    // is why the v37 audit found no in-app layout branch and no browser-level
+    // coverage. The stamp is the hook both can hang off, and it is what the
+    // inapp-* Playwright projects assert.
+    document.documentElement.setAttribute(IN_APP_HTML_ATTR, found.vendor);
     const timer = window.setTimeout(() => setVisible(true), FALLBACK_DELAY_MS);
     const onAttempt = (event: Event) => {
       const detail = (event as CustomEvent<{ auto?: boolean }>).detail;

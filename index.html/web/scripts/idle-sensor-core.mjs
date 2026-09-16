@@ -575,3 +575,136 @@ export function parseArgs(argv) {
     intervalMs: num('--interval-sec', 60) * 1000,
   };
 }
+
+/* ------------------------------------------------------------------ */
+/* REV-39 M1 -- sweep SHARDING + RESUME                                 */
+/*
+ * Why this exists: every sweep the daemon has ever run ended `cancelled`.
+ * A 3-engine pass takes ~1.5 h and the founder returns long before that, so
+ * the run was thrown away and the next idle window started again from zero --
+ * the suite could never complete, and REV-39 adds three more projects on top.
+ *
+ * The fix is Codex ch.13's own "준비" semantic: stop, SAVE THE POINT, and
+ * resume from it. The sweep is sharded per PROJECT; a finished project is
+ * checkpointed to progress.json and never re-run for that BUILD_ID@HEAD, so
+ * each idle window only has to survive one project (~15-25 min), and progress
+ * accumulates across interruptions until the whole suite is done.
+ */
+
+/** The projects the nightly sweep walks, in order. Mirrored by
+ *  tests/web-cinema.config.js `metadata.sweepProjects` (drift-gated by test). */
+export const SWEEP_PROJECTS = /** @type {const} */ ([
+  'chromium',
+  'webkit',
+  'mobile-chrome',
+  'tablet',
+  'inapp-kakao',
+  'inapp-instagram',
+]);
+
+/**
+ * @typedef {object} ShardRecord
+ * @property {number} expected
+ * @property {number} unexpected
+ * @property {number} flaky
+ * @property {number} skipped
+ * @property {FailureRecord[]} failures
+ * @property {string} finishedAt
+ *
+ * @typedef {object} SweepProgress
+ * @property {string} key                       sweepKey this progress belongs to
+ * @property {Record<string, ShardRecord>} shards
+ */
+
+/** Pure: a normalised progress record; anything malformed becomes an empty one. */
+export function shardState(raw, key) {
+  const empty = { key, shards: {} };
+  if (!raw || typeof raw !== 'object') return empty;
+  const r = /** @type {Record<string, unknown>} */ (raw);
+  // A different build or HEAD invalidates every shard -- never mix results
+  // from two different artefacts into one verdict.
+  if (r.key !== key) return empty;
+  const shards = {};
+  if (r.shards && typeof r.shards === 'object') {
+    for (const [name, v] of Object.entries(/** @type {Record<string, any>} */ (r.shards))) {
+      if (!v || typeof v !== 'object') continue;
+      if (!isFiniteNumber(v.expected) || !isFiniteNumber(v.unexpected)) continue;
+      shards[name] = {
+        expected: v.expected,
+        unexpected: v.unexpected,
+        flaky: isFiniteNumber(v.flaky) ? v.flaky : 0,
+        skipped: isFiniteNumber(v.skipped) ? v.skipped : 0,
+        failures: Array.isArray(v.failures) ? v.failures : [],
+        finishedAt: typeof v.finishedAt === 'string' ? v.finishedAt : '',
+      };
+    }
+  }
+  return { key, shards };
+}
+
+/** Pure: the next project to sweep, or null when the suite is complete. */
+export function nextShard(progress, projects = SWEEP_PROJECTS) {
+  for (const p of projects) {
+    if (!progress.shards[p]) return p;
+  }
+  return null;
+}
+
+/** Pure: progress with one project's result checkpointed in. */
+export function recordShard(progress, project, summary, finishedAt) {
+  const counts = summary?.perProject?.[project] ?? summary?.totals ?? { expected: 0, unexpected: 0, flaky: 0, skipped: 0 };
+  return {
+    key: progress.key,
+    shards: {
+      ...progress.shards,
+      [project]: {
+        expected: counts.expected ?? 0,
+        unexpected: counts.unexpected ?? 0,
+        flaky: counts.flaky ?? 0,
+        skipped: counts.skipped ?? 0,
+        failures: Array.isArray(summary?.failures) ? summary.failures : [],
+        finishedAt,
+      },
+    },
+  };
+}
+
+/** Pure: has every project been checkpointed for this key? */
+export function shardsComplete(progress, projects = SWEEP_PROJECTS) {
+  return projects.every((p) => Boolean(progress.shards[p]));
+}
+
+/**
+ * Pure: fold the checkpointed shards into one SweepSummary -- the record the
+ * READER agent and the morning brief consume, identical in shape to a single
+ * uninterrupted run.
+ */
+export function aggregateShards(progress, meta, projects = SWEEP_PROJECTS) {
+  const perProject = {};
+  const totals = emptyCounts();
+  const failures = [];
+  for (const p of projects) {
+    const s = progress.shards[p];
+    if (!s) continue;
+    perProject[p] = { expected: s.expected, unexpected: s.unexpected, flaky: s.flaky, skipped: s.skipped };
+    totals.expected += s.expected;
+    totals.unexpected += s.unexpected;
+    totals.flaky += s.flaky;
+    totals.skipped += s.skipped;
+    for (const f of s.failures) failures.push(f);
+  }
+  return {
+    status: totals.unexpected > 0 ? 'failed' : 'passed',
+    buildId: meta.buildId,
+    head: meta.head,
+    startedAt: meta.startedAt,
+    finishedAt: meta.finishedAt,
+    durationMs: Math.max(0, new Date(meta.finishedAt).getTime() - new Date(meta.startedAt).getTime()),
+    perProject,
+    totals,
+    failures,
+    cancelReason: null,
+    exitCode: 0,
+    shardedProjects: projects.filter((p) => Boolean(progress.shards[p])),
+  };
+}
