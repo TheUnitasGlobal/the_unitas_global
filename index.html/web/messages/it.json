@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "La scala UNITAS, riscritta ogni giorno da efficienza Micro-Burn, vendite di conoscenza e contributo nomade"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Battito della rete",
+      "sim": "simulazione",
+      "note": "Battito della rete simulato — deterministico, aggiornato ogni 5 minuti. Le tue azioni e il registro dell'account sono reali."
+    },
+    "talk": {
+      "presence": "{count} nella stanza",
+      "pulseRoom": "Battito della stanza"
+    },
+    "shorts": {
+      "watching": "{count} in visione",
+      "trending": "Di tendenza ora",
+      "feed": "Battito dal vivo",
+      "feedLike": "A {handle} piace {title}",
+      "feedFollow": "{handle} ha seguito @{creator}",
+      "feedWatch": "{handle} sta guardando {title}",
+      "sortTrending": "Di tendenza",
+      "sortCatalogue": "Catalogo",
+      "account": "Mi piace e follow salvati nel tuo account",
+      "device": "Mi piace e follow su questo dispositivo"
+    },
+    "exchange": {
+      "market": "Battito del mercato",
+      "volume24h": "Volume 24h",
+      "trades24h": "Scambi 24h",
+      "traders24h": "Trader attivi",
+      "topTheme": "Tema caldo",
+      "demand": "Domanda a 7 giorni",
+      "momentumUp": "In salita",
+      "momentumFlat": "Stabile",
+      "momentumDown": "In calo",
+      "ledgerLive": "Dati del registro dal vivo",
+      "simTrade": "simulato"
+    }
   }
 }

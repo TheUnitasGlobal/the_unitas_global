@@ -40,11 +40,15 @@ import {
   hasHubSession,
   hubBuyPack,
   hubListPack,
+  hubMarketPulse,
   hubSellerBoard,
   hubSync,
   isHubServerConfigured,
   type HubServerError,
+  type MarketPulse,
 } from '@/lib/hub/hubLedger';
+import { dayIndexOf, PULSE_SLOT_MS } from '@/lib/square/pulse';
+import { exchangeMarketStats, exchangePulseTrades, packDemandSeries, packMomentum } from '@/lib/square/exchangePulse';
 import { useHubIdentity } from './useHubIdentity';
 
 const TICKER_ROWS = 6;
@@ -77,6 +81,7 @@ export function KnowledgeExchange() {
   /** REV-30 M1: one shared vocabulary for server outcomes, used by every hub
    *  surface, so a refusal reads the same wherever it happens. */
   const tRev30 = useTranslations('Rev30');
+  const t36 = useTranslations('Rev36');
   const tNews = useTranslations('HotNews');
   const locale = useLocale();
   const { playHoverSfx, playQuestEnterSfx } = useSpatialAudio();
@@ -96,6 +101,9 @@ export function KnowledgeExchange() {
   const [serverBoard, setServerBoard] = useState<SellerRow[] | null>(null);
   const [busy, setBusy] = useState(false);
   const [serverError, setServerError] = useState<HubServerError | null>(null);
+  // REV-36: simulated market pulse -- a living ticker + 24h bar + demand
+  // sparklines, deterministic from the slot, overridden by the real ledger.
+  const [marketPulse, setMarketPulse] = useState<MarketPulse | null>(null);
   const channelRef = useRef<HubChannelHandle | null>(null);
 
   // Form
@@ -141,6 +149,26 @@ export function KnowledgeExchange() {
     let cancelled = false;
     void hubSellerBoard(BOARD_ROWS).then((rows) => {
       if (!cancelled && rows.length > 0) setServerBoard(rows);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [mode]);
+
+  // REV-36: the pulse clock -- refresh every slot so the ticker, the 24h bar
+  // and the sparklines breathe without a reload.
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), PULSE_SLOT_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  // REV-36: the REAL 24h market pulse when signed in and the ledger has trades;
+  // otherwise the deterministic simulation stands in (fail-open).
+  useEffect(() => {
+    if (mode !== 'server') return;
+    let cancelled = false;
+    void hubMarketPulse().then((res) => {
+      if (!cancelled && res.ok && res.data && res.data.trades24h > 0) setMarketPulse(res.data);
     });
     return () => {
       cancelled = true;
@@ -250,6 +278,15 @@ export function KnowledgeExchange() {
   }
 
   const packs = useMemo(() => catalogView(theme, sort), [theme, sort]);
+  const dayIndex = useMemo(() => dayIndexOf(now), [now]);
+  const simTrades = useMemo(() => exchangePulseTrades(now), [now]);
+  const simMarket = useMemo(() => exchangeMarketStats(now), [now]);
+  // Real rows first, then simulated -- a real trade is never evicted by a sim
+  // one (they occupy their own slots after the real ticker).
+  const tickerRows = useMemo(() => [...trades, ...simTrades].slice(0, TICKER_ROWS + simTrades.length), [trades, simTrades]);
+  // The live ledger figures when they exist, else the deterministic simulation.
+  const market = marketPulse ?? simMarket;
+  const marketSource = marketPulse ? 'ledger' : 'sim';
   const owned = useMemo(() => ledger.purchases.map((p) => packById(p.packId)).filter((p): p is KnowledgePack => Boolean(p)), [ledger.purchases]);
   const earnings = useMemo(() => projectedEarnings(ledger, now), [ledger, now]);
   const seededBoard = useMemo(() => sellerBoard().slice(0, BOARD_ROWS), []);
@@ -295,19 +332,47 @@ export function KnowledgeExchange() {
         </p>
       )}
 
+      {/* REV-36: the 24h market bar -- live ledger figures when signed in and
+          the ledger has trades, else the deterministic simulation. */}
+      <section className="qw-hubx-market" data-hub-market="" data-hub-market-source={marketSource}>
+        <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
+          <Radio size={13} aria-hidden="true" />
+          {t36('exchange.market')}
+          <span className="qw-hubx-market-src">{marketSource === 'ledger' ? t36('exchange.ledgerLive') : t36('pulse.sim')}</span>
+        </p>
+        <div className="qw-hubx-market-grid">
+          <div className="qw-hubx-card qw-hubx-market-stat" data-market-stat="volume24h">
+            <strong>{numberFmt.format(market.volume24h)}</strong>
+            <span>{t36('exchange.volume24h')}</span>
+          </div>
+          <div className="qw-hubx-card qw-hubx-market-stat" data-market-stat="trades24h">
+            <strong>{numberFmt.format(market.trades24h)}</strong>
+            <span>{t36('exchange.trades24h')}</span>
+          </div>
+          <div className="qw-hubx-card qw-hubx-market-stat" data-market-stat="traders24h">
+            <strong>{numberFmt.format(market.traders24h)}</strong>
+            <span>{t36('exchange.traders24h')}</span>
+          </div>
+          <div className="qw-hubx-card qw-hubx-market-stat" data-market-stat="topTheme">
+            <strong>{market.topTheme ? tNews(`category.${market.topTheme}`) : '—'}</strong>
+            <span>{t36('exchange.topTheme')}</span>
+          </div>
+        </div>
+      </section>
+
       <section className="qw-hubx-ticker" data-hub-ticker="" aria-live="polite">
         <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
           <Radio size={13} aria-hidden="true" />
           {t('ticker')}
         </p>
-        {trades.length === 0 ? (
+        {tickerRows.length === 0 ? (
           <p className="mt-1 text-[12px] text-gray-500">{t('tickerEmpty')}</p>
         ) : (
           <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-gray-300">
-            {trades.map((tr) => (
-              <li key={`${tr.packId}:${tr.at}:${tr.buyer}`} data-hub-trade="">
+            {tickerRows.map((tr) => (
+              <li key={`${tr.packId}:${tr.at}:${tr.buyer}`} data-hub-trade="" data-hub-trade-sim={tr.sim ? '1' : '0'}>
                 <span className="text-gray-500">{timeFmt.format(new Date(tr.at))} · </span>
-                {t('tickerRow', { buyer: tr.buyer, pack: packById(tr.packId)?.title ?? tr.packId })}
+                {t('tickerRow', { buyer: tr.sim ? `${tr.buyer} · ${t36('exchange.simTrade')}` : tr.buyer, pack: packById(tr.packId)?.title ?? tr.packId })}
               </li>
             ))}
           </ul>
@@ -350,6 +415,9 @@ export function KnowledgeExchange() {
           const meta = hotNewsAxisMeta(pack.theme);
           const stats = packStats(pack);
           const verdict = canBuy(ledger, pack);
+          const demand = packDemandSeries(pack, dayIndex);
+          const momentum = packMomentum(pack, dayIndex);
+          const demandPoints = demand.map((v, i) => `${((i / 6) * 70).toFixed(1)},${(19 - (v / 100) * 18).toFixed(1)}`).join(' ');
           return (
             <li key={pack.id} className="qw-hubx-card" data-pack={pack.id} data-tier={pack.tier} style={{ '--qw-hub-accent': meta.color } as CSSProperties}>
               <p className="qw-hubx-chips">
@@ -371,6 +439,14 @@ export function KnowledgeExchange() {
                 <span>{t('sales', { count: numberFmt.format(stats.sales) })}</span>
                 <span>{t('rating', { rating: stats.rating.toFixed(1) })}</span>
               </p>
+              <div className="qw-hubx-demand" data-pack-momentum={momentum}>
+                <svg data-pack-demand="" viewBox="0 0 70 20" width="70" height="20" preserveAspectRatio="none" aria-hidden="true">
+                  <polyline points={demandPoints} fill="none" stroke="currentColor" strokeWidth="1.5" />
+                </svg>
+                <span className="qw-hubx-demand-label">
+                  {t36('exchange.demand')} · {momentum === 'up' ? t36('exchange.momentumUp') : momentum === 'down' ? t36('exchange.momentumDown') : t36('exchange.momentumFlat')}
+                </span>
+              </div>
               <div className="qw-hubx-foot">
                 <span className="qw-hubx-price">
                   <Coins size={13} aria-hidden="true" />

@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "De UNITAS-ladder, elke dag opnieuw geschreven door Micro-Burn-efficiëntie, kennisverkopen en nomadenbijdrage"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Netwerkpuls",
+      "sim": "simulatie",
+      "note": "Gesimuleerde netwerkpuls — deterministisch, elke 5 minuten ververst. Je eigen acties en het accountgrootboek zijn echt."
+    },
+    "talk": {
+      "presence": "{count} in de kamer",
+      "pulseRoom": "Kamerpuls"
+    },
+    "shorts": {
+      "watching": "{count} kijken",
+      "trending": "Nu trending",
+      "feed": "Live puls",
+      "feedLike": "{handle} vindt {title} leuk",
+      "feedFollow": "{handle} volgt @{creator}",
+      "feedWatch": "{handle} kijkt naar {title}",
+      "sortTrending": "Trending",
+      "sortCatalogue": "Catalogus",
+      "account": "Likes en volgers opgeslagen op je account",
+      "device": "Likes en volgers op dit apparaat"
+    },
+    "exchange": {
+      "market": "Marktpuls",
+      "volume24h": "24u-volume",
+      "trades24h": "24u-trades",
+      "traders24h": "Actieve handelaren",
+      "topTheme": "Populair thema",
+      "demand": "Vraag over 7 dagen",
+      "momentumUp": "Stijgend",
+      "momentumFlat": "Stabiel",
+      "momentumDown": "Afkoelend",
+      "ledgerLive": "Live grootboekcijfers",
+      "simTrade": "gesimuleerd"
+    }
   }
 }

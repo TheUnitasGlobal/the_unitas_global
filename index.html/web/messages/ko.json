@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "마이크로번 효율·지식 판매·노마드 기여로 매일 새로 쓰는 유니타스 사다리"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "네트워크 펄스",
+      "sim": "시뮬레이션",
+      "note": "시뮬레이션 네트워크 펄스 — 결정론적이며 5분마다 갱신됩니다. 회원님의 활동과 계정 원장은 실제입니다."
+    },
+    "talk": {
+      "presence": "대화방에 {count}명",
+      "pulseRoom": "방 펄스"
+    },
+    "shorts": {
+      "watching": "{count}명 시청 중",
+      "trending": "지금 뜨는 중",
+      "feed": "실시간 펄스",
+      "feedLike": "{handle}님이 {title}에 좋아요",
+      "feedFollow": "{handle}님이 @{creator}님을 팔로우함",
+      "feedWatch": "{handle}님이 {title} 시청 중",
+      "sortTrending": "인기",
+      "sortCatalogue": "카탈로그",
+      "account": "좋아요와 팔로우가 계정에 저장됨",
+      "device": "좋아요와 팔로우가 이 기기에만 저장됨"
+    },
+    "exchange": {
+      "market": "시장 펄스",
+      "volume24h": "24시간 거래량",
+      "trades24h": "24시간 거래 수",
+      "traders24h": "활성 거래자",
+      "topTheme": "인기 테마",
+      "demand": "7일 수요",
+      "momentumUp": "상승",
+      "momentumFlat": "보합",
+      "momentumDown": "하락",
+      "ledgerLive": "실시간 원장 수치",
+      "simTrade": "시뮬레이션"
+    }
   }
 }

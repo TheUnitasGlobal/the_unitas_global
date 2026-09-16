@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "Bậc thang UNITAS, viết lại mỗi ngày theo hiệu suất Micro-Burn, tri thức đã bán và đóng góp du mục"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Nhịp mạng lưới",
+      "sim": "mô phỏng",
+      "note": "Nhịp mạng mô phỏng — mang tính tất định, làm mới mỗi 5 phút. Hành động của bạn và sổ cái tài khoản là thật."
+    },
+    "talk": {
+      "presence": "{count} trong phòng",
+      "pulseRoom": "Nhịp phòng"
+    },
+    "shorts": {
+      "watching": "{count} đang xem",
+      "trending": "Đang thịnh hành",
+      "feed": "Nhịp trực tiếp",
+      "feedLike": "{handle} đã thích {title}",
+      "feedFollow": "{handle} đã theo dõi @{creator}",
+      "feedWatch": "{handle} đang xem {title}",
+      "sortTrending": "Thịnh hành",
+      "sortCatalogue": "Danh mục",
+      "account": "Lượt thích và theo dõi được lưu vào tài khoản của bạn",
+      "device": "Lượt thích và theo dõi trên thiết bị này"
+    },
+    "exchange": {
+      "market": "Nhịp thị trường",
+      "volume24h": "Khối lượng 24h",
+      "trades24h": "Giao dịch 24h",
+      "traders24h": "Nhà giao dịch hoạt động",
+      "topTheme": "Chủ đề nổi bật",
+      "demand": "Nhu cầu 7 ngày",
+      "momentumUp": "Đang tăng",
+      "momentumFlat": "Ổn định",
+      "momentumDown": "Đang giảm",
+      "ledgerLive": "Số liệu sổ cái trực tiếp",
+      "simTrade": "mô phỏng"
+    }
   }
 }

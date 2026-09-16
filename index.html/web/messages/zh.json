@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "由微燃效率、知识销售与游牧贡献每日重写的 UNITAS 阶梯"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "网络脉动",
+      "sim": "模拟",
+      "note": "模拟的网络脉动 — 确定性的，每 5 分钟刷新一次。您自己的操作和账户账本是真实的。"
+    },
+    "talk": {
+      "presence": "房间中 {count} 人",
+      "pulseRoom": "房间脉动"
+    },
+    "shorts": {
+      "watching": "{count} 人观看中",
+      "trending": "正在热门",
+      "feed": "实时脉动",
+      "feedLike": "{handle} 赞了 {title}",
+      "feedFollow": "{handle} 关注了 @{creator}",
+      "feedWatch": "{handle} 正在观看 {title}",
+      "sortTrending": "热门",
+      "sortCatalogue": "目录",
+      "account": "点赞和关注已保存到您的账户",
+      "device": "点赞和关注仅在此设备"
+    },
+    "exchange": {
+      "market": "市场脉动",
+      "volume24h": "24 小时成交量",
+      "trades24h": "24 小时交易数",
+      "traders24h": "活跃交易者",
+      "topTheme": "热门主题",
+      "demand": "7 天需求",
+      "momentumUp": "上升",
+      "momentumFlat": "平稳",
+      "momentumDown": "降温",
+      "ledgerLive": "实时账本数据",
+      "simTrade": "模拟"
+    }
   }
 }

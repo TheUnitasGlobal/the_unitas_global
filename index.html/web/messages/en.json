@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "The UNITAS ladder, rewritten daily by micro-burn efficiency, knowledge sales and nomad contribution"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Network pulse",
+      "sim": "simulation",
+      "note": "Simulated network pulse — deterministic, refreshed every 5 minutes. Your own actions and the account ledger are real."
+    },
+    "talk": {
+      "presence": "{count} in the room",
+      "pulseRoom": "Room pulse"
+    },
+    "shorts": {
+      "watching": "{count} watching",
+      "trending": "Trending now",
+      "feed": "Live pulse",
+      "feedLike": "{handle} liked {title}",
+      "feedFollow": "{handle} followed @{creator}",
+      "feedWatch": "{handle} is watching {title}",
+      "sortTrending": "Trending",
+      "sortCatalogue": "Catalogue",
+      "account": "Likes and follows saved to your account",
+      "device": "Likes and follows on this device"
+    },
+    "exchange": {
+      "market": "Market pulse",
+      "volume24h": "24h volume",
+      "trades24h": "24h trades",
+      "traders24h": "Active traders",
+      "topTheme": "Hot theme",
+      "demand": "7-day demand",
+      "momentumUp": "Rising",
+      "momentumFlat": "Steady",
+      "momentumDown": "Cooling",
+      "ledgerLive": "Live ledger figures",
+      "simTrade": "simulated"
+    }
   }
 }

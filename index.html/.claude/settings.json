@@ -4,6 +4,19 @@
   "precomputeCompactionEnabled": true,
   "autoMemoryEnabled": true,
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/index.html/web/scripts/stage3-brief.mjs\" --hook 2>/dev/null || true",
+            "timeout": 20,
+            "statusMessage": "Stage-3 자율 브리핑 수집 중..."
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [

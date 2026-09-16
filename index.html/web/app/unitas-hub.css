@@ -1157,3 +1157,151 @@ html[data-unitas-surface='quantum-white'][data-cinema-phase='released'] .u-wl-bt
     animation: none;
   }
 }
+
+/* -- REV-36 hyper-theme ignition ------------------------------------------- */
+/* Simulated pulse rows in the chat rooms: legible, clearly quieter than a real
+   message, marked with the accent left rule so they never read as "mine". */
+.qw-room-msg--pulse {
+  opacity: 0.82;
+  border-left: 2px solid color-mix(in srgb, var(--qw-hub-accent, #22d3ee) 55%, transparent);
+  padding-left: 8px;
+}
+.qw-room-msg--pulse .qw-room-author {
+  color: color-mix(in srgb, var(--qw-hub-accent, #22d3ee) 80%, #cbd5e1);
+}
+[data-hub-pulse-note] {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* Shorts pulse feed: a compact live strip, each row fading in gently. */
+.qw-shorts-pulse {
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.35);
+}
+.qw-shorts-pulse-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent, #67e8f9);
+}
+.qw-shorts-pulse-sim {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  opacity: 0.85;
+}
+.qw-shorts-pulse-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 116px;
+  overflow: hidden;
+}
+.qw-shorts-pulse-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #cbd5e1;
+  animation: qw-shorts-pulse-in 480ms ease-out both;
+}
+.qw-shorts-pulse-row[data-shorts-pulse-row='like'] { color: #fda4af; }
+.qw-shorts-pulse-row[data-shorts-pulse-row='follow'] { color: #93c5fd; }
+.qw-shorts-pulse-row[data-shorts-pulse-row='watch'] { color: #6ee7b7; }
+.qw-shorts-pulse-row > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #cbd5e1;
+}
+@keyframes qw-shorts-pulse-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Exchange 24h market bar: four tiles, two columns on a phone. */
+.qw-hubx-market {
+  margin-top: 12px;
+}
+.qw-hubx-market-src {
+  margin-left: auto;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+}
+.qw-hubx-market-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 6px;
+}
+.qw-hubx-market-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+}
+.qw-hubx-market-stat strong {
+  font-size: 15px;
+  color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qw-hubx-market-stat span {
+  font-size: 11px;
+  color: #94a3b8;
+}
+@media (max-width: 767px) {
+  .qw-hubx-market-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Per-pack demand sparkline + momentum chip. */
+.qw-hubx-demand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  color: #34d399;
+}
+.qw-hubx-demand[data-pack-momentum='down'] { color: #94a3b8; }
+.qw-hubx-demand[data-pack-momentum='flat'] { color: #93c5fd; }
+.qw-hubx-demand svg[data-pack-demand] {
+  width: 70px;
+  height: 20px;
+  flex: none;
+}
+.qw-hubx-demand-label {
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: #94a3b8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qw-shorts-pulse-row {
+    animation: none;
+  }
+}

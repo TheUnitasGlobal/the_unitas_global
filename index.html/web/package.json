@@ -30,6 +30,9 @@
     "idle:sensor:install-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-idle-sensor-task.ps1",
     "idle:sensor:uninstall-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-idle-sensor-task.ps1 -Uninstall",
     "idle:sensor:status": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-idle-sensor-task.ps1 -Status",
+    "security:trust:verify": "node scripts/trust-registry.mjs --verify",
+    "security:trust:write": "node scripts/trust-registry.mjs --write",
+    "stage3:brief": "node scripts/stage3-brief.mjs",
     "test": "vitest run",
     "dev:all": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev-all.ps1"
   },

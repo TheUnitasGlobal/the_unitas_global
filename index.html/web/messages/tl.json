@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "Ang hagdan ng UNITAS, muling isinusulat araw-araw ng kahusayan sa Micro-Burn, benta ng kaalaman at ambag ng nomad"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Pulso ng network",
+      "sim": "simulasyon",
+      "note": "Simuladong pulso ng network — deterministiko, nire-refresh kada 5 minuto. Ang iyong sariling mga aksyon at ang ledger ng account ay totoo."
+    },
+    "talk": {
+      "presence": "{count} sa silid",
+      "pulseRoom": "Pulso ng silid"
+    },
+    "shorts": {
+      "watching": "{count} nanonood",
+      "trending": "Sikat ngayon",
+      "feed": "Live na pulso",
+      "feedLike": "Nagustuhan ni {handle} ang {title}",
+      "feedFollow": "Sinundan ni {handle} si @{creator}",
+      "feedWatch": "Pinapanood ni {handle} ang {title}",
+      "sortTrending": "Sikat",
+      "sortCatalogue": "Katalogo",
+      "account": "Ang mga like at follow ay naka-save sa iyong account",
+      "device": "Mga like at follow sa device na ito"
+    },
+    "exchange": {
+      "market": "Pulso ng merkado",
+      "volume24h": "Volume 24h",
+      "trades24h": "Mga trade 24h",
+      "traders24h": "Aktibong trader",
+      "topTheme": "Sikat na tema",
+      "demand": "Demand sa 7 araw",
+      "momentumUp": "Tumataas",
+      "momentumFlat": "Matatag",
+      "momentumDown": "Bumababa",
+      "ledgerLive": "Live na datos ng ledger",
+      "simTrade": "simulado"
+    }
   }
 }

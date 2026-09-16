@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "Micro-Burn verimliliği, bilgi satışları ve göçebe katkısıyla her gün yeniden yazılan UNITAS merdiveni"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Ağ nabzı",
+      "sim": "simülasyon",
+      "note": "Simüle ağ nabzı — belirlenimci, her 5 dakikada bir yenilenir. Kendi işlemleriniz ve hesap defteri gerçektir."
+    },
+    "talk": {
+      "presence": "odada {count}",
+      "pulseRoom": "Oda nabzı"
+    },
+    "shorts": {
+      "watching": "{count} izliyor",
+      "trending": "Şimdi trend",
+      "feed": "Canlı nabız",
+      "feedLike": "{handle}, {title} içeriğini beğendi",
+      "feedFollow": "{handle}, @{creator} kişisini takip etti",
+      "feedWatch": "{handle}, {title} izliyor",
+      "sortTrending": "Trend",
+      "sortCatalogue": "Katalog",
+      "account": "Beğeniler ve takipler hesabınıza kaydedildi",
+      "device": "Bu cihazdaki beğeniler ve takipler"
+    },
+    "exchange": {
+      "market": "Piyasa nabzı",
+      "volume24h": "24s hacim",
+      "trades24h": "24s işlem",
+      "traders24h": "Aktif yatırımcılar",
+      "topTheme": "Öne çıkan tema",
+      "demand": "7 günlük talep",
+      "momentumUp": "Yükseliyor",
+      "momentumFlat": "Sabit",
+      "momentumDown": "Soğuyor",
+      "ledgerLive": "Canlı defter rakamları",
+      "simTrade": "simüle"
+    }
   }
 }

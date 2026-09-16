@@ -21,6 +21,7 @@ import {
   type ChatRoomKey,
 } from '@/lib/hub/themeChat';
 import { hasHubSession, hubPostMessage, hubRoomHistory, isHubServerConfigured, type HubServerError } from '@/lib/hub/hubLedger';
+import { PULSE_SLOT_MS, talkPresence, talkPulse } from '@/lib/square/talkPulse';
 import { useHubIdentity } from './useHubIdentity';
 
 /**
@@ -41,6 +42,7 @@ export function ThemeChatRooms() {
   const t = useTranslations('Rev29.rooms');
   const tHub = useTranslations('Rev29.hub');
   const tRev30 = useTranslations('Rev30');
+  const t36 = useTranslations('Rev36');
   const tNews = useTranslations('HotNews');
   const locale = useLocale();
   const { playHoverSfx, playQuestEnterSfx } = useSpatialAudio();
@@ -55,12 +57,23 @@ export function ThemeChatRooms() {
   const [durable, setDurable] = useState(false);
   const [serverError, setServerError] = useState<HubServerError | null>(null);
   const [sending, setSending] = useState(false);
+  // REV-36: the pulse instant, from a state initialiser, refreshed each slot.
+  const [now, setNow] = useState(() => Date.now());
   const channelRef = useRef<HubChannelHandle | null>(null);
   const lastSentRef = useRef<number | null>(null);
   const listRef = useRef<HTMLOListElement>(null);
 
   const meta = hotNewsAxisMeta(room);
   const roomLabel = tNews(`category.${room}`);
+  // The simulated head of the room (lib/square/talkPulse.ts): deterministic,
+  // offline-identical, never "mine" (authorId is the reserved sim: prefix), and
+  // marked data-hub-msg-sim -- so the real-message contracts stay untouched.
+  const pulseRows = useMemo(() => talkPulse(room, now), [room, now]);
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), PULSE_SLOT_MS);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -195,14 +208,28 @@ export function ThemeChatRooms() {
           </p>
           <p className="qw-hub-meta flex items-center gap-1.5 text-[12px] text-gray-500" data-hub-live={live === null ? 'pending' : live ? '1' : '0'}>
             <Radio size={12} aria-hidden="true" />
-            {live === false ? tHub('localOnly') : online !== null ? tHub('online', { count: online }) : tHub('live')}
+            {online !== null ? (
+              tHub('online', { count: online })
+            ) : (
+              <span data-hub-presence-sim="1">{t36('talk.presence', { count: talkPresence(room, now) })}</span>
+            )}
             <span data-hub-durable={durable ? '1' : '0'}>· {durable ? tRev30('room.durable') : tRev30('room.deviceOnly')}</span>
           </p>
         </div>
 
         <ol ref={listRef} className="qw-room-list" data-hub-room-list="" aria-live="polite">
           <li className="qw-room-msg qw-room-msg--system">{t('welcome', { room: roomLabel })}</li>
-          {messages.length === 0 && <li className="qw-room-msg qw-room-msg--system">{t('empty')}</li>}
+          <li className="qw-room-msg qw-room-msg--system" data-hub-pulse-note="">
+            {t36('talk.pulseRoom')} · {t36('pulse.sim')}
+          </li>
+          {pulseRows.map((m) => (
+            <li key={m.id} className="qw-room-msg qw-room-msg--pulse" data-mine="0" data-hub-msg-sim="1">
+              <span className="qw-room-author">{m.author}</span>
+              <span className="qw-room-text">{m.text}</span>
+              <span className="qw-room-time">{timeFmt.format(new Date(m.at))}</span>
+            </li>
+          ))}
+          {messages.length === 0 && pulseRows.length === 0 && <li className="qw-room-msg qw-room-msg--system">{t('empty')}</li>}
           {messages.map((m) => (
             <li key={m.id} className="qw-room-msg" data-mine={m.authorId === me.id ? '1' : '0'} data-hub-msg="">
               <span className="qw-room-author">{m.authorId === me.id ? t('you') : m.author}</span>

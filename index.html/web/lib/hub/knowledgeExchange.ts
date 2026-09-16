@@ -306,6 +306,8 @@ export interface TradeEvent {
   packId: string;
   buyer: string;
   at: number;
+  /** REV-36 M3: true for a simulated (network-pulse) trade -- never revenue. */
+  sim?: true;
 }
 
 export function isTradeEvent(value: unknown): value is TradeEvent {

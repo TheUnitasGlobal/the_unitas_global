@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "L'échelle UNITAS, réécrite chaque jour par l'efficacité Micro-Burn, les ventes de savoir et la contribution nomade"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Pouls du réseau",
+      "sim": "simulation",
+      "note": "Pouls du réseau simulé — déterministe, actualisé toutes les 5 minutes. Vos propres actions et le registre du compte sont réels."
+    },
+    "talk": {
+      "presence": "{count} dans le salon",
+      "pulseRoom": "Pouls du salon"
+    },
+    "shorts": {
+      "watching": "{count} regardent",
+      "trending": "Tendance actuelle",
+      "feed": "Pouls en direct",
+      "feedLike": "{handle} a aimé {title}",
+      "feedFollow": "{handle} suit @{creator}",
+      "feedWatch": "{handle} regarde {title}",
+      "sortTrending": "Tendances",
+      "sortCatalogue": "Catalogue",
+      "account": "J'aime et abonnements enregistrés sur votre compte",
+      "device": "J'aime et abonnements sur cet appareil"
+    },
+    "exchange": {
+      "market": "Pouls du marché",
+      "volume24h": "Volume 24 h",
+      "trades24h": "Transactions 24 h",
+      "traders24h": "Traders actifs",
+      "topTheme": "Thème phare",
+      "demand": "Demande sur 7 jours",
+      "momentumUp": "En hausse",
+      "momentumFlat": "Stable",
+      "momentumDown": "En baisse",
+      "ledgerLive": "Chiffres du registre en direct",
+      "simTrade": "simulé"
+    }
   }
 }

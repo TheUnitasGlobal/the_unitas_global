@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "Die UNITAS-Leiter, täglich neu geschrieben aus Micro-Burn-Effizienz, Wissensverkäufen und Nomaden-Beitrag"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Netzwerkpuls",
+      "sim": "Simulation",
+      "note": "Simulierter Netzwerkpuls — deterministisch, alle 5 Minuten aktualisiert. Deine eigenen Aktionen und das Kontobuch sind echt."
+    },
+    "talk": {
+      "presence": "{count} im Raum",
+      "pulseRoom": "Raumpuls"
+    },
+    "shorts": {
+      "watching": "{count} sehen zu",
+      "trending": "Gerade im Trend",
+      "feed": "Live-Puls",
+      "feedLike": "{handle} gefällt {title}",
+      "feedFollow": "{handle} folgt @{creator}",
+      "feedWatch": "{handle} sieht {title}",
+      "sortTrending": "Im Trend",
+      "sortCatalogue": "Katalog",
+      "account": "Likes und Abos in deinem Konto gespeichert",
+      "device": "Likes und Abos auf diesem Gerät"
+    },
+    "exchange": {
+      "market": "Marktpuls",
+      "volume24h": "24-h-Volumen",
+      "trades24h": "24-h-Trades",
+      "traders24h": "Aktive Händler",
+      "topTheme": "Heißes Thema",
+      "demand": "7-Tage-Nachfrage",
+      "momentumUp": "Steigend",
+      "momentumFlat": "Stabil",
+      "momentumDown": "Abkühlend",
+      "ledgerLive": "Live-Kontobuchzahlen",
+      "simTrade": "simuliert"
+    }
   }
 }

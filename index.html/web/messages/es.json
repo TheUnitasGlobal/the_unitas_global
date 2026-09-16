@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "La escalera UNITAS, reescrita a diario por la eficiencia Micro-Burn, las ventas de conocimiento y el aporte nómada"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Pulso de la red",
+      "sim": "simulación",
+      "note": "Pulso de red simulado — determinista, se actualiza cada 5 minutos. Tus propias acciones y el libro de tu cuenta son reales."
+    },
+    "talk": {
+      "presence": "{count} en la sala",
+      "pulseRoom": "Pulso de la sala"
+    },
+    "shorts": {
+      "watching": "{count} viendo",
+      "trending": "Tendencia ahora",
+      "feed": "Pulso en vivo",
+      "feedLike": "A {handle} le gustó {title}",
+      "feedFollow": "{handle} siguió a @{creator}",
+      "feedWatch": "{handle} está viendo {title}",
+      "sortTrending": "Tendencia",
+      "sortCatalogue": "Catálogo",
+      "account": "Me gusta y seguimientos guardados en tu cuenta",
+      "device": "Me gusta y seguimientos en este dispositivo"
+    },
+    "exchange": {
+      "market": "Pulso del mercado",
+      "volume24h": "Volumen 24h",
+      "trades24h": "Operaciones 24h",
+      "traders24h": "Operadores activos",
+      "topTheme": "Tema destacado",
+      "demand": "Demanda de 7 días",
+      "momentumUp": "Subiendo",
+      "momentumFlat": "Estable",
+      "momentumDown": "Enfriándose",
+      "ledgerLive": "Cifras del libro en vivo",
+      "simTrade": "simulado"
+    }
   }
 }

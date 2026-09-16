@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "Tangga UNITAS, ditulis ulang setiap hari oleh efisiensi Micro-Burn, penjualan pengetahuan, dan kontribusi nomaden"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Denyut jaringan",
+      "sim": "simulasi",
+      "note": "Denyut jaringan simulasi — deterministik, disegarkan setiap 5 menit. Tindakan Anda sendiri dan buku besar akun adalah nyata."
+    },
+    "talk": {
+      "presence": "{count} di ruangan",
+      "pulseRoom": "Denyut ruangan"
+    },
+    "shorts": {
+      "watching": "{count} menonton",
+      "trending": "Sedang tren",
+      "feed": "Denyut langsung",
+      "feedLike": "{handle} menyukai {title}",
+      "feedFollow": "{handle} mengikuti @{creator}",
+      "feedWatch": "{handle} sedang menonton {title}",
+      "sortTrending": "Tren",
+      "sortCatalogue": "Katalog",
+      "account": "Suka dan ikuti disimpan ke akun Anda",
+      "device": "Suka dan ikuti di perangkat ini"
+    },
+    "exchange": {
+      "market": "Denyut pasar",
+      "volume24h": "Volume 24 jam",
+      "trades24h": "Transaksi 24 jam",
+      "traders24h": "Trader aktif",
+      "topTheme": "Tema populer",
+      "demand": "Permintaan 7 hari",
+      "momentumUp": "Naik",
+      "momentumFlat": "Stabil",
+      "momentumDown": "Turun",
+      "ledgerLive": "Angka buku besar langsung",
+      "simTrade": "simulasi"
+    }
   }
 }

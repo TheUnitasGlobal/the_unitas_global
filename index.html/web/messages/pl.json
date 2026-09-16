@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "Drabina UNITAS, codziennie pisana na nowo przez efektywność Micro-Burn, sprzedaż wiedzy i wkład nomady"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Puls sieci",
+      "sim": "symulacja",
+      "note": "Symulowany puls sieci — deterministyczny, odświeżany co 5 minut. Twoje własne działania i księga konta są prawdziwe."
+    },
+    "talk": {
+      "presence": "{count} w pokoju",
+      "pulseRoom": "Puls pokoju"
+    },
+    "shorts": {
+      "watching": "{count} ogląda",
+      "trending": "Teraz na czasie",
+      "feed": "Puls na żywo",
+      "feedLike": "{handle} polubił(a) {title}",
+      "feedFollow": "{handle} obserwuje @{creator}",
+      "feedWatch": "{handle} ogląda {title}",
+      "sortTrending": "Na czasie",
+      "sortCatalogue": "Katalog",
+      "account": "Polubienia i obserwacje zapisane na Twoim koncie",
+      "device": "Polubienia i obserwacje na tym urządzeniu"
+    },
+    "exchange": {
+      "market": "Puls rynku",
+      "volume24h": "Wolumen 24h",
+      "trades24h": "Transakcje 24h",
+      "traders24h": "Aktywni handlujący",
+      "topTheme": "Gorący temat",
+      "demand": "Popyt z 7 dni",
+      "momentumUp": "Rośnie",
+      "momentumFlat": "Stabilnie",
+      "momentumDown": "Słabnie",
+      "ledgerLive": "Dane księgi na żywo",
+      "simTrade": "symulowane"
+    }
   }
 }

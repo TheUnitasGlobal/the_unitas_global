@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "A escada UNITAS, reescrita todos os dias pela eficiência Micro-Burn, vendas de conhecimento e contribuição nómada"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Pulso da rede",
+      "sim": "simulação",
+      "note": "Pulso de rede simulado — determinístico, atualizado a cada 5 minutos. As suas ações e o livro-razão da conta são reais."
+    },
+    "talk": {
+      "presence": "{count} na sala",
+      "pulseRoom": "Pulso da sala"
+    },
+    "shorts": {
+      "watching": "{count} a assistir",
+      "trending": "Em alta agora",
+      "feed": "Pulso ao vivo",
+      "feedLike": "{handle} curtiu {title}",
+      "feedFollow": "{handle} seguiu @{creator}",
+      "feedWatch": "{handle} está a ver {title}",
+      "sortTrending": "Em alta",
+      "sortCatalogue": "Catálogo",
+      "account": "Curtidas e seguidores guardados na sua conta",
+      "device": "Curtidas e seguidores neste dispositivo"
+    },
+    "exchange": {
+      "market": "Pulso do mercado",
+      "volume24h": "Volume 24h",
+      "trades24h": "Negócios 24h",
+      "traders24h": "Negociantes ativos",
+      "topTheme": "Tema em destaque",
+      "demand": "Procura de 7 dias",
+      "momentumUp": "A subir",
+      "momentumFlat": "Estável",
+      "momentumDown": "A descer",
+      "ledgerLive": "Números do livro-razão ao vivo",
+      "simTrade": "simulado"
+    }
   }
 }

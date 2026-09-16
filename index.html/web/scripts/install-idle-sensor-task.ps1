@@ -84,6 +84,16 @@ if ($Status) {
     } else {
         Write-Host 'Latest    : no sweep recorded yet'
     }
+    $dllPath = Join-Path $env:LOCALAPPDATA 'THE UNITAS GLOBAL\IdleSensor\UnitasLastInput.dll'
+    Write-Host "Probe DLL : $(if (Test-Path $dllPath) { 'present' } else { 'not compiled yet' })  ($dllPath)"
+    Write-Host 'Trust     :'
+    try {
+        Push-Location $webDir
+        & node scripts/trust-registry.mjs --verify
+        Pop-Location
+    } catch {
+        Write-Host "  (trust-registry check failed: $($_.Exception.Message))"
+    }
     return
 }
 
@@ -104,6 +114,19 @@ if (-not (Test-Path $scriptPath -PathType Leaf)) {
     throw "scripts/idle-sensor-daemon.mjs not found at $scriptPath."
 }
 
+# REV-36 M1: compile the on-disk idle probe assembly once up front, so the
+# first sweep does not pay the compile cost and so the DLL exists to be scanned
+# (docs/security/TRUST_REGISTRY.md). Non-fatal if it cannot compile now.
+$probePath = Join-Path $webDir 'scripts\idle-sensor-probe.ps1'
+if (Test-Path $probePath -PathType Leaf) {
+    try {
+        $probe = & powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $probePath -Compile | ConvertFrom-Json
+        Write-Host "Idle probe : assembly $($probe.assembly), idleMs $($probe.idleMs)"
+    } catch {
+        Write-Host "Idle probe : could not pre-compile ($($_.Exception.Message)) -- the daemon will compile on first tick."
+    }
+}
+
 $powershellPath = (Get-Command powershell.exe).Source
 $user = "$env:USERDOMAIN\$env:USERNAME"
 
@@ -121,7 +144,7 @@ $settings = New-ScheduledTaskSettingsSet `
     -StartWhenAvailable -DontStopOnIdleEnd
 
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description `
-    'THE UNITAS GLOBAL -- Codex ch.13 stage-3 idle sensor. After 10 idle minutes runs the 3-engine Playwright sweep (tests/web-cinema.config.js) at idle priority, cancels on activity, writes index.html/test-results/stage3/latest.md. Read via docs/stage3/READER.md.' `
+    'THE UNITAS GLOBAL -- Codex ch.13 stage-3 idle sensor. After 10 idle minutes runs the 3-engine Playwright sweep (tests/web-cinema.config.js) at idle priority, cancels on activity, writes index.html/test-results/stage3/latest.md. Read via docs/stage3/READER.md. trust-registry: unitas.idle-sensor.task (index.html/config/security/trust-registry.json . docs/security/TRUST_REGISTRY.md)' `
     -Force | Out-Null
 
 Start-ScheduledTask -TaskName $taskName

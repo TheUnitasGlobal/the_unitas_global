@@ -32,7 +32,10 @@ describe('shorts seed', () => {
     const tech = shortsByTheme('technology');
     expect(tech.length).toBeGreaterThan(0);
     expect(tech.every((s) => s.theme === 'technology')).toBe(true);
-    expect(shortsByTheme('disaster')).toEqual([]);
+    // REV-36 M3 gave every axis at least two clips (was empty pre-REV-36).
+    const disaster = shortsByTheme('disaster');
+    expect(disaster.length).toBeGreaterThanOrEqual(2);
+    expect(disaster.every((s) => s.theme === 'disaster')).toBe(true);
   });
 
   it('compactCount and toggleMember are the same pure helpers as before', () => {

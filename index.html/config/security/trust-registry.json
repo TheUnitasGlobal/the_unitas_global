@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "doctrine": "Codex v37.0 ch.4 (Zero-Hands / Fail-Closed) + ch.13 stage 3 (idle-sensor) + ch.7 (auto-quarantine must not kill founder-authorized automation). REV-36 M1.",
+  "authorizedBy": "Dooyeong Hwang (founder) -- REV-35 D-11 + REV-36 M1 directive, 2026-09-16",
+  "authorizedAt": "2026-09-16",
+  "updatedAt": "2026-09-16T17:00:15.193Z",
+  "entries": [
+    {
+      "kind": "scheduled-task",
+      "id": "unitas.idle-sensor.task",
+      "name": "UnitasIdleSensorStage3",
+      "trigger": "AtLogOn (current user, interactive)",
+      "principal": "current user / Interactive / Limited (no elevation)",
+      "action": "powershell -NoProfile -WindowStyle Hidden -Command \"& node index.html/web/scripts/idle-sensor-daemon.mjs\"",
+      "purpose": "Codex ch.13 stage 3 executor: after 10 idle minutes runs the 3-engine Playwright sweep at idle priority and cancels it the instant founder activity resumes. Model-free, token 0, cost 0.",
+      "doctrine": "ch.13 stage 3",
+      "allowed": [
+        "read ~/.claude/projects/**/*.jsonl mtime, .git signal files, web/ worktree mtime",
+        "run the on-disk idle probe (unitas.idle-sensor.probe)",
+        "spawn playwright test on 127.0.0.1:3123 at IDLE priority",
+        "taskkill its own process tree; taskkill a `next start` it owns on :3123",
+        "write only under index.html/test-results/stage3 and test-results/stage3-artifacts and the LOCALAPPDATA idle-sensor cache"
+      ],
+      "forbidden": [
+        "EncodedCommand (base64 -EncodedCommand is not used and must not be reintroduced)",
+        "any network egress beyond 127.0.0.1:3123",
+        "elevation / RunLevel Highest",
+        "writes outside test-results/stage3, test-results/stage3-artifacts and the LOCALAPPDATA idle-sensor cache",
+        "killing node.exe by name (only its own tree and a recognised `next start` on :3123)"
+      ]
+    },
+    {
+      "kind": "scheduled-task",
+      "id": "unitas.review-archive.task",
+      "name": "UnitasReviewAgentArchive",
+      "trigger": "Daily",
+      "principal": "current user / Limited",
+      "action": "powershell -File index.html/web/scripts/install-review-archive-task.ps1 -> node scripts/review-agent-archive.mjs",
+      "purpose": "Codex ch.12 review-agent briefing archive: rolls up the daily review-agent output. Local, model-free.",
+      "doctrine": "ch.12",
+      "allowed": [
+        "read and archive review-agent briefing output under the repo"
+      ],
+      "forbidden": [
+        "EncodedCommand",
+        "network egress",
+        "elevation",
+        "writes outside the repo"
+      ]
+    },
+    {
+      "kind": "file",
+      "id": "unitas.idle-sensor.daemon",
+      "path": "web/scripts/idle-sensor-daemon.mjs",
+      "purpose": "The stage-3 executor process (long-running Node daemon).",
+      "doctrine": "ch.13 stage 3",
+      "sha256": "89427bfe7020d1c3a86362551afa521b20fc1cac38d457fb910bb000c4f4db1c"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.idle-sensor.core",
+      "path": "web/scripts/idle-sensor-core.mjs",
+      "purpose": "Pure idle/cancel/classify decision functions (no fs/process/clock).",
+      "doctrine": "ch.13 stage 3",
+      "sha256": "ad19cc3d1f898be5eb0929a00597df9ae3da02b9492d8c728a277b63e6ad3dc2"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.idle-sensor.probe",
+      "path": "web/scripts/idle-sensor-probe.ps1",
+      "purpose": "On-disk OS-idle + process-table probe. Compiles UnitasLastInput.dll once, then loads it -- inspectable, not in-memory.",
+      "doctrine": "ch.13 stage 3 / REV-36 M1",
+      "sha256": "9e135dfa9191f34752e3dc328a64a789278c87ee35325040f122bb5f4c9f6e04"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.idle-sensor.installer",
+      "path": "web/scripts/install-idle-sensor-task.ps1",
+      "purpose": "At-logon Task Scheduler registrar for UnitasIdleSensorStage3.",
+      "doctrine": "ch.13 stage 3",
+      "sha256": "bac70698975b666df6887a8ceaf1ddd4308eccab61a9c1046b8d14a90d3ae209"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.trust-registry.cli",
+      "path": "web/scripts/trust-registry.mjs",
+      "purpose": "Trust Registry CLI + verifyOnDisk() attestation used by the daemon.",
+      "doctrine": "REV-36 M1",
+      "sha256": "cf3b8706662a1ef760b14cce30ce141557869a738fb13f353bd276ed17e3cd52"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.trust-registry.core",
+      "path": "web/scripts/trust-registry-core.mjs",
+      "purpose": "Pure Trust Registry compare/stamp/attest functions.",
+      "doctrine": "REV-36 M1",
+      "sha256": "68c72b4b9f73728d91a3ac469187aa7b2f609062410ae55833e51a6e83afc2cd"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.review-archive.installer",
+      "path": "web/scripts/install-review-archive-task.ps1",
+      "purpose": "Daily Task Scheduler registrar for UnitasReviewAgentArchive.",
+      "doctrine": "ch.12",
+      "sha256": "3ca9a3487b533e927cabe6e22e3ef3018eefb3f831fd42e70a0aeba844610243"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.review-archive.script",
+      "path": "web/scripts/review-agent-archive.mjs",
+      "purpose": "The review-agent briefing archive worker.",
+      "doctrine": "ch.12",
+      "sha256": "b1520adf94bbab8b24f54ab5c0396d7e80218542f8c4cbf78849507c4c3e2dfb"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.stage3.brief",
+      "path": "web/scripts/stage3-brief.mjs",
+      "optional": true,
+      "purpose": "SessionStart brief CLI (REV-36 M2). Optional until lane B lands.",
+      "doctrine": "ch.13 stage 3 / REV-36 M2",
+      "sha256": "8b2cf94a7f6e49096350dbb66729a4d501e2dc08500d13bf5632a57e4d501c69"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.stage3.brief-core",
+      "path": "web/scripts/stage3-brief-core.mjs",
+      "optional": true,
+      "purpose": "Pure brief formatter (REV-36 M2). Optional until lane B lands.",
+      "doctrine": "ch.13 stage 3 / REV-36 M2",
+      "sha256": "296f1ec06511ab97114d8eb845bcc3d64c231cd1950935e740851b6421bb6739"
+    },
+    {
+      "kind": "derived-assembly",
+      "id": "unitas.idle-sensor.assembly",
+      "path": "%LOCALAPPDATA%\\THE UNITAS GLOBAL\\IdleSensor\\UnitasLastInput.dll",
+      "source": "unitas.idle-sensor.probe",
+      "pinned": false,
+      "purpose": "GetLastInputInfo interop, compiled ONCE to disk by the probe so it can be scanned and allow-listed. Not hash-pinned (it is regenerated per machine); trust flows from its pinned source script."
+    }
+  ]
+}

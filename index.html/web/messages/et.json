@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "UNITASe redel, mida kirjutavad iga päev ümber Micro-Burn tõhusus, teadmiste müük ja nomaadipanus"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "Võrgu pulss",
+      "sim": "simulatsioon",
+      "note": "Simuleeritud võrgu pulss — determineeritud, värskendatakse iga 5 minuti järel. Sinu enda tegevused ja kontoraamat on päris."
+    },
+    "talk": {
+      "presence": "{count} toas",
+      "pulseRoom": "Toa pulss"
+    },
+    "shorts": {
+      "watching": "{count} vaatab",
+      "trending": "Hetkel tõusuteel",
+      "feed": "Reaalajas pulss",
+      "feedLike": "{handle} meeldis {title}",
+      "feedFollow": "{handle} jälgib @{creator}",
+      "feedWatch": "{handle} vaatab {title}",
+      "sortTrending": "Tõusuteel",
+      "sortCatalogue": "Kataloog",
+      "account": "Meeldimised ja jälgimised salvestatud sinu kontole",
+      "device": "Meeldimised ja jälgimised sellel seadmel"
+    },
+    "exchange": {
+      "market": "Turu pulss",
+      "volume24h": "24 t maht",
+      "trades24h": "24 t tehingud",
+      "traders24h": "Aktiivsed kauplejad",
+      "topTheme": "Kuum teema",
+      "demand": "7 päeva nõudlus",
+      "momentumUp": "Tõuseb",
+      "momentumFlat": "Stabiilne",
+      "momentumDown": "Jahtub",
+      "ledgerLive": "Reaalajas pearaamatu näitajad",
+      "simTrade": "simuleeritud"
+    }
   }
 }

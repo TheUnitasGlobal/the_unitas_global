@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { Eye, Heart, MessageCircle, Play, Sparkles, Tag, Ticket, Upload, UserPlus } from 'lucide-react';
+import { Eye, Flame, Heart, MessageCircle, Play, Radio, Sparkles, Tag, Ticket, Upload, UserPlus } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { OmniOpen } from '@/components/home/OmniOpen';
@@ -16,13 +16,14 @@ import {
   SHORTS_SEED,
   compactCount,
   readShortsPrefs,
-  shortStats,
   shortsByTheme,
   toggleMember,
   writeShortsPrefs,
   type ShortSeed,
   type ShortsPrefs,
 } from '@/lib/live/shortsSeed';
+import { PULSE_SLOT_MS, shortsPulseFeed, shortsPulseStats, shortsTrending } from '@/lib/square/shortsPulse';
+import { hasHubSession, hubShortsSync, hubShortsToggle, isHubServerConfigured } from '@/lib/hub/hubLedger';
 
 function posterStyle(short: ShortSeed): CSSProperties {
   return {
@@ -30,20 +31,21 @@ function posterStyle(short: ShortSeed): CSSProperties {
   };
 }
 
+type SortMode = 'trending' | 'catalogue';
+
 /**
- * UNITAS Shorts -- retired in REV-20 §7.1, REVIVED in REV-29 MISSION 4 and
- * moved into the UNITAS hub. The vertical-video sharing UI (views, likes,
- * follows, share-to-U-Messenger) that seeds the U-Messenger ecosystem.
- * Honest posture: the rail is a labelled SEED catalogue with deterministic
- * counters (lib/live/shortsSeed.ts) and per-device like / follow toggles;
- * the upload CTA and the rail-end card open the CREATOR PASS
- * (ShortsCreatorPass.tsx). A card opens the short's own popup (a level on
- * the deep modal history stack) with the poster, the counters, the toggles
- * and the direct shortcuts for its title. Clips are filed under the same 22
- * themes as the news rail and the chat rooms.
+ * UNITAS Shorts -- retired in REV-20 §7.1, revived in REV-29 M4, and IGNITED
+ * in REV-36 M3: every card now carries a LIVE view/like/watching count that
+ * climbs with the 5-minute network pulse (lib/square/shortsPulse.ts,
+ * deterministic, offline-identical), a Trending / Catalogue sort, and a rolling
+ * pulse feed of likes/follows/watches from across the network. A signed-in
+ * visitor's own likes/follows are durable (hub_shorts_*); a guest keeps this
+ * device's toggles. The pulse is labelled as a simulation; the visitor's own
+ * actions and the account ledger are the real part.
  */
 export function UnitasShorts() {
   const t = useTranslations('Rev29.shorts');
+  const t36 = useTranslations('Rev36');
   const tNews = useTranslations('HotNews');
   const tPass = useTranslations('Rev29.shorts.pass');
   const locale = useLocale();
@@ -53,21 +55,84 @@ export function UnitasShorts() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [passOpen, setPassOpen] = useState(false);
   const [theme, setTheme] = useState<HotNewsCategory | 'all'>('all');
+  const [sort, setSort] = useState<SortMode>('trending');
+  // `now` from a state initialiser (never render-time Date.now), refreshed
+  // every pulse slot after mount so the counts breathe without a reload.
+  const [now, setNow] = useState(() => Date.now());
+  /** 'device' = this device only; 'account' = durable on the server. */
+  const [ledger, setLedger] = useState<'device' | 'account'>('device');
 
   useEffect(() => {
     setPrefs(readShortsPrefs());
   }, []);
 
-  function update(next: ShortsPrefs) {
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), PULSE_SLOT_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  // Signed-in path: merge the account's durable toggles over this device's.
+  useEffect(() => {
+    if (!isHubServerConfigured()) return;
+    let cancelled = false;
+    void (async () => {
+      if (!(await hasHubSession())) return;
+      const res = await hubShortsSync();
+      if (cancelled || !res.ok || !res.data) return;
+      setLedger('account');
+      setPrefs((prev) => ({
+        liked: Array.from(new Set([...prev.liked, ...res.data!.liked])),
+        followed: Array.from(new Set([...prev.followed, ...res.data!.followed])),
+      }));
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  function persist(next: ShortsPrefs) {
     setPrefs(next);
     writeShortsPrefs(next);
   }
 
+  /** Toggle a like/follow: optimistic locally, durable on the server, reverted on refusal. */
+  const react = useCallback(
+    (kind: 'like' | 'follow', target: string, nextList: string[], key: 'liked' | 'followed') => {
+      const optimistic = { ...prefs, [key]: nextList } as ShortsPrefs;
+      persist(optimistic);
+      if (ledger !== 'account') return;
+      void hubShortsToggle(kind, target).then((res) => {
+        if (!res.ok) {
+          // The server refused (offline, flood, invalid) -- put the device
+          // copy back rather than pretend it stuck.
+          setPrefs((cur) => {
+            const reverted = { ...cur, [key]: toggleMember(cur[key], target) } as ShortsPrefs;
+            writeShortsPrefs(reverted);
+            return reverted;
+          });
+        }
+      });
+    },
+    [prefs, ledger],
+  );
+
   const themes = useMemo(() => Array.from(new Set(SHORTS_SEED.map((s) => s.theme))), []);
-  const clips = useMemo(() => shortsByTheme(theme), [theme]);
+  const clips = useMemo(() => {
+    const byTheme = shortsByTheme(theme);
+    return sort === 'trending' ? shortsTrending(byTheme, now) : byTheme;
+  }, [theme, sort, now]);
+  const feed = useMemo(() => shortsPulseFeed(now, 8), [now]);
   const open = useMemo(() => SHORTS_SEED.find((s) => s.id === openId) ?? null, [openId]);
 
-  function renderToggles(short: ShortSeed, stats: ReturnType<typeof shortStats>) {
+  function feedLabel(kind: 'like' | 'follow' | 'watch', handle: string, shortId: string): string {
+    const clip = SHORTS_SEED.find((s) => s.id === shortId);
+    const title = clip?.title ?? shortId;
+    if (kind === 'follow') return t36('shorts.feedFollow', { handle, creator: clip?.handle ?? shortId });
+    if (kind === 'watch') return t36('shorts.feedWatch', { handle, title });
+    return t36('shorts.feedLike', { handle, title });
+  }
+
+  function renderToggles(short: ShortSeed, likes: number) {
     const liked = prefs.liked.includes(short.id);
     const followed = prefs.followed.includes(short.handle);
     return (
@@ -78,11 +143,11 @@ export function UnitasShorts() {
           data-on={liked ? '1' : '0'}
           aria-pressed={liked}
           onMouseEnter={() => playHoverSfx()}
-          onClick={() => update({ ...prefs, liked: toggleMember(prefs.liked, short.id) })}
+          onClick={() => react('like', short.id, toggleMember(prefs.liked, short.id), 'liked')}
           data-short-like=""
         >
           <Heart size={13} aria-hidden="true" fill={liked ? 'currentColor' : 'none'} />
-          {liked ? t('liked') : t('like')} · {compactCount(stats.likes + (liked ? 1 : 0))}
+          {liked ? t('liked') : t('like')} · {compactCount(likes + (liked ? 1 : 0))}
         </button>
         <button
           type="button"
@@ -90,7 +155,7 @@ export function UnitasShorts() {
           data-on={followed ? '1' : '0'}
           aria-pressed={followed}
           onMouseEnter={() => playHoverSfx()}
-          onClick={() => update({ ...prefs, followed: toggleMember(prefs.followed, short.handle) })}
+          onClick={() => react('follow', short.handle, toggleMember(prefs.followed, short.handle), 'followed')}
           data-short-follow=""
         >
           <UserPlus size={13} aria-hidden="true" />
@@ -120,7 +185,49 @@ export function UnitasShorts() {
           {t('upload')}
         </button>
       </div>
-      <p className="qw-hub-meta mb-3 text-[12px] text-gray-500">{t('lede')}</p>
+      <p className="qw-hub-meta mb-2 text-[12px] text-gray-500">{t('lede')}</p>
+
+      {/* REV-36: the rolling network pulse feed -- likes / follows / watches. */}
+      <div className="qw-shorts-pulse" data-shorts-pulse="" aria-live="polite">
+        <p className="qw-shorts-pulse-head">
+          <Radio size={12} aria-hidden="true" />
+          {t36('shorts.feed')}
+          <span className="qw-shorts-pulse-sim" data-shorts-pulse-sim="">
+            {t36('pulse.sim')}
+          </span>
+        </p>
+        <ul className="qw-shorts-pulse-list">
+          {feed.map((e) => (
+            <li key={e.id} className="qw-shorts-pulse-row" data-shorts-pulse-row={e.kind}>
+              {e.kind === 'like' ? <Heart size={11} aria-hidden="true" /> : e.kind === 'follow' ? <UserPlus size={11} aria-hidden="true" /> : <Eye size={11} aria-hidden="true" />}
+              <span>{feedLabel(e.kind, e.handle, e.shortId)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mb-2 flex flex-wrap items-center gap-2">
+        <div className="qw-hub-tabs" role="tablist" aria-label={t36('shorts.trending')}>
+          {(['trending', 'catalogue'] as const).map((key) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={sort === key}
+              className="qw-hub-tab"
+              data-shorts-sort={key}
+              onMouseEnter={() => playHoverSfx()}
+              onClick={() => setSort(key)}
+            >
+              {key === 'trending' ? <Flame size={12} aria-hidden="true" /> : null}
+              {key === 'trending' ? t36('shorts.sortTrending') : t36('shorts.sortCatalogue')}
+            </button>
+          ))}
+        </div>
+        <span className="qw-hub-meta ml-auto text-[11px] text-gray-500" data-shorts-ledger={ledger}>
+          {ledger === 'account' ? t36('shorts.account') : t36('shorts.device')}
+        </span>
+      </div>
 
       <div className="qw-hub-strip select-none mb-3" role="tablist" aria-label={t('filterAll')}>
         <button type="button" role="tab" aria-selected={theme === 'all'} data-active={theme === 'all' ? '1' : '0'} className="qw-hub-chip" onMouseEnter={() => playHoverSfx()} onClick={() => setTheme('all')}>
@@ -150,7 +257,7 @@ export function UnitasShorts() {
 
       <div className="qw-shorts-rail" data-shorts-rail="">
         {clips.map((short) => {
-          const stats = shortStats(short);
+          const stats = shortsPulseStats(short, now);
           const meta = hotNewsAxisMeta(short.theme);
           return (
             <button
@@ -167,8 +274,9 @@ export function UnitasShorts() {
                 <HubDot color={meta.color} size={7} />
                 {tNews(`category.${short.theme}`)}
               </span>
-              <span className="absolute right-2.5 top-2.5 rounded-full bg-black/35 px-2 py-0.5 text-[11px] font-bold backdrop-blur">
-                {t('duration', { seconds: short.duration })}
+              <span className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 text-[11px] font-bold backdrop-blur" data-short-watching="">
+                <Eye size={11} aria-hidden="true" />
+                {t36('shorts.watching', { count: compactCount(stats.watching) })}
               </span>
               <span className="qw-short-title">{short.title}</span>
               <span className="qw-short-meta">
@@ -212,7 +320,7 @@ export function UnitasShorts() {
       <Modal open={open !== null} onClose={() => setOpenId(null)} labelledBy="unitas-short-title" size="lg">
         {open &&
           (() => {
-            const stats = shortStats(open);
+            const stats = shortsPulseStats(open, now);
             const meta = hotNewsAxisMeta(open.theme);
             return (
               <div className="space-y-4" data-short-modal={open.id}>
@@ -233,9 +341,17 @@ export function UnitasShorts() {
                     </span>
                     <span>{t('views', { count: compactCount(stats.views) })}</span>
                     <span>{t('followers', { count: compactCount(stats.followers + (prefs.followed.includes(open.handle) ? 1 : 0)) })}</span>
+                    <span className="inline-flex items-center gap-1" data-short-modal-watching="">
+                      <Eye size={12} aria-hidden="true" />
+                      {t36('shorts.watching', { count: compactCount(stats.watching) })}
+                    </span>
+                    <span className="inline-flex items-center gap-1" data-short-modal-momentum="">
+                      <Flame size={12} aria-hidden="true" />
+                      +{compactCount(stats.momentum)}
+                    </span>
                   </p>
                 </div>
-                {renderToggles(open, stats)}
+                {renderToggles(open, stats.likes)}
                 <div className="border-l-2 border-accent/40 pl-3">
                   <p className="flex items-center gap-1.5 text-[13px] font-bold text-accent">
                     <MessageCircle size={13} aria-hidden="true" />

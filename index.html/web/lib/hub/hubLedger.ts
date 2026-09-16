@@ -5,6 +5,9 @@ import { EMPTY_LEDGER, type ExchangeLedger, type Purchase, type SellerRow, type 
 import { isChatRoomKey, sanitizeChatText, type ChatMessage, type ChatRoomKey } from '@/lib/hub/themeChat';
 import { isHotNewsCategory, type HotNewsCategory } from '@/lib/live/hotNews';
 
+/* REV-36 M3 shorts-reaction + market-pulse seam is appended at the end of this
+ * file (search "REV-36"); it reuses the pure rpc() helper and HubResult shape. */
+
 /**
  * REV-30 MISSION 1 -- the seam between the UNITAS hub and its SERVER LEDGER
  * (supabase/migrations/20260916000000_hub_exchange_and_rooms.sql).
@@ -245,3 +248,117 @@ export async function hubSellerBoard(limit = 6): Promise<SellerRow[]> {
 
 /** The device ledger a guest keeps, unchanged from REV-29. */
 export const DEVICE_LEDGER_FALLBACK = EMPTY_LEDGER;
+
+/* ================================================================== */
+/* REV-36 MISSION 3 -- shorts reactions + market pulse                  */
+/* (supabase/migrations/20260917000000_hub_shorts_reactions_and_market_pulse.sql)
+ *
+ * A signed-in visitor's shorts likes/follows become durable (hub_shorts_*),
+ * and the exchange's market bar can read the REAL 24h ledger (hub_market_pulse)
+ * instead of the deterministic simulation. Every mapper is pure and validating,
+ * exactly like the REV-30 mappers above; every call is fail-open through the
+ * same rpc() helper, so a guest / offline visitor simply keeps the device
+ * toggles and the simulated market bar.                                        */
+/* ================================================================== */
+
+/** This account's durable shorts toggles (liked clip ids, followed handles). */
+export interface ShortsSync {
+  liked: string[];
+  followed: string[];
+}
+
+/** The answer to one toggle: which reaction, which target, and its new state. */
+export interface ShortsToggleResult {
+  kind: 'like' | 'follow';
+  target: string;
+  on: boolean;
+}
+
+/** Public like/follow totals: { "<target>": count }. */
+export type ShortsCounts = Record<string, number>;
+
+/** The real 24h market figures from the purchase ledger. */
+export interface MarketPulse {
+  volume24h: number;
+  trades24h: number;
+  traders24h: number;
+  /** The hottest theme by volume, or null when the ledger has no rows. */
+  topTheme: HotNewsCategory | null;
+}
+
+/** Pure: an array of validated target strings (drops non-strings). */
+function asTargetList(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((t): t is string => typeof t === 'string' && t.length > 0) : [];
+}
+
+/** Pure: the `hub_shorts_sync` payload. */
+export function mapShortsSync(value: unknown): ShortsSync | null {
+  const r = asRecord(value);
+  if (!r) return null;
+  return { liked: asTargetList(r.liked), followed: asTargetList(r.followed) };
+}
+
+/** Pure: the `hub_shorts_toggle` payload. */
+export function mapShortsToggle(value: unknown): ShortsToggleResult | null {
+  const r = asRecord(value);
+  if (!r || r.ok !== true) return null;
+  if (r.kind !== 'like' && r.kind !== 'follow') return null;
+  if (typeof r.target !== 'string' || !r.target) return null;
+  if (typeof r.on !== 'boolean') return null;
+  return { kind: r.kind, target: r.target, on: r.on };
+}
+
+/** Pure: the `hub_shorts_counts` payload -> a plain { target: count } map. */
+export function mapShortsCounts(value: unknown): ShortsCounts {
+  const r = asRecord(value);
+  if (!r) return {};
+  const out: ShortsCounts = {};
+  for (const [target, raw] of Object.entries(r)) {
+    const n = asFiniteInt(raw);
+    if (n !== null && n >= 0) out[target] = n;
+  }
+  return out;
+}
+
+/** Pure: the `hub_market_pulse` payload; topTheme validated, else null. */
+export function mapMarketPulse(value: unknown): MarketPulse | null {
+  const r = asRecord(value);
+  if (!r) return null;
+  const volume24h = asFiniteInt(r.volume24h);
+  const trades24h = asFiniteInt(r.trades24h);
+  const traders24h = asFiniteInt(r.traders24h);
+  if (volume24h === null || trades24h === null || traders24h === null) return null;
+  const topTheme = typeof r.topTheme === 'string' && isHotNewsCategory(r.topTheme) ? (r.topTheme as HotNewsCategory) : null;
+  return {
+    volume24h: Math.max(0, volume24h),
+    trades24h: Math.max(0, trades24h),
+    traders24h: Math.max(0, traders24h),
+    topTheme,
+  };
+}
+
+/** This account's durable shorts toggles, or an empty pair when signed out. */
+export async function hubShortsSync(): Promise<HubResult<ShortsSync>> {
+  return rpc('hub_shorts_sync', {}, mapShortsSync);
+}
+
+/** Toggle a like (target = clip id) or a follow (target = handle). */
+export function hubShortsToggle(kind: 'like' | 'follow', target: string): Promise<HubResult<ShortsToggleResult>> {
+  return rpc('hub_shorts_toggle', { p_kind: kind, p_target: target }, mapShortsToggle);
+}
+
+/** Public like/follow totals for up to 100 targets. */
+export async function hubShortsCounts(targets: string[]): Promise<ShortsCounts> {
+  const res = await rpc('hub_shorts_counts', { p_targets: targets.slice(0, 100) }, (value) => mapShortsCounts(value));
+  return res.data ?? {};
+}
+
+/**
+ * The real 24h market pulse. On an EMPTY ledger the RPC returns zeros with a
+ * null topTheme, and the mapper passes that through (data is present, not null);
+ * data is null only on a malformed or unreachable envelope. The UI keeps the
+ * deterministic simulation until trades24h > 0 (SPEC D-6).
+ */
+export function hubMarketPulse(): Promise<HubResult<MarketPulse>> {
+  return rpc('hub_market_pulse', {}, mapMarketPulse);
+}

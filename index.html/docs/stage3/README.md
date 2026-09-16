@@ -54,10 +54,18 @@ node scripts/idle-sensor-daemon.mjs --once --idle-min 0 --interval-sec 20   # �
 | `transcript` | `~/.claude/projects/**/*.jsonl` 최신 mtime(깊이 4, 서브에이전트 포함, **모든 프로젝트**) | 창립자 메시지·툴 호출마다 전진 -- 1차 신호. 다른 프로젝트 세션도 활동(D-11). |
 | `git` | `.git/{index, logs/HEAD, HEAD, ORIG_HEAD, refs/heads/main}` 최대 mtime | `FETCH_HEAD` 제외 -- 백그라운드 fetch가 08:54에 갱신됐을 때 HEAD/index는 08:20이었다. |
 | `worktree` | `web/` 아래 최신 파일(`.next` · `node_modules` · `test-results` · `tsconfig.tsbuildinfo` 제외, 5만 엔트리 상한) | 편집·postbuild(`ownership-manifest.json`)가 여기 찍힌다. |
-| `osInput` | Windows `GetLastInputInfo`(PowerShell Add-Type, 프로세스 표와 한 번에 조회) | 세션 작업 중에도 85~110분 유휴로 읽힘 → **필요조건일 뿐 충분조건이 아님**. 조회 실패 시 활동으로 간주. |
+| `osInput` | Windows `GetLastInputInfo` — **REV-36 M1: 디스크 프로브** `web/scripts/idle-sensor-probe.ps1`(`-File` 실행)이 반환. 네이티브 인터롭 타입은 `%LOCALAPPDATA%\THE UNITAS GLOBAL\IdleSensor\UnitasLastInput.dll`로 **1회 컴파일** 후 로드(더는 인메모리 `-EncodedCommand` 아님 → 스캔·허용목록 가능). 프로세스 표도 같은 프로브가 함께 반환. | 세션 작업 중에도 85~110분 유휴로 읽힘 → **필요조건일 뿐 충분조건이 아님**. 조회·컴파일 실패 시 `idleMs=-1`(활동으로 간주, fail-closed). |
 | `busy` | `Win32_Process` 명령줄이 `next build` · `tsc --noEmit` · `sync-codex` · `playwright test`(`test-server` 제외)와 일치, 데몬 자기 트리 제외 | Stop 훅이 파일을 건드리기 전 첫 몇 초를 막는다. |
 
 추가 전제: `web/.next/BUILD_ID`가 없으면 "no build"만 기록하고 **절대 빌드하지 않는다**(백그라운드 빌드는 Stop 훅과 경쟁하며 구동 중 서버 밑의 `.next`를 다시 쓴다). 같은 `BUILD_ID@HEAD`는 완주 1회만 스윕한다(`latest.json`에서 복원).
+
+## 신뢰 등록·자기 증명 (REV-36 M1)
+
+데몬은 창립자가 공식 인가한 상주 자동화다. `-EncodedCommand` 인메모리 컴파일이 "비인가 지속성"으로 오탐되던 문제를 없애기 위해 프로브를 디스크 스크립트로, 인터롭 타입을 디스크 DLL(컴파일-원스)로 옮겼고, 인가 사실을 **신뢰 등록부** `config/security/trust-registry.json`에 각인했다(정책: `docs/security/TRUST_REGISTRY.md`).
+
+- **자기 증명**: 데몬은 기동 시와 30틱마다 `verifyOnDisk()`(`web/scripts/trust-registry.mjs`)로 자기 파일 해시를 등록부와 대조한다. 일치하면 `attestation: OK (<n> files)`, 불일치·누락·미각인이면 `ATTESTATION FAILED: …`를 로그에 남기고 **스윕을 비활성화(fail-closed)** 하며 틱 결정은 `NOT idle -- blockers: attestation`이 된다. 정지 없이 다음 `--write` 재각인으로 자동 회복한다.
+- **재각인 게이트**: 등록된 파일(데몬·코어·프로브·등록기·CLI 등)을 수정하면 `cd web && npm run security:trust:write`로 해시를 다시 각인해야 한다. 안 하면 `__tests__/security/trustRegistryParity.test.ts`가 빌드를 실패시킨다.
+- **확인 명령**: `npm run security:trust:verify`(불일치 시 EXIT 1), `npm run idle:sensor:status`(작업 상태 + DLL 존재 + 신뢰 검증).
 
 ## 취소 의미론 (`shouldCancel`)
 

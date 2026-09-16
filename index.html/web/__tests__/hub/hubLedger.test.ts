@@ -2,11 +2,15 @@ import { describe, expect, it } from 'vitest';
 import {
   classifyHubError,
   mapBuyResult,
+  mapMarketPulse,
   mapServerBoard,
   mapServerLedger,
   mapServerListing,
   mapServerMessage,
   mapServerPurchase,
+  mapShortsCounts,
+  mapShortsSync,
+  mapShortsToggle,
 } from '@/lib/hub/hubLedger';
 
 /**
@@ -176,5 +180,76 @@ describe('classifyHubError', () => {
     expect(classifyHubError('some postgres detail')).toBe('rejected');
     expect(classifyHubError(null)).toBe('rejected');
     expect(classifyHubError(undefined)).toBe('rejected');
+  });
+});
+
+// REV-36 M3 -- the shorts-reaction + market-pulse mappers.
+
+describe('mapShortsSync', () => {
+  it('maps the two target lists and drops non-strings', () => {
+    expect(mapShortsSync({ liked: ['aurora-run', 'city-grid'], followed: ['nomad.kai'] })).toEqual({
+      liked: ['aurora-run', 'city-grid'],
+      followed: ['nomad.kai'],
+    });
+    expect(mapShortsSync({ liked: ['a', 1, null, ''], followed: 'nope' })).toEqual({ liked: ['a'], followed: [] });
+  });
+
+  it('treats absent lists as empty and refuses a non-object envelope', () => {
+    expect(mapShortsSync({})).toEqual({ liked: [], followed: [] });
+    expect(mapShortsSync(null)).toBeNull();
+    expect(mapShortsSync([1, 2])).toBeNull();
+  });
+});
+
+describe('mapShortsToggle', () => {
+  it('accepts a well-formed toggle result', () => {
+    expect(mapShortsToggle({ ok: true, kind: 'like', target: 'aurora-run', on: true })).toEqual({ kind: 'like', target: 'aurora-run', on: true });
+    expect(mapShortsToggle({ ok: true, kind: 'follow', target: 'nomad.kai', on: false })).toEqual({ kind: 'follow', target: 'nomad.kai', on: false });
+  });
+
+  it('drops anything malformed', () => {
+    expect(mapShortsToggle({ ok: false, kind: 'like', target: 'x', on: true })).toBeNull();
+    expect(mapShortsToggle({ ok: true, kind: 'nope', target: 'x', on: true })).toBeNull();
+    expect(mapShortsToggle({ ok: true, kind: 'like', target: '', on: true })).toBeNull();
+    expect(mapShortsToggle({ ok: true, kind: 'like', target: 'x', on: 'yes' })).toBeNull();
+    expect(mapShortsToggle(null)).toBeNull();
+  });
+});
+
+describe('mapShortsCounts', () => {
+  it('maps a target->count object and drops bad counts', () => {
+    expect(mapShortsCounts({ 'aurora-run': 12, 'city-grid': '3', 'bad': -1, 'worse': 'x' })).toEqual({ 'aurora-run': 12, 'city-grid': 3 });
+  });
+
+  it('answers an empty object for anything that is not a record', () => {
+    expect(mapShortsCounts(null)).toEqual({});
+    expect(mapShortsCounts([1, 2])).toEqual({});
+    expect(mapShortsCounts({})).toEqual({});
+  });
+});
+
+describe('mapMarketPulse', () => {
+  it('maps the market figures with a valid theme', () => {
+    expect(mapMarketPulse({ volume24h: 12000, trades24h: 84, traders24h: 40, topTheme: 'economy' })).toEqual({
+      volume24h: 12000,
+      trades24h: 84,
+      traders24h: 40,
+      topTheme: 'economy',
+    });
+  });
+
+  it('accepts numeric strings (jsonb bigints) and clamps negatives to zero', () => {
+    expect(mapMarketPulse({ volume24h: '5000', trades24h: '10', traders24h: '4', topTheme: null })).toEqual({
+      volume24h: 5000,
+      trades24h: 10,
+      traders24h: 4,
+      topTheme: null,
+    });
+  });
+
+  it('nulls an unknown theme rather than trusting it, and refuses a broken envelope', () => {
+    expect(mapMarketPulse({ volume24h: 0, trades24h: 0, traders24h: 0, topTheme: 'world' })?.topTheme).toBeNull();
+    expect(mapMarketPulse({ trades24h: 1, traders24h: 1 })).toBeNull();
+    expect(mapMarketPulse(null)).toBeNull();
   });
 });

@@ -83,6 +83,7 @@ import {
   summaryToMarkdown,
   sweepKey,
 } from './idle-sensor-core.mjs';
+import { verifyOnDisk } from './trust-registry.mjs';
 
 const execFileAsync = promisify(execFile);
 
@@ -133,42 +134,21 @@ function log(line) {
   }
 }
 
-// --- Windows probe: last input + process table in ONE PowerShell call --------
+// --- Windows probe: last input + process table via the on-disk probe script -
 
 /**
- * Add-Type + Get-CimInstance in a single process so a tick costs one
- * PowerShell start (~1 s), not two. Passed as -EncodedCommand: no quoting
- * layer between Node and PowerShell, and the daemon's own command line never
- * contains the busy-process pattern text.
+ * REV-36 M1: the probe is now scripts/idle-sensor-probe.ps1 run with -File,
+ * NOT an in-memory base64 inline command. The one native-interop type
+ * (GetLastInputInfo) is compiled ONCE to a DLL on disk that can be scanned,
+ * hashed and allow-listed (config/security/trust-registry.json · docs/security/
+ * TRUST_REGISTRY.md); an in-memory compiled assembly has no path and no stable
+ * hash, so a security reviewer or an anti-malware heuristic can only ever call
+ * it unauthorized persistence. The daemon's own command line no longer carries
+ * any base64 payload.
  */
-const PROBE_SCRIPT = `
-$ErrorActionPreference = 'SilentlyContinue'
-$idle = -1
-try {
-  Add-Type -TypeDefinition @'
-using System;
-using System.Runtime.InteropServices;
-public static class UnitasLastInput {
-  [StructLayout(LayoutKind.Sequential)] public struct LASTINPUTINFO { public uint cbSize; public uint dwTime; }
-  [DllImport("user32.dll")] static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
-  public static long IdleMs() {
-    var info = new LASTINPUTINFO();
-    info.cbSize = (uint)Marshal.SizeOf(info);
-    if (!GetLastInputInfo(ref info)) return -1;
-    return (long)(unchecked((uint)Environment.TickCount) - info.dwTime);
-  }
-}
-'@
-  $idle = [UnitasLastInput]::IdleMs()
-} catch { $idle = -1 }
-$procs = @(Get-CimInstance Win32_Process | ForEach-Object {
-  $start = $null
-  if ($_.CreationDate) { $start = [string]$_.CreationDate.ToFileTimeUtc() }
-  [pscustomobject]@{ pid = [int]$_.ProcessId; ppid = [int]$_.ParentProcessId; start = $start; cmd = [string]$_.CommandLine }
-})
-[pscustomobject]@{ idleMs = [long]$idle; procs = $procs } | ConvertTo-Json -Compress -Depth 3
-`;
-const PROBE_ENCODED = Buffer.from(PROBE_SCRIPT, 'utf16le').toString('base64');
+const PROBE_SCRIPT_PATH = path.join(__dirname, 'idle-sensor-probe.ps1');
+/** Assembly state from the last probe ('compiled' | 'cached' | 'unavailable' | 'unknown'). */
+let lastAssemblyState = 'unknown';
 
 /**
  * @typedef {{ pid: number, ppid: number, procStart: string | null, commandLine: string }} LiveProcess
@@ -184,10 +164,15 @@ async function probeWindows() {
   try {
     const { stdout } = await execFileAsync(
       'powershell.exe',
-      ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-EncodedCommand', PROBE_ENCODED],
+      ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File', PROBE_SCRIPT_PATH],
       { windowsHide: true, timeout: PROBE_TIMEOUT_MS, maxBuffer: 64 * 1024 * 1024 },
     );
     const parsed = JSON.parse(stdout);
+    const assembly = typeof parsed?.assembly === 'string' ? parsed.assembly : 'unknown';
+    if (assembly !== lastAssemblyState) {
+      log(`idle probe assembly: ${assembly} (${PROBE_SCRIPT_PATH})`);
+      lastAssemblyState = assembly;
+    }
     const idleMs = Number(parsed?.idleMs);
     const osInputAt = Number.isFinite(idleMs) && idleMs >= 0 ? now - idleMs : null;
     const raw = Array.isArray(parsed?.procs) ? parsed.procs : null;
@@ -577,17 +562,35 @@ try {
 let lastDecisionLine = '';
 let tickCount = 0;
 
+// REV-36 M1: the daemon proves it is the founder-authorized automation the
+// trust registry pins before it ever spawns a sweep. A failed attestation
+// (a pinned file altered, the registry unreadable) disables the sweep
+// (fail-closed) and is logged; the sensor keeps ticking so a later --write
+// restores it without a restart.
+/** @type {{ ok: boolean, line: string, verified: number }} */
+let attestation = { ok: true, line: '', verified: 0 };
+
+async function refreshAttestation() {
+  const res = await verifyOnDisk();
+  attestation = { ok: res.ok, line: res.line, verified: res.verdict?.verified.length ?? 0 };
+  log(res.ok ? `attestation: OK (${attestation.verified} files)` : `ATTESTATION FAILED: ${res.line}`);
+  return attestation;
+}
+
 /** One tick: collect, decide, log (verbosely in --once, on change otherwise), sweep when due. */
 async function tick() {
   tickCount += 1;
+  if (tickCount === 1 || tickCount % HEARTBEAT_TICKS === 0) await refreshAttestation();
   const snap = await collectSignals();
   const verdict = computeIdle(snap.signals, snap.now, { idleMs: args.idleMs });
   const buildId = readBuildId();
   const key = buildId ? sweepKey({ buildId, head: snap.head }) : null;
-  const decision = !verdict.idle ? 'blocked' : !buildId ? 'no-build' : key && alreadySwept(state, key) ? 'swept' : 'idle';
+  const attestationBlocked = !attestation.ok;
+  const decision = attestationBlocked || !verdict.idle ? 'blocked' : !buildId ? 'no-build' : key && alreadySwept(state, key) ? 'swept' : 'idle';
+  const blockers = attestationBlocked ? ['attestation', ...verdict.blockers] : verdict.blockers;
   const decisionLine =
     decision === 'blocked'
-      ? `NOT idle -- blockers: ${verdict.blockers.join(', ')}`
+      ? `NOT idle -- blockers: ${blockers.join(', ')}`
       : decision === 'no-build'
         ? 'idle, but no build (web/.next/BUILD_ID missing) -- the daemon never builds; skipped'
         : decision === 'swept'

@@ -2919,5 +2919,41 @@
     "uRanking": {
       "tag": "マイクロバーン効率・知識販売・ノマド貢献度で毎日書き換わる UNITAS のはしご"
     }
+  },
+  "Rev36": {
+    "pulse": {
+      "label": "ネットワークパルス",
+      "sim": "シミュレーション",
+      "note": "シミュレートされたネットワークパルス — 決定論的で5分ごとに更新されます。あなたの操作とアカウント台帳は本物です。"
+    },
+    "talk": {
+      "presence": "ルームに{count}人",
+      "pulseRoom": "ルームパルス"
+    },
+    "shorts": {
+      "watching": "{count}人が視聴中",
+      "trending": "今トレンド",
+      "feed": "ライブパルス",
+      "feedLike": "{handle}が{title}にいいね",
+      "feedFollow": "{handle}が@{creator}をフォロー",
+      "feedWatch": "{handle}が{title}を視聴中",
+      "sortTrending": "トレンド",
+      "sortCatalogue": "カタログ",
+      "account": "いいねとフォローはアカウントに保存されます",
+      "device": "いいねとフォローはこの端末のみ"
+    },
+    "exchange": {
+      "market": "マーケットパルス",
+      "volume24h": "24時間の取引量",
+      "trades24h": "24時間の取引数",
+      "traders24h": "アクティブな取引者",
+      "topTheme": "注目テーマ",
+      "demand": "7日間の需要",
+      "momentumUp": "上昇",
+      "momentumFlat": "横ばい",
+      "momentumDown": "下降",
+      "ledgerLive": "ライブ台帳の数値",
+      "simTrade": "シミュレーション"
+    }
   }
 }
