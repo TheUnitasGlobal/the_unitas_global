@@ -99,6 +99,28 @@ export function UnitasHubModal({ open, onClose, initialTab }: UnitasHubModalProp
     setRestored(initialTab === undefined && remembered !== SQUARE_DEFAULT_THEME);
   }, [open, initialTab]);
 
+  // REV-38 (zero friction): twenty uppercase pills are ~2000px of rail, so a
+  // remembered theme near the end used to open with its pill scrolled out of
+  // sight -- the square looked like it had opened on nothing. Bring the active
+  // pill into the rail's own view. Deliberately NOT scrollIntoView: that walks
+  // the ancestor chain and would scroll the modal (and the page) too. One rAF
+  // lets the open layout settle first.
+  useEffect(() => {
+    if (!open) return;
+    const rail = railRef.current;
+    if (!rail) return;
+    const frame = requestAnimationFrame(() => {
+      const active = rail.querySelector<HTMLElement>('[aria-selected="true"]');
+      if (!active) return;
+      const left = active.offsetLeft;
+      const right = left + active.offsetWidth;
+      if (left < rail.scrollLeft || right > rail.scrollLeft + rail.clientWidth) {
+        rail.scrollLeft = Math.max(0, left - (rail.clientWidth - active.offsetWidth) / 2);
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [open, tab]);
+
   const pick = useCallback((key: SquareThemeKey) => {
     setTab(key);
     setRestored(false);
