@@ -41,4 +41,14 @@
 
 ## 5. 프로덕션 배포 검증 (제11장)
 
-(배포 후 스탬프)
+| 항목 | 실측 |
+|---|---|
+| 본 세션 게이트 재측정 | `npx tsc --noEmit` 0 · `npx vitest run` 106 파일/1797 테스트 · `npm run build` drift=0·826/826 — 전부 EXIT 0 |
+| 본 세션 Chromium 재확인 | rev19-back-stack 4 · rev25-crossplatform 6 · rev29-verify 10 · rev34-weather-square 7 = **27 passed / 3 skipped(터치 전용) / 0 failed**, `:3123` 잔류 0 |
+| 커밋 | `33411bb` feat(rev35) — 추가 11 · 삭제 7 · 수정 65 (`8d754b5..33411bb`) |
+| 푸시 | `git push origin main` → `8d754b5..33411bb main -> main` |
+| Vercel | `npx vercel --prod --yes --scope the-unitas-global-ou-e` EXIT 0 · `dpl_3GPppLVtBcqGH99QsV1E9XR6RU2n` · 원격 빌드 2분 · drift=0 · 정적 826/826 · Aliased `https://www.theunitas.global` |
+| 라이브 검증 | `ownership-manifest.json` → `gitCommit 33411bb32…`, `generatedAt 2026-09-16T14:01:52Z`; `/ko` 200; 삭제된 `/api/u-ai/ranking-detail` → **404**(영구 소거 실증) |
+| 유휴 감지 데몬 영구 각인 | 예약 작업 `UnitasIdleSensorStage3` 등록·기동(State Running, 0x41301, principal dooye/Interactive/Limited). 첫 틱 판정 `NOT idle -- blockers: transcript (12s), git (39s), worktree (40s)` — 활성 세션 비개입 실증. 이후 3단계 전수 검증은 데몬이 10분 유휴 시 자율 수행, 결과 `test-results/stage3/latest.md` → `docs/stage3/READER.md` 절차(SONNET 5/HIGH) |
+
+**잔여 결함 0건 — 옴니-랭킹 대통합 완결.**
