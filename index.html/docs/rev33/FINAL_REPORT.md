@@ -77,3 +77,36 @@ E2E가 매 실행 단언한다: 필드와 프레임의 `backdropFilter` `none|no
 설계 결정: TTL 7일(회사의 자회사·CEO는 변한다 — `geoCache`가 TTL을 두지 않는 이유와 정반대), **빈 결과는 절대 캐시하지 않음**(제3자의 한 순간을 일주일 얼리면 일시 장애가 영구 빈 필드가 된다), 쿼터 초과 시 차가운 절반을 버리고 1회 재시도, 개인정보 페이지 원장에 키 공시.
 
 실측: `{"v":"sw-v1","keys":["Q2283::ko"]}` 영속 후, localStorage만 공유하는 **새 JS 렐름**에서 다시 열었을 때 `wbgetentities` 요청 **0건**.
+
+---
+
+## 6. 프로덕션 배포 검증 (제25장)
+
+| 항목 | 값 |
+|---|---|
+| 코드 커밋 | `7c0ebe07d4a065f83940beb4eba81ab899978d2e` |
+| origin push | `fe3733b..7c0ebe0  main -> main` |
+| Vercel 배포 | `dpl_2RQjD5wZ6pE1fCq85au2Kp1UVQnS` · `the-unitas-global-dq35yl8ek` · Production · **READY** |
+| 라이브 `gitCommit` | `7c0ebe07d4a065f83940beb4eba81ab899978d2e` — **로컬 HEAD와 바이트 일치** |
+| 생성 시각 | 2026-09-16T01:31:00.335Z |
+
+### 6.1 라이브 실측 (인덱서 UA, `https://www.theunitas.global`)
+
+**마크업** — `/ko/omni-swarm`
+
+| 검증 | 결과 |
+|---|---|
+| `data-omni-swarm-page` (라우트 셸) | 1 |
+| `qw-swarm-console` (글래스 콘솔) | 1 |
+| 뷰포트 힌트 "드래그로 이동" (한국어) | 1 |
+
+**스타일시트** — `/_next/static/css/25a5818e26db4916.css`
+
+| 검증 | 결과 |
+|---|---|
+| `qw-swarm-stage` (제로-프릭션 스테이지) | 5 |
+| `qw-swarm-ctl` (뷰포트 컨트롤) | 8 |
+| `touch-action:none` | 3 |
+| `omni-swarm-page` (딥 스페이스 스코프) | 9 |
+
+M1의 딥 스페이스·글래스, M2의 제로-프릭션 게이트, M3의 20로케일 힌트가 프로덕션에서 실제로 출하되었음을 문자열 단위로 확인했다.
