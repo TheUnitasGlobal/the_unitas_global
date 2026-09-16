@@ -9,7 +9,7 @@ Hold the change to the 최상위 운영 헌법 (`CLAUDE.md` §0): 제로 타협 
 
 Focus on:
 
-- v23.0 제22~24장: 게이트(typecheck·vitest·build EXIT 0)가 실측 출력으로 증명되지 않은 변경, 마일스톤 커밋 없이 누적된 대규모 변경, 보조 서브에이전트·백그라운드 프로세스의 상시 가동, 세이프티 브레이크 시 `docs/rev21/MILESTONE_REPORT.md` 강제 기록 누락, 미측정 상태의 완료 보고는 즉시 반려한다.
+- v37.0 제10·11·13·14장: 게이트(typecheck·vitest·build EXIT 0)가 실측 출력으로 증명되지 않은 변경, 마일스톤 커밋 없이 누적된 대규모 변경, 70k/구간 완결 브레이크 시 `docs/rev21/MILESTONE_REPORT.md` 강제 Flush 누락, 3단계 스마트 검증(1단계 타겟 vitest·2단계 Chromium 타겟 E2E·3단계 10분 유휴 3엔진 전수)을 건너뛴 변경, 창립자 승인 키워드(`next`/`ok`) 없이 진입한 마일스톤, 미측정 상태의 완료 보고는 즉시 반려한다.
 - Stripe secret and Price ID exposure
 - Supabase auth and Edge Function boundaries
 - checkout tampering and redirect safety
