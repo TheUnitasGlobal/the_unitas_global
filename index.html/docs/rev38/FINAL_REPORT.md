@@ -59,10 +59,10 @@
 
 3단계 3엔진 전수는 제13장에 따라 세션이 실행하지 않는다 — 유휴 감지 데몬이 다음 유휴 창에 수행한다.
 
-## 4. 배포 — [배포 시 스탬프]
+## 4. 배포 — 실측 스탬프
 
-- git commit/push: _[스탬프]_
-- Vercel 프로덕션: _[스탬프]_
+- git commit/push: 커밋 `ea442eb` → `origin/main` 푸시 완료(`63d033c..ea442eb`).
+- Vercel 프로덕션: 배포 `the-unitas-global-fcfpwq46w-the-unitas-global-ou-e.vercel.app` 완료. `www.theunitas.global/` → 307(소버린 게이트, 정상).
 
 ## 5. 창립자 조치 필요 (하네스가 에이전트 실행을 차단)
 
