@@ -347,9 +347,14 @@ export function hubShortsToggle(kind: 'like' | 'follow', target: string): Promis
   return rpc('hub_shorts_toggle', { p_kind: kind, p_target: target }, mapShortsToggle);
 }
 
-/** Public like/follow totals for up to 100 targets. */
-export async function hubShortsCounts(targets: string[]): Promise<ShortsCounts> {
-  const res = await rpc('hub_shorts_counts', { p_targets: targets.slice(0, 100) }, (value) => mapShortsCounts(value));
+/**
+ * Public totals of ONE reaction kind for up to 100 targets (REV-37: kind-scoped
+ * so a like count and a follow count are fully isolated -- a clip id and a
+ * handle that happened to share a string can never merge). Pass 'like' with
+ * clip ids, or 'follow' with handles.
+ */
+export async function hubShortsCounts(kind: 'like' | 'follow', targets: string[]): Promise<ShortsCounts> {
+  const res = await rpc('hub_shorts_counts', { p_kind: kind, p_targets: targets.slice(0, 100) }, (value) => mapShortsCounts(value));
   return res.data ?? {};
 }
 

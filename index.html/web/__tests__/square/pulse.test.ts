@@ -82,6 +82,19 @@ describe('U-Talk pulse', () => {
       expect(n).toBeLessThanOrEqual(63);
     }
   });
+
+  it('REV-37 render isolation: one room is never disturbed by rendering another', () => {
+    // Each room's pulse is a pure function of (room, slot) with no shared
+    // mutable state, so interleaving rooms cannot make room A drift.
+    const a1 = talkPulse('economy', NOW).map((m) => m.text);
+    talkPulse('politics', NOW);
+    talkPulse('science', NOW);
+    talkPulse('disaster', NOW + 6 * 60_000);
+    const a2 = talkPulse('economy', NOW).map((m) => m.text);
+    expect(a2).toEqual(a1);
+    // Two different rooms in the same slot are independent, not a shared buffer.
+    expect(talkPulse('economy', NOW).map((m) => m.text)).not.toEqual(talkPulse('politics', NOW).map((m) => m.text));
+  });
 });
 
 describe('U-Shorts seed + pulse', () => {
