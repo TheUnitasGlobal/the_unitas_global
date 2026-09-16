@@ -68,4 +68,20 @@ i18n: `Rev34.*` 186 리프 키 × 20 로케일(uRankings 16 · meta 1 · row 1 �
 
 ## 6. 프로덕션 배포 검증 (제11장)
 
-(배포 후 스탬프)
+| 항목 | 실측 |
+|---|---|
+| 커밋 | `16497a6` feat(rev34) — 추가 32 · 수정 58 파일 (`18e20f8..16497a6`) |
+| 푸시 | `git push origin main` → `18e20f8..16497a6 main -> main` |
+| Vercel | `npx vercel --prod --yes --scope the-unitas-global-ou-e` EXIT 0 · `dpl_J2asPtsK3bqxRnoGcLKw4XHjfams` · 원격 빌드 iad1 2분 · sync-codex drift=0 · 정적 826/826 · Aliased `https://www.theunitas.global` |
+| 라이브 검증 | `https://www.theunitas.global/ownership-manifest.json` → `gitCommit 16497a6c65…`, `generatedAt 2026-09-16T12:19:04Z`; `/` 308 → `www`; `/ko` 200, HTML에 "UNITAS SQUARE (U-Square)" 라벨 각인 확인 |
+| 로컬 재확인 | 배포 직전 고아 `next start -p 3123`(서브에이전트 잔류) 정리 후 Chromium 4스펙 28 passed / 1 skipped / 0 failed |
+
+3단계(10분 유휴 3엔진 전수, SONNET 5/HIGH)는 제13장에 따라 배포 후 유휴 시 백그라운드 구동 대상이다.
+
+---
+
+## 7. 창립자 후속 판단 후보 (지령 범위 밖, 자율 제안 — 제12장)
+
+1. **캐러셀의 `unitasRanking` 슬롯·U-AI 스트림의 유니타스 랭킹 패널도 유랭킹(숏츠형)으로 승격**할지 — 이번 D-2는 허브 한정이었다.
+2. **U-Square 14개 신규 테마의 실데이터 연결**: 현재 시그널 타일은 로컬 원장·지갑·락인·모듈 레지스트리·일자 지수(결정론)로 채워진다. 허브 서버 원장(REV-30 RPC)과 연결하면 접속자 수·판매량이 실시간이 된다.
+3. **날씨 레이더 줌 기본값**(z=7)과 CARTO 베이스맵의 다크 라우트 변형은 실기기 실측 후 미세 조정 여지.
