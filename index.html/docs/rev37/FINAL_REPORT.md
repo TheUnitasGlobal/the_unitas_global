@@ -25,10 +25,10 @@
 | 마이그레이션 dry-run | 파싱 OK · 전송 0 |
 | `__tests__/hub/schemaParityRev37.test.ts` | 통과(스코프·폐기·격리·least-priv·비파괴·seam 강제) |
 
-## 3. 배포·라이브 적용 — [배포 시 스탬프]
+## 3. 배포·라이브 적용 — 실측 스탬프
 
-- git commit/push: _[스탬프]_
-- Vercel 프로덕션: _[스탬프]_
+- git commit/push: 커밋 `17740ea` → `origin/main` 푸시 완료(`76234e0..17740ea`).
+- Vercel 프로덕션: 배포 `the-unitas-global-dw4ntpox4-the-unitas-global-ou-e.vercel.app` 완료(폰트 페치 경고는 비치명, 정적 826/826). `www.theunitas.global/`·`/en/u-ai` → 307(게이트, 정상).
 - 마이그레이션 라이브 적용 + repair: 오토모드 분류기가 에이전트의 라이브 DB 변형을 차단(Production Deploy) → 창립자 수동 1회. seam이 UI 미사용이라 미적용 상태에서도 앱 무영향.
 
 ```
