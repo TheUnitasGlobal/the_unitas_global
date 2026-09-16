@@ -10,6 +10,8 @@
  *     action are the REV-23 originals, recovered from the pre-REV-31 tree so
  *     each locale keeps the wording it already had rather than a re-translation.
  *  2. `Rev29.hub.tabs.swarm` -- the sixth tab of the UNITAS master hub.
+ *  3. `Rev32.swarm.viewport.*` (REV-33 M2) -- the zero-friction viewport
+ *     controls: zoom in, zoom out, fit, and the travel hint.
  *
  * `Rev21.stream.kinds.swarm` is NOT written here: the Rev21 namespace is owned
  * by docs/rev21/i18n/*.json via scripts/i18n/apply-rev21.mjs, which replaces
@@ -119,6 +121,18 @@ const SET = {
   ),
   "Rev32.swarm.page.unresolved": L(
     "No organisation matched that name — try its full, official name.", "그 이름과 일치하는 조직을 찾지 못했습니다 — 정식 명칭으로 시도해 보세요.", "Selle nimega organisatsiooni ei leitud — proovi täielikku ametlikku nime.", "その名前に一致する組織が見つかりませんでした。正式名称でお試しください。", "没有匹配该名称的组织——请尝试其完整的正式名称。", "Ninguna organización coincide con ese nombre: pruebe con su nombre oficial completo.", "រកមិនឃើញអង្គភាពត្រូវនឹងឈ្មោះនោះទេ — សូមសាកល្បងឈ្មោះផ្លូវការពេញ។", "Aucune organisation ne correspond à ce nom — essayez son nom officiel complet.", "Keine Organisation passt zu diesem Namen — versuchen Sie den vollständigen offiziellen Namen.", "Nenhuma organização corresponde a esse nome — tente o nome oficial completo.", "Không có tổ chức nào khớp tên đó — hãy thử tên chính thức đầy đủ.", "Tidak ada organisasi yang cocok — coba nama resmi lengkapnya.", "Организация с таким названием не найдена — попробуйте полное официальное название.", "उस नाम से कोई संगठन नहीं मिला — पूरा आधिकारिक नाम आज़माएँ।", "Nessuna organizzazione corrisponde a quel nome: prova il nome ufficiale completo.", "Bu ada uyan kuruluş bulunamadı — tam resmî adını deneyin.", "ไม่พบองค์กรที่ตรงกับชื่อนั้น — ลองใช้ชื่อทางการเต็ม", "Nie znaleziono organizacji o tej nazwie — spróbuj pełnej oficjalnej nazwy.", "Geen organisatie gevonden met die naam — probeer de volledige officiële naam.", "Walang organisasyong tumugma — subukan ang buong opisyal na pangalan."
+  ),
+  "Rev32.swarm.viewport.zoomIn": L(
+    "Zoom in", "확대", "Suumi sisse", "拡大", "放大", "Acercar", "ពង្រីក", "Zoom avant", "Vergrößern", "Ampliar", "Phóng to", "Perbesar", "Приблизить", "ज़ूम इन", "Ingrandisci", "Yakınlaştır", "ขยาย", "Powiększ", "Inzoomen", "Palakihin"
+  ),
+  "Rev32.swarm.viewport.zoomOut": L(
+    "Zoom out", "축소", "Suumi välja", "縮小", "缩小", "Alejar", "បង្រួម", "Zoom arrière", "Verkleinern", "Reduzir", "Thu nhỏ", "Perkecil", "Отдалить", "ज़ूम आउट", "Riduci", "Uzaklaştır", "ย่อ", "Pomniejsz", "Uitzoomen", "Paliitin"
+  ),
+  "Rev32.swarm.viewport.reset": L(
+    "Fit the field", "전체 보기", "Sobita väli", "全体表示", "适应画面", "Ajustar el campo", "សមនឹងវាល", "Ajuster le champ", "Feld einpassen", "Ajustar o campo", "Vừa khung", "Paskan bidang", "Вписать поле", "क्षेत्र फ़िट करें", "Adatta il campo", "Alanı sığdır", "พอดีสนาม", "Dopasuj pole", "Veld passend maken", "Ikasya ang field"
+  ),
+  "Rev32.swarm.viewport.hint": L(
+    "Drag to travel · pinch to zoom", "드래그로 이동 · 두 손가락으로 확대", "Lohista liikumiseks · näpista suumimiseks", "ドラッグで移動・ピンチで拡大", "拖动移动 · 双指缩放", "Arrastra para moverte · pellizca para ampliar", "អូសដើម្បីផ្លាស់ទី · ច្បិចដើម្បីពង្រីក", "Glissez pour vous déplacer · pincez pour zoomer", "Ziehen zum Bewegen · Kneifen zum Zoomen", "Arraste para navegar · pince para ampliar", "Kéo để di chuyển · chụm để phóng to", "Seret untuk berpindah · cubit untuk memperbesar", "Перетащите, чтобы двигаться · сведите пальцы для масштаба", "चलने के लिए खींचें · ज़ूम के लिए पिंच करें", "Trascina per muoverti · pizzica per ingrandire", "Gezinmek için sürükleyin · yakınlaştırmak için sıkıştırın", "ลากเพื่อเคลื่อนที่ · หนีบเพื่อซูม", "Przeciągnij, aby się poruszać · uszczypnij, aby przybliżyć", "Sleep om te bewegen · knijp om te zoomen", "I-drag para maglakbay · kurutin para mag-zoom"
   ),
 };
 

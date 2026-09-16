@@ -2709,6 +2709,12 @@
         "searchLabel": "Parçalanacak kuruluş",
         "searchPlaceholder": "Samsung Electronics, Dünya Bankası, FC Barcelona…",
         "unresolved": "Bu ada uyan kuruluş bulunamadı — tam resmî adını deneyin."
+      },
+      "viewport": {
+        "zoomIn": "Yakınlaştır",
+        "zoomOut": "Uzaklaştır",
+        "reset": "Alanı sığdır",
+        "hint": "Gezinmek için sürükleyin · yakınlaştırmak için sıkıştırın"
       }
     }
   }

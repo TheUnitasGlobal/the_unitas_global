@@ -104,7 +104,7 @@ export function OmniSwarmWorkspace({ initialQid = '', initialQuery = '', variant
         </header>
       )}
 
-      <form onSubmit={submit} className="mb-6 flex w-full items-center gap-2" role="search">
+      <form onSubmit={submit} className="qw-swarm-console mb-6 flex w-full items-center gap-2" role="search">
         <label htmlFor={inputId} className="sr-only">
           {t('page.searchLabel')}
         </label>

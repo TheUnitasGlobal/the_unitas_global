@@ -2709,6 +2709,12 @@
         "searchLabel": "Organisasyong bubuwagin",
         "searchPlaceholder": "Samsung Electronics, World Bank, FC Barcelona…",
         "unresolved": "Walang organisasyong tumugma — subukan ang buong opisyal na pangalan."
+      },
+      "viewport": {
+        "zoomIn": "Palakihin",
+        "zoomOut": "Paliitin",
+        "reset": "Ikasya ang field",
+        "hint": "I-drag para maglakbay · kurutin para mag-zoom"
       }
     }
   }

@@ -2709,6 +2709,12 @@
         "searchLabel": "Organizacja do rozłożenia",
         "searchPlaceholder": "Samsung Electronics, Bank Światowy, FC Barcelona…",
         "unresolved": "Nie znaleziono organizacji o tej nazwie — spróbuj pełnej oficjalnej nazwy."
+      },
+      "viewport": {
+        "zoomIn": "Powiększ",
+        "zoomOut": "Pomniejsz",
+        "reset": "Dopasuj pole",
+        "hint": "Przeciągnij, aby się poruszać · uszczypnij, aby przybliżyć"
       }
     }
   }

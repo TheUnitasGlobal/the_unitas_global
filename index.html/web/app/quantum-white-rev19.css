@@ -1277,3 +1277,29 @@ html[data-unitas-surface='quantum-white'] .qw-swarm-frame {
   border-color: var(--qw-line-strong);
   background: rgba(255, 255, 255, 0.7);
 }
+
+
+/* --------------------------------------------------------------------------
+   §26. REV-33 -- the swarm's stage and controls on the white surface. The
+       field keeps its own dark volume (the hub popup shows it as a plate);
+       only the chrome around it inverts.
+   -------------------------------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-swarm-ctl {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-swarm-ctl:hover:not(:disabled),
+html[data-unitas-surface='quantum-white'] .qw-swarm-ctl:focus-visible:not(:disabled) {
+  border-color: var(--qw-blue);
+  background: #fff;
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-swarm-ctl-hint {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-swarm-frame {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}

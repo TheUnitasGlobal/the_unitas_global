@@ -2709,6 +2709,12 @@
         "searchLabel": "Organisation to take apart",
         "searchPlaceholder": "Samsung Electronics, World Bank, FC Barcelona…",
         "unresolved": "No organisation matched that name — try its full, official name."
+      },
+      "viewport": {
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out",
+        "reset": "Fit the field",
+        "hint": "Drag to travel · pinch to zoom"
       }
     }
   }

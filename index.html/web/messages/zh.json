@@ -2709,6 +2709,12 @@
         "searchLabel": "要拆解的组织",
         "searchPlaceholder": "三星电子、世界银行、巴塞罗那足球俱乐部…",
         "unresolved": "没有匹配该名称的组织——请尝试其完整的正式名称。"
+      },
+      "viewport": {
+        "zoomIn": "放大",
+        "zoomOut": "缩小",
+        "reset": "适应画面",
+        "hint": "拖动移动 · 双指缩放"
       }
     }
   }

@@ -2289,3 +2289,205 @@ body:has([data-unitas-gateway]) .dashboard-zoom {
     transform: none;
   }
 }
+
+
+/* --------------------------------------------------------------------------
+   REV-33 (founder directive 2026-09-15) -- the swarm's DEEP SPACE and its
+   ZERO-FRICTION stage.
+
+   TWO THINGS THE AUDIT SETTLED BEFORE A LINE OF THIS WAS WRITTEN.
+
+   1. /omni-swarm is a DARK route. It never renders SurfaceScope, so
+      `html[data-unitas-surface='quantum-white']` is never stamped and the
+      whole `--qw-ink / --qw-line / --qw-blue / --qw-glass` family simply does
+      not exist there. Everything below therefore builds from what DOES reach
+      the route: THE ONE CARD SKIN (`--qw-card-*`, globals.css top), the dark
+      glass family (`--u-wl-*`, waitlist.css), and the Tailwind void/accent
+      palette. Nothing here is invented where the house already had a word
+      for it.
+
+   2. "Dark glassmorphism" here is built WITHOUT `backdrop-filter`, and that
+      is not a compromise -- it is the house technique. `--u-wl-glass` is a
+      135deg white-alpha ramp and `--u-wl-edge` is an inner bevel (bright top
+      inset, dark bottom inset): together they read as glass with no blur and
+      no re-rasterisation. REV-21 §4.3 prescribes exactly this compensation,
+      and the swarm block's own doctrine forbids the alternative outright
+      ("the swarm field forbids both -- it must stay a still volume, never a
+      blurred one"). The prohibition names the FIELD and the DOOR; this block
+      honours it on both and does not reach for blur on the chrome either,
+      because one surface with two glass recipes is not one surface.
+
+   THE COSMOS IS STATIC. Every gradient below is painted once. There is no
+   keyframe, no filter and no animated property anywhere in this block -- the
+   depth comes from stacked radial gradients feathered with `transparent`
+   stops, the same idiom as `.sp-bg` and `.qw-void-pool`, which exist because
+   a 640px blurred layer was measured re-rasterising on every parallax frame.
+   -------------------------------------------------------------------------- */
+
+/* The route only. The hub tab wears the same markup inside a WHITE popup, so
+   the cosmos must not leak into it. */
+[data-omni-swarm-page='page'] {
+  position: relative;
+  isolation: isolate;
+  /* The dark-glass recipe, named once and consumed by every panel below. */
+  --qw-swarm-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  --qw-swarm-edge: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+  --qw-swarm-line: rgba(255, 255, 255, 0.13);
+  --qw-swarm-lift: 0 24px 60px -34px rgba(0, 0, 0, 0.9), 0 10px 30px -22px rgba(56, 189, 248, 0.28);
+}
+
+/* The nebula: gold core, cyan mid, violet outer -- the splash's own ramp,
+   pulled apart across the page instead of pooled at its centre. Fixed, so a
+   long page scrolls THROUGH the space rather than dragging it along. */
+[data-omni-swarm-page='page']::before {
+  content: '';
+  position: fixed;
+  inset: -10%;
+  z-index: -2;
+  pointer-events: none;
+  background: #030305;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(56, 189, 248, 0.16) 0%, rgba(56, 189, 248, 0.06) 22%, transparent 58%),
+    radial-gradient(circle at 82% 22%, rgba(124, 58, 237, 0.14) 0%, rgba(124, 58, 237, 0.05) 26%, transparent 62%),
+    radial-gradient(circle at 60% 88%, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.04) 24%, transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, transparent 70%),
+    #030305;
+}
+
+/* The star grain: a 1px dot lattice at two scales, so the field reads as
+   depth rather than as a flat wash. Static, screen-blended, 3% -- the same
+   trick as `.sp-grain`, which is also static. */
+[data-omni-swarm-page='page']::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.32;
+  mix-blend-mode: screen;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.14) 0.6px, transparent 0.6px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.08) 0.5px, transparent 0.5px);
+  background-size: 84px 84px, 37px 37px;
+  background-position: 0 0, 19px 11px;
+}
+
+/* The chrome, in dark glass. */
+[data-omni-swarm-page='page'] .qw-swarm-console,
+[data-omni-swarm-page='page'] .qw-swarm-panel--page {
+  border: 1px solid var(--qw-swarm-line);
+  border-radius: var(--qw-card-radius, 16px);
+  background: var(--qw-swarm-glass);
+  box-shadow: var(--qw-swarm-edge), var(--qw-swarm-lift);
+}
+[data-omni-swarm-page='page'] .qw-swarm-console {
+  padding: 12px;
+}
+[data-omni-swarm-page='page'] .qw-swarm-panel--page {
+  padding: 16px;
+}
+[data-omni-swarm-page='page'] .qw-swarm-console input[type='search'] {
+  border-color: var(--qw-swarm-line);
+  background: rgba(0, 0, 0, 0.35);
+}
+[data-omni-swarm-page='page'] .qw-swarm-console input[type='search']:focus {
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+/* The field's own frame, on every surface. Glass by layering, never by blur:
+   the field is the one box the doctrine names. */
+.qw-swarm-frame {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* --------------------------------------------------------------------------
+   REV-33 M2 -- the stage. `touch-action: none` is the declaration that makes
+   a one-finger drag reach us instead of scrolling the document, and it is
+   backed in JS by a non-passive `touchmove` and by the WebKit-only
+   `gesture*` events (see lib/swarm/useSwarmViewport.ts). The stage clips; the
+   field travels inside it.
+   -------------------------------------------------------------------------- */
+.qw-swarm-stage {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  touch-action: none;
+  overscroll-behavior: contain;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.qw-swarm-stage[data-swarm-dragging='1'] {
+  cursor: grabbing;
+}
+/* The field inherits the stage's refusal: REV-24 left `pan-y` here so the
+   page could scroll through the box, which is precisely what REV-33 is
+   asked to stop. */
+.qw-swarm-stage > .qw-swarm {
+  touch-action: none;
+  transform: translate3d(calc(var(--vx, 0) * 1%), calc(var(--vy, 0) * 1%), 0) scale(var(--vz, 1));
+  transform-origin: 50% 50%;
+}
+/* Promoted ONLY while a finger is down. A permanent `will-change` would hold
+   a compositor layer for a field that is still 99% of the time. */
+.qw-swarm-stage[data-swarm-dragging='1'] > .qw-swarm {
+  will-change: transform;
+}
+
+.qw-swarm-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+.qw-swarm-ctl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--qw-swarm-line, rgba(255, 255, 255, 0.13));
+  border-radius: 9px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.82);
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+.qw-swarm-ctl:hover:not(:disabled),
+.qw-swarm-ctl:focus-visible:not(:disabled) {
+  border-color: rgba(56, 189, 248, 0.6);
+  color: #fff;
+  outline: none;
+}
+.qw-swarm-ctl:disabled {
+  opacity: 0.38;
+}
+.qw-swarm-ctl-hint {
+  margin-left: 2px;
+  font-size: 11px;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+@media (max-width: 767px) {
+  /* A phone gets more of the field and a bigger target on the controls. */
+  .qw-swarm-stage {
+    border-radius: 10px;
+  }
+  .qw-swarm-ctl {
+    width: 34px;
+    height: 34px;
+  }
+  .qw-swarm-ctl-hint {
+    flex: 1 1 100%;
+    margin-left: 0;
+    margin-top: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qw-swarm-ctl {
+    transition: none;
+  }
+}

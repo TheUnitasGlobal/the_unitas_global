@@ -165,6 +165,12 @@ export function OmniSwarmPanel({ anchor, variant = 'panel', className = '' }: Om
             color={SWARM_ACCENT}
             reAnchorLabel={t('reAnchor')}
             onReanchor={absorb}
+            viewportLabels={{
+              zoomIn: t('viewport.zoomIn'),
+              zoomOut: t('viewport.zoomOut'),
+              reset: t('viewport.reset'),
+              hint: t('viewport.hint'),
+            }}
           />
         </div>
       ) : (

@@ -2709,6 +2709,12 @@
         "searchLabel": "Organización a descomponer",
         "searchPlaceholder": "Samsung Electronics, Banco Mundial, FC Barcelona…",
         "unresolved": "Ninguna organización coincide con ese nombre: pruebe con su nombre oficial completo."
+      },
+      "viewport": {
+        "zoomIn": "Acercar",
+        "zoomOut": "Alejar",
+        "reset": "Ajustar el campo",
+        "hint": "Arrastra para moverte · pellizca para ampliar"
       }
     }
   }

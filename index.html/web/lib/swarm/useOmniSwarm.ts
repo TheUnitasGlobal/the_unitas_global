@@ -12,10 +12,17 @@
  * laid out from the dimension count. So this hook walks the cursor to the end
  * itself and publishes once.
  *
- * 한계비용 0원 (Codex §2 #160, #309, #409). A module-level cache keyed on
- * (qid, lang) answers a revisit with zero requests, and an in-flight map
- * means two entrances opening the same subject at once -- the hub tile and
- * the U-AI region, say -- spend one resolution between them, not two.
+ * 한계비용 0원 (Codex §2 #160, #309, #409). THREE tiers, each answering a
+ * different repeat:
+ *   1. a module Map -- the same subject again in this tab, in microseconds,
+ *      with no JSON to parse. This is what makes the absorption trail's
+ *      rewind (Microsoft -> OpenAI -> back) cost nothing at all;
+ *   2. an in-flight map -- two entrances opening the same subject at the
+ *      same moment (the hub tab and the U-AI portal, say) share ONE
+ *      resolution rather than racing two;
+ *   3. `swarmCache` (localStorage, REV-33 M3) -- the tier that survives the
+ *      page. A walked path stays walked across a reload, a new tab and
+ *      tomorrow, so the second visit issues no request at all.
  *
  * Fail-open: a failed load leaves `failed` true and the field empty; nothing
  * here can throw into the render tree.
@@ -24,6 +31,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { SourceId } from '@/lib/uai/sourceRegistry';
 import type { SwarmInputDimension } from './swarmLayout';
 import { omniTechSource } from './omniTechSource';
+import { swarmCache, swarmCacheKey } from './swarmCache';
 import type { SwarmAnchor, SwarmCard, SwarmContext, SwarmFact } from './swarmTypes';
 
 /** A resolved organisation is stable; hold it for the session. */
@@ -99,6 +107,18 @@ export function useOmniSwarm(anchor: SwarmAnchor | null, lang: string, locale: s
       setFailed(false);
       return;
     }
+    // Tier 3: a subject walked on an earlier visit. Promote it into memory so
+    // the rest of this session answers from tier 1, and never touch the
+    // network for it again.
+    const persisted = swarmCache.get(swarmCacheKey(qid, lang));
+    if (persisted) {
+      const hit: SwarmResult = { cards: persisted.cards, sources: persisted.sources, empty: persisted.empty };
+      memory.set(key, hit);
+      setResult(hit);
+      setLoading(false);
+      setFailed(false);
+      return;
+    }
     let live = true;
     const controller = new AbortController();
     setLoading(true);
@@ -109,6 +129,8 @@ export function useOmniSwarm(anchor: SwarmAnchor | null, lang: string, locale: s
       work = loadAll({ qid, term, lang }, { locale, lang, signal: controller.signal })
         .then((r) => {
           memory.set(key, r);
+          // An empty result is deliberately NOT persisted -- see swarmCache.
+          swarmCache.set(swarmCacheKey(qid, lang), r);
           return r;
         })
         .finally(() => {
@@ -168,8 +190,9 @@ export function useOmniSwarm(anchor: SwarmAnchor | null, lang: string, locale: s
   };
 }
 
-/** Test seam: drop every cached organisation. */
+/** Test seam: drop every cached organisation, in all three tiers. */
 export function __resetSwarmCache(): void {
   memory.clear();
   inFlight.clear();
+  swarmCache.clear();
 }

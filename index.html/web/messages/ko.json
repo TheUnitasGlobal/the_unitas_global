@@ -2709,6 +2709,12 @@
         "searchLabel": "해체할 조직",
         "searchPlaceholder": "삼성전자, 세계은행, FC 바르셀로나…",
         "unresolved": "그 이름과 일치하는 조직을 찾지 못했습니다 — 정식 명칭으로 시도해 보세요."
+      },
+      "viewport": {
+        "zoomIn": "확대",
+        "zoomOut": "축소",
+        "reset": "전체 보기",
+        "hint": "드래그로 이동 · 두 손가락으로 확대"
       }
     }
   }

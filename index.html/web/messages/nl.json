@@ -2709,6 +2709,12 @@
         "searchLabel": "Te ontleden organisatie",
         "searchPlaceholder": "Samsung Electronics, Wereldbank, FC Barcelona…",
         "unresolved": "Geen organisatie gevonden met die naam — probeer de volledige officiële naam."
+      },
+      "viewport": {
+        "zoomIn": "Inzoomen",
+        "zoomOut": "Uitzoomen",
+        "reset": "Veld passend maken",
+        "hint": "Sleep om te bewegen · knijp om te zoomen"
       }
     }
   }

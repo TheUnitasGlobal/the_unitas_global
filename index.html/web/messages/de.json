@@ -2709,6 +2709,12 @@
         "searchLabel": "Zu zerlegende Organisation",
         "searchPlaceholder": "Samsung Electronics, Weltbank, FC Barcelona…",
         "unresolved": "Keine Organisation passt zu diesem Namen — versuchen Sie den vollständigen offiziellen Namen."
+      },
+      "viewport": {
+        "zoomIn": "Vergrößern",
+        "zoomOut": "Verkleinern",
+        "reset": "Feld einpassen",
+        "hint": "Ziehen zum Bewegen · Kneifen zum Zoomen"
       }
     }
   }

@@ -2709,6 +2709,12 @@
         "searchLabel": "Organizzazione da scomporre",
         "searchPlaceholder": "Samsung Electronics, Banca Mondiale, FC Barcellona…",
         "unresolved": "Nessuna organizzazione corrisponde a quel nome: prova il nome ufficiale completo."
+      },
+      "viewport": {
+        "zoomIn": "Ingrandisci",
+        "zoomOut": "Riduci",
+        "reset": "Adatta il campo",
+        "hint": "Trascina per muoverti · pizzica per ingrandire"
       }
     }
   }

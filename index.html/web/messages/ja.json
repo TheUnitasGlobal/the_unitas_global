@@ -2709,6 +2709,12 @@
         "searchLabel": "分解する組織",
         "searchPlaceholder": "サムスン電子、世界銀行、FCバルセロナ…",
         "unresolved": "その名前に一致する組織が見つかりませんでした。正式名称でお試しください。"
+      },
+      "viewport": {
+        "zoomIn": "拡大",
+        "zoomOut": "縮小",
+        "reset": "全体表示",
+        "hint": "ドラッグで移動・ピンチで拡大"
       }
     }
   }

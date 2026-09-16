@@ -826,6 +826,15 @@ export const BROWSER_STORAGE_LEDGER: readonly BrowserStorageEntry[] = [
     retention: { en: 'Cleared when the tab closes.', ko: '탭을 닫으면 삭제됩니다.' },
   },
   {
+    key: 'unitas.swarm.cache.v1',
+    storage: 'localStorage',
+    purpose: {
+      en: 'Organisations you have taken apart in the omni-tech swarm, so revisiting one costs no request.',
+      ko: '옴니-테크 스웜에서 해체해 본 조직입니다. 다시 방문할 때 요청을 보내지 않습니다.',
+    },
+    retention: { en: '7 days, 40 entries, least-recently-used.', ko: '7일, 40건, 최근 사용 순.' },
+  },
+  {
     key: 'unitas.uai.stream.v1',
     storage: 'localStorage',
     purpose: { en: 'Infinity stream pages for a search term, plus your depth and engraving tier.', ko: '검색어의 인피니티 스트림 페이지와 탐색 깊이·각인 티어입니다.' },

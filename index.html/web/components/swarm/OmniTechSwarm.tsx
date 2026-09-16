@@ -1,8 +1,10 @@
 'use client';
 
 import { useCallback, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react';
+import { Maximize2, Minus, Plus } from 'lucide-react';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { swarmLayout, type SwarmInputDimension } from '@/lib/swarm/swarmLayout';
+import { useSwarmViewport } from '@/lib/swarm/useSwarmViewport';
 
 /**
  * REV-24 MISSION 4 -- the OMNI-TECH SWARM (founder directive 2026-09-13).
@@ -64,13 +66,20 @@ export interface OmniTechSwarmProps {
   reAnchorLabel: string;
   /** Re-anchor the whole theme onto this node. Absent -> nodes are inert. */
   onReanchor?: (next: { qid: string; title: string }) => void;
+  /** REV-33 M2: localized labels for the viewport controls. */
+  viewportLabels?: { zoomIn: string; zoomOut: string; reset: string; hint: string };
 }
 
 /** Pointer travel, in field percent, at the outermost shell. */
 const PARALLAX_PCT = 2.6;
 
-export function OmniTechSwarm({ dimensions, coreLabel, color, reAnchorLabel, onReanchor }: OmniTechSwarmProps) {
-  const fieldRef = useRef<HTMLDivElement>(null);
+export function OmniTechSwarm({ dimensions, coreLabel, color, reAnchorLabel, onReanchor, viewportLabels }: OmniTechSwarmProps) {
+  // REV-33 M2: the field travels inside its own stage. `fieldRef` now belongs
+  // to the viewport, which writes --vx/--vy/--vz the same way the REV-24
+  // parallax writes --sx/--sy: through a ref, at most once per frame, never
+  // through React state.
+  const vp = useSwarmViewport();
+  const fieldRef = vp.fieldRef;
   const frameRef = useRef<number | null>(null);
   const pendingRef = useRef<{ x: number; y: number } | null>(null);
   const [active, setActive] = useState<string | null>(null);
@@ -124,10 +133,26 @@ export function OmniTechSwarm({ dimensions, coreLabel, color, reAnchorLabel, onR
     '--qw-swarm-travel': `${PARALLAX_PCT}%`,
     '--sx': 0,
     '--sy': 0,
+    // REV-33 M2: seeded here so the first paint is correct and SSR and the
+    // client agree; every later change is written to the node directly.
+    '--vx': vp.viewport.x,
+    '--vy': vp.viewport.y,
+    '--vz': vp.viewport.z,
   } as CSSProperties;
 
   return (
     <div className="qw-swarm-wrap" data-omni-swarm="" data-swarm-nodes={layout.nodes.length}>
+      {/* REV-33 M2: the STAGE is the viewport. `touch-action: none` lives on
+          it, it clips the travelling field, and it is the element the
+          non-passive refusals are bound to. */}
+      <div
+        ref={vp.stageRef}
+        className="qw-swarm-stage"
+        data-swarm-stage=""
+        data-swarm-dragging={vp.dragging ? '1' : '0'}
+        data-swarm-zoom={vp.viewport.z.toFixed(2)}
+        onPointerDown={vp.onPointerDown}
+      >
       <div
         ref={fieldRef}
         className="qw-swarm"
@@ -182,6 +207,11 @@ export function OmniTechSwarm({ dimensions, coreLabel, color, reAnchorLabel, onR
               onFocus={() => setActive(n.id)}
               onBlur={() => setActive((cur) => (cur === n.id ? null : cur))}
               onClick={() => {
+                // REV-33 M2: a drag that began on this node was TRAVEL, not
+                // activation. Without this every attempt to pan the field
+                // would absorb whichever entity the finger happened to land
+                // on -- which is the same as having no pan at all.
+                if (vp.movedRef.current) return;
                 // THE ABSORPTION LOOP. Before REV-24 this did nothing at all
                 // on a chips card: the module was a link out to Wikidata, and
                 // the re-anchor the adapter documents was unreachable.
@@ -194,6 +224,47 @@ export function OmniTechSwarm({ dimensions, coreLabel, color, reAnchorLabel, onR
           );
         })}
       </div>
+      </div>
+
+      {viewportLabels && (
+        <div className="qw-swarm-controls" data-swarm-controls="">
+          <button
+            type="button"
+            className="qw-swarm-ctl"
+            data-swarm-zoom-out=""
+            aria-label={viewportLabels.zoomOut}
+            title={viewportLabels.zoomOut}
+            onClick={vp.zoomOut}
+            onMouseEnter={() => playHoverSfx()}
+          >
+            <Minus size={14} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="qw-swarm-ctl"
+            data-swarm-zoom-in=""
+            aria-label={viewportLabels.zoomIn}
+            title={viewportLabels.zoomIn}
+            onClick={vp.zoomIn}
+            onMouseEnter={() => playHoverSfx()}
+          >
+            <Plus size={14} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="qw-swarm-ctl"
+            data-swarm-reset=""
+            aria-label={viewportLabels.reset}
+            title={viewportLabels.reset}
+            disabled={!vp.canReset}
+            onClick={vp.reset}
+            onMouseEnter={() => playHoverSfx()}
+          >
+            <Maximize2 size={14} aria-hidden="true" />
+          </button>
+          <span className="qw-swarm-ctl-hint">{viewportLabels.hint}</span>
+        </div>
+      )}
 
       <ul className="qw-swarm-legend" aria-hidden="true">
         {layout.dimensions.map((d) => (

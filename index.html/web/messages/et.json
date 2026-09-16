@@ -2709,6 +2709,12 @@
         "searchLabel": "Lahtivõetav organisatsioon",
         "searchPlaceholder": "Samsung Electronics, Maailmapank, FC Barcelona…",
         "unresolved": "Selle nimega organisatsiooni ei leitud — proovi täielikku ametlikku nime."
+      },
+      "viewport": {
+        "zoomIn": "Suumi sisse",
+        "zoomOut": "Suumi välja",
+        "reset": "Sobita väli",
+        "hint": "Lohista liikumiseks · näpista suumimiseks"
       }
     }
   }

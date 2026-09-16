@@ -2709,6 +2709,12 @@
         "searchLabel": "Organisasi yang diuraikan",
         "searchPlaceholder": "Samsung Electronics, Bank Dunia, FC Barcelona…",
         "unresolved": "Tidak ada organisasi yang cocok — coba nama resmi lengkapnya."
+      },
+      "viewport": {
+        "zoomIn": "Perbesar",
+        "zoomOut": "Perkecil",
+        "reset": "Paskan bidang",
+        "hint": "Seret untuk berpindah · cubit untuk memperbesar"
       }
     }
   }

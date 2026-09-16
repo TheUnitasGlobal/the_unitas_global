@@ -2709,6 +2709,12 @@
         "searchLabel": "Tổ chức cần phân tách",
         "searchPlaceholder": "Samsung Electronics, Ngân hàng Thế giới, FC Barcelona…",
         "unresolved": "Không có tổ chức nào khớp tên đó — hãy thử tên chính thức đầy đủ."
+      },
+      "viewport": {
+        "zoomIn": "Phóng to",
+        "zoomOut": "Thu nhỏ",
+        "reset": "Vừa khung",
+        "hint": "Kéo để di chuyển · chụm để phóng to"
       }
     }
   }
