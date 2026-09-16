@@ -25,6 +25,11 @@
     "admin:verify-phone": "node scripts/admin-verify-phone.mjs",
     "life:review:archive": "node scripts/review-agent-archive.mjs",
     "life:review:install-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-review-archive-task.ps1",
+    "idle:sensor": "node scripts/idle-sensor-daemon.mjs",
+    "idle:sensor:once": "node scripts/idle-sensor-daemon.mjs --once --dry-run",
+    "idle:sensor:install-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-idle-sensor-task.ps1",
+    "idle:sensor:uninstall-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-idle-sensor-task.ps1 -Uninstall",
+    "idle:sensor:status": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-idle-sensor-task.ps1 -Status",
     "test": "vitest run",
     "dev:all": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev-all.ps1"
   },

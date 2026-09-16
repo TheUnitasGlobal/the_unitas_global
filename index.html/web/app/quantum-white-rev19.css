@@ -886,7 +886,8 @@ html[data-unitas-surface='quantum-white'] .qw-hub-card-body {
     transform: translateX(0);
   }
 }
-/* REV-21 §1.3: ranking sub-tabs inside a card -- one snap rail. */
+/* REV-21 §1.3: sub-tabs inside a card -- one snap rail. REV-35: the ranking
+   slots that first used it are gone; the new-products family tabs remain. */
 html[data-unitas-surface='quantum-white'] .qw-hub-tabs {
   display: flex;
   gap: 6px;

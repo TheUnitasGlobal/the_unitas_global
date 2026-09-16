@@ -15,21 +15,24 @@ import {
   slotTtlMs,
 } from '../../lib/live/discoverySlots';
 import { AWARD_KEYS } from '../../lib/live/awardsThemes';
-import { GLOBAL_RANKING_THEMES } from '../../lib/globalRankings';
-import { MODULE_REGISTRY } from '../../lib/unitasRankings';
+import { U_RANKINGS_COUNT, uRankDayIndex, uRankingsFor } from '../../lib/square/uRankings';
+import { MODULE_REGISTRY } from '../../lib/module-registry';
 import { sourceById } from '../../lib/uai/sourceRegistry';
 
 // REV-20 SPEC.md §3 -- the unified slot registry's pure invariants: weather
 // first, every slot resolvable exactly once, deterministic rotation.
-// REV-21 SPEC.md §1.3 -- the two REV-19 ranking widgets join as slots (24).
+// REV-35 SPEC.md D-1 -- the two ranking slots are gone; the one `uRanking`
+// slot (the U-Square 유랭킹 rail) sits where the world ranking was.
 
 describe('discovery slots registry', () => {
   // REV-23 M3.1: 24 -> 16 (the nine RSS news wires out, `awards` in).
   // REV-29 M3: 16 -> 17 -- the `newProducts` launch wire joins, second in
   // the rotation right after the visitor's own sky.
-  it('ships exactly 17 slots: weather + 14 feed (incl. awards + newProducts) + 2 ranking', () => {
-    expect(DISCOVERY_SLOTS.length).toBe(17);
-    expect(DISCOVERY_ROTATION.length).toBe(17);
+  // REV-35 M1: 17 -> 16 -- `uRanking` replaces `worldRanking` in place and
+  // the trailing `unitasRanking` slot is deleted.
+  it('ships exactly 16 slots: weather + 14 feed (incl. awards + newProducts) + 1 uRanking', () => {
+    expect(DISCOVERY_SLOTS.length).toBe(16);
+    expect(DISCOVERY_ROTATION.length).toBe(16);
   });
 
   it('M3 (REV-29): the new-products theme is a feed slot in second position with a product anchor', () => {
@@ -75,34 +78,52 @@ describe('discovery slots registry', () => {
     expect(new Set(AWARD_KEYS).size).toBe(16);
   });
 
-  it('exactly 14 feed-kind slots (12 REV-20 themes + awards + newProducts) and 2 ranking-kind slots', () => {
+  it('exactly 14 feed-kind slots (12 REV-20 themes + awards + newProducts) and 1 uRanking-kind slot', () => {
     expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'feed').length).toBe(14);
-    expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'ranking').map((s) => s.key)).toEqual(['worldRanking', 'unitasRanking']);
+    expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'uRanking').map((s) => s.key)).toEqual(['uRanking']);
   });
 
-  it('ranking slots load instantly with sub-tabs and detail actions, and honour a tab cursor', async () => {
-    const world = findDiscoverySlot('worldRanking')!;
-    const card = await world.load({ locale: 'ko', country: 'KR' });
-    expect(card.tabs?.map((t) => t.key)).toEqual(GLOBAL_RANKING_THEMES.map((t) => t.key));
-    expect(card.activeTab).toBe(GLOBAL_RANKING_THEMES[0].key);
-    expect(card.items.length).toBeGreaterThan(0);
-    expect(card.items[0].action).toEqual({ kind: 'rankingDetail', theme: GLOBAL_RANKING_THEMES[0].key, rank: 1 });
-    // REV-34 M1-C: #1 is a row, never repeated as a large fact under the
-    // title -- but it still names the card's entity anchor.
-    expect(card.facts.some((f) => f.emphasis)).toBe(false);
-    expect(card.facts.map((f) => f.labelKey)).not.toContain('Rev21.slots.facts.topRank');
-    expect(card.subject).toEqual({ term: GLOBAL_RANKING_THEMES[0].entries[0].name, lang: 'en' });
-    const gdp = await world.load({ locale: 'en' }, { tab: 'gdp' });
-    expect(gdp.activeTab).toBe('gdp');
-    expect(gdp.items[0].action).toMatchObject({ theme: 'gdp' });
+  // REV-35 M1 (D-1 / D-6): the one leaderboard sits in the world ranking's
+  // old seat, opens UNITAS' own activity index and is the only slot whose
+  // items carry an in-app action.
+  it('the uRanking slot takes index 12, is its own kind and names the UNITAS index as its source', () => {
+    expect(DISCOVERY_ROTATION[12]).toBe('uRanking');
+    expect(findDiscoverySlot('uRanking')?.kind).toBe('uRanking');
+    expect(SLOT_SOURCES.uRanking).toEqual(['unitasIndex']);
+    expect(SLOT_PROVIDER.uRanking.name).toBe(sourceById('unitasIndex').displayName.en);
+    expect(SLOT_QID.uRanking).toBeUndefined();
+  });
 
-    const unitas = findDiscoverySlot('unitasRanking')!;
-    const u = await unitas.load({ locale: 'ko', country: 'KR' });
-    expect(u.tabs?.length).toBe(MODULE_REGISTRY.length);
-    expect(u.items[0].action).toMatchObject({ kind: 'unitasProfile', moduleKey: MODULE_REGISTRY[0].key, rank: 1 });
-    expect(u.items.every((it) => it.url === undefined)).toBe(true);
-    expect(u.facts.map((f) => f.labelKey)).not.toContain('Rev21.slots.facts.topOperator');
-    expect(u.facts.some((f) => f.value === u.items[0].title)).toBe(false);
+  it('the retired ranking slots are gone from the registry and the rotation for good', () => {
+    for (const key of ['worldRanking', 'unitasRanking']) {
+      expect(findDiscoverySlot(key as never), key).toBeUndefined();
+      expect(DISCOVERY_ROTATION as readonly string[]).not.toContain(key);
+    }
+    expect(DISCOVERY_SLOTS.some((s) => (s.kind as string) === 'ranking')).toBe(false);
+  });
+
+  it('the uRanking slot loads the twelve seeded entries instantly, each with a uRankEntry action and a stable id', async () => {
+    const slot = findDiscoverySlot('uRanking')!;
+    const card = await slot.load({ locale: 'ko', country: 'KR' });
+    const ladder = uRankingsFor(uRankDayIndex());
+    expect(card.items.length).toBe(U_RANKINGS_COUNT);
+    expect(card.items.map((it) => it.id)).toEqual(ladder.map((e) => e.id));
+    expect(card.items.map((it) => it.title)).toEqual(ladder.map((e) => e.name));
+    expect(card.items.map((it) => it.rank)).toEqual(ladder.map((e) => e.rank));
+    for (const item of card.items) {
+      expect(item.action).toEqual({ kind: 'uRankEntry', id: item.id });
+      expect(item.url).toBeUndefined();
+      expect(MODULE_REGISTRY.some((m) => item.meta?.endsWith(m.key))).toBe(true);
+    }
+    // The card body is the rail itself: nothing sits between the title row
+    // and the cards, and the sections wrapper still yields one global group.
+    expect(card.facts).toEqual([]);
+    expect(card.tabs).toBeUndefined();
+    expect(card.subject).toEqual({ term: 'UNITAS' });
+    expect(card.sections?.map((s) => s.scope)).toEqual(['global']);
+    // Deterministic: the same UTC day yields the same ids on every call.
+    const again = await slot.load({ locale: 'en' });
+    expect(again.items.map((it) => it.id)).toEqual(card.items.map((it) => it.id));
   });
 
   it('discoverySlotAt wraps modulo the slot count, both directions', () => {
@@ -126,10 +147,10 @@ describe('discovery slots registry', () => {
     expect(SLOT_QID.air).toBe('Q7391292');
   });
 
-  it('TTL is kind-scoped: weather 10min, feed 15min, ranking 6h', () => {
+  it('TTL is kind-scoped: weather 10min, feed 15min, uRanking 6h (the retired ranking window, D-6)', () => {
     expect(slotTtlMs('weather')).toBe(10 * 60 * 1000);
     expect(slotTtlMs('feed')).toBe(15 * 60 * 1000);
-    expect(slotTtlMs('ranking')).toBe(6 * 60 * 60 * 1000);
+    expect(slotTtlMs('uRanking')).toBe(6 * 60 * 60 * 1000);
   });
 
   // The provider row derives from the source registry -- never a synthetic

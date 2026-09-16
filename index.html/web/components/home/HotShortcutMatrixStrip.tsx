@@ -13,11 +13,10 @@ import { SectionShield } from '@/components/system/PageShield';
  * retired in full on the founder's directive (docs/rev20/SPEC.md §3.1, §12
  * D-1): the single <DiscoveryCarousel/> below is the ONLY rotating surface.
  *
- * REV-21 §1.3: the two ranking rows that used to sit under the carousel
- * ("실시간 세계 랭킹", "실시간 유니타스 랭킹") are absorbed INTO the carousel
- * as the `worldRanking` / `unitasRanking` slots (lib/live/discoverySlots.ts)
- * -- same data, same rank-detail popups, now one rotating surface instead of
- * three stacked ones. Only the "실시간 뉴스" wire remains as its own row,
+ * REV-21 §1.3 absorbed the two ranking rows that used to sit under the
+ * carousel into it as slots; REV-35 M1 replaced both with the ONE `uRanking`
+ * slot (lib/live/discoverySlots.ts) -- the U-Square 유랭킹 rail, one rotating
+ * surface. Only the "실시간 뉴스" wire remains as its own row,
  * itself a drag rail (§1.2). Each surface keeps its own SectionShield so a
  * bad upstream answer in one can never take the other -- or the search bar
  * above -- down.

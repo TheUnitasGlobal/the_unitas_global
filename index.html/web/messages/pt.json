@@ -1754,92 +1754,6 @@
       }
     }
   },
-  "GlobalRankings": {
-    "label": "Ranking Mundial ao Vivo",
-    "hint": "Toque num tema para ver o top 10 — carregue mais para aprofundar.",
-    "loadMoreRange": "Ver posições {from}-{to}",
-    "collapseAria": "Fechar",
-    "collectingMore": "Mais posições estão a ser reunidas — volte em breve.",
-    "snapshot": "Valores instantâneos — podem mudar ao longo do tempo.",
-    "themes": {
-      "heritage": {
-        "title": "Potências do Patrimônio Mundial da UNESCO",
-        "description": "Países com mais locais inscritos como Patrimônio Mundial."
-      },
-      "gdp": {
-        "title": "Referência do PIB Global",
-        "description": "As maiores economias do mundo por PIB nominal."
-      },
-      "records": {
-        "title": "Grandes Marcos da História da Humanidade",
-        "description": "Momentos decisivos que moldaram a civilização, em ordem cronológica."
-      },
-      "mountains": {
-        "title": "Os Picos Mais Altos do Mundo",
-        "description": "As montanhas mais altas da Terra, por altitude."
-      },
-      "rivers": {
-        "title": "Os Rios Mais Longos do Mundo",
-        "description": "Os rios mais longos da Terra, por comprimento total."
-      },
-      "buildings": {
-        "title": "Os Edifícios Mais Altos do Mundo",
-        "description": "Os arranha-céus concluídos mais altos da Terra."
-      },
-      "population": {
-        "title": "Os Países Mais Populosos",
-        "description": "Países ordenados por população total."
-      },
-      "filmBoxOffice": {
-        "title": "Campeões de Bilheteria de Todos os Tempos",
-        "description": "Os filmes de maior bilheteria do mundo, sem ajuste pela inflação."
-      },
-      "youtubeViews": {
-        "title": "Vídeos Mais Vistos do YouTube",
-        "description": "Os vídeos mais assistidos da história do YouTube, por número de visualizações."
-      },
-      "esportsEarnings": {
-        "title": "Premiações de Esports e Games",
-        "description": "Os maiores títulos de esports classificados pelo prêmio acumulado histórico."
-      },
-      "albumSales": {
-        "title": "Álbuns Mais Vendidos de Todos os Tempos",
-        "description": "Os álbuns musicais mais vendidos da história, por unidades estimadas."
-      },
-      "humanRecords": {
-        "title": "Recordes Humanos Lendários",
-        "description": "As façanhas e recordes humanos individuais mais lendários já verificados."
-      }
-    },
-    "entryDetailAria": "Ver detalhes de {name}",
-    "detailLoading": "Carregando informações aprofundadas…",
-    "detailBackgroundLabel": "Histórico",
-    "detailKeyFactsLabel": "Fatos-Chave",
-    "detailSignificanceLabel": "Importância"
-  },
-  "UnitasRankings": {
-    "label": "Ranking Unitas em Tempo Real",
-    "disclaimer": "Índice de atividade agregado simulado usando identificadores pseudônimos — não são dados pessoais reais.",
-    "viewProfileAria": "Ver perfil de {handle}",
-    "tier": {
-      "sovereign": "Soberano",
-      "platinum": "Platina",
-      "gold": "Ouro"
-    },
-    "profile": {
-      "moduleLabel": "Módulo",
-      "rankLabel": "Ranking Global",
-      "scoreLabel": "Índice de Contribuição"
-    },
-    "bio": {
-      "0": "Um operador da Coorte Genesis com a atividade mais sustentada dentro de {module} neste ciclo.",
-      "1": "Subiu no ranking de {module} por meio de engajamento diário consistente, em vez de uma única pontuação alta.",
-      "2": "Um dos primeiros a adotar {module}, ainda ativo no topo do ranking.",
-      "3": "Reconhecido na comunidade {module} por padrões de contribuição consistentes e estáveis.",
-      "4": "Um operador multimódulo cujo índice de atividade em {module} manteve posição de destaque por vários ciclos.",
-      "5": "Reconhecido dentro de {module} por engajamento sustentado bem acima do índice de atividade mediano do módulo."
-    }
-  },
   "LifeOs": {
     "hub": {
       "eyebrow": "LIFE-OS SOBERANO",
@@ -2363,22 +2277,6 @@
     }
   },
   "Rev21": {
-    "slots": {
-      "worldRanking": {
-        "title": "Ranking Mundial ao Vivo",
-        "tag": "Doze temas globais — abra uma linha para ver a história por trás da posição."
-      },
-      "unitasRanking": {
-        "title": "Ranking Unitas em Tempo Real",
-        "tag": "Índice de atividade pseudônimo em todos os módulos UNITAS."
-      },
-      "facts": {
-        "topRank": "1º lugar",
-        "rankedEntries": "entradas classificadas",
-        "topOperator": "Operador líder",
-        "moduleCount": "módulos"
-      }
-    },
     "hub": {
       "tabsAria": "Escolha um tema",
       "swipeHint": "Deslize para a esquerda ou direita para mudar de tema"
@@ -3015,6 +2913,11 @@
           "cta": "Entrar na consola soberana"
         }
       }
+    }
+  },
+  "Rev35": {
+    "uRanking": {
+      "tag": "A escada UNITAS, reescrita todos os dias pela eficiência Micro-Burn, vendas de conhecimento e contribuição nómada"
     }
   }
 }

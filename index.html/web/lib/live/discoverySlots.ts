@@ -35,7 +35,6 @@ import {
   Palette,
   Terminal,
   Trophy,
-  UsersRound,
   Wind,
   type LucideIcon,
 } from 'lucide-react';
@@ -45,27 +44,25 @@ import { sourceById, type SourceId } from '@/lib/uai/sourceRegistry';
 import { DEFAULT_PLACE, conditionOf, fetchForecast, readWeatherCache, writeWeatherCache, type Place } from '@/lib/live/useLiveWeather';
 import { AWARD_CARD_ITEMS, awardOfDay, loadAwardRoll } from '@/lib/live/awardsThemes';
 import { PRODUCT_CARD_ITEMS, PRODUCT_DEEP_ITEMS, PRODUCT_FAMILIES, familyOfDay, isProductFamilyKey, loadProductRoll, productFamily } from '@/lib/live/newProducts';
-
-/** Rows a ranking slot shows on the inline card. */
-const RANKING_CARD_ITEMS = 4;
+import { uRankDayIndex, uRankingsFor } from '@/lib/square/uRankings';
+import { fxCountryQuote, withSlotSections } from '@/lib/live/slotSections';
 
 /** Auto-rotation cadence of the discovery rail (ms). Lived in hubThemes.ts
  *  until REV-23 M3.1 deleted that module with the news wires it served. */
 export const DISCOVERY_ROTATE_MS = 7000;
-import { GLOBAL_RANKING_THEMES, type GlobalRankingThemeKey } from '@/lib/globalRankings';
-import { MODULE_REGISTRY, moduleTitleNamespace, unitasRankingFor } from '@/lib/unitasRankings';
-import { fxCountryQuote, withSlotSections } from '@/lib/live/slotSections';
 
 /* ------------------------------------------------------------------ */
 /* Contract                                                             */
 /* ------------------------------------------------------------------ */
 
-/** `ranking` holds the two ranking widgets ("실시간 세계 랭킹", "실시간
- *  유니타스 랭킹") absorbed as slots of this carousel. REV-23 M3.1 retired
- *  the `news` kind: no slot on this rail carries a news wire any more. */
-export type SlotKind = 'weather' | 'feed' | 'ranking';
+/** `uRanking` is the ONE leaderboard on this rail -- REV-35 M1 (founder
+ *  directive 2026-09-16, D-1) revoked the REV-20 carousel contract, deleted
+ *  the `ranking` kind with its two widgets ("실시간 세계 랭킹", "실시간
+ *  유니타스 랭킹") and transplanted the U-Square 유랭킹 rail in their place.
+ *  REV-23 M3.1 had already retired the `news` kind. */
+export type SlotKind = 'weather' | 'feed' | 'uRanking';
 
-export type RankingSlotKey = 'worldRanking' | 'unitasRanking';
+export type URankingSlotKey = 'uRanking';
 
 export type FeedSlotKey =
   | 'awards'
@@ -83,7 +80,7 @@ export type FeedSlotKey =
   | 'nation'
   | 'nearby';
 
-export type SlotKey = 'weather' | FeedSlotKey | RankingSlotKey;
+export type SlotKey = 'weather' | FeedSlotKey | URankingSlotKey;
 
 /** REV-21 §2.1(§2A.3): the two output scopes a card renders in, global
  *  first and the visitor's country second. */
@@ -102,11 +99,11 @@ export interface SlotFact {
   scope?: SlotScope;
 }
 
-/** REV-21 §1.3: what tapping an item does when it has no outbound URL --
- *  a ranking row opens its detail inside the slot's deep modal. */
-export type SlotItemAction =
-  | { kind: 'rankingDetail'; theme: GlobalRankingThemeKey; rank: number }
-  | { kind: 'unitasProfile'; moduleKey: string; rank: number };
+/** REV-21 §1.3: what tapping an item does when it has no outbound URL.
+ *  REV-35 M1 (D-1): the only such item is a U-Ranking entry, which opens
+ *  the slot's deep modal landed on that entry's own popup (`id` is the
+ *  ladder id from lib/square/uRankings.ts). */
+export type SlotItemAction = { kind: 'uRankEntry'; id: string };
 
 export interface SlotItem {
   id: string;
@@ -919,71 +916,39 @@ const nearbySlot: DiscoverySlot = {
 };
 
 /* ------------------------------------------------------------------ */
-/* Slots 22-23: the two REV-19 ranking widgets, absorbed (REV-21 §1.3)   */
+/* REV-35 M1: 유랭킹 (U-Rankings) -- the one leaderboard on the rail     */
 /* ------------------------------------------------------------------ */
 
-/** Ranking data is curated / deterministic -- no network, so a card is
- *  instant. The cursor's `tab` selects the theme (world) or module
- *  (UNITAS); the deep modal owns the full lists and the rank-detail
- *  popups (which DO reach the encyclopedic detail route on demand -- never
- *  from the rotating card). */
-const worldRankingSlot: DiscoverySlot = {
-  key: 'worldRanking',
-  kind: 'ranking',
+/** The seeded, deterministic ladder of lib/square/uRankings.ts -- no
+ *  network, no U-COIN, so a card is instant. The card BODY is the shorts
+ *  rail itself (URankingsShorts, compact variant), which reads the same
+ *  ladder for the same UTC day on its own; the items here exist so the
+ *  registry contract (sections, meta count, item actions) holds for this
+ *  slot exactly as for every other, and so a consumer that only knows
+ *  `SlotCard` can still open an entry through its `uRankEntry` action.
+ *  `facts` is deliberately empty: nothing sits between the title row and
+ *  the rail. */
+const uRankingSlot: DiscoverySlot = {
+  key: 'uRanking',
+  kind: 'uRanking',
   icon: Trophy,
-  color: '#facc15',
-  async load(_ctx, cursor) {
-    const requested = typeof cursor?.tab === 'string' ? cursor.tab : undefined;
-    const theme = GLOBAL_RANKING_THEMES.find((t) => t.key === requested) ?? GLOBAL_RANKING_THEMES[0];
-    // REV-34 M1-C: #1 is no longer repeated as a large fact under the title
-    // (the row itself shows it); it still names the card's entity anchor.
-    const top = theme.entries[0];
-    return {
-      facts: [
-        { labelKey: 'Rev21.slots.facts.rankedEntries', value: String(theme.entries.length) },
-      ],
-      items: theme.entries.slice(0, RANKING_CARD_ITEMS).map((entry) => ({
-        id: `${theme.key}:${entry.rank}`,
-        title: entry.name,
-        meta: entry.note,
-        rank: entry.rank,
-        color: theme.color,
-        action: { kind: 'rankingDetail', theme: theme.key, rank: entry.rank },
-      })),
-      updatedAt: Date.now(),
-      cursor: null,
-      tabs: GLOBAL_RANKING_THEMES.map((t) => ({ key: t.key, labelKey: `GlobalRankings.themes.${t.key}.title`, color: t.color })),
-      activeTab: theme.key,
-      subject: top ? { term: top.name, lang: 'en' } : undefined,
-    };
-  },
-};
-
-const unitasRankingSlot: DiscoverySlot = {
-  key: 'unitasRanking',
-  kind: 'ranking',
-  icon: UsersRound,
   color: '#d4af37',
-  async load(_ctx, cursor) {
-    const requested = typeof cursor?.tab === 'string' ? cursor.tab : undefined;
-    const module = MODULE_REGISTRY.find((m) => m.key === requested) ?? MODULE_REGISTRY[0];
-    const rows = unitasRankingFor(module);
+  async load() {
+    const ladder = uRankingsFor(uRankDayIndex());
     return {
-      facts: [
-        { labelKey: 'Rev21.slots.facts.moduleCount', value: String(MODULE_REGISTRY.length) },
-      ],
-      items: rows.slice(0, RANKING_CARD_ITEMS).map((entry) => ({
-        id: `${module.key}:${entry.rank}`,
-        title: entry.handle,
-        meta: entry.score.toLocaleString(),
+      facts: [],
+      items: ladder.map((entry) => ({
+        id: entry.id,
+        title: entry.name,
+        meta: `@${entry.handle} · ${entry.moduleKey}`,
         rank: entry.rank,
         color: '#d4af37',
-        action: { kind: 'unitasProfile', moduleKey: module.key, rank: entry.rank },
+        action: { kind: 'uRankEntry', id: entry.id },
+        scope: 'global' as const,
       })),
       updatedAt: Date.now(),
       cursor: null,
-      tabs: MODULE_REGISTRY.map((m) => ({ key: m.key, labelKey: `${moduleTitleNamespace(m)}.${m.messageKey}.title`, color: '#d4af37' })),
-      activeTab: module.key,
+      subject: { term: 'UNITAS' },
     };
   },
 };
@@ -1007,9 +972,6 @@ const feedSlots: readonly DiscoverySlot[] = [
   nearbySlot,
 ];
 
-
-const rankingSlots: readonly DiscoverySlot[] = [worldRankingSlot, unitasRankingSlot];
-
 /** REV-21 §2.1(§2A.3): one wrapper at the registry means every adapter --
  *  and every future adapter -- answers with its scope sections attached,
  *  and no consumer has to remember to build them. */
@@ -1021,7 +983,7 @@ function withScopeSections(slot: DiscoverySlot): DiscoverySlot {
 }
 
 const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>(
-  [weatherSlot, awardsSlot, newProductsSlot, ...feedSlots, ...rankingSlots]
+  [weatherSlot, awardsSlot, newProductsSlot, ...feedSlots, uRankingSlot]
     .map(withScopeSections)
     .map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
 );
@@ -1029,9 +991,11 @@ const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>(
 /** REV-20 §3.4/§3.5: weather first, then the 9 news + 12 feed themes
  *  interleaved so two slots of the same texture never sit back to back
  *  (colour-wheel adjacency is handled by the component, order here only
- *  guards content-kind adjacency). The two ranking slots join at the two
- *  natural "data" seams. REV-23 M3.1: 24 slots -> 16, the nine news wires
- *  out and `awards` in. REV-29 M3: 16 -> 17, `newProducts` in. */
+ *  guards content-kind adjacency). REV-23 M3.1: 24 slots -> 16, the nine
+ *  news wires out and `awards` in. REV-29 M3: 16 -> 17, `newProducts` in.
+ *  REV-35 M1 (D-1): 17 -> 16 -- `uRanking` takes the world ranking's seat
+ *  at index 12 and the trailing `unitasRanking` slot is gone (the U-Ranking
+ *  rail already carries every module's own ladder). */
 export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'weather',
   // REV-29 M3: the launch wire sits second -- the first data slot after the
@@ -1047,11 +1011,10 @@ export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'art',
   'devPulse',
   'nation',
-  'worldRanking',
+  'uRanking',
   'air',
   'library',
   'nearby',
-  'unitasRanking',
 ];
 
 /** REV-21 §3.2 / SPEC §12.4: the REAL engines behind each slot, by registry
@@ -1075,8 +1038,7 @@ export const SLOT_SOURCES: Record<SlotKey, readonly SourceId[]> = {
   air: ['openMeteo'],
   nation: ['worldBank'],
   nearby: ['wikipedia'],
-  worldRanking: ['unitasCurated'],
-  unitasRanking: ['unitasIndex'],
+  uRanking: ['unitasIndex'],
 };
 
 export interface SlotProvider {
@@ -1134,6 +1096,8 @@ export function findDiscoverySlot(key: SlotKey): DiscoverySlot | undefined {
  *  갱신" honours the same per-kind freshness weather already used. */
 export function slotTtlMs(kind: SlotKind): number {
   if (kind === 'weather') return 10 * 60 * 1000;
-  if (kind === 'ranking') return 6 * 60 * 60 * 1000; // curated / deterministic data
+  // REV-35 M1 (D-6): the U-Ranking keeps the retired ranking kind's window
+  // -- its ladder is seeded per UTC day, so nothing fresher exists to fetch.
+  if (kind === 'uRanking') return 6 * 60 * 60 * 1000;
   return 15 * 60 * 1000;
 }

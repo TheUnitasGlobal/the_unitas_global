@@ -46,13 +46,14 @@ import { omniOpenUrl, omniRowsFor, outboundSearchUrl, sourceById, sourceLabel, t
  * ids, so the compact slice and the E2E contract never see a difference.
  */
 
-/** SPEC host registry -- which surface the block is placed on. */
+/** SPEC host registry -- which surface the block is placed on. REV-35 M1
+ *  (D-2): `rankingDeep` became `uRankingDeep` (the carousel's U-Ranking deep
+ *  modal) and the `globalRankingDetail` / `unitasProfile` hosts died with
+ *  the legacy ranking panels that placed them. */
 export type OmniOpenHost =
   | 'weather'
   | 'feed'
-  | 'rankingDeep'
-  | 'globalRankingDetail'
-  | 'unitasProfile'
+  | 'uRankingDeep'
   | 'keywordTier'
   | 'tower'
   | 'uaiPage'

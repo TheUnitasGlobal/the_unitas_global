@@ -543,6 +543,14 @@
 .qw-shorts-rail::-webkit-scrollbar {
   display: none;
 }
+/* REV-35 M1 (D-3): the discovery carousel's uRanking card hosts the SAME
+   rail in a narrower box whose reserved height only ever grows for the
+   session; a slimmer column keeps the 9:16 cards from stretching every
+   other slot's card. Card class, ratio and motion stay byte-identical --
+   "100 % identical" is the card, the column width is the container's. */
+.qw-shorts-rail--compact {
+  grid-auto-columns: minmax(112px, 1fr);
+}
 .qw-short-card {
   position: relative;
   display: flex;

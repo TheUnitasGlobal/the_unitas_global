@@ -1754,92 +1754,6 @@
       }
     }
   },
-  "GlobalRankings": {
-    "label": "Live World Rankings",
-    "hint": "Tap a theme to reveal its top 10 — then load more to go deeper.",
-    "loadMoreRange": "Show ranks {from}-{to}",
-    "collapseAria": "Close",
-    "collectingMore": "More ranks are being compiled — check back soon.",
-    "snapshot": "Snapshot figures — may shift over time.",
-    "themes": {
-      "heritage": {
-        "title": "UNESCO World Heritage Powerhouses",
-        "description": "Countries with the most inscribed World Heritage sites."
-      },
-      "gdp": {
-        "title": "Global GDP Benchmark",
-        "description": "The world's largest economies by nominal GDP."
-      },
-      "records": {
-        "title": "Great Milestones of Human History",
-        "description": "Landmark moments that shaped civilization, in chronological order."
-      },
-      "mountains": {
-        "title": "World's Highest Peaks",
-        "description": "The tallest mountains on Earth, ranked by elevation."
-      },
-      "rivers": {
-        "title": "World's Longest Rivers",
-        "description": "The longest rivers on Earth, ranked by total length."
-      },
-      "buildings": {
-        "title": "World's Tallest Buildings",
-        "description": "The tallest completed skyscrapers on Earth."
-      },
-      "population": {
-        "title": "Most Populous Countries",
-        "description": "Countries ranked by total population."
-      },
-      "filmBoxOffice": {
-        "title": "All-Time Box Office Champions",
-        "description": "The highest-grossing films worldwide, unadjusted for inflation."
-      },
-      "youtubeViews": {
-        "title": "Most-Viewed YouTube Videos",
-        "description": "The most-watched videos in YouTube history, by view count."
-      },
-      "esportsEarnings": {
-        "title": "Esports & Gaming Prize Money",
-        "description": "The biggest esports titles ranked by all-time competitive prize money."
-      },
-      "albumSales": {
-        "title": "All-Time Best-Selling Albums",
-        "description": "The best-selling music albums in history, by estimated units sold."
-      },
-      "humanRecords": {
-        "title": "Legendary Human Records",
-        "description": "The most legendary individual human feats and records ever verified."
-      }
-    },
-    "entryDetailAria": "View detail for {name}",
-    "detailLoading": "Loading deeper insight…",
-    "detailBackgroundLabel": "Background",
-    "detailKeyFactsLabel": "Key Facts",
-    "detailSignificanceLabel": "Significance"
-  },
-  "UnitasRankings": {
-    "label": "Real-Time Unitas Rankings",
-    "disclaimer": "Simulated aggregate activity index using pseudonymous handles — not real personal data.",
-    "viewProfileAria": "View profile for {handle}",
-    "tier": {
-      "sovereign": "Sovereign",
-      "platinum": "Platinum",
-      "gold": "Gold"
-    },
-    "profile": {
-      "moduleLabel": "Module",
-      "rankLabel": "Global Rank",
-      "scoreLabel": "Contribution Index"
-    },
-    "bio": {
-      "0": "A Genesis Cohort operator who has logged the most sustained activity inside {module} this cycle.",
-      "1": "Climbed the {module} leaderboard through consistent daily engagement rather than one high score.",
-      "2": "One of the earliest adopters of {module}, still active at the top of its rankings.",
-      "3": "Known across the {module} community for high-consistency, low-noise contribution patterns.",
-      "4": "A cross-module operator whose {module} activity index has held a top-tier position for multiple cycles.",
-      "5": "Recognized within {module} for sustained engagement well above the module's median activity index."
-    }
-  },
   "LifeOs": {
     "hub": {
       "eyebrow": "SOVEREIGN LIFE-OS",
@@ -2363,22 +2277,6 @@
     }
   },
   "Rev21": {
-    "slots": {
-      "worldRanking": {
-        "title": "Live World Rankings",
-        "tag": "Twelve global themes — open a row for the story behind the rank."
-      },
-      "unitasRanking": {
-        "title": "Real-Time Unitas Rankings",
-        "tag": "Pseudonymous activity index across every UNITAS module."
-      },
-      "facts": {
-        "topRank": "Rank 1",
-        "rankedEntries": "ranked entries",
-        "topOperator": "Top operator",
-        "moduleCount": "modules"
-      }
-    },
     "hub": {
       "tabsAria": "Choose a theme",
       "swipeHint": "Swipe left or right to change theme"
@@ -3015,6 +2913,11 @@
           "cta": "Enter the sovereign console"
         }
       }
+    }
+  },
+  "Rev35": {
+    "uRanking": {
+      "tag": "The UNITAS ladder, rewritten daily by micro-burn efficiency, knowledge sales and nomad contribution"
     }
   }
 }

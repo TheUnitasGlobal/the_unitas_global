@@ -3,7 +3,8 @@ import { buildMarketingAssetPrompt, parseMarketingAssetResponse } from '../../li
 
 // Module-level test isolation (CLAUDE.md) -- pure functions only, no
 // network. generateMarketingAssets (the fetch-calling entry point) is
-// intentionally untested here, same convention as lib/uai/rankingDetail.ts.
+// intentionally untested here, same convention as the other fetch wrappers
+// under lib/uai (the pure halves are what get pinned).
 describe('parseMarketingAssetResponse', () => {
   it('parses a well-formed JSON object', () => {
     const raw = JSON.stringify({

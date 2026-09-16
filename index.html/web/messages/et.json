@@ -1754,92 +1754,6 @@
       }
     }
   },
-  "GlobalRankings": {
-    "label": "Otsepilt: Maailma Edetabel",
-    "hint": "Puuduta teemat, et näha selle esikümmet — laadi rohkem, et süveneda.",
-    "loadMoreRange": "Näita kohti {from}-{to}",
-    "collapseAria": "Sulge",
-    "collectingMore": "Rohkem kohti lisandub varsti.",
-    "snapshot": "Hetkeseisu näitajad — võivad ajas muutuda.",
-    "themes": {
-      "heritage": {
-        "title": "UNESCO maailmapärandi liidrid",
-        "description": "Riigid, kellel on enim UNESCO maailmapärandi objekte."
-      },
-      "gdp": {
-        "title": "Globaalne SKT võrdlusalus",
-        "description": "Maailma suurimad majandused nominaalse SKT järgi."
-      },
-      "records": {
-        "title": "Inimkonna suured verstapostid",
-        "description": "Tsivilisatsiooni kujundanud sündmused kronoloogilises järjekorras."
-      },
-      "mountains": {
-        "title": "Maailma kõrgeimad tipud",
-        "description": "Maailma kõrgeimad mäed kõrguse järgi."
-      },
-      "rivers": {
-        "title": "Maailma pikimad jõed",
-        "description": "Maailma pikimad jõed kogupikkuse järgi."
-      },
-      "buildings": {
-        "title": "Maailma kõrgeimad hooned",
-        "description": "Maailma kõrgeimad valminud pilvelõhkujad."
-      },
-      "population": {
-        "title": "Rahvaarvult suurimad riigid",
-        "description": "Riigid järjestatud rahvaarvu järgi."
-      },
-      "filmBoxOffice": {
-        "title": "Kõigi aegade kassahitid",
-        "description": "Maailma tulusaimad filmid, inflatsiooniga korrigeerimata."
-      },
-      "youtubeViews": {
-        "title": "Enim vaadatud YouTube'i videod",
-        "description": "YouTube'i ajaloo enim vaadatud videod vaatamiste arvu järgi."
-      },
-      "esportsEarnings": {
-        "title": "E-spordi ja mängude auhinnarahad",
-        "description": "Suurimad e-spordialad kogu aegade auhinnaraha järgi."
-      },
-      "albumSales": {
-        "title": "Kõigi aegade enim müüdud albumid",
-        "description": "Ajaloo enim müüdud muusikaalbumid hinnangulise müügi järgi."
-      },
-      "humanRecords": {
-        "title": "Legendaarsed inimrekordid",
-        "description": "Kõigi aegade legendaarseimad kinnitatud individuaalsed inimsaavutused ja rekordid."
-      }
-    },
-    "entryDetailAria": "Vaata {name} üksikasju",
-    "detailLoading": "Süvateabe laadimine…",
-    "detailBackgroundLabel": "Taust",
-    "detailKeyFactsLabel": "Peamised Faktid",
-    "detailSignificanceLabel": "Tähtsus"
-  },
-  "UnitasRankings": {
-    "label": "Reaalajas Unitase Edetabel",
-    "disclaimer": "Simuleeritud koondatud aktiivsusindeks pseudonüümsete kasutajanimedega — mitte päris isikuandmed.",
-    "viewProfileAria": "Vaata kasutaja {handle} profiili",
-    "tier": {
-      "sovereign": "Suveräänne",
-      "platinum": "Plaatina",
-      "gold": "Kuld"
-    },
-    "profile": {
-      "moduleLabel": "Moodul",
-      "rankLabel": "Globaalne koht",
-      "scoreLabel": "Panuseindeks"
-    },
-    "bio": {
-      "0": "Genesis Cohorti operaator, kellel on selles tsüklis {module} sees kõige püsivam aktiivsus.",
-      "1": "Tõusis {module} edetabelis püsiva igapäevase tegevuse, mitte ühe suure tulemuse abil.",
-      "2": "Üks {module} varasemaid kasutajaid, endiselt aktiivne edetabeli tipus.",
-      "3": "Tuntud {module} kogukonnas stabiilse ja järjepideva panuse poolest.",
-      "4": "Mitme mooduli operaator, kelle {module} aktiivsusindeks on püsinud tipptasemel mitme tsükli jooksul.",
-      "5": "Tunnustatud {module}s püsiva tegevuse eest, mis ületab mooduli keskmist aktiivsusindeksit selgelt."
-    }
-  },
   "LifeOs": {
     "hub": {
       "eyebrow": "SUVERÄÄNNE LIFE-OS",
@@ -2363,22 +2277,6 @@
     }
   },
   "Rev21": {
-    "slots": {
-      "worldRanking": {
-        "title": "Otsepilt: Maailma Edetabel",
-        "tag": "Kaksteist globaalset teemat — ava rida, et näha koha tagamaad."
-      },
-      "unitasRanking": {
-        "title": "Reaalajas Unitase Edetabel",
-        "tag": "Pseudonüümne aktiivsusindeks üle kõigi UNITASe moodulite."
-      },
-      "facts": {
-        "topRank": "1. koht",
-        "rankedEntries": "pingerea kirjet",
-        "topOperator": "Tippoperaator",
-        "moduleCount": "moodulit"
-      }
-    },
     "hub": {
       "tabsAria": "Vali teema",
       "swipeHint": "Teema vahetamiseks libista vasakule või paremale"
@@ -3015,6 +2913,11 @@
           "cta": "Sisene suveräänsesse konsooli"
         }
       }
+    }
+  },
+  "Rev35": {
+    "uRanking": {
+      "tag": "UNITASe redel, mida kirjutavad iga päev ümber Micro-Burn tõhusus, teadmiste müük ja nomaadipanus"
     }
   }
 }

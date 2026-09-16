@@ -207,7 +207,10 @@ test.describe('REV-29 M3 -- the new-products theme', () => {
     const chips = page.locator('[data-live-hub] .qw-hub-strip [data-slot]');
     await expect(chips.first()).toBeVisible();
     expect(await chips.nth(1).getAttribute('data-slot')).toBe('newProducts');
-    expect(await chips.count()).toBe(17);
+    // REV-35 M1 (D-1): sixteen seats -- 유랭킹 took the world ranking's seat
+    // twelve and the module-ranking seat was removed outright.
+    expect(await chips.count()).toBe(16);
+    expect(await chips.nth(12).getAttribute('data-slot')).toBe('uRanking');
   });
 });
 

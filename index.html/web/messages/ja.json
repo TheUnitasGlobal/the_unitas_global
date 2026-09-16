@@ -1754,92 +1754,6 @@
       }
     }
   },
-  "GlobalRankings": {
-    "label": "リアルタイム世界ランキング",
-    "hint": "テーマをタップすると上位10位が表示されます — もっと見るでさらに深掘りできます。",
-    "loadMoreRange": "{from}〜{to}位を見る",
-    "collapseAria": "閉じる",
-    "collectingMore": "さらなる順位は準備中です。",
-    "snapshot": "スナップショットの数値であり、時期により変動する場合があります。",
-    "themes": {
-      "heritage": {
-        "title": "世界遺産保有数ランキング",
-        "description": "世界遺産の登録件数が最も多い国のランキング。"
-      },
-      "gdp": {
-        "title": "世界のGDPベンチマーク",
-        "description": "名目GDPで見た世界最大の経済大国ランキング。"
-      },
-      "records": {
-        "title": "人類史上の偉大な記録",
-        "description": "文明を形作った歴史的な節目を時系列で紹介。"
-      },
-      "mountains": {
-        "title": "世界最高峰ランキング",
-        "description": "標高で見た世界で最も高い山のランキング。"
-      },
-      "rivers": {
-        "title": "世界最長の河川ランキング",
-        "description": "総延長で見た世界で最も長い川のランキング。"
-      },
-      "buildings": {
-        "title": "世界の超高層ビルランキング",
-        "description": "完成済みの世界で最も高い高層ビルのランキング。"
-      },
-      "population": {
-        "title": "世界の人口大国ランキング",
-        "description": "総人口で見た国別ランキング。"
-      },
-      "filmBoxOffice": {
-        "title": "歴代興行収入ランキング",
-        "description": "物価調整なしの、世界興行収入トップ映画ランキング。"
-      },
-      "youtubeViews": {
-        "title": "YouTube最多再生動画",
-        "description": "再生回数に基づく、YouTube史上最も視聴された動画ランキング。"
-      },
-      "esportsEarnings": {
-        "title": "eスポーツ・ゲーム賞金ランキング",
-        "description": "歴代累計賞金額に基づく、最大規模のeスポーツタイトルランキング。"
-      },
-      "albumSales": {
-        "title": "歴代最多セールスアルバム",
-        "description": "推定売上枚数に基づく、史上最も売れた音楽アルバムランキング。"
-      },
-      "humanRecords": {
-        "title": "伝説の人類記録",
-        "description": "これまでに検証された、最も伝説的な個人の記録・偉業。"
-      }
-    },
-    "entryDetailAria": "{name}の詳細を見る",
-    "detailLoading": "詳細情報を読み込み中…",
-    "detailBackgroundLabel": "背景",
-    "detailKeyFactsLabel": "主な事実",
-    "detailSignificanceLabel": "意義"
-  },
-  "UnitasRankings": {
-    "label": "リアルタイム・ユニタスランキング",
-    "disclaimer": "匿名ハンドルを用いたシミュレーション上の集計活動指数であり、実在の個人データではありません。",
-    "viewProfileAria": "{handle}のプロフィールを見る",
-    "tier": {
-      "sovereign": "ソブリン",
-      "platinum": "プラチナ",
-      "gold": "ゴールド"
-    },
-    "profile": {
-      "moduleLabel": "モジュール",
-      "rankLabel": "グローバル順位",
-      "scoreLabel": "貢献指数"
-    },
-    "bio": {
-      "0": "今サイクルの{module}内で最も継続的な活動を記録したジェネシス・コホート運営者。",
-      "1": "単発の高スコアではなく、日々の一貫した取り組みで{module}ランキングを駆け上がった。",
-      "2": "{module}の最初期採用者の一人で、今もランキング上位で活動中。",
-      "3": "{module}コミュニティ内で、安定した一貫性ある貢献パターンで知られている。",
-      "4": "{module}の活動指数が複数サイクルにわたりトップ層を維持しているクロスモジュール運営者。",
-      "5": "{module}内でモジュールの中央値を大きく上回る持続的な参加が認められている。"
-    }
-  },
   "LifeOs": {
     "hub": {
       "eyebrow": "ソブリン ライフOS",
@@ -2363,22 +2277,6 @@
     }
   },
   "Rev21": {
-    "slots": {
-      "worldRanking": {
-        "title": "リアルタイム世界ランキング",
-        "tag": "12のグローバルテーマ — 行を開くと順位の背景がわかります。"
-      },
-      "unitasRanking": {
-        "title": "リアルタイム・ユニタスランキング",
-        "tag": "UNITAS全モジュールを横断する匿名アクティビティ指数。"
-      },
-      "facts": {
-        "topRank": "1位",
-        "rankedEntries": "ランキング項目",
-        "topOperator": "トップオペレーター",
-        "moduleCount": "モジュール"
-      }
-    },
     "hub": {
       "tabsAria": "テーマを選択",
       "swipeHint": "左右にスワイプしてテーマを切り替え"
@@ -3015,6 +2913,11 @@
           "cta": "ソブリンコンソールへ入る"
         }
       }
+    }
+  },
+  "Rev35": {
+    "uRanking": {
+      "tag": "マイクロバーン効率・知識販売・ノマド貢献度で毎日書き換わる UNITAS のはしご"
     }
   }
 }

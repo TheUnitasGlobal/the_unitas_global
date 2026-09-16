@@ -267,7 +267,7 @@ html[data-unitas-surface='quantum-white'] .z-\[140\] .text-accent {
    3. Dark-utility remap under `.dashboard-zoom` (spec §1) -- every class
       grepped from the retained search-bar tree: OmniSynapseSearch,
       HotShortcutMatrixStrip, LiveLadderExplorer, HotIssueNewsList,
-      LiveWeatherPanel, GlobalThemeRankings, UnitasModuleRankings, plus
+      LiveWeatherPanel, URankingsShorts (REV-35: the one ranking rail), plus
       NavBar/CoinBalanceBadge's own internals (also inside `.dashboard-zoom`,
       see the DOM topology note in the subsystem map). Footer keeps its
       native dark bar unremapped (spec §10.17: "Footer is retained

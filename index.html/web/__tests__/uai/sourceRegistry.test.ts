@@ -60,6 +60,13 @@ describe('source registry', () => {
     expect(outboundSearchUrl('unitasIndex', 'Air')).toBe(sourceById('unitasIndex').homepage);
   });
 
+  // REV-35 M1 (D-2): the world ranking's hand-kept dataset left with that
+  // slot; the activity index behind 유랭킹 is the one first-party source.
+  it('keeps unitasIndex as the only first-party source and has no unitasCurated row', () => {
+    expect(sourcesBySide('first-party').map((s) => s.id)).toEqual(['unitasIndex']);
+    expect(SOURCE_REGISTRY.some((s) => (s.id as string) === 'unitasCurated')).toBe(false);
+  });
+
   // REV-34 M2 (D-8): the REV-23 arXiv link pointed at /abs/, which takes an
   // identifier and 404s on a query. The listing endpoint is /search/.
   it('sends an arXiv query to the /search/ listing, never to /abs/', () => {

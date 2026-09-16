@@ -116,8 +116,8 @@ export type SourceId =
   | 'bluesky'
   | 'mastodon'
   | 'pinterest'
-  // first party
-  | 'unitasCurated'
+  // first party (REV-35 M1: `unitasCurated` -- the world ranking's hand-kept
+  // dataset -- died with that slot; the activity index behind 유랭킹 stays)
   | 'unitasIndex';
 
 export interface OmniSource {
@@ -986,17 +986,6 @@ export const SOURCE_REGISTRY: readonly OmniSource[] = [
   /* first party                                                        */
   /* ---------------------------------------------------------------- */
   {
-    id: 'unitasCurated',
-    displayName: { en: 'UNITAS curated dataset', ko: 'UNITAS 큐레이션 데이터셋' },
-    owner: 'THE UNITAS GLOBAL OÜ',
-    homepage: 'https://www.theunitas.global/',
-    hosts: ['theunitas.global'],
-    side: 'first-party',
-    licenseClass: 'first-party',
-    attribution: { en: 'Curated, independently verifiable reference figures compiled by UNITAS; refreshed by hand, not live.', ko: 'UNITAS가 편집한 독립 검증 가능한 참조 수치이며, 실시간이 아닌 수기 갱신입니다.' },
-    anchorKind: ['text'],
-  },
-  {
     id: 'unitasIndex',
     displayName: { en: 'UNITAS activity index', ko: 'UNITAS 활동 지수' },
     owner: 'THE UNITAS GLOBAL OÜ',
@@ -1114,17 +1103,17 @@ export const OUTBOUND_BRAND_ROW: readonly SourceId[] = [
 /**
  * The theme families a popup can belong to. A family picks the two rows of
  * the omni-open block: `place` for weather / quake / air / nation / nearby,
- * `news` for the news rail, `rankings` for the world ranking, `products`
- * for the new-products slot, `fx` / `crypto` for the money slots,
- * `science` / `dev` / `library` / `art` for the knowledge slots, `shorts`
- * for the U-Shorts rail, `unitas` for UNITAS' own rankings and profiles,
- * and `default` for everything else (the stream, keyword tiers).
+ * `news` for the news rail, `products` for the new-products slot, `fx` /
+ * `crypto` for the money slots, `science` / `dev` / `library` / `art` for
+ * the knowledge slots, `shorts` for the U-Shorts rail, `unitas` for UNITAS'
+ * own 유랭킹 (U-Rankings) and profiles, and `default` for everything else
+ * (the stream, keyword tiers). REV-35 M1 (D-2): the `rankings` family --
+ * the world ranking's statistics corpora -- was deleted with that slot.
  */
 export type OmniFamily =
   | 'default'
   | 'place'
   | 'news'
-  | 'rankings'
   | 'products'
   | 'fx'
   | 'crypto'
@@ -1201,23 +1190,6 @@ export const OMNI_FAMILY_ROWS: Readonly<Record<OmniFamily, OmniRows>> = {
       'mastodon',
       'linkedin',
       'facebook',
-    ],
-  },
-  rankings: {
-    sources: ['wikipedia', 'wikidata', 'worldBank', 'oecd', 'googleScholar', 'openAlex'],
-    platforms: [
-      'googleSearch',
-      'bingSearch',
-      'naverSearch',
-      'yandex',
-      'duckduckgoSearch',
-      'yahooSearch',
-      'baidu',
-      'tradingView',
-      'youtube',
-      'x',
-      'reddit',
-      'linkedin',
     ],
   },
   products: {
@@ -1408,8 +1380,8 @@ const SLOT_FAMILY: Readonly<Record<string, OmniFamily>> = {
   paper: 'science',
   library: 'library',
   art: 'art',
-  worldRanking: 'rankings',
-  unitasRanking: 'unitas',
+  // REV-35 M1 (D-6): the one leaderboard opens UNITAS' own family.
+  uRanking: 'unitas',
 };
 
 export function omniFamilyForSlot(slotKey: string): OmniFamily {

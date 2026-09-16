@@ -10,7 +10,7 @@
 // module hand-rolls that exact pattern natively (no external dependency --
 // the encoding is a few lines of straightforward code) so every place in
 // this codebase that stuffs a structured array (Review Agent findings,
-// ranking-detail facts, shortcut-cache rows, ...) into an LLM prompt can
+// shortcut-cache rows, ...) into an LLM prompt can
 // use it instead of `JSON.stringify`.
 
 /** Heuristic: ~4 latin/CJK-mixed characters per token. Good enough for a

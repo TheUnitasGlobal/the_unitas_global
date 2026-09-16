@@ -1754,92 +1754,6 @@
       }
     }
   },
-  "GlobalRankings": {
-    "label": "Światowy Ranking na Żywo",
-    "hint": "Dotknij tematu, aby zobaczyć jego top 10 — wczytaj więcej, aby zgłębić temat.",
-    "loadMoreRange": "Pokaż miejsca {from}-{to}",
-    "collapseAria": "Zamknij",
-    "collectingMore": "Kolejne miejsca są w przygotowaniu — zajrzyj wkrótce ponownie.",
-    "snapshot": "Dane migawkowe — mogą się zmieniać w czasie.",
-    "themes": {
-      "heritage": {
-        "title": "Potęgi Światowego Dziedzictwa UNESCO",
-        "description": "Kraje z największą liczbą wpisanych obiektów światowego dziedzictwa."
-      },
-      "gdp": {
-        "title": "Globalny Benchmark PKB",
-        "description": "Największe gospodarki świata według nominalnego PKB."
-      },
-      "records": {
-        "title": "Wielkie Kamienie Milowe Historii Ludzkości",
-        "description": "Przełomowe momenty, które ukształtowały cywilizację, w porządku chronologicznym."
-      },
-      "mountains": {
-        "title": "Najwyższe Szczyty Świata",
-        "description": "Najwyższe góry na Ziemi, uszeregowane według wysokości."
-      },
-      "rivers": {
-        "title": "Najdłuższe Rzeki Świata",
-        "description": "Najdłuższe rzeki na Ziemi, uszeregowane według całkowitej długości."
-      },
-      "buildings": {
-        "title": "Najwyższe Budynki Świata",
-        "description": "Najwyższe ukończone wieżowce na Ziemi."
-      },
-      "population": {
-        "title": "Kraje o Największej Liczbie Ludności",
-        "description": "Kraje uszeregowane według całkowitej liczby ludności."
-      },
-      "filmBoxOffice": {
-        "title": "Rekordziści Box Office Wszech Czasów",
-        "description": "Filmy o najwyższych wpływach na świecie, bez korekty o inflację."
-      },
-      "youtubeViews": {
-        "title": "Najczęściej oglądane filmy YouTube",
-        "description": "Najczęściej oglądane filmy w historii YouTube, według liczby wyświetleń."
-      },
-      "esportsEarnings": {
-        "title": "Pula nagród w esporcie i grach",
-        "description": "Największe tytuły esportowe według łącznej puli nagród wszech czasów."
-      },
-      "albumSales": {
-        "title": "Najlepiej sprzedające się albumy wszech czasów",
-        "description": "Najlepiej sprzedające się albumy muzyczne w historii, według szacunkowej sprzedaży."
-      },
-      "humanRecords": {
-        "title": "Legendarne ludzkie rekordy",
-        "description": "Najbardziej legendarne, zweryfikowane indywidualne osiągnięcia i rekordy ludzkości."
-      }
-    },
-    "entryDetailAria": "Zobacz szczegóły {name}",
-    "detailLoading": "Ładowanie pogłębionych informacji…",
-    "detailBackgroundLabel": "Tło",
-    "detailKeyFactsLabel": "Kluczowe Fakty",
-    "detailSignificanceLabel": "Znaczenie"
-  },
-  "UnitasRankings": {
-    "label": "Ranking Unitas na żywo",
-    "disclaimer": "Symulowany zbiorczy wskaźnik aktywności z użyciem pseudonimów — to nie są prawdziwe dane osobowe.",
-    "viewProfileAria": "Zobacz profil {handle}",
-    "tier": {
-      "sovereign": "Sovereign",
-      "platinum": "Platyna",
-      "gold": "Złoto"
-    },
-    "profile": {
-      "moduleLabel": "Moduł",
-      "rankLabel": "Ranking globalny",
-      "scoreLabel": "Wskaźnik wkładu"
-    },
-    "bio": {
-      "0": "Operator Genesis Cohort z najbardziej trwałą aktywnością w {module} w tym cyklu.",
-      "1": "Wspiął się w rankingu {module} dzięki stałemu, codziennemu zaangażowaniu, a nie jednorazowemu wysokiemu wynikowi.",
-      "2": "Jeden z pierwszych użytkowników {module}, wciąż aktywny na szczycie rankingu.",
-      "3": "Znany w społeczności {module} za spójne, stabilne wzorce wkładu.",
-      "4": "Operator działający w wielu modułach, którego wskaźnik aktywności w {module} utrzymuje się na najwyższym poziomie przez wiele cykli.",
-      "5": "Doceniany w {module} za trwałe zaangażowanie znacznie powyżej mediany wskaźnika aktywności modułu."
-    }
-  },
   "LifeOs": {
     "hub": {
       "eyebrow": "SUWERENNY LIFE-OS",
@@ -2363,22 +2277,6 @@
     }
   },
   "Rev21": {
-    "slots": {
-      "worldRanking": {
-        "title": "Światowy Ranking na Żywo",
-        "tag": "Dwanaście globalnych tematów — otwórz wiersz, by poznać historię pozycji."
-      },
-      "unitasRanking": {
-        "title": "Ranking Unitas na żywo",
-        "tag": "Pseudonimowy indeks aktywności we wszystkich modułach UNITAS."
-      },
-      "facts": {
-        "topRank": "Miejsce 1",
-        "rankedEntries": "pozycji w rankingu",
-        "topOperator": "Czołowy operator",
-        "moduleCount": "modułów"
-      }
-    },
     "hub": {
       "tabsAria": "Wybierz temat",
       "swipeHint": "Przesuń w lewo lub w prawo, aby zmienić temat"
@@ -3015,6 +2913,11 @@
           "cta": "Wejdź do konsoli suwerennej"
         }
       }
+    }
+  },
+  "Rev35": {
+    "uRanking": {
+      "tag": "Drabina UNITAS, codziennie pisana na nowo przez efektywność Micro-Burn, sprzedaż wiedzy i wkład nomady"
     }
   }
 }

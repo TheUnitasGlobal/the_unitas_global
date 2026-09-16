@@ -15,8 +15,9 @@
 import type { SlotCard, SlotKey, SlotScope, SlotSection } from '@/lib/live/discoverySlots';
 
 /** Worldwide-only: the feed itself has no national edition. `history` (the
- *  locale Wikipedia's "on this day") and both ranking slots join the SPEC's
- *  list -- their subject is the world, rendered in the visitor's language. */
+ *  locale Wikipedia's "on this day") and the U-Ranking slot (REV-35 M1, the
+ *  one leaderboard, cross-ecosystem by construction) join the SPEC's list --
+ *  their subject is the world, rendered in the visitor's language. */
 const GLOBAL_ONLY: readonly SlotKey[] = [
   'newProducts',
   'history',
@@ -26,8 +27,7 @@ const GLOBAL_ONLY: readonly SlotKey[] = [
   'paper',
   'library',
   'art',
-  'worldRanking',
-  'unitasRanking',
+  'uRanking',
 ];
 
 /** Country-only: every one of these is ABOUT the visitor's place. `mostRead`

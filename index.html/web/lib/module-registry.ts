@@ -83,3 +83,13 @@ export function moduleAccessName(routeOrKey: string): string | null {
 export function moduleForRoute(route: string): ModuleRegistryEntry | null {
   return REGISTRY_BY_ROUTE.get(route) ?? null;
 }
+
+/** Which message namespace resolves a module's display title -- the 11
+ *  ecosystems keep their own `Ecosystems` namespace, while both B2C and B2B
+ *  catalogs share `Modules` (see B2CModuleCard.tsx / B2BProtocolCard.tsx).
+ *  REV-35 M1 (D-2): moved here verbatim from lib/unitasRankings.ts so that
+ *  file could be deleted with the legacy leaderboard it served; the registry
+ *  is the natural owner of a rule that is purely about a module's tier. */
+export function moduleTitleNamespace(module: ModuleRegistryEntry): 'Ecosystems' | 'Modules' {
+  return module.tier === 'ecosystem' ? 'Ecosystems' : 'Modules';
+}

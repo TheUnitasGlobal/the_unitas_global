@@ -25,7 +25,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { OmniOpen } from '@/components/home/OmniOpen';
 import { OmniSwarmPortal } from '@/components/swarm/OmniSwarmPortal';
-import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
+import { URankingsShorts } from '@/components/home/hub/URankingsShorts';
 import { useSlotContext } from '@/lib/live/useSlotContext';
 import { entityAnchor, qidAnchor, textAnchor, type DeeperAnchor } from '@/lib/uai/deeperAnchor';
 import type { OmniOpenHost } from '@/components/home/OmniOpen';
@@ -221,10 +221,13 @@ export function UaiHyperStream({
             <DisambiguationCard term={surface.web.anchor.localeTitle} url={surface.web.sources.find((s) => s.origin === 'wiki')?.url} />
           )}
           <SourcesCard surface={surface} />
-          {/* "실시간 유니타스 랭킹" stays mounted in the result (owner
-              instruction 2026-09-04 round 2). */}
+          {/* A UNITAS leaderboard stays mounted in the result (owner
+              instruction 2026-09-04 round 2). REV-35 M1 (D-5): it is the one
+              유랭킹 rail now -- full variant, chips and lede included, because
+              the tower is fullscreen and owns no title of its own for it.
+              The `.qw-stream-rankings` wrapper (contain: content) survives. */}
           <div className="qw-stream-rankings">
-            <UnitasModuleRankings />
+            <URankingsShorts />
           </div>
         </section>
       )}

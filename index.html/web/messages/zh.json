@@ -1754,92 +1754,6 @@
       }
     }
   },
-  "GlobalRankings": {
-    "label": "实时世界排行榜",
-    "hint": "点击主题查看前10名——点击加载更多以深入探索。",
-    "loadMoreRange": "查看第{from}-{to}名",
-    "collapseAria": "关闭",
-    "collectingMore": "更多排名正在整理中，敬请期待。",
-    "snapshot": "数据为快照数值，可能随时间变化。",
-    "themes": {
-      "heritage": {
-        "title": "世界遗产大国排行榜",
-        "description": "拥有最多世界遗产项目的国家排名。"
-      },
-      "gdp": {
-        "title": "全球GDP基准排行榜",
-        "description": "按名义GDP计算的全球最大经济体排名。"
-      },
-      "records": {
-        "title": "人类历史伟大里程碑",
-        "description": "按时间顺序呈现塑造文明的重大历史时刻。"
-      },
-      "mountains": {
-        "title": "世界最高峰排行榜",
-        "description": "按海拔高度排列的世界最高山峰。"
-      },
-      "rivers": {
-        "title": "世界最长河流排行榜",
-        "description": "按总长度排列的世界最长河流。"
-      },
-      "buildings": {
-        "title": "世界最高建筑排行榜",
-        "description": "已建成的世界最高摩天大楼排名。"
-      },
-      "population": {
-        "title": "世界人口大国排行榜",
-        "description": "按总人口排列的国家排名。"
-      },
-      "filmBoxOffice": {
-        "title": "史上票房冠军排行榜",
-        "description": "未经通胀调整的全球票房最高电影排名。"
-      },
-      "youtubeViews": {
-        "title": "YouTube最多观看视频",
-        "description": "按观看次数排列的YouTube历史上观看量最高的视频。"
-      },
-      "esportsEarnings": {
-        "title": "电子竞技与游戏奖金排行",
-        "description": "按历史累计奖金排列的最大电竞项目。"
-      },
-      "albumSales": {
-        "title": "历史最畅销专辑",
-        "description": "按估计销量排列的历史最畅销音乐专辑。"
-      },
-      "humanRecords": {
-        "title": "传奇人类纪录",
-        "description": "有史以来经过验证的最传奇的个人纪录与成就。"
-      }
-    },
-    "entryDetailAria": "查看{name}的详情",
-    "detailLoading": "正在加载深度信息…",
-    "detailBackgroundLabel": "背景",
-    "detailKeyFactsLabel": "关键事实",
-    "detailSignificanceLabel": "意义"
-  },
-  "UnitasRankings": {
-    "label": "实时Unitas排行榜",
-    "disclaimer": "使用匿名昵称的模拟综合活跃度指数,并非真实个人数据。",
-    "viewProfileAria": "查看{handle}的档案",
-    "tier": {
-      "sovereign": "至尊",
-      "platinum": "白金",
-      "gold": "黄金"
-    },
-    "profile": {
-      "moduleLabel": "模块",
-      "rankLabel": "全球排名",
-      "scoreLabel": "贡献指数"
-    },
-    "bio": {
-      "0": "本周期内在{module}中活跃度最持久的创世群组运营者。",
-      "1": "凭借持续的日常参与而非单次高分登上{module}排行榜。",
-      "2": "{module}最早期的采用者之一,至今仍活跃在排行榜前列。",
-      "3": "在{module}社区中以稳定、持续的贡献模式著称。",
-      "4": "跨模块运营者,其{module}活跃度指数已连续多个周期保持顶级水平。",
-      "5": "因在{module}中的持续参与远高于模块中位活跃度指数而获得认可。"
-    }
-  },
   "LifeOs": {
     "hub": {
       "eyebrow": "主权 LIFE-OS",
@@ -2363,22 +2277,6 @@
     }
   },
   "Rev21": {
-    "slots": {
-      "worldRanking": {
-        "title": "实时世界排行榜",
-        "tag": "十二个全球主题——打开一行，看看排名背后的故事。"
-      },
-      "unitasRanking": {
-        "title": "实时Unitas排行榜",
-        "tag": "覆盖所有 UNITAS 模块的匿名活跃度指数。"
-      },
-      "facts": {
-        "topRank": "第1名",
-        "rankedEntries": "排名条目",
-        "topOperator": "顶级运营者",
-        "moduleCount": "个模块"
-      }
-    },
     "hub": {
       "tabsAria": "选择主题",
       "swipeHint": "左右滑动切换主题"
@@ -3015,6 +2913,11 @@
           "cta": "进入主权控制台"
         }
       }
+    }
+  },
+  "Rev35": {
+    "uRanking": {
+      "tag": "由微燃效率、知识销售与游牧贡献每日重写的 UNITAS 阶梯"
     }
   }
 }

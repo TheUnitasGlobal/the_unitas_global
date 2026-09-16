@@ -44,18 +44,41 @@ const IDENTICAL_ALLOWED = new Set<string>([
   'stream.tier.orbit', // id: "Orbit" is the Indonesian word.
   'stream.kinds.graph', // fr: "Relations" is the French word.
   'tower.suggestLabel', // fr: "Suggestions" is the French word.
-  'slots.facts.moduleCount', // fr/nl: "modules" is the correct plural in both.
+  // REV-35 M1: 'slots.facts.moduleCount' left with the ranking slots -- the
+  // fr/nl "modules" cognate no longer exists in this namespace.
 ]);
+
+/**
+ * REV-35 M1 (SPEC §2 D-7): the world/unitas ranking slots and their four fact
+ * labels were deleted from every draft. Because apply-rev21.mjs replaces the
+ * namespace wholesale, a key that survives in ANY locale means a stale draft
+ * slipped back in -- so their absence is pinned in en (the applicator's
+ * reference key set) and the key-set parity below carries it to the other 19.
+ */
+const RETIRED_KEYS = [
+  'slots.worldRanking.title',
+  'slots.worldRanking.tag',
+  'slots.unitasRanking.title',
+  'slots.unitasRanking.tag',
+  'slots.facts.topRank',
+  'slots.facts.rankedEntries',
+  'slots.facts.topOperator',
+  'slots.facts.moduleCount',
+] as const;
 
 describe('REV-21 i18n', () => {
   const en = flatten(load('en').Rev21, '', {});
   const enKeys = Object.keys(en).sort();
 
-  it('en carries the namespace with the two ranking slots', () => {
-    expect(enKeys.length).toBeGreaterThanOrEqual(10);
-    expect(en['slots.worldRanking.title']).toBeTruthy();
-    expect(en['slots.unitasRanking.title']).toBeTruthy();
-    expect(en['slots.facts.topRank']).toBeTruthy();
+  it('en carries the namespace without the retired ranking slots', () => {
+    // 71 keys before REV-35, 63 after the eight ranking keys left; the floor
+    // catches an accidental wholesale wipe without pinning future growth.
+    expect(enKeys.length).toBeGreaterThanOrEqual(63);
+    expect(en['hub.tabsAria']).toBeTruthy();
+    expect(en['tower.scopeProduct']).toBeTruthy();
+    for (const key of RETIRED_KEYS) {
+      expect(en[key], `en:${key}`).toBeUndefined();
+    }
   });
 
   it.each(routing.locales)('%s has the exact Rev21 key set with ICU tokens preserved and no empty strings', (locale) => {

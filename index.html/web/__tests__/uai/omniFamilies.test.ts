@@ -49,8 +49,7 @@ const SLOT_KEYS: Record<SlotKey, true> = {
   air: true,
   nation: true,
   nearby: true,
-  worldRanking: true,
-  unitasRanking: true,
+  uRanking: true,
 };
 
 /** Codex ch.6: the ten omni-business engines the default platform row must always carry. */
@@ -79,7 +78,6 @@ describe('REV-34 omni-open families', () => {
         'default',
         'place',
         'news',
-        'rankings',
         'products',
         'fx',
         'crypto',
@@ -91,7 +89,9 @@ describe('REV-34 omni-open families', () => {
         'unitas',
       ]),
     );
-    expect(OMNI_FAMILIES.length).toBe(13);
+    // REV-35 M1 (D-2): the `rankings` family died with the world ranking.
+    expect(OMNI_FAMILIES.length).toBe(12);
+    expect(OMNI_FAMILIES as readonly string[]).not.toContain('rankings');
   });
 
   it('the default family IS the two exported row constants', () => {
@@ -200,8 +200,11 @@ describe('REV-34 omni-open families', () => {
     expect(omniFamilyForSlot('paper')).toBe('science');
     expect(omniFamilyForSlot('library')).toBe('library');
     expect(omniFamilyForSlot('art')).toBe('art');
-    expect(omniFamilyForSlot('worldRanking')).toBe('rankings');
-    expect(omniFamilyForSlot('unitasRanking')).toBe('unitas');
+    // REV-35 M1 (D-6): the one leaderboard opens UNITAS' own family; the
+    // retired slot keys are strangers now and fall to default.
+    expect(omniFamilyForSlot('uRanking')).toBe('unitas');
+    expect(omniFamilyForSlot('worldRanking')).toBe('default');
+    expect(omniFamilyForSlot('unitasRanking')).toBe('default');
     expect(omniFamilyForSlot('awards')).toBe('default');
     expect(omniFamilyForSlot('no-such-slot')).toBe('default');
   });

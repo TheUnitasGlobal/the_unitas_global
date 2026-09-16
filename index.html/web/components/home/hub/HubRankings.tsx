@@ -8,8 +8,9 @@ import { URankingsShorts } from './URankingsShorts';
  * hub for good and "실시간 유니타스 랭킹" became 유랭킹 -- the UNITAS-ecosystem
  * leaderboard in the shorts skin (URankingsShorts.tsx). This wrapper survives
  * only to keep the `data-hub-rankings` root the E2E hub contract expects
- * (rev29-verify L242). GlobalThemeRankings / UnitasModuleRankings still serve
- * their non-hub hosts (discovery carousel, U-AI stream) untouched.
+ * (rev29-verify L242). REV-35 M1: the same rail is now every other ranking
+ * surface too (discovery carousel card + deep modal, U-AI stream); the
+ * legacy world / module ranking panels are deleted.
  */
 export function HubRankings() {
   return (

@@ -1,12 +1,4 @@
 {
-  "slots.worldRanking.title": "실시간 세계 랭킹",
-  "slots.worldRanking.tag": "12가지 글로벌 테마 — 행을 열면 순위 뒤의 이야기가 보입니다.",
-  "slots.unitasRanking.title": "실시간 유니타스 랭킹",
-  "slots.unitasRanking.tag": "모든 UNITAS 모듈을 아우르는 가명 활동 지수.",
-  "slots.facts.topRank": "1위",
-  "slots.facts.rankedEntries": "순위 항목",
-  "slots.facts.topOperator": "최상위 운영자",
-  "slots.facts.moduleCount": "모듈",
   "hub.tabsAria": "테마 선택",
   "hub.swipeHint": "좌우로 스와이프하면 테마가 바뀝니다",
   "deeper.sourcesLabel": "다른출처에서열기",

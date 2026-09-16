@@ -1754,92 +1754,6 @@
       }
     }
   },
-  "GlobalRankings": {
-    "label": "Live na Pandaigdigang Ranggo",
-    "hint": "I-tap ang isang tema para makita ang top 10 nito — mag-load pa para lumalim.",
-    "loadMoreRange": "Tingnan ang ranggo {from}-{to}",
-    "collapseAria": "Isara",
-    "collectingMore": "May inihahandang karagdagang ranggo — bumalik-balik.",
-    "snapshot": "Snapshot na datos — maaaring magbago sa paglipas ng panahon.",
-    "themes": {
-      "heritage": {
-        "title": "Mga Bansang May Pinakamaraming UNESCO World Heritage Site",
-        "description": "Ranggo ng mga bansang may pinakamaraming nakatalang World Heritage Site."
-      },
-      "gdp": {
-        "title": "Pandaigdigang GDP Benchmark",
-        "description": "Ang pinakamalaking ekonomiya sa mundo batay sa nominal na GDP."
-      },
-      "records": {
-        "title": "Mga Dakilang Milestone ng Kasaysayan ng Sangkatauhan",
-        "description": "Mahahalagang pangyayaring humubog sa sibilisasyon, ayon sa pagkakasunod-sunod ng panahon."
-      },
-      "mountains": {
-        "title": "Pinakamataas na Bundok sa Mundo",
-        "description": "Ang pinakamataas na bundok sa Daigdig, base sa taas."
-      },
-      "rivers": {
-        "title": "Pinakamahabang Ilog sa Mundo",
-        "description": "Ang pinakamahabang ilog sa Daigdig, base sa kabuuang haba."
-      },
-      "buildings": {
-        "title": "Pinakamataas na Gusali sa Mundo",
-        "description": "Ang pinakamataas nang natapos na gusali sa Daigdig."
-      },
-      "population": {
-        "title": "Mga Bansang May Pinakamaraming Populasyon",
-        "description": "Mga bansa base sa kabuuang populasyon."
-      },
-      "filmBoxOffice": {
-        "title": "Pinakamatagumpay na Pelikula sa Kasaysayan",
-        "description": "Ang mga pelikulang may pinakamataas na kita sa buong mundo, hindi in-adjust sa implasyon."
-      },
-      "youtubeViews": {
-        "title": "Pinakamaraming Panoorin na YouTube Videos",
-        "description": "Ang mga pinakamaraming napanood na video sa kasaysayan ng YouTube, batay sa bilang ng panonood."
-      },
-      "esportsEarnings": {
-        "title": "Premyong Pera sa Esports at Gaming",
-        "description": "Ang pinakamalalaking esports titles ayon sa kabuuang premyong pera sa kompetisyon."
-      },
-      "albumSales": {
-        "title": "Pinakamabentang mga Album sa Lahat ng Panahon",
-        "description": "Ang pinakamabentang musical albums sa kasaysayan, batay sa tinatayang bilang ng naibenta."
-      },
-      "humanRecords": {
-        "title": "Alamat na mga Rekord ng Tao",
-        "description": "Ang pinaka-alamat na indibidwal na tagumpay at rekord ng tao na napatunayan."
-      }
-    },
-    "entryDetailAria": "Tingnan ang detalye ng {name}",
-    "detailLoading": "Nilo-load ang mas malalim na impormasyon…",
-    "detailBackgroundLabel": "Background",
-    "detailKeyFactsLabel": "Mahahalagang Katotohanan",
-    "detailSignificanceLabel": "Kahalagahan"
-  },
-  "UnitasRankings": {
-    "label": "Real-Time na Ranggo ng Unitas",
-    "disclaimer": "Ginayang pinagsamang activity index gamit ang mga pseudonymous handle — hindi tunay na personal na datos.",
-    "viewProfileAria": "Tingnan ang profile ni {handle}",
-    "tier": {
-      "sovereign": "Sovereign",
-      "platinum": "Platinum",
-      "gold": "Ginto"
-    },
-    "profile": {
-      "moduleLabel": "Module",
-      "rankLabel": "Global na Ranggo",
-      "scoreLabel": "Indeks ng Kontribusyon"
-    },
-    "bio": {
-      "0": "Isang Genesis Cohort operator na may pinaka-tuluy-tuloy na aktibidad sa loob ng {module} sa cycle na ito.",
-      "1": "Umakyat sa ranggo ng {module} sa pamamagitan ng pare-parehong pang-araw-araw na partisipasyon sa halip na iisang mataas na iskor.",
-      "2": "Isa sa mga unang gumamit ng {module}, aktibo pa rin sa tuktok ng ranggo nito.",
-      "3": "Kilala sa komunidad ng {module} dahil sa pare-pareho at matatag na pattern ng kontribusyon.",
-      "4": "Isang cross-module operator na ang activity index sa {module} ay nanatili sa pinakamataas na antas sa maraming cycle.",
-      "5": "Kinikilala sa loob ng {module} dahil sa tuluy-tuloy na partisipasyon na higit sa median activity index ng module."
-    }
-  },
   "LifeOs": {
     "hub": {
       "eyebrow": "SOBERANONG LIFE-OS",
@@ -2363,22 +2277,6 @@
     }
   },
   "Rev21": {
-    "slots": {
-      "worldRanking": {
-        "title": "Live na Pandaigdigang Ranggo",
-        "tag": "Labindalawang pandaigdigang tema — buksan ang isang hilera para sa kuwento sa likod ng ranggo."
-      },
-      "unitasRanking": {
-        "title": "Real-Time na Ranggo ng Unitas",
-        "tag": "Pseudonymous na indeks ng aktibidad sa lahat ng UNITAS module."
-      },
-      "facts": {
-        "topRank": "Ranggo 1",
-        "rankedEntries": "nirangkong entry",
-        "topOperator": "Nangungunang operator",
-        "moduleCount": "module"
-      }
-    },
     "hub": {
       "tabsAria": "Pumili ng tema",
       "swipeHint": "Mag-swipe pakaliwa o pakanan para magpalit ng tema"
@@ -3015,6 +2913,11 @@
           "cta": "Pumasok sa sovereign console"
         }
       }
+    }
+  },
+  "Rev35": {
+    "uRanking": {
+      "tag": "Ang hagdan ng UNITAS, muling isinusulat araw-araw ng kahusayan sa Micro-Burn, benta ng kaalaman at ambag ng nomad"
     }
   }
 }

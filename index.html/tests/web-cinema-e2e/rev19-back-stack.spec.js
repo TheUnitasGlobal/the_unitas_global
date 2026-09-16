@@ -7,6 +7,7 @@ const { test, expect } = require('@playwright/test');
 // ExitGuard's sentinel buffer (the exit confirm).
 
 const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
+const { expectRetiredRankingsGone } = require('./_rev35Retired');
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();
 const skipButton = (page) => page.locator('button:has(.cs-skip-aurora)');
 
@@ -81,57 +82,71 @@ test.describe('REV-19 deep modal history stack', () => {
     await expect(page.locator('#exit-guard-title')).toBeVisible({ timeout: 5_000 });
   });
 
-  // REV-21 §1.3: the world-ranking widget is now the carousel's `worldRanking`
-  // slot. Tapping a rank row on the card opens the ranking deep modal AND,
-  // one tick later, the identical rank-detail popup on top of it -- two
-  // levels above the hub, parked in that order (deep modal first, detail on
-  // top) even though React mounts the nested dialog's effect first.
-  test('a ranking detail modal opened from the carousel card stacks above the ranking deep modal', async ({ page }) => {
+  // REV-35 M1 (D-1/D-4/D-8): the REV-21 world-ranking slot, its deep modal
+  // and its rank-detail popup are DELETED, not hidden -- the carousel's seat
+  // twelve is now `uRanking`, whose card body is the compact U-Rankings rail
+  // (URankingsShorts, `data-urank-variant="compact"`). Tapping a rail card
+  // opens the U-Ranking deep modal (`#uranking-deep-title`, the FULL rail)
+  // AND, one commit later, the entry popup (`#unitas-urank-title`) on top of
+  // it: the compact rail delegates the tap through `onSelect` because the
+  // rotating card body may never own a popup, and the deep modal applies
+  // `initialOpenId` in a post-mount effect so its own history layer parks
+  // FIRST. Two levels above the hub, unwound one per back press. The D-8
+  // zero sweep (_rev35Retired.js) runs with the hub open AND with both
+  // ranking layers open.
+  test('a U-Ranking entry popup opened from the carousel card stacks above the U-Ranking deep modal', async ({ page }) => {
     await reachHome(page);
     await page.locator('#omni-synapse-search input[type="text"]').click();
     await page.waitForTimeout(600);
-    await page.locator('[data-slot="worldRanking"]').click();
+    await page.locator('[data-slot="uRanking"]').click();
     await page.waitForTimeout(400);
-    await expect(page.locator('[data-slot-card="worldRanking"]')).toBeVisible();
-    await page.evaluate(() => {
-      const row = document.querySelector('[data-slot-card="worldRanking"] .qw-hub-headline');
-      row && row.click();
-    });
-    await expect(page.locator('#ranking-deep-title')).toBeVisible({ timeout: 5_000 });
-    await expect(page.locator('#global-ranking-detail-title')).toBeVisible({ timeout: 5_000 });
+    const card = page.locator('[data-slot-card="uRanking"][data-slot-kind="uRanking"]');
+    await expect(card).toBeVisible();
+    // The card body IS the compact rail: twelve cards and nothing else --
+    // no module filter chips, and no product-family tab rail either (the
+    // slot declares no `tabs`; nothing sits between the title row and it).
+    const compactRail = card.locator('[data-unitas-urankings][data-urank-variant="compact"] [data-urank-rail]');
+    await expect(compactRail).toBeVisible();
+    await expect(compactRail.locator('[data-urank]')).toHaveCount(12);
+    await expect(card.locator('[data-urank-filter]')).toHaveCount(0);
+    await expect(card.locator('[role="tablist"]')).toHaveCount(0);
+    await expectRetiredRankingsGone(page);
+
+    await card.locator('[data-urank-rail] [data-urank]').first().click();
+    await expect(page.locator('#uranking-deep-title')).toBeVisible({ timeout: 5_000 });
+    await expect(page.locator('#unitas-urank-title')).toBeVisible({ timeout: 5_000 });
+    await expectRetiredRankingsGone(page);
     // POLLED, not a fixed 300ms settle. The two dialogs park one after the
-    // other (REV-21 §1.3) and each park costs a frame; at ~600ms a frame on
-    // this harness's WebKit, 300ms is not even one. The claim is unchanged --
+    // other (the entry popup opens one commit after the deep modal, by
+    // design) and each park costs a frame; at ~600ms a frame on this
+    // harness's WebKit, 300ms is not even one. The claim is unchanged --
     // three levels, in this order -- it is just allowed to arrive.
     await expect.poll(async () => (await stack(page)).length, { timeout: 30_000 }).toBeGreaterThanOrEqual(3);
     const before = await stack(page);
     expect(before.length).toBeGreaterThanOrEqual(3);
-    expect(before[before.length - 1]).toMatch(/^modal:global-ranking-detail-title/);
-    expect(before[before.length - 2]).toMatch(/^modal:ranking-deep-title/);
+    expect(before[before.length - 1]).toMatch(/^modal:unitas-urank-title/);
+    expect(before[before.length - 2]).toMatch(/^modal:uranking-deep-title/);
     // REV-21 M5b (bc99f93) replaced REV-19's [data-discovery-links] strip with
-    // the 14-lens Explore Deeper block on every U-AI popup; same contract, new hook.
+    // the omni-open block on every U-AI popup; same contract, new hook.
     await expect(page.locator('[data-omni-open]').first()).toBeVisible();
 
-    // Back closes the detail only; the deep modal (and the hub) stay.
+    // Back closes the entry popup only; the deep modal (and the hub) stay.
     await page.goBack();
     await page.waitForTimeout(500);
-    await expect(page.locator('#global-ranking-detail-title')).toHaveCount(0);
-    await expect(page.locator('#ranking-deep-title')).toBeVisible();
+    await expect(page.locator('#unitas-urank-title')).toHaveCount(0);
+    await expect(page.locator('#uranking-deep-title')).toBeVisible();
     await expect(page.locator('#exit-guard-title')).toHaveCount(0);
     expect((await stack(page)).length).toBe(before.length - 1);
 
-    // Inside the deep modal the embedded panel is the old widget verbatim:
-    // a theme chip switches the list, a row reopens the detail.
-    await page.evaluate(() => {
-      const r = document.querySelector('[data-global-rankings="embedded"] [data-rank="2"]');
-      r && r.click();
-    });
-    await expect(page.locator('#global-ranking-detail-title')).toBeVisible({ timeout: 5_000 });
+    // Inside the deep modal the rail is the hub panel verbatim (full
+    // variant): a card reopens the entry popup as a level of its own.
+    await page.locator('[data-slot-modal="uRanking"] [data-urank-rail] [data-urank]').nth(1).click();
+    await expect(page.locator('#unitas-urank-title')).toBeVisible({ timeout: 5_000 });
     await page.goBack();
     await page.waitForTimeout(500);
     await page.goBack();
     await page.waitForTimeout(500);
-    await expect(page.locator('#ranking-deep-title')).toHaveCount(0);
+    await expect(page.locator('#uranking-deep-title')).toHaveCount(0);
     await expect(page.locator('[data-live-hub]')).toBeVisible();
     await expect(page.locator('#exit-guard-title')).toHaveCount(0);
   });

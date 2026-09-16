@@ -11,7 +11,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { ExternalLink, Loader2, RefreshCw } from 'lucide-react';
+import { ExternalLink, Loader2 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { SectionShield } from '@/components/system/PageShield';
@@ -19,14 +19,12 @@ import { LiveWeatherPanel } from '@/components/home/LiveWeatherPanel';
 import { WeatherDeepPanel } from '@/components/home/WeatherDeepPanel';
 import { OmniOpen } from '@/components/home/OmniOpen';
 import { omniFamilyForSlot } from '@/lib/uai/sourceRegistry';
-import { GlobalThemeRankings } from '@/components/home/GlobalThemeRankings';
 import { HubDot } from '@/components/home/hub/HubDot';
 import { HubMetaLine } from '@/components/home/hub/HubMetaLine';
 import { HubRowEnter, HubTitleRow } from '@/components/home/hub/HubTitleRow';
+import { URankingsShorts } from '@/components/home/hub/URankingsShorts';
 import { captureScroll, reserveHeight } from '@/lib/ui/scrollAnchor';
-import { UnitasModuleRankings } from '@/components/home/UnitasModuleRankings';
-import { GLOBAL_RANKING_THEMES, THEME_QID, type GlobalRankingThemeKey } from '@/lib/globalRankings';
-import { MODULE_REGISTRY, unitasRankingFor } from '@/lib/unitasRankings';
+import { U_RANKINGS_COUNT } from '@/lib/square/uRankings';
 import { readWeatherCache } from '@/lib/live/useLiveWeather';
 import { entityAnchor, resolveDeeperPlace } from '@/lib/uai/deeperAnchor';
 import { resolveEntity } from '@/lib/uai/entityResolve';
@@ -42,7 +40,6 @@ import { anchorDataAttrs, placeAnchor, qidAnchor, textAnchor, type DeeperAnchor 
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import {
   DISCOVERY_SLOTS,
-  SLOT_PROVIDER,
   SLOT_QID,
   discoverySlotAt,
   findDiscoverySlot,
@@ -57,26 +54,34 @@ import {
 
 /**
  * REV-20 §3 / REV-21 §1 -- the single unified discovery carousel ("실시간
- * 숏컷"). Every one of the 24 slots (weather, the 9 REV-19 news themes, the
- * 12 REV-20 feed themes and -- REV-21 §1.3 -- the two absorbed ranking
- * widgets) renders through the exact same chip-rail + card shell.
+ * 숏컷"). Every one of the 16 slots (weather, the 14 feed themes and --
+ * REV-35 M1 -- the one U-Ranking slot) renders through the exact same
+ * chip-rail + card shell.
  *
  * REV-21 §1 changes, in order of the SPEC:
  *  §1.2 the chip rail is a native snap scroller with mouse grab-drag
  *       (useDragScroll) and the active card answers a left/right swipe
  *       (useHorizontalSwipe) -- 60fps, one rAF per pointer frame;
- *  §1.3 ranking slots carry sub-tabs (theme / module) inside the card, each
- *       tab a cursor-driven reload cached under `${cacheKey}:${tab}`;
- *  §1.4 one deep modal per kind (weather / news / feed / ranking), the
- *       ranking one embedding the very same GlobalThemeRankings /
- *       UnitasModuleRankings panels so the rank-detail popups are identical
- *       to the retired standalone widgets;
+ *  §1.3 a slot may carry sub-tabs inside the card (today: the product
+ *       families), each tab a cursor-driven reload cached under
+ *       `${cacheKey}:${tab}`;
+ *  §1.4 one deep modal per kind (weather / feed / uRanking);
  *  §1.5 the WHOLE card is the hitbox (role=button); inner controls stop
  *       propagation;
  *  §1.6 rotation pauses while held / hovered / dragged / a modal is open /
  *       the tab is hidden, and a release continues from the current slot;
  *       the slot change is a transform/opacity crossfade on a fixed-height
  *       card (no 7-second layout shift).
+ *
+ * REV-35 M1 (founder directive 2026-09-16, D-1/D-4): the REV-20 carousel
+ * contract is revoked. The two `ranking` slots (world / UNITAS) and the
+ * panels they embedded are deleted; in their place the U-Square 유랭킹 rail
+ * (URankingsShorts) IS the `uRanking` card body -- compact, tap delegated
+ * up through `onSelect` -- and the deep modal mounts the full rail landed on
+ * the tapped entry. The delegation is not a style choice: the card body is
+ * keyed by `activeKey` and the clock only stands still while `deep !==
+ * null`, so a popup the rail opened by itself would be unmounted by the
+ * next 7-second tick. Only the deep modal may own that popup.
  */
 
 /** Session-scoped, module-level so a slot revisited within its TTL (even
@@ -103,18 +108,28 @@ function scopeGroups(card: SlotCard | null): SlotSection[] {
   return [{ scope: 'global', facts: card.facts, items: card.items }];
 }
 
-function isRankingKey(key: SlotKey): boolean {
-  return findDiscoverySlot(key)?.kind === 'ranking';
+function isURankingKey(key: SlotKey): boolean {
+  return findDiscoverySlot(key)?.kind === 'uRanking';
 }
 
+/** REV-35 M1 (D-4): the meta line's source for the U-Ranking surfaces. The
+ *  ladder is UNITAS' own ledger, not a third-party engine, so the line names
+ *  it the way the weather line names Open-Meteo -- a proper noun, not a
+ *  translated label. */
+const U_RANKING_META_SOURCE = 'UNITAS Ledger';
+
+/** REV-35 M1 (D-6): the U-Ranking slot reuses the hub's own branding
+ *  (`Rev34.uRankings.label`) as its title and takes one new short tag line
+ *  (`Rev35.uRanking.tag`) -- the hub's lede is a full sentence, too long for
+ *  the 13px tag. */
 function slotTitleKey(key: SlotKey): string {
   if (key === 'awards') return 'Rev23.awards.title';
-  if (isRankingKey(key)) return `Rev21.slots.${key}.title`;
+  if (isURankingKey(key)) return 'Rev34.uRankings.label';
   return `Rev20.slots.${key}.title`;
 }
 function slotTagKey(key: SlotKey): string {
   if (key === 'awards') return 'Rev23.awards.tag';
-  if (isRankingKey(key)) return `Rev21.slots.${key}.tag`;
+  if (isURankingKey(key)) return 'Rev35.uRanking.tag';
   return `Rev20.slots.${key}.tag`;
 }
 
@@ -123,15 +138,15 @@ function cardKeyFor(ctx: SlotContext, key: SlotKey, tab: string | undefined): st
   return tab ? `${base}:${tab}` : base;
 }
 
-/** What the deep modal opens on: the slot, plus (ranking) the tab that was
- *  showing and the row that was tapped, so the embedded panel lands on the
- *  identical theme + detail popup the old standalone widget would have. */
+/** What the deep modal opens on: the slot, plus the sub-tab that was
+ *  showing and -- REV-35 M1 -- the U-Ranking entry that was tapped, so the
+ *  full rail inside the modal lands on that entry's own popup. */
 interface DeepTarget {
   key: SlotKey;
   tab?: string;
   action?: SlotItemAction;
-  /** REV-34 M1-B: when the card being opened was loaded, for the ranking
-   *  modal's meta line (the embedded panels carry no timestamp of their own). */
+  /** REV-34 M1-B: when the card being opened was loaded, for the U-Ranking
+   *  modal's meta line (the embedded rail carries no timestamp of its own). */
   updatedAt?: number;
 }
 
@@ -241,8 +256,10 @@ export function DiscoveryCarousel() {
     // REV-24 M3 (founder directive 2026-09-13, Codex ch.1 한계 비용 0원): the
     // CLOCK never spends a request. Before this, a 7s tick that landed on a
     // slot whose cache entry had aged past its TTL (15 min feed / 10 min
-    // weather / 6 h ranking) re-fetched it -- and since a full loop is 16 x 7s
-    // = 112s, the rotation re-fetched all thirteen network-backed slots once
+    // weather / 6 h U-Ranking) re-fetched it -- and since a full loop is 16
+    // x 7s = 112s (REV-35: 16 slots again, one of them the seeded U-Ranking
+    // that never touches the network), the rotation re-fetched every
+    // network-backed slot once
     // per TTL, forever, for a visitor who had done nothing but leave the
     // search box focused. Thirteen of those calls go browser -> third-party
     // origin, so they were not even visible in our own logs.
@@ -361,6 +378,7 @@ export function DiscoveryCarousel() {
   }
 
   const title = t(slotTitleKey(activeKey));
+  const uRankingActive = activeSlot.kind === 'uRanking';
   const hasContent = Boolean(card && (card.facts.length > 0 || card.items.length > 0));
   // §2A.3: worldwide section first, the visitor's country second. One-scope
   // slots (quake, weather...) render a single group with no scope header.
@@ -375,7 +393,7 @@ export function DiscoveryCarousel() {
       </p>
       <p className="qw-hub-meta mb-3 text-[12px] text-gray-500">{held ? tHub('held') : tHub('rotating')}</p>
 
-      {/* Chip rail -- 24 slots, gold/blue accent per slot, activeKey centred. */}
+      {/* Chip rail -- 16 slots, gold/blue accent per slot, activeKey centred. */}
       <div
         ref={railRef}
         {...railHandlers}
@@ -467,7 +485,7 @@ export function DiscoveryCarousel() {
             </div>
           </div>
 
-          {/* §1.3: ranking sub-tabs (theme / module) -- their own drag rail;
+          {/* §1.3: sub-tabs (the product families) -- their own drag rail;
               pointerdown stops here so a drag on the tabs is never read as a
               card swipe. */}
           {card?.tabs && card.tabs.length > 0 && (
@@ -515,7 +533,14 @@ export function DiscoveryCarousel() {
             </div>
           )}
 
-          {cardLoading && !card ? (
+          {/* REV-35 M1 (D-4): the U-Ranking card body IS the shorts rail --
+              decided on the slot's kind, before the loading / empty states,
+              because the rail reads its own seeded ladder and never waits
+              on `card`. A tap is delegated to the deep modal (see the
+              component note: the rotating body may not own a popup). */}
+          {uRankingActive ? (
+            <URankingsShorts variant="compact" onSelect={(entry) => openDeep(activeKey, { kind: 'uRankEntry', id: entry.id })} />
+          ) : cardLoading && !card ? (
             <p className="flex items-center gap-2 py-3 text-[14px] text-gray-400">
               <Loader2 size={15} className="animate-spin text-accent" aria-hidden="true" />
               {tHub('loading')}
@@ -591,8 +616,14 @@ export function DiscoveryCarousel() {
             </>
           )}
 
-          {/* REV-34 M1-B: the one meta format; the swipe hint stays sr-only. */}
-          <HubMetaLine count={card?.items.length ?? 0} source={tHub('sources')} updatedAt={card?.updatedAt}>
+          {/* REV-34 M1-B: the one meta format; the swipe hint stays sr-only.
+              REV-35 M1: the U-Ranking card counts its twelve cards and names
+              the UNITAS ledger, exactly as its deep modal does. */}
+          <HubMetaLine
+            count={uRankingActive ? U_RANKINGS_COUNT : card?.items.length ?? 0}
+            source={uRankingActive ? U_RANKING_META_SOURCE : tHub('sources')}
+            updatedAt={card?.updatedAt}
+          >
             <span className="sr-only"> · {tRev21('swipeHint')}</span>
           </HubMetaLine>
         </div>
@@ -610,9 +641,9 @@ export function DiscoveryCarousel() {
  *  headline + countdown refresh behaviour (`useHubHeadlines`); every feed
  *  theme shows its already-loaded facts + items with outbound discovery
  *  links -- re-fetched fresh on open rather than reusing the rotating
- *  card's possibly-stale snapshot; a ranking slot embeds the full ranking
- *  panel (REV-21 §1.3/§1.4). */
-/** All four sub-modals are mounted unconditionally (their own `open` prop
+ *  card's possibly-stale snapshot; the U-Ranking slot embeds the full
+ *  유랭킹 rail (REV-35 M1). */
+/** All three sub-modals are mounted unconditionally (their own `open` prop
  *  toggles, per-kind) rather than an if/else branch returning different JSX
  *  -- so closing one plays `Modal`'s own exit transition instead of an
  *  abrupt unmount, matching every other modal in this codebase. */
@@ -643,7 +674,7 @@ function SlotDeepModal({ target, ctx, onClose }: { target: DeepTarget | null; ct
     <>
       <WeatherDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
       <FeedDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
-      <RankingDeepModal target={target} onClose={onClose} />
+      <URankingDeepModal target={target} ctx={ctx} onClose={onClose} />
     </>
   );
 }
@@ -772,11 +803,11 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
     };
   }, [slotKey, ctx, tab]);
 
-  // DISCOVERY_SLOTS holds all 24 slots -- weather, the nine news themes and
-  // the two rankings included -- so an unfiltered lookup opened THIS modal
-  // on top of the modal SlotDeepModal already opened for the same key: two
-  // dialogs, two history levels, one back press short of closed. Each deep
-  // modal answers for its own kind only.
+  // DISCOVERY_SLOTS holds every slot -- weather and the U-Ranking included
+  // -- so an unfiltered lookup opened THIS modal on top of the modal
+  // SlotDeepModal already opened for the same key: two dialogs, two history
+  // levels, one back press short of closed. Each deep modal answers for its
+  // own kind only.
   const found = slotKey ? findDiscoverySlot(slotKey) : undefined;
   const slot = found && found.kind === 'feed' ? found : undefined;
   const title = slotKey ? t(slotTitleKey(slotKey)) : '';
@@ -919,78 +950,41 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
   );
 }
 
-/** REV-21 §1.3/§1.4: the ranking deep dive embeds the very same panels the
- *  retired standalone widgets rendered, so the theme chips, the tiered
- *  "11~50위 보기" paging and the rank-detail / operator-profile popups
- *  (`#global-ranking-detail-title` / `#unitas-ranking-profile-title`) are
- *  byte-identical to before -- the card's tab and the tapped row are handed
- *  in so the modal lands exactly where the visitor was looking. */
-function RankingDeepModal({ target, onClose }: { target: DeepTarget | null; onClose: () => void }) {
+/** REV-35 M1 (D-4): the U-Ranking deep dive. The shell is FeedDeepModal's
+ *  byte for byte (icon, 20px title, tag); the body is the FULL 유랭킹 rail --
+ *  filter chips, twelve cards, seed note -- landed on the entry the visitor
+ *  tapped in the compact card (`initialOpenId`), so the entry popup
+ *  (`#unitas-urank-title`) stacks above this dialog and the back gesture
+ *  unwinds one level at a time. The title row of the card opens this modal
+ *  with no entry, which is the rail alone. The omni-open anchor is the
+ *  brand itself: the ladder is a UNITAS ledger, not an encyclopedia entry,
+ *  so no Wikidata bridge is attempted (D-23). */
+function URankingDeepModal({ target, ctx, onClose }: { target: DeepTarget | null; ctx: SlotContext; onClose: () => void }) {
   const t = useTranslations();
   const locale = useLocale();
-  const key = target && isRankingKey(target.key) ? target.key : null;
+  const key = target && isURankingKey(target.key) ? target.key : null;
   const slot = key ? findDiscoverySlot(key) : undefined;
   const action = target?.action;
   const title = key ? t(slotTitleKey(key)) : '';
-  // SPEC §12.2 rankingDeep host (D-20): the ACTIVE theme tab's Wikidata item
-  // (THEME_QID) -- the embedded panel reports tab changes up here.
-  const [activeTheme, setActiveTheme] = useState<GlobalRankingThemeKey | null>(null);
-  const [activeModuleTitle, setActiveModuleTitle] = useState<string>('');
-  const lang = wikiLangFor(locale);
-  // REV-34 M1-B: what the meta line counts -- the entries of the theme the
-  // embedded panel is on (world) or the rows of the module it opened on
-  // (UNITAS). Both are bundled data, so the counts are exact, not estimates.
-  const rankedCount =
-    key === 'worldRanking'
-      ? (GLOBAL_RANKING_THEMES.find((theme) => theme.key === (activeTheme ?? target?.tab)) ?? GLOBAL_RANKING_THEMES[0]).entries.length
-      : key === 'unitasRanking'
-        ? unitasRankingFor(
-            MODULE_REGISTRY.find((m) => m.key === (action?.kind === 'unitasProfile' ? action.moduleKey : target?.tab)) ?? MODULE_REGISTRY[0],
-          ).length
-        : 0;
-  const rankingAnchor: DeeperAnchor | null =
-    key === 'worldRanking'
-      ? activeTheme
-        ? qidAnchor(THEME_QID[activeTheme], t(`GlobalRankings.themes.${activeTheme}.title`), lang)
-        : null
-      : key === 'unitasRanking'
-        ? textAnchor(activeModuleTitle || title, lang)
-        : null;
+  const anchor: DeeperAnchor | null = key ? textAnchor('UNITAS', wikiLangFor(locale)) : null;
 
   return (
-    <Modal open={key !== null} onClose={onClose} labelledBy="ranking-deep-title" size="xl">
+    <Modal open={key !== null} onClose={onClose} labelledBy="uranking-deep-title" size="xl">
       {key && slot && (
-        <div className="space-y-4" data-ranking-modal={key}>
+        <div className="space-y-5" data-slot-modal="uRanking" data-context-country={ctx.country} {...anchorDataAttrs(anchor)}>
           <div className="flex items-start gap-3">
             <slot.icon size={26} style={{ color: slot.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
             <div className="min-w-0 flex-1">
-              <p id="ranking-deep-title" className="text-[20px] font-bold text-white">
+              <p id="uranking-deep-title" className="text-[20px] font-bold text-white">
                 {title}
               </p>
               <p className="mt-0.5 text-[14px] text-gray-400">{t(slotTagKey(key))}</p>
             </div>
           </div>
-          {key === 'worldRanking' ? (
-            <GlobalThemeRankings
-              embedded
-              initialTheme={action?.kind === 'rankingDetail' ? action.theme : target?.tab}
-              initialDetailRank={action?.kind === 'rankingDetail' ? action.rank : undefined}
-              onThemeChange={setActiveTheme}
-            />
-          ) : (
-            <UnitasModuleRankings
-              embedded
-              initialModule={action?.kind === 'unitasProfile' ? action.moduleKey : target?.tab}
-              initialProfileRank={action?.kind === 'unitasProfile' ? action.rank : undefined}
-              onModuleChange={setActiveModuleTitle}
-            />
-          )}
-          {/* REV-25 M1: the world-ranking anchor is a real Wikidata item, so it
-              may bridge; the UNITAS-ranking anchor is a MODULE NAME and must
-              not be resolved to an unrelated encyclopedia entry (D-23). */}
-          <OmniOpen anchor={rankingAnchor} host="rankingDeep" family={omniFamilyForSlot(key)} compact />
-          {/* REV-34 M1-B: the one meta format, provider named as the source. */}
-          <HubMetaLine count={rankedCount} source={SLOT_PROVIDER[key].name} updatedAt={target?.updatedAt} className="text-[12px] text-gray-500" />
+          <URankingsShorts initialOpenId={action?.kind === 'uRankEntry' ? action.id : undefined} />
+          <OmniOpen anchor={anchor} host="uRankingDeep" family={omniFamilyForSlot(key)} compact />
+          {/* REV-34 M1-B: the one meta format -- twelve cards, the ledger named. */}
+          <HubMetaLine count={U_RANKINGS_COUNT} source={U_RANKING_META_SOURCE} updatedAt={target?.updatedAt} className="text-[12px] text-gray-500" />
         </div>
       )}
     </Modal>
