@@ -63,11 +63,11 @@ Playwright 프로젝트를 3 → **6개**로 확장했다.
 | 신뢰 등록 재각인 + 검증 | 13 파일 일치 |
 | 데몬 dry-run | `attestation: OK (13 files)` · 프로브 cached |
 
-## 5. 배포 — [배포 시 스탬프]
+## 5. 배포 — 실측 스탬프
 
-- git commit/push: _[스탬프]_
-- Vercel 프로덕션: _[스탬프]_
-- 데몬 재기동(샤딩 코드 적재): _[스탬프]_
+- git commit/push: 커밋 `9ab3e70` → `origin/main` 푸시 완료(`77bd212..9ab3e70`).
+- Vercel 프로덕션: 배포 `the-unitas-global-iv75jsv3n-the-unitas-global-ou-e.vercel.app` 완료. `www.theunitas.global/` → 307(소버린 게이트, 정상).
+- 데몬 재기동(샤딩 코드 적재): 구 데몬 회수 후 예약 작업 재기동, `State: Running`, `attestation: OK (13 files)` 확인.
 
 ## 6. 창립자 조치 필요
 
