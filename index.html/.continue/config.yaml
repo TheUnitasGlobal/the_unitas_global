@@ -10,10 +10,6 @@ models:
     provider: openai
     model: gpt-4.1
     apiKey: ${{ secrets.OPENAI_API_KEY }}
-  - name: Google Gemini
-    provider: gemini
-    model: gemini-2.5-pro
-    apiKey: ${{ secrets.GEMINI_API_KEY }}
   - name: DeepSeek
     provider: openai
     model: deepseek-chat

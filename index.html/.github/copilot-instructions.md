@@ -39,7 +39,7 @@ Every implementation task must follow this order:
 ## Agent collaboration
 
 - Copilot owns integration and final validation.
-- Claude Code is used for implementation review and risk analysis through `scripts/agent-review.ps1`.
-- Gemini is used for independent UX/content review through `scripts/agent-review.ps1`.
+- **Codex v41.0 제4장 단일 절대 지배 에이전트:** Claude Code만이 팩토리의 중앙 컨트롤 타워다. Gemini·Roo Code 등 보조 에이전트 CLI 연동은 2026-09-17 전량 파기되었으며 재도입은 헌법 위반이다.
+- `scripts/agent-review.ps1`은 Claude Code 단독으로 두 렌즈를 구동한다 — `-Lens security`(`.github/agents/unitas-claude-reviewer.agent.md`)와 `-Lens ux`(`.github/agents/unitas-ux-reviewer.agent.md`). 심사 기준은 그 두 정의 파일이 단일 정본이며 스크립트에 복제하지 않는다.
 - Agents must not print or commit API keys, access tokens, or `.env` contents.
 - If an external agent CLI is unavailable, report it and continue with local validation.

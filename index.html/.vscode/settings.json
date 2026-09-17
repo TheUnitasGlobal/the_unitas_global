@@ -1,6 +1,5 @@
 {
   "terminal.integrated.env.windows": {
-    "GEMINI_API_KEY": "${env:GEMINI_API_KEY}",
     "ANTHROPIC_API_KEY": "${env:ANTHROPIC_API_KEY}",
     "OPENAI_API_KEY": "${env:OPENAI_API_KEY}",
     "DEEPSEEK_API_KEY": "${env:DEEPSEEK_API_KEY}",
@@ -69,15 +68,14 @@
     "typescriptreact": "typescriptreact"
   },
 
-  // --- Multi-agent coexistence: Claude Code + Roo Code + Gemini Code Assist ---
-  // Of the three, only Gemini Code Assist does Copilot-style inline ghost-text
-  // completion (Claude Code is a side-panel/diff-based agent; Roo Code ships
-  // no default keybindings at all, confirmed via its own package.json). That
-  // makes Gemini's auto-inline-suggest the one real source of a suggestion
-  // popping up unasked-for while another agent has focus -- disable auto-fire
-  // and require the manual trigger (Ctrl+Enter / Cmd+Return) instead.
-  "geminicodeassist.inlineSuggestions.enableAuto": false,
-
+  // --- Codex v41.0 ch.4: single governing agent ---
+  // Gemini Code Assist's settings used to live here, tuned so its inline
+  // ghost-text would not fire while another agent had focus. Chapter 4
+  // ("오직 Claude Code만이 ... Gemini, Roo Code 등 일체의 수동 서포트 에이전트
+  // 연동 ... 영구 배제") settles that differently: there is no second
+  // completion agent to coexist WITH, so the tuning is gone rather than
+  // disabled, and GEMINI_API_KEY is no longer passed into the terminal above.
+  //
   // Roo Code can auto-execute file writes/commands when this is on. With
   // Claude Code also editing this workspace, leave it off so two agents never
   // apply unreviewed changes to the same files at the same time -- Roo Code

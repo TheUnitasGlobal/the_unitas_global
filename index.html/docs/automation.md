@@ -42,24 +42,23 @@ Only server-side Stripe secrets and price IDs are uploaded. `SUPABASE_ANON_KEY` 
 npm run release
 ```
 
-This generates the module pages, runs Playwright, invokes Claude Code and Gemini reviews when their CLIs are installed, and builds `site-dist/`. Add `-DeploySupabase` to `scripts/release.ps1` only after required Supabase and Stripe secrets are configured.
+This generates the module pages, runs Playwright, invokes the Claude Code review (both lenses), and builds `site-dist/`. Add `-DeploySupabase` to `scripts/release.ps1` only after required Supabase and Stripe secrets are configured.
 
-Set `GEMINI_API_KEY` and `ANTHROPIC_API_KEY` in the user environment or CI secret store. They are passed to external CLIs by the terminal environment and are never written to the repository.
+Codex v41.0 제4장 destroys every auxiliary-agent CLI integration: `scripts/agent-review.ps1` shells out to `claude` and nothing else, and `-Review` now selects a LENS (`security` | `ux` | `both` | `none`), not a vendor. Set `ANTHROPIC_API_KEY` in the user environment or CI secret store; it is passed to the CLI by the terminal environment and is never written to the repository.
 
 ## Universal AI command center
 
 Installed workspace extensions:
 
 ```vscode-extensions
-continue.continue,rooveterinaryinc.roo-cline,google.geminicodeassist,anthropic.claude-code
+continue.continue,rooveterinaryinc.roo-cline,anthropic.claude-code
 ```
 
-Continue models are configured in `.continue/config.yaml`: Claude Sonnet, OpenAI GPT, Google Gemini, and DeepSeek. Set the corresponding environment variables before using them:
+Continue models are configured in `.continue/config.yaml`: Claude Sonnet, OpenAI GPT, and DeepSeek. (Google Gemini was removed on 2026-09-17 under 제4장.) OpenAI and DeepSeek remain because the app itself calls them as MODEL providers — they are not rival control towers. Set the corresponding environment variables before using them:
 
 ```powershell
 $env:ANTHROPIC_API_KEY = '...'
 $env:OPENAI_API_KEY = '...'
-$env:GEMINI_API_KEY = '...'
 $env:DEEPSEEK_API_KEY = '...'
 npm run check:ai
 ```

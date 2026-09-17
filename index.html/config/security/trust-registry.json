@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "doctrine": "Codex v41.0 ch.4 (Sole Absolute Governing Agent / Zero-Hands / Self-Resurrecting Daemon) + ch.15 stage 3 (idle-sensor) + ch.8 (auto-quarantine must not kill founder-authorized automation) + ch.11 (sovereign memory backup). REV-36 M1, renumbered for v41.0 (16-chapter edition).",
-  "authorizedBy": "Dooyeong Hwang (founder) -- REV-35 D-11 + REV-36 M1 directive, 2026-09-16",
-  "authorizedAt": "2026-09-16",
-  "updatedAt": "2026-09-17T04:29:59.490Z",
+  "doctrine": "Codex v41.0 ch.4 (Sole Absolute Governing Agent / Zero-Hands / Self-Resurrecting Daemon) + ch.5 (Micro-Burn: an autonomous resume loop is budget-capped, never unbounded) + ch.13 (Fail-Closed integrity + the 제2장 structure gate) + ch.14 (review-agent archive) + ch.15 stage 3 (idle-sensor) + ch.8 (auto-quarantine must not kill founder-authorized automation) + ch.11 (sovereign memory backup). REV-36 M1, extended 2026-09-17 for the v41.0 residual-five directive (MISSION 1..5).",
+  "authorizedBy": "Dooyeong Hwang (founder) -- REV-35 D-11 + REV-36 M1 directive 2026-09-16; v41.0 잔여 결재 5건 직권 승인 및 신규 미션 1~5 하달 2026-09-17",
+  "authorizedAt": "2026-09-17",
+  "updatedAt": "2026-09-17T05:22:05.260Z",
   "entries": [
     {
       "kind": "scheduled-task",
@@ -33,20 +33,23 @@
       "kind": "scheduled-task",
       "id": "unitas.review-archive.task",
       "name": "UnitasReviewAgentArchive",
-      "trigger": "Daily",
-      "principal": "current user / Limited",
-      "action": "powershell -File index.html/web/scripts/install-review-archive-task.ps1 -> node scripts/review-agent-archive.mjs",
-      "purpose": "Codex ch.14 review-agent briefing archive: rolls up the daily review-agent output. Local, model-free.",
+      "trigger": "Daily at 04:20 local time (a few minutes after the Vercel cron at 04:00 UTC)",
+      "principal": "current user / Interactive / Limited (no elevation)",
+      "action": "node \"<repo>/index.html/web/scripts/review-agent-archive.mjs\"  (WorkingDirectory: index.html/web)",
+      "purpose": "Codex ch.14 review-agent briefing archive: mirrors the nightly audit runs into ~/life/review/ as JSON + a markdown executive briefing. Local, model-free, token 0.",
       "doctrine": "ch.14",
       "allowed": [
-        "read and archive review-agent briefing output under the repo"
+        "read web/.env.local and web/.env for the two Supabase keys",
+        "call the Supabase REST endpoint for review_agent_logs with the service role key",
+        "write JSON + markdown archives under ~/life/review/"
       ],
       "forbidden": [
         "EncodedCommand",
-        "network egress",
         "elevation",
-        "writes outside the repo"
-      ]
+        "writes outside ~/life/review/",
+        "printing or logging secret values"
+      ],
+      "status": "REGISTERED 2026-09-17 via web/scripts/install-review-archive-task.ps1. Preflight reports NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY absent from web/.env.local, so the nightly run exits 1 until the founder supplies them (ch.6 permits asking for exactly this class of credential)."
     },
     {
       "kind": "file",
@@ -102,7 +105,7 @@
       "path": "web/scripts/install-review-archive-task.ps1",
       "purpose": "Daily Task Scheduler registrar for UnitasReviewAgentArchive.",
       "doctrine": "ch.14",
-      "sha256": "3ca9a3487b533e927cabe6e22e3ef3018eefb3f831fd42e70a0aeba844610243"
+      "sha256": "c470d7880afcd683aef4859a57f42f594d5ffcdd07786e642fa4fd9687ab417d"
     },
     {
       "kind": "file",
@@ -181,6 +184,65 @@
         "elevation",
         "writing the memory unencrypted",
         "storing the passphrase in the repo"
+      ]
+    },
+    {
+      "kind": "file",
+      "id": "unitas.codex-structure.core",
+      "path": "web/scripts/codex-structure-core.mjs",
+      "purpose": "Pure structural parser/verifier for the codex canon (16 chapters + the 1000-slot spine). Imported by scripts/sync-codex.mjs in prebuild and by __tests__/doctrine/codexStructure.test.ts, so a silent edit here would silently disable the gate that A-4 exists to close.",
+      "doctrine": "ch.2 / ch.13 / MISSION 3",
+      "sha256": "879d169ee8132c9ec9fb242eec556d65f220ec45b388eb648bd7230ab0c5134c"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.resurrection.core",
+      "path": "web/scripts/resurrection-core.mjs",
+      "purpose": "Pure ARMED/DISARMED + halt/budget/backoff decision table for the ch.4 Self-Resurrecting Daemon. No fs, no process, no clock. This is the file that decides whether tokens are ever spent.",
+      "doctrine": "ch.4 / ch.5 (Micro-Burn cap)",
+      "sha256": "fa0b597b7c96ab80168a511f8f64fb729ea2a85fca9ed3b0ab51d44c55a302a5"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.resurrection.daemon",
+      "path": "web/scripts/resurrection-daemon.mjs",
+      "purpose": "The ch.4 executor: 10-minute Self-Check, 60-minute halt detection, autonomous `claude --resume`. Carries no logic of its own — every verdict comes from unitas.resurrection.core.",
+      "doctrine": "ch.4",
+      "sha256": "1555d222fbc7c5eeacdadcf8b632b034c3af9cf863067ee5b3d2677a74205adf"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.resurrection.installer",
+      "path": "web/scripts/install-resurrection-task.ps1",
+      "purpose": "At-logon Task Scheduler registrar for UnitasResurrectionDaemon (+ -Status / -Uninstall).",
+      "doctrine": "ch.4",
+      "sha256": "6480c1c5e5b48acd66760813697e53cfcd851fed064a07c6ea03977f2aba2fd7"
+    },
+    {
+      "kind": "scheduled-task",
+      "id": "unitas.resurrection.task",
+      "name": "UnitasResurrectionDaemon",
+      "trigger": "AtLogOn (current user, interactive)",
+      "principal": "current user / Interactive / Limited (no elevation)",
+      "action": "powershell -NoProfile -WindowStyle Hidden -Command \"& node index.html/web/scripts/resurrection-daemon.mjs\"",
+      "purpose": "Codex ch.4 자율 부활 데몬: self-checks every 10 minutes and, when agent computation has been halted 60+ minutes WITH work in flight (a user turn that never received an assistant reply), resumes the Claude Code session autonomously.",
+      "doctrine": "ch.4",
+      "status": "NOT REGISTERED on this machine as of 2026-09-17. The Claude Code auto-mode classifier refused the registration as [Create Unsafe Agents] — a persistent OS task that spawns AI agents is a harness-level control the agent does not bypass. Everything else (daemon, pure core, installer, 32 vitest cases, this entry) is landed and attested; activation is one founder command: npm --prefix web run resurrect:install-task",
+      "allowed": [
+        "read ~/.claude/projects/**/*.jsonl mtime and the last 256 KiB of the newest transcript",
+        "read the Win32 process table to detect a live `claude` session",
+        "read config/security/trust-registry.json and self-attest every tick",
+        "spawn `claude --resume <sessionId> -p \"<directive>\"` at most 3 times per rolling 24 h, with 60/120/240-minute backoff",
+        "write only under index.html/test-results/resurrection (state.json, daemon.lock, daemon.log)"
+      ],
+      "forbidden": [
+        "EncodedCommand (base64 -EncodedCommand is not used and must not be reintroduced)",
+        "resuming while DISARMED, while a live `claude` process exists, while the kill switch index.html/test-results/resurrection/DISARMED is present, or while trust attestation fails",
+        "resuming when the last conversational turn is an `assistant` turn (a finished conversation is not a halt)",
+        "unbounded resumes — the 3-per-24h ceiling and the backoff are 제5장 Micro-Burn limits, not tunables",
+        "elevation / RunLevel Highest",
+        "network egress of its own",
+        "killing processes by name"
       ]
     }
   ]

@@ -28,6 +28,11 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
+import {
+  EXPECTED_CHAPTERS,
+  carriesDoctrine,
+  verifyStructure,
+} from '../web/scripts/codex-structure-core.mjs';
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const OPERATIONAL_ROOT = path.resolve(SCRIPT_DIR, '..');
@@ -65,8 +70,23 @@ const SUMMARY_FILES = [
   '.aider.conf.yml',
   path.join('.github', 'agents', 'unitas-orchestrator.agent.md'),
   path.join('.github', 'agents', 'unitas-claude-reviewer.agent.md'),
-  path.join('.github', 'agents', 'unitas-gemini-reviewer.agent.md'),
+  path.join('.github', 'agents', 'unitas-ux-reviewer.agent.md'),
 ].map((p) => path.join(OPERATIONAL_ROOT, p));
+
+// FINAL_REPORT A-4, half two: SUMMARY_FILES above resolve against
+// OPERATIONAL_ROOT, so index.html/.github/copilot-instructions.md is gated and
+// the git-root file of the same name never was -- by any gate, ever.
+//
+// It cannot simply be appended to the list. That path is owned by the
+// claude-mem plugin, which rewrites it with a <claude-mem-context> block; a
+// hard gate there would paint the build red every time a plugin wrote a file
+// it owns. The rule is therefore CONTENT-based: it is checked when it carries
+// doctrine, and skipped when it is a generated stub. If the founder ever
+// promotes it to a real summary, it starts being gated on that commit with no
+// further change here.
+const CONDITIONAL_SUMMARY_FILES = [
+  path.join('.github', 'copilot-instructions.md'),
+].map((p) => path.join(REPO_ROOT, p));
 
 /** Every `vNN.N` the text mentions, as numbers, highest last. */
 function versionsIn(text) {
@@ -90,8 +110,9 @@ function canonVersion(canonText) {
  */
 function verifySummaries(canon) {
   const version = canonVersion(canon.text);
+  const lastChapter = EXPECTED_CHAPTERS[EXPECTED_CHAPTERS.length - 1].n;
   const results = [];
-  for (const file of SUMMARY_FILES) {
+  for (const file of [...SUMMARY_FILES, ...CONDITIONAL_SUMMARY_FILES]) {
     const rel = path.relative(REPO_ROOT, file);
     let raw;
     try {
@@ -105,6 +126,44 @@ function verifySummaries(canon) {
       continue;
     }
     const text = normalize(raw);
+
+    // Conditional entries (git-root copilot-instructions.md) are only in scope
+    // while they actually transcribe doctrine.
+    if (CONDITIONAL_SUMMARY_FILES.includes(file) && !carriesDoctrine(text)) {
+      results.push({ file: rel, ok: true, skipped: true, reason: 'not a doctrine summary in this checkout' });
+      continue;
+    }
+
+    // The CHAPTER-STRUCTURE axis (FINAL_REPORT A-4, half one). The version
+    // string is a label; the chapter spine is the document. Eight editions in
+    // a row the label was updated and the spine was not, and this gate passed
+    // every one of them. A file that enumerates the structure (>= 5 distinct
+    // 제N장 citations) must reach the canon's LAST chapter and must not cite a
+    // chapter beyond it. Files that merely mention a chapter or two in passing
+    // are not enumerating the structure and are left alone.
+    const citedChapters = new Set(
+      [...text.matchAll(/제(\d{1,2})장/g)].map((m) => Number(m[1])),
+    );
+    if (citedChapters.size >= 5) {
+      // A chapter number ABOVE the canon's last is NOT an error: these files
+      // legitimately carry history ("구 v26.0 제23장의 ... 조항은 v37.0에서
+      // 삭제되어 v41.0에도 없음"), exactly as versionsIn() lets them cite an
+      // older vNN.N. The failure this axis exists to catch is the opposite,
+      // and only the opposite: a file that enumerates the structure and
+      // STOPS SHORT of the canon's last chapter -- which is what happened at
+      // every one of the eight recurrences. Being AHEAD of canon is already
+      // caught by the version rule below.
+      if (!citedChapters.has(lastChapter)) {
+        const highest = Math.max(...citedChapters);
+        results.push({
+          file: rel,
+          ok: false,
+          reason: `enumerates the chapter structure but stops at 제${highest}장; canon ends at 제${lastChapter}장 (superseded chapter map)`,
+        });
+        continue;
+      }
+    }
+
     const seen = versionsIn(text);
     if (!text.includes(version.label)) {
       results.push({
@@ -218,10 +277,21 @@ function main() {
     write(canon);
   }
 
+  // Structural assertion FIRST. A canon whose chapter spine or 1000-slot list
+  // is broken must not be propagated to four copies by --write, and must not
+  // be certified by --verify: hashing a corrupted document only proves the
+  // corruption is consistent.
+  const structure = verifyStructure(canon.text);
+
   const results = verify(canon);
   const drifted = results.filter((r) => !r.ok);
 
   console.log(`[sync-codex] canon sha256 = ${canon.hash} (source: ${canon.source})`);
+  console.log(
+    `[sync-codex] structure: ${structure.chapters.length} chapters, ${structure.groups.length} slot groups, ${structure.stats.total} slots (결번 ${structure.stats.missing.length}), 표기 ${structure.stats.distinctTerms}종 중 ${structure.stats.repeatedTerms}종이 ${structure.stats.slotsWithRepeatedTerm}슬롯에 구조적 확장 등재`,
+  );
+  console.log(`[sync-codex] ${structure.ok ? 'PASS' : 'FAIL'}  canon structure (제1~제${EXPECTED_CHAPTERS[EXPECTED_CHAPTERS.length - 1].n}장 + 1000 슬롯)`);
+  for (const f of structure.failures) console.error(`[sync-codex]   ✖ ${f}`);
   for (const r of results) {
     console.log(`[sync-codex] ${r.ok ? 'PASS' : 'FAIL'}  ${r.file}${r.ok ? '' : `  (${r.reason ?? `hash ${r.hash} != canon`})`}`);
   }
@@ -234,7 +304,14 @@ function main() {
     console.log(`[sync-codex] ${tag}  ${r.file}${r.reason ? `  (${r.reason})` : ''}`);
   }
 
-  if (drifted.length > 0 || summaryStale.length > 0) {
+  if (drifted.length > 0 || summaryStale.length > 0 || !structure.ok) {
+    if (!structure.ok) {
+      console.error(`[sync-codex] canon structure is broken in ${structure.failures.length} way(s) — fail-closed.`);
+      console.error('[sync-codex]   fix: repair CLAUDE.md, then mirror it byte-identically into');
+      console.error('[sync-codex]        THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md and .roo/rules/unitas-constitution.md.');
+      console.error('[sync-codex]   the ratified chapter table lives in web/scripts/codex-structure-core.mjs');
+      console.error('[sync-codex]        (EXPECTED_CHAPTERS) — a founder-ratified edition moves both in one commit.');
+    }
     if (drifted.length > 0) {
       console.error(`[sync-codex] drift detected in ${drifted.length} verbatim copy/copies — fail-closed.`);
       console.error('[sync-codex]   fix: node scripts/sync-codex.mjs --write');
@@ -245,7 +322,7 @@ function main() {
     }
     process.exit(1);
   }
-  console.log(`[sync-codex] drift=0, all copies verbatim-identical to canon and all summaries current at ${summary.version.label}.`);
+  console.log(`[sync-codex] drift=0, structure OK (제1~제${EXPECTED_CHAPTERS[EXPECTED_CHAPTERS.length - 1].n}장 · 1000/1000 슬롯), all copies verbatim-identical to canon and all summaries current at ${summary.version.label}.`);
 }
 
 main();

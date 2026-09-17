@@ -67,6 +67,19 @@ on:
       - 'index.html/playwright.config.js'
       - '.github/workflows/**'
       - '**/.github/workflows/**'
+      # Doctrine surface (founder directive 2026-09-17, MISSION 3). The codex
+      # canon, its four verbatim copies and its hand-written summaries were not
+      # in any path filter, so the commit that renumbered the chapters never
+      # woke the only job that could have caught it.
+      - 'CLAUDE.md'
+      - 'THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md'
+      - '.roo/**'
+      - 'index.html/.roo/**'
+      - 'index.html/CLAUDE.md'
+      - 'index.html/THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md'
+      - 'index.html/.continue/**'
+      - 'index.html/.github/**'
+      - '.github/copilot-instructions.md'
   pull_request:
     paths:
       - 'index.html/web/**'
@@ -78,6 +91,15 @@ on:
       - 'index.html/playwright.config.js'
       - '.github/workflows/**'
       - '**/.github/workflows/**'
+      - 'CLAUDE.md'
+      - 'THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md'
+      - '.roo/**'
+      - 'index.html/.roo/**'
+      - 'index.html/CLAUDE.md'
+      - 'index.html/THE_UNITAS_GLOBAL_MASTER_ARCHIVE.md'
+      - 'index.html/.continue/**'
+      - 'index.html/.github/**'
+      - '.github/copilot-instructions.md'
   workflow_dispatch:
     inputs:
       e2e:
@@ -129,6 +151,15 @@ jobs:
 
       - name: Install web dependencies
         run: npm --prefix web ci || npm --prefix web install
+
+      # Codex ch.13 + ch.2. The constitution is checked BEFORE the code:
+      # sync-codex proves the canon's 16-chapter / 1000-slot spine, that the 4
+      # verbatim copies match it byte for byte, and that no hand-written
+      # summary still describes a superseded chapter map; the doctrine spec
+      # then proves that verifier can actually fail. Cheap (~2 s) and first, so
+      # a doctrine break is never buried inside 1900 unit tests.
+      - name: Doctrine structure gate (제2장 1000 슬롯 · 제13장 Fail-Closed)
+        run: npm run doctrine:verify
 
       # Codex ch.13. These call the same named scripts the founder runs locally,
       # so CI and the local gate cannot drift apart.

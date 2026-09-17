@@ -1,7 +1,10 @@
 [CmdletBinding()]
 param(
     [switch]$DeploySupabase,
-    [ValidateSet('claude', 'gemini', 'both', 'none')]
+    # Codex v41.0 ch.4: Claude Code is the sole governing agent. The old
+    # 'claude' | 'gemini' VENDOR selector is destroyed; what remains is a LENS
+    # selector, both lenses driven by the one agent.
+    [ValidateSet('security', 'ux', 'both', 'none')]
     [string]$Review = 'both'
 )
 
@@ -11,7 +14,7 @@ npm run build:pages
 npm test
 
 if ($Review -ne 'none') {
-    & powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-review.ps1 -Agent $Review
+    & powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent-review.ps1 -Lens $Review
     if ($LASTEXITCODE -ne 0) { throw "Agent review failed with exit code $LASTEXITCODE." }
 }
 
