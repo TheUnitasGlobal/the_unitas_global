@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "Võrgu pulss",
-      "sim": "simulatsioon",
-      "note": "Simuleeritud võrgu pulss — determineeritud, värskendatakse iga 5 minuti järel. Sinu enda tegevused ja kontoraamat on päris."
-    },
     "talk": {
-      "presence": "{count} toas",
-      "pulseRoom": "Toa pulss"
+      "roomEmpty": "Sõnumeid veel pole. Ütle esimene sõna."
     },
     "shorts": {
-      "watching": "{count} vaatab",
-      "trending": "Hetkel tõusuteel",
       "feed": "Reaalajas pulss",
-      "feedLike": "{handle} meeldis {title}",
-      "feedFollow": "{handle} jälgib @{creator}",
-      "feedWatch": "{handle} vaatab {title}",
-      "sortTrending": "Tõusuteel",
       "sortCatalogue": "Kataloog",
       "account": "Meeldimised ja jälgimised salvestatud sinu kontole",
-      "device": "Meeldimised ja jälgimised sellel seadmel"
+      "device": "Meeldimised ja jälgimised sellel seadmel",
+      "feedEmpty": "Reaktsioone veel pole.",
+      "countsEmpty": "Näitajaid veel pole.",
+      "sortLabel": "Sorteeri lühivideod",
+      "sortMostLiked": "Enim meelditud"
     },
     "exchange": {
       "market": "Turu pulss",
@@ -2948,12 +2940,26 @@
       "trades24h": "24 t tehingud",
       "traders24h": "Aktiivsed kauplejad",
       "topTheme": "Kuum teema",
-      "demand": "7 päeva nõudlus",
-      "momentumUp": "Tõuseb",
-      "momentumFlat": "Stabiilne",
-      "momentumDown": "Jahtub",
       "ledgerLive": "Reaalajas pearaamatu näitajad",
-      "simTrade": "simuleeritud"
+      "marketEmpty": "Viimase 24 tunni jooksul tehinguid pole.",
+      "boardEmpty": "Arveldusi veel pole."
+    },
+    "common": {
+      "loading": "Laadimine…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "Pearaamatu laadimine…",
+      "marketEmpty": "Viimase 24 tunni jooksul tehinguid pole.",
+      "boardLoading": "Laadimine…",
+      "boardEmpty": "Arveldusi veel pole.",
+      "marketUnreadable": "Tehingute pearaamatu lugemiseks logi sisse.",
+      "boardUnreadable": "Loojate arvelduste lugemiseks logi sisse.",
+      "sortLabel": "Sorteeri pakid"
+    },
+    "shorts": {
+      "countsUnreadable": "Välja logituna ei ole meeldimiste ja jälgijate arv nähtav."
     }
   }
 }

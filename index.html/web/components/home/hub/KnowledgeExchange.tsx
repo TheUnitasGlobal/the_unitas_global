@@ -11,6 +11,7 @@ import type { HotNewsCategory } from '@/lib/live/hotNews';
 import { createHubChannel, type HubChannelHandle } from '@/lib/hub/hubChannel';
 import {
   CREATOR_SHARE,
+  DEFAULT_CATALOG_SORT,
   LISTING_PRICE_MAX,
   LISTING_PRICE_MIN,
   LISTING_SUMMARY_MAX,
@@ -23,11 +24,9 @@ import {
   listPack,
   listingStatus,
   packById,
-  packStats,
   projectedEarnings,
   projectedSales,
   readLedger,
-  sellerBoard,
   validateListing,
   writeLedger,
   type CatalogSort,
@@ -47,12 +46,25 @@ import {
   type HubServerError,
   type MarketPulse,
 } from '@/lib/hub/hubLedger';
-import { dayIndexOf, PULSE_SLOT_MS } from '@/lib/square/pulse';
-import { exchangeMarketStats, exchangePulseTrades, packDemandSeries, packMomentum } from '@/lib/square/exchangePulse';
+import { PULSE_SLOT_MS } from '@/lib/square/pulse';
 import { useHubIdentity } from './useHubIdentity';
 
 const TICKER_ROWS = 6;
 const BOARD_ROWS = 6;
+
+/** Stable empty board reference so an empty render never re-triggers memos. */
+const NO_SELLERS: SellerRow[] = [];
+
+/**
+ * The four honest states a ledger-backed surface here can be in.
+ *
+ * REV-40 shipped three, and collapsed "I asked and the answer was none" into
+ * "I never asked" -- a signed-out visitor, who cannot call a single hub RPC,
+ * was told "No trades in the last 24 hours." about a table nobody had read.
+ * 'unreadable' is that fourth case, kept separate on purpose: only a source
+ * that actually answered with nothing may claim to be empty.
+ */
+type FeedState = 'loading' | 'data' | 'empty' | 'unreadable';
 
 /**
  * REV-29 MISSION 4 -- UNITAS 지식 거래소, the hub's revenue theme. The pure
@@ -69,8 +81,35 @@ const BOARD_ROWS = 6;
  * purchases would grant whatever the device claims. On the server path the
  * PRICE IS THE SERVER'S -- `hub_buy_pack` takes a pack id and reads the price
  * from `hub_catalog`, so a tampered client cannot buy a 320-credit pack for
- * one. The creator board switches to real revenue from the purchase ledger as
- * soon as it has rows, and falls back to the seeded board until then.
+ * one.
+ *
+ * REV-40: the simulation is GONE. REV-36 filled the ticker, the 24h market bar
+ * and a per-pack demand sparkline with deterministic invented numbers whenever
+ * the server ledger was unreadable -- which, with `hub_market_pulse` absent and
+ * every hub RPC granted to `authenticated` only, is the state a signed-out
+ * visitor is always in. Every one of those fail-open merges is deleted. Each
+ * ledger-backed surface now renders exactly one of FOUR honest states:
+ *   loading    -- no answer yet: '—' or a loading line, `data-hub-loading="1"`;
+ *   data       -- at least one real row;
+ *   empty      -- the source ANSWERED and the answer was nothing: a truthful
+ *                 empty line, `data-hub-empty="1"`, and real zeros in the
+ *                 numeric tiles. A zero is a fact; an invented number is not;
+ *   unreadable -- the source was never read: no session, an absent RPC, an RLS
+ *                 refusal. `data-hub-unreadable="1"`, '—' in the tiles, and a
+ *                 line that says the ledger could not be read.
+ *
+ * That fourth state is the fix for REV-40's own blind spot. Its three-state
+ * vocabulary routed "I could not read it" into 'empty', so a signed-out
+ * visitor -- who cannot call one hub RPC, since every one is granted to
+ * `authenticated` alone -- was told in words that there had been no trades in
+ * 24 hours while the four tiles beside those words showed '—' for "unknown".
+ * The label asserted a fact the numbers admitted they did not have. Now only a
+ * source that answered may say "none", and the panel that was never read says
+ * exactly that instead.
+ *
+ * The seeded seller board, the seeded per-pack sales/rating, the demand
+ * sparkline and the fabricated popularity sort have no real source, so they
+ * are not rendered, not ordered by, and not in the tree at all.
  *
  * Honest labels throughout, and the settlement into U-COIN is still named as
  * the step that opens next -- these credits are not U-COIN.
@@ -82,6 +121,8 @@ export function KnowledgeExchange() {
    *  surface, so a refusal reads the same wherever it happens. */
   const tRev30 = useTranslations('Rev30');
   const t36 = useTranslations('Rev36');
+  /** REV-40: the honest loading / empty vocabulary that replaced the sim. */
+  const t40 = useTranslations('Rev40');
   const tNews = useTranslations('HotNews');
   const locale = useLocale();
   const { playHoverSfx, playQuestEnterSfx } = useSpatialAudio();
@@ -90,7 +131,10 @@ export function KnowledgeExchange() {
 
   const [ledger, setLedger] = useState<ExchangeLedger>(() => readLedger());
   const [theme, setTheme] = useState<HotNewsCategory | 'all'>('all');
-  const [sort, setSort] = useState<CatalogSort>('trending');
+  // REV-40 follow-up: the default is catalogue truth. It used to be a
+  // "popularity" tab ordered by a seeded PRNG draw, which made the fabricated
+  // ranking the first thing every visitor read.
+  const [sort, setSort] = useState<CatalogSort>(DEFAULT_CATALOG_SORT);
   const [trades, setTrades] = useState<TradeEvent[]>([]);
   const [online, setOnline] = useState<number | null>(null);
   const [live, setLive] = useState<boolean | null>(null);
@@ -99,11 +143,14 @@ export function KnowledgeExchange() {
   /** REV-30 M1: which ledger is in force. 'pending' until the session is known. */
   const [mode, setMode] = useState<'pending' | 'device' | 'server'>('pending');
   const [serverBoard, setServerBoard] = useState<SellerRow[] | null>(null);
+  const [boardState, setBoardState] = useState<FeedState>('loading');
   const [busy, setBusy] = useState(false);
   const [serverError, setServerError] = useState<HubServerError | null>(null);
-  // REV-36: simulated market pulse -- a living ticker + 24h bar + demand
-  // sparklines, deterministic from the slot, overridden by the real ledger.
+  // REV-40: the REAL 24h market pulse, or nothing. `hub_market_pulse` is not
+  // live yet and is granted to `authenticated` only, so `marketState` is
+  // 'empty' for every visitor today -- and that is exactly what it says.
   const [marketPulse, setMarketPulse] = useState<MarketPulse | null>(null);
+  const [marketState, setMarketState] = useState<FeedState>('loading');
   const channelRef = useRef<HubChannelHandle | null>(null);
 
   // Form
@@ -142,33 +189,67 @@ export function KnowledgeExchange() {
     };
   }, []);
 
-  // Real creator revenue once the purchase ledger has rows; the seeded board
-  // stands in until then (and whenever the call cannot be made at all).
+  // REV-40: real creator revenue from the purchase ledger, never the old seeded
+  // board whose revenue figures were invented from a PRNG.
+  //
+  // Follow-up fix: without a server session `hub_seller_board` is not called at
+  // all, so there is no answer to call empty. That branch is 'unreadable'. Once
+  // we do call it, `hubSellerBoard` soft-fails to [] and cannot distinguish a
+  // refusal from a genuinely empty board; with `hub_purchases` at zero rows
+  // today, [] is the true answer, so the server branch reports it as empty.
   useEffect(() => {
-    if (mode !== 'server') return;
+    if (mode === 'pending') return;
+    if (mode !== 'server') {
+      setServerBoard(null);
+      setBoardState('unreadable');
+      return;
+    }
     let cancelled = false;
+    setBoardState('loading');
     void hubSellerBoard(BOARD_ROWS).then((rows) => {
-      if (!cancelled && rows.length > 0) setServerBoard(rows);
+      if (cancelled) return;
+      setServerBoard(rows);
+      setBoardState(rows.length > 0 ? 'data' : 'empty');
     });
     return () => {
       cancelled = true;
     };
   }, [mode]);
 
-  // REV-36: the pulse clock -- refresh every slot so the ticker, the 24h bar
-  // and the sparklines breathe without a reload.
+  // The slot clock: listing status and projected earnings are both functions
+  // of `now`, so they still need to tick without a reload.
   useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), PULSE_SLOT_MS);
     return () => clearInterval(id);
   }, []);
 
-  // REV-36: the REAL 24h market pulse when signed in and the ledger has trades;
-  // otherwise the deterministic simulation stands in (fail-open).
+  // REV-40: the REAL 24h market pulse, and nothing else. Zero trades is a true
+  // answer and is shown as zero, never as a fabricated bar.
+  //
+  // Follow-up fix: 'empty' now requires an ANSWER. No session means the RPC is
+  // never called, and a refusal or an absent `hub_market_pulse` means it came
+  // back with nothing readable -- both are 'unreadable'. Only `res.ok` with a
+  // payload of zero trades may say "no trades in the last 24 hours", and in
+  // that one case `marketPulse` is set, so the tiles print real zeros beside
+  // the claim instead of contradicting it with four em dashes.
   useEffect(() => {
-    if (mode !== 'server') return;
+    if (mode === 'pending') return;
+    if (mode !== 'server') {
+      setMarketPulse(null);
+      setMarketState('unreadable');
+      return;
+    }
     let cancelled = false;
+    setMarketState('loading');
     void hubMarketPulse().then((res) => {
-      if (!cancelled && res.ok && res.data && res.data.trades24h > 0) setMarketPulse(res.data);
+      if (cancelled) return;
+      if (res.ok && res.data) {
+        setMarketPulse(res.data);
+        setMarketState(res.data.trades24h > 0 ? 'data' : 'empty');
+      } else {
+        setMarketPulse(null);
+        setMarketState('unreadable');
+      }
     });
     return () => {
       cancelled = true;
@@ -185,7 +266,10 @@ export function KnowledgeExchange() {
     channelRef.current = handle;
     handle
       .onBroadcast('trade', (payload) => {
-        if (isTradeEvent(payload)) setTrades((prev) => [payload, ...prev].slice(0, TICKER_ROWS));
+        // REV-40: a ticker row is a real purchase or it is nothing. Reject any
+        // payload still carrying REV-36's `sim` marker -- a stale tab or an
+        // older client must not be able to put an invented trade on the wire.
+        if (isTradeEvent(payload) && payload.sim !== true) setTrades((prev) => [payload, ...prev].slice(0, TICKER_ROWS));
       })
       .onPresenceCount(setOnline);
     void handle.ready.then((ok) => {
@@ -278,19 +362,17 @@ export function KnowledgeExchange() {
   }
 
   const packs = useMemo(() => catalogView(theme, sort), [theme, sort]);
-  const dayIndex = useMemo(() => dayIndexOf(now), [now]);
-  const simTrades = useMemo(() => exchangePulseTrades(now), [now]);
-  const simMarket = useMemo(() => exchangeMarketStats(now), [now]);
-  // Real rows first, then simulated -- a real trade is never evicted by a sim
-  // one (they occupy their own slots after the real ticker).
-  const tickerRows = useMemo(() => [...trades, ...simTrades].slice(0, TICKER_ROWS + simTrades.length), [trades, simTrades]);
-  // The live ledger figures when they exist, else the deterministic simulation.
-  const market = marketPulse ?? simMarket;
-  const marketSource = marketPulse ? 'ledger' : 'sim';
+  // REV-40: real broadcast trades only. There is no second list to merge in.
+  // Until the hub channel has answered we do not know whether the room is
+  // silent or unreachable, so that window is 'loading' rather than 'empty'.
+  const tickerState: FeedState = trades.length > 0 ? 'data' : live === null ? 'loading' : 'empty';
+  const market = marketPulse;
+  /** The DOM contract: 'ledger' | 'empty' | 'loading' | 'unreadable'. A source
+   *  of 'sim' is permanently unreachable -- there is nothing left to simulate. */
+  const marketSource = marketState === 'data' ? 'ledger' : marketState;
   const owned = useMemo(() => ledger.purchases.map((p) => packById(p.packId)).filter((p): p is KnowledgePack => Boolean(p)), [ledger.purchases]);
   const earnings = useMemo(() => projectedEarnings(ledger, now), [ledger, now]);
-  const seededBoard = useMemo(() => sellerBoard().slice(0, BOARD_ROWS), []);
-  const board = serverBoard ?? seededBoard;
+  const board = serverBoard ?? NO_SELLERS;
   const numberFmt = useMemo(() => new Intl.NumberFormat(locale), [locale]);
   const timeFmt = useMemo(() => new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' }), [locale]);
 
@@ -332,50 +414,73 @@ export function KnowledgeExchange() {
         </p>
       )}
 
-      {/* REV-36: the 24h market bar -- live ledger figures when signed in and
-          the ledger has trades, else the deterministic simulation. */}
-      <section className="qw-hubx-market" data-hub-market="" data-hub-market-source={marketSource}>
+      {/* REV-40 + follow-up: the 24h market bar reads the purchase ledger, says
+          it read nothing, or says it could not read it -- and the words always
+          agree with the four tiles beside them. Real zeros only when the ledger
+          answered with none; '—' whenever it did not answer. */}
+      <section
+        className="qw-hubx-market"
+        data-hub-market=""
+        data-hub-market-source={marketSource}
+        {...(marketState === 'loading' ? { 'data-hub-loading': '1' } : {})}
+        {...(marketState === 'empty' ? { 'data-hub-empty': '1' } : {})}
+        {...(marketState === 'unreadable' ? { 'data-hub-unreadable': '1' } : {})}
+      >
         <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
           <Radio size={13} aria-hidden="true" />
           {t36('exchange.market')}
-          <span className="qw-hubx-market-src">{marketSource === 'ledger' ? t36('exchange.ledgerLive') : t36('pulse.sim')}</span>
+          <span className="qw-hubx-market-src">
+            {marketState === 'data'
+              ? t36('exchange.ledgerLive')
+              : marketState === 'loading'
+                ? t40('exchange.marketLoading')
+                : marketState === 'unreadable'
+                  ? t40('exchange.marketUnreadable')
+                  : t40('exchange.marketEmpty')}
+          </span>
         </p>
         <div className="qw-hubx-market-grid">
           <div className="qw-hubx-card qw-hubx-market-stat" data-market-stat="volume24h">
-            <strong>{numberFmt.format(market.volume24h)}</strong>
+            <strong>{market ? numberFmt.format(market.volume24h) : '—'}</strong>
             <span>{t36('exchange.volume24h')}</span>
           </div>
           <div className="qw-hubx-card qw-hubx-market-stat" data-market-stat="trades24h">
-            <strong>{numberFmt.format(market.trades24h)}</strong>
+            <strong>{market ? numberFmt.format(market.trades24h) : '—'}</strong>
             <span>{t36('exchange.trades24h')}</span>
           </div>
           <div className="qw-hubx-card qw-hubx-market-stat" data-market-stat="traders24h">
-            <strong>{numberFmt.format(market.traders24h)}</strong>
+            <strong>{market ? numberFmt.format(market.traders24h) : '—'}</strong>
             <span>{t36('exchange.traders24h')}</span>
           </div>
           <div className="qw-hubx-card qw-hubx-market-stat" data-market-stat="topTheme">
-            <strong>{market.topTheme ? tNews(`category.${market.topTheme}`) : '—'}</strong>
+            <strong>{market?.topTheme ? tNews(`category.${market.topTheme}`) : '—'}</strong>
             <span>{t36('exchange.topTheme')}</span>
           </div>
         </div>
       </section>
 
-      <section className="qw-hubx-ticker" data-hub-ticker="" aria-live="polite">
+      <section
+        className="qw-hubx-ticker"
+        data-hub-ticker=""
+        aria-live="polite"
+        {...(tickerState === 'loading' ? { 'data-hub-loading': '1' } : {})}
+        {...(tickerState === 'empty' ? { 'data-hub-empty': '1' } : {})}
+      >
         <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
           <Radio size={13} aria-hidden="true" />
           {t('ticker')}
         </p>
-        {tickerRows.length === 0 ? (
-          <p className="mt-1 text-[12px] text-gray-500">{t('tickerEmpty')}</p>
-        ) : (
+        {tickerState === 'data' ? (
           <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-[12px] text-gray-300">
-            {tickerRows.map((tr) => (
-              <li key={`${tr.packId}:${tr.at}:${tr.buyer}`} data-hub-trade="" data-hub-trade-sim={tr.sim ? '1' : '0'}>
+            {trades.map((tr) => (
+              <li key={`${tr.packId}:${tr.at}:${tr.buyer}`} data-hub-trade="">
                 <span className="text-gray-500">{timeFmt.format(new Date(tr.at))} · </span>
-                {t('tickerRow', { buyer: tr.sim ? `${tr.buyer} · ${t36('exchange.simTrade')}` : tr.buyer, pack: packById(tr.packId)?.title ?? tr.packId })}
+                {t('tickerRow', { buyer: tr.buyer, pack: packById(tr.packId)?.title ?? tr.packId })}
               </li>
             ))}
           </ul>
+        ) : (
+          <p className="mt-1 text-[12px] text-gray-500">{tickerState === 'loading' ? '—' : t('tickerEmpty')}</p>
         )}
       </section>
 
@@ -402,8 +507,11 @@ export function KnowledgeExchange() {
         ))}
       </div>
 
-      <div className="qw-hub-tabs mt-3" role="tablist" aria-label={t('sort.trending')}>
-        {(['trending', 'newest', 'price'] as const).map((key) => (
+      {/* Two orderings, both facts about the catalogue. The "popularity" tab
+          that used to lead this row ranked packs by a seeded PRNG draw; it is
+          removed until a purchase aggregate can rank them for real. */}
+      <div className="qw-hub-tabs mt-3" role="tablist" aria-label={t40('exchange.sortLabel')}>
+        {(['newest', 'price'] as const).map((key) => (
           <button key={key} type="button" role="tab" aria-selected={sort === key} className="qw-hub-tab" onMouseEnter={() => playHoverSfx()} onClick={() => setSort(key)}>
             {t(`sort.${key}`)}
           </button>
@@ -413,11 +521,7 @@ export function KnowledgeExchange() {
       <ul className="qw-hubx-grid" data-hub-packs="">
         {packs.map((pack) => {
           const meta = hotNewsAxisMeta(pack.theme);
-          const stats = packStats(pack);
           const verdict = canBuy(ledger, pack);
-          const demand = packDemandSeries(pack, dayIndex);
-          const momentum = packMomentum(pack, dayIndex);
-          const demandPoints = demand.map((v, i) => `${((i / 6) * 70).toFixed(1)},${(19 - (v / 100) * 18).toFixed(1)}`).join(' ');
           return (
             <li key={pack.id} className="qw-hubx-card" data-pack={pack.id} data-tier={pack.tier} style={{ '--qw-hub-accent': meta.color } as CSSProperties}>
               <p className="qw-hubx-chips">
@@ -435,18 +539,10 @@ export function KnowledgeExchange() {
                 </span>
                 <span>{t('by', { handle: pack.seller })}</span>
               </p>
-              <p className="qw-hubx-meta">
-                <span>{t('sales', { count: numberFmt.format(stats.sales) })}</span>
-                <span>{t('rating', { rating: stats.rating.toFixed(1) })}</span>
-              </p>
-              <div className="qw-hubx-demand" data-pack-momentum={momentum}>
-                <svg data-pack-demand="" viewBox="0 0 70 20" width="70" height="20" preserveAspectRatio="none" aria-hidden="true">
-                  <polyline points={demandPoints} fill="none" stroke="currentColor" strokeWidth="1.5" />
-                </svg>
-                <span className="qw-hubx-demand-label">
-                  {t36('exchange.demand')} · {momentum === 'up' ? t36('exchange.momentumUp') : momentum === 'down' ? t36('exchange.momentumDown') : t36('exchange.momentumFlat')}
-                </span>
-              </div>
+              {/* REV-40: the seeded "N sold / ★ rating" line and the 7-day
+                  demand sparkline are gone. `hub_purchases` is empty and there
+                  is no ratings source at all, so there was nothing behind
+                  either of them but a PRNG. */}
               <div className="qw-hubx-foot">
                 <span className="qw-hubx-price">
                   <Coins size={13} aria-hidden="true" />
@@ -476,7 +572,7 @@ export function KnowledgeExchange() {
       </ul>
 
       <div className="qw-hubx-columns">
-        <section className="qw-hubx-section" data-hub-library="">
+        <section className="qw-hubx-section" data-hub-library="" {...(owned.length === 0 ? { 'data-hub-empty': '1' } : {})}>
           <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
             <BadgeCheck size={13} aria-hidden="true" />
             {t('myPacks')}
@@ -560,20 +656,36 @@ export function KnowledgeExchange() {
           )}
         </section>
 
-        <section className="qw-hubx-section" data-hub-board="">
+        <section
+          className="qw-hubx-section"
+          data-hub-board=""
+          {...(boardState === 'loading' ? { 'data-hub-loading': '1' } : {})}
+          {...(boardState === 'empty' ? { 'data-hub-empty': '1' } : {})}
+          {...(boardState === 'unreadable' ? { 'data-hub-unreadable': '1' } : {})}
+        >
           <p className="qw-section-label flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-accent">
             <Crown size={13} aria-hidden="true" />
             {t('board')}
           </p>
-          <ol className="mt-1 space-y-1 text-[13px] text-gray-200">
-            {board.map((row, i) => (
-              <li key={row.handle} className="flex items-center gap-2">
-                <span className="qw-hub-rank shrink-0">{i + 1}</span>
-                <span className="min-w-0 flex-1 truncate font-semibold">@{row.handle}</span>
-                <span className="text-gray-500">{numberFmt.format(row.revenue)}</span>
-              </li>
-            ))}
-          </ol>
+          {boardState === 'data' ? (
+            <ol className="mt-1 space-y-1 text-[13px] text-gray-200">
+              {board.map((row, i) => (
+                <li key={row.handle} className="flex items-center gap-2">
+                  <span className="qw-hub-rank shrink-0">{i + 1}</span>
+                  <span className="min-w-0 flex-1 truncate font-semibold">@{row.handle}</span>
+                  <span className="text-gray-500">{numberFmt.format(row.revenue)}</span>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <p className="mt-1 text-[12px] text-gray-500">
+              {boardState === 'loading'
+                ? t40('exchange.boardLoading')
+                : boardState === 'unreadable'
+                  ? t40('exchange.boardUnreadable')
+                  : t40('exchange.boardEmpty')}
+            </p>
+          )}
         </section>
       </div>
     </div>

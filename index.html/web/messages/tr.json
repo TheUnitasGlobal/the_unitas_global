@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "Ağ nabzı",
-      "sim": "simülasyon",
-      "note": "Simüle ağ nabzı — belirlenimci, her 5 dakikada bir yenilenir. Kendi işlemleriniz ve hesap defteri gerçektir."
-    },
     "talk": {
-      "presence": "odada {count}",
-      "pulseRoom": "Oda nabzı"
+      "roomEmpty": "Henüz mesaj yok. İlk sözü siz söyleyin."
     },
     "shorts": {
-      "watching": "{count} izliyor",
-      "trending": "Şimdi trend",
       "feed": "Canlı nabız",
-      "feedLike": "{handle}, {title} içeriğini beğendi",
-      "feedFollow": "{handle}, @{creator} kişisini takip etti",
-      "feedWatch": "{handle}, {title} izliyor",
-      "sortTrending": "Trend",
       "sortCatalogue": "Katalog",
       "account": "Beğeniler ve takipler hesabınıza kaydedildi",
-      "device": "Bu cihazdaki beğeniler ve takipler"
+      "device": "Bu cihazdaki beğeniler ve takipler",
+      "feedEmpty": "Henüz tepki yok.",
+      "countsEmpty": "Henüz sayım yok.",
+      "sortLabel": "Kısa videoları sırala",
+      "sortMostLiked": "En çok beğenilen"
     },
     "exchange": {
       "market": "Piyasa nabzı",
@@ -2948,12 +2940,26 @@
       "trades24h": "24s işlem",
       "traders24h": "Aktif yatırımcılar",
       "topTheme": "Öne çıkan tema",
-      "demand": "7 günlük talep",
-      "momentumUp": "Yükseliyor",
-      "momentumFlat": "Sabit",
-      "momentumDown": "Soğuyor",
       "ledgerLive": "Canlı defter rakamları",
-      "simTrade": "simüle"
+      "marketEmpty": "Son 24 saatte işlem yok.",
+      "boardEmpty": "Henüz mutabakat yok."
+    },
+    "common": {
+      "loading": "Yükleniyor…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "Defter yükleniyor…",
+      "marketEmpty": "Son 24 saatte işlem yok.",
+      "boardLoading": "Yükleniyor…",
+      "boardEmpty": "Henüz mutabakat yok.",
+      "marketUnreadable": "İşlem defterini görmek için oturum açın.",
+      "boardUnreadable": "Üretici mutabakatlarını görmek için oturum açın.",
+      "sortLabel": "Paketleri sırala"
+    },
+    "shorts": {
+      "countsUnreadable": "Oturum kapalıyken beğeni ve takip sayıları görüntülenemez."
     }
   }
 }

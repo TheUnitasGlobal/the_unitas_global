@@ -1,6 +1,9 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   CREATOR_SHARE,
+  DEFAULT_CATALOG_SORT,
   EMPTY_LEDGER,
   EXCHANGE_CATALOG,
   LISTING_REVIEW_MS,
@@ -13,10 +16,8 @@ import {
   listPack,
   listingStatus,
   packById,
-  packStats,
   projectedEarnings,
   projectedSales,
-  sellerBoard,
   splitRevenue,
   validateListing,
   type ExchangeLedger,
@@ -42,36 +43,46 @@ describe('catalogue', () => {
     expect(packById('nope')).toBeUndefined();
   });
 
-  it('seeded stats are deterministic, bounded and favour higher tiers', () => {
-    const a = packStats(EXCHANGE_CATALOG[0]);
-    const b = packStats(EXCHANGE_CATALOG[0]);
-    expect(a).toEqual(b);
-    for (const p of EXCHANGE_CATALOG) {
-      const s = packStats(p);
-      expect(s.sales).toBeGreaterThan(0);
-      expect(s.rating).toBeGreaterThanOrEqual(3.6);
-      expect(s.rating).toBeLessThanOrEqual(5);
-      expect(s.buyers).toBeGreaterThanOrEqual(1);
-      expect(s.buyers).toBeLessThanOrEqual(s.sales);
+  // REV-40 follow-up -- the seeded counters are asserted GONE, structurally.
+  //
+  // An earlier pass stopped PRINTING the PRNG sales/rating/buyer draws but kept
+  // the generator alive as the ordering key behind the catalogue's default
+  // "popularity" tab, so the first screen every visitor read was still a
+  // fabricated ranking with its numbers hidden. Removing code is easy to undo
+  // by accident (a revert, a cherry-pick, a "restore the sort tab" commit), so
+  // the removal is pinned against the source itself -- the same technique
+  // __tests__/square/failOpenRegression.test.ts uses on the hub panels.
+  it('carries no pseudo-random source: the seeded counters and their sort are gone', () => {
+    const src = readFileSync(join(__dirname, '../../lib/hub/knowledgeExchange.ts'), 'utf8');
+    for (const banned of ['packStats', 'mulberry32', 'sellerBoard(', 'Math.random(', "'trending'"]) {
+      expect(src.includes(banned), `knowledgeExchange.ts still carries ${banned}`).toBe(false);
     }
+    // The surviving hash mints listing ids; it must not grow a generator again.
+    expect(src.includes('hashString')).toBe(true);
   });
 
-  it('catalogView filters by theme and sorts three ways', () => {
-    const economy = catalogView('economy', 'trending');
+  it('catalogView filters by theme and sorts two honest ways', () => {
+    const economy = catalogView('economy', DEFAULT_CATALOG_SORT);
     expect(economy.length).toBeGreaterThan(0);
     expect(economy.every((p) => p.theme === 'economy')).toBe(true);
     const byPrice = catalogView('all', 'price');
     for (let i = 1; i < byPrice.length; i++) expect(byPrice[i].price).toBeGreaterThanOrEqual(byPrice[i - 1].price);
-    const trending = catalogView('all', 'trending');
-    for (let i = 1; i < trending.length; i++) expect(packStats(trending[i]).sales).toBeLessThanOrEqual(packStats(trending[i - 1]).sales);
+    // 'newest' is catalogue order reversed -- a fact about the seed file.
     expect(catalogView('all', 'newest')[0].id).toBe(EXCHANGE_CATALOG[EXCHANGE_CATALOG.length - 1].id);
+    // ...and it is what a visitor gets before touching a thing.
+    expect(DEFAULT_CATALOG_SORT).toBe('newest');
   });
 
-  it('the creator board ranks every seller by seeded revenue, descending', () => {
-    const board = sellerBoard();
-    expect(board.length).toBe(new Set(EXCHANGE_CATALOG.map((p) => p.seller)).size);
-    for (let i = 1; i < board.length; i++) expect(board[i].revenue).toBeLessThanOrEqual(board[i - 1].revenue);
-    expect(board.reduce((n, r) => n + r.packs, 0)).toBe(EXCHANGE_CATALOG.length);
+  it('every sort is a stable permutation of the filtered catalogue', () => {
+    for (const sort of ['newest', 'price'] as const) {
+      const view = catalogView('all', sort);
+      expect(view).toHaveLength(EXCHANGE_CATALOG.length);
+      expect(new Set(view.map((p) => p.id)).size).toBe(EXCHANGE_CATALOG.length);
+      // Deterministic: a second call cannot reshuffle the shelf.
+      expect(catalogView('all', sort).map((p) => p.id)).toEqual(view.map((p) => p.id));
+      // Pure: the source catalogue is never reordered in place.
+      expect(EXCHANGE_CATALOG[0].id).toBe('kp-01');
+    }
   });
 });
 

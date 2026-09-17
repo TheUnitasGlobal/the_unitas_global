@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "Pulso ng network",
-      "sim": "simulasyon",
-      "note": "Simuladong pulso ng network — deterministiko, nire-refresh kada 5 minuto. Ang iyong sariling mga aksyon at ang ledger ng account ay totoo."
-    },
     "talk": {
-      "presence": "{count} sa silid",
-      "pulseRoom": "Pulso ng silid"
+      "roomEmpty": "Wala pang mensahe. Ikaw na ang unang magsalita."
     },
     "shorts": {
-      "watching": "{count} nanonood",
-      "trending": "Sikat ngayon",
       "feed": "Live na pulso",
-      "feedLike": "Nagustuhan ni {handle} ang {title}",
-      "feedFollow": "Sinundan ni {handle} si @{creator}",
-      "feedWatch": "Pinapanood ni {handle} ang {title}",
-      "sortTrending": "Sikat",
       "sortCatalogue": "Katalogo",
       "account": "Ang mga like at follow ay naka-save sa iyong account",
-      "device": "Mga like at follow sa device na ito"
+      "device": "Mga like at follow sa device na ito",
+      "feedEmpty": "Wala pang reaksyon.",
+      "countsEmpty": "Wala pang bilang.",
+      "sortLabel": "Ayusin ang shorts",
+      "sortMostLiked": "Pinakagusto"
     },
     "exchange": {
       "market": "Pulso ng merkado",
@@ -2948,12 +2940,26 @@
       "trades24h": "Mga trade 24h",
       "traders24h": "Aktibong trader",
       "topTheme": "Sikat na tema",
-      "demand": "Demand sa 7 araw",
-      "momentumUp": "Tumataas",
-      "momentumFlat": "Matatag",
-      "momentumDown": "Bumababa",
       "ledgerLive": "Live na datos ng ledger",
-      "simTrade": "simulado"
+      "marketEmpty": "Walang trade sa nakalipas na 24 oras.",
+      "boardEmpty": "Wala pang settlement."
+    },
+    "common": {
+      "loading": "Naglo-load…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "Naglo-load ang ledger…",
+      "marketEmpty": "Walang trade sa nakalipas na 24 oras.",
+      "boardLoading": "Naglo-load…",
+      "boardEmpty": "Wala pang settlement.",
+      "marketUnreadable": "Mag-sign in para makita ang trade ledger.",
+      "boardUnreadable": "Mag-sign in para makita ang settlement ng creator.",
+      "sortLabel": "Ayusin ang mga pack"
+    },
+    "shorts": {
+      "countsUnreadable": "Hindi mababasa ang bilang ng like at follow habang naka-sign out."
     }
   }
 }

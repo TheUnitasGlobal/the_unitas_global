@@ -4,13 +4,34 @@ const { test, expect } = require('@playwright/test');
 // proof, measured on the BUILT app.
 //
 // MISSION 1: the three core panels (유숏츠 · 유토크 · 유지식거래소) must render
-// living data immediately and must FAIL OPEN when the server ledger objects are
-// absent -- which is the live state today (the REV-36/37 shorts RPCs are not in
-// the database yet), so this doubles as the fail-open proof.
+// their structural truth immediately and must FAIL OPEN when the server ledger
+// objects are absent -- which is the live state today (hub_purchases and
+// hub_messages are empty and the REV-36/37 shorts RPCs are not in the database
+// yet), so this doubles as the fail-open proof.
+//
+// RE-CUT FOR THE REV-40 HONESTY CONTRACT: "fail open" used to mean "fall back
+// to a seeded simulation", and this file asserted that the fabricated rows were
+// present. REV-40 deleted the simulation, so failing open now means *declaring*
+// the state rather than inventing content for it. Every assertion that pinned
+// fiction in place has been replaced by the declared-state claim -- loading,
+// empty, unreadable, or real rows -- which holds today and still holds on the
+// day the founder applies the migrations and real rows arrive.
+//
+// REV-40 follow-up: `empty` narrowed to its literal meaning ("the ledger
+// answered and it holds no rows"); a source that could not be read at all now
+// says `unreadable`. Since every hub RPC is `authenticated`-only and this suite
+// runs SIGNED OUT, the market bar and the shorts reaction counts settle on
+// `unreadable` -- which is what failing open honestly looks like from here.
 //
 // MISSION 2: pixel alignment of the twenty tabs, the zero-friction scroller
 // contract, the responsive grid contract, and ESC unwinding the nested short
-// popup before the square itself.
+// popup before the square itself. (Unchanged -- REV-40 touched data, not layout.)
+//
+// COVERAGE, STATED HONESTLY: tests/web-cinema.config.js declares SIX projects
+// (chromium, webkit, mobile-chrome, tablet, inapp-kakao, inapp-instagram). As of
+// REV-40 this file has only ever been MEASURED on chromium -- the 제13장 2단계
+// target run. The remaining five projects are the 제13장 3단계 idle-daemon
+// sweep's business, and nothing here may be claimed for them until it reports.
 const { reachReleasedHome } = require('./_rev25Home');
 
 /**
@@ -53,8 +74,48 @@ async function openTab(hub, key) {
   await expect(hub.locator(`[data-hub-panel="${key}"]`)).toBeVisible();
 }
 
+/**
+ * The REV-40 rows-or-declared-empty gate, for the two containers whose
+ * emptiness is still a single fact: the U-Talk room list and the U-Exchange
+ * ticker both read state this page can always see (device history, the
+ * broadcast channel), so "read it and found none" is the only empty they have.
+ * Wait out `loading` (a real, transient state), then require either real rows
+ * or the declared `data-hub-empty="1"`. A container that goes blank with
+ * neither is the regression this guards -- silence dressed up as content.
+ */
+async function expectRowsOrEmpty(container, rowSelector, label) {
+  await expect(async () => {
+    if ((await container.locator(rowSelector).count()) > 0) return;
+    await expect(
+      container,
+      `${label}: no ${rowSelector} rows and no data-hub-empty="1" -- a blank panel is not an honest empty state`,
+    ).toHaveAttribute('data-hub-empty', '1');
+  }).toPass({ timeout: 15_000 });
+  // Which branch proved the contract. Read while the panel is still mounted:
+  // switching tabs unmounts it and every later read would hang.
+  return (await container.locator(rowSelector).count()) > 0 ? 'data' : 'empty';
+}
+
+/**
+ * Which state a ledger-fed container DECLARES, read in one DOM pass.
+ *
+ * `data-hub-loading`, `data-hub-empty` and `data-hub-unreadable` are mutually
+ * exclusive by construction, so reading them with three separate locator calls
+ * could straddle a re-render and "prove" a combination that never existed on
+ * screen. No flag at all means real rows are showing, which the exchange calls
+ * `ledger`. A `multiple:` result is returned rather than thrown so the caller's
+ * failure message names what it really saw.
+ */
+async function declaredState(locator) {
+  return locator.evaluate((el) => {
+    const on = ['loading', 'empty', 'unreadable'].filter((k) => el.getAttribute(`data-hub-${k}`) === '1');
+    if (on.length > 1) return `multiple:${on.join('+')}`;
+    return on[0] || 'data';
+  });
+}
+
 test.describe('REV-38 M1 -- data integrity and render', () => {
-  test('the three panels render living data and fail open with no server ledger', async ({ page }) => {
+  test('the three panels render their structural truth and fail open with no server ledger', async ({ page }) => {
     const hub = await openSquare(page);
 
     // --- 유숏츠 -------------------------------------------------------------
@@ -64,8 +125,15 @@ test.describe('REV-38 M1 -- data integrity and render', () => {
     await expect(shorts.locator('[data-short]').first()).toBeVisible();
     const shortsMs = Date.now() - t0;
     expect(await shorts.locator('[data-short]').count()).toBeGreaterThanOrEqual(40);
-    expect(await shorts.locator('[data-shorts-pulse] [data-shorts-pulse-row]').count()).toBeGreaterThanOrEqual(6);
-    await expect(shorts.locator('[data-short]').first().locator('[data-short-watching]')).toBeVisible();
+    // The invented pulse rows and per-card watcher badges are gone; what stands
+    // in their place is one declared empty section.
+    const pulse = shorts.locator('[data-shorts-pulse]');
+    await expect(pulse).toHaveAttribute('data-hub-empty', '1');
+    expect(await pulse.locator('[data-shorts-pulse-row]').count()).toBe(0);
+    await expect(pulse.locator('[data-shorts-feed-empty]')).toBeVisible();
+    expect(await shorts.locator('[data-short-watching]').count()).toBe(0);
+    // The real like counter survives on the card (em dash while loading).
+    await expect(shorts.locator('[data-short]').first().locator('[data-short-likes]')).toBeVisible();
     // Fail-open: with hub_shorts_* absent (or signed out) the panel says "this
     // device" rather than claiming an account ledger it does not have.
     await expect(shorts.locator('[data-shorts-ledger]')).toHaveAttribute('data-shorts-ledger', 'device');
@@ -74,11 +142,33 @@ test.describe('REV-38 M1 -- data integrity and render', () => {
     const t1 = Date.now();
     await openTab(hub, 'rooms');
     const rooms = hub.locator('[data-hub-rooms]');
-    await expect(rooms.locator('[data-hub-msg-sim]').first()).toBeVisible();
+    const roomList = rooms.locator('[data-hub-room-list]');
+    await expect(roomList).toBeVisible();
     const roomsMs = Date.now() - t1;
     expect(await rooms.locator('[data-room]').count()).toBe(22);
-    expect(await rooms.locator('[data-hub-msg-sim]').count()).toBeGreaterThanOrEqual(10);
-    expect(await rooms.locator('[data-hub-msg][data-mine="1"]').count()).toBe(0);
+    // Fail-open: no simulated conversation, a real shell plus a declared state.
+    expect(await rooms.locator('[data-hub-msg-sim]').count()).toBe(0);
+    await expect(rooms.locator('[data-hub-room-input]')).toBeVisible();
+    await expect(rooms.locator('[data-hub-room-send]')).toBeVisible();
+    const roomsBranch = await expectRowsOrEmpty(roomList, '[data-hub-msg]', 'U-Talk room list');
+    // Authorship. As a bare "= 0" against an empty list this was a 0-of-0
+    // vacuity: `[data-hub-msg]` is 0 in a fresh context, so `data-mine` was
+    // never evaluated on a single row. Send one message (the rev29-verify
+    // precedent) so the predicate has a population -- then it fails if the row
+    // the visitor typed is NOT theirs, and it fails if any other row becomes
+    // theirs.
+    const mineBefore = await rooms.locator('[data-hub-msg][data-mine="1"]').count();
+    const probe = `rev40 authorship probe ${Date.now()}`;
+    await rooms.locator('[data-hub-room-input]').fill(probe);
+    await rooms.locator('[data-hub-room-send]').click();
+    await expect(
+      rooms.locator('[data-hub-msg][data-mine="1"]').filter({ hasText: probe }),
+      'the message the visitor just sent is not attributed to them',
+    ).toHaveCount(1, { timeout: 15_000 });
+    expect(
+      await rooms.locator('[data-hub-msg][data-mine="1"]').count(),
+      'a message the visitor did not write is being attributed to them',
+    ).toBe(mineBefore + 1);
 
     // --- 유지식거래소 -------------------------------------------------------
     const t2 = Date.now();
@@ -86,11 +176,45 @@ test.describe('REV-38 M1 -- data integrity and render', () => {
     const ex = hub.locator('[data-hub-exchange]');
     await expect(ex.locator('[data-hub-packs] [data-pack]').first()).toBeVisible();
     const exMs = Date.now() - t2;
-    expect(await ex.locator('[data-hub-ticker] [data-hub-trade]').count()).toBeGreaterThanOrEqual(5);
+    const tickerBranch = await expectRowsOrEmpty(ex.locator('[data-hub-ticker]'), '[data-hub-trade]', 'U-Exchange ticker');
+    expect(await ex.locator('[data-hub-trade-sim]').count()).toBe(0);
     expect(await ex.locator('[data-hub-market] [data-market-stat]').count()).toBe(4);
-    expect(await ex.locator('svg[data-pack-demand]').count()).toBeGreaterThanOrEqual(20);
-    // No live ledger rows -> the deterministic simulation is in force, stated.
-    await expect(ex.locator('[data-hub-market]')).toHaveAttribute('data-hub-market-source', 'sim');
+    // The PRNG demand sparkline had no demand signal behind it. Element deleted.
+    expect(await ex.locator('svg[data-pack-demand]').count()).toBe(0);
+    expect(await ex.locator('[data-pack-momentum]').count()).toBe(0);
+    // No live ledger -> the bar says which kind of "no": 'empty' only when the
+    // RPC answered with zero trades, 'unreadable' when there was no readable
+    // source at all (signed out, or hub_market_pulse absent/refused). Both are
+    // fail-open; neither invents a figure. 'sim' is no longer emittable.
+    const market = ex.locator('[data-hub-market]');
+    await expect(async () => {
+      await expect(market, 'the 24h market bar never left the loading state').toHaveAttribute(
+        'data-hub-market-source',
+        /^(ledger|empty|unreadable)$/,
+      );
+    }).toPass({ timeout: 15_000 });
+    const marketSource = await market.getAttribute('data-hub-market-source');
+    expect(marketSource, 'the simulated market source was deleted in REV-40').not.toBe('sim');
+    // The word and the flag are one fact said twice; they may not disagree, and
+    // only one flag may be lit. 'ledger' is the word for the flagless state.
+    expect(
+      await declaredState(market),
+      `the market bar says source="${marketSource}" while its state flags say something else`,
+    ).toBe(marketSource === 'ledger' ? 'data' : marketSource);
+    // Fail-open proof at the tile level: an unreadable bar prints em dashes, and
+    // a bar that claims it read the ledger prints real figures (0 included).
+    const figures = await market.locator('[data-market-stat]:not([data-market-stat="topTheme"]) strong').allInnerTexts();
+    expect(figures.length, 'the three numeric market tiles').toBe(3);
+    for (const raw of figures) {
+      const fig = raw.trim();
+      if (marketSource === 'unreadable') {
+        expect(fig, 'an unreadable market bar printed a figure it never read').toBe('—');
+      } else {
+        expect(fig, `a "${marketSource}" market bar printed "—" instead of the figure it says it read`).toMatch(/\d/);
+      }
+    }
+
+    console.log(`[rev38] live ledger state -- rooms ${roomsBranch}, ticker ${tickerBranch}, market ${marketSource}`);
 
     // Panel switches are local-state only (no fetch on the critical path), so
     // they must be well under a second even on the slow harness engines.

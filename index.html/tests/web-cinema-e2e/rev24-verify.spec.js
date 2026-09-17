@@ -352,19 +352,78 @@ test.describe('REV-24 M1 -- the paid model is deferred, the skeleton is one', ()
 
   test('the U-AI result carries no coin, price or paid-tier surface', async ({ page }) => {
     await founderHome(page);
+    const QUERY = 'quantum computing';
     const bar = page.locator('#omni-synapse-search input').first();
     await bar.click();
-    await bar.fill('quantum computing');
+    await bar.fill(QUERY);
     await bar.press('Enter');
     await page.waitForSelector('.qw-stream-card, [data-stream-card], .qw-stream', { timeout: 30_000 }).catch(() => {});
     await page.waitForTimeout(1500);
-    const leaked = await page.evaluate(() => {
-      const root = document.querySelector('.qw-stream') || document.body;
-      const text = root.innerText || '';
-      const needles = ['U-COIN', 'UCOIN', '코인', 'Micro-Burn', 'Deep Insight · The VOID'];
-      return needles.filter((n) => text.includes(n));
-    });
-    expect(leaked, `the U-AI result still names: ${leaked.join(', ')}`).toEqual([]);
+    // REV-40. This contract forbids the SHAPE OF MONEY, not a vocabulary.
+    //
+    // It used to be a bare substring sweep for ['U-COIN', 'UCOIN', '코인',
+    // 'Micro-Burn', 'Deep Insight · The VOID'], and REV-24's own SPEC warns
+    // against precisely that twice (docs/rev24/SPEC.md §1.2: "Coin Pulse" and
+    // `coinGecko` are CONTENT, not payment UI; the `cost` in
+    // `WIKIMEDIA_LEG_COST` is a latency budget, not money).
+    //
+    // "Micro-Burn" is this company's margin architecture (Codex ch.1) and,
+    // since REV-35 33411bb swapped `.qw-stream-rankings` from
+    // UnitasModuleRankings to URankingsShorts, it is also the NAME of a
+    // leaderboard metric rendered as a percentage (lib/square/uRankings.ts
+    // seeds it 42-100). Naming the architecture is not selling it. Balances,
+    // prices, top-up CTAs and lock badges sell it -- and those are what is
+    // banned below, measured WIDER than the old needle list rather than
+    // narrower: 'Charge Coins' and 'Unlock for 500' both walked straight past
+    // the substring sweep and are caught now, as is any clickable that offers
+    // coins before it carries a number.
+    const paid = await page.evaluate((query) => {
+      const root = document.querySelector('.qw-stream');
+      if (!root) return { missing: true, violations: [], stray: [] };
+      // The result speaks the visitor's own words back at them (swarm blurbs,
+      // the refine input, outbound search links). The visitor's words are not
+      // the product's paid surface, so they come out before the scan.
+      const strip = (s) => (s || '').split(query).join(' ');
+      const text = strip(root.innerText);
+      const AMOUNT = String.raw`(?:\d[\d,.  ]*|—)`;
+      const CURRENCY = String.raw`(?:U-?COIN|코인)`;
+      const rules = [
+        [
+          'a coin amount (price or balance chip)',
+          new RegExp(`${AMOUNT}\\s*[·:]?\\s*${CURRENCY}|${CURRENCY}\\s*[·:]?\\s*${AMOUNT}`, 'i'),
+        ],
+        ['the deleted paid tier label', /Deep Insight\s*·\s*The VOID/],
+        [
+          'a payment / unlock affordance',
+          /(?:charge|buy|top\s*-?\s*up)\s+coins|충전하|결제하|구매하|unlock\s+(?:for|with)|잠금\s*해제/i,
+        ],
+      ];
+      const violations = rules.filter(([, re]) => re.test(text)).map(([name]) => name);
+      // Stronger than the old text-only sweep: a clickable that offers coins is
+      // a paid surface even before it grows a number.
+      const affordance = new RegExp(`${CURRENCY}|충전|결제`, 'i');
+      const clickable = Array.from(root.querySelectorAll('button, a, [role="button"]'))
+        .map((el) => strip(el.innerText).trim())
+        .filter((label) => affordance.test(label))
+        .map((label) => label.slice(0, 60));
+      if (clickable.length) violations.push(`a coin affordance: ${clickable.join(' | ')}`);
+      // The architecture term is content ONLY inside the U-Square leaderboard
+      // the owner pinned into the result (UaiHyperStream `.qw-stream-rankings`,
+      // owner instruction 2026-09-04 round 2). Anywhere else in the stream it is
+      // a regression -- the needle was not deleted, it was nailed in place.
+      const stray = [];
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        if (!/Micro-?Burn/i.test(node.nodeValue || '')) continue;
+        if (node.parentElement && node.parentElement.closest('.qw-stream-rankings')) continue;
+        stray.push((node.nodeValue || '').trim().slice(0, 80));
+      }
+      return { missing: false, violations, stray };
+    }, QUERY);
+    expect(paid.missing, 'the U-AI stream did not render').toBe(false);
+    expect(paid.violations, `the U-AI result grew a paid surface: ${paid.violations.join('; ')}`).toEqual([]);
+    expect(paid.stray, `Micro-Burn escaped the leaderboard: ${paid.stray.join(' | ')}`).toEqual([]);
     // And no dead paid-tier class survived the purge.
     for (const cls of ['qw-stream-deep-cta', 'qw-stream-reporter-paid', 'qw-stream-deep-locked', 'qw-stream-spine-cta']) {
       expect(await page.locator(`.${cls}`).count(), cls).toBe(0);

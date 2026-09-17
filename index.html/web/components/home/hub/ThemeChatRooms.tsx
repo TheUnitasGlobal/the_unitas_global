@@ -21,7 +21,6 @@ import {
   type ChatRoomKey,
 } from '@/lib/hub/themeChat';
 import { hasHubSession, hubPostMessage, hubRoomHistory, isHubServerConfigured, type HubServerError } from '@/lib/hub/hubLedger';
-import { PULSE_SLOT_MS, talkPresence, talkPulse } from '@/lib/square/talkPulse';
 import { useHubIdentity } from './useHubIdentity';
 
 /**
@@ -37,12 +36,24 @@ import { useHubIdentity } from './useHubIdentity';
  * room on a new device is no longer blank. A guest still broadcasts and
  * still keeps this device's own last 60 messages, and the room says which of
  * the two it is doing.
+ *
+ * REV-40 removes the simulated conversation that REV-36 seeded here. A room
+ * renders exactly three states and never a fabricated one:
+ *   loading -- the durable history request is still in flight and nothing has
+ *              painted yet. `data-hub-loading="1"`, an em dash for a body.
+ *   data    -- at least one real message (device history, live broadcast or
+ *              `hub_messages`). Rendered with data-hub-msg / data-mine.
+ *   empty   -- the answer came back with no rows, or there is no readable
+ *              source at all (hub_messages is `authenticated`-only, so a
+ *              guest can never read it). `data-hub-empty="1"` and one honest
+ *              line inviting the first message.
+ * The head-count is likewise only ever the channel's own presence count; when
+ * there is no channel there is no number, only an em dash.
  */
 export function ThemeChatRooms() {
   const t = useTranslations('Rev29.rooms');
   const tHub = useTranslations('Rev29.hub');
   const tRev30 = useTranslations('Rev30');
-  const t36 = useTranslations('Rev36');
   const tNews = useTranslations('HotNews');
   const locale = useLocale();
   const { playHoverSfx, playQuestEnterSfx } = useSpatialAudio();
@@ -57,29 +68,37 @@ export function ThemeChatRooms() {
   const [durable, setDurable] = useState(false);
   const [serverError, setServerError] = useState<HubServerError | null>(null);
   const [sending, setSending] = useState(false);
-  // REV-36: the pulse instant, from a state initialiser, refreshed each slot.
-  const [now, setNow] = useState(() => Date.now());
+  /** REV-40: the room whose durable history has already answered. `historyPending`
+   *  is DERIVED from it (below) rather than toggled by the effect, because an
+   *  effect always runs a frame late: the session probe flipping `durable` to
+   *  true and the effect setting the flag were two separate commits, and in
+   *  between them a signed-in visitor with no device copy of the room was told
+   *  "no messages yet" for one frame -- with their history already on the wire. */
+  const [historyDoneFor, setHistoryDoneFor] = useState<ChatRoomKey | null>(null);
+  /** REV-40: has the session probe answered? Until it has we do not yet know
+   *  whether there IS a durable source, so the room must not call itself
+   *  empty -- that would flash a false "no conversation" at a signed-in
+   *  visitor whose history is about to arrive. */
+  const [sessionChecked, setSessionChecked] = useState(false);
   const channelRef = useRef<HubChannelHandle | null>(null);
   const lastSentRef = useRef<number | null>(null);
   const listRef = useRef<HTMLOListElement>(null);
 
   const meta = hotNewsAxisMeta(room);
   const roomLabel = tNews(`category.${room}`);
-  // The simulated head of the room (lib/square/talkPulse.ts): deterministic,
-  // offline-identical, never "mine" (authorId is the reserved sim: prefix), and
-  // marked data-hub-msg-sim -- so the real-message contracts stay untouched.
-  const pulseRows = useMemo(() => talkPulse(room, now), [room, now]);
-
-  useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), PULSE_SLOT_MS);
-    return () => clearInterval(id);
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
     void (async () => {
-      const signedIn = isHubServerConfigured() && (await hasHubSession());
-      if (!cancelled) setDurable(signedIn);
+      let signedIn = false;
+      try {
+        signedIn = isHubServerConfigured() && (await hasHubSession());
+      } catch {
+        signedIn = false;
+      }
+      if (cancelled) return;
+      setDurable(signedIn);
+      setSessionChecked(true);
     })();
     return () => {
       cancelled = true;
@@ -97,9 +116,22 @@ export function ThemeChatRooms() {
     setOnline(null);
 
     if (durable) {
-      void hubRoomHistory(room, CHAT_HISTORY).then((rows) => {
-        if (!cancelled && rows.length > 0) setMessages((prev) => mergeMessages(prev, rows));
-      });
+      void (async () => {
+        let rows: ChatMessage[] = [];
+        try {
+          rows = await hubRoomHistory(room, CHAT_HISTORY);
+        } catch {
+          // hubRoomHistory soft-fails to [] already; a throw here is still an
+          // answer -- "nothing readable" -- and must settle into `empty`, not
+          // leave the room spinning forever.
+          rows = [];
+        }
+        if (cancelled) return;
+        // This room's durable source has now spoken (rows or none) -- from
+        // here the room may call itself empty, and not one frame sooner.
+        setHistoryDoneFor(room);
+        if (rows.length > 0) setMessages((prev) => mergeMessages(prev, rows));
+      })();
     }
 
     const handle = createHubChannel(`chat:${room}`, me.id);
@@ -176,6 +208,22 @@ export function ThemeChatRooms() {
 
   const timeFmt = useMemo(() => new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' }), [locale]);
 
+  // The room's three honest states. Anything already on screen is `data`; a
+  // blank room is `loading` while a source might still answer (the session
+  // probe, then the durable history) and `empty` only once every source that
+  // could have spoken has. A guest settles on `empty` as soon as the session
+  // probe says there is no account ledger to read.
+  //
+  // `historyPending` is derived, not stored: the instant `durable` turns true
+  // this is already true for the current room, in the very same commit as
+  // `sessionChecked`, so there is no frame in which every source looks settled
+  // while the history request has not even been made. Switching rooms flips it
+  // back to pending in the render that switches, for the same reason.
+  const historyPending = durable && historyDoneFor !== room;
+  const sourcesPending = !sessionChecked || historyPending;
+  const roomLoading = messages.length === 0 && sourcesPending;
+  const roomEmpty = messages.length === 0 && !sourcesPending;
+
   return (
     <div className="qw-rooms" data-hub-rooms="">
       <p className="qw-hub-meta text-[13px] text-gray-400">{t('lede')}</p>
@@ -208,28 +256,29 @@ export function ThemeChatRooms() {
           </p>
           <p className="qw-hub-meta flex items-center gap-1.5 text-[12px] text-gray-500" data-hub-live={live === null ? 'pending' : live ? '1' : '0'}>
             <Radio size={12} aria-hidden="true" />
-            {online !== null ? (
-              tHub('online', { count: online })
-            ) : (
-              <span data-hub-presence-sim="1">{t36('talk.presence', { count: talkPresence(room, now) })}</span>
-            )}
+            {/* The channel's own presence count or nothing at all -- there is
+                no second source for a head-count, so there is no number to
+                show until the wire reports one. */}
+            {online !== null ? tHub('online', { count: online }) : <span aria-hidden="true">—</span>}
             <span data-hub-durable={durable ? '1' : '0'}>· {durable ? tRev30('room.durable') : tRev30('room.deviceOnly')}</span>
           </p>
         </div>
 
-        <ol ref={listRef} className="qw-room-list" data-hub-room-list="" aria-live="polite">
+        <ol
+          ref={listRef}
+          className="qw-room-list"
+          data-hub-room-list=""
+          data-hub-loading={roomLoading ? '1' : undefined}
+          data-hub-empty={roomEmpty ? '1' : undefined}
+          aria-live="polite"
+        >
           <li className="qw-room-msg qw-room-msg--system">{t('welcome', { room: roomLabel })}</li>
-          <li className="qw-room-msg qw-room-msg--system" data-hub-pulse-note="">
-            {t36('talk.pulseRoom')} · {t36('pulse.sim')}
-          </li>
-          {pulseRows.map((m) => (
-            <li key={m.id} className="qw-room-msg qw-room-msg--pulse" data-mine="0" data-hub-msg-sim="1">
-              <span className="qw-room-author">{m.author}</span>
-              <span className="qw-room-text">{m.text}</span>
-              <span className="qw-room-time">{timeFmt.format(new Date(m.at))}</span>
+          {roomLoading && (
+            <li className="qw-room-msg qw-room-msg--system" aria-hidden="true">
+              —
             </li>
-          ))}
-          {messages.length === 0 && pulseRows.length === 0 && <li className="qw-room-msg qw-room-msg--system">{t('empty')}</li>}
+          )}
+          {roomEmpty && <li className="qw-room-msg qw-room-msg--system">{t('empty')}</li>}
           {messages.map((m) => (
             <li key={m.id} className="qw-room-msg" data-mine={m.authorId === me.id ? '1' : '0'} data-hub-msg="">
               <span className="qw-room-author">{m.authorId === me.id ? t('you') : m.author}</span>

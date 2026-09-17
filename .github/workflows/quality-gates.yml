@@ -1,23 +1,57 @@
-# REV-39 MISSION 3 -- the automated quality gate the v37 audit found missing
-# ([high] "자동 품질 게이트가 vitest·Playwright를 전부 누락").
+# THE UNITAS GLOBAL — the repository's single CI workflow (Codex v37.0).
 #
-# Before this, the only workflows were deploy-site.yml (the legacy static site)
-# and deploy-supabase.yml; nothing ever ran the product's typecheck, its 1900+
-# vitest cases or any Playwright project. A push could break the app and CI
-# would stay green.
+# WHY THERE IS EXACTLY ONE. Until REV-40 the repo carried three workflow files,
+# and two of them had never run even once: deploy-site.yml and
+# deploy-supabase.yml lived under index.html/.github/workflows/, and GitHub only
+# reads .github/workflows/ at the repository root. They were not moved here —
+# they were destroyed:
 #
-# WHAT RUNS WHERE, AND WHY:
-#   * push / PR  -> typecheck + vitest + production build. Deterministic,
-#     hermetic and fast enough to gate every change (Codex ch.11 Fail-Closed).
-#   * chromium E2E -> the same job, because one project on one engine is the
-#     cheapest honest smoke test of the built app.
-#   * the FULL six-project sweep (chromium · webkit · mobile-chrome · tablet ·
-#     inapp-kakao · inapp-instagram) is deliberately NOT here. Codex ch.13
-#     stage 3 assigns it to the local idle-sensor daemon: "idle" is a property
-#     of the founder's machine that no runner can observe, the WebKit render
-#     baselines were measured on Windows and do not transfer, and billing
-#     runner minutes for a ~3 h suite violates the 0원 doctrine. Run it on
-#     demand here with workflow_dispatch if a second opinion is ever needed.
+#   * deploy-site.yml pushed the 2026-08 static archive to GitHub Pages with a
+#     CNAME for the apex domain. The product is the Next.js app that Vercel
+#     serves; reviving a second deployer for the same brand is a regression, not
+#     a feature. (It could not have worked anyway: every path filter in it was
+#     written for a repository layout where index.html/ was the root, and its
+#     bare `npm ci` ran in a root that has no package.json.)
+#   * deploy-supabase.yml re-set eight live Edge Function secrets and deployed
+#     two functions on every push to main. Its secret list had gone stale —
+#     no PRICE_ID_COIN_SMALL/MEDIUM/LARGE, and create-coin-checkout-session was
+#     missing from the deploy list — so switching it on would have overwritten
+#     live payment config with an older set and skipped the coin checkout
+#     function entirely. Supabase deploys stay manual and reviewed:
+#     `npm run deploy:supabase -- -SkipDbPush`. Schema changes go through
+#     scripts/supabase-sql.mjs (the Management API), never `supabase db push` —
+#     the live project was hand-built and has no complete migration history.
+#
+# WHAT RUNS HERE:
+#   * gate    — typecheck + vitest + production build + chromium E2E. Codex ch.11
+#               Fail-Closed: each must prove EXIT 0 before anything ships.
+#   * deploy  — Vercel production, only on main, only after the gate is green,
+#               and only when the deploy secrets exist. Without VERCEL_TOKEN the
+#               step is skipped, not failed, so the founder's manual CLI deploy
+#               remains the operative path until they choose otherwise.
+#
+# WHAT DELIBERATELY DOES NOT RUN HERE. The full six-project Playwright sweep
+# (chromium · webkit · mobile-chrome · tablet · inapp-kakao · inapp-instagram)
+# belongs to the local idle-sensor daemon (Codex ch.13 stage 3): "idle" is a
+# property of the founder's machine no runner can observe, the WebKit render
+# baselines were measured on Windows and do not transfer, and billing runner
+# minutes for a ~3 h suite violates the 0원 doctrine. Ask for it on demand with
+# workflow_dispatch if a second opinion is ever needed.
+#
+# WHAT TRIGGERS IT. Two entries in the path filter below are not obviously
+# "source code":
+#   * index.html/supabase/** -- the schema-parity suites
+#     (web/__tests__/hub/schemaParityRev36.test.ts and the Rev37 twin) call
+#     readFileSync on supabase/migrations/*.sql at MODULE TOP LEVEL. Rename or
+#     delete a migration and vitest does not fail an assertion, it dies during
+#     collection. SQL is therefore gate-relevant code, and until REV-40 every
+#     SQL-only change shipped without this workflow ever starting.
+#   * '**/.github/workflows/**' -- the Guard step below exists to catch a
+#     workflow added outside the repository root, but it can only catch it if
+#     the commit that adds one wakes this workflow up, which the old filter did
+#     not do. The unprefixed '.github/workflows/**' entry is listed separately
+#     on purpose: a leading '**/' still needs a literal slash to match, so the
+#     nested form alone would skip the repository root.
 name: quality gates
 
 on:
@@ -26,12 +60,24 @@ on:
     paths:
       - 'index.html/web/**'
       - 'index.html/tests/**'
+      - 'index.html/config/**'
+      - 'index.html/scripts/**'
+      - 'index.html/supabase/**'
       - 'index.html/package.json'
-      - '.github/workflows/quality-gates.yml'
+      - 'index.html/playwright.config.js'
+      - '.github/workflows/**'
+      - '**/.github/workflows/**'
   pull_request:
     paths:
       - 'index.html/web/**'
       - 'index.html/tests/**'
+      - 'index.html/config/**'
+      - 'index.html/scripts/**'
+      - 'index.html/supabase/**'
+      - 'index.html/package.json'
+      - 'index.html/playwright.config.js'
+      - '.github/workflows/**'
+      - '**/.github/workflows/**'
   workflow_dispatch:
     inputs:
       e2e:
@@ -43,6 +89,9 @@ concurrency:
   group: quality-gates-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   gate:
     runs-on: ubuntu-latest
@@ -53,23 +102,44 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The defect this repo actually shipped: a workflow in the wrong directory
+      # is not an error anywhere — it is simply never read, and looks installed.
+      # Only tracked files are checked, so node_modules and this file itself are
+      # out of scope by construction.
+      - name: Guard — no workflows outside the repository root
+        working-directory: .
+        shell: bash
+        run: |
+          stray="$(git ls-files '*/.github/workflows/*.yml' '*/.github/workflows/*.yaml')"
+          if [ -n "$stray" ]; then
+            echo "GitHub only reads .github/workflows/ at the repository root." >&2
+            echo "These would never run:" >&2
+            echo "$stray" >&2
+            exit 1
+          fi
+          echo "No stray workflows."
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            index.html/package-lock.json
+            index.html/web/package-lock.json
 
       - name: Install web dependencies
         run: npm --prefix web ci || npm --prefix web install
 
-      # Codex ch.11: typecheck, unit tests and the production build must each
-      # prove EXIT 0 before anything is considered shippable.
+      # Codex ch.11. These call the same named scripts the founder runs locally,
+      # so CI and the local gate cannot drift apart.
       - name: Typecheck
-        run: npm --prefix web run typecheck
+        run: npm run typecheck
 
       - name: Unit tests (vitest)
-        run: npm --prefix web run test
+        run: npm run test:unit
 
       - name: Production build
-        run: npm --prefix web run build
+        run: npm run build:web
         env:
           NEXT_TELEMETRY_DISABLED: '1'
 
@@ -81,16 +151,88 @@ jobs:
         if: github.event_name != 'workflow_dispatch' || inputs.e2e != 'none'
         run: npx playwright install --with-deps chromium
 
-      # One engine on the built app. The six-project sweep stays with the local
-      # stage-3 daemon (see the header).
+      # One engine against the built app. E2E must follow the build: the config
+      # starts the production server with `next start`, not a dev server.
       - name: E2E (chromium)
+        id: e2e
         if: github.event_name != 'workflow_dispatch' || inputs.e2e != 'none'
-        run: npx playwright test --config tests/web-cinema.config.js --project=chromium
+        run: npm run test:e2e:chromium
 
+      # Gated on the E2E step itself, not on failure() alone: a red typecheck
+      # also satisfies failure(), and at that point Playwright never ran, so an
+      # empty upload there would be correct rather than a defect.
+      #
+      # The html reporter that writes index.html/playwright-report is declared
+      # in tests/web-cinema.config.js under `process.env.CI`. Before REV-40 no
+      # reporter was configured at all, so this step uploaded a directory that
+      # could not exist -- and upload-artifact's default (warn) let that pass in
+      # silence. if-no-files-found: error makes the pipeline say so out loud.
       - name: Upload Playwright report
-        if: failure()
+        if: failure() && steps.e2e.conclusion == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: index.html/playwright-report
+          if-no-files-found: error
           retention-days: 7
+
+  deploy:
+    needs: gate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: index.html/web
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      # A missing token means "the founder has not opted in to CI deploys yet",
+      # which is a state, not a failure. Reporting it as a failure would train
+      # everyone to ignore a red gate.
+      - name: Check for deploy credentials
+        id: creds
+        working-directory: .
+        shell: bash
+        run: |
+          if [ -n "$VERCEL_TOKEN" ] && [ -n "$VERCEL_ORG_ID" ] && [ -n "$VERCEL_PROJECT_ID" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Vercel deploy skipped — set VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID to enable it. The manual CLI deploy remains available."
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.creds.outputs.ready == 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.creds.outputs.ready == 'true'
+        with:
+          node-version: '22'
+
+      # This REBUILDS the app; it does not ship the gate's output. `vercel build`
+      # compiles again here -- different job, different runner, production env
+      # pulled from Vercel -- so the bytes that go live are not the bytes the
+      # gate typechecked, tested and built. `--prebuilt` only means the deploy
+      # step reuses THIS job's .vercel/output instead of building a third time.
+      #
+      # What `needs: gate` buys is ordering, not artifact identity: no commit
+      # deploys whose typecheck/vitest/build/E2E were red. The split is
+      # deliberate -- the gate must build under CI env and must never hold
+      # production secrets while third-party test code runs -- so a rebuild is
+      # the price, and the honest description of it is "same commit", not "same
+      # artifact". VERCEL_ORG_ID/VERCEL_PROJECT_ID link the project from the
+      # environment, which is why no .vercel/project.json is needed.
+      - name: Pull production environment
+        if: steps.creds.outputs.ready == 'true'
+        run: npx --yes vercel@latest pull --yes --environment=production --token="$VERCEL_TOKEN"
+
+      - name: Build
+        if: steps.creds.outputs.ready == 'true'
+        run: npx --yes vercel@latest build --prod --token="$VERCEL_TOKEN"
+
+      - name: Deploy to production
+        if: steps.creds.outputs.ready == 'true'
+        run: npx --yes vercel@latest deploy --prebuilt --prod --yes --token="$VERCEL_TOKEN"

@@ -43,11 +43,32 @@ test.describe('page-level module coin gate', () => {
     expect(res.headers()['location']).toMatch(/\/(en\/)?locked/);
     // Next 14 answers a layout redirect() with its generic `__next_error__`
     // shell (the RSC tree ABOVE the throwing layout, for the client router).
-    // The property that matters: nothing from the gated module itself --
-    // its <main class="isolate"> scene or its title -- is in that body.
+    // The property that matters: nothing from the gated module itself is
+    // RENDERED into that body.
+    //
+    // That has to be asserted on MARKUP, never on text. The root layout
+    // serialises the WHOLE i18n bundle into EVERY response -- gated, sealed or
+    // not -- as escaped JSON inside `self.__next_f.push(...)`, so a module's
+    // title and description are in this body regardless of what the gate did.
+    //
+    // The assertion that used to sit here, `not.toContain('ARCHE')`, never
+    // tested that property at all. The module's title is `Modules.arche.title`
+    // = "Arche", and the scene's <h1> carries no `uppercase` class, so the
+    // module has never emitted uppercase "ARCHE" anywhere; the string simply
+    // did not occur in en.json, so the check passed vacuously from the day it
+    // was written. It only turned red when REV-34 (16497a6) added an unrelated
+    // U-Square caption -- `Rev34.square.themes.uAcademy.cta` = "Enter ARCHE" --
+    // to all 20 bundles. The gate was never involved.
+    //
+    // `glow-text` is the <h1> class BOTH module shells render: the scaffold
+    // ComingSoonScene and the 11-ecosystem ModuleWorkspace. `<main ... isolate>`
+    // is only the scaffold's own root -- measured 2026-09-16 on the built
+    // server, a sovereign-session GET of /genesis renders `glow-text` but no
+    // `isolate` -- so the h1 check is the one that generalises to all 16
+    // routes, and both are kept.
     const body = await res.text();
     expect(body).not.toMatch(/<main[^>]*isolate/);
-    expect(body).not.toContain('ARCHE');
+    expect(body).not.toMatch(/<h1[^>]*glow-text/);
     expect(body).not.toContain('module_access_grants');
     await ctx.close();
   });

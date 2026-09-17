@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "네트워크 펄스",
-      "sim": "시뮬레이션",
-      "note": "시뮬레이션 네트워크 펄스 — 결정론적이며 5분마다 갱신됩니다. 회원님의 활동과 계정 원장은 실제입니다."
-    },
     "talk": {
-      "presence": "대화방에 {count}명",
-      "pulseRoom": "방 펄스"
+      "roomEmpty": "아직 메시지가 없습니다. 첫마디를 남겨보세요."
     },
     "shorts": {
-      "watching": "{count}명 시청 중",
-      "trending": "지금 뜨는 중",
       "feed": "실시간 펄스",
-      "feedLike": "{handle}님이 {title}에 좋아요",
-      "feedFollow": "{handle}님이 @{creator}님을 팔로우함",
-      "feedWatch": "{handle}님이 {title} 시청 중",
-      "sortTrending": "인기",
       "sortCatalogue": "카탈로그",
       "account": "좋아요와 팔로우가 계정에 저장됨",
-      "device": "좋아요와 팔로우가 이 기기에만 저장됨"
+      "device": "좋아요와 팔로우가 이 기기에만 저장됨",
+      "feedEmpty": "아직 반응이 없습니다.",
+      "countsEmpty": "아직 집계된 수치가 없습니다.",
+      "sortLabel": "숏츠 정렬",
+      "sortMostLiked": "좋아요순"
     },
     "exchange": {
       "market": "시장 펄스",
@@ -2948,12 +2940,26 @@
       "trades24h": "24시간 거래 수",
       "traders24h": "활성 거래자",
       "topTheme": "인기 테마",
-      "demand": "7일 수요",
-      "momentumUp": "상승",
-      "momentumFlat": "보합",
-      "momentumDown": "하락",
       "ledgerLive": "실시간 원장 수치",
-      "simTrade": "시뮬레이션"
+      "marketEmpty": "지난 24시간 동안 거래가 없습니다.",
+      "boardEmpty": "아직 정산 내역이 없습니다."
+    },
+    "common": {
+      "loading": "불러오는 중…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "원장 불러오는 중…",
+      "marketEmpty": "지난 24시간 동안 거래가 없습니다.",
+      "boardLoading": "불러오는 중…",
+      "boardEmpty": "아직 정산 내역이 없습니다.",
+      "marketUnreadable": "거래 원장을 보려면 로그인하세요.",
+      "boardUnreadable": "크리에이터 정산 내역을 보려면 로그인하세요.",
+      "sortLabel": "팩 정렬"
+    },
+    "shorts": {
+      "countsUnreadable": "로그아웃 상태에서는 좋아요·팔로우 수치를 볼 수 없습니다."
     }
   }
 }

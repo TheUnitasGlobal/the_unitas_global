@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "ネットワークパルス",
-      "sim": "シミュレーション",
-      "note": "シミュレートされたネットワークパルス — 決定論的で5分ごとに更新されます。あなたの操作とアカウント台帳は本物です。"
-    },
     "talk": {
-      "presence": "ルームに{count}人",
-      "pulseRoom": "ルームパルス"
+      "roomEmpty": "まだメッセージはありません。最初のひと言をどうぞ。"
     },
     "shorts": {
-      "watching": "{count}人が視聴中",
-      "trending": "今トレンド",
       "feed": "ライブパルス",
-      "feedLike": "{handle}が{title}にいいね",
-      "feedFollow": "{handle}が@{creator}をフォロー",
-      "feedWatch": "{handle}が{title}を視聴中",
-      "sortTrending": "トレンド",
       "sortCatalogue": "カタログ",
       "account": "いいねとフォローはアカウントに保存されます",
-      "device": "いいねとフォローはこの端末のみ"
+      "device": "いいねとフォローはこの端末のみ",
+      "feedEmpty": "まだリアクションはありません。",
+      "countsEmpty": "まだ集計はありません。",
+      "sortLabel": "ショートの並び替え",
+      "sortMostLiked": "高評価順"
     },
     "exchange": {
       "market": "マーケットパルス",
@@ -2948,12 +2940,26 @@
       "trades24h": "24時間の取引数",
       "traders24h": "アクティブな取引者",
       "topTheme": "注目テーマ",
-      "demand": "7日間の需要",
-      "momentumUp": "上昇",
-      "momentumFlat": "横ばい",
-      "momentumDown": "下降",
       "ledgerLive": "ライブ台帳の数値",
-      "simTrade": "シミュレーション"
+      "marketEmpty": "過去24時間の取引はありません。",
+      "boardEmpty": "まだ精算はありません。"
+    },
+    "common": {
+      "loading": "読み込み中…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "台帳を読み込み中…",
+      "marketEmpty": "過去24時間の取引はありません。",
+      "boardLoading": "読み込み中…",
+      "boardEmpty": "まだ精算はありません。",
+      "marketUnreadable": "取引台帳を見るにはログインしてください。",
+      "boardUnreadable": "クリエイターの精算を見るにはログインしてください。",
+      "sortLabel": "パックの並び替え"
+    },
+    "shorts": {
+      "countsUnreadable": "ログアウト中は、いいね数とフォロー数は表示できません。"
     }
   }
 }

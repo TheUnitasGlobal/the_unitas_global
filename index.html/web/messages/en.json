@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "Network pulse",
-      "sim": "simulation",
-      "note": "Simulated network pulse — deterministic, refreshed every 5 minutes. Your own actions and the account ledger are real."
-    },
     "talk": {
-      "presence": "{count} in the room",
-      "pulseRoom": "Room pulse"
+      "roomEmpty": "No messages yet. Say the first word."
     },
     "shorts": {
-      "watching": "{count} watching",
-      "trending": "Trending now",
       "feed": "Live pulse",
-      "feedLike": "{handle} liked {title}",
-      "feedFollow": "{handle} followed @{creator}",
-      "feedWatch": "{handle} is watching {title}",
-      "sortTrending": "Trending",
       "sortCatalogue": "Catalogue",
       "account": "Likes and follows saved to your account",
-      "device": "Likes and follows on this device"
+      "device": "Likes and follows on this device",
+      "feedEmpty": "No reactions yet.",
+      "countsEmpty": "No counts yet.",
+      "sortLabel": "Sort shorts",
+      "sortMostLiked": "Most liked"
     },
     "exchange": {
       "market": "Market pulse",
@@ -2948,12 +2940,26 @@
       "trades24h": "24h trades",
       "traders24h": "Active traders",
       "topTheme": "Hot theme",
-      "demand": "7-day demand",
-      "momentumUp": "Rising",
-      "momentumFlat": "Steady",
-      "momentumDown": "Cooling",
       "ledgerLive": "Live ledger figures",
-      "simTrade": "simulated"
+      "marketEmpty": "No trades in the last 24 hours.",
+      "boardEmpty": "No settlements yet."
+    },
+    "common": {
+      "loading": "Loading…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "Loading ledger…",
+      "marketEmpty": "No trades in the last 24 hours.",
+      "boardLoading": "Loading…",
+      "boardEmpty": "No settlements yet.",
+      "marketUnreadable": "Sign in to read the trade ledger.",
+      "boardUnreadable": "Sign in to read creator settlements.",
+      "sortLabel": "Sort packs"
+    },
+    "shorts": {
+      "countsUnreadable": "Like and follow counts are not readable while signed out."
     }
   }
 }

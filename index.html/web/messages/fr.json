@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "Pouls du réseau",
-      "sim": "simulation",
-      "note": "Pouls du réseau simulé — déterministe, actualisé toutes les 5 minutes. Vos propres actions et le registre du compte sont réels."
-    },
     "talk": {
-      "presence": "{count} dans le salon",
-      "pulseRoom": "Pouls du salon"
+      "roomEmpty": "Aucun message pour le moment. Lancez la conversation."
     },
     "shorts": {
-      "watching": "{count} regardent",
-      "trending": "Tendance actuelle",
       "feed": "Pouls en direct",
-      "feedLike": "{handle} a aimé {title}",
-      "feedFollow": "{handle} suit @{creator}",
-      "feedWatch": "{handle} regarde {title}",
-      "sortTrending": "Tendances",
       "sortCatalogue": "Catalogue",
       "account": "J'aime et abonnements enregistrés sur votre compte",
-      "device": "J'aime et abonnements sur cet appareil"
+      "device": "J'aime et abonnements sur cet appareil",
+      "feedEmpty": "Aucune réaction pour le moment.",
+      "countsEmpty": "Aucun décompte pour le moment.",
+      "sortLabel": "Trier les shorts",
+      "sortMostLiked": "Les plus aimés"
     },
     "exchange": {
       "market": "Pouls du marché",
@@ -2948,12 +2940,26 @@
       "trades24h": "Transactions 24 h",
       "traders24h": "Traders actifs",
       "topTheme": "Thème phare",
-      "demand": "Demande sur 7 jours",
-      "momentumUp": "En hausse",
-      "momentumFlat": "Stable",
-      "momentumDown": "En baisse",
       "ledgerLive": "Chiffres du registre en direct",
-      "simTrade": "simulé"
+      "marketEmpty": "Aucune transaction ces 24 dernières heures.",
+      "boardEmpty": "Aucun règlement pour le moment."
+    },
+    "common": {
+      "loading": "Chargement…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "Chargement du registre…",
+      "marketEmpty": "Aucune transaction ces 24 dernières heures.",
+      "boardLoading": "Chargement…",
+      "boardEmpty": "Aucun règlement pour le moment.",
+      "marketUnreadable": "Connectez-vous pour consulter le registre des transactions.",
+      "boardUnreadable": "Connectez-vous pour consulter les règlements des créateurs.",
+      "sortLabel": "Trier les packs"
+    },
+    "shorts": {
+      "countsUnreadable": "Les décomptes de mentions j’aime et d’abonnés ne sont pas visibles hors connexion."
     }
   }
 }

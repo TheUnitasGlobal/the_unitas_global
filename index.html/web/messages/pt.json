@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "Pulso da rede",
-      "sim": "simulação",
-      "note": "Pulso de rede simulado — determinístico, atualizado a cada 5 minutos. As suas ações e o livro-razão da conta são reais."
-    },
     "talk": {
-      "presence": "{count} na sala",
-      "pulseRoom": "Pulso da sala"
+      "roomEmpty": "Ainda não há mensagens. Diga a primeira palavra."
     },
     "shorts": {
-      "watching": "{count} a assistir",
-      "trending": "Em alta agora",
       "feed": "Pulso ao vivo",
-      "feedLike": "{handle} curtiu {title}",
-      "feedFollow": "{handle} seguiu @{creator}",
-      "feedWatch": "{handle} está a ver {title}",
-      "sortTrending": "Em alta",
       "sortCatalogue": "Catálogo",
       "account": "Curtidas e seguidores guardados na sua conta",
-      "device": "Curtidas e seguidores neste dispositivo"
+      "device": "Curtidas e seguidores neste dispositivo",
+      "feedEmpty": "Ainda não há reações.",
+      "countsEmpty": "Ainda não há contagens.",
+      "sortLabel": "Ordenar shorts",
+      "sortMostLiked": "Mais curtidos"
     },
     "exchange": {
       "market": "Pulso do mercado",
@@ -2948,12 +2940,26 @@
       "trades24h": "Negócios 24h",
       "traders24h": "Negociantes ativos",
       "topTheme": "Tema em destaque",
-      "demand": "Procura de 7 dias",
-      "momentumUp": "A subir",
-      "momentumFlat": "Estável",
-      "momentumDown": "A descer",
       "ledgerLive": "Números do livro-razão ao vivo",
-      "simTrade": "simulado"
+      "marketEmpty": "Sem negócios nas últimas 24 horas.",
+      "boardEmpty": "Ainda não há liquidações."
+    },
+    "common": {
+      "loading": "A carregar…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "A carregar o livro-razão…",
+      "marketEmpty": "Sem negócios nas últimas 24 horas.",
+      "boardLoading": "A carregar…",
+      "boardEmpty": "Ainda não há liquidações.",
+      "marketUnreadable": "Inicie sessão para ver o livro de negócios.",
+      "boardUnreadable": "Inicie sessão para ver as liquidações dos criadores.",
+      "sortLabel": "Ordenar pacotes"
+    },
+    "shorts": {
+      "countsUnreadable": "Com sessão terminada, as contagens de gostos e seguidores não são visíveis."
     }
   }
 }

@@ -1,32 +1,88 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { HOT_NEWS_CATEGORIES } from '@/lib/live/hotNews';
-import { isChatMessagePayload } from '@/lib/hub/themeChat';
-import { isTradeEvent, EXCHANGE_CATALOG } from '@/lib/hub/knowledgeExchange';
-import { SHORTS_SEED } from '@/lib/live/shortsSeed';
-import { PULSE_HANDLES, pulseSlot, dayIndexOf, seedHash } from '@/lib/square/pulse';
-import { TALK_PHRASES, talkPulse, talkPresence, isSimulatedMessage, TALK_PULSE_COUNT } from '@/lib/square/talkPulse';
-import { shortsPulseStats, shortsTrending, shortsPulseFeed } from '@/lib/square/shortsPulse';
-import { exchangePulseTrades, packDemandSeries, packMomentum, exchangeMarketStats } from '@/lib/square/exchangePulse';
+import {
+  DAY_MS,
+  PULSE_EPOCH_MS,
+  PULSE_HANDLES,
+  PULSE_SLOT_MS,
+  dayIndexOf,
+  intIn,
+  mulberry32,
+  pickHandle,
+  pickHandleUnlike,
+  pickOne,
+  pulseSlot,
+  seedHash,
+} from '@/lib/square/pulse';
 
-// REV-36 M3 (SPEC §4.3) -- the U-Square hyper matrix must be DETERMINISTIC
-// (same inputs -> same output, on the server and the first client frame),
-// must cover every one of the 22 axes, must never move a "views" counter
-// backwards on reload, and must never call Math.random or Date.now (that
-// would break SSR/CSR agreement). These are the measured proofs.
+// REV-40 (MISSION 4) -- REV-36 shipped FOUR modules under lib/square: the
+// shared deterministic core (pulse.ts) plus three simulation engines
+// (talkPulse.ts, shortsPulse.ts, exchangePulse.ts) that invented chat
+// messages, view/watcher counters and market trades out of a seeded PRNG.
+// The three engines are DECOMMISSIONED: the hub panels now render the real
+// ledger or an honest loading/empty state, never fiction. pulse.ts survives
+// because it is still the house's pure-determinism toolkit (the 5-minute
+// slot cadence that drives the panels' refresh interval, the seed hash, and
+// the PULSE_HANDLES identity pool that lib/live/shortsSeed.ts draws from).
+//
+// This file therefore covers ONLY pulse.ts's own contract. The 13 cases that
+// asserted behaviour of the three deleted engines are gone with them; the
+// seed-catalogue invariants they carried (44 clips, >=2 per axis, handles
+// drawn from the shared pool) moved to __tests__/live/shortsSeed.test.ts.
+// The structural proof that the simulation has not crept back into the UI
+// lives in __tests__/square/failOpenRegression.test.ts.
+//
+// The contract pulse.ts must keep: it never reads the clock and never calls
+// Math.random, so the server render and the first client frame agree byte
+// for byte (Codex ch.7 -- offline / in-app WebView determinism). Callers
+// pass `now`; every draw is a pure function of the seed.
 
 const NOW = 1_790_000_000_000; // a fixed instant well after the pulse epoch (2026-09-16)
+const SQUARE_DIR = join(__dirname, '../../lib/square');
 
 describe('pulse core determinism', () => {
-  it('the four modules never read the clock or Math.random', () => {
-    for (const mod of ['pulse.ts', 'talkPulse.ts', 'shortsPulse.ts', 'exchangePulse.ts']) {
+  it('pulse.ts never reads the clock or Math.random', () => {
+    // Only the modules that are actually part of the determinism contract are
+    // scanned. themes.ts / uRankings.ts legitimately call Date.now() at their
+    // own call sites, and the three REV-36 simulation engines no longer exist
+    // -- the old hard-coded four-name list turned their removal into an
+    // ENOENT crash rather than a readable failure, so the list is asserted to
+    // exist before it is read.
+    for (const mod of ['pulse.ts']) {
+      const path = join(SQUARE_DIR, mod);
+      expect(existsSync(path), `${mod} is missing from lib/square`).toBe(true);
       // The actual call forms (with the open paren), so the word appearing in
       // a "no Math.random" comment does not trip the scan.
-      const src = readFileSync(join(__dirname, '../../lib/square', mod), 'utf8');
+      const src = readFileSync(path, 'utf8');
       expect(src.includes('Math.random('), `${mod} uses Math.random`).toBe(false);
       expect(src.includes('Date.now('), `${mod} uses Date.now`).toBe(false);
     }
+  });
+
+  it('pulse.ts does not import the decommissioned simulation engines', () => {
+    // Code only. The file header names all three on purpose -- it documents why
+    // they were removed, which is exactly the prose a future reader needs. An
+    // assertion over the raw text would forbid explaining the decision.
+    const src = readFileSync(join(SQUARE_DIR, 'pulse.ts'), 'utf8')
+      .replace(/\/\*[\s\S]*?\*\//g, ' ')
+      .replace(/^[ \t]*\/\/.*$/gm, ' ');
+    for (const gone of ['talkPulse', 'shortsPulse', 'exchangePulse']) {
+      expect(src.includes(gone), `pulse.ts still references ${gone}`).toBe(false);
+    }
+  });
+
+  it('pulseSlot is a monotonic, epoch-anchored 5-minute counter', () => {
+    // Slot 0 starts at the epoch and nothing before it may go negative.
+    expect(pulseSlot(PULSE_EPOCH_MS)).toBe(0);
+    expect(pulseSlot(PULSE_EPOCH_MS - 1)).toBe(0);
+    expect(pulseSlot(PULSE_EPOCH_MS - 10 * DAY_MS)).toBe(0);
+
+    // The cadence is exactly PULSE_SLOT_MS, measured from a slot-aligned instant.
+    const aligned = PULSE_EPOCH_MS + 1000 * PULSE_SLOT_MS;
+    expect(pulseSlot(aligned)).toBe(1000);
+    expect(pulseSlot(aligned + PULSE_SLOT_MS - 1)).toBe(1000);
+    expect(pulseSlot(aligned + PULSE_SLOT_MS)).toBe(1001);
   });
 
   it('pulseSlot / dayIndexOf are monotonic non-decreasing in now', () => {
@@ -40,157 +96,101 @@ describe('pulse core determinism', () => {
     }
   });
 
-  it('seedHash spreads neighbouring seeds far apart', () => {
+  it('dayIndexOf advances exactly once per UTC day', () => {
+    // True at any instant: a day later is exactly one day index later.
+    expect(dayIndexOf(NOW + DAY_MS)).toBe(dayIndexOf(NOW) + 1);
+
+    // The boundary itself only holds from UTC midnight -- NOW is a mid-day
+    // instant, so `NOW + DAY_MS - 1` correctly lands on the NEXT index.
+    const midnight = dayIndexOf(NOW) * DAY_MS;
+    expect(dayIndexOf(midnight)).toBe(dayIndexOf(NOW));
+    expect(dayIndexOf(midnight + DAY_MS - 1)).toBe(dayIndexOf(NOW));
+    expect(dayIndexOf(midnight + DAY_MS)).toBe(dayIndexOf(NOW) + 1);
+
+    // The ignition epoch is UTC midnight by construction.
+    expect(PULSE_EPOCH_MS % DAY_MS).toBe(0);
+    expect(dayIndexOf(PULSE_EPOCH_MS)).toBe(dayIndexOf(PULSE_EPOCH_MS + DAY_MS - 1));
+  });
+
+  it('seedHash is pure, uint32, and spreads neighbouring seeds far apart', () => {
     expect(seedHash('x::1')).not.toBe(seedHash('x::2'));
-  });
-});
+    expect(seedHash('x::1')).toBe(seedHash('x::1'));
 
-describe('U-Talk pulse', () => {
-  it('covers every one of the 22 axes with at least 8 phrases', () => {
-    expect(Object.keys(TALK_PHRASES).sort()).toEqual([...HOT_NEWS_CATEGORIES].sort());
-    for (const axis of HOT_NEWS_CATEGORIES) {
-      expect(TALK_PHRASES[axis].length, axis).toBeGreaterThanOrEqual(8);
+    // The fmix32 finisher is what stops consecutive seeds drifting in
+    // lock-step, so 500 neighbours must all land on distinct uint32 values.
+    // The inputs are fixed, so this is a deterministic proof, not a sample.
+    const seen = new Set<number>();
+    for (let i = 0; i < 500; i++) {
+      const h = seedHash(`x::${i}`);
+      expect(Number.isInteger(h)).toBe(true);
+      expect(h).toBeGreaterThanOrEqual(0);
+      expect(h).toBeLessThanOrEqual(0xffffffff);
+      seen.add(h);
     }
+    expect(seen.size).toBe(500);
   });
 
-  it('produces valid, ascending, recent, non-mine rows for every room', () => {
-    for (const room of HOT_NEWS_CATEGORIES) {
-      const rows = talkPulse(room, NOW);
-      expect(rows.length).toBe(TALK_PULSE_COUNT);
-      for (const m of rows) {
-        expect(isChatMessagePayload(m), `${room}:${m.id}`).toBe(true);
-        expect(isSimulatedMessage(m)).toBe(true);
-        expect(m.at).toBeLessThanOrEqual(NOW);
-      }
-      for (let i = 1; i < rows.length; i++) expect(rows[i].at).toBeGreaterThanOrEqual(rows[i - 1].at);
-      expect(rows[rows.length - 1].at).toBeGreaterThanOrEqual(NOW - 4 * 60_000);
+  it('mulberry32 is a reproducible stream in [0, 1) with no shared state', () => {
+    const a = mulberry32(seedHash('room::economy'));
+    const b = mulberry32(seedHash('room::economy'));
+    const first = Array.from({ length: 24 }, () => a());
+    const second = Array.from({ length: 24 }, () => b());
+    expect(second).toEqual(first);
+    for (const v of first) {
+      expect(v).toBeGreaterThanOrEqual(0);
+      expect(v).toBeLessThan(1);
     }
+    // A different seed must not replay the same stream, and a generator that
+    // has already been drawn from must not be rewound by a sibling.
+    expect(Array.from({ length: 24 }, () => mulberry32(seedHash('room::politics'))())).not.toEqual(first);
+    expect(a()).not.toBe(first[0]);
   });
 
-  it('is deterministic within a slot and changes across slots', () => {
-    const a = talkPulse('economy', NOW);
-    const b = talkPulse('economy', NOW + 30_000); // same 5-min slot
-    expect(b.map((m) => m.text)).toEqual(a.map((m) => m.text));
-    const c = talkPulse('economy', NOW + 6 * 60_000); // next slot
-    expect(c.map((m) => m.text)).not.toEqual(a.map((m) => m.text));
+  it('intIn and pickOne are driven only by the supplied rand', () => {
+    expect(intIn(() => 0, 5, 9)).toBe(5);
+    expect(intIn(() => 0.999999, 5, 9)).toBe(9);
+    expect(intIn(() => 0.5, 0, 0)).toBe(0);
+    const list = ['a', 'b', 'c'] as const;
+    expect(pickOne(() => 0, list)).toBe('a');
+    expect(pickOne(() => 0.999999, list)).toBe('c');
+    // A rand that saturates at 1 must still index inside the list.
+    expect(list).toContain(pickOne(() => 1, list));
   });
 
-  it('talkPresence sits in the 7..63 band', () => {
-    for (const room of HOT_NEWS_CATEGORIES) {
-      const n = talkPresence(room, NOW);
-      expect(n).toBeGreaterThanOrEqual(7);
-      expect(n).toBeLessThanOrEqual(63);
-    }
+  it('PULSE_HANDLES is a unique pool of RPC-safe handles', () => {
+    expect(PULSE_HANDLES.length).toBeGreaterThanOrEqual(13);
+    expect(new Set(PULSE_HANDLES).size).toBe(PULSE_HANDLES.length);
+    // The chat, exchange and reaction RPCs all validate this shape.
+    for (const h of PULSE_HANDLES) expect(h, h).toMatch(/^[a-z0-9.]+$/);
+    // The first thirteen are the REV-29 seed creators, so the same people
+    // appear across the catalogues (lib/live/shortsSeed.ts references this).
+    expect(PULSE_HANDLES.slice(0, 13)).toEqual([
+      'nomad.kai',
+      'pitch.side',
+      'frame.zero',
+      'ink.and.echo',
+      'cart.mind',
+      'quiet.ledger',
+      'lineweight',
+      'hem.line',
+      'steam.rising',
+      'bench.notes',
+      'ward.seven',
+      'proof.sketch',
+      'span.wire',
+    ]);
   });
 
-  it('REV-37 render isolation: one room is never disturbed by rendering another', () => {
-    // Each room's pulse is a pure function of (room, slot) with no shared
-    // mutable state, so interleaving rooms cannot make room A drift.
-    const a1 = talkPulse('economy', NOW).map((m) => m.text);
-    talkPulse('politics', NOW);
-    talkPulse('science', NOW);
-    talkPulse('disaster', NOW + 6 * 60_000);
-    const a2 = talkPulse('economy', NOW).map((m) => m.text);
-    expect(a2).toEqual(a1);
-    // Two different rooms in the same slot are independent, not a shared buffer.
-    expect(talkPulse('economy', NOW).map((m) => m.text)).not.toEqual(talkPulse('politics', NOW).map((m) => m.text));
-  });
-});
-
-describe('U-Shorts seed + pulse', () => {
-  it('has 44 clips, the original 14 first and unchanged, unique ids, >=2 per axis', () => {
-    expect(SHORTS_SEED.length).toBe(44);
-    const original = ['aurora-run', 'corner-kick', 'one-take', 'page-turn', 'drop-alert', 'open-bell', 'panel-swipe', 'silhouette', 'night-market', 'boss-phase', 'lab-bench', 'ward-round', 'chalk-line', 'city-grid'];
-    expect(SHORTS_SEED.slice(0, 14).map((s) => s.id)).toEqual(original);
-    const ids = SHORTS_SEED.map((s) => s.id);
-    expect(new Set(ids).size).toBe(44);
-    for (const id of ids) expect(id).toMatch(/^[a-z0-9-]+$/);
-    for (const axis of HOT_NEWS_CATEGORIES) {
-      expect(SHORTS_SEED.filter((s) => s.theme === axis).length, axis).toBeGreaterThanOrEqual(2);
-    }
-  });
-
-  it('every handle is drawn from the shared PULSE_HANDLES pool', () => {
+  it('pickHandle / pickHandleUnlike always return a pool member, never `avoid`', () => {
     const pool = new Set(PULSE_HANDLES);
-    for (const s of SHORTS_SEED) expect(pool.has(s.handle), `${s.id}:${s.handle}`).toBe(true);
-  });
-
-  it('views only ever climb as now advances (never backwards on reload)', () => {
-    const short = SHORTS_SEED[0];
-    let prev = -1;
-    for (let k = 0; k < 5; k++) {
-      const v = shortsPulseStats(short, NOW + k * 6 * 60_000).views;
-      expect(v).toBeGreaterThanOrEqual(prev);
-      prev = v;
+    for (let i = 0; i < 64; i++) {
+      const rand = mulberry32(seedHash(`handle::${i}`));
+      const h = pickHandle(rand);
+      expect(pool.has(h), h).toBe(true);
+      expect(pool.has(pickHandleUnlike(rand, h)), 'unlike stayed in the pool').toBe(true);
     }
-  });
-
-  it('likes stay within 4-13 % of views and watching within 3..180', () => {
-    for (const short of SHORTS_SEED.slice(0, 8)) {
-      const s = shortsPulseStats(short, NOW);
-      expect(s.likes).toBeGreaterThanOrEqual(Math.floor(s.views * 0.03));
-      expect(s.likes).toBeLessThanOrEqual(Math.ceil(s.views * 0.14));
-      expect(s.watching).toBeGreaterThanOrEqual(3);
-      expect(s.watching).toBeLessThanOrEqual(180);
-    }
-  });
-
-  it('trending is a stable permutation of the input', () => {
-    const sorted = shortsTrending(SHORTS_SEED, NOW);
-    expect(sorted.length).toBe(SHORTS_SEED.length);
-    expect(new Set(sorted.map((s) => s.id)).size).toBe(SHORTS_SEED.length);
-    expect(shortsTrending(SHORTS_SEED, NOW).map((s) => s.id)).toEqual(sorted.map((s) => s.id));
-  });
-
-  it('the pulse feed references real clips and stays recent', () => {
-    const feed = shortsPulseFeed(NOW, 8);
-    expect(feed.length).toBe(8);
-    const ids = new Set(SHORTS_SEED.map((s) => s.id));
-    for (const e of feed) {
-      expect(ids.has(e.shortId)).toBe(true);
-      expect(['like', 'follow', 'watch']).toContain(e.kind);
-      expect(e.at).toBeLessThanOrEqual(NOW);
-    }
-  });
-});
-
-describe('U-Exchange pulse', () => {
-  it('trades are simulated, valid, recent', () => {
-    const trades = exchangePulseTrades(NOW, 6);
-    expect(trades.length).toBe(6);
-    for (const t of trades) {
-      expect(isTradeEvent(t)).toBe(true);
-      expect(t.sim).toBe(true);
-      expect(t.at).toBeLessThanOrEqual(NOW);
-      expect(t.at).toBeGreaterThanOrEqual(NOW - 61 * 60_000);
-    }
-  });
-
-  it('demand series is 7 values in 0..100 and momentum agrees with them', () => {
-    const day = dayIndexOf(NOW);
-    for (const pack of EXCHANGE_CATALOG.slice(0, 6)) {
-      const series = packDemandSeries(pack, day);
-      expect(series.length).toBe(7);
-      for (const v of series) {
-        expect(v).toBeGreaterThanOrEqual(0);
-        expect(v).toBeLessThanOrEqual(100);
-      }
-      expect(['up', 'flat', 'down']).toContain(packMomentum(pack, day));
-    }
-  });
-
-  it('market stats sit in plausible bands with traders <= trades', () => {
-    const s = exchangeMarketStats(NOW);
-    expect(s.volume24h).toBeGreaterThanOrEqual(4000);
-    expect(s.volume24h).toBeLessThanOrEqual(60000);
-    expect(s.trades24h).toBeGreaterThanOrEqual(20);
-    expect(s.trades24h).toBeLessThanOrEqual(400);
-    expect(s.traders24h).toBeLessThanOrEqual(s.trades24h);
-    expect(HOT_NEWS_CATEGORIES).toContain(s.topTheme);
-  });
-
-  it('is deterministic within a slot', () => {
-    expect(exchangeMarketStats(NOW)).toEqual(exchangeMarketStats(NOW + 20_000));
-    expect(exchangePulseTrades(NOW).map((t) => t.packId)).toEqual(exchangePulseTrades(NOW + 20_000).map((t) => t.packId));
+    // A saturated draw that lands on `avoid` must step to the next handle.
+    expect(pickHandleUnlike(() => 0, PULSE_HANDLES[0])).toBe(PULSE_HANDLES[1]);
+    expect(pickHandleUnlike(() => 0, 'not-in-the-pool')).toBe(PULSE_HANDLES[0]);
   });
 });

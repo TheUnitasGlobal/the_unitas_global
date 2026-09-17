@@ -91,7 +91,7 @@ SIGINT/SIGTERM/SIGBREAK/SIGHUP도 같은 경로로 정리한 뒤 락을 해제�
 - **0원 위반.** 3엔진 전수는 1.5시간 급이고 Linux 러너는 분 단위로 과금된다(프라이빗 저장소 무료 2,000분/월). 로컬 데몬의 한계 비용은 0원이다.
 - **기준선과 비교 불가.** REV-26/28 렌더 프로브 기준선은 Windows WebKit(555~698ms/프레임)에서 측정됐다. Linux WebKit은 다른 하네스라 수치가 이어지지 않는다.
 - **러너 한계.** 826페이지 `next build`는 7GB 러너에서 한계선이고, 데몬은 애초에 빌드하지 않는 설계다.
-- `deploy-site.yml`은 레거시 정적 사이트로 경로 필터링된 워크플로이며 루트 `npm test`는 `web-cinema-e2e`를 무시한다 -- 3단계의 집이 될 수 없다. 온디맨드 Chromium 단독 2차 의견(`workflow_dispatch`)이라면 몰라도, 3단계 본체는 아니다.
+- 저장소의 CI는 이제 루트 `.github/workflows/quality-gates.yml` 하나뿐이고, 그 게이트는 typecheck · vitest · build · **Chromium 단독** E2E만 돌린다. 3엔진(실제로는 6프로젝트) 전수는 의도적으로 거기에 없다 -- 온디맨드 Chromium 2차 의견(`workflow_dispatch`)이라면 몰라도, 3단계 본체는 아니다. (레거시 `deploy-site.yml`/`deploy-supabase.yml`은 REV-40에서 파기됐다: `index.html/.github/workflows/`에 있어 GitHub이 한 번도 읽은 적이 없었다.)
 
 ## 활성 세션 재검증 (D-10) -- 2026-09-16 실측
 

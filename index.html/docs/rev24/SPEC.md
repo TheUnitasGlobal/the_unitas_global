@@ -62,6 +62,25 @@
 > = 실제 충전(유일한 유료), (5) `provider.ts`의 "paid engines" = LLM 벤더.
 > 또한 `WIKIMEDIA_LEG_COST`의 `cost`는 **지연 예산**이지 돈이 아니다.
 
+> **REV-40 각인 (계약 정정, 2026-09-16):** 위 두 함정을 **이 스펙의 수용 테스트
+> 자신이 어겼다.** `tests/web-cinema-e2e/rev24-verify.spec.js`의 M1 단언은
+> `['U-COIN','UCOIN','코인','Micro-Burn','Deep Insight · The VOID']` 맨
+> substring 스윕이었고, REV-35 `33411bb`가 `.qw-stream-rankings`의 내용물을
+> `UnitasModuleRankings`(네임스페이스 `UnitasRankings`, "Micro-Burn" 0건)에서
+> `URankingsShorts`(`Rev34.uRankings`, lede·metrics에 "Micro-Burn" 포함)로
+> 교체한 순간부터 실패해 왔다 — 33411bb가 재측정한 Playwright 레인 목록에
+> rev24-verify가 없었고 전체 스위트가 한 번도 완주한 적이 없어 2026-09-16에야
+> 드러났다. **Micro-Burn은 코덱스 제1장의 마진 아키텍처 명칭**이고 여기서는
+> 리더보드 3대 지표 중 하나의 이름(`lib/square/uRankings.ts`, 42~100 퍼센트)이다.
+> 아키텍처를 **부르는** 것은 파는 것이 아니다. 그래서 M1 계약은 **어휘가 아니라
+> 결제 표면의 형태**를 금하도록 정밀화했다: 금액 칩(양방향 `숫자↔U-COIN/코인`),
+> 삭제된 유료 티어 라벨, 충전·구매·잠금해제 CTA, 그리고 **코인을 제안하는 클릭
+> 가능 요소**(숫자가 없어도 금지). `Micro-Burn`은 지운 것이 아니라 창립자가 결과창에
+> 고정한 `.qw-stream-rankings` **안에만** 못 박았고, 그 밖의 어디에 나타나도 실패한다.
+> 보호는 줄지 않고 늘었다 — 네거티브 컨트롤 11/11 실측에서 `Charge Coins`,
+> `Unlock for 500`, `Pay with U-COIN`, 역순 `U-COIN 1,200`은 **옛 needle 목록이
+> 놓치던 것들**이고, 리더보드 안의 `3 U-COIN`도 잡힌다(면제는 Micro-Burn 단어 하나뿐).
+
 **건드리지 않은 것(의도적):** `app/[locale]/(gated)/layout.tsx`의 모듈 접근 게이트,
 U-Pay(`lib/upay/*`), 지갑, `module-registry`의 `coinGated`. 추후 어떤 과금 모델이든
 그대로 얹을 수 있도록 **무결점 프레임워크로 보존**한다.

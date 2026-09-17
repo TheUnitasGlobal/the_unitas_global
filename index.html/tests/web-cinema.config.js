@@ -18,6 +18,25 @@ const REPO = path.join(__dirname, '..');
 
 module.exports = defineConfig({
   testDir: './web-cinema-e2e',
+  // REV-40. CI uploads index.html/playwright-report when the E2E step fails --
+  // and until now no reporter here ever wrote that directory, so the artifact
+  // was structurally guaranteed to be empty. Playwright's DEFAULT reporter is
+  // list locally and dot on CI; neither produces an html report, and a default
+  // is not a declaration, so the workflow was uploading a path nothing owned.
+  //
+  // Local behaviour is unchanged: CI is unset, so this is 'list' -- exactly the
+  // default it replaces. The stage-3 idle daemon is unaffected for a different
+  // reason: it passes `--reporter=list,json` on the command line, and the CLI
+  // flag overrides the config entirely.
+  //
+  // outputFolder is pinned rather than defaulted. Playwright resolves the
+  // default against the nearest package.json above the CONFIG dir, which is
+  // index.html/ today and would silently become index.html/tests/ the day
+  // anyone adds a package.json there -- moving the report out from under the
+  // workflow's upload path with no error anywhere.
+  reporter: process.env.CI
+    ? [['dot'], ['html', { open: 'never', outputFolder: path.join(REPO, 'playwright-report') }]]
+    : 'list',
   timeout: 60_000,
   fullyParallel: false,
   workers: 1,

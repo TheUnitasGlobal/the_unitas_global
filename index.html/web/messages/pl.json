@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "Puls sieci",
-      "sim": "symulacja",
-      "note": "Symulowany puls sieci — deterministyczny, odświeżany co 5 minut. Twoje własne działania i księga konta są prawdziwe."
-    },
     "talk": {
-      "presence": "{count} w pokoju",
-      "pulseRoom": "Puls pokoju"
+      "roomEmpty": "Brak wiadomości. Powiedz pierwsze słowo."
     },
     "shorts": {
-      "watching": "{count} ogląda",
-      "trending": "Teraz na czasie",
       "feed": "Puls na żywo",
-      "feedLike": "{handle} polubił(a) {title}",
-      "feedFollow": "{handle} obserwuje @{creator}",
-      "feedWatch": "{handle} ogląda {title}",
-      "sortTrending": "Na czasie",
       "sortCatalogue": "Katalog",
       "account": "Polubienia i obserwacje zapisane na Twoim koncie",
-      "device": "Polubienia i obserwacje na tym urządzeniu"
+      "device": "Polubienia i obserwacje na tym urządzeniu",
+      "feedEmpty": "Nie ma jeszcze reakcji.",
+      "countsEmpty": "Brak jeszcze liczników.",
+      "sortLabel": "Sortuj shorts",
+      "sortMostLiked": "Najbardziej lubiane"
     },
     "exchange": {
       "market": "Puls rynku",
@@ -2948,12 +2940,26 @@
       "trades24h": "Transakcje 24h",
       "traders24h": "Aktywni handlujący",
       "topTheme": "Gorący temat",
-      "demand": "Popyt z 7 dni",
-      "momentumUp": "Rośnie",
-      "momentumFlat": "Stabilnie",
-      "momentumDown": "Słabnie",
       "ledgerLive": "Dane księgi na żywo",
-      "simTrade": "symulowane"
+      "marketEmpty": "Brak transakcji w ciągu ostatnich 24 godzin.",
+      "boardEmpty": "Brak jeszcze rozliczeń."
+    },
+    "common": {
+      "loading": "Ładowanie…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "Ładowanie księgi…",
+      "marketEmpty": "Brak transakcji w ciągu ostatnich 24 godzin.",
+      "boardLoading": "Ładowanie…",
+      "boardEmpty": "Brak jeszcze rozliczeń.",
+      "marketUnreadable": "Zaloguj się, aby zobaczyć księgę transakcji.",
+      "boardUnreadable": "Zaloguj się, aby zobaczyć rozliczenia twórców.",
+      "sortLabel": "Sortuj pakiety"
+    },
+    "shorts": {
+      "countsUnreadable": "Po wylogowaniu liczba polubień i obserwujących jest niewidoczna."
     }
   }
 }

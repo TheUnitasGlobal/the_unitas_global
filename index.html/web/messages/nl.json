@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "Netwerkpuls",
-      "sim": "simulatie",
-      "note": "Gesimuleerde netwerkpuls — deterministisch, elke 5 minuten ververst. Je eigen acties en het accountgrootboek zijn echt."
-    },
     "talk": {
-      "presence": "{count} in de kamer",
-      "pulseRoom": "Kamerpuls"
+      "roomEmpty": "Nog geen berichten. Zeg het eerste woord."
     },
     "shorts": {
-      "watching": "{count} kijken",
-      "trending": "Nu trending",
       "feed": "Live puls",
-      "feedLike": "{handle} vindt {title} leuk",
-      "feedFollow": "{handle} volgt @{creator}",
-      "feedWatch": "{handle} kijkt naar {title}",
-      "sortTrending": "Trending",
       "sortCatalogue": "Catalogus",
       "account": "Likes en volgers opgeslagen op je account",
-      "device": "Likes en volgers op dit apparaat"
+      "device": "Likes en volgers op dit apparaat",
+      "feedEmpty": "Nog geen reacties.",
+      "countsEmpty": "Nog geen tellingen.",
+      "sortLabel": "Shorts sorteren",
+      "sortMostLiked": "Meest geliket"
     },
     "exchange": {
       "market": "Marktpuls",
@@ -2948,12 +2940,26 @@
       "trades24h": "24u-trades",
       "traders24h": "Actieve handelaren",
       "topTheme": "Populair thema",
-      "demand": "Vraag over 7 dagen",
-      "momentumUp": "Stijgend",
-      "momentumFlat": "Stabiel",
-      "momentumDown": "Afkoelend",
       "ledgerLive": "Live grootboekcijfers",
-      "simTrade": "gesimuleerd"
+      "marketEmpty": "Geen trades in de afgelopen 24 uur.",
+      "boardEmpty": "Nog geen afrekeningen."
+    },
+    "common": {
+      "loading": "Laden…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "Grootboek laden…",
+      "marketEmpty": "Geen trades in de afgelopen 24 uur.",
+      "boardLoading": "Laden…",
+      "boardEmpty": "Nog geen afrekeningen.",
+      "marketUnreadable": "Log in om het handelsgrootboek te bekijken.",
+      "boardUnreadable": "Log in om de afrekeningen van makers te bekijken.",
+      "sortLabel": "Packs sorteren"
+    },
+    "shorts": {
+      "countsUnreadable": "Uitgelogd zijn like- en volgaantallen niet zichtbaar."
     }
   }
 }

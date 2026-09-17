@@ -1,27 +1,28 @@
 /**
- * REV-36 MISSION 3 (founder directive 2026-09-16) -- the U-Square HYPER
- * MATRIX, shared half. The three square panels that already had a real
- * component (유숏츠 · 유토크 · 유지식거래소) open on data that BREATHES:
- * a simulated network pulse that changes every five minutes, on every device
- * identically, without a single network call.
+ * U-Square shared primitives: a deterministic clock, a seeded hash, and the
+ * house identity pool.
  *
- * WHY a time-sliced deterministic matrix rather than random noise or a
- * server feed: the square must render the same on a cold reload, offline and
- * inside an in-app WebView (Codex ch.7), the marginal cost of opening a
- * panel must stay at zero (ch.1 Micro-Burn), and the server render and the
- * first client frame must agree byte for byte. So everything derives from
- * TWO integers -- the 5-minute slot since the ignition epoch and the UTC day
- * -- through the house seed hash (FNV-1a with the MurmurHash3 fmix32
- * finisher, lib/square/uRankings.ts) and mulberry32. Callers pass `now`;
- * nothing in lib/square/* ever reads the clock or Math.random.
+ * WHAT THIS USED TO BE, AND WHY IT SHRANK. REV-36 built three "pulse" engines
+ * on top of this file (talkPulse · shortsPulse · exchangePulse) that invented
+ * chat rows, view counts and 24-hour trade volumes from the 5-minute slot, and
+ * rendered them labelled as a simulation. REV-40 decommissioned all three: the
+ * live ledger says hub_purchases and hub_messages hold zero rows, so the
+ * honest surface is an empty state, not a plausible number. The panels now
+ * render loading → data → empty from lib/hub/hubLedger.ts and nothing else.
  *
- * The pulse is labelled as a simulation wherever it is rendered
- * (`Rev36.pulse.sim`, `data-*-sim="1"`): a visitor's own actions and the
- * account ledger (lib/hub/hubLedger.ts) are the real thing; the pulse is the
- * living background they land in.
+ * WHAT SURVIVES, AND WHY. The determinism was never the problem -- the fiction
+ * was. `seedHash` (FNV-1a with the MurmurHash3 fmix32 finisher) and
+ * `mulberry32` stay because the square must still render identically on a cold
+ * reload, offline and inside an in-app WebView (Codex ch.7) with the server
+ * render and first client frame agreeing byte for byte. `PULSE_HANDLES` stays
+ * because it is the single source of the creator vocabulary that the 44-clip
+ * shorts catalogue (lib/live/shortsSeed.ts) and the exchange sellers both draw
+ * from, so the same people appear across panels. `PULSE_SLOT_MS` stays as the
+ * panels' refresh cadence. Callers pass `now`; nothing in this file ever reads
+ * the clock or Math.random.
  */
 
-/** One pulse slot: the cadence at which every simulated stream advances. */
+/** The panels' refresh cadence, and the slot width for the helpers below. */
 export const PULSE_SLOT_MS = 300_000;
 
 /** UTC midnight of the ignition day (2026-09-16) -- slot 0 of every stream. */

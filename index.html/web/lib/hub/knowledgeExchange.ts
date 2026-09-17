@@ -11,15 +11,27 @@
  * table, an RPC and a settlement job -- a schema change this revision does
  * not make), so:
  *  - the CATALOGUE is a seed: brand-neutral English titles shared by every
- *    locale (the same rule the ranking catalogues and the shorts seed follow),
- *    with counters from a seeded PRNG (FNV-1a + mulberry32, never
- *    Math.random, so SSR and CSR agree);
+ *    locale (the same rule the ranking catalogues and the shorts seed follow).
+ *    A pack carries what is actually known about it -- title, theme, seller,
+ *    price, kind, tier -- and nothing else;
  *  - the visitor's LEDGER (credits, purchases, listings) lives on the device
  *    (localStorage) and is labelled as such on screen;
  *  - a listing's "demand" is a deterministic projection from its age, shown
  *    as a projection, never as settled income.
  * Every trade is announced over the hub's broadcast channel, so the ticker
  * other visitors see is real activity -- just not yet a bank.
+ *
+ * REV-40. The seeded counters are GONE, not merely unrendered. An earlier pass
+ * stopped printing them but kept the PRNG alive as the ordering key behind the
+ * catalogue's default "popularity" tab -- so the first screen a visitor saw was
+ * still a fabricated ranking, just one with its numbers hidden. A hidden
+ * fabrication is the same lie told more quietly.
+ *
+ * This module now contains no pseudo-random source at all. The catalogue sorts
+ * only two honest ways: catalogue order (newest first) and price. A real
+ * popularity ranking arrives when `hub_purchases` has rows to count, and not
+ * before. `__tests__/hub/knowledgeExchange.test.ts` asserts the removal
+ * structurally so a revert cannot quietly restore it.
  */
 import type { HotNewsCategory } from '@/lib/live/hotNews';
 
@@ -89,33 +101,21 @@ function hashString(input: string): number {
   return h >>> 0;
 }
 
-function mulberry32(seed: number) {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-export interface PackStats {
-  sales: number;
-  /** 3.6 – 5.0, one decimal. */
-  rating: number;
-  buyers: number;
-}
-
-/** Pure: seeded sales / rating / buyer counters for a catalogue pack. */
-export function packStats(pack: KnowledgePack): PackStats {
-  const rand = mulberry32(hashString(`${pack.id}|${pack.seller}`));
-  const tierBoost = pack.tier === 'sovereign' ? 2.2 : pack.tier === 'pro' ? 1.4 : 1;
-  const sales = Math.floor((40 + rand() * 900) * tierBoost);
-  const rating = Math.round((36 + rand() * 14)) / 10;
-  const buyers = Math.max(1, Math.floor(sales * (0.72 + rand() * 0.25)));
-  return { sales, rating, buyers };
-}
+/**
+ * REV-40 -- the seeded counter generator that used to live here is DELETED.
+ *
+ * It drew a sales total, a star rating and a buyer count for every catalogue
+ * pack out of a hash-seeded generator, and a companion helper summed those
+ * draws into a creator revenue board. None of it had a source: `hub_purchases`
+ * has no rows and there is no ratings signal anywhere in the product. The
+ * numbers stopped being printed first, then the last thing reading them -- the
+ * catalogue's default popularity tab -- went with them, and now the generator
+ * itself is gone. `hashString` above survives only to mint listing ids.
+ *
+ * Nothing in this module may reintroduce a pseudo-random source. The real
+ * popularity ranking is an aggregate over `hub_purchases`, computed server-side
+ * when that table has rows to count.
+ */
 
 export function splitRevenue(amount: number): { creator: number; platform: number } {
   const creator = Math.round(amount * CREATOR_SHARE);
@@ -238,6 +238,12 @@ export function projectedEarnings(ledger: ExchangeLedger, now: number): Earnings
   return { gross, creator: split.creator, platform: split.platform, sales };
 }
 
+/**
+ * One creator's settled revenue. The ONLY producer is `hub_seller_board`
+ * (lib/hub/hubLedger.ts) aggregating `hub_purchases`; this module ships no
+ * local implementation, so an empty board means the ledger is empty or could
+ * not be read -- never that a fallback was substituted.
+ */
 export interface SellerRow {
   handle: string;
   packs: number;
@@ -245,28 +251,30 @@ export interface SellerRow {
   revenue: number;
 }
 
-/** Pure: the catalogue's creators ranked by seeded revenue. */
-export function sellerBoard(): SellerRow[] {
-  const map = new Map<string, SellerRow>();
-  for (const pack of EXCHANGE_CATALOG) {
-    const stats = packStats(pack);
-    const row = map.get(pack.seller) ?? { handle: pack.seller, packs: 0, sales: 0, revenue: 0 };
-    row.packs += 1;
-    row.sales += stats.sales;
-    row.revenue += splitRevenue(stats.sales * pack.price).creator;
-    map.set(pack.seller, row);
-  }
-  return Array.from(map.values()).sort((a, b) => b.revenue - a.revenue || a.handle.localeCompare(b.handle));
-}
+/**
+ * REV-40 -- the catalogue's two HONEST orderings.
+ *
+ * There used to be a third, offered first and selected by default, that ranked
+ * packs by the seeded sales draw described above. Twenty-four packs arrived in
+ * a confident popularity order that nothing had measured, and it was the very
+ * first thing a visitor read. It is removed rather than relabelled: there is no
+ * wording that makes an invented ranking true.
+ *
+ * 'newest' is catalogue order reversed -- the seed is authored oldest-first, so
+ * the reverse is a fact about the file, not a claim about the market. 'price'
+ * is the price. A third option returns when a purchase aggregate exists.
+ */
+export type CatalogSort = 'newest' | 'price';
 
-export type CatalogSort = 'trending' | 'newest' | 'price';
+/** The ordering a visitor gets before touching anything: catalogue truth. */
+export const DEFAULT_CATALOG_SORT: CatalogSort = 'newest';
 
-/** Pure: the catalogue filtered by theme and sorted. */
+/** Pure: the catalogue filtered by theme and sorted. Both sorts are total and
+ *  stable, so the same arguments always give the same order. */
 export function catalogView(theme: HotNewsCategory | 'all', sort: CatalogSort): KnowledgePack[] {
   const list = EXCHANGE_CATALOG.filter((p) => theme === 'all' || p.theme === theme);
   if (sort === 'price') return [...list].sort((a, b) => a.price - b.price || a.id.localeCompare(b.id));
-  if (sort === 'newest') return [...list].reverse();
-  return [...list].sort((a, b) => packStats(b).sales - packStats(a).sales || a.id.localeCompare(b.id));
+  return [...list].reverse();
 }
 
 function isLedger(value: unknown): value is ExchangeLedger {
@@ -306,7 +314,12 @@ export interface TradeEvent {
   packId: string;
   buyer: string;
   at: number;
-  /** REV-36 M3: true for a simulated (network-pulse) trade -- never revenue. */
+  /**
+   * REV-36 M3 marked simulated (network-pulse) trades with this. REV-40 stopped
+   * producing them, but the field stays so the ticker can REJECT any payload
+   * that still carries it -- a stale tab or an older client must not be able to
+   * put an invented trade on the wire. Nothing may set it.
+   */
   sim?: true;
 }
 

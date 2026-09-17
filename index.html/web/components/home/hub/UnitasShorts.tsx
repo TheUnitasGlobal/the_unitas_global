@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { Eye, Flame, Heart, MessageCircle, Play, Radio, Sparkles, Tag, Ticket, Upload, UserPlus } from 'lucide-react';
+import { Heart, MessageCircle, Play, Radio, Sparkles, Tag, Ticket, Upload, UserPlus } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { OmniOpen } from '@/components/home/OmniOpen';
@@ -22,8 +22,15 @@ import {
   type ShortSeed,
   type ShortsPrefs,
 } from '@/lib/live/shortsSeed';
-import { PULSE_SLOT_MS, shortsPulseFeed, shortsPulseStats, shortsTrending } from '@/lib/square/shortsPulse';
-import { hasHubSession, hubShortsSync, hubShortsToggle, isHubServerConfigured } from '@/lib/hub/hubLedger';
+import { PULSE_SLOT_MS } from '@/lib/square/pulse';
+import {
+  hasHubSession,
+  hubShortsCounts,
+  hubShortsSync,
+  hubShortsToggle,
+  isHubServerConfigured,
+  type ShortsCounts,
+} from '@/lib/hub/hubLedger';
 
 function posterStyle(short: ShortSeed): CSSProperties {
   return {
@@ -31,21 +38,77 @@ function posterStyle(short: ShortSeed): CSSProperties {
   };
 }
 
-type SortMode = 'trending' | 'catalogue';
+type SortMode = 'liked' | 'catalogue';
 
 /**
- * UNITAS Shorts -- retired in REV-20 §7.1, revived in REV-29 M4, and IGNITED
- * in REV-36 M3: every card now carries a LIVE view/like/watching count that
- * climbs with the 5-minute network pulse (lib/square/shortsPulse.ts,
- * deterministic, offline-identical), a Trending / Catalogue sort, and a rolling
- * pulse feed of likes/follows/watches from across the network. A signed-in
- * visitor's own likes/follows are durable (hub_shorts_*); a guest keeps this
- * device's toggles. The pulse is labelled as a simulation; the visitor's own
- * actions and the account ledger are the real part.
+ * The public reaction ledger for the rail.
+ *   loading    -- the session probe / the RPC pair has not answered yet.
+ *   ready      -- the ledger was READ. Its figures are facts, zero included.
+ *   unreadable -- there is no readable source from here at all. NOT zero.
+ */
+interface ReactionState {
+  status: 'loading' | 'ready' | 'unreadable';
+  /** { clipId: likes } as reported by hub_shorts_counts('like'). */
+  like: ShortsCounts;
+  /** { handle: follows } as reported by hub_shorts_counts('follow'). */
+  follow: ShortsCounts;
+}
+
+const REACTIONS_LOADING: ReactionState = { status: 'loading', like: {}, follow: {} };
+/** No readable source (signed out, or no project configured) -- never "0". */
+const REACTIONS_UNREADABLE: ReactionState = { status: 'unreadable', like: {}, follow: {} };
+
+/**
+ * REV-40: the settled answer, held at MODULE scope. Flicking away from the
+ * shorts tab and back unmounts and remounts this component, and every remount
+ * used to re-fire the RPC pair and replay the em-dash -> settled repaint
+ * across all 44 cards. The cache makes re-entry instant and silent; only an
+ * explicit tick (a durable toggle, or the pulse cadence while the ledger has
+ * rows) re-reads the totals.
+ */
+let reactionCache: ReactionState | null = null;
+
+/**
+ * UNITAS Shorts -- retired in REV-20 §7.1, revived in REV-29 M4, ignited in
+ * REV-36 M3 and made HONEST in REV-40: every fabricated counter is gone.
+ *
+ * WHAT IS REAL AND WHAT IS NOT. The clip catalogue (lib/live/shortsSeed.ts) is
+ * a TS constant because there is no upload pipeline yet, and the rail says so
+ * (`seedNote`). Everything else on a card is now either a REAL number from the
+ * server ledger (hub_shorts_counts, 'like' over clip ids and 'follow' over
+ * handles) or it is not rendered at all. The simulated view / watcher /
+ * momentum counters were deleted outright -- there is no view telemetry and no
+ * presence channel, so no honest number exists to show -- and the invented
+ * reaction feed of strangers liking clips is now an empty section instead of
+ * fiction. The rail is ordered by the real like ledger, so on an empty ledger
+ * it is simply the catalogue order, never a fabricated "trending" ranking.
+ *
+ * FOUR STATES, NEVER A FALLBACK. The reaction ledger renders as loading
+ * (`data-hub-loading`, counts shown as an em dash), as data, as empty
+ * (`data-hub-empty`, counts shown as a real 0) or as UNREADABLE
+ * (`data-hub-unreadable`, counts shown as an em dash).
+ *
+ * REV-40 split that last state out of EMPTY, because collapsing them was a
+ * lie. `hub_shorts_counts` is `revoke from public, anon` + `grant to
+ * authenticated`, so a signed-out visitor's call cannot succeed -- PGRST202
+ * before the migration, 42501 after -- and hubShortsCounts soft-fails to `{}`,
+ * which the rail then rendered as "0 likes" on 44 cards. Zero is a claim about
+ * the ledger; we had not read the ledger. So we no longer call the RPC without
+ * a session at all (two guaranteed-failed round trips per mount, gone), and
+ * what a guest sees is an em dash and one line saying the totals are not
+ * readable from here.
+ *
+ * THE TWO LEDGERS STAY. A signed-in visitor's own likes/follows are durable
+ * (hub_shorts_*, `data-shorts-ledger="account"`); a guest keeps this device's
+ * toggles in localStorage (`data-shorts-ledger="device"`). That badge is an
+ * honest statement about where a toggle lives, not a simulation label, and the
+ * guest path is the site's default state.
  */
 export function UnitasShorts() {
   const t = useTranslations('Rev29.shorts');
   const t36 = useTranslations('Rev36');
+  /** REV-40: the honest loading / empty / unreadable vocabulary. */
+  const t40 = useTranslations('Rev40');
   const tNews = useTranslations('HotNews');
   const tPass = useTranslations('Rev29.shorts.pass');
   const locale = useLocale();
@@ -55,40 +118,90 @@ export function UnitasShorts() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [passOpen, setPassOpen] = useState(false);
   const [theme, setTheme] = useState<HotNewsCategory | 'all'>('all');
-  const [sort, setSort] = useState<SortMode>('trending');
-  // `now` from a state initialiser (never render-time Date.now), refreshed
-  // every pulse slot after mount so the counts breathe without a reload.
-  const [now, setNow] = useState(() => Date.now());
+  const [sort, setSort] = useState<SortMode>('liked');
   /** 'device' = this device only; 'account' = durable on the server. */
   const [ledger, setLedger] = useState<'device' | 'account'>('device');
+  /** The public like/follow totals -- seeded from the module cache on re-entry. */
+  const [reactions, setReactions] = useState<ReactionState>(() => reactionCache ?? REACTIONS_LOADING);
+  /** Bumped to re-read the totals (after a durable toggle, and while they exist). */
+  const [reactionTick, setReactionTick] = useState(0);
+  /** `null` until the session probe answers: until then nothing is known, so
+   *  the ledger stays in LOADING rather than guessing at a state. */
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
 
   useEffect(() => {
     setPrefs(readShortsPrefs());
   }, []);
 
+  // ONE session probe drives everything: which ledger is in force, whether the
+  // account's durable toggles can be pulled, and whether the public totals are
+  // readable at all. (It used to be two probes and an unconditional RPC pair.)
   useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), PULSE_SLOT_MS);
-    return () => clearInterval(id);
-  }, []);
-
-  // Signed-in path: merge the account's durable toggles over this device's.
-  useEffect(() => {
-    if (!isHubServerConfigured()) return;
     let cancelled = false;
     void (async () => {
-      if (!(await hasHubSession())) return;
+      const yes = isHubServerConfigured() && (await hasHubSession());
+      if (cancelled) return;
+      setSignedIn(yes);
+      if (!yes) return;
+      setLedger('account');
       const res = await hubShortsSync();
       if (cancelled || !res.ok || !res.data) return;
-      setLedger('account');
-      setPrefs((prev) => ({
-        liked: Array.from(new Set([...prev.liked, ...res.data!.liked])),
-        followed: Array.from(new Set([...prev.followed, ...res.data!.followed])),
-      }));
+      // REV-40: REPLACE, never union. `prefs` carries this device's GUEST
+      // toggles, which the server has never seen. Unioning them in left the
+      // heart lit on a clip the account has not liked while likesFor() (rightly)
+      // reported the server total -- the "Liked · 0" card. In account mode the
+      // server is the only truth. The copy on disk is left untouched: it is the
+      // guest ledger, and signing out must return to exactly what it was.
+      setPrefs({ liked: [...res.data.liked], followed: [...res.data.followed] });
     })();
     return () => {
       cancelled = true;
     };
   }, []);
+
+  // The public reaction ledger. One call per kind, kind-scoped so a clip id and
+  // a handle can never merge (hubLedger.ts) -- and only ever with a session,
+  // since hub_shorts_counts is `authenticated`-only and an anon call is a
+  // round trip whose failure is certain before it is sent.
+  useEffect(() => {
+    // Probe still out: hold LOADING. Never settle on an unprobed guess.
+    if (signedIn === null) return;
+    if (!signedIn) {
+      reactionCache = REACTIONS_UNREADABLE;
+      setReactions(REACTIONS_UNREADABLE);
+      return;
+    }
+    // A settled read survives a tab flick; only an explicit tick re-reads.
+    if (reactionTick === 0 && reactionCache?.status === 'ready') {
+      setReactions(reactionCache);
+      return;
+    }
+    let cancelled = false;
+    void (async () => {
+      const clipIds = SHORTS_SEED.map((s) => s.id);
+      const handles = Array.from(new Set(SHORTS_SEED.map((s) => s.handle)));
+      const [like, follow] = await Promise.all([hubShortsCounts('like', clipIds), hubShortsCounts('follow', handles)]);
+      if (cancelled) return;
+      const settled: ReactionState = { status: 'ready', like, follow };
+      reactionCache = settled;
+      setReactions(settled);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [signedIn, reactionTick]);
+
+  /** True once the ledger has answered with at least one recorded reaction. */
+  const hasReactionRows =
+    reactions.status === 'ready' && (Object.keys(reactions.like).length > 0 || Object.keys(reactions.follow).length > 0);
+
+  // Re-read the totals on the pulse cadence ONLY while the ledger actually has
+  // rows: an empty ledger is a settled fact, not something to poll for.
+  useEffect(() => {
+    if (!hasReactionRows) return;
+    const id = setInterval(() => setReactionTick((n) => n + 1), PULSE_SLOT_MS);
+    return () => clearInterval(id);
+  }, [hasReactionRows]);
 
   function persist(next: ShortsPrefs) {
     setPrefs(next);
@@ -102,37 +215,88 @@ export function UnitasShorts() {
       persist(optimistic);
       if (ledger !== 'account') return;
       void hubShortsToggle(kind, target).then((res) => {
-        if (!res.ok) {
-          // The server refused (offline, flood, invalid) -- put the device
-          // copy back rather than pretend it stuck.
+        if (res.ok && res.data) {
+          // The server's `on` is the truth about this account's reaction --
+          // mapShortsToggle has already validated it as a boolean. Snap the
+          // local state onto it so the button can never disagree with the
+          // total beside it (the "Liked · 0" class of drift), then re-read the
+          // public total so the number on screen is the ledger's, never an
+          // optimistic guess layered on top.
+          const { on } = res.data;
           setPrefs((cur) => {
-            const reverted = { ...cur, [key]: toggleMember(cur[key], target) } as ShortsPrefs;
-            writeShortsPrefs(reverted);
-            return reverted;
+            if (cur[key].includes(target) === on) return cur;
+            const corrected = {
+              ...cur,
+              [key]: on ? [...cur[key], target] : cur[key].filter((t) => t !== target),
+            } as ShortsPrefs;
+            writeShortsPrefs(corrected);
+            return corrected;
           });
+          setReactionTick((n) => n + 1);
+          return;
         }
+        // The server refused (offline, flood, invalid) -- put the device
+        // copy back rather than pretend it stuck.
+        setPrefs((cur) => {
+          const reverted = { ...cur, [key]: toggleMember(cur[key], target) } as ShortsPrefs;
+          writeShortsPrefs(reverted);
+          return reverted;
+        });
       });
     },
     [prefs, ledger],
   );
 
+  /**
+   * Likes for a clip. The server total is the truth; this device's own like is
+   * added only while it is NOT in that total (the guest / device ledger), so a
+   * signed-in visitor's like is never counted twice. Whether the figure is
+   * PRINTED at all is countText's decision -- in the unreadable state there is
+   * no server total to stand behind, so nothing is shown.
+   */
+  const likesFor = useCallback(
+    (clipId: string): number => {
+      const server = reactions.like[clipId] ?? 0;
+      if (ledger === 'account') return server;
+      return server + (prefs.liked.includes(clipId) ? 1 : 0);
+    },
+    [reactions, ledger, prefs.liked],
+  );
+
+  /** Followers of a creator handle, under the same two-ledger rule. */
+  const followsFor = useCallback(
+    (handle: string): number => {
+      const server = reactions.follow[handle] ?? 0;
+      if (ledger === 'account') return server;
+      return server + (prefs.followed.includes(handle) ? 1 : 0);
+    },
+    [reactions, ledger, prefs.followed],
+  );
+
+  /**
+   * A figure is printed only when the ledger was actually READ -- then it is
+   * the real one, zero included. Loading and unreadable both render an em
+   * dash: '0' is a statement about the ledger, and in neither state have we
+   * read it.
+   */
+  const countText = useCallback(
+    (n: number): string => (reactions.status === 'ready' ? compactCount(n) : '—'),
+    [reactions.status],
+  );
+
   const themes = useMemo(() => Array.from(new Set(SHORTS_SEED.map((s) => s.theme))), []);
   const clips = useMemo(() => {
     const byTheme = shortsByTheme(theme);
-    return sort === 'trending' ? shortsTrending(byTheme, now) : byTheme;
-  }, [theme, sort, now]);
-  const feed = useMemo(() => shortsPulseFeed(now, 8), [now]);
+    if (sort !== 'liked') return byTheme;
+    // Ordered by the PUBLIC like ledger only -- this device's own optimistic
+    // like is not a public reaction, so pressing the heart never reshuffles the
+    // rail underneath the visitor. Array#sort is stable, so an empty ledger
+    // (every count 0) leaves the catalogue order exactly as seeded.
+    return [...byTheme].sort((a, b) => (reactions.like[b.id] ?? 0) - (reactions.like[a.id] ?? 0));
+  }, [theme, sort, reactions.like]);
   const open = useMemo(() => SHORTS_SEED.find((s) => s.id === openId) ?? null, [openId]);
 
-  function feedLabel(kind: 'like' | 'follow' | 'watch', handle: string, shortId: string): string {
-    const clip = SHORTS_SEED.find((s) => s.id === shortId);
-    const title = clip?.title ?? shortId;
-    if (kind === 'follow') return t36('shorts.feedFollow', { handle, creator: clip?.handle ?? shortId });
-    if (kind === 'watch') return t36('shorts.feedWatch', { handle, title });
-    return t36('shorts.feedLike', { handle, title });
-  }
-
-  function renderToggles(short: ShortSeed, likes: number) {
+  function renderToggles(short: ShortSeed) {
     const liked = prefs.liked.includes(short.id);
     const followed = prefs.followed.includes(short.handle);
     return (
@@ -147,7 +311,7 @@ export function UnitasShorts() {
           data-short-like=""
         >
           <Heart size={13} aria-hidden="true" fill={liked ? 'currentColor' : 'none'} />
-          {liked ? t('liked') : t('like')} · {compactCount(likes + (liked ? 1 : 0))}
+          {liked ? t('liked') : t('like')} · {countText(likesFor(short.id))}
         </button>
         <button
           type="button"
@@ -187,28 +351,44 @@ export function UnitasShorts() {
       </div>
       <p className="qw-hub-meta mb-2 text-[12px] text-gray-500">{t('lede')}</p>
 
-      {/* REV-36: the rolling network pulse feed -- likes / follows / watches. */}
-      <div className="qw-shorts-pulse" data-shorts-pulse="" aria-live="polite">
+      {/* REV-40: the reaction stream. REV-36 filled this with invented rows
+          ("{handle} liked {title}") drawn from a seeded PRNG; there is no
+          activity source behind it -- no event table, no presence channel --
+          so it renders as an honest, permanently empty section rather than as
+          fiction. It becomes real the day an event feed exists. */}
+      <div className="qw-shorts-pulse" data-shorts-pulse="" data-hub-empty="1" aria-live="polite">
         <p className="qw-shorts-pulse-head">
           <Radio size={12} aria-hidden="true" />
           {t36('shorts.feed')}
-          <span className="qw-shorts-pulse-sim" data-shorts-pulse-sim="">
-            {t36('pulse.sim')}
-          </span>
         </p>
-        <ul className="qw-shorts-pulse-list">
-          {feed.map((e) => (
-            <li key={e.id} className="qw-shorts-pulse-row" data-shorts-pulse-row={e.kind}>
-              {e.kind === 'like' ? <Heart size={11} aria-hidden="true" /> : e.kind === 'follow' ? <UserPlus size={11} aria-hidden="true" /> : <Eye size={11} aria-hidden="true" />}
-              <span>{feedLabel(e.kind, e.handle, e.shortId)}</span>
-            </li>
-          ))}
-        </ul>
+        <p className="qw-shorts-pulse-row" data-shorts-feed-empty="">
+          {t36('shorts.feedEmpty')}
+        </p>
       </div>
 
+      {/* The state of the REAL like/follow ledger. Loading until the session
+          probe and the RPC pair answer; then either live figures on the cards,
+          or the honest empty line (the ledger was read and has no rows), or
+          the unreadable line (there is no readable source from here -- the
+          counts RPC is `authenticated`-only). Never a fallback, and never a
+          fabricated zero. */}
+      {reactions.status === 'loading' ? (
+        <p className="qw-hub-meta mb-2 text-[11px] text-gray-500" data-shorts-counts="" data-hub-loading="1" aria-live="polite">
+          {t36('common.loading')}
+        </p>
+      ) : reactions.status === 'unreadable' ? (
+        <p className="qw-hub-meta mb-2 text-[11px] text-gray-500" data-shorts-counts="" data-hub-unreadable="1" aria-live="polite">
+          {t40('shorts.countsUnreadable')}
+        </p>
+      ) : hasReactionRows ? null : (
+        <p className="qw-hub-meta mb-2 text-[11px] text-gray-500" data-shorts-counts="" data-hub-empty="1" aria-live="polite">
+          {t36('shorts.countsEmpty')}
+        </p>
+      )}
+
       <div className="mb-2 flex flex-wrap items-center gap-2">
-        <div className="qw-hub-tabs" role="tablist" aria-label={t36('shorts.trending')}>
-          {(['trending', 'catalogue'] as const).map((key) => (
+        <div className="qw-hub-tabs" role="tablist" aria-label={t36('shorts.sortLabel')}>
+          {(['liked', 'catalogue'] as const).map((key) => (
             <button
               key={key}
               type="button"
@@ -219,8 +399,8 @@ export function UnitasShorts() {
               onMouseEnter={() => playHoverSfx()}
               onClick={() => setSort(key)}
             >
-              {key === 'trending' ? <Flame size={12} aria-hidden="true" /> : null}
-              {key === 'trending' ? t36('shorts.sortTrending') : t36('shorts.sortCatalogue')}
+              {key === 'liked' ? <Heart size={12} aria-hidden="true" /> : null}
+              {key === 'liked' ? t36('shorts.sortMostLiked') : t36('shorts.sortCatalogue')}
             </button>
           ))}
         </div>
@@ -257,7 +437,6 @@ export function UnitasShorts() {
 
       <div className="qw-shorts-rail" data-shorts-rail="">
         {clips.map((short) => {
-          const stats = shortsPulseStats(short, now);
           const meta = hotNewsAxisMeta(short.theme);
           return (
             <button
@@ -274,22 +453,14 @@ export function UnitasShorts() {
                 <HubDot color={meta.color} size={7} />
                 {tNews(`category.${short.theme}`)}
               </span>
-              <span className="absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-black/35 px-2 py-0.5 text-[11px] font-bold backdrop-blur" data-short-watching="">
-                <Eye size={11} aria-hidden="true" />
-                {t36('shorts.watching', { count: compactCount(stats.watching) })}
-              </span>
               <span className="qw-short-title">{short.title}</span>
               <span className="qw-short-meta">
                 <span>@{short.handle}</span>
               </span>
               <span className="qw-short-meta">
-                <span className="inline-flex items-center gap-1">
-                  <Eye size={12} aria-hidden="true" />
-                  {compactCount(stats.views)}
-                </span>
-                <span className="inline-flex items-center gap-1">
+                <span className="inline-flex items-center gap-1" data-short-likes="">
                   <Heart size={12} aria-hidden="true" />
-                  {compactCount(stats.likes + (prefs.liked.includes(short.id) ? 1 : 0))}
+                  {countText(likesFor(short.id))}
                 </span>
               </span>
             </button>
@@ -320,7 +491,6 @@ export function UnitasShorts() {
       <Modal open={open !== null} onClose={() => setOpenId(null)} labelledBy="unitas-short-title" size="lg">
         {open &&
           (() => {
-            const stats = shortsPulseStats(open, now);
             const meta = hotNewsAxisMeta(open.theme);
             return (
               <div className="space-y-4" data-short-modal={open.id}>
@@ -339,19 +509,10 @@ export function UnitasShorts() {
                       <HubDot color={meta.color} />
                       {tNews(`category.${open.theme}`)}
                     </span>
-                    <span>{t('views', { count: compactCount(stats.views) })}</span>
-                    <span>{t('followers', { count: compactCount(stats.followers + (prefs.followed.includes(open.handle) ? 1 : 0)) })}</span>
-                    <span className="inline-flex items-center gap-1" data-short-modal-watching="">
-                      <Eye size={12} aria-hidden="true" />
-                      {t36('shorts.watching', { count: compactCount(stats.watching) })}
-                    </span>
-                    <span className="inline-flex items-center gap-1" data-short-modal-momentum="">
-                      <Flame size={12} aria-hidden="true" />
-                      +{compactCount(stats.momentum)}
-                    </span>
+                    <span data-short-modal-followers="">{t('followers', { count: countText(followsFor(open.handle)) })}</span>
                   </p>
                 </div>
-                {renderToggles(open, stats.likes)}
+                {renderToggles(open)}
                 <div className="border-l-2 border-accent/40 pl-3">
                   <p className="flex items-center gap-1.5 text-[13px] font-bold text-accent">
                     <MessageCircle size={13} aria-hidden="true" />

@@ -2921,26 +2921,18 @@
     }
   },
   "Rev36": {
-    "pulse": {
-      "label": "नेटवर्क पल्स",
-      "sim": "सिमुलेशन",
-      "note": "सिम्युलेटेड नेटवर्क पल्स — नियतात्मक, हर 5 मिनट में ताज़ा होता है। आपकी अपनी गतिविधियाँ और खाता बही असली हैं।"
-    },
     "talk": {
-      "presence": "कमरे में {count}",
-      "pulseRoom": "रूम पल्स"
+      "roomEmpty": "अभी तक कोई संदेश नहीं। पहली बात आप कहिए।"
     },
     "shorts": {
-      "watching": "{count} देख रहे हैं",
-      "trending": "अभी ट्रेंडिंग",
       "feed": "लाइव पल्स",
-      "feedLike": "{handle} ने {title} को पसंद किया",
-      "feedFollow": "{handle} ने @{creator} को फ़ॉलो किया",
-      "feedWatch": "{handle} {title} देख रहे हैं",
-      "sortTrending": "ट्रेंडिंग",
       "sortCatalogue": "कैटलॉग",
       "account": "पसंद और फ़ॉलो आपके खाते में सहेजे गए",
-      "device": "इस डिवाइस पर पसंद और फ़ॉलो"
+      "device": "इस डिवाइस पर पसंद और फ़ॉलो",
+      "feedEmpty": "अभी तक कोई प्रतिक्रिया नहीं।",
+      "countsEmpty": "अभी तक कोई गिनती नहीं।",
+      "sortLabel": "शॉर्ट्स क्रमबद्ध करें",
+      "sortMostLiked": "सबसे पसंदीदा"
     },
     "exchange": {
       "market": "मार्केट पल्स",
@@ -2948,12 +2940,26 @@
       "trades24h": "24घं ट्रेड",
       "traders24h": "सक्रिय ट्रेडर",
       "topTheme": "हॉट थीम",
-      "demand": "7-दिन की मांग",
-      "momentumUp": "बढ़ रहा",
-      "momentumFlat": "स्थिर",
-      "momentumDown": "घट रहा",
       "ledgerLive": "लाइव लेजर आंकड़े",
-      "simTrade": "सिम्युलेटेड"
+      "marketEmpty": "पिछले 24 घंटों में कोई ट्रेड नहीं।",
+      "boardEmpty": "अभी तक कोई निपटान नहीं।"
+    },
+    "common": {
+      "loading": "लोड हो रहा है…"
+    }
+  },
+  "Rev40": {
+    "exchange": {
+      "marketLoading": "लेजर लोड हो रहा है…",
+      "marketEmpty": "पिछले 24 घंटों में कोई ट्रेड नहीं।",
+      "boardLoading": "लोड हो रहा है…",
+      "boardEmpty": "अभी तक कोई निपटान नहीं।",
+      "marketUnreadable": "ट्रेड लेजर देखने के लिए साइन इन करें।",
+      "boardUnreadable": "क्रिएटर निपटान देखने के लिए साइन इन करें।",
+      "sortLabel": "पैक क्रमबद्ध करें"
+    },
+    "shorts": {
+      "countsUnreadable": "साइन आउट रहने पर लाइक और फ़ॉलो की गिनती नहीं दिखती।"
     }
   }
 }

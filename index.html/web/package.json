@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "dev:lan": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/lan-bridge.ps1 && next dev -H 0.0.0.0",
@@ -40,7 +43,8 @@
     "mem:verify": "node scripts/claude-mem-restore.mjs --latest --dry-run",
     "mem:list": "node scripts/claude-mem-restore.mjs --list",
     "mem:install-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-mem-backup-task.ps1",
-    "mem:uninstall-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-mem-backup-task.ps1 -Uninstall"
+    "mem:uninstall-task": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-mem-backup-task.ps1 -Uninstall",
+    "mem:install-key": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-mem-backup-key.ps1"
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",

@@ -13,6 +13,8 @@
     "validate:stripe": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/validate-stripe.ps1",
     "deploy:supabase": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/deploy-supabase.ps1",
     "setup:toolchain": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-toolchain.ps1",
+    "db:usquare": "node scripts/apply-usquare-migrations.mjs",
+    "db:usquare:verify": "node scripts/apply-usquare-migrations.mjs --verify",
     "gate": "npm run typecheck && npm run test:unit && npm run build:web",
     "gate:full": "npm run gate && npm run test:e2e:chromium",
     "typecheck": "npm --prefix web run typecheck",
