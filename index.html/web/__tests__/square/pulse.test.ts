@@ -35,7 +35,7 @@ import {
 //
 // The contract pulse.ts must keep: it never reads the clock and never calls
 // Math.random, so the server render and the first client frame agree byte
-// for byte (Codex ch.7 -- offline / in-app WebView determinism). Callers
+// for byte (Codex ch.8 -- offline / in-app WebView determinism). Callers
 // pass `now`; every draw is a pure function of the seed.
 
 const NOW = 1_790_000_000_000; // a fixed instant well after the pulse epoch (2026-09-16)

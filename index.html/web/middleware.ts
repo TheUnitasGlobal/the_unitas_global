@@ -59,7 +59,7 @@ import {
 //      real interface and only *covered* it. Now an ungated request is
 //      redirected onto `/<locale>/gateway`, whose body is empty -- the main
 //      markup is never serialized at all. Only a proven sovereign or a
-//      search-engine indexer (Codex ch.13 SEO) passes. (A rewrite would have
+//      search-engine indexer (Codex ch.7 SEO) passes. (A rewrite would have
 //      kept the deep link in the address bar, but measurably broke hydration
 //      -- see the note at the seal itself.)
 //   6. REV-24 MISSION 2 -- the SOVEREIGN MASTER KEY (founder directive

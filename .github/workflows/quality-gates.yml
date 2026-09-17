@@ -23,7 +23,7 @@
 #     the live project was hand-built and has no complete migration history.
 #
 # WHAT RUNS HERE:
-#   * gate    — typecheck + vitest + production build + chromium E2E. Codex ch.12
+#   * gate    — typecheck + vitest + production build + chromium E2E. Codex ch.13
 #               Fail-Closed: each must prove EXIT 0 before anything ships.
 #   * deploy  — Vercel production, only on main, only after the gate is green,
 #               and only when the deploy secrets exist. Without VERCEL_TOKEN the
@@ -32,7 +32,7 @@
 #
 # WHAT DELIBERATELY DOES NOT RUN HERE. The full six-project Playwright sweep
 # (chromium · webkit · mobile-chrome · tablet · inapp-kakao · inapp-instagram)
-# belongs to the local idle-sensor daemon (Codex ch.14 stage 3): "idle" is a
+# belongs to the local idle-sensor daemon (Codex ch.15 stage 3): "idle" is a
 # property of the founder's machine no runner can observe, the WebKit render
 # baselines were measured on Windows and do not transfer, and billing runner
 # minutes for a ~3 h suite violates the 0원 doctrine. Ask for it on demand with
@@ -130,7 +130,7 @@ jobs:
       - name: Install web dependencies
         run: npm --prefix web ci || npm --prefix web install
 
-      # Codex ch.12. These call the same named scripts the founder runs locally,
+      # Codex ch.13. These call the same named scripts the founder runs locally,
       # so CI and the local gate cannot drift apart.
       - name: Typecheck
         run: npm run typecheck

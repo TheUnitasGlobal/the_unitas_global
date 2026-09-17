@@ -13,7 +13,7 @@
  * WHAT SURVIVES, AND WHY. The determinism was never the problem -- the fiction
  * was. `seedHash` (FNV-1a with the MurmurHash3 fmix32 finisher) and
  * `mulberry32` stay because the square must still render identically on a cold
- * reload, offline and inside an in-app WebView (Codex ch.7) with the server
+ * reload, offline and inside an in-app WebView (Codex ch.8) with the server
  * render and first client frame agreeing byte for byte. `PULSE_HANDLES` stays
  * because it is the single source of the creator vocabulary that the 44-clip
  * shorts catalogue (lib/live/shortsSeed.ts) and the exchange sellers both draw

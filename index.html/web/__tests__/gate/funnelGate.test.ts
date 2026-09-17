@@ -116,7 +116,7 @@ describe('resolveGateVerdict', () => {
     expect(verdict({ pathname: '/ko/company/about', hasSovereign: true })).toBe('pass');
   });
 
-  it('passes indexers so the SEO corpus keeps resolving (Codex ch.13)', () => {
+  it('passes indexers so the SEO corpus keeps resolving (Codex ch.7)', () => {
     expect(verdict({ userAgent: 'Mozilla/5.0 (compatible; Googlebot/2.1)' })).toBe('pass');
     expect(verdict({ pathname: '/ko/legal/terms', userAgent: 'bingbot/2.0' })).toBe('pass');
   });

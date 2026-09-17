@@ -1,7 +1,7 @@
 /**
  * REV-21 §3B / SPEC §12.4 -- the single source of truth for every external
  * engine the U-AI ecosystem touches ("옴니-테크 소스 레지스트리", founder
- * directive v2 2026-09-12, Codex ch.22 Omni-Tech Convergence).
+ * directive v2 2026-09-12, Codex ch.7 Omni-Tech Convergence).
  *
  * Everything that names a source derives from here: the per-reference
  * attribution badge (`sourceNameOf`), the discovery slots' provider row
@@ -83,7 +83,7 @@ export type SourceId =
   | 'googleScholar'
   | 'wolframAlpha'
   | 'arxiv'
-  // REV-34 M2 (D-8) -- the omni-business engines of Codex ch.6 and the
+  // REV-34 M2 (D-8) -- the omni-business engines of Codex ch.7 and the
   // per-family corpora. Every one is a keyless, login-free search URL.
   | 'naverSearch'
   | 'naverNews'
@@ -641,7 +641,7 @@ export const SOURCE_REGISTRY: readonly OmniSource[] = [
 
   /* ---------------------------------------------------------------- */
   /* REV-34 M2 (founder directive 2026-09-16, D-8) -- the omni-business  */
-  /* engines of Codex ch.6 (Naver, Yandex, Seznam, DuckDuckGo, Yahoo,    */
+  /* engines of Codex ch.7 (Naver, Yandex, Seznam, DuckDuckGo, Yahoo,    */
   /* Ecosia, Qwant, Apple) plus the finance, science, developer, product */
   /* and social corpora each theme family opens. Outbound only: keyless, */
   /* login-free search URLs, never fetched, never styled as a brand.     */
@@ -797,7 +797,7 @@ export const SOURCE_REGISTRY: readonly OmniSource[] = [
     licenseClass: 'outbound-only',
     attribution: NOT_AFFILIATED('Apple Maps'),
     anchorKind: ['entity', 'place', 'text'],
-    notes: 'The keyless Apple surface of Codex ch.6: the web Maps URL scheme opens the native app on Apple devices.',
+    notes: 'The keyless Apple surface of Codex ch.7: the web Maps URL scheme opens the native app on Apple devices.',
   },
   {
     id: 'googleMaps',
@@ -1058,7 +1058,7 @@ export function sourceAttribution(id: SourceId, locale = 'en'): string {
  * `OMNI_FAMILY_ROWS` -- the rows a surface gets when it names no theme.
  * The scholarly corpora (Scholar, arXiv, Patents, OpenAlex, Hacker News)
  * moved from the platform row into the sources row where they belong, and
- * the platform row carries the ten omni-business engines of Codex ch.6
+ * the platform row carries the ten omni-business engines of Codex ch.7
  * (Google, Naver, Yandex, Seznam, Bing, DuckDuckGo, Yahoo, Ecosia, Qwant,
  * Apple) ahead of the consumer platforms. Rows are capped at
  * `OMNI_SOURCES_CAP` / `OMNI_PLATFORMS_CAP` so a phone never wraps past a
@@ -1453,7 +1453,7 @@ export function outboundSearchUrl(id: SourceId, term: string, lang = 'en'): stri
       return `https://www.worldbank.org/en/search?q=${q}`;
     case 'theMet':
       return `https://www.metmuseum.org/art/collection/search?q=${q}`;
-    // REV-34 M2 -- the omni-business engines (Codex ch.6) and family corpora.
+    // REV-34 M2 -- the omni-business engines (Codex ch.7) and family corpora.
     case 'naverSearch':
       return `https://search.naver.com/search.naver?query=${q}`;
     case 'naverNews':

@@ -1,5 +1,5 @@
 /**
- * REV-35 M2 -- Codex ch.13 stage-3 idle sensor, PURE core (founder directive
+ * REV-35 M2 -- Codex ch.15 stage-3 idle sensor, PURE core (founder directive
  * 2026-09-16, SPEC.md D-9).
  *
  * Every decision the daemon (scripts/idle-sensor-daemon.mjs) makes lives here
@@ -26,7 +26,7 @@
  * `playwright test` running anywhere outside the daemon's own tree block a
  * sweep even before they touch a file (the Stop hook's first seconds).
  *
- * Fail-closed (Codex ch.4 / ch.11): a signal that could not be read is treated
+ * Fail-closed (Codex ch.4 / ch.13): a signal that could not be read is treated
  * as activity NOW. A sweep that cannot prove idleness never starts.
  */
 
@@ -97,7 +97,7 @@
 /** The four activity channels, in the order the daemon prints them. */
 export const SIGNAL_NAMES = /** @type {const} */ (['transcript', 'git', 'worktree', 'osInput']);
 
-/** Codex ch.13 stage 3: ten minutes of silence on every channel. */
+/** Codex ch.15 stage 3: ten minutes of silence on every channel. */
 export const DEFAULT_IDLE_MS = 10 * 60 * 1000;
 
 /** The three engines tests/web-cinema.config.js runs, in config order. */
@@ -203,7 +203,7 @@ export function cancelReasons(signals, sweepStartedAt, now) {
 }
 
 /**
- * Cancel-in-progress predicate (Codex ch.13 stage 3 "준비"/new-command rule):
+ * Cancel-in-progress predicate (Codex ch.15 stage 3 "준비"/new-command rule):
  * true the instant any channel moves past the sweep start or a busy process
  * shows up.
  *
@@ -432,7 +432,7 @@ function signed(n) {
  */
 export function summaryToMarkdown(summary) {
   const lines = [
-    '# 3단계 전수 검증 결과 (Codex 제13장 · 3엔진)',
+    '# 3단계 전수 검증 결과 (Codex 제15장 · 3엔진)',
     '',
     `- **상태:** ${STATUS_LABEL[summary.status] ?? summary.status}`,
     `- **빌드:** \`${summary.buildId}\` · **HEAD:** \`${summary.head}\``,
@@ -584,7 +584,7 @@ export function parseArgs(argv) {
  * the run was thrown away and the next idle window started again from zero --
  * the suite could never complete, and REV-39 adds three more projects on top.
  *
- * The fix is Codex ch.13's own "준비" semantic: stop, SAVE THE POINT, and
+ * The fix is Codex ch.15's own "준비" semantic: stop, SAVE THE POINT, and
  * resume from it. The sweep is sharded per PROJECT; a finished project is
  * checkpointed to progress.json and never re-run for that BUILD_ID@HEAD, so
  * each idle window only has to survive one project (~15-25 min), and progress

@@ -1,7 +1,7 @@
 /**
  * REV-36 MISSION 2 -- the stage-3 morning brief, pure half (no fs, no process,
  * no clock beyond formatting a timestamp it is handed). The idle-sensor daemon
- * (Codex ch.13 stage 3) runs the 3-engine sweep overnight and writes
+ * (Codex ch.15 stage 3) runs the 3-engine sweep overnight and writes
  * test-results/stage3/latest.json; the founder should not have to go read it.
  * This turns that file (plus the current build/HEAD, the daemon's liveness and
  * the trust attestation) into ONE Korean line the agent reports first, and a
@@ -135,10 +135,10 @@ export function buildBrief(input) {
  * @returns {string}
  */
 export function briefToHookContext(brief) {
-  const lines = ['[Stage-3 자율 브리핑 · Codex 제13장 3단계 · REV-36 M2]', brief.line];
+  const lines = ['[Stage-3 자율 브리핑 · Codex 제15장 3단계 · REV-36 M2]', brief.line];
   for (const d of brief.details) lines.push(`- ${d}`);
   lines.push(
-    '에이전트 지시: 창립자에게 보내는 첫 응답의 첫 줄에 위 브리핑 한 줄을 그대로 선제 보고하라. 되묻지 않는다(제4장 제로 핸즈). 실패가 있으면 READER.md 4단계로 분류만 보고하고 창립자 지시 없이 전수 E2E를 재실행하지 않는다.',
+    '에이전트 지시: 창립자에게 보내는 첫 응답의 첫 줄에 위 브리핑 한 줄을 그대로 선제 보고하라. 되묻지 않는다(제6장 제로 핸즈). 실패가 있으면 READER.md 4단계로 분류만 보고하고 창립자 지시 없이 전수 E2E를 재실행하지 않는다.',
   );
   return lines.join('\n');
 }

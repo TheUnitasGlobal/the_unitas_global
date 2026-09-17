@@ -126,7 +126,7 @@ describe('briefToHookContext', () => {
   it('carries the exact header and the exact founder directive', () => {
     const ctx = briefToHookContext(buildBrief(base({ latest: passLatest() })));
     const lines = ctx.split('\n');
-    expect(lines[0]).toBe('[Stage-3 자율 브리핑 · Codex 제13장 3단계 · REV-36 M2]');
+    expect(lines[0]).toBe('[Stage-3 자율 브리핑 · Codex 제15장 3단계 · REV-36 M2]');
     expect(lines[1]).toContain('에러 0건 통과');
     expect(ctx).toContain('창립자에게 보내는 첫 응답의 첫 줄에 위 브리핑 한 줄을 그대로 선제 보고하라');
     expect(ctx).toContain('전수 E2E를 재실행하지 않는다');

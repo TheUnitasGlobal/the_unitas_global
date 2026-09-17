@@ -7,7 +7,7 @@ param(
 
 # ---------------------------------------------------------------------------
 # install-mem-backup-task.ps1 -- REV-39 MISSION 2: schedule the sovereign
-# backup of the permanent memory (Codex ch.12 영구 기억, ch.11 Fail-Closed).
+# backup of the permanent memory (Codex ch.11 영구 기억, ch.13 Fail-Closed).
 # Trust-registry id: unitas.claude-mem.task
 #
 # The v37 audit found the only snapshot of ~/.claude-mem was a 311 KB file from

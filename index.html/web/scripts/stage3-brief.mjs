@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ---------------------------------------------------------------------------
-// stage3-brief.mjs -- Codex ch.13 stage-3 morning brief (REV-36 M2).
+// stage3-brief.mjs -- Codex ch.15 stage-3 morning brief (REV-36 M2).
 // Trust-registry id: unitas.stage3.brief
 //
 // A SessionStart hook runs `node .../stage3-brief.mjs --hook` and injects the
@@ -30,7 +30,7 @@ const LOCK_FILE = path.join(STAGE3_DIR, 'daemon.lock');
 const BUILD_ID_FILE = path.join(WEB_DIR, '.next', 'BUILD_ID');
 const TASK_NAME = 'UnitasIdleSensorStage3';
 
-const HEADER = '[Stage-3 자율 브리핑 · Codex 제13장 3단계 · REV-36 M2]';
+const HEADER = '[Stage-3 자율 브리핑 · Codex 제15장 3단계 · REV-36 M2]';
 
 /** @param {string} p */
 function readJson(p) {

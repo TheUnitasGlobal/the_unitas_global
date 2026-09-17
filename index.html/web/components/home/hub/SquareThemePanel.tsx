@@ -28,7 +28,7 @@ import {
  * CTA that deep-links into a route that already exists.
  *
  * WHY every tile is read from local state: the square must render the same
- * on a cold reload, offline, and in an in-app WebView (Codex ch.7), so the
+ * on a cold reload, offline, and in an in-app WebView (Codex ch.8), so the
  * numbers are the device ledger, the wallet, the lock-in set, the registry
  * and governance sizes, the swarm cache -- plus three day-seeded doctrine
  * indices that change once per UTC day and never touch Math.random (D-11).

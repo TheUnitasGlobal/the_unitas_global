@@ -1,6 +1,6 @@
 /**
  * REV-36 MISSION 1 -- the Trust Registry, pure half (no fs, no process, no
- * clock). Codex ch.13 stage-3 runs a standing local automation (the idle
+ * clock). Codex ch.15 stage-3 runs a standing local automation (the idle
  * sensor) that a security reviewer or an anti-malware heuristic could
  * reasonably flag as "unauthorized persistence". The registry is the founder's
  * signed statement that these specific processes and files ARE authorized: a

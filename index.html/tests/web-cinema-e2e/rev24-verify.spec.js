@@ -133,7 +133,7 @@ test.describe('REV-24 M2 -- the Sovereign Master Key', () => {
     await keyed.close();
   });
 
-  test('an indexer still reads the real pages (Codex ch.13 survives M2)', async ({ browser }) => {
+  test('an indexer still reads the real pages (Codex ch.7 survives M2)', async ({ browser }) => {
     const ctx = await browser.newContext({ userAgent: 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' });
     const res = await ctx.request.get('/', { maxRedirects: 0 });
     expect(res.status()).toBe(200);

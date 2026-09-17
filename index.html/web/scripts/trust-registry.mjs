@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ---------------------------------------------------------------------------
-// trust-registry.mjs -- Codex ch.13 stage-3 Trust Registry CLI + attestation.
+// trust-registry.mjs -- Codex ch.15 stage-3 Trust Registry CLI + attestation.
 // Trust-registry id: unitas.trust-registry.cli
 //
 // Reads config/security/trust-registry.json, hashes the pinned files off disk,

@@ -44,7 +44,7 @@ test.describe('REV-39 M3 -- omni-device coverage', () => {
       surface: document.documentElement.getAttribute('data-unitas-surface'),
     }));
 
-    // Codex ch.8: pixel-correct on every environment -- no sideways scroll.
+    // Codex ch.9: pixel-correct on every environment -- no sideways scroll.
     expect(metrics.scrollW, `overflow ${JSON.stringify(metrics)}`).toBeLessThanOrEqual(metrics.clientW + 1);
     expect(metrics.surface).toBe('quantum-white');
     await expect(page.locator('#omni-synapse-search')).toBeVisible();

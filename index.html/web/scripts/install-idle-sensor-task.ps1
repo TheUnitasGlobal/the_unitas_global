@@ -5,7 +5,7 @@ param(
 )
 
 # ---------------------------------------------------------------------------
-# install-idle-sensor-task.ps1 -- Codex ch.13 stage-3 idle sensor, at-logon
+# install-idle-sensor-task.ps1 -- Codex ch.15 stage-3 idle sensor, at-logon
 # Windows Task Scheduler installer (REV-35 M2, founder directive 2026-09-16,
 # SPEC.md D-9 / D-11).
 #
@@ -144,7 +144,7 @@ $settings = New-ScheduledTaskSettingsSet `
     -StartWhenAvailable -DontStopOnIdleEnd
 
 Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Principal $principal -Settings $settings -Description `
-    'THE UNITAS GLOBAL -- Codex ch.13 stage-3 idle sensor. After 10 idle minutes runs the 3-engine Playwright sweep (tests/web-cinema.config.js) at idle priority, cancels on activity, writes index.html/test-results/stage3/latest.md. Read via docs/stage3/READER.md. trust-registry: unitas.idle-sensor.task (index.html/config/security/trust-registry.json . docs/security/TRUST_REGISTRY.md)' `
+    'THE UNITAS GLOBAL -- Codex ch.15 stage-3 idle sensor. After 10 idle minutes runs the 3-engine Playwright sweep (tests/web-cinema.config.js) at idle priority, cancels on activity, writes index.html/test-results/stage3/latest.md. Read via docs/stage3/READER.md. trust-registry: unitas.idle-sensor.task (index.html/config/security/trust-registry.json . docs/security/TRUST_REGISTRY.md)' `
     -Force | Out-Null
 
 Start-ScheduledTask -TaskName $taskName

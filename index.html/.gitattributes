@@ -1,0 +1,19 @@
+# THE UNITAS GLOBAL — sovereign attestation line-ending pin.
+#
+# config/security/trust-registry.json pins the sha256 of each file below, and
+# web/scripts/trust-registry.mjs hashes RAW BYTES:
+#   createHash('sha256').update(readFileSync(abs))
+# There is no CRLF normalization in that hash, by design — the registry must
+# detect any byte-level change to a script that runs unattended on this machine.
+#
+# This repository is checked out with core.autocrlf=true. Without the pins
+# below, `git clone` / `git checkout` expands the LF blobs in the index into
+# CRLF in the working tree, every pinned hash mismatches, `trust-registry
+# --verify` fails closed, and the Codex 제15장 3단계 idle sweep refuses to run
+# on a machine where nothing is actually wrong. Measured and reproduced
+# 2026-09-16 (9/13 pins mismatched immediately after a checkout).
+#
+# Keep this narrow: it pins only the attested surface, so it cannot renormalize
+# the rest of the tree.
+web/scripts/** text eol=lf
+config/security/trust-registry.json text eol=lf

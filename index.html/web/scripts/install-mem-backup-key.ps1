@@ -9,7 +9,7 @@ param(
 # ---------------------------------------------------------------------------
 # install-mem-backup-key.ps1 -- REV-39 MISSION 1: open the sovereign memory
 # backup vault by installing its two secrets into the USER environment, once,
-# permanently (Codex ch.12 영구 기억, ch.4 제로 핸즈).
+# permanently (Codex ch.11 영구 기억, ch.4 제로 핸즈).
 #
 # WHY A SCRIPT AND NOT A ONE-LINER. Setting the key by hand is the single
 # manual step the whole backup chain depended on, and it was never done -- the

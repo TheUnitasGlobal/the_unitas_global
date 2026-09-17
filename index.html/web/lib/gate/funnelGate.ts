@@ -26,7 +26,7 @@
  *      bootstrap that mints the cookie (lib/sovereignAuth.ts +
  *      lib/sovereign/masterKey.ts). All three collapse into the single
  *      `hasSovereign` input below, resolved once per request by middleware;
- *   2. a search-engine indexer (`isIndexerAgent`) -- Codex ch.13's global
+ *   2. a search-engine indexer (`isIndexerAgent`) -- Codex ch.7's global
  *      SEO sovereignty depends on Googlebot/bingbot/Yeti/YandexBot/SeznamBot
  *      still reading the real pages; a human following the indexed link is
  *      sealed like everyone else.
@@ -75,7 +75,7 @@ export function isGatePath(pathname: string): boolean {
 
 /**
  * Search-engine + link-preview crawlers that must keep reading the real
- * pages (Codex ch.13). Deliberately a NAME allowlist rather than a
+ * pages (Codex ch.7). Deliberately a NAME allowlist rather than a
  * reverse-DNS check: a forged UA buys a spoofer nothing an ordinary
  * `view-source:` would not already give them, while a missed real crawler
  * would silently de-index the whole 340-URL sitemap.

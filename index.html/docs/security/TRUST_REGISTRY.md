@@ -2,11 +2,11 @@
 
 정본: `index.html/config/security/trust-registry.json` (기계용) · 본 문서(정책)
 검증 CLI: `cd index.html/web && npm run security:trust:verify` · 재각인: `npm run security:trust:write`
-지령: 창립자 REV-35 D-11 + REV-36 M1 (2026-09-16) · 근거: Codex v41.0 제4장·제7장·제14장
+지령: 창립자 REV-35 D-11 + REV-36 M1 (2026-09-16) · 근거: Codex v41.0 제4장·제8장·제15장
 
 ## 1. 왜 필요한가
 
-제14장 3단계 유휴 감지 데몬(`UnitasIdleSensorStage3`)은 **로그온 시 자동 기동되어 상주하며 창립자의 입력 유휴를 측정하는** 로컬 자동화다. REV-36 이전에는 그 유휴 프로브가 매 틱마다 base64 `-EncodedCommand`로 C# 타입을 **메모리에서** 컴파일했다(`Add-Type -TypeDefinition`). 이 조합 — 인코딩된 파워셸 + 네이티브 인터롭 인메모리 컴파일 + 로그온 자동 실행 + 숨긴 창 — 은 정찰 에이전트나 안티멀웨어 휴리스틱, 그리고 이 저장소에 설치된 `security-guidance` 플러그인의 LLM 디프 리뷰어가 **"Unauthorized Persistence(비인가 지속성)"** 로 오탐하기에 충분하다.
+제15장 3단계 유휴 감지 데몬(`UnitasIdleSensorStage3`)은 **로그온 시 자동 기동되어 상주하며 창립자의 입력 유휴를 측정하는** 로컬 자동화다. REV-36 이전에는 그 유휴 프로브가 매 틱마다 base64 `-EncodedCommand`로 C# 타입을 **메모리에서** 컴파일했다(`Add-Type -TypeDefinition`). 이 조합 — 인코딩된 파워셸 + 네이티브 인터롭 인메모리 컴파일 + 로그온 자동 실행 + 숨긴 창 — 은 정찰 에이전트나 안티멀웨어 휴리스틱, 그리고 이 저장소에 설치된 `security-guidance` 플러그인의 LLM 디프 리뷰어가 **"Unauthorized Persistence(비인가 지속성)"** 로 오탐하기에 충분하다.
 
 이것은 창립자가 공식 인가한 시스템 프로세스다. 따라서 해법은 **숨기는 것이 아니라 검사 가능하게 만드는 것**이다.
 
@@ -19,7 +19,7 @@
 | 종류 | id | 대상 | 요지 |
 |---|---|---|---|
 | 예약 작업 | `unitas.idle-sensor.task` | `UnitasIdleSensorStage3` | 로그온·Interactive·Limited(비상승). 10분 유휴 후 3엔진 스윕, 활동 시 취소. |
-| 예약 작업 | `unitas.review-archive.task` | `UnitasReviewAgentArchive` | 일일 리뷰 에이전트 브리핑 아카이브(제13장). |
+| 예약 작업 | `unitas.review-archive.task` | `UnitasReviewAgentArchive` | 일일 리뷰 에이전트 브리핑 아카이브(제14장). |
 | 파일(핀) | `unitas.idle-sensor.daemon` | `web/scripts/idle-sensor-daemon.mjs` | 상주 데몬. |
 | 파일(핀) | `unitas.idle-sensor.core` | `web/scripts/idle-sensor-core.mjs` | 순수 판정 함수. |
 | 파일(핀) | `unitas.idle-sensor.probe` | `web/scripts/idle-sensor-probe.ps1` | 디스크 프로브(컴파일-원스). |

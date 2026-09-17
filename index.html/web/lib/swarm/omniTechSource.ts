@@ -9,7 +9,7 @@
  * interface, and it is no longer reachable only through a theme tile.
  *
  * REV-23 M6 -- the omni-tech absorption adapter (founder directive
- * 2026-09-13, MISSION 6 / Codex ch.13).
+ * 2026-09-13, MISSION 6 / Codex ch.7).
  *
  * "구글, MS, 글로벌 금융망 등 모든 빅테크를 모듈식으로 집어삼키는" -- taken
  * literally, at the level where it is actually possible for free: an

@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
 // counters, invented market trades. It looked alive, but every figure was
 // fiction, and the failure mode was FAIL-OPEN -- a missing RPC, an anon
 // refusal or an offline device silently fell back to the simulation instead
-// of admitting it had nothing. Codex ch.4 (Fail-Closed) and ch.11 forbid
+// of admitting it had nothing. Codex ch.4 (Fail-Closed) and ch.13 forbid
 // that: an unreadable source must land in an honest `loading` / `empty`
 // state, never in a fabrication.
 //

@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-# idle-sensor-probe.ps1 -- Codex ch.13 stage-3 OS-idle + process-table probe.
+# idle-sensor-probe.ps1 -- Codex ch.15 stage-3 OS-idle + process-table probe.
 # Trust-registry id: unitas.idle-sensor.probe
 # (index.html/config/security/trust-registry.json · docs/security/TRUST_REGISTRY.md)
 #

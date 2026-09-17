@@ -25,7 +25,7 @@ import {
  * the E2E contract (rev29-verify: wikipedia + wikidata visible in the
  * sources row, googleSearch + bingSearch visible in the platform row)
  * silently rely on: the mandated heads, the disjointness of the two rows,
- * the outbound-only platform rule, the caps, the ch.6 engines in the
+ * the outbound-only platform rule, the caps, the ch.7 engines in the
  * default row, and a bare term reaching every id as a real search URL.
  */
 
@@ -52,8 +52,8 @@ const SLOT_KEYS: Record<SlotKey, true> = {
   uRanking: true,
 };
 
-/** Codex ch.6: the ten omni-business engines the default platform row must always carry. */
-const CH6_ENGINES: readonly SourceId[] = [
+/** Codex ch.7: the ten omni-business engines the default platform row must always carry. */
+const CH7_ENGINES: readonly SourceId[] = [
   'googleSearch',
   'naverSearch',
   'yandex',
@@ -169,8 +169,8 @@ describe('REV-34 omni-open families', () => {
     }
   });
 
-  it('the default platform row carries the ten omni-business engines of Codex ch.6', () => {
-    for (const id of CH6_ENGINES) expect(OUTBOUND_BRAND_ROW, id).toContain(id);
+  it('the default platform row carries the ten omni-business engines of Codex ch.7', () => {
+    for (const id of CH7_ENGINES) expect(OUTBOUND_BRAND_ROW, id).toContain(id);
   });
 
   it('the compact slice of every family is a usable pair of rows', () => {

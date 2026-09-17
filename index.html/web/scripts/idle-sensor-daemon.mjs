@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // ---------------------------------------------------------------------------
-// idle-sensor-daemon.mjs -- Codex ch.13 stage-3 executor (REV-35 M2, founder
+// idle-sensor-daemon.mjs -- Codex ch.15 stage-3 executor (REV-35 M2, founder
 // directive 2026-09-16, SPEC.md D-9 / D-10).
 //
 // Until REV-35 the doctrine's stage 3 ("after 10 idle minutes, run the

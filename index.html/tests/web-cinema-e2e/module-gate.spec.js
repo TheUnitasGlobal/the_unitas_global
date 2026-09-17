@@ -15,7 +15,7 @@
 // lands on the funnel, not on /locked. That is strictly safer and it is what
 // the first test below asserts. To keep testing the COIN gate itself, the
 // second test drives it with an indexer user agent, which the funnel gate
-// passes through (Codex ch.13) and the coin gate then fences exactly as
+// passes through (Codex ch.7) and the coin gate then fences exactly as
 // before. Both layers are covered, in the order a request meets them.
 
 const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
@@ -32,7 +32,7 @@ test.describe('page-level module coin gate', () => {
   });
 
   test('the coin gate still 307s to /locked, carrying no module payload', async ({ browser }) => {
-    // An indexer passes the funnel gate (Codex ch.13) and therefore meets the
+    // An indexer passes the funnel gate (Codex ch.7) and therefore meets the
     // coin gate -- the only way to exercise this layer now that the funnel
     // seals ordinary traffic ahead of it.
     const ctx = await browser.newContext({

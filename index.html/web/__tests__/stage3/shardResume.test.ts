@@ -10,7 +10,7 @@ import {
   SWEEP_PROJECTS,
 } from '../../scripts/idle-sensor-core.mjs';
 
-// REV-39 M1 -- the "준비"/Resume semantics of Codex ch.13. Every sweep before
+// REV-39 M1 -- the "준비"/Resume semantics of Codex ch.15. Every sweep before
 // this shipped ended `cancelled`, because a ~1.5 h 3-engine pass never fit in a
 // real idle window and the whole run was discarded. Sharding per project plus a
 // checkpoint means an interruption costs one project, not the suite.
