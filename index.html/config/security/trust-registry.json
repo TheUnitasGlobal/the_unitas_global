@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "doctrine": "Codex v37.0 ch.4 (Zero-Hands / Fail-Closed) + ch.13 stage 3 (idle-sensor) + ch.7 (auto-quarantine must not kill founder-authorized automation). REV-36 M1.",
+  "doctrine": "Codex v41.0 ch.4 (Sole Absolute Governing Agent / Zero-Hands / Self-Resurrecting Daemon) + ch.14 stage 3 (idle-sensor) + ch.7 (auto-quarantine must not kill founder-authorized automation) + ch.10 (sovereign memory backup). REV-36 M1, renumbered for v41.0.",
   "authorizedBy": "Dooyeong Hwang (founder) -- REV-35 D-11 + REV-36 M1 directive, 2026-09-16",
   "authorizedAt": "2026-09-16",
   "updatedAt": "2026-09-16T20:45:16.251Z",
@@ -12,8 +12,8 @@
       "trigger": "AtLogOn (current user, interactive)",
       "principal": "current user / Interactive / Limited (no elevation)",
       "action": "powershell -NoProfile -WindowStyle Hidden -Command \"& node index.html/web/scripts/idle-sensor-daemon.mjs\"",
-      "purpose": "Codex ch.13 stage 3 executor: after 10 idle minutes runs the 3-engine Playwright sweep at idle priority and cancels it the instant founder activity resumes. Model-free, token 0, cost 0.",
-      "doctrine": "ch.13 stage 3",
+      "purpose": "Codex ch.14 stage 3 executor: after 10 idle minutes runs the 3-engine Playwright sweep at idle priority and cancels it the instant founder activity resumes. Model-free, token 0, cost 0.",
+      "doctrine": "ch.14 stage 3",
       "allowed": [
         "read ~/.claude/projects/**/*.jsonl mtime, .git signal files, web/ worktree mtime",
         "run the on-disk idle probe (unitas.idle-sensor.probe)",
@@ -36,8 +36,8 @@
       "trigger": "Daily",
       "principal": "current user / Limited",
       "action": "powershell -File index.html/web/scripts/install-review-archive-task.ps1 -> node scripts/review-agent-archive.mjs",
-      "purpose": "Codex ch.12 review-agent briefing archive: rolls up the daily review-agent output. Local, model-free.",
-      "doctrine": "ch.12",
+      "purpose": "Codex ch.13 review-agent briefing archive: rolls up the daily review-agent output. Local, model-free.",
+      "doctrine": "ch.13",
       "allowed": [
         "read and archive review-agent briefing output under the repo"
       ],
@@ -53,7 +53,7 @@
       "id": "unitas.idle-sensor.daemon",
       "path": "web/scripts/idle-sensor-daemon.mjs",
       "purpose": "The stage-3 executor process (long-running Node daemon).",
-      "doctrine": "ch.13 stage 3",
+      "doctrine": "ch.14 stage 3",
       "sha256": "9686eead38c8aed199bd1748931161363c662a144f74dcde2400301afabd39c0"
     },
     {
@@ -61,7 +61,7 @@
       "id": "unitas.idle-sensor.core",
       "path": "web/scripts/idle-sensor-core.mjs",
       "purpose": "Pure idle/cancel/classify decision functions (no fs/process/clock).",
-      "doctrine": "ch.13 stage 3",
+      "doctrine": "ch.14 stage 3",
       "sha256": "44c14d18170040a7b29a1a8b6c7d8129109c00032239128aea6d2b9b77f414f7"
     },
     {
@@ -69,7 +69,7 @@
       "id": "unitas.idle-sensor.probe",
       "path": "web/scripts/idle-sensor-probe.ps1",
       "purpose": "On-disk OS-idle + process-table probe. Compiles UnitasLastInput.dll once, then loads it -- inspectable, not in-memory.",
-      "doctrine": "ch.13 stage 3 / REV-36 M1",
+      "doctrine": "ch.14 stage 3 / REV-36 M1",
       "sha256": "9e135dfa9191f34752e3dc328a64a789278c87ee35325040f122bb5f4c9f6e04"
     },
     {
@@ -77,7 +77,7 @@
       "id": "unitas.idle-sensor.installer",
       "path": "web/scripts/install-idle-sensor-task.ps1",
       "purpose": "At-logon Task Scheduler registrar for UnitasIdleSensorStage3.",
-      "doctrine": "ch.13 stage 3",
+      "doctrine": "ch.14 stage 3",
       "sha256": "bac70698975b666df6887a8ceaf1ddd4308eccab61a9c1046b8d14a90d3ae209"
     },
     {
@@ -101,7 +101,7 @@
       "id": "unitas.review-archive.installer",
       "path": "web/scripts/install-review-archive-task.ps1",
       "purpose": "Daily Task Scheduler registrar for UnitasReviewAgentArchive.",
-      "doctrine": "ch.12",
+      "doctrine": "ch.13",
       "sha256": "3ca9a3487b533e927cabe6e22e3ef3018eefb3f831fd42e70a0aeba844610243"
     },
     {
@@ -109,7 +109,7 @@
       "id": "unitas.review-archive.script",
       "path": "web/scripts/review-agent-archive.mjs",
       "purpose": "The review-agent briefing archive worker.",
-      "doctrine": "ch.12",
+      "doctrine": "ch.13",
       "sha256": "b1520adf94bbab8b24f54ab5c0396d7e80218542f8c4cbf78849507c4c3e2dfb"
     },
     {
@@ -118,7 +118,7 @@
       "path": "web/scripts/stage3-brief.mjs",
       "optional": true,
       "purpose": "SessionStart brief CLI (REV-36 M2). Optional until lane B lands.",
-      "doctrine": "ch.13 stage 3 / REV-36 M2",
+      "doctrine": "ch.14 stage 3 / REV-36 M2",
       "sha256": "8b2cf94a7f6e49096350dbb66729a4d501e2dc08500d13bf5632a57e4d501c69"
     },
     {
@@ -127,7 +127,7 @@
       "path": "web/scripts/stage3-brief-core.mjs",
       "optional": true,
       "purpose": "Pure brief formatter (REV-36 M2). Optional until lane B lands.",
-      "doctrine": "ch.13 stage 3 / REV-36 M2",
+      "doctrine": "ch.14 stage 3 / REV-36 M2",
       "sha256": "296f1ec06511ab97114d8eb845bcc3d64c231cd1950935e740851b6421bb6739"
     },
     {
@@ -143,7 +143,7 @@
       "id": "unitas.claude-mem.backup",
       "path": "web/scripts/claude-mem-backup.mjs",
       "purpose": "Encrypted (AES-256-GCM) snapshot of the claude-mem permanent memory.",
-      "doctrine": "ch.12 / REV-39 M2",
+      "doctrine": "ch.10 / REV-39 M2",
       "sha256": "488b4d6587ea07dc96756cd3ffb79eac1a8119cb43cdf987a4b682cb3b105d4f"
     },
     {
@@ -151,7 +151,7 @@
       "id": "unitas.claude-mem.restore",
       "path": "web/scripts/claude-mem-restore.mjs",
       "purpose": "Integrity-verified restore of an encrypted memory archive.",
-      "doctrine": "ch.12 / REV-39 M2",
+      "doctrine": "ch.10 / REV-39 M2",
       "sha256": "ff1f016bca00bebe56349e592e159c620b92f02ad635a22254f360817e4f9f82"
     },
     {
@@ -159,7 +159,7 @@
       "id": "unitas.claude-mem.installer",
       "path": "web/scripts/install-mem-backup-task.ps1",
       "purpose": "Daily Task Scheduler registrar for UnitasMemBackup.",
-      "doctrine": "ch.12 / REV-39 M2",
+      "doctrine": "ch.10 / REV-39 M2",
       "sha256": "7662500f38535e93525b760cea25c24eeabd8950c1d5b6f9f6a2206b5f83128d"
     },
     {
@@ -169,8 +169,8 @@
       "trigger": "Daily",
       "principal": "current user / Interactive / Limited",
       "action": "powershell -NoProfile -WindowStyle Hidden -Command \"& node index.html/web/scripts/claude-mem-backup.mjs\"",
-      "purpose": "Codex ch.12: daily encrypted backup of the permanent memory so a single disk loss cannot erase it.",
-      "doctrine": "ch.12 / REV-39 M2",
+      "purpose": "Codex ch.10: daily encrypted backup of the permanent memory so a single disk loss cannot erase it.",
+      "doctrine": "ch.10 / REV-39 M2",
       "allowed": [
         "read ~/.claude-mem",
         "write encrypted archives to the configured vault directory"

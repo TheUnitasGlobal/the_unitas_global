@@ -1,10 +1,10 @@
-# 3단계 유휴 감지 데몬 (Codex 제13장 3단계 실행체) -- REV-35 M2
+# 3단계 유휴 감지 데몬 (Codex 제14장 3단계 실행체) -- REV-35 M2
 
 정본 위치: `index.html/docs/stage3/README.md` · 지령: SPEC.md D-9 / D-10 / D-11 (2026-09-16)
 
 ## 무엇인가
 
-Codex v37.0 제13장 3단계 -- "최종 보고 후 또는 마지막 명령 후 10분간 활동이 없으면 백그라운드에서 3엔진(Chromium · WebKit · Mobile) 전수 검증을 조용히 구동하고, 창립자가 명령을 내리면 즉시 강제 중단" -- 의 **유일한 실행체**다. v37 감사(`memory/v37-doctrine-audit-findings.md` L30)가 확인했듯 REV-35 이전에는 하네스만 있고 그것을 부르는 주체가 0이었다.
+Codex v41.0 제14장 3단계(구 v37.0 제13장) -- "최종 보고 후 또는 마지막 명령 후 10분간 활동이 없으면 백그라운드에서 3엔진(Chromium · WebKit · Mobile) 전수 검증을 조용히 구동하고, 창립자가 명령을 내리면 즉시 강제 중단" -- 의 **유일한 실행체**다. v37 감사(`memory/v37-doctrine-audit-findings.md` L30)가 확인했듯 REV-35 이전에는 하네스만 있고 그것을 부르는 주체가 0이었다.
 
 세 파일로 구성된다.
 
@@ -14,7 +14,7 @@ Codex v37.0 제13장 3단계 -- "최종 보고 후 또는 마지막 명령 후 1
 | `web/scripts/idle-sensor-daemon.mjs` | 장기 구동 Node 프로세스. 신호를 수집하고 코어가 결정한 대로 스폰·중단·기록만 한다. |
 | `web/scripts/install-idle-sensor-task.ps1` | Windows 작업 스케줄러 등록기(`UnitasIdleSensorStage3`, 로그온 시 자동 기동). |
 
-데몬은 **모델을 실행하지 않는다**(토큰 0, 0원). 제13장의 강제 티어 "SONNET 5 / HIGH"는 결과를 **읽는** 에이전트에 귀속된다 -- `docs/stage3/READER.md` 첫 줄.
+데몬은 **모델을 실행하지 않는다**(토큰 0, 0원). 제14장의 강제 티어 "SONNET 5 / HIGH"는 결과를 **읽는** 에이전트에 귀속된다 -- `docs/stage3/READER.md` 첫 줄.
 
 ## 어디에 기록되는가
 

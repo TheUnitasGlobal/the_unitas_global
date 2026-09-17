@@ -28,8 +28,8 @@ const { test, expect } = require('@playwright/test');
 //
 // COVERAGE, STATED HONESTLY: tests/web-cinema.config.js declares SIX projects
 // (chromium, webkit, mobile-chrome, tablet, inapp-kakao, inapp-instagram). As of
-// REV-40 this file has only ever been MEASURED on chromium -- the 제13장 2단계
-// target run. The other five projects are the 제13장 3단계 idle-daemon sweep's
+// REV-40 this file has only ever been MEASURED on chromium -- the 제14장 2단계
+// target run. The other five projects are the 제14장 3단계 idle-daemon sweep's
 // business, and nothing here may be claimed for them until that sweep reports.
 // (The previous header claimed "every assertion runs on chromium, webkit and
 // mobile-chrome": wrong in the count and wrong in the tense.)

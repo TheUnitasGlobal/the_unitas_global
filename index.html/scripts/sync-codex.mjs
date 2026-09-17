@@ -52,8 +52,8 @@ const COPY_FILES = [
 // Files that do NOT carry the verbatim block but DO transcribe the chapter
 // structure in their own prose. `--write` cannot repair these -- they are
 // hand-written summaries -- so all this gate can do is prove they are not
-// stale, which is exactly the failure that has recurred six times
-// (v17.0, v19.0, v20.0, v23.0, v26.0, v37.0): the canon moves, the verbatim
+// stale, which is exactly the failure that has recurred seven times
+// (v17.0, v19.0, v20.0, v23.0, v26.0, v37.0, v41.0): the canon moves, the verbatim
 // copies get re-written, and these five keep citing the superseded edition.
 //
 // `.aider.conf.yml` is gitignored, and none of these are guaranteed to exist
