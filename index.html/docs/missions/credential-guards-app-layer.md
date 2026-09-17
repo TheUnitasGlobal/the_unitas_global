@@ -221,3 +221,11 @@ HTTP 상태는 이미 옳다(200 + `unchecked`). 결함은 **메커니즘**이�
 - `sb_publishable_` / `sb_secret_` 신형 Supabase 키 형식은 **받지 않는다.** 이쪽만 넓히면 핀된 정본과 패리티가 깨진다. 키 형식을 이전하게 되면 **`credential-core.mjs`를 먼저 넓히고 → 재각인 → 그다음 미러링**하는 순서를 지킬 것.
 - `validateSupabaseUrl`은 https 전용이고 경로 세그먼트를 거부한다. 로컬 `supabase start` 스택(`http://localhost:54321`)은 이제 throw한다. 저장소에 http Supabase URL은 현재 0건이다.
 - `scripts/deploy-supabase.ps1`에는 자동 테스트가 없다(PowerShell 하네스 부재). 파서 검사와 헬퍼 진리표는 수동 실측이다.
+
+### 6.9 창립자 결재
+
+**2026-09-17 — 창립자 황두영, 최종 완결 종합 보고에 승인 키워드 `Ok` 하달(제16장 공식 오피셜 통제).**
+
+이 결재는 §6.1의 게이트 4종(typecheck · test 2243 · build · trust:verify, 전부 EXIT 0)과 커밋 `e7a0e45`의 프로덕션 배포에 대한 승인이다.
+
+**결재가 덮지 않는 것:** 수용 조건 5(3엔진 스윕 완주)는 여전히 미측정이다. 승인 키워드는 측정을 대체하지 않으므로(제13장) 큐 상태는 `in-progress`로 유지한다. `test-results/stage3/latest.md`에 새 `BUILD_ID@HEAD` 기록이 남은 뒤에만 `done`으로 옮긴다.
