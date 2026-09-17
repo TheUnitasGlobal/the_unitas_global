@@ -1,7 +1,8 @@
 # [최종 완결 종합 보고서] Codex v41.0 Absolute Infinite Paradigm Edition — 16장 체계 정독·각인·전파
 
 작성: 2026-09-17 · 지령: 창립자 `claude --prompt "… Ingest the ultimate sovereign master codex v41.0 … Lock this doctrine into permanent memory"` · 수행: Claude Code (제4장 단일 절대 지배 에이전트)
-커밋: `d9da653`(전파) → `24767ba`(소유권 지문 스탬프) · 푸시·배포: **제16장 오피셜 통제에 따라 창립자 `ok` 대기**
+커밋: `d9da653`(전파) → `24767ba`(소유권 지문 스탬프) → `8c304e5`(본 보고서)
+**창립자 `OK` 승인(2026-09-17) → `git push origin main` 완료(`c51f8ef..8c304e5`) → Vercel 프로덕션 배포 완료** (`dpl_2M5zxPvrnXV59cRHLYJAST215YL7`, readyState `READY`, target production). 라이브 실측: `www.theunitas.global/ownership-manifest.json` → `gitCommit 8c304e5…` · `buildFingerprint eb09b6b8bab1d401…`(로컬과 일치), 엔드포인트 5/5 HTTP 200(`/`, apex, `/robots.txt`, `/sitemap.xml`, `/ko`).
 
 ---
 
