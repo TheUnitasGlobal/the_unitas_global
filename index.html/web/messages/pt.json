@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "Perto de Si",
-        "tag": "Histórias a menos de 10 km de si"
+        "tag": "Um omni-radar soberano que gira à sua volta"
       },
       "facts": {
         "city": "Cidade",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "Novidades",
-        "tag": "Dezesseis famílias que o mundo acabou de lançar — carros, telemóveis, mobilidade, gadgets, jogos, agentes de IA, quântica, SaaS, biossaúde, neurotecnologia, espaço, XR, DeFi, ecoenergia, equipamento nômade e robôs"
+        "tag": "Um nexo multidimensional de hardware hiperinovador e dispositivos quânticos que aproximam o futuro"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "A escada UNITAS, reescrita todos os dias pela eficiência Micro-Burn, vendas de conhecimento e contribuição nómada"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "Ainda não há mensagens. Diga a primeira palavra."
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "Com sessão terminada, as contagens de gostos e seguidores não são visíveis."
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "A sua moeda local",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "vs. ontem",
+      "change30d": "vs. há 30 dias",
+      "sparkAria": "Tendência de 30 dias de {quote}",
+      "majors": "Painel macro global",
+      "parity": "Paridade cripto",
+      "dollarIndex": "Índice de força do dólar",
+      "dollarIndexNote": "Aproximação ponderada DXY de 6 moedas de referência do ECB · há 30 dias = 100",
+      "gold": "Ouro (PAXG)",
+      "unreadable": "Não é possível ler o sinal cambial · tente novamente daqui a pouco",
+      "facts": {
+        "home": "Moeda local",
+        "pairs": "Pares cambiais"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "Global"
+      },
+      "radiusAria": "Raio de deteção",
+      "facts": {
+        "radius": "Raio de deteção",
+        "detected": "Locais detetados",
+        "nearest": "Mais próximo",
+        "beams": "Feixes de varrimento"
+      },
+      "lens": {
+        "nomad": "Pontos de encontro nómada",
+        "factory": "Espaços de trabalho de fábrica de IA",
+        "inspiration": "Recantos escondidos de inspiração",
+        "signal": "Sinais"
+      },
+      "radarAria": "Omni-radar centrado em {center} · raio {radius}",
+      "center": "Centro",
+      "constellation": "Nexo Nómada UNITAS · 16 hubs",
+      "constellationNote": "16 hubs soberanos de nómadas digitais no mundo · distância medida a partir de si",
+      "empty": "Nenhum local detetado neste raio",
+      "unreadable": "Não é possível ler o sinal do radar · tente novamente daqui a pouco",
+      "exact": "Distância medida · 0% de erro de raio"
+    },
+    "tabs": {
+      "rotating": "Os subtemas rodam automaticamente · toque para fixar",
+      "held": "Fixado · toque novamente para retomar a rotação"
     }
   }
 }

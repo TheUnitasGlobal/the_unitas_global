@@ -7,7 +7,7 @@ const { test, expect } = require('@playwright/test');
 // ExitGuard's sentinel buffer (the exit confirm).
 
 const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
-const { expectRetiredRankingsGone } = require('./_rev35Retired');
+const { expectRetiredURankingGone } = require('./_rev41Retired');
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();
 const skipButton = (page) => page.locator('button:has(.cs-skip-aurora)');
 
@@ -82,73 +82,57 @@ test.describe('REV-19 deep modal history stack', () => {
     await expect(page.locator('#exit-guard-title')).toBeVisible({ timeout: 5_000 });
   });
 
-  // REV-35 M1 (D-1/D-4/D-8): the REV-21 world-ranking slot, its deep modal
-  // and its rank-detail popup are DELETED, not hidden -- the carousel's seat
-  // twelve is now `uRanking`, whose card body is the compact U-Rankings rail
-  // (URankingsShorts, `data-urank-variant="compact"`). Tapping a rail card
-  // opens the U-Ranking deep modal (`#uranking-deep-title`, the FULL rail)
-  // AND, one commit later, the entry popup (`#unitas-urank-title`) on top of
-  // it: the compact rail delegates the tap through `onSelect` because the
-  // rotating card body may never own a popup, and the deep modal applies
-  // `initialOpenId` in a post-mount effect so its own history layer parks
-  // FIRST. Two levels above the hub, unwound one per back press. The D-8
-  // zero sweep (_rev35Retired.js) runs with the hub open AND with both
-  // ranking layers open.
-  test('a U-Ranking entry popup opened from the carousel card stacks above the U-Ranking deep modal', async ({ page }) => {
+  // REV-41 D-7 (founder directive 2026-09-17, 1-F): the REV-35 U-Ranking
+  // seat is DELETED from the discovery rail -- the slot, its compact rail,
+  // its deep modal and the entry popup that used to stack above it. The
+  // two-level claim that lived here went with the surface; what this rail
+  // still has to prove is the ONE level every feed deep modal parks, and
+  // `newProducts` is the seat to prove it on (the FeedDeepModal, size xl,
+  // which rev25-crossplatform now measures as the widest dialog on the
+  // rail), opened through its title (REV-34 M1-C: one click). The D-7
+  // zero sweep (_rev41Retired.js) runs with the hub open AND with the
+  // modal open.
+  test('the newProducts deep modal opened from its title is ONE level above the hub, unwound by one back press', async ({ page }) => {
     await reachHome(page);
     await page.locator('#omni-synapse-search input[type="text"]').click();
     await page.waitForTimeout(600);
-    await page.locator('[data-slot="uRanking"]').click();
-    await page.waitForTimeout(400);
-    const card = page.locator('[data-slot-card="uRanking"][data-slot-kind="uRanking"]');
+    await expect(page.locator('[data-live-hub]')).toBeVisible();
+
+    // Pin the seat: a free-running carousel would make WHICH modal opens a
+    // race with the clock.
+    await page.locator('[data-slot="newProducts"]').click();
+    await page.waitForTimeout(500);
+    const card = page.locator('[data-slot-card="newProducts"]');
     await expect(card).toBeVisible();
-    // The card body IS the compact rail: twelve cards and nothing else --
-    // no module filter chips, and no product-family tab rail either (the
-    // slot declares no `tabs`; nothing sits between the title row and it).
-    const compactRail = card.locator('[data-unitas-urankings][data-urank-variant="compact"] [data-urank-rail]');
-    await expect(compactRail).toBeVisible();
-    await expect(compactRail.locator('[data-urank]')).toHaveCount(12);
-    await expect(card.locator('[data-urank-filter]')).toHaveCount(0);
-    await expect(card.locator('[role="tablist"]')).toHaveCount(0);
-    await expectRetiredRankingsGone(page);
+    await expectRetiredURankingGone(page);
 
-    await card.locator('[data-urank-rail] [data-urank]').first().click();
-    await expect(page.locator('#uranking-deep-title')).toBeVisible({ timeout: 5_000 });
-    await expect(page.locator('#unitas-urank-title')).toBeVisible({ timeout: 5_000 });
-    await expectRetiredRankingsGone(page);
-    // POLLED, not a fixed 300ms settle. The two dialogs park one after the
-    // other (the entry popup opens one commit after the deep modal, by
-    // design) and each park costs a frame; at ~600ms a frame on this
-    // harness's WebKit, 300ms is not even one. The claim is unchanged --
-    // three levels, in this order -- it is just allowed to arrive.
-    await expect.poll(async () => (await stack(page)).length, { timeout: 30_000 }).toBeGreaterThanOrEqual(3);
-    const before = await stack(page);
-    expect(before.length).toBeGreaterThanOrEqual(3);
-    expect(before[before.length - 1]).toMatch(/^modal:unitas-urank-title/);
-    expect(before[before.length - 2]).toMatch(/^modal:uranking-deep-title/);
-    // REV-21 M5b (bc99f93) replaced REV-19's [data-discovery-links] strip with
-    // the omni-open block on every U-AI popup; same contract, new hook.
-    await expect(page.locator('[data-omni-open]').first()).toBeVisible();
+    const title = card.locator('.qw-hub-card-title .qw-hub-title-hit');
+    await expect(title).toBeVisible({ timeout: 20_000 });
+    await title.click();
+    await expect(page.locator('#feed-deep-title')).toBeVisible({ timeout: 8_000 });
+    await expectRetiredURankingGone(page);
+    // POLLED, not a fixed settle: the park costs a frame, and a frame on this
+    // harness's WebKit is ~600ms. The claim is that the modal is the TOP
+    // entry -- exactly one level of its own above whatever the hub parked.
+    await expect
+      .poll(async () => {
+        const s = await stack(page);
+        return s[s.length - 1] || '';
+      }, { timeout: 30_000 })
+      .toMatch(/^modal:feed-deep-title/);
+    const opened = await stack(page);
+    expect(opened.filter((entry) => /^modal:feed-deep-title/.test(entry))).toHaveLength(1);
 
-    // Back closes the entry popup only; the deep modal (and the hub) stay.
+    // One back press closes the modal and only the modal: the hub stays, the
+    // stack is exactly one entry shorter, and the exit confirm never shows.
     await page.goBack();
     await page.waitForTimeout(500);
-    await expect(page.locator('#unitas-urank-title')).toHaveCount(0);
-    await expect(page.locator('#uranking-deep-title')).toBeVisible();
-    await expect(page.locator('#exit-guard-title')).toHaveCount(0);
-    expect((await stack(page)).length).toBe(before.length - 1);
-
-    // Inside the deep modal the rail is the hub panel verbatim (full
-    // variant): a card reopens the entry popup as a level of its own.
-    await page.locator('[data-slot-modal="uRanking"] [data-urank-rail] [data-urank]').nth(1).click();
-    await expect(page.locator('#unitas-urank-title')).toBeVisible({ timeout: 5_000 });
-    await page.goBack();
-    await page.waitForTimeout(500);
-    await page.goBack();
-    await page.waitForTimeout(500);
-    await expect(page.locator('#uranking-deep-title')).toHaveCount(0);
+    await expect(page.locator('#feed-deep-title')).toHaveCount(0);
     await expect(page.locator('[data-live-hub]')).toBeVisible();
     await expect(page.locator('#exit-guard-title')).toHaveCount(0);
+    await expect.poll(async () => (await stack(page)).length, { timeout: 30_000 }).toBe(opened.length - 1);
+    expect((await stack(page)).some((entry) => /^modal:feed-deep-title/.test(entry))).toBe(false);
+    await expectRetiredURankingGone(page);
   });
 
   // REV-20 §3 replaced REV-19's live-hub card wall with the discovery

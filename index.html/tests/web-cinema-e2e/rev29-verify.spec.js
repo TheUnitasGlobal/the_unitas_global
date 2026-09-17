@@ -138,16 +138,34 @@ test.describe('REV-29 M2 -- the news rail is the shortcut rail', () => {
     await expect(story.locator('[data-news-open-original]')).toBeVisible();
   });
 
-  test('M2.4 / REV-31: the omni-open pair closes the news block -- sources row directly above the platform row, one identical title', async ({ page }) => {
+  // REV-41 1-A (founder directive 2026-09-17): the omni-open pair UNDER the
+  // news card on the default popup is deleted for good; the pair inside the
+  // axis popup, the story popup and the deep-dive modals stays. The REV-31
+  // claims below (sources row directly above the platform row, one
+  // identical title) are unchanged -- they are measured inside the axis
+  // popup now, because that is the only place on this block the pair lives.
+  test('M2.4 / REV-31 / REV-41 1-A: no omni-open under the news card; the axis popup keeps the pair -- sources row directly above the platform row, one identical title', async ({ page }) => {
     await founderHome(page);
     await openEmptyPopup(page);
-    const block = page.locator('[data-news-block] [data-omni-open]').first();
-    await expect(block).toBeVisible();
+    await expect(page.locator('[data-news-block]')).toBeVisible();
+
+    // REV-41 1-A: with no popup open, the news block carries no omni-open.
+    await expect(page.locator('[role="dialog"]')).toHaveCount(0);
+    await expect(page.locator('[data-news-block] [data-omni-open]'), 'the card-level omni-open pair was deleted by REV-41 1-A').toHaveCount(0);
 
     // REV-31 M1: the lens grid is gone from the shipped DOM, everywhere.
     expect(await page.locator('[data-explore-deeper]').count(), 'the Explore Deeper block').toBe(0);
     expect(await page.locator('[data-deeper-theme]').count(), 'a lens tile').toBe(0);
     expect(await page.locator('[data-omni-swarm]').count(), 'the swarm field').toBe(0);
+
+    // The axis popup, opened through the news card title (REV-34 M1-C: one
+    // click), carries exactly one pair -- the one measured below.
+    await page.locator('[data-news-card] .qw-hub-card-title .qw-hub-title-hit').click();
+    const modal = page.locator('[data-news-modal]');
+    await expect(modal).toBeVisible();
+    await expect(modal.locator('[data-omni-open]')).toHaveCount(1);
+    const block = modal.locator('[data-omni-open]').first();
+    await expect(block).toBeVisible();
 
     const sources = block.locator('[data-omni-row="sources"]');
     const platforms = block.locator('[data-omni-row="platforms"]');
@@ -207,10 +225,11 @@ test.describe('REV-29 M3 -- the new-products theme', () => {
     const chips = page.locator('[data-live-hub] .qw-hub-strip [data-slot]');
     await expect(chips.first()).toBeVisible();
     expect(await chips.nth(1).getAttribute('data-slot')).toBe('newProducts');
-    // REV-35 M1 (D-1): sixteen seats -- 유랭킹 took the world ranking's seat
-    // twelve and the module-ranking seat was removed outright.
-    expect(await chips.count()).toBe(16);
-    expect(await chips.nth(12).getAttribute('data-slot')).toBe('uRanking');
+    // REV-41 D-7 (1-F): fifteen seats -- the REV-35 유랭킹 seat twelve is
+    // retired outright, so `air` moves up into it and nothing takes its place.
+    expect(await chips.count()).toBe(15);
+    expect(await chips.nth(12).getAttribute('data-slot')).toBe('air');
+    await expect(page.locator('[data-live-hub] [data-slot="uRanking"]')).toHaveCount(0);
   });
 });
 

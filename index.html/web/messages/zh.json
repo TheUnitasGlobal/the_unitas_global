@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "附近",
-        "tag": "身边10公里内的故事"
+        "tag": "以你为中心旋转的主权全向雷达"
       },
       "facts": {
         "city": "城市",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "全球新品",
-        "tag": "世界刚刚发布的16大品类——汽车、手机、出行、数码、游戏、AI智能体、量子、SaaS、生物健康、神经科技、航天、XR、DeFi、绿色能源、游牧装备和机器人"
+        "tag": "把未来拉近的超创新硬件与量子设备的多维枢纽"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "由微燃效率、知识销售与游牧贡献每日重写的 UNITAS 阶梯"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "还没有消息。来说第一句话吧。"
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "退出登录时无法查看点赞和关注数。"
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "接入地货币",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "较前一日",
+      "change30d": "较30天前",
+      "sparkAria": "{quote} 30天走势",
+      "majors": "全球宏观看板",
+      "parity": "加密货币平价",
+      "dollarIndex": "美元强度指数",
+      "dollarIndexNote": "基于 ECB 参考汇率 6 种货币的 DXY 加权近似 · 30天前 = 100",
+      "gold": "黄金 (PAXG)",
+      "unreadable": "无法读取汇率信号 · 请稍后再试",
+      "facts": {
+        "home": "本币",
+        "pairs": "货币对"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "全球"
+      },
+      "radiusAria": "探测半径",
+      "facts": {
+        "radius": "探测半径",
+        "detected": "探测到的地点",
+        "nearest": "最近",
+        "beams": "扫描波束"
+      },
+      "lens": {
+        "nomad": "游牧者聚会地点",
+        "factory": "AI 工厂工作空间",
+        "inspiration": "灵感隐秘地点",
+        "signal": "信号"
+      },
+      "radarAria": "以 {center} 为中心的全向雷达 · 半径 {radius}",
+      "center": "中心",
+      "constellation": "UNITAS 游牧枢纽 · 16 个中心",
+      "constellationNote": "全球 16 个主权数字游牧枢纽 · 与你的实测距离",
+      "empty": "此半径内未探测到地点",
+      "unreadable": "无法读取雷达信号 · 请稍后再试",
+      "exact": "实测距离 · 半径误差 0%"
+    },
+    "tabs": {
+      "rotating": "子主题自动轮换 · 点按即可固定",
+      "held": "已固定 · 再次点按恢复轮换"
     }
   }
 }

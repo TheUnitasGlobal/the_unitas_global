@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "Yakınlarda",
-        "tag": "Sizden 10 km uzaklıktaki makaleler"
+        "tag": "Etrafınızda dönen egemen bir omni-radar"
       },
       "facts": {
         "city": "Şehir",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "Yeni ürünler",
-        "tag": "Dünyanın az önce piyasaya sürdüğü on altı aile — arabalar, telefonlar, mobilite, gadget’lar, oyunlar, yapay zekâ ajanları, kuantum, SaaS, biyo-sağlık, nöroteknoloji, uzay, XR, DeFi, eko enerji, nomad ekipmanı ve robotlar"
+        "tag": "Geleceği yakınlaştıran hiper-yenilikçi donanım ve kuantum cihazlarının çok boyutlu neksusu"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "Micro-Burn verimliliği, bilgi satışları ve göçebe katkısıyla her gün yeniden yazılan UNITAS merdiveni"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "Henüz mesaj yok. İlk sözü siz söyleyin."
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "Oturum kapalıyken beğeni ve takip sayıları görüntülenemez."
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "Yerel para biriminiz",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "düne göre",
+      "change30d": "30 gün öncesine göre",
+      "sparkAria": "{quote} 30 günlük eğilim",
+      "majors": "Küresel makro panosu",
+      "parity": "Kripto paritesi",
+      "dollarIndex": "Dolar gücü endeksi",
+      "dollarIndexNote": "6 ECB referans para biriminden DXY ağırlıklı yaklaşım · 30 gün önce = 100",
+      "gold": "Altın (PAXG)",
+      "unreadable": "Döviz sinyali okunamıyor · lütfen az sonra tekrar deneyin",
+      "facts": {
+        "home": "Yerel para birimi",
+        "pairs": "Döviz çiftleri"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "Küresel"
+      },
+      "radiusAria": "Algılama yarıçapı",
+      "facts": {
+        "radius": "Algılama yarıçapı",
+        "detected": "Algılanan noktalar",
+        "nearest": "En yakın",
+        "beams": "Tarama ışınları"
+      },
+      "lens": {
+        "nomad": "Göçebe buluşma noktaları",
+        "factory": "Yapay zekâ fabrikası çalışma alanları",
+        "inspiration": "Gizli ilham noktaları",
+        "signal": "Sinyaller"
+      },
+      "radarAria": "{center} merkezli omni-radar · yarıçap {radius}",
+      "center": "Merkez",
+      "constellation": "UNITAS Göçebe Neksusu · 16 merkez",
+      "constellationNote": "Dünya genelinde 16 egemen dijital göçebe merkezi · sizden ölçülen mesafe",
+      "empty": "Bu yarıçapta algılanan nokta yok",
+      "unreadable": "Radar sinyali okunamıyor · lütfen az sonra tekrar deneyin",
+      "exact": "Ölçülen mesafe · %0 yarıçap hatası"
+    },
+    "tabs": {
+      "rotating": "Alt temalar otomatik döner · sabitlemek için dokunun",
+      "held": "Sabitlendi · dönüşü sürdürmek için tekrar dokunun"
     }
   }
 }

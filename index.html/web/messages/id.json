@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "Terdekat",
-        "tag": "Artikel dalam radius 10 km dari Anda"
+        "tag": "Omni-radar berdaulat yang berputar di sekitar Anda"
       },
       "facts": {
         "city": "Kota",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "Produk baru",
-        "tag": "Enam belas keluarga yang baru dirilis dunia — mobil, ponsel, mobilitas, gadget, gim, agen AI, kuantum, SaaS, bio-kesehatan, neuroteknologi, antariksa, XR, DeFi, energi hijau, perlengkapan nomaden, dan robot"
+        "tag": "Neksus multidimensi dari perangkat keras hiperinovatif dan perangkat kuantum yang mendekatkan masa depan"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "Tangga UNITAS, ditulis ulang setiap hari oleh efisiensi Micro-Burn, penjualan pengetahuan, dan kontribusi nomaden"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "Belum ada pesan. Sampaikan kata pertama."
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "Saat keluar akun, jumlah suka dan pengikut tidak dapat dibaca."
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "Mata uang lokal Anda",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "vs. kemarin",
+      "change30d": "vs. 30 hari lalu",
+      "sparkAria": "Tren 30 hari {quote}",
+      "majors": "Papan makro global",
+      "parity": "Paritas kripto",
+      "dollarIndex": "Indeks kekuatan dolar",
+      "dollarIndexNote": "Aproksimasi berbobot DXY dari 6 mata uang acuan ECB · 30 hari lalu = 100",
+      "gold": "Emas (PAXG)",
+      "unreadable": "Sinyal kurs tidak dapat dibaca · coba lagi sebentar lagi",
+      "facts": {
+        "home": "Mata uang asal",
+        "pairs": "Pasangan mata uang"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "Global"
+      },
+      "radiusAria": "Radius deteksi",
+      "facts": {
+        "radius": "Radius deteksi",
+        "detected": "Titik terdeteksi",
+        "nearest": "Terdekat",
+        "beams": "Berkas sapuan"
+      },
+      "lens": {
+        "nomad": "Titik temu nomaden",
+        "factory": "Ruang kerja pabrik AI",
+        "inspiration": "Titik inspirasi tersembunyi",
+        "signal": "Sinyal"
+      },
+      "radarAria": "Omni-radar berpusat di {center} · radius {radius}",
+      "center": "Pusat",
+      "constellation": "Neksus Nomaden UNITAS · 16 hub",
+      "constellationNote": "16 hub nomaden digital berdaulat di seluruh dunia · jarak terukur dari Anda",
+      "empty": "Tidak ada titik terdeteksi dalam radius ini",
+      "unreadable": "Sinyal radar tidak dapat dibaca · coba lagi sebentar lagi",
+      "exact": "Jarak terukur · kesalahan radius 0%"
+    },
+    "tabs": {
+      "rotating": "Subtema berputar otomatis · tekan untuk menahan",
+      "held": "Ditahan · tekan lagi untuk melanjutkan rotasi"
     }
   }
 }

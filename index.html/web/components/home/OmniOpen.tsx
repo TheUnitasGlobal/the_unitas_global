@@ -47,13 +47,13 @@ import { omniOpenUrl, omniRowsFor, outboundSearchUrl, sourceById, sourceLabel, t
  */
 
 /** SPEC host registry -- which surface the block is placed on. REV-35 M1
- *  (D-2): `rankingDeep` became `uRankingDeep` (the carousel's U-Ranking deep
- *  modal) and the `globalRankingDetail` / `unitasProfile` hosts died with
+ *  (D-2) had turned `rankingDeep` into `uRankingDeep` (the carousel's
+ *  U-Ranking deep modal); REV-41 D-7 retired that slot and its host with it,
+ *  as the `globalRankingDetail` / `unitasProfile` hosts had died before with
  *  the legacy ranking panels that placed them. */
 export type OmniOpenHost =
   | 'weather'
   | 'feed'
-  | 'uRankingDeep'
   | 'keywordTier'
   | 'tower'
   | 'uaiPage'

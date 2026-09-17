@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "In der Nähe",
-        "tag": "Beiträge im Umkreis von 10 km"
+        "tag": "Ein souveränes Omni-Radar, das um dich kreist"
       },
       "facts": {
         "city": "Stadt",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "Neue Produkte",
-        "tag": "Sechzehn Familien, die die Welt gerade veröffentlicht hat — Autos, Handys, Mobilität, Gadgets, Spiele, KI-Agenten, Quanten, SaaS, Bio-Gesundheit, Neurotechnik, Raumfahrt, XR, DeFi, Öko-Energie, Nomaden-Ausrüstung und Roboter"
+        "tag": "Ein multidimensionaler Nexus aus hyperinnovativer Hardware und Quantengeräten, die die Zukunft näher rücken"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "Die UNITAS-Leiter, täglich neu geschrieben aus Micro-Burn-Effizienz, Wissensverkäufen und Nomaden-Beitrag"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "Noch keine Nachrichten. Sag das erste Wort."
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "Abgemeldet sind Like- und Follower-Zahlen nicht sichtbar."
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "Deine Landeswährung",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "ggü. Vortag",
+      "change30d": "ggü. vor 30 Tagen",
+      "sparkAria": "30-Tage-Trend von {quote}",
+      "majors": "Globales Makro-Board",
+      "parity": "Krypto-Parität",
+      "dollarIndex": "Dollar-Stärkeindex",
+      "dollarIndexNote": "DXY-gewichtete Näherung aus 6 ECB-Referenzwährungen · vor 30 Tagen = 100",
+      "gold": "Gold (PAXG)",
+      "unreadable": "Das Wechselkurssignal kann nicht gelesen werden · bitte gleich noch einmal versuchen",
+      "facts": {
+        "home": "Heimatwährung",
+        "pairs": "Währungspaare"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "Weltweit"
+      },
+      "radiusAria": "Erfassungsradius",
+      "facts": {
+        "radius": "Erfassungsradius",
+        "detected": "Erfasste Spots",
+        "nearest": "Nächstgelegen",
+        "beams": "Sweep-Strahlen"
+      },
+      "lens": {
+        "nomad": "Nomaden-Meetup-Spots",
+        "factory": "KI-Fabrik-Workspaces",
+        "inspiration": "Versteckte Inspirationsorte",
+        "signal": "Signale"
+      },
+      "radarAria": "Omni-Radar mit Zentrum {center} · Radius {radius}",
+      "center": "Zentrum",
+      "constellation": "UNITAS Nomaden-Nexus · 16 Hubs",
+      "constellationNote": "16 souveräne Digital-Nomaden-Hubs weltweit · gemessene Entfernung von dir",
+      "empty": "In diesem Radius wurden keine Spots erfasst",
+      "unreadable": "Das Radarsignal kann nicht gelesen werden · bitte gleich noch einmal versuchen",
+      "exact": "Gemessene Entfernung · 0 % Radiusabweichung"
+    },
+    "tabs": {
+      "rotating": "Unterthemen rotieren automatisch · antippen zum Fixieren",
+      "held": "Fixiert · erneut antippen, um weiterzurotieren"
     }
   }
 }

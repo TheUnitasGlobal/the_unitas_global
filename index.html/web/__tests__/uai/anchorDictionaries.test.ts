@@ -33,10 +33,11 @@ describe('anchor dictionaries', () => {
     expect(DEFAULT_PLACE.et.qid).toBe('Q1770'); // Tallinn
   });
 
-  it('slot QIDs stay Wikidata ids (the weather slot anchors on Q11663; the U-Ranking has none)', () => {
+  it('slot QIDs stay Wikidata ids (the weather slot anchors on Q11663; the retired U-Ranking seat has none)', () => {
     for (const qid of Object.values(SLOT_QID)) expect(qid).toMatch(QID);
     expect(SLOT_QID.weather).toBe('Q11663');
-    // The ladder is a UNITAS ledger, not an encyclopedia entry -- no bridge.
-    expect(SLOT_QID.uRanking).toBeUndefined();
+    // REV-41 D-7 retired the U-Ranking seat from the rail, so its key is no
+    // longer a SlotKey -- the guard reads the table by string on purpose.
+    expect(Object.keys(SLOT_QID)).not.toContain('uRanking');
   });
 });

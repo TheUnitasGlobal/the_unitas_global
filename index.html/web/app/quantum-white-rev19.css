@@ -1309,16 +1309,37 @@ html[data-unitas-surface='quantum-white'] .qw-swarm-frame {
 /* --------------------------------------------------------------------------
    §27. REV-34 M1-B / M1-C / M1-E (founder directive 2026-09-16) -- the
        shortcut strip's rows: one click, the ⏎ row box, the one dot.
+       REV-41 D-1 (founder directive 2026-09-17, mission 1-B) rewrote the
+       geometry: the ⏎ box is no longer pinned to the row's right end, it
+       rides the LAST GLYPH of the text like a tail, one line or two.
    The two-step title (`.qw-two-step-hit`, `data-selected`) is retired on the
    strip: a title is a plain text button that changes COLOUR on hover (no
-   ground, no ring) and opens on the first click, and a ⏎ box at the right
-   end of the title row and of every sub-info row routes to the very same
-   place. The box is the search bar's ⏎ key re-derived (§14: 1.5px rim,
-   quiet neutral at rest, blue earned on hover) at 28px beside a title and
-   24px on a row, with an 8px radius in place of the key's 10px because the
-   box is smaller. The dot is the carousel's 8px coloured circle, now one
-   class for the carousel, the news widget and the hub panels, painted from
+   ground, no ring) and opens on the first click, and a ⏎ box after the
+   title and after every sub-info row's text routes to the very same place.
+   The box is the search bar's ⏎ key re-derived (§14: 1.5px rim, quiet
+   neutral at rest, blue earned on hover) at 28px beside a title and 24px on
+   a row, with an 8px radius in place of the key's 10px because the box is
+   smaller. The dot is the carousel's 8px coloured circle, now one class for
+   the carousel, the news widget and the hub panels, painted from
    `--qw-hub-accent` like every other hub glyph.
+
+   REV-41 D-1 grammar. A title is ONE line (nowrap + ellipsis), so it stays a
+   native <button> turned `inline-block` with `max-width: calc(100% - 40px)`
+   (28px box + 8px gap + 4px slack) and the title box follows it in the same
+   inline formatting context. A row's text WRAPS, and a <button> is an
+   atomic inline-level box that nothing can follow on its last line -- so
+   the row's text is a `<span role="button">` (components/home/hub/HubRow.tsx
+   explains why) that is truly `display:inline`, with `box-decoration-break:
+   clone` so every wrapped line wears its own rounded hover highlight, and
+   the 24px box is an `inline-flex` sibling inside the same `.qw-hub-row-line`
+   -- `vertical-align: middle` + `margin-left: 6px` lands it 6px after the
+   final character wherever that character falls. The row keeps its rhythm
+   as a flex pair (marker | body) with the 8px / 10px padding the old block
+   headline used to carry. Section 19's white-surface `.qw-hub-headline` is
+   the BLOCK grammar (display:flex, 10px 12px) and still serves the deep
+   modal's `<a class="qw-hub-headline">` rows, which have no `.qw-hub-row`
+   wrapper; every inline override below is therefore scoped under
+   `.qw-hub-row` and outranks section 19 by that one class.
 
    Layout and the dark base are unscoped (the strip and the hub render on
    the white home route, the same markup must survive a dark surface); the
@@ -1326,15 +1347,13 @@ html[data-unitas-surface='quantum-white'] .qw-swarm-frame {
    blur, no transform on html/body.
    -------------------------------------------------------------------------- */
 .qw-hub-title-row {
-  display: flex;
+  display: block;
   min-width: 0;
-  align-items: flex-start;
-  gap: 8px;
 }
 .qw-hub-title-hit {
-  display: block;
-  flex: 1 1 auto;
-  min-width: 0;
+  display: inline-block;
+  max-width: calc(100% - 40px);
+  vertical-align: middle;
   padding: 0;
   border: 0;
   background: none;
@@ -1353,22 +1372,50 @@ html[data-unitas-surface='quantum-white'] .qw-swarm-frame {
   color: #f2d675;
   outline: none;
 }
-/* A sub-info row: the headline button and its sibling ⏎ box (a button
-   cannot nest a button). The box rides the first text line: the headline's
-   10px padding plus half a 20px line lands the line's centre at 20px, and a
-   24px box centred there starts 8px down. */
+/* A sub-info row: marker | body. The body holds the inline line (text +
+   ⏎ tail) and the block description / source lines under it. */
 .qw-hub-row {
   display: flex;
   min-width: 0;
   align-items: flex-start;
-  gap: 6px;
+  gap: 10px;
+  padding: 8px 10px;
 }
-.qw-hub-row > .qw-hub-headline {
-  flex: 1 1 auto;
+.qw-hub-row-body {
+  display: block;
   min-width: 0;
+  flex: 1 1 auto;
 }
-.qw-hub-row > .qw-row-enter {
-  margin-top: 8px;
+.qw-hub-row-line {
+  display: inline;
+  line-height: 1.35;
+}
+.qw-hub-row .qw-hub-headline {
+  display: inline;
+  padding: 1px 4px;
+  margin: -1px -4px;
+  border-radius: 6px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  color: inherit;
+  transition: background-color 0.2s ease, color 0.16s ease;
+}
+.qw-hub-row .qw-hub-headline:hover,
+.qw-hub-row .qw-hub-headline:focus-visible {
+  background: rgba(255, 255, 255, 0.06);
+  outline: none;
+}
+/* The tail: the 24px box in the text's own inline flow, ~6px after the last
+   glyph -- a U+00A0 glue character (~0.25em, HubRow.tsx) that forbids a
+   break before the box plus this 2px. The title's 28px box follows the
+   same rule after the title (8px). */
+.qw-hub-row-line .qw-row-enter {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: 2px;
 }
 .qw-row-enter {
   display: inline-flex;
@@ -1386,8 +1433,11 @@ html[data-unitas-surface='quantum-white'] .qw-swarm-frame {
   transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 .qw-row-enter[data-row-enter='title'] {
+  display: inline-flex;
+  vertical-align: middle;
   width: 28px;
   height: 28px;
+  margin-left: 8px;
 }
 .qw-row-enter:hover,
 .qw-row-enter:focus-visible {
@@ -1396,8 +1446,8 @@ html[data-unitas-surface='quantum-white'] .qw-swarm-frame {
   color: #f2d675;
   outline: none;
 }
-/* The row's text answers the hover in colour (the ground tint stays as it
-   was) -- the same grammar as the title, so text and box read as one row. */
+/* The row's text answers the hover in colour as well as the ground tint --
+   the same grammar as the title, so text and box read as one row. */
 .qw-hub-headline-text {
   transition: color 0.16s ease;
 }
@@ -1433,12 +1483,16 @@ html[data-unitas-surface='quantum-white'] .qw-swarm-frame {
 @media (prefers-reduced-motion: reduce) {
   .qw-hub-title-hit,
   .qw-row-enter,
+  .qw-hub-row .qw-hub-headline,
   .qw-hub-headline-text {
     transition: none;
   }
 }
 /* White surface re-key: the ⏎ key's own tokens (§14), the blue-deep ink the
-   armed two-step used to earn, the accent dot. */
+   armed two-step used to earn, the accent dot -- and the inline headline
+   grammar restated at a specificity that beats section 19's block rule
+   (`html[...] .qw-hub-headline`, which keeps serving the wrapper-less deep
+   modal rows). */
 html[data-unitas-surface='quantum-white'] .qw-hub-title-hit:hover,
 html[data-unitas-surface='quantum-white'] .qw-hub-title-hit:focus-visible {
   color: var(--qw-blue-deep);
@@ -1453,6 +1507,19 @@ html[data-unitas-surface='quantum-white'] .qw-row-enter:focus-visible {
   border-color: var(--qw-blue);
   background: #fff;
   color: var(--qw-blue-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-row .qw-hub-headline {
+  display: inline;
+  width: auto;
+  gap: 0;
+  padding: 1px 4px;
+  margin: -1px -4px;
+  border-radius: 6px;
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-row .qw-hub-headline:hover,
+html[data-unitas-surface='quantum-white'] .qw-hub-row .qw-hub-headline:focus-visible {
+  background: rgba(11, 92, 255, 0.07);
+  outline: none;
 }
 html[data-unitas-surface='quantum-white'] .qw-hub-headline:hover .qw-hub-headline-text,
 html[data-unitas-surface='quantum-white'] .qw-hub-headline:focus-visible .qw-hub-headline-text {
@@ -1984,4 +2051,680 @@ html[data-unitas-surface='quantum-white'] .qw-radar-frame[aria-current='step'] {
   border-color: var(--qw-hub-accent, var(--qw-blue));
   background: #fff;
   color: var(--qw-ink);
+}
+
+
+/* --------------------------------------------------------------------------
+   §29. REV-41 (founder directive 2026-09-17) -- the U-AI default popup's
+        sub-tab chips (D-6, mission 1-E), the one-target card (D-2, mission
+        1-C) and the widget shells of the FX compass hero (D-3/D-8, mission
+        1-D) and the Around-Me omni-radar (D-5/D-8, mission 1-G).
+        components/home/hub/SlotTabRail.tsx, DiscoveryCarousel.tsx,
+        components/home/widgets/{SlotWidgetView,FxCompassHero,OmniRadar}.tsx.
+   Lane B1 ships the shells and tokens; lane B2 appends the widget detail
+   below them in this same section.
+
+   D-6: a card's sub-tabs (the new-products families, the Around-Me radii)
+   are the main slot rail's chip one size down -- the same
+   `.qw-hub-strip` › `.qw-hub-chip[data-active]` › `.qw-hub-progress`
+   markup, so section 19's chip rules already paint them on the white
+   surface; `[data-tab]` (every sub-chip carries it, no main chip does) is
+   the one hook that shrinks the family to 7px 12px / 12.5px. The old
+   `.qw-hub-tab` pill rules in section 19 are NOT dead and stay: the
+   U-Square hub still renders them (KnowledgeExchange sort tabs,
+   UnitasShorts sort tabs, UnitasHubModal theme nav), none of which REV-41
+   touches.
+
+   D-2: a single-fact card (weather, fx, nearby ...) is one hitbox --
+   `data-one-target="1"` + one onClick on the container, never `role`
+   (rev23-verify asserts the card holds none) -- and earns the same lift
+   the retired `[role='button']` card had.
+
+   D-8: the FX hero digit is the largest type on the page
+   (clamp(40px, 9vw, 72px), tabular) and the radar is pure SVG -- three
+   rings, the axes, a sweep that is one CSS rotate animation on the SVG
+   element (transform-box: view-box so 50% 50% is the radar's centre) and
+   blips coloured by lens. NOTE §28 already owns `.qw-radar-cross` for the
+   weather rain radar's HTML crosshair (position:absolute, 14px, border), so
+   the omni-radar's axes are `.qw-radar-axes`; `.qw-radar .qw-radar-cross`
+   is kept only as a scoped alias and must then sit on an SVG <g> / <line>
+   (never a <rect>, whose width/height the §28 rule would reach).
+
+   Dark base unscoped, white re-key under the surface prefix, no
+   backdrop-filter, no blur; the sweep stops under prefers-reduced-motion.
+   -------------------------------------------------------------------------- */
+/* D-6: the sub-tab rail -- the strip's flex / snap / grab-drag grammar as an
+   unscoped base (section 19 only paints it on the white surface). */
+.qw-hub-strip.qw-hub-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 10px;
+  padding-bottom: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 16px;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+}
+.qw-hub-strip.qw-hub-tabs::-webkit-scrollbar {
+  display: none;
+}
+.qw-hub-strip.qw-hub-tabs[data-dragging='1'] {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+/* The sub-chip: the main chip's anatomy (pill, accent rim when active, the
+   progress bar along its bottom edge) at the main chip's OWN metrics --
+   founder mission 1-E: "100% 동일". Only the [data-tab] hook tells the
+   rails apart. */
+.qw-hub-chip[data-tab] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  padding: 9px 14px;
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d1d5db;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+.qw-hub-chip[data-tab]:hover,
+.qw-hub-chip[data-tab]:focus-visible {
+  color: #fff;
+  border-color: var(--qw-hub-accent, #d4af37);
+  outline: none;
+}
+.qw-hub-chip[data-tab][data-active='1'] {
+  color: #fff;
+  border-color: var(--qw-hub-accent, #d4af37);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 26px -14px var(--qw-hub-accent, #d4af37);
+  transform: translateY(-1px);
+}
+.qw-hub-chip[data-tab] .qw-hub-progress {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 3px;
+  transform-origin: left;
+  background: var(--qw-hub-accent, #d4af37);
+  transform: scaleX(0);
+  /* --qw-slot-rotate is the component's rotateMs (DISCOVERY_ROTATE_MS by
+     default); the keyframes are section 19's qw-hub-progress-fill. */
+  animation: qw-hub-progress-fill var(--qw-slot-rotate, 7s) linear forwards;
+}
+.qw-hub-chip[data-tab] .qw-hub-progress[data-paused='1'] {
+  animation-play-state: paused;
+}
+.qw-hub-chip[data-tab] .qw-hub-progress[data-held='1'] {
+  animation: none;
+  transform: scaleX(1);
+}
+/* D-2: the one-target card. */
+.qw-hub-card[data-one-target='1'] {
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.qw-hub-card[data-one-target='1']:hover,
+.qw-hub-card[data-one-target='1']:focus-visible {
+  outline: none;
+  border-color: var(--qw-hub-accent, #d4af37);
+  transform: translateY(-1px);
+}
+/* D-8: the FX compass hero -- the home pair's rate as the page's largest
+   digit, its deltas signed by colour, sparklines that fill their box, the
+   majors board as an auto-fit grid. */
+.qw-fx-hero {
+  display: block;
+  min-width: 0;
+}
+.qw-fx-hero-value {
+  display: block;
+  font-size: clamp(40px, 9vw, 72px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  overflow-wrap: anywhere;
+}
+.qw-fx-delta {
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.qw-fx-delta[data-sign='up'] {
+  color: #3fa34d;
+}
+.qw-fx-delta[data-sign='down'] {
+  color: #d64545;
+}
+.qw-fx-delta[data-sign='flat'] {
+  color: inherit;
+}
+.qw-fx-spark svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.qw-fx-board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* D-8: the omni-radar shell. The box is square and never wider than the
+   card (320px) or the deep dialog (420px); the SVG inside fills it. */
+.qw-radar {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1 / 1;
+  margin-inline: auto;
+}
+.qw-radar[data-variant='deep'] {
+  max-width: 420px;
+}
+.qw-radar > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.qw-radar .qw-radar-ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.qw-radar .qw-radar-axes,
+.qw-radar .qw-radar-cross {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.qw-radar .qw-radar-sweep {
+  fill: var(--qw-hub-accent, #d4af37);
+  opacity: 0.22;
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  animation: qw-radar-sweep 6s linear infinite;
+  pointer-events: none;
+}
+@keyframes qw-radar-sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.qw-radar-blip {
+  fill: var(--qw-radar-lens, #6b7a8f);
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+/* The four lenses (D-5 classifyLens): one custom property, read by the blip
+   fill and by the legend chip's swatch. */
+.qw-radar-blip[data-lens='nomad'],
+.qw-radar-legend-chip[data-lens='nomad'] {
+  --qw-radar-lens: #d4af37;
+}
+.qw-radar-blip[data-lens='factory'],
+.qw-radar-legend-chip[data-lens='factory'] {
+  --qw-radar-lens: #0b5cff;
+}
+.qw-radar-blip[data-lens='inspiration'],
+.qw-radar-legend-chip[data-lens='inspiration'] {
+  --qw-radar-lens: #7b2d8e;
+}
+.qw-radar-blip[data-lens='signal'],
+.qw-radar-legend-chip[data-lens='signal'] {
+  --qw-radar-lens: #6b7a8f;
+}
+.qw-radar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.qw-radar-legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d1d5db;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.qw-radar-legend-chip::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--qw-radar-lens, #6b7a8f);
+}
+@media (prefers-reduced-motion: reduce) {
+  .qw-hub-chip[data-tab] .qw-hub-progress {
+    animation: none;
+    transform: scaleX(1);
+  }
+  .qw-hub-chip[data-tab],
+  .qw-hub-card[data-one-target='1'] {
+    transition: none;
+  }
+  .qw-radar .qw-radar-sweep {
+    animation: none;
+  }
+}
+/* White surface re-key: section 19's `html[...] .qw-hub-chip` (9px 14px /
+   14px) applies to the sub-chip unchanged (1-E: 100% the main chip), so no
+   size override lives here; the one-target lift copied from the retired
+   `[role='button']` rule, ink on the hero digit, the radar's lines and the
+   legend chips follow. */
+html[data-unitas-surface='quantum-white'] .qw-hub-strip.qw-hub-tabs {
+  gap: 8px;
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-chip[data-tab]:hover,
+html[data-unitas-surface='quantum-white'] .qw-hub-chip[data-tab]:focus-visible {
+  color: var(--qw-ink);
+  border-color: var(--qw-hub-accent, var(--qw-blue));
+  background: #fff;
+}
+html[data-unitas-surface='quantum-white'] .qw-hub-card[data-one-target='1']:hover,
+html[data-unitas-surface='quantum-white'] .qw-hub-card[data-one-target='1']:focus-visible {
+  outline: none;
+  border-color: var(--qw-hub-accent, var(--qw-blue));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 18px 40px -20px var(--qw-hub-accent, var(--qw-blue)), 0 0 0 1px rgba(207, 214, 226, 0.6);
+  transform: translateY(-1px);
+}
+html[data-unitas-surface='quantum-white'] .qw-fx-hero-value {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-radar .qw-radar-ring {
+  stroke: rgba(11, 18, 32, 0.16);
+}
+html[data-unitas-surface='quantum-white'] .qw-radar .qw-radar-axes,
+html[data-unitas-surface='quantum-white'] .qw-radar .qw-radar-cross {
+  stroke: rgba(11, 18, 32, 0.1);
+  border: 0;
+  box-shadow: none;
+}
+html[data-unitas-surface='quantum-white'] .qw-radar .qw-radar-sweep {
+  opacity: 0.16;
+}
+html[data-unitas-surface='quantum-white'] .qw-radar-blip {
+  stroke: rgba(255, 255, 255, 0.85);
+}
+html[data-unitas-surface='quantum-white'] .qw-radar-legend-chip {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--qw-ink-2);
+}
+/* ---- §29 (cont.) lane B2: widget DETAIL, appended after lane B1's shells.
+   components/home/widgets/FxCompassHero.tsx and OmniRadar.tsx -- the
+   anatomy inside the `.qw-fx-hero` and `.qw-radar` shells above: the home
+   label over the hero digit, the pair sentence and delta row under it, the
+   spark sizes (signed by colour like the deltas), the macro-board cell, the
+   parity row, the honest unreadable line; the radar's centre dot, the
+   legend counts, the caption lines and the four states. Dark base
+   unscoped, white re-key at the end, no backdrop-filter, no blur.
+   ---------------------------------------------------------------------- */
+/* D-8 FX compass hero: vertical rhythm around the shell. */
+.qw-fx-hero {
+  margin: 2px 0 14px;
+}
+.qw-fx-hero[data-variant='card'] {
+  margin-bottom: 10px;
+}
+.qw-fx-hero-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+.qw-fx-hero-home {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--qw-hub-accent, #d4af37);
+}
+.qw-fx-hero-value {
+  margin: 0;
+}
+.qw-fx-hero-pair {
+  margin: 6px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #d1d5db;
+}
+.qw-fx-deltas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  margin: 4px 0 8px;
+}
+.qw-fx-delta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+.qw-fx-delta-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.qw-fx-date {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: #6b7280;
+}
+/* The sparkline strokes `currentColor`: the slot accent, or the 30-day
+   sign's colour when the window moved. */
+.qw-fx-spark {
+  display: block;
+  min-width: 0;
+  color: var(--qw-hub-accent, #d4af37);
+}
+.qw-fx-spark[data-sign='up'] {
+  color: #3fa34d;
+}
+.qw-fx-spark[data-sign='down'] {
+  color: #d64545;
+}
+.qw-fx-spark[data-size='hero'] svg {
+  height: 44px;
+}
+.qw-fx-hero[data-variant='card'] .qw-fx-spark[data-size='hero'] svg {
+  height: 36px;
+}
+.qw-fx-spark[data-size='mini'] svg {
+  height: 22px;
+}
+.qw-fx-section {
+  margin-top: 12px;
+}
+.qw-fx-hero[data-variant='card'] .qw-fx-section {
+  margin-top: 10px;
+}
+.qw-fx-section-label {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+/* One macro-board cell: code over rate, the 24h delta at the right, the
+   mini spark across the bottom. */
+.qw-fx-board-cell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'code delta'
+    'rate delta'
+    'spark spark';
+  align-items: baseline;
+  column-gap: 8px;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.qw-fx-board-code {
+  grid-area: code;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qw-fx-board-rate {
+  grid-area: rate;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+.qw-fx-hero[data-variant='card'] .qw-fx-board-rate {
+  font-size: 16px;
+}
+.qw-fx-board-cell .qw-fx-delta {
+  grid-area: delta;
+  align-self: start;
+}
+.qw-fx-board-cell .qw-fx-spark {
+  grid-area: spark;
+  margin-top: 4px;
+}
+.qw-fx-index .qw-fx-board-code {
+  color: var(--qw-hub-accent, #d4af37);
+}
+.qw-fx-note {
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #6b7280;
+}
+/* The parity rows: the same auto-fit grid as the board. */
+.qw-fx-parity {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qw-fx-parity-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    'symbol name'
+    'price delta';
+  column-gap: 8px;
+  row-gap: 2px;
+  align-items: baseline;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+}
+.qw-fx-parity-symbol {
+  grid-area: symbol;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--qw-hub-accent, #d4af37);
+}
+.qw-fx-parity-name {
+  grid-area: name;
+  font-size: 11px;
+  color: #9ca3af;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qw-fx-parity-price {
+  grid-area: price;
+  font-size: 15px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  white-space: nowrap;
+}
+.qw-fx-parity-row .qw-fx-delta {
+  grid-area: delta;
+  justify-self: end;
+}
+.qw-fx-unreadable {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 14px;
+  color: #9ca3af;
+}
+/* D-8 omni-radar: the block around the square shell, its centre dot, the
+   legend counts, the caption lines and the four states. */
+.qw-omni-radar {
+  display: block;
+  min-width: 0;
+  margin: 2px 0 14px;
+}
+.qw-omni-radar[data-variant='card'] {
+  margin-bottom: 10px;
+}
+.qw-radar .qw-radar-centre {
+  fill: var(--qw-hub-accent, #d4af37);
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+/* Loading: dashed rings say "sweeping, nothing measured yet"; unreadable:
+   the stage dims under the honest line (the sweep is not drawn at all). */
+.qw-omni-radar[data-state='loading'] .qw-radar .qw-radar-ring {
+  stroke-dasharray: 3 4;
+}
+.qw-omni-radar[data-state='unreadable'] .qw-radar {
+  opacity: 0.55;
+}
+.qw-radar-legend-count {
+  display: inline-flex;
+  min-width: 18px;
+  justify-content: center;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--qw-radar-lens, #6b7a8f);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 16px;
+}
+.qw-radar-centre-line,
+.qw-radar-state,
+.qw-radar-exact,
+.qw-radar-constellation {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #9ca3af;
+}
+.qw-radar-centre-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+.qw-radar-caption-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.qw-radar-centre-name {
+  font-weight: 600;
+  color: #d1d5db;
+}
+.qw-radar-state[data-radar-state-line='unreadable'] {
+  color: #d64545;
+}
+.qw-radar-exact {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--qw-hub-accent, #d4af37);
+}
+.qw-radar-constellation {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.qw-radar-constellation-title {
+  font-weight: 700;
+  color: #fff;
+}
+/* White surface re-key for the detail above. */
+html[data-unitas-surface='quantum-white'] .qw-fx-hero-label,
+html[data-unitas-surface='quantum-white'] .qw-fx-board-code,
+html[data-unitas-surface='quantum-white'] .qw-fx-parity-name,
+html[data-unitas-surface='quantum-white'] .qw-radar-centre-line,
+html[data-unitas-surface='quantum-white'] .qw-radar-state,
+html[data-unitas-surface='quantum-white'] .qw-radar-constellation {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-fx-delta-label,
+html[data-unitas-surface='quantum-white'] .qw-fx-date,
+html[data-unitas-surface='quantum-white'] .qw-fx-section-label,
+html[data-unitas-surface='quantum-white'] .qw-fx-note,
+html[data-unitas-surface='quantum-white'] .qw-radar-caption-label {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-fx-hero-pair,
+html[data-unitas-surface='quantum-white'] .qw-fx-board-rate,
+html[data-unitas-surface='quantum-white'] .qw-fx-parity-price,
+html[data-unitas-surface='quantum-white'] .qw-radar-centre-name,
+html[data-unitas-surface='quantum-white'] .qw-radar-constellation-title {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-fx-hero-home,
+html[data-unitas-surface='quantum-white'] .qw-fx-index .qw-fx-board-code,
+html[data-unitas-surface='quantum-white'] .qw-fx-parity-symbol,
+html[data-unitas-surface='quantum-white'] .qw-radar-exact {
+  color: var(--qw-hub-accent, var(--qw-blue));
+}
+html[data-unitas-surface='quantum-white'] .qw-fx-board-cell,
+html[data-unitas-surface='quantum-white'] .qw-fx-parity-row {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.7);
+}
+html[data-unitas-surface='quantum-white'] .qw-fx-unreadable {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-radar .qw-radar-centre {
+  stroke: rgba(255, 255, 255, 0.85);
+}
+html[data-unitas-surface='quantum-white'] .qw-radar-state[data-radar-state-line='unreadable'] {
+  color: #b93a3a;
 }

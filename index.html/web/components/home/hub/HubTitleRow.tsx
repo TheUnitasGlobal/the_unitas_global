@@ -10,9 +10,19 @@ import { CornerDownLeft } from 'lucide-react';
  * The strip's card titles used to go through `TwoStepTitle` (first click
  * arms, second opens). The founder retired the two-step on the strip: the
  * title text opens its deep modal on ONE click, hovering it changes the
- * colour only (no background, no ring), and a ⏎ "enter box" sits at the
- * right end of the same row and routes to the very same place. Text or box,
- * mouse or keyboard -- one action.
+ * colour only (no background, no ring), and a ⏎ "enter box" routes to the
+ * very same place. Text or box, mouse or keyboard -- one action.
+ *
+ * REV-41 D-1 (founder directive 2026-09-17, mission 1-B) supersedes the
+ * box's PLACE: it used to sit at the right end of the same row
+ * (`display:flex` + space-between); now it is a tail that follows the last
+ * character of the text. The markup here did not change -- the title is one
+ * line (nowrap + ellipsis) so it stays a native <button>, and the layout
+ * change is CSS only (quantum-white-rev19.css §27: `.qw-hub-title-row` is a
+ * block, `.qw-hub-title-hit` an inline-block capped at `calc(100% - 40px)`,
+ * the title box an inline-flex sibling with an 8px left margin, both
+ * vertical-align: middle). The WRAPPING sub-info rows could not do that with
+ * a button and moved to components/home/hub/HubRow.tsx.
  *
  * The box is derived from the search bar's ⏎ key (`.qw-enter-key` tokens:
  * 1.5px rim, quiet neutral at rest, blue on hover) but wears its own class
@@ -66,8 +76,10 @@ export interface HubTitleRowProps {
   className?: string;
 }
 
-/** Title text (colour-only hover) + the 28px ⏎ box, both opening the same
- *  target. Enter / Space open on the FIRST press: a native button. */
+/** Title text (colour-only hover) + the 28px ⏎ box riding its tail (REV-41
+ *  D-1), both opening the same target. Enter / Space open on the FIRST
+ *  press: a native button -- rev21-hub-card focuses `.qw-hub-title-hit` and
+ *  presses Enter, so the title must stay a real <button>. */
 export function HubTitleRow({ children, onOpen, as: Tag = 'p', className = '' }: HubTitleRowProps) {
   return (
     <Tag className={`qw-hub-title-row ${className}`.trim()} data-hub-title-row="">

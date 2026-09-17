@@ -18,6 +18,17 @@
  * docs/rev20/measure/sources.md; nothing here spends a U-COIN or touches a
  * paid endpoint. Every adapter is fail-open: a network error or empty
  * response yields a valid (if sparse) SlotCard, never a throw.
+ *
+ * REV-41 (founder directive 2026-09-17): fifteen slots -- weather plus
+ * fourteen feed themes. D-7 retired the `uRanking` slot REV-35 M1 had
+ * transplanted from U-Square (the 유랭킹 rail lives on in the hub; this rail
+ * no longer mirrors it), so the `SlotKind` union is back to two kinds and
+ * `SlotItem.action` is gone with the only item that ever carried one. D-2
+ * marks the single-target slots (`oneTarget`), D-3 rebuilds the fx adapter
+ * as the compass (lib/live/fxCompass.ts), D-4 seats the Geo-IP fix under
+ * `knownPlace`, D-5 rebuilds the nearby adapter as the omni-radar
+ * (lib/live/omniRadar.ts), and a card may now carry a typed `widget` for
+ * those two (D-8 renders it).
  */
 import {
   Activity,
@@ -34,7 +45,6 @@ import {
   PackageOpen,
   Palette,
   Terminal,
-  Trophy,
   Wind,
   type LucideIcon,
 } from 'lucide-react';
@@ -44,8 +54,44 @@ import { sourceById, type SourceId } from '@/lib/uai/sourceRegistry';
 import { DEFAULT_PLACE, conditionOf, fetchForecast, readWeatherCache, writeWeatherCache, type Place } from '@/lib/live/useLiveWeather';
 import { AWARD_CARD_ITEMS, awardOfDay, loadAwardRoll } from '@/lib/live/awardsThemes';
 import { PRODUCT_CARD_ITEMS, PRODUCT_DEEP_ITEMS, PRODUCT_FAMILIES, familyOfDay, isProductFamilyKey, loadProductRoll, productFamily } from '@/lib/live/newProducts';
-import { uRankDayIndex, uRankingsFor } from '@/lib/square/uRankings';
 import { fxCountryQuote, withSlotSections } from '@/lib/live/slotSections';
+import { localeCountry } from '@/lib/live/slotContext';
+import {
+  DXY_BASKET,
+  FX_BASE,
+  FX_MAJORS,
+  FX_WINDOW_DAYS,
+  coinGeckoPriceUrl,
+  dollarIndexFrom,
+  formatFxRate,
+  formatMoney,
+  formatSignedPct,
+  frankfurterWindowUrl,
+  pairQuoteFrom,
+  parityRowsFrom,
+  parseFrankfurterWindow,
+  pickHomeCurrency,
+} from '@/lib/live/fxCompass';
+import {
+  NEARBY_RADII,
+  NEARBY_RADIUS_COLORS,
+  RADAR_SPARSE_FLOOR,
+  buildRadar,
+  formatDistance,
+  geoSearchBeamUrl,
+  globalRadar,
+  mergeRadarLegs,
+  offsetPoint,
+  parseGeoSearchPages,
+  radarBeams,
+  radiusByKey,
+  type RadarRawHit,
+} from '@/lib/live/omniRadar';
+import { readGeoIpFix } from '@/lib/live/geoIp';
+
+/** The fx base lives with the compass maths now (REV-41 D-3); re-exported
+ *  so every pre-REV-41 importer of this module keeps compiling. */
+export { FX_BASE };
 
 /** Auto-rotation cadence of the discovery rail (ms). Lived in hubThemes.ts
  *  until REV-23 M3.1 deleted that module with the news wires it served. */
@@ -55,14 +101,11 @@ export const DISCOVERY_ROTATE_MS = 7000;
 /* Contract                                                             */
 /* ------------------------------------------------------------------ */
 
-/** `uRanking` is the ONE leaderboard on this rail -- REV-35 M1 (founder
- *  directive 2026-09-16, D-1) revoked the REV-20 carousel contract, deleted
- *  the `ranking` kind with its two widgets ("실시간 세계 랭킹", "실시간
- *  유니타스 랭킹") and transplanted the U-Square 유랭킹 rail in their place.
- *  REV-23 M3.1 had already retired the `news` kind. */
-export type SlotKind = 'weather' | 'feed' | 'uRanking';
-
-export type URankingSlotKey = 'uRanking';
+/** Two kinds. REV-23 M3.1 retired `news`; REV-35 M1 swapped the two
+ *  `ranking` widgets for one `uRanking` kind; REV-41 D-7 (founder directive
+ *  2026-09-17, 1-F) retired that in turn -- the rail carries data and
+ *  utility, the leaderboard belongs to U-Square. */
+export type SlotKind = 'weather' | 'feed';
 
 export type FeedSlotKey =
   | 'awards'
@@ -80,7 +123,7 @@ export type FeedSlotKey =
   | 'nation'
   | 'nearby';
 
-export type SlotKey = 'weather' | FeedSlotKey | URankingSlotKey;
+export type SlotKey = 'weather' | FeedSlotKey;
 
 /** REV-21 §2.1(§2A.3): the two output scopes a card renders in, global
  *  first and the visitor's country second. */
@@ -99,12 +142,9 @@ export interface SlotFact {
   scope?: SlotScope;
 }
 
-/** REV-21 §1.3: what tapping an item does when it has no outbound URL.
- *  REV-35 M1 (D-1): the only such item is a U-Ranking entry, which opens
- *  the slot's deep modal landed on that entry's own popup (`id` is the
- *  ladder id from lib/square/uRankings.ts). */
-export type SlotItemAction = { kind: 'uRankEntry'; id: string };
-
+/** An item without a `url` opens the slot's deep modal (REV-21 §1.3);
+ *  REV-41 D-7 deleted the in-app `action` field with the only item kind
+ *  that ever carried one (the U-Ranking entry). */
 export interface SlotItem {
   id: string;
   title: string;
@@ -116,7 +156,6 @@ export interface SlotItem {
   description?: string;
   /** REV-29 M3: a small thumbnail (product photo) beside the title. */
   image?: string;
-  action?: SlotItemAction;
   rank?: number;
   color?: string;
   /** REV-21 §2.1: which section this item belongs to. */
@@ -152,6 +191,82 @@ export interface SlotSection {
   items: SlotItem[];
 }
 
+/* ---- REV-41 D-8: typed widgets a card may carry beside its rows ------ */
+
+/** REV-41 D-5: the 1000-codex lens on a radar hit -- a nomad meetup spot,
+ *  an AI-factory workspace, an inspiration hideout, or a plain signal. */
+export type RadarLens = 'nomad' | 'factory' | 'inspiration' | 'signal';
+
+export interface RadarBlip {
+  id: string;
+  title: string;
+  url?: string;
+  /** Haversine from the visitor's point -- never the API's own figure. */
+  distKm: number;
+  /** Degrees clockwise from north, [0, 360). */
+  bearing: number;
+  lens: RadarLens;
+}
+
+export type NearbyRadiusKey = 'r10' | 'r50' | 'r100' | 'global';
+
+export interface OmniRadarWidget {
+  kind: 'omniRadar';
+  radiusKey: NearbyRadiusKey;
+  /** `null` = the global constellation. */
+  radiusKm: number | null;
+  center: { lat: number; lon: number; name: string };
+  /** Nearest first, every one inside `radiusKm` (lib/live/omniRadar.ts). */
+  blips: RadarBlip[];
+  /** Sweep beams requested / that failed -- `blips.length === 0 &&
+   *  failedBeams === beams` is the widget's honest "unreadable". */
+  beams: number;
+  failedBeams: number;
+}
+
+export interface FxSeriesPoint {
+  date: string;
+  rate: number;
+}
+
+/** One quote against the base, with its window. `change24h` is the signed
+ *  percentage move against the previous PUBLISHED row (ECB data has no
+ *  weekend rows), `change30d` against the first row of the window; either
+ *  is null when the window is too short to measure it. */
+export interface FxPairQuote {
+  code: string;
+  rate: number;
+  change24h: number | null;
+  change30d: number | null;
+  series: FxSeriesPoint[];
+}
+
+export interface FxParityRow {
+  id: string;
+  symbol: string;
+  name: string;
+  usd: number;
+  /** Priced in the home currency; null when CoinGecko does not quote it. */
+  home: number | null;
+  change24h: number | null;
+}
+
+export interface FxCompassWidget {
+  kind: 'fxCompass';
+  base: string;
+  /** The hero pair's quote currency (lib/live/fxCompass.ts pickHomeCurrency). */
+  home: string;
+  /** Newest ECB publishing date in the window. */
+  date: string;
+  hero: FxPairQuote;
+  majors: FxPairQuote[];
+  /** Geometric DXY-weighted approximation, first day of the window = 100. */
+  dollarIndex: { value: number; series: FxSeriesPoint[] } | null;
+  parity: FxParityRow[];
+}
+
+export type SlotWidget = OmniRadarWidget | FxCompassWidget;
+
 export interface SlotCard {
   facts: SlotFact[];
   items: SlotItem[];
@@ -163,6 +278,10 @@ export interface SlotCard {
   /** REV-21 §2.1: attached by the registry (withSlotSections) on every
    *  `load`, so no adapter and no consumer has to assemble them. */
   sections?: SlotSection[];
+  /** REV-41 D-8: a typed widget the card renders above its rows (the fx
+   *  compass hero, the omni-radar). Carried even on an empty card so the
+   *  widget can tell "empty" from "unreadable". */
+  widget?: SlotWidget;
 }
 
 export interface SlotContext {
@@ -179,9 +298,26 @@ export interface DiscoverySlot {
   kind: SlotKind;
   icon: LucideIcon;
   color: string;
+  /** REV-41 D-2 (1-C): the card holds ONE piece of information and no item
+   *  routes anywhere, so a tap anywhere on it opens the same deep modal.
+   *  The carousel stamps `data-one-target="1"` and a container onClick. */
+  oneTarget?: true;
+  /** REV-41 D-6 (1-E): the card's sub-tabs advance on the rotation clock
+   *  (SlotTabRail autoplay) -- only the launch wire wants this. */
+  tabAutoplay?: true;
+  /** REV-41 (integration fix): a slot whose sub-tabs are a FIXED set
+   *  declares them here, so the rail never depends on a loaded card -- a
+   *  tab pick that missed the cache used to unmount the chips for the
+   *  whole fetch. Adapters still echo the same list on every card. */
+  tabs?: readonly SlotTab[];
   /** `cursor` omitted/undefined = first page. */
   load(ctx: SlotContext, cursor?: DeepCursor): Promise<SlotCard>;
 }
+
+/** REV-41 D-2: every slot whose items carry no outbound URL -- the contract
+ *  the carousel and the E2E sweep read; each listed slot object also sets
+ *  `oneTarget: true` (discoverySlots.test pins the two in agreement). */
+export const SLOT_ONE_TARGET: readonly SlotKey[] = ['weather', 'fx', 'crypto', 'quake', 'paper', 'library', 'air', 'nation', 'nearby'];
 
 const EMPTY_CARD: SlotCard = { facts: [], items: [], updatedAt: Date.now(), cursor: null };
 
@@ -207,10 +343,20 @@ function dayOfYear(): number {
 
 /** The visitor's place for the country-scoped slots (`air`, `nation`,
  *  `nearby`): the weather slot's own cache first, so those slots cost zero
- *  extra geolocation -- filtered through the SELECTED country (REV-21 §2.1,
- *  SPEC §12.3 c) so a profile country is honoured over a stale search. */
-function knownPlace(ctx: SlotContext): Place {
-  return resolveDeeperPlace(ctx, readWeatherCache()?.place);
+ *  extra geolocation; else (REV-41 D-4) the Geo-IP fix the session already
+ *  resolved for `resolveCountry` -- the visitor's REAL point of access, city
+ *  name and all, instead of the language's capital; else the locale
+ *  default. All three pass through the SELECTED country filter (REV-21
+ *  §2.1, SPEC §12.3 c) so a profile country is honoured over a stale
+ *  search or a VPN exit. */
+export function knownPlace(ctx: SlotContext): Place {
+  const cached = readWeatherCache()?.place;
+  if (cached) return resolveDeeperPlace(ctx, cached);
+  const fix = readGeoIpFix();
+  if (fix) {
+    return resolveDeeperPlace(ctx, { name: fix.city || fix.country, countryCode: fix.country, lat: fix.lat, lon: fix.lon, approx: true });
+  }
+  return resolveDeeperPlace(ctx, null);
 }
 
 /* ------------------------------------------------------------------ */
@@ -222,6 +368,7 @@ const weatherSlot: DiscoverySlot = {
   kind: 'weather',
   icon: CloudSun,
   color: '#4a90d9',
+  oneTarget: true,
   async load({ locale, signal }) {
     const cached = readWeatherCache();
     const fresh = cached && Date.now() - cached.at < 10 * 60 * 1000;
@@ -302,16 +449,24 @@ const awardsSlot: DiscoverySlot = {
  * language when that edition has it. English Wikipedia's launch-year
  * category trees, newest page first, 0원 -- see lib/live/newProducts.ts.
  */
+/** REV-41: the family chips are a fixed set, one per family, declared on
+ *  the slot so the rail is mounted before (and across) every load. */
+const PRODUCT_TABS: readonly SlotTab[] = PRODUCT_FAMILIES.map((f) => ({ key: f.key, labelKey: `Rev29.newProducts.families.${f.key}`, color: f.color }));
+
 const newProductsSlot: DiscoverySlot = {
   key: 'newProducts',
   kind: 'feed',
   icon: PackageOpen,
   color: '#0ea5e9',
+  // REV-41 D-6 (1-E): the family chips rotate on the clock like the main
+  // rail; the deep modal's chips do not (the rail owns that distinction).
+  tabAutoplay: true,
+  tabs: PRODUCT_TABS,
   async load({ locale, signal }, cursor) {
     const requested = typeof cursor?.tab === 'string' && isProductFamilyKey(cursor.tab) ? cursor.tab : undefined;
     const family = requested ? productFamily(requested) : familyOfDay(dayOfYear());
     const deep = cursor?.deep === 1 || cursor?.deep === '1';
-    const tabs = PRODUCT_FAMILIES.map((f) => ({ key: f.key, labelKey: `Rev29.newProducts.families.${f.key}`, color: f.color }));
+    const tabs: SlotTab[] = [...PRODUCT_TABS];
     const roll = await loadProductRoll(family, wikiLangFor(locale), signal).catch(() => null);
     if (!roll || roll.entries.length === 0) return { ...EMPTY_CARD, updatedAt: Date.now(), tabs, activeTab: family.key };
     const cap = deep ? PRODUCT_DEEP_ITEMS : PRODUCT_CARD_ITEMS;
@@ -402,6 +557,7 @@ const quakeSlot: DiscoverySlot = {
   kind: 'feed',
   icon: Activity,
   color: '#b4452e',
+  oneTarget: true,
   async load({ signal }) {
     const json = await safeJson<UsgsResponse>(
       'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson',
@@ -481,7 +637,8 @@ export interface FrankfurterV2Row {
   rate?: number;
 }
 
-export const FX_BASE = 'USD';
+/** The pre-REV-41 board (kept for `fetchFxSeries` callers and the v2
+ *  parser's tests); the compass reads `FX_MAJORS` + `DXY_BASKET` instead. */
 export const FX_QUOTES = ['EUR', 'JPY', 'GBP', 'KRW'] as const;
 
 export function frankfurterRatesUrl(base: string, quotes: readonly string[], from?: string, to?: string): string {
@@ -534,40 +691,76 @@ export async function fetchFxSeries(quote: string, days: number, signal?: AbortS
   return parseFrankfurterSeries(json, quote);
 }
 
+/**
+ * REV-41 D-3 -- the fx compass. ONE Frankfurter v2 window request carries
+ * the majors, the DXY basket and the visitor's home currency for the last
+ * 30 days, so the latest rate, the previous-day and 30-day moves, every
+ * sparkline and the dollar-strength index come from a single body; one
+ * fail-open CoinGecko call adds BTC / ETH / PAXG in USD and in the home
+ * currency. The card's rows are the pairs themselves (the "0건" meta line
+ * of the facts-only card is gone), the home pair being the country section
+ * when it really is the visitor's own currency; the big figure is the
+ * widget's job (D-8), so no fact is emphasised any more.
+ */
 const fxSlot: DiscoverySlot = {
   key: 'fx',
   kind: 'feed',
   icon: ArrowLeftRight,
   color: '#6b7a8f',
-  async load({ signal, country }) {
-    // REV-21 §2.1: the visitor's own currency rides the SAME request as a
-    // quote (zero extra round trips) and renders as the country section.
-    const own = fxCountryQuote(country, FX_BASE);
-    const quotes = own && !FX_QUOTES.includes(own as (typeof FX_QUOTES)[number]) ? [...FX_QUOTES, own] : [...FX_QUOTES];
-    const json = await safeJson<unknown>(frankfurterRatesUrl(FX_BASE, quotes), signal);
-    const parsed = parseFrankfurterV2(json, quotes);
-    if (!parsed) return EMPTY_CARD;
-    const world = parsed.pairs.filter((p) => p.code !== own);
-    const mine = own ? parsed.pairs.filter((p) => p.code === own) : [];
+  oneTarget: true,
+  async load({ signal, country, locale }) {
+    const home = pickHomeCurrency(country, locale);
+    // Own = the currency the visitor's country or language actually uses;
+    // the EUR fallback for a USD visitor is a hero, not a "your country" row.
+    const own = fxCountryQuote(country, FX_BASE) ?? fxCountryQuote(localeCountry(locale), FX_BASE);
+    const quotes = Array.from(new Set<string>([...FX_MAJORS, ...DXY_BASKET.map((b) => b.code), home]));
+    const [fxJson, cgJson] = await Promise.all([
+      safeJson<unknown>(frankfurterWindowUrl(quotes, isoDaysAgo(FX_WINDOW_DAYS)), signal),
+      safeJson<unknown>(coinGeckoPriceUrl(home), signal),
+    ]);
+    const window = parseFrankfurterWindow(fxJson, quotes);
+    if (!window) return EMPTY_CARD;
+    const quoteOf = (code: string): FxPairQuote | null => {
+      const series = window.byQuote.get(code);
+      return series && series.length > 0 ? pairQuoteFrom(code, series) : null;
+    };
+    const hero = quoteOf(home) ?? quoteOf('EUR');
+    if (!hero) return EMPTY_CARD;
+    const majors = FX_MAJORS.map(quoteOf).filter((q): q is FxPairQuote => q !== null);
+    const parity = parityRowsFrom(cgJson, hero.code);
+    const widget: FxCompassWidget = {
+      kind: 'fxCompass',
+      base: window.base,
+      home: hero.code,
+      date: window.date,
+      hero,
+      majors,
+      dollarIndex: dollarIndexFrom(window.byQuote),
+      parity,
+    };
+    const pairItem = (q: FxPairQuote, scope: SlotScope): SlotItem => ({
+      id: `fx:${window.base}/${q.code}`,
+      title: `${window.base}/${q.code} ${formatFxRate(q.rate)}`,
+      meta: q.change24h === null ? undefined : formatSignedPct(q.change24h),
+      scope,
+    });
+    const board = majors.filter((q) => q.code !== hero.code).map((q) => pairItem(q, 'global'));
+    const heroItem = pairItem(hero, own === hero.code ? 'country' : 'global');
+    const parityItems: SlotItem[] = parity.map((row) => ({
+      id: `fx:parity:${row.id}`,
+      title: `${row.symbol} ${formatMoney(row.usd, 'USD', locale)}`,
+      meta: row.home === null ? undefined : formatMoney(row.home, hero.code, locale),
+      scope: 'global' as const,
+    }));
     return {
       facts: [
-        { labelKey: 'Rev20.slots.facts.fxBase', value: parsed.base },
-        ...world.map((p, i) => ({
-          labelKey: `Rev20.slots.facts.fxRate`,
-          value: `${p.code} ${p.rate.toFixed(2)}`,
-          emphasis: i === 0,
-        })),
-        { labelKey: 'Rev20.slots.facts.fxDate', value: parsed.date },
-        ...mine.map((p) => ({
-          labelKey: `Rev20.slots.facts.fxRate`,
-          value: `${p.code} ${p.rate.toFixed(2)}`,
-          emphasis: true,
-          scope: 'country' as const,
-        })),
+        { labelKey: 'Rev41.fx.facts.home', value: hero.code },
+        { labelKey: 'Rev41.fx.facts.pairs', value: String(board.length + 1) },
       ],
-      items: [],
+      items: [heroItem, ...board, ...parityItems],
       updatedAt: Date.now(),
       cursor: null,
+      widget,
     };
   },
 };
@@ -586,6 +779,7 @@ const cryptoSlot: DiscoverySlot = {
   kind: 'feed',
   icon: Bitcoin,
   color: '#3fa34d',
+  oneTarget: true,
   async load({ signal }) {
     const json = await safeJson<CoinGeckoMarket[]>(
       'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=5&page=1',
@@ -669,6 +863,7 @@ const paperSlot: DiscoverySlot = {
   kind: 'feed',
   icon: FlaskConical,
   color: '#8a6d14',
+  oneTarget: true,
   async load({ signal }) {
     const json = await safeJson<OpenAlexResponse>(
       'https://api.openalex.org/works?sort=publication_date:desc&per-page=5&filter=has_abstract:true',
@@ -719,6 +914,7 @@ const librarySlot: DiscoverySlot = {
   kind: 'feed',
   icon: Library,
   color: '#7b4f2e',
+  oneTarget: true,
   async load({ signal }) {
     const subject = LIBRARY_SUBJECTS[dayOfYear() % LIBRARY_SUBJECTS.length];
     const json = await safeJson<OpenLibraryResponse>(
@@ -806,6 +1002,7 @@ const airSlot: DiscoverySlot = {
   kind: 'feed',
   icon: Wind,
   color: '#63b3ed',
+  oneTarget: true,
   async load(ctx) {
     const { signal } = ctx;
     const place = knownPlace(ctx);
@@ -851,6 +1048,7 @@ const nationSlot: DiscoverySlot = {
   kind: 'feed',
   icon: Landmark,
   color: '#2d6a4f',
+  oneTarget: true,
   async load(ctx) {
     const { signal } = ctx;
     const place = knownPlace(ctx);
@@ -880,75 +1078,111 @@ const nationSlot: DiscoverySlot = {
   },
 };
 
-interface GeoSearchResponse {
-  query?: { geosearch?: Array<{ pageid?: number; title?: string; dist?: number }> };
-}
+/** Rows on the rotating card / in the deep modal (REV-41 D-5). */
+const NEARBY_CARD_ITEMS = 6;
+const NEARBY_DEEP_ITEMS = 24;
+
+/**
+ * REV-41 D-5 -- the omni-radar. The radius chip (`cursor.tab`, default
+ * 10 km) picks a sweep of 10 km Wikipedia geosearch beams (the API's own
+ * ceiling; every wider keyless source timed out or hallucinated when
+ * measured -- SPEC §1-6), fetched in parallel on the locale wiki with the
+ * short description and coordinate of every page. Each beam fails open on
+ * its own; `buildRadar` then measures every hit from the visitor with the
+ * haversine and drops anything past the radius, so the chip's promise and
+ * the list can never disagree. The Global chip is the sixteen-hub nomad
+ * constellation, ranged from the visitor with no network at all. An empty
+ * card still carries the widget so the renderer can tell "nothing inside
+ * this radius" (some beams answered) from "unreadable" (every beam failed).
+ */
+/** REV-41 D-5: the four radius chips, a fixed set declared on the slot so
+ *  a radius pick that misses the cache never unmounts the rail. */
+const NEARBY_TABS: readonly SlotTab[] = NEARBY_RADII.map((r) => ({ key: r.key, labelKey: `Rev41.nearby.radius.${r.key}`, color: NEARBY_RADIUS_COLORS[r.key] }));
 
 const nearbySlot: DiscoverySlot = {
   key: 'nearby',
   kind: 'feed',
   icon: MapPinned,
   color: '#c05621',
-  async load(ctx) {
+  oneTarget: true,
+  tabs: NEARBY_TABS,
+  async load(ctx, cursor) {
     const { locale, signal } = ctx;
     const place = knownPlace(ctx);
     const lang = wikiLangFor(locale);
-    const url = `https://${lang}.wikipedia.org/w/api.php?action=query&list=geosearch&gscoord=${place.lat}|${place.lon}&gsradius=10000&gslimit=10&format=json&origin=*`;
-    const json = await safeJson<GeoSearchResponse>(url, signal);
-    const hits = (json?.query?.geosearch ?? []).filter((h) => h.title);
-    if (hits.length === 0) return EMPTY_CARD;
-    const items: SlotItem[] = hits.slice(0, 4).map((h) => ({
-      id: String(h.pageid ?? h.title),
-      title: h.title ?? '',
-      url: `https://${lang}.wikipedia.org/wiki/${encodeURIComponent((h.title ?? '').replace(/ /g, '_'))}`,
-      meta: typeof h.dist === 'number' ? `${Math.round(h.dist)}m` : undefined,
+    const radius = radiusByKey(typeof cursor?.tab === 'string' ? cursor.tab : undefined);
+    const deep = cursor?.deep === 1 || cursor?.deep === '1';
+    const tabs: SlotTab[] = [...NEARBY_TABS];
+    const center = { lat: place.lat, lon: place.lon, name: place.name };
+    let blips: RadarBlip[];
+    let beams = 0;
+    let failedBeams = 0;
+    if (radius.km === null) {
+      blips = globalRadar(center);
+    } else {
+      const specs = radarBeams(radius.km);
+      const sweep = async (wikiLang: string): Promise<{ raw: RadarRawHit[]; failed: number }> => {
+        const settled = await Promise.allSettled(
+          specs.map(async (spec): Promise<RadarRawHit[] | null> => {
+            const point = spec.offsetKm === 0 ? center : offsetPoint(center.lat, center.lon, spec.bearing, spec.offsetKm);
+            const json = await safeJson<unknown>(geoSearchBeamUrl(wikiLang, point, spec.limit), signal);
+            return json === null ? null : parseGeoSearchPages(json, wikiLang);
+          }),
+        );
+        const raw: RadarRawHit[] = [];
+        let failed = 0;
+        for (const beam of settled) {
+          if (beam.status === 'fulfilled' && beam.value !== null) raw.push(...beam.value);
+          else failed += 1;
+        }
+        return { raw, failed };
+      };
+      const local = await sweep(lang);
+      beams = specs.length;
+      failedBeams = local.failed;
+      let raw = local.raw;
+      blips = buildRadar(center, radius.km, raw);
+      // Sparse-region relief (measured 2026-09-17: a ko reader on a Georgia
+      // IP got ONE blip at 10 km from ko.wikipedia): a thin locale wiki is
+      // topped up from English Wikipedia with the same beams -- only when
+      // the network is demonstrably up (at least one local beam answered)
+      // and the sweep came back under the floor, so a cut-off runner never
+      // doubles its failures and a dense home city never pays the extra leg.
+      // The beam count is reported honestly as the sum of both sweeps.
+      if (lang !== 'en' && local.failed < specs.length && blips.length < RADAR_SPARSE_FLOOR) {
+        const relief = await sweep('en');
+        beams += specs.length;
+        failedBeams += relief.failed;
+        raw = mergeRadarLegs(raw, relief.raw);
+        blips = buildRadar(center, radius.km, raw);
+      }
+    }
+    const widget: OmniRadarWidget = { kind: 'omniRadar', radiusKey: radius.key, radiusKm: radius.km, center, blips, beams, failedBeams };
+    if (blips.length === 0) return { ...EMPTY_CARD, updatedAt: Date.now(), cursor: null, tabs, activeTab: radius.key, widget };
+    const items: SlotItem[] = blips.slice(0, deep ? NEARBY_DEEP_ITEMS : NEARBY_CARD_ITEMS).map((b) => ({
+      id: b.id,
+      title: b.title,
+      url: b.url,
+      meta: formatDistance(b.distKm, locale),
     }));
     return {
       facts: [
-        { labelKey: 'Rev20.slots.facts.nearbyDist', value: items[0].meta ?? '' },
-        { labelKey: 'Rev20.slots.facts.nearbyCount', value: String(hits.length) },
+        // The radius fact reads "10km" for a tier; the Global chip has no
+        // number, so its own label IS the fact (label-as-value, the weather
+        // condition pattern) rather than an invented figure.
+        radius.km === null
+          ? { labelKey: 'Rev41.nearby.radius.global', value: '' }
+          : { labelKey: 'Rev41.nearby.facts.radius', value: `${radius.km}km` },
+        { labelKey: 'Rev41.nearby.facts.detected', value: String(blips.length) },
+        { labelKey: 'Rev41.nearby.facts.nearest', value: formatDistance(blips[0].distKm, locale) },
+        ...(beams > 0 ? [{ labelKey: 'Rev41.nearby.facts.beams', value: String(beams) }] : []),
       ],
       items,
       updatedAt: Date.now(),
       cursor: null,
-    };
-  },
-};
-
-/* ------------------------------------------------------------------ */
-/* REV-35 M1: 유랭킹 (U-Rankings) -- the one leaderboard on the rail     */
-/* ------------------------------------------------------------------ */
-
-/** The seeded, deterministic ladder of lib/square/uRankings.ts -- no
- *  network, no U-COIN, so a card is instant. The card BODY is the shorts
- *  rail itself (URankingsShorts, compact variant), which reads the same
- *  ladder for the same UTC day on its own; the items here exist so the
- *  registry contract (sections, meta count, item actions) holds for this
- *  slot exactly as for every other, and so a consumer that only knows
- *  `SlotCard` can still open an entry through its `uRankEntry` action.
- *  `facts` is deliberately empty: nothing sits between the title row and
- *  the rail. */
-const uRankingSlot: DiscoverySlot = {
-  key: 'uRanking',
-  kind: 'uRanking',
-  icon: Trophy,
-  color: '#d4af37',
-  async load() {
-    const ladder = uRankingsFor(uRankDayIndex());
-    return {
-      facts: [],
-      items: ladder.map((entry) => ({
-        id: entry.id,
-        title: entry.name,
-        meta: `@${entry.handle} · ${entry.moduleKey}`,
-        rank: entry.rank,
-        color: '#d4af37',
-        action: { kind: 'uRankEntry', id: entry.id },
-        scope: 'global' as const,
-      })),
-      updatedAt: Date.now(),
-      cursor: null,
-      subject: { term: 'UNITAS' },
+      tabs,
+      activeTab: radius.key,
+      widget,
     };
   },
 };
@@ -983,7 +1217,7 @@ function withScopeSections(slot: DiscoverySlot): DiscoverySlot {
 }
 
 const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>(
-  [weatherSlot, awardsSlot, newProductsSlot, ...feedSlots, uRankingSlot]
+  [weatherSlot, awardsSlot, newProductsSlot, ...feedSlots]
     .map(withScopeSections)
     .map((s): [SlotKey, DiscoverySlot] => [s.key, s]),
 );
@@ -993,9 +1227,9 @@ const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>(
  *  (colour-wheel adjacency is handled by the component, order here only
  *  guards content-kind adjacency). REV-23 M3.1: 24 slots -> 16, the nine
  *  news wires out and `awards` in. REV-29 M3: 16 -> 17, `newProducts` in.
- *  REV-35 M1 (D-1): 17 -> 16 -- `uRanking` takes the world ranking's seat
- *  at index 12 and the trailing `unitasRanking` slot is gone (the U-Ranking
- *  rail already carries every module's own ladder). */
+ *  REV-35 M1 (D-1): 17 -> 16 -- `uRanking` took the world ranking's seat at
+ *  index 12. REV-41 D-7: 16 -> 15 -- `uRanking` retired outright, `air`
+ *  moves up into index 12 and nothing else shifts. */
 export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'weather',
   // REV-29 M3: the launch wire sits second -- the first data slot after the
@@ -1011,7 +1245,6 @@ export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'art',
   'devPulse',
   'nation',
-  'uRanking',
   'air',
   'library',
   'nearby',
@@ -1029,7 +1262,8 @@ export const SLOT_SOURCES: Record<SlotKey, readonly SourceId[]> = {
   history: ['wikipedia'],
   quake: ['usgs'],
   mostRead: ['wikimediaPageviews'],
-  fx: ['frankfurter'],
+  // REV-41 D-3: the compass adds CoinGecko for the crypto parity rows.
+  fx: ['frankfurter', 'coinGecko'],
   crypto: ['coinGecko'],
   devPulse: ['hackerNews'],
   paper: ['openAlex'],
@@ -1038,7 +1272,6 @@ export const SLOT_SOURCES: Record<SlotKey, readonly SourceId[]> = {
   air: ['openMeteo'],
   nation: ['worldBank'],
   nearby: ['wikipedia'],
-  uRanking: ['unitasIndex'],
 };
 
 export interface SlotProvider {
@@ -1096,8 +1329,5 @@ export function findDiscoverySlot(key: SlotKey): DiscoverySlot | undefined {
  *  갱신" honours the same per-kind freshness weather already used. */
 export function slotTtlMs(kind: SlotKind): number {
   if (kind === 'weather') return 10 * 60 * 1000;
-  // REV-35 M1 (D-6): the U-Ranking keeps the retired ranking kind's window
-  // -- its ladder is seeded per UTC day, so nothing fresher exists to fetch.
-  if (kind === 'uRanking') return 6 * 60 * 60 * 1000;
   return 15 * 60 * 1000;
 }

@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "Nearby",
-        "tag": "Stories within 10km of you"
+        "tag": "A sovereign omni-radar revolving around you"
       },
       "facts": {
         "city": "City",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "New Products",
-        "tag": "Sixteen families the world just released — cars, phones, mobility, gadgets, games, AI agents, quantum, SaaS, bio-health, neurotech, space, XR, DeFi, eco energy, nomad gear and robots"
+        "tag": "A multidimensional nexus of hyper-innovative hardware and quantum devices that pull the future closer"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "The UNITAS ladder, rewritten daily by micro-burn efficiency, knowledge sales and nomad contribution"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "No messages yet. Say the first word."
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "Like and follow counts are not readable while signed out."
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "Your local currency",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "vs. yesterday",
+      "change30d": "vs. 30 days ago",
+      "sparkAria": "{quote} 30-day trend",
+      "majors": "Global macro board",
+      "parity": "Crypto parity",
+      "dollarIndex": "Dollar strength index",
+      "dollarIndexNote": "DXY-weighted approximation from 6 ECB reference currencies · 30 days ago = 100",
+      "gold": "Gold (PAXG)",
+      "unreadable": "The FX signal can't be read · please try again shortly",
+      "facts": {
+        "home": "Home currency",
+        "pairs": "Currency pairs"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "Worldwide"
+      },
+      "radiusAria": "Detection radius",
+      "facts": {
+        "radius": "Detection radius",
+        "detected": "Spots detected",
+        "nearest": "Nearest",
+        "beams": "Sweep beams"
+      },
+      "lens": {
+        "nomad": "Nomad meetup spots",
+        "factory": "AI factory workspaces",
+        "inspiration": "Hidden inspiration spots",
+        "signal": "Signals"
+      },
+      "radarAria": "Omni-radar centered on {center} · radius {radius}",
+      "center": "Center",
+      "constellation": "UNITAS Nomad Nexus · 16 hubs",
+      "constellationNote": "16 sovereign digital-nomad hubs worldwide · measured distance from you",
+      "empty": "No spots detected within this radius",
+      "unreadable": "The radar signal can't be read · please try again shortly",
+      "exact": "Measured distance · 0% radius error"
+    },
+    "tabs": {
+      "rotating": "Sub-themes rotate automatically · press to hold",
+      "held": "Held · press again to resume rotation"
     }
   }
 }

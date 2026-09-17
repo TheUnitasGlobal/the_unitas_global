@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "내 주변",
-        "tag": "반경 10km 이내의 이야기"
+        "tag": "당신을 중심으로 회전하는 소버린 옴니-레이더"
       },
       "facts": {
         "city": "도시",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "글로벌 신상품",
-        "tag": "세계가 방금 출시한 16개 패밀리 — 자동차·스마트폰·모빌리티·가젯·게임·AI 에이전트·양자·SaaS·바이오 헬스·뉴로테크·우주·XR·디파이·에코 에너지·노마드 기어·로봇"
+        "tag": "미래를 앞당기는 초혁신적 하드웨어와 퀀텀 디바이스의 다차원 넥서스"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "마이크로번 효율·지식 판매·노마드 기여로 매일 새로 쓰는 유니타스 사다리"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "아직 메시지가 없습니다. 첫마디를 남겨보세요."
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "로그아웃 상태에서는 좋아요·팔로우 수치를 볼 수 없습니다."
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "접속 통화",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "전일 대비",
+      "change30d": "30일 대비",
+      "sparkAria": "{quote} 30일 추이",
+      "majors": "글로벌 매크로 보드",
+      "parity": "크립토 패리티",
+      "dollarIndex": "달러 강도 지수",
+      "dollarIndexNote": "ECB 기준환율 6통화 DXY 가중 근사 · 30일 전 = 100",
+      "gold": "금 (PAXG)",
+      "unreadable": "환율 신호를 읽을 수 없습니다 · 잠시 후 다시 시도해 주세요",
+      "facts": {
+        "home": "홈 통화",
+        "pairs": "통화쌍"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "글로벌"
+      },
+      "radiusAria": "탐지 반경",
+      "facts": {
+        "radius": "탐지 반경",
+        "detected": "탐지 스팟",
+        "nearest": "최근접",
+        "beams": "스윕 빔"
+      },
+      "lens": {
+        "nomad": "노마드 밋업 스팟",
+        "factory": "AI 팩토리 워크스페이스",
+        "inspiration": "영감 히든 스팟",
+        "signal": "시그널"
+      },
+      "radarAria": "{center} 중심 옴니-레이더 · 반경 {radius}",
+      "center": "중심",
+      "constellation": "UNITAS 노마드 넥서스 16허브",
+      "constellationNote": "전 세계 소버린 디지털 노마드 허브 16곳 · 당신으로부터의 실측 거리",
+      "empty": "이 반경에서 탐지된 스팟이 없습니다",
+      "unreadable": "레이더 신호를 읽을 수 없습니다 · 잠시 후 다시 시도해 주세요",
+      "exact": "실측 거리 · 반경 오차 0%"
+    },
+    "tabs": {
+      "rotating": "서브 테마 자동 회전 · 누르면 고정됩니다",
+      "held": "고정됨 · 다시 누르면 회전합니다"
     }
   }
 }

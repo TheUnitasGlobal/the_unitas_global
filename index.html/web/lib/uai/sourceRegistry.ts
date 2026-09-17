@@ -1380,8 +1380,8 @@ const SLOT_FAMILY: Readonly<Record<string, OmniFamily>> = {
   paper: 'science',
   library: 'library',
   art: 'art',
-  // REV-35 M1 (D-6): the one leaderboard opens UNITAS' own family.
-  uRanking: 'unitas',
+  // REV-41 D-7: the `uRanking` slot REV-35 M1 seated here is retired; the
+  // `unitas` family itself stays for the U-Square hosts that open it.
 };
 
 export function omniFamilyForSlot(slotKey: string): OmniFamily {

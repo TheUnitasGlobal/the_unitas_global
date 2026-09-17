@@ -49,7 +49,6 @@ const SLOT_KEYS: Record<SlotKey, true> = {
   air: true,
   nation: true,
   nearby: true,
-  uRanking: true,
 };
 
 /** Codex ch.7: the ten omni-business engines the default platform row must always carry. */
@@ -200,9 +199,10 @@ describe('REV-34 omni-open families', () => {
     expect(omniFamilyForSlot('paper')).toBe('science');
     expect(omniFamilyForSlot('library')).toBe('library');
     expect(omniFamilyForSlot('art')).toBe('art');
-    // REV-35 M1 (D-6): the one leaderboard opens UNITAS' own family; the
-    // retired slot keys are strangers now and fall to default.
-    expect(omniFamilyForSlot('uRanking')).toBe('unitas');
+    // REV-41 D-7: the `uRanking` slot REV-35 M1 had wired to the `unitas`
+    // family is retired; like the two ranking keys before it, the stranger
+    // falls to default (the family itself lives on for the U-Square hosts).
+    expect(omniFamilyForSlot('uRanking')).toBe('default');
     expect(omniFamilyForSlot('worldRanking')).toBe('default');
     expect(omniFamilyForSlot('unitasRanking')).toBe('default');
     expect(omniFamilyForSlot('awards')).toBe('default');

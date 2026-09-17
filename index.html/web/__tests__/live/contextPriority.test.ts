@@ -40,6 +40,20 @@ describe('context priority', () => {
     expect(resolveCountry({ profileCountry: 'Korea', cachedPlaceCountry: '1', localeCountry: null })).toBe('US');
   });
 
+  // REV-41 D-4: the Geo-IP fix slots in between the searched city and the
+  // locale -- below a stated intent, above what the language alone implies.
+  it('ranks the Geo-IP country after the profile and the searched place but before the locale', () => {
+    expect(resolveCountry({ profileCountry: 'kr', cachedPlaceCountry: 'JP', ipCountry: 'PT', localeCountry: 'US' })).toBe('KR');
+    expect(resolveCountry({ profileCountry: null, cachedPlaceCountry: 'jp', ipCountry: 'PT', localeCountry: 'US' })).toBe('JP');
+    expect(resolveCountry({ profileCountry: null, cachedPlaceCountry: null, ipCountry: 'pt', localeCountry: 'KR' })).toBe('PT');
+    expect(resolveCountry({ profileCountry: null, cachedPlaceCountry: null, ipCountry: '', localeCountry: 'KR' })).toBe('KR');
+    expect(resolveCountry({ profileCountry: null, cachedPlaceCountry: null, ipCountry: 'Portugal', localeCountry: null })).toBe('US');
+    expect(buildSlotContext('ko', null, null, 'PT').country).toBe('PT');
+    expect(buildSlotContext('ko', null, 'JP', 'PT').country).toBe('JP');
+    expect(buildSlotContext('ko', 'KR', 'JP', 'PT').country).toBe('KR');
+    expect(buildSlotContext('ko', null, null, null).country).toBe('KR');
+  });
+
   it('every locale implies a country and the slot cache key carries locale + country', () => {
     for (const locale of routing.locales) expect(localeCountry(locale)).toMatch(/^[A-Z]{2}$/);
     expect(localeCountry('ko')).toBe('KR');

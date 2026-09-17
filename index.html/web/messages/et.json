@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "Lähedal",
-        "tag": "Lood 10 km raadiuses sinust"
+        "tag": "Sinu ümber pöörlev suveräänne omni-radar"
       },
       "facts": {
         "city": "Linn",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "Uued tooted",
-        "tag": "Kuusteist perekonda, mille maailm just välja lasi — autod, telefonid, liikuvus, vidinad, mängud, AI-agendid, kvant, SaaS, biotervis, neurotehnoloogia, kosmos, XR, DeFi, ökoenergia, nomaadivarustus ja robotid"
+        "tag": "Mitmemõõtmeline nexus hüperinnovaatilisest riistvarast ja kvantseadmetest, mis toovad tuleviku lähemale"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "UNITASe redel, mida kirjutavad iga päev ümber Micro-Burn tõhusus, teadmiste müük ja nomaadipanus"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "Sõnumeid veel pole. Ütle esimene sõna."
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "Välja logituna ei ole meeldimiste ja jälgijate arv nähtav."
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "Sinu kohalik valuuta",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "vs eile",
+      "change30d": "vs 30 päeva tagasi",
+      "sparkAria": "{quote} 30 päeva trend",
+      "majors": "Globaalne makrotahvel",
+      "parity": "Krüptopariteet",
+      "dollarIndex": "Dollari tugevuse indeks",
+      "dollarIndexNote": "DXY-kaalutud lähend ECB 6 viitekursist · 30 päeva tagasi = 100",
+      "gold": "Kuld (PAXG)",
+      "unreadable": "Valuutasignaali ei saa lugeda · proovi veidi hiljem uuesti",
+      "facts": {
+        "home": "Koduvaluuta",
+        "pairs": "Valuutapaarid"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "Globaalne"
+      },
+      "radiusAria": "Tuvastusraadius",
+      "facts": {
+        "radius": "Tuvastusraadius",
+        "detected": "Tuvastatud kohad",
+        "nearest": "Lähim",
+        "beams": "Skaneerimiskiired"
+      },
+      "lens": {
+        "nomad": "Nomaadide kohtumispaigad",
+        "factory": "AI-tehase tööruumid",
+        "inspiration": "Peidetud inspiratsioonipaigad",
+        "signal": "Signaalid"
+      },
+      "radarAria": "Omni-radar keskmega {center} · raadius {radius}",
+      "center": "Kese",
+      "constellation": "UNITAS Nomad Nexus · 16 keskust",
+      "constellationNote": "16 suveräänset digitaalnomaadide keskust üle maailma · mõõdetud kaugus sinust",
+      "empty": "Selles raadiuses ei tuvastatud ühtegi kohta",
+      "unreadable": "Radarisignaali ei saa lugeda · proovi veidi hiljem uuesti",
+      "exact": "Mõõdetud kaugus · raadiuse viga 0%"
+    },
+    "tabs": {
+      "rotating": "Alateemad vahetuvad automaatselt · vajuta, et kinnitada",
+      "held": "Kinnitatud · vajuta uuesti, et pöörlemist jätkata"
     }
   }
 }

@@ -20,11 +20,18 @@ export function localeCountry(locale: string): string {
   return DEFAULT_PLACE[locale]?.countryCode ?? GOOGLE_NEWS_EDITION[locale]?.gl ?? 'US';
 }
 
-/** Pure assembly -- the hook feeds it live inputs. */
-export function buildSlotContext(locale: string, profileCountry: string | null | undefined, cachedPlaceCountry: string | null | undefined): SlotContext {
+/** Pure assembly -- the hook feeds it live inputs. `ipCountry` (REV-41 D-4,
+ *  the Geo-IP fix) is optional so the pre-REV-41 three-argument callers keep
+ *  compiling; it ranks between the weather cache and the locale default. */
+export function buildSlotContext(
+  locale: string,
+  profileCountry: string | null | undefined,
+  cachedPlaceCountry: string | null | undefined,
+  ipCountry?: string | null,
+): SlotContext {
   return {
     locale,
-    country: resolveCountry({ profileCountry, cachedPlaceCountry, localeCountry: localeCountry(locale) }),
+    country: resolveCountry({ profileCountry, cachedPlaceCountry, ipCountry, localeCountry: localeCountry(locale) }),
   };
 }
 

@@ -49,15 +49,22 @@ export interface CountryInputs {
   profileCountry?: string | null;
   /** Country of the place the visitor last searched in the weather panel. */
   cachedPlaceCountry?: string | null;
+  /** REV-41 D-4: country of the visitor's network address (lib/live/geoIp.ts
+   *  -- GeoJS, ipwho.is fallback), cached for a day. */
+  ipCountry?: string | null;
   /** Country the locale's default place / news edition implies. */
   localeCountry?: string | null;
 }
 
 /** ISO2 country for the "selected country" scope, by descending intent:
- *  the profile the visitor set, the city they searched, then what the
- *  language alone implies. Always upper-cased; `US` when nothing is known. */
+ *  the profile the visitor set, the city they searched, where their network
+ *  address sits (REV-41 D-4), then what the language alone implies. The
+ *  Geo-IP fix ranks BELOW an explicit search because a searched city is a
+ *  stated intent and above the locale because language is not location (a
+ *  Korean reader in Lisbon is in Portugal). Always upper-cased; `US` when
+ *  nothing is known. */
 export function resolveCountry(inputs: CountryInputs): string {
-  for (const raw of [inputs.profileCountry, inputs.cachedPlaceCountry, inputs.localeCountry]) {
+  for (const raw of [inputs.profileCountry, inputs.cachedPlaceCountry, inputs.ipCountry, inputs.localeCountry]) {
     const c = (raw ?? '').trim().toUpperCase();
     if (/^[A-Z]{2}$/.test(c)) return c;
   }

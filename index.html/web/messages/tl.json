@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "Malapit",
-        "tag": "Mga kuwento sa loob ng 10km mula sa iyo"
+        "tag": "Isang soberanong omni-radar na umiikot sa paligid mo"
       },
       "facts": {
         "city": "Lungsod",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "Bagong produkto",
-        "tag": "Labing-anim na pamilya na kalalabas lang sa mundo — kotse, telepono, mobility, gadget, laro, AI agent, quantum, SaaS, bio-health, neurotech, kalawakan, XR, DeFi, eco energy, gamit ng nomad at robot"
+        "tag": "Isang multidimensional na nexus ng hyper-innovative na hardware at quantum device na naglalapit ng hinaharap"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "Ang hagdan ng UNITAS, muling isinusulat araw-araw ng kahusayan sa Micro-Burn, benta ng kaalaman at ambag ng nomad"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "Wala pang mensahe. Ikaw na ang unang magsalita."
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "Hindi mababasa ang bilang ng like at follow habang naka-sign out."
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "Iyong lokal na pera",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "vs. kahapon",
+      "change30d": "vs. 30 araw ang nakalipas",
+      "sparkAria": "30-araw na trend ng {quote}",
+      "majors": "Pandaigdigang macro board",
+      "parity": "Paridad ng crypto",
+      "dollarIndex": "Indeks ng lakas ng dolyar",
+      "dollarIndexNote": "DXY-weighted na pagtataya mula sa 6 na reference currency ng ECB · 30 araw ang nakalipas = 100",
+      "gold": "Ginto (PAXG)",
+      "unreadable": "Hindi mabasa ang signal ng palitan · pakisubukang muli mamaya",
+      "facts": {
+        "home": "Sariling pera",
+        "pairs": "Mga pares ng pera"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "Pandaigdigan"
+      },
+      "radiusAria": "Radius ng pagtuklas",
+      "facts": {
+        "radius": "Radius ng pagtuklas",
+        "detected": "Mga natuklasang spot",
+        "nearest": "Pinakamalapit",
+        "beams": "Mga sweep beam"
+      },
+      "lens": {
+        "nomad": "Mga tagpuan ng nomad",
+        "factory": "Mga workspace ng AI factory",
+        "inspiration": "Mga tagong spot ng inspirasyon",
+        "signal": "Mga senyas"
+      },
+      "radarAria": "Omni-radar na nakasentro sa {center} · radius {radius}",
+      "center": "Sentro",
+      "constellation": "UNITAS Nomad Nexus · 16 na hub",
+      "constellationNote": "16 na soberanong digital-nomad hub sa buong mundo · sinukat na distansya mula sa iyo",
+      "empty": "Walang natuklasang spot sa loob ng radius na ito",
+      "unreadable": "Hindi mabasa ang signal ng radar · pakisubukang muli mamaya",
+      "exact": "Sinukat na distansya · 0% error sa radius"
+    },
+    "tabs": {
+      "rotating": "Awtomatikong umiikot ang mga sub-theme · pindutin para i-hold",
+      "held": "Naka-hold · pindutin muli para ipagpatuloy ang pag-ikot"
     }
   }
 }

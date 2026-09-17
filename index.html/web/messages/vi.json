@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "Gần bạn",
-        "tag": "Câu chuyện trong bán kính 10km quanh bạn"
+        "tag": "Omni-radar chủ quyền xoay quanh bạn"
       },
       "facts": {
         "city": "Thành phố",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "Sản phẩm mới",
-        "tag": "Mười sáu nhóm thế giới vừa ra mắt — xe hơi, điện thoại, phương tiện, thiết bị, game, tác nhân AI, lượng tử, SaaS, sinh học y tế, công nghệ thần kinh, vũ trụ, XR, DeFi, năng lượng xanh, đồ nghề du mục và robot"
+        "tag": "Nexus đa chiều của phần cứng siêu đột phá và thiết bị lượng tử kéo tương lai đến gần hơn"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "Bậc thang UNITAS, viết lại mỗi ngày theo hiệu suất Micro-Burn, tri thức đã bán và đóng góp du mục"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "Chưa có tin nhắn nào. Hãy nói lời đầu tiên."
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "Khi chưa đăng nhập, không thể xem số lượt thích và người theo dõi."
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "Tiền tệ nơi bạn truy cập",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "so với hôm qua",
+      "change30d": "so với 30 ngày trước",
+      "sparkAria": "Xu hướng 30 ngày của {quote}",
+      "majors": "Bảng vĩ mô toàn cầu",
+      "parity": "Ngang giá crypto",
+      "dollarIndex": "Chỉ số sức mạnh đồng đô la",
+      "dollarIndexNote": "Xấp xỉ theo trọng số DXY từ 6 tiền tệ tham chiếu ECB · 30 ngày trước = 100",
+      "gold": "Vàng (PAXG)",
+      "unreadable": "Không thể đọc tín hiệu tỷ giá · vui lòng thử lại sau giây lát",
+      "facts": {
+        "home": "Tiền tệ bản địa",
+        "pairs": "Cặp tiền tệ"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "Toàn cầu"
+      },
+      "radiusAria": "Bán kính dò tìm",
+      "facts": {
+        "radius": "Bán kính dò tìm",
+        "detected": "Điểm dò được",
+        "nearest": "Gần nhất",
+        "beams": "Chùm quét"
+      },
+      "lens": {
+        "nomad": "Điểm gặp gỡ du mục",
+        "factory": "Không gian làm việc nhà máy AI",
+        "inspiration": "Điểm cảm hứng ẩn giấu",
+        "signal": "Tín hiệu"
+      },
+      "radarAria": "Omni-radar lấy {center} làm tâm · bán kính {radius}",
+      "center": "Tâm",
+      "constellation": "Nexus Du mục UNITAS · 16 trung tâm",
+      "constellationNote": "16 trung tâm du mục số chủ quyền trên toàn cầu · khoảng cách đo thực từ bạn",
+      "empty": "Không dò được điểm nào trong bán kính này",
+      "unreadable": "Không thể đọc tín hiệu radar · vui lòng thử lại sau giây lát",
+      "exact": "Khoảng cách đo thực · sai số bán kính 0%"
+    },
+    "tabs": {
+      "rotating": "Chủ đề phụ tự động xoay · nhấn để giữ cố định",
+      "held": "Đã giữ · nhấn lần nữa để tiếp tục xoay"
     }
   }
 }

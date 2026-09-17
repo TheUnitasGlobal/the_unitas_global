@@ -14,7 +14,7 @@ const { test, expect } = require('@playwright/test');
 // non-static request with `respondWith(fetch(...))`, and a worker-mediated
 // fetch is invisible to page.route (REV-25, measured).
 const { reachReleasedHome } = require('./_rev25Home');
-const { expectRetiredRankingsGone } = require('./_rev35Retired');
+const { expectRetiredURankingGone } = require('./_rev41Retired');
 
 const input = (page) => page.locator('#omni-synapse-search input[type="text"]');
 
@@ -290,43 +290,19 @@ test.describe('REV-34 M4 -- UNITAS SQUARE', () => {
   });
 });
 
-// REV-35 M1 (founder directive 2026-09-16, D-4/D-8): 유랭킹 on the discovery
-// rail. The card body is the compact rail (no chips); the card TITLE opens
-// the deep modal and ONLY the deep modal -- the full rail with its module
-// filter chips, the omni-open block and the one meta line -- with no entry
-// popup on top, because no entry was tapped (`initialOpenId` is undefined
-// on a title open). The tap-a-card path, which does stack the entry popup,
-// is the rev19-back-stack contract.
-test.describe('REV-35 M1 -- 유랭킹 on the discovery rail', () => {
-  test('the title click opens the U-Ranking deep modal only: the full rail with its filter chips, no entry popup', async ({ page }) => {
+// REV-41 D-7 (founder directive 2026-09-17, 1-F): 유랭킹 is OFF the discovery
+// rail -- the REV-35 M1 slot, its compact rail, its deep modal and that
+// modal's body are deleted from the registry, so the rail seats fifteen and
+// none of the retired hooks may exist while the hub is open. U-Square's own
+// 유랭킹 (M4-A/C above, `data-square-theme="uRanking"`) is a different
+// surface and stays exactly as measured there.
+test.describe('REV-41 D-7 -- the U-Ranking slot is retired from the rail', () => {
+  test('fifteen seats, none of them 유랭킹, and no retired U-Ranking surface with the hub open', async ({ page }) => {
     await reachReleasedHome(page);
     await openHub(page);
-    await pin(page, 'uRanking');
-    const card = page.locator('[data-slot-card="uRanking"][data-slot-kind="uRanking"]');
-    await expect(card.locator('[data-urank-variant="compact"] [data-urank-rail] [data-urank]')).toHaveCount(12);
-    await expect(card.locator('[data-urank-filter]')).toHaveCount(0);
-
-    await card.locator('.qw-hub-card-title .qw-hub-title-hit').click();
-    await expect(page.locator('#uranking-deep-title')).toBeVisible({ timeout: 8_000 });
-    const modal = page.locator('[data-modal-size="xl"] [data-slot-modal="uRanking"]');
-    await expect(modal).toBeVisible();
-    await expect(modal.locator('[data-unitas-urankings][data-urank-variant="full"]')).toBeAttached();
-    await expect(modal.locator('[data-urank-filter="all"]')).toBeVisible();
-    await expect(modal.locator('[data-urank-rail] [data-urank]')).toHaveCount(12);
-    await expect(modal.locator('[data-omni-open]')).toHaveCount(1);
-    await expect(modal.locator('[data-meta-line]')).toHaveCount(1);
-
-    // The entry popup parks one commit after the deep modal on the card-tap
-    // path, so a title open is only proven popup-free once that commit has
-    // had a chance to land -- hence the settle before the zero count.
-    await page.waitForTimeout(600);
-    await expect(page.locator('#unitas-urank-title')).toHaveCount(0);
-    await expectRetiredRankingsGone(page);
-
-    // Escape closes the deep modal and nothing else (REV-34 M3: ESC is back).
-    await page.keyboard.press('Escape');
-    await expect(page.locator('#uranking-deep-title')).toHaveCount(0, { timeout: 8_000 });
-    await expect(page.locator('[data-live-hub]')).toBeVisible();
-    await expect(page.locator('#exit-guard-title')).toHaveCount(0);
+    const chips = page.locator('[data-live-hub] [data-slot]');
+    await expect(chips.first()).toBeVisible();
+    await expect(chips).toHaveCount(15);
+    await expectRetiredURankingGone(page);
   });
 });

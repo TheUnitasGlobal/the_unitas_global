@@ -2217,7 +2217,7 @@
       },
       "nearby": {
         "title": "In de buurt",
-        "tag": "Verhalen binnen 10 km van jou"
+        "tag": "Een soevereine omni-radar die om jou draait"
       },
       "facts": {
         "city": "Stad",
@@ -2272,7 +2272,7 @@
       },
       "newProducts": {
         "title": "Nieuwe producten",
-        "tag": "Zestien families die de wereld net uitbracht — auto’s, telefoons, mobiliteit, gadgets, games, AI-agents, quantum, SaaS, biogezondheid, neurotech, ruimtevaart, XR, DeFi, eco-energie, nomad-uitrusting en robots"
+        "tag": "Een multidimensionale nexus van hyperinnovatieve hardware en quantumapparaten die de toekomst dichterbij brengen"
       }
     }
   },
@@ -2915,11 +2915,6 @@
       }
     }
   },
-  "Rev35": {
-    "uRanking": {
-      "tag": "De UNITAS-ladder, elke dag opnieuw geschreven door Micro-Burn-efficiëntie, kennisverkopen en nomadenbijdrage"
-    }
-  },
   "Rev36": {
     "talk": {
       "roomEmpty": "Nog geen berichten. Zeg het eerste woord."
@@ -2960,6 +2955,58 @@
     },
     "shorts": {
       "countsUnreadable": "Uitgelogd zijn like- en volgaantallen niet zichtbaar."
+    }
+  },
+  "Rev41": {
+    "fx": {
+      "homeLabel": "Je lokale valuta",
+      "perUnit": "1 {base} = {value} {quote}",
+      "change24h": "t.o.v. gisteren",
+      "change30d": "t.o.v. 30 dagen geleden",
+      "sparkAria": "30-dagentrend van {quote}",
+      "majors": "Globaal macrobord",
+      "parity": "Cryptopariteit",
+      "dollarIndex": "Dollarsterkte-index",
+      "dollarIndexNote": "DXY-gewogen benadering uit 6 ECB-referentievaluta's · 30 dagen geleden = 100",
+      "gold": "Goud (PAXG)",
+      "unreadable": "Het valutasignaal kan niet worden gelezen · probeer het zo opnieuw",
+      "facts": {
+        "home": "Thuisvaluta",
+        "pairs": "Valutaparen"
+      },
+      "source": "Frankfurter (ECB) · CoinGecko · GeoJS"
+    },
+    "nearby": {
+      "radius": {
+        "r10": "10km",
+        "r50": "50km",
+        "r100": "100km",
+        "global": "Wereldwijd"
+      },
+      "radiusAria": "Detectiestraal",
+      "facts": {
+        "radius": "Detectiestraal",
+        "detected": "Gedetecteerde spots",
+        "nearest": "Dichtstbij",
+        "beams": "Sweepbundels"
+      },
+      "lens": {
+        "nomad": "Nomaden-meetupspots",
+        "factory": "AI-fabriekswerkplekken",
+        "inspiration": "Verborgen inspiratieplekken",
+        "signal": "Signalen"
+      },
+      "radarAria": "Omni-radar gecentreerd op {center} · straal {radius}",
+      "center": "Centrum",
+      "constellation": "UNITAS Nomaden-Nexus · 16 hubs",
+      "constellationNote": "16 soevereine digital-nomad-hubs wereldwijd · gemeten afstand vanaf jou",
+      "empty": "Geen spots gedetecteerd binnen deze straal",
+      "unreadable": "Het radarsignaal kan niet worden gelezen · probeer het zo opnieuw",
+      "exact": "Gemeten afstand · 0% straalafwijking"
+    },
+    "tabs": {
+      "rotating": "Subthema's roteren automatisch · druk om vast te zetten",
+      "held": "Vastgezet · druk nogmaals om weer te roteren"
     }
   }
 }

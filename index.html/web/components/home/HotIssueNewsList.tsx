@@ -17,7 +17,8 @@ import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
 import { Modal } from '@/components/ui/Modal';
 import { HubDot } from '@/components/home/hub/HubDot';
 import { HubMetaLine } from '@/components/home/hub/HubMetaLine';
-import { HubRowEnter, HubTitleRow } from '@/components/home/hub/HubTitleRow';
+import { HubRow } from '@/components/home/hub/HubRow';
+import { HubTitleRow } from '@/components/home/hub/HubTitleRow';
 import { useDragScroll } from '@/components/ui/useDragScroll';
 import { centeredScrollLeft } from '@/lib/interaction/railDrag';
 import { OmniOpen } from '@/components/home/OmniOpen';
@@ -103,9 +104,17 @@ function storiesOf(items: readonly HotNewsItem[], feed: AxisFeed, axis: HotNewsC
  *    are gone. REV-34 M1-B: every footer is the one HubMetaLine format.
  *  - M2.4 / REV-31 DIRECT ONLY: the collapsed toggle is gone, and so is
  *    the lens grid behind it. The omni-open pair ("다른출처에서열기"
- *    above "다른플랫폼에서열기") sits in flow under the card, in the
- *    main popup and in the story popup, so the reader reaches everything
- *    by scrolling.
+ *    above "다른플랫폼에서열기") sits in flow in the main popup and in
+ *    the story popup, so the reader reaches everything by scrolling.
+ *    REV-41 1-A (founder directive 2026-09-17): the third copy that used to
+ *    sit under the card on the DEFAULT popup is deleted for good -- the
+ *    card is the axis's teaser, and its pair only repeated the one the
+ *    axis popup shows a click later. The axis popup and the story popup
+ *    keep theirs (E2E rev29-verify 'M2.4 / REV-31 / REV-41 1-A' and
+ *    rev41-uai-popup '1-A' assert block-direct 0, one per popup).
+ *  - REV-41 D-1 (mission 1-B): every story row is a <HubRow> -- the headline
+ *    is an inline span and its ⏎ box rides the last glyph like a tail,
+ *    on one line or two, instead of being pinned to the row's right end.
  *
  * Codex ch.1 (한계 비용 0원): an unattended advance never spends a request --
  * the clock walks the axes the day's featured board already covers; the
@@ -116,7 +125,6 @@ export function HotIssueNewsList() {
   const t = useTranslations('HotNews');
   const tHub = useTranslations('Rev19.hub');
   const locale = useLocale();
-  const lang = wikiLangFor(locale);
   const { playHoverSfx } = useSpatialAudio();
 
   const railRef = useRef<HTMLDivElement>(null);
@@ -444,7 +452,7 @@ export function HotIssueNewsList() {
 
       {/* M2.3: ONE card for the active axis -- inert container, a one-click
           title row (text + ⏎ box), the top stories as rows that open the
-          story popup (their own ⏎ box at the right end). */}
+          story popup (REV-41 D-1: their own ⏎ box trailing the last glyph). */}
       <div
         ref={cardBoxRef}
         className="qw-hub-card qw-no-anchor mt-3 border border-white/10 bg-void/40 p-4"
@@ -484,26 +492,20 @@ export function HotIssueNewsList() {
             <p className="py-3 text-[14px] text-gray-500">{failed && items.length === 0 ? t('empty') : t('axisEmpty')}</p>
           ) : (
             <ul className="grid grid-cols-1 gap-1 md:grid-cols-2" data-news-card-items="">
+              {/* REV-41 D-1: HubRow owns the row grammar (inline headline +
+                  tail ⏎, stopPropagation, Enter/Space); the card keeps only
+                  what differs per row -- the axis dot, the story, the meta. */}
               {visible.slice(0, CARD_ITEMS).map((it) => (
-                <li key={it.id} data-news-item="" className="qw-hub-row">
-                  <button
-                    type="button"
-                    className="qw-hub-headline text-white"
-                    onMouseEnter={() => playHoverSfx()}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setStory(it);
-                    }}
-                    aria-label={t('detailAria', { title: it.title })}
-                  >
-                    <HubDot color={activeMeta.color} className="mt-1.5" />
-                    <span className="min-w-0 flex-1">
-                      <span className="qw-hub-headline-text line-clamp-2">{it.title}</span>
-                      <span className="qw-hub-source mt-0.5 block text-gray-500">{storyMeta(it, locale)}</span>
-                    </span>
-                  </button>
-                  <HubRowEnter onOpen={() => setStory(it)} />
-                </li>
+                <HubRow
+                  key={it.id}
+                  data-news-item=""
+                  marker={<HubDot color={activeMeta.color} className="mt-1.5" />}
+                  title={it.title}
+                  source={storyMeta(it, locale)}
+                  titleAriaLabel={t('detailAria', { title: it.title })}
+                  onOpen={() => setStory(it)}
+                  onHover={() => playHoverSfx()}
+                />
               ))}
             </ul>
           )}
@@ -514,9 +516,8 @@ export function HotIssueNewsList() {
         </div>
       </div>
 
-      {/* M2.4: direct only, in flow, nothing to unfold. */}
-      <OmniOpen anchor={qidAnchor(AXIS_QID[activeAxis], axisLabel, lang)} host="newsRail" family="news" className="mt-3" />
-
+      {/* REV-41 1-A: no omni-open pair under the card any more -- the axis
+          popup and the story popup below carry the only two on this block. */}
       <NewsAxisModal
         axis={deepAxis}
         stories={deepStories}
@@ -594,26 +595,26 @@ function NewsAxisModal({
             <p className="py-4 text-[14px] text-gray-500">{t('axisEmpty')}</p>
           ) : (
             <ol className="max-h-[52vh] space-y-1 overflow-y-auto overscroll-contain pr-1" data-news-modal-list="">
+              {/* REV-41 D-1: the same HubRow as the card, with the rank
+                  number as the marker and the summary as the description
+                  (HubRow clamps the description to two lines, never the
+                  headline -- the tail ⏎ must always follow a visible glyph). */}
               {stories.map((it, i) => (
-                <li key={it.id} data-news-item="" className="qw-hub-row">
-                  <button
-                    type="button"
-                    className="qw-hub-headline text-white"
-                    onMouseEnter={() => playHoverSfx()}
-                    onClick={() => onOpenStory(it)}
-                    aria-label={t('detailAria', { title: it.title })}
-                  >
+                <HubRow
+                  key={it.id}
+                  data-news-item=""
+                  marker={
                     <span className="w-6 shrink-0 text-[12px] font-bold" style={{ color: meta.color }}>
                       {i + 1}
                     </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="qw-hub-headline-text block">{it.title}</span>
-                      {it.summary && <span className="qw-hub-desc mt-0.5 line-clamp-2 block text-[12px] leading-snug text-gray-400">{it.summary}</span>}
-                      <span className="qw-hub-source mt-0.5 block text-gray-500">{storyMeta(it, locale)}</span>
-                    </span>
-                  </button>
-                  <HubRowEnter onOpen={() => onOpenStory(it)} />
-                </li>
+                  }
+                  title={it.title}
+                  description={it.summary}
+                  source={storyMeta(it, locale)}
+                  titleAriaLabel={t('detailAria', { title: it.title })}
+                  onOpen={() => onOpenStory(it)}
+                  onHover={() => playHoverSfx()}
+                />
               ))}
               <li className="pt-2" data-news-more="">
                 {feed.hasMore ? (

@@ -115,14 +115,15 @@ test.describe('REV-25 M2 -- responsive typography and pixel alignment', () => {
     await reachReleasedHome(page);
     await page.locator('#omni-synapse-search input[type="text"]').first().click();
     await page.waitForTimeout(500);
-    // REV-35 M1 (D-8): the module-ranking slot is retired; the widest dialog
-    // on the rail is now the U-Ranking deep modal (size xl), opened by a tap
-    // on a card of the compact rail. The fit rule below is unchanged.
-    await page.locator('[data-live-hub] [data-slot="uRanking"]').first().click();
-    const card = page.locator('[data-slot-card="uRanking"][data-slot-kind="uRanking"]');
+    // REV-41 D-7: the U-Ranking seat is retired in turn; the widest dialog
+    // on the rail is the feed deep modal (FeedDeepModal, size xl), measured
+    // here on the `newProducts` seat and opened through its title (REV-34
+    // M1-C: one click). The fit rule below is unchanged.
+    await page.locator('[data-live-hub] [data-slot="newProducts"]').first().click();
+    const card = page.locator('[data-slot-card="newProducts"]');
     await expect(card).toBeVisible({ timeout: 15_000 });
-    await card.locator('[data-urank-rail] [data-urank]').first().click();
-    await expect(page.locator('#uranking-deep-title')).toBeVisible({ timeout: 15_000 });
+    await card.locator('.qw-hub-card-title .qw-hub-title-hit').click();
+    await expect(page.locator('#feed-deep-title')).toBeVisible({ timeout: 15_000 });
     const fit = await page.evaluate(() => {
       const dialog = document.querySelector('[role="dialog"]');
       const r = dialog.getBoundingClientRect();

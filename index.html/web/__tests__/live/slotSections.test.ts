@@ -147,37 +147,36 @@ describe('registry wrapper', () => {
     vi.unstubAllGlobals();
   });
 
-  it('attaches sections to a loaded card, fx putting the own currency second', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(
-        async () =>
-          new Response(
-            JSON.stringify([
-              { date: '2026-09-12', base: 'USD', quote: 'EUR', rate: 0.9 },
-              { date: '2026-09-12', base: 'USD', quote: 'JPY', rate: 147.1 },
-              { date: '2026-09-12', base: 'USD', quote: 'GBP', rate: 0.78 },
-              { date: '2026-09-12', base: 'USD', quote: 'KRW', rate: 1390.5 },
-            ]),
-            { status: 200 },
-          ),
-      ),
-    );
+  /** REV-41 D-3: the compass asks for the majors, the DXY basket and the
+   *  home currency in ONE window request; answer whatever it asked for and
+   *  let CoinGecko fail so only the Frankfurter leg is under test here. */
+  const RATES: Record<string, number> = { EUR: 0.9, JPY: 147.1, GBP: 0.78, CNY: 7.12, CAD: 1.35, SEK: 10.4, CHF: 0.88, KRW: 1390.5 };
+  const fxFetch = () =>
+    vi.fn(async (input: string) => {
+      if (!input.includes('api.frankfurter.dev')) return new Response('', { status: 429 });
+      const quotes = (new URL(input).searchParams.get('quotes') ?? '').split(',');
+      const rows = quotes.filter((q) => q in RATES).map((q) => ({ date: '2026-09-12', base: 'USD', quote: q, rate: RATES[q] }));
+      return new Response(JSON.stringify(rows), { status: 200 });
+    });
+
+  it('attaches sections to a loaded card, fx putting the own currency second as a ROW (REV-41 D-3)', async () => {
+    vi.stubGlobal('fetch', fxFetch());
     const loaded = await findDiscoverySlot('fx')!.load({ locale: 'ko', country: 'KR' });
     expect(loaded.sections?.map((s) => s.scope)).toEqual(['global', 'country']);
-    const own = loaded.sections?.[1].facts ?? [];
+    const own = loaded.sections?.[1].items ?? [];
     expect(own).toHaveLength(1);
-    expect(own[0].value).toContain('KRW');
+    expect(own[0].title).toContain('USD/KRW');
     // ...and the global section never repeats it.
-    expect((loaded.sections?.[0].facts ?? []).some((f) => f.value.includes('KRW'))).toBe(false);
+    expect((loaded.sections?.[0].items ?? []).some((i) => i.title.includes('KRW'))).toBe(false);
+    // The big figure is the widget's job now: no fact is emphasised.
+    expect(loaded.facts.some((f) => f.emphasis)).toBe(false);
+    expect(loaded.widget?.kind).toBe('fxCompass');
   });
 
-  it('leaves the fx card of an en visitor global-only (no country currency to add)', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async () => new Response(JSON.stringify([{ date: '2026-09-12', base: 'USD', quote: 'EUR', rate: 0.9 }]), { status: 200 })),
-    );
+  it('leaves the fx card of an en visitor global-only (the EUR fallback hero is not "their" currency)', async () => {
+    vi.stubGlobal('fetch', fxFetch());
     const loaded = await findDiscoverySlot('fx')!.load({ locale: 'en', country: 'US' });
     expect(loaded.sections?.map((s) => s.scope)).toEqual(['global']);
+    expect(loaded.items[0].title).toContain('USD/EUR');
   });
 });

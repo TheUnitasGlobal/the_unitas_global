@@ -10,7 +10,7 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
   type PointerEvent as ReactPointerEvent,
 } from 'react';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { ExternalLink, Loader2 } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { useSpatialAudio } from '@/components/audio/SpatialAudioProvider';
@@ -21,12 +21,12 @@ import { OmniOpen } from '@/components/home/OmniOpen';
 import { omniFamilyForSlot } from '@/lib/uai/sourceRegistry';
 import { HubDot } from '@/components/home/hub/HubDot';
 import { HubMetaLine } from '@/components/home/hub/HubMetaLine';
-import { HubRowEnter, HubTitleRow } from '@/components/home/hub/HubTitleRow';
-import { URankingsShorts } from '@/components/home/hub/URankingsShorts';
+import { HubRow } from '@/components/home/hub/HubRow';
+import { HubTitleRow } from '@/components/home/hub/HubTitleRow';
+import { SlotTabRail } from '@/components/home/hub/SlotTabRail';
+import { SlotWidgetView, slotWidgetKind } from '@/components/home/widgets/SlotWidgetView';
 import { captureScroll, reserveHeight } from '@/lib/ui/scrollAnchor';
-import { U_RANKINGS_COUNT } from '@/lib/square/uRankings';
-import { readWeatherCache } from '@/lib/live/useLiveWeather';
-import { entityAnchor, resolveDeeperPlace } from '@/lib/uai/deeperAnchor';
+import { entityAnchor } from '@/lib/uai/deeperAnchor';
 import { resolveEntity } from '@/lib/uai/entityResolve';
 import { useDragScroll } from '@/components/ui/useDragScroll';
 import { useHorizontalSwipe } from '@/components/ui/useHorizontalSwipe';
@@ -40,48 +40,53 @@ import { anchorDataAttrs, placeAnchor, qidAnchor, textAnchor, type DeeperAnchor 
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
 import {
   DISCOVERY_SLOTS,
+  SLOT_PROVIDER,
   SLOT_QID,
   discoverySlotAt,
   findDiscoverySlot,
+  knownPlace,
   slotTtlMs,
   type SlotCard,
   type SlotContext,
   type SlotItem,
-  type SlotItemAction,
   type SlotKey,
   type SlotSection,
 } from '@/lib/live/discoverySlots';
 
 /**
  * REV-20 §3 / REV-21 §1 -- the single unified discovery carousel ("실시간
- * 숏컷"). Every one of the 16 slots (weather, the 14 feed themes and --
- * REV-35 M1 -- the one U-Ranking slot) renders through the exact same
- * chip-rail + card shell.
+ * 숏컷"). Every one of the 15 slots (weather and the 14 feed themes)
+ * renders through the exact same chip-rail + card shell.
  *
  * REV-21 §1 changes, in order of the SPEC:
  *  §1.2 the chip rail is a native snap scroller with mouse grab-drag
  *       (useDragScroll) and the active card answers a left/right swipe
  *       (useHorizontalSwipe) -- 60fps, one rAF per pointer frame;
- *  §1.3 a slot may carry sub-tabs inside the card (today: the product
- *       families), each tab a cursor-driven reload cached under
- *       `${cacheKey}:${tab}`;
- *  §1.4 one deep modal per kind (weather / feed / uRanking);
- *  §1.5 the WHOLE card is the hitbox (role=button); inner controls stop
- *       propagation;
+ *  §1.3 a slot may carry sub-tabs inside the card (the product families,
+ *       REV-41 the Around-Me radii), each tab a cursor-driven reload cached
+ *       under `${cacheKey}:${tab}` -- REV-41 D-6: the tabs are SlotTabRail,
+ *       the main rail's own chip, and the families advance on the clock;
+ *  §1.4 one deep modal per kind (weather / feed);
+ *  §1.5 the WHOLE card was the hitbox (role=button) -- retired by REV-23
+ *       M2.3 (inert container) and re-opened by REV-41 D-2 for ONE-TARGET
+ *       slots only, as `data-one-target` + a container onClick, never a
+ *       role; inner controls stop propagation;
  *  §1.6 rotation pauses while held / hovered / dragged / a modal is open /
  *       the tab is hidden, and a release continues from the current slot;
  *       the slot change is a transform/opacity crossfade on a fixed-height
  *       card (no 7-second layout shift).
  *
- * REV-35 M1 (founder directive 2026-09-16, D-1/D-4): the REV-20 carousel
- * contract is revoked. The two `ranking` slots (world / UNITAS) and the
- * panels they embedded are deleted; in their place the U-Square 유랭킹 rail
- * (URankingsShorts) IS the `uRanking` card body -- compact, tap delegated
- * up through `onSelect` -- and the deep modal mounts the full rail landed on
- * the tapped entry. The delegation is not a style choice: the card body is
- * keyed by `activeKey` and the clock only stands still while `deep !==
- * null`, so a popup the rail opened by itself would be unmounted by the
- * next 7-second tick. Only the deep modal may own that popup.
+ * REV-41 D-7 (founder directive 2026-09-17, mission 1-F) revokes REV-35
+ * M1's slot: the `uRanking` seat -- the U-Square 유랭킹 rail embedded as a
+ * card body with its own deep modal, entry action and ledger meta line --
+ * is gone from the rail, the registry and this file. The hub itself keeps
+ * 유랭킹 (the U-Square rankings rail, HubRankings and lib/square/uRankings.ts
+ * are untouched); only the carousel seat was retired.
+ *
+ * REV-41 D-8: a card whose adapter attaches a typed `widget` (the FX
+ * compass hero, the Around-Me omni-radar) renders it through SlotWidgetView
+ * above its facts row, and the deep modal renders the same widget at full
+ * width above its sections.
  */
 
 /** Session-scoped, module-level so a slot revisited within its TTL (even
@@ -108,28 +113,15 @@ function scopeGroups(card: SlotCard | null): SlotSection[] {
   return [{ scope: 'global', facts: card.facts, items: card.items }];
 }
 
-function isURankingKey(key: SlotKey): boolean {
-  return findDiscoverySlot(key)?.kind === 'uRanking';
-}
-
-/** REV-35 M1 (D-4): the meta line's source for the U-Ranking surfaces. The
- *  ladder is UNITAS' own ledger, not a third-party engine, so the line names
- *  it the way the weather line names Open-Meteo -- a proper noun, not a
- *  translated label. */
-const U_RANKING_META_SOURCE = 'UNITAS Ledger';
-
-/** REV-35 M1 (D-6): the U-Ranking slot reuses the hub's own branding
- *  (`Rev34.uRankings.label`) as its title and takes one new short tag line
- *  (`Rev35.uRanking.tag`) -- the hub's lede is a full sentence, too long for
- *  the 13px tag. */
+/** The awards slot keeps its REV-23 keys; every other slot reads
+ *  `Rev20.slots.<key>`. REV-41 D-7 removed the U-Ranking branch with the
+ *  slot (its REV-35 i18n namespace is gone from every locale). */
 function slotTitleKey(key: SlotKey): string {
   if (key === 'awards') return 'Rev23.awards.title';
-  if (isURankingKey(key)) return 'Rev34.uRankings.label';
   return `Rev20.slots.${key}.title`;
 }
 function slotTagKey(key: SlotKey): string {
   if (key === 'awards') return 'Rev23.awards.tag';
-  if (isURankingKey(key)) return 'Rev35.uRanking.tag';
   return `Rev20.slots.${key}.tag`;
 }
 
@@ -138,16 +130,12 @@ function cardKeyFor(ctx: SlotContext, key: SlotKey, tab: string | undefined): st
   return tab ? `${base}:${tab}` : base;
 }
 
-/** What the deep modal opens on: the slot, plus the sub-tab that was
- *  showing and -- REV-35 M1 -- the U-Ranking entry that was tapped, so the
- *  full rail inside the modal lands on that entry's own popup. */
+/** What the deep modal opens on: the slot. REV-41 D-7 dropped the sub-tab
+ *  and the U-Ranking entry action it used to carry -- the deep modal owns
+ *  its own tab (FeedDeepModal), and no slot item carries an in-app action
+ *  any more. */
 interface DeepTarget {
   key: SlotKey;
-  tab?: string;
-  action?: SlotItemAction;
-  /** REV-34 M1-B: when the card being opened was loaded, for the U-Ranking
-   *  modal's meta line (the embedded rail carries no timestamp of its own). */
-  updatedAt?: number;
 }
 
 export function DiscoveryCarousel() {
@@ -163,9 +151,17 @@ export function DiscoveryCarousel() {
   const [tick, setTick] = useState(0);
   const [epoch, setEpoch] = useState(0);
   const [deep, setDeep] = useState<DeepTarget | null>(null);
-  const [card, setCard] = useState<SlotCard | null>(null);
-  const [cardLoading, setCardLoading] = useState(false);
+  /** The last card the loader committed and the cache key it belongs to.
+   *  Read through `card` / `cardLoading` below, which re-key them to the
+   *  ACTIVE slot every render (REV-41 integration fix). */
+  const [storedCard, setCard] = useState<SlotCard | null>(null);
+  const [storedLoading, setCardLoading] = useState(false);
+  const [cardKey, setCardKey] = useState<string | null>(null);
   const [tabBySlot, setTabBySlot] = useState<Partial<Record<SlotKey, string>>>({});
+  /** REV-41 D-6: the sub-tab a visitor pinned on an autoplay rail, per
+   *  slot -- the same shape as `held` for the main rail. A pick pins, a
+   *  second press on the pinned chip releases (SlotTabRail reports both). */
+  const [tabHeldBySlot, setTabHeldBySlot] = useState<Partial<Record<SlotKey, string>>>({});
   const [hovering, setHovering] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -175,9 +171,13 @@ export function DiscoveryCarousel() {
    *  sub-tab pick). Consumed by the loader effect, which spends a request on
    *  a stale card only when the visitor -- never the clock -- asked for it. */
   const intentRef = useRef(false);
+  /** REV-41 D-6 (integration fix): set by the sub-tab rail's auto-advance so
+   *  the loader reads a pinned card's family clock as a CLOCK -- `held`
+   *  alone used to read as intent, which would have bought a refresh of a
+   *  stale family on every tick of a pinned newProducts card. */
+  const tabClockRef = useRef(false);
   const chipRefs = useRef<Map<SlotKey, HTMLButtonElement>>(new Map());
   const railRef = useRef<HTMLDivElement>(null);
-  const tabRailRef = useRef<HTMLDivElement>(null);
   /** REV-23 M3.3: the card box and the tallest payload it has held. The
    *  reservation only ever grows within a session, so a shorter card can
    *  never shrink the document under whatever the visitor is reading. */
@@ -188,6 +188,17 @@ export function DiscoveryCarousel() {
   const activeKey = activeSlot.key;
   const activeTab = tabBySlot[activeKey];
   const activeIndex = Math.max(0, DISCOVERY_SLOTS.findIndex((s) => s.key === activeKey));
+
+  // REV-41 (integration fix): the card in state may still belong to the slot
+  // the clock just left -- the loader effect only flushes AFTER this paint.
+  // A stored card is live only when its cache key is the active one; else
+  // the module cache answers synchronously (a Map read, no side effect) or
+  // this is a loading frame. No stale rows for a frame, and no false
+  // "unreadable" flash on the fx / nearby widgets.
+  const activeCacheKey = cardKeyFor(ctx, activeKey, activeTab);
+  const cachedNow = cardCache.get(activeCacheKey)?.card ?? null;
+  const card: SlotCard | null = cardKey === activeCacheKey ? storedCard : cachedNow;
+  const cardLoading = cardKey === activeCacheKey ? storedLoading : cachedNow === null;
 
   // §1.6: every reason the rotation stands still. `document.hidden` keeps a
   // background tab from burning fetches on slots nobody sees.
@@ -245,7 +256,7 @@ export function DiscoveryCarousel() {
     setReserved((seen) => reserveHeight(seen, measured));
   }, [activeKey, card, cardLoading]);
 
-  // Load the active slot's card (and, for ranking slots, the selected tab),
+  // Load the active slot's card (and, for tabbed slots, the selected tab),
   // honouring its per-kind TTL cache keyed on locale + country + slot + tab.
   useEffect(() => {
     let cancelled = false;
@@ -256,10 +267,9 @@ export function DiscoveryCarousel() {
     // REV-24 M3 (founder directive 2026-09-13, Codex ch.1 한계 비용 0원): the
     // CLOCK never spends a request. Before this, a 7s tick that landed on a
     // slot whose cache entry had aged past its TTL (15 min feed / 10 min
-    // weather / 6 h U-Ranking) re-fetched it -- and since a full loop is 16
-    // x 7s = 112s (REV-35: 16 slots again, one of them the seeded U-Ranking
-    // that never touches the network), the rotation re-fetched every
-    // network-backed slot once
+    // weather) re-fetched it -- and since a full loop is 15 x 7s = 105s
+    // (REV-41 D-7 retired the seeded U-Ranking seat, so every seat is
+    // network-backed now), the rotation re-fetched every slot once
     // per TTL, forever, for a visitor who had done nothing but leave the
     // search box focused. Thirteen of those calls go browser -> third-party
     // origin, so they were not even visible in our own logs.
@@ -268,24 +278,29 @@ export function DiscoveryCarousel() {
     // unit-tested. What this component owns is the INTENT signal: every
     // deliberate landing routes through `setHeld` (pinned chip, swipe, arrow
     // key, closed deep modal) or arms `intentRef` (a sub-tab pick), and the
-    // clock does neither.
-    const source: RotationSource = held !== null || intentRef.current ? 'intent' : 'clock';
+    // clock does neither -- REV-41 D-6: the sub-tab rail's auto-advance
+    // (`onPick(key, 'clock')`) is a clock as well and arms nothing.
+    const source: RotationSource = intentRef.current || (held !== null && !tabClockRef.current) ? 'intent' : 'clock';
     intentRef.current = false;
+    tabClockRef.current = false;
     const plan = decideRotationLoad({ cachedAt: cached?.at, ttlMs: ttl, source });
     if (!plan.spendsRequest) {
       // `hasPaintableCache` is what makes this branch safe: `decideRotationLoad`
       // only answers `memory` when there IS an entry.
       if (cached) {
         setCard(cached.card);
+        setCardKey(cacheKey);
         setCardLoading(false);
       }
     } else {
       setCardLoading(!cached);
       setCard(cached ? cached.card : null);
+      setCardKey(cacheKey);
       void activeSlot.load({ ...ctx, signal: controller.signal }, activeTab ? { tab: activeTab } : undefined).then((next) => {
         if (cancelled) return;
         cardCache.set(cacheKey, { card: next, at: Date.now() });
         setCard(next);
+        setCardKey(cacheKey);
         setCardLoading(false);
       });
     }
@@ -305,8 +320,6 @@ export function DiscoveryCarousel() {
     onDragStart: () => setDragging(true),
     onDragEnd: () => setDragging(false),
   });
-  const tabRail = useDragScroll(tabRailRef);
-
   // Keep the active chip centred -- 24 chips reliably overflow. Scrolling the
   // rail itself (not scrollIntoView) guarantees the page never moves.
   useEffect(() => {
@@ -338,13 +351,34 @@ export function DiscoveryCarousel() {
     setHeld(next);
   });
 
-  const openDeep = useCallback(
-    (key: SlotKey, action?: SlotItemAction) => {
-      // `card` is the active slot's own entry (or null while it loads), so
-      // its timestamp is the one the deep modal's meta line may quote.
-      setDeep({ key, tab: tabBySlot[key], action, updatedAt: card?.updatedAt });
+  const openDeep = useCallback((key: SlotKey) => setDeep({ key }), []);
+
+  /** REV-41 D-6: a sub-tab pick. A click is stated intent (REV-24 M3: it
+   *  may spend the one request a stale card needs); the rail's own clock is
+   *  a clock -- it only moves the tab, and the loader serves memory or
+   *  spends the first fill exactly as the main clock does. */
+  const onTabPick = useCallback(
+    (key: string, source: 'intent' | 'clock') => {
+      if (source === 'intent') intentRef.current = true;
+      else tabClockRef.current = true;
+      setTabBySlot((prev) => ({ ...prev, [activeKey]: key }));
     },
-    [tabBySlot, card],
+    [activeKey],
+  );
+  /** REV-41 D-6: pin / release a sub-tab, the main `toggleHold` one level
+   *  down. SlotTabRail calls this after an intent pick (which pins the
+   *  picked tab) and on a press of the active chip (release when it was
+   *  the pinned one, pin otherwise). */
+  const toggleTabHold = useCallback(
+    (key: string) => {
+      setTabHeldBySlot((prev) => {
+        const next = { ...prev };
+        if (prev[activeKey] === key) delete next[activeKey];
+        else next[activeKey] = key;
+        return next;
+      });
+    },
+    [activeKey],
   );
   /** §1.4: a close pins the slot the modal was opened from (`held = openKey`)
    *  so the carousel never jumps to a different slot the moment the visitor
@@ -359,7 +393,7 @@ export function DiscoveryCarousel() {
       window.open(item.url, '_blank', 'noopener,noreferrer');
       return;
     }
-    openDeep(activeKey, item.action);
+    openDeep(activeKey);
   }
 
   // REV-23 M2.3: Enter / Space no longer open from the card container --
@@ -378,8 +412,23 @@ export function DiscoveryCarousel() {
   }
 
   const title = t(slotTitleKey(activeKey));
-  const uRankingActive = activeSlot.kind === 'uRanking';
   const hasContent = Boolean(card && (card.facts.length > 0 || card.items.length > 0));
+  // REV-41 D-8: the widget this slot's card carries (fx / nearby), known
+  // before the card arrives so the loading shell is the right widget's own.
+  const widgetKind = slotWidgetKind(activeKey);
+  // REV-41 D-6: the sub-tab showing (the visitor's pick, else the
+  // adapter's default) and whether it is pinned on an autoplay rail.
+  const shownTab = activeTab ?? card?.activeTab;
+  const tabAutoplay = Boolean(activeSlot.tabAutoplay);
+  const tabHeld = shownTab !== undefined && tabHeldBySlot[activeKey] === shownTab;
+  // REV-41 (integration fix): the rail reads the slot's fixed tab set first,
+  // so it is mounted before the first card lands and survives a reload.
+  const tabs = activeSlot.tabs ?? card?.tabs ?? [];
+  // REV-41 D-6 (integration fix): the family clock keeps running while the
+  // card is PINNED -- that is the one state in which a visitor deliberately
+  // watches it -- and stops for the same reasons the main clock does
+  // otherwise (a dive, a hover, a drag, a touch, a hidden tab).
+  const tabPaused = deep !== null || hovering || dragging || touchPaused || hidden;
   // §2A.3: worldwide section first, the visitor's country second. One-scope
   // slots (quake, weather...) render a single group with no scope header.
   const groups = scopeGroups(card);
@@ -446,23 +495,37 @@ export function DiscoveryCarousel() {
           between controls opened the deep modal. That, plus the top-right
           shortcut arrow, is the "빈 공간 클릭 시 팝업이 열리는 현상" the
           founder ordered removed. The container is now inert; the TITLE ROW
-          is the only way in -- REV-34 M1-C: its text or its ⏎ box, one click. */}
+          is the only way in -- REV-34 M1-C: its text or its ⏎ box, one click.
+          REV-41 D-2 (mission 1-C) re-enables the whole-card hitbox ONLY for
+          one-target slots (`activeSlot.oneTarget`: weather, fx, nearby ...
+          -- one piece of information, no item routes anywhere) through
+          `data-one-target="1"` + this onClick, never `role=button` (SPEC
+          §1-9: rev23-verify asserts the container holds none); the swipe's
+          onClickCapture still swallows the click that ends a swipe, and
+          every inner control (title, ⏎, rows, tab chips) stops propagation. */}
       <div
         ref={cardBoxRef}
         className="qw-hub-card qw-no-anchor mt-3 border border-white/10 bg-void/40 p-4"
         data-slot-card={activeKey}
         data-slot-kind={activeSlot.kind}
+        data-one-target={activeSlot.oneTarget ? '1' : '0'}
         tabIndex={0}
         style={{ '--qw-hub-accent': activeSlot.color, ...(reserved ? { minHeight: reserved } : null) } as CSSProperties}
+        onClick={() => {
+          if (activeSlot.oneTarget) openDeep(activeKey);
+        }}
         onKeyDown={onCardKeyDown}
         onPointerEnter={(e: ReactPointerEvent<HTMLDivElement>) => {
           if (e.pointerType === 'mouse') setHovering(true);
         }}
         onPointerLeave={() => setHovering(false)}
-        onPointerDown={(e: ReactPointerEvent<HTMLDivElement>) => {
+        onPointerDownCapture={(e: ReactPointerEvent<HTMLDivElement>) => {
+          // REV-41 (integration fix): capture phase, so a tap on a sub-tab
+          // chip -- whose rail stops pointerdown from bubbling -- still holds
+          // the main rotation for 700ms while its reload is in flight.
           if (e.pointerType !== 'mouse') pauseForTouch();
-          swipe.onPointerDown(e);
         }}
+        onPointerDown={swipe.onPointerDown}
         onPointerUp={(e: ReactPointerEvent<HTMLDivElement>) => {
           if (e.pointerType !== 'mouse') pauseForTouch();
           swipe.onPointerUp(e);
@@ -485,68 +548,53 @@ export function DiscoveryCarousel() {
             </div>
           </div>
 
-          {/* §1.3: sub-tabs (the product families) -- their own drag rail;
-              pointerdown stops here so a drag on the tabs is never read as a
-              card swipe. */}
-          {card?.tabs && card.tabs.length > 0 && (
-            <div
-              ref={tabRailRef}
-              className="qw-hub-tabs u-hscroll select-none"
-              role="tablist"
-              aria-label={tRev21('tabsAria')}
-              onPointerDown={(e) => {
-                e.stopPropagation();
-                tabRail.handlers.onPointerDown(e);
-              }}
-              onPointerMove={tabRail.handlers.onPointerMove}
-              onPointerUp={(e) => {
-                e.stopPropagation();
-                tabRail.handlers.onPointerUp(e);
-              }}
-              onPointerCancel={tabRail.handlers.onPointerCancel}
-              onClickCapture={tabRail.handlers.onClickCapture}
-            >
-              {card.tabs.map((tab) => {
-                const selected = tab.key === (activeTab ?? card.activeTab);
-                return (
-                  <button
-                    key={tab.key}
-                    type="button"
-                    role="tab"
-                    aria-selected={selected}
-                    data-tab={tab.key}
-                    className="qw-hub-tab"
-                    style={{ '--qw-hub-accent': tab.color } as CSSProperties}
-                    onMouseEnter={() => playHoverSfx()}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      // REV-24 M3: a tab pick is stated intent, so it may
-                      // spend the one request a stale card needs.
-                      intentRef.current = true;
-                      setTabBySlot((prev) => ({ ...prev, [activeKey]: tab.key }));
-                    }}
-                  >
-                    {t(tab.labelKey)}
-                  </button>
-                );
-              })}
-            </div>
+          {/* §1.3 sub-tabs -- REV-41 D-6 (mission 1-E): the main rail's own
+              chip (SlotTabRail), which stops pointerdown / click itself so a
+              drag on the tabs is never a card swipe and a chip press never
+              reaches the one-target onClick. The product families advance
+              on the clock (`tabAutoplay`) -- also while the card is pinned --
+              and pause for the same other reasons as the main rotation;
+              a press pins / releases like the main `toggleHold`. The
+              Around-Me radii (D-5) ride the same rail without a clock and
+              never pin (no onToggleHold), so a radius press only reloads. */}
+          {tabs.length > 0 && (
+            <SlotTabRail
+              tabs={tabs}
+              activeKey={shownTab}
+              onPick={onTabPick}
+              autoplay={tabAutoplay}
+              paused={tabPaused}
+              held={tabHeld}
+              onToggleHold={tabAutoplay ? toggleTabHold : undefined}
+              ariaLabel={activeKey === 'nearby' ? t('Rev41.nearby.radiusAria') : tRev21('tabsAria')}
+            />
           )}
 
-          {/* REV-35 M1 (D-4): the U-Ranking card body IS the shorts rail --
-              decided on the slot's kind, before the loading / empty states,
-              because the rail reads its own seeded ladder and never waits
-              on `card`. A tap is delegated to the deep modal (see the
-              component note: the rotating body may not own a popup). */}
-          {uRankingActive ? (
-            <URankingsShorts variant="compact" onSelect={(entry) => openDeep(activeKey, { kind: 'uRankEntry', id: entry.id })} />
-          ) : cardLoading && !card ? (
+          {/* REV-41 D-8: the card's widget (the FX compass hero, the
+              omni-radar) sits above the facts row. Mounted whenever the SLOT
+              carries one -- before the card arrives it is the widget's own
+              loading shell (`card === null` is "not loaded yet": every load
+              settles on a card, EMPTY_CARD at worst), after a failed load its
+              honest unreadable line -- so the widget, not the generic empty
+              line, owns the empty / unreadable states of these two cards. */}
+          {widgetKind && (
+            <SlotWidgetView
+              kind={widgetKind}
+              widget={card?.widget}
+              variant="card"
+              loading={cardLoading || card === null}
+              accent={activeSlot.color}
+              pendingTab={shownTab}
+            />
+          )}
+
+          {cardLoading && !card ? (
             <p className="flex items-center gap-2 py-3 text-[14px] text-gray-400">
               <Loader2 size={15} className="animate-spin text-accent" aria-hidden="true" />
               {tHub('loading')}
             </p>
           ) : !hasContent ? (
-            <p className="py-3 text-[14px] text-gray-500">{tHub('empty')}</p>
+            widgetKind ? null : <p className="py-3 text-[14px] text-gray-500">{tHub('empty')}</p>
           ) : (
             <>
               {groups.map((section) => (
@@ -576,20 +624,15 @@ export function DiscoveryCarousel() {
               {section.items.length > 0 && (
                 <ul className="grid grid-cols-1 gap-1 md:grid-cols-2">
                   {section.items.map((item) => (
-                    // REV-34 M1-C: the row is the headline button + a sibling
-                    // ⏎ box at its right end (a button cannot nest a button);
-                    // both route to `onItem`, both stop propagation.
-                    <li key={item.id} className="qw-hub-row">
-                      <button
-                        type="button"
-                        className="qw-hub-headline text-white"
-                        onMouseEnter={() => playHoverSfx()}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onItem(item);
-                        }}
-                      >
-                        {item.image ? (
+                    // REV-41 D-1 (mission 1-B): the row is the HubRow
+                    // primitive -- an inline headline the ⏎ box trails on its
+                    // last line -- with the marker (thumbnail / rank box /
+                    // dot) outside the text flow; text and box both route to
+                    // `onItem`, both stop propagation.
+                    <HubRow
+                      key={item.id}
+                      marker={
+                        item.image ? (
                           <SlotThumb src={item.image} />
                         ) : typeof item.rank === 'number' ? (
                           <span className="qw-hub-rank shrink-0" style={{ '--qw-hub-accent': item.color ?? activeSlot.color } as CSSProperties}>
@@ -597,17 +640,14 @@ export function DiscoveryCarousel() {
                           </span>
                         ) : (
                           <HubDot color={activeSlot.color} className="mt-1.5" />
-                        )}
-                        <span className="min-w-0 flex-1">
-                          <span className="qw-hub-headline-text line-clamp-2">{item.title}</span>
-                          {item.description && <span className="qw-hub-desc mt-0.5 line-clamp-2 block text-[12px] leading-snug text-gray-400">{item.description}</span>}
-                          {(item.domain || item.meta) && (
-                            <span className="qw-hub-source mt-0.5 block text-gray-500">{item.domain ?? item.meta}</span>
-                          )}
-                        </span>
-                      </button>
-                      <HubRowEnter onOpen={() => onItem(item)} />
-                    </li>
+                        )
+                      }
+                      title={item.title}
+                      description={item.description}
+                      source={item.domain || item.meta}
+                      onOpen={() => onItem(item)}
+                      onHover={() => playHoverSfx()}
+                    />
                   ))}
                 </ul>
               )}
@@ -617,13 +657,9 @@ export function DiscoveryCarousel() {
           )}
 
           {/* REV-34 M1-B: the one meta format; the swipe hint stays sr-only.
-              REV-35 M1: the U-Ranking card counts its twelve cards and names
-              the UNITAS ledger, exactly as its deep modal does. */}
-          <HubMetaLine
-            count={uRankingActive ? U_RANKINGS_COUNT : card?.items.length ?? 0}
-            source={uRankingActive ? U_RANKING_META_SOURCE : tHub('sources')}
-            updatedAt={card?.updatedAt}
-          >
+              REV-41 D-3: the fx card's rows are its pairs and parity rows,
+              so the count is never the "0건" of the facts-only card. */}
+          <HubMetaLine count={card?.items.length ?? 0} source={activeKey === 'fx' ? t('Rev41.fx.source') : SLOT_PROVIDER[activeKey].name} updatedAt={card?.updatedAt}>
             <span className="sr-only"> · {tRev21('swipeHint')}</span>
           </HubMetaLine>
         </div>
@@ -641,9 +677,9 @@ export function DiscoveryCarousel() {
  *  headline + countdown refresh behaviour (`useHubHeadlines`); every feed
  *  theme shows its already-loaded facts + items with outbound discovery
  *  links -- re-fetched fresh on open rather than reusing the rotating
- *  card's possibly-stale snapshot; the U-Ranking slot embeds the full
- *  유랭킹 rail (REV-35 M1). */
-/** All three sub-modals are mounted unconditionally (their own `open` prop
+ *  card's possibly-stale snapshot. REV-41 D-7 retired the third, U-Ranking
+ *  modal with its slot. */
+/** Both sub-modals are mounted unconditionally (their own `open` prop
  *  toggles, per-kind) rather than an if/else branch returning different JSX
  *  -- so closing one plays `Modal`'s own exit transition instead of an
  *  abrupt unmount, matching every other modal in this codebase. */
@@ -674,7 +710,6 @@ function SlotDeepModal({ target, ctx, onClose }: { target: DeepTarget | null; ct
     <>
       <WeatherDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
       <FeedDeepModal slotKey={slotKey} ctx={ctx} onClose={onClose} />
-      <URankingDeepModal target={target} ctx={ctx} onClose={onClose} />
     </>
   );
 }
@@ -755,7 +790,10 @@ function useFeedAnchor(slotKey: SlotKey | null, card: SlotCard | null, ctx: Slot
   }, [slotKey, firstTitle, lang]);
   return useMemo(() => {
     if (!slotKey) return null;
-    if (slotKey === 'nearby') return placeAnchor(resolveDeeperPlace(ctx, readWeatherCache()?.place), lang);
+    // REV-41 D-4 (integration fix): the same place rule as the adapter, so
+    // the dive's deeper links anchor where the radar is centred (the Geo-IP
+    // city when no weather place is known), not on the country capital.
+    if (slotKey === 'nearby') return placeAnchor(knownPlace(ctx), lang);
     if (resolved) return resolved;
     return null;
   }, [slotKey, resolved, ctx, lang]);
@@ -772,8 +810,6 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
   /** REV-29 M3: a feed slot may carry sub-tabs (the product families); the
    *  deep modal owns its own tab and reloads on a pick, like the rankings. */
   const [tab, setTab] = useState<string | undefined>(undefined);
-  const tabRailRef = useRef<HTMLDivElement>(null);
-  const tabRail = useDragScroll(tabRailRef);
 
   useEffect(() => {
     setTab(undefined);
@@ -803,14 +839,18 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
     };
   }, [slotKey, ctx, tab]);
 
-  // DISCOVERY_SLOTS holds every slot -- weather and the U-Ranking included
-  // -- so an unfiltered lookup opened THIS modal on top of the modal
+  // DISCOVERY_SLOTS holds every slot -- weather included -- so an
+  // unfiltered lookup opened THIS modal on top of the modal
   // SlotDeepModal already opened for the same key: two dialogs, two history
   // levels, one back press short of closed. Each deep modal answers for its
   // own kind only.
   const found = slotKey ? findDiscoverySlot(slotKey) : undefined;
   const slot = found && found.kind === 'feed' ? found : undefined;
   const title = slotKey ? t(slotTitleKey(slotKey)) : '';
+  // REV-41 D-8: the widget this slot's card carries, if any.
+  const widgetKind = slotKey && slot ? slotWidgetKind(slotKey) : null;
+  // REV-41 (integration fix): the slot's fixed tab set first, as on the card.
+  const modalTabs = slot ? slot.tabs ?? card?.tabs ?? [] : [];
   // SPEC §12.2 feed row: the slot's Wikidata item when it has one; the
   // resolved first item (history / mostRead) or the visitor's place (nearby)
   // otherwise; else the card's subject in sources-only mode (D-23).
@@ -831,38 +871,33 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
           </div>
         </div>
 
-        {card?.tabs && card.tabs.length > 0 && (
-          <div
-            ref={tabRailRef}
-            className="qw-hub-tabs u-hscroll select-none"
-            role="tablist"
-            aria-label={tRev21('tabsAria')}
-            data-feed-tabs=""
-            onPointerDown={tabRail.handlers.onPointerDown}
-            onPointerMove={tabRail.handlers.onPointerMove}
-            onPointerUp={tabRail.handlers.onPointerUp}
-            onPointerCancel={tabRail.handlers.onPointerCancel}
-            onClickCapture={tabRail.handlers.onClickCapture}
-          >
-            {card.tabs.map((tb) => {
-              const selected = tb.key === (tab ?? card.activeTab);
-              return (
-                <button
-                  key={tb.key}
-                  type="button"
-                  role="tab"
-                  aria-selected={selected}
-                  data-tab={tb.key}
-                  className="qw-hub-tab"
-                  style={{ '--qw-hub-accent': tb.color } as CSSProperties}
-                  onMouseEnter={() => playHoverSfx()}
-                  onClick={() => setTab(tb.key)}
-                >
-                  {t(tb.labelKey)}
-                </button>
-              );
-            })}
-          </div>
+        {/* REV-41 D-6: the same chip rail as the card, without a clock (a
+            deep dive is read, not rotated); a pick reloads the long list. */}
+        {modalTabs.length > 0 && (
+          <SlotTabRail
+            tabs={modalTabs}
+            activeKey={tab ?? card?.activeTab}
+            onPick={(key) => setTab(key)}
+            autoplay={false}
+            ariaLabel={slotKey === 'nearby' ? t('Rev41.nearby.radiusAria') : tRev21('tabsAria')}
+            data-testid="feed-tabs"
+          />
+        )}
+
+        {/* REV-41 D-8: the widget at full width above the sections. A card
+            left over from another slot's dive is the wrong kind and is
+            ignored by SlotWidgetView, so the loading shell shows until this
+            slot's own widget lands; the widget owns the empty / unreadable
+            states of its own card. */}
+        {widgetKind && (
+          <SlotWidgetView
+            kind={widgetKind}
+            widget={card?.widget}
+            variant="deep"
+            loading={loading || card === null}
+            accent={slot.color}
+            pendingTab={tab ?? card?.activeTab}
+          />
         )}
 
         {loading && !card ? (
@@ -871,7 +906,7 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
             {tHub('loading')}
           </p>
         ) : !card || (card.facts.length === 0 && card.items.length === 0) ? (
-          <p className="py-4 text-[14px] text-gray-500">{tHub('empty')}</p>
+          widgetKind ? null : <p className="py-4 text-[14px] text-gray-500">{tHub('empty')}</p>
         ) : (
           <>
             {scopeGroups(card).map((section, gi) => (
@@ -943,49 +978,11 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
         <OmniOpen anchor={anchor} host="feed" family={omniFamilyForSlot(slotKey)} />
 
         {/* REV-34 M1-B: the one meta format (count · source ~ updated). */}
-        <HubMetaLine count={card?.items.length ?? 0} source={tHub('sources')} updatedAt={card?.updatedAt} className="text-[12px] text-gray-500" />
+        {/* REV-41 (integration fix): the REAL provider of this slot (source
+            registry), never the news rail's wording -- the fx line also
+            names the Geo-IP resolver that picked the home currency. */}
+        <HubMetaLine count={card?.items.length ?? 0} source={slotKey === 'fx' ? t('Rev41.fx.source') : SLOT_PROVIDER[slotKey].name} updatedAt={card?.updatedAt} className="text-[12px] text-gray-500" />
       </div>
-      )}
-    </Modal>
-  );
-}
-
-/** REV-35 M1 (D-4): the U-Ranking deep dive. The shell is FeedDeepModal's
- *  byte for byte (icon, 20px title, tag); the body is the FULL 유랭킹 rail --
- *  filter chips, twelve cards, seed note -- landed on the entry the visitor
- *  tapped in the compact card (`initialOpenId`), so the entry popup
- *  (`#unitas-urank-title`) stacks above this dialog and the back gesture
- *  unwinds one level at a time. The title row of the card opens this modal
- *  with no entry, which is the rail alone. The omni-open anchor is the
- *  brand itself: the ladder is a UNITAS ledger, not an encyclopedia entry,
- *  so no Wikidata bridge is attempted (D-23). */
-function URankingDeepModal({ target, ctx, onClose }: { target: DeepTarget | null; ctx: SlotContext; onClose: () => void }) {
-  const t = useTranslations();
-  const locale = useLocale();
-  const key = target && isURankingKey(target.key) ? target.key : null;
-  const slot = key ? findDiscoverySlot(key) : undefined;
-  const action = target?.action;
-  const title = key ? t(slotTitleKey(key)) : '';
-  const anchor: DeeperAnchor | null = key ? textAnchor('UNITAS', wikiLangFor(locale)) : null;
-
-  return (
-    <Modal open={key !== null} onClose={onClose} labelledBy="uranking-deep-title" size="xl">
-      {key && slot && (
-        <div className="space-y-5" data-slot-modal="uRanking" data-context-country={ctx.country} {...anchorDataAttrs(anchor)}>
-          <div className="flex items-start gap-3">
-            <slot.icon size={26} style={{ color: slot.color }} className="mt-0.5 shrink-0" aria-hidden="true" />
-            <div className="min-w-0 flex-1">
-              <p id="uranking-deep-title" className="text-[20px] font-bold text-white">
-                {title}
-              </p>
-              <p className="mt-0.5 text-[14px] text-gray-400">{t(slotTagKey(key))}</p>
-            </div>
-          </div>
-          <URankingsShorts initialOpenId={action?.kind === 'uRankEntry' ? action.id : undefined} />
-          <OmniOpen anchor={anchor} host="uRankingDeep" family={omniFamilyForSlot(key)} compact />
-          {/* REV-34 M1-B: the one meta format -- twelve cards, the ledger named. */}
-          <HubMetaLine count={U_RANKINGS_COUNT} source={U_RANKING_META_SOURCE} updatedAt={target?.updatedAt} className="text-[12px] text-gray-500" />
-        </div>
       )}
     </Modal>
   );
