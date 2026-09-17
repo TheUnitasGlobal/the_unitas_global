@@ -186,6 +186,12 @@ config/security/trust-registry.json  text eol=lf
 | `vitest` | EXIT 0 — **2008/2008** (119 파일, 신규 52건 포함) |
 | `build` | EXIT 0 — ownership fingerprint `eb09b6b8bab1d401…` |
 
+### 창립자 결재 (제16장)
+
+**2026-09-17 창립자 `ok` 승인 — MISSION 1~5 최종 결재 완료.** 본 구간은 제16장 공식 오피셜 통제 독트린에 따라 창립자의 명시적 승인 키워드로 결재되었으며, 이로써 v41.0 잔여 결재 항목은 A-0을 포함해 전부 마감되었다. 커밋 `ab37e6a`(구현) + `c1867b6`(ownership 각인)이 `origin/main`에 반영되어 있고, Vercel 프로덕션 `dpl_9C4AwbWUsFTKsVeB3xc35eYjqaPw`가 라이브 상태로 실측 확인되었다(라이브 `gitCommit=ab37e6a`, fingerprint `eb09b6b8bab1d401` 로컬 일치).
+
+결재는 **완결된 작업에 대한 승인**이며, 아래 2건은 승인으로 해소되지 않는다 — 하나는 하네스 레벨 통제이고 하나는 창립자 고유의 보안 자격 증명이기 때문이다. 에이전트가 대신 수행할 수 없는 항목으로서 열린 채로 기록한다.
+
 ### 창립자 조치 필요 2건 (제6장 허용 범위)
 1. **자율 부활 데몬 활성화** — `npm --prefix web run resurrect:install-task` (하네스가 에이전트에게 차단한 유일한 항목)
 2. **야간 아카이브 자격 증명** — `web/.env.local`에 `NEXT_PUBLIC_SUPABASE_URL`·`SUPABASE_SERVICE_ROLE_KEY` 2줄
