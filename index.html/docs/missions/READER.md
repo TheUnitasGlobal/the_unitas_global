@@ -1,0 +1,52 @@
+# 야간 미션 큐 — 에이전트 절차
+
+**Codex 제15장 3단계(야간 유휴 정비) · 제16장(공식 오피셜 통제) · 제5장(Micro-Burn)**
+
+창립자 호출: `@docs/missions/READER.md`
+
+## 0. 이 큐가 무엇이고 무엇이 아닌가
+
+**이것이다.** 옳지만 지금 착지시키기엔 위험한 작업을 잃어버리지 않도록 붙잡아 두고, **다음 에이전트 세션을 스스로 찾아가게** 만드는 기록·배달 장치다. 배달 경로는 3단계 스윕 결과가 이미 쓰고 있는 것과 같다:
+
+```
+config/missions/queue.json
+  → stage3-brief.mjs --hook (SessionStart)
+    → 에이전트가 이 문서를 읽고, 창립자 승인 후 실행
+```
+
+**이것이 아니다.** 무인 실행기가 아니다. `UnitasIdleSensorStage3`는 **의도적으로 모델 무관(token 0)**이다 — 데몬 자신의 헤더가 말한다: *"launching `claude -p` from here would spend tokens in the background."* 제5장은 무인 토큰 소모를 막는다. 그래서 데몬은 미션을 **수행하지 않고**, 게이트를 **증명**한다(3엔진 스윕). 코드를 바꾸는 절반은 창립자가 개입할 수 있는 에이전트 세션에서 일어난다.
+
+새벽 3시에 감시 없이 저장소를 고쳐 쓰는 크론이 아니라는 뜻이다. 그건 기능이 아니라 사고다.
+
+## 절차
+
+1. **보고만 한다.** SessionStart 브리핑에 `대기 중인 야간 미션 N건`이 있으면 첫 응답 첫 줄에 그대로 선제 보고한다. 되묻지 않는다(제6장).
+2. **착수하지 않는다.** 큐에 있다는 것은 승인되었다는 뜻이 아니라 **착수 허가를 기다린다**는 뜻이다. 창립자의 명시적 키워드(`next` / `ok` / 해당 미션 지목) 없이 파일을 건드리지 않는다(제16장).
+3. **승인이 오면** 미션의 `spec` 파일을 **전부** 읽는다. 명세에는 파일별 현재 코드·대체 코드·**회귀 위험**이 적혀 있다. 회귀 위험 항목을 읽지 않고 착수하지 않는다 — 큐에 들어온 이유가 바로 그 위험이다.
+4. **상태를 옮긴다.** 착수 시 `npm --prefix web run mission:set <id> in-progress`, 완결 시 `done`. 중단해야 하면 `blocked`로 두고 이유를 `notes`에 적는다. 상태를 옮기지 않으면 다음 세션이 같은 일을 또 시작한다.
+5. **수용 게이트를 전부 통과시킨다.** 미션의 `acceptance` 배열이 정본이다. 하나라도 EXIT 0이 아니면 `done`으로 옮기지 않는다(제13장 미측정 완료 보고 금지).
+6. **3엔진 스윕은 전경에서 돌리지 않는다**(제15장 1단계 금지). 새 `BUILD_ID@HEAD`는 데몬이 다음 유휴 창에 자동으로 스윕한다. 그 결과가 마지막 수용 게이트다.
+7. **한 문단으로 끝낸다:** 무엇을 바꿨고, 무엇을 남겼고, 어떤 게이트가 무슨 숫자로 통과했는지.
+
+## 명령
+
+| 명령 | 용도 |
+|---|---|
+| `npm --prefix web run mission:list` | 열린 미션 상세 |
+| `npm --prefix web run mission:json` | 기계 판독 |
+| `npm --prefix web run mission:set <id> <status>` | 상태 전이 |
+| `npm --prefix web run stage3:brief` | 스윕 브리핑 + 큐 한 줄 |
+
+상태는 `queued` · `in-progress` · `blocked` · `done` · `cancelled` 다섯 가지다. 그 밖의 값은 파서가 거부한다.
+
+## 설계 불변식
+
+**읽을 수 없는 큐는 실패해야 하며, 조용히 "대기 없음"으로 읽혀서는 안 된다.** `mission-queue.mjs`는 깨진 큐에 EXIT 1을 낸다. SessionStart 훅만은 예외로 null을 반환하는데 — 큐 결함이 창립자에게서 스윕 브리핑을 빼앗아선 안 되기 때문이다. 큐가 소리치는 자리는 CLI다.
+
+이 불변식이 왜 이렇게 못박혀 있는지는 이 큐의 첫 미션이 어디서 왔는지를 보면 된다: 2026-09-17, 참거짓 검사가 `[SENSITIVE]` 자리표시자를 자격 증명으로 받아들여 야간 데몬이 401로 죽었고, 그걸 막으라고 만든 프리플라이트가 몇 분 전 초록불을 켰다. **점검 대상과 불일치할 수 있는 점검기는 없는 것보다 나쁘다.**
+
+## 참고
+
+- 큐 정본: `config/missions/queue.json` (신뢰 등록부 핀: `unitas.mission-queue.core` · `unitas.mission-queue.cli`)
+- 순수 판정: `web/scripts/mission-queue-core.mjs` · 테스트 `web/__tests__/security/missionQueueCore.test.ts`
+- 3단계 스윕 절차: `docs/stage3/READER.md`

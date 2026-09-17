@@ -3,7 +3,7 @@
   "doctrine": "Codex v41.0 ch.4 (Sole Absolute Governing Agent / Zero-Hands / Self-Resurrecting Daemon) + ch.5 (Micro-Burn: an autonomous resume loop is budget-capped, never unbounded) + ch.13 (Fail-Closed integrity + the 제2장 structure gate) + ch.14 (review-agent archive) + ch.15 stage 3 (idle-sensor) + ch.8 (auto-quarantine must not kill founder-authorized automation) + ch.11 (sovereign memory backup). REV-36 M1, extended 2026-09-17 for the v41.0 residual-five directive (MISSION 1..5).",
   "authorizedBy": "Dooyeong Hwang (founder) -- REV-35 D-11 + REV-36 M1 directive 2026-09-16; v41.0 잔여 결재 5건 직권 승인 및 신규 미션 1~5 하달 2026-09-17",
   "authorizedAt": "2026-09-17",
-  "updatedAt": "2026-09-17T11:13:20.961Z",
+  "updatedAt": "2026-09-17T11:33:48.289Z",
   "entries": [
     {
       "kind": "scheduled-task",
@@ -125,12 +125,28 @@
     },
     {
       "kind": "file",
+      "id": "unitas.mission-queue.core",
+      "path": "web/scripts/mission-queue-core.mjs",
+      "purpose": "Pure night-shift mission queue parse/open/format/transition functions. No fs, no clock, no process. Attested because stage3-brief.mjs imports it into the SessionStart hook: a weakened parser could make a queued mission silently read as 'nothing pending'.",
+      "doctrine": "ch.15 stage 3 / ch.16",
+      "sha256": "45d289dec68e97a67c287e33ce218c507a2c4293c0c1c67923810df3950948a5"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.mission-queue.cli",
+      "path": "web/scripts/mission-queue.mjs",
+      "purpose": "Night-shift mission queue CLI (list / json / --set <id> <status>). Fail-closed: a malformed queue exits 1 rather than reporting an empty queue.",
+      "doctrine": "ch.15 stage 3 / ch.16",
+      "sha256": "9faaac1a62864f2cac1246d219dccc347a6aade48007457de0e40491f3ebd510"
+    },
+    {
+      "kind": "file",
       "id": "unitas.stage3.brief",
       "path": "web/scripts/stage3-brief.mjs",
       "optional": true,
       "purpose": "SessionStart brief CLI (REV-36 M2). Optional until lane B lands.",
       "doctrine": "ch.15 stage 3 / REV-36 M2",
-      "sha256": "628a6853a7a4e1ae0fdb29f578466fa64fde731b45b58e1bafc2180de77c7d37"
+      "sha256": "baf9cd00153403758712a31e1f55845c04b30667157166f691c8abd5fcbb7da2"
     },
     {
       "kind": "file",

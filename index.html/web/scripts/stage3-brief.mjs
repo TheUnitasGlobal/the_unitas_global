@@ -19,6 +19,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { buildBrief, briefToHookContext } from './stage3-brief-core.mjs';
+import { missionHookContext, missionLine, openMissions, parseQueue } from './mission-queue-core.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const WEB_DIR = path.resolve(__dirname, '..'); // index.html/web
@@ -28,6 +29,7 @@ const LATEST_JSON = path.join(STAGE3_DIR, 'latest.json');
 const LATEST_MD = path.join(STAGE3_DIR, 'latest.md');
 const LOCK_FILE = path.join(STAGE3_DIR, 'daemon.lock');
 const BUILD_ID_FILE = path.join(WEB_DIR, '.next', 'BUILD_ID');
+const MISSION_QUEUE_FILE = path.join(REPO_DIR, 'config', 'missions', 'queue.json');
 const TASK_NAME = 'UnitasIdleSensorStage3';
 
 const HEADER = '[Stage-3 자율 브리핑 · Codex 제15장 3단계 · REV-36 M2]';
@@ -86,6 +88,34 @@ function taskState() {
   }
 }
 
+/**
+ * Read + parse the night-shift mission queue. Returns null on any problem --
+ * absent file, malformed JSON, failed validation. A queue defect must never
+ * cost the founder the sweep briefing this hook exists to deliver, and
+ * `mission-queue.mjs --list` is where a malformed queue is meant to shout.
+ */
+function readQueue() {
+  try {
+    const raw = readJson(MISSION_QUEUE_FILE);
+    return raw ? parseQueue(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The block appended to the hook context / CLI output, or null when empty. */
+function missionBlock() {
+  const q = readQueue();
+  return q ? missionHookContext(q) : null;
+}
+
+/** Compact shape for --json consumers. */
+function missionSummary() {
+  const q = readQueue();
+  if (!q) return null;
+  return { line: missionLine(q), open: openMissions(q).map((m) => ({ id: m.id, status: m.status, title: m.title })) };
+}
+
 /** trust attestation via the CLI module, guarded (lane A owns it). */
 async function attestation() {
   try {
@@ -129,17 +159,24 @@ async function main(argv) {
   }
 
   const brief = buildBrief(inputs);
+  // The night-shift mission queue rides the same SessionStart channel as the
+  // sweep briefing. A queued mission that only lives in a report is a mission
+  // nobody re-reads; this is what makes it find the next session by itself.
+  // Never fatal -- a broken queue must not cost the founder the sweep brief.
+  const missions = missionBlock();
 
   if (hook) {
     console.log(briefToHookContext(brief));
+    if (missions) console.log(`\n${missions}`);
     process.exit(0);
   }
   if (json) {
-    console.log(JSON.stringify({ brief, inputs: { ...inputs, latest: inputs.latest ? { status: inputs.latest.status, buildId: inputs.latest.buildId, head: inputs.latest.head } : null } }, null, 2));
+    console.log(JSON.stringify({ brief, missions: missionSummary(), inputs: { ...inputs, latest: inputs.latest ? { status: inputs.latest.status, buildId: inputs.latest.buildId, head: inputs.latest.head } : null } }, null, 2));
     process.exit(0);
   }
   console.log(brief.line);
   for (const d of brief.details) console.log(`  - ${d}`);
+  if (missions) console.log(`\n${missions}`);
   process.exit(0);
 }
 
