@@ -56,42 +56,38 @@ $taskName = 'UnitasReviewAgentArchive'
 $webDir = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $scriptPath = Join-Path $webDir 'scripts\review-agent-archive.mjs'
 
-# Reports by NAME only. The values are secrets and are never printed, logged,
-# or returned -- the founder needs to know WHICH key is missing, not what it is.
-function Get-CredentialReadiness {
-    $required = @('NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY')
-    $present = @{}
-    foreach ($name in $required) {
-        $value = [Environment]::GetEnvironmentVariable($name)
-        $present[$name] = -not [string]::IsNullOrWhiteSpace($value)
-    }
-    # review-agent-archive.mjs loads ../.env.local and ../.env relative to
-    # scripts/, i.e. web/.env.local and web/.env. A scheduled task has no shell
-    # profile, so those files are the only realistic source.
-    foreach ($envFile in @((Join-Path $webDir '.env.local'), (Join-Path $webDir '.env'))) {
-        if (-not (Test-Path $envFile -PathType Leaf)) { continue }
-        foreach ($line in Get-Content $envFile) {
-            if ($line -match '^\s*([A-Z0-9_]+)\s*=\s*(\S.*)$') {
-                if ($required -contains $Matches[1]) { $present[$Matches[1]] = $true }
-            }
-        }
-    }
-    return $present
-}
-
+# Delegates to the worker's own `--check-credentials` mode rather than
+# re-deriving the rules here.
+#
+# 2026-09-17 outage: this function used to do its own presence test --
+# `$line -match '^\s*([A-Z0-9_]+)\s*=\s*(\S.*)$'` -- which needs only one
+# non-whitespace character after the `=`. When `vercel env pull` wrote the
+# literal placeholder `[SENSITIVE]` for the Secret-typed service-role key, the
+# preflight printed "present ... credentials satisfied", and the very worker it
+# had just vouched for died at 04:20 with `REST 401: Invalid API key`.
+#
+# A preflight that can disagree with the thing it is checking is worse than no
+# preflight, because it converts a loud failure into a false green. So there is
+# now exactly one implementation of "is this a credential" -- in
+# scripts/credential-core.mjs -- and this function just runs it.
+# Values are still never printed: the worker reports shape only (length, JWT
+# role claim), never the secret itself.
 function Write-CredentialReadiness {
-    $present = Get-CredentialReadiness
-    $missing = @($present.Keys | Where-Object { -not $present[$_] })
-    foreach ($name in $present.Keys | Sort-Object) {
-        Write-Host ("  {0,-30} {1}" -f $name, $(if ($present[$name]) { 'present' } else { 'MISSING' }))
-    }
-    if ($missing.Count -gt 0) {
-        Write-Warning "The nightly archive will exit 1 until these are set in web/.env.local: $($missing -join ', ')"
-        Write-Host 'They are read from web/.env.local by the worker itself (loadEnvLocal), so no shell profile is involved.'
+    $node = (Get-Command node -ErrorAction SilentlyContinue).Source
+    if (-not $node) {
+        Write-Warning 'Node.js is not on PATH; cannot run the credential preflight.'
         return $false
     }
-    Write-Host '  -> credentials satisfied; the nightly run can authenticate.'
-    return $true
+    # Out-Host, not a bare call: a PowerShell function returns EVERYTHING that
+    # lands on its output stream, so `& $node ...` alone would make the return
+    # value an array of the worker's stdout lines plus the boolean -- and
+    # `if (<non-empty array>)` is true even when the boolean is $false. That is
+    # the same false-green this whole change exists to remove.
+    & $node $scriptPath --check-credentials | Out-Host
+    $code = $LASTEXITCODE
+    if ($code -eq 0) { return $true }
+    Write-Warning "The nightly archive will exit 1 until web/.env.local holds real credentials (preflight exit $code)."
+    return $false
 }
 
 if ($Preflight) {

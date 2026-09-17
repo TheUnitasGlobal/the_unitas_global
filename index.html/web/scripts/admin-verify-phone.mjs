@@ -30,6 +30,8 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
+import { assertSupabaseCredentials, formatCredentialErrors } from './credential-core.mjs';
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function loadEnvLocal() {
@@ -49,13 +51,23 @@ function loadEnvLocal() {
 }
 
 const fileEnv = loadEnvLocal();
-const URL_BASE = (process.env.NEXT_PUBLIC_SUPABASE_URL || fileEnv.NEXT_PUBLIC_SUPABASE_URL || '').replace(/\/$/, '');
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || fileEnv.SUPABASE_SERVICE_ROLE_KEY || '';
 
-if (!URL_BASE || !SERVICE_KEY) {
-  console.error('✖ NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set (web/.env.local or shell).');
+// Shape-validate before the first request -- this script mutates the live
+// `profiles` table with an RLS-bypassing key, so a placeholder reaching the
+// Authorization header is worse here than in the read-only archive daemon.
+// See scripts/credential-core.mjs for why presence is not validity.
+const credentials = assertSupabaseCredentials({
+  url: process.env.NEXT_PUBLIC_SUPABASE_URL || fileEnv.NEXT_PUBLIC_SUPABASE_URL,
+  serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY || fileEnv.SUPABASE_SERVICE_ROLE_KEY,
+});
+
+if (!credentials.ok) {
+  console.error(formatCredentialErrors(credentials.errors));
   process.exit(1);
 }
+
+const URL_BASE = credentials.url;
+const SERVICE_KEY = credentials.serviceKey;
 
 const H = {
   apikey: SERVICE_KEY,
@@ -139,6 +151,8 @@ async function setVerified(ident, verified) {
     await setVerified(target, !flags.has('--revoke'));
   } catch (e) {
     console.error(`✖ ${e.message}`);
-    process.exit(1);
+    // See review-agent-archive.mjs: process.exit() in a fetch-rejection turn
+    // aborts libuv on Windows. Let the loop drain instead.
+    process.exitCode = 1;
   }
 })();

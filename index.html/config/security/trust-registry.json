@@ -3,7 +3,7 @@
   "doctrine": "Codex v41.0 ch.4 (Sole Absolute Governing Agent / Zero-Hands / Self-Resurrecting Daemon) + ch.5 (Micro-Burn: an autonomous resume loop is budget-capped, never unbounded) + ch.13 (Fail-Closed integrity + the 제2장 structure gate) + ch.14 (review-agent archive) + ch.15 stage 3 (idle-sensor) + ch.8 (auto-quarantine must not kill founder-authorized automation) + ch.11 (sovereign memory backup). REV-36 M1, extended 2026-09-17 for the v41.0 residual-five directive (MISSION 1..5).",
   "authorizedBy": "Dooyeong Hwang (founder) -- REV-35 D-11 + REV-36 M1 directive 2026-09-16; v41.0 잔여 결재 5건 직권 승인 및 신규 미션 1~5 하달 2026-09-17",
   "authorizedAt": "2026-09-17",
-  "updatedAt": "2026-09-17T05:22:05.260Z",
+  "updatedAt": "2026-09-17T11:13:20.961Z",
   "entries": [
     {
       "kind": "scheduled-task",
@@ -49,7 +49,7 @@
         "writes outside ~/life/review/",
         "printing or logging secret values"
       ],
-      "status": "REGISTERED 2026-09-17 via web/scripts/install-review-archive-task.ps1. Preflight reports NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY absent from web/.env.local, so the nightly run exits 1 until the founder supplies them (ch.6 permits asking for exactly this class of credential)."
+      "status": "REGISTERED 2026-09-17 via web/scripts/install-review-archive-task.ps1. ARMED 2026-09-17: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are present and shape-valid in web/.env.local (service_role JWT, project ref fjznkonbjoierxvopiko), sourced from the Supabase Management API -- NOT from `vercel env pull`, which writes the literal placeholder '[SENSITIVE]' for Secret-typed variables and caused this task's 04:20 `REST 401: Invalid API key`. Preflight (`review-agent-archive.mjs --check-credentials`, exit 0/78) and a live `--limit 3` run both verified green on 2026-09-17."
     },
     {
       "kind": "file",
@@ -105,7 +105,15 @@
       "path": "web/scripts/install-review-archive-task.ps1",
       "purpose": "Daily Task Scheduler registrar for UnitasReviewAgentArchive.",
       "doctrine": "ch.14",
-      "sha256": "c470d7880afcd683aef4859a57f42f594d5ffcdd07786e642fa4fd9687ab417d"
+      "sha256": "8b4aaaf000af21db33d5349117a93638b59176fc027b1a42354a0351a9216eba"
+    },
+    {
+      "kind": "file",
+      "id": "unitas.credential.core",
+      "path": "web/scripts/credential-core.mjs",
+      "purpose": "Pure Supabase credential shape validation (placeholder / JWT / role-claim gates). No fs, no process.env, no network. Attested because the unattended archive worker imports it: an unpinned validator could be silently weakened to re-accept the '[SENSITIVE]' placeholder that caused the 2026-09-17 nightly 401.",
+      "doctrine": "ch.13 (fail-closed) / ch.8",
+      "sha256": "2599c0de122a640f6c32809d498fe713e9f82d18d0920a73f592ae8884354d04"
     },
     {
       "kind": "file",
@@ -113,7 +121,7 @@
       "path": "web/scripts/review-agent-archive.mjs",
       "purpose": "The review-agent briefing archive worker.",
       "doctrine": "ch.14",
-      "sha256": "b1520adf94bbab8b24f54ab5c0396d7e80218542f8c4cbf78849507c4c3e2dfb"
+      "sha256": "f7cc7704b8bcf19b96f08311c6aa39985c5afa0981da1d07dc3d6b2a137325f4"
     },
     {
       "kind": "file",

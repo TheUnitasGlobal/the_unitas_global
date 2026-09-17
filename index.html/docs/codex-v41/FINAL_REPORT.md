@@ -192,6 +192,47 @@ config/security/trust-registry.json  text eol=lf
 
 결재는 **완결된 작업에 대한 승인**이며, 아래 2건은 승인으로 해소되지 않는다 — 하나는 하네스 레벨 통제이고 하나는 창립자 고유의 보안 자격 증명이기 때문이다. 에이전트가 대신 수행할 수 없는 항목으로서 열린 채로 기록한다.
 
-### 창립자 조치 필요 2건 (제6장 허용 범위)
-1. **자율 부활 데몬 활성화** — `npm --prefix web run resurrect:install-task` (하네스가 에이전트에게 차단한 유일한 항목)
-2. **야간 아카이브 자격 증명** — `web/.env.local`에 `NEXT_PUBLIC_SUPABASE_URL`·`SUPABASE_SERVICE_ROLE_KEY` 2줄
+### 창립자 조치 필요 2건 (제6장 허용 범위) — **2026-09-17 전항 해소**
+1. ~~**자율 부활 데몬 활성화**~~ → **완료.** `UnitasResurrectionDaemon` 등록·구동 확인(State `Running`, `dooye / Interactive / Limited`).
+2. ~~**야간 아카이브 자격 증명**~~ → **완료.** 단, 1차 주입이 실패했고 그 실패가 아래 결함 계열 전체를 드러냈다.
+
+---
+
+## 후속 구간 — 야간 아카이브 401 소거 및 자격 증명 검증 계층 신설 (2026-09-17)
+
+### 무엇이 일어났는가
+창립자 셸에서 두 잔여 항목을 실행했다. 부활 데몬은 즉시 등록됐다. 아카이브 자격 증명은 **주입에 성공했다고 보고되었으나 실제로는 실패했고**, 야간 워커가 `REST 401: Invalid API key`로 죽은 뒤 libuv 어서션으로 프로세스가 abort했다.
+
+### 근본 원인 — 존재는 유효성이 아니다
+Vercel은 `SUPABASE_SERVICE_ROLE_KEY`를 **Secret 타입**으로 보관하며, `vercel env pull`은 Secret 타입 값을 복호화하지 않고 리터럴 문자열 `[SENSITIVE]`(11자)를 쓴다. 저장소의 모든 자격 증명 가드는 `!url || !key` 형태의 **참거짓 검사**였고, `[SENSITIVE]`는 비어있지 않은 문자열이므로 전부 통과해 PostgREST에 베어러 토큰으로 전송됐다.
+
+1차 주입 스크립트의 설계 결함도 같은 계열이었다 — **왕복 일치(기록값 === 인출값)만 검증하고 값의 의미적 유효성을 검증하지 않았다.** 자리표시자를 충실하게 복사한 뒤 "주입 무결 · EXIT 0"을 출력했다.
+
+가장 나쁜 부분은 따로 있었다. 이 사고를 막으라고 만든 `install-review-archive-task.ps1`의 자격 증명 프리플라이트가 **몇 분 전에 초록불을 켰다.** 그 정규식은 `=` 뒤에 비공백 1글자만 요구했다. **점검 대상과 불일치할 수 있는 점검기는 없는 것보다 나쁘다 — 큰 소리로 실패할 일을 조용한 거짓 초록으로 바꾸기 때문이다.**
+
+### 복구
+실제 키는 Vercel이 아니라 **Supabase Management API**(이미 `.env`에 있던 `sbp_` 개인 액세스 토큰)에서 확보했다. 3중 fail-closed 게이트를 전부 통과해야만 기록하도록 했다 — ① 3세그먼트 JWT 구조 ② payload의 `role === "service_role"` 및 `ref` 일치 ③ **야간 워커와 동일한 REST 호출 실제 200**. 셋 중 하나라도 실패하면 아무것도 쓰지 않고 EXIT 1. 1차 방식이었다면 게이트 ①에서 즉사했을 것이다.
+
+### 재발 차단 구조
+| 파일 | 조치 |
+|---|---|
+| `web/scripts/credential-core.mjs` (신설) | 자리표시자(`[SENSITIVE]`·`<...>`·`YOUR_*`) · JWT 구조 · role/ref 클레임을 검증하는 **순수** 모듈. fs·env·clock·network 없음 |
+| `web/__tests__/security/credentialCore.test.ts` (신설) | 30건. 사고 재현 케이스 포함 — 정상 URL + 자리표시자 키 |
+| `review-agent-archive.mjs` | 참거짓 가드 → 형식 검증. `--check-credentials` 프리플라이트 모드 신설 |
+| `admin-verify-phone.mjs` | 동일 적용(라이브 `profiles` 테이블을 RLS 우회로 변형하는 스크립트라 위험도가 더 높다) |
+| `install-review-archive-task.ps1` | 자체 정규식 폐기 → 워커의 `--check-credentials` 위임. **검증 구현은 하나뿐이므로 둘이 어긋날 수 없다** |
+
+### libuv abort 소거
+`Assertion failed: !(handle->flags & UV_HANDLE_CLOSING), src\win\async.c:94`의 원인은 `fetch()` 거부가 settle하는 바로 그 마이크로태스크 턴에서 `process.exit(1)`을 호출한 것이다. Node가 libuv 루프를 철거하는 동안 undici의 백그라운드 정리 작업이 아직 남아 있고, 그 워커가 닫히는 중인 `uv_async_t`에 post하면서 abort한다. 의도한 exit 1이 **127 abort로 바뀐다.** `process.exitCode = 1`로 교체해 루프가 배수되게 했다. 실측: 수정 전 abort 5/5 → 수정 후 EXIT 1 3/3, 어서션 라인 0건.
+
+### 실측 증명
+| 항목 | 결과 |
+|---|---|
+| 실제 자격 증명 프리플라이트 | EXIT 0 — `role=service_role` · 219자 (값 미출력) |
+| `[SENSITIVE]` 프리플라이트 | EXIT **78**(EX_CONFIG) — 이전엔 거짓 초록 |
+| `[SENSITIVE]` 실구동 | EXIT 1, **네트워크 요청 0건** |
+| 형식유효·서버거부 키 실구동 | EXIT 1 × 3/3, 어서션 0건 |
+| 야간 아카이브 실구동 | EXIT 0 — `✓ archived 2026-09-17-893bdf2c….json` |
+
+### 남은 것 — 앱 계층 13파일 (미변경, 의도적)
+전수 조사(34에이전트, 3중 반대 심문) 결과 `web/lib/supabase/*` 4종 팩토리, `lib/hub/*` 2종, 메일 라우트 2종 등 **13파일이 같은 참거짓 가드**를 쓴다. 이번 구간에서 고치지 않았다. `[SENSITIVE]`는 `vercel env pull`이 `.env.local`에 쓸 때만 발생하고 이는 로컬 스크립트 경로다 — 프로덕션 Vercel 런타임은 복호화된 실값을 받으므로 앱 계층은 이 사고 경로에 노출되지 않는다. 배포 직전에 13파일을 동시 변경하는 것은 회귀 위험이 이득을 넘는다. **은폐가 아니라 분리된 구간으로 기록한다.**
