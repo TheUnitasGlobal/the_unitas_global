@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabaseServerClient } from '@/lib/supabase/server';
+import { getSupabaseServerClient, probeSupabaseServerCredentials } from '@/lib/supabase/server';
 import { claimHandle, mailHandleAddress } from '@/lib/auth/mailHandleServer';
 import {
   UNITAS_MAIL_CLAIMED_KEY,
@@ -34,6 +34,15 @@ function respond(body: HandleClaimResponse, status = 200) {
  *   none     -- the account carries no handle.
  *   invalid  -- the metadata handle fails the format / reserved rules.
  *   error    -- ledger unreachable; nothing bound, nothing promised.
+ *
+ * The service-role key is SHAPE-validated before the client is built, not
+ * merely checked for truthiness. A placeholder -- Vercel's `[SENSITIVE]`, a
+ * `<paste-the-...>` line -- is a non-empty string, so the old check passed it,
+ * a live client was built, GoTrue answered 401 to `getUser` and this route
+ * replied 401 "not authenticated": it blamed the visitor's token for the
+ * server's own broken configuration. A key that is absent, a placeholder, not
+ * a JWT, or not `role: service_role` now means what the `error` outcome above
+ * always said it meant -- 503, ledger unreachable.
  */
 export async function POST(req: Request) {
   const token = req.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ?? '';
@@ -41,7 +50,11 @@ export async function POST(req: Request) {
 
   let admin: ReturnType<typeof getSupabaseServerClient>;
   try {
-    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) return respond({ ok: false, status: 'error' }, 503);
+    // This route needs the PRIVILEGED surface (auth.admin.updateUserById), so
+    // "the factory would resolve an anon key" is just as unreachable as "the
+    // factory would throw" -- both are 503, ledger unreachable.
+    const probe = probeSupabaseServerCredentials();
+    if (!probe.ok || probe.role !== 'service_role') return respond({ ok: false, status: 'error' }, 503);
     admin = getSupabaseServerClient();
   } catch {
     return respond({ ok: false, status: 'error' }, 503);

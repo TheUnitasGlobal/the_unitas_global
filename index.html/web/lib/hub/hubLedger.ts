@@ -4,6 +4,7 @@ import { getSupabaseBrowserClient } from '@/lib/supabase/client';
 import { EMPTY_LEDGER, type ExchangeLedger, type Purchase, type SellerRow, type UserListing } from '@/lib/hub/knowledgeExchange';
 import { isChatRoomKey, sanitizeChatText, type ChatMessage, type ChatRoomKey } from '@/lib/hub/themeChat';
 import { isHotNewsCategory, type HotNewsCategory } from '@/lib/live/hotNews';
+import { validatePublicSupabaseEnv } from '@/lib/security/credentialShape';
 
 /* REV-36 M3 shorts-reaction + market-pulse seam is appended at the end of this
  * file (search "REV-36"); it reuses the pure rpc() helper and HubResult shape. */
@@ -27,6 +28,9 @@ import { isHotNewsCategory, type HotNewsCategory } from '@/lib/live/hotNews';
  * FAIL-OPEN, NEVER FAIL-BLANK. Any call returns `null` (or an empty list) when
  * Supabase is unconfigured, the session is absent, or the RPC errors -- the
  * caller then keeps the device ledger and the hub stays usable offline.
+ * "Unconfigured" is decided by SHAPE, not by truthiness: an env holding a
+ * placeholder key is unreadable, and unreadable degrades here rather than
+ * further downstream as a 401 (see `isHubServerConfigured` below).
  */
 
 /** What the buy RPC answers on success. */
@@ -54,9 +58,39 @@ function fail<T>(error: HubServerError): HubResult<T> {
   return { ok: false, data: null, error };
 }
 
-/** True when the public Supabase env is present at all. */
+/**
+ * Is the server ledger USABLE? This module owns that answer for the whole hub:
+ * `lib/hub/hubChannel.ts` re-exports this very function as
+ * `isHubRealtimeConfigured`, because "can I open a Realtime socket" and "can I
+ * call an RPC" are the same question about the same public env pair. There used
+ * to be two copies of the boolean, and two copies are how the answers drift.
+ *
+ * It used to be `Boolean(url && anonKey)` -- which is REV-40's `empty` vs
+ * `unreadable` confusion smuggled back in. A placeholder is a NON-EMPTY string:
+ * `vercel env pull` writes the literal `[SENSITIVE]` for Secret-typed vars and
+ * `.env.example` ships `<paste-the-...>`, so an unreadable env reported itself
+ * as CONFIGURED, the UI announced that the server ledger was in force, and then
+ * every RPC came back 401. An unusable key has to fall back to the device
+ * ledger BEFORE a request leaves, not after the server refuses it.
+ *
+ * `validatePublicSupabaseEnv` (lib/security/credentialShape -- the ISOMORPHIC
+ * module; never `web/scripts/credential-core.mjs`, whose Buffer base64url
+ * decode throws in a browser bundle) rejects placeholders, non-JWT keys, and
+ * keys whose `role` claim is not `anon`. It is the same gate
+ * `getSupabaseBrowserClient()` throws on, so this boolean and that factory can
+ * never disagree about what "configured" means.
+ *
+ * Deliberately NOT memoised: every caller is a mount effect or a pre-flight
+ * guard in front of a network round trip -- never a render body, never a list
+ * map -- so one regex plus one ~200-byte JWT decode is invisible here, while a
+ * module-level cache would have to retain the key and grow a reset seam for
+ * env-stubbing tests.
+ */
 export function isHubServerConfigured(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  return validatePublicSupabaseEnv(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  ).ok;
 }
 
 /* ------------------------------------------------------------------ */

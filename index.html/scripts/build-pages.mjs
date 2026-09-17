@@ -1,10 +1,71 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import {
+  describeCredential,
+  formatCredentialErrors,
+  matchPlaceholder,
+  validateSupabaseKey,
+  validateSupabaseUrl,
+} from '../web/scripts/credential-core.mjs'
 
 const root = resolve(import.meta.dirname, '..')
 const modules = JSON.parse(await readFile(resolve(root, 'config/modules.json'), 'utf8'))
 const publicConfig = JSON.parse(await readFile(resolve(root, 'config/public.json'), 'utf8'))
 const outputDir = resolve(root, 'pages')
+
+/**
+ * Resolve one public Supabase value. The environment override still wins --
+ * that is what an override is for -- but only if it could actually be a
+ * credential.
+ *
+ * 2026-09-17: index.html/.env carried a dead
+ * `SUPABASE_ANON_KEY=<paste-the-project-anon-key>` line, and anything that
+ * sourced that file (`set -a; . ./.env`, a CI env block, a shell profile) beat
+ * the genuine key committed in config/public.json, baked the placeholder into
+ * every page written here, and scripts/build-site.mjs copied the result into
+ * the deployed site-dist/. The visitor saw one line: "Please try again". A
+ * placeholder is a non-empty string, so `process.env.X || committed` could
+ * never catch it. config/public.json is the canon; the environment only gets
+ * to override it with something shaped like a real value.
+ */
+const resolveCredential = (name, envValue, committedValue) => {
+  const placeholder = matchPlaceholder(envValue)
+  if (placeholder) {
+    console.warn(`build-pages: discarding ${name} from the environment -- it is a placeholder ${describeCredential(envValue)}. Falling back to the value committed in config/public.json.`)
+    return { value: committedValue, source: 'config/public.json' }
+  }
+  if (typeof envValue === 'string' && envValue.trim()) {
+    return { value: envValue, source: `${name} (environment)` }
+  }
+  return { value: committedValue, source: 'config/public.json' }
+}
+
+const resolvedUrl = resolveCredential('SUPABASE_URL', process.env.SUPABASE_URL, publicConfig.supabaseUrl)
+const resolvedAnonKey = resolveCredential('SUPABASE_ANON_KEY', process.env.SUPABASE_ANON_KEY, publicConfig.supabaseAnonKey)
+
+/**
+ * Shape-validate whichever value won, before it is frozen into static HTML.
+ * These pages ship to visitors and cannot be corrected after the fact, so
+ * refusing to generate them is cheaper than publishing a build whose only
+ * possible answer is "Please try again" (Codex ch.13 fail-closed).
+ */
+const credentialErrors = []
+const urlCheck = validateSupabaseUrl(resolvedUrl.value)
+if (!urlCheck.ok) credentialErrors.push(`[${resolvedUrl.source}] ${urlCheck.message}`)
+
+// Only a literal <ref>.supabase.co host names the project the URL points at,
+// so the key/project cross-check is skipped for a custom domain rather than
+// guessed at.
+const refMatch = urlCheck.ok ? /^https:\/\/([a-z]{20})\.supabase\.co$/.exec(urlCheck.value) : null
+const keyCheck = validateSupabaseKey(resolvedAnonKey.value, {
+  name: 'SUPABASE_ANON_KEY',
+  expectRole: 'anon',
+  projectRef: refMatch ? refMatch[1] : undefined,
+})
+if (!keyCheck.ok) credentialErrors.push(`[${resolvedAnonKey.source}] ${keyCheck.message}`)
+
+const supabaseUrl = urlCheck.ok ? urlCheck.value : null
+const supabaseAnonKey = keyCheck.ok ? keyCheck.value : null
 
 const escapeHtml = (value) => String(value)
   .replaceAll('&', '&amp;')
@@ -41,8 +102,8 @@ const renderPage = (module) => `<!doctype html>
     </section>
   </main>
   <script>
-    const SUPABASE_URL = ${JSON.stringify(process.env.SUPABASE_URL || publicConfig.supabaseUrl)};
-    const SUPABASE_ANON_KEY = ${JSON.stringify(process.env.SUPABASE_ANON_KEY || publicConfig.supabaseAnonKey)};
+    const SUPABASE_URL = ${JSON.stringify(supabaseUrl)};
+    const SUPABASE_ANON_KEY = ${JSON.stringify(supabaseAnonKey)};
     const MODULE = ${JSON.stringify(module.key)};
     const COIN_COST = ${JSON.stringify(module.coinCost)};
     const button = document.getElementById('access-button');
@@ -89,9 +150,18 @@ const renderPage = (module) => `<!doctype html>
 </html>
 `
 
-await mkdir(outputDir, { recursive: true })
-for (const module of modules) {
-  await writeFile(resolve(outputDir, `${module.slug}.html`), renderPage(module), 'utf8')
-}
+if (credentialErrors.length) {
+  console.error(formatCredentialErrors(credentialErrors))
+  // EXIT 78 (EX_CONFIG): the configuration is wrong, the script is not. Set
+  // exitCode and fall through rather than calling process.exit() -- this
+  // module is already past a top-level await, and process.exit() from that
+  // point has turned a clean non-zero status into a 127 abort in this repo.
+  process.exitCode = 78
+} else {
+  await mkdir(outputDir, { recursive: true })
+  for (const module of modules) {
+    await writeFile(resolve(outputDir, `${module.slug}.html`), renderPage(module), 'utf8')
+  }
 
-console.log(`Generated ${modules.length} revenue pages in pages/`)
+  console.log(`Generated ${modules.length} revenue pages in pages/`)
+}

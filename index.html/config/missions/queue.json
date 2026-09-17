@@ -5,7 +5,7 @@
     {
       "id": "unitas.mission.credential-guards-app-layer",
       "title": "앱 계층 12파일의 참거짓 자격 증명 가드를 Fail-Closed 엄격 검증으로 전수 교체 (+ 동형 검증기·패리티 테스트 2파일 신설)",
-      "status": "queued",
+      "status": "in-progress",
       "priority": "medium",
       "window": "idle-night",
       "spec": "docs/missions/credential-guards-app-layer.md",

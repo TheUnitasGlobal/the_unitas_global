@@ -2,6 +2,7 @@
 
 import type { RealtimeChannel } from '@supabase/supabase-js';
 import { getSupabaseBrowserClient } from '@/lib/supabase/client';
+import { isHubServerConfigured } from '@/lib/hub/hubLedger';
 
 /**
  * REV-29 MISSION 4 -- the UNITAS hub's live wire.
@@ -14,9 +15,12 @@ import { getSupabaseBrowserClient } from '@/lib/supabase/client';
  * in the same room sees within the round trip; nothing is stored on the
  * server, and each device keeps its own short history (lib/hub/themeChat.ts).
  *
- * Fail-open: when the public Supabase env is absent (a preview build, a
- * test harness) `createHubChannel` returns `null` and every surface falls
- * back to a device-local mode that says so on screen.
+ * Fail-open: when the public Supabase env is absent OR UNREADABLE (a preview
+ * build, a test harness, a `vercel env pull` that wrote `[SENSITIVE]` instead
+ * of the secret) `createHubChannel` returns `null` and every surface falls
+ * back to a device-local mode that says so on screen. Unreadable is checked
+ * by shape before the socket is opened, so a placeholder key degrades here
+ * instead of failing the WebSocket handshake a round trip later.
  *
  * Naming: `hub:<room>` beside `game:<roomId>` (lib/realtime/gameChannel.ts)
  * and `wallet-<userId>` (WalletProvider) -- one channel per scope.
@@ -33,12 +37,29 @@ export interface HubChannelHandle {
   unsubscribe: () => void;
 }
 
-export function isHubRealtimeConfigured(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-}
+/**
+ * Can the live wire be opened at all? This is not a second opinion -- it is
+ * `hubLedger.isHubServerConfigured` itself, re-exported under the name this
+ * module's consumers know. Both questions are the same question about the same
+ * public env pair, and they used to be answered by two separate copies of
+ * `Boolean(url && anonKey)`; a placeholder key is a non-empty string, so both
+ * copies said "configured" and the UI claimed the server ledger was live right
+ * before everything 401'd.
+ *
+ * The implementation lives in `hubLedger.ts` rather than here because that is
+ * the module that owns the "is the server ledger reachable" question, and
+ * because the dependency only ever points this way: `hubLedger` does not
+ * import this file (no cycle), and both components that import this file
+ * (KnowledgeExchange, ThemeChatRooms) already import `hubLedger`, so the edge
+ * costs no chunk that was not already loaded.
+ *
+ * Keep this export: it is the public name, and aliasing rather than wrapping
+ * is what makes drift between the two impossible instead of merely unlikely.
+ */
+export { isHubServerConfigured as isHubRealtimeConfigured };
 
 export function createHubChannel(room: string, presenceKey: string): HubChannelHandle | null {
-  if (!isHubRealtimeConfigured()) return null;
+  if (!isHubServerConfigured()) return null;
   let channel: RealtimeChannel;
   try {
     channel = getSupabaseBrowserClient().channel(`hub:${room}`, {

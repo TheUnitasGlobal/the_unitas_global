@@ -143,3 +143,81 @@ HTTP 상태는 이미 옳다(200 + `unchecked`). 결함은 **메커니즘**이�
 `npm --prefix web run mission:set unitas.mission.credential-guards-app-layer done`
 
 게이트 하나라도 EXIT 0이 아니면 `done`으로 옮기지 않는다(제13장). 중단이 필요하면 `blocked` + `notes`에 이유.
+
+---
+
+## 6. 완결 보고 (2026-09-17)
+
+**결재** 창립자 직접 지령 2026-09-17 — 야간 창 대기를 파기하고 주간 세션에서 즉시 착수·완결하도록 하달. 큐 항목의 `authorizedBy`("주간 세션 중 착수 금지")는 이 지령으로 **대체**되었다.
+
+### 6.1 게이트 실측
+
+| 게이트 | 결과 |
+|---|---|
+| `npm --prefix web run typecheck` | **EXIT 0** |
+| `npm --prefix web run test` | **EXIT 0 — 2243 passed / 127 files** (착수 기준선 2175, 회귀 0) |
+| `npm --prefix web run build` | **EXIT 0** (postbuild ownership-fingerprint 13파일 기록) |
+| `npm --prefix web run security:trust:verify` | **EXIT 0** — 핀 전량 OK |
+| `UnitasIdleSensorStage3` 3엔진 스윕 | **미완주 — 조건 5는 충족되지 않았다.** 아래 §6.5 참조 |
+
+기준선은 큐가 적은 "2060건 이상"이 아니라 착수 시점 실측 **2175건**이었다. 최종 2243건은 **+68건**이며 회귀 0이다.
+
+### 6.2 지뢰 3개 처리
+
+- **지뢰 ①(Buffer base64url)** — 명세대로 `.mjs`를 앱 계층으로 import하지 않았다. 신설 `web/lib/security/credentialShape.ts`는 `atob` + `TextDecoder`만 쓰며, `import` 문·`Buffer`·`process.env`가 **한 글자도 없음**을 패리티 테스트가 소스를 읽어 단언한다. `web/app`·`web/lib`·`web/components`의 `credential-core.mjs` import는 grep 0건.
+  Node의 `Buffer`는 base64 디코딩에 관대하고 `atob`는 엄격하다(알파벳 밖 문자, 길이 %4===1 처리). 그 차이를 그대로 흉내 내어(알파벳 밖 문자 제거, 매달린 1문자 폐기, 패딩 보정) **임의 입력에서도** 판정이 갈리지 않게 했다.
+- **지뢰 ②(신뢰 등록부 핀)** — `web/scripts/credential-core.mjs`는 **무변경**. `git status` 무출력으로 확인했고 `security:trust:verify` EXIT 0.
+- **지뢰 ③(로컬 통과의 무증명성)** — 명세의 권고를 게이트로 승격했다. 신설 `web/__tests__/security/credentialGuardsAppLayer.test.ts`(35건)가 `vi.stubEnv` + `vi.resetModules()` + 동적 import로 **자리표시자를 실제 주입**해 네 팩토리가 각자의 문서화된 방향으로 degrade함을 단언한다. 세 자리표시자 계열(`[SENSITIVE]`, `<paste-…>`, `YOUR_…`) 전부.
+
+### 6.3 네 팩토리의 서로 다른 계약 — 수렴시키지 않았다
+
+| 파일 | 계약 | 자리표시자일 때 실측 |
+|---|---|---|
+| `web/lib/supabase/server.ts` | throw | throw |
+| `web/lib/supabase/client.ts` | throw | throw (싱글턴 오염 없음 — 환경 복구 시 재평가) |
+| `web/lib/supabase/serverComponent.ts` | `null` | `null` |
+| `web/lib/supabase/middlewareClient.ts` | `{user:null}`·절대 throw 금지 | `{user:null}`, `createServerClient` 호출조차 안 함 |
+
+`middlewareClient.ts`는 추가된 모든 줄을 **기존 try 안쪽**에 넣어 "throw가 새어나가지 않음"을 약속이 아니라 구조로 만들었다.
+
+`web/components/wallet/WalletProvider.tsx`는 명세 예측대로 **무변경**이다. 두 호출부(`:94`, `:183`)가 모두 try/catch임을 읽어 확인했다.
+
+### 6.4 명세 대비 달라진 판단 3가지
+
+1. **`selectServerSupabaseKey`가 `warnings`를 판정에 싣는다.** 최초 구현은 "present-but-invalid service key가 valid anon에게 폴백을 내주는" 사유를 수집하고도 `ok:true` 경로에서 버렸다. 그래서 `server.ts`가 같은 검증을 **한 번 더** 수행해야 했고 — 그것이 바로 이 미션이 제거하려는 "두 벌" 구조다. 사유를 판정에 실어 재검증을 삭제했다. 결번 없는 구분: 키가 **부재**면 `warnings: []`(조용한 정상 degrade), **존재하나 무효**면 `warnings`에 사유(권한 강등이므로 시끄러워야 한다).
+2. **메일 라우트 2개가 팩토리의 질문으로 수렴했다.** 레인 A는 `probeSupabaseServerCredentials()`를 export했고 레인 D는 라우트에서 `validateSupabaseKey`를 직접 호출했다 — HTTP 결과는 동일하지만 규칙의 두 번째 사본이었고, 라우트 쪽 검사는 URL을 보지 않아 팩토리와 **불일치할 수 있었다**. `probe.ok && probe.role === 'service_role'` 하나로 통일했다.
+3. **`scripts/deploy-supabase.ps1`은 워크플로 레인에서 빼고 인라인 처리했다.** 오토모드 분류기가 배포 스크립트 쓰기를 어떻게 볼지 불확실했고, 관찰 0007의 교훈("분류기 거부는 그 턴에서 최종")을 감수할 이유가 없었다. 헬퍼 2개(`Test-UnitasPlaceholder`, `Get-UnitasCredentialShape`)를 넣고 세 지점의 `-match '<'`를 교체했으며, 파서 검사(`Parser::ParseFile`, 아무것도 실행하지 않음) + 진리표 11케이스로 검증했다.
+
+### 6.5 조건 5(3엔진 스윕)는 충족되지 않았다 — 무엇이 남았는가
+
+`UnitasIdleSensorStage3`는 등록돼 있고 `State=Ready`이나, **마지막 실행이 2026-09-17 01:31:30에 결과 코드 `0xC000013A`(취소)로 끝났고 `test-results/stage3/`에 완주 기록이 없다.** 이 저장소에서 3단계 스윕은 지금까지 단 한 번도 완주한 적이 없다(REV-39에서 이미 기록됨).
+
+제15장 1단계가 전경 전수 E2E를 금지하므로 세션이 대신 돌릴 수 없다. 배포 후 데몬을 새 HEAD로 기동해 두었으나, **완주는 창립자가 10분 이상 유휴 상태가 되어야 일어난다.** 따라서 큐 상태를 `done`이 아니라 `in-progress`로 둔다(제13장: 미측정 항목을 완료로 보고하지 않는다). 스윕이 완주해 `test-results/stage3/latest.md`가 새 `BUILD_ID@HEAD`로 기록되면 그때 `done`으로 옮긴다.
+
+### 6.6 명세 정정 2건
+
+- §2가 "생성 페이지 **11개**"라 했으나 실측은 **5개**다(`config/modules.json` = arche/arena/score/fate/codex22). 결함의 성격은 그대로다.
+- §2의 살아있는 트리거는 이미 소멸했다: `index.html/.env`의 `SUPABASE_ANON_KEY=<paste-…>` 줄은 **2026-09-17 오전에 이미 삭제됐다**(grep 0건). 우선순위 버그 자체(`process.env.X || committed`)는 잔존했고 이번에 제거했다 — 방어는 트리거가 없을 때 넣어야 의미가 있다.
+
+### 6.7 실측한 결함 재현 (증거)
+
+`scripts/build-pages.mjs` — 3경로 전부 직접 실행:
+
+| 입력 | 결과 |
+|---|---|
+| 정상 셸 | `Generated 5 revenue pages` · EXIT 0 |
+| `SUPABASE_ANON_KEY='[SENSITIVE]'` | 자리표시자 **폐기**, 커밋값으로 복구, 경고 1줄, EXIT 0 |
+| `SUPABASE_ANON_KEY='<paste-the-project-anon-key>'` | 동일하게 복구, EXIT 0 |
+| 형식은 맞으나 `role=service_role`인 키 | **EXIT 78** fail-closed, 페이지 생성 안 함 |
+
+생성된 페이지의 자리표시자: **0건**(실제 anon JWT 각인 확인).
+
+`scripts/supabase-sql.mjs` — 실자격 `--dry-run` EXIT 0(전송 0) / 자리표시자 토큰 **EXIT 2**.
+
+**뮤테이션 테스트(빨강→초록).** 신설 `web/__tests__/api/mailHandleCredentialGuard.test.ts`(12건)가 실제로 결함을 잡는지 증명하기 위해 `claim/route.ts`의 옛 참거짓 가드를 **일시 복원**했다. 세 자리표시자 전부 `expected 401 to be 503`으로 실패 — 명세 §3.3이 서술한 "방문자의 토큰을 탓한다"가 그대로 재현됐다. 원복 후 12/12 초록.
+
+### 6.8 남겨둔 것 (의도적)
+
+- `sb_publishable_` / `sb_secret_` 신형 Supabase 키 형식은 **받지 않는다.** 이쪽만 넓히면 핀된 정본과 패리티가 깨진다. 키 형식을 이전하게 되면 **`credential-core.mjs`를 먼저 넓히고 → 재각인 → 그다음 미러링**하는 순서를 지킬 것.
+- `validateSupabaseUrl`은 https 전용이고 경로 세그먼트를 거부한다. 로컬 `supabase start` 스택(`http://localhost:54321`)은 이제 throw한다. 저장소에 http Supabase URL은 현재 0건이다.
+- `scripts/deploy-supabase.ps1`에는 자동 테스트가 없다(PowerShell 하네스 부재). 파서 검사와 헬퍼 진리표는 수동 실측이다.

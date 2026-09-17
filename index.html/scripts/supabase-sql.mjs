@@ -22,11 +22,16 @@
  * prints the parsed statement list and sends nothing.
  *
  * Credentials come from index.html/.env (SUPABASE_ACCESS_TOKEN,
- * SUPABASE_PROJECT_REF) or the process environment. Nothing is ever printed.
+ * SUPABASE_PROJECT_REF) or the process environment, and are shape-checked
+ * before the first request: presence is not validity. 2026-09-17 proved that
+ * the hard way -- `vercel env pull` writes the literal string `[SENSITIVE]`
+ * for Secret-typed variables, every guard in this repo was a truthiness test,
+ * and a placeholder went out as a bearer token. Nothing is ever printed.
  */
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { describeCredential, matchPlaceholder } from '../web/scripts/credential-core.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '..');
@@ -51,8 +56,31 @@ const fileEnv = loadEnvFile();
 const TOKEN = process.env.SUPABASE_ACCESS_TOKEN || fileEnv.SUPABASE_ACCESS_TOKEN;
 const REF = process.env.SUPABASE_PROJECT_REF || fileEnv.SUPABASE_PROJECT_REF;
 
+/**
+ * Exit 2 is this guard's documented contract -- callers and the house
+ * procedure both rely on it, so a value that is present but cannot possibly be
+ * a credential fails here too rather than being posted to the Management API
+ * and coming back as an opaque 401.
+ */
+const credentialProblems = [];
 if (!TOKEN || !REF) {
-  console.error('supabase-sql: SUPABASE_ACCESS_TOKEN and SUPABASE_PROJECT_REF must be set (index.html/.env or the environment).');
+  credentialProblems.push('SUPABASE_ACCESS_TOKEN and SUPABASE_PROJECT_REF must be set (index.html/.env or the environment).');
+} else {
+  if (matchPlaceholder(TOKEN)) {
+    credentialProblems.push(`SUPABASE_ACCESS_TOKEN is a placeholder, not a token ${describeCredential(TOKEN)}.`);
+  } else if (!/^sbp_/.test(TOKEN.trim())) {
+    credentialProblems.push(`SUPABASE_ACCESS_TOKEN is not a Management API personal access token -- those start with "sbp_" ${describeCredential(TOKEN)}.`);
+  }
+  if (matchPlaceholder(REF)) {
+    credentialProblems.push(`SUPABASE_PROJECT_REF is a placeholder, not a project ref ${describeCredential(REF)}.`);
+  } else if (!/^[a-z]{20}$/.test(REF.trim())) {
+    credentialProblems.push(`SUPABASE_PROJECT_REF is not a Supabase project ref -- 20 lowercase letters ${describeCredential(REF)}.`);
+  }
+}
+
+if (credentialProblems.length) {
+  for (const problem of credentialProblems) console.error(`supabase-sql: ${problem}`);
+  console.error('supabase-sql: nothing was sent. Note that `vercel env pull` does not decrypt Secret-typed variables -- it writes "[SENSITIVE]", so that file is not a valid source.');
   process.exit(2);
 }
 
