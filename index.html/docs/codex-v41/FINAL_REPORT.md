@@ -114,7 +114,7 @@ config/security/trust-registry.json  text eol=lf
 
 | # | 사안 | 필요한 것 |
 |---|---|---|
-| **A-0** | `git push origin main` + Vercel 프로덕션 배포 | **제16장 — `ok`** |
+| ~~A-0~~ | `git push origin main` + Vercel 프로덕션 배포 | ✅ **창립자 `OK` 승인 → 완료**(`dpl_2M5zxPvrnXV59cRHLYJAST215YL7`, 라이브 검증 5/5 HTTP 200) |
 | **A-2** | **제4장 ↔ 저장소 구조 충돌.** 제4장이 "Gemini·Roo Code 등 수동 서포트 에이전트 연동 완전 파기·영구 배제"를 명령하는데, `scripts/agent-review.ps1`이 실제로 `gemini -p`를 호출하고(`npm run review:agents`), 그 에이전트 정의 파일이 **드리프트 게이트의 필수 요약본 목록에 올라 있다** | 파기 / 존치 결재 |
 | **A-3** | **제4장 자율 부활 데몬 구현체 0.** `UnitasIdleSensorStage3`는 제15장 3단계 실행체이지 60분 정지 감지·Auto-Resume 워처가 아니다 | 신규 아키텍처 착수 승인 |
 | **A-4** | **게이트 사각지대 2종.** ① `sync-codex.mjs`는 판번 문자열만 검사하고 **장 구조·1000 슬롯을 단언하는 검사가 저장소 전체에 0건**(= 아홉 번째 재발의 통로) ② `SUMMARY_FILES`가 `index.html/` 기준이라 **git 루트의 `.github/copilot-instructions.md`는 어떤 게이트에도 안 걸린다** | 게이트 강화 착수 승인 (무결성 게이트 변경이라 자율 권한 밖) |
@@ -125,4 +125,6 @@ config/security/trust-registry.json  text eol=lf
 
 ## 7. 결론
 
-**Codex v41.0 Absolute Infinite Paradigm Edition(16장 · 1000대 초-헌법)을 정본 3파일 전문 정독으로 흡수하고, 영속 기억에 16장 체계로 각인 완료. 저장소의 모든 살아 있는 표면에서 구버전 장 인용 잔여 0건. 게이트 3종 + 무결성 2종 전부 EXIT 0 실측 증명. 푸시·배포는 제16장에 따라 창립자 승인 대기.**
+**Codex v41.0 Absolute Infinite Paradigm Edition(16장 · 1000대 초-헌법)을 정본 3파일 전문 정독으로 흡수하고, 영속 기억에 16장 체계로 각인 완료. 저장소의 모든 살아 있는 표면에서 구버전 장 인용 잔여 0건. 게이트 3종 + 무결성 2종 전부 EXIT 0 실측 증명. 창립자 `OK` 승인 후 푸시·Vercel 프로덕션 배포까지 완결, 라이브 실측으로 확인.**
+
+잔여 결재 대기: A-2(Gemini 연동 파기/존치) · A-3(자율 부활 데몬 착수) · A-4(게이트에 장 구조 검사 추가) · A-5(제2장 "중복 0" 문구) · A-6(`UnitasReviewAgentArchive` 설치/제거).
