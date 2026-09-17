@@ -115,6 +115,10 @@ This archive consolidates business and technical parameters explicitly supplied 
   * 10-Min Idle-Trigger: 최종 작업 완료 보고서 출력 후 10분간 추가 지시가 없거나, 마지막 푸시/명령 이후 10분간 활동이 감지되지 않으면 시스템은 유휴 상태로 전환하여 백그라운드에서 3엔진(Chromium, WebKit, Mobile) 전수 검증을 조용히 구동한다.
   * Forced Tier Override: 백그라운드 전수 검증 및 자율 작업 실행 시, 에이전트의 작업 등급은 기존 지시와 무관하게 무조건 "SONNET 5 / HIGH" 모드로 강제 고정된다.
   * 절대 일시정지 및 강제 취소 커맨드 ("준비" 프로토콜 및 Cancel-in-Progress 통합): 창립자가 "준비"를 입력하거나 새로운 코드를 푸시하거나 명령을 내리면, 즉시 구동 중인 무거운 테스트를 강제 중단(Cancel)하고 서버 자원을 반환한다. "준비" 입력 시에는 진행 중인 프로세스를 그 상태 그대로 영구 저장하며, 이후 10분간 추가 명령이 없으면 저장된 지점부터 스스로 이어서(Resume) 작업을 자율 완결한다.
+- 비동기 큐 전면 자율 인계 원칙 (Pre-Delegated Queue Takeover · `config/missions/queue.json` ↔ SessionStart 훅):
+  * 승인 사전 위임(Pre-Delegated Approval): 창립자가 `config/missions/queue.json`에 미션을 등재하는 행위 자체가 제16장의 결재(Official OK)이며, 그 승인 도장은 등재 시점에 이미 찍힌 것으로 간주한다. 따라서 큐에 등재된 미션에 한하여 에이전트는 창립자에게 착수 허가를 되묻지 않는다(제6장 제로 핸즈).
+  * 즉각 착수 및 자율 종결: SessionStart 훅이 배달한 대기 큐는 유휴 창 진입 즉시 자율 승인되어 착수되며(`docs/missions/READER.md` 절차), 상태는 지체 없이 `in-progress`로 전이된다. 다만 미션의 `acceptance` 배열이 전항 EXIT 0을 증명하고 UnitasIdleSensorStage3의 3엔진 스윕이 새 `BUILD_ID@HEAD`로 완주하기 전에는 결코 `done`으로 승격하지 않는다(제13장 미측정 완료 보고 금지).
+  * 위임의 한계(Scope Fence): 이 자율 인계는 창립자가 이미 큐에 등재한 범위에만 미친다. 큐에 없는 신규 범위의 착수, 라이브 DB 변형, 프로덕션 배포 및 최종 공사 완결은 제16장에 따라 창립자의 명시적 승인 키워드('next', 'ok' 등)를 그대로 요구하며, "준비" 입력 시에는 큐 인계 작업도 즉시 정지·저장 대상이 된다.
 
 ## 제16장. 라이브 DB 절대 동기화 및 공식 오피셜 통제 독트린
 - 라이브 DB 절대 동기화: 시스템이 화면 터짐을 막기 위해 가짜 데이터(Sim 모드)를 띄워 우회하는 행위를 영구 차단한다. 핵심 모듈은 100% 라이브 DB와 연동되어야 하며 다중 데이터 렌더링 시 스코프를 완벽히 격리(Zero-Collision)한다.

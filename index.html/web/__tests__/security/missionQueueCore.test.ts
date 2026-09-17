@@ -135,10 +135,36 @@ describe('missionHookContext', () => {
     expect(missionHookContext(parseQueue({ version: 1, missions: [] }))).toBeNull();
   });
 
-  it('tells the agent not to start without an explicit approval keyword', () => {
+  /**
+   * Codex v41.0 제15장 「비동기 큐 전면 자율 인계 원칙」 (founder directive
+   * 2026-09-17). This block used to assert the OPPOSITE contract -- that the
+   * hook tells the agent not to start without an explicit approval keyword.
+   * The ratified clause makes the founder's queue write the 제16장 결재 itself,
+   * so the hook must now dispatch rather than gate. The negative assertion is
+   * the load-bearing half: the superseded sentence shipped in every single
+   * SessionStart for weeks, and a partial edit that left it behind would keep
+   * contradicting the canon at runtime while this suite stayed green.
+   */
+  it('dispatches the mission under 제15장 pre-delegated approval', () => {
     const ctx = missionHookContext(parseQueue(structuredClone(QUEUE)));
+    expect(ctx).toContain('제15장');
     expect(ctx).toContain('제16장');
-    expect(ctx).toContain('승인');
+    expect(ctx).toContain('즉시 착수');
+    expect(ctx).not.toContain('명시적 승인 키워드 없이');
+    expect(ctx).not.toContain('착수하지 않는다');
+  });
+
+  it('keeps the 제16장 fence on scope the founder never queued', () => {
+    const ctx = missionHookContext(parseQueue(structuredClone(QUEUE)));
+    expect(ctx).toContain('큐에 없는 신규 범위');
+    expect(ctx).toContain('프로덕션 배포');
+  });
+
+  it('refuses to let 즉각 착수 become a completion claim (제13장)', () => {
+    const ctx = missionHookContext(parseQueue(structuredClone(QUEUE)));
+    expect(ctx).toContain('EXIT 0');
+    expect(ctx).toContain('done');
+    expect(ctx).toContain('제13장');
   });
 
   it('states that the daemon does not execute missions', () => {

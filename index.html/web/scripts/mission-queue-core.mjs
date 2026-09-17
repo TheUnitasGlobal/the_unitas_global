@@ -16,13 +16,29 @@
  * daemon does not perform missions; it proves gates. Dispatch works the same
  * way stage-3 sweep results already reach an agent:
  *
- *   daemon / founder writes the queue
+ *   founder queues the mission  (that write IS the approval -- see below)
  *     -> SessionStart hook injects the pending line (stage3-brief.mjs --hook)
- *       -> the agent reads docs/missions/READER.md and executes at the
- *          forced tier, with the founder present to interrupt
+ *       -> the agent reads docs/missions/READER.md and starts IMMEDIATELY at
+ *          the forced tier, with the founder present to interrupt
  *
- * That is a real dispatch path with a human in the loop, not a cron that
- * rewrites the codebase at 3am unsupervised.
+ * APPROVAL SEMANTICS (Codex v41.0 제15장, 비동기 큐 전면 자율 인계 원칙)
+ * --------------------------------------------------------------------
+ * Until that clause was ratified this module emitted the opposite instruction
+ * on every SessionStart -- it told the agent to hold a queued mission until
+ * the founder typed an approval keyword. That sentence is now retired
+ * outright, quotation included, by founder directive; the only place its
+ * wording still appears is the negative assertion in
+ * web/__tests__/security/missionQueueCore.test.ts that keeps it from coming
+ * back. 제15장 holds that WRITING a mission into config/missions/queue.json is
+ * itself the 제16장 결재 (승인 사전 위임 / Pre-Delegated Approval), so the agent
+ * must not ask again for work the founder already queued. The fence moved
+ * rather than disappeared, and the part that matters still holds: scope that
+ * is NOT in the queue, live-DB mutation, production deploys and completion
+ * require an explicit keyword, and 제13장 still forbids promoting a mission to
+ * `done` before every acceptance gate reads EXIT 0.
+ *
+ * That is a real dispatch path the founder can interrupt at any moment, not a
+ * cron that rewrites the codebase at 3am unsupervised.
  *
  * PURITY CONTRACT
  * ---------------
@@ -121,9 +137,11 @@ export function missionLine(queue) {
 
 /**
  * The block appended to the SessionStart hook context. Mirrors the stage-3
- * brief's contract: the agent reports it in its first line and does NOT start
- * executing without the founder's go-ahead (제16장 -- no milestone entry
- * without an explicit approval keyword).
+ * brief's contract: the agent reports it in its first line and then starts
+ * immediately under 제15장's pre-delegated approval -- the queue entry IS the
+ * founder's 결재, so re-asking is a 제6장 violation, not caution. What the
+ * agent still may not do is call a mission done before every acceptance gate
+ * reads EXIT 0 (제13장).
  *
  * @param {Queue} queue
  * @returns {string | null}
@@ -139,10 +157,10 @@ export function missionHookContext(queue) {
     return bits.join('\n');
   });
   return [
-    '[야간 미션 큐 · Codex 제15장 3단계 / 제16장]',
+    '[야간 미션 큐 · Codex 제15장 비동기 큐 전면 자율 인계 / 제13장 Fail-Closed]',
     line,
     ...rows,
-    '에이전트 지시: 위 한 줄을 첫 응답에 선제 보고하되, 창립자의 명시적 승인 키워드 없이 미션 실행에 착수하지 않는다(제16장). 데몬은 모델 무관이므로 미션을 대신 수행하지 않는다.',
+    '에이전트 지시: 위 한 줄을 첫 응답에 선제 보고하고, 되묻지 말고 즉시 착수한다 — 창립자가 큐에 등재한 행위 자체가 제16장의 결재다(제15장 승인 사전 위임 · 제6장 제로 핸즈). 착수 즉시 상태를 in-progress 로 옮기고, acceptance 전항이 EXIT 0 을 읽고 3엔진 스윕이 새 BUILD_ID@HEAD 로 완주하기 전에는 done 으로 승격하지 않는다(제13장). 큐에 없는 신규 범위·라이브 DB 변형·프로덕션 배포·최종 완결은 여전히 창립자의 명시적 키워드를 요구한다. 데몬은 모델 무관이므로 미션을 대신 수행하지 않는다.',
   ].join('\n');
 }
 
