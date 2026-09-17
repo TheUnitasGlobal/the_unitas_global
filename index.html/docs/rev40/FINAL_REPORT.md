@@ -294,6 +294,15 @@ E2E 스펙 헤더의 "3엔진에서 돈다"는 낡은 주장도 실측대로 정
 
 ---
 
+## 6.2 배포 — 실측 스탬프
+
+- 커밋 `9482756`, `origin/main` 푸시 완료 (`6d4c8ef..9482756`).
+- Vercel 프로덕션: `the-unitas-global-wm7umac6d-the-unitas-global-ou-e.vercel.app` — **● Ready**.
+- 라이브 확인: `www.theunitas.global/` → 307, `/en/u-ai` → 307 (소버린 게이트 정상 동작).
+- `vercel ls` 의 `● Error` 행들은 GitHub 연동이 남기는 알려진 무해한 노이즈다(2026-09-05 기록).
+
+---
+
 ## 7. 남은 것 (정직한 목록)
 
 **창립자 조치 2건**
