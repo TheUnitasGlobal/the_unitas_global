@@ -117,7 +117,7 @@ Cinzel(`font-serif`)과 JetBrains Mono(`font-sans`)만, `next/font`를 통해서
 
 ## §5. 알려진 미해결 항목
 
-- **`index.html/.claude/skills/unitas-component/SKILL.md`가 낡았다.** 로케일을 6개로 서술(실제 20개)하고, `--qw-*`·quantum-white 표면·글래스 1겹 규칙을 전혀 언급하지 않는다. 이 스킬을 따라 화이트 표면 컴포넌트를 만들면 14개 로케일이 비고 카드가 THE ONE CARD SKIN을 무시한다. `.claude/**` 쓰기는 하네스 분류기가 `[Self-Modification]`으로 차단하므로 창립자 1회 명령이 필요하다.
+- **`index.html/.claude/skills/unitas-component/SKILL.md`가 낡았다 → 2026-09-18 정본 대체본 준비 완료, 설치만 대기.** 낡은 본문은 로케일을 6개로 서술(실제 20개)하고, `--qw-*`·quantum-white 표면·글래스 1겹 규칙·`ModalPortal`·퍼널 게이트·`@/i18n/navigation`·라우트 레지스트리를 전혀 언급하지 않으며, `accent`를 시안이라 잘못 부른다(실제 `accent`=금 `#d4af37`, `neon`=시안 `#00f3ff`). `.claude/**` 쓰기는 하네스 분류기가 `[Self-Modification]`으로 차단하므로, 새 본문은 저장소 안 `docs/skills/unitas-component/SKILL.md`에 정본으로 두고 창립자가 `scripts/agent/sync-component-skill.ps1`(백업→BOM 없는 UTF-8 기록→sha256 재확인, 실패 시 복원)을 1회 실행해 덮어쓴다. 정본 본문의 저장소 주장은 `web/__tests__/doctrine/componentSkillStaging.test.ts`가 파일시스템(로케일 20개·시트 7개)과 대조해 기계로 지킨다.
 - 규칙 6·10·12는 정적 스캔으로 기계화할 여지가 있으나(인플로우 애니메이션 속성 스캔, `.tsx` raw hex 스캔, 로케일 키 대칭 스캔) 오탐 설계가 끝나기 전에는 리뷰 강제로 둔다. 잡히지 않는 가드를 초록으로 세는 것이 규칙 13이 금지하는 바로 그것이다.
 
 ## §6. 개정

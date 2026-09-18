@@ -8,7 +8,14 @@
     2. Multi-model gateway     : OmniRoute (npm), Ollama desktop (winget) + qwen3:4b, mcporter
     3. Agent skill / research  : Agent-Reach (uv tool), find-skills, agent-browser (+ Chrome runtime),
                                  systematic-debugging, skill-creator, yt-dlp, gh CLI
-    4. Design acceleration     : UI/UX Pro Max (7 skills), 21st.dev MCP (key-gated), shadcn registry link
+    4. Design acceleration     : UI/UX Pro Max (7 skills), 21st.dev MCP (key-gated), shadcn registry link,
+                                 Figma MCP standby (headless PAT route; OAuth route retired 2026-09-18)
+
+  FIGMA STANDBY. The status board runs scripts/agent/setup-figma.ps1 -Standby on every invocation.
+  That probe is idempotent and deliberately has one side effect: while FIGMA_API_KEY is absent it
+  only reports ARMED, but the moment the founder plants the token in the OS environment it validates
+  the credential against Figma's REST API and completes the registration with no human in the loop
+  (Codex ch.6 Zero-Hands). It never registers a server it could not authenticate.
   Skills are installed at USER scope (~/.claude/skills) so they load in every session regardless of the
   working directory (this repo is driven from C:\dev\unitas while the app lives in index.html/web).
   All model routing is opt-in through scripts/agent/*.ps1 launchers (per-process env only).
@@ -139,6 +146,9 @@ if ($Install) {
     } else {
         Write-Host '-- 21st.dev MCP skipped: set $env:API_KEY_21ST then run scripts/agent/setup-21st.ps1 -Persist (fail-closed).' -ForegroundColor Yellow
     }
+    # Unconditional: the probe decides for itself whether the token exists yet, and stays armed
+    # (exit 0) when it does not. There is nothing here for a caller to gate on.
+    Invoke-Step 'Figma MCP standby (headless route; connects itself once FIGMA_API_KEY exists)' { & (Join-Path $PSScriptRoot 'agent\setup-figma.ps1') -Standby }
 }
 
 # ---------------------------------------------------------------- status board
@@ -194,6 +204,25 @@ Write-Host "21st.dev MCP: $mcpState  [$keyState]"
 $reg21 = 'missing'
 try { $cj = Get-Content (Join-Path $PSScriptRoot '..\web\components.json') -Raw | ConvertFrom-Json; if ($cj.registries.'@21st') { $reg21 = 'web/components.json @21st -> npx shadcn@latest add @21st/<author>/<slug>' } } catch {}
 Write-Host "21st.dev shadcn registry: $reg21"
+
+# Figma MCP -- standby wiring ratified by the founder on 2026-09-18 (headless PAT route only).
+# Idempotent: ARMED while the token is absent, self-connecting the moment it appears, CONNECTED
+# thereafter. `*>&1` (not `2>&1`) because the ARMED path reports through Write-Warning on rollback.
+$figmaProbe = ''
+try { $figmaProbe = (& (Join-Path $PSScriptRoot 'agent\setup-figma.ps1') -Standby *>&1 | Out-String) }
+catch { $figmaProbe = "standby probe failed: $($_.Exception.Message)" }
+$figmaKey = [Environment]::GetEnvironmentVariable('FIGMA_API_KEY', 'User')
+if ([string]::IsNullOrWhiteSpace($figmaKey)) { $figmaKey = [Environment]::GetEnvironmentVariable('FIGMA_API_KEY', 'Machine') }
+$figmaKeyState = if ([string]::IsNullOrWhiteSpace($figmaKey)) { 'FIGMA_API_KEY: missing (OS env)' } else { "FIGMA_API_KEY: OS env (tail $($figmaKey.Substring($figmaKey.Length - 4)))" }
+$figmaState = 'STANDBY ARMED - wiring in place, waiting for FIGMA_API_KEY'
+if ($figmaProbe -match 'standby: CONNECTED' -or $figmaProbe -match 'Registered \(user scope') {
+    $figmaState = 'CONNECTED (user scope, ${FIGMA_API_KEY} reference, figma-developer-mcp@0.13.2 --stdio)'
+} elseif ($figmaProbe -match 'standby probe failed') {
+    $figmaState = $figmaProbe.Trim()
+}
+Write-Host "Figma MCP: $figmaState  [$figmaKeyState]"
+Write-Host '  OAuth remote route: RETIRED 2026-09-18 by founder decree (interactive consent + ~6 tool calls/month on Starter/View seats).'
+
 Write-Host ''
 Write-Host 'Launchers (per-process routing, nothing persisted):'
 Write-Host '  scripts/agent/claude-headroom.ps1    Claude Code via Headroom compression proxy (127.0.0.1:8787)'
@@ -201,4 +230,5 @@ Write-Host '  scripts/agent/claude-local.ps1       Claude Code on local Ollama q
 Write-Host '  scripts/agent/omniroute-gateway.ps1  start/stop/status OmniRoute (127.0.0.1:20128)'
 Write-Host '  scripts/agent/claude-omniroute.ps1   Claude Code via OmniRoute combos (needs OMNIROUTE_API_KEY)'
 Write-Host '  scripts/agent/setup-21st.ps1         register/remove the 21st.dev HTTP MCP (key stays in User env, -Persist / -Remove)'
+Write-Host '  scripts/agent/setup-figma.ps1        Figma MCP standby probe (-Standby unattended / -Persist one-shot / -Remove; -Official is retired)'
 Write-Host 'No ~/.claude/settings.json, CLAUDE.md, Supabase or Vercel settings were modified.'

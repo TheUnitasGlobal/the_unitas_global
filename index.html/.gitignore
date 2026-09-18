@@ -13,3 +13,7 @@ test-results/
 .aider*
 skill-observations/
 .claude/.headroom_wrap_marker.json
+# scripts/agent/sync-component-skill.ps1 keeps its rollback copy next to the
+# file it overwrites, so -Restore needs no state elsewhere. The SKILL.md itself
+# is tracked; the timestamped backups are local undo, not history.
+.claude/skills/**/SKILL.md.bak-*

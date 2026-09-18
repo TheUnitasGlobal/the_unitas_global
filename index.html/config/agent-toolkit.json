@@ -166,15 +166,17 @@
         "verify": "npm run setup:toolchain (status board) | claude mcp get 21st | MCP get_usage"
       },
       "figma": {
-        "transport": "stdio (default route) | http (-Official route)",
+        "transport": "stdio (the only route: npx -y figma-developer-mcp@0.13.2 --stdio)",
         "package": "figma-developer-mcp@0.13.2 (Framelink/GLips), pinned; invoked as npx -y figma-developer-mcp@0.13.2 --stdio",
-        "url": "https://mcp.figma.com/mcp (the -Official OAuth route; Figma's own remote server)",
-        "auth": "FIGMA_API_KEY=${FIGMA_API_KEY} (env reference expanded by Claude Code at connect time; token lives only in the Windows User env, never in ~/.claude.json or the repo). The -Official route uses OAuth and stores no secret at all.",
-        "manager": "scripts/agent/setup-figma.ps1 -Persist (Figma REST /v1/me pre-flight, ${VAR} registration, literal-secret detection, Connected check with rollback; -Official for OAuth, -Remove to unregister)",
+        "url": "https://mcp.figma.com/mcp -- RETIRED 2026-09-18 (OAuth remote; interactive browser consent per machine, and ~6 tool calls PER MONTH on Starter plans and View/Collab seats). Recorded here as the reason of record, not as a wired route.",
+        "auth": "FIGMA_API_KEY=${FIGMA_API_KEY} (env reference expanded by Claude Code at connect time; token lives only in the Windows User env, never in ~/.claude.json or the repo). The script resolves the key from process, User and Machine scope, and proves it against Figma REST /v1/me BEFORE persisting or registering, so a rejected token is never written anywhere.",
+        "manager": "scripts/agent/setup-figma.ps1 -Standby (idempotent unattended probe: ARMED while FIGMA_API_KEY is absent, self-connecting the moment it appears, CONNECTED thereafter) | -Persist (explicit one-shot) | -Remove (unregister) | -Official (retired, exit 3)",
         "correction": "The founder's 2026-09-18 directive named @modelcontextprotocol/server-figma as an example. MEASURED the same day: that package returns npm E404, as does @figma/mcp. No official Figma MCP ships on npm -- the official server is the remote OAuth endpoint above, or a local one hosted by the Figma DESKTOP app on 127.0.0.1:3845 (not installed on this machine, so deliberately not wired).",
-        "tier": "Starter plans and View/Collab seats are capped near 6 tool calls PER MONTH on the official remote; a Dev or Full seat on Professional/Organization/Enterprise gets Figma REST Tier-1 per-minute limits. The headless PAT route follows normal REST API limits.",
-        "status": "NOT REGISTERED as of 2026-09-18 -- fail-closed. No Figma credential exists on this machine, and registering an unauthenticated server would produce a connection failure on every session start (as the unreachable playwright plugin already does). Activation is one command once the founder supplies a token or chooses OAuth.",
-        "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent/setup-figma.ps1 (exits 2 and registers nothing while FIGMA_API_KEY is unset) | claude mcp get figma"
+        "tier": "The headless PAT route follows normal Figma REST API limits. (The retired OAuth remote capped Starter plans and View/Collab seats near 6 tool calls PER MONTH, which is what disqualified it.)",
+        "status": "STANDBY ARMED, NOT REGISTERED as of 2026-09-18 -- fail-closed. No Figma credential exists on this machine yet, and registering an unauthenticated server would produce a connection failure on every session start (as the unreachable playwright plugin already does). No command is needed at activation time: planting the token is the activation.",
+        "verify": "npm run setup:toolchain (status board prints the Figma MCP row) | powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent/setup-figma.ps1 -Standby (exit 0 and registers nothing while FIGMA_API_KEY is unset) | claude mcp get figma",
+        "route": "HEADLESS PAT ONLY. Founder decree 2026-09-18 (MISSION 1) adopted route A (headless personal access token) as the sole route and RETIRED route B (Figma OAuth remote). The -Official switch survives only as a tombstone: it prints the decision and exits 3 without registering anything.",
+        "standby": "ARMED as of 2026-09-18. The probe runs on every scripts/setup-toolchain.ps1 invocation (npm run setup:toolchain), including the status-only board. Zero-Hands activation: the founder plants FIGMA_API_KEY in the OS environment (setx) and does nothing else -- the next probe validates it against Figma REST, registers the server with the ${VAR} reference, verifies Connected, and rolls back on any failure. It also unregisters a server whose ${FIGMA_API_KEY} reference resolves nowhere, so the standby state can never decay into a per-session connection failure."
       },
       "auxiliary": {
         "mcporter": "0.13.10 (npm -g, openclaw/mcporter, Exa search backend for agent-reach)",

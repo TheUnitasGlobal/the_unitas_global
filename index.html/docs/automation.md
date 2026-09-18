@@ -76,17 +76,28 @@ npm run setup:toolchain -- -Install -PullModel # full install on a new machine
 
 Model routing is opt-in per process through `scripts/agent/*.ps1` (Headroom proxy, local Ollama, OmniRoute); nothing edits `~/.claude/settings.json` or `.mcp.json`. The 21st.dev HTTP MCP is registered at user scope with an `${API_KEY_21ST}` header reference (`scripts/agent/setup-21st.ps1 -Persist`), and `web/components.json` exposes the same key to the shadcn CLI as the `@21st` registry namespace; the key itself lives only in the Windows User environment. Full matrix, measured limits (7.6 GB laptop, 4B model ceiling), and founder follow-ups: `docs/toolchain/README.md`.
 
-**Figma MCP (2026-09-18, MISSION 2) — staged, not registered.** `scripts/agent/setup-figma.ps1` is the same pattern: a Figma REST `/v1/me` pre-flight proves the credential *before* `~/.claude.json` is touched, the server is registered with a `${FIGMA_API_KEY}` reference so the token never lands in a config file, and a non-`Connected` result is rolled back. It is **not registered today** and that is deliberate — no Figma credential exists on this machine, and an unauthenticated MCP entry becomes a connection failure on every session start (the unreachable playwright plugin is the live example). Activation is one command:
+**Figma MCP (2026-09-18) — headless route adopted, OAuth route retired, standby ARMED.** The founder's MISSION 1 decree of 2026-09-18 chose route A (headless personal access token) as the **sole** route and struck route B (Figma's OAuth remote) at the source: OAuth needs an interactive browser consent per machine and caps Starter plans and View/Collab seats near **6 tool calls per month**, both of which contradict unattended operation (제6장 제로 핸즈 · 제7장 제로터치 무인 인증). `scripts/agent/setup-figma.ps1 -Official` survives only as a tombstone — it prints the decision and exits `3` without registering anything.
+
+`scripts/agent/setup-figma.ps1` follows the `setup-21st.ps1` pattern: a Figma REST `/v1/me` pre-flight proves the credential *before* anything is persisted or `~/.claude.json` is touched, the server is registered with a `${FIGMA_API_KEY}` reference so the token never lands in a config file, and a non-`Connected` result is rolled back. It is **not registered today** and that is deliberate — no Figma credential exists on this machine, and an unauthenticated MCP entry becomes a connection failure on every session start (the unreachable playwright plugin is the live example).
+
+**Activation takes no command.** `-Standby` is idempotent and runs on every `npm run setup:toolchain`, including the status-only board:
+
+| FIGMA_API_KEY | standby verdict | what it does |
+| --- | --- | --- |
+| absent | `ARMED` | nothing; also unregisters a server whose `${FIGMA_API_KEY}` reference resolves nowhere, so standby cannot decay into a per-session connection failure |
+| present, unregistered | connects | REST `/v1/me` pre-flight → persist to User env → register with the `${VAR}` reference → verify `Connected` → roll back on any failure |
+| present, registered | `CONNECTED` | nothing |
+
+So the founder plants the token in the OS environment once and does nothing else:
 
 ```powershell
-$env:FIGMA_API_KEY = '<personal access token>'   # headless, Zero-Touch (제7장)
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent/setup-figma.ps1 -Persist
-
-# ...or the official OAuth remote instead, which stores no secret at all:
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent/setup-figma.ps1 -Official
+setx FIGMA_API_KEY "<personal access token>"     # User env; or System Properties → Environment Variables
+npm run setup:toolchain                           # next probe detects it and connects unattended
 ```
 
-Note for anyone following an older instruction: `@modelcontextprotocol/server-figma` and `@figma/mcp` both return npm **E404** (measured 2026-09-18). No official Figma MCP ships on npm. The real options are the pinned third-party `figma-developer-mcp@0.13.2` (headless, personal access token), Figma's remote OAuth server at `https://mcp.figma.com/mcp`, or a local server hosted by the Figma **desktop app** on `127.0.0.1:3845` — the last of which needs that app installed and a Dev Mode seat, so it is not wired here.
+The explicit one-shot path is still there for the current shell (`$env:FIGMA_API_KEY = '<token>'` then `scripts/agent/setup-figma.ps1 -Persist`), and `-Remove` unregisters. The key is resolved from process, User **and** Machine scope, because a fresh shell, a scheduled task and a session hook each see a different subset.
+
+Note for anyone following an older instruction: `@modelcontextprotocol/server-figma` and `@figma/mcp` both return npm **E404** (measured 2026-09-18). No official Figma MCP ships on npm. The real options were the pinned third-party `figma-developer-mcp@0.13.2` (headless, personal access token — **adopted**), Figma's remote OAuth server at `https://mcp.figma.com/mcp` (**retired**), or a local server hosted by the Figma **desktop app** on `127.0.0.1:3845` — the last of which needs that app installed and a Dev Mode seat, so it is not wired here.
 
 ## Local agent toolkit
 
