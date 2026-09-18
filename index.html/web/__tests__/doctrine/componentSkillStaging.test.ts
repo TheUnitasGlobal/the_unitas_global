@@ -34,10 +34,21 @@ const WEB_ROOT = join(__dirname, '../..'); // index.html/web
 const OPS_ROOT = join(WEB_ROOT, '..'); // index.html
 
 const STAGING = join(OPS_ROOT, 'docs', 'skills', 'unitas-component', 'SKILL.md');
+const INSTALLED = join(OPS_ROOT, '.claude', 'skills', 'unitas-component', 'SKILL.md');
 const SYNC_SCRIPT = join(OPS_ROOT, 'scripts', 'agent', 'sync-component-skill.ps1');
 
 const SKILL = readFileSync(STAGING, 'utf8');
 const SYNC = readFileSync(SYNC_SCRIPT, 'utf8');
+
+/**
+ * EOL-insensitive comparison. Both files are tracked and neither is pinned in
+ * .gitattributes, so `core.autocrlf=true` rewrites them on checkout while CI on
+ * Linux leaves them LF. A raw sha256 parity assertion would therefore be a
+ * checkout-dependent coin flip; the content is what must not drift.
+ */
+function normalized(p: string): string {
+  return readFileSync(p, 'utf8').replace(/\r\n/g, '\n');
+}
 
 /** Locale basenames actually shipped, e.g. ['de','en',...]. */
 function shippedLocales(): string[] {
@@ -64,6 +75,16 @@ describe('unitas-component skill — staging copy exists and is installable', ()
 
   it('is substantial enough to be the replacement rather than a stub', () => {
     expect(SKILL.length).toBeGreaterThan(8000);
+  });
+
+  it('is installed: the shipped skill matches the staging copy', () => {
+    // Installed 2026-09-18 by the founder running scripts/agent/sync-component-skill.ps1.
+    // Until that moment this assertion would have been red by construction, which is
+    // why it lands now rather than with the staging copy. From here it is the drift
+    // gate in both directions: editing docs/skills/... without re-running the bridge,
+    // or hand-editing the .claude copy, turns `npm test` red.
+    expect(existsSync(INSTALLED)).toBe(true);
+    expect(normalized(INSTALLED)).toBe(normalized(STAGING));
   });
 
   it('ships the founder-run bridge that installs it, with its fail-closed checks', () => {

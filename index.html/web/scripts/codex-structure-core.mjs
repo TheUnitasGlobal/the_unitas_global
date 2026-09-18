@@ -22,8 +22,11 @@
 // without either re-implementing it. Two implementations of an integrity check
 // is two things that can drift.
 //
-// MEASURED PARSING NOTES (2026-09-17, against C:/dev/unitas/CLAUDE.md):
-//   * Chapter headings are "## 제N장. <title>" at column 0. 16 of them.
+// MEASURED PARSING NOTES (2026-09-18, against C:/dev/unitas/CLAUDE.md):
+//   * Chapter headings are "## 제N장. <title>" at column 0. 17 of them since
+//     v49.0, which inserted 제12장 (U-Square / Impeccable Taste) and pushed the
+//     old 제12~16장 down to 제13~17장. The canon also carries a UTF-8 BOM from
+//     this edition on; normalize() strips it, so every parser here is unaffected.
 //   * The slot list lives on continuation lines of the "- 구성 (1~1000선 전문):"
 //     bullet, indented two spaces, comma separated, "N.<term>".
 //   * Group headers look like "  [1~28 (오리지널 태도 - 28선)]" -- and the last
@@ -35,28 +38,45 @@
 //     the anchor below accepts line-start-plus-indent as well as a comma.
 // ---------------------------------------------------------------------------
 
-/** The canonical 16 chapters of v41.0 Absolute Infinite Paradigm Edition.
+/** The canonical 17 chapters of v49.0 Absolute Infinite Paradigm Edition.
  *  Titles are matched EXACTLY, so a silent retitle is a gate failure, not a
  *  stylistic edit. When the founder ratifies a new edition, this table and the
  *  canon move together in the same commit -- that coupling is the point.
+ *
+ *  v41.0 -> v49.0 (founder commit 27f40b5, ratified 2026-09-18): 제12장
+ *  「U-Square 하이퍼-테마 생태계 및 제로-프릭션 UI/UX」 was inserted, which shifted
+ *  the old 제12~16장 down by one to 제13~17장. Citing any of those five by their
+ *  v41.0 number is now wrong -- the same +1 hazard the v41.0 제6장 promotion
+ *  created, recurring one edition later.
+ *
+ *  제2장's title is the one place this table does NOT simply mirror the canon as
+ *  the founder first wrote it. v49.0 shipped it as "(순수 고유 1000선, 중복 0)";
+ *  slotStatistics() measures 814 distinct terms, 138 of them repeated across 324
+ *  slots, so that wording is refuted by this very module. Ratifying it here would
+ *  make the gate assert something the program disproves, which is the exact
+ *  failure this gate exists to catch (제13장 미측정 완료 보고 금지), so the canon
+ *  was corrected to the provable claim -- slot numbers 1..1000 with zero gaps and
+ *  zero duplicate NUMBERS -- and this table matches that. Terms repeat by design:
+ *  the upper bands promote earlier entries by positional suffix extension.
  *  @type {ReadonlyArray<{ n: number, title: string }>} */
 export const EXPECTED_CHAPTERS = Object.freeze([
   { n: 1, title: '기업 정체성 및 소버린 SaaS 철학' },
   { n: 2, title: '1000대 초-헌법 정본 마스터 리스트 (슬롯 1~1000 결번 0 · 슬롯 번호 중복 0 · 구조적 확장 등재 허용)' },
   { n: 3, title: '유니타스 연산 매트릭스 및 실무 제작 아키텍처' },
-  { n: 4, title: '단일 절대 지배 에이전트 및 제로 핸즈(Zero-Hands) 자율 진화 독트린' },
+  { n: 4, title: '단일 절대 지배 에이전트 및 권한 한계 돌파 독트린' },
   { n: 5, title: '불멸 경제, 탈중앙 팩토리 정산 및 글로벌 소버린 통제' },
-  { n: 6, title: '초제로핸즈(Zero-Hands) 자율 진화 및 권한 강제 획득' },
+  { n: 6, title: '초제로핸즈(Zero-Hands) 자율 진화 및 대화형 통제' },
   { n: 7, title: '초수속적 옴니-테크 글로벌 SEO 및 다크 시네마틱 아키텍처' },
-  { n: 8, title: '글로벌 옴니채널 무결성, 오프라인 동기화 및 절대 보안 방어' },
+  { n: 8, title: '글로벌 옴니채널 무결성 및 절대 보안 방어' },
   { n: 9, title: '1억 번의 시뮬레이션 및 크로스플랫폼 무결점 반응 독트린' },
   { n: 10, title: '초광역 인피니티 넥서스 자가 증식 및 싱귤래리티 독트린' },
   { n: 11, title: '소버린 기억 백업망 및 영구 보존 아키텍처' },
-  { n: 12, title: '스마트 자율 압축 및 중간 결과물 영구 보존 독트린' },
-  { n: 13, title: 'Fail-Closed 무결성 검증 및 최종 완결 종합 보고 독트린' },
-  { n: 14, title: '자율 진화형 영구 기억, 초정밀 예측(ETA) 및 무한 개선 독트린' },
-  { n: 15, title: '초민첩 3단계 스마트 검증, 10분 초정밀 유휴 감지 및 절대 일시정지("준비") 독트린' },
-  { n: 16, title: '라이브 DB 절대 동기화 및 공식 오피셜 통제 독트린' },
+  { n: 12, title: 'U-Square 하이퍼-테마 생태계 및 제로-프릭션 UI/UX' },
+  { n: 13, title: '스마트 자율 압축 및 중간 결과물 영구 보존 독트린' },
+  { n: 14, title: 'Fail-Closed 무결성 검증 및 초자동화 자율 승인 독트린' },
+  { n: 15, title: '자율 진화형 영구 기억, 초정밀 예측(ETA) 및 무한 개선 독트린' },
+  { n: 16, title: '초민첩 3단계 스마트 검증 및 샤드 캐싱 독트린' },
+  { n: 17, title: '라이브 DB 절대 동기화 및 공식 오피셜 통제 독트린' },
 ]);
 
 /** The constitution has exactly this many numbered slots. */

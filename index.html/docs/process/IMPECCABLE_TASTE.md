@@ -19,11 +19,13 @@
 
 ## §1. 우선순위
 
-1. 최상위 운영 헌법(`CLAUDE.md` §0 / Codex v41.0 제1~16장)이 언제나 우선한다.
+1. 최상위 운영 헌법(`CLAUDE.md` §0 / Codex **v49.0 제1~17장**)이 언제나 우선한다.
+   - **2026-09-18 승격:** v49.0이 **제12장 「U-Square 하이퍼-테마 생태계 및 제로-프릭션 UI/UX」**를 신설하면서 Impeccable Taste는 문서 독트린에서 **헌법 조문**이 되었다. 본 문서는 이제 그 조문의 시행세칙이며, 조문과 충돌하면 조문이 이긴다. 제12장은 "AI 특유의 밋밋한 기본 스타일 영구 엄금 · 마이크로 인터랙션 · 글래스모피즘 · 1픽셀 오차 0 정밀 타이포그래피"를 강제하고, 에이전트가 **최신 글로벌 디자인 트렌드를 자율 분석해 스스로 미적 판단을 내릴 것**을 요구한다.
+   - 제12장 신설로 구 제12~16장은 **제13~17장으로 +1 이동**했다. 본 문서 아래의 장 인용은 모두 v49.0 번호다.
 2. 그 다음이 본 독트린.
 3. 그 다음이 외부 디자인 스킬(`frontend-design`, `ui-ux-pro-max`, `ui-styling`, `design-system`, `brand` 등).
 
-**외부 스킬이 §3의 조항과 충돌하면 §3이 이긴다.** 외부 스킬은 이 저장소를 측정한 적이 없다. 충돌을 발견하면 침묵하고 따르지 말고, 본 문서에 충돌 항목으로 등재하라(제14장 자율 기록).
+**외부 스킬이 §3의 조항과 충돌하면 §3이 이긴다.** 외부 스킬은 이 저장소를 측정한 적이 없다. 충돌을 발견하면 침묵하고 따르지 말고, 본 문서에 충돌 항목으로 등재하라(제15장 자율 기록).
 
 ## §2. 적용 대상
 
@@ -99,7 +101,7 @@ Cinzel(`font-serif`)과 JetBrains Mono(`font-sans`)만, `next/font`를 통해서
 
 **규칙 13 · 가드를 변경과 함께 출하한다.**
 새 토큰 계열이나 선택자 계열은 `web/__tests__/**/*.test.ts`에 정적 텍스트 단언(=`readFileSync` + 정규식)을 함께 낸다 — 새 이름이 존재하고 은퇴한 이름이 없음을 단언한다. `rev15Tokens.test.ts` / `rev17Tokens.test.ts` 패턴.
-**함정:** 이 저장소의 vitest는 node 환경이며 `__tests__/**/*.test.ts`만 수집한다. `.test.tsx`로 쓰거나 DOM을 렌더하는 가드는 **조용히 한 번도 실행되지 않는다**(기존 127개 테스트 중 `.tsx`는 0개). 가드를 작성했다면 `npm --prefix web run test` 출력에 그 이름이 실제로 나타나는지 확인하기 전에는 "강제된다"고 말하지 않는다(제13장 미측정 완료 보고 금지).
+**함정:** 이 저장소의 vitest는 node 환경이며 `__tests__/**/*.test.ts`만 수집한다. `.test.tsx`로 쓰거나 DOM을 렌더하는 가드는 **조용히 한 번도 실행되지 않는다**(기존 127개 테스트 중 `.tsx`는 0개). 가드를 작성했다면 `npm --prefix web run test` 출력에 그 이름이 실제로 나타나는지 확인하기 전에는 "강제된다"고 말하지 않는다(제14장 미측정 완료 보고 금지).
 
 ---
 
@@ -117,9 +119,9 @@ Cinzel(`font-serif`)과 JetBrains Mono(`font-sans`)만, `next/font`를 통해서
 
 ## §5. 알려진 미해결 항목
 
-- **`index.html/.claude/skills/unitas-component/SKILL.md`가 낡았다 → 2026-09-18 정본 대체본 준비 완료, 설치만 대기.** 낡은 본문은 로케일을 6개로 서술(실제 20개)하고, `--qw-*`·quantum-white 표면·글래스 1겹 규칙·`ModalPortal`·퍼널 게이트·`@/i18n/navigation`·라우트 레지스트리를 전혀 언급하지 않으며, `accent`를 시안이라 잘못 부른다(실제 `accent`=금 `#d4af37`, `neon`=시안 `#00f3ff`). `.claude/**` 쓰기는 하네스 분류기가 `[Self-Modification]`으로 차단하므로, 새 본문은 저장소 안 `docs/skills/unitas-component/SKILL.md`에 정본으로 두고 창립자가 `scripts/agent/sync-component-skill.ps1`(백업→BOM 없는 UTF-8 기록→sha256 재확인, 실패 시 복원)을 1회 실행해 덮어쓴다. 정본 본문의 저장소 주장은 `web/__tests__/doctrine/componentSkillStaging.test.ts`가 파일시스템(로케일 20개·시트 7개)과 대조해 기계로 지킨다.
+- ~~**`index.html/.claude/skills/unitas-component/SKILL.md`가 낡았다**~~ → **2026-09-18 해소(설치 완료·실측 IN SYNC).** 낡은 본문은 로케일을 6개로 서술(실제 20개)하고, `--qw-*`·quantum-white 표면·글래스 1겹 규칙·`ModalPortal`·퍼널 게이트·`@/i18n/navigation`·라우트 레지스트리를 전혀 언급하지 않으며, `accent`를 시안이라 잘못 부른다(실제 `accent`=금 `#d4af37`, `neon`=시안 `#00f3ff`). `.claude/**` 쓰기는 하네스 분류기가 `[Self-Modification]`으로 차단하므로, 새 본문은 저장소 안 `docs/skills/unitas-component/SKILL.md`에 정본으로 두고 창립자가 `scripts/agent/sync-component-skill.ps1`(백업→BOM 없는 UTF-8 기록→sha256 재확인, 실패 시 복원)을 1회 실행해 덮어쓴다. 정본 본문의 저장소 주장은 `web/__tests__/doctrine/componentSkillStaging.test.ts`가 파일시스템(로케일 20개·시트 7개)과 대조해 기계로 지킨다.
 - 규칙 6·10·12는 정적 스캔으로 기계화할 여지가 있으나(인플로우 애니메이션 속성 스캔, `.tsx` raw hex 스캔, 로케일 키 대칭 스캔) 오탐 설계가 끝나기 전에는 리뷰 강제로 둔다. 잡히지 않는 가드를 초록으로 세는 것이 규칙 13이 금지하는 바로 그것이다.
 
 ## §6. 개정
 
-본 문서는 `docs/process/`의 자율 진화 대상이다(제10장·제14장). 조항을 추가할 때는 **강제 방식을 함께 적어야** 한다 — 강제 방식이 비어 있는 조항은 조항이 아니라 희망이다.
+본 문서는 `docs/process/`의 자율 진화 대상이다(제10장·제15장). 조항을 추가할 때는 **강제 방식을 함께 적어야** 한다 — 강제 방식이 비어 있는 조항은 조항이 아니라 희망이다.

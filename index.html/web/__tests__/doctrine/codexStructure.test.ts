@@ -88,12 +88,18 @@ describe('codex canon — chapter spine', () => {
     }
   });
 
-  it('keeps 제6장 초제로핸즈 between 제5장 and 제7장 (the v41.0 promotion that shifted 구 제6~15장 to 제7~16장)', () => {
+  it('pins the two insertions that renumbered the tail, and keeps 라이브 DB last', () => {
+    // v41.0 promoted 제6장 초제로핸즈, shifting 구 제6~15장 to 제7~16장.
+    // v49.0 inserted 제12장 U-Square, shifting 구 제12~16장 to 제13~17장.
+    // Both times the tail moved by one and every citation of the old number
+    // silently became wrong. Anchor on the identity of the chapter, not on a
+    // hardcoded tail index, so the next insertion fails loudly here instead.
     const chapters = parseChapters(CANON);
-    const six = chapters.find((c) => c.n === 6);
-    expect(six?.title).toContain('초제로핸즈');
+    expect(chapters.find((c) => c.n === 6)?.title).toContain('초제로핸즈');
     expect(chapters.find((c) => c.n === 7)?.title).toContain('옴니-테크');
-    expect(chapters.find((c) => c.n === 16)?.title).toContain('라이브 DB');
+    expect(chapters.find((c) => c.n === 12)?.title).toContain('U-Square');
+    const last = EXPECTED_CHAPTERS[EXPECTED_CHAPTERS.length - 1];
+    expect(chapters.find((c) => c.n === last.n)?.title).toContain('라이브 DB');
   });
 });
 
@@ -184,14 +190,14 @@ describe('codex structure verifier — proves it can fail', () => {
     expect(damaged).not.toBe(CANON);
     const verdict = verifyStructure(damaged);
     expect(verdict.ok).toBe(false);
-    expect(verdict.failures.join('\n')).toMatch(/chapter count is 15|제16장 is missing|numbered/);
+    expect(verdict.failures.join('\n')).toMatch(/chapter count is \d+|is missing|numbered/);
   });
 
-  it('fails when the chapters are renumbered (the v41.0 15→16 shift, undone)', () => {
+  it('fails when the chapters are renumbered (the 제6장 promotion, undone)', () => {
     // Re-collapse 제6장 into 제5장's block and shift the tail back by one --
     // the exact shape of the drift that slipped through eight times.
     let damaged = CANON;
-    for (let n = 16; n >= 7; n -= 1) {
+    for (let n = EXPECTED_CHAPTERS[EXPECTED_CHAPTERS.length - 1].n; n >= 7; n -= 1) {
       damaged = damaged.replace(`## 제${n}장.`, `## 제${n - 1}장.`);
     }
     damaged = damaged.replace('## 제6장. 초제로핸즈', '### (merged) 초제로핸즈');
@@ -200,9 +206,14 @@ describe('codex structure verifier — proves it can fail', () => {
   });
 
   it('fails when a chapter is silently retitled', () => {
-    const verdict = verifyStructure(
-      CANON.replace('## 제16장. 라이브 DB 절대 동기화 및 공식 오피셜 통제 독트린', '## 제16장. 라이브 DB 동기화'),
-    );
+    // Resolve the victim from the ratified table rather than hardcoding its
+    // number: when v49.0 moved 라이브 DB from 제16장 to 제17장, the literal below
+    // stopped matching and this mutation quietly became a no-op, which made a
+    // red-proof test pass for the wrong reason.
+    const last = EXPECTED_CHAPTERS[EXPECTED_CHAPTERS.length - 1];
+    const heading = `## 제${last.n}장. ${last.title}`;
+    expect(CANON).toContain(heading);
+    const verdict = verifyStructure(CANON.replace(heading, `## 제${last.n}장. 라이브 DB 동기화`));
     expect(verdict.ok).toBe(false);
     expect(verdict.failures.join('\n')).toContain('title drifted');
   });
@@ -266,7 +277,7 @@ describe('doctrine summaries — chapter map currency', () => {
   ];
   const LAST = EXPECTED_CHAPTERS[EXPECTED_CHAPTERS.length - 1].n;
 
-  it('every present summary that enumerates the structure reaches 제16장', () => {
+  it(`every present summary that enumerates the structure reaches 제${LAST}장`, () => {
     for (const rel of SUMMARY_FILES) {
       let text: string;
       try {
@@ -303,8 +314,8 @@ describe('doctrine summaries — chapter map currency', () => {
   });
 
   it('missingChapterMentions() reports the gap when a chapter map is truncated', () => {
-    const fifteen = EXPECTED_CHAPTERS.slice(0, 15).map((c) => `제${c.n}장`).join(' ');
-    expect(missingChapterMentions(fifteen)).toEqual([16]);
+    const truncated = EXPECTED_CHAPTERS.slice(0, -1).map((c) => `제${c.n}장`).join(' ');
+    expect(missingChapterMentions(truncated)).toEqual([LAST]);
     const all = EXPECTED_CHAPTERS.map((c) => `제${c.n}장`).join(' ');
     expect(missingChapterMentions(all)).toEqual([]);
   });
