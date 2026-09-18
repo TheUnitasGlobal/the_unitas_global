@@ -97,7 +97,7 @@ describe('codex canon — chapter spine', () => {
     const chapters = parseChapters(CANON);
     expect(chapters.find((c) => c.n === 6)?.title).toContain('초제로핸즈');
     expect(chapters.find((c) => c.n === 7)?.title).toContain('옴니-테크');
-    expect(chapters.find((c) => c.n === 12)?.title).toContain('U-Square');
+    expect(chapters.find((c) => c.n === 12)?.title).toContain('유니타스 옴니-크리에이션');
     const last = EXPECTED_CHAPTERS[EXPECTED_CHAPTERS.length - 1];
     expect(chapters.find((c) => c.n === last.n)?.title).toContain('라이브 DB');
   });

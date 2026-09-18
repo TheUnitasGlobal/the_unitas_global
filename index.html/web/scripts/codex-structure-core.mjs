@@ -38,7 +38,7 @@
 //     the anchor below accepts line-start-plus-indent as well as a comma.
 // ---------------------------------------------------------------------------
 
-/** The canonical 17 chapters of v49.0 Absolute Infinite Paradigm Edition.
+/** The canonical 17 chapters of v51.0 Absolute Infinite Paradigm Edition.
  *  Titles are matched EXACTLY, so a silent retitle is a gate failure, not a
  *  stylistic edit. When the founder ratifies a new edition, this table and the
  *  canon move together in the same commit -- that coupling is the point.
@@ -49,15 +49,25 @@
  *  v41.0 number is now wrong -- the same +1 hazard the v41.0 제6장 promotion
  *  created, recurring one edition later.
  *
+ *  v49.0 -> v51.0 (ratified 2026-09-18, same day): NO chapter was inserted and
+ *  NO number moved -- still 17. Exactly two chapters were retitled and widened:
+ *  제9장 「1억 번의 시뮬레이션 및 크로스플랫폼 무결점 반응 독트린」 became
+ *  「크로스플랫폼 무결점 반응 및 옴니-환경 동기화 독트린」, and 제12장
+ *  「U-Square 하이퍼-테마 생태계 및 제로-프릭션 UI/UX」 became 「유니타스 옴니-
+ *  크리에이션 및 초정밀 절대 미학(Impeccable Taste) 독트린」. Because the numbering
+ *  is identical across the two editions, a stale citation is detectable ONLY by
+ *  those two titles -- which is why they are matched exactly here.
+ *
  *  제2장's title is the one place this table does NOT simply mirror the canon as
- *  the founder first wrote it. v49.0 shipped it as "(순수 고유 1000선, 중복 0)";
- *  slotStatistics() measures 814 distinct terms, 138 of them repeated across 324
- *  slots, so that wording is refuted by this very module. Ratifying it here would
- *  make the gate assert something the program disproves, which is the exact
- *  failure this gate exists to catch (제13장 미측정 완료 보고 금지), so the canon
- *  was corrected to the provable claim -- slot numbers 1..1000 with zero gaps and
- *  zero duplicate NUMBERS -- and this table matches that. Terms repeat by design:
- *  the upper bands promote earlier entries by positional suffix extension.
+ *  the founder first wrote it, and it has now been refused twice. Both v49.0 and
+ *  the v51.0 draft shipped it as "(순수 고유 1000선, 중복 0)"; slotStatistics()
+ *  measures 815 distinct terms, 140 of them repeated across 325 slots, so that
+ *  wording is refuted by this very module. Ratifying it here would make the gate
+ *  assert something the program disproves, which is the exact failure this gate
+ *  exists to catch (제14장 미측정 완료 보고 금지), so the canon keeps the provable
+ *  claim -- slot numbers 1..1000 with zero gaps and zero duplicate NUMBERS -- and
+ *  this table matches that. Terms repeat by design: the upper bands promote
+ *  earlier entries by positional suffix extension.
  *  @type {ReadonlyArray<{ n: number, title: string }>} */
 export const EXPECTED_CHAPTERS = Object.freeze([
   { n: 1, title: '기업 정체성 및 소버린 SaaS 철학' },
@@ -68,10 +78,10 @@ export const EXPECTED_CHAPTERS = Object.freeze([
   { n: 6, title: '초제로핸즈(Zero-Hands) 자율 진화 및 대화형 통제' },
   { n: 7, title: '초수속적 옴니-테크 글로벌 SEO 및 다크 시네마틱 아키텍처' },
   { n: 8, title: '글로벌 옴니채널 무결성 및 절대 보안 방어' },
-  { n: 9, title: '1억 번의 시뮬레이션 및 크로스플랫폼 무결점 반응 독트린' },
+  { n: 9, title: '크로스플랫폼 무결점 반응 및 옴니-환경 동기화 독트린' },
   { n: 10, title: '초광역 인피니티 넥서스 자가 증식 및 싱귤래리티 독트린' },
   { n: 11, title: '소버린 기억 백업망 및 영구 보존 아키텍처' },
-  { n: 12, title: 'U-Square 하이퍼-테마 생태계 및 제로-프릭션 UI/UX' },
+  { n: 12, title: '유니타스 옴니-크리에이션 및 초정밀 절대 미학(Impeccable Taste) 독트린' },
   { n: 13, title: '스마트 자율 압축 및 중간 결과물 영구 보존 독트린' },
   { n: 14, title: 'Fail-Closed 무결성 검증 및 초자동화 자율 승인 독트린' },
   { n: 15, title: '자율 진화형 영구 기억, 초정밀 예측(ETA) 및 무한 개선 독트린' },
