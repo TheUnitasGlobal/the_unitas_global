@@ -68,10 +68,35 @@ const SUMMARY_FILES = [
   path.join('.github', 'copilot-instructions.md'),
   path.join('.continue', 'config.yaml'),
   '.aider.conf.yml',
-  path.join('.github', 'agents', 'unitas-orchestrator.agent.md'),
-  path.join('.github', 'agents', 'unitas-claude-reviewer.agent.md'),
-  path.join('.github', 'agents', 'unitas-ux-reviewer.agent.md'),
 ].map((p) => path.join(OPERATIONAL_ROOT, p));
+
+// The role charters under .github/agents/ used to be enumerated here, three of
+// them, by hand. That worked exactly as long as there were three. MISSION 1
+// (2026-09-18) grew the review pass into a five-stage role pipeline --
+// plan -> code -> security -> ux -> e2e -- and a hand-written list is the one
+// shape that cannot survive that: a new charter simply is not in the array, so
+// it is never checked, and the drift this gate exists to catch reappears
+// through the door the gate does not watch. That is the ninth recurrence,
+// pre-built.
+//
+// So the charters are DISCOVERED, not enumerated. Whatever is in the directory
+// is in scope, today and after the next role is added.
+const AGENT_CHARTER_DIR = path.join(OPERATIONAL_ROOT, '.github', 'agents');
+
+function discoverAgentCharters() {
+  let names;
+  try {
+    names = fs.readdirSync(AGENT_CHARTER_DIR);
+  } catch (err) {
+    // A deploy checkout need not contain .github/; absent is not drift.
+    if (err.code === 'ENOENT') return [];
+    throw err;
+  }
+  return names
+    .filter((name) => name.endsWith('.agent.md'))
+    .sort()
+    .map((name) => path.join(AGENT_CHARTER_DIR, name));
+}
 
 // FINAL_REPORT A-4, half two: SUMMARY_FILES above resolve against
 // OPERATIONAL_ROOT, so index.html/.github/copilot-instructions.md is gated and
@@ -84,9 +109,20 @@ const SUMMARY_FILES = [
 // doctrine, and skipped when it is a generated stub. If the founder ever
 // promotes it to a real summary, it starts being gated on that commit with no
 // further change here.
+//
+// The discovered agent charters join this CONTENT-based tier rather than the
+// unconditional one above, for the same reason the git-root copilot file does:
+// .github/agents/ is a directory other tooling can also write into, and a file
+// there that carries no doctrine at all has no chapter map to go stale. A
+// charter that DOES transcribe doctrine -- which every role charter this repo
+// drives does -- is gated exactly as the three enumerated ones always were.
+// web/__tests__/doctrine/codexStructure.test.ts asserts that the pipeline's own
+// charters still carry doctrine, so this tier cannot be escaped by quietly
+// stripping the chapter map out of a real charter.
 const CONDITIONAL_SUMMARY_FILES = [
-  path.join('.github', 'copilot-instructions.md'),
-].map((p) => path.join(REPO_ROOT, p));
+  ...['.github/copilot-instructions.md'].map((p) => path.join(REPO_ROOT, p)),
+  ...discoverAgentCharters(),
+];
 
 /** Every `vNN.N` the text mentions, as numbers, highest last. */
 function versionsIn(text) {

@@ -29,7 +29,22 @@ import { describe, expect, it } from 'vitest';
 // wrapper headers to the real style rules inside them -- exactly the rules
 // this guard needs to inspect.
 
-const CSS_FILES = ['app/quantum-white.css', 'app/globals.css', 'app/splash.css'];
+// All seven shipped stylesheets, not three. The containing-block trap is a
+// property of the DOCUMENT, so a `body { filter }` in any sheet hijacks every
+// fixed layer site-wide -- guarding three of seven left four sheets
+// (quantum-white-rev19.css at 101KB, unitas-hub.css, waitlist.css,
+// unitas-wordmark.css) able to reintroduce the exact REV-15 defect that
+// rendered a 1702px curtain on a 667px viewport. Widened 2026-09-18 under the
+// Impeccable Taste doctrine (docs/process/IMPECCABLE_TASTE.md, rule 1).
+const CSS_FILES = [
+  'app/globals.css',
+  'app/quantum-white.css',
+  'app/quantum-white-rev19.css',
+  'app/splash.css',
+  'app/unitas-hub.css',
+  'app/unitas-wordmark.css',
+  'app/waitlist.css',
+];
 
 const FORBIDDEN_PROPS = [
   'filter',

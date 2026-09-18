@@ -40,6 +40,6 @@ Every implementation task must follow this order:
 
 - Copilot owns integration and final validation.
 - **Codex v41.0 제4장 단일 절대 지배 에이전트:** Claude Code만이 팩토리의 중앙 컨트롤 타워다. Gemini·Roo Code 등 보조 에이전트 CLI 연동은 2026-09-17 전량 파기되었으며 재도입은 헌법 위반이다.
-- `scripts/agent-review.ps1`은 Claude Code 단독으로 두 렌즈를 구동한다 — `-Lens security`(`.github/agents/unitas-claude-reviewer.agent.md`)와 `-Lens ux`(`.github/agents/unitas-ux-reviewer.agent.md`). 심사 기준은 그 두 정의 파일이 단일 정본이며 스크립트에 복제하지 않는다.
+- **롤 기반 검증 파이프라인(2026-09-18 MISSION 1):** `scripts/agent-review.ps1`은 Claude Code 단독으로 5단 파이프라인을 **선언 순서대로** 구동한다 — `plan`(`.github/agents/unitas-planner.agent.md`) → `code`(`unitas-code-reviewer.agent.md`) → `security`(`unitas-security-reviewer.agent.md`, 구 `unitas-claude-reviewer`) → `ux`(`unitas-ux-reviewer.agent.md`) → `e2e`(`unitas-e2e-runner.agent.md`). 그룹 선택자는 `all`(전체·기본값) / `review`(읽기 전용 4단) / `both`(레거시 security+ux)이며, 한 단계라도 non-zero면 즉시 파이프라인을 중단한다(제13장 Fail-Closed). 심사 기준은 각 정의 파일이 단일 정본이며 스크립트에 복제하지 않는다. 롤 추가는 `.github/agents/`에 헌장 파일을 놓고 `$lenses`에 한 줄 등재하는 것이 전부이며, `scripts/sync-codex.mjs`가 이 디렉터리를 **glob으로 발견**하므로 새 헌장도 자동으로 드리프트 게이트에 걸린다. 렌즈는 단일 지배 에이전트의 관점이지 보조 에이전트 연동이 아니다(제4장).
 - Agents must not print or commit API keys, access tokens, or `.env` contents.
 - If an external agent CLI is unavailable, report it and continue with local validation.

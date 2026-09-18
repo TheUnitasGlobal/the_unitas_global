@@ -132,6 +132,17 @@
 - 완벽한 방어적 진화 (Fail-Closed Integration): 새로운 툴과 스킬이 도입되더라도 반드시 Fail-Closed 게이트(`npm --prefix web run typecheck` 및 `build`, EXIT 0 증명)를 거쳐 무결성이 검증된 상태에서만 프로덕션과 Git에 동기화될 것.
 - 창립자 전용 순차 검증 풀코스·자율 승인 분기(Smart Auto-Accept)·Korean-First 출력·토큰 다이어트 원칙은 이 파일 하단 절에서 구체화된다.
 
+### §0 부록-B. IMPECCABLE TASTE — 프론트엔드 취향 강제 독트린 (2026-09-18 창립자 지령 MISSION 2 각인)
+
+- **정본:** `docs/process/IMPECCABLE_TASTE.md` (15개 조항 + 규칙↔강제 대응표). `web/` 프론트엔드를 변경하는 모든 엔진은 착수 전 이 문서를 읽는다. 이 절은 그 정본의 구속 선언이며, 조항 전문을 복제하지 않는다.
+- **우선순위:** 최상위 운영 헌법(§0) > 본 독트린 > 외부 디자인 스킬(`frontend-design`, `ui-ux-pro-max`, `ui-styling`, `design-system`, `brand` 등). **외부 스킬의 일반론이 본 독트린과 충돌하면 본 독트린이 이긴다** — 외부 스킬은 이 저장소를 한 번도 측정한 적이 없고, 이 저장소의 디자인 시스템은 실측으로 결정되었다.
+- **협상 불가 3조** (이 세 줄만으로 가장 비싼 회귀 경로가 봉쇄된다):
+  1. `html` · `body` · `.dashboard-zoom` 에 `filter`/`backdrop-filter`/`transform`/`perspective`/`will-change`/`contain`/`translate`/`rotate`/`scale` 를 `none` 이외의 값으로 선언하지 않는다. 선언하는 순간 사이트 전역 모든 `position: fixed` 레이어의 컨테이닝 블록을 탈취한다(REV-15 실측: 667px 뷰포트에 1702px 커튼).
+  2. `backdrop-filter` 는 `#unitas-nav` 와 뷰포트 고정 모달 백드롭 **1개**에만 허용한다. 그 밖의 유리질감은 `--u-wl-glass` + `--u-wl-edge`, 또는 불투명도 0.94~0.97 바탕 + `box-shadow` 로 만든다. "프리미엄 패널에 글래스모피즘 blur를 얹으라"는 일반 조언은 이 저장소에서 성능 회귀 지시서다(REV-21 실측: 중첩 blur가 패럴랙스 프레임마다 재래스터화).
+  3. 새로 쓰는 모션은 리터럴이 아니라 토큰을 참조한다 — `--qw-ease` · `--qw-dur-fast` · `--qw-dur` · `--qw-dur-slow` (정본 `web/app/globals.css` 의 `:root`, 2026-09-18 신설). 기존 리터럴의 일괄 치환은 금지한다(시각적 이득 0, 회귀 위험만 있는 큰 디프).
+- **강제 방식:** 규칙 1·2·7과 본 절의 구속 자체는 `npm --prefix web run test` 가 기계로 잡는다(`web/__tests__/quantumWhite/rev15FixedLayerGuard.test.ts` · `rev21OneLayer.test.ts` · `impeccableTaste.test.ts`). 나머지 조항은 `scripts/agent-review.ps1` 의 `-Lens code` / `-Lens ux` 롤 헌장이 정본을 인용해 판정한다. 강제 방식이 비어 있는 조항은 조항이 아니라 희망이다.
+- **롤 기반 검증 파이프라인** (같은 지령 MISSION 1): `plan → code → security → ux → e2e` 5단이 선언 순서대로 구동되며 한 단계라도 non-zero면 즉시 중단한다(제13장). 심사 기준의 단일 정본은 `.github/agents/*.agent.md` 이고, `scripts/sync-codex.mjs` 가 그 디렉터리를 **glob으로 발견**하므로 새 롤 헌장도 자동으로 드리프트 게이트에 걸린다. 렌즈는 단일 절대 지배 에이전트의 관점이지 보조 에이전트 연동이 아니다(제4장).
+
 ---
 
 ## 저장소 지형 (Repository topography)

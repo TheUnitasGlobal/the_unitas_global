@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
@@ -237,12 +237,32 @@ describe('codex structure verifier — proves it can fail', () => {
  * that gate uses is the right one.
  */
 describe('doctrine summaries — chapter map currency', () => {
+  // The role charters are DISCOVERED here for the same reason the gate itself
+  // discovers them (scripts/sync-codex.mjs): MISSION 1 (2026-09-18) grew the
+  // review pass from two lenses into a five-stage role pipeline, and a
+  // hand-written list of charters silently stops covering the role added
+  // tomorrow. A test that enumerates what it checks cannot notice what it is
+  // not checking.
+  const AGENT_CHARTERS = readdirSync(join(OPS_ROOT, '.github', 'agents'))
+    .filter((name) => name.endsWith('.agent.md'))
+    .sort()
+    .map((name) => join('.github', 'agents', name));
+
   const SUMMARY_FILES = [
     join('.github', 'copilot-instructions.md'),
     join('.continue', 'config.yaml'),
-    join('.github', 'agents', 'unitas-orchestrator.agent.md'),
-    join('.github', 'agents', 'unitas-claude-reviewer.agent.md'),
-    join('.github', 'agents', 'unitas-ux-reviewer.agent.md'),
+    ...AGENT_CHARTERS,
+  ];
+
+  // The pipeline stages named in scripts/agent-review.ps1. These are not
+  // optional discoveries -- each one is read by the review driver as the single
+  // source of its criteria, so a missing charter means a stage with no rules.
+  const PIPELINE_CHARTERS = [
+    'unitas-planner.agent.md',
+    'unitas-code-reviewer.agent.md',
+    'unitas-security-reviewer.agent.md',
+    'unitas-ux-reviewer.agent.md',
+    'unitas-e2e-runner.agent.md',
   ];
   const LAST = EXPECTED_CHAPTERS[EXPECTED_CHAPTERS.length - 1].n;
 
@@ -287,5 +307,52 @@ describe('doctrine summaries — chapter map currency', () => {
     expect(missingChapterMentions(fifteen)).toEqual([16]);
     const all = EXPECTED_CHAPTERS.map((c) => `제${c.n}장`).join(' ');
     expect(missingChapterMentions(all)).toEqual([]);
+  });
+
+  /**
+   * MISSION 1 (founder directive 2026-09-18) — the role pipeline.
+   *
+   * scripts/agent-review.ps1 reads each stage's criteria out of its charter
+   * file and duplicates none of them. That single-source design has one failure
+   * mode: a stage whose charter is missing or renamed has no criteria at all,
+   * and the driver only discovers it at run time, mid-release. These assert it
+   * at test time instead.
+   */
+  it('every stage of the role pipeline has a charter on disk', () => {
+    for (const name of PIPELINE_CHARTERS) {
+      expect(
+        AGENT_CHARTERS.includes(join('.github', 'agents', name)),
+        name + ' is a pipeline stage but has no charter in .github/agents/',
+      ).toBe(true);
+    }
+  });
+
+  it('every charter on disk still carries doctrine, so the drift gate keeps watching it', () => {
+    // The charters are gated CONDITIONALLY (content-based, like the git-root
+    // copilot file). Stripping the chapter map out of a real charter would
+    // therefore drop it out of the gate silently -- unless this fails first.
+    //
+    // This deliberately loops over the DISCOVERED charters, not the five
+    // pipeline stages: a backstop that enumerates what it protects leaves
+    // unitas-orchestrator.agent.md and every future role unprotected, which is
+    // the same hardcoded-list failure the glob above exists to end.
+    for (const rel of AGENT_CHARTERS) {
+      const text = readFileSync(join(OPS_ROOT, rel), 'utf8');
+      expect(carriesDoctrine(text), rel + ' no longer carries doctrine; the drift gate would skip it').toBe(true);
+    }
+  });
+
+  it('every charter the review driver names actually exists', () => {
+    const driver = readFileSync(join(OPS_ROOT, 'scripts', 'agent-review.ps1'), 'utf8');
+    const named = [...driver.matchAll(/'(unitas-[a-z0-9-]+\.agent\.md)'/g)].map((m) => m[1]);
+    expect(named.length, 'agent-review.ps1 names no charters at all').toBeGreaterThanOrEqual(
+      PIPELINE_CHARTERS.length,
+    );
+    for (const name of named) {
+      expect(
+        AGENT_CHARTERS.includes(join('.github', 'agents', name)),
+        'agent-review.ps1 drives ' + name + ', which is not in .github/agents/',
+      ).toBe(true);
+    }
   });
 });

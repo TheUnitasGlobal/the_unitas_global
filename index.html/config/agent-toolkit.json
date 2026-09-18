@@ -165,6 +165,17 @@
         "status": "registered 2026-09-10, user scope, claude mcp get 21st = Connected",
         "verify": "npm run setup:toolchain (status board) | claude mcp get 21st | MCP get_usage"
       },
+      "figma": {
+        "transport": "stdio (default route) | http (-Official route)",
+        "package": "figma-developer-mcp@0.13.2 (Framelink/GLips), pinned; invoked as npx -y figma-developer-mcp@0.13.2 --stdio",
+        "url": "https://mcp.figma.com/mcp (the -Official OAuth route; Figma's own remote server)",
+        "auth": "FIGMA_API_KEY=${FIGMA_API_KEY} (env reference expanded by Claude Code at connect time; token lives only in the Windows User env, never in ~/.claude.json or the repo). The -Official route uses OAuth and stores no secret at all.",
+        "manager": "scripts/agent/setup-figma.ps1 -Persist (Figma REST /v1/me pre-flight, ${VAR} registration, literal-secret detection, Connected check with rollback; -Official for OAuth, -Remove to unregister)",
+        "correction": "The founder's 2026-09-18 directive named @modelcontextprotocol/server-figma as an example. MEASURED the same day: that package returns npm E404, as does @figma/mcp. No official Figma MCP ships on npm -- the official server is the remote OAuth endpoint above, or a local one hosted by the Figma DESKTOP app on 127.0.0.1:3845 (not installed on this machine, so deliberately not wired).",
+        "tier": "Starter plans and View/Collab seats are capped near 6 tool calls PER MONTH on the official remote; a Dev or Full seat on Professional/Organization/Enterprise gets Figma REST Tier-1 per-minute limits. The headless PAT route follows normal REST API limits.",
+        "status": "NOT REGISTERED as of 2026-09-18 -- fail-closed. No Figma credential exists on this machine, and registering an unauthenticated server would produce a connection failure on every session start (as the unreachable playwright plugin already does). Activation is one command once the founder supplies a token or chooses OAuth.",
+        "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent/setup-figma.ps1 (exits 2 and registers nothing while FIGMA_API_KEY is unset) | claude mcp get figma"
+      },
       "auxiliary": {
         "mcporter": "0.13.10 (npm -g, openclaw/mcporter, Exa search backend for agent-reach)",
         "yt-dlp": "2026.8.19 (uv tool)",

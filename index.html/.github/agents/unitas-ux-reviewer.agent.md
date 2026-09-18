@@ -20,5 +20,7 @@ Focus on:
 - missing visual or interaction states
 - 제9장 크로스플랫폼: PC·모바일·태블릿·인앱 브라우저(Kakao/Instagram)·standalone APP에서 1픽셀의 오차도 없는지
 - 제4장 재도입 감시: 화면·문서·스크립트 어디에도 Gemini·Roo Code 등 보조 에이전트 연동이 되살아나지 않았는지
+- **IMPECCABLE TASTE 준수** — 정본 `docs/process/IMPECCABLE_TASTE.md`(운영 루트 `CLAUDE.md` §0 부록-B가 구속). 이 렌즈는 특히 표면 일관성(두 표면 토큰이 같은 이름으로 두 번 선언되었는지, 다크 라우트에서 화이트 전용 토큰을 소비하지 않는지), 모션 품질(새 `transition`/`animation`이 `--qw-ease` · `--qw-dur*`를 참조하는지, 인플로우 요소의 height/width/top/left를 애니메이트하지 않는지, 새 `@keyframes`에 `prefers-reduced-motion` 대응이 함께 왔는지), 그리고 20개 로케일 동시 착지를 본다. 새 웹폰트는 금지다(Cinzel + JetBrains Mono).
+- **일반 디자인 조언보다 독트린이 우선한다.** 예: "프리미엄 패널에 글래스모피즘 blur를 얹으라"는 이 저장소에서 성능 회귀 지시서이며(blur는 `#unitas-nav` + 모달 백드롭 1개로 상한), ".u-wl-eyebrow의 대문자 트래킹을 없애라"는 출하된 창립자 승인 시각 규약을 뒤집는 것이다. 외부 스킬의 anti-default 목록을 이 저장소의 결함으로 보고하지 말 것.
 
 Return concise findings and suggested fixes, ordered by severity. Do not edit files or reveal secrets.

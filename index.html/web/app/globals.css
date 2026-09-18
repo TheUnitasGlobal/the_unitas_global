@@ -24,6 +24,31 @@
   --qw-card-bg: rgba(5, 5, 8, 0.4);
   --qw-card-shadow: 0 10px 30px -22px rgba(0, 0, 0, 0.9);
   /* --------------------------------------------------------------------
+     IMPECCABLE TASTE rule 7 (founder directive 2026-09-18, MISSION 2) --
+     the motion vocabulary, finally named.
+
+     Motion had no canonical home: a census of all seven shipped stylesheets
+     found ZERO easing or duration custom properties, and instead 8 distinct
+     hand-written cubic-bezier curves and durations scattered across 0.18s
+     (11x), 0.2s (66x), 0.22s (9x) and 0.25s (16x). That is not a style, it
+     is an accumulation -- two panels that should feel identical drift apart
+     by a literal someone retyped.
+
+     These four are the plurality that already shipped, promoted to tokens so
+     they can be changed in one place. They are surface-INDEPENDENT (timing
+     is not a color), so they live on bare :root and are NOT re-declared
+     under html[data-unitas-surface='quantum-white'] -- see rule 3, which
+     governs only tokens whose VALUE differs between the two surfaces.
+
+     Existing literals are deliberately NOT rewritten here: a blind sweep of
+     ~100 transition declarations is a large, untestable diff with real
+     regression risk and no visual gain. The doctrine binds NEW motion.
+     -------------------------------------------------------------------- */
+  --qw-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --qw-dur-fast: 0.18s;
+  --qw-dur: 0.22s;
+  --qw-dur-slow: 0.35s;
+  /* --------------------------------------------------------------------
      REV-14 single-viewport gate tokens (SPEC.md §1.2). Every fixed-inset
      pre-home screen (splash / AudioGate / cinema ad / sealed coming-soon)
      reads its vertical rhythm from these instead of a fixed `py-*` so the

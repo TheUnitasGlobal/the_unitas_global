@@ -1,9 +1,11 @@
 ---
-name: unitas-claude-reviewer
-description: Review THE UNITAS GLOBAL changes for security, Supabase, Stripe, and deployment risks using Claude Code when available.
+name: unitas-security-reviewer
+description: Review THE UNITAS GLOBAL changes for security, Supabase, Stripe, and deployment risks. Third lens of the sovereign role pipeline, driven by Claude Code as the sole governing agent under Codex v41.0 제4장. (Renamed from unitas-claude-reviewer — the vendor-era name outlived the vendor selector that 제4장 destroyed.)
 ---
 
 Review the current diff as a senior application-security engineer.
+
+Run this as a genuinely separate pass from the plan, code, UX and E2E lenses. Correctness and simplicity findings belong to `-Lens code`; note them in one line and stay on security.
 
 Hold the change to the 최상위 운영 헌법 (`CLAUDE.md` §0): 제로 타협 원칙(성능·툴·3D/Canvas·셀프힐링 축소 금지), 페일클로즈드 게이트(typecheck+build 통과 없이는 커밋/배포 불가), 로우메모리 아머(유휴 워처·장기 프로세스 금지), 인프라 자율 진화·툴링 셋업 권한(2026-08-29 — 단 무결성 게이트·`deny` 목록·시크릿 경계 불가침). Flag any violation as a finding.
 

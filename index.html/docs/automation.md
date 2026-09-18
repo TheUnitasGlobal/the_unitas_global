@@ -74,7 +74,19 @@ npm run setup:toolchain                        # status board
 npm run setup:toolchain -- -Install -PullModel # full install on a new machine
 ```
 
-Model routing is opt-in per process through `scripts/agent/*.ps1` (Headroom proxy, local Ollama, OmniRoute); nothing edits `~/.claude/settings.json`, `CLAUDE.md`, or `.mcp.json`. The 21st.dev HTTP MCP is registered at user scope with an `${API_KEY_21ST}` header reference (`scripts/agent/setup-21st.ps1 -Persist`), and `web/components.json` exposes the same key to the shadcn CLI as the `@21st` registry namespace; the key itself lives only in the Windows User environment. Full matrix, measured limits (7.6 GB laptop, 4B model ceiling), and founder follow-ups: `docs/toolchain/README.md`.
+Model routing is opt-in per process through `scripts/agent/*.ps1` (Headroom proxy, local Ollama, OmniRoute); nothing edits `~/.claude/settings.json` or `.mcp.json`. The 21st.dev HTTP MCP is registered at user scope with an `${API_KEY_21ST}` header reference (`scripts/agent/setup-21st.ps1 -Persist`), and `web/components.json` exposes the same key to the shadcn CLI as the `@21st` registry namespace; the key itself lives only in the Windows User environment. Full matrix, measured limits (7.6 GB laptop, 4B model ceiling), and founder follow-ups: `docs/toolchain/README.md`.
+
+**Figma MCP (2026-09-18, MISSION 2) — staged, not registered.** `scripts/agent/setup-figma.ps1` is the same pattern: a Figma REST `/v1/me` pre-flight proves the credential *before* `~/.claude.json` is touched, the server is registered with a `${FIGMA_API_KEY}` reference so the token never lands in a config file, and a non-`Connected` result is rolled back. It is **not registered today** and that is deliberate — no Figma credential exists on this machine, and an unauthenticated MCP entry becomes a connection failure on every session start (the unreachable playwright plugin is the live example). Activation is one command:
+
+```powershell
+$env:FIGMA_API_KEY = '<personal access token>'   # headless, Zero-Touch (제7장)
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent/setup-figma.ps1 -Persist
+
+# ...or the official OAuth remote instead, which stores no secret at all:
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/agent/setup-figma.ps1 -Official
+```
+
+Note for anyone following an older instruction: `@modelcontextprotocol/server-figma` and `@figma/mcp` both return npm **E404** (measured 2026-09-18). No official Figma MCP ships on npm. The real options are the pinned third-party `figma-developer-mcp@0.13.2` (headless, personal access token), Figma's remote OAuth server at `https://mcp.figma.com/mcp`, or a local server hosted by the Figma **desktop app** on `127.0.0.1:3845` — the last of which needs that app installed and a Dev Mode seat, so it is not wired here.
 
 ## Local agent toolkit
 
