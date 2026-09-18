@@ -2,6 +2,8 @@
 
 창립자 호출: `@docs/stage3/READER.md` (REV-35 M2, SPEC.md D-9)
 
+> **먼저 읽을 것: [`STRUCTURAL_LIMITS.md`](./STRUCTURAL_LIMITS.md)** — 활성 세션 중 스윕 완주가 왜 구조적으로 불가능한지의 실측 정본(103틱 전수 파싱: `decision: idle` 0회, 병목은 `osInput` 최대 6.8분 vs 임계 10분, 샤드 1개 25~43분 · 6샤드 2.0~3.5시간). **"왜 스윕이 안 돌지"를 다시 조사하기 전에 그 문서를 읽어라** — 이미 두 세션이 각각 독립적으로 재발견했다.
+
 ## 0. 자율 브리핑 (REV-36 M2)
 
 창립자가 이 결과를 수동으로 찾아보지 않도록, 세션이 새로 기동·재개(`startup`/`resume`/`clear`/`compact`)될 때 `SessionStart` 훅이 `node index.html/web/scripts/stage3-brief.mjs --hook`을 돌려 그 출력을 세션 컨텍스트에 주입한다(두 `.claude/settings.json`에 등록됨, 20초 상한, 항상 EXIT 0). 순수 판정은 `web/scripts/stage3-brief-core.mjs`.
