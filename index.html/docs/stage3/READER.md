@@ -18,7 +18,9 @@
 3. `status`가 `cancelled`면 부분 집계다. 취소 사유(`cancelReason`)만 확인하고 결함 판단은 하지 않는다.
 4. 실패를 `kind`별로 처리한다.
    - `harness-flake` -- 제품 문제 아님. 해당 spec을 **그 프로젝트에서만** 재실행해 재현 여부만 적는다:
-     `cd index.html && npx playwright test --config=tests/web-cinema.config.js --project=webkit <file>`
+     `cd index.html && npx playwright test --config=tests/web-cinema.config.js --project=webkit --output=test-results/stage3-artifacts <file>`
+     **⚠ `--output` 을 빼지 마라.** Playwright 는 실행 시작 시 `outputDir` 을 **비운다**. 기본값은 `test-results/` 이고 그 아래에 `test-results/stage3/` 가 있으므로, 플래그 없이 수동 재실행하면 `progress.json` · `latest.json` · 샤드 로그가 통째로 지워져 **적립된 샤드 실적이 전부 증발하고 스윕이 1/6 부터 다시 시작한다.** 데몬은 이 때문에 항상 `--output` 을 넘긴다(`idle-sensor-daemon.mjs` 헤더). 2026-09-18 이 문서의 예시에 플래그가 없어 4샤드(chromium 228 · webkit 211 · mobile-chrome 238 · tablet)를 실제로 잃었다.
+     또한 재실행 중에는 데몬이 스윕을 시작하지 않도록(busy 프로세스 감지) 두고, 끝나면 `test-results/stage3/` 가 살아 있는지 확인한다.
    - `contract-drift` -- spec 또는 i18n 키를 수정한다. 근거 없이 단언을 느슨하게 만들지 않는다. i18n 키 변경은 20로케일 동시(REV-19 함정) + parity 테스트.
    - `product-defect` -- **먼저 Chromium에서 재현**한 뒤 수정한다. 수정 후 1단계 게이트: `npm run typecheck` · 수정 모듈의 `npx vitest run <dir>` · `npm run build` 모두 EXIT 0. 핵심 UI 변경이면 2단계: 수정된 spec만 Chromium 단일 엔진으로.
 5. **전경에서 3엔진 전수를 다시 돌리지 않는다**(제15장 1단계가 금지). 재검증은 데몬이 다음 유휴 창에 한다 -- 새 `BUILD_ID@HEAD`는 자동으로 스윕 대상이 된다.
