@@ -3,7 +3,7 @@
   "doctrine": "Codex v41.0 ch.4 (Sole Absolute Governing Agent / Zero-Hands / Self-Resurrecting Daemon) + ch.5 (Micro-Burn: an autonomous resume loop is budget-capped, never unbounded) + ch.13 (Fail-Closed integrity + the 제2장 structure gate) + ch.14 (review-agent archive) + ch.15 stage 3 (idle-sensor) + ch.8 (auto-quarantine must not kill founder-authorized automation) + ch.11 (sovereign memory backup). REV-36 M1, extended 2026-09-17 for the v41.0 residual-five directive (MISSION 1..5).",
   "authorizedBy": "Dooyeong Hwang (founder) -- REV-35 D-11 + REV-36 M1 directive 2026-09-16; v41.0 잔여 결재 5건 직권 승인 및 신규 미션 1~5 하달 2026-09-17",
   "authorizedAt": "2026-09-17",
-  "updatedAt": "2026-09-18T09:40:04.086Z",
+  "updatedAt": "2026-09-19T15:05:44.486Z",
   "entries": [
     {
       "kind": "scheduled-task",
@@ -216,7 +216,7 @@
       "path": "web/scripts/codex-structure-core.mjs",
       "purpose": "Pure structural parser/verifier for the codex canon (16 chapters + the 1000-slot spine). Imported by scripts/sync-codex.mjs in prebuild and by __tests__/doctrine/codexStructure.test.ts, so a silent edit here would silently disable the gate that A-4 exists to close.",
       "doctrine": "ch.2 / ch.13 / MISSION 3",
-      "sha256": "1829ef4e4b09f451aefdadc6bff1c19fd54b364838e3db00abfcb27ecbb37177"
+      "sha256": "5a5ef1e0708c2628ffb8126bde02ea024c3ef6b7b89d3b7881addb0f47374db7"
     },
     {
       "kind": "file",

@@ -38,7 +38,7 @@
 //     the anchor below accepts line-start-plus-indent as well as a comma.
 // ---------------------------------------------------------------------------
 
-/** The canonical 17 chapters of v51.0 Absolute Infinite Paradigm Edition.
+/** The canonical 17 chapters of v57.0 Absolute Infinite Paradigm Edition.
  *  Titles are matched EXACTLY, so a silent retitle is a gate failure, not a
  *  stylistic edit. When the founder ratifies a new edition, this table and the
  *  canon move together in the same commit -- that coupling is the point.
@@ -58,9 +58,31 @@
  *  is identical across the two editions, a stale citation is detectable ONLY by
  *  those two titles -- which is why they are matched exactly here.
  *
+ *  v51.0 -> v57.0 (founder-sealed 2026-09-19): NO chapter was inserted and NO
+ *  number moved -- still 17. Exactly one chapter was retitled: 제17장
+ *  「라이브 DB 절대 동기화 및 공식 오피셜 통제 독트린」 became 「라이브 DB
+ *  절대 동기화 및 24/365 영속 팩토리 통제 독트린」, and three chapters gained
+ *  clauses (제4장 클로드-클라인 비동기 릴레이 분산 팩토리 · Full Handoff Kit,
+ *  제11장 Modular Sovereignty, 제17장 U-Vault · Sentinel Daemon). Nothing was
+ *  deleted: the v57.0 body is a tighter restatement, so every v51.0 clause that
+ *  names a mechanism the repo still implements (자율 성장, 창립자 점화, 자율
+ *  부활 데몬, 백그라운드 LLM 차단, Self-Judgment, 3중 실측 게이트,
+ *  AES-256-GCM, 5단 롤 파이프라인, 샤드 지능 캐싱) is retained verbatim.
+ *  Three shapes of that same draft were refused, and the reason each was
+ *  refused is mechanical, not stylistic:
+ *    * the 제2장 heading as "## 제2장(1000). ..." -- CHAPTER_RE requires a
+ *      period after "제N장", so that heading is invisible to parseChapters(),
+ *      which would drop 제2장 from the spine and renumber every later chapter
+ *      against the ratified table. The ratified form keeps the period.
+ *    * 제2장 "(순수 고유 1000선, 중복 0)" -- refused a third time (v49.0,
+ *      v51.0, v57.0); slotStatistics() disproves it on the same document.
+ *    * 제3장 category counts 40/45/70/40/45/39/50 -- refused: the lists are
+ *      unchanged from v51.0 and measure 35/40/53/32/34/32/33, so the canon
+ *      keeps the measured numbers (제14장 미측정 완료 보고 금지).
+ *
  *  제2장's title is the one place this table does NOT simply mirror the canon as
- *  the founder first wrote it, and it has now been refused twice. Both v49.0 and
- *  the v51.0 draft shipped it as "(순수 고유 1000선, 중복 0)"; slotStatistics()
+ *  the founder first wrote it, and it has now been refused three times: v49.0, v51.0 and the
+ *  v57.0 draft each shipped it as "(순수 고유 1000선, 중복 0)"; slotStatistics()
  *  measures 815 distinct terms, 140 of them repeated across 325 slots, so that
  *  wording is refuted by this very module. Ratifying it here would make the gate
  *  assert something the program disproves, which is the exact failure this gate
@@ -86,7 +108,7 @@ export const EXPECTED_CHAPTERS = Object.freeze([
   { n: 14, title: 'Fail-Closed 무결성 검증 및 초자동화 자율 승인 독트린' },
   { n: 15, title: '자율 진화형 영구 기억, 초정밀 예측(ETA) 및 무한 개선 독트린' },
   { n: 16, title: '초민첩 3단계 스마트 검증 및 샤드 캐싱 독트린' },
-  { n: 17, title: '라이브 DB 절대 동기화 및 공식 오피셜 통제 독트린' },
+  { n: 17, title: '라이브 DB 절대 동기화 및 24/365 영속 팩토리 통제 독트린' },
 ]);
 
 /** The constitution has exactly this many numbered slots. */
