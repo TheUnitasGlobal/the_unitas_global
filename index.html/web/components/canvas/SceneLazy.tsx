@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
@@ -23,7 +23,7 @@ const DynamicScene = dynamic(() => import('./Scene').then((mod) => mod.Scene), {
 });
 
 /**
- * REV-13 "Quantum White" home (spec §10.1): the home route renders its own
+ * REV-13 "Quantum White" home (spec 짠10.1): the home route renders its own
  * white canvas and must never mount this opaque WebGL background at all --
  * `[data-unitas-scene]{display:none}` alone would still pay for a live R3F
  * context behind the curtain.
@@ -48,6 +48,7 @@ const HOME_PATHNAMES = new Set<string>([
 
 export function SceneLazy() {
   const pathname = usePathname();
-  if (HOME_PATHNAMES.has(pathname)) return null;
+  if (HOME_PATHNAMES.has(pathname || "")) return null;
   return <DynamicScene />;
 }
+
