@@ -1,0 +1,547 @@
+{
+  "Rev42": {
+    "gastronomy": {
+      "source": "UNITAS gastronomy archive · Wikipedia",
+      "localEatsHint": "Documented food places near you: restaurants, markets and cafés with a Wikipedia article within 10 km, nearest first",
+      "trendMeta": "Global trend",
+      "energyNote": "Estimate assuming 1 kWh/m²/day of irradiance and 1 % photosynthetic efficiency; actual values vary with crop and climate",
+      "mealSlots": {
+        "morning": "Morning",
+        "noon": "Midday",
+        "afternoon": "Afternoon",
+        "evening": "Evening",
+        "night": "Night"
+      },
+      "facts": {
+        "trending": "Trending now",
+        "mealSlot": "Meal slot",
+        "origin": "Origin",
+        "flavor": "Flavour",
+        "localTime": "Local time"
+      },
+      "flavors": {
+        "umami": "Umami",
+        "spicy": "Spicy",
+        "sweet": "Sweet",
+        "sour": "Sour",
+        "bitter": "Bitter",
+        "smoky": "Smoky",
+        "fresh": "Fresh",
+        "rich": "Rich",
+        "fermented": "Fermented",
+        "herbal": "Herbal"
+      },
+      "sections": {
+        "trends": "Global food-culture trends",
+        "traditional": "Traditional dishes",
+        "localEats": "Hidden local eats",
+        "localEatsFallback": "No documented food places found within this radius · turn on location or check again from another city"
+      },
+      "traditionMeta": "Traditional · {origin}",
+      "localMeta": "{dist} · Wikipedia",
+      "trending": {
+        "bibimbap": {
+          "name": "Bibimbap",
+          "why": "Rice, seasoned vegetables and gochujang mixed in one bowl; a balanced plate for midday or evening."
+        },
+        "kimchiJjigae": {
+          "name": "Kimchi jjigae",
+          "why": "A stew built on well-fermented kimchi; its sour, hot broth suits cool evenings and late nights."
+        },
+        "tteokbokki": {
+          "name": "Tteokbokki",
+          "why": "Chewy rice cakes simmered in a gochujang sauce; Korea's default afternoon snack and late-night bite."
+        },
+        "ramen": {
+          "name": "Ramen",
+          "why": "Wheat noodles in a pork-bone or shoyu broth; a filling bowl at lunch and the classic post-midnight meal."
+        },
+        "sushi": {
+          "name": "Sushi",
+          "why": "Vinegared rice topped with raw fish; light and clean enough for lunch, composed enough for dinner."
+        },
+        "onigiri": {
+          "name": "Onigiri",
+          "why": "A hand-sized rice ball wrapped in nori; eaten on the move at breakfast or as an afternoon bridge."
+        },
+        "dimSum": {
+          "name": "Dim sum",
+          "why": "Steamed dumplings and small plates served with tea, the Cantonese morning-to-noon ritual of yum cha."
+        },
+        "mapoTofu": {
+          "name": "Mapo tofu",
+          "why": "Silken tofu in a doubanjiang sauce with numbing Sichuan pepper; a rice-friendly lunch or dinner."
+        },
+        "pho": {
+          "name": "Pho",
+          "why": "Rice noodles in a clear beef broth with fresh herbs; Vietnam's breakfast that carries into lunch."
+        },
+        "banhMi": {
+          "name": "Bánh mì",
+          "why": "A crisp baguette filled with pickled vegetables, herbs and meat; quick to eat at breakfast or lunch."
+        },
+        "padThai": {
+          "name": "Pad thai",
+          "why": "Stir-fried rice noodles balanced with tamarind, fish sauce and palm sugar; a lunch or dinner staple."
+        },
+        "tomYum": {
+          "name": "Tom yum",
+          "why": "A hot and sour soup of lemongrass, chili and lime; it wakes the palate in the evening and at night."
+        },
+        "nasiGoreng": {
+          "name": "Nasi goreng",
+          "why": "Rice fried with kecap manis and topped with a fried egg; Indonesia's breakfast and lunch in one plate."
+        },
+        "tacosAlPastor": {
+          "name": "Tacos al pastor",
+          "why": "Spit-roasted pork with pineapple on corn tortillas; Mexico City's evening and late-night street order."
+        },
+        "neapolitanPizza": {
+          "name": "Neapolitan pizza",
+          "why": "A thin dough blistered in a wood-fired oven in about 90 seconds; dinner and late-night fare."
+        },
+        "cacioEPepe": {
+          "name": "Cacio e pepe",
+          "why": "Roman pasta finished with pecorino, black pepper and starchy water; a simple, rich dinner."
+        },
+        "croissant": {
+          "name": "Croissant",
+          "why": "Laminated butter dough baked into flaky layers; at its best alongside morning coffee."
+        },
+        "shakshuka": {
+          "name": "Shakshuka",
+          "why": "Eggs poached in a tomato and pepper sauce, eaten with bread; a Maghreb breakfast that stretches to lunch."
+        },
+        "avocadoToast": {
+          "name": "Avocado toast",
+          "why": "Smashed avocado on sourdough, the Australian café breakfast that spread worldwide."
+        },
+        "flatWhite": {
+          "name": "Flat white",
+          "why": "Espresso under a thin layer of velvety milk; a morning or mid-afternoon focus cup."
+        },
+        "pourOverCoffee": {
+          "name": "Pour-over coffee",
+          "why": "Filter coffee brewed slowly by hand; a clean, bright cup for the afternoon slump."
+        },
+        "darkChocolate": {
+          "name": "Dark chocolate",
+          "why": "Seventy percent cacao or more; a small, bitter square that fits an afternoon pause."
+        },
+        "greekSalad": {
+          "name": "Greek salad",
+          "why": "Tomato, cucumber, feta and olive oil; a cool, fresh plate for warm lunches and evenings."
+        },
+        "birria": {
+          "name": "Birria",
+          "why": "Meat braised slowly in a chili adobo, served with its rich broth; a lunch or after-dark meal."
+        }
+      },
+      "trends": {
+        "fermentation": {
+          "title": "Fermentation revival",
+          "line": "Since Noma's fermentation lab and its 2018 guide, kimchi, miso and kombucha have become a shared vocabulary of restaurant kitchens."
+        },
+        "plantForward": {
+          "title": "Plant-forward plates",
+          "line": "Vegetables move to the centre of the plate without going fully vegetarian; plant-based patties reached major fast-food menus in 2019."
+        },
+        "hyperLocal": {
+          "title": "Hyper-local sourcing",
+          "line": "Kitchens source within a few dozen kilometres and print the farm or boat on the menu; the seasonal card changes with the harvest."
+        },
+        "zeroWaste": {
+          "title": "Zero-waste kitchens",
+          "line": "Peels, bones and stems are turned into stocks, ferments and powders; the FAO estimates roughly a third of food produced is lost or wasted."
+        },
+        "koreanWave": {
+          "title": "K-food wave",
+          "line": "Kimchi, ramyeon and tteokbokki travelled with Korean drama and music; in 2021 the Oxford English Dictionary added kimbap and bulgogi."
+        },
+        "regenerative": {
+          "title": "Regenerative sourcing",
+          "line": "Grains from no-till, cover-cropped farms that rebuild soil carbon; large food companies adopted regenerative sourcing targets in the 2020s."
+        },
+        "functionalDrinks": {
+          "title": "Functional drinks",
+          "line": "Kombucha, prebiotic sodas and adaptogen drinks take the shelf once held by soda; prebiotic soda brands reached US supermarkets in the early 2020s."
+        },
+        "fireCooking": {
+          "title": "Open-fire cooking",
+          "line": "Wood and charcoal replace gas in destination kitchens, from Patagonian asado to wood-fired ovens; Francis Mallmann is the movement's public face."
+        },
+        "thirdWaveCoffee": {
+          "title": "Third-wave coffee",
+          "line": "Origin, varietal and processing are printed like a wine label and roasted light; the term was coined by roaster Trish Rothgeb in 2002."
+        },
+        "nightMarkets": {
+          "title": "Night-market street food",
+          "line": "Stalls that open after sunset, from Taipei's Shilin to Bangkok and Marrakesh; Jemaa el-Fnaa square joined UNESCO's intangible heritage list in 2008."
+        }
+      },
+      "dishes": {
+        "KR": {
+          "kimchi": {
+            "name": "Kimchi",
+            "origin": "Salted napa cabbage fermented with chili and fish sauce; chili reached Korea after the late 16th century, and kimjang was listed by UNESCO in 2013."
+          },
+          "samgyetang": {
+            "name": "Samgyetang",
+            "origin": "A young chicken simmered with glutinous rice, ginseng and jujube; eaten on the bok-nal dog days, a custom that took its present form in the 1900s."
+          }
+        },
+        "JP": {
+          "okonomiyaki": {
+            "name": "Okonomiyaki",
+            "origin": "A cabbage and batter griddle cake from Osaka and Hiroshima; it grew out of the cheap flour dishes of postwar food shortages."
+          },
+          "tempura": {
+            "name": "Tempura",
+            "origin": "Seafood and vegetables in a thin batter, fried; the technique traces to Portuguese missionaries who reached Nagasaki in the 16th century."
+          }
+        },
+        "CN": {
+          "pekingDuck": {
+            "name": "Peking duck",
+            "origin": "Roast duck with lacquered skin wrapped in thin pancakes; refined in Ming imperial kitchens, and the Beijing house Quanjude opened in 1864."
+          },
+          "xiaolongbao": {
+            "name": "Xiaolongbao",
+            "origin": "Steamed soup dumplings whose filling holds gelatinised broth; they are traced to Nanxiang, near Shanghai, in the 19th century."
+          }
+        },
+        "US": {
+          "hamburger": {
+            "name": "Hamburger",
+            "origin": "A ground-beef patty in a bun; the 19th-century 'Hamburg steak' of German immigrants became a sandwich in the United States."
+          },
+          "gumbo": {
+            "name": "Gumbo",
+            "origin": "A thick Louisiana stew of roux, okra and seafood or sausage; born in 18th-century New Orleans where West African, French and Choctaw cooking met."
+          }
+        },
+        "EE": {
+          "mulgikapsad": {
+            "name": "Mulgikapsad",
+            "origin": "Sauerkraut braised with pork and barley, from the Mulgi region of southern Estonia; a winter farmhouse staple."
+          },
+          "kama": {
+            "name": "Kama",
+            "origin": "A flour of roasted barley, rye, oats and peas, stirred into kefir or milk; an old Estonian peasant food that needed no cooking."
+          }
+        },
+        "ES": {
+          "paella": {
+            "name": "Paella",
+            "origin": "Rice cooked in a wide pan with rabbit, chicken and beans by farm workers in Valencia's rice fields; the name appears in print in the mid-19th century."
+          },
+          "gazpacho": {
+            "name": "Gazpacho",
+            "origin": "A cold Andalusian soup of tomato, cucumber, pepper, bread and olive oil; it took its modern form after the tomato arrived from the Americas."
+          }
+        },
+        "KH": {
+          "fishAmok": {
+            "name": "Fish amok",
+            "origin": "Fish steamed in banana leaf with kroeung spice paste and coconut milk; a Cambodian dish regarded as part of the Khmer royal culinary tradition."
+          },
+          "numBanhChok": {
+            "name": "Num banh chok",
+            "origin": "Fermented rice noodles under a fish-based green curry broth; known as 'Khmer noodles', sold from morning stalls across Cambodia."
+          }
+        },
+        "FR": {
+          "coqAuVin": {
+            "name": "Coq au vin",
+            "origin": "Rooster braised in wine with lardons and mushrooms; recorded in cookbooks in the early 20th century and associated with Burgundy."
+          },
+          "ratatouille": {
+            "name": "Ratatouille",
+            "origin": "A Niçoise stew of aubergine, courgette, tomato and pepper in olive oil; the word first meant a rough stew in 18th-century French."
+          }
+        },
+        "DE": {
+          "sauerbraten": {
+            "name": "Sauerbraten",
+            "origin": "Beef marinated for days in vinegar and spices, then braised; in the Rhineland the sauce is sweetened with raisins and served with dumplings."
+          },
+          "spaetzle": {
+            "name": "Spätzle",
+            "origin": "Egg noodles scraped from a soft dough into boiling water, from Swabia; protected as an EU geographical indication since 2012."
+          }
+        },
+        "PT": {
+          "bacalhauABras": {
+            "name": "Bacalhau à Brás",
+            "origin": "Shredded salt cod scrambled with matchstick potatoes, onion and egg; a Lisbon dish said to be named after a cook from the Bairro Alto quarter."
+          },
+          "pastelDeNata": {
+            "name": "Pastel de nata",
+            "origin": "An egg-custard tart from the recipe of the Jerónimos monastery monks in Belém, Lisbon; sold at the Belém bakery since 1837."
+          }
+        },
+        "VN": {
+          "bunCha": {
+            "name": "Bún chả",
+            "origin": "Charcoal-grilled pork patties served in a sweet-sour fish-sauce broth with rice vermicelli; a lunchtime dish of Hanoi's Old Quarter."
+          },
+          "banhXeo": {
+            "name": "Bánh xèo",
+            "origin": "A crisp turmeric rice-flour crêpe folded over shrimp and bean sprouts, from southern Vietnam; the name refers to the sizzle of batter in the pan."
+          }
+        },
+        "ID": {
+          "rendang": {
+            "name": "Rendang",
+            "origin": "Beef reduced for hours in coconut milk and spices; a Minangkabau dish from West Sumatra with roots in ceremonial cooking."
+          },
+          "satay": {
+            "name": "Satay",
+            "origin": "Skewered, marinated meat grilled over charcoal; thought to have developed in 19th-century Java under the influence of Arab and Indian traders' kebabs."
+          }
+        },
+        "RU": {
+          "borscht": {
+            "name": "Borscht",
+            "origin": "A beet-red vegetable soup that originated in Ukraine and spread across Russian tables; Ukrainian borscht culture was inscribed by UNESCO in 2022."
+          },
+          "pelmeni": {
+            "name": "Pelmeni",
+            "origin": "Small meat dumplings in thin dough, frozen outdoors through Ural and Siberian winters; the name comes from a Uralic word meaning 'ear bread'."
+          }
+        },
+        "IN": {
+          "biryani": {
+            "name": "Biryani",
+            "origin": "Spiced meat and basmati rice layered and steamed; developed in Mughal court kitchens, with Hyderabad and Lucknow among the famous regional styles."
+          },
+          "masalaDosa": {
+            "name": "Masala dosa",
+            "origin": "A thin fermented rice-and-lentil crêpe filled with spiced potato; a South Indian dish popularised through the Udupi restaurant tradition of Karnataka."
+          }
+        },
+        "IT": {
+          "risottoAllaMilanese": {
+            "name": "Risotto alla milanese",
+            "origin": "Saffron-yellow risotto from Milan; tradition ties it to a 16th-century tale of a glassmaker working on the Duomo."
+          },
+          "lasagna": {
+            "name": "Lasagna",
+            "origin": "Wide pasta sheets layered with ragù, béchamel and cheese and baked; a Bolognese tradition whose pasta name descends from the Greco-Roman laganum."
+          }
+        },
+        "TR": {
+          "kebap": {
+            "name": "Kebap",
+            "origin": "The family of Turkish grilled and roasted meats; the vertical-spit döner is traced to Bursa in the 19th-century Ottoman Empire."
+          },
+          "baklava": {
+            "name": "Baklava",
+            "origin": "Layers of filo, nuts and syrup; the pastry reached its present form in the kitchens of the Ottoman Topkapı Palace."
+          }
+        },
+        "TH": {
+          "greenCurry": {
+            "name": "Green curry",
+            "origin": "Green chili, galangal and kaffir lime paste in coconut milk; first recorded in Bangkok cookbooks in the early 20th century."
+          },
+          "somTam": {
+            "name": "Som tam",
+            "origin": "Green papaya pounded in a mortar with chili, lime and fish sauce; it spread to Bangkok from Laos and Thailand's Isan region."
+          }
+        },
+        "PL": {
+          "pierogi": {
+            "name": "Pierogi",
+            "origin": "Half-moon dumplings filled with potato and cheese, cabbage or fruit; a medieval arrival in Poland that became the national comfort dish."
+          },
+          "bigos": {
+            "name": "Bigos",
+            "origin": "'Hunter's stew' of sauerkraut, fresh cabbage and assorted meats simmered for hours; described in Adam Mickiewicz's 1834 epic Pan Tadeusz."
+          }
+        },
+        "NL": {
+          "stamppot": {
+            "name": "Stamppot",
+            "origin": "Potatoes mashed with kale or carrot and onion, served with smoked sausage; a winter dish that settled in once the potato became a Dutch staple."
+          },
+          "stroopwafel": {
+            "name": "Stroopwafel",
+            "origin": "Two thin waffles pressed around caramel syrup; made in Gouda since the late 18th or early 19th century."
+          }
+        },
+        "PH": {
+          "adobo": {
+            "name": "Adobo",
+            "origin": "Meat braised in vinegar, soy sauce and garlic; the Spanish name dates from the 16th-century colonial era, but the vinegar-braising method is older."
+          },
+          "sinigang": {
+            "name": "Sinigang",
+            "origin": "A soup soured with tamarind, cooked with pork or shrimp and vegetables; a Filipino home dish suited to the tropical climate."
+          }
+        },
+        "GB": {
+          "fishAndChips": {
+            "name": "Fish and chips",
+            "origin": "Battered white fish with fried potatoes; Jewish immigrants' fried fish met the chip, and the first shops opened in London and Lancashire in the 1860s."
+          },
+          "sundayRoast": {
+            "name": "Sunday roast",
+            "origin": "Roast meat with potatoes, vegetables, Yorkshire pudding and gravy; the Yorkshire pudding recipe first appeared in print in 1737."
+          }
+        },
+        "MX": {
+          "moleNegro": {
+            "name": "Mole negro",
+            "origin": "Oaxaca's black sauce of many chilies, chocolate and spices; indigenous chili sauces merged with European ingredients after the Spanish conquest."
+          },
+          "pozole": {
+            "name": "Pozole",
+            "origin": "A soup of nixtamalised hominy corn and meat; a ritual dish of the Aztec era, recorded in 16th-century Spanish chronicles."
+          }
+        },
+        "BR": {
+          "feijoada": {
+            "name": "Feijoada",
+            "origin": "Black beans stewed with assorted cuts of pork; rooted in Portuguese bean stews, and now the Wednesday and Saturday lunch across Brazil."
+          },
+          "moqueca": {
+            "name": "Moqueca",
+            "origin": "Fish stewed in a clay pot with coconut milk, dendê palm oil, tomato and coriander; a Bahian dish where indigenous cooking met African palm oil."
+          }
+        },
+        "AR": {
+          "asado": {
+            "name": "Asado",
+            "origin": "Beef grilled slowly over embers; Argentina's barbecue culture began with the open-air cooking of 19th-century Pampas gauchos."
+          },
+          "empanadas": {
+            "name": "Empanadas",
+            "origin": "Half-moon pastries filled with meat, onion, egg and olives; brought from Galicia, with fillings that differ from Salta to Tucumán."
+          }
+        },
+        "GR": {
+          "moussaka": {
+            "name": "Moussaka",
+            "origin": "Layered aubergine and minced meat under béchamel; chef Nikolaos Tselementes added the French sauce in the 1920s to create the modern version."
+          },
+          "souvlaki": {
+            "name": "Souvlaki",
+            "origin": "Small pieces of meat grilled on a skewer; stone skewer supports were unearthed at the Minoan site of Akrotiri on Santorini."
+          }
+        },
+        "EG": {
+          "koshari": {
+            "name": "Koshari",
+            "origin": "Rice, macaroni and lentils under tomato sauce and fried onions; an Egyptian street dish influenced by Indian khichdi during 19th-century British rule."
+          },
+          "fulMedames": {
+            "name": "Ful medames",
+            "origin": "Fava beans cooked slowly overnight and dressed with olive oil, lemon and cumin; an old Egyptian breakfast whose name is thought to come from Coptic."
+          }
+        },
+        "MA": {
+          "tagine": {
+            "name": "Tagine",
+            "origin": "Meat and vegetables cooked slowly under a conical clay lid; the word names the pot itself, and the dish appears in medieval Arabic cookbooks."
+          },
+          "couscous": {
+            "name": "Couscous",
+            "origin": "Steamed semolina granules served with stew, a Berber dish of North Africa; inscribed by UNESCO in 2020 for Morocco, Algeria, Tunisia and Mauritania."
+          }
+        },
+        "ET": {
+          "injera": {
+            "name": "Injera",
+            "origin": "A sour, spongy flatbread from fermented teff batter; built on teff, a grain domesticated in the Ethiopian highlands."
+          },
+          "doroWat": {
+            "name": "Doro wat",
+            "origin": "Chicken and hard-boiled eggs in a berbere and onion stew; the dish served when Ethiopian Orthodox fasting ends on feast days."
+          }
+        },
+        "PE": {
+          "ceviche": {
+            "name": "Ceviche",
+            "origin": "Raw fish cured in lime juice with chili and onion; limes arrived with the Spanish, and Peruvian ceviche was inscribed by UNESCO in 2023."
+          },
+          "lomoSaltado": {
+            "name": "Lomo saltado",
+            "origin": "Beef stir-fried in a wok with onion, tomato and fried potatoes; a chifa dish born from the wok technique of 19th-century Cantonese immigrants to Peru."
+          }
+        },
+        "AU": {
+          "meatPie": {
+            "name": "Meat pie",
+            "origin": "A hand-sized pie of minced beef and gravy; it came with 19th-century British settlers and became the food of Australian football grounds."
+          },
+          "lamington": {
+            "name": "Lamington",
+            "origin": "Sponge cake dipped in chocolate and rolled in coconut; named around 1900 after Lord Lamington, then Governor of Queensland."
+          }
+        }
+      },
+      "sections3": {
+        "solar": "Solar origin of the ingredient",
+        "chemistry": "Taste chemistry",
+        "pairing": "Digital-nomad pairing"
+      },
+      "science": {
+        "rice": {
+          "ingredient": "Rice",
+          "solar": "Rice fixes carbon through the C3 pathway; glucose made in the leaf is stored in the grain as starch, amylose and amylopectin.",
+          "chemistry": "Texture follows the amylose-to-amylopectin ratio; less amylose means stickier rice, and the aroma of fresh rice comes from 2-acetyl-1-pyrroline.",
+          "pairing": "White rice carries a high glycaemic load; pairing it with vegetables, protein and water keeps the post-lunch work rhythm steadier."
+        },
+        "wheat": {
+          "ingredient": "Wheat",
+          "solar": "Wheat stores C3-photosynthesis sugars in the endosperm as starch and the reserve proteins glutenin and gliadin, which we eat as bread and noodles.",
+          "chemistry": "Kneading links glutenin and gliadin into a gluten network; baking drives the Maillard reaction that gives the crust its colour and toasted aroma.",
+          "pairing": "Whole wheat has a lower glycaemic load than refined flour, which suits a morning focus block; take it with water so the fibre can do its work."
+        },
+        "maize": {
+          "ingredient": "Maize",
+          "solar": "Maize uses C4 photosynthesis, fixing carbon efficiently under strong sun and heat, and stores the energy as starch in the kernel.",
+          "chemistry": "The storage protein zein locks up niacin; nixtamalisation in limewater releases that niacin and creates the characteristic tortilla aroma.",
+          "pairing": "Nixtamalised tortillas eaten with beans complete the essential amino acids, a steady base for work that runs into the evening."
+        },
+        "coffee": {
+          "ingredient": "Coffee",
+          "solar": "The coffee shrub stores C3-photosynthesis sugars in its cherries and seeds; the 2 kcal figure is for brewed coffee, since the roasted bean itself holds several hundred kcal per 100 g.",
+          "chemistry": "Caffeine gives the bitterness and the lift, chlorogenic acids the acidity and body, and trigonelline breaks down in roasting into the pyridines and pyrazines that carry the aroma.",
+          "pairing": "Caffeine's half-life is about five hours, so a cup after 3 pm can still be present at bedtime; keep it to the morning and early afternoon, with water alongside."
+        },
+        "cacao": {
+          "ingredient": "Cacao",
+          "solar": "The shade-grown cacao tree makes C3-photosynthesis sugars and stores them in the seed as fat, cocoa butter, and polyphenols; 70 % dark chocolate holds about 598 kcal per 100 g.",
+          "chemistry": "Theobromine gives the bitterness and gentle stimulation, phenylethylamine is present in small amounts, flavanols bring astringency, and fermentation and roasting build the chocolate aroma.",
+          "pairing": "Theobromine is a milder stimulant than caffeine, so a square or two in the afternoon disturbs sleep less; 70 % or higher keeps the sugar and the glycaemic swing low."
+        },
+        "chili": {
+          "ingredient": "Chili",
+          "solar": "Chili stores C3-photosynthesis sugars in the fruit and synthesises capsaicin in the placental tissue; native to the Americas, it spread across Asia after the 16th century.",
+          "chemistry": "The heat is capsaicin triggering the TRPV1 receptor, a sensation of pain rather than taste; capsanthin gives the red colour and the fruit's own sugars the sweetness.",
+          "pairing": "Capsaicin briefly raises sweating and alertness, which can cut through a post-lunch lull; on a sensitive stomach a milder plate suits late-night work better."
+        },
+        "tomato": {
+          "ingredient": "Tomato",
+          "solar": "Tomato stores C3-photosynthesis sugars in the fruit and builds the red pigment lycopene as it ripens; at about 18 kcal per 100 g it is more than 90 % water.",
+          "chemistry": "Glutamate gives the umami, lycopene the red, and citric and malic acids the tang; cooking raises both the free glutamate and the availability of lycopene.",
+          "pairing": "High in water and potassium, it helps hydration through long screen sessions, and its low glycaemic load leaves afternoon focus undisturbed."
+        },
+        "cabbageFerment": {
+          "ingredient": "Fermented cabbage (kimchi)",
+          "solar": "Napa cabbage stores C3-photosynthesis sugars in its leaves; during fermentation lactic acid bacteria convert that sugar into lactic acid, leaving about 15 kcal per 100 g.",
+          "chemistry": "Lactic acid gives the sourness, allyl isothiocyanate and sulphur compounds from the brassica and garlic the sharp aroma, and glutamate from the fish sauce the umami.",
+          "pairing": "Low in calories and rich in fibre and lactic acid bacteria, it lightens a heavy lunch; the sodium is high, so pair it with plenty of water at night."
+        }
+      },
+      "energyLine": "100 g = {kcal} kcal · about {area} m²·day of sunlight at an assumed 1 % photosynthetic efficiency",
+      "pathway": {
+        "c3": "C3 photosynthesis (direct Calvin-cycle fixation)",
+        "c4": "C4 photosynthesis (CO₂ concentrated before fixation)",
+        "cam": "CAM photosynthesis (CO₂ taken in at night)"
+      }
+    }
+  }
+}

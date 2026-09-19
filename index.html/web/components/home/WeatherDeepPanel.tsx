@@ -10,13 +10,61 @@ import { CONDITION_ICON, conditionOf, type Place } from '@/lib/live/useLiveWeath
 import {
   aqiBandOf,
   clockOf,
+  dominantPollutant,
   loadDeepForecast,
   localDateOf,
+  pollutantBand,
   sliceHourlyFromNow,
   uvBand,
   windDirLabel,
+  type AqiBand,
+  type DeepAir,
   type DeepForecast,
+  type PollutantKind,
 } from '@/lib/live/weatherDeep';
+
+/**
+ * REV-42 D-4 (founder directive 2026-09-18) -- the air-fusion block that
+ * replaced the REV-34 AQI row. One tile per pollutant the reading carries
+ * (a null field is NO tile, never a zero), each banded on its own EU AQI
+ * breakpoints where the index defines them; the five bandable kinds are
+ * `PollutantKind`, the other three (CO, dust, AOD) show their value alone.
+ */
+type AirTileKind = PollutantKind | 'co' | 'dust' | 'aod' | 'uv';
+type AirUnit = 'ugm3' | 'index' | null;
+
+interface AirTile {
+  kind: AirTileKind;
+  value: number;
+  unit: AirUnit;
+  band: AqiBand | null;
+  /** Decimals the reading is shown with (CO runs in the hundreds). */
+  digits: number;
+}
+
+const BANDABLE: ReadonlySet<string> = new Set<PollutantKind>(['pm25', 'pm10', 'o3', 'no2', 'so2']);
+
+/** The tiles in display order, only for fields the reading carries. */
+export function airTiles(air: DeepAir): AirTile[] {
+  const spec: ReadonlyArray<{ kind: AirTileKind; value: number | null; unit: AirUnit; digits: number }> = [
+    { kind: 'pm25', value: air.pm25, unit: 'ugm3', digits: 1 },
+    { kind: 'pm10', value: air.pm10, unit: 'ugm3', digits: 1 },
+    { kind: 'o3', value: air.o3, unit: 'ugm3', digits: 1 },
+    { kind: 'no2', value: air.no2, unit: 'ugm3', digits: 1 },
+    { kind: 'so2', value: air.so2, unit: 'ugm3', digits: 1 },
+    { kind: 'co', value: air.co, unit: 'ugm3', digits: 0 },
+    { kind: 'dust', value: air.dust, unit: 'ugm3', digits: 1 },
+    { kind: 'aod', value: air.aod, unit: null, digits: 2 },
+    { kind: 'uv', value: air.uv, unit: 'index', digits: 1 },
+  ];
+  const tiles: AirTile[] = [];
+  for (const row of spec) {
+    if (row.value === null) continue;
+    const band = BANDABLE.has(row.kind) ? pollutantBand(row.kind as PollutantKind, row.value) : null;
+    tiles.push({ kind: row.kind, value: row.value, unit: row.unit, band, digits: row.digits });
+  }
+  return tiles;
+}
 
 /**
  * REV-34 M1-A (founder directive 2026-09-16) -- the deep half of the weather
@@ -58,7 +106,7 @@ export function WeatherDeepPanel(props: WeatherDeepPanelProps) {
 function WeatherDeepBody({ place, onLoaded }: WeatherDeepPanelProps) {
   const t = useTranslations('Rev34.weather');
   const tWeather = useTranslations('Weather');
-  const tSlots = useTranslations('Rev20.slots');
+  const tAir = useTranslations('Rev42.air');
   const locale = useLocale();
   const [state, setState] = useState<DeepState>({ status: 'idle' });
   const railRef = useRef<HTMLUListElement>(null);
@@ -242,32 +290,128 @@ function WeatherDeepBody({ place, onLoaded }: WeatherDeepPanelProps) {
         <WeatherRadar lat={place.lat} lon={place.lon} />
       </SectionShield>
 
-      {/* Air quality -- the same EU AQI bands (and their Rev20 copy) the air
-          card uses, so the two never disagree about one reading. */}
-      {aqi && (
-        <section className="qw-weather-aqi" data-weather-aqi="" data-aqi-band={aqiBandOf(aqi.eu)}>
-          <p className="qw-weather-section-label">{t('aqiLabel')}</p>
-          <p className="qw-weather-aqi-row">
-            <span className="qw-weather-aqi-band">{tSlots(`facts.aqi.${aqiBandOf(aqi.eu)}`)}</span>
-            <span className="qw-weather-aqi-cell">
-              <span className="qw-weather-stat-label">{tSlots('facts.aqiValue')}</span>
-              {Math.round(aqi.eu)}
-            </span>
-            {aqi.pm25 !== null && (
-              <span className="qw-weather-aqi-cell">
-                <span className="qw-weather-stat-label">{tSlots('facts.pm25')}</span>
-                {aqi.pm25.toFixed(1)}
-              </span>
-            )}
-            {aqi.pm10 !== null && (
-              <span className="qw-weather-aqi-cell">
-                <span className="qw-weather-stat-label">{tSlots('facts.pm10')}</span>
-                {aqi.pm10.toFixed(1)}
-              </span>
-            )}
+      {/* REV-42 D-4: the air-fusion block. The band word leads (the same EU
+          AQI bands and Rev20 copy the carousel once used, so one reading
+          never reads two ways), the EU / US indices beside it, one tile per
+          pollutant the reading carries, the dominant pollutant, one line of
+          breathing advice and the UV now / peak pair. A failed air request
+          is the honest unreadable line -- `[data-weather-aqi]` is stamped
+          only when a reading exists (the REV-34 contract). */}
+      {aqi ? (
+        <AirFusion air={aqi} uvNow={deep.current.uv} uvMax={deep.daily[0]?.uvMax ?? null} />
+      ) : (
+        <section className="qw-air" data-weather-air="" data-air-state="unreadable">
+          <p className="qw-weather-section-label">{tAir('title')}</p>
+          <p className="qw-air-unreadable" data-air-unreadable="">
+            {tAir('unreadable')}
           </p>
         </section>
       )}
     </div>
+  );
+}
+
+interface AirFusionProps {
+  air: DeepAir;
+  /** The forecast model's UV now and today's peak (null when no daily row). */
+  uvNow: number;
+  uvMax: number | null;
+}
+
+function AirFusion({ air, uvNow, uvMax }: AirFusionProps) {
+  const t = useTranslations('Rev34.weather');
+  const tAir = useTranslations('Rev42.air');
+  const tSlots = useTranslations('Rev20.slots');
+  const locale = useLocale();
+  // The tiles' digits in the visitor's own grouping; plain toFixed when
+  // Intl rejects the tag.
+  const format = useMemo(() => {
+    const cache = new Map<number, Intl.NumberFormat | null>();
+    return (value: number, digits: number): string => {
+      if (!cache.has(digits)) {
+        try {
+          cache.set(digits, new Intl.NumberFormat(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits }));
+        } catch {
+          cache.set(digits, null);
+        }
+      }
+      const nf = cache.get(digits);
+      return nf ? nf.format(value) : value.toFixed(digits);
+    };
+  }, [locale]);
+  const airBand = aqiBandOf(air.eu);
+  const tiles = airTiles(air);
+  const dominant = dominantPollutant(air);
+  const uvNowBand = uvBand(uvNow);
+
+  return (
+    <section className="qw-air" data-weather-air="" data-weather-aqi="" data-aqi-band={airBand} data-air-state="data">
+      <p className="qw-weather-section-label">{tAir('title')}</p>
+
+      {/* Hero: the band word at 28px, the EU index it is read from, the US
+          index when the model carried it. */}
+      <div className="qw-air-hero" data-air-hero="">
+        <span className="qw-air-band" data-band={airBand}>
+          {tSlots(`facts.aqi.${airBand}`)}
+        </span>
+        <span className="qw-air-hero-cell" data-air-index="eu">
+          <span className="qw-air-label">{tAir('euAqi')}</span>
+          <span className="qw-air-hero-value">{Math.round(air.eu)}</span>
+        </span>
+        {air.us !== null && (
+          <span className="qw-air-hero-cell" data-air-index="us">
+            <span className="qw-air-label">{tAir('usAqi')}</span>
+            <span className="qw-air-hero-value">{Math.round(air.us)}</span>
+          </span>
+        )}
+      </div>
+
+      {tiles.length > 0 && (
+        <ul className="qw-air-grid" data-air-grid="">
+          {tiles.map((tile) => (
+            <li key={tile.kind} className="qw-air-cell" data-air-cell={tile.kind} {...(tile.band ? { 'data-band': tile.band } : null)}>
+              {/* The UV tile is the air model's index; its label is the
+                  forecast panel's own "UV index" word (Rev34), not a second
+                  copy of it. */}
+              <span className="qw-air-label">{tile.kind === 'uv' ? t('uv') : tAir(tile.kind)}</span>
+              <span className="qw-air-value">
+                {format(tile.value, tile.digits)}
+                {tile.unit && <span className="qw-air-unit">{tAir(`unit.${tile.unit}`)}</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {dominant && (
+        <p className="qw-air-dominant" data-air-dominant={dominant.kind} data-band={dominant.band}>
+          <span className="qw-air-label">{tAir('dominant')}</span>
+          <span className="qw-air-dominant-name">{tAir(dominant.kind)}</span>
+        </p>
+      )}
+
+      <p className="qw-air-advice" data-air-advice={airBand}>
+        {tAir(`advice.${airBand}`)}
+      </p>
+
+      <ul className="qw-air-uv" data-air-uv="">
+        <li className="qw-air-uv-cell" data-air-uv-now="" data-uv-band={uvNowBand}>
+          <span className="qw-air-label">{tAir('uvNow')}</span>
+          <span className="qw-air-value">
+            {Math.round(uvNow)}
+            <span className="qw-air-unit">{t(`uvBand.${uvNowBand}`)}</span>
+          </span>
+        </li>
+        {uvMax !== null && (
+          <li className="qw-air-uv-cell" data-air-uv-max="" data-uv-band={uvBand(uvMax)}>
+            <span className="qw-air-label">{tAir('uvMax')}</span>
+            <span className="qw-air-value">
+              {Math.round(uvMax)}
+              <span className="qw-air-unit">{t(`uvBand.${uvBand(uvMax)}`)}</span>
+            </span>
+          </li>
+        )}
+      </ul>
+    </section>
   );
 }

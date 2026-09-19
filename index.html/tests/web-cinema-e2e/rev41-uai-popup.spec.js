@@ -20,6 +20,7 @@ const { test, expect } = require('@playwright/test');
 const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const { expectRetiredRankingsGone } = require('./_rev35Retired');
 const { expectRetiredURankingGone } = require('./_rev41Retired');
+const { expectRetiredAirGone } = require('./_rev42Retired');
 
 const enterButton = (page) => page.locator('button.event-horizon-btn').last();
 const skipButton = (page) => page.locator('button:has(.cs-skip-aurora)');
@@ -409,18 +410,24 @@ test.describe('REV-41 1-E -- the product families ride a chip rail of their own'
 /* 1-F                                                                  */
 /* ------------------------------------------------------------------ */
 
+// REV-42 D-1 (founder directive 2026-09-18): the rail seats SIXTEEN now --
+// `air` retired outright (its reading lives in the weather deep panel) and
+// the two flagships `cosmos` / `gastronomy` seated right after the sky. The
+// former `nth(12) === 'air'` pin is replaced by the flagship pins and the
+// REV-42 retirement sweep (_rev42Retired.js).
 test.describe('REV-41 1-F -- 유랭킹 is off the rail', () => {
-  test('fifteen seats, no uRanking seat, and no retired ranking surface (REV-35 and REV-41 sweeps) with the hub open', async ({ page }) => {
+  test('sixteen seats, no uRanking seat, no air seat, and no retired surface (REV-35, REV-41 and REV-42 sweeps) with the hub open', async ({ page }) => {
     await reachHome(page);
     await openHub(page);
     const chips = page.locator('[data-live-hub] .qw-hub-strip [data-slot]');
     await expect(chips.first()).toBeVisible();
-    await expect(chips).toHaveCount(15);
+    await expect(chips).toHaveCount(16);
     await expect(page.locator('[data-slot="uRanking"]')).toHaveCount(0);
-    // D-7: seat twelve is `air` now -- the seat closed up, nothing took it.
-    expect(await chips.nth(12).getAttribute('data-slot')).toBe('air');
+    expect(await chips.nth(1).getAttribute('data-slot')).toBe('cosmos');
+    expect(await chips.nth(2).getAttribute('data-slot')).toBe('gastronomy');
     await expectRetiredURankingGone(page);
     await expectRetiredRankingsGone(page);
+    await expectRetiredAirGone(page);
   });
 });
 

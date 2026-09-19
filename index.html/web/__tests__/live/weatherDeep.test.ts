@@ -1,25 +1,36 @@
 import { describe, expect, it } from 'vitest';
 import {
+  AIR_CURRENT_VARS,
   DEEP_HOURLY_COUNT,
   WEATHER_DEEP_STORAGE_KEY,
   WEATHER_DEEP_TTL_MS,
   WEATHER_DEEP_VERSION,
+  airAdviceKey,
   airQualityUrl,
   aqiBandOf,
   clockOf,
   deepForecastUrl,
   deepPlaceKey,
+  dominantPollutant,
   localDateOf,
   parseDeepForecast,
+  pollutantBand,
   readDeepForecastCache,
   sliceHourlyFromNow,
   uvBand,
   windDirLabel,
   writeDeepForecastCache,
+  type DeepAir,
   type DeepForecast,
   type OpenMeteoDeepResponse,
   type StorageLike,
 } from '@/lib/live/weatherDeep';
+
+/** The REV-42 D-4 reading with nothing but the EU index: every optional
+ *  field null, never a fabricated 0. */
+function airOf(overrides: Partial<DeepAir> = {}): DeepAir {
+  return { eu: 0, us: null, pm25: null, pm10: null, o3: null, no2: null, so2: null, co: null, dust: null, aod: null, uv: null, uvClear: null, ...overrides };
+}
 
 function fakeStorage(initial: Record<string, string> = {}): StorageLike & { data: Record<string, string> } {
   const store = {
@@ -114,7 +125,29 @@ describe('weatherDeep · parseDeepForecast', () => {
       windMax: 35,
       windDir: 90,
     });
-    expect(deep.aqi).toEqual({ eu: 33, pm25: 12.4, pm10: 21 });
+    // 1-A #5: the REV-34 trio alone still yields a reading; the nine D-4
+    // fields it lacks are null, never 0.
+    expect(deep.aqi).toEqual(airOf({ eu: 33, pm25: 12.4, pm10: 21 }));
+  });
+
+  it('maps the full D-4 air body field by field, and nulls a non-finite value', () => {
+    const deep = parseDeepForecast(FULL, {
+      current: {
+        european_aqi: 35,
+        us_aqi: 48,
+        pm2_5: 8.2,
+        pm10: 14.1,
+        ozone: 61,
+        nitrogen_dioxide: 12.4,
+        sulphur_dioxide: 2.1,
+        carbon_monoxide: 210,
+        dust: 3,
+        aerosol_optical_depth: 0.12,
+        uv_index: 4.2,
+        uv_index_clear_sky: Number.NaN,
+      },
+    });
+    expect(deep.aqi).toEqual({ eu: 35, us: 48, pm25: 8.2, pm10: 14.1, o3: 61, no2: 12.4, so2: 2.1, co: 210, dust: 3, aod: 0.12, uv: 4.2, uvClear: null });
   });
 
   it('defaults every missing series instead of throwing, and omits aqi when the air body is absent or empty', () => {
@@ -137,7 +170,65 @@ describe('weatherDeep · parseDeepForecast', () => {
 
   it('keeps pm values null when the air body lacks them', () => {
     const deep = parseDeepForecast(FULL, { current: { european_aqi: 85 } });
-    expect(deep.aqi).toEqual({ eu: 85, pm25: null, pm10: null });
+    expect(deep.aqi).toEqual(airOf({ eu: 85 }));
+  });
+});
+
+describe('weatherDeep · REV-42 D-4 pollutant helpers', () => {
+  it('pollutantBand follows the EU AQI breakpoints of each pollutant (inclusive upper bounds)', () => {
+    expect(pollutantBand('pm25', 0)).toBe('good');
+    expect(pollutantBand('pm25', 10)).toBe('good');
+    expect(pollutantBand('pm25', 10.1)).toBe('fair');
+    expect(pollutantBand('pm25', 20)).toBe('fair');
+    expect(pollutantBand('pm25', 25)).toBe('moderate');
+    expect(pollutantBand('pm25', 50)).toBe('poor');
+    expect(pollutantBand('pm25', 75)).toBe('veryPoor');
+    expect(pollutantBand('pm25', 75.5)).toBe('extreme');
+    expect(pollutantBand('pm10', 20)).toBe('good');
+    expect(pollutantBand('pm10', 40)).toBe('fair');
+    expect(pollutantBand('pm10', 50)).toBe('moderate');
+    expect(pollutantBand('pm10', 100)).toBe('poor');
+    expect(pollutantBand('pm10', 150)).toBe('veryPoor');
+    expect(pollutantBand('pm10', 151)).toBe('extreme');
+    expect(pollutantBand('no2', 40)).toBe('good');
+    expect(pollutantBand('no2', 90)).toBe('fair');
+    expect(pollutantBand('no2', 120)).toBe('moderate');
+    expect(pollutantBand('no2', 230)).toBe('poor');
+    expect(pollutantBand('no2', 340)).toBe('veryPoor');
+    expect(pollutantBand('no2', 341)).toBe('extreme');
+    expect(pollutantBand('o3', 50)).toBe('good');
+    expect(pollutantBand('o3', 100)).toBe('fair');
+    expect(pollutantBand('o3', 130)).toBe('moderate');
+    expect(pollutantBand('o3', 240)).toBe('poor');
+    expect(pollutantBand('o3', 380)).toBe('veryPoor');
+    expect(pollutantBand('o3', 381)).toBe('extreme');
+    expect(pollutantBand('so2', 100)).toBe('good');
+    expect(pollutantBand('so2', 200)).toBe('fair');
+    expect(pollutantBand('so2', 350)).toBe('moderate');
+    expect(pollutantBand('so2', 500)).toBe('poor');
+    expect(pollutantBand('so2', 750)).toBe('veryPoor');
+    expect(pollutantBand('so2', 751)).toBe('extreme');
+    expect(pollutantBand('so2', Number.NaN)).toBe('good');
+  });
+
+  it('dominantPollutant picks the highest band and breaks ties pm25 > pm10 > o3 > no2 > so2', () => {
+    expect(dominantPollutant(airOf({ eu: 35 }))).toBeNull();
+    expect(dominantPollutant(airOf({ eu: 35, co: 900, dust: 400, aod: 2 }))).toBeNull(); // no EU breakpoints for these
+    expect(dominantPollutant(airOf({ eu: 35, pm25: 8.2, pm10: 14.1, o3: 61 }))).toEqual({ kind: 'o3', band: 'fair' });
+    expect(dominantPollutant(airOf({ eu: 60, pm25: 30, pm10: 120, o3: 20 }))).toEqual({ kind: 'pm10', band: 'veryPoor' });
+    expect(dominantPollutant(airOf({ eu: 60, pm25: 20, pm10: 90, o3: 20 }))).toEqual({ kind: 'pm10', band: 'poor' });
+    // Ties: pm25 and pm10 both moderate -> pm25; o3 and no2 both fair -> o3; no2 and so2 both good -> no2.
+    expect(dominantPollutant(airOf({ eu: 50, pm25: 25, pm10: 50 }))).toEqual({ kind: 'pm25', band: 'moderate' });
+    expect(dominantPollutant(airOf({ eu: 30, o3: 100, no2: 90 }))).toEqual({ kind: 'o3', band: 'fair' });
+    expect(dominantPollutant(airOf({ eu: 10, no2: 40, so2: 100 }))).toEqual({ kind: 'no2', band: 'good' });
+    // A later kind in a strictly higher band wins over the earlier ones.
+    expect(dominantPollutant(airOf({ eu: 90, pm25: 5, pm10: 10, o3: 30, no2: 20, so2: 760 }))).toEqual({ kind: 'so2', band: 'extreme' });
+  });
+
+  it('airAdviceKey names the Rev42 advice line of a band', () => {
+    expect(airAdviceKey('good')).toBe('Rev42.air.advice.good');
+    expect(airAdviceKey('veryPoor')).toBe('Rev42.air.advice.veryPoor');
+    expect(airAdviceKey(aqiBandOf(101))).toBe('Rev42.air.advice.extreme');
   });
 });
 
@@ -226,7 +317,11 @@ describe('weatherDeep · request URLs', () => {
     expect(url.searchParams.get('daily')).toContain('wind_direction_10m_dominant');
     const air = new URL(airQualityUrl(SEOUL));
     expect(air.host).toBe('air-quality-api.open-meteo.com');
-    expect(air.searchParams.get('current')).toBe('european_aqi,pm2_5,pm10');
+    // D-4: the full set from the same keyless endpoint -- no new API.
+    expect(air.searchParams.get('current')).toBe(AIR_CURRENT_VARS);
+    expect(AIR_CURRENT_VARS).toBe(
+      'european_aqi,us_aqi,pm2_5,pm10,ozone,nitrogen_dioxide,sulphur_dioxide,carbon_monoxide,dust,aerosol_optical_depth,uv_index,uv_index_clear_sky',
+    );
   });
 });
 
@@ -257,6 +352,11 @@ describe('weatherDeep · device cache', () => {
 
     const stale = fakeStorage({ [WEATHER_DEEP_STORAGE_KEY]: JSON.stringify({ v: 'wd-v0', key: deepPlaceKey(SEOUL), at: 1_000, data: deep }) });
     expect(readDeepForecastCache(SEOUL, stale, 1_500)).toBeNull();
+    // REV-42 D-4: a `wd-v1` entry (three-field air) is stale under `wd-v2`
+    // even inside its TTL -- the shape change invalidates by version.
+    expect(WEATHER_DEEP_VERSION).toBe('wd-v2');
+    const v1 = fakeStorage({ [WEATHER_DEEP_STORAGE_KEY]: JSON.stringify({ v: 'wd-v1', key: deepPlaceKey(SEOUL), at: 1_000, data: deep }) });
+    expect(readDeepForecastCache(SEOUL, v1, 1_500)).toBeNull();
 
     expect(readDeepForecastCache(SEOUL, fakeStorage({ [WEATHER_DEEP_STORAGE_KEY]: '{nope' }), 1)).toBeNull();
     const throwing: StorageLike = {

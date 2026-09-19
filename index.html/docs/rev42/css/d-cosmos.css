@@ -1,0 +1,506 @@
+/* ---- §30 lane D: REV-42 D-6 macro-cosmos -- the sky dome widget
+   (components/home/widgets/CosmosScope.tsx) and the tier-3 detail
+   (components/home/detail/CosmosDetail.tsx). Fresh `.qw-cosmos-*` prefix
+   only (1-A #9); no backdrop-filter, no blur, no animation (the dome is a
+   still projection -- nothing to stop under prefers-reduced-motion, and
+   the one transition below honours it). Dark base first, the white
+   surface re-keyed under html[data-unitas-surface='quantum-white'] with
+   the --qw-ink / --qw-line family that only exists there. */
+
+/* -- The dome widget --------------------------------------------------- */
+.qw-cosmos-scope {
+  display: flex;
+  min-width: 0;
+  gap: 12px;
+  margin: 2px 0 14px;
+  align-items: stretch;
+}
+/* Card: the dome on the left, the caption + legend on the right, the
+   whole block capped at 150px (1-A #8: card height only grows). */
+.qw-cosmos-scope[data-variant='card'] {
+  max-height: 150px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.qw-cosmos-scope[data-variant='deep'] {
+  flex-direction: column;
+  gap: 10px;
+}
+.qw-cosmos-dome {
+  flex: 0 0 auto;
+  width: 132px;
+  aspect-ratio: 1 / 1;
+  min-width: 0;
+}
+.qw-cosmos-dome[data-variant='deep'] {
+  width: min(100%, 360px);
+  margin: 0 auto;
+}
+.qw-cosmos-dome > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.qw-cosmos-ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.14);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+/* The horizon is the one solid ring; the 30° / 60° rings are fainter. */
+.qw-cosmos-ring[data-alt='30'],
+.qw-cosmos-ring[data-alt='60'] {
+  stroke: rgba(255, 255, 255, 0.08);
+}
+.qw-cosmos-axes {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.qw-cosmos-compass text {
+  fill: #6b7280;
+  font-family: inherit;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.qw-cosmos-zenith {
+  fill: rgba(255, 255, 255, 0.35);
+}
+.qw-cosmos-dot {
+  fill: rgba(255, 255, 255, 0.55);
+}
+.qw-cosmos-sun {
+  fill: #d4af37;
+}
+.qw-cosmos-moon {
+  fill: #cbd5e1;
+}
+.qw-cosmos-centre {
+  fill: #a855f7;
+}
+.qw-cosmos-featured {
+  fill: var(--qw-hub-accent, #8b5cf6);
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+/* Below the horizon: a hollow dashed marker just outside the ring, in the
+   body's own colour, so the bearing still reads. */
+.qw-cosmos-bodies circle[data-below='1'] {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-dasharray: 2 1.5;
+  vector-effect: non-scaling-stroke;
+}
+.qw-cosmos-dot[data-below='1'] {
+  color: rgba(255, 255, 255, 0.45);
+}
+.qw-cosmos-sun[data-below='1'] {
+  color: #d4af37;
+}
+.qw-cosmos-moon[data-below='1'] {
+  color: #cbd5e1;
+}
+.qw-cosmos-centre[data-below='1'] {
+  color: #a855f7;
+}
+.qw-cosmos-featured[data-below='1'] {
+  color: var(--qw-hub-accent, #8b5cf6);
+  stroke-width: 1.5;
+}
+/* Loading: dashed rings say "computing, nothing placed yet"; unreadable:
+   the stage dims under the honest line. */
+.qw-cosmos-scope[data-state='loading'] .qw-cosmos-ring {
+  stroke-dasharray: 3 4;
+}
+.qw-cosmos-scope[data-state='unreadable'] .qw-cosmos-dome {
+  opacity: 0.55;
+}
+
+.qw-cosmos-side {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.qw-cosmos-caption {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+}
+.qw-cosmos-caption-name {
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #fff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qw-cosmos-scope[data-variant='deep'] .qw-cosmos-caption-name {
+  font-size: 20px;
+  white-space: normal;
+}
+.qw-cosmos-caption-meta {
+  font-size: 12px;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+  color: #9ca3af;
+}
+.qw-cosmos-state {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #9ca3af;
+}
+.qw-cosmos-state[data-cosmos-state-line='unreadable'] {
+  color: #d64545;
+}
+.qw-cosmos-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qw-cosmos-legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.14));
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d1d5db;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.qw-cosmos-scope[data-variant='card'] .qw-cosmos-legend-chip {
+  padding: 2px 7px;
+  font-size: 10px;
+}
+.qw-cosmos-legend-chip::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--qw-cosmos-body, #6b7a8f);
+}
+.qw-cosmos-legend-chip[data-body='featured'] {
+  --qw-cosmos-body: var(--qw-hub-accent, #8b5cf6);
+}
+.qw-cosmos-legend-chip[data-body='sun'] {
+  --qw-cosmos-body: #d4af37;
+}
+.qw-cosmos-legend-chip[data-body='moon'] {
+  --qw-cosmos-body: #cbd5e1;
+}
+.qw-cosmos-legend-chip[data-body='centre'] {
+  --qw-cosmos-body: #a855f7;
+}
+@media (max-width: 767px) {
+  .qw-cosmos-dome {
+    width: 120px;
+  }
+  .qw-cosmos-scope[data-variant='card'] .qw-cosmos-legend {
+    display: none;
+  }
+}
+
+/* -- The tier-3 detail ------------------------------------------------- */
+.qw-cosmos-detail {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 20px;
+}
+.qw-cosmos-mirror {
+  margin: -8px 0 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.qw-cosmos-section {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: var(--qw-card-bg, rgba(255, 255, 255, 0.03));
+}
+.qw-cosmos-section-title {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--qw-hub-accent, #8b5cf6);
+}
+.qw-cosmos-lead {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.qw-cosmos-note {
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #9ca3af;
+}
+.qw-cosmos-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.qw-cosmos-value {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.qw-cosmos-departure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  margin: 0;
+}
+/* Lineage: an 8-row table, element / share / origin, ruled by the card
+   line; the share column keeps its digits aligned. */
+.qw-cosmos-lineage {
+  width: 100%;
+  margin: 10px 0 0;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.qw-cosmos-lineage-row {
+  border-top: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.08));
+}
+.qw-cosmos-lineage-row > th,
+.qw-cosmos-lineage-row > td {
+  padding: 7px 0;
+  vertical-align: baseline;
+  text-align: left;
+}
+.qw-cosmos-lineage-element {
+  width: 26%;
+  font-weight: 800;
+  color: #fff;
+}
+.qw-cosmos-lineage-share {
+  width: 34%;
+  padding-right: 10px;
+  font-weight: 700;
+  color: #d1d5db;
+  font-variant-numeric: tabular-nums;
+}
+.qw-cosmos-lineage-origin {
+  color: #9ca3af;
+}
+/* Relativity: the two computed lines, then four label / value rows. */
+.qw-cosmos-local {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+.qw-cosmos-skeleton {
+  gap: 8px;
+}
+.qw-cosmos-skeleton-line {
+  display: block;
+  height: 14px;
+  width: 72%;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.qw-cosmos-skeleton-line + .qw-cosmos-skeleton-line {
+  width: 48%;
+}
+.qw-cosmos-rows {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+.qw-cosmos-row {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.08));
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  transition: border-color var(--qw-dur) var(--qw-ease);
+}
+.qw-cosmos-row > dt,
+.qw-cosmos-row > dd {
+  margin: 0;
+}
+/* Scale: the eleven-rung ladder, index / name / size. */
+.qw-cosmos-ladder {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: none;
+}
+.qw-cosmos-rung {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.08));
+}
+.qw-cosmos-rung:first-child {
+  border-top: 0;
+}
+.qw-cosmos-rung-index {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #6b7280;
+  font-variant-numeric: tabular-nums;
+}
+.qw-cosmos-rung-name {
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #d1d5db;
+  overflow-wrap: anywhere;
+}
+.qw-cosmos-rung-size {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .qw-cosmos-rows {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .qw-cosmos-row {
+    min-height: 44px;
+  }
+  .qw-cosmos-rung {
+    min-height: 44px;
+  }
+  .qw-cosmos-lineage {
+    font-size: 12px;
+  }
+  .qw-cosmos-lineage-element {
+    width: 30%;
+  }
+}
+@media (max-width: 420px) {
+  .qw-cosmos-rung {
+    grid-template-columns: 20px minmax(0, 1fr);
+  }
+  .qw-cosmos-rung-size {
+    grid-column: 2;
+    white-space: normal;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qw-cosmos-row {
+    transition: none;
+  }
+}
+
+/* -- White surface re-key ---------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-cosmos-ring {
+  stroke: var(--qw-line-strong);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-ring[data-alt='30'],
+html[data-unitas-surface='quantum-white'] .qw-cosmos-ring[data-alt='60'],
+html[data-unitas-surface='quantum-white'] .qw-cosmos-axes {
+  stroke: var(--qw-line);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-compass text,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-mirror,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-label,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-rung-index {
+  fill: var(--qw-ink-3);
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-zenith {
+  fill: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-dot {
+  fill: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-dot[data-below='1'] {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-moon {
+  fill: #64748b;
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-moon[data-below='1'] {
+  color: #64748b;
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-featured {
+  stroke: var(--qw-bg);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-caption-name,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-lead,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-value,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-lineage-element,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-rung-size {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-caption-meta,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-state,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-note,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-lineage-share,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-lineage-origin,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-rung-name {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-state[data-cosmos-state-line='unreadable'] {
+  color: #b83232;
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-legend-chip {
+  border-color: var(--qw-line);
+  background: var(--qw-glass);
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-section {
+  border-color: var(--qw-line-card);
+  background: var(--qw-card-bg);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-lineage-row,
+html[data-unitas-surface='quantum-white'] .qw-cosmos-rung {
+  border-top-color: var(--qw-line);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-row {
+  border-color: var(--qw-line);
+  background: var(--qw-glass);
+}
+html[data-unitas-surface='quantum-white'] .qw-cosmos-skeleton-line {
+  background: var(--qw-line);
+}

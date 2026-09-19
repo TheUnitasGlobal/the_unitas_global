@@ -5,9 +5,12 @@
  * and `buildSlotSections` splits one loaded `SlotCard` into the sections the
  * card and its deep modal render in order: `data-scope="global"` first,
  * `data-scope="country"` second. A slot that only ever speaks worldwide
- * (quake, crypto, dev pulse, papers, library, art) yields ONE global section
- * and the component hides the scope header; weather / air / nation only ever
- * speak about the visitor's country and yield one country section.
+ * (quake, crypto, dev pulse, papers, library, art, and REV-42's cosmos)
+ * yields ONE global section and the component hides the scope header;
+ * weather / nation only ever speak about the visitor's country and yield
+ * one country section. REV-42 D-1 retired `air` and seated `gastronomy` as
+ * the second two-scope slot beside fx (global = trends, country =
+ * tradition + hidden local eats).
  *
  * Pure module -- no React, no window, no fetch -- so the whole scope contract
  * is unit-testable and the adapters stay free of presentation concerns.
@@ -17,8 +20,11 @@ import type { SlotCard, SlotKey, SlotScope, SlotSection } from '@/lib/live/disco
 /** Worldwide-only: the feed itself has no national edition. `history` (the
  *  locale Wikipedia's "on this day") joins the SPEC's list -- its subject is
  *  the world, rendered in the visitor's language. REV-41 D-7 retired the
- *  `uRanking` slot that REV-35 M1 had seated here. */
+ *  `uRanking` slot that REV-35 M1 had seated here. REV-42 D-1 seats
+ *  `cosmos`: the deep-sky catalogue is ranged from the visitor's point but
+ *  its subject is the universe, so it has no national edition. */
 const GLOBAL_ONLY: readonly SlotKey[] = [
+  'cosmos',
   'newProducts',
   'history',
   'quake',
@@ -31,8 +37,8 @@ const GLOBAL_ONLY: readonly SlotKey[] = [
 
 /** Country-only: every one of these is ABOUT the visitor's place. `mostRead`
  *  (the locale Wikipedia's most-read list) and `nearby` (a geosearch around
- *  that place) join the SPEC's weather / air / nation. */
-const COUNTRY_ONLY: readonly SlotKey[] = ['weather', 'air', 'nation', 'nearby', 'mostRead'];
+ *  that place) join the SPEC's weather / nation (REV-42 D-1 retired `air`). */
+const COUNTRY_ONLY: readonly SlotKey[] = ['weather', 'nation', 'nearby', 'mostRead'];
 
 const GLOBAL: readonly SlotScope[] = ['global'];
 const COUNTRY: readonly SlotScope[] = ['country'];
@@ -44,9 +50,12 @@ export const SLOT_SCOPES: Record<string, readonly SlotScope[]> = {
   ...Object.fromEntries(GLOBAL_ONLY.map((k) => [k, GLOBAL])),
   ...Object.fromEntries(COUNTRY_ONLY.map((k) => [k, COUNTRY])),
   // REV-23 M3.1: the nine news themes that raced a worldwide leg against the
-  // visitor's own-language leg are gone from this rail. `fx` is the one slot
-  // left that quotes the world and then the visitor's own currency.
+  // visitor's own-language leg are gone from this rail. `fx` quotes the
+  // world and then the visitor's own currency; REV-42 D-1 adds `gastronomy`,
+  // which serves the world's trends and then the visitor's own tradition +
+  // hidden local eats.
   fx: BOTH,
+  gastronomy: BOTH,
 };
 
 export function slotScopes(key: SlotKey): readonly SlotScope[] {

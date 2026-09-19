@@ -12,6 +12,7 @@
 const { test, expect } = require('@playwright/test');
 const { SOVEREIGN_AUTH_TOKEN: TOKEN } = require('./_sovereignToken');
 const { collapseSovereignPanel, walkCurtain, settleSurface } = require('./_rev25Home');
+const { expectRetiredAirGone } = require('./_rev42Retired');
 
 const FOUNDER_URL = `/?sovereign_auth=${TOKEN}&splash=0&dev=skip`;
 
@@ -219,17 +220,23 @@ test.describe('REV-29 M2 -- the news rail is the shortcut rail', () => {
 });
 
 test.describe('REV-29 M3 -- the new-products theme', () => {
-  test('rides the shortcut rail second, right after the weather', async ({ page }) => {
+  // REV-42 D-1 (founder directive 2026-09-18): the rail seats sixteen and
+  // the three flagships lead -- the visitor's own sky, the deep-space
+  // telemetry (`cosmos`) and the world's table (`gastronomy`) -- so the
+  // launch wire rides FOURTH now (index 3), directly after them; the `air`
+  // seat is retired outright and swept (_rev42Retired.js).
+  test('rides the shortcut rail fourth, right after the three flagships', async ({ page }) => {
     await founderHome(page);
     await openEmptyPopup(page);
     const chips = page.locator('[data-live-hub] .qw-hub-strip [data-slot]');
     await expect(chips.first()).toBeVisible();
-    expect(await chips.nth(1).getAttribute('data-slot')).toBe('newProducts');
-    // REV-41 D-7 (1-F): fifteen seats -- the REV-35 유랭킹 seat twelve is
-    // retired outright, so `air` moves up into it and nothing takes its place.
-    expect(await chips.count()).toBe(15);
-    expect(await chips.nth(12).getAttribute('data-slot')).toBe('air');
+    expect(await chips.count()).toBe(16);
+    expect(await chips.nth(0).getAttribute('data-slot')).toBe('weather');
+    expect(await chips.nth(1).getAttribute('data-slot')).toBe('cosmos');
+    expect(await chips.nth(2).getAttribute('data-slot')).toBe('gastronomy');
+    expect(await chips.nth(3).getAttribute('data-slot')).toBe('newProducts');
     await expect(page.locator('[data-live-hub] [data-slot="uRanking"]')).toHaveCount(0);
+    await expectRetiredAirGone(page);
   });
 });
 

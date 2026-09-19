@@ -1,7 +1,9 @@
 'use client';
 
 import type { SlotKey, SlotWidget } from '@/lib/live/discoverySlots';
+import { CosmosScope } from './CosmosScope';
 import { FxCompassHero } from './FxCompassHero';
+import { MoonPhasePixel } from './MoonPhasePixel';
 import { OmniRadar } from './OmniRadar';
 
 /**
@@ -12,6 +14,12 @@ import { OmniRadar } from './OmniRadar';
  * above the facts row with `variant="card"`, FeedDeepModal above the
  * sections with `variant="deep"`; the kind switch lives here so neither
  * host needs to know what a widget looks like.
+ *
+ * REV-42 D-3 / D-6 (founder directive 2026-09-18): two more kinds -- the
+ * weather card's moon-phase pixel (`moonPhase`, MoonPhasePixel) and the
+ * cosmos card's horizon dial (`cosmosScope`, CosmosScope). The switch is
+ * EXHAUSTIVE now (1-A #10): a widget kind added to the `SlotWidget` union
+ * without a branch here is a tsc error, not a silently mis-rendered radar.
  *
  * WHY `kind` IS A PROP AND NOT READ OFF THE WIDGET: the honest 4-state
  * contract (loading | data | empty | unreadable) needs a shell BEFORE the
@@ -26,9 +34,11 @@ import { OmniRadar } from './OmniRadar';
 export type SlotWidgetKind = SlotWidget['kind'];
 export type SlotWidgetVariant = 'card' | 'deep';
 
-/** Which widget a slot's card carries -- the two slots the data lane wires
- *  (lib/live/discoverySlots.ts fxSlot / nearbySlot). */
+/** Which widget a slot's card carries -- the four slots the data lane wires
+ *  (lib/live/discoverySlots.ts weatherSlot / cosmosSlot / fxSlot / nearbySlot). */
 const SLOT_WIDGET_KIND: Partial<Record<SlotKey, SlotWidgetKind>> = {
+  weather: 'moonPhase',
+  cosmos: 'cosmosScope',
   fx: 'fxCompass',
   nearby: 'omniRadar',
 };
@@ -54,16 +64,28 @@ export interface SlotWidgetViewProps {
 }
 
 export function SlotWidgetView({ kind, widget, variant, loading, accent, pendingTab }: SlotWidgetViewProps) {
-  if (kind === 'fxCompass') {
-    return <FxCompassHero widget={widget?.kind === 'fxCompass' ? widget : undefined} variant={variant} loading={loading} accent={accent} />;
+  switch (kind) {
+    case 'fxCompass':
+      return <FxCompassHero widget={widget?.kind === 'fxCompass' ? widget : undefined} variant={variant} loading={loading} accent={accent} />;
+    case 'moonPhase':
+      return <MoonPhasePixel widget={widget?.kind === 'moonPhase' ? widget : undefined} variant={variant} loading={loading} accent={accent} />;
+    case 'cosmosScope':
+      return <CosmosScope widget={widget?.kind === 'cosmosScope' ? widget : undefined} variant={variant} loading={loading} accent={accent} />;
+    case 'omniRadar':
+      return (
+        <OmniRadar
+          widget={widget?.kind === 'omniRadar' ? widget : undefined}
+          variant={variant}
+          loading={loading}
+          accent={accent}
+          pendingRadiusKey={pendingTab}
+        />
+      );
+    default: {
+      // Exhaustiveness: a new `SlotWidget['kind']` without a branch above
+      // fails here at compile time (1-A #10).
+      const never: never = kind;
+      return never;
+    }
   }
-  return (
-    <OmniRadar
-      widget={widget?.kind === 'omniRadar' ? widget : undefined}
-      variant={variant}
-      loading={loading}
-      accent={accent}
-      pendingRadiusKey={pendingTab}
-    />
-  );
 }

@@ -184,5 +184,65 @@
         "gh": "GitHub.cli (winget) - run gh auth login"
       }
     }
+  },
+  "skillset": {
+    "installedOn": "2026-09-18",
+    "directive": "REV-43 (Codex ch.6 autonomous evolution / tool extension) -- docs/rev43/SPEC.md",
+    "installer": "scripts/agent/setup-skillset.ps1",
+    "scope": "user (~/.claude/skills, copied; nothing written inside the repository)",
+    "registryCli": "skills@1.5.25",
+    "pythonDeps": {
+      "pypdf": "6.19.0",
+      "pdfplumber": "0.11.10",
+      "openpyxl": "3.1.5"
+    },
+    "groups": {
+      "ui": [
+        "anthropics/skills@web-artifacts-builder",
+        "anthropics/skills@theme-factory"
+      ],
+      "data": [
+        "anthropics/skills@xlsx",
+        "anthropics/knowledge-work-plugins@explore-data",
+        "anthropics/knowledge-work-plugins@data-visualization"
+      ],
+      "finance": [
+        "anthropics/knowledge-work-plugins@financial-statements",
+        "anthropics/knowledge-work-plugins@close-management",
+        "anthropics/knowledge-work-plugins@invoice-chase"
+      ],
+      "legal": [
+        "anthropics/skills@pdf",
+        "anthropics/knowledge-work-plugins@legal-risk-assessment",
+        "anthropics/knowledge-work-plugins@review-contract"
+      ],
+      "scraping": [
+        "brightdata/skills@scrape",
+        "brightdata/skills@search",
+        "brightdata/skills@bright-data-mcp"
+      ],
+      "marketing": [
+        "coreyhaines31/marketingskills@copywriting",
+        "coreyhaines31/marketingskills@seo-audit",
+        "coreyhaines31/marketingskills@content-strategy"
+      ],
+      "sales": [
+        "coreyhaines31/marketingskills@sales-enablement",
+        "anthropics/knowledge-work-plugins@draft-outreach"
+      ]
+    },
+    "mcp": {
+      "brightdata": {
+        "package": "@brightdata/mcp@2.11.3",
+        "installer": "scripts/agent/setup-brightdata.ps1 -Standby",
+        "token": "BRIGHTDATA_API_TOKEN (Windows User env; registered as the ${BRIGHTDATA_API_TOKEN} reference, never a literal)",
+        "state": "ARMED until the token exists (fail-closed: a server that cannot authenticate is never registered)"
+      }
+    },
+    "honesty": [
+      "The bright-data-mcp playbook skill says it \"replaces WebFetch/WebSearch\"; that is the vendor's wording, not UNITAS doctrine -- without a token the MCP is not registered and the built-in tools stay in force.",
+      "web-artifacts-builder produces claude.ai-style single-file React bundles; its output is a prototype and is re-keyed to web/tailwind.config.ts tokens before anything lands in web/ (docs/toolchain/README.md §10 rule).",
+      "invoice-chase / draft-outreach describe ledger and mail integrations (Xero, QuickBooks, Stripe, sequences) that are NOT wired here; they act as drafting playbooks only."
+    ]
   }
 }

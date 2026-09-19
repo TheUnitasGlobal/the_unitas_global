@@ -70,11 +70,39 @@ export interface DeepDay {
   windDir: number;
 }
 
+/**
+ * REV-42 D-4 (founder directive 2026-09-18) -- the air-quality reading the
+ * deep popup fuses into its air block. `eu` is the one required field (a
+ * body without a finite European AQI is no reading at all, `aqi` stays
+ * undefined and the panel says so); every other field is `null` when the
+ * endpoint did not carry it -- the REV-34 fixture `{european_aqi, pm2_5,
+ * pm10}` alone must still yield a reading (1-A #5). Concentrations are
+ * μg/m³ (Open-Meteo's unit for every pollutant here, CO included), `aod`
+ * is unitless, `uv` / `uvClear` are the UV index.
+ */
 export interface DeepAir {
   /** European AQI (0-100+). */
   eu: number;
+  /** US AQI (0-500). */
+  us: number | null;
   pm25: number | null;
   pm10: number | null;
+  /** Ozone, μg/m³. */
+  o3: number | null;
+  /** Nitrogen dioxide, μg/m³. */
+  no2: number | null;
+  /** Sulphur dioxide, μg/m³. */
+  so2: number | null;
+  /** Carbon monoxide, μg/m³. */
+  co: number | null;
+  /** Desert dust, μg/m³. */
+  dust: number | null;
+  /** Aerosol optical depth at 550 nm, unitless. */
+  aod: number | null;
+  /** UV index (air-quality model). */
+  uv: number | null;
+  /** UV index under a clear sky. */
+  uvClear: number | null;
 }
 
 export interface DeepForecast {
@@ -125,13 +153,30 @@ export interface OpenMeteoDeepResponse {
   };
 }
 
-/** air-quality-api.open-meteo.com `current=european_aqi,pm2_5,pm10`. */
+/** air-quality-api.open-meteo.com `current=<AIR_CURRENT_VARS>` -- every
+ *  field optional (the REV-34 trio is the smallest body that still yields
+ *  a reading). */
 export interface OpenMeteoAirResponse {
-  current?: { european_aqi?: number | null; pm2_5?: number | null; pm10?: number | null };
+  current?: {
+    european_aqi?: number | null;
+    us_aqi?: number | null;
+    pm2_5?: number | null;
+    pm10?: number | null;
+    ozone?: number | null;
+    nitrogen_dioxide?: number | null;
+    sulphur_dioxide?: number | null;
+    carbon_monoxide?: number | null;
+    dust?: number | null;
+    aerosol_optical_depth?: number | null;
+    uv_index?: number | null;
+    uv_index_clear_sky?: number | null;
+  };
 }
 
 export const WEATHER_DEEP_STORAGE_KEY = 'unitas.weather.deep.v1';
-export const WEATHER_DEEP_VERSION = 'wd-v1';
+/** `wd-v2` since REV-42 D-4: `DeepAir` grew nine fields, so every `wd-v1`
+ *  entry on a device is a miss and refetches -- never a half-shaped read. */
+export const WEATHER_DEEP_VERSION = 'wd-v2';
 export const WEATHER_DEEP_TTL_MS = WEATHER_TTL_MS;
 /** Hourly cells the rail shows -- one day from the current hour. */
 export const DEEP_HOURLY_COUNT = 24;
@@ -143,6 +188,12 @@ export const DEEP_FORECAST_DAYS = 7;
 
 function num(value: number | null | undefined, fallback: number): number {
   return typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+}
+
+/** A finite number or null -- the air fields are optional by contract and
+ *  an absent one is "not carried", never a fabricated 0 (REV-40 truth). */
+function nullable(value: number | null | undefined): number | null {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
 }
 
 /** Maps the two JSON bodies to `DeepForecast`. Every missing series becomes
@@ -174,13 +225,23 @@ export function parseDeepForecast(json: OpenMeteoDeepResponse, air: OpenMeteoAir
     windMax: num(d.wind_speed_10m_max?.[i], 0),
     windDir: num(d.wind_direction_10m_dominant?.[i], 0),
   }));
-  const eu = air?.current?.european_aqi;
+  const a = air?.current ?? {};
+  const eu = a.european_aqi;
   const aqi: DeepAir | undefined =
     typeof eu === 'number' && Number.isFinite(eu)
       ? {
           eu,
-          pm25: typeof air?.current?.pm2_5 === 'number' ? air.current.pm2_5 : null,
-          pm10: typeof air?.current?.pm10 === 'number' ? air.current.pm10 : null,
+          us: nullable(a.us_aqi),
+          pm25: nullable(a.pm2_5),
+          pm10: nullable(a.pm10),
+          o3: nullable(a.ozone),
+          no2: nullable(a.nitrogen_dioxide),
+          so2: nullable(a.sulphur_dioxide),
+          co: nullable(a.carbon_monoxide),
+          dust: nullable(a.dust),
+          aod: nullable(a.aerosol_optical_depth),
+          uv: nullable(a.uv_index),
+          uvClear: nullable(a.uv_index_clear_sky),
         }
       : undefined;
   return {
@@ -257,6 +318,56 @@ export function aqiBandOf(eu: number): AqiBand {
   if (eu <= 80) return 'poor';
   if (eu <= 100) return 'veryPoor';
   return 'extreme';
+}
+
+/** The five pollutants the European AQI is computed from (CO, dust and
+ *  AOD have no EU AQI breakpoints and never band). */
+export type PollutantKind = 'pm25' | 'pm10' | 'o3' | 'no2' | 'so2';
+
+/** EU AQI breakpoints per pollutant, μg/m³ (SPEC D-4): the upper bound of
+ *  good / fair / moderate / poor / veryPoor; beyond the last is extreme. */
+const POLLUTANT_BREAKPOINTS: Record<PollutantKind, readonly [number, number, number, number, number]> = {
+  pm25: [10, 20, 25, 50, 75],
+  pm10: [20, 40, 50, 100, 150],
+  no2: [40, 90, 120, 230, 340],
+  o3: [50, 100, 130, 240, 380],
+  so2: [100, 200, 350, 500, 750],
+};
+
+const AQI_BANDS: readonly AqiBand[] = ['good', 'fair', 'moderate', 'poor', 'veryPoor', 'extreme'];
+
+/** The EU AQI band one pollutant's concentration (μg/m³) falls in, on its
+ *  own breakpoints -- the per-tile `data-band` of the air block. */
+export function pollutantBand(kind: PollutantKind, value: number): AqiBand {
+  const limits = POLLUTANT_BREAKPOINTS[kind];
+  const v = Number.isFinite(value) ? value : 0;
+  for (let i = 0; i < limits.length; i++) if (v <= limits[i]) return AQI_BANDS[i];
+  return 'extreme';
+}
+
+/** The tie-break order when two pollutants share the highest band: the
+ *  finer particle wins (its health weight is the larger). */
+const DOMINANCE_ORDER: readonly PollutantKind[] = ['pm25', 'pm10', 'o3', 'no2', 'so2'];
+
+/** The pollutant sitting in the highest EU AQI band (ties broken pm25 >
+ *  pm10 > o3 > no2 > so2), or null when the reading carries none of the
+ *  five -- the panel then shows no callout rather than a guessed one. */
+export function dominantPollutant(air: DeepAir): { kind: PollutantKind; band: AqiBand } | null {
+  let best: { kind: PollutantKind; band: AqiBand; rank: number } | null = null;
+  for (const kind of DOMINANCE_ORDER) {
+    const value = air[kind];
+    if (value === null) continue;
+    const band = pollutantBand(kind, value);
+    const rank = AQI_BANDS.indexOf(band);
+    // Strictly greater: an earlier kind keeps the tie by construction.
+    if (!best || rank > best.rank) best = { kind, band, rank };
+  }
+  return best ? { kind: best.kind, band: best.band } : null;
+}
+
+/** The full message path of the one-line breathing advice for a band. */
+export function airAdviceKey(band: AqiBand): string {
+  return `Rev42.air.advice.${band}`;
 }
 
 /** `YYYY-MM-DD` -> a local-midday Date built from its parts (never from the
@@ -358,6 +469,9 @@ export function writeDeepForecastCache(place: Pick<Place, 'lat' | 'lon'>, data: 
 const CURRENT_VARS = 'temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,precipitation';
 const HOURLY_VARS = 'temperature_2m,weather_code,precipitation_probability,precipitation,wind_speed_10m,uv_index';
 const DAILY_VARS = 'weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max,wind_speed_10m_max,wind_direction_10m_dominant';
+/** REV-42 D-4: the full air set from the same keyless endpoint (no new API). */
+export const AIR_CURRENT_VARS =
+  'european_aqi,us_aqi,pm2_5,pm10,ozone,nitrogen_dioxide,sulphur_dioxide,carbon_monoxide,dust,aerosol_optical_depth,uv_index,uv_index_clear_sky';
 
 /** The two request URLs, exported so the E2E lane can route them precisely. */
 export function deepForecastUrl(place: Pick<Place, 'lat' | 'lon'>): string {
@@ -377,7 +491,7 @@ export function airQualityUrl(place: Pick<Place, 'lat' | 'lon'>): string {
   const params = new URLSearchParams({
     latitude: String(place.lat),
     longitude: String(place.lon),
-    current: 'european_aqi,pm2_5,pm10',
+    current: AIR_CURRENT_VARS,
   });
   return `https://air-quality-api.open-meteo.com/v1/air-quality?${params.toString()}`;
 }

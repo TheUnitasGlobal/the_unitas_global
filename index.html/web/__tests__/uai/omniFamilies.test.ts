@@ -46,9 +46,11 @@ const SLOT_KEYS: Record<SlotKey, true> = {
   paper: true,
   library: true,
   art: true,
-  air: true,
   nation: true,
   nearby: true,
+  // REV-42 D-1: `air` retired; the two flagships seated.
+  cosmos: true,
+  gastronomy: true,
 };
 
 /** Codex ch.7: the ten omni-business engines the default platform row must always carry. */
@@ -189,9 +191,13 @@ describe('REV-34 omni-open families', () => {
     }
     expect(omniFamilyForSlot('weather')).toBe('place');
     expect(omniFamilyForSlot('quake')).toBe('place');
-    expect(omniFamilyForSlot('air')).toBe('place');
     expect(omniFamilyForSlot('nation')).toBe('place');
     expect(omniFamilyForSlot('nearby')).toBe('place');
+    // REV-42 D-1: the deep-space telemetry opens the science corpora, the
+    // world's table the default pair; the retired `air` key is a stranger.
+    expect(omniFamilyForSlot('cosmos')).toBe('science');
+    expect(omniFamilyForSlot('gastronomy')).toBe('default');
+    expect(omniFamilyForSlot('air')).toBe('default');
     expect(omniFamilyForSlot('newProducts')).toBe('products');
     expect(omniFamilyForSlot('fx')).toBe('fx');
     expect(omniFamilyForSlot('crypto')).toBe('crypto');

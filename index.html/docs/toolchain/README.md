@@ -29,7 +29,7 @@ npm run setup:toolchain -- -Install -PullModel # 새 노트북 전체 재설치 
 
 로컬 추론은 **가용 RAM ≥ 3.5 GB**일 때만 실용적이다(`claude-local.ps1`이 가드). 더 큰 모델은 풀지 않는다.
 
-## 12종 도구 매트릭스
+## 12종 도구 매트릭스 (+ 비즈니스 스킬셋 19종은 아래 REV-43 절)
 
 | # | 도구 | 버전 (고정) | 설치 스코프 | 기동 / 사용 | 검증 |
 |---|---|---|---|---|---|
@@ -95,6 +95,25 @@ npm run setup:toolchain -- -Install -PullModel # 새 노트북 전체 재설치 
   `cssVariables:false`라 레지스트리 컴포넌트는 순수 Tailwind 팔레트 클래스로 재작성되어 UNITAS 토큰 레이어를 건드리지 않는다.
 - 2026-09 변경: `@21st-dev/magic` stdio 프록시·콘솔 키는 폐기, 단일 HTTP MCP `https://21st.dev/api/mcp` + `x-api-key`(`21st_sk_…`, <https://21st.dev/settings/api-keys>). 실측 도구 33종 — 무료: search/search_picker/get_inspiration/search_logo/get_theme/북마크/팀/프로필 계열; **get_component는 무료 티어 2회/일**(shadcn `view`/`add` 1회도 이 쿼터에서 차감, 2026-09-10 검증 1회로 당일 소진 확인); generate/iterate_generation은 Builder/AI 플랜(`aiGenerationEnabled=false`). 쿼터는 `get_usage`로 확인.
 - 에이전트 사용 규칙: `search`(무료)로 후보를 고른 뒤 UNITAS 브랜드(보이드/골드/네온, Cinzel)와 맞는 것만 `get_component` 또는 `@21st/…` 설치 → 가져온 코드는 `web/tailwind.config.ts` 토큰으로 재염색. 팔레트를 그대로 들여오지 않는다(10번 항목과 동일 원칙).
+
+## 비즈니스 자동화 스킬셋 19종 (REV-43, 2026-09-18)
+
+창립자 지령(제6장 자율 감지·툴 확장)에 따라 위 12종에 더해 **비즈니스 자동화 스킬 19종**을 같은 원칙(사용자 스코프 복사본, 저장소 무수정, Fail-Closed)으로 설치했다. 정본 설계 `docs/rev43/SPEC.md`, 재현 `scripts/agent/setup-skillset.ps1 -Install -PythonDeps`(감사만: `-Status`), 매니페스트 `config/agent-toolkit.json`의 `skillset` 블록. `npm run setup:toolchain`의 설치 단계와 상태판에 편입했다. 실측 2026-09-18: 19/19 설치, `pypdf 6.19.0` · `pdfplumber 0.11.10` · `openpyxl 3.1.5` 임포트 확인.
+
+| 그룹 | 스킬 (`owner/repo@skill`) | 실체(정직 표기) |
+|---|---|---|
+| UI/UX | `anthropics/skills@web-artifacts-builder` · `@theme-factory` | React+Tailwind+shadcn 단일 파일 아티팩트 번들러 / 10종 프리셋 + 온더플라이 테마. **산출물은 프로토타입** — `web/`에 넣기 전 `tailwind.config.ts` 토큰으로 재염색(§10 규칙과 동일). |
+| 데이터 | `anthropics/skills@xlsx` · `anthropics/knowledge-work-plugins@explore-data` · `@data-visualization` | 스프레드시트 읽기·수식·차트(`openpyxl` 필요) / 데이터 프로파일링 / 차트 설계. |
+| 재무 | `anthropics/knowledge-work-plugins@financial-statements` · `@close-management` · `@invoice-chase` | 손익·재무상태·현금흐름 비교 분석 / 월마감 체크리스트 / 미수금 독촉 초안. **Xero·QuickBooks·Stripe 등 실연동은 배선하지 않음** — 초안 플레이북으로만 동작(Wise/Xolo 실데이터는 창립자 반출본을 입력). |
+| 법무·PDF | `anthropics/skills@pdf` · `anthropics/knowledge-work-plugins@legal-risk-assessment` · `@review-contract` | PDF 추출·병합·분할·양식·서명 필드(`pypdf`·`pdfplumber` 스크립트 동봉) / 심각도×발생가능성 리스크 분류 / 조항별 계약 검토. |
+| 스크래핑 | `brightdata/skills@scrape` · `@search` · `@bright-data-mcp` | Bright Data CLI(`bdata`)·MCP 사용 플레이북. **CLI는 미설치, MCP는 스탠바이**(아래). 스킬 문구 "WebFetch/WebSearch를 대체한다"는 벤더 표현이며 토큰 없이는 무효. |
+| 마케팅 | `coreyhaines31/marketingskills@copywriting` · `@seo-audit` · `@content-strategy` | 카피 프레임워크 / 기술·콘텐츠 SEO 감사 / 편집 캘린더·필러 설계(리더보드 상위 3종). |
+| 세일즈 | `coreyhaines31/marketingskills@sales-enablement` · `anthropics/knowledge-work-plugins@draft-outreach` | 세일즈 자료·반론 대응·데모 스크립트 / 아웃리치 초안(시퀀스 툴 연동 없음). |
+
+### Bright Data MCP 스탠바이 (`scripts/agent/setup-brightdata.ps1 -Standby`)
+
+- Figma 스탠바이와 동일 규약: `BRIGHTDATA_API_TOKEN`(User env)이 없으면 `ARMED` exit 0(등록하지 않음), 있으면 `claude mcp add --scope user --transport stdio --env API_TOKEN=${BRIGHTDATA_API_TOKEN} brightdata -- npx -y @brightdata/mcp@2.11.3` → `Connected` 확인, 실패 시 롤백. 토큰은 평문으로 어디에도 기록되지 않는다.
+- 창립자 1회 조치: `setx BRIGHTDATA_API_TOKEN <token>` 후 새 셸에서 `npm run setup:toolchain`(상태판이 프로브를 돌려 스스로 연결). 실측 2026-09-18: 토큰 없음 → `ARMED`.
 
 ## 창립자 후속 조치(선택)
 

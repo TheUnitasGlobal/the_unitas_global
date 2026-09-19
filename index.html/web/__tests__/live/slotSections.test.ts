@@ -35,19 +35,22 @@ describe('slot scope declaration', () => {
     }
   });
 
-  it('keeps the SPEC 2A.3 global-only and country-only lists', () => {
-    for (const key of ['quake', 'crypto', 'devPulse', 'paper', 'library', 'art'] as SlotKey[]) {
-      expect(SLOT_SCOPES[key]).toEqual(['global']);
+  it('keeps the SPEC 2A.3 global-only and country-only lists (REV-42 D-1: +cosmos global, +gastronomy both, -air)', () => {
+    for (const key of ['cosmos', 'quake', 'crypto', 'devPulse', 'paper', 'library', 'art'] as SlotKey[]) {
+      expect(SLOT_SCOPES[key], key).toEqual(['global']);
     }
-    for (const key of ['weather', 'air', 'nation'] as SlotKey[]) {
-      expect(SLOT_SCOPES[key]).toEqual(['country']);
+    for (const key of ['weather', 'nation'] as SlotKey[]) {
+      expect(SLOT_SCOPES[key], key).toEqual(['country']);
     }
     // fx is worldwide AND carries the visitor's own currency second.
     expect(SLOT_SCOPES.fx).toEqual(['global', 'country']);
-    // REV-23 M3.1: fx is the ONLY two-scope slot left -- the nine news
-    // themes that used to race a worldwide leg against the visitor's own
-    // are off this rail entirely.
-    for (const key of ['game', 'sports', 'movie', 'food'] as string[]) {
+    // REV-42 D-1: gastronomy is the second two-scope slot -- the world's
+    // trends first, the visitor's own tradition + hidden local eats second.
+    expect(SLOT_SCOPES.gastronomy).toEqual(['global', 'country']);
+    // REV-23 M3.1: the nine news themes that used to race a worldwide leg
+    // against the visitor's own are off this rail entirely; REV-42 D-1
+    // retired `air` the same way.
+    for (const key of ['game', 'sports', 'movie', 'food', 'air'] as string[]) {
       expect(SLOT_SCOPES[key], key).toBeUndefined();
     }
   });
@@ -65,7 +68,7 @@ describe('buildSlotSections', () => {
     expect(sections[0].items).toHaveLength(1);
   });
 
-  it('declares weather / air / nation as country sections', () => {
+  it('declares weather / nation as country sections', () => {
     const sections = buildSlotSections('weather', card({ facts: [{ labelKey: 'a', value: '1' }] }));
     expect(sections).toHaveLength(1);
     expect(sections[0].scope).toBe('country');

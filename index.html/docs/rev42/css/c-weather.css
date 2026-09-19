@@ -1,0 +1,448 @@
+/* --------------------------------------------------------------------------
+   §30 (lane C) REV-42 D-3 / D-4 (founder directive 2026-09-18) -- the
+        weather flagship's moon pixel (components/home/widgets/
+        MoonPhasePixel.tsx) and the deep popup's air-fusion block
+        (components/home/WeatherDeepPanel.tsx AirFusion).
+   Dark base unscoped (the card sits on the white home AND the widget must
+   survive a dark surface, where --qw-ink / --qw-line do not exist -- only
+   the --qw-card-* skin and --qw-hub-accent are read); the white re-key
+   follows under the surface prefix. No backdrop-filter, no blur, no
+   transform on html/body; the only motion is the loading disc's pulse,
+   stopped under prefers-reduced-motion. Nothing here is interactive (1-A
+   #7), so there is no focus rule and no 44px target to grow.
+   -------------------------------------------------------------------------- */
+
+/* ---- D-3 moon pixel ------------------------------------------------------ */
+.qw-moon {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+}
+.qw-moon[data-variant='card'] {
+  max-height: 96px;
+  overflow: hidden;
+}
+.qw-moon[data-variant='deep'] {
+  column-gap: 18px;
+  align-items: start;
+  padding: 12px 14px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+}
+/* The disc: a 24-cell grid drawn as two crisp paths; the lit face is the
+   slot's accent, the dark face a dim ink so the shape stays legible at new
+   moon. Never anti-aliased (shape-rendering is set on the element too). */
+.qw-moon-disc {
+  display: block;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  shape-rendering: crispEdges;
+  overflow: visible;
+}
+.qw-moon[data-variant='deep'] .qw-moon-disc {
+  width: 96px;
+  height: 96px;
+}
+.qw-moon-lit {
+  fill: var(--qw-hub-accent, #d4af37);
+}
+.qw-moon-dark {
+  fill: rgba(255, 255, 255, 0.12);
+}
+.qw-moon[data-state='loading'] .qw-moon-dark {
+  animation: qw-moon-pulse 1.6s var(--qw-ease, ease) infinite alternate;
+}
+@keyframes qw-moon-pulse {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.qw-moon-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.qw-moon[data-variant='deep'] .qw-moon-text {
+  gap: 6px;
+}
+.qw-moon-text > p {
+  margin: 0;
+  min-width: 0;
+}
+.qw-moon-label {
+  display: inline-block;
+  margin-right: 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.qw-moon-date {
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qw-moon[data-variant='deep'] .qw-moon-date {
+  font-size: 16px;
+  white-space: normal;
+}
+.qw-moon-lunar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+  color: #d1d5db;
+}
+.qw-moon[data-variant='card'] .qw-moon-lunar {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.qw-moon[data-variant='deep'] .qw-moon-lunar {
+  font-size: 14px;
+}
+.qw-moon-animal {
+  font-weight: 600;
+  color: #9ca3af;
+}
+/* The compact row: phase, age, illumination (deep) and the term chip. On
+   the card it never wraps -- what does not fit is clipped, the chip first
+   in the DOM after the phase so it survives on a 360px phone. */
+.qw-moon-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  color: #9ca3af;
+}
+.qw-moon[data-variant='card'] .qw-moon-meta {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.qw-moon[data-variant='deep'] .qw-moon-meta {
+  font-size: 12.5px;
+}
+.qw-moon-phase {
+  color: #fff;
+}
+.qw-moon-term {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 2px 8px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 999px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--qw-hub-accent, #d4af37);
+  white-space: nowrap;
+}
+.qw-moon[data-variant='card'] .qw-moon-term {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qw-moon-term-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.qw-moon-term-in {
+  font-weight: 700;
+  color: #d1d5db;
+}
+.qw-moon-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #d1d5db;
+}
+.qw-moon-unreadable {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #fcd34d;
+}
+
+/* ---- D-4 air fusion ------------------------------------------------------ */
+.qw-air {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.qw-air > .qw-weather-section-label {
+  margin-bottom: 0;
+}
+.qw-air-label {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Hero: the band word leads at 28px, the EU / US indices trail as tiles. */
+.qw-air-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+}
+.qw-air-band {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  color: #fff;
+  overflow-wrap: anywhere;
+}
+.qw-air-hero-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.qw-air-hero-value {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+/* The pollutant grid: 10px tiles, label over value, the value's unit as a
+   trailing word; each tile's `data-band` tints its left edge in the band's
+   colour (the same six bands the hero and the advice line use). */
+.qw-air-grid,
+.qw-air-uv {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.qw-air-cell,
+.qw-air-uv-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+  box-shadow: inset 3px 0 0 var(--qw-air-band, transparent);
+}
+.qw-air-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+}
+.qw-air-unit {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #9ca3af;
+}
+/* The six EU AQI band colours, once, keyed by `data-band` on any air node
+   (tile edge, hero word, dominant callout) and `data-uv-band` on the UV
+   pair (the WHO five, mapped to the same ramp). */
+.qw-air [data-band='good'] {
+  --qw-air-band: #3fa34d;
+}
+.qw-air [data-band='fair'] {
+  --qw-air-band: #8bbf3f;
+}
+.qw-air [data-band='moderate'] {
+  --qw-air-band: #e2b93b;
+}
+.qw-air [data-band='poor'] {
+  --qw-air-band: #e5842f;
+}
+.qw-air [data-band='veryPoor'] {
+  --qw-air-band: #d64545;
+}
+.qw-air [data-band='extreme'] {
+  --qw-air-band: #8e3b9e;
+}
+.qw-air [data-uv-band='low'] {
+  --qw-air-band: #3fa34d;
+}
+.qw-air [data-uv-band='moderate'] {
+  --qw-air-band: #e2b93b;
+}
+.qw-air [data-uv-band='high'] {
+  --qw-air-band: #e5842f;
+}
+.qw-air [data-uv-band='veryHigh'] {
+  --qw-air-band: #d64545;
+}
+.qw-air [data-uv-band='extreme'] {
+  --qw-air-band: #8e3b9e;
+}
+.qw-air-band[data-band] {
+  color: var(--qw-air-band, #fff);
+}
+.qw-air-dominant {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  margin: 0;
+  padding: 0 2px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+.qw-air-dominant > .qw-air-label {
+  display: inline;
+}
+.qw-air-dominant-name::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--qw-air-band, #6b7280);
+  vertical-align: 0;
+}
+.qw-air-advice {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 3px solid var(--qw-hub-accent, #d4af37);
+  border-radius: 0 10px 10px 0;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  color: #d1d5db;
+}
+.qw-air-unreadable {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fcd34d;
+}
+@media (max-width: 767px) {
+  .qw-air-grid,
+  .qw-air-uv {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .qw-air-band {
+    font-size: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qw-moon[data-state='loading'] .qw-moon-dark {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+/* ---- White surface re-key ------------------------------------------------ */
+html[data-unitas-surface='quantum-white'] .qw-moon-label,
+html[data-unitas-surface='quantum-white'] .qw-moon-animal,
+html[data-unitas-surface='quantum-white'] .qw-moon-term-label,
+html[data-unitas-surface='quantum-white'] .qw-air-label,
+html[data-unitas-surface='quantum-white'] .qw-air-unit {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-moon-lunar,
+html[data-unitas-surface='quantum-white'] .qw-moon-meta,
+html[data-unitas-surface='quantum-white'] .qw-moon-term-in,
+html[data-unitas-surface='quantum-white'] .qw-moon-next,
+html[data-unitas-surface='quantum-white'] .qw-air-advice {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-moon-date,
+html[data-unitas-surface='quantum-white'] .qw-moon-phase,
+html[data-unitas-surface='quantum-white'] .qw-air-hero-value,
+html[data-unitas-surface='quantum-white'] .qw-air-value,
+html[data-unitas-surface='quantum-white'] .qw-air-dominant {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-moon-dark {
+  fill: rgba(15, 16, 22, 0.14);
+}
+html[data-unitas-surface='quantum-white'] .qw-moon[data-variant='deep'],
+html[data-unitas-surface='quantum-white'] .qw-moon-term,
+html[data-unitas-surface='quantum-white'] .qw-air-hero,
+html[data-unitas-surface='quantum-white'] .qw-air-cell,
+html[data-unitas-surface='quantum-white'] .qw-air-uv-cell,
+html[data-unitas-surface='quantum-white'] .qw-air-advice,
+html[data-unitas-surface='quantum-white'] .qw-air-unreadable {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+html[data-unitas-surface='quantum-white'] .qw-air-cell,
+html[data-unitas-surface='quantum-white'] .qw-air-uv-cell {
+  box-shadow:
+    inset 3px 0 0 var(--qw-air-band, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+html[data-unitas-surface='quantum-white'] .qw-air-advice {
+  border-left-color: var(--qw-hub-accent, var(--qw-blue));
+}
+html[data-unitas-surface='quantum-white'] .qw-moon-unreadable,
+html[data-unitas-surface='quantum-white'] .qw-air-unreadable {
+  color: var(--qw-gold-deep);
+}
+html[data-unitas-surface='quantum-white'] .qw-air [data-band='moderate'],
+html[data-unitas-surface='quantum-white'] .qw-air [data-uv-band='moderate'] {
+  /* The amber reads too pale on white; one step deeper keeps the contrast. */
+  --qw-air-band: #b8901f;
+}
+html[data-unitas-surface='quantum-white'] .qw-air [data-band='fair'] {
+  --qw-air-band: #5f9a2a;
+}

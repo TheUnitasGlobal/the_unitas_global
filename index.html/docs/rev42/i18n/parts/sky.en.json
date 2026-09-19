@@ -1,0 +1,163 @@
+{
+  "Rev20": {
+    "slots": {
+      "cosmos": {
+        "title": "Macro Cosmos",
+        "tag": "Deep-space telemetry above your sky"
+      },
+      "gastronomy": {
+        "title": "Global Gastronomy",
+        "tag": "The one plate the world's tables recommend at this hour"
+      }
+    }
+  },
+  "Rev42": {
+    "sky": {
+      "gregorianLabel": "Solar",
+      "lunarLabel": "Lunar",
+      "lunarLine": "Lunar month {month}, day {day}",
+      "lunarLeapLine": "Lunar leap month {month}, day {day}",
+      "animalYear": "Year of the {animal}",
+      "moonAge": "Moon age {age} days",
+      "illumination": "{pct}% lit",
+      "phases": {
+        "newMoon": "New Moon",
+        "waxingCrescent": "Waxing Crescent",
+        "firstQuarter": "First Quarter",
+        "waxingGibbous": "Waxing Gibbous",
+        "fullMoon": "Full Moon",
+        "waningGibbous": "Waning Gibbous",
+        "lastQuarter": "Last Quarter",
+        "waningCrescent": "Waning Crescent"
+      },
+      "animals": {
+        "rat": "Rat",
+        "ox": "Ox",
+        "tiger": "Tiger",
+        "rabbit": "Rabbit",
+        "dragon": "Dragon",
+        "snake": "Snake",
+        "horse": "Horse",
+        "goat": "Goat",
+        "monkey": "Monkey",
+        "rooster": "Rooster",
+        "dog": "Dog",
+        "pig": "Pig"
+      },
+      "zodiac": {
+        "aries": "Aries",
+        "taurus": "Taurus",
+        "gemini": "Gemini",
+        "cancer": "Cancer",
+        "leo": "Leo",
+        "virgo": "Virgo",
+        "libra": "Libra",
+        "scorpio": "Scorpio",
+        "sagittarius": "Sagittarius",
+        "capricorn": "Capricorn",
+        "aquarius": "Aquarius",
+        "pisces": "Pisces"
+      },
+      "terms": {
+        "lichun": "Start of Spring",
+        "yushui": "Rain Water",
+        "jingzhe": "Awakening of Insects",
+        "chunfen": "Spring Equinox",
+        "qingming": "Pure Brightness",
+        "guyu": "Grain Rain",
+        "lixia": "Start of Summer",
+        "xiaoman": "Grain Buds",
+        "mangzhong": "Grain in Ear",
+        "xiazhi": "Summer Solstice",
+        "xiaoshu": "Minor Heat",
+        "dashu": "Major Heat",
+        "liqiu": "Start of Autumn",
+        "chushu": "End of Heat",
+        "bailu": "White Dew",
+        "qiufen": "Autumn Equinox",
+        "hanlu": "Cold Dew",
+        "shuangjiang": "Frost Descent",
+        "lidong": "Start of Winter",
+        "xiaoxue": "Minor Snow",
+        "daxue": "Major Snow",
+        "dongzhi": "Winter Solstice",
+        "xiaohan": "Minor Cold",
+        "dahan": "Major Cold"
+      },
+      "termNow": "Current solar term",
+      "termNext": "Next solar term",
+      "termIn": "in {days} d {hours} h",
+      "termChipAria": "Current solar term: {term}",
+      "lst": "Local sidereal time",
+      "gmst": "Greenwich sidereal time",
+      "jd": "Julian day",
+      "observer": "Observer",
+      "observerLine": "{name} · lat {lat}° · lon {lon}°",
+      "utcOffset": "UTC{offset}",
+      "sun": "Sun",
+      "moon": "Moon",
+      "eclipticLon": "Ecliptic longitude",
+      "eclipticLat": "Ecliptic latitude",
+      "ra": "Right ascension",
+      "dec": "Declination",
+      "altitude": "Altitude",
+      "azimuth": "Azimuth",
+      "distance": "Distance",
+      "aboveHorizon": "Above the horizon",
+      "belowHorizon": "Below the horizon",
+      "zodiacPos": "{sign} {deg}° {min}′",
+      "ringAria": "Ecliptic ring marking the 24 solar terms and the 12 zodiac signs",
+      "dialAria": "Dial of the current altitude and azimuth of the Sun and Moon",
+      "pixelAria": "{phase} · moon age {age} days",
+      "sectionSidereal": "Sidereal time",
+      "sectionTerms": "The 24 solar terms",
+      "sectionSun": "Sun position",
+      "sectionMoon": "Moon position",
+      "sectionZodiac": "The zodiac",
+      "live": "Live · 1-second refresh",
+      "unreadable": "The sky almanac can't be computed right now · please check again shortly"
+    },
+    "air": {
+      "title": "Air quality",
+      "euAqi": "European AQI",
+      "usAqi": "US AQI",
+      "pm25": "Fine particles PM2.5",
+      "pm10": "Coarse particles PM10",
+      "o3": "Ozone",
+      "no2": "Nitrogen dioxide",
+      "so2": "Sulphur dioxide",
+      "co": "Carbon monoxide",
+      "dust": "Desert dust",
+      "aod": "Aerosol optical depth",
+      "uvNow": "UV index · now",
+      "uvMax": "UV index · today's peak",
+      "dominant": "Dominant pollutant",
+      "advice": {
+        "good": "The air is clean. A good time for outdoor activity and for opening the windows.",
+        "fair": "Air quality is fair. Outdoor activity is fine for most people.",
+        "moderate": "Moderate. Sensitive groups may want to limit prolonged, strenuous outdoor exertion.",
+        "poor": "Poor. Sensitive groups should limit outdoor activity, and everyone should keep strenuous exercise indoors.",
+        "veryPoor": "Very poor. Reduce time outdoors and keep windows closed. Sensitive groups should avoid going out.",
+        "extreme": "Extreme. Avoid outdoor activity and stay indoors. If you must go out, keep it brief and consider a mask."
+      },
+      "unreadable": "The air-quality signal can't be read · please try again shortly",
+      "unit": {
+        "ugm3": "μg/m³",
+        "index": "index"
+      }
+    },
+    "detail": {
+      "open": {
+        "weather": "Precise sky view",
+        "cosmos": "Sky view · cosmic scale",
+        "gastronomy": "The science of the plate"
+      },
+      "title": {
+        "weather": "Space-time · sidereal time and solar terms",
+        "cosmos": "Macro Cosmos · precise sky and cosmic scale",
+        "gastronomy": "The science of gastronomy · from sunlight to the table"
+      },
+      "mirrorNote": "Projects the precise sky view from shortcut 1, unchanged"
+    }
+  }
+}

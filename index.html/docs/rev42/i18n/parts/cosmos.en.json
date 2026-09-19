@@ -1,0 +1,235 @@
+{
+  "Rev42": {
+    "cosmos": {
+      "source": "UNITAS sky engine · Wikipedia",
+      "rowMeta": "Alt {alt}° · {az} · {dist}",
+      "scopeAria": "Horizon dial · current altitude and bearing of today's object, the Sun, the Moon and the galactic centre",
+      "lightYears": "{n} light-years",
+      "kmPerSec": "{v} km/s",
+      "scopeState": {
+        "loading": "Computing the sky above you",
+        "unreadable": "The sky signal can't be read · please try again shortly"
+      },
+      "facts": {
+        "objectOfDay": "Object of the day",
+        "type": "Type",
+        "constellation": "Constellation",
+        "distance": "Distance",
+        "lightLeft": "Light departed",
+        "altitude": "Altitude now",
+        "visibility": "Visibility",
+        "observer": "Observer",
+        "earthOrbit": "Earth's orbital speed",
+        "travelledToday": "Travelled since midnight",
+        "galacticOrbit": "Solar System's galactic orbit",
+        "cmbDipole": "Motion against the CMB",
+        "galacticCenter": "Galactic centre"
+      },
+      "visibility": {
+        "visible": "Above the horizon now",
+        "belowHorizon": "Below the horizon",
+        "daylight": "Hidden by daylight"
+      },
+      "lightLeft": {
+        "ago": "Left {n} years ago",
+        "bce": "Left in {year} BCE",
+        "ce": "Left in {year} CE"
+      },
+      "types": {
+        "galaxy": "Galaxy",
+        "nebula": "Nebula",
+        "openCluster": "Open cluster",
+        "globularCluster": "Globular cluster",
+        "blackHole": "Black hole",
+        "pulsar": "Pulsar",
+        "quasar": "Quasar",
+        "star": "Star",
+        "supernovaRemnant": "Supernova remnant",
+        "planetaryNebula": "Planetary nebula"
+      },
+      "constellations": {
+        "andromeda": "Andromeda",
+        "canesVenatici": "Canes Venatici",
+        "virgo": "Virgo",
+        "dorado": "Dorado",
+        "centaurus": "Centaurus",
+        "orion": "Orion",
+        "taurus": "Taurus",
+        "lyra": "Lyra",
+        "aquarius": "Aquarius",
+        "carina": "Carina",
+        "serpens": "Serpens",
+        "hercules": "Hercules",
+        "sagittarius": "Sagittarius",
+        "cygnus": "Cygnus",
+        "vela": "Vela",
+        "canisMajor": "Canis Major"
+      },
+      "objects": {
+        "m31": {
+          "name": "Andromeda Galaxy",
+          "note": "The nearest large spiral, about 2.5 million light-years away and visible to the naked eye; it is closing on the Milky Way at roughly 110 km/s."
+        },
+        "m51": {
+          "name": "Whirlpool Galaxy",
+          "note": "The first galaxy recognised as a spiral, by Lord Rosse in 1845; it is gravitationally entangled with its small companion NGC 5195."
+        },
+        "m104": {
+          "name": "Sombrero Galaxy",
+          "note": "Found by Pierre Méchain in 1781, its bright bulge crossed by a thick dust lane gives the brim-and-crown outline that earned its name."
+        },
+        "m87": {
+          "name": "M87",
+          "note": "A giant elliptical at the heart of the Virgo Cluster; its black hole M87* was the first ever imaged, by the Event Horizon Telescope in 2019."
+        },
+        "lmc": {
+          "name": "Large Magellanic Cloud",
+          "note": "A satellite of the Milky Way visible to the naked eye from the south; supernova SN 1987A, the nearest seen since 1604, erupted here in 1987."
+        },
+        "centaurusA": {
+          "name": "Centaurus A",
+          "note": "The nearest radio galaxy, recorded by James Dunlop in 1826; jets from its black hole feed radio lobes hundreds of thousands of light-years across."
+        },
+        "m42": {
+          "name": "Orion Nebula",
+          "note": "The nearest massive star-forming region, about 1,344 light-years away and visible to the naked eye; the Trapezium cluster lights it from within."
+        },
+        "m1": {
+          "name": "Crab Nebula",
+          "note": "Remnant of the supernova seen by Chinese and Japanese observers in 1054; its pulsar spins about 30 times a second, and it is Messier's first entry."
+        },
+        "m57": {
+          "name": "Ring Nebula",
+          "note": "A planetary nebula found by Antoine Darquier in 1779; the shed outer layers of a dying Sun-like star form a ring around its white-dwarf core."
+        },
+        "ngc7293": {
+          "name": "Helix Nebula",
+          "note": "One of the closest planetary nebulae, about 655 light-years away, discovered by Karl Ludwig Harding around 1824."
+        },
+        "carina": {
+          "name": "Carina Nebula",
+          "note": "A vast southern nebula recorded by Lacaille in 1752, larger than the Orion Nebula and home to Eta Carinae, one of the most massive stars known."
+        },
+        "m16": {
+          "name": "Eagle Nebula",
+          "note": "Home of the Pillars of Creation, the star-forming columns photographed by the Hubble Space Telescope in 1995, where new stars are still being born."
+        },
+        "m45": {
+          "name": "Pleiades",
+          "note": "An open cluster about 444 light-years away whose six or seven naked-eye stars appear in Homer and the Bible; its Japanese name is Subaru."
+        },
+        "m13": {
+          "name": "Hercules Cluster",
+          "note": "A globular cluster found by Edmond Halley in 1714; in 1974 the Arecibo radio telescope beamed a message toward it for any listening civilisation."
+        },
+        "omegaCentauri": {
+          "name": "Omega Centauri",
+          "note": "The largest and brightest globular cluster in the Milky Way, holding some 10 million stars; Ptolemy listed it as a single star."
+        },
+        "hyades": {
+          "name": "Hyades",
+          "note": "The nearest open cluster to the Sun, forming the V of the Bull's face; bright Aldebaran at its tip is a much closer foreground star, not a member."
+        },
+        "sgrA": {
+          "name": "Sagittarius A*",
+          "note": "The Milky Way's central supermassive black hole, about 4 million solar masses; tracking stars around it earned the 2020 Nobel Prize in Physics."
+        },
+        "cygnusX1": {
+          "name": "Cygnus X-1",
+          "note": "An X-ray source found in 1964, the first object widely accepted as a black hole; Stephen Hawking conceded his bet with Kip Thorne over it in 1990."
+        },
+        "velaPulsar": {
+          "name": "Vela Pulsar",
+          "note": "Found in 1968, it spins every 89 milliseconds inside the remnant of a supernova 11,000 years ago and is one of the brightest gamma-ray sources."
+        },
+        "quasar3c273": {
+          "name": "3C 273",
+          "note": "The first quasar identified, when Maarten Schmidt read its redshift in 1963; still the brightest quasar in our sky, its light 2.4 billion years old."
+        },
+        "betelgeuse": {
+          "name": "Betelgeuse",
+          "note": "Orion's red supergiant, large enough to reach Jupiter's orbit if placed at the Sun; its Great Dimming of 2019–2020 was visible to the naked eye."
+        },
+        "proxima": {
+          "name": "Proxima Centauri",
+          "note": "The Sun's nearest stellar neighbour, a red dwarf found by Robert Innes in 1915; the planet Proxima b was confirmed in its habitable zone in 2016."
+        },
+        "vega": {
+          "name": "Vega",
+          "note": "The first star after the Sun to be photographed, at Harvard in 1850; Earth's axial precession makes it the pole star again in about 12,000 years."
+        },
+        "sirius": {
+          "name": "Sirius",
+          "note": "The night sky's brightest star, 8.6 light-years away; its companion Sirius B, seen by Alvan Clark in 1862, was among the first known white dwarfs."
+        }
+      },
+      "sections": {
+        "trajectory": "Trajectory of time",
+        "lineage": "Stellar heritage",
+        "relativity": "Gravity and relativity",
+        "scale": "Supercluster scale"
+      },
+      "trajectory": {
+        "line": "The light of {object} set out {years} years ago, in {epoch}"
+      },
+      "epochs": {
+        "thisLife": "the span of a single human lifetime",
+        "writtenHistory": "the age of written history",
+        "agriculture": "the age when farming began",
+        "homoSapiens": "the age of the first Homo sapiens",
+        "earlyHumans": "the age of early tool-making humans",
+        "greatApes": "the age when the great apes branched apart",
+        "dinosaursEnd": "the age of rising mammals after the dinosaurs",
+        "dinosaurs": "the age when dinosaurs ruled the Earth",
+        "complexLife": "the first age of complex life",
+        "earlyEarth": "the early Earth of single-celled life"
+      },
+      "lineage": {
+        "bodyIntro": "Where the atoms in your body were made",
+        "intro": "Your hydrogen came from the Big Bang, your carbon and oxygen from the cores of stars, your iron from supernovae and your gold from colliding neutron stars",
+        "bodyShare": "{pct}% of body mass",
+        "origins": {
+          "bigBang": "Big Bang nucleosynthesis",
+          "stellarFusion": "Stellar fusion",
+          "supernova": "Supernova explosion",
+          "neutronMerger": "Neutron-star merger",
+          "cosmicRay": "Cosmic-ray spallation"
+        },
+        "elements": {
+          "oxygen": "Oxygen",
+          "carbon": "Carbon",
+          "hydrogen": "Hydrogen",
+          "nitrogen": "Nitrogen",
+          "calcium": "Calcium",
+          "phosphorus": "Phosphorus",
+          "iron": "Iron",
+          "gold": "Gold"
+        }
+      },
+      "relativity": {
+        "gLocal": "Local gravity",
+        "rotation": "Rotation speed",
+        "gps": "GPS clock offset",
+        "dilation": "Surface time dilation",
+        "lightMoon": "Moonlight travel time",
+        "lightSun": "Sunlight travel time",
+        "gLine": "Gravity at latitude {lat}°: {g} m/s²",
+        "rotLine": "Rotational speed {v} m/s"
+      },
+      "scale": {
+        "line": "{name} · {size}",
+        "you": "You",
+        "earth": "Earth",
+        "sunEarth": "Sun–Earth distance",
+        "heliopause": "Heliopause",
+        "oort": "Oort cloud",
+        "proxima": "Proxima Centauri",
+        "milkyWay": "Milky Way",
+        "localGroup": "Local Group",
+        "virgo": "Virgo Supercluster",
+        "laniakea": "Laniakea",
+        "observable": "Observable universe"
+      }
+    }
+  }
+}

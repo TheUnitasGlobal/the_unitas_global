@@ -15,6 +15,7 @@ const { test, expect } = require('@playwright/test');
 // fetch is invisible to page.route (REV-25, measured).
 const { reachReleasedHome } = require('./_rev25Home');
 const { expectRetiredURankingGone } = require('./_rev41Retired');
+const { expectRetiredAirGone } = require('./_rev42Retired');
 
 const input = (page) => page.locator('#omni-synapse-search input[type="text"]');
 
@@ -296,13 +297,18 @@ test.describe('REV-34 M4 -- UNITAS SQUARE', () => {
 // none of the retired hooks may exist while the hub is open. U-Square's own
 // 유랭킹 (M4-A/C above, `data-square-theme="uRanking"`) is a different
 // surface and stays exactly as measured there.
+// REV-42 D-1 (founder directive 2026-09-18): sixteen seats -- `air` retired
+// outright (its reading is fused into this very weather deep panel, D-4)
+// and the `cosmos` / `gastronomy` flagships seated; the REV-42 sweep
+// (_rev42Retired.js) proves no air surface survives with the hub open.
 test.describe('REV-41 D-7 -- the U-Ranking slot is retired from the rail', () => {
-  test('fifteen seats, none of them 유랭킹, and no retired U-Ranking surface with the hub open', async ({ page }) => {
+  test('sixteen seats, none of them 유랭킹 or 공기, and no retired U-Ranking / air surface with the hub open', async ({ page }) => {
     await reachReleasedHome(page);
     await openHub(page);
     const chips = page.locator('[data-live-hub] [data-slot]');
     await expect(chips.first()).toBeVisible();
-    await expect(chips).toHaveCount(15);
+    await expect(chips).toHaveCount(16);
     await expectRetiredURankingGone(page);
+    await expectRetiredAirGone(page);
   });
 });

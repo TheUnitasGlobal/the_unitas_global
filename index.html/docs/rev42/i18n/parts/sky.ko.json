@@ -1,0 +1,163 @@
+{
+  "Rev20": {
+    "slots": {
+      "cosmos": {
+        "title": "거시 우주",
+        "tag": "당신의 하늘 위 심우주 텔레메트리"
+      },
+      "gastronomy": {
+        "title": "글로벌 미식",
+        "tag": "지금 이 시간, 세계의 식탁이 권하는 한 접시"
+      }
+    }
+  },
+  "Rev42": {
+    "sky": {
+      "gregorianLabel": "양력",
+      "lunarLabel": "음력",
+      "lunarLine": "음력 {month}월 {day}일",
+      "lunarLeapLine": "음력 윤{month}월 {day}일",
+      "animalYear": "{animal}띠 해",
+      "moonAge": "월령 {age}일",
+      "illumination": "밝기 {pct}%",
+      "phases": {
+        "newMoon": "신월",
+        "waxingCrescent": "초승달",
+        "firstQuarter": "상현달",
+        "waxingGibbous": "상현망간달",
+        "fullMoon": "보름달",
+        "waningGibbous": "하현망간달",
+        "lastQuarter": "하현달",
+        "waningCrescent": "그믐달"
+      },
+      "animals": {
+        "rat": "쥐",
+        "ox": "소",
+        "tiger": "호랑이",
+        "rabbit": "토끼",
+        "dragon": "용",
+        "snake": "뱀",
+        "horse": "말",
+        "goat": "양",
+        "monkey": "원숭이",
+        "rooster": "닭",
+        "dog": "개",
+        "pig": "돼지"
+      },
+      "zodiac": {
+        "aries": "양자리",
+        "taurus": "황소자리",
+        "gemini": "쌍둥이자리",
+        "cancer": "게자리",
+        "leo": "사자자리",
+        "virgo": "처녀자리",
+        "libra": "천칭자리",
+        "scorpio": "전갈자리",
+        "sagittarius": "궁수자리",
+        "capricorn": "염소자리",
+        "aquarius": "물병자리",
+        "pisces": "물고기자리"
+      },
+      "terms": {
+        "lichun": "입춘",
+        "yushui": "우수",
+        "jingzhe": "경칩",
+        "chunfen": "춘분",
+        "qingming": "청명",
+        "guyu": "곡우",
+        "lixia": "입하",
+        "xiaoman": "소만",
+        "mangzhong": "망종",
+        "xiazhi": "하지",
+        "xiaoshu": "소서",
+        "dashu": "대서",
+        "liqiu": "입추",
+        "chushu": "처서",
+        "bailu": "백로",
+        "qiufen": "추분",
+        "hanlu": "한로",
+        "shuangjiang": "상강",
+        "lidong": "입동",
+        "xiaoxue": "소설",
+        "daxue": "대설",
+        "dongzhi": "동지",
+        "xiaohan": "소한",
+        "dahan": "대한"
+      },
+      "termNow": "현재 절기",
+      "termNext": "다음 절기",
+      "termIn": "{days}일 {hours}시간 후",
+      "termChipAria": "현재 절기 {term}",
+      "lst": "지방 항성시",
+      "gmst": "그리니치 항성시",
+      "jd": "율리우스일",
+      "observer": "관측 지점",
+      "observerLine": "{name} · 위도 {lat}° · 경도 {lon}°",
+      "utcOffset": "UTC{offset}",
+      "sun": "태양",
+      "moon": "달",
+      "eclipticLon": "황경",
+      "eclipticLat": "황위",
+      "ra": "적경",
+      "dec": "적위",
+      "altitude": "고도",
+      "azimuth": "방위각",
+      "distance": "거리",
+      "aboveHorizon": "지평선 위",
+      "belowHorizon": "지평선 아래",
+      "zodiacPos": "{sign} {deg}° {min}′",
+      "ringAria": "24절기와 황도 12궁을 두른 황도 링",
+      "dialAria": "태양과 달의 현재 고도·방위 다이얼",
+      "pixelAria": "{phase} · 월령 {age}일",
+      "sectionSidereal": "항성시",
+      "sectionTerms": "24절기",
+      "sectionSun": "태양 정밀 위치",
+      "sectionMoon": "달 정밀 위치",
+      "sectionZodiac": "황도 12궁",
+      "live": "실시간 · 1초 갱신",
+      "unreadable": "지금은 천구 위치를 계산할 수 없습니다 · 잠시 후 다시 확인해 주세요"
+    },
+    "air": {
+      "title": "대기 상태",
+      "euAqi": "유럽 AQI",
+      "usAqi": "미국 AQI",
+      "pm25": "초미세먼지 PM2.5",
+      "pm10": "미세먼지 PM10",
+      "o3": "오존",
+      "no2": "이산화질소",
+      "so2": "이산화황",
+      "co": "일산화탄소",
+      "dust": "황사·사막 먼지",
+      "aod": "에어로졸 광학 두께",
+      "uvNow": "자외선 지수 · 지금",
+      "uvMax": "자외선 지수 · 오늘 최대",
+      "dominant": "지배 오염원",
+      "advice": {
+        "good": "공기가 맑습니다. 야외 활동과 환기에 좋은 때입니다.",
+        "fair": "공기가 양호합니다. 대부분의 사람에게 야외 활동은 무리가 없습니다.",
+        "moderate": "보통 수준입니다. 민감군은 장시간의 격한 야외 활동을 줄이는 편이 좋습니다.",
+        "poor": "나쁨 수준입니다. 민감군은 야외 활동을 줄이고, 격한 운동은 누구나 실내에서 하는 편이 좋습니다.",
+        "veryPoor": "매우 나쁨입니다. 바깥에 머무는 시간을 줄이고 창문을 닫아 두세요. 민감군은 외출을 삼가는 편이 좋습니다.",
+        "extreme": "위험 수준입니다. 야외 활동을 피하고 실내에 머무르세요. 외출이 꼭 필요하다면 짧게, 마스크 착용을 권합니다."
+      },
+      "unreadable": "대기질 신호를 읽을 수 없습니다 · 잠시 후 다시 시도해 주세요",
+      "unit": {
+        "ugm3": "μg/m³",
+        "index": "지수"
+      }
+    },
+    "detail": {
+      "open": {
+        "weather": "정밀 천구 뷰",
+        "cosmos": "정밀 천구 · 거시 척도",
+        "gastronomy": "한 접시의 과학"
+      },
+      "title": {
+        "weather": "시공간 · 항성시와 절기",
+        "cosmos": "거시 우주 · 정밀 천구와 거시 척도",
+        "gastronomy": "미식의 과학 · 햇빛에서 식탁까지"
+      },
+      "mirrorNote": "숏컷 1의 정밀 천구 뷰를 그대로 투영합니다"
+    }
+  }
+}

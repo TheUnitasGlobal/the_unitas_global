@@ -1,0 +1,495 @@
+/* ==========================================================================
+   §30 REV-42 (founder directive 2026-09-18) -- lane F: the tier-3 detail
+   shell and the precision sky view.
+   components/home/detail/DetailOpenButton.tsx (`.qw-detail-open`, the way
+   into tier 3, derived from the rail chip's metrics: 1.5px rim, pill
+   radius, 800-weight tracked uppercase -- §19 / §29), SlotDetailModal.tsx
+   (`.qw-detail-*` header lines) and SkyDetail.tsx (`.qw-sky-*`: the live
+   badge, five sections of 10px-radius tiles on THE ONE CARD SKIN tokens,
+   the 24-term ring and the 12-sign ring as plain SVG). Dark base unscoped
+   (a dark route has no --qw-ink / --qw-line, so the base reads only the
+   --qw-card-* tokens and literal greys), white re-key at the end under
+   html[data-unitas-surface='quantum-white']. No backdrop-filter, no blur,
+   motion on the --qw-ease / --qw-dur tokens, stopped under
+   prefers-reduced-motion, 44px targets under 768px, no horizontal
+   overflow at 360px, tabular-nums on every number.
+   ========================================================================== */
+
+/* ---- The tier-3 open chip ------------------------------------------------ */
+.qw-detail-open-row {
+  display: flex;
+  justify-content: flex-start;
+}
+.qw-detail-open {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 100%;
+  padding: 9px 14px 9px 12px;
+  border: 1.5px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 999px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+  color: #d1d5db;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--qw-dur) var(--qw-ease),
+    color var(--qw-dur) var(--qw-ease),
+    background-color var(--qw-dur) var(--qw-ease),
+    transform var(--qw-dur) var(--qw-ease);
+}
+.qw-detail-open-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qw-detail-open-orbit {
+  flex: 0 0 auto;
+  color: var(--qw-hub-accent, #d4af37);
+  transition: transform var(--qw-dur-slow) var(--qw-ease);
+}
+.qw-detail-open-enter {
+  flex: 0 0 auto;
+  opacity: 0.6;
+  transition: opacity var(--qw-dur) var(--qw-ease);
+}
+.qw-detail-open:hover,
+.qw-detail-open:focus-visible {
+  color: #fff;
+  border-color: var(--qw-hub-accent, #d4af37);
+  transform: translateY(-1px);
+}
+.qw-detail-open:hover .qw-detail-open-enter,
+.qw-detail-open:focus-visible .qw-detail-open-enter {
+  opacity: 1;
+}
+.qw-detail-open:hover .qw-detail-open-orbit {
+  transform: rotate(90deg);
+}
+.qw-detail-open:focus-visible {
+  outline: 2px solid var(--qw-hub-accent, #d4af37);
+  outline-offset: 2px;
+}
+.qw-detail-open:active {
+  transform: translateY(0);
+}
+
+/* ---- The tier-3 header ---------------------------------------------------- */
+.qw-detail-title {
+  overflow-wrap: anywhere;
+}
+.qw-detail-mirror {
+  font-size: 12px;
+  color: #6b7280;
+}
+.qw-detail-body {
+  min-width: 0;
+}
+
+/* ---- The sky view: shell and live badge ----------------------------------- */
+.qw-sky {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.qw-sky-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.qw-sky-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+.qw-sky-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--qw-hub-accent, #d4af37);
+  animation: qw-sky-pulse 2s var(--qw-ease) infinite;
+}
+@keyframes qw-sky-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.qw-sky-offset {
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  color: #6b7280;
+}
+
+/* ---- Sections and tiles --------------------------------------------------- */
+.qw-sky-section {
+  padding-top: 14px;
+  border-top: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  min-width: 0;
+}
+.qw-sky-section-title {
+  margin: 0 0 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+.qw-sky-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  gap: 8px;
+  min-width: 0;
+}
+.qw-sky-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: var(--qw-card-bg, rgba(5, 5, 8, 0.4));
+}
+.qw-sky-tile-hero {
+  grid-column: 1 / -1;
+}
+.qw-sky-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qw-sky-value {
+  font-size: 18px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+  color: #fff;
+  overflow-wrap: anywhere;
+}
+.qw-sky-value-hero {
+  font-size: 28px;
+  letter-spacing: 0.02em;
+}
+.qw-sky-sub {
+  font-size: 11.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #9ca3af;
+}
+.qw-sky-tile[data-tone='up'] .qw-sky-sub {
+  color: #3fa34d;
+}
+.qw-sky-tile[data-tone='down'] .qw-sky-sub {
+  color: #9ca3af;
+}
+.qw-sky-observer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  margin: 10px 0 0;
+}
+.qw-sky-observer-line {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #d1d5db;
+  overflow-wrap: anywhere;
+}
+
+/* ---- The two rings -------------------------------------------------------- */
+.qw-sky-ring-row {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px 18px;
+  min-width: 0;
+}
+.qw-sky-ring {
+  display: block;
+  width: 168px;
+  height: 168px;
+  max-width: 100%;
+  overflow: visible;
+}
+.qw-sky-ring-seg {
+  fill: rgba(255, 255, 255, 0.08);
+  stroke: rgba(5, 5, 8, 0.9);
+  stroke-width: 1;
+  transition: fill var(--qw-dur-slow) var(--qw-ease);
+}
+.qw-sky-ring-seg[data-active='1'] {
+  fill: var(--qw-hub-accent, #d4af37);
+}
+.qw-sky-ring g[data-sun='1'] .qw-sky-ring-seg {
+  fill: color-mix(in srgb, var(--qw-hub-accent, #d4af37) 45%, transparent);
+}
+.qw-sky-ring g[data-moon='1'] .qw-sky-ring-seg {
+  fill: rgba(255, 255, 255, 0.22);
+}
+.qw-sky-ring g[data-sun='1'][data-moon='1'] .qw-sky-ring-seg {
+  fill: color-mix(in srgb, var(--qw-hub-accent, #d4af37) 70%, #fff);
+}
+.qw-sky-ring-tick {
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 1;
+}
+.qw-sky-ring-index {
+  font-size: 9px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  fill: #9ca3af;
+}
+.qw-sky-ring g[data-sun='1'] .qw-sky-ring-index,
+.qw-sky-ring g[data-moon='1'] .qw-sky-ring-index {
+  fill: #fff;
+}
+.qw-sky-ring-sun {
+  fill: var(--qw-hub-accent, #d4af37);
+  stroke: #fff;
+  stroke-width: 1.5;
+  transition:
+    cx var(--qw-dur-slow) var(--qw-ease),
+    cy var(--qw-dur-slow) var(--qw-ease);
+}
+.qw-sky-ring-moon {
+  fill: #e5e7eb;
+  stroke: rgba(5, 5, 8, 0.9);
+  stroke-width: 1.5;
+  transition:
+    cx var(--qw-dur-slow) var(--qw-ease),
+    cy var(--qw-dur-slow) var(--qw-ease);
+}
+.qw-sky-ring-facts {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.qw-sky-term {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.qw-sky-term-now .qw-sky-term-name {
+  color: var(--qw-hub-accent, #d4af37);
+}
+.qw-sky-term-name {
+  font-size: 18px;
+}
+
+/* The twelve-sign legend beside the zodiac ring. */
+.qw-sky-signs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+.qw-sky-sign {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #9ca3af;
+  transition: color var(--qw-dur) var(--qw-ease);
+}
+.qw-sky-sign[data-sun='1'],
+.qw-sky-sign[data-moon='1'] {
+  color: #fff;
+}
+.qw-sky-sign-index {
+  flex: 0 0 16px;
+  font-size: 10.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #6b7280;
+}
+.qw-sky-sign-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.qw-sky-sign-mark {
+  flex: 0 0 auto;
+  padding: 1px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e5e7eb;
+}
+.qw-sky-sign-mark-sun {
+  border-color: var(--qw-hub-accent, #d4af37);
+  color: var(--qw-hub-accent, #d4af37);
+}
+
+/* ---- Loading skeleton (no observer yet) ----------------------------------- */
+.qw-sky-skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  gap: 8px;
+}
+.qw-sky-skeleton-tile {
+  display: block;
+  height: 56px;
+  border: 1px solid var(--qw-card-line, rgba(255, 255, 255, 0.1));
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  animation: qw-sky-pulse 1.6s var(--qw-ease) infinite;
+}
+.qw-sky-skeleton-hero {
+  grid-column: 1 / -1;
+  height: 72px;
+}
+
+/* ---- Narrow viewports ----------------------------------------------------- */
+@media (max-width: 767px) {
+  .qw-detail-open {
+    min-height: 44px;
+  }
+}
+@media (max-width: 479px) {
+  .qw-sky-ring-row {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+  .qw-sky-ring-facts,
+  .qw-sky-signs {
+    width: 100%;
+  }
+  .qw-sky-value-hero {
+    font-size: 26px;
+  }
+}
+
+/* ---- Reduced motion ------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .qw-sky-live-dot,
+  .qw-sky-skeleton-tile {
+    animation: none;
+  }
+  .qw-detail-open,
+  .qw-detail-open-orbit,
+  .qw-detail-open-enter,
+  .qw-sky-ring-seg,
+  .qw-sky-ring-sun,
+  .qw-sky-ring-moon,
+  .qw-sky-sign {
+    transition: none;
+  }
+  .qw-detail-open:hover .qw-detail-open-orbit {
+    transform: none;
+  }
+}
+
+/* ---- White surface re-key ------------------------------------------------- */
+html[data-unitas-surface='quantum-white'] .qw-detail-open {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-detail-open:hover,
+html[data-unitas-surface='quantum-white'] .qw-detail-open:focus-visible {
+  color: var(--qw-ink);
+  background: #fff;
+  border-color: var(--qw-hub-accent, var(--qw-blue));
+  box-shadow: 0 10px 26px -14px var(--qw-hub-accent, var(--qw-blue));
+}
+html[data-unitas-surface='quantum-white'] .qw-detail-open:focus-visible {
+  outline-color: var(--qw-hub-accent, var(--qw-blue));
+}
+html[data-unitas-surface='quantum-white'] .qw-detail-mirror,
+html[data-unitas-surface='quantum-white'] .qw-sky-offset,
+html[data-unitas-surface='quantum-white'] .qw-sky-label,
+html[data-unitas-surface='quantum-white'] .qw-sky-sign-index {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-live,
+html[data-unitas-surface='quantum-white'] .qw-sky-section-title,
+html[data-unitas-surface='quantum-white'] .qw-sky-sub,
+html[data-unitas-surface='quantum-white'] .qw-sky-observer-line,
+html[data-unitas-surface='quantum-white'] .qw-sky-sign {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-value,
+html[data-unitas-surface='quantum-white'] .qw-sky-sign[data-sun='1'],
+html[data-unitas-surface='quantum-white'] .qw-sky-sign[data-moon='1'] {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-tile[data-tone='down'] .qw-sky-sub {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-section {
+  border-top-color: var(--qw-line);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-tile,
+html[data-unitas-surface='quantum-white'] .qw-sky-skeleton-tile {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.7);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-skeleton-tile {
+  background: rgba(11, 18, 32, 0.06);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-ring-seg {
+  fill: rgba(11, 18, 32, 0.08);
+  stroke: #fff;
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-ring g[data-moon='1'] .qw-sky-ring-seg {
+  fill: rgba(11, 18, 32, 0.22);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-ring-tick {
+  stroke: rgba(11, 18, 32, 0.3);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-ring-index {
+  fill: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-ring g[data-sun='1'] .qw-sky-ring-index,
+html[data-unitas-surface='quantum-white'] .qw-sky-ring g[data-moon='1'] .qw-sky-ring-index {
+  fill: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-ring-moon {
+  fill: #fff;
+  stroke: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-sign-mark {
+  border-color: var(--qw-line-strong);
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-sky-sign-mark-sun {
+  border-color: var(--qw-hub-accent, var(--qw-blue));
+  color: var(--qw-hub-accent, var(--qw-blue));
+}

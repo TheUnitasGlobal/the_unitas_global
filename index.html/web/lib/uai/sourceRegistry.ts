@@ -1367,7 +1367,6 @@ export function omniRowsFor(family: OmniFamily = 'default'): OmniRows {
 const SLOT_FAMILY: Readonly<Record<string, OmniFamily>> = {
   weather: 'place',
   quake: 'place',
-  air: 'place',
   nation: 'place',
   nearby: 'place',
   awards: 'default',
@@ -1380,6 +1379,11 @@ const SLOT_FAMILY: Readonly<Record<string, OmniFamily>> = {
   paper: 'science',
   library: 'library',
   art: 'art',
+  // REV-42 D-1 (founder directive 2026-09-18): the `air` slot (`place`) is
+  // retired; the deep-space telemetry opens the science corpora and the
+  // world's table falls to the default pair.
+  cosmos: 'science',
+  gastronomy: 'default',
   // REV-41 D-7: the `uRanking` slot REV-35 M1 seated here is retired; the
   // `unitas` family itself stays for the U-Square hosts that open it.
 };
@@ -1560,6 +1564,15 @@ export const BROWSER_STORAGE_LEDGER: readonly BrowserStorageEntry[] = [
     storage: 'localStorage',
     purpose: { en: 'Last weather place and forecast so the weather slot renders instantly.', ko: '날씨 슬롯이 즉시 렌더되도록 마지막 장소와 예보를 보관합니다.' },
     retention: { en: '10 minutes, then refetched.', ko: '10분 후 다시 가져옵니다.' },
+  },
+  {
+    // REV-42 D-7 (1-A #13): the gastronomy deep modal's "hidden local eats"
+    // leg -- one Wikipedia geosearch beam around the visitor's place, filed
+    // under an ~11 m cell key so a revisit costs no request.
+    key: 'unitas.gastronomy.local.v1',
+    storage: 'localStorage',
+    purpose: { en: 'Nearby eateries found on Wikipedia around your place for the gastronomy slot, so revisiting costs no request.', ko: '미식 슬롯이 당신의 위치 주변에서 위키백과로 찾은 맛집 목록입니다. 다시 열 때 요청을 보내지 않습니다.' },
+    retention: { en: '24 hours, then refetched.', ko: '24시간 후 다시 가져옵니다.' },
   },
   {
     key: 'unitas.geo.cache.v1',

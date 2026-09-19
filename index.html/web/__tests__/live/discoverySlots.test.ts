@@ -16,6 +16,7 @@ import {
   parseFrankfurterV2,
   slotTtlMs,
   type FxCompassWidget,
+  type MoonPhaseWidget,
   type OmniRadarWidget,
   type SlotKey,
 } from '../../lib/live/discoverySlots';
@@ -28,6 +29,9 @@ import { sourceById } from '../../lib/uai/sourceRegistry';
 // first, every slot resolvable exactly once, deterministic rotation.
 // REV-41 SPEC.md D-7 -- the `uRanking` slot is retired; D-2 / D-3 / D-5 --
 // the one-target contract, the fx compass and the omni-radar adapters.
+// REV-42 SPEC.md D-1 (founder directive 2026-09-18) -- the `air` slot is
+// retired outright; `cosmos` and `gastronomy` lead the rail right after the
+// visitor's own sky; D-3 -- the weather card always carries the moon.
 
 describe('discovery slots registry', () => {
   // REV-23 M3.1: 24 -> 16 (the nine RSS news wires out, `awards` in).
@@ -36,15 +40,16 @@ describe('discovery slots registry', () => {
   // REV-35 M1: 17 -> 16 -- `uRanking` replaced `worldRanking` in place and
   // the trailing `unitasRanking` slot was deleted.
   // REV-41 D-7: 16 -> 15 -- `uRanking` retired outright.
-  it('ships exactly 15 slots: weather + 14 feed (incl. awards + newProducts)', () => {
-    expect(DISCOVERY_SLOTS.length).toBe(15);
-    expect(DISCOVERY_ROTATION.length).toBe(15);
+  // REV-42 D-1: 15 -> 16 -- `air` retired outright, `cosmos` + `gastronomy` in.
+  it('ships exactly 16 slots: weather + 15 feed (incl. awards + newProducts + cosmos + gastronomy)', () => {
+    expect(DISCOVERY_SLOTS.length).toBe(16);
+    expect(DISCOVERY_ROTATION.length).toBe(16);
   });
 
-  it('M3 (REV-29): the new-products theme is a feed slot in second position with a product anchor', () => {
+  it('M3 (REV-29) / REV-42 D-1: the new-products theme is a feed slot right after the three flagships with a product anchor', () => {
     const slot = findDiscoverySlot('newProducts');
     expect(slot?.kind).toBe('feed');
-    expect(DISCOVERY_ROTATION[1]).toBe('newProducts');
+    expect(DISCOVERY_ROTATION[3]).toBe('newProducts');
     expect(SLOT_QID.newProducts).toBe('Q2424752');
     expect(SLOT_SOURCES.newProducts).toEqual(['wikipedia']);
   });
@@ -84,22 +89,44 @@ describe('discovery slots registry', () => {
     expect(new Set(AWARD_KEYS).size).toBe(16);
   });
 
-  it('exactly 14 feed-kind slots (12 REV-20 themes + awards + newProducts) and no third kind', () => {
-    expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'feed').length).toBe(14);
+  it('exactly 15 feed-kind slots (11 REV-20 themes + awards + newProducts + cosmos + gastronomy) and no third kind', () => {
+    expect(DISCOVERY_SLOTS.filter((s) => s.kind === 'feed').length).toBe(15);
     for (const slot of DISCOVERY_SLOTS) expect(['weather', 'feed']).toContain(slot.kind);
   });
 
-  // REV-41 D-7 (1-F): the U-Ranking's seat closes up -- `air` moves into
-  // index 12 and nothing else shifts.
-  it('D-7: air takes index 12 between nation and library', () => {
-    expect(DISCOVERY_ROTATION[11]).toBe('nation');
-    expect(DISCOVERY_ROTATION[12]).toBe('air');
-    expect(DISCOVERY_ROTATION[13]).toBe('library');
-    expect(DISCOVERY_ROTATION[14]).toBe('nearby');
+  // REV-42 D-1: the three flagships lead (sky, cosmos, table), the launch
+  // wire follows, and the tail keeps its REV-41 order with the `air` seat
+  // closed up.
+  it('D-1 (REV-42): the exact sixteen-seat order -- flagships 0/1/2, newProducts 3, nation/library/nearby the tail', () => {
+    expect([...DISCOVERY_ROTATION]).toEqual([
+      'weather',
+      'cosmos',
+      'gastronomy',
+      'newProducts',
+      'mostRead',
+      'awards',
+      'history',
+      'crypto',
+      'quake',
+      'paper',
+      'fx',
+      'art',
+      'devPulse',
+      'nation',
+      'library',
+      'nearby',
+    ]);
+    expect(DISCOVERY_ROTATION[0]).toBe('weather');
+    expect(DISCOVERY_ROTATION[1]).toBe('cosmos');
+    expect(DISCOVERY_ROTATION[2]).toBe('gastronomy');
+    expect(DISCOVERY_ROTATION[3]).toBe('newProducts');
+    expect(DISCOVERY_ROTATION[13]).toBe('nation');
+    expect(DISCOVERY_ROTATION[14]).toBe('library');
+    expect(DISCOVERY_ROTATION[15]).toBe('nearby');
   });
 
-  it('the retired ranking slots -- worldRanking, unitasRanking and uRanking -- are gone for good', () => {
-    for (const key of ['worldRanking', 'unitasRanking', 'uRanking']) {
+  it('the retired slots -- worldRanking, unitasRanking, uRanking and (REV-42 D-1) air -- are gone for good', () => {
+    for (const key of ['worldRanking', 'unitasRanking', 'uRanking', 'air']) {
       expect(findDiscoverySlot(key as never), key).toBeUndefined();
       expect(DISCOVERY_ROTATION as readonly string[]).not.toContain(key);
       expect(key in SLOT_SOURCES, key).toBe(false);
@@ -112,8 +139,8 @@ describe('discovery slots registry', () => {
 
   // REV-41 D-2 (1-C): the single-target contract as data, and the flag on
   // every slot object in agreement with it.
-  it('D-2: SLOT_ONE_TARGET names the nine URL-less slots and every slot flag agrees', () => {
-    expect([...SLOT_ONE_TARGET].sort()).toEqual(['air', 'crypto', 'fx', 'library', 'nation', 'nearby', 'paper', 'quake', 'weather']);
+  it('D-2: SLOT_ONE_TARGET names the ten URL-less slots (REV-42: -air +cosmos +gastronomy) and every slot flag agrees', () => {
+    expect([...SLOT_ONE_TARGET].sort()).toEqual(['cosmos', 'crypto', 'fx', 'gastronomy', 'library', 'nation', 'nearby', 'paper', 'quake', 'weather']);
     for (const slot of DISCOVERY_SLOTS) {
       const listed = SLOT_ONE_TARGET.includes(slot.key);
       expect(slot.oneTarget === true, slot.key).toBe(listed);
@@ -142,9 +169,12 @@ describe('discovery slots registry', () => {
     }
   });
 
-  it('entity anchors are Wikidata ids and the air slot points at Q7391292', () => {
+  it('entity anchors are Wikidata ids; cosmos is the universe (Q1), gastronomy is food (Q2095), the air anchor is gone', () => {
     for (const qid of Object.values(SLOT_QID)) expect(qid).toMatch(/^Q\d+$/);
-    expect(SLOT_QID.air).toBe('Q7391292');
+    expect(SLOT_QID.cosmos).toBe('Q1');
+    expect(SLOT_QID.gastronomy).toBe('Q2095');
+    expect('air' in SLOT_QID).toBe(false);
+    expect(Object.values(SLOT_QID)).not.toContain('Q7391292');
   });
 
   it('TTL is kind-scoped: weather 10min, feed 15min (the 6h ranking window died with its kind)', () => {
@@ -167,6 +197,62 @@ describe('discovery slots registry', () => {
     expect(SLOT_SOURCES.fx).toEqual(['frankfurter', 'coinGecko']);
     expect(SLOT_PROVIDER.fx.name).toBe('Frankfurter (ECB) · CoinGecko');
     expect(SLOT_PROVIDER.fx.url).toBe('https://frankfurter.dev/');
+    // REV-42 D-1: both catalogues are bundled; Wikipedia is the outbound
+    // corpus (and the gastronomy local-eats beam), never a card request.
+    expect(SLOT_SOURCES.cosmos).toEqual(['wikipedia']);
+    expect(SLOT_SOURCES.gastronomy).toEqual(['wikipedia']);
+    expect('air' in SLOT_SOURCES).toBe(false);
+  });
+});
+
+/* ------------------------------------------------------------------ */
+/* REV-42 D-1 / D-3 / D-6 / D-7: the three flagships                     */
+/* ------------------------------------------------------------------ */
+
+describe('REV-42 flagship adapters', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  // D-3: the moon is computed before the forecast is asked for and rides on
+  // every outcome, so a visitor whose forecast cannot be read still sees
+  // tonight's moon, the lunar date and the solar term.
+  it('weather carries the moon-phase widget even when the forecast fetch rejects', async () => {
+    vi.stubGlobal('fetch', async () => {
+      throw new Error('offline');
+    });
+    const card = await findDiscoverySlot('weather')!.load({ locale: 'ko', country: 'KR' });
+    expect(card.facts).toEqual([]);
+    expect(card.items).toEqual([]);
+    expect(card.widget?.kind).toBe('moonPhase');
+    const widget = card.widget as MoonPhaseWidget;
+    expect(typeof widget.nowMs).toBe('number');
+    expect(widget.gregorian.m).toBeGreaterThanOrEqual(1);
+    expect(widget.gregorian.m).toBeLessThanOrEqual(12);
+    expect(typeof widget.phaseKey).toBe('string');
+    expect(typeof widget.termKey).toBe('string');
+  });
+
+  it.each(['cosmos', 'gastronomy'] as const)('%s resolves as a one-target feed slot and loads with zero network', async (key) => {
+    let calls = 0;
+    vi.stubGlobal('fetch', async () => {
+      calls += 1;
+      throw new Error('no network on the card');
+    });
+    const slot = findDiscoverySlot(key);
+    expect(slot).toBeTruthy();
+    expect(slot?.kind).toBe('feed');
+    expect(slot?.oneTarget).toBe(true);
+    expect(slot?.color).toMatch(/^#[0-9a-f]{6}$/i);
+    expect(SLOT_ONE_TARGET).toContain(key);
+    const card = await slot!.load({ locale: 'ko', country: 'KR' });
+    expect(Array.isArray(card.facts)).toBe(true);
+    expect(Array.isArray(card.items)).toBe(true);
+    expect(typeof card.updatedAt).toBe('number');
+    expect(Array.isArray(card.sections)).toBe(true);
+    // The card is a bundled catalogue: whatever the module renders, it never
+    // reached for the network to do it.
+    expect(calls).toBe(0);
   });
 });
 
@@ -551,8 +637,8 @@ describe('omni-radar adapter (REV-41 D-5)', () => {
     expect((seoul.widget as OmniRadarWidget).center.lat).toBeCloseTo(37.57, 1);
   });
 
-  it('SlotKey is closed over the fifteen keys', () => {
+  it('SlotKey is closed over the sixteen keys', () => {
     const keys: SlotKey[] = [...DISCOVERY_ROTATION];
-    expect(keys).toHaveLength(15);
+    expect(keys).toHaveLength(16);
   });
 });

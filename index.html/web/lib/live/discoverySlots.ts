@@ -29,6 +29,17 @@
  * `knownPlace`, D-5 rebuilds the nearby adapter as the omni-radar
  * (lib/live/omniRadar.ts), and a card may now carry a typed `widget` for
  * those two (D-8 renders it).
+ *
+ * REV-42 (founder directive 2026-09-18): sixteen slots -- weather plus
+ * fifteen feed themes. D-1 retires the `air` slot outright (its Open-Meteo
+ * air-quality reading is folded into the weather deep panel, D-4) and seats
+ * two new flagships directly after the visitor's own sky: `cosmos` (the
+ * deep-space telemetry, lib/live/cosmos.ts) and `gastronomy` (the world's
+ * table, lib/live/gastronomy.ts). Both are pure catalogues ranged from the
+ * visitor's point with ZERO network on the card -- API dependency 0, the
+ * founder's mission 4. D-3 makes the weather card carry the moon-phase
+ * widget (lib/live/skyAlmanac.ts) on EVERY load, the empty card included,
+ * so the moon rises even when the forecast cannot be read.
  */
 import {
   Activity,
@@ -44,8 +55,9 @@ import {
   MapPinned,
   PackageOpen,
   Palette,
+  Telescope,
   Terminal,
-  Wind,
+  UtensilsCrossed,
   type LucideIcon,
 } from 'lucide-react';
 import { wikiLangFor } from '@/lib/uai/liveSuggest';
@@ -88,6 +100,17 @@ import {
   type RadarRawHit,
 } from '@/lib/live/omniRadar';
 import { readGeoIpFix } from '@/lib/live/geoIp';
+// REV-42 D-3 / D-6 / D-7: the three flagship engines. Only the type and the
+// one factory are imported from the almanac (lane A); the cosmos and
+// gastronomy modules import this module's TYPES back (erased at runtime),
+// so there is no evaluation-time cycle.
+import { moonPhaseWidgetFor, type MoonPhaseWidget } from '@/lib/live/skyAlmanac';
+import { buildCosmosCard, type CosmosScopeWidget } from '@/lib/live/cosmos';
+import { buildGastronomyCard } from '@/lib/live/gastronomy';
+
+/** REV-42 §3: the two flagship widget types travel with the card contract,
+ *  so a consumer of `SlotWidget` never has to know which module owns them. */
+export type { MoonPhaseWidget, CosmosScopeWidget };
 
 /** The fx base lives with the compass maths now (REV-41 D-3); re-exported
  *  so every pre-REV-41 importer of this module keeps compiling. */
@@ -119,9 +142,12 @@ export type FeedSlotKey =
   | 'paper'
   | 'library'
   | 'art'
-  | 'air'
   | 'nation'
-  | 'nearby';
+  | 'nearby'
+  // REV-42 D-1: the two flagships that took the retired `air` seat's place
+  // at the head of the rotation.
+  | 'cosmos'
+  | 'gastronomy';
 
 export type SlotKey = 'weather' | FeedSlotKey;
 
@@ -265,7 +291,9 @@ export interface FxCompassWidget {
   parity: FxParityRow[];
 }
 
-export type SlotWidget = OmniRadarWidget | FxCompassWidget;
+/** REV-42 D-3 / D-6: the moon-phase pixel (weather) and the cosmos scope
+ *  (cosmos) join the two REV-41 widgets. */
+export type SlotWidget = OmniRadarWidget | FxCompassWidget | MoonPhaseWidget | CosmosScopeWidget;
 
 export interface SlotCard {
   facts: SlotFact[];
@@ -317,7 +345,7 @@ export interface DiscoverySlot {
 /** REV-41 D-2: every slot whose items carry no outbound URL -- the contract
  *  the carousel and the E2E sweep read; each listed slot object also sets
  *  `oneTarget: true` (discoverySlots.test pins the two in agreement). */
-export const SLOT_ONE_TARGET: readonly SlotKey[] = ['weather', 'fx', 'crypto', 'quake', 'paper', 'library', 'air', 'nation', 'nearby'];
+export const SLOT_ONE_TARGET: readonly SlotKey[] = ['weather', 'cosmos', 'gastronomy', 'fx', 'crypto', 'quake', 'paper', 'library', 'nation', 'nearby'];
 
 const EMPTY_CARD: SlotCard = { facts: [], items: [], updatedAt: Date.now(), cursor: null };
 
@@ -341,8 +369,9 @@ function dayOfYear(): number {
   return Math.floor((Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) - start) / 86_400_000);
 }
 
-/** The visitor's place for the country-scoped slots (`air`, `nation`,
- *  `nearby`): the weather slot's own cache first, so those slots cost zero
+/** The visitor's place for the place-anchored slots (`nation`, `nearby`,
+ *  and REV-42's `cosmos` observer / `gastronomy` local beam): the weather
+ *  slot's own cache first, so those slots cost zero
  *  extra geolocation; else (REV-41 D-4) the Geo-IP fix the session already
  *  resolved for `resolveCountry` -- the visitor's REAL point of access, city
  *  name and all, instead of the language's capital; else the locale
@@ -370,11 +399,19 @@ const weatherSlot: DiscoverySlot = {
   color: '#4a90d9',
   oneTarget: true,
   async load({ locale, signal }) {
+    // REV-42 D-3: the moon is computed BEFORE the forecast is asked for and
+    // rides on every outcome -- the empty card included -- because the
+    // almanac needs no network: a visitor whose forecast cannot be read
+    // still sees tonight's moon, the lunar date and the solar term. One
+    // `Date.now()` per load (allowed in load(); never in render), handed
+    // to the pure almanac with the device's UTC offset for the civil date.
+    const nowMs = Date.now();
+    const widget: MoonPhaseWidget = moonPhaseWidgetFor(nowMs, locale, -new Date(nowMs).getTimezoneOffset());
     const cached = readWeatherCache();
-    const fresh = cached && Date.now() - cached.at < 10 * 60 * 1000;
+    const fresh = cached && nowMs - cached.at < 10 * 60 * 1000;
     const place = cached?.place ?? DEFAULT_PLACE[locale] ?? DEFAULT_PLACE.en;
     const forecast = fresh ? cached!.forecast : await fetchForecast(place, signal ?? new AbortController().signal).catch(() => null);
-    if (!forecast) return EMPTY_CARD;
+    if (!forecast) return { ...EMPTY_CARD, widget };
     if (!fresh) writeWeatherCache(place, forecast);
     const cond = conditionOf(forecast.current.code);
     const cityValue = [place.country, place.name].filter(Boolean).join(' / ');
@@ -390,10 +427,46 @@ const weatherSlot: DiscoverySlot = {
         { labelKey: 'Rev20.slots.facts.feelsLike', value: String(Math.round(forecast.current.feelsLike)), unit: '°' },
       ],
       items: [],
-      updatedAt: fresh ? cached!.at : Date.now(),
+      updatedAt: fresh ? cached!.at : nowMs,
       cursor: null,
+      widget,
     };
   },
+};
+
+/* ------------------------------------------------------------------ */
+/* REV-42 D-6 / D-7: the two flagships after the sky                    */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Slot 1 -- 거시 우주 텔레메트리. A bundled catalogue of 24 deep-sky objects
+ * ranged from the visitor's own point by the celestial engine: no request
+ * on the card, none in the deep modal (`SLOT_SOURCES.cosmos` names Wikipedia
+ * for the OUTBOUND links only). The one `Date.now()` per load is handed to
+ * the pure builder so lib/live/cosmos.ts stays clock-free (1-A #14).
+ */
+const cosmosSlot: DiscoverySlot = {
+  key: 'cosmos',
+  kind: 'feed',
+  icon: Telescope,
+  color: '#8b5cf6',
+  oneTarget: true,
+  load: (ctx, cursor) => Promise.resolve(buildCosmosCard(ctx, cursor, Date.now())),
+};
+
+/**
+ * Slot 2 -- 글로벌 미식·식문화. The card is a bundled catalogue (the trending
+ * pick for this hour, no network); only the deep modal's "hidden local
+ * eats" leg spends one Wikipedia geosearch beam, cached 24 h on the device
+ * (`unitas.gastronomy.local.v1`). Same clock handover as the cosmos slot.
+ */
+const gastronomySlot: DiscoverySlot = {
+  key: 'gastronomy',
+  kind: 'feed',
+  icon: UtensilsCrossed,
+  color: '#f59e0b',
+  oneTarget: true,
+  load: (ctx, cursor) => buildGastronomyCard(ctx, cursor, Date.now()),
 };
 
 /* ------------------------------------------------------------------ */
@@ -984,48 +1057,10 @@ const artSlot: DiscoverySlot = {
   },
 };
 
-interface AirQualityResponse {
-  current?: { pm10?: number; pm2_5?: number; european_aqi?: number };
-}
-
-function aqiBand(aqi: number): string {
-  if (aqi <= 20) return 'good';
-  if (aqi <= 40) return 'fair';
-  if (aqi <= 60) return 'moderate';
-  if (aqi <= 80) return 'poor';
-  if (aqi <= 100) return 'veryPoor';
-  return 'extreme';
-}
-
-const airSlot: DiscoverySlot = {
-  key: 'air',
-  kind: 'feed',
-  icon: Wind,
-  color: '#63b3ed',
-  oneTarget: true,
-  async load(ctx) {
-    const { signal } = ctx;
-    const place = knownPlace(ctx);
-    const json = await safeJson<AirQualityResponse>(
-      `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${place.lat}&longitude=${place.lon}&current=pm10,pm2_5,european_aqi`,
-      signal,
-    );
-    const c = json?.current;
-    if (!c || typeof c.european_aqi !== 'number') return EMPTY_CARD;
-    return {
-      facts: [
-        { labelKey: `Rev20.slots.facts.aqi.${aqiBand(c.european_aqi)}`, value: '', emphasis: true },
-        { labelKey: 'Rev20.slots.facts.aqiValue', value: String(Math.round(c.european_aqi)) },
-        { labelKey: 'Rev20.slots.facts.pm25', value: c.pm2_5 !== undefined ? c.pm2_5.toFixed(1) : '—' },
-        { labelKey: 'Rev20.slots.facts.pm10', value: c.pm10 !== undefined ? c.pm10.toFixed(1) : '—' },
-        { labelKey: 'Rev20.slots.facts.city', value: place.name },
-      ],
-      items: [],
-      updatedAt: Date.now(),
-      cursor: null,
-    };
-  },
-};
+// REV-42 D-1: the `air` adapter (Open-Meteo air-quality, REV-20) that lived
+// here is retired outright; its reading is fused into the weather deep
+// panel's air block (D-4, lib/live/weatherDeep.ts), where `Rev20.slots.facts
+// .{aqi.*,aqiValue,pm25,pm10}` are still read.
 
 interface WorldBankPoint {
   date?: string;
@@ -1192,6 +1227,9 @@ const nearbySlot: DiscoverySlot = {
 /* ------------------------------------------------------------------ */
 
 const feedSlots: readonly DiscoverySlot[] = [
+  // REV-42 D-1: the two flagships register here; `airSlot` is gone.
+  cosmosSlot,
+  gastronomySlot,
   historySlot,
   quakeSlot,
   mostReadSlot,
@@ -1201,7 +1239,6 @@ const feedSlots: readonly DiscoverySlot[] = [
   paperSlot,
   librarySlot,
   artSlot,
-  airSlot,
   nationSlot,
   nearbySlot,
 ];
@@ -1229,11 +1266,18 @@ const SLOT_BY_KEY = new Map<SlotKey, DiscoverySlot>(
  *  news wires out and `awards` in. REV-29 M3: 16 -> 17, `newProducts` in.
  *  REV-35 M1 (D-1): 17 -> 16 -- `uRanking` took the world ranking's seat at
  *  index 12. REV-41 D-7: 16 -> 15 -- `uRanking` retired outright, `air`
- *  moves up into index 12 and nothing else shifts. */
+ *  moves up into index 12 and nothing else shifts. REV-42 D-1 (founder
+ *  directive 2026-09-18): 15 -> 16 -- `air` retired outright and the three
+ *  flagships lead: the visitor's own sky (weather, with the moon), the
+ *  deep-space telemetry (cosmos) and the world's table (gastronomy) at
+ *  0 / 1 / 2; the REV-29 launch wire follows at 3 and the other twelve
+ *  keep their relative order. */
 export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'weather',
-  // REV-29 M3: the launch wire sits second -- the first data slot after the
-  // visitor's own sky, where the founder asked for maximum exposure.
+  'cosmos',
+  'gastronomy',
+  // REV-29 M3: the launch wire sits right after the flagships -- the first
+  // wire slot, where the founder asked for maximum exposure.
   'newProducts',
   'mostRead',
   'awards',
@@ -1245,7 +1289,6 @@ export const DISCOVERY_ROTATION: readonly SlotKey[] = [
   'art',
   'devPulse',
   'nation',
-  'air',
   'library',
   'nearby',
 ];
@@ -1269,9 +1312,13 @@ export const SLOT_SOURCES: Record<SlotKey, readonly SourceId[]> = {
   paper: ['openAlex'],
   library: ['openLibrary'],
   art: ['theMet'],
-  air: ['openMeteo'],
   nation: ['worldBank'],
   nearby: ['wikipedia'],
+  // REV-42 D-1: both catalogues are bundled and ranged locally; Wikipedia is
+  // the OUTBOUND corpus (and gastronomy's one local-eats beam), so the meta
+  // line names the local engine first (1-A #12: Rev42.<slot>.source).
+  cosmos: ['wikipedia'],
+  gastronomy: ['wikipedia'],
 };
 
 export interface SlotProvider {
@@ -1310,8 +1357,10 @@ export const SLOT_QID: Partial<Record<SlotKey, string>> = {
   paper: 'Q13442814', // scholarly article
   library: 'Q571', // book
   art: 'Q838948', // work of art
-  air: 'Q7391292', // air
   nation: 'Q6256', // country
+  // REV-42 D-1: the `air` anchor (Q7391292) retired with its slot.
+  cosmos: 'Q1', // universe
+  gastronomy: 'Q2095', // food
 };
 
 export const DISCOVERY_SLOTS: readonly DiscoverySlot[] = DISCOVERY_ROTATION.map((k) => SLOT_BY_KEY.get(k)!).filter(Boolean);

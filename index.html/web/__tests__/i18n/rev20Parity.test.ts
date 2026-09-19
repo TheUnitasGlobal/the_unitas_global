@@ -29,13 +29,19 @@ describe('REV-20 i18n', () => {
   const enKeys = Object.keys(en).sort();
 
   // REV-29 M3: +2 -- the `newProducts` slot's title and tag (74 -> 76).
-  it('en carries the slots namespace: rail label, 14 slot titles/tags (weather + 12 feed themes + newProducts), fact labels', () => {
-    expect(enKeys.length).toBe(76);
+  // REV-42 D-8 (founder directive 2026-09-18): -2 `slots.air.{title,tag}`
+  // (the slot is retired, scripts/apply-rev42-i18n.mjs DELETEs the object)
+  // +2 `slots.cosmos.{title,tag}` +2 `slots.gastronomy.{title,tag}` (76 -> 78).
+  // The AQI fact labels STAY: the weather deep panel's air block reads them.
+  it('en carries the slots namespace: rail label, 15 slot titles/tags (weather + 11 feed themes + newProducts + cosmos + gastronomy), fact labels', () => {
+    expect(enKeys.length).toBe(78);
     expect(en['slots.railLabel']).toBeTruthy();
-    for (const k of ['weather', 'history', 'quake', 'mostRead', 'fx', 'crypto', 'devPulse', 'paper', 'library', 'art', 'air', 'nation', 'nearby', 'newProducts']) {
-      expect(en[`slots.${k}.title`]).toBeTruthy();
-      expect(en[`slots.${k}.tag`]).toBeTruthy();
+    for (const k of ['weather', 'history', 'quake', 'mostRead', 'fx', 'crypto', 'devPulse', 'paper', 'library', 'art', 'nation', 'nearby', 'newProducts', 'cosmos', 'gastronomy']) {
+      expect(en[`slots.${k}.title`], k).toBeTruthy();
+      expect(en[`slots.${k}.tag`], k).toBeTruthy();
     }
+    expect(en['slots.air.title']).toBeUndefined();
+    expect(en['slots.air.tag']).toBeUndefined();
     for (const band of ['good', 'fair', 'moderate', 'poor', 'veryPoor', 'extreme']) {
       expect(en[`slots.facts.aqi.${band}`]).toBeTruthy();
     }

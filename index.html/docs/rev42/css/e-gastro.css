@@ -1,0 +1,175 @@
+/* ---- §30 lane E: REV-42 D-7 gastronomy tier 3 (components/home/detail/
+   GastronomyDetail.tsx). The reading surface inside the tier-3 shell: a
+   header (eyebrow / plate name / ingredient · origin / three chips / the
+   "why" line) and the three `[data-gastro-section]` blocks. No interactive
+   control lives here (the shell owns close; the popup owns the open chip),
+   so there is no :focus-visible rule to write and no motion to reduce. Dark
+   base unscoped from the card tokens, white re-key under the surface
+   prefix. No backdrop-filter, no blur, no transform on html/body; the grid
+   collapses to one column under 767px and nothing exceeds 360px.
+   -------------------------------------------------------------------------- */
+.qw-gastro-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+.qw-gastro-head {
+  padding: 14px 16px 16px;
+  border: 1px solid var(--qw-card-line);
+  border-radius: 10px;
+  background: var(--qw-card-bg);
+  min-width: 0;
+}
+.qw-gastro-eyebrow {
+  margin: 0 0 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.qw-gastro-title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.1;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+  overflow-wrap: anywhere;
+}
+.qw-gastro-sub {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  margin: 6px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #d1d5db;
+}
+.qw-gastro-ingredient {
+  color: var(--qw-hub-accent, #d4af37);
+}
+.qw-gastro-sub-sep {
+  color: #6b7280;
+}
+.qw-gastro-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.qw-gastro-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 3px 10px;
+  border: 1px solid var(--qw-card-line);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #d1d5db;
+  background: rgba(255, 255, 255, 0.04);
+  white-space: nowrap;
+}
+.qw-gastro-chip[data-kind='pathway'] {
+  border-color: var(--qw-hub-accent, #d4af37);
+  color: var(--qw-hub-accent, #d4af37);
+  text-transform: none;
+  letter-spacing: 0.02em;
+  white-space: normal;
+}
+.qw-gastro-why {
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #9ca3af;
+}
+.qw-gastro-section {
+  padding: 14px 16px;
+  border: 1px solid var(--qw-card-line);
+  border-radius: 10px;
+  background: var(--qw-card-bg);
+  min-width: 0;
+}
+.qw-gastro-section-title {
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+.qw-gastro-body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #e5e7eb;
+  overflow-wrap: anywhere;
+}
+.qw-gastro-energy {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border: 1px solid var(--qw-card-line);
+  border-left: 3px solid var(--qw-hub-accent, #d4af37);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+.qw-gastro-energy-line {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.35;
+  color: #fff;
+}
+.qw-gastro-energy-note {
+  margin: 4px 0 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #9ca3af;
+}
+@media (max-width: 767px) {
+  .qw-gastro-title {
+    font-size: 24px;
+  }
+  .qw-gastro-head,
+  .qw-gastro-section {
+    padding: 12px 14px;
+  }
+}
+/* White surface re-key. */
+html[data-unitas-surface='quantum-white'] .qw-gastro-title,
+html[data-unitas-surface='quantum-white'] .qw-gastro-energy-line {
+  color: var(--qw-ink);
+}
+html[data-unitas-surface='quantum-white'] .qw-gastro-sub,
+html[data-unitas-surface='quantum-white'] .qw-gastro-body,
+html[data-unitas-surface='quantum-white'] .qw-gastro-chip {
+  color: var(--qw-ink-2);
+}
+html[data-unitas-surface='quantum-white'] .qw-gastro-eyebrow,
+html[data-unitas-surface='quantum-white'] .qw-gastro-section-title,
+html[data-unitas-surface='quantum-white'] .qw-gastro-why,
+html[data-unitas-surface='quantum-white'] .qw-gastro-energy-note,
+html[data-unitas-surface='quantum-white'] .qw-gastro-sub-sep {
+  color: var(--qw-ink-3);
+}
+html[data-unitas-surface='quantum-white'] .qw-gastro-ingredient,
+html[data-unitas-surface='quantum-white'] .qw-gastro-chip[data-kind='pathway'] {
+  color: var(--qw-hub-accent, var(--qw-blue));
+  border-color: var(--qw-hub-accent, var(--qw-blue));
+}
+html[data-unitas-surface='quantum-white'] .qw-gastro-chip,
+html[data-unitas-surface='quantum-white'] .qw-gastro-energy {
+  border-color: var(--qw-line-strong);
+  background: rgba(255, 255, 255, 0.7);
+}
+html[data-unitas-surface='quantum-white'] .qw-gastro-energy {
+  border-left-color: var(--qw-hub-accent, var(--qw-blue));
+}

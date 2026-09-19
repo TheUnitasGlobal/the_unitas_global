@@ -1,0 +1,939 @@
+{
+  "Rev42": {
+    "cosmos": {
+      "source": "Moteur céleste UNITAS · Wikipedia",
+      "rowMeta": "Alt. {alt}° · {az} · {dist}",
+      "scopeAria": "Cadran de l'horizon · hauteur et azimut actuels de l'objet du jour, du Soleil, de la Lune et du centre galactique",
+      "lightYears": "{n} années-lumière",
+      "kmPerSec": "{v} km/s",
+      "scopeState": {
+        "loading": "Calcul du ciel au-dessus de vous",
+        "unreadable": "Le signal céleste est illisible · veuillez réessayer dans un instant"
+      },
+      "facts": {
+        "objectOfDay": "Objet du jour",
+        "type": "Type",
+        "constellation": "Constellation",
+        "distance": "Distance",
+        "lightLeft": "Départ de la lumière",
+        "altitude": "Hauteur actuelle",
+        "visibility": "Visibilité",
+        "observer": "Point d'observation",
+        "earthOrbit": "Vitesse orbitale de la Terre",
+        "travelledToday": "Distance parcourue depuis minuit",
+        "galacticOrbit": "Orbite galactique du Système solaire",
+        "cmbDipole": "Mouvement par rapport au fond diffus cosmologique",
+        "galacticCenter": "Centre galactique"
+      },
+      "visibility": {
+        "visible": "Au-dessus de l'horizon en ce moment",
+        "belowHorizon": "Sous l'horizon",
+        "daylight": "Masqué par la lumière du jour"
+      },
+      "lightLeft": {
+        "ago": "Partie il y a {n} ans",
+        "bce": "Partie en {year} av. J.-C.",
+        "ce": "Partie en {year} apr. J.-C."
+      },
+      "types": {
+        "galaxy": "Galaxie",
+        "nebula": "Nébuleuse",
+        "openCluster": "Amas ouvert",
+        "globularCluster": "Amas globulaire",
+        "blackHole": "Trou noir",
+        "pulsar": "Pulsar",
+        "quasar": "Quasar",
+        "star": "Étoile",
+        "supernovaRemnant": "Rémanent de supernova",
+        "planetaryNebula": "Nébuleuse planétaire"
+      },
+      "constellations": {
+        "andromeda": "Andromède",
+        "canesVenatici": "Chiens de chasse",
+        "virgo": "Vierge",
+        "dorado": "Dorade",
+        "centaurus": "Centaure",
+        "orion": "Orion",
+        "taurus": "Taureau",
+        "lyra": "Lyre",
+        "aquarius": "Verseau",
+        "carina": "Carène",
+        "serpens": "Serpent",
+        "hercules": "Hercule",
+        "sagittarius": "Sagittaire",
+        "cygnus": "Cygne",
+        "vela": "Voiles",
+        "canisMajor": "Grand Chien"
+      },
+      "objects": {
+        "m31": {
+          "name": "Galaxie d'Andromède",
+          "note": "La grande spirale la plus proche, à environ 2,5 millions d'années-lumière et visible à l'œil nu ; elle se rapproche de la Voie lactée à près de 110 km/s."
+        },
+        "m51": {
+          "name": "Galaxie du Tourbillon",
+          "note": "La première galaxie dont la structure spirale fut reconnue, par Lord Rosse en 1845 ; elle est liée par la gravitation à sa petite compagne NGC 5195."
+        },
+        "m104": {
+          "name": "Galaxie du Sombrero",
+          "note": "Découverte par Pierre Méchain en 1781 ; son bulbe lumineux traversé d'une épaisse bande de poussière dessine le bord et la calotte d'un chapeau, d'où son nom."
+        },
+        "m87": {
+          "name": "M87",
+          "note": "Une elliptique géante au cœur de l'amas de la Vierge ; son trou noir M87* fut le premier jamais photographié, par l'Event Horizon Telescope en 2019."
+        },
+        "lmc": {
+          "name": "Grand Nuage de Magellan",
+          "note": "Un satellite de la Voie lactée visible à l'œil nu depuis l'hémisphère sud ; la supernova SN 1987A, la plus proche observée depuis 1604, y a explosé en 1987."
+        },
+        "centaurusA": {
+          "name": "Centaurus A",
+          "note": "La radiogalaxie la plus proche, relevée par James Dunlop en 1826 ; les jets de son trou noir alimentent des lobes radio de plusieurs centaines de milliers d'années-lumière."
+        },
+        "m42": {
+          "name": "Nébuleuse d'Orion",
+          "note": "La région de formation d'étoiles massives la plus proche, à environ 1 344 années-lumière et visible à l'œil nu ; l'amas du Trapèze l'illumine de l'intérieur."
+        },
+        "m1": {
+          "name": "Nébuleuse du Crabe",
+          "note": "Rémanent de la supernova observée par des astronomes chinois et japonais en 1054 ; son pulsar tourne environ 30 fois par seconde, et c'est la première entrée du catalogue de Messier."
+        },
+        "m57": {
+          "name": "Nébuleuse de la Lyre",
+          "note": "Une nébuleuse planétaire découverte par Antoine Darquier en 1779 ; les couches externes rejetées par une étoile mourante semblable au Soleil forment un anneau autour de sa naine blanche."
+        },
+        "ngc7293": {
+          "name": "Nébuleuse de l'Hélice",
+          "note": "L'une des nébuleuses planétaires les plus proches, à environ 655 années-lumière, découverte par Karl Ludwig Harding vers 1824."
+        },
+        "carina": {
+          "name": "Nébuleuse de la Carène",
+          "note": "Une vaste nébuleuse australe relevée par Lacaille en 1752, plus grande que celle d'Orion et abritant Eta Carinae, l'une des étoiles les plus massives connues."
+        },
+        "m16": {
+          "name": "Nébuleuse de l'Aigle",
+          "note": "Elle abrite les Piliers de la création, ces colonnes de formation stellaire photographiées par le télescope spatial Hubble en 1995, où des étoiles naissent encore."
+        },
+        "m45": {
+          "name": "Pléiades",
+          "note": "Un amas ouvert à environ 444 années-lumière dont les six ou sept étoiles visibles à l'œil nu apparaissent chez Homère et dans la Bible ; son nom japonais est Subaru."
+        },
+        "m13": {
+          "name": "Amas d'Hercule",
+          "note": "Un amas globulaire découvert par Edmond Halley en 1714 ; en 1974, le radiotélescope d'Arecibo y a envoyé un message à l'intention d'une éventuelle civilisation à l'écoute."
+        },
+        "omegaCentauri": {
+          "name": "Oméga du Centaure",
+          "note": "Le plus grand et le plus brillant amas globulaire de la Voie lactée, fort de quelque 10 millions d'étoiles ; Ptolémée l'avait catalogué comme une étoile unique."
+        },
+        "hyades": {
+          "name": "Hyades",
+          "note": "L'amas ouvert le plus proche du Soleil, qui dessine le V du visage du Taureau ; la brillante Aldébaran à sa pointe est une étoile d'avant-plan bien plus proche, non un membre."
+        },
+        "sgrA": {
+          "name": "Sagittarius A*",
+          "note": "Le trou noir supermassif central de la Voie lactée, d'environ 4 millions de masses solaires ; le suivi des étoiles qui l'entourent a valu le prix Nobel de physique 2020."
+        },
+        "cygnusX1": {
+          "name": "Cygnus X-1",
+          "note": "Une source de rayons X découverte en 1964, le premier objet largement admis comme trou noir ; Stephen Hawking a reconnu en 1990 avoir perdu son pari avec Kip Thorne à son sujet."
+        },
+        "velaPulsar": {
+          "name": "Pulsar des Voiles",
+          "note": "Découvert en 1968, il tourne sur lui-même toutes les 89 millisecondes au sein du rémanent d'une supernova vieille de 11 000 ans et compte parmi les sources gamma les plus brillantes."
+        },
+        "quasar3c273": {
+          "name": "3C 273",
+          "note": "Le premier quasar identifié, lorsque Maarten Schmidt a lu son décalage vers le rouge en 1963 ; toujours le plus brillant de notre ciel, sa lumière est vieille de 2,4 milliards d'années."
+        },
+        "betelgeuse": {
+          "name": "Bételgeuse",
+          "note": "La supergéante rouge d'Orion, assez vaste pour atteindre l'orbite de Jupiter si on la plaçait au Soleil ; sa grande baisse d'éclat de 2019–2020 était visible à l'œil nu."
+        },
+        "proxima": {
+          "name": "Proxima du Centaure",
+          "note": "L'étoile la plus proche du Soleil, une naine rouge découverte par Robert Innes en 1915 ; la planète Proxima b a été confirmée dans sa zone habitable en 2016."
+        },
+        "vega": {
+          "name": "Véga",
+          "note": "La première étoile après le Soleil à avoir été photographiée, à Harvard en 1850 ; la précession de l'axe terrestre en refera l'étoile polaire dans environ 12 000 ans."
+        },
+        "sirius": {
+          "name": "Sirius",
+          "note": "L'étoile la plus brillante du ciel nocturne, à 8,6 années-lumière ; sa compagne Sirius B, observée par Alvan Clark en 1862, fut l'une des premières naines blanches connues."
+        }
+      },
+      "sections": {
+        "trajectory": "Trajectoire du temps",
+        "lineage": "Héritage stellaire",
+        "relativity": "Gravité et relativité",
+        "scale": "Échelle des superamas"
+      },
+      "trajectory": {
+        "line": "La lumière de {object} est partie il y a {years} ans, à {epoch}"
+      },
+      "epochs": {
+        "thisLife": "l'échelle d'une seule vie humaine",
+        "writtenHistory": "l'époque de l'histoire écrite",
+        "agriculture": "l'époque des débuts de l'agriculture",
+        "homoSapiens": "l'époque des premiers Homo sapiens",
+        "earlyHumans": "l'époque des premiers humains tailleurs d'outils",
+        "greatApes": "l'époque où les lignées des grands singes se sont séparées",
+        "dinosaursEnd": "l'époque de l'essor des mammifères après les dinosaures",
+        "dinosaurs": "l'époque où les dinosaures régnaient sur la Terre",
+        "complexLife": "la première époque de la vie complexe",
+        "earlyEarth": "la Terre primitive de la vie unicellulaire"
+      },
+      "lineage": {
+        "bodyIntro": "D'où viennent les atomes de votre corps",
+        "intro": "Votre hydrogène vient du Big Bang, votre carbone et votre oxygène du cœur des étoiles, votre fer des supernovas et votre or de la collision d'étoiles à neutrons",
+        "bodyShare": "{pct} % de la masse corporelle",
+        "origins": {
+          "bigBang": "Nucléosynthèse primordiale",
+          "stellarFusion": "Fusion stellaire",
+          "supernova": "Explosion de supernova",
+          "neutronMerger": "Fusion d'étoiles à neutrons",
+          "cosmicRay": "Spallation par les rayons cosmiques"
+        },
+        "elements": {
+          "oxygen": "Oxygène",
+          "carbon": "Carbone",
+          "hydrogen": "Hydrogène",
+          "nitrogen": "Azote",
+          "calcium": "Calcium",
+          "phosphorus": "Phosphore",
+          "iron": "Fer",
+          "gold": "Or"
+        }
+      },
+      "relativity": {
+        "gLocal": "Gravité locale",
+        "rotation": "Vitesse de rotation",
+        "gps": "Décalage des horloges GPS",
+        "dilation": "Dilatation du temps en surface",
+        "lightMoon": "Trajet de la lumière lunaire",
+        "lightSun": "Trajet de la lumière solaire",
+        "gLine": "Gravité à la latitude {lat}° : {g} m/s²",
+        "rotLine": "Vitesse de rotation {v} m/s",
+        "gpsValue": "{us} μs par jour",
+        "lightSunValue": "{min} min {s} s"
+      },
+      "scale": {
+        "line": "{name} · {size}",
+        "you": "Vous",
+        "earth": "Terre",
+        "sunEarth": "Distance Soleil–Terre",
+        "heliopause": "Héliopause",
+        "oort": "Nuage d'Oort",
+        "proxima": "Proxima du Centaure",
+        "milkyWay": "Voie lactée",
+        "localGroup": "Groupe local",
+        "virgo": "Superamas de la Vierge",
+        "laniakea": "Laniakea",
+        "observable": "Univers observable"
+      }
+    },
+    "gastronomy": {
+      "source": "Archive gastronomique UNITAS · Wikipedia",
+      "localEatsHint": "Lieux gourmands documentés près de vous : restaurants, marchés et cafés dotés d'un article Wikipedia dans un rayon de 10 km, du plus proche au plus éloigné",
+      "trendMeta": "Tendance mondiale",
+      "energyNote": "Estimation fondée sur un ensoleillement de 1 kWh/m²/jour et un rendement photosynthétique de 1 % ; les valeurs réelles varient selon la culture et le climat",
+      "mealSlots": {
+        "morning": "Matin",
+        "noon": "Midi",
+        "afternoon": "Après-midi",
+        "evening": "Soir",
+        "night": "Nuit"
+      },
+      "facts": {
+        "trending": "Suggestion du moment",
+        "mealSlot": "Moment du repas",
+        "origin": "Origine",
+        "flavor": "Saveur",
+        "localTime": "Heure locale"
+      },
+      "flavors": {
+        "umami": "Umami",
+        "spicy": "Épicé",
+        "sweet": "Sucré",
+        "sour": "Acide",
+        "bitter": "Amer",
+        "smoky": "Fumé",
+        "fresh": "Frais",
+        "rich": "Riche",
+        "fermented": "Fermenté",
+        "herbal": "Herbacé"
+      },
+      "sections": {
+        "trends": "Tendances mondiales de la culture culinaire",
+        "traditional": "Plats traditionnels",
+        "localEats": "Adresses locales méconnues",
+        "localEatsFallback": "Aucun lieu gourmand documenté dans ce rayon · activez la localisation ou réessayez depuis une autre ville"
+      },
+      "traditionMeta": "Traditionnel · {origin}",
+      "localMeta": "{dist} · Wikipedia",
+      "trending": {
+        "bibimbap": {
+          "name": "Bibimbap",
+          "why": "Riz, légumes assaisonnés et gochujang mêlés dans un même bol ; une assiette équilibrée pour le midi ou le soir."
+        },
+        "kimchiJjigae": {
+          "name": "Kimchi jjigae",
+          "why": "Un ragoût bâti sur un kimchi bien fermenté ; son bouillon acide et relevé réchauffe les soirées fraîches et les fins de nuit."
+        },
+        "tteokbokki": {
+          "name": "Tteokbokki",
+          "why": "Des gâteaux de riz moelleux mijotés dans une sauce au gochujang ; l'en-cas d'après-midi et la bouchée nocturne par excellence en Corée."
+        },
+        "ramen": {
+          "name": "Ramen",
+          "why": "Des nouilles de blé dans un bouillon d'os de porc ou au shoyu ; un bol nourrissant au déjeuner et le repas classique d'après minuit."
+        },
+        "sushi": {
+          "name": "Sushi",
+          "why": "Du riz vinaigré garni de poisson cru ; assez léger et net pour le déjeuner, assez composé pour le dîner."
+        },
+        "onigiri": {
+          "name": "Onigiri",
+          "why": "Une boulette de riz enveloppée de nori, de la taille de la main ; se mange en chemin au petit-déjeuner ou comme relais de l'après-midi."
+        },
+        "dimSum": {
+          "name": "Dim sum",
+          "why": "Raviolis vapeur et petites assiettes servis avec du thé, le rituel cantonais du yum cha, du matin jusqu'à midi."
+        },
+        "mapoTofu": {
+          "name": "Mapo tofu",
+          "why": "Du tofu soyeux dans une sauce au doubanjiang et au poivre du Sichuan engourdissant ; un déjeuner ou un dîner qui appelle le riz."
+        },
+        "pho": {
+          "name": "Pho",
+          "why": "Des nouilles de riz dans un bouillon de bœuf clair aux herbes fraîches ; le petit-déjeuner du Viêt Nam qui se prolonge jusqu'au déjeuner."
+        },
+        "banhMi": {
+          "name": "Bánh mì",
+          "why": "Une baguette croustillante garnie de légumes marinés, d'herbes et de viande ; rapide à manger au petit-déjeuner ou au déjeuner."
+        },
+        "padThai": {
+          "name": "Pad thaï",
+          "why": "Des nouilles de riz sautées, équilibrées au tamarin, à la sauce de poisson et au sucre de palme ; un classique du déjeuner et du dîner."
+        },
+        "tomYum": {
+          "name": "Tom yum",
+          "why": "Une soupe acide et piquante à la citronnelle, au piment et au citron vert ; elle réveille le palais le soir et la nuit."
+        },
+        "nasiGoreng": {
+          "name": "Nasi goreng",
+          "why": "Du riz sauté au kecap manis surmonté d'un œuf au plat ; le petit-déjeuner et le déjeuner d'Indonésie en une seule assiette."
+        },
+        "tacosAlPastor": {
+          "name": "Tacos al pastor",
+          "why": "Du porc rôti à la broche avec de l'ananas sur des tortillas de maïs ; la commande de rue du soir et de la nuit à Mexico."
+        },
+        "neapolitanPizza": {
+          "name": "Pizza napolitaine",
+          "why": "Une pâte fine boursouflée au four à bois en 90 secondes environ ; un plat de dîner et de fin de soirée."
+        },
+        "cacioEPepe": {
+          "name": "Cacio e pepe",
+          "why": "Des pâtes romaines liées au pecorino, au poivre noir et à l'eau de cuisson amidonnée ; un dîner simple et riche."
+        },
+        "croissant": {
+          "name": "Croissant",
+          "why": "Une pâte feuilletée au beurre cuite en couches croustillantes ; à son meilleur avec le café du matin."
+        },
+        "shakshuka": {
+          "name": "Chakchouka",
+          "why": "Des œufs pochés dans une sauce de tomates et de poivrons, mangés avec du pain ; un petit-déjeuner du Maghreb qui s'étire jusqu'au déjeuner."
+        },
+        "avocadoToast": {
+          "name": "Tartine à l'avocat",
+          "why": "De l'avocat écrasé sur du pain au levain, le petit-déjeuner des cafés australiens qui a conquis le monde."
+        },
+        "flatWhite": {
+          "name": "Flat white",
+          "why": "Un espresso sous une fine couche de lait velouté ; une tasse de concentration pour le matin ou le milieu de l'après-midi."
+        },
+        "pourOverCoffee": {
+          "name": "Café filtre à la main",
+          "why": "Un café filtre versé lentement à la main ; une tasse nette et vive contre le creux de l'après-midi."
+        },
+        "darkChocolate": {
+          "name": "Chocolat noir",
+          "why": "Soixante-dix pour cent de cacao ou plus ; un petit carré amer qui s'accorde à une pause de l'après-midi."
+        },
+        "greekSalad": {
+          "name": "Salade grecque",
+          "why": "Tomate, concombre, feta et huile d'olive ; une assiette fraîche pour les déjeuners et les soirées de chaleur."
+        },
+        "birria": {
+          "name": "Birria",
+          "why": "De la viande braisée lentement dans un adobo au piment, servie avec son bouillon riche ; un repas de midi ou de fin de soirée."
+        }
+      },
+      "trends": {
+        "fermentation": {
+          "title": "Renouveau de la fermentation",
+          "line": "Depuis le laboratoire de fermentation du Noma et son guide de 2018, kimchi, miso et kombucha sont devenus un vocabulaire commun aux cuisines de restaurant."
+        },
+        "plantForward": {
+          "title": "Assiettes centrées sur le végétal",
+          "line": "Les légumes passent au centre de l'assiette sans basculer dans le végétarisme strict ; les steaks végétaux ont rejoint les grandes chaînes de restauration rapide en 2019."
+        },
+        "hyperLocal": {
+          "title": "Approvisionnement hyperlocal",
+          "line": "Les cuisines s'approvisionnent à quelques dizaines de kilomètres et impriment la ferme ou le bateau sur la carte ; la carte de saison change au rythme des récoltes."
+        },
+        "zeroWaste": {
+          "title": "Cuisines zéro déchet",
+          "line": "Épluchures, os et tiges deviennent fonds, ferments et poudres ; la FAO estime qu'environ un tiers de la nourriture produite est perdu ou gaspillé."
+        },
+        "koreanWave": {
+          "title": "Vague K-food",
+          "line": "Kimchi, ramyeon et tteokbokki ont voyagé avec les séries et la musique coréennes ; en 2021, l'Oxford English Dictionary a ajouté kimbap et bulgogi."
+        },
+        "regenerative": {
+          "title": "Approvisionnement régénératif",
+          "line": "Des céréales issues de fermes sans labour et sous couvert végétal qui restaurent le carbone du sol ; de grands groupes alimentaires ont adopté des objectifs d'approvisionnement régénératif dans les années 2020."
+        },
+        "functionalDrinks": {
+          "title": "Boissons fonctionnelles",
+          "line": "Kombucha, sodas prébiotiques et boissons aux adaptogènes prennent le rayon autrefois tenu par les sodas ; les marques de soda prébiotique sont arrivées dans les supermarchés américains au début des années 2020."
+        },
+        "fireCooking": {
+          "title": "Cuisine au feu de bois",
+          "line": "Le bois et le charbon remplacent le gaz dans les cuisines de destination, de l'asado de Patagonie aux fours à bois ; Francis Mallmann est le visage public du mouvement."
+        },
+        "thirdWaveCoffee": {
+          "title": "Café de troisième vague",
+          "line": "Origine, variété et traitement sont imprimés comme une étiquette de vin et torréfiés clair ; le terme a été forgé par la torréfactrice Trish Rothgeb en 2002."
+        },
+        "nightMarkets": {
+          "title": "Cuisine de rue des marchés de nuit",
+          "line": "Des étals qui ouvrent après le coucher du soleil, de Shilin à Taipei jusqu'à Bangkok et Marrakech ; la place Jemaa el-Fna a rejoint le patrimoine immatériel de l'UNESCO en 2008."
+        }
+      },
+      "dishes": {
+        "KR": {
+          "kimchi": {
+            "name": "Kimchi",
+            "origin": "Du chou chinois salé, fermenté avec du piment et de la sauce de poisson ; le piment a atteint la Corée après la fin du XVIe siècle, et le kimjang a été inscrit par l'UNESCO en 2013."
+          },
+          "samgyetang": {
+            "name": "Samgyetang",
+            "origin": "Un jeune poulet mijoté avec du riz gluant, du ginseng et du jujube ; mangé pendant les jours caniculaires de bok-nal, une coutume qui a pris sa forme actuelle au XXe siècle."
+          }
+        },
+        "JP": {
+          "okonomiyaki": {
+            "name": "Okonomiyaki",
+            "origin": "Une galette de chou et de pâte cuite sur plaque, d'Osaka et de Hiroshima ; elle est née des plats de farine bon marché des pénuries de l'après-guerre."
+          },
+          "tempura": {
+            "name": "Tempura",
+            "origin": "Fruits de mer et légumes frits dans une pâte fine ; la technique remonte aux missionnaires portugais arrivés à Nagasaki au XVIe siècle."
+          }
+        },
+        "CN": {
+          "pekingDuck": {
+            "name": "Canard laqué de Pékin",
+            "origin": "Un canard rôti à la peau laquée, enveloppé dans de fines crêpes ; affiné dans les cuisines impériales des Ming, et la maison pékinoise Quanjude a ouvert en 1864."
+          },
+          "xiaolongbao": {
+            "name": "Xiaolongbao",
+            "origin": "Des raviolis vapeur dont la farce renferme un bouillon gélifié ; leur origine remonte à Nanxiang, près de Shanghai, au XIXe siècle."
+          }
+        },
+        "US": {
+          "hamburger": {
+            "name": "Hamburger",
+            "origin": "Un steak de bœuf haché dans un pain rond ; le « steak de Hambourg » des immigrés allemands du XIXe siècle est devenu un sandwich aux États-Unis."
+          },
+          "gumbo": {
+            "name": "Gumbo",
+            "origin": "Un ragoût épais de Louisiane à base de roux, de gombo et de fruits de mer ou de saucisse ; né à La Nouvelle-Orléans au XVIIIe siècle, au croisement des cuisines ouest-africaine, française et choctaw."
+          }
+        },
+        "EE": {
+          "mulgikapsad": {
+            "name": "Mulgikapsad",
+            "origin": "De la choucroute braisée avec du porc et de l'orge, originaire de la région de Mulgi, dans le sud de l'Estonie ; un pilier des fermes en hiver."
+          },
+          "kama": {
+            "name": "Kama",
+            "origin": "Une farine d'orge, de seigle, d'avoine et de pois torréfiés, mêlée à du kéfir ou du lait ; un vieil aliment paysan estonien qui n'exigeait aucune cuisson."
+          }
+        },
+        "ES": {
+          "paella": {
+            "name": "Paella",
+            "origin": "Du riz cuit dans une large poêle avec du lapin, du poulet et des haricots par les ouvriers agricoles des rizières de Valence ; le nom apparaît à l'écrit au milieu du XIXe siècle."
+          },
+          "gazpacho": {
+            "name": "Gaspacho",
+            "origin": "Une soupe froide andalouse de tomate, de concombre, de poivron, de pain et d'huile d'olive ; elle a pris sa forme moderne après l'arrivée de la tomate des Amériques."
+          }
+        },
+        "KH": {
+          "fishAmok": {
+            "name": "Amok de poisson",
+            "origin": "Du poisson cuit à la vapeur dans une feuille de bananier avec la pâte d'épices kroeung et du lait de coco ; un plat cambodgien considéré comme un héritage de la cuisine royale khmère."
+          },
+          "numBanhChok": {
+            "name": "Num banh chok",
+            "origin": "Des nouilles de riz fermenté sous un bouillon de curry vert au poisson ; appelées « nouilles khmères », vendues sur les étals du matin dans tout le Cambodge."
+          }
+        },
+        "FR": {
+          "coqAuVin": {
+            "name": "Coq au vin",
+            "origin": "Un coq braisé au vin avec des lardons et des champignons ; consigné dans les livres de cuisine au début du XXe siècle et associé à la Bourgogne."
+          },
+          "ratatouille": {
+            "name": "Ratatouille",
+            "origin": "Un ragoût niçois d'aubergine, de courgette, de tomate et de poivron à l'huile d'olive ; au XVIIIe siècle, le mot désignait d'abord un ragoût grossier."
+          }
+        },
+        "DE": {
+          "sauerbraten": {
+            "name": "Sauerbraten",
+            "origin": "Du bœuf mariné plusieurs jours dans du vinaigre et des épices, puis braisé ; en Rhénanie, la sauce est adoucie aux raisins secs et servie avec des Knödel."
+          },
+          "spaetzle": {
+            "name": "Spätzle",
+            "origin": "Des pâtes aux œufs raclées d'une pâte molle dans l'eau bouillante, originaires de Souabe ; protégées par une indication géographique de l'UE depuis 2012."
+          }
+        },
+        "PT": {
+          "bacalhauABras": {
+            "name": "Bacalhau à Brás",
+            "origin": "De la morue salée effilochée, brouillée avec des pommes paille, de l'oignon et de l'œuf ; un plat lisboète qui tiendrait son nom d'un cuisinier du quartier du Bairro Alto."
+          },
+          "pastelDeNata": {
+            "name": "Pastel de nata",
+            "origin": "Une tartelette à la crème aux œufs issue de la recette des moines du monastère des Hiéronymites à Belém, Lisbonne ; vendue à la pâtisserie de Belém depuis 1837."
+          }
+        },
+        "VN": {
+          "bunCha": {
+            "name": "Bún chả",
+            "origin": "Des boulettes de porc grillées au charbon, servies dans un bouillon aigre-doux à la sauce de poisson avec des vermicelles de riz ; un plat du déjeuner du vieux quartier de Hanoï."
+          },
+          "banhXeo": {
+            "name": "Bánh xèo",
+            "origin": "Une crêpe croustillante de farine de riz au curcuma, repliée sur des crevettes et des germes de soja, du sud du Viêt Nam ; le nom évoque le grésillement de la pâte dans la poêle."
+          }
+        },
+        "ID": {
+          "rendang": {
+            "name": "Rendang",
+            "origin": "Du bœuf réduit pendant des heures dans du lait de coco et des épices ; un plat minangkabau de Sumatra occidental aux racines cérémonielles."
+          },
+          "satay": {
+            "name": "Saté",
+            "origin": "De la viande marinée en brochettes, grillée au charbon ; on pense qu'il s'est développé à Java au XIXe siècle sous l'influence des kebabs des marchands arabes et indiens."
+          }
+        },
+        "RU": {
+          "borscht": {
+            "name": "Bortsch",
+            "origin": "Une soupe de légumes rougie à la betterave, née en Ukraine et répandue sur les tables russes ; la culture ukrainienne du bortsch a été inscrite par l'UNESCO en 2022."
+          },
+          "pelmeni": {
+            "name": "Pelmeni",
+            "origin": "De petits raviolis de viande dans une pâte fine, congelés dehors pendant les hivers de l'Oural et de Sibérie ; le nom vient d'un mot ouralien signifiant « pain-oreille »."
+          }
+        },
+        "IN": {
+          "biryani": {
+            "name": "Biryani",
+            "origin": "De la viande épicée et du riz basmati disposés en couches et cuits à l'étouffée ; développé dans les cuisines de la cour moghole, avec Hyderabad et Lucknow parmi les styles régionaux réputés."
+          },
+          "masalaDosa": {
+            "name": "Masala dosa",
+            "origin": "Une fine crêpe fermentée de riz et de lentilles garnie de pommes de terre épicées ; un plat du sud de l'Inde popularisé par la tradition des restaurants d'Udupi, au Karnataka."
+          }
+        },
+        "IT": {
+          "risottoAllaMilanese": {
+            "name": "Risotto alla milanese",
+            "origin": "Un risotto jauni au safran, de Milan ; la tradition le rattache à l'histoire d'un verrier du XVIe siècle travaillant au Duomo."
+          },
+          "lasagna": {
+            "name": "Lasagnes",
+            "origin": "De larges feuilles de pâte alternées avec du ragù, de la béchamel et du fromage, puis gratinées ; une tradition bolonaise dont le nom des pâtes descend du laganum gréco-romain."
+          }
+        },
+        "TR": {
+          "kebap": {
+            "name": "Kebap",
+            "origin": "La famille des viandes turques grillées et rôties ; le döner à la broche verticale remonte à Bursa, dans l'Empire ottoman du XIXe siècle."
+          },
+          "baklava": {
+            "name": "Baklava",
+            "origin": "Des couches de pâte filo, de fruits à coque et de sirop ; la pâtisserie a pris sa forme actuelle dans les cuisines du palais ottoman de Topkapı."
+          }
+        },
+        "TH": {
+          "greenCurry": {
+            "name": "Curry vert",
+            "origin": "Une pâte de piment vert, de galanga et de combava dans du lait de coco ; consigné pour la première fois dans les livres de cuisine de Bangkok au début du XXe siècle."
+          },
+          "somTam": {
+            "name": "Som tam",
+            "origin": "De la papaye verte pilée au mortier avec du piment, du citron vert et de la sauce de poisson ; elle a gagné Bangkok depuis le Laos et la région thaïlandaise de l'Isan."
+          }
+        },
+        "PL": {
+          "pierogi": {
+            "name": "Pierogi",
+            "origin": "Des raviolis en demi-lune farcis de pomme de terre et de fromage, de chou ou de fruits ; arrivés en Pologne au Moyen Âge, ils sont devenus le plat réconfortant national."
+          },
+          "bigos": {
+            "name": "Bigos",
+            "origin": "Le « ragoût du chasseur » de choucroute, de chou frais et de viandes variées mijoté des heures durant ; décrit dans Pan Tadeusz, l'épopée d'Adam Mickiewicz de 1834."
+          }
+        },
+        "NL": {
+          "stamppot": {
+            "name": "Stamppot",
+            "origin": "Des pommes de terre écrasées avec du chou frisé ou de la carotte et de l'oignon, servies avec une saucisse fumée ; un plat d'hiver installé une fois la pomme de terre devenue l'aliment de base néerlandais."
+          },
+          "stroopwafel": {
+            "name": "Stroopwafel",
+            "origin": "Deux fines gaufres pressées autour d'un sirop de caramel ; fabriquées à Gouda depuis la fin du XVIIIe ou le début du XIXe siècle."
+          }
+        },
+        "PH": {
+          "adobo": {
+            "name": "Adobo",
+            "origin": "De la viande braisée au vinaigre, à la sauce soja et à l'ail ; le nom espagnol date de l'époque coloniale du XVIe siècle, mais la méthode de braisage au vinaigre est plus ancienne."
+          },
+          "sinigang": {
+            "name": "Sinigang",
+            "origin": "Une soupe acidulée au tamarin, cuite avec du porc ou des crevettes et des légumes ; un plat familial philippin adapté au climat tropical."
+          }
+        },
+        "GB": {
+          "fishAndChips": {
+            "name": "Fish and chips",
+            "origin": "Du poisson blanc en pâte à frire avec des frites ; le poisson frit des immigrés juifs a rencontré la frite, et les premières boutiques ont ouvert à Londres et dans le Lancashire dans les années 1860."
+          },
+          "sundayRoast": {
+            "name": "Sunday roast",
+            "origin": "Une viande rôtie avec pommes de terre, légumes, Yorkshire pudding et jus ; la recette du Yorkshire pudding a paru pour la première fois en 1737."
+          }
+        },
+        "MX": {
+          "moleNegro": {
+            "name": "Mole negro",
+            "origin": "La sauce noire d'Oaxaca aux nombreux piments, au chocolat et aux épices ; les sauces au piment autochtones ont fusionné avec les ingrédients européens après la conquête espagnole."
+          },
+          "pozole": {
+            "name": "Pozole",
+            "origin": "Une soupe de maïs nixtamalisé et de viande ; un plat rituel de l'époque aztèque, consigné dans les chroniques espagnoles du XVIe siècle."
+          }
+        },
+        "BR": {
+          "feijoada": {
+            "name": "Feijoada",
+            "origin": "Des haricots noirs mijotés avec divers morceaux de porc ; enracinée dans les ragoûts de haricots portugais, elle est aujourd'hui le déjeuner du mercredi et du samedi dans tout le Brésil."
+          },
+          "moqueca": {
+            "name": "Moqueca",
+            "origin": "Du poisson mijoté dans un pot en terre avec du lait de coco, de l'huile de palme dendê, de la tomate et de la coriandre ; un plat de Bahia où la cuisine autochtone a rencontré l'huile de palme africaine."
+          }
+        },
+        "AR": {
+          "asado": {
+            "name": "Asado",
+            "origin": "Du bœuf grillé lentement sur la braise ; la culture argentine du barbecue est née de la cuisine en plein air des gauchos de la Pampa au XIXe siècle."
+          },
+          "empanadas": {
+            "name": "Empanadas",
+            "origin": "Des chaussons en demi-lune farcis de viande, d'oignon, d'œuf et d'olives ; venus de Galice, avec des garnitures qui diffèrent de Salta à Tucumán."
+          }
+        },
+        "GR": {
+          "moussaka": {
+            "name": "Moussaka",
+            "origin": "Des couches d'aubergine et de viande hachée sous une béchamel ; le chef Nikolaos Tselementes a ajouté la sauce française dans les années 1920 pour créer la version moderne."
+          },
+          "souvlaki": {
+            "name": "Souvlaki",
+            "origin": "De petits morceaux de viande grillés sur une brochette ; des supports de brochettes en pierre ont été mis au jour sur le site minoen d'Akrotiri, à Santorin."
+          }
+        },
+        "EG": {
+          "koshari": {
+            "name": "Koshari",
+            "origin": "Du riz, des macaronis et des lentilles sous une sauce tomate et des oignons frits ; un plat de rue égyptien influencé par le khichdi indien pendant la domination britannique du XIXe siècle."
+          },
+          "fulMedames": {
+            "name": "Foul medames",
+            "origin": "Des fèves cuites lentement toute la nuit et assaisonnées d'huile d'olive, de citron et de cumin ; un ancien petit-déjeuner égyptien dont le nom viendrait du copte."
+          }
+        },
+        "MA": {
+          "tagine": {
+            "name": "Tajine",
+            "origin": "Viande et légumes cuits lentement sous un couvercle conique en terre ; le mot désigne le récipient lui-même, et le plat figure dans les livres de cuisine arabes médiévaux."
+          },
+          "couscous": {
+            "name": "Couscous",
+            "origin": "Des grains de semoule cuits à la vapeur et servis avec un ragoût, un plat berbère d'Afrique du Nord ; inscrit par l'UNESCO en 2020 pour le Maroc, l'Algérie, la Tunisie et la Mauritanie."
+          }
+        },
+        "ET": {
+          "injera": {
+            "name": "Injera",
+            "origin": "Une galette acide et spongieuse faite d'une pâte de teff fermentée ; fondée sur le teff, une céréale domestiquée sur les hauts plateaux éthiopiens."
+          },
+          "doroWat": {
+            "name": "Doro wat",
+            "origin": "Du poulet et des œufs durs dans un ragoût d'oignons au berbéré ; le plat servi lorsque le jeûne orthodoxe éthiopien s'achève les jours de fête."
+          }
+        },
+        "PE": {
+          "ceviche": {
+            "name": "Ceviche",
+            "origin": "Du poisson cru mariné au jus de citron vert avec du piment et de l'oignon ; les citrons verts sont arrivés avec les Espagnols, et le ceviche péruvien a été inscrit par l'UNESCO en 2023."
+          },
+          "lomoSaltado": {
+            "name": "Lomo saltado",
+            "origin": "Du bœuf sauté au wok avec de l'oignon, de la tomate et des frites ; un plat chifa né de la technique du wok des immigrés cantonais arrivés au Pérou au XIXe siècle."
+          }
+        },
+        "AU": {
+          "meatPie": {
+            "name": "Meat pie",
+            "origin": "Une tourte de la taille de la main au bœuf haché et au jus ; arrivée avec les colons britanniques du XIXe siècle, elle est devenue la nourriture des stades de football australien."
+          },
+          "lamington": {
+            "name": "Lamington",
+            "origin": "Une génoise trempée dans le chocolat et roulée dans la noix de coco ; nommée vers 1900 d'après Lord Lamington, alors gouverneur du Queensland."
+          }
+        }
+      },
+      "sections3": {
+        "solar": "Origine solaire de l'ingrédient",
+        "chemistry": "Chimie du goût",
+        "pairing": "Accord pour nomade numérique"
+      },
+      "science": {
+        "rice": {
+          "ingredient": "Riz",
+          "solar": "Le riz fixe le carbone par la voie C3 ; le glucose produit dans la feuille est stocké dans le grain sous forme d'amidon, amylose et amylopectine.",
+          "chemistry": "La texture dépend du rapport amylose-amylopectine ; moins d'amylose donne un riz plus collant, et l'arôme du riz frais vient de la 2-acétyl-1-pyrroline.",
+          "pairing": "Le riz blanc a une charge glycémique élevée ; l'associer à des légumes, à des protéines et à de l'eau garde un rythme de travail plus stable après le déjeuner."
+        },
+        "wheat": {
+          "ingredient": "Blé",
+          "solar": "Le blé stocke les sucres de la photosynthèse C3 dans l'albumen sous forme d'amidon et de protéines de réserve, gluténine et gliadine, que nous mangeons en pain et en nouilles.",
+          "chemistry": "Le pétrissage lie la gluténine et la gliadine en un réseau de gluten ; la cuisson déclenche la réaction de Maillard qui donne à la croûte sa couleur et son arôme grillé.",
+          "pairing": "Le blé complet a une charge glycémique plus basse que la farine raffinée, ce qui convient à une matinée de concentration ; prenez-le avec de l'eau pour que les fibres fassent leur travail."
+        },
+        "maize": {
+          "ingredient": "Maïs",
+          "solar": "Le maïs recourt à la photosynthèse C4, qui fixe le carbone efficacement sous un fort ensoleillement et la chaleur, et stocke l'énergie sous forme d'amidon dans le grain.",
+          "chemistry": "La protéine de réserve zéine retient la niacine ; la nixtamalisation à l'eau de chaux libère cette niacine et crée l'arôme caractéristique de la tortilla.",
+          "pairing": "Des tortillas nixtamalisées mangées avec des haricots complètent les acides aminés essentiels, une base stable pour un travail qui se prolonge en soirée."
+        },
+        "coffee": {
+          "ingredient": "Café",
+          "solar": "Le caféier stocke les sucres de la photosynthèse C3 dans ses cerises et ses graines ; les 2 kcal valent pour le café infusé, le grain torréfié renfermant lui-même plusieurs centaines de kcal pour 100 g.",
+          "chemistry": "La caféine apporte l'amertume et le coup de fouet, les acides chlorogéniques l'acidité et le corps, et la trigonelline se décompose à la torréfaction en pyridines et pyrazines qui portent l'arôme.",
+          "pairing": "La demi-vie de la caféine est d'environ cinq heures, si bien qu'une tasse après 15 h peut encore être présente au coucher ; réservez-la au matin et au début d'après-midi, avec de l'eau à côté."
+        },
+        "cacao": {
+          "ingredient": "Cacao",
+          "solar": "Le cacaoyer, cultivé à l'ombre, produit des sucres par photosynthèse C3 et les stocke dans la graine sous forme de graisse, le beurre de cacao, et de polyphénols ; un chocolat noir à 70 % apporte environ 598 kcal pour 100 g.",
+          "chemistry": "La théobromine donne l'amertume et une stimulation douce, la phényléthylamine est présente en petite quantité, les flavanols apportent l'astringence, et la fermentation puis la torréfaction bâtissent l'arôme du chocolat.",
+          "pairing": "La théobromine est un stimulant plus doux que la caféine, si bien qu'un ou deux carrés l'après-midi perturbent moins le sommeil ; à 70 % ou plus, le sucre et l'oscillation glycémique restent bas."
+        },
+        "chili": {
+          "ingredient": "Piment",
+          "solar": "Le piment stocke les sucres de la photosynthèse C3 dans le fruit et synthétise la capsaïcine dans le tissu placentaire ; originaire des Amériques, il s'est répandu en Asie après le XVIe siècle.",
+          "chemistry": "Le piquant est la capsaïcine qui active le récepteur TRPV1, une sensation de douleur plutôt qu'un goût ; la capsanthine donne la couleur rouge et les sucres propres au fruit la douceur.",
+          "pairing": "La capsaïcine accroît brièvement la sudation et la vigilance, ce qui peut dissiper la torpeur d'après-déjeuner ; sur un estomac sensible, une assiette plus douce convient mieux au travail de nuit."
+        },
+        "tomato": {
+          "ingredient": "Tomate",
+          "solar": "La tomate stocke les sucres de la photosynthèse C3 dans le fruit et bâtit le pigment rouge lycopène en mûrissant ; à environ 18 kcal pour 100 g, elle est composée à plus de 90 % d'eau.",
+          "chemistry": "Le glutamate donne l'umami, le lycopène le rouge, et les acides citrique et malique le piquant ; la cuisson accroît à la fois le glutamate libre et la disponibilité du lycopène.",
+          "pairing": "Riche en eau et en potassium, elle aide à s'hydrater pendant les longues sessions d'écran, et sa faible charge glycémique laisse la concentration de l'après-midi intacte."
+        },
+        "cabbageFerment": {
+          "ingredient": "Chou fermenté (kimchi)",
+          "solar": "Le chou chinois stocke les sucres de la photosynthèse C3 dans ses feuilles ; pendant la fermentation, les bactéries lactiques transforment ce sucre en acide lactique, ne laissant qu'environ 15 kcal pour 100 g.",
+          "chemistry": "L'acide lactique donne l'acidité, l'isothiocyanate d'allyle et les composés soufrés du chou et de l'ail l'arôme piquant, et le glutamate de la sauce de poisson l'umami.",
+          "pairing": "Peu calorique et riche en fibres et en bactéries lactiques, il allège un déjeuner copieux ; le sodium est élevé, alors accompagnez-le de beaucoup d'eau le soir."
+        }
+      },
+      "energyLine": "100 g = {kcal} kcal · environ {area} m²·jour de lumière solaire pour un rendement photosynthétique supposé de 1 %",
+      "pathway": {
+        "c3": "Photosynthèse C3 (fixation directe par le cycle de Calvin)",
+        "c4": "Photosynthèse C4 (CO₂ concentré avant fixation)",
+        "cam": "Photosynthèse CAM (CO₂ absorbé la nuit)"
+      }
+    },
+    "sky": {
+      "gregorianLabel": "Solaire",
+      "lunarLabel": "Lunaire",
+      "lunarLine": "Mois lunaire {month}, jour {day}",
+      "lunarLeapLine": "Mois lunaire intercalaire {month}, jour {day}",
+      "animalYear": "Année du {animal}",
+      "moonAge": "Âge de la Lune : {age} jours",
+      "illumination": "{pct} % éclairée",
+      "phases": {
+        "newMoon": "Nouvelle lune",
+        "waxingCrescent": "Premier croissant",
+        "firstQuarter": "Premier quartier",
+        "waxingGibbous": "Gibbeuse croissante",
+        "fullMoon": "Pleine lune",
+        "waningGibbous": "Gibbeuse décroissante",
+        "lastQuarter": "Dernier quartier",
+        "waningCrescent": "Dernier croissant"
+      },
+      "animals": {
+        "rat": "Rat",
+        "ox": "Buffle",
+        "tiger": "Tigre",
+        "rabbit": "Lapin",
+        "dragon": "Dragon",
+        "snake": "Serpent",
+        "horse": "Cheval",
+        "goat": "Chèvre",
+        "monkey": "Singe",
+        "rooster": "Coq",
+        "dog": "Chien",
+        "pig": "Cochon"
+      },
+      "zodiac": {
+        "aries": "Bélier",
+        "taurus": "Taureau",
+        "gemini": "Gémeaux",
+        "cancer": "Cancer",
+        "leo": "Lion",
+        "virgo": "Vierge",
+        "libra": "Balance",
+        "scorpio": "Scorpion",
+        "sagittarius": "Sagittaire",
+        "capricorn": "Capricorne",
+        "aquarius": "Verseau",
+        "pisces": "Poissons"
+      },
+      "terms": {
+        "lichun": "Début du printemps",
+        "yushui": "Eau de pluie",
+        "jingzhe": "Réveil des insectes",
+        "chunfen": "Équinoxe de printemps",
+        "qingming": "Clarté pure",
+        "guyu": "Pluie des céréales",
+        "lixia": "Début de l'été",
+        "xiaoman": "Petite plénitude des grains",
+        "mangzhong": "Grains en épi",
+        "xiazhi": "Solstice d'été",
+        "xiaoshu": "Petite chaleur",
+        "dashu": "Grande chaleur",
+        "liqiu": "Début de l'automne",
+        "chushu": "Fin de la chaleur",
+        "bailu": "Rosée blanche",
+        "qiufen": "Équinoxe d'automne",
+        "hanlu": "Rosée froide",
+        "shuangjiang": "Descente du givre",
+        "lidong": "Début de l'hiver",
+        "xiaoxue": "Petite neige",
+        "daxue": "Grande neige",
+        "dongzhi": "Solstice d'hiver",
+        "xiaohan": "Petit froid",
+        "dahan": "Grand froid"
+      },
+      "termNow": "Terme solaire en cours",
+      "termNext": "Terme solaire suivant",
+      "termIn": "dans {days} j {hours} h",
+      "termChipAria": "Terme solaire en cours : {term}",
+      "lst": "Temps sidéral local",
+      "gmst": "Temps sidéral de Greenwich",
+      "jd": "Jour julien",
+      "observer": "Point d'observation",
+      "observerLine": "{name} · lat. {lat}° · lon. {lon}°",
+      "utcOffset": "UTC{offset}",
+      "sun": "Soleil",
+      "moon": "Lune",
+      "eclipticLon": "Longitude écliptique",
+      "eclipticLat": "Latitude écliptique",
+      "ra": "Ascension droite",
+      "dec": "Déclinaison",
+      "altitude": "Hauteur",
+      "azimuth": "Azimut",
+      "distance": "Distance",
+      "aboveHorizon": "Au-dessus de l'horizon",
+      "belowHorizon": "Sous l'horizon",
+      "zodiacPos": "{sign} {deg}° {min}′",
+      "ringAria": "Anneau écliptique marquant les 24 termes solaires et les 12 signes du zodiaque",
+      "dialAria": "Cadran de la hauteur et de l'azimut actuels du Soleil et de la Lune",
+      "pixelAria": "{phase} · âge de la Lune {age} jours",
+      "sectionSidereal": "Temps sidéral",
+      "sectionTerms": "Les 24 termes solaires",
+      "sectionSun": "Position du Soleil",
+      "sectionMoon": "Position de la Lune",
+      "sectionZodiac": "Le zodiaque",
+      "live": "En direct · actualisation chaque seconde",
+      "unreadable": "L'almanach céleste ne peut pas être calculé pour le moment · veuillez revérifier dans un instant"
+    },
+    "air": {
+      "title": "Qualité de l'air",
+      "euAqi": "AQI européen",
+      "usAqi": "AQI américain",
+      "pm25": "Particules fines PM2.5",
+      "pm10": "Particules grossières PM10",
+      "o3": "Ozone",
+      "no2": "Dioxyde d'azote",
+      "so2": "Dioxyde de soufre",
+      "co": "Monoxyde de carbone",
+      "dust": "Poussière désertique",
+      "aod": "Épaisseur optique des aérosols",
+      "uvNow": "Indice UV · maintenant",
+      "uvMax": "Indice UV · pic du jour",
+      "dominant": "Polluant dominant",
+      "advice": {
+        "good": "L'air est pur. Un bon moment pour les activités de plein air et pour ouvrir les fenêtres.",
+        "fair": "La qualité de l'air est correcte. Les activités de plein air conviennent à la plupart des gens.",
+        "moderate": "Qualité modérée. Les personnes sensibles peuvent limiter les efforts prolongés et intenses en plein air.",
+        "poor": "Qualité médiocre. Les personnes sensibles devraient limiter les activités de plein air, et chacun devrait garder l'exercice intense à l'intérieur.",
+        "veryPoor": "Qualité très médiocre. Réduisez le temps passé dehors et gardez les fenêtres fermées. Les personnes sensibles devraient éviter de sortir.",
+        "extreme": "Qualité extrême. Évitez les activités de plein air et restez à l'intérieur. Si vous devez sortir, faites vite et envisagez un masque."
+      },
+      "unreadable": "Le signal de qualité de l'air est illisible · veuillez réessayer dans un instant",
+      "unit": {
+        "ugm3": "μg/m³",
+        "index": "indice"
+      }
+    },
+    "detail": {
+      "open": {
+        "weather": "Vue céleste de précision",
+        "cosmos": "Vue céleste · échelle cosmique",
+        "gastronomy": "La science de l'assiette"
+      },
+      "title": {
+        "weather": "Espace-temps · temps sidéral et termes solaires",
+        "cosmos": "Macrocosmos · ciel de précision et échelle cosmique",
+        "gastronomy": "La science de la gastronomie · de la lumière du soleil à la table"
+      },
+      "mirrorNote": "Projette à l'identique la vue céleste de précision du raccourci 1"
+    }
+  },
+  "Rev20": {
+    "slots": {
+      "cosmos": {
+        "title": "Macrocosmos",
+        "tag": "Télémétrie de l'espace profond au-dessus de votre ciel"
+      },
+      "gastronomy": {
+        "title": "Gastronomie mondiale",
+        "tag": "L'assiette que les tables du monde recommandent à cette heure"
+      }
+    }
+  }
+}

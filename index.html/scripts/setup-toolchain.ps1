@@ -149,6 +149,11 @@ if ($Install) {
     # Unconditional: the probe decides for itself whether the token exists yet, and stays armed
     # (exit 0) when it does not. There is nothing here for a caller to gate on.
     Invoke-Step 'Figma MCP standby (headless route; connects itself once FIGMA_API_KEY exists)' { & (Join-Path $PSScriptRoot 'agent\setup-figma.ps1') -Standby }
+    # REV-43 (founder directive 2026-09-18): the business-automation skillset (UI/UX artifacts,
+    # data / finance, legal / PDF, scraping, marketing / sales) - user scope, copied, fail-closed.
+    Invoke-Step 'Business skillset (REV-43, user scope, copied)' { & (Join-Path $PSScriptRoot 'agent\setup-skillset.ps1') -Install -PythonDeps }
+    # Same standby contract as Figma: ARMED until BRIGHTDATA_API_TOKEN exists, then self-connecting.
+    Invoke-Step 'Bright Data MCP standby (connects itself once BRIGHTDATA_API_TOKEN exists)' { & (Join-Path $PSScriptRoot 'agent\setup-brightdata.ps1') -Standby }
 }
 
 # ---------------------------------------------------------------- status board
@@ -188,6 +193,16 @@ foreach ($name in $expected) {
     if (Test-Path (Join-Path $skillsHome "$name\SKILL.md")) { $state = 'ready' }
     Write-Host ("  {0,-22} {1}" -f $name, $state)
 }
+
+Write-Host ''
+Write-Host 'Business skillset (REV-43, user scope ~/.claude/skills):'
+# -Status only audits (never installs); a non-zero exit here just means an entry is missing.
+try { & (Join-Path $PSScriptRoot 'agent\setup-skillset.ps1') -Status *>&1 | Out-String | Write-Host } catch { Write-Host ('  skillset audit failed: ' + $_.Exception.Message) }
+
+# Bright Data MCP -- the same standby contract as Figma (ARMED without a token, CONNECTED with one).
+$brightProbe = ''
+try { $brightProbe = (& (Join-Path $PSScriptRoot 'agent\setup-brightdata.ps1') -Standby *>&1 | Out-String) } catch { $brightProbe = 'standby probe failed: ' + $_.Exception.Message }
+Write-Host ('Bright Data MCP: ' + $brightProbe.Trim())
 
 Write-Host ''
 $key21User = [Environment]::GetEnvironmentVariable('API_KEY_21ST', 'User')

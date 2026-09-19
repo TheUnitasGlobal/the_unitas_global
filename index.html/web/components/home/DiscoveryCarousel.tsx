@@ -25,6 +25,11 @@ import { HubRow } from '@/components/home/hub/HubRow';
 import { HubTitleRow } from '@/components/home/hub/HubTitleRow';
 import { SlotTabRail } from '@/components/home/hub/SlotTabRail';
 import { SlotWidgetView, slotWidgetKind } from '@/components/home/widgets/SlotWidgetView';
+import { MoonPhasePixel } from '@/components/home/widgets/MoonPhasePixel';
+import { DetailOpenButton } from '@/components/home/detail/DetailOpenButton';
+import { SlotDetailModal, type SlotDetailKey } from '@/components/home/detail/SlotDetailModal';
+import { moonPhaseWidgetFor } from '@/lib/live/skyAlmanac';
+import { I18N_ITEM_PREFIX } from '@/lib/live/gastronomy';
 import { captureScroll, reserveHeight } from '@/lib/ui/scrollAnchor';
 import { entityAnchor } from '@/lib/uai/deeperAnchor';
 import { resolveEntity } from '@/lib/uai/entityResolve';
@@ -87,7 +92,28 @@ import {
  * compass hero, the Around-Me omni-radar) renders it through SlotWidgetView
  * above its facts row, and the deep modal renders the same widget at full
  * width above its sections.
+ *
+ * REV-42 (founder directive 2026-09-18, SPEC D-5 / 1-A #4 #6 #7 #12): the
+ * rail seats sixteen with three flagships in front (weather, cosmos,
+ * gastronomy; `air` retired), and those three gain a THIRD tier. Each deep
+ * modal owns a `detailOpen` flag, mounts a `DetailOpenButton` chip
+ * (weather: under the deep moon pixel and the weather panel; cosmos /
+ * gastronomy: after the sections) and a nested `SlotDetailModal` -- a
+ * portal sibling in the DOM, one history layer up -- that NOTHING opens but
+ * the chip and that resets on slot change and on the deep modal's own
+ * close. The weather deep modal reads ONE instant at open (`openedAt`,
+ * state + effect, never `Date.now()` in render) for its `MoonPhasePixel`
+ * and hands the same instant to tier 3. The meta line names the honest
+ * provider of the two computed flagships (`Rev42.cosmos.source` /
+ * `Rev42.gastronomy.source`, the fx precedent), and a row string that
+ * starts with `i18n:` is a message path resolved here, since the lib
+ * adapters cannot translate (the `text()` helper).
  */
+
+/** REV-42 (lane E contract): a SlotItem title / description / meta that
+ *  starts with `I18N_ITEM_PREFIX` ('i18n:', lib/live/gastronomy.ts) is a
+ *  dotted message path, resolved through the root `t` by `text()` below.
+ *  Plain strings render verbatim. */
 
 /** Session-scoped, module-level so a slot revisited within its TTL (even
  *  across a close/reopen of the search popup) renders instantly -- same
@@ -130,6 +156,31 @@ function cardKeyFor(ctx: SlotContext, key: SlotKey, tab: string | undefined): st
   return tab ? `${base}:${tab}` : base;
 }
 
+/** REV-42 1-A #12: the meta line's provider wording. The fx precedent
+ *  (REV-41) names the Geo-IP resolver; the two computed flagships name the
+ *  local engine that is their real supplier and Wikipedia as their only
+ *  outbound (제17장 honesty) -- every other slot reads the registry. */
+function metaSourceFor(key: SlotKey, t: (path: string) => string): string {
+  if (key === 'fx') return t('Rev41.fx.source');
+  if (key === 'cosmos') return t('Rev42.cosmos.source');
+  if (key === 'gastronomy') return t('Rev42.gastronomy.source');
+  return SLOT_PROVIDER[key].name;
+}
+
+/** The three slots that own a tier-3 detail (SPEC D-5). */
+function detailKeyOf(key: SlotKey | null): SlotDetailKey | null {
+  return key === 'weather' || key === 'cosmos' || key === 'gastronomy' ? key : null;
+}
+
+/** REV-42 i18n items: resolve an `i18n:<path>` row string through `t`,
+ *  pass every other string through untouched. */
+function resolveItemText(t: (path: string) => string, s: string | undefined): string | undefined {
+  if (s && s.startsWith(I18N_ITEM_PREFIX)) return t(s.slice(I18N_ITEM_PREFIX.length));
+  return s;
+}
+/** The overloaded shape the row props want: a string in, a string out. */
+type ItemText = { (s: string): string; (s: string | undefined): string | undefined };
+
 /** What the deep modal opens on: the slot. REV-41 D-7 dropped the sub-tab
  *  and the U-Ranking entry action it used to carry -- the deep modal owns
  *  its own tab (FeedDeepModal), and no slot item carries an in-app action
@@ -146,6 +197,9 @@ export function DiscoveryCarousel() {
   const tDeeper = useTranslations('Rev21.deeper');
   const ctx = useSlotContext();
   const { playHoverSfx } = useSpatialAudio();
+  // REV-42: `i18n:<path>` row strings resolve here; everything else verbatim.
+  // A per-render closure over THIS render's `t`, so a locale switch re-reads.
+  const text = ((s: string | undefined) => resolveItemText(t, s)) as ItemText;
 
   const [held, setHeld] = useState<SlotKey | null>(null);
   const [tick, setTick] = useState(0);
@@ -642,9 +696,9 @@ export function DiscoveryCarousel() {
                           <HubDot color={activeSlot.color} className="mt-1.5" />
                         )
                       }
-                      title={item.title}
-                      description={item.description}
-                      source={item.domain || item.meta}
+                      title={text(item.title)}
+                      description={text(item.description)}
+                      source={item.domain || text(item.meta)}
                       onOpen={() => onItem(item)}
                       onHover={() => playHoverSfx()}
                     />
@@ -658,8 +712,9 @@ export function DiscoveryCarousel() {
 
           {/* REV-34 M1-B: the one meta format; the swipe hint stays sr-only.
               REV-41 D-3: the fx card's rows are its pairs and parity rows,
-              so the count is never the "0건" of the facts-only card. */}
-          <HubMetaLine count={card?.items.length ?? 0} source={activeKey === 'fx' ? t('Rev41.fx.source') : SLOT_PROVIDER[activeKey].name} updatedAt={card?.updatedAt}>
+              so the count is never the "0건" of the facts-only card.
+              REV-42 1-A #12: cosmos / gastronomy name their local engine. */}
+          <HubMetaLine count={card?.items.length ?? 0} source={metaSourceFor(activeKey, t)} updatedAt={card?.updatedAt}>
             <span className="sr-only"> · {tRev21('swipeHint')}</span>
           </HubMetaLine>
         </div>
@@ -737,10 +792,27 @@ function WeatherDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; 
   const [weatherPlace, setWeatherPlace] = useState<Place | null>(null);
   // REV-34 M1-B: the meta line quotes the deep load (forecast days, stamp).
   const [loaded, setLoaded] = useState<{ days: number; at: number } | null>(null);
+  // REV-42 D-3 / D-5: ONE instant per open -- read in state / effect, never
+  // in render -- feeds the deep moon pixel and tier 3's seed clock. The
+  // tier-3 flag resets on every slot change (a close sets slotKey null), so
+  // no ghost history layer can survive a reopen (1-A #6).
+  const [openedAt, setOpenedAt] = useState(() => Date.now());
+  const [detailOpen, setDetailOpen] = useState(false);
+  useEffect(() => {
+    if (slotKey === 'weather') setOpenedAt(Date.now());
+    setDetailOpen(false);
+  }, [slotKey]);
+  const moonWidget = useMemo(() => moonPhaseWidgetFor(openedAt, ctx.locale, -new Date(openedAt).getTimezoneOffset()), [openedAt, ctx.locale]);
+  const closeDetail = useCallback(() => setDetailOpen(false), []);
+  const openDetail = useCallback(() => setDetailOpen(true), []);
+  const closeAll = useCallback(() => {
+    setDetailOpen(false);
+    onClose();
+  }, [onClose]);
   const weatherAnchor = slot ? slotAnchor('weather', ctx.locale, weatherPlace?.name ?? 'weather', weatherPlace) : null;
   const title = slotKey ? t(slotTitleKey(slotKey)) : '';
   return (
-    <Modal open={Boolean(slotKey && slot)} onClose={onClose} labelledBy="slot-weather-title" size="xl">
+    <Modal open={Boolean(slotKey && slot)} onClose={closeAll} labelledBy="slot-weather-title" size="xl">
       {slotKey && slot && (
         <div className="space-y-5" data-slot-modal="weather" data-weather-modal="weather" data-context-country={ctx.country} {...anchorDataAttrs(weatherAnchor)}>
           <div className="flex items-start gap-3">
@@ -752,10 +824,16 @@ function WeatherDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; 
               <p className="mt-0.5 text-[14px] text-gray-400">{t(slotTagKey(slotKey))}</p>
             </div>
           </div>
+          {/* REV-42 D-3: the deep moon pixel -- the weather deep modal does
+              not ride the widget path (SPEC 1-5 #4), so it is mounted here
+              explicitly from the instant this open read. */}
+          <MoonPhasePixel widget={moonWidget} variant="deep" loading={false} accent={slot.color} />
           <SectionShield zone="live-weather">
             <LiveWeatherPanel compact onPlaceChange={setWeatherPlace} />
           </SectionShield>
           <WeatherDeepPanel place={weatherPlace} onLoaded={setLoaded} />
+          {/* REV-42 D-5: the only way into tier 3 (never auto-opened). */}
+          <DetailOpenButton slotKey="weather" onOpen={openDetail} />
           {/* SPEC §12.2 weather host: a sibling OUTSIDE the panel's shield, with
               its own zone, anchored on the place the panel is showing. */}
           <SectionShield zone="omni-open">
@@ -766,6 +844,9 @@ function WeatherDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; 
           <HubMetaLine count={loaded?.days ?? 0} source="Open-Meteo · RainViewer" updatedAt={loaded?.at} className="text-[12px] text-gray-500" />
         </div>
       )}
+      {/* REV-42 D-5: tier 3 -- a portal sibling in the DOM, one history
+          layer up; the observer is the place the panel is showing. */}
+      <SlotDetailModal open={detailOpen && slotKey === 'weather'} slotKey="weather" place={weatherPlace} nowMs={openedAt} onClose={closeDetail} />
     </Modal>
   );
 }
@@ -810,10 +891,28 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
   /** REV-29 M3: a feed slot may carry sub-tabs (the product families); the
    *  deep modal owns its own tab and reloads on a pick, like the rankings. */
   const [tab, setTab] = useState<string | undefined>(undefined);
+  // REV-42 D-5: the tier-3 flag for the cosmos / gastronomy flagships --
+  // reset on every slot change (a close sets slotKey null) so no ghost
+  // history layer survives a reopen (1-A #6); nothing but the chip sets it.
+  const [detailOpen, setDetailOpen] = useState(false);
+  const detailKey = detailKeyOf(slotKey);
+  // REV-42: `i18n:<path>` row strings resolve here (lane E contract).
+  const text = ((s: string | undefined) => resolveItemText(t, s)) as ItemText;
 
   useEffect(() => {
     setTab(undefined);
+    setDetailOpen(false);
   }, [slotKey]);
+  const openDetail = useCallback(() => setDetailOpen(true), []);
+  const closeDetail = useCallback(() => setDetailOpen(false), []);
+  const closeAll = useCallback(() => {
+    setDetailOpen(false);
+    onClose();
+  }, [onClose]);
+  // The observer / diner's point for tier 3: the same rule as the adapters
+  // (weather cache -> Geo-IP fix -> the country's default place). Read
+  // only for the two slots that have a tier 3 -- it touches localStorage.
+  const detailPlace = useMemo(() => (detailKey === 'cosmos' || detailKey === 'gastronomy' ? knownPlace(ctx) : null), [detailKey, ctx]);
 
   useEffect(() => {
     if (!slotKey) return;
@@ -858,7 +957,7 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
   const anchor = slotKey && slot ? (SLOT_QID[slotKey] ? slotAnchor(slotKey, ctx.locale, card?.subject?.term || title, null) : feedAnchor ?? textAnchor(card?.subject?.term || title, wikiLangFor(ctx.locale))) : null;
 
   return (
-    <Modal open={Boolean(slotKey && slot)} onClose={onClose} labelledBy="feed-deep-title" size="xl">
+    <Modal open={Boolean(slotKey && slot)} onClose={closeAll} labelledBy="feed-deep-title" size="xl">
       {slotKey && slot && (
       <div className="space-y-5" data-feed-modal={slotKey} data-context-country={ctx.country} {...anchorDataAttrs(anchor)}>
         <div className="flex items-start gap-3">
@@ -946,11 +1045,11 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
                         </span>
                       )}
                       <span className="min-w-0 flex-1">
-                        <span className="block">{item.title}</span>
-                        {item.description && <span className="qw-hub-desc mt-0.5 block text-[12px] leading-snug text-gray-400">{item.description}</span>}
+                        <span className="block">{text(item.title)}</span>
+                        {item.description && <span className="qw-hub-desc mt-0.5 block text-[12px] leading-snug text-gray-400">{text(item.description)}</span>}
                         {(item.domain || item.meta) && (
                           <span className="qw-hub-source mt-0.5 flex items-center gap-1 text-gray-500">
-                            {item.domain ?? item.meta}
+                            {item.domain ?? text(item.meta)}
                             <ExternalLink size={10} aria-hidden="true" />
                           </span>
                         )}
@@ -962,8 +1061,9 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
                         {i + 1}
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="block">{item.title}</span>
-                        {item.meta && <span className="qw-hub-source mt-0.5 block text-gray-500">{item.meta}</span>}
+                        <span className="block">{text(item.title)}</span>
+                        {item.description && <span className="qw-hub-desc mt-0.5 block text-[12px] leading-snug text-gray-400">{text(item.description)}</span>}
+                        {item.meta && <span className="qw-hub-source mt-0.5 block text-gray-500">{text(item.meta)}</span>}
                       </span>
                     </div>
                   )}
@@ -975,14 +1075,25 @@ function FeedDeepModal({ slotKey, ctx, onClose }: { slotKey: SlotKey | null; ctx
           </>
         )}
 
+        {/* REV-42 D-5: the only way into tier 3 for the two computed
+            flagships -- after the sections, before the omni-open block. */}
+        {detailKey && detailKey !== 'weather' && <DetailOpenButton slotKey={detailKey} onOpen={openDetail} />}
+
         <OmniOpen anchor={anchor} host="feed" family={omniFamilyForSlot(slotKey)} />
 
         {/* REV-34 M1-B: the one meta format (count · source ~ updated). */}
         {/* REV-41 (integration fix): the REAL provider of this slot (source
             registry), never the news rail's wording -- the fx line also
-            names the Geo-IP resolver that picked the home currency. */}
-        <HubMetaLine count={card?.items.length ?? 0} source={slotKey === 'fx' ? t('Rev41.fx.source') : SLOT_PROVIDER[slotKey].name} updatedAt={card?.updatedAt} className="text-[12px] text-gray-500" />
+            names the Geo-IP resolver that picked the home currency.
+            REV-42 1-A #12: cosmos / gastronomy name their local engine. */}
+        <HubMetaLine count={card?.items.length ?? 0} source={metaSourceFor(slotKey, t)} updatedAt={card?.updatedAt} className="text-[12px] text-gray-500" />
       </div>
+      )}
+      {/* REV-42 D-5: tier 3 -- a portal sibling in the DOM, one history
+          layer up. Mounted whenever this feed modal is open for a slot
+          that owns a tier 3; only the chip above flips it open. */}
+      {detailKey && detailKey !== 'weather' && (
+        <SlotDetailModal open={detailOpen} slotKey={detailKey} place={detailPlace} onClose={closeDetail} />
       )}
     </Modal>
   );
